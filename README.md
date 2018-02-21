@@ -23,9 +23,9 @@ To use the AltUnityDriver, you need to:
   * if you use a downloaded Unity package, go to Assets->Import Package -> Custom Package in Unity Editor and select the AltUnityTester.unitypackage file
   * if you dowloaded it from the Unity Asset store, just go to your Asset Store Downloads Manager from Unity Editor and import the package. 
 
-2. Add the AltUnityDriver prefab (from AltUnityTester/Prefab folder) to your main scene in the game/app, the one that will be first shown to the users. By default, this will use ```13000``` as the port for the socket connection. If you want to change this, you can update the port value number in Unity Editor in the Inspector, like shown below:
+2. Add the AltUnityDriver prefab (from AltUnityTester/Prefab folder) to your main scene in the game/app, the one that will be first shown to the users. By default, this will use ```13000``` as the port for the socket connection. 
+   If you want to change this, you can update the port value number in Unity Editor in the Inspector.
 
-![Screen_Shot_2018-01-24_at_3.06.40_PM](/uploads/3737cd7c783a96974cc45c3533df689d/Screen_Shot_2018-01-24_at_3.06.40_PM.png)
 
 ### Setting up your local machine
 
