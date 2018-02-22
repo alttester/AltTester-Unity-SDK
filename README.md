@@ -20,7 +20,7 @@ Using the AltUnityDriver requires a bit of setup in your Unity app and a few pre
 To use the AltUnityDriver, you need to:
 
 1. Import the AltUnityTester asset/package into your Unity project:
-  * if you use a downloaded Unity package, go to Assets->Import Package -> Custom Package in Unity Editor and select the AltUnityTester.unitypackage file
+  * if you use a downloaded Unity package, go to Assets->Import Package -> Custom Package in Unity Editor and select the ```AltUnityTester.unitypackage``` file
   * if you dowloaded it from the Unity Asset store, just go to your Asset Store Downloads Manager from Unity Editor and import the package. 
 
 2. Add the AltUnityDriver prefab (from AltUnityTester/Prefab folder) to your main scene in the game/app, the one that will be first shown to the users. By default, this will use ```13000``` as the port for the socket connection. 
@@ -30,7 +30,7 @@ To use the AltUnityDriver, you need to:
 ### Setting up your local machine
 
 To run your tests on iOS and Android, you need to have Appium installed. 
-Info on that is available here: http://appium.io/getting-started.html
+Info on that is available here: http://appium.io/docs/en/about-appium/getting-started
 
 For iOS, to run the tests on real iOS device, please make sure you also go through this:
 http://appium.io/docs/en/drivers/ios-xcuitest/ 
@@ -47,7 +47,7 @@ To do this on iOS, use:
 ```iproxy 13002 13000```
 where first port (13002 in the example above) is the port on your computer and the second port (13000 in the example above) is the AltUnityDriver port. This is 13000 by default.
 
-The ```iproxy``` command is installed as part of the libimobiledevice package that you should have already installed when setting up your iOS environment (http://appium.io/docs/en/drivers/ios-xcuitest/)
+The ```iproxy``` command is installed as part of the libimobiledevice package that you should have already installed when setting up your iOS environment (http://appium.io/docs/en/drivers/ios-xcuitest-real-devices/)
 
 ## Downloads - AltUnityTester Package
 
