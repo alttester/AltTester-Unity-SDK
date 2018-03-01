@@ -15,6 +15,12 @@ Links:
 
 Using the AltUnityDriver requires a bit of setup in your Unity app and a few prerequisites on the machine that will be running the Appium tests. 
 
+### A Getting Started Video tutorial
+
+Follow the link below for a short tutorial on how to get started with AltUnityTester:
+
+https://www.youtube.com/watch?v=uTO-Uzt3AEQ
+
 ### Setting up your Unity Game/App
 
 To use the AltUnityDriver, you need to:
