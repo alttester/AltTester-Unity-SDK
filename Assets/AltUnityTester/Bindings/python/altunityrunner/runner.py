@@ -73,8 +73,14 @@ class AltrunUnityDriver():
         
         while (timeout > 0):
             try:
-                subprocess.call(['adb', 'forward','tcp:' + str(TCP_PORT), 'tcp:13000'])
-                subprocess.call(['iproxy', str(TCP_PORT),'13000'])
+                try:
+                    subprocess.call(['adb', 'forward','tcp:' + str(TCP_PORT), 'tcp:13000'])
+                except:
+                    print 'AltUnityServer - could not start adb forwarding'
+                try:
+                    subprocess.call(['iproxy', str(TCP_PORT),'13000'])
+                except:
+                    print 'AltUnityServer - could not start iproxy forwarding'
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_PORT))
                 self.socket.send('startConnection;&')
