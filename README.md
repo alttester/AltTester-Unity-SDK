@@ -1,3 +1,4 @@
+
 # AltUnityTester
 
 The AltUnityTester package contains a AltUnityDriver module that will open a socket connection on the device running the Unity application and will give access to all the objects in the Unity hierarchy. 
@@ -10,6 +11,10 @@ Links:
 * [Downloads](#downloads-altunitytester-package)
 * [Python Docs - AltUnityRunner - Getting started](#python-altunityrunner-module)
 * [Python Docs - Available Actions and Exmaples](#available-actions)
+
+## Codacy info
+
+* [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cfefb05c67484170b69def598ef2989a)](https://www.codacy.com/app/Altom/altunitytester?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=altom/altunitytester&amp;utm_campaign=Badge_Grade)
 
 ## Setup
 
