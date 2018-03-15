@@ -83,7 +83,7 @@ class AltrunUnityDriver(object):
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_PORT))
                 self.socket.send('startConnection;&')
-                self.recvall(self.socket)
+                self.recvall()
                 break
             except Exception as e:
                 print e
@@ -99,10 +99,10 @@ class AltrunUnityDriver(object):
         self.socket.send('closeConnection;&')
         self.socket.close()
 
-    def recvall(self, socket):
+    def recvall(self):
         data = ''
         while True:
-            part = socket.recv(BUFFER_SIZE)
+            part = self.socket.recv(BUFFER_SIZE)
             data += part
             if '::altend' in part:
                 break
@@ -116,7 +116,7 @@ class AltrunUnityDriver(object):
     def get_all_elements(self):
         alt_elements = []
         self.socket.send('findAllObjects;&')
-        data = self.recvall(self.socket)
+        data = self.recvall()
         if (data != ''):
             try:
                 elements = json.loads(data)
@@ -129,7 +129,7 @@ class AltrunUnityDriver(object):
 
     def find_element(self, name):  
         self.socket.send('findObjectByName;' + name + ';&')
-        data = self.recvall(self.socket)
+        data = self.recvall()
         if (data != '' and 'error:notFound' not in data):
             alt_el = AltElement(self, self.appium_driver, data)
             if alt_el.name == name and alt_el.enabled:
@@ -139,7 +139,7 @@ class AltrunUnityDriver(object):
 
     def find_element_where_name_contains(self, name):  
         self.socket.send('findObjectWhereNameContains;' + name + ';&')
-        data = self.recvall(self.socket)
+        data = self.recvall()
         if (data != '' and 'error:notFound' not in data):
             alt_el = AltElement(self, self.appium_driver, data)
             if alt_el.name == name and alt_el.enabled:
@@ -150,7 +150,7 @@ class AltrunUnityDriver(object):
     def find_elements(self, name):
         alt_elements = []
         self.socket.send('findObjectsByName;' + name + ';&')
-        data = self.recvall(self.socket)
+        data = self.recvall()
         if (data != ''):
             try:
                 elements = json.loads(data)
@@ -164,7 +164,7 @@ class AltrunUnityDriver(object):
     def find_elements_where_name_contains(self, name):
         alt_elements = []
         self.socket.send('findObjectsWhereNameContains;' + name + ';&')
-        data = self.recvall(self.socket)
+        data = self.recvall()
         if (data != ''):
             try:
                 elements = json.loads(data)
@@ -177,7 +177,7 @@ class AltrunUnityDriver(object):
 
     def get_current_scene(self):
         self.socket.send('getCurrentScene;&')
-        data = self.recvall(self.socket)
+        data = self.recvall()
 
         if (data != ''):
             alt_el = AltElement(self, self.appium_driver, data)
@@ -258,7 +258,7 @@ class AltrunUnityDriver(object):
 
     def find_element_by_component(self, component_name):
         self.socket.send('findObjectByComponent;' + component_name + ';&')
-        data = self.recvall(self.socket)
+        data = self.recvall()
         if (data != '' and 'error:notFound' not in data):
             alt_el = AltElement(self, self.appium_driver, data)
             if alt_el.name == component_name and alt_el.enabled:
@@ -269,7 +269,7 @@ class AltrunUnityDriver(object):
     def find_elements_by_component(self, component_name):
         alt_elements = []
         self.socket.send('findObjectsByComponent;' + component_name + ';&')
-        data = self.recvall(self.socket)
+        data = self.recvall()
         if (data != ''):
             try:
                 elements = json.loads(data)
