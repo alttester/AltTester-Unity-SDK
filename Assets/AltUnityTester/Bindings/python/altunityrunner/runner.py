@@ -127,7 +127,7 @@ class AltrunUnityDriver(object):
                 print 'Received message could not be parsed: ' + data
         return alt_elements
 
-    def find_element(self, name):  
+    def find_element(self, name):
         self.socket.send('findObjectByName;' + name + ';&')
         data = self.recvall()
         if (data != '' and 'error:notFound' not in data):
@@ -137,7 +137,7 @@ class AltrunUnityDriver(object):
                 return alt_el
         return None
 
-    def find_element_where_name_contains(self, name):  
+    def find_element_where_name_contains(self, name):
         self.socket.send('findObjectWhereNameContains;' + name + ';&')
         data = self.recvall()
         if (data != '' and 'error:notFound' not in data):
