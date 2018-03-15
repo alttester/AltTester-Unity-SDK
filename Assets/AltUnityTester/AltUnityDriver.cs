@@ -479,14 +479,6 @@ public class AltUnityDriver : MonoBehaviour, AltIClientSocketHandlerDelegate {
         }
         return memberInfo;
     }
-    
-
-    private MethodInfo GetMethodForObjectComponent(AltUnityObject altUnityObject, AltUnityObjectAction altUnityObjectAction) {
-        Type componentType = null;
-        componentType = GetType(altUnityObjectAction.component);
-        MethodInfo methodInfo = componentType.GetMethod(altUnityObjectAction.method);
-        return methodInfo;
-    }
 
     private string GetValueForMember(MemberInfo memberInfo, GameObject testableObject, AltUnityObjectProperty altProperty) {
         string response = errorPropertyNotFoundMessage;

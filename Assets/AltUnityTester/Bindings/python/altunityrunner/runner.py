@@ -29,7 +29,6 @@ class AltElement(object):
                  "type":"' + self.type + '", \
                  "enabled":"' + self.enabled + '"}'
         
-
     def get_component_property(self, component_name, property_name):
         alt_object = self.toJSON()
         property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"}'
@@ -66,7 +65,7 @@ class AltElement(object):
     def dragToElement(self, other_element, durationIndSeconds=0.5):
         self.appium_driver.swipe(self.x, self.mobileY, other_element.x, other_element.mobileY, durationIndSeconds)
 
-class AltrunUnityDriver():
+class AltrunUnityDriver(object):
 
     def __init__(self, appium_driver, TCP_IP='127.0.0.1', TCP_PORT=13001, timeout=60):
         self.appium_driver = appium_driver
@@ -102,7 +101,6 @@ class AltrunUnityDriver():
 
     def recvall(self, socket):
         data = ''
-        counter = 0
         while True:
             part = socket.recv(BUFFER_SIZE)
             data += part
