@@ -67,7 +67,7 @@ class AltUnityDriverTests(unittest.TestCase):
     def test_tap_object_by_name(self):
         self.s.send('tapObjectByName;Capsule;&')
         self.recvall()
-        self.s.send('findObjectByName;CapsuleInfo;&')        
+        self.s.send('findObjectByName;CapsuleInfo;&')
         data = self.recvall()
         assert '"Capsule was clicked to jump!"' in data, 'data was ' + data
 
@@ -136,8 +136,8 @@ class AltUnityDriverTests(unittest.TestCase):
     def test_get_object_component_property(self):
         self.s.send('findObjectByComponent;Capsule;&')
         capsule_object = self.recvall()
-        property = '{"component":"Capsule", "property":"capsuleInfo"}'
-        self.s.send('getObjectComponentProperty;' + capsule_object + ';'+ property + ';&')
+        property_name = '{"component":"Capsule", "property":"capsuleInfo"}'
+        self.s.send('getObjectComponentProperty;' + capsule_object + ';'+ property_name + ';&')
         data = self.recvall()
         expected_repsonse = 'CapsuleInfo (UnityEngine.UI.Text)'
         assert expected_repsonse == data, 'data was ' + data
@@ -145,8 +145,8 @@ class AltUnityDriverTests(unittest.TestCase):
     def test_get_object_component_property_array(self):
         self.s.send('findObjectByComponent;Capsule;&')
         capsule_object = self.recvall()
-        property = '{"component":"Capsule", "property":"arrayOfInts"}'
-        self.s.send('getObjectComponentProperty;' + capsule_object + ';'+ property + ';&')
+        property_name = '{"component":"Capsule", "property":"arrayOfInts"}'
+        self.s.send('getObjectComponentProperty;' + capsule_object + ';'+ property_name + ';&')
         data = self.recvall()
         expected_repsonse = '[1,2,3]'
         assert expected_repsonse == data, 'data was ' + data
@@ -154,8 +154,8 @@ class AltUnityDriverTests(unittest.TestCase):
     def test_get_object_component_property_unity_engine(self):
         self.s.send('findObjectByComponent;Capsule;&')
         capsule_object = self.recvall()
-        property = '{"component":"UnityEngine.CapsuleCollider", "property":"isTrigger"}'
-        self.s.send('getObjectComponentProperty;' + capsule_object + ';'+ property + ';&')
+        property_name = '{"component":"UnityEngine.CapsuleCollider", "property":"isTrigger"}'
+        self.s.send('getObjectComponentProperty;' + capsule_object + ';'+ property_name + ';&')
         data = self.recvall()
         expected_repsonse = 'false'
         assert expected_repsonse == data, 'data was ' + data
