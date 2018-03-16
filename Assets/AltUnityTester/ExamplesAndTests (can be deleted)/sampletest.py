@@ -1,5 +1,4 @@
 import os
-from time import sleep
 import unittest
 from appium import webdriver
 from altunityrunner import AltrunUnityDriver
@@ -16,7 +15,7 @@ class SampleAppiumTest(unittest.TestCase):
         self.desired_caps = {}
         if (self.platform == "android"):
             self.setup_android()
-        else: 
+        else:
             self.setup_ios()
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', self.desired_caps)
         self.altdriver = AltrunUnityDriver(self.driver)
@@ -41,24 +40,24 @@ class SampleAppiumTest(unittest.TestCase):
         self.altdriver.wait_for_current_scene_to_be('AltUnityDriverTestScene')
 
         self.altdriver.find_element('Plane')
-        self.altdriver.find_element('Capsule')        
+        self.altdriver.find_element('Capsule')
         self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule Info')
 
         # tap UIButton to make capsule jump
         self.altdriver.find_element('UIButton').tap()
-        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!')   
+        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!')
         assert capsule_info.get_text() == capsule_info.text
         
         # tap capsule to make it jump
         self.altdriver.find_element('Capsule').tap()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!')  
+        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!')
 
         # assert how many elements we have in the scene
         assert len(self.altdriver.find_elements("Plane")) == 2
         assert len(self.altdriver.find_elements("something that does not exist")) == 0
 
         # find element by component
-        assert self.altdriver.find_element_by_component("Capsule").name == "Capsule" 
+        assert self.altdriver.find_element_by_component("Capsule").name == "Capsule"
 
         # show use of find elements by component
         assert len(self.altdriver.find_elements_by_component("UnityEngine.MeshFilter")) == 3
