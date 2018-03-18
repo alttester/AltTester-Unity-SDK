@@ -1,4 +1,3 @@
-
 # AltUnityTester
 
 The AltUnityTester package contains a AltUnityDriver module that will open a socket connection on the device running the Unity application and will give access to all the objects in the Unity hierarchy. 
@@ -70,11 +69,13 @@ The ```iproxy``` command is installed as part of the libimobiledevice package th
    * links soon
 
 
-## Python AltUnityRunner module
+## Python 2.7 AltUnityRunner module
 
-The project contains a Python module called ``altunityrunner`` that gives access to the AltUnityDriver commands so that objects can be accessed from Appium Python scripts. 
+The project contains a Python 2.7 module called ``altunityrunner`` that gives access to the AltUnityDriver commands so that objects can be accessed from Appium Python scripts. 
 
 The code for this is available under ``AltUnityTester/Bindings/python`` in the repository. 
+
+Python 3 support will be added soon. 
 
 ### Installation
 
