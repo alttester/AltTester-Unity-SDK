@@ -9,7 +9,7 @@ PATH = lambda p: os.path.abspath(
 
 class SampleAppiumTest(unittest.TestCase):
     altdriver = None
-    platform = "android" # set to iOS to change platform
+    platform = "android" # set to `ios` or `android` to change platform
 
     def setUp(self):
         self.desired_caps = {}
@@ -18,8 +18,7 @@ class SampleAppiumTest(unittest.TestCase):
         else:
             self.setup_ios()
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', self.desired_caps)
-        self.altdriver = AltrunUnityDriver(self.driver)
-
+        self.altdriver = AltrunUnityDriver(self.driver, self.platform)
 
     def tearDown(self):
         self.altdriver.stop()
@@ -32,7 +31,7 @@ class SampleAppiumTest(unittest.TestCase):
 
     def setup_ios(self):
         self.desired_caps['platformName'] = 'iOS'
-        self.desired_caps['deviceName'] = 'iPhone8'
+        self.desired_caps['deviceName'] = 'iPhone5'
         self.desired_caps['automationName'] = 'XCUITest'
         self.desired_caps['app'] = PATH('../../../sampleGame.ipa')
 
