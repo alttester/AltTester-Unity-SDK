@@ -91,14 +91,16 @@ class AltrunUnityDriver(object):
     def setup_port_forwarding(self, platform, port):
         if (platform == "android"):
             try:
-                subprocess.call(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
+                subprocess.Popen(['killall', 'iproxy'])
+                subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
             except:
-                print 'AltUnityServer - could not start adb forwarding'
+                print 'AltUnityServer - could not use port ' + str(port)
         if (platform == "ios"):
             try:
+                subprocess.Popen(['adb', 'forward', '--remove-all'])
                 subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT)])
-            except Exception as e:
-                print 'AltUnityServer - could not start iproxy forwarding '
+            except:
+                print 'AltUnityServer - could not use port ' + str(port)
 
     def stop(self):
         self.socket.send('closeConnection;&')
