@@ -33,27 +33,27 @@ class AltElement(object):
         alt_object = self.toJSON()
         property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"}'
         self.alt_unity_driver.socket.send('getObjectComponentProperty;' + alt_object + ';'+ property_info + ';&')
-        data = self.alt_unity_driver.recvall(self.alt_unity_driver.socket)
+        data = self.alt_unity_driver.recvall()
         return data
 
     def set_component_property(self, component_name, property_name, value):
         alt_object = self.toJSON()
         property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"}'
         self.alt_unity_driver.socket.send('setObjectComponentProperty;' + alt_object + ';'+ property_info + ';' + value + ';&')
-        data = self.alt_unity_driver.recvall(self.alt_unity_driver.socket)
+        data = self.alt_unity_driver.recvall()
         return data
 
     def call_component_method(self, component_name, method_name, parameters):
         alt_object = self.toJSON()
         action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '"}'
         self.alt_unity_driver.socket.send('callComponentMethodForObject;' + alt_object + ';'+ action_info + ';&')
-        data = self.alt_unity_driver.recvall(self.alt_unity_driver.socket)
+        data = self.alt_unity_driver.recvall()
         return data
 
     def get_text(self):
         alt_object = self.toJSON()
         self.alt_unity_driver.socket.send('getText;' + alt_object + ';&')
-        data = self.alt_unity_driver.recvall(self.alt_unity_driver.socket)
+        data = self.alt_unity_driver.recvall()
         return data
 
     def tap(self, durationInSeconds=0.5):
