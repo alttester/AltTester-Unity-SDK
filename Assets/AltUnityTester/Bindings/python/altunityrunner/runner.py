@@ -33,27 +33,27 @@ class AltElement(object):
         alt_object = self.toJSON()
         property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"}'
         self.alt_unity_driver.socket.send('getObjectComponentProperty;' + alt_object + ';'+ property_info + ';&')
-        data = self.alt_unity_driver.recvall(self.alt_unity_driver.socket)
+        data = self.alt_unity_driver.recvall()
         return data
 
     def set_component_property(self, component_name, property_name, value):
         alt_object = self.toJSON()
         property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"}'
         self.alt_unity_driver.socket.send('setObjectComponentProperty;' + alt_object + ';'+ property_info + ';' + value + ';&')
-        data = self.alt_unity_driver.recvall(self.alt_unity_driver.socket)
+        data = self.alt_unity_driver.recvall()
         return data
 
     def call_component_method(self, component_name, method_name, parameters):
         alt_object = self.toJSON()
         action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '"}'
         self.alt_unity_driver.socket.send('callComponentMethodForObject;' + alt_object + ';'+ action_info + ';&')
-        data = self.alt_unity_driver.recvall(self.alt_unity_driver.socket)
+        data = self.alt_unity_driver.recvall()
         return data
 
     def get_text(self):
         alt_object = self.toJSON()
         self.alt_unity_driver.socket.send('getText;' + alt_object + ';&')
-        data = self.alt_unity_driver.recvall(self.alt_unity_driver.socket)
+        data = self.alt_unity_driver.recvall()
         return data
 
     def tap(self, durationInSeconds=0.5):
@@ -67,34 +67,41 @@ class AltElement(object):
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver, TCP_IP='127.0.0.1', TCP_PORT=13001, timeout=60):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13001, TCP_PORT=13000, timeout=60):
+        self.TCP_PORT = TCP_PORT
         self.appium_driver = appium_driver
-        
+        print 'Staring tests on ' + platform
         while (timeout > 0):
             try:
-                try:
-                    subprocess.call(['adb', 'forward','tcp:' + str(TCP_PORT), 'tcp:13000'])
-                except:
-                    print 'AltUnityServer - could not start adb forwarding'
-                try:
-                    subprocess.call(['iproxy', str(TCP_PORT),'13000'])
-                except:
-                    print 'AltUnityServer - could not start iproxy forwarding'
+                self.setup_port_forwarding(platform, TCP_FWD_PORT)
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.socket.connect((TCP_IP, TCP_PORT))
+                self.socket.connect((TCP_IP, TCP_FWD_PORT))
                 self.socket.send('startConnection;&')
                 self.recvall()
                 break
             except Exception as e:
                 print e
-                print 'AltUnityServer not running on port ' + str(TCP_PORT) + ', retrying (timing out in ' + str(timeout) + ' secs)...'
+                print 'AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', retrying (timing out in ' + str(timeout) + ' secs)...'
                 timeout -= 5
                 time.sleep(5)
 
         if (timeout <= 0):
-            raise Exception('AltUnityServer not running on port ' + str(TCP_PORT) + ', did you run ``adb forward tcp:' + str(TCP_PORT) + ' tcp:13000`` or ``iproxy ' + str(TCP_PORT) + ' 13000``?')
+            raise Exception('AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', did you run ``adb forward tcp:' + str(TCP_FWD_PORT) + ' tcp:' + str(self.TCP_PORT) + '`` or ``iproxy ' + str(TCP_FWD_PORT) + ' ' + str(self.TCP_PORT) + '``?')
 
-        
+    def setup_port_forwarding(self, platform, port):
+        if (platform == "android"):
+            try:
+                subprocess.Popen(['killall', 'iproxy'])
+                subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
+            except:
+                print 'AltUnityServer - could not use port ' + str(port)
+        if (platform == "ios"):
+            try:
+                subprocess.Popen(['adb', 'forward', '--remove-all'])
+                subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT)])
+            except:
+                print 'AltUnityServer - could not use port ' + str(port)
+
     def stop(self):
         self.socket.send('closeConnection;&')
         self.socket.close()
