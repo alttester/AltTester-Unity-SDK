@@ -1,5 +1,6 @@
 stages:
   - build
+  - unit-test
   
 build-apk:
     stage: build
@@ -14,3 +15,16 @@ build-apk:
       paths:
         - buildAndroid.log
         - sampleGame.apk
+
+run-python-tests:
+    stage: unit-test
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerNativeActivity
+        - virtualenv altunitytests
+        - pip install Appium-Python-Client
+        - pip install -e Assets/AltUnityTester/Bindings/python/altunityrunner
+        - pytest -m Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/altunitydriver-tests.py -junitxml=unittest.xml
