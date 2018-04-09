@@ -21,7 +21,7 @@ run-python-tests:
     tags:
         - unity
     script:
-        - adb uninstall fi.altom.altunitytester | true
+        - adb uninstall fi.altom.altunitytester || true
         - adb install sampleGame.apk
         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerNativeActivity
         - virtualenv altunitytests
