@@ -3,6 +3,8 @@ stages:
   
 build-apk:
     stage: build
+    tags:
+      - unity
     script:
        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -projectPath $CI_PROJECT_DIR -buildTarget Android -logFile buildAndroid.log
        - ls 
