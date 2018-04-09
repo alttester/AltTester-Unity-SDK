@@ -27,5 +27,5 @@ run-python-tests:
         - virtualenv altunitytests
         - pip install Appium-Python-Client
         - pip uninstall altunityrunner || true
-        - pip install -e Assets/AltUnityTester/Bindings/python/
+        - python Assets/AltUnityTester/Bindings/python/setup.py install
         - pytest -m Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/altunitydriver-tests.py -junitxml=unittest.xml
