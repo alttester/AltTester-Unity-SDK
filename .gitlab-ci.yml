@@ -26,5 +26,6 @@ run-python-tests:
         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerNativeActivity
         - virtualenv altunitytests
         - pip install Appium-Python-Client
-        - pip install -e Assets/AltUnityTester/Bindings/python/altunityrunner
+        - pip uninstall altunityrunner || true
+        - pip install -e Assets/AltUnityTester/Bindings/python/
         - pytest -m Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/altunitydriver-tests.py -junitxml=unittest.xml
