@@ -7,9 +7,9 @@ using UnityEngine;
 
 class PerformBuild {
     private static string bundleIdentifierDefault = "fi.altom.altunitytester";
-    private static string productName = "AltUnityTesterDemo";
+    private static string productName = "sampleGame";
     private static string companyName = "Altom";
-    private static string outputFolder = "build/";
+    private static string outputFolder = "";
     private static string outputFilenameAndroidDefault = outputFolder + PerformBuild.productName + ".apk";
     private static int buildNumber = 0;
 
