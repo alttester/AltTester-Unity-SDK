@@ -24,9 +24,12 @@ run-python-tests:
         - adb uninstall fi.altom.altunitytester || true
         - adb install sampleGame.apk
         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - adb forward --remove-all
+        - adb forward tcp:13000 tcp:13000
         - virtualenv altunitytests
         - source altunitytests/bin/activate
         - pip install Appium-Python-Client
-        - pip uninstall altunityrunner || true
-        - python Assets/AltUnityTester/Bindings/python/setup.py install
-        - pytest -m Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/altunitydriver-tests.py -junitxml=unittest.xml
+        - pip install pytest
+        - pip uninstall --yes altunityrunner || true
+        - pip install -e Assets/AltUnityTester/Bindings/python
+        - pytest -m Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/altunitydriver-tests.py

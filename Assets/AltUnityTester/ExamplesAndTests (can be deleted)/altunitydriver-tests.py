@@ -13,7 +13,7 @@ class AltUnityDriverTests(unittest.TestCase):
         counter = 0
         while True:
             counter += 1
-            part = self.socket.recv(BUFFER_SIZE)
+            part = self.s.recv(BUFFER_SIZE)
             data += part
             if "::altend" in part:
                 break
