@@ -23,8 +23,8 @@ run-python-tests:
     script:
         - adb uninstall fi.altom.altunitytester || true
         - adb install sampleGame.apk
-        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerNativeActivity
-        - virtualenv altunitytests
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - mkvirtualenv altunitytests
         - pip install Appium-Python-Client
         - pip uninstall altunityrunner || true
         - python Assets/AltUnityTester/Bindings/python/setup.py install
