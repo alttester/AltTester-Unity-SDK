@@ -289,6 +289,5 @@ class AltUnityDriverTests(unittest.TestCase):
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(AltUnityDriverTests)
-    test_runner = unittest.TextTestRunner(verbosity=2).run(suite)
-    result = test_runner.run(test_suite)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
     sys.exit(not result.wasSuccessful())
