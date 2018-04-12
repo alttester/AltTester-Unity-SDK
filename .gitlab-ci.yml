@@ -49,9 +49,8 @@ run-appium-tests:
         - pip install -e Assets/AltUnityTester/Bindings/python
         - sleep 30
         - python Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/sampletest.py
-     artifacts:
-      when: always
-      expire_in: 10 days
-      paths:
-        - appium.log
-        - 
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - appium.log
