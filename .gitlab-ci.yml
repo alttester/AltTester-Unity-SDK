@@ -1,0 +1,57 @@
+stages:
+  - build
+  - unit-tests
+  - ui-tests
+  
+build-apk:
+    stage: build
+    tags:
+      - unity
+    script:
+       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -projectPath $CI_PROJECT_DIR -executeMethod PerformBuild.AndroidDefault -logFile buildAndroid.log
+       - ls 
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - buildAndroid.log
+        - sampleGame.apk
+
+run-python-tests:
+    stage: unit-tests
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - adb forward --remove-all
+        - adb forward tcp:13000 tcp:13000
+        - virtualenv altunitytests
+        - source altunitytests/bin/activate
+        - pip install Appium-Python-Client
+        - pip uninstall --yes altunityrunner || true
+        - pip install -e Assets/AltUnityTester/Bindings/python
+        - sleep 30
+        - python Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/altunitydriver-tests.py
+
+run-appium-tests:
+    stage: ui-tests
+    tags:
+        - unity
+    script:
+        - virtualenv altunitytests
+        - source altunitytests/bin/activate
+        - killall node || true
+        - appium >> appium.log & 
+        - pip install Appium-Python-Client
+        - pip uninstall --yes altunityrunner || true
+        - pip install -e Assets/AltUnityTester/Bindings/python
+        - sleep 30
+        - python Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/sampletest.py
+        - killall node || true
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - appium.log

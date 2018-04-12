@@ -1,6 +1,7 @@
 import socket
 import unittest
 import re
+import sys
 
 TCP_IP = '127.0.0.1'
 TCP_PORT = 13000
@@ -13,7 +14,7 @@ class AltUnityDriverTests(unittest.TestCase):
         counter = 0
         while True:
             counter += 1
-            part = self.socket.recv(BUFFER_SIZE)
+            part = self.s.recv(BUFFER_SIZE)
             data += part
             if "::altend" in part:
                 break
@@ -289,4 +290,5 @@ class AltUnityDriverTests(unittest.TestCase):
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(AltUnityDriverTests)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not result.wasSuccessful())

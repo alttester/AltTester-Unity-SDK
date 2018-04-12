@@ -1,5 +1,6 @@
 import os
 import unittest
+import sys
 from appium import webdriver
 from altunityrunner import AltrunUnityDriver
 
@@ -80,4 +81,5 @@ class SampleAppiumTest(unittest.TestCase):
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(SampleAppiumTest)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not result.wasSuccessful())
