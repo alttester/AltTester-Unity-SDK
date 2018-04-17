@@ -15,6 +15,11 @@ Links:
 
 * [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cfefb05c67484170b69def598ef2989a)](https://www.codacy.com/app/Altom/altunitytester?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=altom/altunitytester&amp;utm_campaign=Badge_Grade)
 
+## Build and Tests Info
+
+* [![pipeline status](https://gitlab.com/altom/altunitytester/badges/master/pipeline.svg)](https://gitlab.com/altom/altunitytester/commits/master)
+
+
 ## Setup
 
 Using the AltUnityDriver requires a bit of setup in your Unity app and a few prerequisites on the machine that will be running the Appium tests. 
