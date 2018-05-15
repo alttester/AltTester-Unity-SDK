@@ -21,7 +21,7 @@ class PerformBuild {
 		PlayerSettings.bundleVersion = versionNumber;
 		PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
 		PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
-		PlayerSettings.Android.targetDevice = AndroidTargetDevice.ARMv7;
+		PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 		PlayerSettings.companyName = companyName;
 	}
 	
@@ -35,11 +35,11 @@ class PerformBuild {
         buildPlayerOptions.scenes = new [] {"Assets/AltUnityTester/ExamplesAndTests (can be deleted)/SampleScene/AltUnityDriverTestScene.unity"};
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.Development;
-        string results = BuildPipeline.BuildPlayer(buildPlayerOptions);
-        if (results.Length == 0)
+        string results = BuildPipeline.BuildPlayer(buildPlayerOptions).summary.result.ToString();
+        if (results.Contains("Succeeded"))
             Debug.Log("No Build Errors");
         else
-	        Debug.LogError("Build Error!");
+            Debug.LogError("Build Error! " + results);
 		Debug.Log("Finished. " +  PerformBuild.productName + " : " + PlayerSettings.bundleVersion);
     }
  }

@@ -43,6 +43,9 @@ class SampleAppiumTest(unittest.TestCase):
         self.altdriver.find_element('Capsule')
         self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule Info')
 
+        # test find_element_where_name_contains
+        self.altdriver.find_element_where_name_contains('Pla')
+
         # tap UIButton to make capsule jump
         self.altdriver.find_element('UIButton').tap()
         capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!')

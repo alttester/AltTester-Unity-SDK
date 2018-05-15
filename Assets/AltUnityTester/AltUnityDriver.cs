@@ -450,7 +450,7 @@ public class AltUnityDriver : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 if (assembly.GetType(TypeName) == null)
                     return null;
                 return assembly.GetType(TypeName);
-            } catch (Exception e) {
+            } catch {
                 return null;
             }
         }
