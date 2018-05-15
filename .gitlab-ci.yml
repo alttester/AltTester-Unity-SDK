@@ -2,6 +2,7 @@ stages:
   - build
   - unit-tests
   - ui-tests
+  - deploy
   
 build-apk:
     stage: build
@@ -55,3 +56,14 @@ run-appium-tests:
         expire_in: 10 days
         paths:
             - appium.log
+
+deploy-altunitytester-python:
+    stage: deploy
+    when: manual
+    only:
+        refs:
+            - master
+    tags:
+        - unity
+    script:
+        - python Assets/AltUnityTester/Bindings/python/setup.py sdist upload -r pypi
