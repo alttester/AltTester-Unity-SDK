@@ -116,6 +116,12 @@ class AltUnityDriverTests(unittest.TestCase):
         expected_repsonse_pattern = '{"name":"Capsule","id":[0-9]+,"x":[0-9]+,"y":[0-9]+,"mobileY":[0-9]+,"text":"","type":"","enabled":true}'
         assert re.match(expected_repsonse_pattern, data), 'data was ' + data
 
+    def test_find_object_with_parent_path(self):
+        self.s.send('findObjectByName;Canvas/CapsuleInfo;&')
+        data = self.recvall()
+        expected_repsonse_pattern = '{"name":"CapsuleInfo","id":[0-9]+,"x":[0-9]+,"y":[0-9]+,"mobileY":[0-9]+,"text":".*?","type":"","enabled":true}'
+        assert re.match(expected_repsonse_pattern, data), 'data was ' + data
+
     def test_find_objects_by_component(self):
         self.s.send('findObjectsByComponent;UnityEngine.MeshFilter;&')
         data = self.recvall()
