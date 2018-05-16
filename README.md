@@ -151,11 +151,13 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
   * `find_element`
     * params: name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
+    * you can search for elements also by specifying a hierarchy path to them. For example, you can look for `Player1/Hand` or `Player2/Hand`, to make sure you find the correct `Hand` object you are interested in. When doing so, make sure you specify all the objects in between the `parent` and the `object` you are interested in. For example, if `Hand` is under a `Body` element for each `Player`, when you search for it make sure you specify it as `Player1/Body/Hand` 
     
     ```python
     self.altdriver.find_element('Capsule') # find object by name
     self.altdriver.find_element('Ship/Main/Capsule') #specify also the name of the parents
     ```
+
 
   * `find_element_where_name_contains`
     * params: part_of_the_name - part of the name of the object to be found, as it's shown in the Unity Scene hierarchy
