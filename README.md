@@ -168,7 +168,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     ```
 
   * `find_element_by_component`
-    * params: component_name - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. 
+    * params: component_name - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
     * returns: the element with a component_name component (or the last one found in the hierarchy if more than one element with the same component is present)
     
     ```python
@@ -192,7 +192,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     ```
 
   * `find_elements_by_component`
-    * params: component_name - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. 
+    * params: component_name - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
     * returns: an array of elements with a component_name component
     
     ```python
@@ -298,7 +298,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
   
   * `get_component_property`
     * params: 
-      * component_name: name of the Unity component that has the public property we want to get the value for
+      * component_name: name of the Unity component that has the public property we want to get the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * property - the name of the public property (or field) that we want the value for
 
    For example, since Capsule.cs has a public "arrayOfInts", we can get the value of that:
@@ -310,7 +310,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
    
   * `set_component_property`
   * params: 
-      * component_name: name of the Unity component that has the public property we want to set the value for
+      * component_name: name of the Unity component that has the public property we want to set the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * property - the name of the public property (or field) that we want to set the value for
       * value - the value that we want to set. This will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.
 
@@ -324,7 +324,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 
   * `call_component_method`
    * params: 
-      * component_name: name of the Unity component that has the public property we want to call a method for
+      * component_name: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * method - the name of the public method that we want to call
       * parameters - a string containing the serialized parameters to be sent to the component method. This uses '?' to separate between parameters, like this:
       'some string ? [1,2,3]' - this repesents two parameters "some string" and "[1,2,3]
