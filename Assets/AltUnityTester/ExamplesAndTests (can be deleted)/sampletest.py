@@ -12,43 +12,49 @@ class SampleAppiumTest(unittest.TestCase):
     altdriver = None
     platform = "android" # set to `ios` or `android` to change platform
 
-    def setUp(self):
-        self.desired_caps = {}
-        if (self.platform == "android"):
-            self.setup_android()
+    @classmethod
+    def setUpClass(cls):
+        cls.desired_caps = {}
+        if (cls.platform == "android"):
+            cls.setup_android()
         else:
-            self.setup_ios()
-        self.driver = webdriver.Remote('http://localhost:4723/wd/hub', self.desired_caps)
-        self.altdriver = AltrunUnityDriver(self.driver, self.platform)
+            cls.setup_ios()
+        cls.driver = webdriver.Remote('http://localhost:4723/wd/hub', cls.desired_caps)
+        cls.altdriver = AltrunUnityDriver(cls.driver, cls.platform)
 
-    def tearDown(self):
-        self.altdriver.stop()
-        self.driver.quit()
+    @classmethod
+    def tearDownClass(cls):
+        cls.altdriver.stop()
+        cls.driver.quit()
 
-    def setup_android(self):
-        self.desired_caps['platformName'] = 'Android'
-        self.desired_caps['deviceName'] = 'device'
-        self.desired_caps['app'] = PATH('../../../sampleGame.apk')
+    @classmethod
+    def setup_android(cls):
+        cls.desired_caps['platformName'] = 'Android'
+        cls.desired_caps['deviceName'] = 'device'
+        cls.desired_caps['app'] = PATH('../../../sampleGame.apk')
 
-    def setup_ios(self):
-        self.desired_caps['platformName'] = 'iOS'
-        self.desired_caps['deviceName'] = 'iPhone5'
-        self.desired_caps['automationName'] = 'XCUITest'
-        self.desired_caps['app'] = PATH('../../../sampleGame.ipa')
+    @classmethod
+    def setup_ios(cls):
+        cls.desired_caps['platformName'] = 'iOS'
+        cls.desired_caps['deviceName'] = 'iPhone5'
+        cls.desired_caps['automationName'] = 'XCUITest'
+        cls.desired_caps['app'] = PATH('../../../sampleGame.ipa')
 
-    def test_simple_actions(self):
+    def test_wait_for_scene(self):
         self.altdriver.wait_for_current_scene_to_be('AltUnityDriverTestScene')
 
+    def test_find_element(self):
         self.altdriver.find_element('Plane')
         self.altdriver.find_element('Capsule')
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule Info')
+    
+    def test_wait_for_element_with_text(self):
+        text_to_wait_for = self.altdriver.find_element('CapsuleInfo').get_text()
+        self.altdriver.wait_for_element_with_text('CapsuleInfo', text_to_wait_for)
 
-        # test find_element_where_name_contains
+    def test_find_element_where_name_contains(self):
         self.altdriver.find_element_where_name_contains('Pla')
 
-        # test find_element using parent name
-        self.altdriver.find_element('Canvas/CapsuleInfo')
-
+    def test_find_element_and_tap(self):
         # tap UIButton to make capsule jump
         self.altdriver.find_element('UIButton').tap()
         capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!')
@@ -58,27 +64,26 @@ class SampleAppiumTest(unittest.TestCase):
         self.altdriver.find_element('Capsule').tap()
         self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!')
 
-        # assert how many elements we have in the scene
+    def test_find_elements(self):
         assert len(self.altdriver.find_elements("Plane")) == 2
         assert len(self.altdriver.find_elements("something that does not exist")) == 0
 
-        # find element by component
+    def test_find_element_by_component(self):
         assert self.altdriver.find_element_by_component("Capsule").name == "Capsule"
 
-        # show use of find elements by component
+    def test_find_elements_by_component(self):
         assert len(self.altdriver.find_elements_by_component("UnityEngine.MeshFilter")) == 3
 
-        # assert values of different properties
+    def test_get_component_property(self):
         result = self.altdriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
         assert result == "[1,2,3]", "result was: " + result
-
-        # get values of different properties
+    
+    def test_set_component_property(self):
         self.altdriver.find_element("Capsule").set_component_property("Capsule", "arrayOfInts", "[2,3,4]")
         result = self.altdriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
         assert result == "[2,3,4]", "result was: " + result
 
-
-        # check invoking a method
+    def test_cal_component_method(self):
         result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
         assert result == "methodInvoked"
 
