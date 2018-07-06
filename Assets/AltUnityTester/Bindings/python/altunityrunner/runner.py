@@ -145,6 +145,7 @@ class AltrunUnityDriver(object):
         data = self.recvall()
         if (data != '' and 'error:notFound' not in data):
             alt_el = AltElement(self, self.appium_driver, data)
+            name = name.split('/')[-1]
             if alt_el.name == name and alt_el.enabled:
                 print 'Element ' + name + ' found at x:' + str(alt_el.x) + ' y:' + str(alt_el.y) + ' mobileY:' + str(alt_el.mobileY)
                 return alt_el

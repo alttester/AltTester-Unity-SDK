@@ -54,6 +54,9 @@ class SampleAppiumTest(unittest.TestCase):
     def test_find_element_where_name_contains(self):
         self.altdriver.find_element_where_name_contains('Pla')
 
+    def test_find_element_by_name_and_parent(self):
+        self.altdriver.find_element('Canvas/CapsuleInfo').tap()
+
     def test_find_element_and_tap(self):
         # tap UIButton to make capsule jump
         self.altdriver.find_element('UIButton').tap()
