@@ -92,12 +92,18 @@ class AltrunUnityDriver(object):
         if (platform == "android"):
             try:
                 subprocess.Popen(['killall', 'iproxy'])
+            except:
+                print 'AltUnityServer - no iproxy process was running/present'
+            try:
                 subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
             except:
                 print 'AltUnityServer - could not use port ' + str(port)
         if (platform == "ios"):
             try:
                 subprocess.Popen(['adb', 'forward', '--remove-all'])
+            except:
+                print 'AltUnityServer - adb probably not installed '
+            try:
                 subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT)])
             except:
                 print 'AltUnityServer - could not use port ' + str(port)
