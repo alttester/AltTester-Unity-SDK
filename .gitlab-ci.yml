@@ -66,4 +66,5 @@ deploy-altunitytester-python:
     tags:
         - unity
     script:
-        - python Assets/AltUnityTester/Bindings/python/setup.py sdist upload -r pypi
+        - cd Assets/AltUnityTester/Bindings/python
+        - python setup.py sdist upload -r pypi
