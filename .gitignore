@@ -52,3 +52,4 @@ Assets/AltUnityTester/Bindings/python/altunityrunner.egg-info.meta
 Assets/AltUnityTester/Bindings/python/dist
 Assets/AltUnityTester/Bindings/python/dist.meta
 Assets/AltUnityTester/Bindings/python/build.meta
+aws-device-farm-example/wheelhouse/**
