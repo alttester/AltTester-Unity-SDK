@@ -4,9 +4,6 @@ This folder contains a few example tests that can be run in [AWS Device Farm](ht
 
 Full instructions and documentation on how to setup your tests for running in the AWS cloud can be found here: https://docs.aws.amazon.com/devicefarm/latest/developerguide/test-types-android-appium-python.html
 
-* [Setup](#setup)
-
-
 ## Creating the .zip file to upload to AWS Device Farm
 
 The initial folder structure looks like this:
