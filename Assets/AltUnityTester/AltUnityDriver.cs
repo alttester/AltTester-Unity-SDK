@@ -28,7 +28,7 @@ public class AltUnityDriver : MonoBehaviour, AltIClientSocketHandlerDelegate {
     private readonly string errorPropertyNotSet = "error:propertyCannotBeSet";
 
     private JsonSerializerSettings jsonSettings;
-                
+
 
 
     public int socketPortNumber = 13000;
@@ -102,20 +102,25 @@ public class AltUnityDriver : MonoBehaviour, AltIClientSocketHandlerDelegate {
             if (gameObject.GetComponent<Collider>() != null) {
                 position = Camera.current.WorldToScreenPoint(gameObject.GetComponent<Collider>().bounds.center);
             }
-            if (gameObject.GetComponent<RectTransform>() != null) {
-                position = gameObject.GetComponent<RectTransform>().position;
+            var canvas = gameObject.GetComponentInParent<Canvas>();
+            if (canvas != null) {
+                if (canvas.renderMode == RenderMode.ScreenSpaceOverlay) {
+                    position = gameObject.GetComponent<RectTransform>().position;
+                } else {
+                    position = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, gameObject.transform.position);
+                }
             }
         }
+
+
+
         string data;
         try {
             data = gameObject.transform.GetComponentInChildren<Text>().text;
         } catch (NullReferenceException) {
             data = "";
         }
-        string parentName = "";
-        if (gameObject.transform.parent != null) {
-            parentName = gameObject.transform.parent.name;
-        }
+
         AltUnityObject altObject = new AltUnityObject(name: gameObject.name,
                                                       id: gameObject.GetInstanceID(),
                                                       x: Convert.ToInt32(Mathf.Round(position.x)),
@@ -370,7 +375,7 @@ public class AltUnityDriver : MonoBehaviour, AltIClientSocketHandlerDelegate {
                         } else {
                             ParameterInfo[] parameterInfos = methodInfo.GetParameters();
                             string[] parameterStrings = altAction.parameters.Split('?');
-                            if (parameterInfos.Length != parameterStrings.Length) 
+                            if (parameterInfos.Length != parameterStrings.Length)
                                 throw new TargetParameterCountException();
                             object[] parameters = new object[parameterInfos.Length];
                             for (int i = 0; i < parameterInfos.Length; i++) {
@@ -547,11 +552,11 @@ public class AltUnityDriver : MonoBehaviour, AltIClientSocketHandlerDelegate {
     private object DeserializeMemberValue(string valueString, Type type) {
         object value = null;
         if (type == typeof(System.String))
-        valueString = JsonConvert.SerializeObject(valueString);
+            valueString = JsonConvert.SerializeObject(valueString);
         try {
             value = JsonConvert.DeserializeObject(valueString, type);
         } catch (JsonException) {
-            value = null; 
+            value = null;
         }
         return value;
     }
