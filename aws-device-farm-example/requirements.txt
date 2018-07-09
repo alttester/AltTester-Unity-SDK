@@ -1,0 +1,11 @@
+altunityrunner>=0.2.2
+Appium-Python-Client>=0.26
+atomicwrites==1.1.5
+attrs==18.1.0
+funcsigs==1.0.2
+more-itertools==4.2.0
+pluggy==0.6.0
+py==1.5.4
+pytest==3.6.3
+selenium==3.13.0
+six==1.11.0
