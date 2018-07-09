@@ -7,12 +7,12 @@ Full instructions and documentation on how to setup your tests for running in th
 ## Creating the .zip file to upload to AWS Device Farm
 
 The initial folder structure looks like this:
-
+```
 ─ aws-device-farm-example
   ├─ tests/
   ├─ requirements.txt
   └─ README.md (this file)
-
+```
 You need to use [Wheelhouse](https://pypi.org/project/Wheelhouse/) to create a local cache of the needed Python packages. You can do that by running the following command in ```aws-device-farm-example``` folder:
 
 ```
@@ -27,26 +27,26 @@ pip install wheel
 ```
 
 Your ```aws-device-farm-example``` folder should now look like this:
-
+```
 ─ aws-device-farm-example
   ├─ tests/
   ├─ requirements.txt
   ├─ README.md (this file)
   └─ wheelhouse/
-
+```
 Then you need to create the ```.zip``` file containing the tests and the required packages, that you will use later on to upload to AWS Device Farm:
 
 ```
 zip -r test_bundle.zip tests/ wheelhouse/ requirements.txt
 ```
-
+```
 ─ aws-device-farm-example
   ├─ tests/
   ├─ requirements.txt
   ├─ test_bundle.zip
   ├─ README.md (this file)
   └─ wheelhouse/
-
+```
 The ```test_bundle.zip``` is the file you will be uploading to AWS Device Farm. 
 
 ## Uploading the tests
