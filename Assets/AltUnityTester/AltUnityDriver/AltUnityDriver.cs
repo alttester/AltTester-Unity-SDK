@@ -1,0 +1,452 @@
+﻿using System;
+using System.Collections.Generic;
+
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using Newtonsoft.Json;
+using UnityEngine;
+
+
+public enum PLayerPrefKeyType { Int = 1, String, Float }
+
+public class AltUnityDriver
+{
+    public TcpClient Socket;
+    private static String tcp_ip = "127.0.0.1";
+    private static int tcp_port = 13000;
+    private static int BUFFER_SIZE = 1024;
+    public AltUnityDriver()
+    {
+
+        Socket = new TcpClient();
+        Socket.Connect(tcp_ip, tcp_port);
+        AltUnityObject.altUnityDriver = this;
+
+    }
+
+        public void Stop()
+        {
+            Socket.Client.Send(toBytes("closeConnection;&"));
+            Thread.Sleep(1000);
+            Socket.Close();
+
+
+
+
+    }
+
+    public string Recvall()
+    {
+
+        String data = "";
+        while (true)
+        {
+            var bytesReceived = new byte[BUFFER_SIZE];
+            Socket.Client.Receive(bytesReceived);
+            String part = fromBytes(bytesReceived);
+            data += part;
+            if (part.Contains("::altend"))
+                break;
+        }
+
+        try
+        {
+            string[] start = new string[] { "altstart::" };
+            string[] end = new string[] { "::altend" };
+            data = data.Split(start, StringSplitOptions.None)[1].Split(end, StringSplitOptions.None)[0];
+        }
+        catch (Exception)
+        {
+            Debug.Log("Data received from socket doesn't have correct start and end control strings");
+        }
+
+        return data;
+    }
+
+    private byte[] toBytes(String text)
+    {
+        return Encoding.ASCII.GetBytes(text);
+    }
+
+    private String fromBytes(byte[] text)
+    {
+        return Encoding.ASCII.GetString(text);
+    }
+
+    public void LoadScene(string scene)
+    {
+        Socket.Client.Send(toBytes("loadScene;" + scene + ";&"));
+        var data=Recvall();
+        if(data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+
+    }
+    public void DeletePlayerPref()
+    {
+        Socket.Client.Send(toBytes("deletePlayerPref;&"));
+        var data=Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+
+    }
+    public void DeleteKeyPlayerPref(string keyName)
+    {
+        Socket.Client.Send(toBytes("deleteKeyPlayerPref;" + keyName + ";&"));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+
+    }
+    public void SetKeyPlayerPref(string keyName,int valueName)
+    {
+        Socket.Client.Send(toBytes("setKeyPlayerPref;" + keyName +";"+valueName+";"+PLayerPrefKeyType.Int+";&"));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+
+        HandleErrors(data);
+
+
+    }
+    public void SetKeyPlayerPref(string keyName, float valueName)
+    {
+        Socket.Client.Send(toBytes("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PLayerPrefKeyType.Float + ";&"));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+
+    }
+    public void SetKeyPlayerPref(string keyName, string valueName)
+    {
+        Socket.Client.Send(toBytes("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PLayerPrefKeyType.String + ";&"));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+
+    }
+    public int GetIntKeyPlayerPref(string keyname)
+    {
+        Socket.Client.Send(toBytes("getKeyPlayerPref;" + keyname + ";" + PLayerPrefKeyType.Int + ";&"));
+        var data=Recvall();
+        if (!data.Contains("error:")) return Int32.Parse(data);
+        HandleErrors(data);
+        return 0;
+
+    }
+    public float GetFloatKeyPlayerPref(string keyname)
+    {
+        Socket.Client.Send(toBytes("getKeyPlayerPref;" + keyname + ";" + PLayerPrefKeyType.Float + ";&"));
+        var data = Recvall();
+        if (!data.Contains("error:")) return Single.Parse(data);
+        HandleErrors(data);
+        return 0;
+
+    }
+    public string GetStringKeyPlayerPref(string keyname)
+    {
+        Socket.Client.Send(toBytes("getKeyPlayerPref;" + keyname + ";" + PLayerPrefKeyType.String + ";&"));
+        var data = Recvall();
+        if (!data.Contains("error:")) return data;
+        HandleErrors(data);
+        return null;
+
+    }
+
+    public String GetCurrentScene()
+    {
+
+        Socket.Client.Send(toBytes("getCurrentScene;&"));
+        String data = Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<AltUnityObject>(data).name;
+        HandleErrors(data);
+        return null;
+    }
+
+
+    public void Swipe(Vector2 start, Vector2 end, float duration)
+    {
+        String vectorStartJson = JsonConvert.SerializeObject(start, Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+        String vectorEndJson = JsonConvert.SerializeObject(end, Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+        Socket.Client.Send(toBytes("movingTouch;" + vectorStartJson + ";" + vectorEndJson + ";" + duration + ";&"));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+    }
+
+    public void SwipeAndWait(Vector2 start, Vector2 end, float duration)
+    {
+        Swipe(start,end,duration);
+        Thread.Sleep((int)duration*1000);
+        string data;
+        do
+        {
+            Socket.Client.Send(toBytes("swipeFinished;&"));
+            data = Recvall();
+        } while (data == "No");
+        if (data.Equals("Yes"))
+            return;
+        HandleErrors(data);
+    }
+    public void HoldButton(Vector2 position, float duration)
+    {
+        Swipe(position, position, duration);
+    }
+
+    public void HoldButtonAndWait(Vector2 position, float duration)
+    {
+        SwipeAndWait(position, position, duration);
+    }
+    public AltUnityObject TapScreen(float x, float y)
+    {
+        Socket.Client.Send(toBytes("tapScreen;" + x + ";" + y + ";&"));
+        string data = Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<AltUnityObject>(data);
+        HandleErrors(data);
+        return null;
+    }
+   
+    public void Tilt(Vector3 acceleration)
+    {
+        String accelerationString = JsonConvert.SerializeObject(acceleration, Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+        Socket.Client.Send(toBytes("tilt;" + accelerationString + ";&"));
+        string data = Recvall();
+        if (data.Equals("OK"))return;
+       HandleErrors(data);
+        
+
+    }
+  
+    public AltUnityObject FindElementWhereNameContains(String name,String cameraName="")
+    {
+        Socket.Client.Send(toBytes("findObjectWhereNameContains;" + name +";"+cameraName+ ";&"));
+        String data = Recvall();
+        if (!data.Contains("error:"))
+        {
+            return JsonConvert.DeserializeObject<AltUnityObject>(data);
+        }
+        HandleErrors(data);
+        return null;
+
+    }
+
+    public List<AltUnityObject> GetAllElements(String cameraName="")
+    {
+        Socket.Client.Send(toBytes("findAllObjects;" + ";" + cameraName+"&"));
+        String data = Recvall();
+        if (!data.Contains("error:"))return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
+        HandleErrors(data);
+        return null;
+
+    }
+
+    public AltUnityObject FindElement(String name,String cameraName="")
+    {
+        Socket.Client.Send(toBytes("findObjectByName;" + name + ";" + cameraName + ";&"));
+        String data = Recvall();
+        if (!data.Contains("error:"))
+        {
+            return JsonConvert.DeserializeObject<AltUnityObject>(data);
+            
+        }
+        HandleErrors(data);
+        return null;
+    }
+
+    public List<AltUnityObject> FindElements(String name,String cameraName="")
+    {
+        Socket.Client.Send(toBytes("findObjectsByName;" + name + ";" + cameraName + ";&"));
+        String data = Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
+        HandleErrors(data);
+        return null;
+    }
+
+    public List<AltUnityObject> FindElementsWhereNameContains(String name,String cameraName="")
+    {
+        Socket.Client.Send(toBytes("findObjectsWhereNameContains;" + name + ";" + cameraName + ";&"));
+        String data = Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
+        HandleErrors(data);
+        return null;
+    }
+
+
+
+    public String WaitForCurrentSceneToBe(String sceneName, double timeout = 10, double interval = 1)
+    {
+        double time = 0;
+        String currentScene = "";
+        while (time < timeout)
+        {
+            currentScene = GetCurrentScene();
+            if (currentScene != sceneName)
+            {
+                Debug.Log("Waiting for scene to be " + sceneName + "...");
+                Thread.Sleep(Convert.ToInt32(interval * 1000));
+                time += interval;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (sceneName.Equals(currentScene))
+            return currentScene;
+        throw new Exception("Scene " + sceneName + " not loaded after " + timeout + " seconds");
+
+    }
+
+    public AltUnityObject WaitForElementWhereNameContains(String name, double timeout = 20, double interval = 0.5)
+    {
+        double time = 0;
+        AltUnityObject altElement = new AltUnityObject(null);
+        while (time < timeout)
+        {
+            altElement = FindElementWhereNameContains(name);
+            if (altElement.name == null)
+            {
+                Debug.Log("Waiting for element where name contains " + name + "....");
+                Thread.Sleep(Convert.ToInt32(interval * 1000));
+                time += interval;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (altElement.name != null && altElement.name.Contains(name))
+            return altElement;
+        throw new Exception("Element " + name + " still not found after " +timeout+ " seconds");
+
+    }
+
+
+
+    public void WaitForElementToNotBePresent(String name, double timeout = 20, double interval = 0.5)
+    {
+        double time = 0;
+        AltUnityObject altElement = new AltUnityObject(null);
+        while (time <= timeout)
+        {
+
+            altElement = FindElement(name);
+            if (!altElement.name.Equals(null))
+            {
+                Thread.Sleep(Convert.ToInt32(interval * 1000));
+                time += interval;
+                Debug.Log("Waiting for element " + name + " to not be present");
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (!altElement.Equals(null))
+            throw new Exception("Element " + name + " still not found after " + timeout + " seconds");
+    }
+
+
+
+    public AltUnityObject WaitForElement(String name, double timeout = 20, double interval = 0.5)
+    {
+        double time = 0;
+        AltUnityObject altElement = new AltUnityObject(null);
+        while (time < timeout)
+        {
+            altElement = FindElement(name);
+            if (altElement.name==null)
+            {
+                Thread.Sleep(Convert.ToInt32(interval * 1000));
+                time += interval;
+                Debug.Log("Waiting for element " + name + "...");
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (altElement.name != null && altElement.name.Equals(name))
+        {
+            return altElement;
+        }
+        throw new Exception("Element " + name + " not loaded after " + timeout + " seconds");
+    }
+
+    public AltUnityObject WaitForElementWithText(String name, string text, double timeout = 20, double interval = 0.5)
+    {
+        double time = 0;
+        AltUnityObject altElement = new AltUnityObject(null);
+        while (time < timeout)
+        {
+            altElement = WaitForElement(name);
+            if (!altElement.GetText().Equals(text))
+            {
+                Thread.Sleep(Convert.ToInt32(interval * 1000));
+                time += interval;
+                Debug.Log("Waiting for element " + name + " to have text " + text);
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (altElement.GetText().Equals(text))
+        {
+            return altElement;
+        }
+        throw new Exception("Element with text:" + text + " not loaded after " + timeout + " seconds");
+    }
+
+    public AltUnityObject FindElementByComponent(String componentName,String cameraName="")
+    {
+        Socket.Client.Send(toBytes("findObjectByComponent;" + componentName + ";" + cameraName + ";&"));
+        String data = Recvall();
+        if (!data.Contains("error:"))
+        {
+           return JsonConvert.DeserializeObject<AltUnityObject>(data);
+        }
+        HandleErrors(data);
+        return null;
+    }
+    /// <summary>
+    /// Find all GameObjects that have componentName
+    /// </summary>
+    /// <param name="componentName">Name of the component by wich is going to search</param>
+    /// <returns>List of AltUnityObjects that have component</returns>
+    public List<AltUnityObject> FindElementsByComponent(String componentName,String cameraName="")
+    {
+        Socket.Client.Send(toBytes("findObjectsByComponent;" + componentName + ";" + cameraName + ";&"));
+        String data = Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
+        HandleErrors(data);
+        return null;
+    }
+
+    public static void HandleErrors(string data)
+    {
+        if (!data.Contains("error:unknownError")) throw new Exception(data);
+        var split = data.Split(';');
+        throw new Exception(split[1]);
+    }
+}
+
+

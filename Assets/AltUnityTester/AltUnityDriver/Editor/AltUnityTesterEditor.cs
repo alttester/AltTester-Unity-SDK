@@ -1,0 +1,1316 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using Newtonsoft.Json;
+using NUnit.Framework.Api;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
+using NUnit.Framework.Internal.Filters;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.Experimental.UIElements;
+using Button = UnityEngine.UI.Button;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
+using Object = UnityEngine.Object;
+
+public delegate void TestRunDelegate(string name);
+
+
+public class AltUnityTesterEditor : EditorWindow
+{
+
+    private Button _android;
+    Object _obj;
+
+
+    private static EditorConfiguration _editorConfiguration;
+    public static AltUnityTesterEditor _window;
+
+    public static TestSuite _testSuite;
+
+    public TestRunDelegate CallRunDelegate = new TestRunDelegate(ShowProgresBar);
+
+    private static Texture2D passIcon;
+    private static Texture2D failIcon;
+    private static int selectedTest = -1;
+    private static Color defaultColor;
+    private static Color greenColor = new Color(0.0f, 0.5f, 0.2f, 1f);
+    private static Color redColor = new Color(0.7f, 0.15f, 0.15f, 1f);
+    private static Color selectedTestColor = new Color(1f, 1f, 1f, 1f);
+    private int idIproxyProcess;
+    private bool iProxyOn = false;
+
+    public static string PreviousScenePath;
+    public static Scene SceneWithAltUnityRunner;
+    public static string SceneWithAltUnityRunnerPath;
+    public static Object AltUnityRunner;
+    public static bool built = false;
+    public static Scene copyScene;
+
+    private Thread thread;
+
+    //This are for progressBar when are runned
+    private static float progress;
+    private static float total;
+    private static string _testName;
+
+    Vector2 _scrollPosition;
+    private Vector2 _scrollPositonTestResult;
+
+    //private static List<MyDevices> _myDeviceses=new List<MyDevices>();
+
+    private bool _foldOutScenes = true;
+    private bool _foldOutBuildSettings = true;
+    private bool _foldOutIosSettings = true;
+    private bool _checking = false;
+    
+    public static string BundleIdentifier
+    {
+        get
+        {
+            return _editorConfiguration.BundleIdentifier;
+        }
+
+        set
+        {
+            _editorConfiguration.BundleIdentifier = value;
+        }
+    }
+
+    private enum TestRunMode { RunAllTest, RunSelectedTest, RunFailedTest }
+
+    void RunTests(TestRunMode testMode)
+    {
+        Debug.Log("Started running test");
+        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
+            .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+        var filters = AddTestToBeRun(testMode);
+#if UNITY_EDITOR_OSX
+        RemoveForwardAndroid();
+        if (!_editorConfiguration.TestAndroid)
+        {
+            thread = new Thread(ThreadForwardIos);
+            thread.Start();
+            while (!iProxyOn)
+            {
+                Thread.Sleep(250);
+            }
+        }
+        else
+#endif
+#if UNITY_EDITOR_WIN
+        RemoveForwardAndroid();
+#endif
+        ForwardAndroid();
+
+        ITestListener listener = new TestRunListener(CallRunDelegate);
+        var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
+
+        testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
+        progress = 0;
+        total = filters.Filters.Count;
+        Thread runTestThread= new Thread(() =>
+        {
+            var result=testAssemblyRunner.Run(listener, filters);
+
+#if UNITY_EDITOR_OSX
+        if (!_editorConfiguration.TestAndroid)
+        {
+            KillIProxy(idIproxyProcess);
+            thread.Join();
+        }
+        else
+#endif
+            RemoveForwardAndroid();
+            SetTestStatus(result);
+        });
+
+        runTestThread.Start();
+        float previousProgres = progress - 1;
+        while (runTestThread.IsAlive)
+        {
+            if (previousProgres == progress) continue;
+            EditorUtility.DisplayProgressBar(progress == total ? "This may take a few seconds" : _testName,
+                progress + "/" + total, progress / total);
+            previousProgres = progress;
+        }
+
+        runTestThread.Join();
+        Repaint();
+        EditorUtility.ClearProgressBar();
+    }
+
+    private static void ShowProgresBar(string name)
+    {
+        progress++;
+        _testName = name;
+    }
+   
+    private void SetTestStatus(List<ITestResult> results)
+    {
+        bool passed = true;
+        foreach (var test in _editorConfiguration.MyTests)
+        {
+            int counter = 0;
+            int testPassed = 0;
+            int testPassedCounter = 0;
+            int testFailedCounter = 0;
+            foreach (var result in results)
+            {
+                if (test.Type == typeof(TestAssembly))
+                {
+                    counter++;
+                    var enumerator = result.Children.GetEnumerator();
+                    enumerator.MoveNext();
+                    if (enumerator.Current != null)
+                    {
+                        var enumerator2 = enumerator.Current.Children.GetEnumerator();
+                        enumerator2.MoveNext();
+                        if (enumerator2.Current != null && enumerator2.Current.FailCount > 0)
+                        {
+
+                            testFailedCounter++;
+                        }
+                        else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0)
+                        {
+                            testPassedCounter++;
+                        }
+
+                        enumerator2.Dispose();
+                    }
+
+                    enumerator.Dispose();
+
+                }
+
+                if (test.Type == typeof(TestFixture))
+                {
+                    var enumerator = result.Children.GetEnumerator();
+                    enumerator.MoveNext();
+                    if (enumerator.Current != null && enumerator.Current.FullName.Equals(test.TestName))
+                    {
+                        counter++;
+                        var enumerator2 = enumerator.Current.Children.GetEnumerator();
+                        enumerator2.MoveNext();
+                        if (enumerator2.Current != null && enumerator2.Current.FailCount > 0)
+                        {
+                            testFailedCounter++;
+
+                        }
+                        else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0)
+                        {
+                            testPassedCounter++;
+
+                        }
+                        enumerator2.Dispose();
+                    }
+                    enumerator.Dispose();
+                }
+
+                if (test.Type == typeof(TestMethod))
+                {
+                    var enumerator = result.Children.GetEnumerator();
+                    enumerator.MoveNext();
+                    if (enumerator.Current != null)
+                    {
+                        var enumerator2 = enumerator.Current.Children.GetEnumerator();
+                        enumerator2.MoveNext();
+                        if (enumerator2.Current != null && enumerator2.Current.FullName.Equals(test.TestName))
+                        {
+                            if (enumerator2.Current.FailCount > 0)
+                            {
+                                test.Status = -1;
+                                test.TestResultMessage = enumerator2.Current.Message + " \n\n\n StackTrace:  " + enumerator2.Current.StackTrace;
+                                passed = false;
+
+                            }
+                            else if (enumerator2.Current.PassCount > 0)
+                            {
+                                test.Status = 1;
+                                test.TestResultMessage = "Passed in " + enumerator2.Current.Duration;
+
+                            }
+                        }
+                        enumerator2.Dispose();
+                    }
+
+                    enumerator.Dispose();
+                }
+
+
+            }
+
+            if (test.Type != typeof(TestMethod))
+            {
+                if (test.TestCaseCount == counter)
+                {
+                    if (testFailedCounter == 0 && testPassedCounter == counter)
+                    {
+                        test.Status = 1;
+                        test.TestResultMessage = "All method passed ";
+                    }
+                    else
+                    {
+                        test.Status = -1;
+                        passed = false;
+                        test.TestResultMessage = "There are methods that failed";
+                    }
+                }
+            }
+        }
+        var listOfTests = _editorConfiguration.MyTests;
+        var serializeTests = JsonConvert.SerializeObject(listOfTests, Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+        EditorPrefs.SetString("tests", serializeTests);
+        if (passed)
+        {
+            Debug.Log("All test passed");
+        }
+        else
+            Debug.Log("Test failed");
+    }
+
+    private static OrFilter AddTestToBeRun(TestRunMode testMode)
+    {
+        OrFilter filter = new OrFilter();
+        switch (testMode)
+        {
+            case TestRunMode.RunAllTest:
+                foreach (var test in _editorConfiguration.MyTests)
+                    if (!test.IsSuite)
+                        filter.Add(new FullNameFilter(test.TestName));
+                break;
+            case TestRunMode.RunSelectedTest:
+                foreach (var test in _editorConfiguration.MyTests)
+                    if (test.Selected && !test.IsSuite)
+                        filter.Add(new FullNameFilter(test.TestName));
+                break;
+            case TestRunMode.RunFailedTest:
+                foreach (var test in _editorConfiguration.MyTests)
+                    if (test.Status == -1 && !test.IsSuite)
+                        filter.Add(new FullNameFilter(test.TestName));
+                break;
+        }
+
+        return filter;
+    }
+
+    static int SetTestStatus(ITestResult test)
+    {
+
+        if (!test.Test.IsSuite)
+        {
+            var status = 0;
+            string message = "";
+            if (test.PassCount == 1)
+            {
+                status = 1;
+                message = "Passed in " + test.Duration;
+
+            }
+            else if (test.FailCount == 1)
+            {
+                status = -1;
+                message = test.Message;
+            }
+            int index = _editorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName));
+            _editorConfiguration.MyTests[index].Status = status;
+            _editorConfiguration.MyTests[index].TestResultMessage = message;
+
+            return status;
+        }
+
+        var failCount = 0;
+        var notExecutedCount = 0;
+        var passCount = 0;
+        foreach (var testChild in test.Children)
+        {
+            var status = SetTestStatus(testChild);
+            if (status == 0)
+                notExecutedCount++;
+            else if (status == -1)
+            {
+                failCount++;
+            }
+            else
+            {
+                passCount++;
+            }
+        }
+
+        if (test.Test.TestCaseCount != passCount + failCount + notExecutedCount)
+        {
+            _editorConfiguration.MyTests[_editorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = 0;
+            return 0;
+        }
+
+        if (failCount > 0)
+        {
+            _editorConfiguration.MyTests[_editorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = -1;
+            return -1;
+
+        }
+        _editorConfiguration.MyTests[_editorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = 1;
+        return 1;
+    }
+
+    //[Serializable]
+    //internal class MyDevices
+    //{
+    //    private bool _selected;
+    //    private string _deviceName;
+    //    private string _uid;
+
+    //    public MyDevices(bool selected, string deviceName, string uid)
+    //    {
+    //        _selected = selected;
+    //        _deviceName = deviceName;
+    //        _uid = uid;
+    //    }
+
+    //    public bool Selected
+    //    {
+    //        get { return _selected; }
+    //        set { _selected = value; }
+    //    }
+
+    //    public string DeviceName
+    //    {
+    //        get { return _deviceName; }
+    //        set { _deviceName = value; }
+    //    }
+
+    //    public string Uid
+    //    {
+    //        get { return _uid; }
+    //        set { _uid = value; }
+    //    }
+    //}
+
+
+    // Add menu item named "My Window" to the Window menu
+    [MenuItem("Window/AltUnityTester")]
+    public static void ShowWindow()
+    {
+        //Show existing window instance. If one doesn't exist, make one.
+        _window = (AltUnityTesterEditor)GetWindow(typeof(AltUnityTesterEditor));
+        _window.Show();
+    }
+
+
+    private void OnFocus()
+    {
+        if (_editorConfiguration == null)
+        {
+            if (AssetDatabase.FindAssets("idProject").Length == 0)
+            {
+                _editorConfiguration = ScriptableObject.CreateInstance<EditorConfiguration>();
+                AssetDatabase.CreateAsset(_editorConfiguration, "Assets/AltUnityDriver/Editor/idProject.asset");
+                AssetDatabase.SaveAssets();
+            }
+            else
+            {
+                _editorConfiguration = AssetDatabase.LoadAssetAtPath<EditorConfiguration>(
+                    AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("idProject")[0]));
+            }
+
+            EditorUtility.SetDirty(_editorConfiguration);
+        }
+
+        if (failIcon == null)
+        {
+            var findIcon = AssetDatabase.FindAssets("16px-indicator-fail");
+            failIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
+        }
+        if (passIcon == null)
+        {
+            var findIcon = AssetDatabase.FindAssets("16px-indicator-pass");
+            passIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
+        }
+        SetUpListTest();
+       
+
+    }
+    void OnInspectorUpdate()
+    {
+        Repaint();
+    }
+
+    private void OnGUI()
+    {
+
+        var screenWidth = EditorGUIUtility.currentViewWidth;
+
+        EditorGUILayout.BeginHorizontal();
+        var leftSide = (screenWidth / 3) * 2;
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, true, true, GUILayout.MaxWidth(leftSide));
+
+        DisplayTestGui(_editorConfiguration.MyTests);
+        EditorGUILayout.Separator();
+        DisplayBuildSettings();
+
+
+        EditorGUILayout.EndScrollView();
+        var rightSide = (screenWidth / 3);
+        EditorGUILayout.BeginVertical(GUILayout.MaxWidth(rightSide));
+        EditorGUILayout.BeginHorizontal();
+
+        EditorGUILayout.EndHorizontal();
+#if UNITY_EDITOR_OSX
+        EditorGUILayout.LabelField("Platform", EditorStyles.boldLabel);
+
+        EditorGUILayout.BeginHorizontal();
+
+        _editorConfiguration.TestAndroid = EditorGUILayout.Toggle(_editorConfiguration.TestAndroid,GUILayout.MaxWidth(15));
+        EditorGUILayout.LabelField("Android",_editorConfiguration.TestAndroid?EditorStyles.boldLabel:EditorStyles.label);
+        _editorConfiguration.TestAndroid = !EditorGUILayout.Toggle(!_editorConfiguration.TestAndroid,GUILayout.MaxWidth(15));
+        EditorGUILayout.LabelField("iOS",!_editorConfiguration.TestAndroid ? EditorStyles.boldLabel : EditorStyles.label);
+
+        EditorGUILayout.EndHorizontal();
+#endif
+        EditorGUILayout.LabelField("Test", EditorStyles.boldLabel);
+
+        if (GUILayout.Button("RunAllTest"))
+        {
+            RunTests(TestRunMode.RunAllTest);
+        }
+        if (GUILayout.Button("RunSelectedTest"))
+        {
+            RunTests(TestRunMode.RunSelectedTest);
+        }
+        if (GUILayout.Button("RunFailedTest"))
+        {
+            RunTests(TestRunMode.RunFailedTest);
+        }
+
+        EditorGUILayout.Separator();
+        EditorGUILayout.Separator();
+        EditorGUILayout.Separator();
+        if (built)
+        {
+            var found = false;
+
+            Scene scene=EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
+            if (scene.path.Equals(GetFirstSceneWhichWillBeBuilt()))
+            {
+                if (scene.GetRootGameObjects()
+                    .Any(gameObject => gameObject.name.Equals("AltUnityRunnerWithInputScript")))
+                {
+                    SceneManager.SetActiveScene(scene);
+                    var altunityRunner = scene.GetRootGameObjects()
+                        .First(a => a.name.Equals("AltUnityRunnerWithInputScript"));
+                    DestroyAltUnityRunner(altunityRunner);
+                    found = true;
+                }
+
+                if (found == false)
+                    built = false;
+            }
+
+        }
+
+        EditorGUILayout.LabelField("Build", EditorStyles.boldLabel);
+        if (GUILayout.Button("Build&Run Android"))
+        {
+            AndroidDefault();
+
+        }
+#if UNITY_EDITOR_OSX
+        if(GUILayout.Button("Build&Run IOS"))
+        {
+            IosDefault();
+
+        }
+#else
+        EditorGUI.BeginDisabledGroup(true);
+        GUILayout.Button("Build&Run IOS");
+        EditorGUI.EndDisabledGroup();
+#endif
+       
+        EditorGUILayout.LabelField("",GUILayout.ExpandHeight(true));
+        //Status test
+
+        _scrollPositonTestResult = EditorGUILayout.BeginScrollView(_scrollPositonTestResult, GUI.skin.textArea);
+        if (selectedTest != -1)
+        {
+            EditorGUILayout.LabelField("Test Result for:  " + _editorConfiguration.MyTests[selectedTest].TestName, EditorStyles.boldLabel);
+            EditorGUILayout.Separator();
+            EditorGUILayout.LabelField("Message:");
+            if (_editorConfiguration.MyTests[selectedTest].TestResultMessage == null)
+                GUILayout.TextArea("No informartion about this test available.\nPlease rerun the test.",
+                    GUILayout.MaxHeight(75));
+            else
+            {
+                string text = _editorConfiguration.MyTests[selectedTest].TestResultMessage;
+                int lineContor = 1;
+                int textLength = (int)rightSide / 7;
+                if (text.Length > textLength)
+                {
+                    var splited = text.Split(' ');
+                    text = "";
+                    foreach (var word in splited)
+                    {
+                        text = text + " " + word;
+                        if (text.Length > textLength * lineContor)
+                        {
+                            lineContor++;
+                            text = text + "\n";
+                        }
+                    }
+                }
+
+                EditorGUILayout.TextArea(text);
+            }
+        }
+        else
+        {
+            EditorGUILayout.LabelField("No test selected");
+        }
+        EditorGUILayout.EndScrollView();
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
+
+    }
+
+    //private void TestDEvice()
+    //{
+    //    Process process = new Process();
+    //    ProcessStartInfo startInfo = new ProcessStartInfo
+    //    {
+    //        WindowStyle = ProcessWindowStyle.Hidden,
+
+    //        UseShellExecute = false,
+
+    //        RedirectStandardOutput = true,
+
+    //        FileName = "adb.exe",
+
+    //        Arguments = "devices -l"
+    //    };
+    //    process.StartInfo = startInfo;
+    //    process.Start();
+    //    var str = process.StandardOutput.ReadLine();
+    //    while (process.StandardOutput.Peek()!=13)
+    //    {
+    //        str = process.StandardOutput.ReadLine();
+    //        var pieces = str.Split(' ');
+    //        var devicename = pieces[6].Split(':');
+    //        _myDeviceses.Add(new MyDevices(false,devicename[1],pieces[0]));
+    //        Debug.Log(process.StandardOutput.Peek());
+    //    }
+    //    process.WaitForExit();
+    //}
+
+    private void DisplayBuildSettings()
+    {
+        _foldOutBuildSettings = EditorGUILayout.Foldout(_foldOutBuildSettings, "Build Settings");
+        if (_foldOutBuildSettings)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            BundleIdentifier = EditorGUILayout.TextField("Bundle Identifier", BundleIdentifier);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            _editorConfiguration.CompanyName = EditorGUILayout.TextField("Company Name", _editorConfiguration.CompanyName);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            _editorConfiguration.ProductName = EditorGUILayout.TextField("Product Name", _editorConfiguration.ProductName);
+            EditorGUILayout.EndHorizontal();
+#if UNITY_EDITOR_OSX
+            _foldOutIosSettings = EditorGUILayout.Foldout(_foldOutIosSettings, "IOS Settings");
+            if (_foldOutIosSettings)
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+                 _editorConfiguration.SigningTeamId = EditorGUILayout.TextField("Signing Team Id: ", _editorConfiguration.SigningTeamId);
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+                _editorConfiguration.AutomaticallySign = EditorGUILayout.Toggle("Automatically Sign: ", _editorConfiguration.AutomaticallySign);
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+                _editorConfiguration.AdbPathIos = EditorGUILayout.TextField("Adb Path: ", _editorConfiguration.AdbPathIos);
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+                _editorConfiguration.IProxyPath = EditorGUILayout.TextField("Iproxy Path: ", _editorConfiguration.IProxyPath);
+                EditorGUILayout.EndHorizontal();
+            }
+#endif
+
+
+            DisplayScenes();
+        }
+    }
+
+    private void DisplayScenes()
+    {
+        _foldOutScenes = EditorGUILayout.Foldout(_foldOutScenes, "SceneManager");
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+        EditorGUILayout.BeginVertical();
+        if (_foldOutScenes)
+        {
+            if (_editorConfiguration.Scenes.Count != 0)
+            {
+                GUILayout.BeginVertical(GUI.skin.textField);
+                MyScenes sceneToBeRemoved = null;
+                int counter = 0;
+                foreach (var scene in _editorConfiguration.Scenes)
+                {
+                    GUILayout.BeginHorizontal(GUI.skin.textArea);
+                    scene.ToBeBuilt = EditorGUILayout.Toggle(scene.ToBeBuilt, GUILayout.MaxWidth(10));
+                    EditorGUILayout.LabelField(scene.Path);
+                    string value;
+                    if (scene.ToBeBuilt)
+                    {
+                        scene.BuildScene = counter;
+                        counter++;
+                        value = scene.BuildScene.ToString();
+                    }
+                    else
+                    {
+                        value = "";
+                    }
+
+                    EditorGUILayout.LabelField(value, GUILayout.MaxWidth(30));
+
+
+                    if (_editorConfiguration.Scenes.IndexOf(scene) != 0 && _editorConfiguration.Scenes.Count > 1)
+                    {
+
+                        if (GUILayout.Button("^", GUILayout.MaxWidth(30)))
+                        {
+                            SceneMove(scene, true);
+                        }
+                    }
+
+                    if (_editorConfiguration.Scenes.IndexOf(scene) != _editorConfiguration.Scenes.Count - 1 && _editorConfiguration.Scenes.Count > 1)
+                        if (GUILayout.Button("v", GUILayout.MaxWidth(30)))
+                        {
+                            SceneMove(scene, false);
+                        }
+
+
+                    if (GUILayout.Button("X", GUILayout.MaxWidth(30)))
+                    {
+                        sceneToBeRemoved = scene;
+                    }
+
+                    GUILayout.EndHorizontal();
+
+                }
+
+
+                if (sceneToBeRemoved != null)
+                {
+                    RemoveScene(sceneToBeRemoved);
+                }
+
+                GUILayout.EndVertical();
+            }
+
+            GUILayout.BeginVertical();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Add scene: ", GUILayout.MaxWidth(80));
+            _obj = EditorGUILayout.ObjectField(_obj, typeof(SceneAsset), true);
+
+            if (_obj != null)
+            {
+                var path = AssetDatabase.GetAssetPath(_obj);
+                if (_editorConfiguration.Scenes.All(n => n.Path != path))
+                {
+                    _editorConfiguration.Scenes.Add(new MyScenes(false, path, 0));
+                    _obj = new Object();
+                }
+
+                _obj = null;
+            }
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Add all scenes", EditorStyles.miniButtonLeft))
+            {
+                AddAllScenes();
+            }
+
+            if (GUILayout.Button("Select all scenes", EditorStyles.miniButtonMid))
+            {
+                SelectAllScenes();
+            }
+            if (GUILayout.Button("Deselect all scenes", EditorStyles.miniButtonMid))
+            {
+                DeselectAllScenes();
+            }
+            if (GUILayout.Button("Remove not selected scenes", EditorStyles.miniButtonMid))
+            {
+                RemoveNotSelectedScenes();
+            }
+            if (GUILayout.Button("Remove all scenes", EditorStyles.miniButtonRight))
+            {
+                _editorConfiguration.Scenes = new List<MyScenes>();
+            }
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+        }
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
+
+    }
+
+    private void RemoveNotSelectedScenes()
+    {
+        List<MyScenes> copyMySceneses = new List<MyScenes>();
+        foreach (var scene in _editorConfiguration.Scenes)
+        {
+            if (scene.ToBeBuilt)
+            {
+                copyMySceneses.Add(scene);
+            }
+        }
+
+        _editorConfiguration.Scenes = copyMySceneses;
+    }
+
+    private void DeselectAllScenes()
+    {
+        foreach (var scene in _editorConfiguration.Scenes)
+        {
+            scene.ToBeBuilt = false;
+        }
+
+    }
+
+    private void SelectAllScenes()
+    {
+        foreach (var scene in _editorConfiguration.Scenes)
+        {
+            scene.ToBeBuilt = true;
+        }
+
+    }
+
+    private void SetUpListTest()
+    {
+        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+        var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+        var myTests = new List<MyTest>();
+        addTestSuiteToMyTest(testSuite2, myTests);
+        _editorConfiguration.MyTests = myTests;
+    }
+    private void addTestSuiteToMyTest(ITest testSuite, List<MyTest> newMyTests)
+    {
+        var index = _editorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName));
+        if (index == null)
+        {
+            if (testSuite.Parent == null)
+            {
+                newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
+                    "", testSuite.TestCaseCount, false, null));
+            }
+            else
+            {
+                newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
+                    testSuite.Parent.FullName, testSuite.TestCaseCount, false, null));
+            }
+
+        }
+        else
+        {
+            newMyTests.Add(new MyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
+                index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage));
+        }
+        foreach (var test in testSuite.Tests)
+        {
+            addTestSuiteToMyTest(test, newMyTests);
+        }
+    }
+
+    private void DisplayTestGui(List<MyTest> tests)
+    {
+        EditorGUILayout.LabelField("Test", EditorStyles.boldLabel);
+        EditorGUILayout.BeginVertical(GUI.skin.textArea);
+
+        int foldOutCounter = 0;
+
+        foreach (var test in tests)
+        {
+            if (foldOutCounter > 0)
+            {
+                foldOutCounter--;
+                continue;
+            }
+
+            if (tests.IndexOf(test) == selectedTest)
+            {
+                GUIStyle gsAlterQuest = new GUIStyle();
+                gsAlterQuest.normal.background = MakeTex(600, 1, selectedTestColor);
+                EditorGUILayout.BeginHorizontal(gsAlterQuest);
+
+            }
+            else
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
+
+            if (test.Type == typeof(TestFixture))
+                EditorGUILayout.LabelField("    ", GUILayout.MaxWidth(30));
+            else if (test.Type == typeof(TestMethod))
+                EditorGUILayout.LabelField("    ", GUILayout.MaxWidth(60));
+
+            var valueChanged = EditorGUILayout.Toggle(test.Selected, GUILayout.Width(10));
+            if (valueChanged != test.Selected)
+            {
+                test.Selected = valueChanged;
+                ChangeSelectionChildsAndParent(test);
+            }
+
+            if (test.Status == 0)
+            {
+                var style = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft };
+                EditorGUILayout.LabelField(test.TestName, style, GUILayout.ExpandWidth(false));
+            }
+            else
+            {
+                Color color = redColor;
+                Texture2D icon = failIcon;
+                if (test.Status == 1)
+                {
+                    color = greenColor;
+                    icon = passIcon;
+                }
+                GUILayout.Label(icon, GUILayout.MaxWidth(30));
+                GUIStyle guiStyle = new GUIStyle();
+                guiStyle.normal.textColor = color;
+
+                EditorGUILayout.LabelField(test.TestName, guiStyle, GUILayout.ExpandWidth(false));
+            }
+            if (test.Type != typeof(TestMethod))
+                test.FoldOut = EditorGUILayout.Foldout(test.FoldOut, "");
+            if (test.FoldOut)
+            {
+                if (test.Type == typeof(TestAssembly))
+                {
+                    foldOutCounter = tests.Count - 1;
+                }
+                else
+                {
+                    foldOutCounter = test.TestCaseCount;
+                }
+            }
+            EditorGUILayout.LabelField("");
+            if (GUILayout.Button("Info", GUILayout.MaxWidth(50)))
+            {
+                selectedTest = tests.IndexOf(test);
+            }
+            EditorGUILayout.EndHorizontal();
+
+        }
+        EditorGUILayout.EndVertical();
+    }
+    /// <summary>
+    /// Checks every child if a testsuite is checked
+    /// Unchecks every parent of a test if it is unchecked 
+    /// </summary>
+    /// <param name="test"> test or testsuite that is unchecked or checked</param>
+    private void ChangeSelectionChildsAndParent(MyTest test)
+    {
+        if (test.Selected)
+        {
+            if (test.Type == typeof(TestAssembly))
+            {
+                foreach (var test2 in _editorConfiguration.MyTests)
+                {
+                    test2.Selected = true;
+                }
+            }
+            else
+            {
+                if (test.IsSuite)
+                {
+                    var index = _editorConfiguration.MyTests.IndexOf(test);
+                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
+                    {
+                        _editorConfiguration.MyTests[i].Selected = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (test.Type == typeof(TestAssembly))
+            {
+                foreach (var test2 in _editorConfiguration.MyTests)
+                {
+                    test2.Selected = false;
+                }
+            }
+            else
+            {
+                var dummy = test;
+                if (test.Type == typeof(TestFixture))
+                {
+                    var index = _editorConfiguration.MyTests.IndexOf(test);
+                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
+                    {
+                        _editorConfiguration.MyTests[i].Selected = false;
+                    }
+                }
+                while (dummy.ParentName != null)
+                {
+                    dummy = _editorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(dummy.ParentName));
+                    if (dummy != null)
+                        dummy.Selected = false;
+                    else
+                        return;
+                }
+            }
+        }
+
+    }
+    /// <summary>
+    /// Move the scene up or down in the list by one
+    /// </summary>
+    /// <param name="scene">Scene that will be moved</param>
+    /// <param name="up">If true the scene will be moved up else it will be moved down</param>
+    private static void SceneMove(MyScenes scene, bool up)
+    {
+        int index = _editorConfiguration.Scenes.IndexOf(scene);
+        if (up)
+        {
+            Swap(index, index - 1);
+        }
+        else
+        {
+            Swap(index, index + 1);
+        }
+    }
+    /// <summary>
+    /// Swap 2 scenes from the list
+    /// </summary>
+    /// <param name="index1">Index of the first scene</param>
+    /// <param name="index2">Index of the second scene</param>
+    public static void Swap(int index1, int index2)
+    {
+        MyScenes backUp = _editorConfiguration.Scenes[index1];
+        _editorConfiguration.Scenes[index1] = _editorConfiguration.Scenes[index2];
+        _editorConfiguration.Scenes[index2] = backUp;
+    }
+    /// <summary>
+    /// Add all scene that are found in the project
+    /// </summary>
+    private static void AddAllScenes()
+    {
+        var scenesToBeAddedGuid = AssetDatabase.FindAssets("t:SceneAsset");
+        _editorConfiguration.Scenes = new List<MyScenes>();
+        foreach (var sceneGuid in scenesToBeAddedGuid)
+        {
+            var scenePath = AssetDatabase.GUIDToAssetPath(sceneGuid);
+            _editorConfiguration.Scenes.Add(new MyScenes(false, scenePath, 0));
+
+        }
+
+        EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+
+    }
+
+    private static EditorBuildSettingsScene[] PathFromTheSceneInCurrentList()
+    {
+        List<EditorBuildSettingsScene> listofPath = new List<EditorBuildSettingsScene>();
+        foreach (var scene in _editorConfiguration.Scenes)
+        {
+            listofPath.Add(new EditorBuildSettingsScene(scene.Path,scene.ToBeBuilt));
+        }
+
+        return listofPath.ToArray();
+    }
+
+    /// <summary>
+    /// Remove a scene from the list of scenes
+    /// </summary>
+    /// <param name="scene">The scene that will be removed</param>
+    private void RemoveScene(MyScenes scene)
+    {
+
+        _editorConfiguration.Scenes.Remove(scene);
+        EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+
+    }
+#if UNITY_EDITOR_OSX
+    private static void InitIos()
+    {
+        string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+
+        PlayerSettings.productName = _editorConfiguration.ProductName;
+        PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, BundleIdentifier);
+        PlayerSettings.bundleVersion = versionNumber;
+        PlayerSettings.iOS.buildNumber = versionNumber;
+      
+        PlayerSettings.companyName = _editorConfiguration.CompanyName;
+        PlayerSettings.iOS.appleEnableAutomaticSigning = _editorConfiguration.AutomaticallySign;
+        PlayerSettings.iOS.appleDeveloperTeamID = _editorConfiguration.SigningTeamId;
+    }
+
+    private static void IosDefault()
+    {
+        Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        InitIos();
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutputFilenameiOSdDefault();
+        buildPlayerOptions.scenes = GetSceneForBuild();
+
+        buildPlayerOptions.target = BuildTarget.iOS;
+        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+
+        var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+        if (results.summary.totalErrors == 0)
+        {
+            Debug.Log("No Build Errors");
+
+        }
+        else
+            Debug.LogError("Build Error!");
+
+        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        built = true;
+
+    }
+#endif
+
+
+
+    private static void InitAndroid()
+    {
+        string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+
+        PlayerSettings.productName = _editorConfiguration.ProductName;
+        PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, BundleIdentifier);
+        PlayerSettings.bundleVersion = versionNumber;
+        PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
+        PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+        PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
+        PlayerSettings.companyName = _editorConfiguration.CompanyName;
+    }
+
+
+    static void AndroidDefault()
+    {
+        Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        InitAndroid();
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
+        buildPlayerOptions.scenes = GetSceneForBuild();
+
+        buildPlayerOptions.target = BuildTarget.Android;
+        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+//        EditorApplication.delayCall += DestroyAltUnityRunner;
+        var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+        if (results.summary.totalErrors == 0)
+        {
+            Debug.Log("No Build Errors");
+
+        }
+        else
+            Debug.LogError("Build Error!");
+        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        built = true;
+
+    }
+
+    private static string[] GetSceneForBuild()
+    {
+        List<String> sceneList = new List<string>();
+        foreach (var scene in _editorConfiguration.Scenes)
+        {
+            if (scene.ToBeBuilt)
+            {
+                sceneList.Add(scene.Path);
+            }
+        }
+
+        InsertAltUnityInTheFirstScene();
+
+
+        return sceneList.ToArray();
+    }
+
+    private static void InsertAltUnityInTheFirstScene()
+    {
+        var altUnityRunner =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunnerWithInputScript")[0]));
+
+
+
+        PreviousScenePath = SceneManager.GetActiveScene().path;
+        SceneWithAltUnityRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
+
+        AltUnityRunner = PrefabUtility.InstantiatePrefab(altUnityRunner);
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        EditorSceneManager.SaveOpenScenes();
+
+        EditorSceneManager.OpenScene(PreviousScenePath);
+    }
+
+    private static string GetFirstSceneWhichWillBeBuilt()
+    {
+        foreach (var scene in _editorConfiguration.Scenes)
+        {
+            if (scene.ToBeBuilt)
+            {
+                return scene.Path;
+            }
+        }
+
+        return "";
+    }
+
+    private Texture2D MakeTex(int width, int height, Color col)
+    {
+        Color[] pix = new Color[width * height];
+
+        for (int i = 0; i < pix.Length; i++)
+            pix[i] = col;
+
+        Texture2D result = new Texture2D(width, height);
+        result.SetPixels(pix);
+        result.Apply();
+
+        return result;
+    }
+#if UNITY_EDITOR_OSX
+    private void ThreadForwardIos(){
+            
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+            WindowStyle = ProcessWindowStyle.Normal,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                FileName = _editorConfiguration.IProxyPath,
+                Arguments = "13000 13000"
+            };
+            process.StartInfo=startInfo;
+            process.Start();
+            idIproxyProcess=process.Id;
+            iProxyOn = true;
+            process.WaitForExit();
+}
+private void KillIProxy(int id){
+
+
+        var chosenOne = Process.GetProcessesByName("iproxy");
+        chosenOne[0].Kill();
+        chosenOne[0].WaitForExit();
+}
+#endif
+
+    private void ForwardAndroid()
+    {
+        string adbFileName;
+#if UNITY_EDITOR_WIN
+        adbFileName = "adb.exe";
+#elif UNITY_EDITOR_OSX
+        adbFileName = _editorConfiguration.AdbPathIos;
+#endif
+
+        Process process = new Process();
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            WindowStyle = ProcessWindowStyle.Hidden,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            FileName = adbFileName,
+            Arguments = "forward tcp:13000 tcp:13000 "
+        };
+        process.StartInfo = startInfo;
+        process.Start();
+        process.WaitForExit();
+
+    }
+    private void RemoveForwardAndroid()
+    {
+        string adbFileName;
+#if UNITY_EDITOR_WIN
+        adbFileName = "adb.exe";
+#elif UNITY_EDITOR_OSX
+        adbFileName = _editorConfiguration.AdbPathIos;
+#endif
+        var process = new Process();
+        var startInfo = new ProcessStartInfo
+        {
+            WindowStyle = ProcessWindowStyle.Normal,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            FileName = adbFileName,
+            Arguments = "forward --remove-all"
+        };
+        process.StartInfo = startInfo;
+        process.Start();
+        process.WaitForExit();
+    }
+   
+
+    [MenuItem("Assets/Create/AltUnityTest",false,80)]
+    public static void CreateAltUnityTest()
+    {
+       
+        var templatePath = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("DefaultTestExample")[0]);
+
+        string folderPath = GetPath();
+        MethodInfo method = typeof(ProjectWindowUtil).GetMethod("CreateScriptAsset", BindingFlags.Static | BindingFlags.NonPublic);
+        if (method == null)
+            return;
+        string newFilePath = Path.Combine(folderPath, "NewAltUnityTest.cs");
+        method.Invoke((object)null, new object[2]
+        {
+            (object) templatePath,
+            (object) newFilePath
+        });
+
+    }
+    [MenuItem("Assets/Create/AltUnityTest", true, 80)]
+    public static bool CreateAltUnityTestValid()
+    {
+        return (GetPath() + "/").Contains("/Editor/");
+    }
+
+    private static string GetPath()
+    {
+        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        if (Path.GetExtension(path) != "")
+        {
+            path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
+        }
+        return path;
+    }
+
+    private static void DestroyAltUnityRunner(Object altUnityRunner)
+    {
+            
+            DestroyImmediate(altUnityRunner);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveOpenScenes();
+            EditorSceneManager.OpenScene(PreviousScenePath);
+
+
+    }
+
+    
+}

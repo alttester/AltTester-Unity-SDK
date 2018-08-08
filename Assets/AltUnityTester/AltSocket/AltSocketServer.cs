@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Globalization;
 using System.Text;
-using System.Reflection;
 using System.Threading;
 
 public class AltSocketClientThreadHolder {
@@ -15,13 +12,13 @@ public class AltSocketClientThreadHolder {
 
     public Thread Thread {
         get {
-            return this.thread;
+            return thread;
         }
     }
 
     public AltClientSocketHandler Handler {
         get {
-            return this.handler;
+            return handler;
         }
     }
 
@@ -32,7 +29,7 @@ public class AltSocketClientThreadHolder {
 }
 
 public class AltTcpListener : TcpListener {
-    public AltTcpListener(IPEndPoint localEP) : base(localEP) {
+    public AltTcpListener(IPEndPoint localEp) : base(localEp) {
     }
 
     public AltTcpListener(IPAddress localaddr, int port) : base(localaddr, port) {
@@ -44,36 +41,36 @@ public class AltTcpListener : TcpListener {
 }
 
 public class AltSocketServer {
-    protected readonly AltTcpListener listener;
-    protected readonly AltIClientSocketHandlerDelegate clientSocketHandlerDelegate;
-    protected readonly string separatorString;
-    protected readonly Encoding encoding;
-    protected ArrayList clientHandlerThreads;
+    protected AltTcpListener Listener;
+    protected readonly AltIClientSocketHandlerDelegate ClientSocketHandlerDelegate;
+    protected readonly string SeparatorString;
+    protected readonly Encoding Encoding;
+    protected ArrayList ClientHandlerThreads;
     protected readonly int portNumber;
     protected readonly IPEndPoint localEndPoint;
     protected readonly int maxClients;
 
     public int PortNumber {
         get {
-            return this.portNumber;
+            return portNumber;
         }
     }
 
     public IPEndPoint LocalEndPoint {
         get {
-            return this.localEndPoint;
+            return localEndPoint;
         }
     }
 
     public int MaxClients {
         get {
-            return this.maxClients;
+            return maxClients;
         }
     }
 
     public int ClientCount {
         get {
-            return this.clientHandlerThreads.Count;
+            return ClientHandlerThreads.Count;
         }
     }
 
@@ -83,27 +80,37 @@ public class AltSocketServer {
                              string separatorString = "\n",
                              Encoding encoding = null) {
         this.portNumber = portNumber;
-        this.clientSocketHandlerDelegate = clientSocketHandlerDelegate;
-        this.separatorString = separatorString;
-        this.encoding = (encoding != null) ? encoding : Encoding.UTF8;
-        this.clientHandlerThreads = ArrayList.Synchronized(new ArrayList());
+        ClientSocketHandlerDelegate = clientSocketHandlerDelegate;
+        SeparatorString = separatorString;
+        Encoding = encoding ?? Encoding.UTF8;
+        ClientHandlerThreads = ArrayList.Synchronized(new ArrayList());
         this.maxClients = maxClients;
 
-
         IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-        this.localEndPoint = new IPEndPoint(ipAddress, this.portNumber);
-        this.listener = new AltTcpListener(this.localEndPoint.Address, this.portNumber);
+        localEndPoint = new IPEndPoint(ipAddress, this.portNumber);
+        Listener = new AltTcpListener(localEndPoint.Address, this.portNumber);
+
+
         Debug.Log("Created TCP listener.");
     }
 
-    public void StartListeningForConnections() {
+    public void StartListeningForConnections()
+    {
+        foreach (AltSocketClientThreadHolder holder in ClientHandlerThreads)
+        {
+            Debug.Log("calling stop on thread " + holder.Thread.ManagedThreadId);
+            holder.Handler.Cleanup();
+            Debug.Log("Calling thread abort on thread: " + holder.Thread.ManagedThreadId);
+        }
+
+        ClientHandlerThreads = ArrayList.Synchronized(new ArrayList()); 
         Debug.Log("Began listening for TCP clients.");
-        this.listener.Start();
-        this.ListenForConnection();
+        Listener.Start();
+        ListenForConnection();
     }
 
     protected void ListenForConnection() {
-        this.listener.BeginAcceptTcpClient(new AsyncCallback(this.AcceptCallback), this.listener);
+        Listener.BeginAcceptTcpClient(AcceptCallback, Listener);
     }
 
     // NOT on main thread
@@ -118,42 +125,43 @@ public class AltSocketServer {
 
         AltClientSocketHandler clientHandler =
             new AltClientSocketHandler(client,
-                                        this.clientSocketHandlerDelegate,
-                                        this.separatorString,
-                                        this.encoding);
+                                        ClientSocketHandlerDelegate,
+                                        SeparatorString,
+                                        Encoding);
 
-        Thread clientThread = new Thread(new ThreadStart(clientHandler.Run));
-        this.clientHandlerThreads.Add(new AltSocketClientThreadHolder(clientThread, clientHandler));
+        Thread clientThread = new Thread(clientHandler.Run);
+        ClientHandlerThreads.Add(new AltSocketClientThreadHolder(clientThread, clientHandler));
         clientThread.Start();
         Debug.Log("Client thread started");
 
-        if (this.ClientCount < this.maxClients) {
+        if (ClientCount < maxClients) {
             Debug.Log("client handler threads less than max clients. Listening again");
-            this.ListenForConnection();
+            ListenForConnection();
         } else {
-            Debug.Log(String.Format("Max number of clients reached ({0}), stopping listening", this.maxClients));
-            this.StopListeningForConnections();
+            Debug.Log(String.Format("Max number of clients reached ({0}), stopping listening", maxClients));
+            StopListeningForConnections();
         }
     }
 
     public void StopListeningForConnections() {
-        this.listener.Stop();
+        Listener.Stop();
         Debug.Log("Stopped listening for connections");
     }
 
     public void Cleanup() {
         StopListeningForConnections();
-        foreach (AltSocketClientThreadHolder holder in this.clientHandlerThreads) {
+        foreach (AltSocketClientThreadHolder holder in ClientHandlerThreads) {
             Debug.Log("calling stop on thread " + holder.Thread.ManagedThreadId);
             holder.Handler.Cleanup();
             Debug.Log("Calling thread abort on thread: " + holder.Thread.ManagedThreadId);
+            holder.Handler.ToBeKilled = true;
             holder.Thread.Abort();
         }
-        this.clientHandlerThreads = null;
+        ClientHandlerThreads = null;
 	}
 
     public bool IsStarted() {
-        return listener != null && listener.Active;
+        return Listener != null && Listener.Active;
     }
 }
 

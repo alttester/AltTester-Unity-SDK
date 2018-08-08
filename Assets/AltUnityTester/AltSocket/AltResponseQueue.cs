@@ -1,25 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public delegate void SendResponse();
 
 public class AltResponseQueue {
 
-    private Queue<SendResponse> ResponseQueue = new Queue<SendResponse>();
-    private object _queueLock = new object();
+    private Queue<SendResponse> _responseQueue = new Queue<SendResponse>();
+    private readonly object _queueLock = new object();
 
     public void Cycle() {
         lock (_queueLock) {
-            if (ResponseQueue.Count > 0)
-                ResponseQueue.Dequeue()();
+            if (_responseQueue.Count > 0)
+                _responseQueue.Dequeue()();
         }
     }
 
     public void ScheduleResponse(SendResponse newResponse) {
         lock (_queueLock) {
-            if (ResponseQueue.Count < 100)
-                ResponseQueue.Enqueue(newResponse);
+            if (_responseQueue.Count < 100)
+                _responseQueue.Enqueue(newResponse);
         }
     }
 }
