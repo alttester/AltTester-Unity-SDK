@@ -1172,7 +1172,11 @@ public class AltUnityTesterEditor : EditorWindow
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         EditorSceneManager.SaveOpenScenes();
 
+        try {
         EditorSceneManager.OpenScene(PreviousScenePath);
+        } catch {
+            Debug.Log("No scene was loaded yet.");
+        }
     }
 
     private static string GetFirstSceneWhichWillBeBuilt()
