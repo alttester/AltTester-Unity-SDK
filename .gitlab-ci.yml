@@ -9,7 +9,7 @@ build-apk:
     tags:
       - unity
     script:
-       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidDefault -logFile buildAndroid.log
+       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidDefault -logFile buildAndroid.log -quit 
        - ls 
     artifacts:
       when: always
