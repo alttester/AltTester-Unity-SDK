@@ -1020,6 +1020,7 @@ public class AltUnityTesterEditor : EditorWindow
         foreach (var sceneGuid in scenesToBeAddedGuid)
         {
             var scenePath = AssetDatabase.GUIDToAssetPath(sceneGuid);
+            Debug.Log("===>> Scene name to be added: " + scenePath);
             _editorConfiguration.Scenes.Add(new MyScenes(false, scenePath, 0));
 
         }
