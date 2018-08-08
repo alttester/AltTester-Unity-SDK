@@ -34,7 +34,7 @@ run-python-tests:
         - pip uninstall --yes altunityrunner || true
         - pip install -e Assets/AltUnityTester/Bindings/python
         - sleep 30
-        - python Assets/AltUnityTester/Bindings/python/python_bindings_tests.py
+        - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
 
 run-appium-tests:
     stage: ui-tests
