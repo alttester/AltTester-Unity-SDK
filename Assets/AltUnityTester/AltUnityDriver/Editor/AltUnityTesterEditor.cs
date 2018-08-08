@@ -795,7 +795,7 @@ public class AltUnityTesterEditor : EditorWindow
 
     }
 
-    private void SelectAllScenes()
+    private static void SelectAllScenes()
     {
         foreach (var scene in _editorConfiguration.Scenes)
         {
@@ -1135,14 +1135,20 @@ public class AltUnityTesterEditor : EditorWindow
 
     private static string[] GetSceneForBuild()
     {
+        if (_editorConfiguration.Scenes.Count == 0) {
+            AddAllScenes();
+            SelectAllScenes();
+        }
         List<String> sceneList = new List<string>();
         foreach (var scene in _editorConfiguration.Scenes)
         {
+            Debug.Log("Scene: " + scene.Path);
             if (scene.ToBeBuilt)
             {
                 sceneList.Add(scene.Path);
             }
         }
+
 
         InsertAltUnityInTheFirstScene();
 
