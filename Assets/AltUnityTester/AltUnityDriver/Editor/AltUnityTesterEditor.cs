@@ -37,6 +37,7 @@ public class AltUnityTesterEditor : EditorWindow
     public static TestSuite _testSuite;
 
     public TestRunDelegate CallRunDelegate = new TestRunDelegate(ShowProgresBar);
+    // public TestRunDelegate CallRunDelegateCommandline = new TestRunDelegate();
 
     private static Texture2D passIcon;
     private static Texture2D failIcon;
@@ -1343,7 +1344,7 @@ private static void KillIProxy(int id){
        RemoveForwardAndroid();
        ForwardAndroid();
 
-       ITestListener listener = new TestProgressReporter(null);
+       ITestListener listener = new TestRunListener(null);
        var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
 
        testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
@@ -1354,7 +1355,7 @@ private static void KillIProxy(int id){
        RemoveForwardAndroid();
        if (result.FailCount > 0)
        {
-           throw new Exception("Not All test Passed");
+           EditorApplication.Exit(1);
        }
    }
 

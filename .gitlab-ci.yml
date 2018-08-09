@@ -30,7 +30,6 @@ run-csharp-android-tests:
       expire_in: 10 days
       paths:
         - csharpAndroidTests.log
-        - sampleGame.apk
 
 
 run-python-android-tests:
