@@ -23,7 +23,7 @@ run-csharp-android-tests:
     tags:
         - unity
     script:
-       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAndroidTests -logFile csharpAndroidTests.log -quit 
+       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
        - ls 
     artifacts:
       when: always
