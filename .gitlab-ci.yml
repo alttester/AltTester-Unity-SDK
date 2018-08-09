@@ -1,7 +1,7 @@
 stages:
   - build
-  - unit-tests
-  - ui-tests
+  - android-tests
+  - appium-tests
   - deploy
   
 build-apk:
@@ -18,8 +18,26 @@ build-apk:
         - buildAndroid.log
         - sampleGame.apk
 
+run-csharp-android-tests:
+    stage: android-tests
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - adb forward --remove-all
+        - adb forward tcp:13000 tcp:13000
+        - virtualenv altunitytests
+        - source altunitytests/bin/activate
+        - pip install Appium-Python-Client
+        - pip uninstall --yes altunityrunner || true
+        - pip install -e Assets/AltUnityTester/Bindings/python
+        - sleep 30
+        - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
+
 run-python-tests:
-    stage: unit-tests
+    stage: android-tests
     tags:
         - unity
     script:
@@ -37,7 +55,7 @@ run-python-tests:
         - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
 
 run-appium-tests:
-    stage: ui-tests
+    stage: appium-tests
     tags:
         - unity
     script:
