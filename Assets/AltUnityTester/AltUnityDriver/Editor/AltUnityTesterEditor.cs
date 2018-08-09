@@ -37,6 +37,7 @@ public class AltUnityTesterEditor : EditorWindow
     public static TestSuite _testSuite;
 
     public TestRunDelegate CallRunDelegate = new TestRunDelegate(ShowProgresBar);
+    // public TestRunDelegate CallRunDelegateCommandline = new TestRunDelegate();
 
     private static Texture2D passIcon;
     private static Texture2D failIcon;
@@ -45,8 +46,8 @@ public class AltUnityTesterEditor : EditorWindow
     private static Color greenColor = new Color(0.0f, 0.5f, 0.2f, 1f);
     private static Color redColor = new Color(0.7f, 0.15f, 0.15f, 1f);
     private static Color selectedTestColor = new Color(1f, 1f, 1f, 1f);
-    private int idIproxyProcess;
-    private bool iProxyOn = false;
+    private static int idIproxyProcess;
+    private static bool iProxyOn = false;
 
     public static string PreviousScenePath;
     public static Scene SceneWithAltUnityRunner;
@@ -56,7 +57,7 @@ public class AltUnityTesterEditor : EditorWindow
     public static bool runnedInEditor = false;
     public static Scene copyScene;
 
-    private Thread thread;
+    private static Thread thread;
 
     //This are for progressBar when are runned
     private static float progress;
@@ -1249,7 +1250,7 @@ public class AltUnityTesterEditor : EditorWindow
         return result;
     }
 #if UNITY_EDITOR_OSX
-    private void ThreadForwardIos(){
+    private static void ThreadForwardIos(){
             
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -1266,7 +1267,7 @@ public class AltUnityTesterEditor : EditorWindow
             iProxyOn = true;
             process.WaitForExit();
 }
-private void KillIProxy(int id){
+private static void KillIProxy(int id){
 
 
         var chosenOne = Process.GetProcessesByName("iproxy");
@@ -1275,7 +1276,7 @@ private void KillIProxy(int id){
 }
 #endif
 
-    private void ForwardAndroid()
+    private static void ForwardAndroid()
     {
         string adbFileName;
 #if UNITY_EDITOR_WIN
@@ -1298,7 +1299,7 @@ private void KillIProxy(int id){
         process.WaitForExit();
 
     }
-    private void RemoveForwardAndroid()
+    private static void RemoveForwardAndroid()
     {
         string adbFileName;
 #if UNITY_EDITOR_WIN
@@ -1366,5 +1367,85 @@ private void KillIProxy(int id){
 
     }
 
+    static void RunAllTestsAndroid()
+   {
 
+       Debug.Log("Started running test");
+       Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
+           .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+       var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+
+       OrFilter filter=new OrFilter();
+       foreach (var test in testSuite2.Tests)
+           foreach (var t in test.Tests)
+           {
+               Debug.Log(t.FullName);
+               filter.Add(new FullNameFilter(t.FullName));
+           }
+
+
+       RemoveForwardAndroid();
+       ForwardAndroid();
+
+       ITestListener listener = new TestRunListener(null);
+       var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
+
+       testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
+
+
+       var result = testAssemblyRunner.Run(listener, filter);
+
+       RemoveForwardAndroid();
+       if (result.FailCount > 0)
+       {
+           EditorApplication.Exit(1);
+       }
+   }
+
+   #if UNITY_EDITOR_OSX
+   static void RunAllTestsIOS()
+   {
+       Debug.Log("Started running test");
+       Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
+           .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+       var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+
+       OrFilter filter = new OrFilter();
+       foreach (var test in testSuite2.Tests)
+       foreach (var t in test.Tests)
+       {
+           Debug.Log(t.FullName);
+           filter.Add(new FullNameFilter(t.FullName));
+       }
+
+       thread = new Thread(ThreadForwardIos);
+       thread.Start();
+       while (!iProxyOn)
+       {
+           Thread.Sleep(250);
+       }
+
+
+
+       ITestListener listener = new TestProgressReporter(null);
+       var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
+
+       testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
+
+
+       var result = testAssemblyRunner.Run(listener, filter);
+
+
+       KillIProxy(idIproxyProcess);
+       thread.Join();
+
+
+       if (result.FailCount > 0)
+       {
+           throw new Exception("Not All test Passed");
+       }
+
+   }
+#endif
+    
 }
