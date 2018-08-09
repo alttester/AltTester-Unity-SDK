@@ -266,8 +266,36 @@ class PythonTests(unittest.TestCase):
         self.altdriver.set_player_pref_key('test', 'string value', PlayerPrefKeyType.String)
         value = self.altdriver.get_player_pref_key('test', PlayerPrefKeyType.String)
         self.assertEqual(value, 'string value')
+ 
+    def test_wait_for_non_existing_object(self):
+        try:
+            alt_element = self.altdriver.wait_for_element("dlkasldkas",1,0.5)
+            self.assertEqual(False,True)
+        except Exception as e:
+            self.assertEqual(e.args[0],"Element dlkasldkas not found after 1 seconds")
+    
+    def test_wait_forobject_to_not_exist_fail(self):
+            try:
+                alt_element = self.altdriver.wait_for_element_to_not_be_present("Capsule",1,0.5)
+                self.assertEqual(False,True)
+            except Exception as e:
+                self.assertEqual(e.args[0],'Element Capsule still found after 1 seconds')
+    
+    def test_wait_for_object_with_text_wrong_text(self):
+            try:
+                alt_element = self.altdriver.wait_for_element_with_text("CapsuleInfo","aaaaa",1,0.5)
+                self.assertEqual(False,True)
+            except Exception as e:
+                self.assertEqual(e.args[0],'Element CapsuleInfo should have text `aaaaa` but has `Capsule Info` after 1 seconds')
+    
+    def test_wait_for_current_scene_to_be_a_non_existing_scene(self):
+            try:
+                alt_element = self.altdriver.wait_for_current_scene_to_be("AltUnityDriverTestScenee",1,0.5)
+                self.assertEqual(False,True)
+            except Exception as e:
+                self.assertEqual(e.args[0],'Scene AltUnityDriverTestScenee not loaded after 1 seconds')
 
-
+    
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
     result = unittest.TextTestRunner(verbosity=2).run(suite)

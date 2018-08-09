@@ -56,7 +56,7 @@ public class DragUi
     [Test]
     public void ClosePanel()
     {
-        altUnityDriver.WaitForElement("Panel Drag Area", 2);
+        altUnityDriver.WaitForElement("Panel Drag Area", timeout:2);
         Assert.IsTrue(altUnityDriver.FindElement("Panel").enabled);
         var altElement = altUnityDriver.FindElement("Close Button");
         altElement.ClickEvent();
