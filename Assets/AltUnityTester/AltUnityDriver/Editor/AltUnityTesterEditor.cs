@@ -358,8 +358,6 @@ public class AltUnityTesterEditor : EditorWindow {
     private void OnFocus() {
         if (_editorConfiguration == null) {
             InitEditorConfiguration();
-
-            EditorUtility.SetDirty(_editorConfiguration);
         }
 
         if (failIcon == null) {
@@ -384,6 +382,8 @@ public class AltUnityTesterEditor : EditorWindow {
             _editorConfiguration = AssetDatabase.LoadAssetAtPath<EditorConfiguration>(
                 AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("idProject")[0]));
         }
+        EditorUtility.SetDirty(_editorConfiguration);
+
     }
 
 
