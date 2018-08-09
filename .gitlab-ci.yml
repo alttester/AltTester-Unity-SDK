@@ -33,7 +33,7 @@ run-csharp-android-tests:
         - sampleGame.apk
 
 
-run-python-tests:
+run-python-android-tests:
     stage: android-tests
     tags:
         - unity
@@ -51,26 +51,26 @@ run-python-tests:
         - sleep 30
         - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
 
-run-appium-tests:
-    stage: appium-tests
-    tags:
-        - unity
-    script:
-        - virtualenv altunitytests
-        - source altunitytests/bin/activate
-        - killall node || true
-        - appium >> appium.log & 
-        - pip install Appium-Python-Client
-        - pip uninstall --yes altunityrunner || true
-        - pip install -e Assets/AltUnityTester/Bindings/python
-        - sleep 30
-        - python Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/sampletest.py
-        - killall node || true
-    artifacts:
-        when: always
-        expire_in: 10 days
-        paths:
-            - appium.log
+# run-appium-tests:
+#     stage: appium-tests
+#     tags:
+#         - unity
+#     script:
+#         - virtualenv altunitytests
+#         - source altunitytests/bin/activate
+#         - killall node || true
+#         - appium >> appium.log & 
+#         - pip install Appium-Python-Client
+#         - pip uninstall --yes altunityrunner || true
+#         - pip install -e Assets/AltUnityTester/Bindings/python
+#         - sleep 30
+#         - python Assets/ExamplesAndTests\ \(can\ be\ deleted\)/sampletest.py
+#         - killall node || true
+#     artifacts:
+#         when: always
+#         expire_in: 10 days
+#         paths:
+#             - appium.log
 
 deploy-altunitytester-python:
     stage: deploy
