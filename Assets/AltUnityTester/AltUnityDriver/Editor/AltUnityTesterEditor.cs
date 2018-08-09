@@ -1112,8 +1112,8 @@ public class AltUnityTesterEditor : EditorWindow
 
     static void AndroidDefault()
     {
-        Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         InitAndroid();
+        Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
         buildPlayerOptions.scenes = GetSceneForBuild();
