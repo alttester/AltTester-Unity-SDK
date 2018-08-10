@@ -1206,7 +1206,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         }
         else
-            Debug.LogError("Build Error! "  + results.summary);
+            Debug.LogError("Build Error! "  + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
         RemoveAltUnityTesterFromScriptingDefineSymbols();
