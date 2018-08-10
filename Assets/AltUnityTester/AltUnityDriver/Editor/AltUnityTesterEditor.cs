@@ -1206,7 +1206,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         }
         else
-            Debug.LogError("Build Error!");
+            Debug.LogError("Build Error! "  + results.summary);
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
         RemoveAltUnityTesterFromScriptingDefineSymbols();
@@ -1404,7 +1404,7 @@ public class AltUnityTesterEditor : EditorWindow
 
     static void RunAllTestsAndroid()
     {
-
+        InitEditorConfiguration();
         Debug.Log("Started running test");
         Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
@@ -1440,6 +1440,7 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_OSX
     static void RunAllTestsIOS()
     {
+        InitEditorConfiguration();
         Debug.Log("Started running test");
         Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
