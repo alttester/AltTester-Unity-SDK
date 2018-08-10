@@ -24,25 +24,25 @@ public class GameWithCarTiltImport  {
         altUnityDriver.LoadScene("Scene 5 GameWithCarTiltControls");
     }
     //ForCarTiltControls
-    [Test]
-    public void Swipe()
-    {
+    // [Test]
+    // public void Swipe()
+    // {
 
-        AltUnityObject camera = altUnityDriver.FindElement("Main Camera");
-        string rotation = camera.GetComponentProperty("UnityEngine.Transform", "rotation");
+    //     AltUnityObject camera = altUnityDriver.FindElement("Main Camera");
+    //     string rotation = camera.GetComponentProperty("UnityEngine.Transform", "rotation");
 
-        AltUnityObject altUnityObject = altUnityDriver.FindElement("LookUpAndDownTouchpad");
+    //     AltUnityObject altUnityObject = altUnityDriver.FindElement("LookUpAndDownTouchpad");
 
-        Vector2 start = new Vector2(altUnityObject.x, altUnityObject.mobileY);
-        Vector2 end = new Vector2(altUnityObject.x+100, altUnityObject.mobileY);
-        altUnityDriver.Swipe(start, end, 2);
+    //     Vector2 start = new Vector2(altUnityObject.x, altUnityObject.mobileY);
+    //     Vector2 end = new Vector2(altUnityObject.x+100, altUnityObject.mobileY);
+    //     altUnityDriver.Swipe(start, end, 2);
         
-        camera = altUnityDriver.FindElement("Main Camera");
-        Thread.Sleep(1000);
-        string rotationAfter = camera.GetComponentProperty( "UnityEngine.Transform", "rotation");
+    //     camera = altUnityDriver.FindElement("Main Camera");
+    //     Thread.Sleep(1000);
+    //     string rotationAfter = camera.GetComponentProperty( "UnityEngine.Transform", "rotation");
 
-        Assert.AreNotEqual(rotation, rotationAfter);
-    }
+    //     Assert.AreNotEqual(rotation, rotationAfter);
+    // }
     [Test]
     public void Tilt()
     {
