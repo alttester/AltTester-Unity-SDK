@@ -1150,6 +1150,7 @@ public class AltUnityTesterEditor : EditorWindow
 
     private static void IosDefault()
     {
+        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
         Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         InitIos();
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -1192,9 +1193,10 @@ public class AltUnityTesterEditor : EditorWindow
         AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
     }
 
-
+    [MenuItem("AltUnityTester/AndroidBuild")]
     static void AndroidDefault()
     {
+        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
         InitEditorConfiguration();
         InitAndroid();
         Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
