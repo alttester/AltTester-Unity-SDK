@@ -35,13 +35,13 @@ class PerformBuild
         Init();
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.locationPathName = outputFilenameAndroidDefault;
-        buildPlayerOptions.scenes = new[] {"Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 1 AltUnityDriverTestScene",
-                                            "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 2 Draggable Panel",
-                                            "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 3 Drag And Drop",
-                                            "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 4 GameWithMobileSingleStickControls",
-                                            "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 5 GameWithCarTiltControls"};
+        buildPlayerOptions.scenes = new[] {"Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+                                            "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 2 Draggable Panel.unity",
+                                            "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 3 Drag And Drop.unity",
+                                            "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 4 GameWithMobileSingleStickControls.unity",
+                                            "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 5 GameWithCarTiltControls.unity"};
         buildPlayerOptions.target = BuildTarget.Android;
-        buildPlayerOptions.options = BuildOptions.Development;
+        buildPlayerOptions.options = BuildOptions.Development|BuildOptions.AutoRunPlayer;
 		PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "INPUT;MOBILE_INPUTUT;MOBILE_INPUT;ALTUNITYTESTER");
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
         if (results.summary.totalErrors == 0)
