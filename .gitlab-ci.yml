@@ -10,7 +10,8 @@ build-apk:
       - unity
     script:
     #    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod PerformBuild.AndroidDefault -logFile buildAndroid.log 
-       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidDefault -logFile buildAndroid.log 
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfigurationAndroid.log 
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidDefault -logFile buildAndroid.log 
        - ls 
     artifacts:
       when: always
