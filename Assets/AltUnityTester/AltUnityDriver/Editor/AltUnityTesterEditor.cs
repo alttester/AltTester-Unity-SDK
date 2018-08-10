@@ -54,6 +54,7 @@ public class AltUnityTesterEditor : EditorWindow
     public static string SceneWithAltUnityRunnerPath;
     public static Object AltUnityRunner;
     public static bool built = false;
+    public static bool runnedInEditor = false;
     public static Scene copyScene;
 
     private static Thread thread;
@@ -405,6 +406,7 @@ public class AltUnityTesterEditor : EditorWindow
         //Show existing window instance. If one doesn't exist, make one.
         _window = (AltUnityTesterEditor)GetWindow(typeof(AltUnityTesterEditor));
         _window.Show();
+
     }
 
 
@@ -419,11 +421,14 @@ public class AltUnityTesterEditor : EditorWindow
         {
             var findIcon = AssetDatabase.FindAssets("16px-indicator-fail");
             failIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
+            Debug.Log(failIcon);
         }
         if (passIcon == null)
         {
             var findIcon = AssetDatabase.FindAssets("16px-indicator-pass");
             passIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
+            Debug.Log(passIcon);
+
         }
         SetUpListTest();
 
@@ -455,6 +460,17 @@ public class AltUnityTesterEditor : EditorWindow
 
     private void OnGUI()
     {
+
+        if (Application.isPlaying && !runnedInEditor)
+        {
+            runnedInEditor = true;
+        }
+
+        if (!Application.isPlaying && runnedInEditor)
+        {
+            AfterExitPlayMode();
+
+        }
 
         var screenWidth = EditorGUIUtility.currentViewWidth;
 
@@ -543,6 +559,12 @@ public class AltUnityTesterEditor : EditorWindow
         GUILayout.Button("Build&Run IOS");
         EditorGUI.EndDisabledGroup();
 #endif
+        EditorGUILayout.LabelField("Play", EditorStyles.boldLabel);
+        if (GUILayout.Button("Run in Editor"))
+        {
+            RunInEditor();
+
+        }
 
         EditorGUILayout.LabelField("", GUILayout.ExpandHeight(true));
         //Status test
@@ -587,6 +609,52 @@ public class AltUnityTesterEditor : EditorWindow
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
 
+    }
+
+    private void AfterExitPlayMode()
+    {
+        var activeScene = EditorSceneManager.GetActiveScene();
+        var altUnityRunner = activeScene.GetRootGameObjects()
+            .FirstOrDefault(gameObject => gameObject.name.Equals("AltUnityRunnerWithInputScript"));
+        if (altUnityRunner != null)
+        {
+            DestroyImmediate(altUnityRunner);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveOpenScenes();
+        }
+
+        RemoveAltUnityTesterFromScriptingDefineSymbols(EditorUserBuildSettings.selectedBuildTargetGroup);
+
+        runnedInEditor = false;
+    }
+
+    private static void RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup targetGroup)
+    {
+        var scriptingDefineSymbolsForGroup =
+            PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+        var inde = scriptingDefineSymbolsForGroup.IndexOf(";ALTUNITYTESTER");
+        if (inde > 0)
+        {
+            scriptingDefineSymbolsForGroup = scriptingDefineSymbolsForGroup.Remove(inde);
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
+                scriptingDefineSymbolsForGroup);
+        }
+    }
+
+    private void RunInEditor()
+    {
+        InsertAltUnityInTheFirstScene();
+        AddAltUnityTesterInScritpingDefineSymbolsGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+
+        EditorApplication.isPlaying = true;
+
+    }
+
+    private static void AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup targetGroup)
+    {
+        var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+        scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
     }
 
     //private void TestDEvice()
@@ -1027,7 +1095,6 @@ public class AltUnityTesterEditor : EditorWindow
         foreach (var sceneGuid in scenesToBeAddedGuid)
         {
             var scenePath = AssetDatabase.GUIDToAssetPath(sceneGuid);
-            Debug.Log("===>> Scene name to be added: " + scenePath);
             _editorConfiguration.Scenes.Add(new MyScenes(false, scenePath, 0));
 
         }
@@ -1071,6 +1138,7 @@ public class AltUnityTesterEditor : EditorWindow
         PlayerSettings.companyName = _editorConfiguration.CompanyName;
         PlayerSettings.iOS.appleEnableAutomaticSigning = _editorConfiguration.AutomaticallySign;
         PlayerSettings.iOS.appleDeveloperTeamID = _editorConfiguration.SigningTeamId;
+        AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
     }
 
     private static void IosDefault()
@@ -1096,6 +1164,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
+        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.iOS);
 
     }
 #endif
@@ -1113,6 +1182,7 @@ public class AltUnityTesterEditor : EditorWindow
         PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
         PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
         PlayerSettings.companyName = _editorConfiguration.CompanyName;
+        AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
     }
 
 
@@ -1136,10 +1206,10 @@ public class AltUnityTesterEditor : EditorWindow
 
         }
         else
-            Debug.LogError("Build Error!");
+            Debug.LogError("Build Error! "  + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
-
+        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
     }
 
     private static string[] GetSceneForBuild()
@@ -1152,13 +1222,11 @@ public class AltUnityTesterEditor : EditorWindow
         List<String> sceneList = new List<string>();
         foreach (var scene in _editorConfiguration.Scenes)
         {
-            Debug.Log("Scene: " + scene.Path);
             if (scene.ToBeBuilt)
             {
                 sceneList.Add(scene.Path);
             }
         }
-
 
         InsertAltUnityInTheFirstScene();
 
@@ -1336,7 +1404,7 @@ public class AltUnityTesterEditor : EditorWindow
 
     static void RunAllTestsAndroid()
     {
-
+        InitEditorConfiguration();
         Debug.Log("Started running test");
         Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
@@ -1372,6 +1440,7 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_OSX
     static void RunAllTestsIOS()
     {
+        InitEditorConfiguration();
         Debug.Log("Started running test");
         Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
@@ -1415,4 +1484,5 @@ public class AltUnityTesterEditor : EditorWindow
     }
 #endif
 
+    
 }
