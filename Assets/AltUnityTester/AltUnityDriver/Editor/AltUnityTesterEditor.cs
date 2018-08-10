@@ -623,26 +623,38 @@ public class AltUnityTesterEditor : EditorWindow
             EditorSceneManager.SaveOpenScenes();
         }
 
-        var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+        RemoveAltUnityTesterFromScriptingDefineSymbols();
+
+        runnedInEditor = false;
+    }
+
+    private static void RemoveAltUnityTesterFromScriptingDefineSymbols()
+    {
+        var scriptingDefineSymbolsForGroup =
+            PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
         var inde = scriptingDefineSymbolsForGroup.IndexOf(";ALTUNITYTESTER");
         if (inde > 0)
         {
             scriptingDefineSymbolsForGroup = scriptingDefineSymbolsForGroup.Remove(inde);
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup);
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup,
+                scriptingDefineSymbolsForGroup);
         }
-
-        runnedInEditor = false;
     }
 
     private void RunInEditor()
     {
         InsertAltUnityInTheFirstScene();
-        var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-        scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup);
+        AddAltUnityTesterInScritpingDefineSymbolsGroup();
 
         EditorApplication.isPlaying = true;
 
+    }
+
+    private static void AddAltUnityTesterInScritpingDefineSymbolsGroup()
+    {
+        var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+        scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup);
     }
 
     //private void TestDEvice()
@@ -1126,6 +1138,7 @@ public class AltUnityTesterEditor : EditorWindow
         PlayerSettings.companyName = _editorConfiguration.CompanyName;
         PlayerSettings.iOS.appleEnableAutomaticSigning = _editorConfiguration.AutomaticallySign;
         PlayerSettings.iOS.appleDeveloperTeamID = _editorConfiguration.SigningTeamId;
+        AddAltUnityTesterInScritpingDefineSymbolsGroup();
     }
 
     private static void IosDefault()
@@ -1151,6 +1164,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
+        RemoveAltUnityTesterFromScriptingDefineSymbols();
 
     }
 #endif
@@ -1168,6 +1182,7 @@ public class AltUnityTesterEditor : EditorWindow
         PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
         PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
         PlayerSettings.companyName = _editorConfiguration.CompanyName;
+        AddAltUnityTesterInScritpingDefineSymbolsGroup();
     }
 
 
@@ -1194,7 +1209,7 @@ public class AltUnityTesterEditor : EditorWindow
             Debug.LogError("Build Error!");
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
-
+        RemoveAltUnityTesterFromScriptingDefineSymbols();
     }
 
     private static string[] GetSceneForBuild()
