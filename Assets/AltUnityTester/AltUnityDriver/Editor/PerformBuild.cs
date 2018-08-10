@@ -42,7 +42,7 @@ class PerformBuild
                                             "Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 5 GameWithCarTiltControls.unity"};
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.Development|BuildOptions.AutoRunPlayer;
-		PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "INPUT;MOBILE_INPUTUT;MOBILE_INPUT;ALTUNITYTESTER");
+		PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "INPUT;MOBILE_INPUT;ALTUNITYTESTER");
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
         if (results.summary.totalErrors == 0)
             Debug.Log("No Build Errors");
