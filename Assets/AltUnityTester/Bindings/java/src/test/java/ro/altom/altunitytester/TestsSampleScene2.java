@@ -1,30 +1,31 @@
 package ro.altom.altunitytester;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.google.gson.Gson;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.*;
+
 
 public class TestsSampleScene2 {
 
     private static AltUnityDriver altUnityDriver;
 
-    @BeforeAll
+    @BeforeClass
     public static void setUp() throws IOException {
         altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
     }
 
-    @AfterAll
+    @AfterClass
     public static void tearDown() throws Exception {
         altUnityDriver.stop();
     }
 
-    @BeforeEach
+    @Before
     public void loadLevel() throws Exception {
         altUnityDriver.loadScene("Scene 2 Draggable Panel");
     }
@@ -36,8 +37,8 @@ public class TestsSampleScene2 {
         altUnityDriver.swipe(altElement.x, altElement.y, altElement.x + 200, altElement.y + 200, 2);
         Thread.sleep(2000);
         AltUnityObject altElementAfterResize = altUnityDriver.findElement("Resize Zone");
-        assertNotEquals(altElement.x, altElementAfterResize.x);
-        assertNotEquals(altElement.y, altElementAfterResize.y);
+        assertNotSame(altElement.x, altElementAfterResize.x);
+        assertNotSame(altElement.y, altElementAfterResize.y);
     }
 
     @Test
@@ -47,8 +48,8 @@ public class TestsSampleScene2 {
         altUnityDriver.swipe(altElement.x, altElement.y, altElement.x + 200, altElement.y + 200, 2);
         Thread.sleep(2000);
         AltUnityObject altElementAfterMove = altUnityDriver.findElement("Drag Zone");
-        assertNotEquals(altElement.x, altElementAfterMove.x);
-        assertNotEquals(altElement.y, altElementAfterMove.y);
+        assertNotSame(altElement.x, altElementAfterMove.x);
+        assertNotSame(altElement.y, altElementAfterMove.y);
     }
 
     @Test

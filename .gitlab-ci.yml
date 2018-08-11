@@ -30,14 +30,6 @@ run-csharp-android-tests:
         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
 
 
-
-#     artifacts:
-#       when: always
-#       expire_in: 10 days
-#       paths:
-#         - csharpAndroidTests.log
-
-
 run-python-android-tests:
     stage: android-tests
     tags:
@@ -56,6 +48,21 @@ run-python-android-tests:
         - sleep 30
         - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
 
+
+run-java-android-tests:
+    stage: android-tests
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - adb forward --remove-all
+        - adb forward tcp:13000 tcp:13000
+        - cd Assets/AltUnityTester/Bindings/java
+        - mvn test
+        
+        
 # # run-appium-tests:
 #     stage: appium-tests
 #     tags:

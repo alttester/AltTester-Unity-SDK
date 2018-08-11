@@ -1,30 +1,30 @@
 package ro.altom.altunitytester;
 
 import com.google.gson.Gson;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class TestsSampleScene1 {
 
     private static AltUnityDriver altUnityDriver;
 
-    @BeforeAll
+    @BeforeClass
     public static void setUp() throws IOException {
         altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
     }
 
-    @AfterAll
+    @AfterClass
     public static void tearDown() throws Exception {
         altUnityDriver.stop();
     }
 
-    @BeforeEach
+    @Before
     public void loadLevel() throws Exception {
         altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
     }
@@ -365,8 +365,8 @@ public class TestsSampleScene1 {
         altButton.clickEvent();
         AltUnityObject altElement = altUnityDriver.findElement("Capsule", "Main Camera");
         AltUnityObject altElement2 = altUnityDriver.findElement("Capsule", "Camera");
-        assertNotEquals(altElement.x, altElement2.x);
-        assertNotEquals(altElement.y, altElement2.y);
+        assertNotSame(altElement.x, altElement2.x);
+        assertNotSame(altElement.y, altElement2.y);
     }
 
     @Test
