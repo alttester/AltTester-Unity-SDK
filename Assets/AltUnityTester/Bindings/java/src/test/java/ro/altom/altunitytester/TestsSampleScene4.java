@@ -1,29 +1,28 @@
 package ro.altom.altunitytester;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.google.gson.Gson;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+import static org.junit.Assert.*;
 public class TestsSampleScene4 {
     private static AltUnityDriver altUnityDriver;
 
-    @BeforeAll
+    @BeforeClass
     public static void setUp() throws IOException {
         altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
     }
 
-    @AfterAll
+    @AfterClass
     public static void tearDown() throws Exception {
         altUnityDriver.stop();
     }
 
-    @BeforeEach
+    @Before
     public void loadLevel() throws Exception {
         altUnityDriver.loadScene("Scene 4 GameWithMobileSingleStickControls");
     }
@@ -36,13 +35,13 @@ public class TestsSampleScene4 {
         altUnityDriver.findElement("JumpButton").pointerDown();
         cube = altUnityDriver.findElement("Cube");
         String localScaleClick = cube.getComponentProperty( "UnityEngine.Transform", "localScale");
-        assertNotEquals(localScale, localScaleClick);
+        assertNotSame(localScale, localScaleClick);
         altUnityDriver.findElement("JumpButton").pointerUp();
         cube = altUnityDriver.findElement("Cube");
         String localScaleRelease = cube.getComponentProperty( "UnityEngine.Transform", "localScale");
 
 
-        assertNotEquals(localScaleRelease, localScaleClick);
+        assertNotSame(localScaleRelease, localScaleClick);
         assertEquals(localScale, localScaleRelease);
     }
 
@@ -67,9 +66,9 @@ public class TestsSampleScene4 {
         altElement = altUnityDriver.findElement("Cube");
         String velocityStringDuringDrag = altElement.getComponentProperty("UnityEngine.Rigidbody2D", "velocity");
 
-        assertNotEquals(velocityStringDuringDrag, velocityStringStart);
-        assertNotEquals(Xjoystick, XjoystickDuringDrag);
-        assertNotEquals(Yjoystick, YjoystickDuringDrag);
+        assertNotSame(velocityStringDuringDrag, velocityStringStart);
+        assertNotSame(Xjoystick, XjoystickDuringDrag);
+        assertNotSame(Yjoystick, YjoystickDuringDrag);
 
         altUnityDriver.findElement("MobileJoystick").pointerUp();
         Thread.sleep(100);
@@ -83,13 +82,13 @@ public class TestsSampleScene4 {
         String velocityStringAfterDrop = altElement.getComponentProperty( "UnityEngine.Rigidbody2D", "velocity");
 
 
-        assertNotEquals(velocityStringDuringDrag, velocityStringAfterDrop);
-        assertNotEquals(XJoystickAfterDrop, XjoystickDuringDrag);
-        assertNotEquals(YJoystickAfterDrop, YjoystickDuringDrag);
+        assertNotSame(velocityStringDuringDrag, velocityStringAfterDrop);
+        assertNotSame(XJoystickAfterDrop, XjoystickDuringDrag);
+        assertNotSame(YJoystickAfterDrop, YjoystickDuringDrag);
 
         assertEquals(velocityStringAfterDrop, velocityStringStart);
-        assertEquals(Xjoystick, XJoystickAfterDrop);
-        assertEquals(Yjoystick, YJoystickAfterDrop);
+        assertEquals(Xjoystick, XJoystickAfterDrop, 0.01);
+        assertEquals(Yjoystick, YJoystickAfterDrop, 0.01);
     }
 
 
