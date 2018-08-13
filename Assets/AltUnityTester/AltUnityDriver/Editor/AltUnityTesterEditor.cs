@@ -1174,7 +1174,37 @@ public class AltUnityTesterEditor : EditorWindow
         RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.iOS);
 
     }
-#endif
+    private static void IosBuildFromCommandLine()
+    {
+        Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        InitIos();
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutputFilenameiOSdDefault();
+        buildPlayerOptions.scenes = GetSceneForBuild();
+
+        buildPlayerOptions.target = BuildTarget.iOS;
+        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+
+        var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+        built = true;
+        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.iOS);
+        if (results.summary.totalErrors == 0)
+        {
+            Debug.Log("No Build Errors");
+
+        }
+        else
+        {
+            Debug.LogError("Build Error!");
+            EditorApplication.Exit(1);
+        }
+
+        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+            EditorApplication.Exit(0);
+
+
+    }
+    #endif
 
 
 
@@ -1204,7 +1234,6 @@ public class AltUnityTesterEditor : EditorWindow
 
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
-        //        EditorApplication.delayCall += DestroyAltUnityRunner;
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
         if (results.summary.totalErrors == 0)
@@ -1217,6 +1246,35 @@ public class AltUnityTesterEditor : EditorWindow
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
         RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
+    }
+    static void AndroidBuildFromCommandLine()
+    {
+        InitEditorConfiguration();
+        InitAndroid();
+        Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
+        buildPlayerOptions.scenes = GetSceneForBuild();
+
+        buildPlayerOptions.target = BuildTarget.Android;
+        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+        var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+        built = true;
+        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
+
+        if (results.summary.totalErrors == 0)
+        {
+            Debug.Log("No Build Errors");
+
+        }
+        else
+        {
+            Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
+            EditorApplication.Exit(1);
+        }
+        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        EditorApplication.Exit(0);
+
     }
 
     private static string[] GetSceneForBuild()
