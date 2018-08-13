@@ -416,7 +416,7 @@ public class TestSample
             var altElemen2 = altUnityDriver.TapScreen(0, 0);
             Assert.Fail();
         }
-        catch (NullReferenceException exception)
+        catch (NullRefferenceException exception)
         {
             Assert.AreEqual(exception.Message, "error:nullRefferenceException");
         }

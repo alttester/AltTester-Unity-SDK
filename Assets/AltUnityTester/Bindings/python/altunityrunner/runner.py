@@ -1,8 +1,11 @@
-import subprocess
 import json
-import time
-import socket
 import re
+import socket
+import subprocess
+import time
+
+from altUnityExceptions import *
+
 BUFFER_SIZE = 1024
 
 class PlayerPrefKeyType(object):
@@ -347,7 +350,8 @@ class AltrunUnityDriver(object):
                 t += interval
             else:
                 break
-        assert current_scene == scene_name, 'Scene ' + scene_name + ' not loaded after ' + str(timeout) + ' seconds'
+        if t>=timeout:
+            raise WaitTimeOutException('Scene ' + scene_name + ' not loaded after ' + str(timeout) + ' seconds')
         return current_scene
 
     def wait_for_element(self, name, timeout=20, interval=0.5):
@@ -361,7 +365,8 @@ class AltrunUnityDriver(object):
                 print('Waiting for element ' + name + '...')
                 time.sleep(interval)
                 t += interval
-        assert alt_element is not None, 'Element ' + name + ' not found after ' + str(timeout) + ' seconds'
+        if t>=timeout:
+            raise WaitTimeOutException('Element ' + name + ' not found after ' + str(timeout) + ' seconds')
         return alt_element
 
 
@@ -376,7 +381,8 @@ class AltrunUnityDriver(object):
                 print('Waiting for element where name contains ' + name + '...')
                 time.sleep(interval)
                 t += interval
-        assert alt_element is not None, 'Element where name contains ' + name + ' not found after ' + str(timeout) + ' seconds'
+        if t>=timeout:
+            raise WaitTimeOutException('Element where name contains ' + name + ' not found after ' + str(timeout) + ' seconds')
         return alt_element
     
     def wait_for_element_to_not_be_present(self, name, timeout=20, interval=0.5):
@@ -389,7 +395,8 @@ class AltrunUnityDriver(object):
                 t += interval
             except Exception:
                 break
-        assert self.find_element(name) is None, 'Element ' + name + ' still found after ' + str(timeout) + ' seconds'
+        if t>=timeout:
+            raise WaitTimeOutException('Element ' + name + ' still found after ' + str(timeout) + ' seconds')
 
     def wait_for_element_with_text(self, name, text, timeout=20, interval=0.5):
         t = 0
@@ -404,7 +411,8 @@ class AltrunUnityDriver(object):
                 print('Waiting for element ' + name + ' to have text ' + text)
                 time.sleep(interval)
                 t += interval
-        assert alt_element.get_text() == text, 'Element ' + name + ' should have text `' + text + '` but has `' + alt_element.get_text() + '` after ' + str(timeout) + ' seconds'
+        if t>=timeout:
+            raise WaitTimeOutException('Element ' + name + ' should have text `' + text + '` but has `' + alt_element.get_text() + '` after ' + str(timeout) + ' seconds')
         return alt_element
 
     def find_element_by_component(self, component_name,camera_name=''):
@@ -425,12 +433,35 @@ class AltrunUnityDriver(object):
 
     def handle_errors(self, data):
         if ('error' in data):
-            if ('error:unknownError' not in data):
-                raise Exception(data)
-            split = data.split(';')
-            raise Exception(split[1])
+            if ('error:notFound' in data):
+                raise  NotFoundException(data)
+            elif ('error:propertyNotFound' in data): 
+                raise  PropertyNotFoundException(data)
+            elif ('error:methodNotFound' in data): 
+                raise  MethodNotFoundException(data)
+            elif ('error:componentNotFound' in data): 
+                raise  ComponentNotFoundException(data)
+            elif ('error:couldNotPerformOperation' in data): 
+                raise  CouldNotPerformOperationException(data)
+            elif ('error:couldNotParseJsonString' in data): 
+                raise  CouldNotParseJsonStringException(data)
+            elif ('error:incorrectNumberOfParameters' in data): 
+                raise  IncorrectNumberOfParametersException(data)
+            elif ('error:failedToParseMethodArguments' in data): 
+                raise  FailedToParseArgumentsException(data)
+            elif ('error:objectNotFound' in data): 
+                raise  ObjectWasNotFoundException(data)
+            elif ('error:propertyCannotBeSet' in data): 
+                raise  PropertyNotFoundException(data)
+            elif ('error:nullRefferenceException' in data): 
+                raise  NullRefferenceException(data)
+            elif ('error:unknownError' in data): 
+                raise  UnknownErrorException(data)
+            elif ('error:formatException' in data): 
+                raise  FormatException(data)
         else:
             return data
+        
 
     def tap_at_coordinates(self,x,y):
         data=self.send_data('tapScreen;'+x+';'+y+';&')

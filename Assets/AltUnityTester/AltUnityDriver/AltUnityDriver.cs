@@ -314,7 +314,7 @@ public class AltUnityDriver
 
         if (sceneName.Equals(currentScene))
             return currentScene;
-        throw new Exception("Scene " + sceneName + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Scene " + sceneName + " not loaded after " + timeout + " seconds");
 
     }
 
@@ -338,7 +338,7 @@ public class AltUnityDriver
         }
         if (altElement != null)
             return altElement;
-        throw new Exception("Element " + name + " still not found after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
 
     }
 
@@ -434,7 +434,7 @@ public class AltUnityDriver
         {
             return altElement;
         }
-        throw new WaitTimeOutException("Element with text:" + text + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject FindElementByComponent(String componentName, String cameraName = "")
