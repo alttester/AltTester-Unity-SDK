@@ -630,14 +630,20 @@ public class AltUnityTesterEditor : EditorWindow
 
     private static void RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup targetGroup)
     {
+        string altunitytesterdefine = "ALTUNITYTESTER";
         var scriptingDefineSymbolsForGroup =
             PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-        var inde = scriptingDefineSymbolsForGroup.IndexOf(";ALTUNITYTESTER");
-        if (inde > 0)
-        {
-            scriptingDefineSymbolsForGroup = scriptingDefineSymbolsForGroup.Remove(inde);
+        string newScriptingDefineSymbolsForGroup = "";
+        if (scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine)) {
+            var split = scriptingDefineSymbolsForGroup.Split(';');
+            foreach (var define in split) {
+                if (define != altunitytesterdefine) {
+                    newScriptingDefineSymbolsForGroup += define + ";";
+                }
+            }
+            newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length-1);
             PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
-                scriptingDefineSymbolsForGroup);
+                newScriptingDefineSymbolsForGroup);
         }
     }
 
@@ -653,7 +659,8 @@ public class AltUnityTesterEditor : EditorWindow
     private static void AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup targetGroup)
     {
         var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-        scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
+        if (!scriptingDefineSymbolsForGroup.Contains("ALTUNITYTESTER")) 
+            scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
         PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
     }
 
@@ -1185,7 +1192,7 @@ public class AltUnityTesterEditor : EditorWindow
         AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
     }
 
-
+    [MenuItem("AltUnityTester/AndroidBuild")]
     static void AndroidDefault()
     {
         InitEditorConfiguration();
