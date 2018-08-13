@@ -332,7 +332,7 @@ public class TestsSampleScene1 {
         altUnityDriver.deletePlayerPref();
         altUnityDriver.setKeyPlayerPref("test", 1f);
         float val = altUnityDriver.getFloatKeyPlayerPref("test");
-        assertEquals(1f, val);
+        assertEquals(1f, val, 0.01);
     }
 
     @Test

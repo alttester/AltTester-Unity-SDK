@@ -87,8 +87,8 @@ public class TestsSampleScene4 {
         assertNotSame(YJoystickAfterDrop, YjoystickDuringDrag);
 
         assertEquals(velocityStringAfterDrop, velocityStringStart);
-        assertEquals(Xjoystick, XJoystickAfterDrop);
-        assertEquals(Yjoystick, YJoystickAfterDrop);
+        assertEquals(Xjoystick, XJoystickAfterDrop, 0.01);
+        assertEquals(Yjoystick, YJoystickAfterDrop, 0.01);
     }
 
 
