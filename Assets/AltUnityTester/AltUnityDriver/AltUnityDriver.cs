@@ -418,10 +418,7 @@ public class AltUnityDriver
                 altElement = FindElement(name,cameraName);
                 if(altElement.GetText().Equals(text))
                 break;
-                else
-                {
-                    throw new Exception("Not the wanted text");
-                }
+                throw new Exception("Not the wanted text");
             }
             catch (Exception)
             {

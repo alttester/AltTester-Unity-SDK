@@ -299,12 +299,12 @@ public class AltUnityDriver {
         return waitForCurrentSceneToBe(sceneName, 20, 0.5);
     }
 
-    public AltUnityObject waitForElementWhereNameContains(String name, double timeout, double interval) throws Exception {
+    public AltUnityObject waitForElementWhereNameContains(String name,String cameraName, double timeout, double interval) throws Exception {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
             try {
-                altElement = findElementWhereNameContains(name);
+                altElement = findElementWhereNameContains(name,cameraName);
                 break;
             } catch (Exception e) {
                 System.out.println("Waiting for element where name contains " + name + "....");
@@ -319,16 +319,16 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject waitForElementWhereNameContains(String name) throws Exception {
-        return waitForElementWhereNameContains(name, 20, 0.5);
+        return waitForElementWhereNameContains(name,"", 20, 0.5);
     }
 
 
-    public void waitForElementToNotBePresent(String name, double timeout, double interval) throws Exception {
+    public void waitForElementToNotBePresent(String name,String cameraName, double timeout, double interval) throws Exception {
         double time = 0;
         AltUnityObject altElement = null;
         while (time <= timeout) {
             try {
-                altElement = findElement(name);
+                altElement = findElement(name,cameraName);
                 break;
             } catch (Exception e) {
                 Thread.sleep((long) (interval * 1000));
@@ -342,16 +342,16 @@ public class AltUnityDriver {
     }
 
     public void waitForElementToNotBePresent(String name) throws Exception {
-        waitForElementToNotBePresent(name, 20, 0.5);
+        waitForElementToNotBePresent(name,"", 20, 0.5);
     }
 
 
-    public AltUnityObject waitForElement(String name, double timeout, double interval) throws Exception {
+    public AltUnityObject waitForElement(String name,String cameraName, double timeout, double interval) throws Exception {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
             try {
-                altElement = findElement(name);
+                altElement = findElement(name,cameraName);
                 break;
             } catch (Exception e) {
                 Thread.sleep((long) (interval * 1000));
@@ -368,16 +368,18 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject waitForElement(String name) throws Exception {
-        return waitForElement(name, 20, 0.5);
+        return waitForElement(name,"", 20, 0.5);
     }
 
-    public AltUnityObject waitForElementWithText(String name, String text, double timeout, double interval) throws Exception {
+    public AltUnityObject waitForElementWithText(String name, String text,String cameraName, double timeout, double interval) throws Exception {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
             try {
-                altElement = waitForElement(name);
-                break;
+                altElement = findElement(name, cameraName);
+                if (altElement.getText().equals(text))
+                    break;
+                throw new Exception("Not the wanted text");
             } catch (Exception e) {
                 Thread.sleep((long) (interval * 1000));
                 time += interval;
@@ -387,11 +389,11 @@ public class AltUnityDriver {
         if (altElement.getText().equals(text)) {
             return altElement;
         }
-        throw new WaitTimeOutException("Element with text:" + text + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject waitForElementWithText(String name, String text) throws Exception {
-        return waitForElementWithText(name, text, 20, 0.5);
+        return waitForElementWithText(name, text,"", 20, 0.5);
     }
 
 

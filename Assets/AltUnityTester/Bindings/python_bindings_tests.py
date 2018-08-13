@@ -23,20 +23,20 @@ class PythonTests(unittest.TestCase):
     def test_tap_ui_object(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.find_element('UIButton').tap()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!',1)
+        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!','',1)
 
     def test_tap_object(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         capsule_element = self.altdriver.find_element('Capsule')
         capsule_element.tap()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!',1)
+        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
 
 
     def test_tap_at_coordinates(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         capsule_element = self.altdriver.find_element('Capsule')
         self.altdriver.tap_at_coordinates(capsule_element.x, capsule_element.y)
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!',1)
+        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
 
     def test_load_and_wait_for_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -52,7 +52,7 @@ class PythonTests(unittest.TestCase):
     def test_wait_for_element_with_text(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         text_to_wait_for = self.altdriver.find_element('CapsuleInfo').get_text()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', text_to_wait_for,1)   
+        self.altdriver.wait_for_element_with_text('CapsuleInfo', text_to_wait_for,'',1)   
 
     def test_find_elements(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -269,21 +269,21 @@ class PythonTests(unittest.TestCase):
  
     def test_wait_for_non_existing_object(self):
         try:
-            alt_element = self.altdriver.wait_for_element("dlkasldkas",1,0.5)
+            alt_element = self.altdriver.wait_for_element("dlkasldkas",'',1,0.5)
             self.assertEqual(False,True)
         except WaitTimeOutException as e:
             self.assertEqual(e.args[0],"Element dlkasldkas not found after 1 seconds")
     
     def test_wait_forobject_to_not_exist_fail(self):
             try:
-                alt_element = self.altdriver.wait_for_element_to_not_be_present("Capsule",1,0.5)
+                alt_element = self.altdriver.wait_for_element_to_not_be_present("Capsule",'',1,0.5)
                 self.assertEqual(False,True)
             except WaitTimeOutException as e:
                 self.assertEqual(e.args[0],'Element Capsule still found after 1 seconds')
     
     def test_wait_for_object_with_text_wrong_text(self):
             try:
-                alt_element = self.altdriver.wait_for_element_with_text("CapsuleInfo","aaaaa",1,0.5)
+                alt_element = self.altdriver.wait_for_element_with_text("CapsuleInfo","aaaaa",'',1,0.5)
                 self.assertEqual(False,True)
             except WaitTimeOutException as e:
                 self.assertEqual(e.args[0],'Element CapsuleInfo should have text `aaaaa` but has `Capsule Info` after 1 seconds')
