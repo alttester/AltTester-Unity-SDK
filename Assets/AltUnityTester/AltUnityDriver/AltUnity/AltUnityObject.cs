@@ -54,9 +54,8 @@ public class AltUnityObject
             Encoding.ASCII.GetBytes("getObjectComponentProperty;" + altObject + ";" + propertyInfo + ";&"));
         String data = altUnityDriver.Recvall();
         if (!data.Contains("error:")) return data;
-        if (!data.Contains("error:unknownError")) throw new Exception(data);
-        var split = data.Split(';');
-        throw new Exception(split[1]);
+        AltUnityDriver.HandleErrors(data);
+        return null;
     }
     public String SetComponentProperty(String componentName, String propertyName, String value)
     {
@@ -66,9 +65,8 @@ public class AltUnityObject
             Encoding.ASCII.GetBytes("setObjectComponentProperty;" + altObject + ";" + propertyInfo + ";" + value + ";&"));
         String data = altUnityDriver.Recvall();
         if (!data.Contains("error:")) return data;
-        if (!data.Contains("error:unknownError")) throw new Exception(data);
-        var split = data.Split(';');
-        throw new Exception(split[1]);
+        AltUnityDriver.HandleErrors(data);
+        return null;
     }
 
     public String CallComponentMethod(String componentName, String methodName,

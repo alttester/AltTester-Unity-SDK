@@ -1,6 +1,7 @@
 package ro.altom.altunitytester;
 
 import com.google.gson.Gson;
+import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -291,7 +292,7 @@ public class AltUnityDriver {
 
         if (sceneName.equals(currentScene))
             return currentScene;
-        throw new Exception("Scene " + sceneName + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Scene " + sceneName + " not loaded after " + timeout + " seconds");
     }
 
     public String waitForCurrentSceneToBe(String sceneName) throws Exception {
@@ -314,7 +315,7 @@ public class AltUnityDriver {
         }
         if (altElement != null)
             return altElement;
-        throw new Exception("Element " + name + " still not found after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
     }
 
     public AltUnityObject waitForElementWhereNameContains(String name) throws Exception {
@@ -363,7 +364,7 @@ public class AltUnityDriver {
         if (altElement != null) {
             return altElement;
         }
-        throw new Exception("Element " + name + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element " + name + " not loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject waitForElement(String name) throws Exception {
@@ -386,7 +387,7 @@ public class AltUnityDriver {
         if (altElement.getText().equals(text)) {
             return altElement;
         }
-        throw new Exception("Element with text:" + text + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element with text:" + text + " not loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject waitForElementWithText(String name, String text) throws Exception {
@@ -432,8 +433,33 @@ public class AltUnityDriver {
 
 
     public void handleErrors(String data) throws Exception {
-        if (!data.contains("error:unknownError")) throw new Exception(data);
-        String[] split = data.split(":");
-        throw new Exception(split[1]);
+        String typeOfException = data.split(";")[0];
+        if ("error:notFound".equals(typeOfException)) {
+            throw new NotFoundException(data);
+        } else if ("error:propertyNotFound".equals(typeOfException)) {
+            throw new PropertyNotFoundException(data);
+        } else if ("error:methodNotFound".equals(typeOfException)) {
+            throw new MethodNotFoundException(data);
+        } else if ("error:componentNotFound".equals(typeOfException)) {
+            throw new ComponentNotFoundException(data);
+        } else if ("error:couldNotPerformOperation".equals(typeOfException)) {
+            throw new CouldNotPerformOperationException(data);
+        } else if ("error:couldNotParseJsonString".equals(typeOfException)) {
+            throw new CouldNotParseJsonStringException(data);
+        } else if ("error:incorrectNumberOfParameters".equals(typeOfException)) {
+            throw new IncorrectNumberOfParametersException(data);
+        } else if ("error:failedToParseMethodArguments".equals(typeOfException)) {
+            throw new FailedToParseArgumentsException(data);
+        } else if ("error:objectNotFound".equals(typeOfException)) {
+            throw new ObjectWasNotFoundException(data);
+        } else if ("error:propertyCannotBeSet".equals(typeOfException)) {
+            throw new PropertyNotFoundException(data);
+        } else if ("error:nullRefferenceException".equals(typeOfException)) {
+            throw new NullRefferenceException(data);
+        } else if ("error:unknownError".equals(typeOfException)) {
+            throw new UnknownErrorException(data);
+        } else if ("error:formatException".equals(typeOfException)) {
+            throw new FormatException(data);
+        }
     }
 }

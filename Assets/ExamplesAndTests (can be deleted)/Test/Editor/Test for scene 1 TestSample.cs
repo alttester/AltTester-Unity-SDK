@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
+using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
@@ -121,7 +122,7 @@ public class TestSample
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", currentScene);
     }
 
-   
+
 
     [Test]
     public void TestWaitForExistingElementWhereNameContains()
@@ -151,11 +152,6 @@ public class TestSample
         Assert.AreEqual(altElement.GetText(), text);
 
     }
-
-   
-
-    
-
 
     [Test]
     public void TestFindElementByComponent()
@@ -189,7 +185,7 @@ public class TestSample
             var altElemen2 = altElement.GetComponentProperty(componentName, propertyName);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (PropertyNotFoundException exception)
         {
             Assert.AreEqual(exception.Message, "error:propertyNotFound");
         }
@@ -242,7 +238,7 @@ public class TestSample
             var altElemen2 = altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (ComponentNotFoundException exception)
         {
             Assert.AreEqual(exception.Message, "error:componentNotFound");
         }
@@ -292,7 +288,7 @@ public class TestSample
             var altElemen2 = altElement.CallComponentMethod(componentName, methodName, parameters);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (IncorrectNumberOfParametersException exception)
         {
             Assert.AreEqual(exception.Message, "error:incorrectNumberOfParameters");
         }
@@ -311,7 +307,7 @@ public class TestSample
             var altElemen2 = altElement.CallComponentMethod(componentName, methodName, parameters);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (IncorrectNumberOfParametersException exception)
         {
             Assert.AreEqual("error:incorrectNumberOfParameters",exception.Message);
         }
@@ -356,7 +352,7 @@ public class TestSample
             var alt=altUnityDriver.GetIntKeyPlayerPref("test");
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (NotFoundException exception)
         {
             Assert.AreEqual("error:notFound",exception.Message);
         }
@@ -390,7 +386,7 @@ public class TestSample
             var altElemen2 = altUnityDriver.FindElement("NonExistent");
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (NotFoundException exception)
         {
             Assert.AreEqual(exception.Message, "error:notFound");
         }
@@ -405,7 +401,7 @@ public class TestSample
             var altElemen2 =altUnityDriver.FindElementWhereNameContains("NonExistent");
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (NotFoundException exception)
         {
             Assert.AreEqual(exception.Message, "error:notFound");
         }
@@ -420,7 +416,7 @@ public class TestSample
             var altElemen2 = altUnityDriver.TapScreen(0, 0);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (NullRefferenceException exception)
         {
             Assert.AreEqual(exception.Message, "error:nullRefferenceException");
         }
@@ -466,7 +462,7 @@ public class TestSample
             var altElement = altUnityDriver.WaitForElement("dlkasldkas", timeout:1, interval:1);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (WaitTimeOutException exception)
         {
             Assert.AreEqual(exception.Message, "Element dlkasldkas not loaded after 1 seconds");
         }
@@ -480,7 +476,7 @@ public class TestSample
             altUnityDriver.WaitForElementToNotBePresent("Capsule", timeout: 1, interval: 0.5f);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (WaitTimeOutException exception)
         {
             Assert.AreEqual(exception.Message, "Element Capsule still not found after 1 seconds");
         }
@@ -494,7 +490,7 @@ public class TestSample
             var altElement = altUnityDriver.WaitForElementWithText("CapsuleInfo", "aaaaa", timeout: 1);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (WaitTimeOutException exception)
         {
             Assert.AreEqual("Element with text: aaaaa not loaded after 1 seconds",exception.Message);
         }
@@ -509,7 +505,7 @@ public class TestSample
             var altElement = altUnityDriver.WaitForCurrentSceneToBe(name, 1);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (WaitTimeOutException exception)
         {
             Assert.AreEqual("Scene AltUnityDriverTestScenee not loaded after 1 seconds", exception.Message);
         }
@@ -526,7 +522,7 @@ public class TestSample
             var altElement = altUnityDriver.WaitForElementWhereNameContains(name, timeout: 1);
             Assert.Fail();
         }
-        catch (Exception exception)
+        catch (WaitTimeOutException exception)
         {
             Assert.AreEqual("Element xyz still not found after 1 seconds", exception.Message);
         }
