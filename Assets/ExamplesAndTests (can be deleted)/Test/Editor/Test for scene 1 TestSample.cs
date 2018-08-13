@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
+using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
@@ -111,7 +112,7 @@ public class TestSample
     {
         const string name = "Capsulee";
         ActualValueDelegate<object> testDelegate = () => altUnityDriver.WaitForElement(name,1);
-        Assert.That(testDelegate,Throws.TypeOf<Exception>());
+        Assert.That(testDelegate,Throws.TypeOf<NotFoundException>());
         
     }
 
@@ -133,7 +134,7 @@ public class TestSample
     {
         const string name = "AltUnityDriverTestScenee";
         ActualValueDelegate<object> testDelegate = () => altUnityDriver.WaitForCurrentSceneToBe(name,1);
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     [Test]
@@ -154,7 +155,7 @@ public class TestSample
     {
         const string name = "xyz";
         ActualValueDelegate<object> testDelegate = () => altUnityDriver.WaitForElementWhereNameContains(name,1);
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     [Test]
@@ -178,7 +179,7 @@ public class TestSample
         const string name = "CapsuleInfo";
         string text = altUnityDriver.FindElement(name).GetText()+"WrongText";
         ActualValueDelegate<object> testDelegate = () => altUnityDriver.WaitForElementWithText(name,text,1);
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     
@@ -212,7 +213,7 @@ public class TestSample
         var altElement = altUnityDriver.FindElement("AltUnityRunnerWithInputScript");
         Assert.NotNull(altElement);
         ActualValueDelegate<object> testDelegate = () => altElement.GetComponentProperty(componentName, propertyName);
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
     [Test]
     public void TestGetComponentPropertyArray()
@@ -257,7 +258,7 @@ public class TestSample
         var altElement = altUnityDriver.FindElement("Capsule");
         Assert.NotNull(altElement);
         ActualValueDelegate<object> testDelegate = () => altElement.SetComponentProperty(componentName, propertyName, "2");
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     [Test]
@@ -300,7 +301,7 @@ public class TestSample
         const string parameters = "1?stringparam?[1,2,3]";
         var altElement = altUnityDriver.FindElement("Capsule");
         ActualValueDelegate<object> testDelegate = () => altElement.CallComponentMethod(componentName, methodName, parameters);
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     [Test]
@@ -311,7 +312,7 @@ public class TestSample
         const string parameters = "a?stringparam?[1,2,3]";
         var altElement = altUnityDriver.FindElement("Capsule");
         ActualValueDelegate<object> testDelegate = () => altElement.CallComponentMethod(componentName, methodName, parameters);
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     [Test]
@@ -349,7 +350,7 @@ public class TestSample
         Assert.AreEqual(1, val);
         altUnityDriver.DeleteKeyPlayerPref("test");
         ActualValueDelegate<object> testDelegate = () => altUnityDriver.GetIntKeyPlayerPref("test");
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
 
@@ -375,21 +376,21 @@ public class TestSample
     public void TestFindNonExistentObject()
     {
         ActualValueDelegate<object> testDelegate = () => altUnityDriver.FindElement("NonExistent");
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     [Test]
     public void TestFindNonExistentObjectByName()
     {
         ActualValueDelegate<object> testDelegate = () => altUnityDriver.FindElementWhereNameContains("NonExistent");
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     [Test]
     public void TestClickOnNothing()
     {
         ActualValueDelegate<object> testDelegate = () => altUnityDriver.TapScreen(0,0);
-        Assert.That(testDelegate, Throws.TypeOf<Exception>());
+        Assert.That(testDelegate, Throws.TypeOf<WaitTimeOutException>());
     }
 
     [Test]

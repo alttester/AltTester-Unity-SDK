@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Assets.AltUnityTester.AltUnityDriver;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -25,11 +26,11 @@ public class AltUnityDriver
 
     }
 
-        public void Stop()
-        {
-            Socket.Client.Send(toBytes("closeConnection;&"));
-            Thread.Sleep(1000);
-            Socket.Close();
+    public void Stop()
+    {
+        Socket.Client.Send(toBytes("closeConnection;&"));
+        Thread.Sleep(1000);
+        Socket.Close();
 
 
 
@@ -77,8 +78,8 @@ public class AltUnityDriver
     public void LoadScene(string scene)
     {
         Socket.Client.Send(toBytes("loadScene;" + scene + ";&"));
-        var data=Recvall();
-        if(data.Equals("Ok"))
+        var data = Recvall();
+        if (data.Equals("Ok"))
             return;
         HandleErrors(data);
 
@@ -86,7 +87,7 @@ public class AltUnityDriver
     public void DeletePlayerPref()
     {
         Socket.Client.Send(toBytes("deletePlayerPref;&"));
-        var data=Recvall();
+        var data = Recvall();
         if (data.Equals("Ok"))
             return;
         HandleErrors(data);
@@ -101,9 +102,9 @@ public class AltUnityDriver
         HandleErrors(data);
 
     }
-    public void SetKeyPlayerPref(string keyName,int valueName)
+    public void SetKeyPlayerPref(string keyName, int valueName)
     {
-        Socket.Client.Send(toBytes("setKeyPlayerPref;" + keyName +";"+valueName+";"+PLayerPrefKeyType.Int+";&"));
+        Socket.Client.Send(toBytes("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PLayerPrefKeyType.Int + ";&"));
         var data = Recvall();
         if (data.Equals("Ok"))
             return;
@@ -133,7 +134,7 @@ public class AltUnityDriver
     public int GetIntKeyPlayerPref(string keyname)
     {
         Socket.Client.Send(toBytes("getKeyPlayerPref;" + keyname + ";" + PLayerPrefKeyType.Int + ";&"));
-        var data=Recvall();
+        var data = Recvall();
         if (!data.Contains("error:")) return Int32.Parse(data);
         HandleErrors(data);
         return 0;
@@ -188,8 +189,8 @@ public class AltUnityDriver
 
     public void SwipeAndWait(Vector2 start, Vector2 end, float duration)
     {
-        Swipe(start,end,duration);
-        Thread.Sleep((int)duration*1000);
+        Swipe(start, end, duration);
+        Thread.Sleep((int)duration * 1000);
         string data;
         do
         {
@@ -217,7 +218,7 @@ public class AltUnityDriver
         HandleErrors(data);
         return null;
     }
-   
+
     public void Tilt(Vector3 acceleration)
     {
         String accelerationString = JsonConvert.SerializeObject(acceleration, Formatting.Indented, new JsonSerializerSettings
@@ -226,15 +227,15 @@ public class AltUnityDriver
         });
         Socket.Client.Send(toBytes("tilt;" + accelerationString + ";&"));
         string data = Recvall();
-        if (data.Equals("OK"))return;
-       HandleErrors(data);
-        
+        if (data.Equals("OK")) return;
+        HandleErrors(data);
+
 
     }
-  
-    public AltUnityObject FindElementWhereNameContains(String name,String cameraName="")
+
+    public AltUnityObject FindElementWhereNameContains(String name, String cameraName = "")
     {
-        Socket.Client.Send(toBytes("findObjectWhereNameContains;" + name +";"+cameraName+ ";&"));
+        Socket.Client.Send(toBytes("findObjectWhereNameContains;" + name + ";" + cameraName + ";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
@@ -245,30 +246,30 @@ public class AltUnityDriver
 
     }
 
-    public List<AltUnityObject> GetAllElements(String cameraName="")
+    public List<AltUnityObject> GetAllElements(String cameraName = "")
     {
-        Socket.Client.Send(toBytes("findAllObjects;" + ";" + cameraName+"&"));
+        Socket.Client.Send(toBytes("findAllObjects;" + ";" + cameraName + "&"));
         String data = Recvall();
-        if (!data.Contains("error:"))return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
         HandleErrors(data);
         return null;
 
     }
 
-    public AltUnityObject FindElement(String name,String cameraName="")
+    public AltUnityObject FindElement(String name, String cameraName = "")
     {
         Socket.Client.Send(toBytes("findObjectByName;" + name + ";" + cameraName + ";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
             return JsonConvert.DeserializeObject<AltUnityObject>(data);
-            
+
         }
         HandleErrors(data);
         return null;
     }
 
-    public List<AltUnityObject> FindElements(String name,String cameraName="")
+    public List<AltUnityObject> FindElements(String name, String cameraName = "")
     {
         Socket.Client.Send(toBytes("findObjectsByName;" + name + ";" + cameraName + ";&"));
         String data = Recvall();
@@ -277,7 +278,7 @@ public class AltUnityDriver
         return null;
     }
 
-    public List<AltUnityObject> FindElementsWhereNameContains(String name,String cameraName="")
+    public List<AltUnityObject> FindElementsWhereNameContains(String name, String cameraName = "")
     {
         Socket.Client.Send(toBytes("findObjectsWhereNameContains;" + name + ";" + cameraName + ";&"));
         String data = Recvall();
@@ -333,7 +334,7 @@ public class AltUnityDriver
         }
         if (altElement.name != null && altElement.name.Contains(name))
             return altElement;
-        throw new Exception("Element " + name + " still not found after " +timeout+ " seconds");
+        throw new Exception("Element " + name + " still not found after " + timeout + " seconds");
 
     }
 
@@ -360,7 +361,7 @@ public class AltUnityDriver
         }
 
         if (!altElement.Equals(null))
-            throw new Exception("Element " + name + " still not found after " + timeout + " seconds");
+            throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
     }
 
 
@@ -372,7 +373,7 @@ public class AltUnityDriver
         while (time < timeout)
         {
             altElement = FindElement(name);
-            if (altElement.name==null)
+            if (altElement.name == null)
             {
                 Thread.Sleep(Convert.ToInt32(interval * 1000));
                 time += interval;
@@ -388,7 +389,7 @@ public class AltUnityDriver
         {
             return altElement;
         }
-        throw new Exception("Element " + name + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element " + name + " not loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject WaitForElementWithText(String name, string text, double timeout = 20, double interval = 0.5)
@@ -413,16 +414,16 @@ public class AltUnityDriver
         {
             return altElement;
         }
-        throw new Exception("Element with text:" + text + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element with text:" + text + " not loaded after " + timeout + " seconds");
     }
 
-    public AltUnityObject FindElementByComponent(String componentName,String cameraName="")
+    public AltUnityObject FindElementByComponent(String componentName, String cameraName = "")
     {
         Socket.Client.Send(toBytes("findObjectByComponent;" + componentName + ";" + cameraName + ";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
-           return JsonConvert.DeserializeObject<AltUnityObject>(data);
+            return JsonConvert.DeserializeObject<AltUnityObject>(data);
         }
         HandleErrors(data);
         return null;
@@ -432,7 +433,7 @@ public class AltUnityDriver
     /// </summary>
     /// <param name="componentName">Name of the component by wich is going to search</param>
     /// <returns>List of AltUnityObjects that have component</returns>
-    public List<AltUnityObject> FindElementsByComponent(String componentName,String cameraName="")
+    public List<AltUnityObject> FindElementsByComponent(String componentName, String cameraName = "")
     {
         Socket.Client.Send(toBytes("findObjectsByComponent;" + componentName + ";" + cameraName + ";&"));
         String data = Recvall();
@@ -443,9 +444,39 @@ public class AltUnityDriver
 
     public static void HandleErrors(string data)
     {
-        if (!data.Contains("error:unknownError")) throw new Exception(data);
-        var split = data.Split(';');
-        throw new Exception(split[1]);
+
+        var typeOfException = data.Split(';')[0];
+        switch (typeOfException)
+        {
+            case "error:notFound":
+                throw new NotFoundException();
+            case "error:propertyNotFound":
+                throw new PropertyNotFoundException();
+            case "error:methodNotFound":
+                throw new MethodNotFoundException();
+            case "error:componentNotFound":
+                throw new ComponentNotFoundException();
+            case "error:couldNotPerformOperation":
+                throw new CouldNotPerformOperationException();
+            case "error:couldNotParseJsonString":
+                throw new CouldNotParseJsonStringException();
+            case "error:incorrectNumberOfParameters":
+                throw new IncorrectNumberOfParametersException();
+            case "error:failedToParseMethodArguments":
+                throw new FailedToParseArgumentsException();
+            case "error:objectNotFound":
+                throw new ObjectWasNotFoundException();
+            case "error:propertyCannotBeSet":
+                throw new PropertyNotFoundException();
+            case "error:nullRefferenceException":
+                throw new NullRefferenceException();
+            case "error:unknownError":
+                throw new UnknownErrorException();
+            case "error:formatException":
+                throw new Assets.AltUnityTester.AltUnityDriver.FormatException();
+        }
+
+
     }
 }
 
