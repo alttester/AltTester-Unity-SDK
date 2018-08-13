@@ -5,6 +5,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.IOException;
 
