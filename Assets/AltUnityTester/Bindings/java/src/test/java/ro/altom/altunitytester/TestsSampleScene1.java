@@ -102,7 +102,7 @@ public class TestsSampleScene1 {
     public void testWaitForNonExistingElement() {
         String name = "Capsulee";
         try {
-            altUnityDriver.waitForElement(name, 1, 0.5);
+            altUnityDriver.waitForElement(name,"", 1, 0.5);
             fail();
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Element Capsulee not loaded after 1.0 seconds");
@@ -149,7 +149,7 @@ public class TestsSampleScene1 {
     public void testWaitForNonExistingElementWhereNameContains() {
         String name = "xyz";
         try {
-            altUnityDriver.waitForElementWhereNameContains(name, 1, 0.5);
+            altUnityDriver.waitForElementWhereNameContains(name,"", 1, 0.5);
             fail();
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Element xyz still not found after 1.0 seconds");
@@ -175,7 +175,7 @@ public class TestsSampleScene1 {
         String name = "CapsuleInfo";
         String text = altUnityDriver.findElement(name).getText() + "WrongText";
         try {
-            altUnityDriver.waitForElementWithText(name, text, 1, 0.5);
+            altUnityDriver.waitForElementWithText(name, text,"", 1, 0.5);
             fail();
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Element with text:Capsule InfoWrongText not loaded after 1.0 seconds");
@@ -447,6 +447,19 @@ public class TestsSampleScene1 {
         Thread.sleep(2);
         String text = capsuleInfo.getText();
         assertEquals(text, "Capsule was clicked to jump!");
+    }
+    @Test
+    public void testWaitForObjectWithTextWrongText()
+    {
+        try
+        {
+            AltUnityObject altElement = altUnityDriver.waitForElementWithText("CapsuleInfo", "aaaaa","", 1,0.5);
+            assertEquals(false,true);
+        }
+        catch (Exception exception)
+        {
+            assertEquals("Element with text: aaaaa not loaded after 1.0 seconds",exception.getMessage());
+        }
     }
 
 }
