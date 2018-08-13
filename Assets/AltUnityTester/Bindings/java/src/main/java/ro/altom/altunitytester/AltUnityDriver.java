@@ -389,7 +389,7 @@ public class AltUnityDriver {
         if (altElement.getText().equals(text)) {
             return altElement;
         }
-        throw new WaitTimeOutException("Element with text:" + text + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject waitForElementWithText(String name, String text) throws Exception {
