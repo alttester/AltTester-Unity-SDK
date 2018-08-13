@@ -354,13 +354,13 @@ class AltrunUnityDriver(object):
         t = 0
         alt_element = None
         while (t <= timeout):
-            print('Waiting for element ' + name + '...')
-            alt_element = self.find_element(name)
-            if alt_element == None:
+            try:
+                alt_element = self.find_element(name)
+                break
+            except Exception:
+                print('Waiting for element ' + name + '...')
                 time.sleep(interval)
                 t += interval
-            else:
-                break
         assert alt_element is not None, 'Element ' + name + ' not found after ' + str(timeout) + ' seconds'
         return alt_element
 
@@ -369,24 +369,25 @@ class AltrunUnityDriver(object):
         t = 0
         alt_element = None
         while (t <= timeout):
-            print('Waiting for element where name contains ' + name + '...')
-            alt_element = self.find_element_where_name_contains(name)
-            if alt_element == None:
+            try:
+                alt_element = self.find_element_where_name_contains(name)
+                break
+            except Exception:
+                print('Waiting for element where name contains ' + name + '...')
                 time.sleep(interval)
                 t += interval
-            else:
-                break
         assert alt_element is not None, 'Element where name contains ' + name + ' not found after ' + str(timeout) + ' seconds'
         return alt_element
     
     def wait_for_element_to_not_be_present(self, name, timeout=20, interval=0.5):
         t = 0
         while (t <= timeout):
-            print('Waiting for element ' + name + ' to not be present...')
-            if self.find_element(name) != None:
+            try:
+                print('Waiting for element ' + name + ' to not be present...')
+                alt_element=self.find_element(name)
                 time.sleep(interval)
                 t += interval
-            else:
+            except Exception:
                 break
         assert self.find_element(name) is None, 'Element ' + name + ' still found after ' + str(timeout) + ' seconds'
 
@@ -394,13 +395,15 @@ class AltrunUnityDriver(object):
         t = 0
         alt_element = None
         while (t <= timeout):
-            print('Waiting for element ' + name + ' to have text ' + text)
-            alt_element = self.wait_for_element(name)
-            if alt_element.get_text() != text:
+            try:
+                alt_element = self.find_element(name)
+                if alt_element.get_text() == text:
+                    break
+                raise Exception('Not the wanted text')
+            except Exception:
+                print('Waiting for element ' + name + ' to have text ' + text)
                 time.sleep(interval)
                 t += interval
-            else:
-                break
         assert alt_element.get_text() == text, 'Element ' + name + ' should have text `' + text + '` but has `' + alt_element.get_text() + '` after ' + str(timeout) + ' seconds'
         return alt_element
 
