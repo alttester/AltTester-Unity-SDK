@@ -179,7 +179,7 @@ public class TestsSampleScene1 {
             altUnityDriver.waitForElementWithText(name, text,"", 1, 0.5);
             fail();
         } catch (WaitTimeOutException e) {
-            assertEquals(e.getMessage(), "Element with text:Capsule InfoWrongText not loaded after 1.0 seconds");
+            assertEquals(e.getMessage(), "Element with text: Capsule InfoWrongText not loaded after 1.0 seconds");
         }
     }
 
