@@ -61,5 +61,9 @@ Assets/AltUnityTester/Bindings/python/altunityrunner/__init__.pyc.meta
 *.iml
 *.iml.meta
 Assets/AltUnityTester/Bindings/java/**/*.meta
-omnisharp.json
+.vs/altunitytester/v15/Server/sqlite3/db.lock
+.vs/altunitytester/v15/Server/sqlite3/storage.ide
+.vs/altunitytester/v15/Server/sqlite3/storage.ide-shm
+.vs/altunitytester/v15/Server/sqlite3/storage.ide-wal
 
+Assets/AltUnityTester/AltUnityDriver/Editor/idProject.asset
