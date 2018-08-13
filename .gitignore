@@ -61,3 +61,5 @@ Assets/AltUnityTester/Bindings/python/altunityrunner/__init__.pyc.meta
 *.iml
 *.iml.meta
 Assets/AltUnityTester/Bindings/java/**/*.meta
+omnisharp.json
+
