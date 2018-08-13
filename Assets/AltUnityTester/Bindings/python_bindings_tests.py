@@ -97,69 +97,69 @@ class PythonTests(unittest.TestCase):
         self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
 
 
-    # def test_drag_and_release(self):
-    #     self.altdriver.load_scene('Scene 4 GameWithMobileSingleStickControls')
-    #     cube = self.altdriver.find_element('Cube')
-    #     velocity_start = json.loads(cube.get_component_property('UnityEngine.Rigidbody2D', 'velocity'))
+    def test_drag_and_release(self):
+        self.altdriver.load_scene('Scene 4 GameWithMobileSingleStickControls')
+        cube = self.altdriver.find_element('Cube')
+        velocity_start = json.loads(cube.get_component_property('UnityEngine.Rigidbody2D', 'velocity'))
 
-    #     joystick = self.altdriver.find_element('MobileJoystick')
-    #     x_joystick = joystick.x
-    #     y_joystick = joystick.y
+        joystick = self.altdriver.find_element('MobileJoystick')
+        x_joystick = joystick.x
+        y_joystick = joystick.y
         
-    #     joystick.drag(200, 200)
-    #     time.sleep(0.1)
+        joystick.drag(200, 200)
+        time.sleep(0.1)
 
-    #     joystick = self.altdriver.find_element('MobileJoystick')    
-    #     x_joystick_during_drag = joystick.x
-    #     y_joystick_during_drag = joystick.y
+        joystick = self.altdriver.find_element('MobileJoystick')    
+        x_joystick_during_drag = joystick.x
+        y_joystick_during_drag = joystick.y
 
-    #     cube = self.altdriver.find_element('Cube')
-    #     velocity_during_drag = json.loads(cube.get_component_property('UnityEngine.Rigidbody2D', 'velocity'))
+        cube = self.altdriver.find_element('Cube')
+        velocity_during_drag = json.loads(cube.get_component_property('UnityEngine.Rigidbody2D', 'velocity'))
 
-    #     self.assertNotEqual(velocity_during_drag, velocity_start)
-    #     self.assertNotEqual(x_joystick, x_joystick_during_drag)
-    #     self.assertNotEqual(y_joystick, y_joystick_during_drag)
+        self.assertNotEqual(velocity_during_drag, velocity_start)
+        self.assertNotEqual(x_joystick, x_joystick_during_drag)
+        self.assertNotEqual(y_joystick, y_joystick_during_drag)
 
-    #     joystick.pointer_up()
-    #     time.sleep(0.1)
+        joystick.pointer_up()
+        time.sleep(0.1)
 
-    #     joystick = self.altdriver.find_element('MobileJoystick')
-    #     x_joystick_after_drag = joystick.x
-    #     y_joystick_after_drag = joystick.y
+        joystick = self.altdriver.find_element('MobileJoystick')
+        x_joystick_after_drag = joystick.x
+        y_joystick_after_drag = joystick.y
 
-    #     cube = self.altdriver.find_element('Cube')
-    #     velocity_after_drag = json.loads(cube.get_component_property('UnityEngine.Rigidbody2D', 'velocity'))
+        cube = self.altdriver.find_element('Cube')
+        velocity_after_drag = json.loads(cube.get_component_property('UnityEngine.Rigidbody2D', 'velocity'))
        
 
-    #     self.assertNotEqual(velocity_during_drag, velocity_after_drag)
-    #     self.assertNotEqual(x_joystick_during_drag, x_joystick_after_drag)
-    #     self.assertNotEqual(y_joystick_during_drag, y_joystick_after_drag)
+        self.assertNotEqual(velocity_during_drag, velocity_after_drag)
+        self.assertNotEqual(x_joystick_during_drag, x_joystick_after_drag)
+        self.assertNotEqual(y_joystick_during_drag, y_joystick_after_drag)
 
-    #     self.assertEqual(velocity_after_drag, velocity_start)
-    #     self.assertEqual(x_joystick_after_drag, x_joystick)
-    #     self.assertEqual(y_joystick_after_drag, y_joystick)
+        self.assertEqual(velocity_after_drag, velocity_start)
+        self.assertEqual(x_joystick_after_drag, x_joystick)
+        self.assertEqual(y_joystick_after_drag, y_joystick)
 
 
-    # def test_pointer_up_and_down(self):
-    #     self.altdriver.load_scene('Scene 4 GameWithMobileSingleStickControls')
+    def test_pointer_up_and_down(self):
+        self.altdriver.load_scene('Scene 4 GameWithMobileSingleStickControls')
 
-    #     cube = self.altdriver.find_element('Cube')
-    #     local_scale = cube.get_component_property('UnityEngine.Transform', 'localScale')
+        cube = self.altdriver.find_element('Cube')
+        local_scale = cube.get_component_property('UnityEngine.Transform', 'localScale')
         
-    #     self.altdriver.find_element('JumpButton').pointer_down()
+        self.altdriver.find_element('JumpButton').pointer_down()
 
-    #     cube = self.altdriver.find_element('Cube')
-    #     local_scale_after_pointer_down = cube.get_component_property('UnityEngine.Transform', 'localScale')
+        cube = self.altdriver.find_element('Cube')
+        local_scale_after_pointer_down = cube.get_component_property('UnityEngine.Transform', 'localScale')
 
-    #     self.assertNotEqual(local_scale, local_scale_after_pointer_down)
+        self.assertNotEqual(local_scale, local_scale_after_pointer_down)
 
-    #     self.altdriver.find_element('JumpButton').pointer_up()
+        self.altdriver.find_element('JumpButton').pointer_up()
 
-    #     cube = self.altdriver.find_element('Cube')
-    #     local_scale_after_pointer_up = cube.get_component_property('UnityEngine.Transform', 'localScale')
+        cube = self.altdriver.find_element('Cube')
+        local_scale_after_pointer_up = cube.get_component_property('UnityEngine.Transform', 'localScale')
 
-    #     self.assertNotEqual(local_scale_after_pointer_up, local_scale_after_pointer_down)
-    #     self.assertEqual(local_scale_after_pointer_up, local_scale) 
+        self.assertNotEqual(local_scale_after_pointer_up, local_scale_after_pointer_down)
+        self.assertEqual(local_scale_after_pointer_up, local_scale) 
 
     def test_pointer_enter_and_exit(self):
         self.altdriver.load_scene('Scene 3 Drag And Drop')
@@ -234,16 +234,16 @@ class PythonTests(unittest.TestCase):
         self.assertNotEqual(image_source, image_source_drop_zone)
 
 
-    # def test_tilt(self):
-    #     self.altdriver.load_scene('Scene 5 GameWithCarTiltControls')
-    #     cube = self.altdriver.find_element('Cube')
-    #     position = cube.get_component_property('UnityEngine.Transform', 'position')
-    #     self.altdriver.tilt(2, 2, 2)
-    #     time.sleep(1)
-    #     self.altdriver.tilt(0, 0, 0)
-    #     position_after_tilt = cube.get_component_property('UnityEngine.Transform', 'position')
+    def test_tilt(self):
+        self.altdriver.load_scene('Scene 5 GameWithCarTiltControls')
+        cube = self.altdriver.find_element('Cube')
+        position = cube.get_component_property('UnityEngine.Transform', 'position')
+        self.altdriver.tilt(2, 2, 2)
+        time.sleep(1)
+        self.altdriver.tilt(0, 0, 0)
+        position_after_tilt = cube.get_component_property('UnityEngine.Transform', 'position')
 
-    #     self.assertNotEqual(position, position_after_tilt)
+        self.assertNotEqual(position, position_after_tilt)
 
 
     def test_set_player_pref_keys_int(self):
@@ -266,8 +266,36 @@ class PythonTests(unittest.TestCase):
         self.altdriver.set_player_pref_key('test', 'string value', PlayerPrefKeyType.String)
         value = self.altdriver.get_player_pref_key('test', PlayerPrefKeyType.String)
         self.assertEqual(value, 'string value')
+ 
+    def test_wait_for_non_existing_object(self):
+        try:
+            alt_element = self.altdriver.wait_for_element("dlkasldkas",1,0.5)
+            self.assertEqual(False,True)
+        except Exception as e:
+            self.assertEqual(e.args[0],"Element dlkasldkas not found after 1 seconds")
+    
+    def test_wait_forobject_to_not_exist_fail(self):
+            try:
+                alt_element = self.altdriver.wait_for_element_to_not_be_present("Capsule",1,0.5)
+                self.assertEqual(False,True)
+            except Exception as e:
+                self.assertEqual(e.args[0],'Element Capsule still found after 1 seconds')
+    
+    def test_wait_for_object_with_text_wrong_text(self):
+            try:
+                alt_element = self.altdriver.wait_for_element_with_text("CapsuleInfo","aaaaa",1,0.5)
+                self.assertEqual(False,True)
+            except Exception as e:
+                self.assertEqual(e.args[0],'Element CapsuleInfo should have text `aaaaa` but has `Capsule Info` after 1 seconds')
+    
+    def test_wait_for_current_scene_to_be_a_non_existing_scene(self):
+            try:
+                alt_element = self.altdriver.wait_for_current_scene_to_be("AltUnityDriverTestScenee",1,0.5)
+                self.assertEqual(False,True)
+            except Exception as e:
+                self.assertEqual(e.args[0],'Scene AltUnityDriverTestScenee not loaded after 1 seconds')
 
-
+    
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
     result = unittest.TextTestRunner(verbosity=2).run(suite)

@@ -48,7 +48,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     }
     void Start()
     {
-       
+
         //if (GameObject.FindGameObjectsWithTag("AltUnityRunner").Length <= 1) { 
         _jsonSettings = new JsonSerializerSettings();
         _jsonSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -77,21 +77,24 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         AltUnityEvents.Instance.CloseConnection.AddListener(CloseConnection);
         AltUnityEvents.Instance.UnknownString.AddListener(UnknownString);
 
-        AltUnityEvents.Instance.SetMovingTouch.AddListener(SetMovingTouch);
         AltUnityEvents.Instance.DragObject.AddListener(DragObject);
         AltUnityEvents.Instance.DropObject.AddListener(DropObject);
         AltUnityEvents.Instance.PointerUp.AddListener(PointerUpFromObject);
         AltUnityEvents.Instance.PointerDown.AddListener(PointerDownFromObject);
         AltUnityEvents.Instance.PointerEnter.AddListener(PointerEnterObject);
         AltUnityEvents.Instance.PointerExit.AddListener(PointerExitObject);
+#if ALTUNITYTESTER
+        
         AltUnityEvents.Instance.Tilt.AddListener(Tilt);
+        AltUnityEvents.Instance.SetMovingTouch.AddListener(SetMovingTouch);
+        AltUnityEvents.Instance.SwipeFinished.AddListener(SwipeFinished);
+#endif
 
         AltUnityEvents.Instance.LoadScene.AddListener(LoadScene);
         AltUnityEvents.Instance.SetKeyPlayerPref.AddListener(SetKeyPlayerPref);
         AltUnityEvents.Instance.GetKeyPlayerPref.AddListener(GetKeyPlayerPref);
         AltUnityEvents.Instance.DeleteKeyPlayerPref.AddListener(DeleteKeyPlayerPref);
         AltUnityEvents.Instance.DeletePlayerPref.AddListener(DeletePlayerPref);
-        AltUnityEvents.Instance.SwipeFinished.AddListener(SwipeFinished);
 
 
 
@@ -1101,6 +1104,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         }
         return value;
     }
+#if ALTUNITYTESTER
 
     private void SetMovingTouch(Vector2 start, Vector2 destination, string duration, AltClientSocketHandler handler)
     {
@@ -1139,6 +1143,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         });
 
     }
+#endif
     private void DragObject(Vector2 position, AltUnityObject altUnityObject, AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
@@ -1331,6 +1336,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
         });
     }
+#if ALTUNITYTESTER
     private void Tilt(Vector3 acceleration, AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
@@ -1352,6 +1358,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
         });
     }
+#endif
+
     private void LoadScene(string scene, AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
@@ -1359,10 +1367,10 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             string response = errorNotFoundMessage;
             try
             {
-               
-                    SceneManager.LoadScene(scene);
-                    response = "Ok";
-               
+
+                SceneManager.LoadScene(scene);
+                response = "Ok";
+
             }
             catch (Exception exception)
             {
@@ -1377,18 +1385,18 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         });
     }
 
-//    private bool IsSceneInBuild(string scene)
-//    {
-//        Debug.Log("Scenesnumber:"+SceneManager.sceneCountInBuildSettings);
-//        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-//        {
-//            Debug.Log(SceneManager.GetSceneByBuildIndex(i));
-//            if (SceneManager.GetSceneByBuildIndex(i).name.Equals(scene))
-//                return true;
-//        }
-//
-//        return false;
-//    }
+    //    private bool IsSceneInBuild(string scene)
+    //    {
+    //        Debug.Log("Scenesnumber:"+SceneManager.sceneCountInBuildSettings);
+    //        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+    //        {
+    //            Debug.Log(SceneManager.GetSceneByBuildIndex(i));
+    //            if (SceneManager.GetSceneByBuildIndex(i).name.Equals(scene))
+    //                return true;
+    //        }
+    //
+    //        return false;
+    //    }
 
     private Camera FoundCameraById(int id)
     {
@@ -1523,7 +1531,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
         });
     }
-
+#if ALTUNITYTESTER
     private void SwipeFinished(AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
@@ -1549,8 +1557,9 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
         });
     }
+#endif
 
-    private void Tap(AltUnityObject altUnityObject,AltClientSocketHandler handler)
+    private void Tap(AltUnityObject altUnityObject, AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
         {
@@ -1562,18 +1571,18 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Debug.Log("GameOBject: " + gameObject);
 
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.pointerEnterHandler);
-                gameObject.SendMessage("OnMouseEnter");
+                gameObject.SendMessage("OnMouseEnter", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.pointerDownHandler);
-                gameObject.SendMessage("OnMouseDown");
+                gameObject.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.initializePotentialDrag);
-                gameObject.SendMessage("OnMouseOver");
+                gameObject.SendMessage("OnMouseOver", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.pointerUpHandler);
-                gameObject.SendMessage("OnMouseUp");
+                gameObject.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.pointerClickHandler);
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.submitHandler);
-                gameObject.SendMessage("OnMouseUpAsButton");//este echivalentul la pointerClick
+                gameObject.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);//este echivalentul la pointerClick
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.pointerExitHandler);
-                gameObject.SendMessage("OnMouseExit");
+                gameObject.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
 
                 var camera = FoundCameraById(altUnityObject.idCamera);
                 response = JsonConvert.SerializeObject(camera != null ? GameObjectToAltUnityObject(gameObject, camera) : GameObjectToAltUnityObject(gameObject));

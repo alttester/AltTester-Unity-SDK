@@ -239,7 +239,11 @@ public class AltUnityDriver
         String data = Recvall();
         if (!data.Contains("error:"))
         {
-            return JsonConvert.DeserializeObject<AltUnityObject>(data);
+            AltUnityObject altElement = JsonConvert.DeserializeObject<AltUnityObject>(data);
+            if (altElement.name.Contains(name))
+            {
+                return altElement;
+            }
         }
         HandleErrors(data);
         return null;
@@ -294,18 +298,18 @@ public class AltUnityDriver
         double time = 0;
         String currentScene = "";
         while (time < timeout)
-        {
-            currentScene = GetCurrentScene();
-            if (currentScene != sceneName)
-            {
+        { 
+           currentScene = GetCurrentScene();
+           if(!currentScene.Equals(sceneName))
+           {
                 Debug.Log("Waiting for scene to be " + sceneName + "...");
                 Thread.Sleep(Convert.ToInt32(interval * 1000));
                 time += interval;
-            }
-            else
-            {
-                break;
-            }
+           }
+           else
+           {
+               break;
+           }
         }
 
         if (sceneName.Equals(currentScene))
@@ -314,25 +318,25 @@ public class AltUnityDriver
 
     }
 
-    public AltUnityObject WaitForElementWhereNameContains(String name, double timeout = 20, double interval = 0.5)
+    public AltUnityObject WaitForElementWhereNameContains(String name, String cameraName = "", double timeout = 20, double interval = 0.5)
     {
         double time = 0;
-        AltUnityObject altElement = new AltUnityObject(null);
+        AltUnityObject altElement = null;
         while (time < timeout)
         {
-            altElement = FindElementWhereNameContains(name);
-            if (altElement.name == null)
+            try
+            {
+                altElement = FindElementWhereNameContains(name,cameraName);
+                break;
+            }
+            catch (Exception)
             {
                 Debug.Log("Waiting for element where name contains " + name + "....");
                 Thread.Sleep(Convert.ToInt32(interval * 1000));
                 time += interval;
             }
-            else
-            {
-                break;
-            }
         }
-        if (altElement.name != null && altElement.name.Contains(name))
+        if (altElement != null)
             return altElement;
         throw new Exception("Element " + name + " still not found after " + timeout + " seconds");
 
@@ -340,24 +344,25 @@ public class AltUnityDriver
 
 
 
-    public void WaitForElementToNotBePresent(String name, double timeout = 20, double interval = 0.5)
+    public void WaitForElementToNotBePresent(String name, String cameraName = "", double timeout = 20, double interval = 0.5)
     {
         double time = 0;
-        AltUnityObject altElement = new AltUnityObject(null);
+        AltUnityObject altElement =null;
         while (time <= timeout)
         {
 
-            altElement = FindElement(name);
-            if (!altElement.name.Equals(null))
+            try
             {
+                altElement = FindElement(name,cameraName);
                 Thread.Sleep(Convert.ToInt32(interval * 1000));
                 time += interval;
                 Debug.Log("Waiting for element " + name + " to not be present");
             }
-            else
-            {
+            catch(Exception)
+            { 
                 break;
             }
+
         }
 
         if (!altElement.Equals(null))
@@ -366,51 +371,66 @@ public class AltUnityDriver
 
 
 
-    public AltUnityObject WaitForElement(String name, double timeout = 20, double interval = 0.5)
+    public AltUnityObject WaitForElement(String name, String cameraName = "", double timeout = 20, double interval = 0.5)
     {
         double time = 0;
-        AltUnityObject altElement = new AltUnityObject(null);
+        AltUnityObject altElement = null;
         while (time < timeout)
         {
-            altElement = FindElement(name);
-            if (altElement.name == null)
+            try
+            {
+                altElement = FindElement(name,cameraName);
+                break;
+            }
+            catch (Exception)
             {
                 Thread.Sleep(Convert.ToInt32(interval * 1000));
                 time += interval;
                 Debug.Log("Waiting for element " + name + "...");
             }
-            else
-            {
-                break;
-            }
+   
         }
 
-        if (altElement.name != null && altElement.name.Equals(name))
+        if (altElement != null)
         {
             return altElement;
         }
         throw new WaitTimeOutException("Element " + name + " not loaded after " + timeout + " seconds");
     }
 
-    public AltUnityObject WaitForElementWithText(String name, string text, double timeout = 20, double interval = 0.5)
+    /// <summary>
+    /// Wait until in the scene there is an object with text
+    /// </summary>
+    /// <param name="name">Name of the object</param>
+    /// <param name="text"></param>
+    /// <param name="cameraName"></param>
+    /// <param name="timeout"></param>
+    /// <param name="interval"></param>
+    /// <returns></returns>
+    public AltUnityObject WaitForElementWithText(String name, string text, String cameraName = "", double timeout = 20, double interval = 0.5)
     {
         double time = 0;
-        AltUnityObject altElement = new AltUnityObject(null);
+        AltUnityObject altElement = null;
         while (time < timeout)
         {
-            altElement = WaitForElement(name);
-            if (!altElement.GetText().Equals(text))
+            try
             {
-                Thread.Sleep(Convert.ToInt32(interval * 1000));
-                time += interval;
-                Debug.Log("Waiting for element " + name + " to have text " + text);
-            }
-            else
-            {
+                altElement = FindElement(name,cameraName);
+                if(altElement.GetText().Equals(text))
                 break;
+                else
+                {
+                    throw new Exception("Not the wanted text");
+                }
+            }
+            catch (Exception)
+            {
+                    Thread.Sleep(Convert.ToInt32(interval * 1000));
+                    time += interval;
+                    Debug.Log("Waiting for element " + name + " to have text " + text);
             }
         }
-        if (altElement.GetText().Equals(text))
+        if (altElement != null && altElement.GetText().Equals(text))
         {
             return altElement;
         }
@@ -449,31 +469,31 @@ public class AltUnityDriver
         switch (typeOfException)
         {
             case "error:notFound":
-                throw new NotFoundException();
+                throw new NotFoundException(data);
             case "error:propertyNotFound":
-                throw new PropertyNotFoundException();
+                throw new PropertyNotFoundException(data);
             case "error:methodNotFound":
-                throw new MethodNotFoundException();
+                throw new MethodNotFoundException(data);
             case "error:componentNotFound":
-                throw new ComponentNotFoundException();
+                throw new ComponentNotFoundException(data);
             case "error:couldNotPerformOperation":
-                throw new CouldNotPerformOperationException();
+                throw new CouldNotPerformOperationException(data);
             case "error:couldNotParseJsonString":
-                throw new CouldNotParseJsonStringException();
+                throw new CouldNotParseJsonStringException(data);
             case "error:incorrectNumberOfParameters":
-                throw new IncorrectNumberOfParametersException();
+                throw new IncorrectNumberOfParametersException(data);
             case "error:failedToParseMethodArguments":
-                throw new FailedToParseArgumentsException();
+                throw new FailedToParseArgumentsException(data);
             case "error:objectNotFound":
-                throw new ObjectWasNotFoundException();
+                throw new ObjectWasNotFoundException(data);
             case "error:propertyCannotBeSet":
-                throw new PropertyNotFoundException();
+                throw new PropertyNotFoundException(data);
             case "error:nullRefferenceException":
-                throw new NullRefferenceException();
+                throw new NullRefferenceException(data);
             case "error:unknownError":
-                throw new UnknownErrorException();
+                throw new UnknownErrorException(data);
             case "error:formatException":
-                throw new Assets.AltUnityTester.AltUnityDriver.FormatException();
+                throw new Assets.AltUnityTester.AltUnityDriver.FormatException(data);
         }
 
 

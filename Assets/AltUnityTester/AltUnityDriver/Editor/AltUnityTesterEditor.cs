@@ -37,6 +37,7 @@ public class AltUnityTesterEditor : EditorWindow
     public static TestSuite _testSuite;
 
     public TestRunDelegate CallRunDelegate = new TestRunDelegate(ShowProgresBar);
+    // public TestRunDelegate CallRunDelegateCommandline = new TestRunDelegate();
 
     private static Texture2D passIcon;
     private static Texture2D failIcon;
@@ -53,6 +54,7 @@ public class AltUnityTesterEditor : EditorWindow
     public static string SceneWithAltUnityRunnerPath;
     public static Object AltUnityRunner;
     public static bool built = false;
+    public static bool runnedInEditor = false;
     public static Scene copyScene;
 
     private static Thread thread;
@@ -71,7 +73,7 @@ public class AltUnityTesterEditor : EditorWindow
     private bool _foldOutBuildSettings = true;
     private bool _foldOutIosSettings = true;
     private bool _checking = false;
-    
+
     public static string BundleIdentifier
     {
         get
@@ -109,7 +111,7 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_WIN
         RemoveForwardAndroid();
 #endif
-        ForwardAndroid();
+            ForwardAndroid();
 
         ITestListener listener = new TestRunListener(CallRunDelegate);
         var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
@@ -117,19 +119,19 @@ public class AltUnityTesterEditor : EditorWindow
         testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
         progress = 0;
         total = filters.Filters.Count;
-        Thread runTestThread= new Thread(() =>
+        Thread runTestThread = new Thread(() =>
         {
-            var result=testAssemblyRunner.Run(listener, filters);
+            var result = testAssemblyRunner.Run(listener, filters);
 
 #if UNITY_EDITOR_OSX
-        if (!_editorConfiguration.TestAndroid)
-        {
-            KillIProxy(idIproxyProcess);
-            thread.Join();
-        }
-        else
+            if (!_editorConfiguration.TestAndroid)
+            {
+                KillIProxy(idIproxyProcess);
+                thread.Join();
+            }
+            else
 #endif
-            RemoveForwardAndroid();
+                RemoveForwardAndroid();
             SetTestStatus(result);
         });
 
@@ -153,7 +155,7 @@ public class AltUnityTesterEditor : EditorWindow
         progress++;
         _testName = name;
     }
-   
+
     private void SetTestStatus(List<ITestResult> results)
     {
         bool passed = true;
@@ -267,8 +269,7 @@ public class AltUnityTesterEditor : EditorWindow
             }
         }
         var listOfTests = _editorConfiguration.MyTests;
-        var serializeTests = JsonConvert.SerializeObject(listOfTests, Formatting.Indented, new JsonSerializerSettings
-        {
+        var serializeTests = JsonConvert.SerializeObject(listOfTests, Formatting.Indented, new JsonSerializerSettings {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         });
         EditorPrefs.SetString("tests", serializeTests);
@@ -405,6 +406,7 @@ public class AltUnityTesterEditor : EditorWindow
         //Show existing window instance. If one doesn't exist, make one.
         _window = (AltUnityTesterEditor)GetWindow(typeof(AltUnityTesterEditor));
         _window.Show();
+
     }
 
 
@@ -412,35 +414,45 @@ public class AltUnityTesterEditor : EditorWindow
     {
         if (_editorConfiguration == null)
         {
-            if (AssetDatabase.FindAssets("idProject").Length == 0)
-            {
-                _editorConfiguration = ScriptableObject.CreateInstance<EditorConfiguration>();
-                AssetDatabase.CreateAsset(_editorConfiguration, "Assets/AltUnityDriver/Editor/idProject.asset");
-                AssetDatabase.SaveAssets();
-            }
-            else
-            {
-                _editorConfiguration = AssetDatabase.LoadAssetAtPath<EditorConfiguration>(
-                    AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("idProject")[0]));
-            }
-
-            EditorUtility.SetDirty(_editorConfiguration);
+            InitEditorConfiguration();
         }
 
         if (failIcon == null)
         {
             var findIcon = AssetDatabase.FindAssets("16px-indicator-fail");
             failIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
+            Debug.Log(failIcon);
         }
         if (passIcon == null)
         {
             var findIcon = AssetDatabase.FindAssets("16px-indicator-pass");
             passIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
+            Debug.Log(passIcon);
+
         }
         SetUpListTest();
-       
+
 
     }
+
+    private static void InitEditorConfiguration()
+    {
+        if (AssetDatabase.FindAssets("idProject").Length == 0)
+        {
+            _editorConfiguration = ScriptableObject.CreateInstance<EditorConfiguration>();
+            AssetDatabase.CreateAsset(_editorConfiguration, "Assets/AltUnityDriver/Editor/idProject.asset");
+            AssetDatabase.SaveAssets();
+        }
+        else
+        {
+            _editorConfiguration = AssetDatabase.LoadAssetAtPath<EditorConfiguration>(
+                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("idProject")[0]));
+        }
+        EditorUtility.SetDirty(_editorConfiguration);
+
+    }
+
+
     void OnInspectorUpdate()
     {
         Repaint();
@@ -448,6 +460,17 @@ public class AltUnityTesterEditor : EditorWindow
 
     private void OnGUI()
     {
+
+        if (Application.isPlaying && !runnedInEditor)
+        {
+            runnedInEditor = true;
+        }
+
+        if (!Application.isPlaying && runnedInEditor)
+        {
+            AfterExitPlayMode();
+
+        }
 
         var screenWidth = EditorGUIUtility.currentViewWidth;
 
@@ -471,10 +494,10 @@ public class AltUnityTesterEditor : EditorWindow
 
         EditorGUILayout.BeginHorizontal();
 
-        _editorConfiguration.TestAndroid = EditorGUILayout.Toggle(_editorConfiguration.TestAndroid,GUILayout.MaxWidth(15));
-        EditorGUILayout.LabelField("Android",_editorConfiguration.TestAndroid?EditorStyles.boldLabel:EditorStyles.label);
-        _editorConfiguration.TestAndroid = !EditorGUILayout.Toggle(!_editorConfiguration.TestAndroid,GUILayout.MaxWidth(15));
-        EditorGUILayout.LabelField("iOS",!_editorConfiguration.TestAndroid ? EditorStyles.boldLabel : EditorStyles.label);
+        _editorConfiguration.TestAndroid = EditorGUILayout.Toggle(_editorConfiguration.TestAndroid, GUILayout.MaxWidth(15));
+        EditorGUILayout.LabelField("Android", _editorConfiguration.TestAndroid ? EditorStyles.boldLabel : EditorStyles.label);
+        _editorConfiguration.TestAndroid = !EditorGUILayout.Toggle(!_editorConfiguration.TestAndroid, GUILayout.MaxWidth(15));
+        EditorGUILayout.LabelField("iOS", !_editorConfiguration.TestAndroid ? EditorStyles.boldLabel : EditorStyles.label);
 
         EditorGUILayout.EndHorizontal();
 #endif
@@ -500,7 +523,7 @@ public class AltUnityTesterEditor : EditorWindow
         {
             var found = false;
 
-            Scene scene=EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
+            Scene scene = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
             if (scene.path.Equals(GetFirstSceneWhichWillBeBuilt()))
             {
                 if (scene.GetRootGameObjects()
@@ -526,7 +549,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         }
 #if UNITY_EDITOR_OSX
-        if(GUILayout.Button("Build&Run IOS"))
+        if (GUILayout.Button("Build&Run IOS"))
         {
             IosDefault();
 
@@ -536,8 +559,14 @@ public class AltUnityTesterEditor : EditorWindow
         GUILayout.Button("Build&Run IOS");
         EditorGUI.EndDisabledGroup();
 #endif
-       
-        EditorGUILayout.LabelField("",GUILayout.ExpandHeight(true));
+        EditorGUILayout.LabelField("Play", EditorStyles.boldLabel);
+        if (GUILayout.Button("Run in Editor"))
+        {
+            RunInEditor();
+
+        }
+
+        EditorGUILayout.LabelField("", GUILayout.ExpandHeight(true));
         //Status test
 
         _scrollPositonTestResult = EditorGUILayout.BeginScrollView(_scrollPositonTestResult, GUI.skin.textArea);
@@ -580,6 +609,59 @@ public class AltUnityTesterEditor : EditorWindow
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
 
+    }
+
+    private void AfterExitPlayMode()
+    {
+        var activeScene = EditorSceneManager.GetActiveScene();
+        var altUnityRunner = activeScene.GetRootGameObjects()
+            .FirstOrDefault(gameObject => gameObject.name.Equals("AltUnityRunnerWithInputScript"));
+        if (altUnityRunner != null)
+        {
+            DestroyImmediate(altUnityRunner);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveOpenScenes();
+        }
+
+        RemoveAltUnityTesterFromScriptingDefineSymbols(EditorUserBuildSettings.selectedBuildTargetGroup);
+
+        runnedInEditor = false;
+    }
+
+    private static void RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup targetGroup)
+    {
+        string altunitytesterdefine = "ALTUNITYTESTER";
+        var scriptingDefineSymbolsForGroup =
+            PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+        string newScriptingDefineSymbolsForGroup = "";
+        if (scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine)) {
+            var split = scriptingDefineSymbolsForGroup.Split(';');
+            foreach (var define in split) {
+                if (define != altunitytesterdefine) {
+                    newScriptingDefineSymbolsForGroup += define + ";";
+                }
+            }
+            newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length-1);
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
+                newScriptingDefineSymbolsForGroup);
+        }
+    }
+
+    private void RunInEditor()
+    {
+        InsertAltUnityInTheFirstScene();
+        AddAltUnityTesterInScritpingDefineSymbolsGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+
+        EditorApplication.isPlaying = true;
+
+    }
+
+    private static void AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup targetGroup)
+    {
+        var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+        if (!scriptingDefineSymbolsForGroup.Contains("ALTUNITYTESTER")) 
+            scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
     }
 
     //private void TestDEvice()
@@ -634,7 +716,7 @@ public class AltUnityTesterEditor : EditorWindow
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-                 _editorConfiguration.SigningTeamId = EditorGUILayout.TextField("Signing Team Id: ", _editorConfiguration.SigningTeamId);
+                _editorConfiguration.SigningTeamId = EditorGUILayout.TextField("Signing Team Id: ", _editorConfiguration.SigningTeamId);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
@@ -1020,7 +1102,6 @@ public class AltUnityTesterEditor : EditorWindow
         foreach (var sceneGuid in scenesToBeAddedGuid)
         {
             var scenePath = AssetDatabase.GUIDToAssetPath(sceneGuid);
-            Debug.Log("===>> Scene name to be added: " + scenePath);
             _editorConfiguration.Scenes.Add(new MyScenes(false, scenePath, 0));
 
         }
@@ -1034,7 +1115,7 @@ public class AltUnityTesterEditor : EditorWindow
         List<EditorBuildSettingsScene> listofPath = new List<EditorBuildSettingsScene>();
         foreach (var scene in _editorConfiguration.Scenes)
         {
-            listofPath.Add(new EditorBuildSettingsScene(scene.Path,scene.ToBeBuilt));
+            listofPath.Add(new EditorBuildSettingsScene(scene.Path, scene.ToBeBuilt));
         }
 
         return listofPath.ToArray();
@@ -1060,10 +1141,11 @@ public class AltUnityTesterEditor : EditorWindow
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, BundleIdentifier);
         PlayerSettings.bundleVersion = versionNumber;
         PlayerSettings.iOS.buildNumber = versionNumber;
-      
+
         PlayerSettings.companyName = _editorConfiguration.CompanyName;
         PlayerSettings.iOS.appleEnableAutomaticSigning = _editorConfiguration.AutomaticallySign;
         PlayerSettings.iOS.appleDeveloperTeamID = _editorConfiguration.SigningTeamId;
+        AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
     }
 
     private static void IosDefault()
@@ -1089,6 +1171,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
+        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.iOS);
 
     }
 #endif
@@ -1106,20 +1189,22 @@ public class AltUnityTesterEditor : EditorWindow
         PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
         PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
         PlayerSettings.companyName = _editorConfiguration.CompanyName;
+        AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
     }
 
-
+    [MenuItem("AltUnityTester/AndroidBuild")]
     static void AndroidDefault()
     {
-        Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        InitEditorConfiguration();
         InitAndroid();
+        Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
-//        EditorApplication.delayCall += DestroyAltUnityRunner;
+        //        EditorApplication.delayCall += DestroyAltUnityRunner;
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
         if (results.summary.totalErrors == 0)
@@ -1128,28 +1213,27 @@ public class AltUnityTesterEditor : EditorWindow
 
         }
         else
-            Debug.LogError("Build Error!");
+            Debug.LogError("Build Error! "  + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         built = true;
-
+        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
     }
 
     private static string[] GetSceneForBuild()
     {
-        if (_editorConfiguration.Scenes.Count == 0) {
+        if (_editorConfiguration.Scenes.Count == 0)
+        {
             AddAllScenes();
             SelectAllScenes();
         }
         List<String> sceneList = new List<string>();
         foreach (var scene in _editorConfiguration.Scenes)
         {
-            Debug.Log("Scene: " + scene.Path);
             if (scene.ToBeBuilt)
             {
                 sceneList.Add(scene.Path);
             }
         }
-
 
         InsertAltUnityInTheFirstScene();
 
@@ -1172,9 +1256,12 @@ public class AltUnityTesterEditor : EditorWindow
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         EditorSceneManager.SaveOpenScenes();
 
-        try {
-        EditorSceneManager.OpenScene(PreviousScenePath);
-        } catch {
+        try
+        {
+            EditorSceneManager.OpenScene(PreviousScenePath);
+        }
+        catch
+        {
             Debug.Log("No scene was loaded yet.");
         }
     }
@@ -1206,30 +1293,31 @@ public class AltUnityTesterEditor : EditorWindow
         return result;
     }
 #if UNITY_EDITOR_OSX
-    private static void ThreadForwardIos(){
-            
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
+    private static void ThreadForwardIos()
+    {
+
+        Process process = new Process();
+        ProcessStartInfo startInfo = new ProcessStartInfo {
             WindowStyle = ProcessWindowStyle.Normal,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                FileName = _editorConfiguration.IProxyPath,
-                Arguments = "13000 13000"
-            };
-            process.StartInfo=startInfo;
-            process.Start();
-            idIproxyProcess=process.Id;
-            iProxyOn = true;
-            process.WaitForExit();
-}
-private static void KillIProxy(int id){
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            FileName = _editorConfiguration.IProxyPath,
+            Arguments = "13000 13000"
+        };
+        process.StartInfo = startInfo;
+        process.Start();
+        idIproxyProcess = process.Id;
+        iProxyOn = true;
+        process.WaitForExit();
+    }
+    private static void KillIProxy(int id)
+    {
 
 
         var chosenOne = Process.GetProcessesByName("iproxy");
         chosenOne[0].Kill();
         chosenOne[0].WaitForExit();
-}
+    }
 #endif
 
     private static void ForwardAndroid()
@@ -1242,8 +1330,7 @@ private static void KillIProxy(int id){
 #endif
 
         Process process = new Process();
-        ProcessStartInfo startInfo = new ProcessStartInfo
-        {
+        ProcessStartInfo startInfo = new ProcessStartInfo {
             WindowStyle = ProcessWindowStyle.Hidden,
             UseShellExecute = false,
             RedirectStandardOutput = true,
@@ -1264,8 +1351,7 @@ private static void KillIProxy(int id){
         adbFileName = _editorConfiguration.AdbPathIos;
 #endif
         var process = new Process();
-        var startInfo = new ProcessStartInfo
-        {
+        var startInfo = new ProcessStartInfo {
             WindowStyle = ProcessWindowStyle.Normal,
             UseShellExecute = false,
             RedirectStandardOutput = true,
@@ -1276,12 +1362,12 @@ private static void KillIProxy(int id){
         process.Start();
         process.WaitForExit();
     }
-   
 
-    [MenuItem("Assets/Create/AltUnityTest",false,80)]
+
+    [MenuItem("Assets/Create/AltUnityTest", false, 80)]
     public static void CreateAltUnityTest()
     {
-       
+
         var templatePath = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("DefaultTestExample")[0]);
 
         string folderPath = GetPath();
@@ -1314,94 +1400,96 @@ private static void KillIProxy(int id){
 
     private static void DestroyAltUnityRunner(Object altUnityRunner)
     {
-            
-            DestroyImmediate(altUnityRunner);
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-            EditorSceneManager.SaveOpenScenes();
-            EditorSceneManager.OpenScene(PreviousScenePath);
+
+        DestroyImmediate(altUnityRunner);
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveOpenScenes();
+        EditorSceneManager.OpenScene(PreviousScenePath);
 
 
     }
 
     static void RunAllTestsAndroid()
-   {
+    {
+        InitEditorConfiguration();
+        Debug.Log("Started running test");
+        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
+            .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+        var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
 
-       Debug.Log("Started running test");
-       Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
-           .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
-       var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
-
-       OrFilter filter=new OrFilter();
-       foreach (var test in testSuite2.Tests)
-           foreach (var t in test.Tests)
-           {
-               Debug.Log(t.FullName);
-               filter.Add(new FullNameFilter(t.FullName));
-           }
-
-
-       RemoveForwardAndroid();
-       ForwardAndroid();
-
-       ITestListener listener = new TestProgressReporter(null);
-       var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
-
-       testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
+        OrFilter filter = new OrFilter();
+        foreach (var test in testSuite2.Tests)
+            foreach (var t in test.Tests)
+            {
+                Debug.Log(t.FullName);
+                filter.Add(new FullNameFilter(t.FullName));
+            }
 
 
-       var result = testAssemblyRunner.Run(listener, filter);
+        RemoveForwardAndroid();
+        ForwardAndroid();
 
-       RemoveForwardAndroid();
-       if (result.FailCount > 0)
-       {
-           throw new Exception("Not All test Passed");
-       }
-   }
+        ITestListener listener = new TestRunListener(null);
+        var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
 
-   #if UNITY_EDITOR_OSX
-   static void RunAllTestsIOS()
-   {
-       Debug.Log("Started running test");
-       Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
-           .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
-       var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
-
-       OrFilter filter = new OrFilter();
-       foreach (var test in testSuite2.Tests)
-       foreach (var t in test.Tests)
-       {
-           Debug.Log(t.FullName);
-           filter.Add(new FullNameFilter(t.FullName));
-       }
-
-       thread = new Thread(ThreadForwardIos);
-       thread.Start();
-       while (!iProxyOn)
-       {
-           Thread.Sleep(250);
-       }
+        testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
 
 
+        var result = testAssemblyRunner.Run(listener, filter);
 
-       ITestListener listener = new TestProgressReporter(null);
-       var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
+        RemoveForwardAndroid();
+        if (result.FailCount > 0)
+        {
+            EditorApplication.Exit(1);
+        }
+    }
 
-       testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
+#if UNITY_EDITOR_OSX
+    static void RunAllTestsIOS()
+    {
+        InitEditorConfiguration();
+        Debug.Log("Started running test");
+        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
+            .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+        var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+
+        OrFilter filter = new OrFilter();
+        foreach (var test in testSuite2.Tests)
+            foreach (var t in test.Tests)
+            {
+                Debug.Log(t.FullName);
+                filter.Add(new FullNameFilter(t.FullName));
+            }
+
+        thread = new Thread(ThreadForwardIos);
+        thread.Start();
+        while (!iProxyOn)
+        {
+            Thread.Sleep(250);
+        }
 
 
-       var result = testAssemblyRunner.Run(listener, filter);
+
+        ITestListener listener = new TestProgressReporter(null);
+        var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
+
+        testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
 
 
-       KillIProxy(idIproxyProcess);
-       thread.Join();
+        var result = testAssemblyRunner.Run(listener, filter);
 
 
-       if (result.FailCount > 0)
-       {
-           throw new Exception("Not All test Passed");
-       }
+        KillIProxy(idIproxyProcess);
+        thread.Join();
 
-   }
+
+        if (result.FailCount > 0)
+        {
+            throw new Exception("Not All test Passed");
+        }
+
+    }
 #endif
+
     
 }

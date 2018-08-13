@@ -9,7 +9,8 @@ build-apk:
     tags:
       - unity
     script:
-       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidDefault -logFile buildAndroid.log -quit 
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidDefault -logFile buildAndroid.log -quit
        - ls 
     artifacts:
       when: always
@@ -23,17 +24,21 @@ run-csharp-android-tests:
     tags:
         - unity
     script:
-       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAndroidTests -logFile csharpAndroidTests.log -quit 
-       - ls 
-    artifacts:
-      when: always
-      expire_in: 10 days
-      paths:
-        - buildAndroid.log
-        - sampleGame.apk
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
 
 
-run-python-tests:
+
+#     artifacts:
+#       when: always
+#       expire_in: 10 days
+#       paths:
+#         - csharpAndroidTests.log
+
+
+run-python-android-tests:
     stage: android-tests
     tags:
         - unity
@@ -51,26 +56,26 @@ run-python-tests:
         - sleep 30
         - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
 
-run-appium-tests:
-    stage: appium-tests
-    tags:
-        - unity
-    script:
-        - virtualenv altunitytests
-        - source altunitytests/bin/activate
-        - killall node || true
-        - appium >> appium.log & 
-        - pip install Appium-Python-Client
-        - pip uninstall --yes altunityrunner || true
-        - pip install -e Assets/AltUnityTester/Bindings/python
-        - sleep 30
-        - python Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/sampletest.py
-        - killall node || true
-    artifacts:
-        when: always
-        expire_in: 10 days
-        paths:
-            - appium.log
+# # run-appium-tests:
+#     stage: appium-tests
+#     tags:
+#         - unity
+#     script:
+#         - virtualenv altunitytests
+#         - source altunitytests/bin/activate
+#         - killall node || true
+#         - appium >> appium.log & 
+#         - pip install Appium-Python-Client
+#         - pip uninstall --yes altunityrunner || true
+#         - pip install -e Assets/AltUnityTester/Bindings/python
+#         - sleep 30
+#         - python Assets/ExamplesAndTests\ \(can\ be\ deleted\)/sampletest.py
+#         - killall node || true
+#     artifacts:
+#         when: always
+#         expire_in: 10 days
+#         paths:
+#             - appium.log
 
 deploy-altunitytester-python:
     stage: deploy

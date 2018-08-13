@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.IOException;
 
@@ -177,7 +178,7 @@ public class TestsSampleScene1 {
         try {
             altUnityDriver.waitForElementWithText(name, text, 1, 0.5);
             fail();
-        } catch (Exception e) {
+        } catch (WaitTimeOutException e) {
             assertEquals(e.getMessage(), "Element with text:Capsule InfoWrongText not loaded after 1.0 seconds");
         }
     }
@@ -209,7 +210,7 @@ public class TestsSampleScene1 {
         try {
             altElement.getComponentProperty(componentName, propertyName);
             fail();
-        } catch (Exception e) {
+        } catch (PropertyNotFoundException e) {
             assertEquals(e.getMessage(), "error:propertyNotFound");
         }
     }
@@ -255,7 +256,7 @@ public class TestsSampleScene1 {
         try {
             altElement.setComponentProperty(componentName, propertyName, "2");
             fail();
-        } catch (Exception e) {
+        } catch (ComponentNotFoundException e) {
             assertEquals(e.getMessage(), "error:componentNotFound");
         }
     }
@@ -299,7 +300,7 @@ public class TestsSampleScene1 {
         try {
             altElement.callComponentMethod(componentName, methodName, parameters);
             fail();
-        } catch (Exception e) {
+        } catch (IncorrectNumberOfParametersException e) {
             assertEquals(e.getMessage(), "error:incorrectNumberOfParameters");
         }
     }
@@ -314,7 +315,7 @@ public class TestsSampleScene1 {
         try {
             altElement.callComponentMethod(componentName, methodName, parameters);
             fail();
-        } catch (Exception e) {
+        } catch (IncorrectNumberOfParametersException e) {
             assertEquals(e.getMessage(), "error:incorrectNumberOfParameters");
         }
     }
@@ -353,7 +354,7 @@ public class TestsSampleScene1 {
         try {
             altUnityDriver.getIntKeyPlayerPref("test");
             fail();
-        } catch (Exception e) {
+        } catch (NotFoundException e) {
             assertEquals(e.getMessage(), "error:notFound");
         }
     }
@@ -370,34 +371,31 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testFindNonExistentObject()
-    {
+    public void testFindNonExistentObject() throws Exception {
         try {
             altUnityDriver.findElement("NonExistent");
             fail();
-        } catch (Exception e) {
+        } catch (NotFoundException e) {
             assertEquals(e.getMessage(), "error:notFound");
         }
     }
 
     @Test
-    public void testFindNonExistentObjectByName()
-    {
+    public void testFindNonExistentObjectByName() throws Exception {
         try {
             altUnityDriver.findElementWhereNameContains("NonExistent");
             fail();
-        } catch (Exception e) {
+        } catch (NotFoundException e) {
             assertEquals(e.getMessage(), "error:notFound");
         }
     }
 
     @Test
-    public void testClickOnNothing()
-    {
+    public void testClickOnNothing() throws Exception {
         try {
             altUnityDriver.clickScreen(0,0);
             fail();
-        } catch (Exception e) {
+        } catch (CouldNotPerformOperationException e) {
             assertEquals(e.getMessage(), "error:couldNotPerformOperation");
         }
     }
