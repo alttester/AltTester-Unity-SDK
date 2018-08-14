@@ -1176,8 +1176,9 @@ public class AltUnityTesterEditor : EditorWindow
     }
     private static void IosBuildFromCommandLine()
     {
-        Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        InitEditorConfiguration();
         InitIos();
+        Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.locationPathName = _editorConfiguration.OutputFilenameiOSdDefault();
         buildPlayerOptions.scenes = GetSceneForBuild();
@@ -1528,7 +1529,7 @@ public class AltUnityTesterEditor : EditorWindow
 
 
 
-        ITestListener listener = new TestProgressReporter(null);
+        ITestListener listener = new TestRunListener(null);
         var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
 
         testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
@@ -1543,7 +1544,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         if (result.FailCount > 0)
         {
-            throw new Exception("Not All test Passed");
+            EditorApplication.Exit(1);
         }
 
     }
