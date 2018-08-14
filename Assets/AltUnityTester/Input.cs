@@ -8,7 +8,7 @@ public class Input : MonoBehaviour
 {
   
     private static bool UseCustomInput;
-    public void Awake()
+    public void Start()
     {
        
         instance = this;
