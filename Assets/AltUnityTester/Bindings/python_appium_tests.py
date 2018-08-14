@@ -40,12 +40,13 @@ class SampleAppiumTest(unittest.TestCase):
         cls.desired_caps['automationName'] = 'XCUITest'
         cls.desired_caps['app'] = PATH('../../../sampleGame.ipa')
 
-    def test_wait_for_scene(self):
-        self.altdriver.wait_for_current_scene_to_be('Scene 1 AltUnityDriverTestScene')
+    # def test_wait_for_scene(self):
+        # self.altdriver.wait_for_current_scene_to_be('Scene 1 AltUnityDriverTestScene')
 
     def test_find_element(self):
         self.altdriver.find_element('Plane')
         self.altdriver.find_element('Capsule')
+
     
     def test_wait_for_element_with_text(self):
         text_to_wait_for = self.altdriver.find_element('CapsuleInfo').get_text()

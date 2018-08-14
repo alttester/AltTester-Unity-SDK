@@ -67,3 +67,7 @@ Assets/AltUnityTester/Bindings/java/**/*.meta
 .vs/altunitytester/v15/Server/sqlite3/storage.ide-wal
 
 Assets/AltUnityTester/AltUnityDriver/Editor/idProject.asset
+Assets/AltUnityTester/Bindings/java/.project
+Assets/AltUnityTester/Bindings/java/.settings
+Assets/AltUnityTester/Bindings/java/.classpath
+omnisharp.json
