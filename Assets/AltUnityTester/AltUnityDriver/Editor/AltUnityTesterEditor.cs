@@ -1223,7 +1223,6 @@ public class AltUnityTesterEditor : EditorWindow
         AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
     }
 
-    [MenuItem("AltUnityTester/AndroidBuild")]
     static void AndroidDefault()
     {
         InitEditorConfiguration();
