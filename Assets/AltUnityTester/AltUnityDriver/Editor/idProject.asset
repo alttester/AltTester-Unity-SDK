@@ -16,12 +16,12 @@ MonoBehaviour:
   CompanyName: Altom
   AdbPathIos: /usr/local/bin/adb
   IProxyPath: /usr/local/bin/iproxy
-  AutomaticallySign: 0
-  SigningTeamId: 
+  AutomaticallySign: 1
+  SigningTeamId: 59ESG8ELF5
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: /Users/rucindrea/workspace/unity-appium/AltUnityTester-public/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: /Users/robertpoienar/AltUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
@@ -121,7 +121,7 @@ MonoBehaviour:
     _status: -1
     _isSuite: 1
     _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 5
+    _testCaseCount: 4
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
@@ -149,15 +149,6 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: Passed in 0.189268
   - _selected: 0
-    _testName: GameWithCarTiltImport.Swipe
-    _status: -1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: "  Expected: not equal to \"{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0,\"eulerAngles\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}}\"\n
-      \ But was:  \"{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0,\"eulerAngles\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}}\"\n"
-  - _selected: 0
     _testName: GameWithCarTiltImport.Tilt
     _status: 1
     _isSuite: 0
@@ -170,7 +161,7 @@ MonoBehaviour:
     _status: 1
     _isSuite: 1
     _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 37
+    _testCaseCount: 38
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
@@ -430,14 +421,6 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: Passed in 0.203363
   - _selected: 0
-    _testName: TestSample.TestWaitForElementWithWrongText
-    _status: 1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 1.240587
-  - _selected: 0
     _testName: TestSample.TestWaitForExistingElement
     _status: 1
     _isSuite: 0
@@ -454,14 +437,6 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: Passed in 0.097805
   - _selected: 0
-    _testName: TestSample.TestWaitForNonExistingElement
-    _status: 1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 0.11405
-  - _selected: 0
     _testName: TestSample.TestWaitForNonExistingElementWhereNameContains
     _status: 1
     _isSuite: 0
@@ -469,6 +444,30 @@ MonoBehaviour:
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: Passed in 0.098005
+  - _selected: 0
+    _testName: TestSample.TestWaitForNonExistingObject
+    _status: 0
+    _isSuite: 0
+    _parentName: TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestSample.TestWaitForObjectToNotExistFail
+    _status: 0
+    _isSuite: 0
+    _parentName: TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestSample.TestWaitForObjectWithTextWrongText
+    _status: 0
+    _isSuite: 0
+    _parentName: TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
   Scenes:
   - _toBeBuilt: 1
     _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity
