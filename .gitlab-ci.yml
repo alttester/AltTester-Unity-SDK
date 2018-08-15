@@ -1,11 +1,13 @@
 stages:
-  - build
+  - build-android
   - android-tests
+  - build-ios
+  - ios-tests
   - appium-tests
   - deploy
   
 build-apk:
-    stage: build
+    stage: build-android
     tags:
       - unity
     script:
@@ -61,7 +63,27 @@ run-java-android-tests:
         - adb forward tcp:13000 tcp:13000
         - cd Assets/AltUnityTester/Bindings/java
         - mvn test
-        
+
+build-ipa:
+    stage: build-ios
+    tags:
+      - unity
+    script:
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log -quit
+       - ls 
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - buildIos.log
+
+run-csharp-android-tests:
+    stage: ios-tests
+    tags:
+        - unity
+    script:
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIos -logFile csharpIosTests.log -quit        
         
 # # run-appium-tests:
 #     stage: appium-tests
