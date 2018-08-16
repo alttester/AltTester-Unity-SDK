@@ -29,8 +29,12 @@ run-csharp-android-tests:
         - adb uninstall fi.altom.altunitytester || true
         - adb install sampleGame.apk
         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
-        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
-
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -exe  cuteMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths: 
+          - csharpAndroidTests.log
 
 run-python-android-tests:
     stage: android-tests
@@ -69,9 +73,10 @@ build-ipa:
     tags:
       - unity
     script:
+    - 
     - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
     - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log
-    - sleep 60
+    - sleep 120
     - ls 
     artifacts:
       when: always
@@ -79,13 +84,18 @@ build-ipa:
       paths:
         - buildIos.log
 
-run-csharp-android-tests:
+run-csharp-ios-tests:
     stage: ios-tests
     tags:
         - unity
     script:
-        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIos -logFile csharpIosTests.log -quit        
-        
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit        
+     artifacts:
+        when: always
+        expire_in: 10 days
+        paths: 
+          - csharpIosTests.log    
+
 # # run-appium-tests:
 #     stage: appium-tests
 #     tags:
