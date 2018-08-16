@@ -73,11 +73,10 @@ build-ipa:
     tags:
       - unity
     script:
-    - 
-    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
-    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log
-    - sleep 120
-    - ls 
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log
+      - sleep 120
+      - ls 
     artifacts:
       when: always
       expire_in: 10 days
@@ -90,11 +89,12 @@ run-csharp-ios-tests:
         - unity
     script:
         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit        
-     artifacts:
-        when: always
-        expire_in: 10 days
-        paths: 
-          - csharpIosTests.log    
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - csharpIosTests.log    
+ 
 
 # # run-appium-tests:
 #     stage: appium-tests
