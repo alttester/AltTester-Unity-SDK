@@ -1485,6 +1485,7 @@ public class AltUnityTesterEditor : EditorWindow
 
 
         RemoveForwardAndroid();
+        KillIProxy(idIproxyProcess);
         ForwardAndroid();
 
         ITestListener listener = new TestRunListener(null);
@@ -1518,7 +1519,7 @@ public class AltUnityTesterEditor : EditorWindow
                 Debug.Log(t.FullName);
                 filter.Add(new FullNameFilter(t.FullName));
             }
-
+        RemoveForwardAndroid();
         thread = new Thread(ThreadForwardIos);
         thread.Start();
         while (!iProxyOn)
