@@ -70,8 +70,8 @@ run-python-appium-android-tests:
     script:
         - virtualenv altunitytests
         - source altunitytests/bin/activate
-        - killall node || true
-        - appium >> appium.log & 
+        # - killall node || true
+        # - appium >> appium.log & 
         - pip install Appium-Python-Client
         - pip uninstall --yes altunityrunner || true
         - pip install -e Assets/AltUnityTester/Bindings/python
