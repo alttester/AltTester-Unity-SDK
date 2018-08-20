@@ -130,11 +130,12 @@ class AltrunUnityDriver(object):
         self.TCP_PORT = TCP_PORT
         if (appium_driver != None):
             self.appium_driver = appium_driver
+            if (platform != None):
+                print('Starting tests on ' + platform)
+                self.setup_port_forwarding(platform, TCP_FWD_PORT)
+
         while (timeout > 0):
             try:
-                if (platform != None):
-                    print('Starting tests on ' + platform)
-                    self.setup_port_forwarding(platform, TCP_FWD_PORT)
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_FWD_PORT))
                 break
@@ -147,21 +148,26 @@ class AltrunUnityDriver(object):
         if (timeout <= 0):
             raise Exception('AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', did you run ``adb forward tcp:' + str(TCP_FWD_PORT) + ' tcp:' + str(self.TCP_PORT) + '`` or ``iproxy ' + str(TCP_FWD_PORT) + ' ' + str(self.TCP_PORT) + '``?')
 
+    def remove_port_forwarding(self, port):
+        try:
+            subprocess.Popen(['killall', 'iproxy']).wait()
+            print('Removed iproxy forwarding')
+        except:
+            print('AltUnityServer - no iproxy process was running/present')
+        try:
+            subprocess.Popen(['adb', 'forward', '--remove-all']).wait()
+            print('Removed adb forwarding')
+        except:
+            print('AltUnityServer - adb probably not installed ')
+
     def setup_port_forwarding(self, platform, port):
+        self.remove_port_forwarding(port)
         if (platform == "android"):
             try:
-                subprocess.Popen(['killall', 'iproxy'])
-            except:
-                print('AltUnityServer - no iproxy process was running/present')
-            try:
-                subprocess.Popen(['ad', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
+                subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
             except:
                 print('AltUnityServer - could not use port ' + str(port))
         if (platform == "ios"):
-            try:
-                subprocess.Popen(['ad', 'forward', '--remove-all'])
-            except:
-                print('AltUnityServer - adb probably not installed ')
             try:
                 subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT)])
             except:
@@ -170,6 +176,7 @@ class AltrunUnityDriver(object):
     def stop(self):
         data = self.send_data('closeConnection;&')
         print('Sent close connection command...')
+        time.sleep(1)
         self.socket.close()
         print('Socket closed.')
 

@@ -464,4 +464,45 @@ public class AltUnityDriver {
             throw new FormatException(data);
         }
     }
+
+    public static void setupPortForwarding(String platform, int tcp_port) {
+        System.out.println("Setting up port forward for " + platform + " on port " + tcp_port);
+        removePortForwarding();
+        if (platform.equals("android")) {
+            try {
+                Runtime.getRuntime().exec("adb forward tcp:" + tcp_port + " tcp:" + tcp_port);
+                Thread.sleep(1000);
+                System.out.println("adb forward enabled.");
+            } catch (Exception e) {
+                System.out.println("AltUnityServer - abd probably not installed\n" + e);
+            }
+
+        } else if (platform.equals("ios")) {
+            try {
+                Runtime.getRuntime().exec("iproxy " + tcp_port + " " + tcp_port + "&");
+                Thread.sleep(1000);
+                System.out.println("iproxy forward enabled.");
+            } catch (Exception e) {
+                System.out.println("AltUnityServer - no iproxy process was running/present\n" + e);
+            }
+        }
+    }
+
+    public static void removePortForwarding() {
+        try {
+            Runtime.getRuntime().exec("killall iproxy");
+            Thread.sleep(1000);
+            System.out.println("Killed any iproxy process that may have been running...");
+        } catch (Exception e) {
+            System.out.println("AltUnityServer - no iproxy process was running/present\n" + e);
+        }
+
+        try {
+            Runtime.getRuntime().exec("adb forward --remove-all");
+            Thread.sleep(1000);
+            System.out.println("Removed existing adb forwarding...");
+        } catch (Exception e) {
+            System.out.println("AltUnityServer - abd probably not installed\n" + e);
+        }
+    }
 }
