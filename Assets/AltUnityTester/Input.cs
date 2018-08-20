@@ -2,19 +2,22 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class Input : MonoBehaviour
 {
+  
+    private static bool UseCustomInput;
     public void Start()
     {
-
+       
         instance = this;
         mockUpPointerInputModule = new MockUpPointerInputModule();
 
+    }
+    private void Update()
+    {
+        UseCustomInput = UnityEngine.Input.touchCount == 0;
     }
     public static Input instance;
     public static List<KeyCode> keyCodesPressed = new List<KeyCode>();
@@ -40,9 +43,27 @@ public class Input : MonoBehaviour
 
     public static int accelerationEventCount { get; set; }
 
-    public static Touch[] touches = new Touch[0];
+    private static Touch[] _touches=new Touch[0];
+    public static Touch[] touches
+    {
+        get { return UseCustomInput ? _touches : UnityEngine.Input.touches; }
+        set
+        {
+            _touches =value;
+        }
+    }
+    public Touch this[int i]
+    {
+        get { return UseCustomInput ? _touches[i] : UnityEngine.Input.GetTouch(i); }
+        set { _touches[i] = value; }
+    }
 
-    public static int touchCount { get; set; }
+    private static int _touchCount;
+    public static int touchCount
+    {
+        get { return UseCustomInput ? _touchCount : UnityEngine.Input.touchCount; }
+        set { _touchCount = value; }
+    }
 
     public static bool mousePresent { get; set; }
 
@@ -309,5 +330,7 @@ public class Input : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+   
 }
+
 #endif
