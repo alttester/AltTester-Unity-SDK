@@ -84,6 +84,22 @@ run-python-appium-android-tests:
         paths:
             - appium.log
 
+run-java-appium-android-tests:
+    stage: appium-tests
+    tags:
+        - unity
+    script:
+        - cd Assets/AltUnityTester/Bindings/java
+        - mvn clean compile assembly:single
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-1.0-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.0 -Dpackaging=jar
+        - cd ../java-appium-tests
+        - mvn test
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - ./Assets/AltUnityTester/Bindings/java/target/altunitytester-java-client-1.0-SNAPSHOT-jar-with-dependencies.jar
+
 deploy-altunitytester-python:
     stage: deploy
     when: manual
