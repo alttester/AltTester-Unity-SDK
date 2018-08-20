@@ -71,3 +71,6 @@ Assets/AltUnityTester/Bindings/java/.project
 Assets/AltUnityTester/Bindings/java/.settings
 Assets/AltUnityTester/Bindings/java/.classpath
 omnisharp.json
+Assets/AltUnityTester/Bindings/java-appium-tests/.project
+Assets/AltUnityTester/Bindings/java-appium-tests/.settings/
+Assets/AltUnityTester/Bindings/java-appium-tests/.classpath
