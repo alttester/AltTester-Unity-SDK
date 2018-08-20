@@ -21,7 +21,7 @@ MonoBehaviour:
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: /Users/robertpoienar/AltUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
@@ -162,7 +162,7 @@ MonoBehaviour:
     _isSuite: 1
     _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 38
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
   - _selected: 0
     _testName: TestSample.TestButtonClickWithSwipe
@@ -478,10 +478,10 @@ MonoBehaviour:
   - _toBeBuilt: 1
     _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 3 Drag And Drop.unity
     _buildIndex: 2
-  - _toBeBuilt: 1
+  - _toBeBuilt: 0
     _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 4 GameWithMobileSingleStickControls.unity
     _buildIndex: 3
-  - _toBeBuilt: 1
+  - _toBeBuilt: 0
     _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 5 GameWithCarTiltControls.unity
     _buildIndex: 4
   TestAndroid: 1
