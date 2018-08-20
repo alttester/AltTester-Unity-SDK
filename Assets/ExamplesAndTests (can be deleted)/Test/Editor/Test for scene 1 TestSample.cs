@@ -428,7 +428,7 @@ public class TestSample
     {
         var button = altUnityDriver.FindElement("UIButton");
         Vector2 vector2 = new Vector2(button.x, button.y);
-        altUnityDriver.Swipe(vector2, vector2, 1);
+        altUnityDriver.HoldButtonAndWait(vector2, 1);
         var capsuleInfo = altUnityDriver.FindElement("CapsuleInfo");
         Thread.Sleep(1400);
         var text = capsuleInfo.GetText();
