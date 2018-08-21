@@ -31,7 +31,13 @@
 [Waiting for elements](#waiting-for-elements)
 
 >>>>
-[Unity Scenes](#unity-scenes)
+[Managing Unity Scenes](#managing-unity-scenes)
+
+>>>>
+[Managing Unity PlayerPrefs](#managing-unity-playerprefs)
+
+>>>>
+[Actions on Screen](#actions-on-screen)
 
 >>>>
 [Actions on elements](#actions-on-elements)
