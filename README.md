@@ -1,5 +1,42 @@
 # AltUnityTester
 
+## Table of Content
+>
+[Setup](#setup)
+>>
+[Downloads - AltUnityTester Package](#downloads-altunitytester-package)
+>>
+[Import AltUnityTester asset/package into your Unity project](#import-altunitytester-assetpackage-into-your-unity-project)
+>>
+[Setting up local machine for iOS testing](#setting-up-local-machine-for-ios-testing)
+>
+[AltUnityTester User Interface](#altunitytester-user-interface)
+ >>
+ [Building the game](#building-the-game)
+ >>
+ [  Run Tests ](#run-tests)
+ >>
+ [Writing Test for AltUnityTester](#writing-test-for-altunitytester)
+ >
+ [Actions/Commands](#actionscommands)
+ >>
+ [AltUnityElements](#altunityelements)
+>>
+[Available Actions](#available-actions)
+
+>>>>
+[Finding elements](#finding-elements)
+
+>>>>
+[Waiting for elements](#waiting-for-elements)
+
+>>>>
+[Unity Scenes](#unity-scenes)
+
+>>>>
+[Actions on elements](#actions-on-elements)
+
+
 ## Setup
 >
 ### Downloads - AltUnityTester Package
