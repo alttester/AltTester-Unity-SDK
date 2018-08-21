@@ -1184,7 +1184,8 @@ public class AltUnityTesterEditor : EditorWindow
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.iOS;
-        buildPlayerOptions.options = BuildOptions.Development;
+
+        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
 
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
         built = true;
