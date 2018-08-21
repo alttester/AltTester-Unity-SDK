@@ -13,8 +13,9 @@ build-ipa:
       - unity
     script:
       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
-      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log
-      - sleep 120
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log -quit
+      - cd sampleGame
+      - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS
       - ls 
     artifacts:
       when: always
@@ -27,6 +28,8 @@ run-csharp-ios-tests:
     tags:
         - unity
     script:
+        - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' &
+        - sleep 60
         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit        
     artifacts:
       when: always
