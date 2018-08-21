@@ -6,67 +6,67 @@ stages:
   - appium-tests
   - deploy
   
-build-apk:
-    stage: build-android
-    tags:
-      - unity
-    script:
-    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
-    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
-       - ls 
-    artifacts:
-      when: always
-      expire_in: 10 days
-      paths:
-        - buildAndroid.log
-        - sampleGame.apk
+# build-apk:
+#     stage: build-android
+#     tags:
+#       - unity
+#     script:
+#     - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+#     - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+#        - ls 
+#     artifacts:
+#       when: always
+#       expire_in: 10 days
+#       paths:
+#         - buildAndroid.log
+#         - sampleGame.apk
 
-run-csharp-android-tests:
-    stage: android-tests
-    tags:
-        - unity
-    script:
-        - adb uninstall fi.altom.altunitytester || true
-        - adb install sampleGame.apk
-        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
-        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -exe  cuteMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
-    artifacts:
-        when: always
-        expire_in: 10 days
-        paths: 
-          - csharpAndroidTests.log
+# run-csharp-android-tests:
+#     stage: android-tests
+#     tags:
+#         - unity
+#     script:
+#         - adb uninstall fi.altom.altunitytester || true
+#         - adb install sampleGame.apk
+#         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+#         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -exe  cuteMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
+#     artifacts:
+#         when: always
+#         expire_in: 10 days
+#         paths: 
+#           - csharpAndroidTests.log
 
-run-python-android-tests:
-    stage: android-tests
-    tags:
-        - unity
-    script:
-        - adb uninstall fi.altom.altunitytester || true
-        - adb install sampleGame.apk
-        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
-        - adb forward --remove-all
-        - adb forward tcp:13000 tcp:13000
-        - virtualenv altunitytests
-        - source altunitytests/bin/activate
-        - pip install Appium-Python-Client
-        - pip uninstall --yes altunityrunner || true
-        - pip install -e Assets/AltUnityTester/Bindings/python
-        - sleep 30
-        - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
+# run-python-android-tests:
+#     stage: android-tests
+#     tags:
+#         - unity
+#     script:
+#         - adb uninstall fi.altom.altunitytester || true
+#         - adb install sampleGame.apk
+#         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+#         - adb forward --remove-all
+#         - adb forward tcp:13000 tcp:13000
+#         - virtualenv altunitytests
+#         - source altunitytests/bin/activate
+#         - pip install Appium-Python-Client
+#         - pip uninstall --yes altunityrunner || true
+#         - pip install -e Assets/AltUnityTester/Bindings/python
+#         - sleep 30
+#         - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
 
 
-run-java-android-tests:
-    stage: android-tests
-    tags:
-        - unity
-    script:
-        - adb uninstall fi.altom.altunitytester || true
-        - adb install sampleGame.apk
-        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
-        - adb forward --remove-all
-        - adb forward tcp:13000 tcp:13000
-        - cd Assets/AltUnityTester/Bindings/java
-        - mvn test
+# run-java-android-tests:
+#     stage: android-tests
+#     tags:
+#         - unity
+#     script:
+#         - adb uninstall fi.altom.altunitytester || true
+#         - adb install sampleGame.apk
+#         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+#         - adb forward --remove-all
+#         - adb forward tcp:13000 tcp:13000
+#         - cd Assets/AltUnityTester/Bindings/java
+#         - mvn test
 
 build-ipa:
     stage: build-ios
@@ -95,27 +95,49 @@ run-csharp-ios-tests:
       paths:
         - csharpIosTests.log    
  
+        
+run-python-appium-android-tests:
+    stage: appium-tests
+    only:
+        refs:
+            - master
+    tags:
+        - unity
+    script:
+        - virtualenv altunitytests
+        - source altunitytests/bin/activate
+        # - killall node || true
+        # - appium >> appium.log & 
+        - pip install Appium-Python-Client
+        - pip uninstall --yes altunityrunner || true
+        - pip install -e Assets/AltUnityTester/Bindings/python
+        - sleep 30
+        - python Assets/AltUnityTester/Bindings/python_appium_tests.py
+        # - killall node || true
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - appium.log
 
-# # run-appium-tests:
-#     stage: appium-tests
-#     tags:
-#         - unity
-#     script:
-#         - virtualenv altunitytests
-#         - source altunitytests/bin/activate
-#         - killall node || true
-#         - appium >> appium.log & 
-#         - pip install Appium-Python-Client
-#         - pip uninstall --yes altunityrunner || true
-#         - pip install -e Assets/AltUnityTester/Bindings/python
-#         - sleep 30
-#         - python Assets/ExamplesAndTests\ \(can\ be\ deleted\)/sampletest.py
-#         - killall node || true
-#     artifacts:
-#         when: always
-#         expire_in: 10 days
-#         paths:
-#             - appium.log
+run-java-appium-android-tests:
+    stage: appium-tests
+    only:
+        refs:
+            - master
+    tags:
+        - unity
+    script:
+        - cd Assets/AltUnityTester/Bindings/java
+        - mvn clean compile assembly:single
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-1.0-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.0 -Dpackaging=jar
+        - cd ../java-appium-tests
+        - mvn test
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - ./Assets/AltUnityTester/Bindings/java/target/altunitytester-java-client-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 deploy-altunitytester-python:
     stage: deploy
