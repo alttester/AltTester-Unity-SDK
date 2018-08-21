@@ -7,7 +7,7 @@ stages:
   - deploy
   
 build-apk:
-    stage: build
+    stage: build-android
     tags:
       - unity
     script:
