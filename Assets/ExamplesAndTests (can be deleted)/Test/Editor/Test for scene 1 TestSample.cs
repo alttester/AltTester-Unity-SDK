@@ -202,6 +202,7 @@ public class TestSample
         Assert.AreEqual("[1,2,3]", propertyValue);
     }
 
+#if !UNITY_IOS
     [Test]
     public void TestGetComponentPropertyUnityEngine()
     {
@@ -212,6 +213,7 @@ public class TestSample
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual("false",propertyValue);
     }
+#endif 
 
     [Test]
     public void TestSetComponentProperty()

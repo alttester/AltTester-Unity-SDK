@@ -6,6 +6,63 @@ stages:
   - appium-tests
   - deploy
   
+build-apk:
+    stage: build
+    tags:
+      - unity
+    script:
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+       - ls 
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - buildAndroid.log
+        - sampleGame.apk
+
+run-csharp-android-tests:
+    stage: android-tests
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
+
+
+run-python-android-tests:
+    stage: android-tests
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - adb forward --remove-all
+        - adb forward tcp:13000 tcp:13000
+        - virtualenv altunitytests
+        - source altunitytests/bin/activate
+        - pip install Appium-Python-Client
+        - pip uninstall --yes altunityrunner || true
+        - pip install -e Assets/AltUnityTester/Bindings/python
+        - sleep 30
+        - python Assets/AltUnityTester/Bindings/python_bindings_tests.py
+
+
+run-java-android-tests:
+    stage: android-tests
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - adb forward --remove-all
+        - adb forward tcp:13000 tcp:13000
+        - cd Assets/AltUnityTester/Bindings/java
+        - mvn test
 
 build-ipa:
     stage: build-ios
@@ -16,8 +73,6 @@ build-ipa:
       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log -quit
       - cd sampleGame
       - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS
-      - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone &
-      - sleep 60
       - ls 
     artifacts:
       when: always
@@ -34,7 +89,8 @@ run-csharp-ios-tests:
         - cd sampleGame
         - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone &
         - sleep 60
-        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit        
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit     
+        - killall xcodebuild || true   
     artifacts:
       when: always
       expire_in: 10 days

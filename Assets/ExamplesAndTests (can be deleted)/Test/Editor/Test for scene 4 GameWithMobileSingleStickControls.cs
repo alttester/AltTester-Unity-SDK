@@ -45,6 +45,8 @@ public class CrossPlatformInputGame1 : MonoBehaviour {
         Assert.AreEqual(localScale, localScaleRelease);
     }
     //ForMobileSingleStickControls
+
+#if !UNITY_IOS
     [Test]
     public void DragAndRelease()
     {
@@ -98,5 +100,5 @@ public class CrossPlatformInputGame1 : MonoBehaviour {
         Assert.AreEqual(Xjoystick, XJoystickAfterDrop);
         Assert.AreEqual(Yjoystick, YJoystickAfterDrop);
     }
-   
+#endif   
 }
