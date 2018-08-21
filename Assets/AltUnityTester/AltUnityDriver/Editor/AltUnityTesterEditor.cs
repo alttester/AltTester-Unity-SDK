@@ -1201,7 +1201,7 @@ public class AltUnityTesterEditor : EditorWindow
         }
 
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
-            EditorApplication.Exit(0);
+            // EditorApplication.Exit(0);
 
 
     }
