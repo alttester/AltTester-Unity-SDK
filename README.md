@@ -210,6 +210,10 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
   * `GetCurrentScene`
     * params: none
     * returns: the name of the current scene
+>
+    ```c#
+    altUnityDriver.GetCurrentScene();
+    ```
   * `WaitForCurrentSceneToBe`
    * params: 
       * sceneName - the scene that we want to wait for 
