@@ -1486,7 +1486,9 @@ public class AltUnityTesterEditor : EditorWindow
 
 
         RemoveForwardAndroid();
+#if UNITY_EDITOR_OSX
         KillIProxy(idIproxyProcess);
+#endif
         ForwardAndroid();
 
         ITestListener listener = new TestRunListener(null);
