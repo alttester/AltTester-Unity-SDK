@@ -5,7 +5,7 @@ using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
 using UnityEngine;
-
+[Timeout(5000)]
 public class TestSample
 {
     private AltUnityDriver altUnityDriver;
@@ -202,18 +202,18 @@ public class TestSample
         Assert.AreEqual("[1,2,3]", propertyValue);
     }
 
-//#if !UNITY_IOS
-//    [Test]
-//    public void TestGetComponentPropertyUnityEngine()
-//    {
-//        const string componentName = "UnityEngine.CapsuleCollider";
-//        const string propertyName = "isTrigger";
-//        var altElement = altUnityDriver.FindElement("Capsule");
-//        Assert.NotNull(altElement);
-//        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-//        Assert.AreEqual("false",propertyValue);
-//    }
-//#endif 
+#if !UNITY_IOS
+    [Test]
+    public void TestGetComponentPropertyUnityEngine()
+    {
+        const string componentName = "UnityEngine.CapsuleCollider";
+        const string propertyName = "isTrigger";
+        var altElement = altUnityDriver.FindElement("Capsule");
+        Assert.NotNull(altElement);
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("false", propertyValue);
+    }
+#endif 
 
     [Test]
     public void TestSetComponentProperty()
@@ -469,21 +469,21 @@ public class TestSample
             Assert.AreEqual(exception.Message, "Element dlkasldkas not loaded after 1 seconds");
         }
     }
-//#if !UNITY_IOS
-//    [Test]
-//    public void TestWaitForObjectToNotExistFail()
-//    {
-//        try
-//        {
-//            altUnityDriver.WaitForElementToNotBePresent("Capsule", timeout: 1, interval: 0.5f);
-//            Assert.Fail();
-//        }
-//        catch (WaitTimeOutException exception)
-//        {
-//            Assert.AreEqual(exception.Message, "Element Capsule still not found after 1 seconds");
-//        }
-//    }
-//#endif
+#if !UNITY_IOS
+    [Test]
+    public void TestWaitForObjectToNotExistFail()
+    {
+        try
+        {
+            altUnityDriver.WaitForElementToNotBePresent("Capsule", timeout: 1, interval: 0.5f);
+            Assert.Fail();
+        }
+        catch (WaitTimeOutException exception)
+        {
+            Assert.AreEqual(exception.Message, "Element Capsule still not found after 1 seconds");
+        }
+    }
+#endif
 
     [Test]
     public void TestWaitForObjectWithTextWrongText()

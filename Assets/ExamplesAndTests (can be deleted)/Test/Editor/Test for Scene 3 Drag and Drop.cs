@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
-
+[Timeout(5000)]
 public class DragAndDrop  {
     private AltUnityDriver altUnityDriver;
     [OneTimeSetUp]
@@ -29,7 +29,7 @@ public class DragAndDrop  {
     {
         var altElement1 = altUnityDriver.FindElement("Drag Image1");
         var altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
+        altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
 
         altElement1 = altUnityDriver.FindElement("Drag Image2");
         altElement2 = altUnityDriver.FindElement("Drop Box2");
@@ -37,14 +37,14 @@ public class DragAndDrop  {
 
         altElement1 = altUnityDriver.FindElement("Drag Image3");
         altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 3);
+        altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
 
 
         altElement1 = altUnityDriver.FindElement("Drag Image1");
         altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 5);
+        altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 3);
 
-        Thread.Sleep(6000);
+        Thread.Sleep(4000);
         
         var imageSource = altUnityDriver.FindElement("Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         var imageSourceDropZone= altUnityDriver.FindElement("Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
@@ -60,15 +60,15 @@ public class DragAndDrop  {
     {
         var altElement1 = altUnityDriver.FindElement("Drag Image1");
         var altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
+        altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
 
         altElement1 = altUnityDriver.FindElement("Drag Image2");
         altElement2 = altUnityDriver.FindElement("Drop Box2");
-        altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
+        altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
 
         altElement1 = altUnityDriver.FindElement("Drag Image3");
         altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 3);
+        altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
 
 
         altElement1 = altUnityDriver.FindElement("Drag Image1");

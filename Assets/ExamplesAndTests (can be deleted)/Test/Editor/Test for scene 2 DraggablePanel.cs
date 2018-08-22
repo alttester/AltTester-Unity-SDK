@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
+[Timeout(5000)]
 public class DragUi
 {
 

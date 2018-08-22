@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
+[Timeout(5000)]
 public class CrossPlatformInputGame1 : MonoBehaviour {
 
 
@@ -46,59 +46,59 @@ public class CrossPlatformInputGame1 : MonoBehaviour {
     }
     //ForMobileSingleStickControls
 
-//#if !UNITY_IOS
-//    [Test]
-//    public void DragAndRelease()
-//    {
-//        AltUnityObject altElement = altUnityDriver.FindElement("Cube");
-//        string velocityString = altElement.GetComponentProperty( "UnityEngine.Rigidbody2D", "velocity");
+#if !UNITY_IOS
+    [Test]
+    public void DragAndRelease()
+    {
+        AltUnityObject altElement = altUnityDriver.FindElement("Cube");
+        string velocityString = altElement.GetComponentProperty("UnityEngine.Rigidbody2D", "velocity");
 
-//        Vector2 velocityStart = JsonConvert.DeserializeObject<Vector2>(velocityString);
+        Vector2 velocityStart = JsonConvert.DeserializeObject<Vector2>(velocityString);
 
-//        altElement = altUnityDriver.FindElement("MobileJoystick");
-//        float Xjoystick = altElement.x;
-//        float Yjoystick = altElement.y;
-
-
-
-//        altUnityDriver.FindElement("MobileJoystick").DragObject(new Vector2(200, 200));
-//        Thread.Sleep(100);
-
-//         altElement = altUnityDriver.FindElement("MobileJoystick");
-
-//        float XjoystickDuringDrag = altElement.x;
-//        float YjoystickDuringDrag = altElement.y;
-
-//        altElement = altUnityDriver.FindElement("Cube");
-//        velocityString = altElement.GetComponentProperty( "UnityEngine.Rigidbody2D", "velocity");
-
-//        Vector2 velocityDuringDrag = JsonConvert.DeserializeObject<Vector2>(velocityString);
+        altElement = altUnityDriver.FindElement("MobileJoystick");
+        float Xjoystick = altElement.x;
+        float Yjoystick = altElement.y;
 
 
-//        Assert.AreNotEqual(velocityDuringDrag, velocityStart);
-//        Assert.AreNotEqual(Xjoystick, XjoystickDuringDrag);
-//        Assert.AreNotEqual(Yjoystick, YjoystickDuringDrag);
 
-//        altUnityDriver.FindElement("MobileJoystick").PointerUpFromObject();
-//        Thread.Sleep(100);
+        altUnityDriver.FindElement("MobileJoystick").DragObject(new Vector2(200, 200));
+        Thread.Sleep(100);
 
-//        altElement = altUnityDriver.FindElement("MobileJoystick");
+        altElement = altUnityDriver.FindElement("MobileJoystick");
+
+        float XjoystickDuringDrag = altElement.x;
+        float YjoystickDuringDrag = altElement.y;
+
+        altElement = altUnityDriver.FindElement("Cube");
+        velocityString = altElement.GetComponentProperty("UnityEngine.Rigidbody2D", "velocity");
+
+        Vector2 velocityDuringDrag = JsonConvert.DeserializeObject<Vector2>(velocityString);
 
 
-//        float XJoystickAfterDrop = altElement.x;
-//        float YJoystickAfterDrop = altElement.y;
-//        altElement = altUnityDriver.FindElement("Cube");
-//        velocityString = altElement.GetComponentProperty( "UnityEngine.Rigidbody2D", "velocity");
+        Assert.AreNotEqual(velocityDuringDrag, velocityStart);
+        Assert.AreNotEqual(Xjoystick, XjoystickDuringDrag);
+        Assert.AreNotEqual(Yjoystick, YjoystickDuringDrag);
 
-//        Vector2 velocityAfterDrop = JsonConvert.DeserializeObject<Vector2>(velocityString);
+        altUnityDriver.FindElement("MobileJoystick").PointerUpFromObject();
+        Thread.Sleep(100);
 
-//        Assert.AreNotEqual(velocityDuringDrag, velocityAfterDrop);
-//        Assert.AreNotEqual(XJoystickAfterDrop, XjoystickDuringDrag);
-//        Assert.AreNotEqual(YJoystickAfterDrop, YjoystickDuringDrag);
+        altElement = altUnityDriver.FindElement("MobileJoystick");
 
-//        Assert.AreEqual(velocityAfterDrop, velocityStart);
-//        Assert.AreEqual(Xjoystick, XJoystickAfterDrop);
-//        Assert.AreEqual(Yjoystick, YJoystickAfterDrop);
-//    }
-//#endif   
+
+        float XJoystickAfterDrop = altElement.x;
+        float YJoystickAfterDrop = altElement.y;
+        altElement = altUnityDriver.FindElement("Cube");
+        velocityString = altElement.GetComponentProperty("UnityEngine.Rigidbody2D", "velocity");
+
+        Vector2 velocityAfterDrop = JsonConvert.DeserializeObject<Vector2>(velocityString);
+
+        Assert.AreNotEqual(velocityDuringDrag, velocityAfterDrop);
+        Assert.AreNotEqual(XJoystickAfterDrop, XjoystickDuringDrag);
+        Assert.AreNotEqual(YJoystickAfterDrop, YjoystickDuringDrag);
+
+        Assert.AreEqual(velocityAfterDrop, velocityStart);
+        Assert.AreEqual(Xjoystick, XJoystickAfterDrop);
+        Assert.AreEqual(Yjoystick, YJoystickAfterDrop);
+    }
+#endif   
 }
