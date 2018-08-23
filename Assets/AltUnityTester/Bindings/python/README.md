@@ -1,6 +1,6 @@
 # AltUnityTester Python Bindings
 
-The AltUnityTester package contains a alt_driver module that will open a socket connection on the device running the Unity application and will give access to all the objects in the Unity hierarchy. 
+The AltUnityTester package contains an alt_driver module that will open a socket connection on the device running the Unity application and will give access to all the objects in the Unity hierarchy. 
 
 Using this socket connection and the actions available in the AltUnity driver, we can run python tests tests against the Unity app running on iOS or Android. 
 
@@ -305,7 +305,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
 	* return: none
 	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `swipe_and_wait`
 
-   ```python
+    ```python
         var altElement1 = alt_driver.find_element('Drag Image1')
         var altElement2 = alt_driver.find_element('Drop Box1')
         alt_driver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2)
@@ -321,11 +321,11 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
 	* return: none
 	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `Swipe`
 
-	 ```python
+	```python
         var altElement1 = alt_driver.find_element("Drag Image1")
         var altElement2 = alt_driver.find_element("Drop Box1")
         alt_driver.swipe_and_wait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2)
-  ``` 
+    ``` 
  
   * `tap_at_coordinates`
 	* params: x,y - coordinates on the screen where it will be simulated a tap
