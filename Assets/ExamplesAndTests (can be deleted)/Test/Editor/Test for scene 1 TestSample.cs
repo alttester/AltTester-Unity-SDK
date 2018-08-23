@@ -469,7 +469,6 @@ public class TestSample
             Assert.AreEqual(exception.Message, "Element dlkasldkas not loaded after 1 seconds");
         }
     }
-//#if !UNITY_IOS
    [Test]
    public void TestWaitForObjectToNotExistFail()
    {
@@ -483,7 +482,6 @@ public class TestSample
            Assert.AreEqual(exception.Message, "Element Capsule still not found after 1 seconds");
        }
    }
-//#endif
 
     [Test]
     public void TestWaitForObjectWithTextWrongText()
@@ -531,10 +529,7 @@ public class TestSample
         }
       
     }
-    [Test]
-    public void TestFailing(){
-        Assert.Fail();
-    }
+   
 
 
 
