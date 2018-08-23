@@ -203,16 +203,16 @@ public class TestSample
     }
 
 //#if !UNITY_IOS
-//    [Test]
-//    public void TestGetComponentPropertyUnityEngine()
-//    {
-//        const string componentName = "UnityEngine.CapsuleCollider";
-//        const string propertyName = "isTrigger";
-//        var altElement = altUnityDriver.FindElement("Capsule");
-//        Assert.NotNull(altElement);
-//        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-//        Assert.AreEqual("false", propertyValue);
-//    }
+        [Test]
+        public void TestGetComponentPropertyUnityEngine()
+        {
+            const string componentName = "UnityEngine.CapsuleCollider";
+            const string propertyName = "isTrigger";
+            var altElement = altUnityDriver.FindElement("Capsule");
+            Assert.NotNull(altElement);
+            var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+            Assert.AreEqual("false", propertyValue);
+        }
 //#endif 
 
     [Test]
@@ -530,6 +530,10 @@ public class TestSample
             Assert.AreEqual("Element xyz still not found after 1 seconds", exception.Message);
         }
       
+    }
+    [Test]
+    public void TestFailing(){
+        Assert.Fail();
     }
 
 
