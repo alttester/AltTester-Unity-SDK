@@ -44,9 +44,9 @@ run-python-android-tests:
         - source altunitytests/bin/activate
         - pip install Appium-Python-Client
         - pip uninstall --yes altunityrunner || true
-        - pip install -e Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python
+        - pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python"
         - sleep 30
-        - python Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python_bindings_tests.py
+        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python_bindings_tests.py"
 
 
 run-java-android-tests:
@@ -74,9 +74,9 @@ run-python-appium-android-tests:
         # - appium >> appium.log & 
         - pip install Appium-Python-Client
         - pip uninstall --yes altunityrunner || true
-        - pip install -e Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python
+        - pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python"
         - sleep 30
-        - python Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python_appium_tests.py
+        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python_appium_tests.py"
         # - killall node || true
     artifacts:
         when: always
@@ -98,7 +98,7 @@ run-java-appium-android-tests:
         when: always
         expire_in: 10 days
         paths:
-            - ./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java/target/altunitytester-java-client-1.0-SNAPSHOT-jar-with-dependencies.jar
+            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java/target/altunitytester-java-client-1.0-SNAPSHOT-jar-with-dependencies.jar"
 
 deploy-altunitytester-python:
     stage: deploy
