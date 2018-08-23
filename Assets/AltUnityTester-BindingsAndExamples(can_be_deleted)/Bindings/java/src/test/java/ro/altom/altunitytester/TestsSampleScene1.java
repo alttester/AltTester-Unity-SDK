@@ -188,7 +188,7 @@ public class TestsSampleScene1 {
         String componentName = "AltUnityRunner";
         AltUnityObject altElement = altUnityDriver.findElementByComponent(componentName);
         assertNotNull(altElement);
-        assertEquals(altElement.name, "AltUnityRunner");
+        assertEquals(altElement.name, "AltUnityRunnerPrefab");
     }
 
     @Test
