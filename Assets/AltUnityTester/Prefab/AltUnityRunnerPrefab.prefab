@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114553684923959506}
   - component: {fileID: 114839706220227318}
   m_Layer: 0
-  m_Name: AltUnityRunner
+  m_Name: AltUnityRunnerPrefab
   m_TagString: AltUnityRunner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -159,7 +159,7 @@ public class TestSample
         const string componentName = "AltUnityRunner";
         var altElement = altUnityDriver.FindElementByComponent(componentName);
         Assert.NotNull(altElement);
-        Assert.AreEqual(altElement.name, "AltUnityRunner");
+        Assert.AreEqual(altElement.name, "AltUnityRunnerPrefab");
     }
 
     [Test]
@@ -167,7 +167,7 @@ public class TestSample
     {
         const string componentName = "AltUnityRunner";
         const string propertyName = "SocketPortNumber";
-        var altElement = altUnityDriver.FindElement("AltUnityRunner");
+        var altElement = altUnityDriver.FindElement("AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual(propertyValue,"13000");
@@ -178,7 +178,7 @@ public class TestSample
     {
         const string componentName = "AltUnityRunner";
         const string propertyName = "socketPort";
-        var altElement = altUnityDriver.FindElement("AltUnityRunner");
+        var altElement = altUnityDriver.FindElement("AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
         try
         {

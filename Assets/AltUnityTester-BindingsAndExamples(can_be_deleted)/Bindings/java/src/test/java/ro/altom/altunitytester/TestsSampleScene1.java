@@ -81,7 +81,7 @@ public class TestsSampleScene1 {
         assertTrue(altElementsString.contains("Plane"));
         assertTrue(altElementsString.contains("Canvas"));
         assertTrue(altElementsString.contains("EventSystem"));
-        assertTrue(altElementsString.contains("AltUnityRunner"));
+        assertTrue(altElementsString.contains("AltUnityRunnerPrefab"));
         assertTrue(altElementsString.contains("CapsuleInfo"));
         assertTrue(altElementsString.contains("UIButton"));
         assertTrue(altElementsString.contains("Text"));
@@ -195,7 +195,7 @@ public class TestsSampleScene1 {
     public void testGetComponentProperty() throws Exception {
         String componentName = "AltUnityRunner";
         String propertyName = "SocketPortNumber";
-        AltUnityObject altElement = altUnityDriver.findElement("AltUnityRunner");
+        AltUnityObject altElement = altUnityDriver.findElement("AltUnityRunnerPrefab");
         assertNotNull(altElement);
         String propertyValue = altElement.getComponentProperty(componentName, propertyName);
         assertEquals(propertyValue, "13000");
@@ -205,7 +205,7 @@ public class TestsSampleScene1 {
     public void testGetNonExistingComponentProperty() throws Exception {
         String componentName = "AltUnityRunner";
         String propertyName = "socketPort";
-        AltUnityObject altElement = altUnityDriver.findElement("AltUnityRunner");
+        AltUnityObject altElement = altUnityDriver.findElement("AltUnityRunnerPrefab");
         assertNotNull(altElement);
         try {
             altElement.getComponentProperty(componentName, propertyName);

@@ -527,11 +527,11 @@ public class AltUnityTesterEditor : EditorWindow
             if (scene.path.Equals(GetFirstSceneWhichWillBeBuilt()))
             {
                 if (scene.GetRootGameObjects()
-                    .Any(gameObject => gameObject.name.Equals("AltUnityRunner")))
+                    .Any(gameObject => gameObject.name.Equals("AltUnityRunnerPrefab")))
                 {
                     SceneManager.SetActiveScene(scene);
                     var altunityRunner = scene.GetRootGameObjects()
-                        .First(a => a.name.Equals("AltUnityRunner"));
+                        .First(a => a.name.Equals("AltUnityRunnerPrefab"));
                     DestroyAltUnityRunner(altunityRunner);
                     found = true;
                 }
@@ -615,7 +615,7 @@ public class AltUnityTesterEditor : EditorWindow
     {
         var activeScene = EditorSceneManager.GetActiveScene();
         var altUnityRunner = activeScene.GetRootGameObjects()
-            .FirstOrDefault(gameObject => gameObject.name.Equals("AltUnityRunner"));
+            .FirstOrDefault(gameObject => gameObject.name.Equals("AltUnityRunnerPrefab"));
         if (altUnityRunner != null)
         {
             DestroyImmediate(altUnityRunner);
@@ -1303,7 +1303,7 @@ public class AltUnityTesterEditor : EditorWindow
     {
         var altUnityRunner =
             AssetDatabase.LoadAssetAtPath<GameObject>(
-                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunner")[0]));
+                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
 
 
 

@@ -49,7 +49,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     void Start()
     {
 
-        //if (GameObject.FindGameObjectsWithTag("AltUnityRunner").Length <= 1) { 
         _jsonSettings = new JsonSerializerSettings();
         _jsonSettings.NullValueHandling = NullValueHandling.Ignore;
 

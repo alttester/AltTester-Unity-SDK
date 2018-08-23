@@ -166,7 +166,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     * returns: the element with a componentName component (or the last one found in the hierarchy if more than one element with the same component is present)
 >   
     ```c#
-    altUnityDriver.FindElementByComponent("AltUnityRunner"); 
+    altUnityDriver.FindElementByComponent("AltUnityRunnerPrefab"); 
     ```
 >
   * `FindElements`
