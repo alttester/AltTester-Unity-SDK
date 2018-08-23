@@ -470,19 +470,19 @@ public class TestSample
         }
     }
 //#if !UNITY_IOS
-//    [Test]
-//    public void TestWaitForObjectToNotExistFail()
-//    {
-//        try
-//        {
-//            altUnityDriver.WaitForElementToNotBePresent("Capsule", timeout: 1, interval: 0.5f);
-//            Assert.Fail();
-//        }
-//        catch (WaitTimeOutException exception)
-//        {
-//            Assert.AreEqual(exception.Message, "Element Capsule still not found after 1 seconds");
-//        }
-//    }
+   [Test]
+   public void TestWaitForObjectToNotExistFail()
+   {
+       try
+       {
+           altUnityDriver.WaitForElementToNotBePresent("Capsule", timeout: 1, interval: 0.5f);
+           Assert.Fail();
+       }
+       catch (WaitTimeOutException exception)
+       {
+           Assert.AreEqual(exception.Message, "Element Capsule still not found after 1 seconds");
+       }
+   }
 //#endif
 
     [Test]
