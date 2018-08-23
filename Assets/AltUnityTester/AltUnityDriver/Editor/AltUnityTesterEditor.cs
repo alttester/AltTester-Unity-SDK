@@ -527,11 +527,11 @@ public class AltUnityTesterEditor : EditorWindow
             if (scene.path.Equals(GetFirstSceneWhichWillBeBuilt()))
             {
                 if (scene.GetRootGameObjects()
-                    .Any(gameObject => gameObject.name.Equals("AltUnityRunnerWithInputScript")))
+                    .Any(gameObject => gameObject.name.Equals("AltUnityRunner")))
                 {
                     SceneManager.SetActiveScene(scene);
                     var altunityRunner = scene.GetRootGameObjects()
-                        .First(a => a.name.Equals("AltUnityRunnerWithInputScript"));
+                        .First(a => a.name.Equals("AltUnityRunner"));
                     DestroyAltUnityRunner(altunityRunner);
                     found = true;
                 }
@@ -615,7 +615,7 @@ public class AltUnityTesterEditor : EditorWindow
     {
         var activeScene = EditorSceneManager.GetActiveScene();
         var altUnityRunner = activeScene.GetRootGameObjects()
-            .FirstOrDefault(gameObject => gameObject.name.Equals("AltUnityRunnerWithInputScript"));
+            .FirstOrDefault(gameObject => gameObject.name.Equals("AltUnityRunner"));
         if (altUnityRunner != null)
         {
             DestroyImmediate(altUnityRunner);
@@ -1303,7 +1303,7 @@ public class AltUnityTesterEditor : EditorWindow
     {
         var altUnityRunner =
             AssetDatabase.LoadAssetAtPath<GameObject>(
-                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunnerWithInputScript")[0]));
+                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunner")[0]));
 
 
 
