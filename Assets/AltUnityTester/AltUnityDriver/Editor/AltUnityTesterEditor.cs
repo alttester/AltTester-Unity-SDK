@@ -983,7 +983,7 @@ public class AltUnityTesterEditor : EditorWindow
             }
             if (test.Type != typeof(TestMethod))
                 test.FoldOut = EditorGUILayout.Foldout(test.FoldOut, "");
-            if (test.FoldOut)
+            if (!test.FoldOut)
             {
                 if (test.Type == typeof(TestAssembly))
                 {

@@ -21,37 +21,13 @@ MonoBehaviour:
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: /Users/rucindrea/workspace/newaltunitytester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 50
-    _foldOut: 0
+    _testCaseCount: 44
+    _foldOut: 1
     _testResultMessage: 
-  - _selected: 0
-    _testName: CrossPlatformInputGame1
-    _status: 1
-    _isSuite: 1
-    _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 2
-    _foldOut: 0
-    _testResultMessage: 
-  - _selected: 0
-    _testName: CrossPlatformInputGame1.DragAndRelease
-    _status: 1
-    _isSuite: 0
-    _parentName: CrossPlatformInputGame1
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 0.549206
-  - _selected: 0
-    _testName: CrossPlatformInputGame1.PointerDownAndUp
-    _status: 1
-    _isSuite: 0
-    _parentName: CrossPlatformInputGame1
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 0.236878
   - _selected: 0
     _testName: DragAndDrop
     _status: 1
@@ -117,52 +93,12 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: Passed in 4.187412
   - _selected: 0
-    _testName: GameWithCarTiltImport
-    _status: -1
-    _isSuite: 1
-    _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 4
-    _foldOut: 0
-    _testResultMessage: 
-  - _selected: 0
-    _testName: GameWithCarTiltImport.Acceleration
-    _status: 1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 1.297799
-  - _selected: 1
-    _testName: GameWithCarTiltImport.Brake
-    _status: 1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 1.230407
-  - _selected: 0
-    _testName: GameWithCarTiltImport.HoldButton
-    _status: 1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 0.189268
-  - _selected: 0
-    _testName: GameWithCarTiltImport.Tilt
-    _status: 1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 1.178575
-  - _selected: 0
     _testName: TestSample
     _status: 1
     _isSuite: 1
     _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 38
-    _foldOut: 1
+    _foldOut: 0
     _testResultMessage: 
   - _selected: 0
     _testName: TestSample.TestButtonClickWithSwipe
@@ -468,20 +404,5 @@ MonoBehaviour:
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
-  Scenes:
-  - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity
-    _buildIndex: 0
-  - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 2 Draggable Panel.unity
-    _buildIndex: 1
-  - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 3 Drag And Drop.unity
-    _buildIndex: 2
-  - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 4 GameWithMobileSingleStickControls.unity
-    _buildIndex: 3
-  - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 5 GameWithCarTiltControls.unity
-    _buildIndex: 4
+  Scenes: []
   TestAndroid: 1
