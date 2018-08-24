@@ -35,7 +35,11 @@ run-csharp-android-tests:
         - adb install sampleGame.apk
         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
-
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - csharpAndroidTests.log
 
 run-python-android-tests:
     stage: android-tests
