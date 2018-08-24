@@ -109,7 +109,7 @@ For more information check the tests samples that come with the package.
 
 ## iOS Code Stripping Problems
 >
-Because Unity uses IL2CPP to strip unnecessary code to make the game as small as possible it might remove code that AltUnityTester will use to get information. This is why some test might fail. From our observation the methods that most likely will have this problem are: GetComponentProperty, SetComponentProperty and CallComponentMethod. If this happens it will require to create a `link.xml` file in the Asset folder.
+Because Unity uses IL2CPP to strip unnecessary code to make games as small as possible it might remove code that AltUnityTester will use to get information. This is why some tests might fail. From our observation the methods that most likely will have this problem are: GetComponentProperty, SetComponentProperty and CallComponentMethod. If this happens it will need to create a `link.xml` file in the Asset folder.
 >
 For information how to create `link.xml` and more details about IL2CPP check [IL2CPP BytecodeStripping](#https://docs.unity3d.com/Manual/IL2CPP-BytecodeStripping.html).
 >
