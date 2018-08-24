@@ -18,6 +18,8 @@
  >>
  [Writing Test for AltUnityTester](#writing-test-for-altunitytester)
  >
+ [iOS code stripping problems](#ios-code-stripping-problems)
+ >
  [Actions/Commands](#actionscommands)
  >>
  [AltUnityElements](#altunityelements)
@@ -93,6 +95,7 @@ The UI should look like this for Mac user.(Very similar for Windows user but wit
 * After running the test, they will have been colored depending if they passed or failed
 * To see more information about the result of a test press the `Info` button and it will display more information
 
+
 >
 ### Writing Tests for AltUnityTester
 >	
@@ -101,7 +104,17 @@ The UI should look like this for Mac user.(Very similar for Windows user but wit
 * Name the file however you want and open it.
 * Write the tests you want using available action that are listed below and NUnit asserts. 
 
+>
 For more information check the tests samples that come with the package.
+
+## iOS Code Stripping Problems
+>
+Because Unity uses IL2CPP to strip unnecessary code to make games as small as possible it might remove code that AltUnityTester will use to get information. This is why some tests might fail. From our observation the methods that most likely will have this problem are: GetComponentProperty, SetComponentProperty and CallComponentMethod. If this happens it will need to create a `link.xml` file in the Asset folder.
+>
+For information how to create `link.xml` and more details about IL2CPP check [IL2CPP BytecodeStripping](#https://docs.unity3d.com/Manual/IL2CPP-BytecodeStripping.html).
+>
+**Don't forget to delete link.xml before releasing the game!**
+
 
 ## Actions/Commands
 >
