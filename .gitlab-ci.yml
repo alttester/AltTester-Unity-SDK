@@ -5,6 +5,12 @@ stages:
   - ios-tests
   - appium-tests
   - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - sampleGame.apk
+  - sampleGame/
   
 build-apk:
     stage: build-android
@@ -19,7 +25,6 @@ build-apk:
       expire_in: 10 days
       paths:
         - buildAndroid.log
-        - sampleGame.apk
 
 run-csharp-android-tests:
     stage: android-tests
@@ -78,7 +83,6 @@ build-ipa:
       when: always
       expire_in: 10 days
       paths:
-        - sampleGame/
         - buildIos.log
 
 run-csharp-ios-tests:
