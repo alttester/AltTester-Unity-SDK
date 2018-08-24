@@ -981,19 +981,23 @@ public class AltUnityTesterEditor : EditorWindow
 
                 EditorGUILayout.LabelField(test.TestName, guiStyle, GUILayout.ExpandWidth(false));
             }
+
             if (test.Type != typeof(TestMethod))
-                test.FoldOut = EditorGUILayout.Foldout(test.FoldOut, "");
-            if (test.FoldOut)
             {
-                if (test.Type == typeof(TestAssembly))
+                test.FoldOut = EditorGUILayout.Foldout(test.FoldOut, "");
+                if (!test.FoldOut)
                 {
-                    foldOutCounter = tests.Count - 1;
-                }
-                else
-                {
-                    foldOutCounter = test.TestCaseCount;
+                    if (test.Type == typeof(TestAssembly))
+                    {
+                        foldOutCounter = tests.Count - 1;
+                    }
+                    else
+                    {
+                        foldOutCounter = test.TestCaseCount;
+                    }
                 }
             }
+
             EditorGUILayout.LabelField("");
             if (GUILayout.Button("Info", GUILayout.MaxWidth(50)))
             {
