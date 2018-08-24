@@ -21,72 +21,51 @@ MonoBehaviour:
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: /Users/rucindrea/workspace/newaltunitytester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 50
-    _foldOut: 0
+    _testCaseCount: 44
+    _foldOut: 1
     _testResultMessage: 
-  - _selected: 0
-    _testName: CrossPlatformInputGame1
-    _status: 1
-    _isSuite: 1
-    _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 2
-    _foldOut: 0
-    _testResultMessage: 
-  - _selected: 0
-    _testName: CrossPlatformInputGame1.DragAndRelease
-    _status: 1
-    _isSuite: 0
-    _parentName: CrossPlatformInputGame1
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 0.549206
-  - _selected: 0
-    _testName: CrossPlatformInputGame1.PointerDownAndUp
-    _status: 1
-    _isSuite: 0
-    _parentName: CrossPlatformInputGame1
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 0.236878
   - _selected: 0
     _testName: DragAndDrop
-    _status: 1
+    _status: -1
     _isSuite: 1
     _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 3
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
   - _selected: 0
     _testName: DragAndDrop.MultipleDragAndDrop
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 6.57995
+    _testResultMessage: 'System.Net.Sockets.SocketException : Connection reset by
+      peer'
   - _selected: 0
     _testName: DragAndDrop.MultipleDragAndDropWait
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 8.658182
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: DragAndDrop.TestPointerEnterAndExit
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.227588
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: DragUi
-    _status: 1
+    _status: -1
     _isSuite: 1
     _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 3
@@ -94,394 +73,392 @@ MonoBehaviour:
     _testResultMessage: 
   - _selected: 0
     _testName: DragUi.ClosePanel
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: DragUi
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.208379
+    _testResultMessage: 'System.Net.Sockets.SocketException : Connection reset by
+      peer'
   - _selected: 0
     _testName: DragUi.MovePanel
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: DragUi
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 2.12183
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: DragUi.ResizePanel
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: DragUi
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 4.187412
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
-    _testName: GameWithCarTiltImport
+    _testName: TestSample
     _status: -1
     _isSuite: 1
     _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 4
-    _foldOut: 0
-    _testResultMessage: 
-  - _selected: 0
-    _testName: GameWithCarTiltImport.Acceleration
-    _status: 1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 1.297799
-  - _selected: 1
-    _testName: GameWithCarTiltImport.Brake
-    _status: 1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 1.230407
-  - _selected: 0
-    _testName: GameWithCarTiltImport.HoldButton
-    _status: 1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 0.189268
-  - _selected: 0
-    _testName: GameWithCarTiltImport.Tilt
-    _status: 1
-    _isSuite: 0
-    _parentName: GameWithCarTiltImport
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 1.178575
-  - _selected: 0
-    _testName: TestSample
-    _status: 1
-    _isSuite: 1
-    _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 38
-    _foldOut: 1
+    _foldOut: 0
     _testResultMessage: 
   - _selected: 0
     _testName: TestSample.TestButtonClickWithSwipe
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.632734
+    _testResultMessage: 'System.Net.Sockets.SocketException : Connection reset by
+      peer'
   - _selected: 0
     _testName: TestSample.TestCallMethodWithIncorrectNumberOfParameters
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.103137
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestCallMethodWithIncorrectTypeOfParameters
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.115855
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestCallMethodWithManyParameters
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.123342
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestCallMethodWithNoParameters
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.089805
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestCallMethodWithParameters
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.097886
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestClickElement
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.172672
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestClickOnNothing
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.078259
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 1
     _testName: TestSample.TestClickScreen
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.160819
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestDeleteKey
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.141229
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestDifferentCamera
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.172973
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestFindElement
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.075564
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestFindElementByComponent
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.112039
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestFindElements
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.102195
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestFindElementsWhereNameContains
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.093865
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestFindElementWhereNameContains
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.100137
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestFindNonExistentObject
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.09641
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestFindNonExistentObjectByName
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.098547
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestGetAllElements
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.10594
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestGetComponentProperty
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.133235
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestGetComponentPropertyArray
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.125316
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestGetComponentPropertyUnityEngine
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.118084
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestGetCurrentScene
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.079463
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestGetNonExistingComponentProperty
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.134252
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestSetComponentProperty
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.116373
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestSetKeyFloat
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.151203
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestSetKeyInt
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.118043
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestSetKeyString
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.115141
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestSetNonExistingComponentProperty
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.123409
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForCurrentSceneToBe
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.100385
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForCurrrentSceneToBeANonExistingScene
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.11059
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForElementWithText
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.203363
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForExistingElement
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.079849
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForExistingElementWhereNameContains
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.097805
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForNonExistingElementWhereNameContains
-    _status: 1
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.098005
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForNonExistingObject
-    _status: 0
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForObjectToNotExistFail
-    _status: 0
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   - _selected: 0
     _testName: TestSample.TestWaitForObjectWithTextWrongText
-    _status: 0
+    _status: -1
     _isSuite: 0
     _parentName: TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
+      shut down'
   Scenes:
   - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity
+    _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
+      1 AltUnityDriverTestScene.unity
     _buildIndex: 0
   - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 2 Draggable Panel.unity
+    _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
+      2 Draggable Panel.unity
     _buildIndex: 1
   - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 3 Drag And Drop.unity
+    _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
+      3 Drag And Drop.unity
     _buildIndex: 2
-  - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 4 GameWithMobileSingleStickControls.unity
-    _buildIndex: 3
-  - _toBeBuilt: 1
-    _path: Assets/ExamplesAndTests (can be deleted)/Scenes/Scene 5 GameWithCarTiltControls.unity
-    _buildIndex: 4
   TestAndroid: 1
