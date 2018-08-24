@@ -199,7 +199,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     * returns: a list of elements with a name that contains partOfTheName 
 >
     ```c#
-    altUnityDriver.FindElementsWhereNameContains("Capsul"); # should find Capsule, Capsules, Capsule1, Capsule 2 etc.     
+    altUnityDriver.FindElementsWhereNameContains("Capsul"); // should find Capsule, Capsules, Capsule1, Capsule 2 etc.     
     ```
 >
   * `FindElementsByComponent`
@@ -234,7 +234,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     * returns: the element with a name that contains partOfTheName (or the last one found in the hierarchy if more than one element with the same name is present)
 >
     ```c#
-    altUnityDriver.WaitForElementWhereNameContains("Capsul', timeout=30); // should find Capsule     
+    altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should find Capsule     
     ```
 >
   * `WaitForElementToNotBePresent`
@@ -246,7 +246,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
 >
     ```c#
-    altUnityDriver.WaitForElementToNotBePresent("Capsule") ;
+    altUnityDriver.WaitForElementToNotBePresent("Capsule");
     ``` 
 >
   * `WaitForElementWithText`
@@ -258,7 +258,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
 >   
     ```c#
-        altUnityDriver.WaitForElementWithText("CapsuleInfo', 'Capsule was clicked to jump!")  ;
+        altUnityDriver.WaitForElementWithText("CapsuleInfo", "Capsule was clicked to jump!");
     ``` 
   
 >
@@ -349,9 +349,9 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `SwipeAndWait`
 >
    ```c#
-     var altElement1 = altUnityDriver.FindElement("Drag Image1");
-        var altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
+    var altElement1 = altUnityDriver.FindElement("Drag Image1");
+    var altElement2 = altUnityDriver.FindElement("Drop Box1");
+    altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
   ``` 
 >	
   * `SwipeAndWait`
@@ -363,9 +363,9 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `Swipe`
 >
 	 ```c#
-     var altElement1 = altUnityDriver.FindElement("Drag Image1");
-        var altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
+    var altElement1 = altUnityDriver.FindElement("Drag Image1");
+    var altElement2 = altUnityDriver.FindElement("Drop Box1");
+    altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
   ``` 
 > 
   * `HoldButton`
@@ -377,7 +377,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 >
  ```c#
     var altElement1 = altUnityDriver.FindElement("Button");
-        altUnityDriver.HoldButton(new Vector2(altElement1.x, altElement1.y), 2);
+    altUnityDriver.HoldButton(new Vector2(altElement1.x, altElement1.y), 2);
   ``` 
 > 
   * `HoldButtonAndWait`
@@ -388,8 +388,8 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 	* Use this method if you don't need more inputs to run until the action is completed because this method will wait until the action is completed to execute the next command. If you want to use more inputs or check something while holding use `HoldButton`
 >
  ```c#
-      var altElement1 = altUnityDriver.FindElement("Button");
-      altUnityDriver.HoldButtonAndWait(new Vector2(altElement1.x, altElement1.y), 2);
+    var altElement1 = altUnityDriver.FindElement("Button");
+    altUnityDriver.HoldButtonAndWait(new Vector2(altElement1.x, altElement1.y), 2);
   ``` 
 > 
   * `TapScreen`
@@ -397,7 +397,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 	* return: the element that received the tap
 >
  ```c#
-     altUnityDriver.WaitForCurrentSceneToBe(100,200);
+     altUnityDriver.TapScreen(100,200);
   ``` 
 > 
   * `Tilt`

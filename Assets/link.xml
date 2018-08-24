@@ -1,0 +1,14 @@
+<linker>
+<assembly fullname="UnityEngine" ignoreIfMissing="1">
+<type fullname="UnityEngine.*" preserve="all"/>
+</assembly>
+<assembly fullname="System" ignoreIfMissing="1">
+<type fullname="System.*" preserve="all"/>
+</assembly>
+<assembly fullname="UnityEngine.SceneManagement" ignoreIfMissing="1">
+<type fullname="UnityEngine.SceneManagement.*" preserve="all"/>
+</assembly>
+<assembly fullname="UnityEngine.EventSystems" ignoreIfMissing="1">
+<type fullname="UnityEngine.EventSystems.*" preserve="all"/>
+</assembly>
+</linker>

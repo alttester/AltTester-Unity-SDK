@@ -981,19 +981,23 @@ public class AltUnityTesterEditor : EditorWindow
 
                 EditorGUILayout.LabelField(test.TestName, guiStyle, GUILayout.ExpandWidth(false));
             }
+
             if (test.Type != typeof(TestMethod))
-                test.FoldOut = EditorGUILayout.Foldout(test.FoldOut, "");
-            if (!test.FoldOut)
             {
-                if (test.Type == typeof(TestAssembly))
+                test.FoldOut = EditorGUILayout.Foldout(test.FoldOut, "");
+                if (!test.FoldOut)
                 {
-                    foldOutCounter = tests.Count - 1;
-                }
-                else
-                {
-                    foldOutCounter = test.TestCaseCount;
+                    if (test.Type == typeof(TestAssembly))
+                    {
+                        foldOutCounter = tests.Count - 1;
+                    }
+                    else
+                    {
+                        foldOutCounter = test.TestCaseCount;
+                    }
                 }
             }
+
             EditorGUILayout.LabelField("");
             if (GUILayout.Button("Info", GUILayout.MaxWidth(50)))
             {
@@ -1184,7 +1188,8 @@ public class AltUnityTesterEditor : EditorWindow
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.iOS;
-        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+
+        buildPlayerOptions.options = BuildOptions.Development;
 
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
         built = true;
@@ -1201,7 +1206,7 @@ public class AltUnityTesterEditor : EditorWindow
         }
 
         Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
-            EditorApplication.Exit(0);
+            // EditorApplication.Exit(0);
 
 
     }
@@ -1485,6 +1490,9 @@ public class AltUnityTesterEditor : EditorWindow
 
 
         RemoveForwardAndroid();
+#if UNITY_EDITOR_OSX
+        KillIProxy(idIproxyProcess);
+#endif
         ForwardAndroid();
 
         ITestListener listener = new TestRunListener(null);
@@ -1518,7 +1526,7 @@ public class AltUnityTesterEditor : EditorWindow
                 Debug.Log(t.FullName);
                 filter.Add(new FullNameFilter(t.FullName));
             }
-
+        RemoveForwardAndroid();
         thread = new Thread(ThreadForwardIos);
         thread.Start();
         while (!iProxyOn)

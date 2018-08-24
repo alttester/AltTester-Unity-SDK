@@ -1,11 +1,19 @@
 stages:
-  - build
+  - build-android
   - android-tests
+  - build-ios
+  - ios-tests
   - appium-tests
   - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - sampleGame.apk
+  - sampleGame/
   
 build-apk:
-    stage: build
+    stage: build-android
     tags:
       - unity
     script:
@@ -17,7 +25,6 @@ build-apk:
       expire_in: 10 days
       paths:
         - buildAndroid.log
-        - sampleGame.apk
 
 run-csharp-android-tests:
     stage: android-tests
@@ -28,7 +35,11 @@ run-csharp-android-tests:
         - adb install sampleGame.apk
         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
-
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - csharpAndroidTests.log
 
 run-python-android-tests:
     stage: android-tests
@@ -61,10 +72,45 @@ run-java-android-tests:
         - adb forward tcp:13000 tcp:13000
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java"
         - mvn test
-        
+
+build-ipa:
+    stage: build-ios
+    tags:
+      - unity
+    script:
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log -quit
+      - cd sampleGame
+      - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS
+      - ls 
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - buildIos.log
+
+run-csharp-ios-tests:
+    stage: ios-tests
+    tags:
+        - unity
+    script:
+        - cd sampleGame
+        - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone &
+        - sleep 60
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit     
+        - killall xcodebuild || true   
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - csharpIosTests.log    
+ 
         
 run-python-appium-android-tests:
     stage: appium-tests
+    only:
+        refs:
+            - master
     tags:
         - unity
     script:
@@ -86,6 +132,9 @@ run-python-appium-android-tests:
 
 run-java-appium-android-tests:
     stage: appium-tests
+    only:
+        refs:
+            - master
     tags:
         - unity
     script:
