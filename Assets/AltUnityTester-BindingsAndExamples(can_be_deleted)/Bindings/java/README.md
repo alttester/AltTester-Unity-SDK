@@ -1,111 +1,58 @@
-# AltUnityTester
+# AltUnityTester - Java Bindings
 
-## Table of Content
->
-[Setup](#setup)
->>
-[Downloads - AltUnityTester Package](#downloads-altunitytester-package)
->>
-[Import AltUnityTester asset/package into your Unity project](#import-altunitytester-assetpackage-into-your-unity-project)
->>
-[Setting up local machine for iOS testing](#setting-up-local-machine-for-ios-testing)
->
-[AltUnityTester User Interface](#altunitytester-user-interface)
- >>
- [Building the game](#building-the-game)
- >>
- [  Run Tests ](#run-tests)
- >>
- [Writing Test for AltUnityTester](#writing-test-for-altunitytester)
- >
- [Actions/Commands](#actionscommands)
- >>
- [AltUnityElements](#altunityelements)
->>
-[Available Actions](#available-actions)
+The AltUnityTester package contains a alt_driver module that will open a socket connection on the device running the Unity application and will give access to all the objects in the Unity hierarchy. 
 
->>>>
-[Finding elements](#finding-elements)
+Using this socket connection and the actions available in the AltUnity driver, we can run python tests tests against the Unity app running on iOS or Android. 
 
->>>>
-[Waiting for elements](#waiting-for-elements)
+Links:
 
->>>>
-[Managing Unity Scenes](#managing-unity-scenes)
-
->>>>
-[Managing Unity PlayerPrefs](#managing-unity-playerprefs)
-
->>>>
-[Actions on Screen](#actions-on-screen)
-
->>>>
-[Actions on elements](#actions-on-elements)
+* [Setup AltUnityTester and configure your app for testing](https://git.altom.ro/altrun/altunity-tester/)
+* [Downloads](#downloads-altunitytester-package)
+* [Java Docs - AltUnityRunner - Getting started](#python-altunityrunner-module)
+    * [Installation](#installation)
+    * [Getting Started](#getting-started)
+    * [AltElements](#altelements)
+    * [Available Actions](#available-actions)
+      * [Finding elements](#finding-elements)
+      * [Waiting for elements](#waiting-for-elements)
+      * [Managing Unity Scenes](#managing-unity-scenes)
+      * [Managing Unity PlayerPrefs](#managing-unity-playerprefs)
+      * [Actions on Screen](#actions-on-screen)
+      * [Actions on elements](#actions-on-elements)
 
 
-## Setup
->
-### Downloads - AltUnityTester Package
->
+## Downloads - AltUnityTester Package
+
 * From repository: 
-	* https://git.altom.ro/altrun/altunity-tester/blob/master/AltUnityTester.unitypackage
->	  
+   * https://git.altom.ro/altrun/altunity-tester/blob/master/AltUnityTester.unitypackage
+  
+  
 * From Unity Asset Store - import inside your project directly:
-	* links soon
+   * links soon
 
 
->
-### Import AltUnityTester asset/package into your Unity project:
->
-* if you use a downloaded Unity package, go to Assets->Import Package -> Custom Package in Unity Editor and select the ```AltUnityTester.unitypackage``` file
-* if you dowloaded it from the Unity Asset store, just go to your Asset Store Downloads Manager from Unity Editor and import the package. 
+## Java AltUnityTester
 
->
-### Setting up local machine for iOS testing
->
-For iOS, to run the tests on real iOS device, please make sure you also go through this: http://appium.io/docs/en/drivers/ios-xcuitest/ because AltUnityTester uses iproxy command.
->		
-The iproxy command is installed as part of the libimobiledevice package that you should have already installed when setting up your iOS environment (http://appium.io/docs/en/drivers/ios-xcuitest-real-devices/)
-		
-## AltUnityTester User Interface
->
-After you imported AltUnityTester package to the project you are ready to use it. Go to Window --> AltUnityTester to open the user interface.
-![Open Ui](img/OpenUi.png)
-The UI should look like this for Mac user.(Very similar for Windows user but with less fields to fill)
-![Ui](img/Ui.png)
->		
-#### Building the game
->>
-* Fill the fields in BuildSettings
-* Add scenes to SceneManager
-	* Only the scenes that are checked are going to be used in build
-* Click build on the desired platform (Windows user can only build in Android)
+The project contains a Java project called ``altunitytester`` that gives access to the alt_driver commands so that objects can be accessed from  Java code. 
 
->
-#### Run Tests
->>
-* First build the game and have the game running on the device
-	* **It is important to build the game using AltUnityTester User Interface otherwise it won't work**
-* Select all test that you want to run
-* (Mac user only) Select which platform to test
-* Press `RunSelectedTest` to run the selected test
-	* Other option are `RunAllTest` that runs all existing test and `RunFailedTest` that runs all failed test
-* After running the test, they will have been colored depending if they passed or failed
-* To see more information about the result of a test press the `Info` button and it will display more information
+The code for this is available under ``AltUnityTester/Bindings/python`` in the repository. 
 
->
-### Writing Tests for AltUnityTester
->	
-* Go to a folder named Editor or that has an Editor folder in path.
-* Create an AltUnityTest file by right-clicking-->Create-->AltUnityTest or go to Assests-->Create-->AltUnityTest. 
-* Name the file however you want and open it.
-* Write the tests you want using available action that are listed below and NUnit asserts. 
 
-For more information check the tests samples that come with the package.
+### Installation
 
-## Actions/Commands
->
-The list below contains all the actions that are currently supported by AltUnityDriver.
+To be able to use altunitytester from your Java code, you need to first build a jar file, then import it in your project. 
+
+Here's how to do that with maven:
+
+   * Build the .jar file:
+    ` Assets/AltUnityTester/Bindings/java`
+    ` mvn clean compile assembly:single`
+
+   * Install the jar file:
+    `mvn install:install-file -Dfile=./target/altunitytester-java-client-1.0-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.0 -Dpackaging=jar` 
+
+Now your project can use all the AltUnityDriver methods. 
+
 >
 ### AltUnityElements
 >
@@ -128,79 +75,79 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 >
 #### Finding elements
 >
-  * `GetAllElements`
+  * `getAllElements`
     * params: cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
     * returns: all elements that are currently Active in the scene
 >    
-    ```c#
-      List<AltUnityObject> objects = altUnityDriver.GetAllElements();
+    ```java
+      List<AltUnityObject> objects = altUnityDriver.getAllElements();
     ```
 >
-  * `FindElement`
+  * `findElement`
     * params:
         * name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
     * you can search for elements also by specifying a hierarchy path to them. For example, you can look for `Player1/Hand` or `Player2/Hand`, to make sure you find the correct `Hand` object you are interested in. When doing so, make sure you specify all the objects in between the `parent` and the `object` you are interested in. For example, if `Hand` is under a `Body` element for each `Player`, when you search for it make sure you specify it as `Player1/Body/Hand` 
 >
-    ```c#
-    altUnityDriver.FindElement("Capsule"); // find object by name
-    altUnityDriver.FindElement("Ship/Main/Capsule", "Main Camera"); //specify also the name of the parents, and the camera
+    ```java
+    altUnityDriver.findElement("Capsule"); // find object by name
+    altUnityDriver.findElement("Ship/Main/Capsule", "Main Camera"); //specify also the name of the parents, and the camera
     ```
 
 >
-  * `FindElementWhereNameContains`
+  * `findElementWhereNameContains`
     * params: 
         * partOfTheName - part of the name of the object to be found, as it's shown in the Unity Scene hierarchy
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
     * returns: the element with a name that contains partOfTheName (or the last one found in the hierarchy if more than one element with the same name is present)
 >
-    ```c#
-    altDriver.FindElementWhereNameContains("Capsul"); // should find Capsule     
+    ```java
+    altDriver.findElementWhereNameContains("Capsul"); // should find Capsule     
     ```
 >
-  * `FindElementByComponent`
+  * `findElementByComponent`
     * params: 
-        * componentName - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
+        * componentName - the name of a Unity Component, for example a java script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
     * returns: the element with a componentName component (or the last one found in the hierarchy if more than one element with the same component is present)
 >   
-    ```c#
-    altUnityDriver.FindElementByComponent("AltUnityRunnerPrefab"); 
+    ```java
+    altUnityDriver.findElementByComponent("AltUnityRunnerPrefab"); 
     ```
 >
-  * `FindElements`
+  * `findElements`
     * params: 
         * name - the name of the objects to be found, as they are shown in the Unity Scene hierarchy
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
     * returns: a list of elements with the correct name
 >
-    ```c#
-    altUnityDriver.FindElements("Capsule");     
+    ```java
+    altUnityDriver.findElements("Capsule");     
     ```
 >
-  * `FindElementsWhereNameContains`
+  * `findElementsWhereNameContains`
     * params: 
         * partOfTheName - part of the name of the objects to be found, as they are shown in the Unity Scene hierarchy
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene. 
     * returns: a list of elements with a name that contains partOfTheName 
 >
-    ```c#
-    altUnityDriver.FindElementsWhereNameContains("Capsul"); # should find Capsule, Capsules, Capsule1, Capsule 2 etc.     
+    ```java
+    altUnityDriver.findElementsWhereNameContains("Capsul"); # should find Capsule, Capsules, Capsule1, Capsule 2 etc.     
     ```
 >
-  * `FindElementsByComponent`
+  * `findElementsByComponent`
     * params: 
-        * componentName - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
+        * componentName - the name of a Unity Component, for example a java script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
     * returns: a list of elements with a componentName component
 >
-    ```c#
-    altUnityDriver.FindElementsByComponent("Plane"); 
+    ```java
+    altUnityDriver.findElementsByComponent("Plane"); 
     ```
 >
 #### Waiting for elements
-  * `WaitForElement`
+  * `waitForElement`
    * params: 
       * name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
       * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
@@ -208,11 +155,11 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
 >   
-    ```c#
-    altUnityDriver.WaitForElement("Capsule"); //specify also the name of the parents
+    ```java
+    altUnityDriver.waitForElement("Capsule"); //specify also the name of the parents
     ```
 >
-  * `WaitForElementWhereNameContains`
+  * `waitForElementWhereNameContains`
     * params: 
       * partOfTheName - part of the name of the object to be found, as it's shown in the Unity Scene hierarchy
       * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
@@ -220,11 +167,11 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with a name that contains partOfTheName (or the last one found in the hierarchy if more than one element with the same name is present)
 >
-    ```c#
-    altUnityDriver.WaitForElementWhereNameContains("Capsul', timeout=30); // should find Capsule     
+    ```java
+    altUnityDriver.waitForElementWhereNameContains("Capsul", timeout=30); // should find Capsule     
     ```
 >
-  * `WaitForElementToNotBePresent`
+  * `waitForElementToNotBePresent`
    * params: 
       * name - the name of the object, as it's shown in the Unity Scene hierarchy
       * cameraName=""="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
@@ -232,11 +179,11 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
 >
-    ```c#
-    altUnityDriver.WaitForElementToNotBePresent("Capsule") ;
+    ```java
+    altUnityDriver.waitForElementToNotBePresent("Capsule") ;
     ``` 
 >
-  * `WaitForElementWithText`
+  * `waitForElementWithText`
     * params: 
       * text - the text that we want to wait for (we are looking for an element with a Text component that has the correct value)
       * cameraName=""="" - the name of the camera for wich the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
@@ -244,242 +191,242 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
 >   
-    ```c#
-        altUnityDriver.WaitForElementWithText("CapsuleInfo', 'Capsule was clicked to jump!")  ;
+    ```java
+        altUnityDriver.waitForElementWithText("CapsuleInfo", "Capsule was clicked to jump!")  ;
     ``` 
   
 >
 #### Managing Unity Scenes
-  * `GetCurrentScene`
+  * `getCurrentScene`
     * params: none
     * returns: the name of the current scene
 >
-    ```c#
-    altUnityDriver.GetCurrentScene();
+    ```java
+    altUnityDriver.getCurrentScene();
     ```
-  * `WaitForCurrentSceneToBe`
+  * `waitForCurrentSceneToBe`
    * params: 
       * sceneName - the scene that we want to wait for 
       * timeout=20 - time in seconds before we timeout (default 20)
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the name of the scene that we waited for
 >
-  ```c#
-    altUnityDriver.WaitForCurrentSceneToBe("AltUnityDriverTestScene");
+  ```java
+    altUnityDriver.waitForCurrentSceneToBe("AltUnityDriverTestScene");
   ``` 
-* `LoadScene`
+* `loadScene`
     * params: scene - name of the scene to be loved
 >
-     ```c#
-    altUnityDriver.LoadScene("AltUnityDriverTestScene");
+     ```java
+    altUnityDriver.loadScene("AltUnityDriverTestScene");
   ``` 
 >
 #### Managing Unity PlayerPrefs
-  * `DeletePlayerPref`
+  * `deletePlayerPref`
     * params: none
     * returns: none
     * Delete all keys and values stored in PlayerPref
 >
-     ```c#
-    altUnityDriver.DeletePlayerPref();
+     ```java
+    altUnityDriver.deletePlayerPref();
   ``` 
 >   
-  * `DeleteKeyPlayer`
+  * `deleteKeyPlayer`
     * params: keyName - name of the key that will be deleted
     * returns: none
 >
-     ```c#
-    altUnityDriver.DeleteKeyPlayer("PlayerHp");
+     ```java
+    altUnityDriver.deleteKeyPlayer("PlayerHp");
   ``` 
 >    
-  * `SetKeyPlayerPref`
+  * `setKeyPlayerPref`
     * params:
         * keyName - name of the key for wich a value will be set
         * value - value that will be associated with keyName. This can be an integer, float or a string
     * returns: none
 >
-     ```c#
-    altUnityDriver.SetKeyPlayerPref("PlayerHp",100);
+     ```java
+    altUnityDriver.setKeyPlayerPref("PlayerHp",100);
   ``` 
 >   
-  * `GetIntPlayerPref`
+  * `getIntPlayerPref`
     * params: keyName -name of the key 
     * returns: an int that is associated with the key
 >
-     ```c#
-    altUnityDriver.GetIntPlayerPref("PlayerHp");
+     ```java
+    altUnityDriver.getIntPlayerPref("PlayerHp");
   ``` 
 >   
-  * `GetFloatPlayerPref`
+  * `getFloatPlayerPref`
     * params: keyName -name of the key 
     * returns: an float that is associated with the key
 >
-     ```c#
-    altUnityDriver.GetFloatPlayerPref("PlayerMana");
+     ```java
+    altUnityDriver.getFloatPlayerPref("PlayerMana");
   ``` 
 >
   * `GetStringPlayerPref`
     * params: keyName -name of the key 
     * returns: an string that is associated with the key
 >
-     ```c#
+     ```java
     altUnityDriver.GetStringPlayerPref("PlayerName");
   ``` 
 >
 #### Actions on screen
-  * `Swipe`
+  * `swipe`
 	* params: 
 		* start - position on the screen where the swipe will start
 		* end - postion on the screen where the swipe will end
 		* duration - how many seconds the swipe will need to complete
 	* return: none
-	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `SwipeAndWait`
+	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `swipeAndWait`
 >
-   ```c#
-     var altElement1 = altUnityDriver.FindElement("Drag Image1");
-        var altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
+   ```java
+     AltUnityObject altElement1 = altUnityDriver.FindElement("Drag Image1");
+        AltUnityObject altElement2 = altUnityDriver.findElement("Drop Box1");
+        altUnityDriver.swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
   ``` 
 >	
-  * `SwipeAndWait`
+  * `swipeAndWait`
 	* params: 
 		* start - position on the screen where the swipe will start
 		* end - postion on the screen where the swipe will end
 		* duration - how many seconds the swipe will need to complete
 	* return: none
-	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `Swipe`
+	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `swipe`
 >
-	 ```c#
-     var altElement1 = altUnityDriver.FindElement("Drag Image1");
-        var altElement2 = altUnityDriver.FindElement("Drop Box1");
-        altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
+	 ```java
+     AltUnityObject altElement1 = altUnityDriver.findElement("Drag Image1");
+        AltUnityObject altElement2 = altUnityDriver.findElement("Drop Box1");
+        altUnityDriver.swipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
   ``` 
 > 
-  * `HoldButton`
+  * `holdButton`
 	* params: 
 		* position - (x,y) coordinates on the screen where a touch will be simulated
 		* duration - how many seconds the touch will exist/be pressing 
 	* return: none
-	*Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command.If you want to wait until the hold is completed use `HoldButtonAndWait`
+	*Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command.If you want to wait until the hold is completed use `holdButtonAndWait`
 >
- ```c#
-    var altElement1 = altUnityDriver.FindElement("Button");
-        altUnityDriver.HoldButton(new Vector2(altElement1.x, altElement1.y), 2);
+ ```java
+    AltUnityObject altElement1 = altUnityDriver.findElement("Button");
+        altUnityDriver.holdButton(new Vector2(altElement1.x, altElement1.y), 2);
   ``` 
 > 
-  * `HoldButtonAndWait`
+  * `holdButtonAndWait`
 	* params: 
 		* position - (x,y) coordinates on the screen where a touch will be simulated
 		* duration - how many seconds the touch will exist/be pressing 
 	* return: none
-	* Use this method if you don't need more inputs to run until the action is completed because this method will wait until the action is completed to execute the next command. If you want to use more inputs or check something while holding use `HoldButton`
+	* Use this method if you don't need more inputs to run until the action is completed because this method will wait until the action is completed to execute the next command. If you want to use more inputs or check something while holding use `holdButton`
 >
- ```c#
-      var altElement1 = altUnityDriver.FindElement("Button");
-      altUnityDriver.HoldButtonAndWait(new Vector2(altElement1.x, altElement1.y), 2);
+ ```java
+      AltUnityObject altElement1 = altUnityDriver.findElement("Button");
+      altUnityDriver.holdButtonAndWait(new Vector2(altElement1.x, altElement1.y), 2);
   ``` 
 > 
-  * `TapScreen`
+  * `tapScreen`
 	* params: (x,y) - coordinates on the screen where it will be simulated a tap
 	* return: the element that received the tap
 >
- ```c#
-     altUnityDriver.WaitForCurrentSceneToBe(100,200);
+ ```java
+     altUnityDriver.tapScreen(100,200);
   ``` 
 > 
-  * `Tilt`
+  * `tilt`
 	* params: acceleration - (x,y,z) values to simulate the device rotation
 	*return: none
 >
- ```c#
-     altUnityDriver.Tilt(new Vector3(2, 2, 2));
+ ```java
+     altUnityDriver.tilt(new Vector3(2, 2, 2));
   ``` 
 > 
 #### Actions on elements
-  * `ClickEvent`
+  * `clickEvent`
 	* params: none
 	* Execute pointerClick event on the object
 > 
- ```c#
-     altUnityDriver.FindElement("Capsule").ClickEvent();
+ ```java
+     altUnityDriver.findElement("Capsule").clickEvent();
   ``` 
 >  
- * `DragObject`
+ * `dragObject`
 	* params: position - (x,y) coordinates of the screen where the object will be dragged
 	* Execute drag event on the object
 > 
- ```c#
-      altUnityDriver.FindElement("Capsule").DragObject(new Vector2(200, 200));
+ ```java
+      altUnityDriver.findElement("Capsule").dragObject(new Vector2(200, 200));
   ``` 
 >  
-  * `DropObject`
+  * `dropObject`
 	* params: (x,y) coordinates of the screen where the object will be dropped
 	* Execute drop event on the object
 > 
- ```c#
-     altUnityDriver.FindElement("Capsule").DropObject(new Vector2(200, 200));
+ ```java
+     altUnityDriver.findElement("Capsule").dropObject(new Vector2(200, 200));
   ``` 
 >  
-  * `PointerUpFromObject`
+  * `pointerUpFromObject`
 	* params: none
 	* Execute pointerUp event on the object
 >
- ```c#
-      altUnityDriver.FindElement("Capsule").PointerUpFromObject();
+ ```java
+      altUnityDriver.findElement("Capsule").pointerUpFromObject();
   ``` 
 >  
-  * `PointerDownFromObject`
+  * `pointerDownFromObject`
 	* params: none
 	* Execute pointerDown event on the object
 >
- ```c#
-     altUnityDriver.FindElement("Capsule").PointerDownFromObject();
+ ```java
+     altUnityDriver.findElement("Capsule").pointerDownFromObject();
   ``` 
 >  
-  * `PointerEnterObject`
+  * `pointerEnterObject`
 	* params: none
 	* Execute pointerEnter event on the object
 >
-	 ```c#
-      altUnityDriver.FindElement("Capsule").PointerEnterObject();
+	 ```java
+      altUnityDriver.findElement("Capsule").pointerEnterObject();
     ```
 >  
-  * `PointerExitObject`
+  * `pointerExitObject`
 	* params: none
 	* Execute pointerExit event on the object
 >	
-	 ```c#
-      altUnityDriver.FindElement("Capsule").PointerExitObject();
+	 ```java
+      altUnityDriver.findElement("Capsule").pointerExitObject();
    ``` 
 >
-  * `Tap`
+  * `tap`
    * params: none
    * simulates a tap on the object that trigger multiple events similar to a real tap 
 >  
-  ```c#
-  altUnityDriver.FindElement("UIButton").Tap();
+  ```java
+  altUnityDriver.findElement("UIButton").tap();
   ``` 
 >
-  * `GetText`
+  * `getText`
     * params: none
     * returns: the value of the Text component if the element has one 
 >  
-   ```c#
-   var text=altUnityDriver.FindElement("CapsuleInfo").GetText();'
+   ```java
+   String text=altUnityDriver.findElement("CapsuleInfo").getText();'
   ``` 
 >  
-  * `GetComponentProperty`
+  * `getComponentProperty`
     * params: 
       * componentName: name of the Unity component that has the public property we want to get the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * propertyName - the name of the public property (or field) that we want the value for
 >
    For example, since Capsule.cs has a public "arrayOfInts", we can get the value of that:
 >
-   ```c#
-    var result = altUnityDriver.FindElement("Capsule").GetComponentProperty("Capsule", "arrayOfInts");
+   ```java
+    String result = altUnityDriver.findElement("Capsule").getComponentProperty("Capsule", "arrayOfInts");
    ```
 >   
-  * `SetComponentProperty`
+  * `setComponentProperty`
   * params: 
       * componentName: name of the Unity component that has the public property we want to set the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * propertyName - the name of the public property (or field) that we want to set the value for
@@ -487,12 +434,12 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 >
    For example, since Capsule.cs has a public "arrayOfInts", we can set the value of that:
 >
-   ```c#
-   altUnityDriver.FindElement("Capsule").SetComponentProperty("Capsule", "arrayOfInts", "[2,3,4]");
-   result = altUnityDriver.FindElement("Capsule").GetComponentProperty("Capsule", "arrayOfInts");
+   ```java
+   altUnityDriver.findElement("Capsule").setComponentProperty("Capsule", "arrayOfInts", "[2,3,4]");
+   result = altUnityDriver.findElement("Capsule").getComponentProperty("Capsule", "arrayOfInts");
    ```
 >
-  * `CallComponentMethod`
+  * `callComponentMethod`
    * params: 
       * componentName: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * method - the name of the public method that we want to call
@@ -502,11 +449,11 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 >    
    For example, since Capsule.cs has a public "Jump" method that takes a string as a parameter, we can call it like this:
 >
-   ```c#
-   altUnityDriver.FindElement("Capsule").CallComponentMethod("Capsule", "Jump", "setFromMethod");
+   ```java
+   altUnityDriver.findElement("Capsule").callComponentMethod("Capsule", "Jump", "setFromMethod");
    ```
 >
-   This calls `Jump("setFromMethod)` in C#
+   This calls `jump("setFromMethod)` in java
 >
    If the Capsule.cs also has the following method:
  >
@@ -516,14 +463,8 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
  > 
    we can call that by:
  >
-   ```c#
-   altUnityDriver.FindElement("Capsule").CallComponentMethod("Capsule", "TestMethodWithManyParameters", "1?this is a text?0.5?[1,2,3]");
+   ```java
+   altUnityDriver.findElement("Capsule").callComponentMethod("Capsule", "TestMethodWithManyParameters", "1?this is a text?0.5?[1,2,3]");
    ```
 >
    This will call `TestMethodWithManyParameters(1, "this is a text", 0,5, new int[]{1, 2, 3})` 
-   
-   
-   
-
-
-
