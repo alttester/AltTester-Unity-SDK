@@ -703,9 +703,9 @@ public class AltUnityTesterEditor : EditorWindow
             EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
             var iOSBundleIdentifier = EditorGUILayout.TextField("iOS Bundle Identifier",
                 PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.iOS));
-            if (androidBundleIdentifier != PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.iOS))
+            if (iOSBundleIdentifier != PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.iOS))
             {
-                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, androidBundleIdentifier);
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, iOSBundleIdentifier);
             }
             //            BundleIdentifier= EditorGUILayout.TextField("Android Bundle Identifier", BundleIdentifier);
             EditorGUILayout.EndHorizontal();
@@ -731,16 +731,16 @@ public class AltUnityTesterEditor : EditorWindow
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-                _editorConfiguration.SigningTeamId = EditorGUILayout.TextField("Signing Team Id: ", _editorConfiguration.SigningTeamId);
+                PlayerSettings.iOS.appleDeveloperTeamID = EditorGUILayout.TextField("Signing Team Id: ", PlayerSettings.iOS.appleDeveloperTeamID);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-                _editorConfiguration.AutomaticallySign = EditorGUILayout.Toggle("Automatically Sign: ", _editorConfiguration.AutomaticallySign);
+                PlayerSettings.iOS.appleEnableAutomaticSigning = EditorGUILayout.Toggle("Automatically Sign: ", PlayerSettings.iOS.appleEnableAutomaticSigning );
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-                _editorConfiguration.AdbPathIos = EditorGUILayout.TextField("Adb Path: ", _editorConfiguration.AdbPathIos);
+                _editorConfiguration.AdbPath = EditorGUILayout.TextField("Adb Path: ", _editorConfiguration.AdbPath);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
@@ -1152,27 +1152,15 @@ public class AltUnityTesterEditor : EditorWindow
 
     }
 #if UNITY_EDITOR_OSX
-    private static void InitIos()
-    {
-        string versionNumber = DateTime.Now.ToString("yyMMddHHss");
-
-        PlayerSettings.productName = _editorConfiguration.ProductName;
-        PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, BundleIdentifier);
-        PlayerSettings.bundleVersion = versionNumber;
-        PlayerSettings.iOS.buildNumber = versionNumber;
-
-        PlayerSettings.companyName = _editorConfiguration.CompanyName;
-        PlayerSettings.iOS.appleEnableAutomaticSigning = _editorConfiguration.AutomaticallySign;
-        PlayerSettings.iOS.appleDeveloperTeamID = _editorConfiguration.SigningTeamId;
-        AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
-    }
+    
 
     private static void IosDefault()
     {
-        Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
-        InitIos();
+        try{
+        Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+        InitBuildSetup(BuildTargetGroup.iOS);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.locationPathName = _editorConfiguration.OutputFilenameiOSdDefault();
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName;
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.iOS;
@@ -1188,18 +1176,26 @@ public class AltUnityTesterEditor : EditorWindow
         else
             Debug.LogError("Build Error!");
 
-        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
-        built = true;
-        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.iOS);
+        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+         }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+        finally
+        {
+            built = true;
+            ResetBuildSetup(BuildTargetGroup.iOS);
+        }
 
     }
     private static void IosBuildFromCommandLine()
     {
         InitEditorConfiguration();
-        InitIos();
-        Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        InitBuildSetup(BuildTargetGroup.iOS);
+        Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.locationPathName = _editorConfiguration.OutputFilenameiOSdDefault();
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName;
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.iOS;
@@ -1220,7 +1216,7 @@ public class AltUnityTesterEditor : EditorWindow
             EditorApplication.Exit(1);
         }
 
-        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             // EditorApplication.Exit(0);
 
 
@@ -1428,7 +1424,7 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
 #elif UNITY_EDITOR_OSX
-        adbFileName = _editorConfiguration.AdbPathIos;
+        adbFileName = _editorConfiguration.AdbPath;
 #endif
 
         Process process = new Process();
@@ -1450,7 +1446,7 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
 #elif UNITY_EDITOR_OSX
-        adbFileName = _editorConfiguration.AdbPathIos;
+        adbFileName = _editorConfiguration.AdbPath;
 #endif
         var process = new Process();
         var startInfo = new ProcessStartInfo {
