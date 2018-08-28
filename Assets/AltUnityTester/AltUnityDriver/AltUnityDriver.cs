@@ -434,9 +434,9 @@ public class AltUnityDriver
         throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
 
-    public AltUnityObject FindElementByComponent(String componentName, String cameraName = "")
+    public AltUnityObject FindElementByComponent(String componentName,String assemblyName="", String cameraName = "")
     {
-        Socket.Client.Send(toBytes("findObjectByComponent;" + componentName + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
@@ -450,9 +450,9 @@ public class AltUnityDriver
     /// </summary>
     /// <param name="componentName">Name of the component by wich is going to search</param>
     /// <returns>List of AltUnityObjects that have component</returns>
-    public List<AltUnityObject> FindElementsByComponent(String componentName, String cameraName = "")
+    public List<AltUnityObject> FindElementsByComponent(String componentName, String assemblyName = "", String cameraName = "")
     {
-        Socket.Client.Send(toBytes("findObjectsByComponent;" + componentName + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectsByComponent;" + componentName + ";" + componentName + ";" + cameraName + ";&"));
         String data = Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
         HandleErrors(data);
