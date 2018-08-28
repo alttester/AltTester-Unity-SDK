@@ -74,18 +74,7 @@ public class AltUnityTesterEditor : EditorWindow
     private bool _foldOutIosSettings = true;
     private bool _checking = false;
 
-    public static string BundleIdentifier
-    {
-        get
-        {
-            return _editorConfiguration.BundleIdentifier;
-        }
-
-        set
-        {
-            _editorConfiguration.BundleIdentifier = value;
-        }
-    }
+   
 
     private enum TestRunMode { RunAllTest, RunSelectedTest, RunFailedTest }
 
@@ -421,13 +410,11 @@ public class AltUnityTesterEditor : EditorWindow
         {
             var findIcon = AssetDatabase.FindAssets("16px-indicator-fail");
             failIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
-            Debug.Log(failIcon);
         }
         if (passIcon == null)
         {
             var findIcon = AssetDatabase.FindAssets("16px-indicator-pass");
             passIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
-            Debug.Log(passIcon);
 
         }
         SetUpListTest();
@@ -440,8 +427,9 @@ public class AltUnityTesterEditor : EditorWindow
         if (AssetDatabase.FindAssets("idProject").Length == 0)
         {
             _editorConfiguration = ScriptableObject.CreateInstance<EditorConfiguration>();
-            AssetDatabase.CreateAsset(_editorConfiguration, "Assets/AltUnityDriver/Editor/idProject.asset");
+            AssetDatabase.CreateAsset(_editorConfiguration, "Assets/AltUnityTester/AltUnityDriver/Editor/idProject.asset");
             AssetDatabase.SaveAssets();
+
         }
         else
         {
@@ -700,32 +688,59 @@ public class AltUnityTesterEditor : EditorWindow
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-            BundleIdentifier = EditorGUILayout.TextField("Bundle Identifier", BundleIdentifier);
+            _editorConfiguration.OutputPathName = EditorGUILayout.TextField("Output path", _editorConfiguration.OutputPathName);
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-            _editorConfiguration.CompanyName = EditorGUILayout.TextField("Company Name", _editorConfiguration.CompanyName);
+            var androidBundleIdentifier = EditorGUILayout.TextField("Android Bundle Identifier",
+                PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android));
+            if (androidBundleIdentifier != PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android))
+            {
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, androidBundleIdentifier);
+            }
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-            _editorConfiguration.ProductName = EditorGUILayout.TextField("Product Name", _editorConfiguration.ProductName);
+            var iOSBundleIdentifier = EditorGUILayout.TextField("iOS Bundle Identifier",
+                PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.iOS));
+            if (iOSBundleIdentifier != PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.iOS))
+            {
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, iOSBundleIdentifier);
+            }
+            //            BundleIdentifier= EditorGUILayout.TextField("Android Bundle Identifier", BundleIdentifier);
             EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            PlayerSettings.companyName = EditorGUILayout.TextField("Company Name", PlayerSettings.companyName);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            PlayerSettings.productName = EditorGUILayout.TextField("Product Name", PlayerSettings.productName);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            EditorGUILayout.LabelField("Append \"Test\" to product name for AltUnityTester builds");
+           
+            _editorConfiguration.appendToName =
+                EditorGUILayout.Toggle(_editorConfiguration.appendToName);
+            EditorGUILayout.EndHorizontal();
+            
 #if UNITY_EDITOR_OSX
             _foldOutIosSettings = EditorGUILayout.Foldout(_foldOutIosSettings, "IOS Settings");
             if (_foldOutIosSettings)
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-                _editorConfiguration.SigningTeamId = EditorGUILayout.TextField("Signing Team Id: ", _editorConfiguration.SigningTeamId);
+                PlayerSettings.iOS.appleDeveloperTeamID = EditorGUILayout.TextField("Signing Team Id: ", PlayerSettings.iOS.appleDeveloperTeamID);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-                _editorConfiguration.AutomaticallySign = EditorGUILayout.Toggle("Automatically Sign: ", _editorConfiguration.AutomaticallySign);
+                PlayerSettings.iOS.appleEnableAutomaticSigning = EditorGUILayout.Toggle("Automatically Sign: ", PlayerSettings.iOS.appleEnableAutomaticSigning );
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
-                _editorConfiguration.AdbPathIos = EditorGUILayout.TextField("Adb Path: ", _editorConfiguration.AdbPathIos);
+                _editorConfiguration.AdbPath = EditorGUILayout.TextField("Adb Path: ", _editorConfiguration.AdbPath);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
@@ -1137,27 +1152,15 @@ public class AltUnityTesterEditor : EditorWindow
 
     }
 #if UNITY_EDITOR_OSX
-    private static void InitIos()
-    {
-        string versionNumber = DateTime.Now.ToString("yyMMddHHss");
-
-        PlayerSettings.productName = _editorConfiguration.ProductName;
-        PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, BundleIdentifier);
-        PlayerSettings.bundleVersion = versionNumber;
-        PlayerSettings.iOS.buildNumber = versionNumber;
-
-        PlayerSettings.companyName = _editorConfiguration.CompanyName;
-        PlayerSettings.iOS.appleEnableAutomaticSigning = _editorConfiguration.AutomaticallySign;
-        PlayerSettings.iOS.appleDeveloperTeamID = _editorConfiguration.SigningTeamId;
-        AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
-    }
+    
 
     private static void IosDefault()
     {
-        Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
-        InitIos();
+        try{
+        Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+        InitBuildSetup(BuildTargetGroup.iOS);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.locationPathName = _editorConfiguration.OutputFilenameiOSdDefault();
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName;
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.iOS;
@@ -1173,18 +1176,26 @@ public class AltUnityTesterEditor : EditorWindow
         else
             Debug.LogError("Build Error!");
 
-        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
-        built = true;
-        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.iOS);
+        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+         }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+        finally
+        {
+            built = true;
+            ResetBuildSetup(BuildTargetGroup.iOS);
+        }
 
     }
     private static void IosBuildFromCommandLine()
     {
         InitEditorConfiguration();
-        InitIos();
-        Debug.Log("Starting IOS build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        InitBuildSetup(BuildTargetGroup.iOS);
+        Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.locationPathName = _editorConfiguration.OutputFilenameiOSdDefault();
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName;
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.iOS;
@@ -1205,7 +1216,7 @@ public class AltUnityTesterEditor : EditorWindow
             EditorApplication.Exit(1);
         }
 
-        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             // EditorApplication.Exit(0);
 
 
@@ -1214,58 +1225,82 @@ public class AltUnityTesterEditor : EditorWindow
 
 
 
-    private static void InitAndroid()
+    private static void InitBuildSetup(BuildTargetGroup buildTargetGroup)
     {
-        string versionNumber = DateTime.Now.ToString("yyMMddHHss");
 
-        PlayerSettings.productName = _editorConfiguration.ProductName;
-        PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, BundleIdentifier);
-        PlayerSettings.bundleVersion = versionNumber;
-        PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
-        PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
-        PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
-        PlayerSettings.companyName = _editorConfiguration.CompanyName;
-        AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+        if (_editorConfiguration.appendToName)
+        {
+            PlayerSettings.productName = PlayerSettings.productName + "Test";
+            string bundleIdentifier = PlayerSettings.GetApplicationIdentifier(buildTargetGroup) + "Test";
+            PlayerSettings.SetApplicationIdentifier(buildTargetGroup,bundleIdentifier);
+        }
+        AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
+    }
+
+    private static void ResetBuildSetup(BuildTargetGroup buildTargetGroup)
+    {
+
+        if (_editorConfiguration.appendToName)
+        {
+            PlayerSettings.productName = PlayerSettings.productName.Remove(PlayerSettings.productName.Length - 5);
+            string bundleIdentifier = PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
+            PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
+        }
+        
+        RemoveAltUnityTesterFromScriptingDefineSymbols(buildTargetGroup);
     }
 
     static void AndroidDefault()
     {
-        InitEditorConfiguration();
-        InitAndroid();
-        Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
-        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
-        buildPlayerOptions.scenes = GetSceneForBuild();
-
-        buildPlayerOptions.target = BuildTarget.Android;
-        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
-        var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
-
-        if (results.summary.totalErrors == 0)
+        try
         {
-            Debug.Log("No Build Errors");
+            InitEditorConfiguration();
+            InitBuildSetup(BuildTargetGroup.Android);
+            Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+            buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName+".apk";
+            buildPlayerOptions.scenes = GetSceneForBuild();
 
+            buildPlayerOptions.target = BuildTarget.Android;
+            buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+            var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+            if (results.summary.totalErrors == 0)
+            {
+                Debug.Log("No Build Errors");
+
+            }
+            else
+                Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result +
+                               "\n Stripping info: " + results.strippingInfo);
+
+            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         }
-        else
-            Debug.LogError("Build Error! "  + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
-        built = true;
-        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+        finally
+        {
+            built = true;
+            ResetBuildSetup(BuildTargetGroup.Android);
+        }
+        
     }
     static void AndroidBuildFromCommandLine()
     {
         InitEditorConfiguration();
-        InitAndroid();
-        Debug.Log("Starting Android build..." + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        InitBuildSetup(BuildTargetGroup.Android);
+        Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
+//        buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
         built = true;
-        RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
+        ResetBuildSetup(BuildTargetGroup.Android);
 
         if (results.summary.totalErrors == 0)
         {
@@ -1277,7 +1312,7 @@ public class AltUnityTesterEditor : EditorWindow
             Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
             EditorApplication.Exit(1);
         }
-        Debug.Log("Finished. " + _editorConfiguration.ProductName + " : " + PlayerSettings.bundleVersion);
+        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         EditorApplication.Exit(0);
 
     }
@@ -1389,7 +1424,7 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
 #elif UNITY_EDITOR_OSX
-        adbFileName = _editorConfiguration.AdbPathIos;
+        adbFileName = _editorConfiguration.AdbPath;
 #endif
 
         Process process = new Process();
@@ -1411,7 +1446,7 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
 #elif UNITY_EDITOR_OSX
-        adbFileName = _editorConfiguration.AdbPathIos;
+        adbFileName = _editorConfiguration.AdbPath;
 #endif
         var process = new Process();
         var startInfo = new ProcessStartInfo {
