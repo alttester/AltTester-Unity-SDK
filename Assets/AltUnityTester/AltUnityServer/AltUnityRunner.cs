@@ -733,18 +733,18 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Debug.Log("GameOBject: " + gameObject);
 
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerEnterHandler);
-                gameObject.SendMessage("OnMouseEnter");
+                gameObject.SendMessage("OnMouseEnter", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerDownHandler);
-                gameObject.SendMessage("OnMouseDown");
+                gameObject.SendMessage("OnMouseDown",SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.initializePotentialDrag);
-                gameObject.SendMessage("OnMouseOver");
+                gameObject.SendMessage("OnMouseOver", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerUpHandler);
-                gameObject.SendMessage("OnMouseUp");
+                gameObject.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerClickHandler);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.submitHandler);
-                gameObject.SendMessage("OnMouseUpAsButton");//este echivalentul la pointerClick
+                gameObject.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerExitHandler);
-                gameObject.SendMessage("OnMouseExit");
+                gameObject.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
 
                 response = JsonConvert.SerializeObject(GameObjectToAltUnityObject(gameObject, pointerEventData.enterEventCamera));
             }
@@ -945,7 +945,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
         if (type != null)
             return type;
-        if (assemblyName == null)
+        if (assemblyName==null || assemblyName.Equals(""))
         {
             if (typeName.Contains("."))
             {

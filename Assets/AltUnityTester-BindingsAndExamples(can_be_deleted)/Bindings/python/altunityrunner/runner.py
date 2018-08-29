@@ -47,21 +47,21 @@ class AltElement(object):
                  "worldZ":"' + self.worldZ + '",\
                  "idCamera":"'+self.idCamera+'"}'
         
-    def get_component_property(self, component_name, property_name):
+    def get_component_property(self, component_name, property_name, assembly_name=''):
         alt_object = self.toJSON()
-        property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"}'
+        property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"'+',"assembly":"' + assembly_name + '"}'
         data = self.alt_unity_driver.send_data('getObjectComponentProperty;' + alt_object + ';'+ property_info + ';&')
         return self.alt_unity_driver.handle_errors(data)
 
-    def set_component_property(self, component_name, property_name, value):
+    def set_component_property(self, component_name, property_name, value, assembly_name=''):
         alt_object = self.toJSON()
-        property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"}'
+        property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"'+',"assembly":"' + assembly_name + '"}'
         data = self.alt_unity_driver.send_data('setObjectComponentProperty;' + alt_object + ';'+ property_info + ';' + value + ';&')
         return self.alt_unity_driver.handle_errors(data)
 
-    def call_component_method(self, component_name, method_name, parameters):
+    def call_component_method(self, component_name, method_name, parameters,assembly_name=''):
         alt_object = self.toJSON()
-        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '"}'
+        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'"'+',"assembly":"' + assembly_name + '"}'
         data = self.alt_unity_driver.send_data('callComponentMethodForObject;' + alt_object + ';'+ action_info + ';&')
         return self.alt_unity_driver.handle_errors(data)
 
@@ -422,12 +422,12 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Element ' + name + ' should have text `' + text + '` but has `' + alt_element.get_text() + '` after ' + str(timeout) + ' seconds')
         return alt_element
 
-    def find_element_by_component(self, component_name,camera_name=''):
-        data = self.send_data('findObjectByComponent;' + component_name + ';' + camera_name + ';&')
+    def find_element_by_component(self, component_name,assembly_name='',camera_name=''):
+        data = self.send_data('findObjectByComponent;' +assembly_name+';'+ component_name + ';' + camera_name + ';&')
         return self.get_alt_element(data)
 
-    def find_elements_by_component(self, component_name,camera_name=''):
-        data = self.send_data('findObjectsByComponent;' + component_name + ';' + camera_name + ';&')
+    def find_elements_by_component(self, component_name,assembly_name='',camera_name=''):
+        data = self.send_data('findObjectsByComponent;'  +assembly_name+';'+ component_name + ';' + camera_name + ';&')
         return self.get_alt_elements(data)
 
     def vector_to_json_string(self, x, y, z=None):

@@ -397,8 +397,8 @@ public class AltUnityDriver {
     }
 
 
-    public AltUnityObject findElementByComponent(String componentName, String cameraName) throws Exception {
-        send("findObjectByComponent;" + componentName + ";" + cameraName + ";&");
+    public AltUnityObject findElementByComponent(String componentName,String assenblyName, String cameraName) throws Exception {
+        send("findObjectByComponent;"+assenblyName+";" + componentName + ";" + cameraName + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -408,12 +408,16 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject findElementByComponent(String componentName) throws Exception {
-        return findElementByComponent(componentName, "");
+        return findElementByComponent(componentName, "","");
+    }
+    public AltUnityObject findElementByComponent(String componentName,String assenblyName) throws Exception{
+        return findElementByComponent(componentName,assenblyName,"");/// TODO:  Better
     }
 
 
-    public AltUnityObject[] findElementsByComponent(String componentName, String cameraName) throws Exception {
-        send("findObjectsByComponent;" + componentName + ";" + cameraName + ";&");
+
+    public AltUnityObject[] findElementsByComponent(String componentName,String assenblyName, String cameraName) throws Exception {
+        send("findObjectsByComponent;"+assenblyName+";"  + componentName + ";" + cameraName + ";&");
         String data = recvall();
         if (!data.contains("error:")) return new Gson().fromJson(data, AltUnityObject[].class);
         handleErrors(data);
@@ -421,7 +425,10 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject[] findElementsByComponent(String componentName) throws Exception {
-        return findElementsByComponent(componentName, "");
+        return findElementsByComponent(componentName, "","");
+    }
+    public AltUnityObject[] findElementsByComponent(String componentName,String assenblyName) throws Exception{
+        return findElementsByComponent(componentName,assenblyName,"");/// TODO:  Better
     }
 
 

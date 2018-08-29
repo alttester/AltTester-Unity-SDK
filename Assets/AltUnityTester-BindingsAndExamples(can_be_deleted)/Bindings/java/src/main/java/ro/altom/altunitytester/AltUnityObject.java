@@ -33,35 +33,44 @@ public class AltUnityObject {
         this.idCamera = idCamera;
     }
 
-    public String getComponentProperty(String componentName, String propertyName) throws Exception {
+    public String getComponentProperty(String assemblyName,String componentName, String propertyName) throws Exception {
         String altObject = new Gson().toJson(this);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(componentName, propertyName));
+        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName,componentName, propertyName));
         altUnityDriver.send("getObjectComponentProperty;" + altObject + ";" + propertyInfo + ";&");
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) return data;
         altUnityDriver.handleErrors(data);
         return null;
     }
+    public String getComponentProperty(String componentName, String propertyName) throws Exception {
+        return getComponentProperty("",componentName,propertyName);
+    }
 
 
-    public String setComponentProperty(String componentName, String propertyName, String value) throws Exception {
+    public String setComponentProperty(String assebleyName,String componentName, String propertyName, String value) throws Exception {
         String altObject = new Gson().toJson(this);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(componentName, propertyName));
+        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assebleyName,componentName, propertyName));
         altUnityDriver.send("setObjectComponentProperty;" + altObject + ";" + propertyInfo + ";" + value + ";&");
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) return data;
         altUnityDriver.handleErrors(data);
         return null;
     }
+    public String setComponentProperty(String componentName, String propertyName, String value) throws Exception {
+        return setComponentProperty("",componentName,propertyName,value);
+    }
 
-    public String callComponentMethod(String componentName, String methodName, String parameters) throws Exception {
+    public String callComponentMethod(String assemblyName,String componentName, String methodName, String parameters) throws Exception {
         String altObject = new Gson().toJson(this);
-        String actionInfo = new Gson().toJson(new AltUnityObjectAction(componentName, methodName, parameters));
+        String actionInfo = new Gson().toJson(new AltUnityObjectAction(assemblyName,componentName, methodName, parameters));
         altUnityDriver.send("callComponentMethodForObject;" + altObject + ";" + actionInfo + ";&");
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) return data;
         altUnityDriver.handleErrors(data);
         return null;
+    }
+    public String callComponentMethod(String componentName, String methodName, String parameters) throws Exception {
+        return callComponentMethod("",componentName,methodName,parameters);
     }
 
     public String getText() throws Exception {
