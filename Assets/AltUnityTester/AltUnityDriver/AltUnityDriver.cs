@@ -85,10 +85,10 @@ public class AltUnityDriver
     }
 
     public string CallStaticMethods(String typeName, String methodName,
-        String parameters)
+        String parameters, String typeOfParameters = "")
     {
         String actionInfo =
-            JsonConvert.SerializeObject(new AltUnityObjectAction(typeName, methodName, parameters));
+            JsonConvert.SerializeObject(new AltUnityObjectAction(typeName, methodName, parameters,typeOfParameters));
         Socket.Client.Send(toBytes("callComponentMethodForObject;" + "" + "; " + actionInfo + "; &"));
         var data = Recvall();
         if (!data.Contains("error:")) return data;

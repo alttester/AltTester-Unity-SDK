@@ -91,7 +91,7 @@ class PythonTests(unittest.TestCase):
     def test_call_component_method(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-        self.assertEqual(result,"methodInvoked")
+        self.assertEqual(result,"null")
         self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
         self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
 
@@ -217,6 +217,23 @@ class PythonTests(unittest.TestCase):
             except WaitTimeOutException as e:
                 self.assertEqual(e.args[0],'Scene AltUnityDriverTestScenee not loaded after 1 seconds')
 
+   
+    def testGetBool(self):
+        alt_element=self.altdriver.find_element('Capsule')
+        text=alt_element.get_component_property('Capsule','TestBool')
+        self.assertEqual('true',text)
+        
+
+    def TestCallStaticMethod(self):
+        self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1")
+        a=int(self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"))
+        self.assertEquals(1,a)
+
+    def TestCallMethodWithMultipleDefinitions(self):
+        capsule=self.altdriver.find_element("Capsule")
+        capsule.call_component_method("Capsule", "Test","2","System.Int32")
+        capsuleInfo=self.altdriver.find_element("CapsuleInfo")
+        self.assertEquals("6",capsuleInfo.get_text())
     
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

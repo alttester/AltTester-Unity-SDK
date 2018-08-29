@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
+using TMPro;
 using UnityEngine;
 [Timeout(5000)]
 public class TestSample
@@ -253,7 +254,7 @@ public class TestSample
         const string methodName="UIButtonClicked";
         var altElement = altUnityDriver.FindElement("Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, "");
-        Assert.AreEqual("methodInvoked",data);
+        Assert.AreEqual("null",data);
     }
 
     [Test]
@@ -264,7 +265,7 @@ public class TestSample
         const string parameters = "New Text";
         var altElement = altUnityDriver.FindElement("Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, parameters);
-        Assert.AreEqual("methodInvoked", data);
+        Assert.AreEqual("null", data);
     }
 
     [Test]
@@ -275,7 +276,7 @@ public class TestSample
         const string parameters = "1?stringparam?0.5?[1,2,3]";
         var altElement = altUnityDriver.FindElement("Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, parameters);
-        Assert.AreEqual("methodInvoked", data);
+        Assert.AreEqual("null", data);
     }
 
     [Test]
@@ -528,6 +529,25 @@ public class TestSample
             Assert.AreEqual("Element xyz still not found after 1 seconds", exception.Message);
         }
       
+    }
+
+    [Test]
+    public void TestCallStaticMethod()
+    {
+
+        altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "SetInt","Test?1");
+        int a = Int32.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+        Assert.AreEqual(1, a);
+
+}
+[Test]
+    public void TestCallMethodWithMultipleDefinitions() 
+    {
+
+    AltUnityObject capsule=altUnityDriver.FindElement("Capsule");
+    capsule.CallComponentMethod("Capsule", "Test","2","System.Int32");
+    AltUnityObject capsuleInfo=altUnityDriver.FindElement("CapsuleInfo");
+    Assert.AreEqual("6",capsuleInfo.GetText());
     }
    
 

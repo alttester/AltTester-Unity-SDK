@@ -54,15 +54,19 @@ public class AltUnityObject {
         return null;
     }
 
-    public String callComponentMethod(String componentName, String methodName, String parameters) throws Exception {
+    public String callComponentMethod(String componentName, String methodName, String parameters,String typeOfParameters) throws Exception {
         String altObject = new Gson().toJson(this);
-        String actionInfo = new Gson().toJson(new AltUnityObjectAction(componentName, methodName, parameters));
+        String actionInfo = new Gson().toJson(new AltUnityObjectAction(componentName, methodName, parameters,typeOfParameters));
         altUnityDriver.send("callComponentMethodForObject;" + altObject + ";" + actionInfo + ";&");
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) return data;
         altUnityDriver.handleErrors(data);
         return null;
     }
+    public String callComponentMethod(String componentName, String methodName, String parameters) throws Exception {
+        return callComponentMethod(componentName,methodName,parameters,"");
+    }
+
 
     public String getText() throws Exception {
         return getComponentProperty("UnityEngine.UI.Text", "text");

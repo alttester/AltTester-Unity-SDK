@@ -852,13 +852,22 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             string response = errorMethodNotFoundMessage;
             try
             {
-                var a=altObjectString;
+                MethodInfo methodInfoToBeInvoked;
                 AltUnityObjectAction altAction = JsonConvert.DeserializeObject<AltUnityObjectAction>(actionString);
                 var componentType = GetType(altAction.Component);
-                MethodInfo methodInfo = componentType.GetMethod(altAction.Method);
+               
+                MethodInfo[] methodInfos = GetMethodInfoWithSpecificName(componentType, altAction.Method);
+                if (methodInfos.Length == 1)
+                    methodInfoToBeInvoked = methodInfos[0];
+                else
+                {
+                    methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altAction);
+                }
+               
+
                 if (string.IsNullOrEmpty(altObjectString) )
                 {
-                    response = InvokeMethod(methodInfo, altAction, null, response);
+                    response = InvokeMethod(methodInfoToBeInvoked, altAction, null, response);
                 }
                 else
                 { 
@@ -868,7 +877,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                     if (gameObject.GetComponent(componentType) != null)
                     {
                         Component component = gameObject.GetComponent(componentType);
-                        response = InvokeMethod(methodInfo, altAction, component, response);
+                        response = InvokeMethod(methodInfoToBeInvoked, altAction, component, response);
                     }
                 }
             }
@@ -896,6 +905,48 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
             handler.SendResponse(response);
         });
+    }
+
+    private MethodInfo[] GetMethodInfoWithSpecificName(Type componentType, string altActionMethod)
+    {
+        MethodInfo[] methodInfos = componentType.GetMethods();
+        return methodInfos.Where(method => method.Name.Equals(altActionMethod)).ToArray();
+    }
+
+    private MethodInfo GetMethodToBeInvoked(MethodInfo[] methodInfos,AltUnityObjectAction altUnityObjectAction)
+    {
+        var parameter = altUnityObjectAction.Parameters.Split('?');
+        var typeOfParametes = altUnityObjectAction.TypeOfParameters.Split('?');
+        methodInfos=methodInfos.Where(method => method.GetParameters().Length == parameter.Length).ToArray();
+        if (methodInfos.Length == 1)
+            return methodInfos[0];
+        foreach (var methodInfo in methodInfos)
+        {
+            try
+            {
+                for (int counter = 0; counter < typeOfParametes.Length; counter++)
+                {
+                    Type type=Type.GetType(typeOfParametes[counter]);
+                    if(methodInfo.GetParameters()[counter].ParameterType != type)
+                        throw new Exception("Missmatch in parameter type");
+                }
+                //If every parameter can be deserialize then this is our method(except if there int but method can take also int)
+                return methodInfo;
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            
+        }
+
+        var errorMessage = "No method found with this signature: " + altUnityObjectAction.Method + "(";
+        errorMessage = typeOfParametes.Aggregate(errorMessage, (current, typeOfParamete) => current + (typeOfParamete + ","));
+
+        errorMessage=errorMessage.Remove(errorMessage.Length - 1);
+        errorMessage += ")";
+        throw new Exception(errorMessage);
     }
 
     private static string InvokeMethod(MethodInfo methodInfo, AltUnityObjectAction altAction,Component component, string response)
