@@ -47,9 +47,9 @@ public class AltUnityObject {
     }
 
 
-    public String setComponentProperty(String assebleyName,String componentName, String propertyName, String value) throws Exception {
+    public String setComponentProperty(String assemblyName,String componentName, String propertyName, String value) throws Exception {
         String altObject = new Gson().toJson(this);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assebleyName,componentName, propertyName));
+        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName,componentName, propertyName));
         altUnityDriver.send("setObjectComponentProperty;" + altObject + ";" + propertyInfo + ";" + value + ";&");
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) return data;
