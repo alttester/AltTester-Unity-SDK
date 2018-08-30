@@ -163,6 +163,19 @@ public class TestSample
     }
 
     [Test]
+    public void TestFindElementByComponent2()
+    {
+        Assert.AreEqual("Capsule",altUnityDriver.FindElementByComponent("Capsule").name);
+    }
+
+    [Test]
+    public void TestFindElemetsByComponent()
+    {
+        var a = altUnityDriver.FindElementsByComponent("UnityEngine.MeshFilter");
+        Assert.AreEqual(3, a.Count);
+    }
+
+    [Test]
     public void TestGetComponentProperty()
     {
         const string componentName = "AltUnityRunner";

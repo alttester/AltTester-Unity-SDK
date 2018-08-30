@@ -452,7 +452,7 @@ public class AltUnityDriver
     /// <returns>List of AltUnityObjects that have component</returns>
     public List<AltUnityObject> FindElementsByComponent(String componentName, String assemblyName = "", String cameraName = "")
     {
-        Socket.Client.Send(toBytes("findObjectsByComponent;" + componentName + ";" + componentName + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectsByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&"));
         String data = Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
         HandleErrors(data);
