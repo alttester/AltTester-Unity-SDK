@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -1191,6 +1192,8 @@ public class AltUnityTesterEditor : EditorWindow
     }
     private static void IosBuildFromCommandLine()
     {
+        try
+        {
         InitEditorConfiguration();
         InitBuildSetup(BuildTargetGroup.iOS);
         Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
@@ -1219,9 +1222,16 @@ public class AltUnityTesterEditor : EditorWindow
         Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             // EditorApplication.Exit(0);
 
+         }
+        catch (Exception exception)
+        {
+            Debug.Log(exception);
+            EditorApplication.Exit(1);
+        }
+
 
     }
-    #endif
+#endif
 
 
 
@@ -1289,13 +1299,17 @@ public class AltUnityTesterEditor : EditorWindow
     }
     static void AndroidBuildFromCommandLine()
     {
+        try
+        {
         InitEditorConfiguration();
         InitBuildSetup(BuildTargetGroup.Android);
+        
         Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 //        buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
         buildPlayerOptions.scenes = GetSceneForBuild();
 
+        buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName+".apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -1314,6 +1328,12 @@ public class AltUnityTesterEditor : EditorWindow
         }
         Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         EditorApplication.Exit(0);
+        }
+        catch (Exception exception)
+        {
+            Debug.Log(exception);
+            EditorApplication.Exit(1);
+        }
 
     }
 
@@ -1509,14 +1529,17 @@ public class AltUnityTesterEditor : EditorWindow
 
     static void RunAllTestsAndroid()
     {
-        InitEditorConfiguration();
-        Debug.Log("Started running test");
-        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
-            .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
-        var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+        try
+        {
+            InitEditorConfiguration();
+            Debug.Log("Started running test");
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
+                .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+            var testSuite2 =
+                (TestSuite) new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
 
-        OrFilter filter = new OrFilter();
-        foreach (var test in testSuite2.Tests)
+            OrFilter filter = new OrFilter();
+            foreach (var test in testSuite2.Tests)
             foreach (var t in test.Tests)
             {
                 Debug.Log(t.FullName);
@@ -1524,23 +1547,29 @@ public class AltUnityTesterEditor : EditorWindow
             }
 
 
-        RemoveForwardAndroid();
+            RemoveForwardAndroid();
 #if UNITY_EDITOR_OSX
         KillIProxy(idIproxyProcess);
 #endif
-        ForwardAndroid();
+            ForwardAndroid();
 
-        ITestListener listener = new TestRunListener(null);
-        var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
+            ITestListener listener = new TestRunListener(null);
+            var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
 
-        testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
+            testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
 
 
-        var result = testAssemblyRunner.Run(listener, filter);
+            var result = testAssemblyRunner.Run(listener, filter);
 
-        RemoveForwardAndroid();
-        if (result.FailCount > 0)
+            RemoveForwardAndroid();
+            if (result.FailCount > 0)
+            {
+                EditorApplication.Exit(1);
+            }
+        }
+        catch (Exception e)
         {
+            Debug.LogError(e);
             EditorApplication.Exit(1);
         }
     }
@@ -1548,6 +1577,8 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_OSX
     static void RunAllTestsIOS()
     {
+        try { 
+
         InitEditorConfiguration();
         Debug.Log("Started running test");
         Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
@@ -1588,9 +1619,15 @@ public class AltUnityTesterEditor : EditorWindow
         {
             EditorApplication.Exit(1);
         }
+     }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+            EditorApplication.Exit(1);
+        }
 
     }
 #endif
 
-    
+
 }
