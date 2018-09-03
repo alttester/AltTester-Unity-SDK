@@ -1303,11 +1303,17 @@ public class AltUnityTesterEditor : EditorWindow
         {
         InitEditorConfiguration();
         InitBuildSetup(BuildTargetGroup.Android);
+            string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+
             PlayerSettings.companyName = "Altom";
             PlayerSettings.productName = "sampleGame";
             PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
-        
-        Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            PlayerSettings.bundleVersion = versionNumber;
+            PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
+
+            Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 //        buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
         buildPlayerOptions.scenes = GetSceneForBuild();
