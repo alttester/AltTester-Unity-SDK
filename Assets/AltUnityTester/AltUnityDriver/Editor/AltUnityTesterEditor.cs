@@ -635,8 +635,8 @@ public class AltUnityTesterEditor : EditorWindow
                         newScriptingDefineSymbolsForGroup += define + ";";
                     }
                 }
-
-                newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length - 1);
+                if(newScriptingDefineSymbolsForGroup.Length!=0)
+                    newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length - 1);
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
                     newScriptingDefineSymbolsForGroup);
             }
@@ -1570,7 +1570,8 @@ public class AltUnityTesterEditor : EditorWindow
 
             RemoveForwardAndroid();
 #if UNITY_EDITOR_OSX
-        KillIProxy(idIproxyProcess);
+        if(idIproxyProcess!=0)    
+            KillIProxy(idIproxyProcess);
 #endif
             ForwardAndroid();
 
