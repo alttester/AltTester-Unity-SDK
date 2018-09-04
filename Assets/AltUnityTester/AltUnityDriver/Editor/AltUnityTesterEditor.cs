@@ -1210,7 +1210,7 @@ public class AltUnityTesterEditor : EditorWindow
         InitBuildSetup(BuildTargetGroup.iOS);
         Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName;
+        buildPlayerOptions.locationPathName = "sampleGame";
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.iOS;
