@@ -619,20 +619,32 @@ public class AltUnityTesterEditor : EditorWindow
 
     private static void RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup targetGroup)
     {
-        string altunitytesterdefine = "ALTUNITYTESTER";
-        var scriptingDefineSymbolsForGroup =
-            PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-        string newScriptingDefineSymbolsForGroup = "";
-        if (scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine)) {
-            var split = scriptingDefineSymbolsForGroup.Split(';');
-            foreach (var define in split) {
-                if (define != altunitytesterdefine) {
-                    newScriptingDefineSymbolsForGroup += define + ";";
+        try
+        {
+            string altunitytesterdefine = "ALTUNITYTESTER";
+            var scriptingDefineSymbolsForGroup =
+                PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+            string newScriptingDefineSymbolsForGroup = "";
+            if (scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine))
+            {
+                var split = scriptingDefineSymbolsForGroup.Split(';');
+                foreach (var define in split)
+                {
+                    if (define != altunitytesterdefine)
+                    {
+                        newScriptingDefineSymbolsForGroup += define + ";";
+                    }
                 }
+
+                newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length - 1);
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
+                    newScriptingDefineSymbolsForGroup);
             }
-            newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length-1);
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
-                newScriptingDefineSymbolsForGroup);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Some Error Happened +" + e.Message);
+            Debug.LogError("Stack trace "+e.StackTrace);
         }
     }
 
