@@ -1164,7 +1164,7 @@ public class AltUnityTesterEditor : EditorWindow
         EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
 
     }
-#if UNITY_EDITOR_OSX
+//#if UNITY_EDITOR_OSX
     
 
     private static void IosDefault()
@@ -1208,6 +1208,13 @@ public class AltUnityTesterEditor : EditorWindow
         {
         InitEditorConfiguration();
         InitBuildSetup(BuildTargetGroup.iOS);
+            string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+            PlayerSettings.companyName = "Altom";
+            PlayerSettings.productName = "sampleGame";
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
+            PlayerSettings.bundleVersion = versionNumber;
+            PlayerSettings.iOS.appleEnableAutomaticSigning = true;
+            PlayerSettings.iOS.appleDeveloperTeamID = "59ESG8ELF5";
         Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.locationPathName = "sampleGame";
@@ -1243,7 +1250,7 @@ public class AltUnityTesterEditor : EditorWindow
 
 
     }
-#endif
+//#endif
 
 
 
@@ -1278,6 +1285,8 @@ public class AltUnityTesterEditor : EditorWindow
         {
             InitEditorConfiguration();
             InitBuildSetup(BuildTargetGroup.Android);
+            
+            
             Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName+".apk";
