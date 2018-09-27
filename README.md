@@ -32,7 +32,7 @@ Other Bindings:
 ### Downloads - AltUnityTester Package
 >
 * From repository: 
-	* https://git.altom.ro/altrun/altunity-tester/blob/master/AltUnityTester.unitypackage
+	* https://gitlab.com/altom/altunitytester/blob/master/AltUnityTester.unitypackage
 >	  
 * From Unity Asset Store - import inside your project directly:
 	* links soon
