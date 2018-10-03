@@ -82,8 +82,9 @@ public class AltUnityTesterEditor : EditorWindow
     void RunTests(TestRunMode testMode)
     {
         Debug.Log("Started running test");
-        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
-            .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
+
         var filters = AddTestToBeRun(testMode);
 #if UNITY_EDITOR_OSX
         RemoveForwardAndroid();
@@ -916,9 +917,10 @@ public class AltUnityTesterEditor : EditorWindow
 
     private void SetUpListTest()
     {
-        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
-        var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
         var myTests = new List<MyTest>();
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
+        var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
         addTestSuiteToMyTest(testSuite2, myTests);
         _editorConfiguration.MyTests = myTests;
     }
@@ -1563,8 +1565,9 @@ public class AltUnityTesterEditor : EditorWindow
         {
             InitEditorConfiguration();
             Debug.Log("Started running test");
-            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
-                .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
+
             var testSuite2 =
                 (TestSuite) new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
 
@@ -1612,8 +1615,9 @@ public class AltUnityTesterEditor : EditorWindow
 
         InitEditorConfiguration();
         Debug.Log("Started running test");
-        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
-            .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
+
         var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
 
         OrFilter filter = new OrFilter();
