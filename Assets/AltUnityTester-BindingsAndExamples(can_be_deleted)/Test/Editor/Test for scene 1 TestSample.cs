@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
-using TMPro;
 using UnityEngine;
 [Timeout(5000)]
-public class TestSample
+public class TestForScene1TestSample
 {
     private AltUnityDriver altUnityDriver;
     [OneTimeSetUp]

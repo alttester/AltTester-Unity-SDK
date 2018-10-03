@@ -6,7 +6,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 [Timeout(5000)]
-public class DragAndDrop  {
+public class TestForScene3DragAndDrop  {
     private AltUnityDriver altUnityDriver;
     [OneTimeSetUp]
     public void SetUp()
