@@ -59,9 +59,9 @@ class AltElement(object):
         data = self.alt_unity_driver.send_data('setObjectComponentProperty;' + alt_object + ';'+ property_info + ';' + value + ';&')
         return self.alt_unity_driver.handle_errors(data)
 
-    def call_component_method(self, component_name, method_name, parameters,assembly_name=''):
+    def call_component_method(self, component_name, method_name, parameters,assembly_name='',type_of_parameters=''):
         alt_object = self.toJSON()
-        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'"'+',"assembly":"' + assembly_name + '"}'
+        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'"'+',"assembly":"' + assembly_name + '", "typesofparameters":"' + type_of_parameters +'"}'
         data = self.alt_unity_driver.send_data('callComponentMethodForObject;' + alt_object + ';'+ action_info + ';&')
         return self.alt_unity_driver.handle_errors(data)
 
@@ -202,6 +202,11 @@ class AltrunUnityDriver(object):
         else:
             return self.recvall()
 
+    def call_static_methods(self, type_name, method_name, parameters, type_of_parameters = '',assembly=''):
+        action_info = '{"component":"' + type_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '", "typesofparameters":"' + type_of_parameters +'", "assembly":"'+assembly+'"}'
+        data=self.send_data("callComponentMethodForObject;" + "" + "; " + action_info + "; &")
+        return self.handle_errors(data)
+    
     def get_alt_element(self, data):
         if (data != '' and 'error:' not in data):
             elements = json.loads(data)

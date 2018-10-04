@@ -82,7 +82,18 @@ public class AltUnityDriver
         if (data.Equals("Ok"))
             return;
         HandleErrors(data);
+    }
 
+    public string CallStaticMethods(String typeName, String methodName,
+        String parameters, String typeOfParameters = "")
+    {
+        String actionInfo =
+            JsonConvert.SerializeObject(new AltUnityObjectAction(typeName, methodName, parameters,typeOfParameters));
+        Socket.Client.Send(toBytes("callComponentMethodForObject;" + "" + "; " + actionInfo + "; &"));
+        var data = Recvall();
+        if (!data.Contains("error:")) return data;
+        HandleErrors(data);
+        return null;
     }
     public void DeletePlayerPref()
     {

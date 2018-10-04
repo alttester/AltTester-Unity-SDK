@@ -1456,6 +1456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capsuleInfo: {fileID: 1372172143}
   arrayOfInts: 010000000200000003000000
+  TestBool: 1
   stringToSetFromTests: intialValue
 --- !u!114 &1957692937
 MonoBehaviour:

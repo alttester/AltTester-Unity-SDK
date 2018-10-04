@@ -64,6 +64,22 @@ public class AltUnityDriver {
         System.out.println("Data received: " + data);
         return data;
     }
+    public String callStaticMethods(String assembly,String typeName, String methodName,
+                                    String parameters,String typeOfParameters) throws Exception {
+        String actionInfo =new Gson().toJson(new AltUnityObjectAction(typeName, methodName, parameters,typeOfParameters,assembly));
+        send("callComponentMethodForObject;" + "" + "; " + actionInfo + ";&");
+        String data = recvall();
+        if (!data.contains("error:")) return data;
+        handleErrors(data);
+        return null;
+    }
+    public String callStaticMethods(String assembly,String typeName, String methodName,
+                                    String parameters) throws Exception {
+        return callStaticMethods(typeName,methodName,parameters,"");
+    }
+    public String callStaticMethods(String typeName, String methodName,String parameters ) throws Exception {
+        return callStaticMethods("",typeName,methodName,parameters,"");
+    }
 
     public void loadScene(String scene) throws Exception {
         System.out.println("Load scene: " + scene + "...");

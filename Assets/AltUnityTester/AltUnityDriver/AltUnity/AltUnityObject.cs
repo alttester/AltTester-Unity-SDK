@@ -69,12 +69,11 @@ public class AltUnityObject
         return null;
     }
 
-    public String CallComponentMethod(String componentName, String methodName,
-        String parameters, String assemblyName = null)
+    public String CallComponentMethod(String componentName, String methodName,String parameters,String typeOfParameters="", String assemblyName = null)
     {
         String altObject = JsonConvert.SerializeObject(this);
         String actionInfo =
-            JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters, assemblyName));
+            JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters,typeOfParameters, assemblyName));
         altUnityDriver.Socket.Client.Send(
             Encoding.ASCII.GetBytes("callComponentMethodForObject;" + altObject + ";" + actionInfo + ";&"));
         String data = altUnityDriver.Recvall();

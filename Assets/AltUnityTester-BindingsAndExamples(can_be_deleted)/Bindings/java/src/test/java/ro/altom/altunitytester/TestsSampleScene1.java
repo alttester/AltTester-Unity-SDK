@@ -267,7 +267,7 @@ public class TestsSampleScene1 {
         String methodName = "UIButtonClicked";
         AltUnityObject altElement = altUnityDriver.findElement("Capsule");
         String data = altElement.callComponentMethod(componentName, methodName, "");
-        assertEquals("methodInvoked", data);
+        assertEquals("null", data);
     }
 
 
@@ -278,7 +278,7 @@ public class TestsSampleScene1 {
         String parameters = "New Text";
         AltUnityObject altElement = altUnityDriver.findElement("Capsule");
         String data = altElement.callComponentMethod(componentName, methodName, parameters);
-        assertEquals("methodInvoked", data);
+        assertEquals("null", data);
     }
 
     @Test
@@ -288,7 +288,7 @@ public class TestsSampleScene1 {
         String parameters = "1?stringparam?0.5?[1,2,3]";
         AltUnityObject altElement = altUnityDriver.findElement("Capsule");
         String data = altElement.callComponentMethod(componentName, methodName, parameters);
-        assertEquals("methodInvoked", data);
+        assertEquals("null", data);
     }
 
     @Test
@@ -457,6 +457,24 @@ public class TestsSampleScene1 {
         {
             assertEquals("Element with text: aaaaa not loaded after 1.0 seconds",exception.getMessage());
         }
+    }
+
+@Test
+public void TestCallStaticMethod() throws Exception {
+
+    altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "SetInt","Test?1");
+//    int a=altUnityDriver.getIntKeyPlayerPref("Test");
+    int a=Integer.parseInt(altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+    assertEquals(1,a);
+
+}
+    @Test
+    public void TestCallMethodWithMultipleDefinitions() throws Exception {
+
+        AltUnityObject capsule=altUnityDriver.findElement("Capsule");
+        capsule.callComponentMethod("Capsule", "Test","2","System.Int32","");
+        AltUnityObject capsuleInfo=altUnityDriver.findElement("CapsuleInfo");
+        assertEquals("6",capsuleInfo.getText());
     }
 
 }

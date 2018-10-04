@@ -5,21 +5,17 @@ public struct AltUnityObjectAction {
 	public string Method;
 	// public Dictionary<string, string> parameters;
 	public string Parameters;
+    public string TypeOfParameters;
 
-	public AltUnityObjectAction(string componentName = "", string methodName = "", string parameters = null) {
-		Component = componentName;
-		Method = methodName;
-		Parameters = parameters;
-	    Assembly = null;
-	}
-
-    public AltUnityObjectAction(string component, string method, string parameters, string assembly)
+    public AltUnityObjectAction(string component="", string method="", string parameters="", string typeOfParameters="",string assembly="")
     {
         Component = component;
         Method = method;
         Parameters = parameters;
+        TypeOfParameters = typeOfParameters;
         Assembly = assembly;
     }
+
 
     public string Assembly;
 }

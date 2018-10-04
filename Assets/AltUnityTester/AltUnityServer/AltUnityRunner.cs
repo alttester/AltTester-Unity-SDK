@@ -852,39 +852,33 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             string response = errorMethodNotFoundMessage;
             try
             {
-                AltUnityObject altObject = JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
+                MethodInfo methodInfoToBeInvoked;
                 AltUnityObjectAction altAction = JsonConvert.DeserializeObject<AltUnityObjectAction>(actionString);
                 var componentType = GetType(altAction.Component,altAction.Assembly);
-                MethodInfo methodInfo = componentType.GetMethod(altAction.Method);
-                GameObject gameObject = GetGameObject(altObject);
-
-                if (gameObject.GetComponent(componentType) != null)
+               
+                MethodInfo[] methodInfos = GetMethodInfoWithSpecificName(componentType, altAction.Method);
+                if (methodInfos.Length == 1)
+                    methodInfoToBeInvoked = methodInfos[0];
+                else
                 {
-                    if (methodInfo != null)
+                    methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altAction);
+                }
+               
+
+
+                if (string.IsNullOrEmpty(altObjectString) )
+                {
+                    response = InvokeMethod(methodInfoToBeInvoked, altAction, null, response);
+                }
+                else
+                { 
+                    AltUnityObject altObject = JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
+                    GameObject gameObject = GetGameObject(altObject);
+
+                    if (gameObject.GetComponent(componentType) != null)
                     {
-                        if (altAction.Parameters == "")
-                        {
-                            methodInfo.Invoke(gameObject.GetComponent(componentType), null);
-                        }
-                        else
-                        {
-                            ParameterInfo[] parameterInfos = methodInfo.GetParameters();
-                            string[] parameterStrings = altAction.Parameters.Split('?');
-                            if (parameterInfos.Length != parameterStrings.Length)
-                                throw new TargetParameterCountException();
-                            object[] parameters = new object[parameterInfos.Length];
-                            for (int i = 0; i < parameterInfos.Length; i++)
-                            {
-                                if (parameterInfos[i].ParameterType == typeof(System.String))
-                                    parameters[i] = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(parameterStrings[i]), parameterInfos[i].ParameterType);
-                                else
-                                {
-                                    parameters[i] = JsonConvert.DeserializeObject(parameterStrings[i], parameterInfos[i].ParameterType);
-                                }
-                            }
-                            methodInfo.Invoke(gameObject.GetComponent(componentType), parameters);
-                        }
-                        response = "methodInvoked";
+                        Component component = gameObject.GetComponent(componentType);
+                        response = InvokeMethod(methodInfoToBeInvoked, altAction, component, response);
                     }
                 }
             }
@@ -899,14 +893,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             catch (JsonException e)
             {
                 Debug.Log(e);
-                if (altObjectString.Contains("error"))
-                {
-                    response = errorObjectWasNotFound;
-                }
-                else
-                {
-                    response = errorCouldNotParseJsonString;
-                }
+                response = altObjectString.Contains("error") ? errorObjectWasNotFound : errorCouldNotParseJsonString;
             }
             catch (NullReferenceException)
             {
@@ -920,6 +907,79 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             handler.SendResponse(response);
         });
     }
+
+    private MethodInfo[] GetMethodInfoWithSpecificName(Type componentType, string altActionMethod)
+    {
+        MethodInfo[] methodInfos = componentType.GetMethods();
+        return methodInfos.Where(method => method.Name.Equals(altActionMethod)).ToArray();
+    }
+
+    private MethodInfo GetMethodToBeInvoked(MethodInfo[] methodInfos,AltUnityObjectAction altUnityObjectAction)
+    {
+        var parameter = altUnityObjectAction.Parameters.Split('?');
+        var typeOfParametes = altUnityObjectAction.TypeOfParameters.Split('?');
+        methodInfos=methodInfos.Where(method => method.GetParameters().Length == parameter.Length).ToArray();
+        if (methodInfos.Length == 1)
+            return methodInfos[0];
+        foreach (var methodInfo in methodInfos)
+        {
+            try
+            {
+                for (int counter = 0; counter < typeOfParametes.Length; counter++)
+                {
+                    Type type=Type.GetType(typeOfParametes[counter]);
+                    if(methodInfo.GetParameters()[counter].ParameterType != type)
+                        throw new Exception("Missmatch in parameter type");
+                }
+                //If every parameter can be deserialize then this is our method(except if there int but method can take also int)
+                return methodInfo;
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            
+        }
+
+        var errorMessage = "No method found with this signature: " + altUnityObjectAction.Method + "(";
+        errorMessage = typeOfParametes.Aggregate(errorMessage, (current, typeOfParamete) => current + (typeOfParamete + ","));
+
+        errorMessage=errorMessage.Remove(errorMessage.Length - 1);
+        errorMessage += ")";
+        throw new Exception(errorMessage);
+    }
+
+    private static string InvokeMethod(MethodInfo methodInfo, AltUnityObjectAction altAction,Component component, string response)
+    {
+        if (methodInfo == null) return response;
+        if (altAction.Parameters == "")
+        {
+            response=JsonConvert.SerializeObject(methodInfo.Invoke(component, null));
+        }
+        else
+        {
+            ParameterInfo[] parameterInfos = methodInfo.GetParameters();
+            string[] parameterStrings = altAction.Parameters.Split('?');
+            if (parameterInfos.Length != parameterStrings.Length)
+                throw new TargetParameterCountException();
+            object[] parameters = new object[parameterInfos.Length];
+            for (int i = 0; i < parameterInfos.Length; i++)
+            {
+                if (parameterInfos[i].ParameterType == typeof(System.String))
+                    parameters[i] = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(parameterStrings[i]),
+                        parameterInfos[i].ParameterType);
+                else
+                {
+                    parameters[i] = JsonConvert.DeserializeObject(parameterStrings[i], parameterInfos[i].ParameterType);
+                }
+            }
+
+            response = JsonConvert.SerializeObject(methodInfo.Invoke(component, parameters));
+        }
+    return response;
+    }
+
     private void CloseConnection(AltClientSocketHandler handler)
     {
         _socketServer.StartListeningForConnections();
