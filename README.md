@@ -1,56 +1,38 @@
 # AltUnityTester
 
 ## Table of Content
->
+
 [Setup](#setup)
->>
-[Downloads - AltUnityTester Package](#downloads-altunitytester-package)
->>
-[Import AltUnityTester asset/package into your Unity project](#import-altunitytester-assetpackage-into-your-unity-project)
->>
-[Setting up local machine for iOS testing](#setting-up-local-machine-for-ios-testing)
->
+   - [Downloads - AltUnityTester Package](#downloads-altunitytester-package)
+   - [Import AltUnityTester asset/package into your Unity project](#import-altunitytester-assetpackage-into-your-unity-project)
+   - [Setting up local machine for iOS testing](#setting-up-local-machine-for-ios-testing)
+
 [AltUnityTester User Interface](#altunitytester-user-interface)
- >>
- [Building the game](#building-the-game)
- >>
- [  Run Tests ](#run-tests)
- >>
- [Writing Test for AltUnityTester](#writing-test-for-altunitytester)
- >
- [iOS code stripping problems](#ios-code-stripping-problems)
- >
- [Actions/Commands](#actionscommands)
- >>
- [AltUnityElements](#altunityelements)
->>
-[Available Actions](#available-actions)
+   - [Building the game](#building-the-game)
+   - [Run Tests ](#run-tests)
+   - [Writing Test for AltUnityTester](#writing-test-for-altunitytester)
+   - [iOS code stripping problems](#ios-code-stripping-problems)
 
->>>>
-[Finding elements](#finding-elements)
+[Actions/Commands](#actionscommands)
+   - [AltUnityElements](#altunityelements)
+   - [Available Actions](#available-actions)
+   - [Finding elements](#finding-elements)
+   - [Waiting for elements](#waiting-for-elements)
+   - [Managing Unity Scenes](#managing-unity-scenes)
+   - [Managing Unity PlayerPrefs](#managing-unity-playerprefs)
+   - [Actions on Screen](#actions-on-screen)
+   - [Actions on elements](#actions-on-elements)
 
->>>>
-[Waiting for elements](#waiting-for-elements)
-
->>>>
-[Managing Unity Scenes](#managing-unity-scenes)
-
->>>>
-[Managing Unity PlayerPrefs](#managing-unity-playerprefs)
-
->>>>
-[Actions on Screen](#actions-on-screen)
-
->>>>
-[Actions on elements](#actions-on-elements)
-
+Other Bindings:
+   - [Python](https://gitlab.com/altom/altunitytester/tree/master/Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python)
+   - [Java](https://gitlab.com/altom/altunitytester/tree/master/Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java)
 
 ## Setup
 >
 ### Downloads - AltUnityTester Package
 >
 * From repository: 
-	* https://git.altom.ro/altrun/altunity-tester/blob/master/AltUnityTester.unitypackage
+	* https://gitlab.com/altom/altunitytester/blob/master/AltUnityTester.unitypackage
 >	  
 * From Unity Asset Store - import inside your project directly:
 	* links soon

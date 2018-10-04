@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -618,20 +619,32 @@ public class AltUnityTesterEditor : EditorWindow
 
     private static void RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup targetGroup)
     {
-        string altunitytesterdefine = "ALTUNITYTESTER";
-        var scriptingDefineSymbolsForGroup =
-            PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-        string newScriptingDefineSymbolsForGroup = "";
-        if (scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine)) {
-            var split = scriptingDefineSymbolsForGroup.Split(';');
-            foreach (var define in split) {
-                if (define != altunitytesterdefine) {
-                    newScriptingDefineSymbolsForGroup += define + ";";
+        try
+        {
+            string altunitytesterdefine = "ALTUNITYTESTER";
+            var scriptingDefineSymbolsForGroup =
+                PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+            string newScriptingDefineSymbolsForGroup = "";
+            if (scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine))
+            {
+                var split = scriptingDefineSymbolsForGroup.Split(';');
+                foreach (var define in split)
+                {
+                    if (define != altunitytesterdefine)
+                    {
+                        newScriptingDefineSymbolsForGroup += define + ";";
+                    }
                 }
+                if(newScriptingDefineSymbolsForGroup.Length!=0)
+                    newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length - 1);
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
+                    newScriptingDefineSymbolsForGroup);
             }
-            newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length-1);
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
-                newScriptingDefineSymbolsForGroup);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Some Error Happened +" + e.Message);
+            Debug.LogError("Stack trace "+e.StackTrace);
         }
     }
 
@@ -1151,7 +1164,7 @@ public class AltUnityTesterEditor : EditorWindow
         EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
 
     }
-#if UNITY_EDITOR_OSX
+//#if UNITY_EDITOR_OSX
     
 
     private static void IosDefault()
@@ -1191,11 +1204,20 @@ public class AltUnityTesterEditor : EditorWindow
     }
     private static void IosBuildFromCommandLine()
     {
+        try
+        {
         InitEditorConfiguration();
         InitBuildSetup(BuildTargetGroup.iOS);
+            string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+            PlayerSettings.companyName = "Altom";
+            PlayerSettings.productName = "sampleGame";
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
+            PlayerSettings.bundleVersion = versionNumber;
+            PlayerSettings.iOS.appleEnableAutomaticSigning = true;
+            PlayerSettings.iOS.appleDeveloperTeamID = "59ESG8ELF5";
         Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName;
+        buildPlayerOptions.locationPathName = "sampleGame";
         buildPlayerOptions.scenes = GetSceneForBuild();
 
         buildPlayerOptions.target = BuildTarget.iOS;
@@ -1219,9 +1241,16 @@ public class AltUnityTesterEditor : EditorWindow
         Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             // EditorApplication.Exit(0);
 
+         }
+        catch (Exception exception)
+        {
+            Debug.Log(exception);
+            EditorApplication.Exit(1);
+        }
+
 
     }
-    #endif
+//#endif
 
 
 
@@ -1256,6 +1285,8 @@ public class AltUnityTesterEditor : EditorWindow
         {
             InitEditorConfiguration();
             InitBuildSetup(BuildTargetGroup.Android);
+            
+            
             Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             buildPlayerOptions.locationPathName = _editorConfiguration.OutputPathName+".apk";
@@ -1289,13 +1320,26 @@ public class AltUnityTesterEditor : EditorWindow
     }
     static void AndroidBuildFromCommandLine()
     {
+        try
+        {
         InitEditorConfiguration();
         InitBuildSetup(BuildTargetGroup.Android);
-        Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+
+            PlayerSettings.companyName = "Altom";
+            PlayerSettings.productName = "sampleGame";
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
+            PlayerSettings.bundleVersion = versionNumber;
+            PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
+
+            Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 //        buildPlayerOptions.locationPathName = _editorConfiguration.OutPutFileNameAndroidDefault();
         buildPlayerOptions.scenes = GetSceneForBuild();
 
+         buildPlayerOptions.locationPathName = "sampleGame.apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -1314,6 +1358,12 @@ public class AltUnityTesterEditor : EditorWindow
         }
         Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         EditorApplication.Exit(0);
+        }
+        catch (Exception exception)
+        {
+            Debug.Log(exception);
+            EditorApplication.Exit(1);
+        }
 
     }
 
@@ -1509,14 +1559,17 @@ public class AltUnityTesterEditor : EditorWindow
 
     static void RunAllTestsAndroid()
     {
-        InitEditorConfiguration();
-        Debug.Log("Started running test");
-        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
-            .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
-        var testSuite2 = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+        try
+        {
+            InitEditorConfiguration();
+            Debug.Log("Started running test");
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
+                .FirstOrDefault(a => a.GetName().Name.StartsWith("Assembly-CSharp-Editor"));
+            var testSuite2 =
+                (TestSuite) new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
 
-        OrFilter filter = new OrFilter();
-        foreach (var test in testSuite2.Tests)
+            OrFilter filter = new OrFilter();
+            foreach (var test in testSuite2.Tests)
             foreach (var t in test.Tests)
             {
                 Debug.Log(t.FullName);
@@ -1524,23 +1577,30 @@ public class AltUnityTesterEditor : EditorWindow
             }
 
 
-        RemoveForwardAndroid();
+            RemoveForwardAndroid();
 #if UNITY_EDITOR_OSX
-        KillIProxy(idIproxyProcess);
+        if(idIproxyProcess!=0)    
+            KillIProxy(idIproxyProcess);
 #endif
-        ForwardAndroid();
+            ForwardAndroid();
 
-        ITestListener listener = new TestRunListener(null);
-        var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
+            ITestListener listener = new TestRunListener(null);
+            var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
 
-        testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
+            testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
 
 
-        var result = testAssemblyRunner.Run(listener, filter);
+            var result = testAssemblyRunner.Run(listener, filter);
 
-        RemoveForwardAndroid();
-        if (result.FailCount > 0)
+            RemoveForwardAndroid();
+            if (result.FailCount > 0)
+            {
+                EditorApplication.Exit(1);
+            }
+        }
+        catch (Exception e)
         {
+            Debug.LogError(e);
             EditorApplication.Exit(1);
         }
     }
@@ -1548,6 +1608,8 @@ public class AltUnityTesterEditor : EditorWindow
 #if UNITY_EDITOR_OSX
     static void RunAllTestsIOS()
     {
+        try { 
+
         InitEditorConfiguration();
         Debug.Log("Started running test");
         Assembly assembly = AppDomain.CurrentDomain.GetAssemblies()
@@ -1588,9 +1650,15 @@ public class AltUnityTesterEditor : EditorWindow
         {
             EditorApplication.Exit(1);
         }
+     }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+            EditorApplication.Exit(1);
+        }
 
     }
 #endif
 
-    
+
 }

@@ -46,10 +46,10 @@ public class AltUnityObject
     {
         return new Vector3(worldX, worldY, worldZ);
     }
-    public String GetComponentProperty(String componentName, String propertyName)
+    public String GetComponentProperty(String componentName, String propertyName, String assemblyName = null)
     {
         String altObject = JsonConvert.SerializeObject(this);
-        String propertyInfo = JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName));
+        String propertyInfo = JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName,assemblyName));
         altUnityDriver.Socket.Client.Send(
             Encoding.ASCII.GetBytes("getObjectComponentProperty;" + altObject + ";" + propertyInfo + ";&"));
         String data = altUnityDriver.Recvall();
@@ -57,10 +57,10 @@ public class AltUnityObject
         AltUnityDriver.HandleErrors(data);
         return null;
     }
-    public String SetComponentProperty(String componentName, String propertyName, String value)
+    public String SetComponentProperty(String componentName, String propertyName, String value, String assemblyName = null)
     {
         String altObject = JsonConvert.SerializeObject(this);
-        String propertyInfo = JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName));
+        String propertyInfo = JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName,assemblyName));
         altUnityDriver.Socket.Client.Send(
             Encoding.ASCII.GetBytes("setObjectComponentProperty;" + altObject + ";" + propertyInfo + ";" + value + ";&"));
         String data = altUnityDriver.Recvall();
@@ -69,12 +69,11 @@ public class AltUnityObject
         return null;
     }
 
-    public String CallComponentMethod(String componentName, String methodName,
-        String parameters,String typeOfParameters="")
+    public String CallComponentMethod(String componentName, String methodName,String parameters,String typeOfParameters="", String assemblyName = null)
     {
         String altObject = JsonConvert.SerializeObject(this);
         String actionInfo =
-            JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters,typeOfParameters));
+            JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters,typeOfParameters, assemblyName));
         altUnityDriver.Socket.Client.Send(
             Encoding.ASCII.GetBytes("callComponentMethodForObject;" + altObject + ";" + actionInfo + ";&"));
         String data = altUnityDriver.Recvall();
@@ -87,7 +86,7 @@ public class AltUnityObject
 
     public String GetText()
     {
-        return GetComponentProperty("UnityEngine.UI.Text", "text");
+        return GetComponentProperty("UnityEngine.UI.Text", "text",null);
     }
     
     public AltUnityObject ClickEvent()

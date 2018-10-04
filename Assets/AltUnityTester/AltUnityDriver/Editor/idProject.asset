@@ -11,443 +11,430 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bcbb7697f22cd348aafc3b0e2b5b136, type: 3}
   m_Name: idProject
   m_EditorClassIdentifier: 
-  BundleIdentifier: fi.altom.altunitytester
-  ProductName: sampleGame
-  CompanyName: Altom
-  AdbPathIos: /usr/local/bin/adb
+  appendToName: 0
+  OutputPathName: sample
+  AdbPath: /usr/local/bin/adb
   IProxyPath: /usr/local/bin/iproxy
   AutomaticallySign: 1
   SigningTeamId: 59ESG8ELF5
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: /Users/rucindrea/workspace/newaltunitytester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 44
-    _foldOut: 1
+    _testCaseCount: 48
+    _foldOut: 0
     _testResultMessage: 
   - _selected: 0
-    _testName: DragAndDrop
-    _status: -1
+    _testName: TestForScene1TestSample
+    _status: 0
     _isSuite: 1
-    _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testCaseCount: 42
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestButtonClickWithSwipe
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallMethodWithIncorrectNumberOfParameters
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallMethodWithIncorrectTypeOfParameters
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallMethodWithManyParameters
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallMethodWithMultipleDefinitions
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallMethodWithNoParameters
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallMethodWithParameters
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallStaticMethod
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestClickElement
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestClickOnNothing
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestClickScreen
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestDeleteKey
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestDifferentCamera
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindElement
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindElementByComponent
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindElementByComponent2
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindElements
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindElementsWhereNameContains
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindElementWhereNameContains
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindElemetsByComponent
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindNonExistentObject
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindNonExistentObjectByName
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllElements
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetComponentProperty
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetComponentPropertyArray
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetComponentPropertyUnityEngine
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetCurrentScene
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetNonExistingComponentProperty
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestSetComponentProperty
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestSetKeyFloat
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestSetKeyInt
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestSetKeyString
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestSetNonExistingComponentProperty
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForCurrentSceneToBe
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForCurrrentSceneToBeANonExistingScene
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForElementWithText
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForExistingElement
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForExistingElementWhereNameContains
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForNonExistingElementWhereNameContains
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForNonExistingObject
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForObjectToNotExistFail
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForObjectWithTextWrongText
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene2DraggablePanel
+    _status: 0
+    _isSuite: 1
+    _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 3
-    _foldOut: 1
+    _foldOut: 0
     _testResultMessage: 
   - _selected: 0
-    _testName: DragAndDrop.MultipleDragAndDrop
-    _status: -1
+    _testName: TestForScene2DraggablePanel.ClosePanel
+    _status: 0
     _isSuite: 0
-    _parentName: DragAndDrop
+    _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : Connection reset by
-      peer'
+    _testResultMessage: 
   - _selected: 0
-    _testName: DragAndDrop.MultipleDragAndDropWait
-    _status: -1
+    _testName: TestForScene2DraggablePanel.MovePanel
+    _status: 0
     _isSuite: 0
-    _parentName: DragAndDrop
+    _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
+    _testResultMessage: 
   - _selected: 0
-    _testName: DragAndDrop.TestPointerEnterAndExit
-    _status: -1
+    _testName: TestForScene2DraggablePanel.ResizePanel
+    _status: 0
     _isSuite: 0
-    _parentName: DragAndDrop
+    _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
+    _testResultMessage: 
   - _selected: 0
-    _testName: DragUi
-    _status: -1
+    _testName: TestForScene3DragAndDrop
+    _status: 0
     _isSuite: 1
-    _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 3
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
-    _testName: DragUi.ClosePanel
-    _status: -1
+    _testName: TestForScene3DragAndDrop.MultipleDragAndDrop
+    _status: 0
     _isSuite: 0
-    _parentName: DragUi
+    _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : Connection reset by
-      peer'
-  - _selected: 0
-    _testName: DragUi.MovePanel
-    _status: -1
-    _isSuite: 0
-    _parentName: DragUi
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: DragUi.ResizePanel
-    _status: -1
-    _isSuite: 0
-    _parentName: DragUi
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample
-    _status: -1
-    _isSuite: 1
-    _parentName: D:/Licenta/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 38
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
-    _testName: TestSample.TestButtonClickWithSwipe
-    _status: -1
+    _testName: TestForScene3DragAndDrop.MultipleDragAndDropWait
+    _status: 0
     _isSuite: 0
-    _parentName: TestSample
+    _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : Connection reset by
-      peer'
+    _testResultMessage: 
   - _selected: 0
-    _testName: TestSample.TestCallMethodWithIncorrectNumberOfParameters
-    _status: -1
+    _testName: TestForScene3DragAndDrop.TestPointerEnterAndExit
+    _status: 0
     _isSuite: 0
-    _parentName: TestSample
+    _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestCallMethodWithIncorrectTypeOfParameters
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestCallMethodWithManyParameters
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestCallMethodWithNoParameters
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestCallMethodWithParameters
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestClickElement
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestClickOnNothing
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 1
-    _testName: TestSample.TestClickScreen
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestDeleteKey
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestDifferentCamera
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestFindElement
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestFindElementByComponent
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestFindElements
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestFindElementsWhereNameContains
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestFindElementWhereNameContains
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestFindNonExistentObject
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestFindNonExistentObjectByName
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestGetAllElements
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestGetComponentProperty
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestGetComponentPropertyArray
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestGetComponentPropertyUnityEngine
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestGetCurrentScene
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestGetNonExistingComponentProperty
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestSetComponentProperty
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestSetKeyFloat
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestSetKeyInt
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestSetKeyString
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestSetNonExistingComponentProperty
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForCurrentSceneToBe
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForCurrrentSceneToBeANonExistingScene
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForElementWithText
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForExistingElement
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForExistingElementWhereNameContains
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForNonExistingElementWhereNameContains
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForNonExistingObject
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForObjectToNotExistFail
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
-  - _selected: 0
-    _testName: TestSample.TestWaitForObjectWithTextWrongText
-    _status: -1
-    _isSuite: 0
-    _parentName: TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 'System.Net.Sockets.SocketException : The socket has been
-      shut down'
+    _testResultMessage: 
   Scenes:
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
