@@ -66,7 +66,7 @@ public class AltUnityDriver {
     }
     public String callStaticMethods(String assembly,String typeName, String methodName,
                                     String parameters,String typeOfParameters) throws Exception {
-        String actionInfo =new Gson().toJson(new AltUnityObjectAction(assembly,typeName, methodName, parameters,typeOfParameters));
+        String actionInfo =new Gson().toJson(new AltUnityObjectAction(typeName, methodName, parameters,typeOfParameters,assembly));
         send("callComponentMethodForObject;" + "" + "; " + actionInfo + ";&");
         String data = recvall();
         if (!data.contains("error:")) return data;
