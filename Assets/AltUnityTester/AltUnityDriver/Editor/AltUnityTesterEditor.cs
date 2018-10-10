@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -418,10 +419,25 @@ public class AltUnityTesterEditor : EditorWindow
             passIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(findIcon[0]));
 
         }
+
+
+        GetListOfSceneFromEditor();
         SetUpListTest();
 
 
     }
+
+    private void GetListOfSceneFromEditor()
+    {
+        List<MyScenes> newSceneses =new List<MyScenes>();
+        foreach (var scene in EditorBuildSettings.scenes)
+        {
+            newSceneses.Add(new MyScenes(scene.enabled,scene.path,0));
+        }
+
+        _editorConfiguration.Scenes = newSceneses;
+    }
+
 
     private static void InitEditorConfiguration()
     {
@@ -465,7 +481,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         EditorGUILayout.BeginHorizontal();
         var leftSide = (screenWidth / 3) * 2;
-        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, true, true, GUILayout.MaxWidth(leftSide));
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, true, true, GUILayout.Width(leftSide));
 
         DisplayTestGui(_editorConfiguration.MyTests);
         EditorGUILayout.Separator();
@@ -474,7 +490,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         EditorGUILayout.EndScrollView();
         var rightSide = (screenWidth / 3);
-        EditorGUILayout.BeginVertical(GUILayout.MaxWidth(rightSide));
+        EditorGUILayout.BeginVertical(GUILayout.Width(rightSide));
         EditorGUILayout.BeginHorizontal();
 
         EditorGUILayout.EndHorizontal();
@@ -783,7 +799,12 @@ public class AltUnityTesterEditor : EditorWindow
                 foreach (var scene in _editorConfiguration.Scenes)
                 {
                     GUILayout.BeginHorizontal(GUI.skin.textArea);
-                    scene.ToBeBuilt = EditorGUILayout.Toggle(scene.ToBeBuilt, GUILayout.MaxWidth(10));
+                    var valToggle = EditorGUILayout.Toggle(scene.ToBeBuilt, GUILayout.MaxWidth(10));
+                    if (valToggle != scene.ToBeBuilt)
+                    {
+                        scene.ToBeBuilt = valToggle;
+                        EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+                    }
                     EditorGUILayout.LabelField(scene.Path);
                     string value;
                     if (scene.ToBeBuilt)
@@ -806,6 +827,7 @@ public class AltUnityTesterEditor : EditorWindow
                         if (GUILayout.Button("^", GUILayout.MaxWidth(30)))
                         {
                             SceneMove(scene, true);
+                            EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
                         }
                     }
 
@@ -813,6 +835,7 @@ public class AltUnityTesterEditor : EditorWindow
                         if (GUILayout.Button("v", GUILayout.MaxWidth(30)))
                         {
                             SceneMove(scene, false);
+                            EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
                         }
 
 
@@ -872,6 +895,7 @@ public class AltUnityTesterEditor : EditorWindow
             if (GUILayout.Button("Remove all scenes", EditorStyles.miniButtonRight))
             {
                 _editorConfiguration.Scenes = new List<MyScenes>();
+                EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
             }
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
@@ -894,6 +918,7 @@ public class AltUnityTesterEditor : EditorWindow
         }
 
         _editorConfiguration.Scenes = copyMySceneses;
+        EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
     }
 
     private void DeselectAllScenes()
@@ -902,6 +927,7 @@ public class AltUnityTesterEditor : EditorWindow
         {
             scene.ToBeBuilt = false;
         }
+        EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
 
     }
 
@@ -911,6 +937,8 @@ public class AltUnityTesterEditor : EditorWindow
         {
             scene.ToBeBuilt = true;
         }
+        EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+
 
     }
 
@@ -953,7 +981,7 @@ public class AltUnityTesterEditor : EditorWindow
     private void DisplayTestGui(List<MyTest> tests)
     {
         EditorGUILayout.LabelField("Test", EditorStyles.boldLabel);
-        EditorGUILayout.BeginVertical(GUI.skin.textArea);
+        var containerListOfTest=EditorGUILayout.BeginVertical(GUI.skin.textArea);
 
         int foldOutCounter = 0;
 
@@ -968,7 +996,7 @@ public class AltUnityTesterEditor : EditorWindow
             if (tests.IndexOf(test) == selectedTest)
             {
                 GUIStyle gsAlterQuest = new GUIStyle();
-                gsAlterQuest.normal.background = MakeTex(600, 1, selectedTestColor);
+                gsAlterQuest.normal.background = MakeTex((int)containerListOfTest.width, 1, selectedTestColor);
                 EditorGUILayout.BeginHorizontal(gsAlterQuest);
 
             }
@@ -978,9 +1006,13 @@ public class AltUnityTesterEditor : EditorWindow
             }
 
             if (test.Type == typeof(TestFixture))
-                EditorGUILayout.LabelField("    ", GUILayout.MaxWidth(30));
+            {
+                EditorGUILayout.LabelField("    ", GUILayout.Width(30));
+            }
             else if (test.Type == typeof(TestMethod))
-                EditorGUILayout.LabelField("    ", GUILayout.MaxWidth(60));
+            {
+                EditorGUILayout.LabelField("    ", GUILayout.Width(60));
+            }
 
             var valueChanged = EditorGUILayout.Toggle(test.Selected, GUILayout.Width(10));
             if (valueChanged != test.Selected)
@@ -992,7 +1024,7 @@ public class AltUnityTesterEditor : EditorWindow
             if (test.Status == 0)
             {
                 var style = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft };
-                EditorGUILayout.LabelField(test.TestName, style, GUILayout.ExpandWidth(false));
+                EditorGUILayout.LabelField(test.TestName, style);
             }
             else
             {
@@ -1003,16 +1035,15 @@ public class AltUnityTesterEditor : EditorWindow
                     color = greenColor;
                     icon = passIcon;
                 }
-                GUILayout.Label(icon, GUILayout.MaxWidth(30));
-                GUIStyle guiStyle = new GUIStyle();
-                guiStyle.normal.textColor = color;
+                GUILayout.Label(icon, GUILayout.Width(30));
+                GUIStyle guiStyle = new GUIStyle {normal = {textColor = color}};
 
-                EditorGUILayout.LabelField(test.TestName, guiStyle, GUILayout.ExpandWidth(false));
+                EditorGUILayout.LabelField(test.TestName, guiStyle);
             }
 
             if (test.Type != typeof(TestMethod))
             {
-                test.FoldOut = EditorGUILayout.Foldout(test.FoldOut, "");
+                test.FoldOut = EditorGUILayout.Foldout(test.FoldOut,"");
                 if (!test.FoldOut)
                 {
                     if (test.Type == typeof(TestAssembly))
@@ -1026,10 +1057,11 @@ public class AltUnityTesterEditor : EditorWindow
                 }
             }
 
-            EditorGUILayout.LabelField("");
-            if (GUILayout.Button("Info", GUILayout.MaxWidth(50)))
+            if (!test.IsSuite) { 
+            if (GUILayout.Button("Info", GUILayout.Width(50)))
             {
                 selectedTest = tests.IndexOf(test);
+            }
             }
             EditorGUILayout.EndHorizontal();
 
