@@ -137,10 +137,8 @@ class AltrunUnityDriver(object):
         while (timeout > 0):
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                print("Before connect")
                 self.socket.connect((TCP_IP, TCP_FWD_PORT))
-                # self.get_current_scene()
-                print("After connect")
+                self.get_current_scene()
                 break
             except Exception as e:
                 print(e)
