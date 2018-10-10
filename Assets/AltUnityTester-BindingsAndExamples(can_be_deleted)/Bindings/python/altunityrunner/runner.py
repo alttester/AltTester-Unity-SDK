@@ -126,7 +126,7 @@ class AltElement(object):
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13001, TCP_PORT=13000, timeout=60):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60):
         self.TCP_PORT = TCP_PORT
         if (appium_driver != None):
             self.appium_driver = appium_driver
@@ -137,7 +137,10 @@ class AltrunUnityDriver(object):
         while (timeout > 0):
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                print("Before connect")
                 self.socket.connect((TCP_IP, TCP_FWD_PORT))
+                # self.get_current_scene()
+                print("After connect")
                 break
             except Exception as e:
                 print(e)
