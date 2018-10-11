@@ -24,6 +24,7 @@ https://gitter.im/AltUnityTester/Lobby
    - [Waiting for elements](#waiting-for-elements)
    - [Managing Unity Scenes](#managing-unity-scenes)
    - [Managing Unity PlayerPrefs](#managing-unity-playerprefs)
+   - [Call static method](#call-static-methods)
    - [Actions on Screen](#actions-on-screen)
    - [Actions on elements](#actions-on-elements)
 
