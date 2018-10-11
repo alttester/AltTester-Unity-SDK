@@ -328,12 +328,13 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
 
 #### Call static methods
 
-* 'CallStaticMethods'
+* `CallStaticMethods`
     * params:
         * componentName: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
         * method - the name of the public method that we want to call
         * parameters - a string containing the serialized parameters to be sent to the component method. This uses '?' to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]
         * typeOfParameters -  a string containing the serialized type of parameters to be sent to the component method. This uses '?' to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints 
+        * assembly - name of the assembly where the component is.(This is optional parameter, most of the time should work without this) 
     * return: string with the output from the method
     
         ```c#
@@ -486,6 +487,7 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
     * params: 
       * componentName: name of the Unity component that has the public property we want to get the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * propertyName - the name of the public property (or field) that we want the value for
+      * assembly - name of the assembly where the component is.(This is optional parameter, most of the time should work without this) 
 
    For example, since Capsule.cs has a public "arrayOfInts", we can get the value of that:
 
@@ -498,6 +500,7 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
       * componentName: name of the Unity component that has the public property we want to set the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * propertyName - the name of the public property (or field) that we want to set the value for
       * value - the value that we want to set. This will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.
+      * assembly - name of the assembly where the component is.(This is optional parameter, most of the time should work without this) 
 
    For example, since Capsule.cs has a public "arrayOfInts", we can set the value of that:
 
@@ -506,13 +509,15 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
    result = altUnityDriver.FindElement("Capsule").GetComponentProperty("Capsule", "arrayOfInts");
    ```
 
-  * `CallComponentMethod`
-   * params: 
-      * componentName: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
-      * method - the name of the public method that we want to call
-      * parameters - a string containing the serialized parameters to be sent to the component method. This uses '?' to separate between parameters, like this:
-      'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]
-       Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.
+* `CallComponentMethod`
+    * params: 
+        * componentName: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
+        * method - the name of the public method that we want to call
+        * parameters - a string containing the serialized parameters to be sent to the component method. This uses '?' to separate between parameters, like this:
+        'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]
+        Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.
+        * typeOfParameters -  a string containing the serialized type of parameters to be sent to the component method. This uses '?' to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints 
+        * assembly - name of the assembly where the component is.(This is optional parameter, most of the time should work without this) 
     
    For example, since Capsule.cs has a public "Jump" method that takes a string as a parameter, we can call it like this:
 
