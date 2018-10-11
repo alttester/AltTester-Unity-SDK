@@ -346,7 +346,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
  
 #### Call static methods
 
-* 'CallStaticMethods'
+* `CallStaticMethods`
     * params:
         * componentName: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
         * method - the name of the public method that we want to call
