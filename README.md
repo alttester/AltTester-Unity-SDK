@@ -1,6 +1,10 @@
 # AltUnityTester
 
-## Table of Content
+Join our Gitter room here to chat with others in the community:  
+
+https://gitter.im/AltUnityTester/Lobby
+
+## Table of Contents
 
 [Setup](#setup)
    - [Downloads - AltUnityTester Package](#downloads-altunitytester-package)
