@@ -1657,8 +1657,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.pointerUpHandler);
                 gameObject.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.pointerClickHandler);
-                ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.submitHandler);
-                gameObject.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);//este echivalentul la pointerClick
+                gameObject.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, ExecuteEvents.pointerExitHandler);
                 gameObject.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
 
