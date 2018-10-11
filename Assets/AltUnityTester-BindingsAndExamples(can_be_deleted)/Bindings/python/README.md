@@ -17,6 +17,7 @@ Links:
       * [Waiting for elements](#waiting-for-elements)
       * [Managing Unity Scenes](#managing-unity-scenes)
       * [Managing Unity PlayerPrefs](#managing-unity-playerprefs)
+      * [Call static method](#call-static-methods)
       * [Actions on Screen](#actions-on-screen)
       * [Actions on elements](#actions-on-elements)
 
@@ -178,19 +179,19 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     ```
 
 #### Waiting for elements
-  * `wait_for_element`
-   * params: 
-      * name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
-      * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
-      * timeout=20 - time in seconds before we timeout (default 20)
-      * interval=0.5 - how often to check again to see if the element is there (default 0.5)
+* `wait_for_element`
+    * params: 
+        * name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
+        * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * timeout=20 - time in seconds before we timeout (default 20)
+        * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
     
     ```python
     self.altdriver.wait_for_element('Capsule') #specify also the name of the parents
     ```
     
-  * `wait_for_element_where_name_contains`
+* `wait_for_element_where_name_contains`
     * params: 
       * name - part of the name of the object to be found, as it's shown in the Unity Scene hierarchy
       * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
@@ -343,6 +344,20 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
      alt_driver.tilt(2, 2, 2)
   ``` 
  
+#### Call static methods
+
+* 'CallStaticMethods'
+    * params:
+        * componentName: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
+        * method - the name of the public method that we want to call
+        * parameters - a string containing the serialized parameters to be sent to the component method. This uses '?' to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]
+        * typeOfParameters -  a string containing the serialized type of parameters to be sent to the component method. This uses '?' to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints 
+        * assembly - name of the assembly where the component is.(This is optional parameter, most of the time should work without this) 
+    * return: string with the output from the method
+    
+        ```python
+            self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1")
+        ``` 
 
 #### Actions on elements
 
@@ -427,31 +442,32 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
 	* params: none
 	* Execute pointerExit event on the object
 	
-	 ```python
-      alt_driver.find_element("Capsule").pointer_exit()
-   ``` 
+    ```python
+    alt_driver.find_element("Capsule").pointer_exit()
+    ``` 
 
-  * `tap`
-   * params: none
-   * simulates a tap on the object that trigger multiple events similar to a real tap 
-  
-  ```python
-  alt_driver.find_element("UIButton").tap()
-  ``` 
+* `tap`
+    * params: none
+    * simulates a tap on the object that trigger multiple events similar to a real tap 
+    
+    ```python
+    alt_driver.find_element("UIButton").tap()
+    ``` 
 
 
-  * `get_text`
+* `get_text`
     * params: none
     * returns: the value of the Text component if the element has one (or "" if it doesn't)
-  
-   ```python
-  assert self.altdriver.find_element('CapsuleInfo').get_text() == 'Capsule was clicked to jump!'
-  ``` 
+    
+    ```python
+    assert self.altdriver.find_element('CapsuleInfo').get_text() == 'Capsule was clicked to jump!'
+    ``` 
   
   * `get_component_property`
     * params: 
       * component_name: name of the Unity component that has the public property we want to get the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * property - the name of the public property (or field) that we want the value for
+      * assembly - name of the assembly where the component is.(This is optional parameter, most of the time should work without this) 
 
    For example, since Capsule.cs has a public "arrayOfInts", we can get the value of that:
 
@@ -465,6 +481,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
       * component_name: name of the Unity component that has the public property we want to set the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
       * property - the name of the public property (or field) that we want to set the value for
       * value - the value that we want to set. This will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.
+      * assembly - name of the assembly where the component is.(This is optional parameter, most of the time should work without this) 
 
    For example, since Capsule.cs has a public "arrayOfInts", we can set the value of that:
 
@@ -476,11 +493,13 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
 
   * `call_component_method`
    * params: 
-      * component_name: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
-      * method - the name of the public method that we want to call
-      * parameters - a string containing the serialized parameters to be sent to the component method. This uses '?' to separate between parameters, like this:
-      'some string ? [1,2,3]' - this repesents two parameters "some string" and "[1,2,3]
-       Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.
+        * component_name: name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
+        * method - the name of the public method that we want to call
+        * parameters - a string containing the serialized parameters to be sent to the component method. This uses '?' to separate between parameters, like this:
+        'some string ? [1,2,3]' - this repesents two parameters "some string" and "[1,2,3]
+        Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.
+        * typeOfParameters -  a string containing the serialized type of parameters to be sent to the component method. This uses '?' to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints 
+        * assembly - name of the assembly where the component is.(This is optional parameter, most of the time should work without this) 
 
    For example, since Capsule.cs has a public "Jump" method that takes a string as a parameter, we can call it like this:
 
