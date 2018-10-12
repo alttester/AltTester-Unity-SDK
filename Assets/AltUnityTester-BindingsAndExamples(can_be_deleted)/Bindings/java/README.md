@@ -50,7 +50,7 @@ Here's how to do that with maven:
     ` mvn clean compile assembly:single`
 
    * Install the jar file:
-    `mvn install:install-file -Dfile=./target/altunitytester-java-client-1.0-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.0 -Dpackaging=jar` 
+    `mvn install:install-file -Dfile=./target/altunitytester-java-client-1.2.2-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.2.2 -Dpackaging=jar` 
 
 Now your project can use all the AltUnityDriver methods. 
 
