@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class FindObjectByNameCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectWhereNameContainsCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectByComponentCommand : UnityEvent<string,string,string, AltClientSocketHandler> { }
+public class FindObjectByNameCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectWhereNameContainsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectByComponentCommand : UnityEvent<string, AltClientSocketHandler> { }
 
-public class FindObjectsByNameCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectsWhereNameContainsCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectsByComponentCommand : UnityEvent<string,string,string, AltClientSocketHandler> { }
+public class FindObjectsByNameCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsWhereNameContainsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsByComponentCommand : UnityEvent<string, AltClientSocketHandler> { }
 
 public class GetCurrentSceneCommand : UnityEvent<AltClientSocketHandler> { }
 public class GetAllObjectsCommand : UnityEvent<string, AltClientSocketHandler> { }
