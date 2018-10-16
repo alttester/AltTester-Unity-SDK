@@ -238,7 +238,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject[] getAllElements(String cameraName,boolean enabled) throws Exception {
-        send("findAllObjects;" + ";" + cameraName +";"+enabled+ "&");
+        send("findAllObjects;" + cameraName +";"+enabled+ ";&");
         String data = recvall();
         if (!data.contains("error:")) return (new Gson().fromJson(data, AltUnityObject[].class));
         handleErrors(data);
@@ -296,7 +296,7 @@ public class AltUnityDriver {
 
 
     public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName,boolean enabled) throws Exception {
-        send("findObjectsWhereNameContains;" + name + ";" + cameraName + ";&");
+        send("findObjectsWhereNameContains;" + name + ";" + cameraName +";"+enabled+ ";&");
         String data = recvall();
         if (!data.contains("error:")) return new Gson().fromJson(data, AltUnityObject[].class);
         handleErrors(data);
