@@ -385,7 +385,7 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Scene ' + scene_name + ' not loaded after ' + str(timeout) + ' seconds')
         return current_scene
 
-    def wait_for_element(self, name,camera_name='',enabled=True, timeout=20, interval=0.5):
+    def wait_for_element(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
         while (t <= timeout):
@@ -401,7 +401,7 @@ class AltrunUnityDriver(object):
         return alt_element
 
 
-    def wait_for_element_where_name_contains(self, name,camera_name='',enabled=True, timeout=20, interval=0.5):
+    def wait_for_element_where_name_contains(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
         while (t <= timeout):
@@ -416,7 +416,7 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Element where name contains ' + name + ' not found after ' + str(timeout) + ' seconds')
         return alt_element
     
-    def wait_for_element_to_not_be_present(self, name,camera_name='',enabled=True, timeout=20, interval=0.5):
+    def wait_for_element_to_not_be_present(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         while (t <= timeout):
             try:
@@ -429,7 +429,7 @@ class AltrunUnityDriver(object):
         if t>=timeout:
             raise WaitTimeOutException('Element ' + name + ' still found after ' + str(timeout) + ' seconds')
 
-    def wait_for_element_with_text(self, name, text,camera_name='',enabled=True, timeout=20, interval=0.5):
+    def wait_for_element_with_text(self, name, text,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
         while (t <= timeout):

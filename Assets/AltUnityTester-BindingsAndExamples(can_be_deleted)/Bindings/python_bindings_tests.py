@@ -191,21 +191,21 @@ class PythonTests(unittest.TestCase):
  
     def test_wait_for_non_existing_object(self):
         try:
-            alt_element = self.altdriver.wait_for_element("dlkasldkas",'',True,1,0.5)
+            alt_element = self.altdriver.wait_for_element("dlkasldkas",'',1,0.5)
             self.assertEqual(False,True)
         except WaitTimeOutException as e:
             self.assertEqual(e.args[0],"Element dlkasldkas not found after 1 seconds")
     
     def test_wait_forobject_to_not_exist_fail(self):
             try:
-                alt_element = self.altdriver.wait_for_element_to_not_be_present("Capsule",'',True,1,0.5)
+                alt_element = self.altdriver.wait_for_element_to_not_be_present("Capsule",'',1,0.5)
                 self.assertEqual(False,True)
             except WaitTimeOutException as e:
                 self.assertEqual(e.args[0],'Element Capsule still found after 1 seconds')
     
     def test_wait_for_object_with_text_wrong_text(self):
             try:
-                alt_element = self.altdriver.wait_for_element_with_text("CapsuleInfo","aaaaa",'',True,1,0.5)
+                alt_element = self.altdriver.wait_for_element_with_text("CapsuleInfo","aaaaa",'',1,0.5)
                 self.assertEqual(False,True)
             except WaitTimeOutException as e:
                 self.assertEqual(e.args[0],'Element CapsuleInfo should have text `aaaaa` but has `Capsule Info` after 1 seconds')
