@@ -443,7 +443,8 @@ public class AltUnityDriver {
                 if (altElement.getText().equals(text)){
                     return altElement;
                 }
-            } catch (Exception e) {
+                throw new AltUnityException("This is peculiar way of making time counting work - HAS TO BE CHANGED");
+            } catch (AltUnityException e) {
                 sleepFor(interval);
                 time += interval;
                 System.out.println("Waiting for element " + name + " to have text " + text);
@@ -455,7 +456,6 @@ public class AltUnityDriver {
     public AltUnityObject waitForElementWithText(String name, String text) {
         return waitForElementWithText(name, text,"", 20, 0.5);
     }
-
 
     public AltUnityObject findElementByComponent(String componentName,String assemblyName, String cameraName) {
         send("findObjectByComponent;"+assemblyName+";" + componentName + ";" + cameraName + ";&");
