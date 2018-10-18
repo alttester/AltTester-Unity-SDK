@@ -128,7 +128,7 @@ class AltUnityObject {
             return new Gson().fromJson(data, AltUnityObject.class);
         }
         altUnityDriver.handleErrors(data);
-        return AltUnityObject.EMPTY;
+        return null;
     }
 
     private AltUnityObject sendActionWithCoordinateAndEvaluate(int x, int y, String s) {
@@ -140,6 +140,6 @@ class AltUnityObject {
             return new Gson().fromJson(data, AltUnityObject.class);
         }
         altUnityDriver.handleErrors(data);
-        return AltUnityObject.EMPTY;
+        return null;
     }
 }
