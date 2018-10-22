@@ -46,6 +46,8 @@ public class SetKeyPlayerPrefCommand : UnityEvent<string,string,PLayerPrefKeyTyp
 
 public class SwipeFinishedCommand: UnityEvent<AltClientSocketHandler> { }
 
+public class GetAllComponentsCommand : UnityEvent<string, AltClientSocketHandler> { }
+
 
 public class AltUnityEvents
 {
@@ -91,6 +93,8 @@ public class AltUnityEvents
     public GetKeyPlayerPrefCommand GetKeyPlayerPref;
 
     public SwipeFinishedCommand SwipeFinished;
+
+    public GetAllComponentsCommand GetAllComponents;
 
     // We are a singleton!
     private static AltUnityEvents _instance;
@@ -142,6 +146,8 @@ public class AltUnityEvents
                 _instance.DeleteKeyPlayerPref=new DeleteKeyPlayerPrefCommand();
                 _instance.DeletePlayerPref=new DeletePlayerPrefCommand();
                 _instance.SwipeFinished=new SwipeFinishedCommand();
+
+                _instance.GetAllComponents=new GetAllComponentsCommand();
 
             }
             return _instance;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
@@ -563,18 +564,20 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestGetAllComponents()
+    {
+        List<AltUnityComponent> components = altUnityDriver.FindElement("Canvas").GetAllComponents();
+        Assert.AreEqual(4,components.Count);
+        Assert.AreEqual("UnityEngine.RectTransform",components[0].componentName);
+        Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
+    }
+    [Test]
     public void TestInactiveObject()
     {
         AltUnityObject cube = altUnityDriver.FindElement("Cube",enabled:false);
        Assert.AreEqual(false,cube.enabled);
         
     }
-
-
-    
-   
-
-
 
 
 }

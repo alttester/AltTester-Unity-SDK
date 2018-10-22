@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using Newtonsoft.Json;
@@ -233,6 +234,14 @@ public class AltUnityObject
             }
         }
 
+        AltUnityDriver.HandleErrors(data);
+        return null;
+    }
+    public List<AltUnityComponent> GetAllComponents()
+    {
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("getAllComponents;" + id + ";&"));
+        string data = altUnityDriver.Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityComponent>>(data);
         AltUnityDriver.HandleErrors(data);
         return null;
     }

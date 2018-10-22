@@ -100,6 +100,9 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
 
 
+        AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
+
+
         if (DebugBuildNeeded && !Debug.isDebugBuild)
         {
             Debug.Log("AltUnityTester will not run if this is not a Debug/Development build");
@@ -112,6 +115,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         }
 
     }
+
+  
 
 
     /// <summary>
@@ -467,6 +472,10 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             case "swipeFinished":
                 Debug.Log("SwipeFinished");
                 AltUnityEvents.Instance.SwipeFinished.Invoke(handler);
+                break;
+            case "getAllComponents":
+                Debug.Log("GetAllComponents");
+                AltUnityEvents.Instance.GetAllComponents.Invoke(pieces[1],handler);
                 break;
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
@@ -1380,6 +1389,15 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         }
         return null;
     }
+    private static GameObject GetGameObject(int objectId)
+    {
+        foreach (GameObject gameObject in FindObjectsOfType<GameObject>())
+        {
+            if (gameObject.GetInstanceID() == objectId)
+                return gameObject;
+        }
+        return null;
+    }
 
     private MemberInfo GetMemberForObjectComponent(AltUnityObject altUnityObject, AltUnityObjectProperty altUnityObjectProperty)
     {
@@ -2004,6 +2022,25 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             {
                 handler.SendResponse(response);
             }
+        });
+    }
+
+    private void GetAllComponents(string ObjectId, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            GameObject altObject = GetGameObject(Convert.ToInt32(ObjectId));
+            List<AltUnityComponent> listComponents=new List<AltUnityComponent>();
+            foreach (var component in altObject.GetComponents<Component>())
+            {
+                var a = component.GetType();
+                var componentName = a.FullName;
+                var assemblyName = a.Assembly.GetName().Name;
+                listComponents.Add(new AltUnityComponent(componentName,assemblyName));
+            }
+
+            var response = JsonConvert.SerializeObject(listComponents);
+            handler.SendResponse(response);
         });
     }
 }
