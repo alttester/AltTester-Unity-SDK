@@ -209,6 +209,7 @@ class AltrunUnityDriver(object):
         return self.handle_errors(data)
     
     def get_alt_element(self, data):
+        print(data)
         if (data != '' and 'error:' not in data):
             elements = json.loads(data)
             alt_el = None
@@ -245,24 +246,41 @@ class AltrunUnityDriver(object):
         return None
 
  
-    def get_all_elements(self,camera_name=''):
-        data = self.send_data('findAllObjects;'+ camera_name +';&')
+    def get_all_elements(self,camera_name='',enabled=True):
+        if enabled==True:
+            data = self.send_data('findAllObjects;'+ camera_name +';'+'true'+';&')
+        else:
+            data = self.send_data('findAllObjects;'+ camera_name +';'+'false'+';&')
+
         return self.get_alt_elements(data)
 
-    def find_element(self, name,camera_name=''):
-        data = self.send_data('findObjectByName;' + name + ';' + camera_name + ';&')
+    def find_element(self, name,camera_name='',enabled=True):
+        if enabled==True:
+            data = self.send_data('findObjectByName;' + name + ';' + camera_name +';'+'true'+ ';&')
+        else:
+            data = self.send_data('findObjectByName;' + name + ';' + camera_name +';'+'false'+ ';&')
+
         return self.get_alt_element(data)
 
-    def find_element_where_name_contains(self, name,camera_name=''):
-        data = self.send_data('findObjectWhereNameContains;' + name + ';' + camera_name + ';&')
+    def find_element_where_name_contains(self, name,camera_name='',enabled=True):
+        if enabled==True:
+            data = self.send_data('findObjectWhereNameContains;' + name + ';' + camera_name+';'+'true' + ';&')
+        else:
+            data = self.send_data('findObjectWhereNameContains;' + name + ';' + camera_name+';'+'false' + ';&')
         return self.get_alt_element(data)
 
-    def find_elements(self, name,camera_name=''):
-        data = self.send_data('findObjectsByName;' + name + ';' + camera_name + ';&')
+    def find_elements(self, name,camera_name='',enabled=True):
+        if enabled==True:
+            data = self.send_data('findObjectsByName;' + name + ';' + camera_name +';'+'true'+ ';&')
+        else:
+            data = self.send_data('findObjectsByName;' + name + ';' + camera_name +';'+'false'+ ';&')
         return self.get_alt_elements(data)        
 
-    def find_elements_where_name_contains(self, name,camera_name=''):
-        data = self.send_data('findObjectsWhereNameContains;' + name + ';' + camera_name + ';&')
+    def find_elements_where_name_contains(self, name,camera_name='',enabled=True):
+        if enabled==True:
+            data = self.send_data('findObjectsWhereNameContains;' + name + ';' + camera_name +';'+'true'+ ';&')
+        else:
+            data = self.send_data('findObjectsWhereNameContains;' + name + ';' + camera_name +';'+'false'+ ';&')
         return self.get_all_elements(data)
 
     def get_current_scene(self):
@@ -367,12 +385,12 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Scene ' + scene_name + ' not loaded after ' + str(timeout) + ' seconds')
         return current_scene
 
-    def wait_for_element(self, name,camera_name='', timeout=20, interval=0.5):
+    def wait_for_element(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
         while (t <= timeout):
             try:
-                alt_element = self.find_element(name,camera_name)
+                alt_element = self.find_element(name,camera_name,enabled)
                 break
             except Exception:
                 print('Waiting for element ' + name + '...')
@@ -383,12 +401,12 @@ class AltrunUnityDriver(object):
         return alt_element
 
 
-    def wait_for_element_where_name_contains(self, name,camera_name='', timeout=20, interval=0.5):
+    def wait_for_element_where_name_contains(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
         while (t <= timeout):
             try:
-                alt_element = self.find_element_where_name_contains(name,camera_name)
+                alt_element = self.find_element_where_name_contains(name,camera_name,enabled)
                 break
             except Exception:
                 print('Waiting for element where name contains ' + name + '...')
@@ -398,12 +416,12 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Element where name contains ' + name + ' not found after ' + str(timeout) + ' seconds')
         return alt_element
     
-    def wait_for_element_to_not_be_present(self, name,camera_name='', timeout=20, interval=0.5):
+    def wait_for_element_to_not_be_present(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         while (t <= timeout):
             try:
                 print('Waiting for element ' + name + ' to not be present...')
-                alt_element=self.find_element(name,camera_name)
+                alt_element=self.find_element(name,camera_name,enabled)
                 time.sleep(interval)
                 t += interval
             except Exception:
@@ -411,12 +429,12 @@ class AltrunUnityDriver(object):
         if t>=timeout:
             raise WaitTimeOutException('Element ' + name + ' still found after ' + str(timeout) + ' seconds')
 
-    def wait_for_element_with_text(self, name, text,camera_name='', timeout=20, interval=0.5):
+    def wait_for_element_with_text(self, name, text,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
         while (t <= timeout):
             try:
-                alt_element = self.find_element(name,camera_name)
+                alt_element = self.find_element(name,camera_name,enabled)
                 if alt_element.get_text() == text:
                     break
                 raise Exception('Not the wanted text')
@@ -428,12 +446,18 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Element ' + name + ' should have text `' + text + '` but has `' + alt_element.get_text() + '` after ' + str(timeout) + ' seconds')
         return alt_element
 
-    def find_element_by_component(self, component_name,assembly_name='',camera_name=''):
-        data = self.send_data('findObjectByComponent;' +assembly_name+';'+ component_name + ';' + camera_name + ';&')
+    def find_element_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
+        if enabled==True:
+            data = self.send_data('findObjectByComponent;' +assembly_name+';'+ component_name + ';' + camera_name +';'+'true'+ ';&')
+        else:
+            data = self.send_data('findObjectByComponent;' +assembly_name+';'+ component_name + ';' + camera_name +';'+'false'+ ';&')
         return self.get_alt_element(data)
 
-    def find_elements_by_component(self, component_name,assembly_name='',camera_name=''):
-        data = self.send_data('findObjectsByComponent;'  +assembly_name+';'+ component_name + ';' + camera_name + ';&')
+    def find_elements_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
+        if enabled==True:
+            data = self.send_data('findObjectsByComponent;' +assembly_name+';'+ component_name + ';' + camera_name +';'+'true'+ ';&')
+        else:
+            data = self.send_data('findObjectsByComponent;'  +assembly_name+';'+ component_name + ';' + camera_name +';'+'false'+';&')
         return self.get_alt_elements(data)
 
     def vector_to_json_string(self, x, y, z=None):
