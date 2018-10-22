@@ -7,7 +7,7 @@
 **On what device are you trying to run the test?**
 (Android, iOS)
 
-**The OS from where your running the test?**
+**The OS from where you are running the test?**
 (Windows,macOS)
 
 
