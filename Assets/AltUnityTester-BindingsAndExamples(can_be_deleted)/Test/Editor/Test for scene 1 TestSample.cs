@@ -572,6 +572,24 @@ public class TestForScene1TestSample
         Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
     }
 
+    [Test]
+    public void TestGetAllMethods()
+    {
+        var altElement = altUnityDriver.FindElement("Capsule");
+        List<String> methods = altElement.GetAllMethods(altElement.GetAllComponents().First(component=>component.componentName.Equals("Capsule")));
+        Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
+    }
+
+    [Test]
+    public void TestGetAllProperties()
+    {
+        var altElement = altUnityDriver.FindElement("Capsule");
+        List<AltUnityProperty> properties = altElement.GetAllProperties(altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule")));
+        AltUnityProperty property = properties.First(prop => prop.name.Equals("StringToSetFromTests"));
+        Assert.NotNull(property);
+        Assert.AreEqual(property.value,"initialValue");
+    }
+
 
 
 
