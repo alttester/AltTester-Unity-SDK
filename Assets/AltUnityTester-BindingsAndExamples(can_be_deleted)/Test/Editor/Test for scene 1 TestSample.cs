@@ -571,6 +571,30 @@ public class TestForScene1TestSample
         Assert.AreEqual("UnityEngine.RectTransform",components[0].componentName);
         Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
     }
+    
+    [Test]
+    public void TestGetAllMethods()
+    {
+        var altElement = altUnityDriver.FindElement("Capsule");
+        List<String> methods = altElement.GetAllMethods(altElement.GetAllComponents().First(component=>component.componentName.Equals("Capsule")));
+        Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
+    }
+
+    [Test]
+    public void TestGetAllFields()
+    {
+        var altElement = altUnityDriver.FindElement("Capsule");
+        var componentList = altElement.GetAllComponents();
+        var component = componentList.First(componenta =>
+            componenta.componentName.Equals("Capsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+        List<AltUnityField> properties = altElement.GetAllFields(component);
+        AltUnityField field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
+        Assert.NotNull(field);
+        Assert.AreEqual(field.value,"intialValue");
+    }
+
+
+
     [Test]
     public void TestInactiveObject()
     {
@@ -578,6 +602,15 @@ public class TestForScene1TestSample
        Assert.AreEqual(false,cube.enabled);
         
     }
+
+    [Test]
+    public void TestGetAllScenes()
+    {
+        var scenes = altUnityDriver.GetAllScenes();
+        Assert.AreEqual(3, scenes.Count);
+        Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
+    }
+
 
 
 }

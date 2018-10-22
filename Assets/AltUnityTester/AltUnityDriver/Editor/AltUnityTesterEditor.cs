@@ -998,7 +998,7 @@ public class AltUnityTesterEditor : EditorWindow
             if (tests.IndexOf(test) == selectedTest)
             {
                 GUIStyle gsAlterQuest = new GUIStyle();
-                gsAlterQuest.normal.background = MakeTex((int)containerListOfTest.width, 1, selectedTestColor);
+                gsAlterQuest.normal.background = MakeTex(20,20, selectedTestColor);
                 EditorGUILayout.BeginHorizontal(gsAlterQuest);
 
             }

@@ -470,6 +470,15 @@ public class AltUnityDriver
         return null;
     }
 
+    public List<String> GetAllScenes()
+    {
+        Socket.Client.Send(toBytes("getAllScenes;&"));
+        String data = Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<String>>(data);
+        HandleErrors(data);
+        return null;
+    }
+
     public static void HandleErrors(string data)
     {
 

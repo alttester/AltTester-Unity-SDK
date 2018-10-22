@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using System.Reflection;
+using System.Security.AccessControl;
 using Newtonsoft.Json;
 
 public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
@@ -101,6 +102,9 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
 
         AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
+        AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
+        AltUnityEvents.Instance.GetAllFields.AddListener(GetAllFields);
+        AltUnityEvents.Instance.GetAllScenes.AddListener(GetAllScenes);
 
 
         if (DebugBuildNeeded && !Debug.isDebugBuild)
@@ -228,6 +232,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     {
         string[] separator = new string[] { ";" };
         string[] pieces = message.Split(separator, StringSplitOptions.None);
+        AltUnityComponent altComponent;
         AltUnityObject altUnityObject;
         string methodParameters;
         PLayerPrefKeyType option;
@@ -476,6 +481,20 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             case "getAllComponents":
                 Debug.Log("GetAllComponents");
                 AltUnityEvents.Instance.GetAllComponents.Invoke(pieces[1],handler);
+                break;
+            case "getAllFields":
+                Debug.Log("getAllFields");
+                altComponent = JsonConvert.DeserializeObject<AltUnityComponent>(pieces[2]);
+                AltUnityEvents.Instance.GetAllFields.Invoke(pieces[1], altComponent, handler);
+                break;
+            case "getAllMethods":
+                Debug.Log("getAllMethods");
+                altComponent = JsonConvert.DeserializeObject<AltUnityComponent>(pieces[1]);
+                AltUnityEvents.Instance.GetAllMethods.Invoke(altComponent, handler);
+                break;
+            case "getAllScenes":
+                Debug.Log("getAllScenes");
+                AltUnityEvents.Instance.GetAllScenes.Invoke(handler);
                 break;
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
@@ -2042,5 +2061,64 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             var response = JsonConvert.SerializeObject(listComponents);
             handler.SendResponse(response);
         });
+    }
+    private void GetAllFields(string id,AltUnityComponent component, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            GameObject altObject;
+            altObject = id.Equals("null") ? null : GetGameObject(Convert.ToInt32(id));
+            Type type = GetType(component.componentName, component.assemblyName);
+            var altObjectComponent = altObject.GetComponent(type);
+            var fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            List<AltUnityField> listFields = new List<AltUnityField>();
+
+            foreach (var fieldInfo in fieldInfos)
+            {
+                try
+                {
+                    var value = fieldInfo.GetValue(altObjectComponent);
+                    listFields.Add(new AltUnityField(fieldInfo.Name,
+                        value == null ? "null" : value.ToString()));
+                }catch (Exception e)
+                {
+                   Debug.Log(e.StackTrace);
+                }
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(listFields));
+        });
+    }
+
+    private void GetAllMethods(AltUnityComponent component, AltClientSocketHandler handler)
+    {
+
+        _responseQueue.ScheduleResponse(delegate
+        {
+                Type type = GetType(component.componentName, component.assemblyName);
+                var methodInfos = type.GetMembers(BindingFlags.Public |BindingFlags.NonPublic| BindingFlags.Instance);
+
+                List<string> listMethods = new List<string>();
+
+                foreach (var methodInfo in methodInfos)
+                {
+                    listMethods.Add(methodInfo.ToString());
+                }
+                handler.SendResponse(JsonConvert.SerializeObject(listMethods));
+        });
+    }
+    private void GetAllScenes(AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            List<String> SceneNames=new List<string>();
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                var s = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+                SceneNames.Add(s);
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(SceneNames));
+        });
+
     }
 }
