@@ -246,12 +246,12 @@ public class AltUnityObject
         return null;
     }
 
-    public List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent)
+    public List<AltUnityField> GetAllFields(AltUnityComponent altUnityComponent)
     {
         var altComponent = JsonConvert.SerializeObject(altUnityComponent);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("getAllProperties;" + id + ";" + altComponent + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("getAllFields;" + id + ";" + altComponent + ";&"));
         string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityProperty>>(data);
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityField>>(data);
         AltUnityDriver.HandleErrors(data);
         return null;
     }

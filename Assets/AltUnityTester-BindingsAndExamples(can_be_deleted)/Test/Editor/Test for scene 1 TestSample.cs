@@ -581,13 +581,16 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    public void TestGetAllProperties()
+    public void TestGetAllFields()
     {
         var altElement = altUnityDriver.FindElement("Capsule");
-        List<AltUnityProperty> properties = altElement.GetAllProperties(altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule")));
-        AltUnityProperty property = properties.First(prop => prop.name.Equals("StringToSetFromTests"));
-        Assert.NotNull(property);
-        Assert.AreEqual(property.value,"initialValue");
+        var componentList = altElement.GetAllComponents();
+        var component = componentList.First(componenta =>
+            componenta.componentName.Equals("Capsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+        List<AltUnityField> properties = altElement.GetAllFields(component);
+        AltUnityField field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
+        Assert.NotNull(field);
+        Assert.AreEqual(field.value,"intialValue");
     }
 
 

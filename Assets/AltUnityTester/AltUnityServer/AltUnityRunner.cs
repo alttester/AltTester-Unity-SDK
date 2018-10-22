@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using System.Reflection;
+using System.Security.AccessControl;
 using Newtonsoft.Json;
 
 public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
@@ -102,7 +103,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
         AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
         AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
-        AltUnityEvents.Instance.GetAllProperties.AddListener(GetAllProperties);
+        AltUnityEvents.Instance.GetAllFields.AddListener(GetAllFields);
         AltUnityEvents.Instance.GetAllScenes.AddListener(GetAllScenes);
 
 
@@ -481,10 +482,10 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Debug.Log("GetAllComponents");
                 AltUnityEvents.Instance.GetAllComponents.Invoke(pieces[1],handler);
                 break;
-            case "getAllProperties":
-                Debug.Log("getAllProperties");
+            case "getAllFields":
+                Debug.Log("getAllFields");
                 altComponent = JsonConvert.DeserializeObject<AltUnityComponent>(pieces[2]);
-                AltUnityEvents.Instance.GetAllProperties.Invoke(pieces[1], altComponent, handler);
+                AltUnityEvents.Instance.GetAllFields.Invoke(pieces[1], altComponent, handler);
                 break;
             case "getAllMethods":
                 Debug.Log("getAllMethods");
@@ -2061,30 +2062,31 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             handler.SendResponse(response);
         });
     }
-    private void GetAllProperties(string id,AltUnityComponent component, AltClientSocketHandler handler)
+    private void GetAllFields(string id,AltUnityComponent component, AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
         {
             GameObject altObject;
             altObject = id.Equals("null") ? null : GetGameObject(Convert.ToInt32(id));
             Type type = GetType(component.componentName, component.assemblyName);
-            var propertyInfos = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            var altObjectComponent = altObject.GetComponent(type);
+            var fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            List<AltUnityProperty> listProperties = new List<AltUnityProperty>();
+            List<AltUnityField> listFields = new List<AltUnityField>();
 
-            foreach (var propertyInfo in propertyInfos)
+            foreach (var fieldInfo in fieldInfos)
             {
                 try
                 {
-                    var value = propertyInfo.GetValue(altObject.GetComponent(type), null);
-                    listProperties.Add(new AltUnityProperty(propertyInfo.Name,
+                    var value = fieldInfo.GetValue(altObjectComponent);
+                    listFields.Add(new AltUnityField(fieldInfo.Name,
                         value == null ? "null" : value.ToString()));
                 }catch (Exception e)
                 {
                    Debug.Log(e.StackTrace);
                 }
             }
-            handler.SendResponse(JsonConvert.SerializeObject(listProperties));
+            handler.SendResponse(JsonConvert.SerializeObject(listFields));
         });
     }
 
@@ -2096,13 +2098,13 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Type type = GetType(component.componentName, component.assemblyName);
                 var methodInfos = type.GetMembers(BindingFlags.Public |BindingFlags.NonPublic| BindingFlags.Instance);
 
-                List<string> listProperties = new List<string>();
+                List<string> listMethods = new List<string>();
 
                 foreach (var methodInfo in methodInfos)
                 {
-                    listProperties.Add(methodInfo.ToString());
+                    listMethods.Add(methodInfo.ToString());
                 }
-                handler.SendResponse(JsonConvert.SerializeObject(listProperties));
+                handler.SendResponse(JsonConvert.SerializeObject(listMethods));
         });
     }
     private void GetAllScenes(AltClientSocketHandler handler)
@@ -2112,7 +2114,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             List<String> SceneNames=new List<string>();
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
-                SceneNames.Add(SceneManager.GetSceneByBuildIndex(i).name);
+                var s = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+                SceneNames.Add(s);
             }
             handler.SendResponse(JsonConvert.SerializeObject(SceneNames));
         });
