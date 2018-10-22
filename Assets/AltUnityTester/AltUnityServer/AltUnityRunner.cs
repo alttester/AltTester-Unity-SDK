@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using System.Reflection;
 using Newtonsoft.Json;
 
-public partial class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
+public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 {
     private static AltUnityRunner _altUnityRunner;
     private Vector3 _position;
@@ -103,6 +103,7 @@ public partial class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDele
         AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
         AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
         AltUnityEvents.Instance.GetAllProperties.AddListener(GetAllProperties);
+        AltUnityEvents.Instance.GetAllScenes.AddListener(GetAllScenes);
 
 
         if (DebugBuildNeeded && !Debug.isDebugBuild)
@@ -489,6 +490,10 @@ public partial class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDele
                 Debug.Log("getAllMethods");
                 altComponent = JsonConvert.DeserializeObject<AltUnityComponent>(pieces[1]);
                 AltUnityEvents.Instance.GetAllMethods.Invoke(altComponent, handler);
+                break;
+            case "getAllScenes":
+                Debug.Log("getAllScenes");
+                AltUnityEvents.Instance.GetAllScenes.Invoke(handler);
                 break;
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
@@ -2099,5 +2104,18 @@ public partial class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDele
                 }
                 handler.SendResponse(JsonConvert.SerializeObject(listProperties));
         });
+    }
+    private void GetAllScenes(AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            List<String> SceneNames=new List<string>();
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                SceneNames.Add(SceneManager.GetSceneByBuildIndex(i).name);
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(SceneNames));
+        });
+
     }
 }

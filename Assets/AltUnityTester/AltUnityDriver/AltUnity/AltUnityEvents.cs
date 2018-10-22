@@ -49,7 +49,7 @@ public class SwipeFinishedCommand: UnityEvent<AltClientSocketHandler> { }
 public class GetAllComponentsCommand : UnityEvent<string, AltClientSocketHandler> { }
 public class GetAllPropertiesCommand : UnityEvent<string,AltUnityComponent, AltClientSocketHandler> { }
 public class GetAllMethodsCommand : UnityEvent<AltUnityComponent, AltClientSocketHandler> { }
-
+public class GetAllScenesCommand: UnityEvent<AltClientSocketHandler> { }
 
 public class AltUnityEvents
 {
@@ -99,6 +99,7 @@ public class AltUnityEvents
     public GetAllComponentsCommand GetAllComponents;
     public GetAllPropertiesCommand GetAllProperties;
     public GetAllMethodsCommand GetAllMethods;
+    public GetAllScenesCommand GetAllScenes;
 
     // We are a singleton!
     private static AltUnityEvents _instance;
@@ -154,6 +155,7 @@ public class AltUnityEvents
                 _instance.GetAllComponents=new GetAllComponentsCommand();
                 _instance.GetAllMethods=new GetAllMethodsCommand();
                 _instance.GetAllProperties=new GetAllPropertiesCommand();
+                _instance.GetAllScenes=new GetAllScenesCommand();
 
             }
             return _instance;

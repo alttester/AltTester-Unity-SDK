@@ -600,6 +600,14 @@ public class TestForScene1TestSample
         
     }
 
+    [Test]
+    public void TestGetAllScenes()
+    {
+        var scenes = altUnityDriver.GetAllScenes();
+        Assert.AreEqual(3, scenes.Count);
+        Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
+    }
+
 
 
 }
