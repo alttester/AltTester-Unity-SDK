@@ -13,6 +13,9 @@ import java.util.Date;
 
 public class AltUnityDriver {
 
+    /**
+     * Maximum time in ms that will be spent on listening for an answer from AltUnityRunner
+     */
     private static final int MAX_LISTENING_TIME = 3000;
 
     public static class PlayerPrefsKeyType {
@@ -26,14 +29,17 @@ public class AltUnityDriver {
     private final PrintWriter out;
     private final DataInputStream in;
 
-
-    public AltUnityDriver(String ip, int port) throws IOException {
+    public AltUnityDriver(String ip, int port) {
         if (ip == null || ip.isEmpty()) {
             throw new AltUnityException("Provided IP address is null or empty");
         }
-        socket = new Socket(ip, port);
-        out = new PrintWriter(socket.getOutputStream(), true);
-        in = new DataInputStream(socket.getInputStream());
+        try {
+            socket = new Socket(ip, port);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            throw new AltUnityException("Could not create connection to " + String.format("%s:%d", ip, port), e);
+        }
         // TODO: make this uneccesary
         AltUnityObject.altUnityDriver = this;
     }
@@ -43,13 +49,13 @@ public class AltUnityDriver {
         out.flush();
     }
 
-    public void stop() throws IOException {
+    public void stop() {
         send("closeConnection;&");
-        String data = recvall();
-        if (!data.equals("Ok")){
-            System.err.println("Could not close connection from the client");
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new AltUnityException("Could not close the socket.", e);
         }
-        socket.close();
     }
 
     // TODO: move this out from the driver
@@ -86,7 +92,7 @@ public class AltUnityDriver {
     }
 
     public String callStaticMethods(String assembly,String typeName, String methodName,
-                                    String parameters,String typeOfParameters) throws Exception {
+                                    String parameters,String typeOfParameters) {
         String actionInfo =new Gson().toJson(new AltUnityObjectAction(typeName, methodName, parameters,typeOfParameters,assembly));
         send("callComponentMethodForObject;" + "" + "; " + actionInfo + ";&");
         String data = recvall();
@@ -97,11 +103,11 @@ public class AltUnityDriver {
         return "";
     }
 
-    public String callStaticMethods(String typeName, String methodName,String parameters ) throws Exception {
+    public String callStaticMethods(String typeName, String methodName,String parameters ) {
         return callStaticMethods("",typeName,methodName,parameters,"");
     }
 
-    public void loadScene(String scene) throws Exception {
+    public void loadScene(String scene) {
         System.out.println("Load scene: " + scene + "...");
         send("loadScene;" + scene + ";&");
         String data = recvall();
@@ -111,7 +117,7 @@ public class AltUnityDriver {
         handleErrors(data);
     }
 
-    public void deletePlayerPref() throws Exception {
+    public void deletePlayerPref() {
         send("deletePlayerPref;&");
         String data = recvall();
         if (data.equals("Ok")){
@@ -120,7 +126,7 @@ public class AltUnityDriver {
         handleErrors(data);
     }
 
-    public void deleteKeyPlayerPref(String keyName) throws Exception {
+    public void deleteKeyPlayerPref(String keyName) {
         send("deleteKeyPlayerPref;" + keyName + ";&");
         String data = recvall();
         if (data.equals("Ok"))
@@ -128,7 +134,7 @@ public class AltUnityDriver {
         handleErrors(data);
     }
 
-    public void setKeyPlayerPref(String keyName, int valueName) throws Exception {
+    public void setKeyPlayerPref(String keyName, int valueName) {
         send("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PlayerPrefsKeyType.IntType + ";&");
         String data = recvall();
         if (data.equals("Ok")) {
@@ -137,7 +143,7 @@ public class AltUnityDriver {
         handleErrors(data);
     }
 
-    public void setKeyPlayerPref(String keyName, float valueName) throws Exception {
+    public void setKeyPlayerPref(String keyName, float valueName) {
         send("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PlayerPrefsKeyType.FloatType + ";&");
         String data = recvall();
         if (data.equals("Ok")){
@@ -146,7 +152,7 @@ public class AltUnityDriver {
         handleErrors(data);
     }
 
-    public void setKeyPlayerPref(String keyName, String valueName) throws Exception {
+    public void setKeyPlayerPref(String keyName, String valueName) {
         send("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PlayerPrefsKeyType.StringType + ";&");
         String data = recvall();
         if (data.equals("Ok")) {
@@ -155,7 +161,7 @@ public class AltUnityDriver {
         handleErrors(data);
     }
 
-    public int getIntKeyPlayerPref(String keyname) throws Exception {
+    public int getIntKeyPlayerPref(String keyname) {
         send("getKeyPlayerPref;" + keyname + ";" + PlayerPrefsKeyType.IntType + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
@@ -165,7 +171,7 @@ public class AltUnityDriver {
         return 0;
     }
 
-    public float getFloatKeyPlayerPref(String keyname) throws Exception {
+    public float getFloatKeyPlayerPref(String keyname) {
         send("getKeyPlayerPref;" + keyname + ";" + PlayerPrefsKeyType.FloatType + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
@@ -176,7 +182,7 @@ public class AltUnityDriver {
 
     }
 
-    public String getStringKeyPlayerPref(String keyname) throws Exception {
+    public String getStringKeyPlayerPref(String keyname) {
         send("getKeyPlayerPref;" + keyname + ";" + PlayerPrefsKeyType.StringType + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
@@ -377,7 +383,6 @@ public class AltUnityDriver {
         return waitForElementWhereNameContains(name,"", 20, 0.5);
     }
 
-
     public void waitForElementToNotBePresent(String name,String cameraName, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
@@ -408,7 +413,6 @@ public class AltUnityDriver {
     public void waitForElementToNotBePresent(String name) throws Exception {
         waitForElementToNotBePresent(name,"", 20, 0.5);
     }
-
 
     public AltUnityObject waitForElement(String name,String cameraName, double timeout, double interval) {
         double time = 0;
@@ -498,7 +502,6 @@ public class AltUnityDriver {
         return "{\"x\":" + x + ", \"y\":" + y + ", \"z\":" + z + "}";
     }
 
-
     public void handleErrors(String data) {
         String typeOfException = data.split(";")[0];
         if ("error:notFound".equals(typeOfException)) {
@@ -537,11 +540,8 @@ public class AltUnityDriver {
         if (platform.toLowerCase().equals("android".toLowerCase())) {
             try {
                 String commandToRun = "adb forward tcp:" + tcp_port + " tcp:" + tcp_port;
-                ProcessBuilder pb = new ProcessBuilder(commandToRun);
-                Process executionProcess = pb.start();
-                executionProcess.waitFor();
-//                Runtime.getRuntime().exec(commandToRun);
-//                Thread.sleep(1000);
+                Runtime.getRuntime().exec(commandToRun);
+                Thread.sleep(1000);
                 System.out.println("adb forward enabled.");
             } catch (Exception e) {
                 System.err.println("AltUnityServer - abd probably not installed\n" + e);
@@ -561,11 +561,8 @@ public class AltUnityDriver {
     public static void removePortForwarding() {
         try {
             String commandToExecute = "killall iproxy";
-            ProcessBuilder pb = new ProcessBuilder(commandToExecute);
-            Process executionProcess = pb.start();
-            executionProcess.waitFor();
-//            Runtime.getRuntime().exec(commandToExecute);
-//            Thread.sleep(1000);
+            Runtime.getRuntime().exec(commandToExecute);
+            Thread.sleep(1000);
             System.out.println("Killed any iproxy process that may have been running...");
         } catch (Exception e) {
             System.err.println("AltUnityServer - no iproxy process was running/present\n" + e);
@@ -573,11 +570,8 @@ public class AltUnityDriver {
 
         try {
             String commandToExecute = "adb forward --remove-all";
-            ProcessBuilder pb = new ProcessBuilder(commandToExecute);
-            Process executionProcess = pb.start();
-            executionProcess.waitFor();
-//            Runtime.getRuntime().exec(commandToExecute);
-//            Thread.sleep(1000);
+            Runtime.getRuntime().exec(commandToExecute);
+            Thread.sleep(1000);
             System.out.println("Removed existing adb forwarding...");
         } catch (Exception e) {
             System.err.println("AltUnityServer - abd probably not installed\n" + e);
