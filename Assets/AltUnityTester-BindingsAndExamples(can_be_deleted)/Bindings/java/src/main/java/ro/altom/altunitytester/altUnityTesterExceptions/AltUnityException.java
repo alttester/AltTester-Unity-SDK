@@ -1,6 +1,5 @@
 package ro.altom.altunitytester.altUnityTesterExceptions;
 
-
 public class AltUnityException extends RuntimeException {
     public AltUnityException() {
     }
@@ -11,6 +10,10 @@ public class AltUnityException extends RuntimeException {
 
     public AltUnityException(Throwable exception) {
         super(exception);
+    }
+
+    public AltUnityException(String message, Throwable exception) {
+        super(message, exception);
     }
 }
 
