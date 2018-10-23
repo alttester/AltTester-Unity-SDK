@@ -3,9 +3,6 @@ package ro.altom.altunitytester;
 import com.google.gson.Gson;
 
 class AltUnityObject {
-
-    // TODO: provide proper NULL object
-    public final static AltUnityObject EMPTY = new AltUnityObject();
     // TODO: decouple AltUnityObject from the driver instance
     public static AltUnityDriver altUnityDriver;
     // TODO: encapsulate state
