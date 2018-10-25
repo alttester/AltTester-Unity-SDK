@@ -24,16 +24,26 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: 
+<<<<<<< Updated upstream
     _testCaseCount: 48
     _foldOut: 0
+=======
+    _testCaseCount: 53
+    _foldOut: 1
+>>>>>>> Stashed changes
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene1TestSample
     _status: 0
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+<<<<<<< Updated upstream
     _testCaseCount: 42
     _foldOut: 0
+=======
+    _testCaseCount: 47
+    _foldOut: 1
+>>>>>>> Stashed changes
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene1TestSample.TestButtonClickWithSwipe
@@ -212,7 +222,39 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllComponents
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllElements
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllFields
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllMethods
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllScenes
     _status: 0
     _isSuite: 0
     _parentName: TestForScene1TestSample

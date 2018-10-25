@@ -2,6 +2,8 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
@@ -97,6 +99,17 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
 
 
+<<<<<<< Updated upstream
+=======
+        AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
+        AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
+        AltUnityEvents.Instance.GetAllFields.AddListener(GetAllFields);
+        AltUnityEvents.Instance.GetAllScenes.AddListener(GetAllScenes);
+
+        AltUnityEvents.Instance.GetScreenshot.AddListener(GetScreenshot);
+
+
+>>>>>>> Stashed changes
         if (DebugBuildNeeded && !Debug.isDebugBuild)
         {
             Debug.Log("AltUnityTester will not run if this is not a Debug/Development build");
@@ -110,6 +123,11 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
     }
 
+<<<<<<< Updated upstream
+=======
+   
+
+>>>>>>> Stashed changes
 
     /// <summary>
     /// Start listening to client after server starts
@@ -457,6 +475,33 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Debug.Log("SwipeFinished");
                 AltUnityEvents.Instance.SwipeFinished.Invoke(handler);
                 break;
+<<<<<<< Updated upstream
+=======
+            case "getAllComponents":
+                Debug.Log("GetAllComponents");
+                AltUnityEvents.Instance.GetAllComponents.Invoke(pieces[1],handler);
+                break;
+            case "getAllFields":
+                Debug.Log("getAllFields");
+                altComponent = JsonConvert.DeserializeObject<AltUnityComponent>(pieces[2]);
+                AltUnityEvents.Instance.GetAllFields.Invoke(pieces[1], altComponent, handler);
+                break;
+            case "getAllMethods":
+                Debug.Log("getAllMethods");
+                altComponent = JsonConvert.DeserializeObject<AltUnityComponent>(pieces[1]);
+                AltUnityEvents.Instance.GetAllMethods.Invoke(altComponent, handler);
+                break;
+            case "getAllScenes":
+                Debug.Log("getAllScenes");
+                AltUnityEvents.Instance.GetAllScenes.Invoke(handler);
+                break;
+            case "getScreenshot":
+                Debug.Log("getScreenshot"+pieces[1]);
+//                var size = new Vector2(Convert.ToInt32(pieces[1]),Convert.ToInt32(pieces[2]));
+                var size = JsonConvert.DeserializeObject<Vector2>(pieces[1]);
+                AltUnityEvents.Instance.GetScreenshot.Invoke(size,handler);
+                break;
+>>>>>>> Stashed changes
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
                 break;
@@ -1680,4 +1725,147 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
         });
     }
+<<<<<<< Updated upstream
 }
+=======
+
+    private void GetAllComponents(string ObjectId, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            GameObject altObject = GetGameObject(Convert.ToInt32(ObjectId));
+            List<AltUnityComponent> listComponents=new List<AltUnityComponent>();
+            foreach (var component in altObject.GetComponents<Component>())
+            {
+                var a = component.GetType();
+                var componentName = a.FullName;
+                var assemblyName = a.Assembly.GetName().Name;
+                listComponents.Add(new AltUnityComponent(componentName,assemblyName));
+            }
+
+            var response = JsonConvert.SerializeObject(listComponents);
+            handler.SendResponse(response);
+        });
+    }
+    private void GetAllFields(string id,AltUnityComponent component, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            GameObject altObject;
+            altObject = id.Equals("null") ? null : GetGameObject(Convert.ToInt32(id));
+            Type type = GetType(component.componentName, component.assemblyName);
+            var altObjectComponent = altObject.GetComponent(type);
+            var fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            List<AltUnityField> listFields = new List<AltUnityField>();
+
+            foreach (var fieldInfo in fieldInfos)
+            {
+                try
+                {
+                    var value = fieldInfo.GetValue(altObjectComponent);
+                    listFields.Add(new AltUnityField(fieldInfo.Name,
+                        value == null ? "null" : value.ToString()));
+                }catch (Exception e)
+                {
+                   Debug.Log(e.StackTrace);
+                }
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(listFields));
+        });
+    }
+
+    private void GetAllMethods(AltUnityComponent component, AltClientSocketHandler handler)
+    {
+
+        _responseQueue.ScheduleResponse(delegate
+        {
+                Type type = GetType(component.componentName, component.assemblyName);
+                var methodInfos = type.GetMembers(BindingFlags.Public |BindingFlags.NonPublic| BindingFlags.Instance);
+
+                List<string> listMethods = new List<string>();
+
+                foreach (var methodInfo in methodInfos)
+                {
+                    listMethods.Add(methodInfo.ToString());
+                }
+                handler.SendResponse(JsonConvert.SerializeObject(listMethods));
+        });
+    }
+    private void GetAllScenes(AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            List<String> SceneNames=new List<string>();
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                var s = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+                SceneNames.Add(s);
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(SceneNames));
+        });
+
+    }
+    private void GetScreenshot(Vector2 size,AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            int width = (int) size.x;
+            int height = (int) size.y;
+            var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+            var heightDifference = screenshot.height - height;
+            var widthDifference = screenshot.width - width;
+            if (heightDifference >= 0 || widthDifference >= 0)
+            {
+                if (heightDifference > widthDifference)
+                {
+                    width = height * screenshot.width / screenshot.height;
+                }
+                else
+                {
+                    height = width * screenshot.height / screenshot.width;
+                }
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(new Vector2(screenshot.width, screenshot.height)));
+
+
+            TextureScale.Bilinear(screenshot, width, height);
+            screenshot.Apply(true);
+            screenshot.Compress(false);
+            screenshot.Apply(false);
+
+
+            var screenshotSerialized = screenshot.GetRawTextureData();
+            using (var msi = new MemoryStream(screenshotSerialized))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(mso, CompressionMode.Compress))
+                {
+                    //msi.CopyTo(gs);
+                    CopyTo(msi, gs);
+                }
+
+                screenshotSerialized = mso.ToArray();
+            }
+            var length=screenshotSerialized.LongLength;
+            handler.SendResponse(length.ToString());
+            var newSize=new Vector3(screenshot.width,screenshot.height);
+            handler.SendResponse(JsonConvert.SerializeObject(newSize));
+            handler.SendResponse(screenshotSerialized);
+            Destroy(screenshot);
+        });
+
+    }
+    public static void CopyTo(Stream src, Stream dest)
+    {
+        byte[] bytes = new byte[4096];
+
+        int cnt;
+
+        while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+        {
+            dest.Write(bytes, 0, cnt);
+        }
+    }
+}
+>>>>>>> Stashed changes

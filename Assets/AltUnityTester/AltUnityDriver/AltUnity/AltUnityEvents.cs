@@ -46,6 +46,14 @@ public class SetKeyPlayerPrefCommand : UnityEvent<string,string,PLayerPrefKeyTyp
 
 public class SwipeFinishedCommand: UnityEvent<AltClientSocketHandler> { }
 
+<<<<<<< Updated upstream
+=======
+public class GetAllComponentsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class GetAllFieldsCommand : UnityEvent<string,AltUnityComponent, AltClientSocketHandler> { }
+public class GetAllMethodsCommand : UnityEvent<AltUnityComponent, AltClientSocketHandler> { }
+public class GetAllScenesCommand: UnityEvent<AltClientSocketHandler> { }
+public class GetScreenshotCommand: UnityEvent<Vector2,AltClientSocketHandler> { }
+>>>>>>> Stashed changes
 
 public class AltUnityEvents
 {
@@ -92,6 +100,16 @@ public class AltUnityEvents
 
     public SwipeFinishedCommand SwipeFinished;
 
+<<<<<<< Updated upstream
+=======
+    public GetAllComponentsCommand GetAllComponents;
+    public GetAllFieldsCommand GetAllFields;
+    public GetAllMethodsCommand GetAllMethods;
+    public GetAllScenesCommand GetAllScenes;
+
+    public GetScreenshotCommand GetScreenshot;
+
+>>>>>>> Stashed changes
     // We are a singleton!
     private static AltUnityEvents _instance;
     public static AltUnityEvents Instance
@@ -143,6 +161,16 @@ public class AltUnityEvents
                 _instance.DeletePlayerPref=new DeletePlayerPrefCommand();
                 _instance.SwipeFinished=new SwipeFinishedCommand();
 
+<<<<<<< Updated upstream
+=======
+                _instance.GetAllComponents=new GetAllComponentsCommand();
+                _instance.GetAllMethods=new GetAllMethodsCommand();
+                _instance.GetAllFields=new GetAllFieldsCommand();
+                _instance.GetAllScenes=new GetAllScenesCommand();
+
+                _instance.GetScreenshot=new GetScreenshotCommand();
+
+>>>>>>> Stashed changes
             }
             return _instance;
         }
