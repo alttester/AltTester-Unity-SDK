@@ -99,7 +99,7 @@ public class AltUnityTesterEditor : EditorWindow
         {
 #if UNITY_EDITOR_OSX
         RemoveForwardAndroid();
-        if (!_editorConfiguration.TestAndroid)
+        if (_editorConfiguration.platform==Platform.iOS)
         {
             thread = new Thread(ThreadForwardIos);
             thread.Start();
@@ -128,7 +128,7 @@ public class AltUnityTesterEditor : EditorWindow
             if (_editorConfiguration.platform != Platform.Editor)
             {
 #if UNITY_EDITOR_OSX
-            if (!_editorConfiguration.TestAndroid)
+            if (_editorConfiguration.platform==Platform.iOS)
             {
                 KillIProxy(idIproxyProcess);
                 thread.Join();
