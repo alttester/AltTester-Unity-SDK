@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class FindObjectByNameCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectWhereNameContainsCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectByComponentCommand : UnityEvent<string,string,string, AltClientSocketHandler> { }
+public class FindObjectByNameCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectWhereNameContainsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectByComponentCommand : UnityEvent<string, AltClientSocketHandler> { }
 
-public class FindObjectsByNameCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectsWhereNameContainsCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectsByComponentCommand : UnityEvent<string,string,string, AltClientSocketHandler> { }
+public class FindObjectsByNameCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsWhereNameContainsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsByComponentCommand : UnityEvent<string, AltClientSocketHandler> { }
 
 public class GetCurrentSceneCommand : UnityEvent<AltClientSocketHandler> { }
 public class GetAllObjectsCommand : UnityEvent<string, AltClientSocketHandler> { }
@@ -46,14 +46,20 @@ public class SetKeyPlayerPrefCommand : UnityEvent<string,string,PLayerPrefKeyTyp
 
 public class SwipeFinishedCommand: UnityEvent<AltClientSocketHandler> { }
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> origin/Version_1.3.0
 public class GetAllComponentsCommand : UnityEvent<string, AltClientSocketHandler> { }
 public class GetAllFieldsCommand : UnityEvent<string,AltUnityComponent, AltClientSocketHandler> { }
 public class GetAllMethodsCommand : UnityEvent<AltUnityComponent, AltClientSocketHandler> { }
 public class GetAllScenesCommand: UnityEvent<AltClientSocketHandler> { }
+<<<<<<< HEAD
 public class GetScreenshotCommand: UnityEvent<Vector2,AltClientSocketHandler> { }
 >>>>>>> Stashed changes
+=======
+>>>>>>> origin/Version_1.3.0
 
 public class AltUnityEvents
 {
@@ -100,16 +106,22 @@ public class AltUnityEvents
 
     public SwipeFinishedCommand SwipeFinished;
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> origin/Version_1.3.0
     public GetAllComponentsCommand GetAllComponents;
     public GetAllFieldsCommand GetAllFields;
     public GetAllMethodsCommand GetAllMethods;
     public GetAllScenesCommand GetAllScenes;
 
+<<<<<<< HEAD
     public GetScreenshotCommand GetScreenshot;
 
 >>>>>>> Stashed changes
+=======
+>>>>>>> origin/Version_1.3.0
     // We are a singleton!
     private static AltUnityEvents _instance;
     public static AltUnityEvents Instance
@@ -161,16 +173,22 @@ public class AltUnityEvents
                 _instance.DeletePlayerPref=new DeletePlayerPrefCommand();
                 _instance.SwipeFinished=new SwipeFinishedCommand();
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> origin/Version_1.3.0
                 _instance.GetAllComponents=new GetAllComponentsCommand();
                 _instance.GetAllMethods=new GetAllMethodsCommand();
                 _instance.GetAllFields=new GetAllFieldsCommand();
                 _instance.GetAllScenes=new GetAllScenesCommand();
 
+<<<<<<< HEAD
                 _instance.GetScreenshot=new GetScreenshotCommand();
 
 >>>>>>> Stashed changes
+=======
+>>>>>>> origin/Version_1.3.0
             }
             return _instance;
         }

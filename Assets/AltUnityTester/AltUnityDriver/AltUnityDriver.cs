@@ -246,9 +246,9 @@ public class AltUnityDriver
 
     }
 
-    public AltUnityObject FindElementWhereNameContains(String name, String cameraName = "")
+    public AltUnityObject FindElementWhereNameContains(String name, String cameraName = "",bool enabled=true)
     {
-        Socket.Client.Send(toBytes("findObjectWhereNameContains;" + name + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectWhereNameContains;" + name + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
@@ -263,9 +263,9 @@ public class AltUnityDriver
 
     }
 
-    public List<AltUnityObject> GetAllElements(String cameraName = "")
+    public List<AltUnityObject> GetAllElements(String cameraName = "",bool enabled=true)
     {
-        Socket.Client.Send(toBytes("findAllObjects;" + ";" + cameraName + "&"));
+        Socket.Client.Send(toBytes("findAllObjects;"  + cameraName + ";" + enabled + "&"));
         String data = Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
         HandleErrors(data);
@@ -273,9 +273,9 @@ public class AltUnityDriver
 
     }
 
-    public AltUnityObject FindElement(String name, String cameraName = "")
+    public AltUnityObject FindElement(String name, String cameraName = "",bool enabled=true)
     {
-        Socket.Client.Send(toBytes("findObjectByName;" + name + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectByName;" + name + ";" + cameraName +";"+enabled+";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
@@ -286,18 +286,18 @@ public class AltUnityDriver
         return null;
     }
 
-    public List<AltUnityObject> FindElements(String name, String cameraName = "")
+    public List<AltUnityObject> FindElements(String name, String cameraName = "",bool enabled=true)
     {
-        Socket.Client.Send(toBytes("findObjectsByName;" + name + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectsByName;" + name + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
         HandleErrors(data);
         return null;
     }
 
-    public List<AltUnityObject> FindElementsWhereNameContains(String name, String cameraName = "")
+    public List<AltUnityObject> FindElementsWhereNameContains(String name, String cameraName = "",bool enabled=true)
     {
-        Socket.Client.Send(toBytes("findObjectsWhereNameContains;" + name + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectsWhereNameContains;" + name + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
         HandleErrors(data);
@@ -447,9 +447,9 @@ public class AltUnityDriver
         throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
 
-    public AltUnityObject FindElementByComponent(String componentName,String assemblyName="", String cameraName = "")
+    public AltUnityObject FindElementByComponent(String componentName,String assemblyName="", String cameraName = "",bool enabled=true)
     {
-        Socket.Client.Send(toBytes("findObjectByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectByComponent;" + assemblyName + ";" + componentName + ";" + cameraName +";"+enabled+";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
@@ -463,11 +463,20 @@ public class AltUnityDriver
     /// </summary>
     /// <param name="componentName">Name of the component by wich is going to search</param>
     /// <returns>List of AltUnityObjects that have component</returns>
-    public List<AltUnityObject> FindElementsByComponent(String componentName, String assemblyName = "", String cameraName = "")
+    public List<AltUnityObject> FindElementsByComponent(String componentName, String assemblyName = "", String cameraName = "",bool enabled=true)
     {
-        Socket.Client.Send(toBytes("findObjectsByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&"));
+        Socket.Client.Send(toBytes("findObjectsByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
+        HandleErrors(data);
+        return null;
+    }
+
+    public List<String> GetAllScenes()
+    {
+        Socket.Client.Send(toBytes("getAllScenes;&"));
+        String data = Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<String>>(data);
         HandleErrors(data);
         return null;
     }
