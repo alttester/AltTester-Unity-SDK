@@ -103,24 +103,16 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
 
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> origin/Version_1.3.0
+
         AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
         AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
         AltUnityEvents.Instance.GetAllFields.AddListener(GetAllFields);
         AltUnityEvents.Instance.GetAllScenes.AddListener(GetAllScenes);
 
-<<<<<<< HEAD
+
         AltUnityEvents.Instance.GetScreenshot.AddListener(GetScreenshot);
 
 
->>>>>>> Stashed changes
-=======
-
->>>>>>> origin/Version_1.3.0
         if (DebugBuildNeeded && !Debug.isDebugBuild)
         {
             Debug.Log("AltUnityTester will not run if this is not a Debug/Development build");
@@ -134,16 +126,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
     }
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-   
-
->>>>>>> Stashed changes
-=======
-  
-
->>>>>>> origin/Version_1.3.0
 
     /// <summary>
     /// Start listening to client after server starts
@@ -500,11 +482,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Debug.Log("SwipeFinished");
                 AltUnityEvents.Instance.SwipeFinished.Invoke(handler);
                 break;
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> origin/Version_1.3.0
             case "getAllComponents":
                 Debug.Log("GetAllComponents");
                 AltUnityEvents.Instance.GetAllComponents.Invoke(pieces[1],handler);
@@ -523,16 +500,12 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Debug.Log("getAllScenes");
                 AltUnityEvents.Instance.GetAllScenes.Invoke(handler);
                 break;
-<<<<<<< HEAD
             case "getScreenshot":
                 Debug.Log("getScreenshot"+pieces[1]);
 //                var size = new Vector2(Convert.ToInt32(pieces[1]),Convert.ToInt32(pieces[2]));
                 var size = JsonConvert.DeserializeObject<Vector2>(pieces[1]);
                 AltUnityEvents.Instance.GetScreenshot.Invoke(size,handler);
                 break;
->>>>>>> Stashed changes
-=======
->>>>>>> origin/Version_1.3.0
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
                 break;
@@ -2080,12 +2053,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
         });
     }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-}
-=======
-=======
->>>>>>> origin/Version_1.3.0
 
     private void GetAllComponents(string ObjectId, AltClientSocketHandler handler)
     {
@@ -2164,7 +2131,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         });
 
     }
-<<<<<<< HEAD
     private void GetScreenshot(Vector2 size,AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
@@ -2227,7 +2193,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         }
     }
 }
->>>>>>> Stashed changes
-=======
-}
->>>>>>> origin/Version_1.3.0
+
+
+
