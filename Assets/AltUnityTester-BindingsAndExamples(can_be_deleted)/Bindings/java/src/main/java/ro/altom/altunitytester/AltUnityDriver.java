@@ -7,16 +7,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
 
 public class AltUnityDriver {
 
-    /**
-     * Maximum time in ms that will be spent on listening for an answer from AltUnityRunner
-     */
-    private static final int MAX_LISTENING_TIME = 3000;
+    public static final int READ_TIMEOUT = 30 * 1000;
 
     public static class PlayerPrefsKeyType {
         public static int IntType = 1;
@@ -31,14 +25,15 @@ public class AltUnityDriver {
 
     public AltUnityDriver(String ip, int port) {
         if (ip == null || ip.isEmpty()) {
-            throw new AltUnityException("Provided IP address is null or empty");
+            throw new InvalidParamerException("Provided IP address is null or empty");
         }
         try {
             socket = new Socket(ip, port);
+            socket.setSoTimeout(READ_TIMEOUT);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
-            throw new AltUnityException("Could not create connection to " + String.format("%s:%d", ip, port), e);
+            throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
         }
         // TODO: make this uneccesary
         AltUnityObject.altUnityDriver = this;
@@ -52,9 +47,11 @@ public class AltUnityDriver {
     public void stop() {
         send("closeConnection;&");
         try {
+            in.close();
+            out.close();
             socket.close();
         } catch (IOException e) {
-            throw new AltUnityException("Could not close the socket.", e);
+            throw new ConnectionException("Could not close the socket.", e);
         }
     }
 
@@ -62,7 +59,6 @@ public class AltUnityDriver {
     public String recvall() {
         String receivedData = "";
         boolean streamIsFinished = false;
-        Instant start = Instant.now();
 
         while (!streamIsFinished) {
             byte[] messageByte = new byte[BUFFER_SIZE];
@@ -70,19 +66,12 @@ public class AltUnityDriver {
             try {
                 bytesRead = in.read(messageByte);
             } catch (IOException e) {
-                throw new AltUnityException(e);
+                throw new ConnectionException(e);
             }
             if (bytesRead > 0)
                 receivedData += new String(messageByte, 0, bytesRead);
             if (receivedData.contains("::altend")) {
                 streamIsFinished = true;
-            }
-            Instant now = Instant.now();
-            long timeSpendOnListening = Duration.between(start, now).toMillis();
-            if (timeSpendOnListening > MAX_LISTENING_TIME){
-                // TODO: rethink this part - possibly throw exception or check the split which happens later
-                System.err.println("Couldn't get and answer from the client for specified time [ms] " + MAX_LISTENING_TIME);
-                return "";
             }
         }
 
@@ -91,9 +80,9 @@ public class AltUnityDriver {
         return receivedData;
     }
 
-    public String callStaticMethods(String assembly,String typeName, String methodName,
-                                    String parameters,String typeOfParameters) {
-        String actionInfo =new Gson().toJson(new AltUnityObjectAction(typeName, methodName, parameters,typeOfParameters,assembly));
+    public String callStaticMethods(String assembly, String typeName, String methodName,
+                                    String parameters, String typeOfParameters) {
+        String actionInfo = new Gson().toJson(new AltUnityObjectAction(typeName, methodName, parameters, typeOfParameters, assembly));
         send("callComponentMethodForObject;" + "" + "; " + actionInfo + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
@@ -103,8 +92,8 @@ public class AltUnityDriver {
         return "";
     }
 
-    public String callStaticMethods(String typeName, String methodName,String parameters ) {
-        return callStaticMethods("",typeName,methodName,parameters,"");
+    public String callStaticMethods(String typeName, String methodName, String parameters) {
+        return callStaticMethods("", typeName, methodName, parameters, "");
     }
 
     public void loadScene(String scene) {
@@ -120,7 +109,7 @@ public class AltUnityDriver {
     public void deletePlayerPref() {
         send("deletePlayerPref;&");
         String data = recvall();
-        if (data.equals("Ok")){
+        if (data.equals("Ok")) {
             return;
         }
         handleErrors(data);
@@ -146,7 +135,7 @@ public class AltUnityDriver {
     public void setKeyPlayerPref(String keyName, float valueName) {
         send("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PlayerPrefsKeyType.FloatType + ";&");
         String data = recvall();
-        if (data.equals("Ok")){
+        if (data.equals("Ok")) {
             return;
         }
         handleErrors(data);
@@ -208,7 +197,7 @@ public class AltUnityDriver {
         String vectorEndJson = vectorToJsonString(xEnd, yEnd);
         send("movingTouch;" + vectorStartJson + ";" + vectorEndJson + ";" + durationInSecs + ";&");
         String data = recvall();
-        if (data.equals("Ok")){
+        if (data.equals("Ok")) {
             return;
         }
         handleErrors(data);
@@ -223,7 +212,7 @@ public class AltUnityDriver {
             data = recvall();
         } while (data.equals("No"));
 
-        if (data.equals("Yes")){
+        if (data.equals("Yes")) {
             return;
         }
         handleErrors(data);
@@ -247,7 +236,7 @@ public class AltUnityDriver {
         return null;
     }
 
-    public void tilt(int x, int y, int z)  {
+    public void tilt(int x, int y, int z) {
         String accelerationString = vectorToJsonString(x, y, z);
         send("tilt;" + accelerationString + ";&");
         String data = recvall();
@@ -316,7 +305,7 @@ public class AltUnityDriver {
     public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName) {
         send("findObjectsWhereNameContains;" + name + ";" + cameraName + ";&");
         String data = recvall();
-        if (!data.contains("error:")){
+        if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject[].class);
         }
         handleErrors(data);
@@ -326,7 +315,7 @@ public class AltUnityDriver {
     public AltUnityObject tapScreen(int x, int y) {
         send("tapScreen;" + x + ";" + y + ";&");
         String data = recvall();
-        if (!data.contains("error:")){
+        if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
         }
         handleErrors(data);
@@ -341,68 +330,74 @@ public class AltUnityDriver {
         double time = 0;
         String currentScene = "";
         while (time < timeout) {
+            System.out.println("Waiting for scene to be " + sceneName + "...");
             currentScene = getCurrentScene();
-            if (!currentScene.equals(sceneName)) {
-                System.out.println("Waiting for scene to be " + sceneName + "...");
-                sleepFor(interval);
-                time += interval;
-            } else {
-                break;
+            if (currentScene != null && currentScene.equals(sceneName)) {
+                return currentScene;
             }
+            sleepFor(interval);
+            time += interval;
         }
-
-        if (sceneName.equals(currentScene))
-            return currentScene;
-        throw new WaitTimeOutException("Scene " + sceneName + " not loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Scene [" + sceneName + "] not loaded after " + timeout + " seconds");
     }
 
-    public String waitForCurrentSceneToBe(String sceneName) throws Exception {
+    public String waitForCurrentSceneToBe(String sceneName) {
         return waitForCurrentSceneToBe(sceneName, 20, 0.5);
     }
 
-    public AltUnityObject waitForElementWhereNameContains(String name,String cameraName, double timeout, double interval) {
+    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
+            System.out.println("Waiting for element where name contains " + name + "....");
             try {
-                altElement = findElementWhereNameContains(name,cameraName);
-                break;
+                altElement = findElementWhereNameContains(name, cameraName);
+                if (altElement != null) {
+                    return altElement;
+                }
             } catch (Exception e) {
-                System.out.println("Waiting for element where name contains " + name + "....");
-                sleepFor(interval);
-                time += interval;
-
+                System.err.println("Exception thrown: " + e.getLocalizedMessage());
             }
+            sleepFor(interval);
+            time += interval;
         }
-        if (altElement != null)
-            return altElement;
         throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
     }
 
-    public AltUnityObject waitForElementWhereNameContains(String name) throws Exception {
-        return waitForElementWhereNameContains(name,"", 20, 0.5);
+    public AltUnityObject waitForElementWhereNameContains(String name) {
+        return waitForElementWhereNameContains(name, "", 20, 0.5);
     }
 
-    public void waitForElementToNotBePresent(String name,String cameraName, double timeout, double interval) {
+    public void waitForElementToNotBePresent(String name, String cameraName, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
         while (time <= timeout) {
+            System.out.println("Waiting for element " + name + " not to be present");
             try {
-                altElement = findElement(name,cameraName);
-                break;
+                altElement = findElement(name, cameraName);
+                if (altElement == null) {
+                    return;
+                }
             } catch (Exception e) {
-                sleepFor(interval);
-                time += interval;
-                System.out.println("Waiting for element " + name + " to not be present");
+                System.err.println(e.getLocalizedMessage());
+                break;
             }
+            sleepFor(interval);
+            time += interval;
         }
 
-        if (!altElement.equals(null))
-            throw new AltUnityException("Element " + name + " not found after " + timeout + " seconds");
+        if (altElement != null) {
+            throw new AltUnityException("Element " + name + " still found after " + timeout + " seconds");
+        }
     }
 
+    /**
+     * Sleeps for certain amount of seconds.
+     *
+     * @param interval Seconds to sleep for.
+     */
     private void sleepFor(double interval) {
-            long timeToSleep = (long) (interval * 1000);
+        long timeToSleep = (long) (interval * 1000);
         try {
             Thread.sleep(timeToSleep);
         } catch (InterruptedException e) {
@@ -410,59 +405,60 @@ public class AltUnityDriver {
         }
     }
 
-    public void waitForElementToNotBePresent(String name) throws Exception {
-        waitForElementToNotBePresent(name,"", 20, 0.5);
+    public void waitForElementToNotBePresent(String name) {
+        waitForElementToNotBePresent(name, "", 20, 0.5);
     }
 
-    public AltUnityObject waitForElement(String name,String cameraName, double timeout, double interval) {
+    public AltUnityObject waitForElement(String name, String cameraName, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
+            System.out.println("Waiting for element " + name + "...");
             try {
-                altElement = findElement(name,cameraName);
-                break;
+                altElement = findElement(name, cameraName);
             } catch (Exception e) {
-                sleepFor(interval);
-                time += interval;
-                System.out.println("Waiting for element " + name + "...");
+                System.err.println("Exception thrown: " + e.getLocalizedMessage());
             }
+
+            if (altElement != null) {
+                return altElement;
+            }
+            sleepFor(interval);
+            time += interval;
         }
 
-        if (altElement != null) {
-            return altElement;
-        }
         throw new WaitTimeOutException("Element " + name + " loaded after " + timeout + " seconds");
     }
 
-    public AltUnityObject waitForElement(String name) throws Exception {
-        return waitForElement(name,"", 20, 0.5);
+    public AltUnityObject waitForElement(String name) {
+        return waitForElement(name, "", 20, 0.5);
     }
 
-    public AltUnityObject waitForElementWithText(String name, String text,String cameraName, double timeout, double interval) {
+    public AltUnityObject waitForElementWithText(String name, String text, String cameraName, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
+            System.out.println("Waiting for element " + name + " to have text [" + text + "]");
             try {
                 altElement = findElement(name, cameraName);
-                if (altElement.getText().equals(text)){
+                if (altElement != null && altElement.getText().equals(text)) {
                     return altElement;
                 }
-                throw new AltUnityException("This is peculiar way of making time counting work - HAS TO BE CHANGED");
             } catch (AltUnityException e) {
-                sleepFor(interval);
-                time += interval;
-                System.out.println("Waiting for element " + name + " to have text " + text);
+                System.err.println("Exception thrown: " + e.getLocalizedMessage());
             }
+            time += interval;
+            sleepFor(interval);
         }
         throw new WaitTimeOutException("Element with text: " + text + " loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject waitForElementWithText(String name, String text) {
-        return waitForElementWithText(name, text,"", 20, 0.5);
+        return waitForElementWithText(name, text, "", 20, 0.5);
     }
 
-    public AltUnityObject findElementByComponent(String componentName,String assemblyName, String cameraName) {
-        send("findObjectByComponent;"+assemblyName+";" + componentName + ";" + cameraName + ";&");
+    public AltUnityObject findElementByComponent(String componentName, String assemblyName, String cameraName) {
+        send("findObjectByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -472,14 +468,15 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject findElementByComponent(String componentName) {
-        return findElementByComponent(componentName, "","");
-    }
-    public AltUnityObject findElementByComponent(String componentName,String assemblyName) {
-        return findElementByComponent(componentName,assemblyName,"");
+        return findElementByComponent(componentName, "", "");
     }
 
-    public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName, String cameraName) {
-        send("findObjectsByComponent;"+assemblyName+";"  + componentName + ";" + cameraName + ";&");
+    public AltUnityObject findElementByComponent(String componentName, String assemblyName) {
+        return findElementByComponent(componentName, assemblyName, "");
+    }
+
+    public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName) {
+        send("findObjectsByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&");
         String data = recvall();
         if (!data.contains("error:")) return new Gson().fromJson(data, AltUnityObject[].class);
         handleErrors(data);
@@ -487,10 +484,11 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject[] findElementsByComponent(String componentName) {
-        return findElementsByComponent(componentName, "","");
+        return findElementsByComponent(componentName, "", "");
     }
-    public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName) {
-        return findElementsByComponent(componentName,assemblyName,"");
+
+    public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName) {
+        return findElementsByComponent(componentName, assemblyName, "");
     }
 
 
