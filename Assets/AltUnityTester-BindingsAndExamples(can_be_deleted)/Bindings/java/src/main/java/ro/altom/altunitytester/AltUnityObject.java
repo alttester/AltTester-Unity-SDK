@@ -2,9 +2,9 @@ package ro.altom.altunitytester;
 
 import com.google.gson.Gson;
 
-class AltUnityObject {
+public class AltUnityObject {
     // TODO: decouple AltUnityObject from the driver instance
-    public static AltUnityDriver altUnityDriver;
+    static AltUnityDriver altUnityDriver;
     // TODO: encapsulate state
     public String name;
     public int id;
@@ -18,9 +18,6 @@ class AltUnityObject {
     public float worldY;
     public float worldZ;
     public int idCamera;
-
-    private AltUnityObject(){
-    }
 
     public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled, float worldX, float worldY, float worldZ, int idCamera) {
         this.name = name;
