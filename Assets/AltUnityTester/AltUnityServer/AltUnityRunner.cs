@@ -2,6 +2,8 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
@@ -101,10 +103,14 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
 
 
+
         AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
         AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
         AltUnityEvents.Instance.GetAllFields.AddListener(GetAllFields);
         AltUnityEvents.Instance.GetAllScenes.AddListener(GetAllScenes);
+
+
+        AltUnityEvents.Instance.GetScreenshot.AddListener(GetScreenshot);
 
 
         if (DebugBuildNeeded && !Debug.isDebugBuild)
@@ -119,8 +125,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         }
 
     }
-
-  
 
 
     /// <summary>
@@ -495,6 +499,12 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             case "getAllScenes":
                 Debug.Log("getAllScenes");
                 AltUnityEvents.Instance.GetAllScenes.Invoke(handler);
+                break;
+            case "getScreenshot":
+                Debug.Log("getScreenshot"+pieces[1]);
+//                var size = new Vector2(Convert.ToInt32(pieces[1]),Convert.ToInt32(pieces[2]));
+                var size = JsonConvert.DeserializeObject<Vector2>(pieces[1]);
+                AltUnityEvents.Instance.GetScreenshot.Invoke(size,handler);
                 break;
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
@@ -2121,4 +2131,68 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         });
 
     }
+    private void GetScreenshot(Vector2 size,AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            int width = (int) size.x;
+            int height = (int) size.y;
+            var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+            var heightDifference = screenshot.height - height;
+            var widthDifference = screenshot.width - width;
+            if (heightDifference >= 0 || widthDifference >= 0)
+            {
+                if (heightDifference > widthDifference)
+                {
+                    width = height * screenshot.width / screenshot.height;
+                }
+                else
+                {
+                    height = width * screenshot.height / screenshot.width;
+                }
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(new Vector2(screenshot.width, screenshot.height)));
+
+
+            TextureScale.Bilinear(screenshot, width, height);
+            screenshot.Apply(true);
+            screenshot.Compress(false);
+            screenshot.Apply(false);
+
+
+            var screenshotSerialized = screenshot.GetRawTextureData();
+            using (var msi = new MemoryStream(screenshotSerialized))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(mso, CompressionMode.Compress))
+                {
+                    //msi.CopyTo(gs);
+                    CopyTo(msi, gs);
+                }
+
+                screenshotSerialized = mso.ToArray();
+            }
+            var length=screenshotSerialized.LongLength;
+            handler.SendResponse(length.ToString());
+            var newSize=new Vector3(screenshot.width,screenshot.height);
+            handler.SendResponse(JsonConvert.SerializeObject(newSize));
+            handler.SendResponse(screenshotSerialized);
+            Destroy(screenshot);
+        });
+
+    }
+    public static void CopyTo(Stream src, Stream dest)
+    {
+        byte[] bytes = new byte[4096];
+
+        int cnt;
+
+        while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+        {
+            dest.Write(bytes, 0, cnt);
+        }
+    }
 }
+
+
+

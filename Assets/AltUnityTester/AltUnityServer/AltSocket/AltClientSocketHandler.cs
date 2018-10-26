@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System;
+using System.Linq;
 
 public interface AltIClientSocketHandlerDelegate
 {
@@ -48,6 +49,12 @@ public class AltClientSocketHandler
         response = "altstart::" + response + "::altend";
         Debug.Log("sending response: " + response);
         Client.Client.Send(Encoding.GetBytes(response));
+    }
+    public void SendResponse(byte[] response)
+    {
+        response = Encoding.ASCII.GetBytes("altstart::").Concat(response).Concat( Encoding.ASCII.GetBytes("::altend")).ToArray();
+        Debug.Log("sending response: " + Encoding.ASCII.GetString(response));
+        Client.Client.Send(response);
     }
 
     public void Run()
