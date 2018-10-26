@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -64,6 +66,8 @@ public class AltUnityDriver
 
         return data;
     }
+  
+
 
     private byte[] toBytes(String text)
     {
@@ -478,6 +482,63 @@ public class AltUnityDriver
         HandleErrors(data);
         return null;
     }
+    public TextureInformation RecImage()
+    {
+        var scaleDifference = Recvall();
+        var length = Recvall();
+        var LongLength = JsonConvert.DeserializeObject<long>(length);
+        var textSizeString = Recvall();
+        var textSizeVector3 = JsonConvert.DeserializeObject<Vector3>(textSizeString);
+        IEnumerable<Byte> data = new List<byte>();
+        while (true)
+        {
+
+            var bytesReceived = new byte[BUFFER_SIZE];
+            Socket.Client.Receive(bytesReceived);
+            String part = fromBytes(bytesReceived);
+            data = data.Concat(bytesReceived);
+            if (part.Contains("::altend"))
+                break;
+        }
+
+        try
+        {
+            byte[] start = Encoding.ASCII.GetBytes("altstart::");
+            byte[] end = Encoding.ASCII.GetBytes("::altend");
+
+            Byte[] image = data.ToArray();
+            var newImage = SubArray(image, start.Length, LongLength);
+            using (var msi = new MemoryStream(newImage))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(msi, CompressionMode.Decompress))
+                {
+                    //gs.CopyTo(mso);
+                    CopyTo(gs, mso);
+                }
+
+                newImage = mso.ToArray();
+            }
+            Texture2D texture2D = new Texture2D((int)textSizeVector3.x, (int)textSizeVector3.y, TextureFormat.DXT5, false);
+            texture2D.LoadRawTextureData(newImage);
+            texture2D.Apply(false);
+            return new TextureInformation(texture2D, JsonConvert.DeserializeObject<Vector2>(scaleDifference));
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+            Debug.Log(e.StackTrace);
+        }
+
+        return new TextureInformation();
+    }
+
+    public TextureInformation GetScreenshot(Vector2 size = default(Vector2))
+    {
+        var sizeSerialized = JsonConvert.SerializeObject(size);
+        Socket.Client.Send(toBytes("getScreenshot;" + sizeSerialized + ";&"));
+        return RecImage();
+    }
 
     public static void HandleErrors(string data)
     {
@@ -515,6 +576,36 @@ public class AltUnityDriver
 
 
     }
+    public static T[] SubArray<T>(T[] data, int index, long length)
+    {
+        T[] result = new T[length];
+        Array.Copy(data, index, result, 0, length);
+        return result;
+    }
+    public static void CopyTo(Stream src, Stream dest)
+    {
+        byte[] bytes = new byte[4096];
+
+        int cnt;
+
+        while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+        {
+            dest.Write(bytes, 0, cnt);
+        }
+    }
+
+    public struct TextureInformation
+    {
+        public Texture2D texture2D;
+        public Vector2 originalSize;
+
+        public TextureInformation(Texture2D texture2D, Vector2 originalSize)
+        {
+            this.texture2D = texture2D;
+            this.originalSize = originalSize;
+        }
+    }
+
 }
 
 
