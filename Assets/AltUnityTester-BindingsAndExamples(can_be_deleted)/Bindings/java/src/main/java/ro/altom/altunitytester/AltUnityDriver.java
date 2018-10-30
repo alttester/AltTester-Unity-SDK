@@ -1,6 +1,7 @@
 package ro.altom.altunitytester;
 
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.DataInputStream;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+@Slf4j
 public class AltUnityDriver {
 
     public static final int READ_TIMEOUT = 30 * 1000;
@@ -28,6 +30,7 @@ public class AltUnityDriver {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
         try {
+            log.info("Initializing connection to {}:{}", ip, port);
             socket = new Socket(ip, port);
             socket.setSoTimeout(READ_TIMEOUT);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -40,11 +43,13 @@ public class AltUnityDriver {
     }
 
     public void send(String message) {
+        log.info("Sending rpc message [{}]", message);
         out.print(message);
         out.flush();
     }
 
     public void stop() {
+        log.info("Closing connection with server.");
         send("closeConnection;&");
         try {
             in.close();
@@ -76,7 +81,7 @@ public class AltUnityDriver {
         }
 
         receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
-        System.out.println("Data received: " + receivedData);
+        log.debug("Data received: " + receivedData);
         return receivedData;
     }
 
@@ -97,7 +102,7 @@ public class AltUnityDriver {
     }
 
     public void loadScene(String scene) {
-        System.out.println("Load scene: " + scene + "...");
+        log.debug("Load scene: " + scene + "...");
         send("loadScene;" + scene + ";&");
         String data = recvall();
         if (data.equals("Ok")) {
@@ -182,7 +187,7 @@ public class AltUnityDriver {
     }
 
     public String getCurrentScene() {
-        System.out.println("Get current scene...");
+        log.debug("Get current scene...");
         send("getCurrentScene;&");
         String data = recvall();
         if (!data.contains("error:")) {
@@ -330,7 +335,7 @@ public class AltUnityDriver {
         double time = 0;
         String currentScene = "";
         while (time < timeout) {
-            System.out.println("Waiting for scene to be " + sceneName + "...");
+            log.debug("Waiting for scene to be " + sceneName + "...");
             currentScene = getCurrentScene();
             if (currentScene != null && currentScene.equals(sceneName)) {
                 return currentScene;
@@ -349,14 +354,14 @@ public class AltUnityDriver {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
-            System.out.println("Waiting for element where name contains " + name + "....");
+            log.debug("Waiting for element where name contains " + name + "....");
             try {
                 altElement = findElementWhereNameContains(name, cameraName);
                 if (altElement != null) {
                     return altElement;
                 }
             } catch (Exception e) {
-                System.err.println("Exception thrown: " + e.getLocalizedMessage());
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
             }
             sleepFor(interval);
             time += interval;
@@ -372,14 +377,14 @@ public class AltUnityDriver {
         double time = 0;
         AltUnityObject altElement = null;
         while (time <= timeout) {
-            System.out.println("Waiting for element " + name + " not to be present");
+            log.debug("Waiting for element " + name + " not to be present");
             try {
                 altElement = findElement(name, cameraName);
                 if (altElement == null) {
                     return;
                 }
             } catch (Exception e) {
-                System.err.println(e.getLocalizedMessage());
+                log.warn(e.getLocalizedMessage());
                 break;
             }
             sleepFor(interval);
@@ -401,7 +406,7 @@ public class AltUnityDriver {
         try {
             Thread.sleep(timeToSleep);
         } catch (InterruptedException e) {
-            System.err.println("Could not sleep for " + timeToSleep + " ms");
+            log.warn("Could not sleep for " + timeToSleep + " ms");
         }
     }
 
@@ -413,11 +418,11 @@ public class AltUnityDriver {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
-            System.out.println("Waiting for element " + name + "...");
+            log.debug("Waiting for element " + name + "...");
             try {
                 altElement = findElement(name, cameraName);
             } catch (Exception e) {
-                System.err.println("Exception thrown: " + e.getLocalizedMessage());
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
             }
 
             if (altElement != null) {
@@ -438,14 +443,14 @@ public class AltUnityDriver {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
-            System.out.println("Waiting for element " + name + " to have text [" + text + "]");
+            log.debug("Waiting for element " + name + " to have text [" + text + "]");
             try {
                 altElement = findElement(name, cameraName);
                 if (altElement != null && altElement.getText().equals(text)) {
                     return altElement;
                 }
             } catch (AltUnityException e) {
-                System.err.println("Exception thrown: " + e.getLocalizedMessage());
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
             }
             time += interval;
             sleepFor(interval);
@@ -533,25 +538,25 @@ public class AltUnityDriver {
 
     // TODO: move those two out of this type and make them compulsory
     public static void setupPortForwarding(String platform, int tcp_port) {
-        System.out.println("Setting up port forward for " + platform + " on port " + tcp_port);
+        log.info("Setting up port forward for " + platform + " on port " + tcp_port);
         removePortForwarding();
         if (platform.toLowerCase().equals("android".toLowerCase())) {
             try {
                 String commandToRun = "adb forward tcp:" + tcp_port + " tcp:" + tcp_port;
                 Runtime.getRuntime().exec(commandToRun);
                 Thread.sleep(1000);
-                System.out.println("adb forward enabled.");
+                log.info("adb forward enabled.");
             } catch (Exception e) {
-                System.err.println("AltUnityServer - abd probably not installed\n" + e);
+                log.warn("AltUnityServer - abd probably not installed\n" + e);
             }
 
         } else if (platform.toLowerCase().equals("ios".toLowerCase())) {
             try {
                 Runtime.getRuntime().exec("iproxy " + tcp_port + " " + tcp_port + "&");
                 Thread.sleep(1000);
-                System.out.println("iproxy forward enabled.");
+                log.info("iproxy forward enabled.");
             } catch (Exception e) {
-                System.err.println("AltUnityServer - no iproxy process was running/present\n" + e);
+                log.warn("AltUnityServer - no iproxy process was running/present\n" + e);
             }
         }
     }
@@ -561,18 +566,18 @@ public class AltUnityDriver {
             String commandToExecute = "killall iproxy";
             Runtime.getRuntime().exec(commandToExecute);
             Thread.sleep(1000);
-            System.out.println("Killed any iproxy process that may have been running...");
+            log.info("Killed any iproxy process that may have been running...");
         } catch (Exception e) {
-            System.err.println("AltUnityServer - no iproxy process was running/present\n" + e);
+            log.warn("AltUnityServer - no iproxy process was running/present\n" + e);
         }
 
         try {
             String commandToExecute = "adb forward --remove-all";
             Runtime.getRuntime().exec(commandToExecute);
             Thread.sleep(1000);
-            System.out.println("Removed existing adb forwarding...");
+            log.info("Removed existing adb forwarding...");
         } catch (Exception e) {
-            System.err.println("AltUnityServer - abd probably not installed\n" + e);
+            log.warn("AltUnityServer - abd probably not installed\n" + e);
         }
     }
 }
