@@ -561,7 +561,20 @@ public class TestForScene1TestSample
     AltUnityObject capsuleInfo=altUnityDriver.FindElement("CapsuleInfo");
     Assert.AreEqual("6",capsuleInfo.GetText());
     }
-   
+   [Test]
+    public void TestFindParent()
+    {
+        var altElement = altUnityDriver.FindElement("UIButton/..");
+        Assert.AreEqual("Canvas", altElement.name);
+    }
+
+    [Test]
+    public void TestFindId()
+    {
+        var altElement = altUnityDriver.FindElement("UIButton");
+        var altElement2 = altUnityDriver.FindElement("id(" + altElement.id + ")");
+        Assert.AreEqual("UIButton", altElement.name);
+    }
 
 
 
