@@ -10,9 +10,12 @@ using UnityEngine.EventSystems;
 using System.Reflection;
 using System.Security.AccessControl;
 using Newtonsoft.Json;
+using System.Collections;
 
 public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 {
+    
+    
     private static AltUnityRunner _altUnityRunner;
     private Vector3 _position;
     private AltSocketServer _socketServer;
@@ -40,6 +43,9 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     }
     public int SocketPortNumber = 13000;
     public bool DebugBuildNeeded = true;
+
+    public Shader outlineShader;
+    public GameObject panelHightlightPrefab;
 
     private static AltResponseQueue _responseQueue;
 
@@ -111,6 +117,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
 
         AltUnityEvents.Instance.GetScreenshot.AddListener(GetScreenshot);
+        AltUnityEvents.Instance.HighlightObjectScreenshot.AddListener(HighLightSelectedObject);
+        AltUnityEvents.Instance.HighlightObjectFromCoordinates.AddListener(HightObjectFromCoordinates);
 
 
         if (DebugBuildNeeded && !Debug.isDebugBuild)
@@ -239,6 +247,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         AltUnityComponent altComponent;
         AltUnityObject altUnityObject;
         string methodParameters;
+        Vector2 size;
         PLayerPrefKeyType option;
         switch (pieces[0])
         {
@@ -503,9 +512,22 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             case "getScreenshot":
                 Debug.Log("getScreenshot"+pieces[1]);
 //                var size = new Vector2(Convert.ToInt32(pieces[1]),Convert.ToInt32(pieces[2]));
-                var size = JsonConvert.DeserializeObject<Vector2>(pieces[1]);
+                size = JsonConvert.DeserializeObject<Vector2>(pieces[1]);
                 AltUnityEvents.Instance.GetScreenshot.Invoke(size,handler);
                 break;
+            case "hightlightObjectScreenshot":
+                Debug.Log("HightlightObject");
+                var id = Convert.ToInt32(pieces[1]);
+                size = JsonConvert.DeserializeObject<Vector2>(pieces[2]);
+                AltUnityEvents.Instance.HighlightObjectScreenshot.Invoke(id,size, handler);
+                break;
+            case "hightlightObjectFromCoordinatesScreenshot":
+                Debug.Log("HightlightObject");
+                var coordinates= JsonConvert.DeserializeObject<Vector2>(pieces[1]);
+                size = JsonConvert.DeserializeObject<Vector2>(pieces[2]);
+                AltUnityEvents.Instance.HighlightObjectFromCoordinates.Invoke(coordinates,size, handler);
+                break;
+
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
                 break;
@@ -2131,6 +2153,63 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         });
 
     }
+    private void HightObjectFromCoordinates(Vector2 screenCoordinates, Vector2 size, AltClientSocketHandler handler)
+    {
+        Ray ray=Camera.main.ScreenPointToRay(screenCoordinates);
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(ray);
+        if (hits.Length > 0)
+        {
+            StartCoroutine(HighLightSelectedObjectCorutine(hits[0].transform.gameObject, size, handler));
+        }
+        else
+        {
+            GetScreenshot(size, handler);
+        }
+    }
+    private void HighLightSelectedObject(int id, Vector2 size, AltClientSocketHandler handler)
+    {
+        var gameObject = GetGameObject(id);
+        if (gameObject != null)
+        {
+            StartCoroutine(HighLightSelectedObjectCorutine(gameObject, size, handler));
+        }
+        else
+            GetScreenshot(size, handler);
+    }
+    IEnumerator HighLightSelectedObjectCorutine(GameObject gameObject, Vector2 size, AltClientSocketHandler handler)
+    {
+        Renderer renderer = gameObject.GetComponent<Renderer>();
+        List<Shader> originalShaders = new List<Shader>();
+        if (renderer != null)
+        {
+            foreach (var material in renderer.materials)
+            {
+                originalShaders.Add(material.shader);
+                material.shader = outlineShader;
+            }
+            yield return null;
+            GetScreenshot(size, handler);
+            yield return null;
+            for(var i=0;i<renderer.materials.Length;i++)
+            {
+                renderer.materials[i].shader = originalShaders[0];
+            }
+        }
+        else
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                var panelHighlight = Instantiate(panelHightlightPrefab, rectTransform);
+                yield return null;
+                GetScreenshot(size, handler);
+                yield return null;
+                Destroy(panelHighlight);
+            }
+        }
+        
+    }
     private void GetScreenshot(Vector2 size,AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
@@ -2166,7 +2245,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             {
                 using (var gs = new GZipStream(mso, CompressionMode.Compress))
                 {
-                    //msi.CopyTo(gs);
                     CopyTo(msi, gs);
                 }
 
