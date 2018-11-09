@@ -432,7 +432,7 @@ public class AltUnityDriver {
             time += interval;
         }
 
-        throw new WaitTimeOutException("Element " + name + " loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element " + name + " not loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject waitForElement(String name) {
@@ -455,7 +455,7 @@ public class AltUnityDriver {
             time += interval;
             sleepFor(interval);
         }
-        throw new WaitTimeOutException("Element with text: " + text + " loaded after " + timeout + " seconds");
+        throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
 
     public AltUnityObject waitForElementWithText(String name, String text) {
@@ -483,7 +483,9 @@ public class AltUnityDriver {
     public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName) {
         send("findObjectsByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&");
         String data = recvall();
-        if (!data.contains("error:")) return new Gson().fromJson(data, AltUnityObject[].class);
+        if (!data.contains("error:")) {
+            return new Gson().fromJson(data, AltUnityObject[].class);
+        }
         handleErrors(data);
         return new AltUnityObject[]{};
     }
