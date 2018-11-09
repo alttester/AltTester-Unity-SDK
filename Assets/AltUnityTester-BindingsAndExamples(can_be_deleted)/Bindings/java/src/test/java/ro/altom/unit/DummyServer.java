@@ -1,4 +1,4 @@
-package ro.altom.altunitytester.unit;
+package ro.altom.unit;
 
 import java.io.BufferedReader;
 import java.io.IOException;

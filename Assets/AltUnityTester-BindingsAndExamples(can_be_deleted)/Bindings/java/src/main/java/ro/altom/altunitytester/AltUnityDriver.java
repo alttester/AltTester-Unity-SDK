@@ -251,8 +251,8 @@ public class AltUnityDriver {
         handleErrors(data);
     }
 
-    public AltUnityObject findElementWhereNameContains(String name, String cameraName) {
-        send("findObjectWhereNameContains;" + name + ";" + cameraName + ";&");
+    public AltUnityObject findElementWhereNameContains(String name, String cameraName,boolean enabled) {
+        send("findObjectWhereNameContains;" + name + ";" + cameraName + ";" + enabled + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -261,12 +261,19 @@ public class AltUnityDriver {
         return null;
     }
 
+    public AltUnityObject findElementWhereNameContains(String name, String cameraName) {
+        return findElementWhereNameContains(name, cameraName, true);
+    }
+    public AltUnityObject findElementWhereNameContains(String name, boolean enabled) {
+        return findElementWhereNameContains(name, "", enabled);
+    }
+
     public AltUnityObject findElementWhereNameContains(String name) {
         return findElementWhereNameContains(name, "");
     }
 
-    public AltUnityObject[] getAllElements(String cameraName) {
-        send("findAllObjects;" + ";" + cameraName + "&");
+    public AltUnityObject[] getAllElements(String cameraName,boolean enabled) {
+        send("findAllObjects;" + cameraName +";"+enabled+ ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return (new Gson().fromJson(data, AltUnityObject[].class));
@@ -275,12 +282,20 @@ public class AltUnityDriver {
         return null;
     }
 
-    public AltUnityObject[] getAllElements() {
-        return getAllElements("");
+    public AltUnityObject[] getAllElements(String cameraName) {
+        return getAllElements(cameraName,true);
     }
 
-    public AltUnityObject findElement(String name, String cameraName) {
-        send("findObjectByName;" + name + ";" + cameraName + ";&");
+    public AltUnityObject[] getAllElements(boolean enabled)  {
+        return getAllElements("",enabled);
+    }
+
+    public AltUnityObject[] getAllElements() throws Exception {
+        return getAllElements("",true);
+    }
+
+    public AltUnityObject findElement(String name, String cameraName, boolean enabled) {
+        send("findObjectByName;" + name + ";" + cameraName +";"+enabled+ ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -289,12 +304,18 @@ public class AltUnityDriver {
         return null;
     }
 
+    public AltUnityObject findElement(String name,boolean enabled) {
+        return findElement(name, "",enabled);
+    }
+    public AltUnityObject findElement(String name,String cameraName) {
+        return findElement(name, cameraName,true);
+    }
     public AltUnityObject findElement(String name) {
-        return findElement(name, "");
+        return findElement(name, "",true);
     }
 
-    public AltUnityObject[] findElements(String name, String cameraName) {
-        send("findObjectsByName;" + name + ";" + cameraName + ";&");
+    public AltUnityObject[] findElements(String name, String cameraName, boolean enabled) {
+        send("findObjectsByName;" + name + ";" + cameraName +";"+enabled+ ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject[].class);
@@ -304,17 +325,34 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject[] findElements(String name) {
-        return findElements(name, "");
+        return findElements(name, "",true);
+    }
+    public AltUnityObject[] findElements(String name, String cameraName) {
+        return findElements(name, cameraName,true);
+    }
+    public AltUnityObject[] findElements(String name, boolean enabled) {
+        return findElements(name, "",enabled);
     }
 
-    public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName) {
-        send("findObjectsWhereNameContains;" + name + ";" + cameraName + ";&");
+    public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName, boolean enabled) {
+        send("findObjectsWhereNameContains;" + name + ";" + cameraName + ";" + enabled + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject[].class);
         }
         handleErrors(data);
         return new AltUnityObject[]{};
+    }
+    public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName) {
+        return findElementsWhereNameContains(name,cameraName,true);
+    }
+    public AltUnityObject[] findElementsWhereNameContains(String name,boolean enabled) {
+        return findElementsWhereNameContains(name,"",enabled);
+
+    }
+    public AltUnityObject[] findElementsWhereNameContains(String name) {
+        return findElementsWhereNameContains(name,"",true);
+
     }
 
     public AltUnityObject tapScreen(int x, int y) {
@@ -325,10 +363,6 @@ public class AltUnityDriver {
         }
         handleErrors(data);
         return null;
-    }
-
-    public AltUnityObject[] findElementsWhereNameContains(String name) {
-        return findElementsWhereNameContains(name, "");
     }
 
     public String waitForCurrentSceneToBe(String sceneName, double timeout, double interval) {
@@ -462,8 +496,8 @@ public class AltUnityDriver {
         return waitForElementWithText(name, text, "", 20, 0.5);
     }
 
-    public AltUnityObject findElementByComponent(String componentName, String assemblyName, String cameraName) {
-        send("findObjectByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&");
+    public AltUnityObject findElementByComponent(String componentName,String assemblyName, String cameraName,boolean enabled) {
+        send("findObjectByComponent;"+assemblyName+";" + componentName + ";" + cameraName + ";" + enabled + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -473,15 +507,19 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject findElementByComponent(String componentName) {
-        return findElementByComponent(componentName, "", "");
+        return findElementByComponent(componentName, "","",true);
     }
 
-    public AltUnityObject findElementByComponent(String componentName, String assemblyName) {
-        return findElementByComponent(componentName, assemblyName, "");
+    public AltUnityObject findElementByComponent(String componentName, String cameraName) {
+        return findElementByComponent(componentName,"", cameraName,true);
     }
 
-    public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName) {
-        send("findObjectsByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";&");
+    public AltUnityObject findElementByComponent(String componentName,String assemblyName, boolean enabled) {
+        return findElementByComponent(componentName, assemblyName,"", enabled);
+    }
+
+    public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName, boolean enabled) {
+        send("findObjectsByComponent;"+assemblyName+";"  + componentName + ";" + cameraName + ";" +enabled + ";&");
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject[].class);
@@ -490,13 +528,14 @@ public class AltUnityDriver {
         return new AltUnityObject[]{};
     }
 
-    public AltUnityObject[] findElementsByComponent(String componentName) {
-        return findElementsByComponent(componentName, "", "");
+    public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName ) {
+        return findElementsByComponent(componentName, assemblyName,"",true);
     }
 
-    public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName) {
-        return findElementsByComponent(componentName, assemblyName, "");
+    public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName, boolean enabled) {
+        return findElementsByComponent(componentName, assemblyName,"", enabled);
     }
+
 
 
     public String vectorToJsonString(int x, int y) {

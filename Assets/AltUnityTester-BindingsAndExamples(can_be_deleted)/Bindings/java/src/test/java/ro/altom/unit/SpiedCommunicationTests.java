@@ -1,12 +1,16 @@
 package ro.altom.unit;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import ro.altom.altunitytester.AltUnityDriver;
 
 public class SpiedCommunicationTests {
-    private static final String FIND_OBJECT_BY_NAME_MESSAGE_PATTERN = "findObjectByName;%s;%s;&";
+    private static final String FIND_OBJECT_BY_NAME_MESSAGE_PATTERN = "findObjectByName;%s;%s;true;&";
     private static final String CLOSE_CONNECTION_MESSAGE = "closeConnection;&";
     private static final String LOAD_SCENE_MESSAGE_PATTERN = "loadScene;%s;&";
     private static final int PORT = 15000;
@@ -18,12 +22,12 @@ public class SpiedCommunicationTests {
     public static void setup() {
         dummyServer = DummyServer.onPort(PORT);
         dummyServer.start();
-        spyAltDriver = Mockito.spy( new AltUnityDriver("127.0.0.1", PORT));
+        spyAltDriver = Mockito.spy(new AltUnityDriver("127.0.0.1", PORT));
         prepareStubbing();
     }
 
     @After
-    public void prepareSpy(){
+    public void prepareSpy() {
         // Reset mockito verifications
         Mockito.reset(spyAltDriver);
         prepareStubbing();
