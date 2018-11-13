@@ -191,7 +191,7 @@ public class AltUnityDriver {
         send("getCurrentScene;&");
         String data = recvall();
         if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, AltUnityObject.class)).name;
+            return (new Gson().fromJson(data, AltUnityObject.class)).getName();
         }
         handleErrors(data);
         return "";

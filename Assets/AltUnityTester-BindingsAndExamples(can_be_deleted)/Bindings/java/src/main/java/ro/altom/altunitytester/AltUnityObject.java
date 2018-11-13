@@ -1,22 +1,94 @@
 package ro.altom.altunitytester;
 
 import com.google.gson.Gson;
+import lombok.Getter;
 
+@Getter
 public class AltUnityObject {
     // TODO: decouple AltUnityObject from the driver instance
     static AltUnityDriver altUnityDriver;
     // TODO: encapsulate state
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getName()}
+     */
     public String name;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getId()}
+     */
     public int id;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getX()}
+     */
     public int x;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getY()}
+     */
     public int y;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getZ()}
+     */
     public int z;
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getMobileY()}
+     */
     public int mobileY;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getType()}
+     */
     public String type;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #isEnabled()}
+     */
     public boolean enabled;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getWorldX()}
+     */
     public float worldX;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getWorldY()}
+     */
     public float worldY;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getWorldZ()}
+     */
     public float worldZ;
+
+    /**
+     * Access to this variable will be removed in the future.
+     *
+     * As of version 1.3.0 use getter {@link #getIdCamera()}
+     */
     public int idCamera;
 
     public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled, float worldX, float worldY, float worldZ, int idCamera) {
@@ -34,9 +106,9 @@ public class AltUnityObject {
         this.idCamera = idCamera;
     }
 
-    public String getComponentProperty(String assemblyName,String componentName, String propertyName) {
+    public String getComponentProperty(String assemblyName, String componentName, String propertyName) {
         String altObject = new Gson().toJson(this);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName,componentName, propertyName));
+        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName, componentName, propertyName));
         altUnityDriver.send("getObjectComponentProperty;" + altObject + ";" + propertyInfo + ";&");
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) {
@@ -45,13 +117,14 @@ public class AltUnityObject {
         altUnityDriver.handleErrors(data);
         return "";
     }
+
     public String getComponentProperty(String componentName, String propertyName) {
-        return getComponentProperty("",componentName,propertyName);
+        return getComponentProperty("", componentName, propertyName);
     }
 
-    public String setComponentProperty(String assemblyName,String componentName, String propertyName, String value) {
+    public String setComponentProperty(String assemblyName, String componentName, String propertyName, String value) {
         String altObject = new Gson().toJson(this);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName,componentName, propertyName));
+        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName, componentName, propertyName));
         altUnityDriver.send("setObjectComponentProperty;" + altObject + ";" + propertyInfo + ";" + value + ";&");
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) {
@@ -62,20 +135,21 @@ public class AltUnityObject {
     }
 
     public String setComponentProperty(String componentName, String propertyName, String value) {
-        return setComponentProperty("",componentName,propertyName,value);
+        return setComponentProperty("", componentName, propertyName, value);
     }
 
-    public String callComponentMethod(String assemblyName,String componentName, String methodName, String parameters,String typeOfParameters) {
+    public String callComponentMethod(String assemblyName, String componentName, String methodName, String parameters, String typeOfParameters) {
         String altObject = new Gson().toJson(this);
-        String actionInfo = new Gson().toJson(new AltUnityObjectAction(assemblyName,componentName, methodName, parameters,typeOfParameters));
+        String actionInfo = new Gson().toJson(new AltUnityObjectAction(assemblyName, componentName, methodName, parameters, typeOfParameters));
         altUnityDriver.send("callComponentMethodForObject;" + altObject + ";" + actionInfo + ";&");
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) return data;
         altUnityDriver.handleErrors(data);
         return null;
     }
+
     public String callComponentMethod(String componentName, String methodName, String parameters) throws Exception {
-        return callComponentMethod(componentName,methodName,parameters,"","");
+        return callComponentMethod(componentName, methodName, parameters, "", "");
     }
 
     public String getText() {
