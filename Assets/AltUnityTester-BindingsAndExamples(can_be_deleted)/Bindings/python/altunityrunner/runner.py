@@ -4,7 +4,7 @@ import socket
 import subprocess
 import time
 
-from altUnityExceptions import *
+from altunityrunner.altUnityExceptions import *
 
 BUFFER_SIZE = 1024
 
