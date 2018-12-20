@@ -479,7 +479,7 @@ public class AltUnityTesterEditor : EditorWindow
     }
 
 
-    private static void InitEditorConfiguration()
+    public static void InitEditorConfiguration()
     {
         if (AssetDatabase.FindAssets("idProject").Length == 0)
         {
@@ -1354,7 +1354,7 @@ public class AltUnityTesterEditor : EditorWindow
 
 
 
-    private static void InitBuildSetup(BuildTargetGroup buildTargetGroup)
+    public static void InitBuildSetup(BuildTargetGroup buildTargetGroup)
     {
 
         if (_editorConfiguration.appendToName)
@@ -1487,6 +1487,20 @@ public class AltUnityTesterEditor : EditorWindow
 
 
         return sceneList.ToArray();
+    }
+
+    public static void InsertAltUnityInTheFirstScene(String mainScene)
+    {
+        Debug.Log("Adding AltUnityRunnerPrefab into the [" + mainScene + "] scene.");
+        var altUnityRunner =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
+        PreviousScenePath = SceneManager.GetActiveScene().path;
+        SceneWithAltUnityRunner = EditorSceneManager.OpenScene(mainScene);
+        AltUnityRunner = PrefabUtility.InstantiatePrefab(altUnityRunner);
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        EditorSceneManager.SaveOpenScenes();
+        Debug.Log("Scene successfully modified.");
     }
 
     private static void InsertAltUnityInTheFirstScene()
