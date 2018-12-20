@@ -38,6 +38,12 @@ The project contains a Java project called ``altunitytester`` that gives access 
 
 The code for this is available under ``AltUnityTester/Bindings/java`` in the repository. 
 
+### Internal tests
+In order to run unit tests for the bindings implementation run
+`mvn clean test`
+
+For integration tests which actually use the game artifact please use 
+`mvn clean test -Pscene-tests`
 
 ### Installation
 
