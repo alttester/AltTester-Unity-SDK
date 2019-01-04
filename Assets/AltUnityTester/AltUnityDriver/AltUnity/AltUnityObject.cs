@@ -19,10 +19,11 @@ public class AltUnityObject
     public float worldY;
     public float worldZ;
     public int idCamera;
-
+    public int parentId;
+    public int transformId;
     [JsonIgnore]
     public static AltUnityDriver altUnityDriver;
-    public AltUnityObject(string name, int id = 0, int x = 0, int y = 0,int z=0, int mobileY = 0, string type = "", bool enabled = true, float worldX = 0, float worldY = 0, float worldZ = 0,int idCamera=0)
+    public AltUnityObject(string name, int id = 0, int x = 0, int y = 0, int z = 0, int mobileY = 0, string type = "", bool enabled = true, float worldX = 0, float worldY = 0, float worldZ = 0, int idCamera = 0, int parentId = 0,int transformId=0)
     {
         this.name = name;
         this.id = id;
@@ -36,6 +37,8 @@ public class AltUnityObject
         this.worldY = worldY;
         this.worldZ = worldZ;
         this.idCamera = idCamera;
+        this.parentId = parentId;
+        this.transformId = transformId;
     }
 
     public Vector2 getScreenPosition()

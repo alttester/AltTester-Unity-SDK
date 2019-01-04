@@ -222,7 +222,15 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         {
             _position = getObjectScreePosition(altGameObject, camera);
         }
-
+        int parentId = 0;
+        try
+        {
+            parentId = altGameObject.transform.parent.GetInstanceID();
+        }
+        catch(Exception exception)
+        {
+            Debug.LogError(exception.Message);
+        }
 
         AltUnityObject altObject = new AltUnityObject(name: altGameObject.name,
                                                       id: altGameObject.GetInstanceID(),
@@ -235,7 +243,9 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                                                       worldX: _position.x,
                                                       worldY: _position.y,
                                                       worldZ: _position.z,
-                                                      idCamera: camera.GetInstanceID());
+                                                      idCamera: camera.GetInstanceID(),
+                                                      transformId: altGameObject.transform.GetInstanceID(),
+                                                      parentId:parentId);
         return altObject;
     }
 
@@ -552,248 +562,235 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             DestroyImmediate( temp );
     }
 }
-    private GameObject FindObjectInScene(string objectName, bool enabled, FindOption option, Type component = null)
+    private GameObject FindObjectInScene(string objectName, bool enabled)
     {
         string[] pathList = objectName.Split('/');
         List<int> optionList = new List<int>();
         GameObject foundGameObject = null;
         foreach (GameObject obj in SceneManager.GetActiveScene().GetRootGameObjects())
         {
-            if (obj.transform.parent != null) continue;
-            foundGameObject = CheckChildren(obj, pathList, optionList, enabled, option, component);
+            foundGameObject = CheckPath(obj, pathList, 0, enabled);
             if (foundGameObject != null)
-            {
                 return foundGameObject;
+            else
+            {
+                foundGameObject = CheckChildren(obj, pathList, enabled);
+                if (foundGameObject != null)
+                    return foundGameObject;
             }
         }
         foreach (var destroyOnLoadObject in GetDontDestroyOnLoadObjects())
         {
-            if (destroyOnLoadObject.transform.parent != null) continue;
-            foundGameObject = CheckChildren(destroyOnLoadObject, pathList, optionList, enabled, option, component);
+            foundGameObject = CheckPath(destroyOnLoadObject, pathList, 0, enabled);
             if (foundGameObject != null)
+                return foundGameObject;
+            else
             {
-                break;
+                foundGameObject = CheckChildren(destroyOnLoadObject, pathList, enabled);
+                if (foundGameObject != null)
+                    return foundGameObject;
             }
         }
-
         return foundGameObject;
     }
-
-    private GameObject CheckChildren(GameObject obj, string[] pathList, List<int> optionList, bool enabled, FindOption option, Type componentType = null)
+    private GameObject CheckChildren(GameObject obj, string[] pathList, bool enabled)
     {
-        if (enabled && obj.activeInHierarchy==false) return null;
-        List<int> newOptionList = new List<int>();
-        foreach (var i in optionList)
+        GameObject objectReturned = null;
+        foreach (Transform childrenTransform in obj.transform)
         {
-            switch (option)
+            objectReturned = CheckPath(childrenTransform.gameObject, pathList, 0, enabled);
+            if (objectReturned != null)
+                return objectReturned;
+            else
             {
-                case FindOption.Name:
-                    if (pathList[i].Equals(obj.name))
-                    {
-                        if (i + 1 == pathList.Length)
-                        {
-                            return obj;
-                        }
-                        else
-                        {
-                            newOptionList.Add(i + 1);
-                        }
-                    }
-                    break;
-                case FindOption.ContainName:
-                    if (obj.name.Contains(pathList[i]))
-                    {
-                        if (i + 1 == pathList.Length)
-                        {
-                            return obj;
-                        }
-                        else
-                        {
-                            newOptionList.Add(i + 1);
-                        }
-                    }
-                    break;
-                case FindOption.Component://For finding object that contains object we don't need to search in hierarchy
-                    break;
+                objectReturned = CheckChildren(childrenTransform.gameObject, pathList, enabled);
+                if (objectReturned != null)
+                    return objectReturned;
             }
-
         }
-
-        optionList = newOptionList;
-       
+        return objectReturned;
+    }
+    private GameObject CheckPath(GameObject obj, string[] pathList, int pathListStep, bool enabled)
+    {
+        int option = 1;
+        if (pathList[pathListStep].Equals(".."))
+            option = 2;
+        else
+            if (pathList[pathListStep].StartsWith("id("))
+            option = 3;
         switch (option)
         {
-            case FindOption.Name:
-                if (obj.name.Equals(pathList[0]))
-                {
-                    if (pathList.Length == 1)
-                    {
-                        return obj;
-                    }
-                    else
-                    {
-                        optionList.Add(1);
+            case 2:
 
-                    }
-                }
-                break;
-            case FindOption.ContainName:
-                if (obj.name.Contains(pathList[0]))
+                if (pathListStep == pathList.Length - 1)
                 {
-                    if (pathList.Length == 1)
-                    {
-                        return obj;
-                    }
-                    else
-                    {
-                        optionList.Add(1);
-
-                    }
+                    if (obj.transform.parent == null || (enabled && obj.activeInHierarchy == false)) return null;
+                    return obj.transform.parent.gameObject;
                 }
-                break;
-            case FindOption.Component:
-                if (obj.GetComponent(componentType) != null)
+                else
                 {
-                    return obj;
+                    int nextStep = pathListStep + 1;
+                    return CheckPath(obj.transform.parent.gameObject, pathList, nextStep, enabled);
                 }
-                break;
+            case 3:
+                var id = Convert.ToInt32(pathList[pathListStep].Substring(3, pathList[pathListStep].Length - 4));
+                if (obj.GetInstanceID() != id)
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPath(obj, pathList, pathListStep, enabled);
+                }
+            default:
+                if (!obj.name.Equals(pathList[pathListStep]))
+                    return null;
+                else
+                {
+                    return CheckNextElementInPath(obj, pathList, pathListStep, enabled);
+                }
         }
-
-
-        GameObject gameObject;
-        foreach (Transform child in obj.transform)
-        {
-            gameObject = CheckChildren(child.gameObject, pathList, optionList, enabled, option, componentType);
-            if (gameObject != null)
-            {
-                return gameObject;
-            }
-        }
-
-        return null;
     }
-
-    private List<GameObject> FindObjectsInScene(string objectName, bool enabled, FindOption option, Type componentType = null)
+    private GameObject CheckNextElementInPath(GameObject obj, string[] pathList, int pathListStep, bool enabled)
     {
+        if (pathListStep == pathList.Length - 1)
+            if (enabled && obj.activeInHierarchy == false) return null;
+            else
+            {
+                return obj;
+            }
+        else
+        {
+            int nextStep = pathListStep + 1;
+            if (pathList[nextStep].Equals(".."))
+            {
+                var objectReturned = CheckPath(obj, pathList, nextStep, enabled);
+                if (objectReturned != null)
+                    return objectReturned;
+            }
+            foreach (Transform childrenObject in obj.transform)
+            {
+                var objectReturned = CheckPath(childrenObject.gameObject, pathList, nextStep, enabled);
+                if (objectReturned != null)
+                    return objectReturned;
+            }
+            return null;
+        }
+    }
+    private List<GameObject> FindObjectsInScene(string objectName, bool enabled)
+    {
+        List<GameObject> objectsFound = new List<GameObject>();
         string[] pathList = objectName.Split('/');
         List<int> optionList = new List<int>();
-        List<GameObject> foundGameObjects = new List<GameObject>();
+        GameObject foundGameObject = null;
         foreach (GameObject obj in SceneManager.GetActiveScene().GetRootGameObjects())
         {
-            if (obj.transform.parent != null) continue;
-            foundGameObjects.AddRange(CheckChildrenForMultipleGameObjects(obj, pathList, optionList,enabled,option,componentType));
+            List<GameObject> listGameObjects = CheckPathForMultipleElements(obj.gameObject, pathList, 0, enabled);
+            if (listGameObjects != null)
+                objectsFound.AddRange(listGameObjects);
+            listGameObjects = CheckChildrenForMultipleElements(obj.gameObject, pathList, enabled);
+            if (listGameObjects != null)
+                objectsFound.AddRange(listGameObjects);
         }
         foreach (var destroyOnLoadObject in GetDontDestroyOnLoadObjects())
         {
-            if (destroyOnLoadObject.transform.parent != null) continue;
-            foundGameObjects.AddRange(CheckChildrenForMultipleGameObjects(destroyOnLoadObject, pathList, optionList, enabled, option, componentType));
+            List<GameObject> listGameObjects = CheckPathForMultipleElements(destroyOnLoadObject.gameObject, pathList, 0, enabled);
+            if (listGameObjects != null)
+                objectsFound.AddRange(listGameObjects);
+            listGameObjects = CheckChildrenForMultipleElements(destroyOnLoadObject.gameObject, pathList, enabled);
+            objectsFound.AddRange(listGameObjects);
         }
-
-        return foundGameObjects;
+        return objectsFound;
     }
-
-    private List<GameObject> CheckChildrenForMultipleGameObjects(GameObject obj, string[] pathList, List<int> optionList,bool enabled, FindOption option, Type componentType = null)
+    private List<GameObject> CheckChildrenForMultipleElements(GameObject obj, string[] pathList, bool enabled)
     {
-       
-            GameObject gameObject;
-            List<GameObject> objects = new List<GameObject>();
-        if (!(enabled && !obj.activeInHierarchy))
+        List<GameObject> objectsFound = new List<GameObject>();
+        foreach (Transform childrenTransform in obj.transform)
         {
-            List<int> newOptionList = new List<int>();
-            foreach (var i in optionList)
-            {
+            List<GameObject> listGameObjects = CheckPathForMultipleElements(childrenTransform.gameObject, pathList, 0, enabled);
+            if (listGameObjects != null)
+                objectsFound.AddRange(listGameObjects);
+            listGameObjects = CheckChildrenForMultipleElements(childrenTransform.gameObject, pathList, enabled);
+            if (listGameObjects != null)
+                objectsFound.AddRange(listGameObjects);
 
-                switch (option)
-                {
-                    case FindOption.Name:
-                        if (pathList[i].Equals(obj.name))
-                        {
-                            if (i + 1 == pathList.Length)
-                            {
-                                objects.Add(obj);
-                            }
-                            else
-                            {
-                                newOptionList.Add(i + 1);
-                            }
-                        }
-
-                        break;
-                    case FindOption.ContainName:
-                        if (obj.name.Contains(pathList[i]))
-                        {
-                            if (i + 1 == pathList.Length)
-                            {
-                                objects.Add(obj);
-                            }
-                            else
-                            {
-                                newOptionList.Add(i + 1);
-                            }
-                        }
-
-                        break;
-                    case FindOption.Component
-                        : //For finding object that contains object we don't need to search in hierarchy
-                        break;
-                }
-
-            }
-
-            optionList = newOptionList;
-
-            switch (option)
-            {
-                case FindOption.Name:
-                    if (obj.name.Equals(pathList[0])||(pathList.Length==1&&pathList[0].Equals("")))
-                    {
-                        if (pathList.Length == 1)
-                        {
-                            objects.Add(obj);
-                        }
-                        else
-                        {
-                            optionList.Add(1);
-
-                        }
-                    }
-
-                    break;
-                case FindOption.ContainName:
-                    if (obj.name.Contains(pathList[0]))
-                    {
-                        if (pathList.Length == 1)
-                        {
-                            objects.Add(obj);
-                        }
-                        else
-                        {
-                            optionList.Add(1);
-
-                        }
-                    }
-
-                    break;
-                case FindOption.Component:
-                    if (obj.GetComponent(componentType) != null)
-                    {
-                        objects.Add(obj);
-                    }
-
-                    break;
-            }
-
-
-            foreach (Transform child in obj.transform)
-            {
-                List<GameObject> objecsFounds = CheckChildrenForMultipleGameObjects(child.gameObject, pathList,
-                    optionList, enabled, option, componentType);
-                objects.AddRange(objecsFounds);
-            }
         }
-
-        return objects;
+        return objectsFound;
     }
+    private List<GameObject> CheckPathForMultipleElements(GameObject obj, string[] pathList, int pathListStep, bool enabled)
+    {
+        List<GameObject> objectsFound = new List<GameObject>();
+        int option = 1;
+        if (pathList[pathListStep].Equals(".."))
+            option = 2;
+        else
+            if (pathList[pathListStep].StartsWith("id("))
+            option = 3;
+        switch (option)
+        {
+            case 2:
+                if (pathListStep == pathList.Length - 1)
+                {
+                    if (obj.transform.parent == null || (enabled && obj.activeInHierarchy == false)) return null;
+                    objectsFound.Add(obj.transform.parent.gameObject);
+                    return objectsFound;
+                }
+                else
+                {
+                    int nextStep = pathListStep + 1;
+                    return CheckPathForMultipleElements(obj.transform.parent.gameObject, pathList, nextStep, enabled);
+                }
+            case 3:
+                var id = Convert.ToInt32(pathList[pathListStep].Substring(3, pathList[pathListStep].Length - 4));
+                if (obj.GetInstanceID() != id)
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
+                }
+            default:
+                if (!(obj.name.Equals(pathList[pathListStep]) || (pathList[pathListStep].Equals("") && pathList.Length == 1)))
+                    return null;
+                else
+                {
+                    return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
+                }
+        }
+    }
+    private List<GameObject> CheckNextElementInPathForMultipleElements(GameObject obj, string[] pathList, int pathListStep, bool enabled)
+    {
+        List<GameObject> objectsFound = new List<GameObject>();
+        if (pathListStep == pathList.Length - 1)
+            if (enabled && obj.activeInHierarchy == false) return null;
+            else
+            {
+                objectsFound.Add(obj);
+                return objectsFound;
+            }
+        else
+        {
+            int nextStep = pathListStep + 1;
+            if (pathList[nextStep].Equals(".."))
+            {
+                List<GameObject> listGameObjects = CheckPathForMultipleElements(obj, pathList, nextStep, enabled);
+                if (listGameObjects != null)
+                    objectsFound.AddRange(listGameObjects);
+                return objectsFound;
+            }
+            foreach (Transform childrenObject in obj.transform)
+            {
+                List<GameObject> listGameObjects = CheckPathForMultipleElements(childrenObject.gameObject, pathList, nextStep, enabled);
+                if (listGameObjects != null)
+                    objectsFound.AddRange(listGameObjects);
+            }
+            return objectsFound;
+        }
+    }
+
+
+
 
     private void FindObjectByName(string stringSent, AltClientSocketHandler handler)
     {
@@ -806,7 +803,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             string response = errorNotFoundMessage;
             try
             {
-                GameObject foundGameObject = FindObjectInScene(objectName, enabled,FindOption.Name);
+                GameObject foundGameObject = FindObjectInScene(objectName, enabled);
                 if (foundGameObject != null)
                 {
                     if (cameraName.Equals(""))
@@ -847,15 +844,12 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             string response = errorNotFoundMessage;
             try
             {
-                GameObject foundGameObject = FindObjectInScene(objectName, enabled, FindOption.ContainName);
-                if (foundGameObject != null)
+                foreach (GameObject testableObject in FindObjectsOfType<GameObject>())
                 {
-                    if (cameraName.Equals(""))
-                        response = JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundGameObject));
-                    else
+                    if (testableObject.name.Contains(objectName))
                     {
-                        Camera camera = Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
-                        response = camera == null ? errorNotFoundMessage : JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundGameObject, camera));
+                        response = JsonConvert.SerializeObject(GameObjectToAltUnityObject(testableObject));
+                        break;
                     }
                 }
             }
@@ -867,6 +861,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
             handler.SendResponse(response);
         });
+
     }
 
     private void FindObjectByComponent(string methodParameters, AltClientSocketHandler handler)
@@ -884,15 +879,13 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Type componentType = GetType(componentTypeName, assemblyName);
                 if (componentType != null)
                 {
-                    GameObject foundGameObject = FindObjectInScene("", enabled, FindOption.Component, componentType);
-                    if (foundGameObject != null)
+                    foreach (GameObject testableObject in FindObjectsOfType<GameObject>())
                     {
-                        if (cameraName.Equals(""))
-                            response = JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundGameObject));
-                        else
+                        if (testableObject.GetComponent(componentType) != null)
                         {
-                            Camera camera = Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
-                            response = camera == null ? errorNotFoundMessage : JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundGameObject, camera));
+                            var foundObject = testableObject;
+                            response = JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundObject));
+                            break;
                         }
                     }
                 }
@@ -913,6 +906,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
 
         });
+
     }
 
     private void FindObjectsByName(string methodParameters, AltClientSocketHandler handler)
@@ -927,10 +921,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             try
             {
                 List<AltUnityObject> foundObjects = new List<AltUnityObject>();
-
-                foreach (GameObject testableObject in FindObjectsInScene(objectName, enabled,FindOption.Name))
+                foreach (GameObject testableObject in FindObjectsInScene(objectName, true))
                 {
-
                     if (cameraName == null)
                         foundObjects.Add(GameObjectToAltUnityObject(testableObject));
                     else
@@ -938,7 +930,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                         Camera camera = Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
                         foundObjects.Add(GameObjectToAltUnityObject(testableObject, camera));
                     }
-
                 }
 
                 response = JsonConvert.SerializeObject(foundObjects);
@@ -955,6 +946,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
             }
         });
+
     }
 
     private void FindObjectsByComponent(string methodParameters, AltClientSocketHandler handler)
@@ -973,17 +965,12 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Type componentType = GetType(componentTypeName, assemblyName);
                 if (componentType != null)
                 {
-                    foreach (GameObject testableObject in FindObjectsInScene("",enabled,FindOption.Component,componentType))
+                    foreach (GameObject testableObject in FindObjectsOfType<GameObject>())
                     {
-                        
-                            if (cameraName == null)
-                                foundObjects.Add(GameObjectToAltUnityObject(testableObject));
-                            else
-                            {
-                                Camera camera = Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
-                                foundObjects.Add(GameObjectToAltUnityObject(testableObject, camera));
-                            }
-                        
+                        if (name == "" || testableObject.GetComponent(componentType) != null)
+                        {
+                            foundObjects.Add(GameObjectToAltUnityObject(testableObject));
+                        }
                     }
 
                     response = JsonConvert.SerializeObject(foundObjects);
@@ -1005,6 +992,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
             }
         });
+
     }
 
     private void FindObjectsWhereNameContains(string methodParameters, AltClientSocketHandler handler)
@@ -1019,18 +1007,11 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             try
             {
                 List<AltUnityObject> foundObjects = new List<AltUnityObject>();
-                foreach (GameObject testableObject in FindObjectsInScene("", enabled, FindOption.ContainName))
+                foreach (GameObject testableObject in FindObjectsOfType<GameObject>())
                 {
-                    if (enabled && !testableObject.activeInHierarchy) continue;
                     if (testableObject.name.Contains(objectName))
                     {
-                        if (cameraName == null)
-                            foundObjects.Add(GameObjectToAltUnityObject(testableObject));
-                        else
-                        {
-                            Camera camera = Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
-                            foundObjects.Add(GameObjectToAltUnityObject(testableObject, camera));
-                        }
+                        foundObjects.Add(GameObjectToAltUnityObject(testableObject));
                     }
                 }
 
@@ -1050,6 +1031,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
 
         });
+
     }
 
     private void GetAllObjects(string methodParameter, AltClientSocketHandler handler)
