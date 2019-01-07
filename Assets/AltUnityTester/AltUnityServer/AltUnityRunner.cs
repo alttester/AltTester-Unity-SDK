@@ -2237,6 +2237,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             if (rectTransform != null)
             {
                 var panelHighlight = Instantiate(panelHightlightPrefab, rectTransform);
+                panelHighlight.GetComponent<Image>().color = color;
                 yield return null;
                 GetScreenshot(size, handler);
                 yield return null;
