@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Security.AccessControl;
 using Newtonsoft.Json;
 using System.Collections;
+using UnityEngine.UI;
 
 public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 {
@@ -114,7 +115,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
         AltUnityEvents.Instance.GetAllFields.AddListener(GetAllFields);
         AltUnityEvents.Instance.GetAllScenes.AddListener(GetAllScenes);
-
+        AltUnityEvents.Instance.GetAllCameras.AddListener(GetAllCameras);
 
         AltUnityEvents.Instance.GetScreenshot.AddListener(GetScreenshot);
         AltUnityEvents.Instance.HighlightObjectScreenshot.AddListener(HighLightSelectedObject);
@@ -519,6 +520,10 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Debug.Log("getAllScenes");
                 AltUnityEvents.Instance.GetAllScenes.Invoke(handler);
                 break;
+            case "getAllCameras":
+                Debug.Log("getAllCameras");
+                AltUnityEvents.Instance.GetAllCameras.Invoke(handler);
+                break;
             case "getScreenshot":
                 Debug.Log("getScreenshot"+pieces[1]);
 //                var size = new Vector2(Convert.ToInt32(pieces[1]),Convert.ToInt32(pieces[2]));
@@ -528,14 +533,14 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             case "hightlightObjectScreenshot":
                 Debug.Log("HightlightObject");
                 var id = Convert.ToInt32(pieces[1]);
-                size = JsonConvert.DeserializeObject<Vector2>(pieces[2]);
-                AltUnityEvents.Instance.HighlightObjectScreenshot.Invoke(id,size, handler);
+                size = JsonConvert.DeserializeObject<Vector2>(pieces[3]);
+                AltUnityEvents.Instance.HighlightObjectScreenshot.Invoke(id,pieces[2],size, handler);
                 break;
             case "hightlightObjectFromCoordinatesScreenshot":
                 Debug.Log("HightlightObject");
                 var coordinates= JsonConvert.DeserializeObject<Vector2>(pieces[1]);
-                size = JsonConvert.DeserializeObject<Vector2>(pieces[2]);
-                AltUnityEvents.Instance.HighlightObjectFromCoordinates.Invoke(coordinates,size, handler);
+                size = JsonConvert.DeserializeObject<Vector2>(pieces[3]);
+                AltUnityEvents.Instance.HighlightObjectFromCoordinates.Invoke(coordinates,pieces[2],size, handler);
                 break;
 
             default:
@@ -2135,31 +2140,77 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         });
 
     }
-    private void HightObjectFromCoordinates(Vector2 screenCoordinates, Vector2 size, AltClientSocketHandler handler)
+    private void GetAllCameras(AltClientSocketHandler handler)
     {
-        Ray ray=Camera.main.ScreenPointToRay(screenCoordinates);
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(ray);
-        if (hits.Length > 0)
+        _responseQueue.ScheduleResponse(delegate
         {
-            StartCoroutine(HighLightSelectedObjectCorutine(hits[0].transform.gameObject, size, handler));
-        }
-        else
-        {
-            GetScreenshot(size, handler);
-        }
+            var cameras = FindObjectsOfType<Camera>();
+            handler.SendResponse(JsonConvert.SerializeObject(cameras));
+        });
     }
-    private void HighLightSelectedObject(int id, Vector2 size, AltClientSocketHandler handler)
+    private void HightObjectFromCoordinates(Vector2 screenCoordinates, string ColorAndWidth, Vector2 size, AltClientSocketHandler handler)
     {
-        var gameObject = GetGameObject(id);
-        if (gameObject != null)
+        _responseQueue.ScheduleResponse(delegate
         {
-            StartCoroutine(HighLightSelectedObjectCorutine(gameObject, size, handler));
-        }
-        else
-            GetScreenshot(size, handler);
+            var pieces = ColorAndWidth.Split(new[] { "!-!" }, StringSplitOptions.None);
+            var piecesColor = pieces[0].Split(new[] { "!!" }, StringSplitOptions.None);
+            float red = float.Parse(piecesColor[0]);
+            float green = float.Parse(piecesColor[1]);
+            float blue = float.Parse(piecesColor[2]);
+            float alpha = float.Parse(piecesColor[3]);
+
+            Color color = new Color(red, green, blue, alpha);
+            float width = float.Parse(pieces[1]);
+            
+            Ray ray = Camera.main.ScreenPointToRay(screenCoordinates);
+            RaycastHit[] hits;
+            var raycasters = FindObjectsOfType<GraphicRaycaster>();
+            PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+            pointerEventData.position = screenCoordinates;
+            foreach(var raycaster in raycasters)
+            {
+                List<RaycastResult> hitUI=new List<RaycastResult>();
+                raycaster.Raycast(pointerEventData, hitUI);
+                foreach(var hit in hitUI)
+                {
+                    StartCoroutine(HighLightSelectedObjectCorutine(hit.gameObject,color,width, size, handler));
+                    return;
+                }
+            }
+            hits = Physics.RaycastAll(ray);
+            if (hits.Length > 0)
+            {
+                StartCoroutine(HighLightSelectedObjectCorutine(hits[hits.Length-1].transform.gameObject, color, width, size, handler));
+            }
+            else
+            {
+                GetScreenshot(size, handler);
+            }
+        });
     }
-    IEnumerator HighLightSelectedObjectCorutine(GameObject gameObject, Vector2 size, AltClientSocketHandler handler)
+    private void HighLightSelectedObject(int id,string ColorAndWidth, Vector2 size, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            var pieces = ColorAndWidth.Split(new[] { "!-!" }, StringSplitOptions.None);
+            var piecesColor = pieces[0].Split(new[] { "!!" },StringSplitOptions.None);
+            float red = float.Parse(piecesColor[0]);
+            float green = float.Parse(piecesColor[1]);
+            float blue = float.Parse(piecesColor[2]);
+            float alpha = float.Parse(piecesColor[3]);
+
+            Color color = new Color(red, green, blue, alpha);
+            float width = float.Parse(pieces[1]);
+            var gameObject = GetGameObject(id);
+            if (gameObject != null)
+            {
+                StartCoroutine(HighLightSelectedObjectCorutine(gameObject, color, width, size, handler));
+            }
+            else
+                GetScreenshot(size, handler);
+        });
+    }
+    IEnumerator HighLightSelectedObjectCorutine(GameObject gameObject,Color color,float width, Vector2 size, AltClientSocketHandler handler)
     {
         Renderer renderer = gameObject.GetComponent<Renderer>();
         List<Shader> originalShaders = new List<Shader>();
@@ -2169,6 +2220,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             {
                 originalShaders.Add(material.shader);
                 material.shader = outlineShader;
+                material.SetColor("_OutlineColor", color);
+                material.SetFloat("_OutlineWidth", width);
             }
             yield return null;
             GetScreenshot(size, handler);
