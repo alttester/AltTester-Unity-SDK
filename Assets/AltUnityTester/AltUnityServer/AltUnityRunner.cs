@@ -224,14 +224,9 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             _position = getObjectScreePosition(altGameObject, camera);
         }
         int parentId = 0;
-        try
-        {
+        if(altGameObject.transform.parent!=null)
             parentId = altGameObject.transform.parent.GetInstanceID();
-        }
-        catch(Exception exception)
-        {
-            Debug.LogError(exception.Message);
-        }
+    
 
         AltUnityObject altObject = new AltUnityObject(name: altGameObject.name,
                                                       id: altGameObject.GetInstanceID(),
@@ -2242,6 +2237,10 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 GetScreenshot(size, handler);
                 yield return null;
                 Destroy(panelHighlight);
+            }
+            else
+            {
+                GetScreenshot(size, handler);
             }
         }
         
