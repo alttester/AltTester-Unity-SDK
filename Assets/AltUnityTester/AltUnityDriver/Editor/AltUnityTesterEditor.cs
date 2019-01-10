@@ -1280,17 +1280,29 @@ public class AltUnityTesterEditor : EditorWindow
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
 
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                Debug.Log("No Build Errors");
 
-        if (results.summary.totalErrors == 0)
+            }
+            else
+                Debug.LogError("Build Error!");
+
+#else
+      if (results.summary.totalErrors == 0)
         {
             Debug.Log("No Build Errors");
 
         }
         else
             Debug.LogError("Build Error!");
+        
+#endif
 
-        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-         }
+            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+
+        }
         catch (Exception e)
         {
             Debug.LogError(e);
@@ -1327,6 +1339,18 @@ public class AltUnityTesterEditor : EditorWindow
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
         built = true;
         RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.iOS);
+       
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                Debug.Log("No Build Errors");
+
+            }
+            else
+            Debug.LogError("Build Error!");
+            EditorApplication.Exit(1);
+
+#else
         if (results.summary.totalErrors == 0)
         {
             Debug.Log("No Build Errors");
@@ -1337,8 +1361,9 @@ public class AltUnityTesterEditor : EditorWindow
             Debug.LogError("Build Error!");
             EditorApplication.Exit(1);
         }
-
-        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+        
+#endif
+            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             // EditorApplication.Exit(0);
 
          }
@@ -1396,7 +1421,19 @@ public class AltUnityTesterEditor : EditorWindow
             buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
-            if (results.summary.totalErrors == 0)
+           
+
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                Debug.Log("No Build Errors");
+
+            }
+            else
+                Debug.LogError("Build Error!");
+
+#else
+      if (results.summary.totalErrors == 0)
             {
                 Debug.Log("No Build Errors");
 
@@ -1404,6 +1441,8 @@ public class AltUnityTesterEditor : EditorWindow
             else
                 Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result +
                                "\n Stripping info: " + results.strippingInfo);
+        
+#endif
 
             Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         }
@@ -1432,7 +1471,9 @@ public class AltUnityTesterEditor : EditorWindow
             PlayerSettings.bundleVersion = versionNumber;
             PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+#if UNITY_2018_1_OR_NEWER
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
+#endif
 
             Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -1446,7 +1487,18 @@ public class AltUnityTesterEditor : EditorWindow
         built = true;
         ResetBuildSetup(BuildTargetGroup.Android);
 
-        if (results.summary.totalErrors == 0)
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                Debug.Log("No Build Errors");
+
+            }
+            else
+                Debug.LogError("Build Error!");
+            EditorApplication.Exit(1);
+
+#else
+       if (results.summary.totalErrors == 0)
         {
             Debug.Log("No Build Errors");
 
@@ -1456,7 +1508,10 @@ public class AltUnityTesterEditor : EditorWindow
             Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
             EditorApplication.Exit(1);
         }
-        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+        
+#endif
+
+            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         EditorApplication.Exit(0);
         }
         catch (Exception exception)
