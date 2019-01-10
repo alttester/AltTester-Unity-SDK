@@ -51,8 +51,11 @@ public class GetAllComponentsCommand : UnityEvent<string, AltClientSocketHandler
 public class GetAllFieldsCommand : UnityEvent<string,AltUnityComponent, AltClientSocketHandler> { }
 public class GetAllMethodsCommand : UnityEvent<AltUnityComponent, AltClientSocketHandler> { }
 public class GetAllScenesCommand: UnityEvent<AltClientSocketHandler> { }
+public class GetAllCamerasCommand: UnityEvent<AltClientSocketHandler> { }
 
 public class GetScreenshotCommand: UnityEvent<Vector2,AltClientSocketHandler> { }
+public class HighlightObjectScreenshotCommand : UnityEvent<int,string, Vector2, AltClientSocketHandler> { }
+public class HighlightObjectFromCoordinatesScreenshotCommand : UnityEvent<Vector2,string, Vector2, AltClientSocketHandler> { }
 
 public class AltUnityEvents
 {
@@ -103,7 +106,10 @@ public class AltUnityEvents
     public GetAllFieldsCommand GetAllFields;
     public GetAllMethodsCommand GetAllMethods;
     public GetAllScenesCommand GetAllScenes;
+    public GetAllCamerasCommand GetAllCameras;
     public GetScreenshotCommand GetScreenshot;
+    public HighlightObjectScreenshotCommand HighlightObjectScreenshot;
+    public HighlightObjectFromCoordinatesScreenshotCommand HighlightObjectFromCoordinates;
 
     // We are a singleton!
     private static AltUnityEvents _instance;
@@ -161,7 +167,10 @@ public class AltUnityEvents
                 _instance.GetAllMethods=new GetAllMethodsCommand();
                 _instance.GetAllFields=new GetAllFieldsCommand();
                 _instance.GetAllScenes=new GetAllScenesCommand();
+                _instance.GetAllCameras = new GetAllCamerasCommand();
                 _instance.GetScreenshot=new GetScreenshotCommand();
+                _instance.HighlightObjectFromCoordinates = new HighlightObjectFromCoordinatesScreenshotCommand();
+                _instance.HighlightObjectScreenshot = new HighlightObjectScreenshotCommand();
 
 
             }
