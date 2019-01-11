@@ -28,6 +28,7 @@ public delegate void TestRunDelegate(string name);
 
 public class AltUnityTesterEditor : EditorWindow
 {
+   
 
     private Button _android;
     Object _obj;
@@ -76,6 +77,13 @@ public class AltUnityTesterEditor : EditorWindow
     private bool _foldOutIosSettings = true;
     private bool _checking = false;
 
+
+    //TestResult after running a test
+    private static bool isTestRunResultAvailable = false;
+    private static int reportTestPassed;
+    private static int reportTestFailed;
+    private static double timeTestRunned;
+
    
 
     private enum TestRunMode { RunAllTest, RunSelectedTest, RunFailedTest }
@@ -87,9 +95,11 @@ public class AltUnityTesterEditor : EditorWindow
         Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
 
         var filters = AddTestToBeRun(testMode);
+        if (_editorConfiguration.platform != Platform.Editor)
+        {
 #if UNITY_EDITOR_OSX
         RemoveForwardAndroid();
-        if (!_editorConfiguration.TestAndroid)
+        if (_editorConfiguration.platform==Platform.iOS)
         {
             thread = new Thread(ThreadForwardIos);
             thread.Start();
@@ -101,9 +111,10 @@ public class AltUnityTesterEditor : EditorWindow
         else
 #endif
 #if UNITY_EDITOR_WIN
-        RemoveForwardAndroid();
+            RemoveForwardAndroid();
 #endif
             ForwardAndroid();
+        }
 
         ITestListener listener = new TestRunListener(CallRunDelegate);
         var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
@@ -114,9 +125,10 @@ public class AltUnityTesterEditor : EditorWindow
         Thread runTestThread = new Thread(() =>
         {
             var result = testAssemblyRunner.Run(listener, filters);
-
+            if (_editorConfiguration.platform != Platform.Editor)
+            {
 #if UNITY_EDITOR_OSX
-            if (!_editorConfiguration.TestAndroid)
+            if (_editorConfiguration.platform==Platform.iOS)
             {
                 KillIProxy(idIproxyProcess);
                 thread.Join();
@@ -124,22 +136,32 @@ public class AltUnityTesterEditor : EditorWindow
             else
 #endif
                 RemoveForwardAndroid();
+            }
+
             SetTestStatus(result);
+            isTestRunResultAvailable = true;
+            selectedTest = -1;
         });
 
         runTestThread.Start();
-        float previousProgres = progress - 1;
-        while (runTestThread.IsAlive)
+        if (_editorConfiguration.platform != Platform.Editor)
         {
-            if (previousProgres == progress) continue;
-            EditorUtility.DisplayProgressBar(progress == total ? "This may take a few seconds" : _testName,
-                progress + "/" + total, progress / total);
-            previousProgres = progress;
+            float previousProgres = progress - 1;
+            while (runTestThread.IsAlive)
+            {
+                if (previousProgres == progress) continue;
+                EditorUtility.DisplayProgressBar(progress == total ? "This may take a few seconds" : _testName,
+                    progress + "/" + total, progress / total);
+                previousProgres = progress;
+            }
         }
 
         runTestThread.Join();
-        Repaint();
-        EditorUtility.ClearProgressBar();
+        if (_editorConfiguration.platform != Platform.Editor)
+        {
+            Repaint();
+            EditorUtility.ClearProgressBar();
+        }
     }
 
     private static void ShowProgresBar(string name)
@@ -151,6 +173,9 @@ public class AltUnityTesterEditor : EditorWindow
     private void SetTestStatus(List<ITestResult> results)
     {
         bool passed = true;
+        int numberOfTestPassed = 0;
+        int numberOfTestFailed = 0;
+        double totalTime = 0;
         foreach (var test in _editorConfiguration.MyTests)
         {
             int counter = 0;
@@ -224,14 +249,17 @@ public class AltUnityTesterEditor : EditorWindow
                                 test.Status = -1;
                                 test.TestResultMessage = enumerator2.Current.Message + " \n\n\n StackTrace:  " + enumerator2.Current.StackTrace;
                                 passed = false;
+                                numberOfTestFailed++;
 
                             }
                             else if (enumerator2.Current.PassCount > 0)
                             {
                                 test.Status = 1;
                                 test.TestResultMessage = "Passed in " + enumerator2.Current.Duration;
-
+                                numberOfTestPassed++;
                             }
+
+                            totalTime += (enumerator2.Current.EndTime - enumerator2.Current.StartTime).TotalSeconds;
                         }
                         enumerator2.Dispose();
                     }
@@ -265,6 +293,12 @@ public class AltUnityTesterEditor : EditorWindow
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         });
         EditorPrefs.SetString("tests", serializeTests);
+
+        reportTestPassed = numberOfTestPassed;
+        reportTestFailed = numberOfTestFailed;
+        isTestRunResultAvailable = true;
+        selectedTest = -1;
+        timeTestRunned = totalTime;
         if (passed)
         {
             Debug.Log("All test passed");
@@ -309,13 +343,17 @@ public class AltUnityTesterEditor : EditorWindow
             {
                 status = 1;
                 message = "Passed in " + test.Duration;
+                reportTestPassed++;
 
             }
             else if (test.FailCount == 1)
             {
                 status = -1;
                 message = test.Message;
+                reportTestFailed++;
             }
+
+            timeTestRunned += test.Duration;
             int index = _editorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName));
             _editorConfiguration.MyTests[index].Status = status;
             _editorConfiguration.MyTests[index].TestResultMessage = message;
@@ -334,6 +372,7 @@ public class AltUnityTesterEditor : EditorWindow
             else if (status == -1)
             {
                 failCount++;
+                
             }
             else
             {
@@ -440,7 +479,7 @@ public class AltUnityTesterEditor : EditorWindow
     }
 
 
-    private static void InitEditorConfiguration()
+    public static void InitEditorConfiguration()
     {
         if (AssetDatabase.FindAssets("idProject").Length == 0)
         {
@@ -466,7 +505,11 @@ public class AltUnityTesterEditor : EditorWindow
 
     private void OnGUI()
     {
-
+        if (isTestRunResultAvailable)
+            isTestRunResultAvailable = !EditorUtility.DisplayDialog("Test raport",
+                " Total test:" + (reportTestFailed + reportTestPassed) + Environment.NewLine + " Test passed:" +
+                reportTestPassed + Environment.NewLine + " Test failed:" + reportTestFailed + Environment.NewLine +
+                " Duration:" + timeTestRunned+" seconds", "Ok");
         if (Application.isPlaying && !runnedInEditor)
         {
             runnedInEditor = true;
@@ -495,31 +538,54 @@ public class AltUnityTesterEditor : EditorWindow
         EditorGUILayout.BeginHorizontal();
 
         EditorGUILayout.EndHorizontal();
-#if UNITY_EDITOR_OSX
+
         EditorGUILayout.LabelField("Platform", EditorStyles.boldLabel);
 
         EditorGUILayout.BeginHorizontal();
-
-        _editorConfiguration.TestAndroid = EditorGUILayout.Toggle(_editorConfiguration.TestAndroid, GUILayout.MaxWidth(15));
-        EditorGUILayout.LabelField("Android", _editorConfiguration.TestAndroid ? EditorStyles.boldLabel : EditorStyles.label);
-        _editorConfiguration.TestAndroid = !EditorGUILayout.Toggle(!_editorConfiguration.TestAndroid, GUILayout.MaxWidth(15));
-        EditorGUILayout.LabelField("iOS", !_editorConfiguration.TestAndroid ? EditorStyles.boldLabel : EditorStyles.label);
-
+        _editorConfiguration.platform =(Platform) GUILayout.SelectionGrid((int)_editorConfiguration.platform,Enum.GetNames(typeof(Platform)) , Enum.GetNames(typeof(Platform)).Length, EditorStyles.radioButton);
+   
         EditorGUILayout.EndHorizontal();
-#endif
+
         EditorGUILayout.LabelField("Test", EditorStyles.boldLabel);
 
         if (GUILayout.Button("RunAllTest"))
         {
-            RunTests(TestRunMode.RunAllTest);
+            if (_editorConfiguration.platform == Platform.Editor)
+            {
+                Thread testThread = new Thread(() => RunTests(TestRunMode.RunAllTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                RunTests(TestRunMode.RunAllTest);
+            }
         }
         if (GUILayout.Button("RunSelectedTest"))
         {
-            RunTests(TestRunMode.RunSelectedTest);
+            if (_editorConfiguration.platform == Platform.Editor)
+            {
+                Thread testThread = new Thread(() => RunTests(TestRunMode.RunSelectedTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                RunTests(TestRunMode.RunAllTest);
+            }
         }
         if (GUILayout.Button("RunFailedTest"))
         {
-            RunTests(TestRunMode.RunFailedTest);
+            if (_editorConfiguration.platform == Platform.Editor)
+            {
+                Thread testThread = new Thread(() => RunTests(TestRunMode.RunFailedTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                RunTests(TestRunMode.RunAllTest);
+            }
         }
 
         EditorGUILayout.Separator();
@@ -998,7 +1064,7 @@ public class AltUnityTesterEditor : EditorWindow
             if (tests.IndexOf(test) == selectedTest)
             {
                 GUIStyle gsAlterQuest = new GUIStyle();
-                gsAlterQuest.normal.background = MakeTex((int)containerListOfTest.width, 1, selectedTestColor);
+                gsAlterQuest.normal.background = MakeTex(20,20, selectedTestColor);
                 EditorGUILayout.BeginHorizontal(gsAlterQuest);
 
             }
@@ -1214,17 +1280,29 @@ public class AltUnityTesterEditor : EditorWindow
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
 
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                Debug.Log("No Build Errors");
 
-        if (results.summary.totalErrors == 0)
+            }
+            else
+                Debug.LogError("Build Error!");
+
+#else
+      if (results.summary.totalErrors == 0)
         {
             Debug.Log("No Build Errors");
 
         }
         else
             Debug.LogError("Build Error!");
+        
+#endif
 
-        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-         }
+            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+
+        }
         catch (Exception e)
         {
             Debug.LogError(e);
@@ -1261,6 +1339,18 @@ public class AltUnityTesterEditor : EditorWindow
         var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
         built = true;
         RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.iOS);
+       
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                Debug.Log("No Build Errors");
+
+            }
+            else
+            Debug.LogError("Build Error!");
+            EditorApplication.Exit(1);
+
+#else
         if (results.summary.totalErrors == 0)
         {
             Debug.Log("No Build Errors");
@@ -1271,8 +1361,9 @@ public class AltUnityTesterEditor : EditorWindow
             Debug.LogError("Build Error!");
             EditorApplication.Exit(1);
         }
-
-        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+        
+#endif
+            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             // EditorApplication.Exit(0);
 
          }
@@ -1288,7 +1379,7 @@ public class AltUnityTesterEditor : EditorWindow
 
 
 
-    private static void InitBuildSetup(BuildTargetGroup buildTargetGroup)
+    public static void InitBuildSetup(BuildTargetGroup buildTargetGroup)
     {
 
         if (_editorConfiguration.appendToName)
@@ -1330,7 +1421,19 @@ public class AltUnityTesterEditor : EditorWindow
             buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
-            if (results.summary.totalErrors == 0)
+           
+
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                Debug.Log("No Build Errors");
+
+            }
+            else
+                Debug.LogError("Build Error!");
+
+#else
+      if (results.summary.totalErrors == 0)
             {
                 Debug.Log("No Build Errors");
 
@@ -1338,6 +1441,8 @@ public class AltUnityTesterEditor : EditorWindow
             else
                 Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result +
                                "\n Stripping info: " + results.strippingInfo);
+        
+#endif
 
             Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         }
@@ -1366,7 +1471,9 @@ public class AltUnityTesterEditor : EditorWindow
             PlayerSettings.bundleVersion = versionNumber;
             PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+#if UNITY_2018_1_OR_NEWER
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
+#endif
 
             Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -1380,7 +1487,18 @@ public class AltUnityTesterEditor : EditorWindow
         built = true;
         ResetBuildSetup(BuildTargetGroup.Android);
 
-        if (results.summary.totalErrors == 0)
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                Debug.Log("No Build Errors");
+
+            }
+            else
+                Debug.LogError("Build Error!");
+            EditorApplication.Exit(1);
+
+#else
+       if (results.summary.totalErrors == 0)
         {
             Debug.Log("No Build Errors");
 
@@ -1390,7 +1508,10 @@ public class AltUnityTesterEditor : EditorWindow
             Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
             EditorApplication.Exit(1);
         }
-        Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+        
+#endif
+
+            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
         EditorApplication.Exit(0);
         }
         catch (Exception exception)
@@ -1421,6 +1542,20 @@ public class AltUnityTesterEditor : EditorWindow
 
 
         return sceneList.ToArray();
+    }
+
+    public static void InsertAltUnityInTheFirstScene(String mainScene)
+    {
+        Debug.Log("Adding AltUnityRunnerPrefab into the [" + mainScene + "] scene.");
+        var altUnityRunner =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
+        PreviousScenePath = SceneManager.GetActiveScene().path;
+        SceneWithAltUnityRunner = EditorSceneManager.OpenScene(mainScene);
+        AltUnityRunner = PrefabUtility.InstantiatePrefab(altUnityRunner);
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        EditorSceneManager.SaveOpenScenes();
+        Debug.Log("Scene successfully modified.");
     }
 
     private static void InsertAltUnityInTheFirstScene()

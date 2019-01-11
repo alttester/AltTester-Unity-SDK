@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class FindObjectByNameCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectWhereNameContainsCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectByComponentCommand : UnityEvent<string,string,string, AltClientSocketHandler> { }
+public class FindObjectByNameCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectWhereNameContainsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectByComponentCommand : UnityEvent<string, AltClientSocketHandler> { }
 
-public class FindObjectsByNameCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectsWhereNameContainsCommand : UnityEvent<string,string, AltClientSocketHandler> { }
-public class FindObjectsByComponentCommand : UnityEvent<string,string,string, AltClientSocketHandler> { }
+public class FindObjectsByNameCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsWhereNameContainsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsByComponentCommand : UnityEvent<string, AltClientSocketHandler> { }
 
 public class GetCurrentSceneCommand : UnityEvent<AltClientSocketHandler> { }
 public class GetAllObjectsCommand : UnityEvent<string, AltClientSocketHandler> { }
@@ -46,6 +46,16 @@ public class SetKeyPlayerPrefCommand : UnityEvent<string,string,PLayerPrefKeyTyp
 
 public class SwipeFinishedCommand: UnityEvent<AltClientSocketHandler> { }
 
+
+public class GetAllComponentsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class GetAllFieldsCommand : UnityEvent<string,AltUnityComponent, AltClientSocketHandler> { }
+public class GetAllMethodsCommand : UnityEvent<AltUnityComponent, AltClientSocketHandler> { }
+public class GetAllScenesCommand: UnityEvent<AltClientSocketHandler> { }
+public class GetAllCamerasCommand: UnityEvent<AltClientSocketHandler> { }
+
+public class GetScreenshotCommand: UnityEvent<Vector2,AltClientSocketHandler> { }
+public class HighlightObjectScreenshotCommand : UnityEvent<int,string, Vector2, AltClientSocketHandler> { }
+public class HighlightObjectFromCoordinatesScreenshotCommand : UnityEvent<Vector2,string, Vector2, AltClientSocketHandler> { }
 
 public class AltUnityEvents
 {
@@ -91,6 +101,15 @@ public class AltUnityEvents
     public GetKeyPlayerPrefCommand GetKeyPlayerPref;
 
     public SwipeFinishedCommand SwipeFinished;
+
+    public GetAllComponentsCommand GetAllComponents;
+    public GetAllFieldsCommand GetAllFields;
+    public GetAllMethodsCommand GetAllMethods;
+    public GetAllScenesCommand GetAllScenes;
+    public GetAllCamerasCommand GetAllCameras;
+    public GetScreenshotCommand GetScreenshot;
+    public HighlightObjectScreenshotCommand HighlightObjectScreenshot;
+    public HighlightObjectFromCoordinatesScreenshotCommand HighlightObjectFromCoordinates;
 
     // We are a singleton!
     private static AltUnityEvents _instance;
@@ -142,6 +161,17 @@ public class AltUnityEvents
                 _instance.DeleteKeyPlayerPref=new DeleteKeyPlayerPrefCommand();
                 _instance.DeletePlayerPref=new DeletePlayerPrefCommand();
                 _instance.SwipeFinished=new SwipeFinishedCommand();
+
+
+                _instance.GetAllComponents=new GetAllComponentsCommand();
+                _instance.GetAllMethods=new GetAllMethodsCommand();
+                _instance.GetAllFields=new GetAllFieldsCommand();
+                _instance.GetAllScenes=new GetAllScenesCommand();
+                _instance.GetAllCameras = new GetAllCamerasCommand();
+                _instance.GetScreenshot=new GetScreenshotCommand();
+                _instance.HighlightObjectFromCoordinates = new HighlightObjectFromCoordinatesScreenshotCommand();
+                _instance.HighlightObjectScreenshot = new HighlightObjectScreenshotCommand();
+
 
             }
             return _instance;

@@ -14,7 +14,6 @@ public class EditorConfiguration : ScriptableObject
         public int BuildNumber = 0;
         public List<MyTest> MyTests = new List<MyTest>();
         public List<MyScenes> Scenes = new List<MyScenes>();
-        public bool TestAndroid = true;
-       
-    }
+        public Platform platform = Platform.Editor;
 
+}

@@ -36,8 +36,14 @@ Links:
 
 The project contains a Java project called ``altunitytester`` that gives access to the alt_driver commands so that objects can be accessed from  Java code. 
 
-The code for this is available under ``AltUnityTester/Bindings/python`` in the repository. 
+The code for this is available under ``AltUnityTester/Bindings/java`` in the repository. 
 
+### Internal tests
+In order to run unit tests for the bindings implementation run
+`mvn clean test`
+
+For integration tests which actually use the game artifact please use 
+`mvn clean test -Pscene-tests`
 
 ### Installation
 
@@ -81,7 +87,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     * returns: all elements that are currently Active in the scene
     
     ```java
-      List<AltUnityObject objects = altUnityDriver.getAllElements();
+      List<AltUnityObject> objects = altUnityDriver.getAllElements();
     ```
 
   * `findElement`

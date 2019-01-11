@@ -2,14 +2,21 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using System.Reflection;
+using System.Security.AccessControl;
 using Newtonsoft.Json;
+using System.Collections;
+using UnityEngine.UI;
 
 public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 {
+    
+    
     private static AltUnityRunner _altUnityRunner;
     private Vector3 _position;
     private AltSocketServer _socketServer;
@@ -31,9 +38,15 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     private JsonSerializerSettings _jsonSettings;
 
 
-
+    enum FindOption
+    {
+        Name, ContainName, Component
+    }
     public int SocketPortNumber = 13000;
     public bool DebugBuildNeeded = true;
+
+    public Shader outlineShader;
+    public GameObject panelHightlightPrefab;
 
     private static AltResponseQueue _responseQueue;
 
@@ -95,6 +108,18 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         AltUnityEvents.Instance.DeleteKeyPlayerPref.AddListener(DeleteKeyPlayerPref);
         AltUnityEvents.Instance.DeletePlayerPref.AddListener(DeletePlayerPref);
 
+
+
+
+        AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
+        AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
+        AltUnityEvents.Instance.GetAllFields.AddListener(GetAllFields);
+        AltUnityEvents.Instance.GetAllScenes.AddListener(GetAllScenes);
+        AltUnityEvents.Instance.GetAllCameras.AddListener(GetAllCameras);
+
+        AltUnityEvents.Instance.GetScreenshot.AddListener(GetScreenshot);
+        AltUnityEvents.Instance.HighlightObjectScreenshot.AddListener(HighLightSelectedObject);
+        AltUnityEvents.Instance.HighlightObjectFromCoordinates.AddListener(HightObjectFromCoordinates);
 
 
         if (DebugBuildNeeded && !Debug.isDebugBuild)
@@ -201,7 +226,10 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         {
             _position = getObjectScreePosition(altGameObject, camera);
         }
-
+        int parentId = 0;
+        if(altGameObject.transform.parent!=null)
+            parentId = altGameObject.transform.parent.GetInstanceID();
+    
 
         AltUnityObject altObject = new AltUnityObject(name: altGameObject.name,
                                                       id: altGameObject.GetInstanceID(),
@@ -214,7 +242,9 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                                                       worldX: _position.x,
                                                       worldY: _position.y,
                                                       worldZ: _position.z,
-                                                      idCamera: camera.GetInstanceID());
+                                                      idCamera: camera.GetInstanceID(),
+                                                      transformId: altGameObject.transform.GetInstanceID(),
+                                                      parentId:parentId);
         return altObject;
     }
 
@@ -223,22 +253,28 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     {
         string[] separator = new string[] { ";" };
         string[] pieces = message.Split(separator, StringSplitOptions.None);
+        AltUnityComponent altComponent;
         AltUnityObject altUnityObject;
+        string methodParameters;
+        Vector2 size;
         PLayerPrefKeyType option;
         switch (pieces[0])
         {
             case "findAllObjects":
                 Debug.Log("all objects requested");
-                AltUnityEvents.Instance.GetAllObjects.Invoke(pieces[1], handler);
+                methodParameters = pieces[1] + ";" + pieces[2];
+                AltUnityEvents.Instance.GetAllObjects.Invoke(methodParameters, handler);
                 break;
             case "findObjectByName":
                 Debug.Log("find object by name " + pieces[1]);
                 Debug.Log(pieces.Length);
-                AltUnityEvents.Instance.FindObjectByName.Invoke(pieces[1], pieces.Length == 4 ? pieces[2] : "", handler);
+                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3];
+                AltUnityEvents.Instance.FindObjectByName.Invoke(methodParameters, handler);
                 break;
             case "findObjectWhereNameContains":
                 Debug.Log("find object where name contains:" + pieces[1]);
-                AltUnityEvents.Instance.FindObjectWhereNameContains.Invoke(pieces[1], pieces[2], handler);
+                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3];
+                AltUnityEvents.Instance.FindObjectWhereNameContains.Invoke(methodParameters, handler);
                 break;
             case "tapObject":
                 try
@@ -255,11 +291,13 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 break;
             case "findObjectsByName":
                 Debug.Log("find multiple objects by name " + pieces[1]);
-                AltUnityEvents.Instance.FindObjectsByName.Invoke(pieces[1], pieces[2], handler);
+                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3];
+                AltUnityEvents.Instance.FindObjectsByName.Invoke(methodParameters, handler);
                 break;
             case "findObjectsWhereNameContains":
                 Debug.Log("find objects where name contains:" + pieces[1]);
-                AltUnityEvents.Instance.FindObjectsWhereNameContains.Invoke(pieces[1], pieces[2], handler);
+                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3];
+                AltUnityEvents.Instance.FindObjectsWhereNameContains.Invoke(methodParameters, handler);
                 break;
             case "getCurrentScene":
                 Debug.Log("get current scene");
@@ -267,11 +305,13 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 break;
             case "findObjectByComponent":
                 Debug.Log("find object by component " + pieces[1]);
-                AltUnityEvents.Instance.FindObjectByComponent.Invoke(pieces[1], pieces[2],pieces[3], handler);
+                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3] + ";" + pieces[4];
+                AltUnityEvents.Instance.FindObjectByComponent.Invoke(methodParameters, handler);
                 break;
             case "findObjectsByComponent":
                 Debug.Log("find objects by component " + pieces[1]);
-                AltUnityEvents.Instance.FindObjectsByComponent.Invoke(pieces[1], pieces[2],pieces[3], handler);
+                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3] + ";" + pieces[4];
+                AltUnityEvents.Instance.FindObjectsByComponent.Invoke(methodParameters, handler);
                 break;
             case "getObjectComponentProperty":
                 Debug.Log("get property " + pieces[2] + " for object " + pieces[1]);
@@ -460,32 +500,71 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 Debug.Log("SwipeFinished");
                 AltUnityEvents.Instance.SwipeFinished.Invoke(handler);
                 break;
+            case "getAllComponents":
+                Debug.Log("GetAllComponents");
+                AltUnityEvents.Instance.GetAllComponents.Invoke(pieces[1],handler);
+                break;
+            case "getAllFields":
+                Debug.Log("getAllFields");
+                altComponent = JsonConvert.DeserializeObject<AltUnityComponent>(pieces[2]);
+                AltUnityEvents.Instance.GetAllFields.Invoke(pieces[1], altComponent, handler);
+                break;
+            case "getAllMethods":
+                Debug.Log("getAllMethods");
+                altComponent = JsonConvert.DeserializeObject<AltUnityComponent>(pieces[1]);
+                AltUnityEvents.Instance.GetAllMethods.Invoke(altComponent, handler);
+                break;
+            case "getAllScenes":
+                Debug.Log("getAllScenes");
+                AltUnityEvents.Instance.GetAllScenes.Invoke(handler);
+                break;
+            case "getAllCameras":
+                Debug.Log("getAllCameras");
+                AltUnityEvents.Instance.GetAllCameras.Invoke(handler);
+                break;
+            case "getScreenshot":
+                Debug.Log("getScreenshot"+pieces[1]);
+//                var size = new Vector2(Convert.ToInt32(pieces[1]),Convert.ToInt32(pieces[2]));
+                size = JsonConvert.DeserializeObject<Vector2>(pieces[1]);
+                AltUnityEvents.Instance.GetScreenshot.Invoke(size,handler);
+                break;
+            case "hightlightObjectScreenshot":
+                Debug.Log("HightlightObject");
+                var id = Convert.ToInt32(pieces[1]);
+                size = JsonConvert.DeserializeObject<Vector2>(pieces[3]);
+                AltUnityEvents.Instance.HighlightObjectScreenshot.Invoke(id,pieces[2],size, handler);
+                break;
+            case "hightlightObjectFromCoordinatesScreenshot":
+                Debug.Log("HightlightObject");
+                var coordinates= JsonConvert.DeserializeObject<Vector2>(pieces[1]);
+                size = JsonConvert.DeserializeObject<Vector2>(pieces[3]);
+                AltUnityEvents.Instance.HighlightObjectFromCoordinates.Invoke(coordinates,pieces[2],size, handler);
+                break;
+
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
                 break;
         }
     }
-
     public static GameObject[] GetDontDestroyOnLoadObjects()
+{
+    GameObject temp = null;
+    try
     {
-        GameObject temp = null;
-        try
-        {
-            temp = new GameObject();
-            DontDestroyOnLoad(temp);
-            Scene dontDestroyOnLoad = temp.scene;
-            DestroyImmediate(temp);
-            temp = null;
-
-            return dontDestroyOnLoad.GetRootGameObjects();
-        }
-        finally
-        {
-            if (temp != null)
-                DestroyImmediate(temp);
-        }
-
+        temp = new GameObject();
+        DontDestroyOnLoad( temp );
+        Scene dontDestroyOnLoad = temp.scene;
+        DestroyImmediate( temp );
+        temp = null;
+ 
+        return dontDestroyOnLoad.GetRootGameObjects();
     }
+    finally
+    {
+        if( temp != null )
+            DestroyImmediate( temp );
+    }
+}
     private GameObject FindObjectInScene(string objectName, bool enabled)
     {
         string[] pathList = objectName.Split('/');
@@ -675,7 +754,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                     return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
                 }
             default:
-                if (!(obj.name.Equals(pathList[pathListStep])||(pathList[pathListStep].Equals("") && pathList.Length==1)))
+                if (!(obj.name.Equals(pathList[pathListStep]) || (pathList[pathListStep].Equals("") && pathList.Length == 1)))
                     return null;
                 else
                 {
@@ -714,14 +793,20 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     }
 
 
-    private void FindObjectByName(string objectName, string cameraName, AltClientSocketHandler handler)
+
+
+    private void FindObjectByName(string stringSent, AltClientSocketHandler handler)
     {
+        var pieces = stringSent.Split(';');
+        string objectName = pieces[0];
+        string cameraName = pieces[1];
+        bool enabled = Convert.ToBoolean(pieces[2]);
         _responseQueue.ScheduleResponse(delegate
         {
             string response = errorNotFoundMessage;
             try
             {
-                GameObject foundGameObject = FindObjectInScene(objectName,true);
+                GameObject foundGameObject = FindObjectInScene(objectName, enabled);
                 if (foundGameObject != null)
                 {
                     if (cameraName.Equals(""))
@@ -751,8 +836,12 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         });
     }
 
-    private void FindObjectWhereNameContains(string objectName, string cameraName, AltClientSocketHandler handler)
+    private void FindObjectWhereNameContains(string methodParameters, AltClientSocketHandler handler)
     {
+        var pieces = methodParameters.Split(';');
+        string objectName = pieces[0];
+        string cameraName = pieces[1];
+        bool enabled = Convert.ToBoolean(pieces[2]);
         _responseQueue.ScheduleResponse(delegate
         {
             string response = errorNotFoundMessage;
@@ -775,16 +864,22 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
             handler.SendResponse(response);
         });
+
     }
 
-    private void FindObjectByComponent(string assemblyName,string componentTypeName, string cameraName, AltClientSocketHandler handler)
+    private void FindObjectByComponent(string methodParameters, AltClientSocketHandler handler)
     {
+        var pieces = methodParameters.Split(';');
+        string assemblyName = pieces[0];
+        string componentTypeName = pieces[1];
+        string cameraName = pieces[2];
+        bool enabled = Convert.ToBoolean(pieces[3]);
         _responseQueue.ScheduleResponse(delegate
         {
             string response = errorNotFoundMessage;
             try
             {
-                Type componentType = GetType(componentTypeName,assemblyName);
+                Type componentType = GetType(componentTypeName, assemblyName);
                 if (componentType != null)
                 {
                     foreach (GameObject testableObject in FindObjectsOfType<GameObject>())
@@ -814,10 +909,15 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
 
         });
+
     }
 
-    private void FindObjectsByName(string objectName, string cameraName, AltClientSocketHandler handler)
+    private void FindObjectsByName(string methodParameters, AltClientSocketHandler handler)
     {
+        var pieces = methodParameters.Split(';');
+        string objectName = pieces[0];
+        string cameraName = pieces[1];
+        bool enabled = Convert.ToBoolean(pieces[2]);
         _responseQueue.ScheduleResponse(delegate
         {
             string response = errorNotFoundMessage;
@@ -849,17 +949,23 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
             }
         });
+
     }
 
-    private void FindObjectsByComponent(string assemblyName, string componentTypeName, string cameraName, AltClientSocketHandler handler)
+    private void FindObjectsByComponent(string methodParameters, AltClientSocketHandler handler)
     {
+        var pieces = methodParameters.Split(';');
+        string assemblyName = pieces[0];
+        string componentTypeName = pieces[1];
+        string cameraName = pieces[2];
+        bool enabled = Convert.ToBoolean(pieces[3]);
         _responseQueue.ScheduleResponse(delegate
         {
             string response = errorNotFoundMessage;
             try
             {
                 List<AltUnityObject> foundObjects = new List<AltUnityObject>();
-                Type componentType = GetType(componentTypeName,assemblyName);
+                Type componentType = GetType(componentTypeName, assemblyName);
                 if (componentType != null)
                 {
                     foreach (GameObject testableObject in FindObjectsOfType<GameObject>())
@@ -889,10 +995,15 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
             }
         });
+
     }
 
-    private void FindObjectsWhereNameContains(string objectName, string cameraName, AltClientSocketHandler handler)
+    private void FindObjectsWhereNameContains(string methodParameters, AltClientSocketHandler handler)
     {
+        var pieces = methodParameters.Split(';');
+        string objectName = pieces[0];
+        string cameraName = pieces[1];
+        bool enabled = Convert.ToBoolean(pieces[2]);
         _responseQueue.ScheduleResponse(delegate
         {
             string response = errorNotFoundMessage;
@@ -923,11 +1034,13 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
 
         });
+
     }
 
-    private void GetAllObjects(string cameraName, AltClientSocketHandler handler)
+    private void GetAllObjects(string methodParameter, AltClientSocketHandler handler)
     {
-        FindObjectsByName("", cameraName, handler);
+        var parameters = ";" + methodParameter;
+        FindObjectsByName(parameters, handler);
     }
 
     private void GetCurrentScene(AltClientSocketHandler handler)
@@ -989,7 +1102,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerEnterHandler);
                 gameObject.SendMessage("OnMouseEnter", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerDownHandler);
-                gameObject.SendMessage("OnMouseDown",SendMessageOptions.DontRequireReceiver);
+                gameObject.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.initializePotentialDrag);
                 gameObject.SendMessage("OnMouseOver", SendMessageOptions.DontRequireReceiver);
                 ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerUpHandler);
@@ -1108,8 +1221,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             {
                 MethodInfo methodInfoToBeInvoked;
                 AltUnityObjectAction altAction = JsonConvert.DeserializeObject<AltUnityObjectAction>(actionString);
-                var componentType = GetType(altAction.Component,altAction.Assembly);
-               
+                var componentType = GetType(altAction.Component, altAction.Assembly);
+
                 MethodInfo[] methodInfos = GetMethodInfoWithSpecificName(componentType, altAction.Method);
                 if (methodInfos.Length == 1)
                     methodInfoToBeInvoked = methodInfos[0];
@@ -1117,18 +1230,22 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 {
                     methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altAction);
                 }
-               
 
 
-                if (string.IsNullOrEmpty(altObjectString) )
+
+                if (string.IsNullOrEmpty(altObjectString))
                 {
                     response = InvokeMethod(methodInfoToBeInvoked, altAction, null, response);
                 }
                 else
-                { 
+                {
                     AltUnityObject altObject = JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
                     GameObject gameObject = GetGameObject(altObject);
-
+                    if (componentType == typeof(GameObject))
+                    {
+                        response = InvokeMethod(methodInfoToBeInvoked, altAction, gameObject, response);
+                    }
+                    else
                     if (gameObject.GetComponent(componentType) != null)
                     {
                         Component component = gameObject.GetComponent(componentType);
@@ -1168,11 +1285,11 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         return methodInfos.Where(method => method.Name.Equals(altActionMethod)).ToArray();
     }
 
-    private MethodInfo GetMethodToBeInvoked(MethodInfo[] methodInfos,AltUnityObjectAction altUnityObjectAction)
+    private MethodInfo GetMethodToBeInvoked(MethodInfo[] methodInfos, AltUnityObjectAction altUnityObjectAction)
     {
         var parameter = altUnityObjectAction.Parameters.Split('?');
         var typeOfParametes = altUnityObjectAction.TypeOfParameters.Split('?');
-        methodInfos=methodInfos.Where(method => method.GetParameters().Length == parameter.Length).ToArray();
+        methodInfos = methodInfos.Where(method => method.GetParameters().Length == parameter.Length).ToArray();
         if (methodInfos.Length == 1)
             return methodInfos[0];
         foreach (var methodInfo in methodInfos)
@@ -1181,8 +1298,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             {
                 for (int counter = 0; counter < typeOfParametes.Length; counter++)
                 {
-                    Type type=Type.GetType(typeOfParametes[counter]);
-                    if(methodInfo.GetParameters()[counter].ParameterType != type)
+                    Type type = Type.GetType(typeOfParametes[counter]);
+                    if (methodInfo.GetParameters()[counter].ParameterType != type)
                         throw new Exception("Missmatch in parameter type");
                 }
                 //If every parameter can be deserialize then this is our method(except if there int but method can take also int)
@@ -1193,23 +1310,23 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             {
 
             }
-            
+
         }
 
         var errorMessage = "No method found with this signature: " + altUnityObjectAction.Method + "(";
         errorMessage = typeOfParametes.Aggregate(errorMessage, (current, typeOfParamete) => current + (typeOfParamete + ","));
 
-        errorMessage=errorMessage.Remove(errorMessage.Length - 1);
+        errorMessage = errorMessage.Remove(errorMessage.Length - 1);
         errorMessage += ")";
         throw new Exception(errorMessage);
     }
 
-    private static string InvokeMethod(MethodInfo methodInfo, AltUnityObjectAction altAction,Component component, string response)
+    private static string InvokeMethod(MethodInfo methodInfo, AltUnityObjectAction altAction, object component, string response)
     {
         if (methodInfo == null) return response;
         if (altAction.Parameters == "")
         {
-            response=JsonConvert.SerializeObject(methodInfo.Invoke(component, null));
+            response = JsonConvert.SerializeObject(methodInfo.Invoke(component, null));
         }
         else
         {
@@ -1231,7 +1348,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
             response = JsonConvert.SerializeObject(methodInfo.Invoke(component, parameters));
         }
-    return response;
+        return response;
     }
 
     private void CloseConnection(AltClientSocketHandler handler)
@@ -1253,13 +1370,13 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         _responseQueue.Cycle();
     }
 
-    public static Type GetType(string typeName,string assemblyName)
+    public static Type GetType(string typeName, string assemblyName)
     {
         var type = Type.GetType(typeName);
 
         if (type != null)
             return type;
-        if (assemblyName==null || assemblyName.Equals(""))
+        if (assemblyName == null || assemblyName.Equals(""))
         {
             if (typeName.Contains("."))
             {
@@ -1301,9 +1418,18 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
     private static GameObject GetGameObject(AltUnityObject altUnityObject)
     {
-        foreach (GameObject gameObject in FindObjectsOfType<GameObject>())
+        foreach (GameObject gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
         {
             if (gameObject.GetInstanceID() == altUnityObject.id)
+                return gameObject;
+        }
+        return null;
+    }
+    private static GameObject GetGameObject(int objectId)
+    {
+        foreach (GameObject gameObject in FindObjectsOfType<GameObject>())
+        {
+            if (gameObject.GetInstanceID() == objectId)
                 return gameObject;
         }
         return null;
@@ -1313,7 +1439,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     {
         MemberInfo memberInfo = null;
         Type componentType = null;
-        componentType = GetType(altUnityObjectProperty.Component,altUnityObjectProperty.Assembly);
+        componentType = GetType(altUnityObjectProperty.Component, altUnityObjectProperty.Assembly);
         PropertyInfo propertyInfo = componentType.GetProperty(altUnityObjectProperty.Property);
         FieldInfo fieldInfo = componentType.GetField(altUnityObjectProperty.Property);
         if (GetGameObject(altUnityObject).GetComponent(componentType) != null)
@@ -1330,7 +1456,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     private MethodInfo GetMethodForObjectComponent(AltUnityObject altUnityObject, AltUnityObjectAction altUnityObjectAction)
     {
         Type componentType = null;
-        componentType = GetType(altUnityObjectAction.Component,altUnityObjectAction.Assembly);
+        componentType = GetType(altUnityObjectAction.Component, altUnityObjectAction.Assembly);
         MethodInfo methodInfo = componentType.GetMethod(altUnityObjectAction.Method);
         return methodInfo;
     }
@@ -1343,13 +1469,13 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             if (memberInfo.MemberType == MemberTypes.Property)
             {
                 PropertyInfo propertyInfo = (PropertyInfo)memberInfo;
-                object value = propertyInfo.GetValue(testableObject.GetComponent(GetType(altProperty.Component,altProperty.Assembly)), null);
+                object value = propertyInfo.GetValue(testableObject.GetComponent(GetType(altProperty.Component, altProperty.Assembly)), null);
                 response = SerializeMemberValue(value, propertyInfo.PropertyType);
             }
             if (memberInfo.MemberType == MemberTypes.Field)
             {
                 FieldInfo fieldInfo = (FieldInfo)memberInfo;
-                object value = fieldInfo.GetValue(testableObject.GetComponent(GetType(altProperty.Component,altProperty.Assembly)));
+                object value = fieldInfo.GetValue(testableObject.GetComponent(GetType(altProperty.Component, altProperty.Assembly)));
                 response = SerializeMemberValue(value, fieldInfo.FieldType);
             }
         }
@@ -1934,4 +2060,255 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             }
         });
     }
+
+    private void GetAllComponents(string ObjectId, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            GameObject altObject = GetGameObject(Convert.ToInt32(ObjectId));
+            List<AltUnityComponent> listComponents=new List<AltUnityComponent>();
+            foreach (var component in altObject.GetComponents<Component>())
+            {
+                var a = component.GetType();
+                var componentName = a.FullName;
+                var assemblyName = a.Assembly.GetName().Name;
+                listComponents.Add(new AltUnityComponent(componentName,assemblyName));
+            }
+
+            var response = JsonConvert.SerializeObject(listComponents);
+            handler.SendResponse(response);
+        });
+    }
+    private void GetAllFields(string id,AltUnityComponent component, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            GameObject altObject;
+            altObject = id.Equals("null") ? null : GetGameObject(Convert.ToInt32(id));
+            Type type = GetType(component.componentName, component.assemblyName);
+            var altObjectComponent = altObject.GetComponent(type);
+            var fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            List<AltUnityField> listFields = new List<AltUnityField>();
+
+            foreach (var fieldInfo in fieldInfos)
+            {
+                try
+                {
+                    var value = fieldInfo.GetValue(altObjectComponent);
+                    listFields.Add(new AltUnityField(fieldInfo.Name,
+                        value == null ? "null" : value.ToString()));
+                }catch (Exception e)
+                {
+                   Debug.Log(e.StackTrace);
+                }
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(listFields));
+        });
+    }
+
+    private void GetAllMethods(AltUnityComponent component, AltClientSocketHandler handler)
+    {
+
+        _responseQueue.ScheduleResponse(delegate
+        {
+                Type type = GetType(component.componentName, component.assemblyName);
+                var methodInfos = type.GetMembers(BindingFlags.Public |BindingFlags.NonPublic| BindingFlags.Instance);
+
+                List<string> listMethods = new List<string>();
+
+                foreach (var methodInfo in methodInfos)
+                {
+                    listMethods.Add(methodInfo.ToString());
+                }
+                handler.SendResponse(JsonConvert.SerializeObject(listMethods));
+        });
+    }
+    private void GetAllScenes(AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            List<String> SceneNames=new List<string>();
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                var s = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+                SceneNames.Add(s);
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(SceneNames));
+        });
+
+    }
+    private void GetAllCameras(AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            var cameras = FindObjectsOfType<Camera>();
+            handler.SendResponse(JsonConvert.SerializeObject(cameras));
+        });
+    }
+    private void HightObjectFromCoordinates(Vector2 screenCoordinates, string ColorAndWidth, Vector2 size, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            var pieces = ColorAndWidth.Split(new[] { "!-!" }, StringSplitOptions.None);
+            var piecesColor = pieces[0].Split(new[] { "!!" }, StringSplitOptions.None);
+            float red = float.Parse(piecesColor[0]);
+            float green = float.Parse(piecesColor[1]);
+            float blue = float.Parse(piecesColor[2]);
+            float alpha = float.Parse(piecesColor[3]);
+
+            Color color = new Color(red, green, blue, alpha);
+            float width = float.Parse(pieces[1]);
+            
+            Ray ray = Camera.main.ScreenPointToRay(screenCoordinates);
+            RaycastHit[] hits;
+            var raycasters = FindObjectsOfType<GraphicRaycaster>();
+            PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+            pointerEventData.position = screenCoordinates;
+            foreach(var raycaster in raycasters)
+            {
+                List<RaycastResult> hitUI=new List<RaycastResult>();
+                raycaster.Raycast(pointerEventData, hitUI);
+                foreach(var hit in hitUI)
+                {
+                    StartCoroutine(HighLightSelectedObjectCorutine(hit.gameObject,color,width, size, handler));
+                    return;
+                }
+            }
+            hits = Physics.RaycastAll(ray);
+            if (hits.Length > 0)
+            {
+                StartCoroutine(HighLightSelectedObjectCorutine(hits[hits.Length-1].transform.gameObject, color, width, size, handler));
+            }
+            else
+            {
+                GetScreenshot(size, handler);
+            }
+        });
+    }
+    private void HighLightSelectedObject(int id,string ColorAndWidth, Vector2 size, AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            var pieces = ColorAndWidth.Split(new[] { "!-!" }, StringSplitOptions.None);
+            var piecesColor = pieces[0].Split(new[] { "!!" },StringSplitOptions.None);
+            float red = float.Parse(piecesColor[0]);
+            float green = float.Parse(piecesColor[1]);
+            float blue = float.Parse(piecesColor[2]);
+            float alpha = float.Parse(piecesColor[3]);
+
+            Color color = new Color(red, green, blue, alpha);
+            float width = float.Parse(pieces[1]);
+            var gameObject = GetGameObject(id);
+            if (gameObject != null)
+            {
+                StartCoroutine(HighLightSelectedObjectCorutine(gameObject, color, width, size, handler));
+            }
+            else
+                GetScreenshot(size, handler);
+        });
+    }
+    IEnumerator HighLightSelectedObjectCorutine(GameObject gameObject,Color color,float width, Vector2 size, AltClientSocketHandler handler)
+    {
+        Renderer renderer = gameObject.GetComponent<Renderer>();
+        List<Shader> originalShaders = new List<Shader>();
+        if (renderer != null)
+        {
+            foreach (var material in renderer.materials)
+            {
+                originalShaders.Add(material.shader);
+                material.shader = outlineShader;
+                material.SetColor("_OutlineColor", color);
+                material.SetFloat("_OutlineWidth", width);
+            }
+            yield return null;
+            GetScreenshot(size, handler);
+            yield return null;
+            for(var i=0;i<renderer.materials.Length;i++)
+            {
+                renderer.materials[i].shader = originalShaders[0];
+            }
+        }
+        else
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                var panelHighlight = Instantiate(panelHightlightPrefab, rectTransform);
+                panelHighlight.GetComponent<Image>().color = color;
+                yield return null;
+                GetScreenshot(size, handler);
+                yield return null;
+                Destroy(panelHighlight);
+            }
+            else
+            {
+                GetScreenshot(size, handler);
+            }
+        }
+        
+    }
+    private void GetScreenshot(Vector2 size,AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            int width = (int) size.x;
+            int height = (int) size.y;
+            var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+            var heightDifference = screenshot.height - height;
+            var widthDifference = screenshot.width - width;
+            if (heightDifference >= 0 || widthDifference >= 0)
+            {
+                if (heightDifference > widthDifference)
+                {
+                    width = height * screenshot.width / screenshot.height;
+                }
+                else
+                {
+                    height = width * screenshot.height / screenshot.width;
+                }
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(new Vector2(screenshot.width, screenshot.height)));
+
+
+            TextureScale.Bilinear(screenshot, width, height);
+            screenshot.Apply(true);
+            screenshot.Compress(false);
+            screenshot.Apply(false);
+
+
+            var screenshotSerialized = screenshot.GetRawTextureData();
+            using (var msi = new MemoryStream(screenshotSerialized))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(mso, CompressionMode.Compress))
+                {
+                    CopyTo(msi, gs);
+                }
+
+                screenshotSerialized = mso.ToArray();
+            }
+            var length=screenshotSerialized.LongLength;
+            handler.SendResponse(length.ToString());
+            var newSize=new Vector3(screenshot.width,screenshot.height);
+            handler.SendResponse(JsonConvert.SerializeObject(newSize));
+            handler.SendResponse(screenshotSerialized);
+            Destroy(screenshot);
+        });
+
+    }
+    public static void CopyTo(Stream src, Stream dest)
+    {
+        byte[] bytes = new byte[4096];
+
+        int cnt;
+
+        while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+        {
+            dest.Write(bytes, 0, cnt);
+        }
+    }
 }
+
+
+

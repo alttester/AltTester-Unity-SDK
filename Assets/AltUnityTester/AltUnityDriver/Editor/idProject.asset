@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Name: idProject
   m_EditorClassIdentifier: 
   appendToName: 0
-  OutputPathName: sample
+  OutputPathName: sampleGame
   AdbPath: /usr/local/bin/adb
   IProxyPath: /usr/local/bin/iproxy
-  AutomaticallySign: 1
-  SigningTeamId: 59ESG8ELF5
+  AutomaticallySign: 0
+  SigningTeamId: 
   BuildNumber: 0
   MyTests:
   - _selected: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 48
+    _testCaseCount: 53
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 42
+    _testCaseCount: 47
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
@@ -212,7 +212,39 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllComponents
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllElements
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllFields
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllMethods
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetAllScenes
     _status: 0
     _isSuite: 0
     _parentName: TestForScene1TestSample
@@ -253,6 +285,14 @@ MonoBehaviour:
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetNonExistingComponentProperty
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestInactiveObject
     _status: 0
     _isSuite: 0
     _parentName: TestForScene1TestSample
@@ -448,4 +488,4 @@ MonoBehaviour:
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       3 Drag And Drop.unity
     _buildIndex: 2
-  TestAndroid: 1
+  platform: 1
