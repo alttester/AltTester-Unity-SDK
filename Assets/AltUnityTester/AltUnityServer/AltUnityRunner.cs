@@ -172,13 +172,17 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     /// </summary>
     /// <param name="gameObject"> The object wich position is returned</param>
     /// <returns>Screen coordinates for the object</returns>
-    private Vector3 getObjectScreePosition(GameObject gameObject, Camera camera)
+   private Vector3 getObjectScreePosition(GameObject gameObject, Camera camera)
     {
         Canvas canvasParent = gameObject.GetComponentInParent<Canvas>();
         if (canvasParent != null)
         {
             if (canvasParent.renderMode != RenderMode.ScreenSpaceOverlay)
             {
+                if (gameObject.GetComponent<RectTransform>() == null)
+                {
+                    return canvasParent.worldCamera.WorldToScreenPoint(gameObject.transform.position);
+                }
                 Vector3[] vector3S = new Vector3[4];
                 gameObject.GetComponent<RectTransform>().GetWorldCorners(vector3S);
                 var center = new Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
@@ -198,7 +202,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
         return camera.WorldToScreenPoint(gameObject.transform.position);
     }
-
 
     /// <summary>
     /// Tranforms an GameObejct to AltUnityObject

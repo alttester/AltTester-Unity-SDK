@@ -6,7 +6,7 @@ Using this socket connection and the actions available in the AltUnity driver, w
 
 Links:
 
-* [Setup AltUnityTester and configure your app for testing](https://git.altom.ro/altrun/altunity-tester/)
+* [Setup AltUnityTester and configure your app for testing](https://gitlab.com/altom/altunitytester/blob/master/README.md#setup)
 * [Downloads](#downloads-altunitytester-package)
 * [Java Docs - AltUnityRunner - Getting started](#python-altunityrunner-module)
     * [Installation](#installation)
@@ -25,7 +25,7 @@ Links:
 ## Downloads - AltUnityTester Package
 
 * From repository: 
-   * https://git.altom.ro/altrun/altunity-tester/blob/master/AltUnityTester.unitypackage
+   * https://gitlab.com/altom/altunitytester/blob/master/AltUnityTester.unitypackage
   
   
 * From Unity Asset Store - import inside your project directly:
