@@ -75,8 +75,6 @@ public class AltUnityTesterEditor : EditorWindow
     private bool _foldOutScenes = true;
     private bool _foldOutBuildSettings = true;
     private bool _foldOutIosSettings = true;
-    private bool _checking = false;
-
 
     //TestResult after running a test
     private static bool isTestRunResultAvailable = false;
@@ -179,7 +177,7 @@ public class AltUnityTesterEditor : EditorWindow
         foreach (var test in _editorConfiguration.MyTests)
         {
             int counter = 0;
-            int testPassed = 0;
+            // int testPassed = 0;
             int testPassedCounter = 0;
             int testFailedCounter = 0;
             foreach (var result in results)
@@ -1049,7 +1047,7 @@ public class AltUnityTesterEditor : EditorWindow
     private void DisplayTestGui(List<MyTest> tests)
     {
         EditorGUILayout.LabelField("Test", EditorStyles.boldLabel);
-        var containerListOfTest=EditorGUILayout.BeginVertical(GUI.skin.textArea);
+        EditorGUILayout.BeginVertical(GUI.skin.textArea);
 
         int foldOutCounter = 0;
 
@@ -1703,6 +1701,15 @@ public class AltUnityTesterEditor : EditorWindow
     public static bool CreateAltUnityTestValid()
     {
         return (GetPath() + "/").Contains("/Editor/");
+    }
+
+    [MenuItem("Window/CreateAltUnityTesterPackage")]
+    public static void CreateAltUnityTesterPackage() {
+        Debug.Log("AltUnityTester - Unity Package creation started...");
+        string packageName="AltUnityTester.unitypackage";
+        string assetPathNames = "Assets/AltUnityTester";
+        AssetDatabase.ExportPackage(assetPathNames, packageName, ExportPackageOptions.Recurse);
+        Debug.Log("AltUnityTester - Unity Package done.");
     }
 
     private static string GetPath()
