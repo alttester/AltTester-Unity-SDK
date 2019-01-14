@@ -80,12 +80,13 @@ create-unity-package:
       - unity
     script:
       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
-      - mv AltUnityTester.unitypackage AltUnityTester-${CI_COMMIT_REF_NAME}-${CI_COMMIT_REF_SLUG}.unitypackage
+      - mkdir -p public || true
+      - mv AltUnityTester.unitypackage public/AltUnityTester-${CI_COMMIT_REF_NAME}.unitypackage
       - ls
     artifacts:
       when: always
       paths:
-        - AltUnityTester-${CI_COMMIT_REF_NAME}-${CI_COMMIT_REF_SLUG}.unitypackage
+        - public
 
 
 build-ipa:
@@ -184,5 +185,5 @@ pages:
       - echo Pages deploy done
     artifacts:
         paths:
-            - AltUnityTester-${CI_COMMIT_REF_NAME}-${CI_COMMIT_REF_SLUG}.unitypackage
+            - public
         expire_in: 30 days
