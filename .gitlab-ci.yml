@@ -80,9 +80,11 @@ create-unity-package:
       - unity
     script:
       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
-      - mkdir -p public/packages || true
-      - mv AltUnityTester.unitypackage public/packages/AltUnityTester-${CI_COMMIT_REF_NAME}.unitypackage
-      - ls public/packages
+      - mkdir -p public/${CI_COMMIT_REF_NAME} || true
+      - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
+      - cd public/${CI_COMMIT_REF_NAME}/
+      - echo '<a href="file://AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
+      - ls
     artifacts:
       when: always
       paths:
