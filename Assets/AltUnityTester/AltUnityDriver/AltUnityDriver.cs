@@ -527,10 +527,7 @@ public class AltUnityDriver
 
                 newImage = mso.ToArray();
             }
-            Texture2D texture2D = new Texture2D((int)textSizeVector3.x,(int)textSizeVector3.y, TextureFormat.DXT5, false);
-            texture2D.LoadRawTextureData(newImage);
-            texture2D.Apply(false);
-            return new TextureInformation(texture2D,JsonConvert.DeserializeObject<Vector2>(scaleDifference));
+            return new TextureInformation(newImage,JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3);
         }
         catch (Exception e)
         {
@@ -621,13 +618,15 @@ public class AltUnityDriver
 
     public struct TextureInformation
     {
-        public Texture2D texture2D;
-        public Vector2 originalSize;
+        public byte[] imageData;
+        public Vector2 scaleDifference;
+        public Vector3 textureSize;
 
-        public TextureInformation(Texture2D texture2D, Vector2 originalSize)
+        public TextureInformation(byte[] imageData, Vector2 scaleDifference, Vector3 textureSize)
         {
-            this.texture2D = texture2D;
-            this.originalSize = originalSize;
+            this.imageData = imageData;
+            this.scaleDifference = scaleDifference;
+            this.textureSize = textureSize;            
         }
     }
 
