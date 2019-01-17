@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System.Text;
 using Newtonsoft.Json;
@@ -23,7 +24,7 @@ public class AltUnityObject
     public int transformId;
     [JsonIgnore]
     public static AltUnityDriver altUnityDriver;
-    public AltUnityObject(string name, int id = 0, int x = 0, int y = 0, int z = 0, int mobileY = 0, string type = "", bool enabled = true, float worldX = 0, float worldY = 0, float worldZ = 0, int idCamera = 0, int parentId = 0,int transformId=0)
+    public AltUnityObject(string name, int id = 0, int x = 0, int y = 0, int z = 0, int mobileY = 0, string type = "", bool enabled = true, float worldX = 0, float worldY = 0, float worldZ = 0, int idCamera = 0, int parentId = 0, int transformId = 0)
     {
         this.name = name;
         this.id = id;
@@ -240,6 +241,7 @@ public class AltUnityObject
         AltUnityDriver.HandleErrors(data);
         return null;
     }
+
     public List<AltUnityComponent> GetAllComponents()
     {
         altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("getAllComponents;" + id + ";&"));
@@ -249,12 +251,12 @@ public class AltUnityObject
         return null;
     }
 
-    public List<AltUnityField> GetAllFields(AltUnityComponent altUnityComponent)
+    public List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent)
     {
         var altComponent = JsonConvert.SerializeObject(altUnityComponent);
         altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("getAllFields;" + id + ";" + altComponent + ";&"));
         string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityField>>(data);
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityProperty>>(data);
         AltUnityDriver.HandleErrors(data);
         return null;
     }
