@@ -38,6 +38,10 @@ Other Bindings:
 
 * From repository: 
 	* https://gitlab.com/altom/altunitytester/blob/master/AltUnityTester.unitypackage
+
+* From pages (deployed using CI): 
+	* https://altom.gitlab.io/altunitytester/master/AltUnityTester.unitypackage
+  * https://altom.gitlab.io/altunitytester/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage - for any other branch (replace ${CI_COMMIT_REF_NAME} with branch name)
 	  
 * From Unity Asset Store - import inside your project directly:
 	* links soon
