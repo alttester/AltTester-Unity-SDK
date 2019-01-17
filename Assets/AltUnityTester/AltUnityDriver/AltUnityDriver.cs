@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 
 public enum PLayerPrefKeyType { Int = 1, String, Float }
@@ -19,7 +21,7 @@ public class AltUnityDriver
     private static String tcp_ip = "127.0.0.1";
     private static int tcp_port = 13000;
     private static int BUFFER_SIZE = 1024;
-    public AltUnityDriver()
+    public AltUnityDriver(string tcp_ip="127.0.0.1",int tcp_port=13000)
     {
 
         Socket = new TcpClient();
@@ -66,8 +68,6 @@ public class AltUnityDriver
 
         return data;
     }
-  
-
 
     private byte[] toBytes(String text)
     {
@@ -89,10 +89,10 @@ public class AltUnityDriver
     }
 
     public string CallStaticMethods(String typeName, String methodName,
-        String parameters, String typeOfParameters = "",String assemblyName="")
+        String parameters, String typeOfParameters = "", String assemblyName = "")
     {
         String actionInfo =
-            JsonConvert.SerializeObject(new AltUnityObjectAction(typeName, methodName, parameters,typeOfParameters,assemblyName));
+            JsonConvert.SerializeObject(new AltUnityObjectAction(typeName, methodName, parameters, typeOfParameters, assemblyName));
         Socket.Client.Send(toBytes("callComponentMethodForObject;" + "" + "; " + actionInfo + "; &"));
         var data = Recvall();
         if (!data.Contains("error:")) return data;
@@ -248,7 +248,7 @@ public class AltUnityDriver
 
     }
 
-    public AltUnityObject FindElementWhereNameContains(String name, String cameraName = "",bool enabled=true)
+    public AltUnityObject FindElementWhereNameContains(String name, String cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes("findObjectWhereNameContains;" + name + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
@@ -265,9 +265,9 @@ public class AltUnityDriver
 
     }
 
-    public List<AltUnityObject> GetAllElements(String cameraName = "",bool enabled=true)
+    public List<AltUnityObject> GetAllElements(String cameraName = "", bool enabled = true)
     {
-        Socket.Client.Send(toBytes("findAllObjects;"  + cameraName + ";" + enabled + "&"));
+        Socket.Client.Send(toBytes("findAllObjects;" + cameraName + ";" + enabled + "&"));
         String data = Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
         HandleErrors(data);
@@ -275,9 +275,9 @@ public class AltUnityDriver
 
     }
 
-    public AltUnityObject FindElement(String name, String cameraName = "",bool enabled=true)
+    public AltUnityObject FindElement(String name, String cameraName = "", bool enabled = true)
     {
-        Socket.Client.Send(toBytes("findObjectByName;" + name + ";" + cameraName +";"+enabled+";&"));
+        Socket.Client.Send(toBytes("findObjectByName;" + name + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
@@ -288,7 +288,7 @@ public class AltUnityDriver
         return null;
     }
 
-    public List<AltUnityObject> FindElements(String name, String cameraName = "",bool enabled=true)
+    public List<AltUnityObject> FindElements(String name, String cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes("findObjectsByName;" + name + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
@@ -297,7 +297,7 @@ public class AltUnityDriver
         return null;
     }
 
-    public List<AltUnityObject> FindElementsWhereNameContains(String name, String cameraName = "",bool enabled=true)
+    public List<AltUnityObject> FindElementsWhereNameContains(String name, String cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes("findObjectsWhereNameContains;" + name + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
@@ -313,18 +313,18 @@ public class AltUnityDriver
         double time = 0;
         String currentScene = "";
         while (time < timeout)
-        { 
-           currentScene = GetCurrentScene();
-           if(!currentScene.Equals(sceneName))
-           {
+        {
+            currentScene = GetCurrentScene();
+            if (!currentScene.Equals(sceneName))
+            {
                 Debug.Log("Waiting for scene to be " + sceneName + "...");
                 Thread.Sleep(Convert.ToInt32(interval * 1000));
                 time += interval;
-           }
-           else
-           {
-               break;
-           }
+            }
+            else
+            {
+                break;
+            }
         }
 
         if (sceneName.Equals(currentScene))
@@ -341,7 +341,7 @@ public class AltUnityDriver
         {
             try
             {
-                altElement = FindElementWhereNameContains(name,cameraName);
+                altElement = FindElementWhereNameContains(name, cameraName);
                 break;
             }
             catch (Exception)
@@ -362,19 +362,19 @@ public class AltUnityDriver
     public void WaitForElementToNotBePresent(String name, String cameraName = "", double timeout = 20, double interval = 0.5)
     {
         double time = 0;
-        AltUnityObject altElement =null;
+        AltUnityObject altElement = null;
         while (time <= timeout)
         {
 
             try
             {
-                altElement = FindElement(name,cameraName);
+                altElement = FindElement(name, cameraName);
                 Thread.Sleep(Convert.ToInt32(interval * 1000));
                 time += interval;
                 Debug.Log("Waiting for element " + name + " to not be present");
             }
-            catch(Exception)
-            { 
+            catch (Exception)
+            {
                 break;
             }
 
@@ -394,7 +394,7 @@ public class AltUnityDriver
         {
             try
             {
-                altElement = FindElement(name,cameraName);
+                altElement = FindElement(name, cameraName);
                 break;
             }
             catch (Exception)
@@ -403,7 +403,7 @@ public class AltUnityDriver
                 time += interval;
                 Debug.Log("Waiting for element " + name + "...");
             }
-   
+
         }
 
         if (altElement != null)
@@ -430,16 +430,16 @@ public class AltUnityDriver
         {
             try
             {
-                altElement = FindElement(name,cameraName);
-                if(altElement.GetText().Equals(text))
-                break;
+                altElement = FindElement(name, cameraName);
+                if (altElement.GetText().Equals(text))
+                    break;
                 throw new Exception("Not the wanted text");
             }
             catch (Exception)
             {
-                    Thread.Sleep(Convert.ToInt32(interval * 1000));
-                    time += interval;
-                    Debug.Log("Waiting for element " + name + " to have text " + text);
+                Thread.Sleep(Convert.ToInt32(interval * 1000));
+                time += interval;
+                Debug.Log("Waiting for element " + name + " to have text " + text);
             }
         }
         if (altElement != null && altElement.GetText().Equals(text))
@@ -449,9 +449,9 @@ public class AltUnityDriver
         throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
 
-    public AltUnityObject FindElementByComponent(String componentName,String assemblyName="", String cameraName = "",bool enabled=true)
+    public AltUnityObject FindElementByComponent(String componentName, String assemblyName = "", String cameraName = "", bool enabled = true)
     {
-        Socket.Client.Send(toBytes("findObjectByComponent;" + assemblyName + ";" + componentName + ";" + cameraName +";"+enabled+";&"));
+        Socket.Client.Send(toBytes("findObjectByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
         if (!data.Contains("error:"))
         {
@@ -465,7 +465,7 @@ public class AltUnityDriver
     /// </summary>
     /// <param name="componentName">Name of the component by wich is going to search</param>
     /// <returns>List of AltUnityObjects that have component</returns>
-    public List<AltUnityObject> FindElementsByComponent(String componentName, String assemblyName = "", String cameraName = "",bool enabled=true)
+    public List<AltUnityObject> FindElementsByComponent(String componentName, String assemblyName = "", String cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes("findObjectsByComponent;" + assemblyName + ";" + componentName + ";" + cameraName + ";" + enabled + ";&"));
         String data = Recvall();
@@ -482,6 +482,14 @@ public class AltUnityDriver
         HandleErrors(data);
         return null;
     }
+    public List<String> GetAllCameras()
+    {
+        Socket.Client.Send(toBytes("getAllCameras;&"));
+        String data = Recvall();
+        if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<String>>(data);
+        HandleErrors(data);
+        return null;
+    }
     public TextureInformation RecImage()
     {
         var scaleDifference = Recvall();
@@ -489,10 +497,10 @@ public class AltUnityDriver
         var LongLength = JsonConvert.DeserializeObject<long>(length);
         var textSizeString = Recvall();
         var textSizeVector3 = JsonConvert.DeserializeObject<Vector3>(textSizeString);
-        IEnumerable<Byte> data = new List<byte>();
+        IEnumerable<Byte> data=new List<byte>();
         while (true)
         {
-
+            
             var bytesReceived = new byte[BUFFER_SIZE];
             Socket.Client.Receive(bytesReceived);
             String part = fromBytes(bytesReceived);
@@ -505,9 +513,9 @@ public class AltUnityDriver
         {
             byte[] start = Encoding.ASCII.GetBytes("altstart::");
             byte[] end = Encoding.ASCII.GetBytes("::altend");
-
+            
             Byte[] image = data.ToArray();
-            var newImage = SubArray(image, start.Length, LongLength);
+            var newImage=SubArray(image, start.Length, LongLength);
             using (var msi = new MemoryStream(newImage))
             using (var mso = new MemoryStream())
             {
@@ -519,25 +527,42 @@ public class AltUnityDriver
 
                 newImage = mso.ToArray();
             }
-            Texture2D texture2D = new Texture2D((int)textSizeVector3.x, (int)textSizeVector3.y, TextureFormat.DXT5, false);
+            Texture2D texture2D = new Texture2D((int)textSizeVector3.x,(int)textSizeVector3.y, TextureFormat.DXT5, false);
             texture2D.LoadRawTextureData(newImage);
             texture2D.Apply(false);
-            return new TextureInformation(texture2D, JsonConvert.DeserializeObject<Vector2>(scaleDifference));
+            return new TextureInformation(texture2D,JsonConvert.DeserializeObject<Vector2>(scaleDifference));
         }
         catch (Exception e)
         {
             Debug.Log(e.Message);
             Debug.Log(e.StackTrace);
+            Debug.Log("Data received from socket doesn't have correct start and end control strings");
         }
 
-        return new TextureInformation();
+       return new TextureInformation();
     }
 
-    public TextureInformation GetScreenshot(Vector2 size = default(Vector2))
+    public TextureInformation GetScreenshot(Vector2 size=default(Vector2))
     {
         var sizeSerialized = JsonConvert.SerializeObject(size);
-        Socket.Client.Send(toBytes("getScreenshot;" + sizeSerialized + ";&"));
+        Socket.Client.Send(toBytes("getScreenshot;"+sizeSerialized+";&"));
         return RecImage();
+    }
+    public TextureInformation GetScreenshot(int id,Color color,float width,Vector2 size = default(Vector2))
+    {
+        var sizeSerialized = JsonConvert.SerializeObject(size);
+        var colorAndWidth = color.r + "!!" + color.g + "!!" + color.b + "!!" + color.a + "!-!" + width;
+        Socket.Client.Send(toBytes("hightlightObjectScreenshot;"+id+";"+ colorAndWidth+";" + sizeSerialized + ";&"));
+        return RecImage();
+    }
+    public TextureInformation GetScreenshot(Vector2 coordinates, Color color, float width, Vector2 size = default(Vector2))
+    {
+        var coordinatesSerialized = JsonConvert.SerializeObject(coordinates);
+        var sizeSerialized = JsonConvert.SerializeObject(size);
+        var colorAndWidth = color.r+"!!" + color.g + "!!" + color.b + "!!" + color.a + "!-!" + width;
+        Socket.Client.Send(toBytes("hightlightObjectFromCoordinatesScreenshot;"+coordinatesSerialized + ";" + colorAndWidth +";"+ sizeSerialized + ";&"));
+        return RecImage();
+        
     }
 
     public static void HandleErrors(string data)
@@ -576,7 +601,7 @@ public class AltUnityDriver
 
 
     }
-    public static T[] SubArray<T>(T[] data, int index, long length)
+    public static T[] SubArray<T>( T[] data, int index, long length)
     {
         T[] result = new T[length];
         Array.Copy(data, index, result, 0, length);
@@ -606,6 +631,7 @@ public class AltUnityDriver
         }
     }
 
+    
 }
 
 
