@@ -587,8 +587,8 @@ public class TestForScene1TestSample
         var componentList = altElement.GetAllComponents();
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("Capsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
-        List<AltUnityField> properties = altElement.GetAllFields(component);
-        AltUnityField field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
+        List<AltUnityProperty> properties = altElement.GetAllProperties(component);
+        AltUnityProperty field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
         Assert.NotNull(field);
         Assert.AreEqual(field.value,"intialValue");
     }
