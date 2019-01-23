@@ -493,8 +493,11 @@ public class AltUnityDriver
     public TextureInformation RecImage()
     {
         var scaleDifference = Recvall();
+        
         var length = Recvall();
         var LongLength = JsonConvert.DeserializeObject<long>(length);
+        var textureFormatString = Recvall();
+        var textureFormat = (TextureFormat)Enum.Parse(typeof(TextureFormat), textureFormatString);
         var textSizeString = Recvall();
         var textSizeVector3 = JsonConvert.DeserializeObject<Vector3>(textSizeString);
         IEnumerable<Byte> data=new List<byte>();
@@ -503,8 +506,9 @@ public class AltUnityDriver
             
             var bytesReceived = new byte[BUFFER_SIZE];
             Socket.Client.Receive(bytesReceived);
-            String part = fromBytes(bytesReceived);
             data = data.Concat(bytesReceived);
+            String part = fromBytes(bytesReceived);
+
             if (part.Contains("::altend"))
                 break;
         }
@@ -516,18 +520,18 @@ public class AltUnityDriver
             
             Byte[] image = data.ToArray();
             var newImage=SubArray(image, start.Length, LongLength);
-            using (var msi = new MemoryStream(newImage))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(msi, CompressionMode.Decompress))
-                {
-                    //gs.CopyTo(mso);
-                    CopyTo(gs, mso);
-                }
+            // using (var msi = new MemoryStream(newImage))
+            // using (var mso = new MemoryStream())
+            // {
+            //     using (var gs = new GZipStream(msi, CompressionMode.Decompress))
+            //     {
+            //         //gs.CopyTo(mso);
+            //         CopyTo(gs, mso);
+            //     }
 
-                newImage = mso.ToArray();
-            }
-            return new TextureInformation(newImage,JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3);
+            //     newImage = mso.ToArray();
+            // }
+            return new TextureInformation(newImage,JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3,textureFormat);
         }
         catch (Exception e)
         {
@@ -621,12 +625,14 @@ public class AltUnityDriver
         public byte[] imageData;
         public Vector2 scaleDifference;
         public Vector3 textureSize;
+        public TextureFormat textureFormat;
 
-        public TextureInformation(byte[] imageData, Vector2 scaleDifference, Vector3 textureSize)
+        public TextureInformation(byte[] imageData, Vector2 scaleDifference, Vector3 textureSize, TextureFormat textureFormat)
         {
             this.imageData = imageData;
             this.scaleDifference = scaleDifference;
-            this.textureSize = textureSize;            
+            this.textureSize = textureSize;
+            this.textureFormat = textureFormat;
         }
     }
 

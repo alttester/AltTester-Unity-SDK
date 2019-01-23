@@ -2278,18 +2278,20 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
 
             var screenshotSerialized = screenshot.GetRawTextureData();
-            using (var msi = new MemoryStream(screenshotSerialized))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                {
-                    CopyTo(msi, gs);
-                }
+            //  using (var msi = new MemoryStream(screenshotSerialized))
+            //  using (var mso = new MemoryStream())
+            //  {
+            //      using (var gs = new GZipStream(mso, CompressionMode.Compress))
+            //      {
+            //          CopyTo(msi, gs);
+            //      }
 
-                screenshotSerialized = mso.ToArray();
-            }
-            var length=screenshotSerialized.LongLength;
+            //      screenshotSerialized = mso.ToArray();
+            //  }
+            var length =screenshotSerialized.LongLength;
             handler.SendResponse(length.ToString());
+            var format = screenshot.format;
+            handler.SendResponse(format.ToString());
             var newSize=new Vector3(screenshot.width,screenshot.height);
             handler.SendResponse(JsonConvert.SerializeObject(newSize));
             handler.SendResponse(screenshotSerialized);
