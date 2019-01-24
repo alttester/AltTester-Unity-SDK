@@ -924,7 +924,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             try
             {
                 List<AltUnityObject> foundObjects = new List<AltUnityObject>();
-                foreach (GameObject testableObject in FindObjectsInScene(objectName, true))
+                foreach (GameObject testableObject in FindObjectsInScene(objectName, enabled))
                 {
                     if (cameraName == null)
                         foundObjects.Add(GameObjectToAltUnityObject(testableObject));
