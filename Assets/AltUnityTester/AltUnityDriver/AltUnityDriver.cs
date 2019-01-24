@@ -45,14 +45,17 @@ public class AltUnityDriver
     {
 
         String data = "";
+        String previousPart = "";
         while (true)
         {
             var bytesReceived = new byte[BUFFER_SIZE];
             Socket.Client.Receive(bytesReceived);
             String part = fromBytes(bytesReceived);
+            String partToSeeAltEnd = previousPart + part;
             data += part;
-            if (part.Contains("::altend"))
+            if (partToSeeAltEnd.Contains("::altend"))
                 break;
+            previousPart = part;
         }
 
         try
@@ -500,7 +503,11 @@ public class AltUnityDriver
         var textureFormat = (TextureFormat)Enum.Parse(typeof(TextureFormat), textureFormatString);
         var textSizeString = Recvall();
         var textSizeVector3 = JsonConvert.DeserializeObject<Vector3>(textSizeString);
+
+
         IEnumerable<Byte> data=new List<byte>();
+        String previousPart = "";
+
         while (true)
         {
             
@@ -508,9 +515,11 @@ public class AltUnityDriver
             Socket.Client.Receive(bytesReceived);
             data = data.Concat(bytesReceived);
             String part = fromBytes(bytesReceived);
+            String partToSeeAltEnd = previousPart + part;
 
-            if (part.Contains("::altend"))
+            if (partToSeeAltEnd.Contains("::altend"))
                 break;
+            previousPart = part;
         }
 
         try

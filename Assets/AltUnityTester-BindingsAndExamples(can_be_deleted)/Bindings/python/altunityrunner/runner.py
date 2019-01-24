@@ -183,11 +183,14 @@ class AltrunUnityDriver(object):
 
     def recvall(self):
         data = ''
+        previousPart=''
         while True:
             part = self.socket.recv(BUFFER_SIZE)
             data += str(part)
-            if '::altend' in str(part):
+            partToSeeAltEnd=previousPart+str(part)
+            if '::altend' in partToSeeAltEnd:
                 break
+            previousPart=str(part)
         try:
             data = data.split('altstart::')[1].split('::altend')[0]
         except:
