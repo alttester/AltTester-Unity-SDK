@@ -569,7 +569,7 @@ public class AltUnityTesterEditor : EditorWindow
             else
             {
 
-                RunTests(TestRunMode.RunAllTest);
+                RunTests(TestRunMode.RunSelectedTest);
             }
         }
         if (GUILayout.Button("RunFailedTest"))
@@ -582,7 +582,7 @@ public class AltUnityTesterEditor : EditorWindow
             else
             {
 
-                RunTests(TestRunMode.RunAllTest);
+                RunTests(TestRunMode.RunFailedTest);
             }
         }
 
