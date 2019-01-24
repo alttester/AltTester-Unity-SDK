@@ -78,11 +78,12 @@ public class TestForScene1TestSample
         Assert.True(altElements[0].name.Contains( name));
     }
     [Test]
-    public void TestGetAllElements()
+    public void TestGetAllEnabledElements()
     {
        
-        var altElements = altUnityDriver.GetAllElements();
+        var altElements = altUnityDriver.GetAllElements(enabled:true);
         Assert.IsNotEmpty(altElements);
+        Assert.AreEqual(18, altElements.Count);
         Assert.IsNotNull(altElements.Where(p=> p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -93,6 +94,24 @@ public class TestForScene1TestSample
         Assert.IsNotNull(altElements.Where(p => p.name == "CapsuleInfo"));
         Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Text"));
+    }
+    [Test]
+    public void TestGetAllElements()
+    {
+        var altElements = altUnityDriver.GetAllElements(enabled: false);
+        Assert.IsNotEmpty(altElements);
+        Assert.AreEqual(19, altElements.Count);
+        Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "Plane"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "AltUnityRunner"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "CapsuleInfo"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "Cube"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "Camera"));
     }
 
     [Test]
