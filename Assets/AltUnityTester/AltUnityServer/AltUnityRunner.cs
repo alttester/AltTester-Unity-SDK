@@ -1353,6 +1353,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
     private void CloseConnection(AltClientSocketHandler handler)
     {
+        Debug.Log("Close connection event handler!");
         _socketServer.StartListeningForConnections();
 
     }
@@ -2141,9 +2142,14 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     private void GetAllCameras(AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
-        {
+        {   
             var cameras = FindObjectsOfType<Camera>();
-            handler.SendResponse(JsonConvert.SerializeObject(cameras));
+            List<string> cameraNames = new List<string>();
+            foreach (Camera camera in cameras)
+            {
+                cameraNames.Add(camera.name);
+            }
+            handler.SendResponse(JsonConvert.SerializeObject(cameraNames));
         });
     }
     private void HightObjectFromCoordinates(Vector2 screenCoordinates, string ColorAndWidth, Vector2 size, AltClientSocketHandler handler)
