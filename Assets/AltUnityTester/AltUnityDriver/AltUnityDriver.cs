@@ -493,7 +493,7 @@ public class AltUnityDriver
         HandleErrors(data);
         return null;
     }
-    public TextureInformation RecImage()
+    public TextureInformation ReceiveImage()
     {
         var scaleDifference = Recvall();
         
@@ -556,14 +556,14 @@ public class AltUnityDriver
     {
         var sizeSerialized = JsonConvert.SerializeObject(size);
         Socket.Client.Send(toBytes("getScreenshot;"+sizeSerialized+";&"));
-        return RecImage();
+        return ReceiveImage();
     }
     public TextureInformation GetScreenshot(int id,Color color,float width,Vector2 size = default(Vector2))
     {
         var sizeSerialized = JsonConvert.SerializeObject(size);
         var colorAndWidth = color.r + "!!" + color.g + "!!" + color.b + "!!" + color.a + "!-!" + width;
         Socket.Client.Send(toBytes("hightlightObjectScreenshot;"+id+";"+ colorAndWidth+";" + sizeSerialized + ";&"));
-        return RecImage();
+        return ReceiveImage();
     }
     public TextureInformation GetScreenshot(Vector2 coordinates, Color color, float width, Vector2 size = default(Vector2))
     {
@@ -571,7 +571,7 @@ public class AltUnityDriver
         var sizeSerialized = JsonConvert.SerializeObject(size);
         var colorAndWidth = color.r+"!!" + color.g + "!!" + color.b + "!!" + color.a + "!-!" + width;
         Socket.Client.Send(toBytes("hightlightObjectFromCoordinatesScreenshot;"+coordinatesSerialized + ";" + colorAndWidth +";"+ sizeSerialized + ";&"));
-        return RecImage();
+        return ReceiveImage();
         
     }
 
