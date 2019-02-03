@@ -485,6 +485,7 @@ public class AltUnityDriver
         HandleErrors(data);
         return null;
     }
+    
     public List<String> GetAllCameras()
     {
         Socket.Client.Send(toBytes("getAllCameras;&"));
@@ -493,63 +494,22 @@ public class AltUnityDriver
         HandleErrors(data);
         return null;
     }
-    public TextureInformation ReceiveImage()
-    {
-        var scaleDifference = Recvall();
-        
-        var length = Recvall();
+
+    public TextureInformation ReceiveImage() {
+
+        var data = Recvall();
+        string[] screenshotInfo = JsonConvert.DeserializeObject<string[]>(data);
+
+        var scaleDifference = screenshotInfo[0];
+
+        var length = screenshotInfo[1];
         var LongLength = JsonConvert.DeserializeObject<long>(length);
-        var textureFormatString = Recvall();
+        var textureFormatString = screenshotInfo[2];
         var textureFormat = (TextureFormat)Enum.Parse(typeof(TextureFormat), textureFormatString);
-        var textSizeString = Recvall();
+        var textSizeString = screenshotInfo[3];
         var textSizeVector3 = JsonConvert.DeserializeObject<Vector3>(textSizeString);
-
-
-        IEnumerable<Byte> data=new List<byte>();
-        String previousPart = "";
-
-        while (true)
-        {
-            
-            var bytesReceived = new byte[BUFFER_SIZE];
-            Socket.Client.Receive(bytesReceived);
-            data = data.Concat(bytesReceived);
-            String part = fromBytes(bytesReceived);
-            String partToSeeAltEnd = previousPart + part;
-
-            if (partToSeeAltEnd.Contains("::altend"))
-                break;
-            previousPart = part;
-        }
-
-        try
-        {
-            byte[] start = Encoding.ASCII.GetBytes("altstart::");
-            byte[] end = Encoding.ASCII.GetBytes("::altend");
-            
-            Byte[] image = data.ToArray();
-            var newImage=SubArray(image, start.Length, LongLength);
-            // using (var msi = new MemoryStream(newImage))
-            // using (var mso = new MemoryStream())
-            // {
-            //     using (var gs = new GZipStream(msi, CompressionMode.Decompress))
-            //     {
-            //         //gs.CopyTo(mso);
-            //         CopyTo(gs, mso);
-            //     }
-
-            //     newImage = mso.ToArray();
-            // }
-            return new TextureInformation(newImage,JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3,textureFormat);
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.Message);
-            Debug.Log(e.StackTrace);
-            Debug.Log("Data received from socket doesn't have correct start and end control strings");
-        }
-
-       return new TextureInformation();
+        Byte[] image = JsonConvert.DeserializeObject<Byte[]>(screenshotInfo[4]);
+        return new TextureInformation(image, JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3, textureFormat);
     }
 
     public TextureInformation GetScreenshot(Vector2 size=default(Vector2))

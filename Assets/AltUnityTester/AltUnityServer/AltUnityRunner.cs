@@ -2152,6 +2152,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             handler.SendResponse(JsonConvert.SerializeObject(cameraNames));
         });
     }
+
     private void HightObjectFromCoordinates(Vector2 screenCoordinates, string ColorAndWidth, Vector2 size, AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
@@ -2206,6 +2207,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             Color color = new Color(red, green, blue, alpha);
             float width = float.Parse(pieces[1]);
             var gameObject = GetGameObject(id);
+            
             if (gameObject != null)
             {
                 StartCoroutine(HighLightSelectedObjectCorutine(gameObject, color, width, size, handler));
@@ -2274,9 +2276,10 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                     height = width * screenshot.height / screenshot.width;
                 }
             }
-            handler.SendResponse(JsonConvert.SerializeObject(new Vector2(screenshot.width, screenshot.height)));
+            string[] fullResponse = new string[5];
 
-
+            fullResponse[0]=JsonConvert.SerializeObject(new Vector2(screenshot.width, screenshot.height));
+            
             TextureScale.Bilinear(screenshot, width, height);
             screenshot.Apply(true);
             screenshot.Compress(false);
@@ -2284,27 +2287,21 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
 
             var screenshotSerialized = screenshot.GetRawTextureData();
-            //  using (var msi = new MemoryStream(screenshotSerialized))
-            //  using (var mso = new MemoryStream())
-            //  {
-            //      using (var gs = new GZipStream(mso, CompressionMode.Compress))
-            //      {
-            //          CopyTo(msi, gs);
-            //      }
-
-            //      screenshotSerialized = mso.ToArray();
-            //  }
             var length =screenshotSerialized.LongLength;
-            handler.SendResponse(length.ToString());
+            fullResponse[1] = length.ToString();
+
             var format = screenshot.format;
-            handler.SendResponse(format.ToString());
+            fullResponse[2] = format.ToString();
+
             var newSize=new Vector3(screenshot.width,screenshot.height);
-            handler.SendResponse(JsonConvert.SerializeObject(newSize));
-            handler.SendResponse(screenshotSerialized);
+            fullResponse[3] = JsonConvert.SerializeObject(newSize);
+            fullResponse[4] = JsonConvert.SerializeObject(screenshotSerialized);
+            handler.SendResponse(JsonConvert.SerializeObject(fullResponse));
             Destroy(screenshot);
         });
 
     }
+    
     public static void CopyTo(Stream src, Stream dest)
     {
         byte[] bytes = new byte[4096];
