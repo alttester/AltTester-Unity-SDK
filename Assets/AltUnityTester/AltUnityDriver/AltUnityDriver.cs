@@ -508,8 +508,10 @@ public class AltUnityDriver
         var textureFormat = (TextureFormat)Enum.Parse(typeof(TextureFormat), textureFormatString);
         var textSizeString = screenshotInfo[3];
         var textSizeVector3 = JsonConvert.DeserializeObject<Vector3>(textSizeString);
-        Byte[] image = JsonConvert.DeserializeObject<Byte[]>(screenshotInfo[4]);
-        return new TextureInformation(image, JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3, textureFormat);
+        Byte[] imageCompressed = JsonConvert.DeserializeObject<Byte[]>(screenshotInfo[4]);
+
+        Byte[] imageDecompressed=DeCompressScreenshot(imageCompressed);
+        return new TextureInformation(imageDecompressed, JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3, textureFormat);
     }
 
     public TextureInformation GetScreenshot(Vector2 size=default(Vector2))
@@ -570,6 +572,21 @@ public class AltUnityDriver
         }
 
 
+    }
+
+     public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
+    {
+
+        using (var memoryStreamInput = new MemoryStream(screenshotCompressed))
+            using (var memoryStreamOutput = new MemoryStream())
+            {
+                using (var gs = new GZipStream(memoryStreamInput, CompressionMode.Decompress))
+                {
+                    CopyTo(gs, memoryStreamOutput);
+                }
+
+                return memoryStreamOutput.ToArray();
+            }
     }
     public static T[] SubArray<T>( T[] data, int index, long length)
     {

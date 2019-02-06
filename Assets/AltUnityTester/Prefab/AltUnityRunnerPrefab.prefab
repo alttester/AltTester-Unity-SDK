@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SocketPortNumber: 13000
   DebugBuildNeeded: 1
-  outlineShader: {fileID: 4800000, guid: a7489df882420424cbf345e6f4a9b0f6, type: 3}
+  outlineShader: {fileID: 4800000, guid: 37d07aac6f4b1dc48924e98e1e398261, type: 3}
   panelHightlightPrefab: {fileID: 1422609480502334, guid: c2c3ede7bbf3b184c9c6d7cc4cf5cad3,
     type: 2}
 --- !u!114 &114839706220227318

@@ -3,15 +3,14 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using System.Reflection;
-using System.Security.AccessControl;
 using Newtonsoft.Json;
 using System.Collections;
 using UnityEngine.UI;
+using Unity.IO.Compression;
 
 public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
 
@@ -1842,7 +1841,11 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
 
 
             var screenshotSerialized = screenshot.GetRawTextureData();
-            var length = screenshotSerialized.LongLength;
+            Debug.Log(screenshotSerialized.LongLength+" size after Unity Compression");
+            Debug.Log(DateTime.Now+" Start Compression");
+            var screenshotCompressed=CompressScreenshot(screenshotSerialized);
+            Debug.Log(DateTime.Now+" Finished Compression");
+            var length = screenshotCompressed.LongLength;
             fullResponse[1] = length.ToString();
 
             var format = screenshot.format;
@@ -1852,14 +1855,18 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
             fullResponse[3] = JsonConvert.SerializeObject(newSize, new JsonSerializerSettings {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
-            fullResponse[4] = JsonConvert.SerializeObject(screenshotSerialized);
+            Debug.Log(DateTime.Now+" Serialize screenshot");
+            fullResponse[4] = JsonConvert.SerializeObject(screenshotCompressed);
+            Debug.Log(DateTime.Now+" Finished Serialize Screenshot Start serialize response");
             handler.SendResponse(JsonConvert.SerializeObject(fullResponse));
+            Debug.Log(DateTime.Now+" Finished send Response");
             Destroy(screenshot);
         });
 
     }
 
-    public static void CopyTo(Stream src, Stream dest) {
+    public static void CopyTo(Stream src, Stream dest)
+    {
         byte[] bytes = new byte[4096];
 
         int cnt;
@@ -1867,6 +1874,21 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
         while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0) {
             dest.Write(bytes, 0, cnt);
         }
+    }
+    public static byte[] CompressScreenshot(byte[] screenshotSerialized)
+    {
+
+        using (var memoryStreamInput = new MemoryStream(screenshotSerialized))
+        using (var memoryStreamOutout = new MemoryStream())
+        {
+            using (var gZipStream = new GZipStream(memoryStreamOutout, CompressionMode.Compress))
+            {
+                CopyTo(memoryStreamInput, gZipStream);
+            }
+
+            return memoryStreamOutout.ToArray();
+        }
+       
     }
 }
 
