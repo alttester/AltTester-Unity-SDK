@@ -57,7 +57,6 @@ public class AltUnityTesterEditor : EditorWindow
     public static string SceneWithAltUnityRunnerPath;
     public static Object AltUnityRunner;
     public static bool built = false;
-    public static bool runnedInEditor = false;
     public static Scene copyScene;
 
     private static Thread thread;
@@ -508,12 +507,12 @@ public class AltUnityTesterEditor : EditorWindow
                 " Total test:" + (reportTestFailed + reportTestPassed) + Environment.NewLine + " Test passed:" +
                 reportTestPassed + Environment.NewLine + " Test failed:" + reportTestFailed + Environment.NewLine +
                 " Duration:" + timeTestRunned+" seconds", "Ok");
-        if (Application.isPlaying && !runnedInEditor)
+        if (Application.isPlaying && !_editorConfiguration.runnedInEditor)
         {
-            runnedInEditor = true;
+            _editorConfiguration.runnedInEditor = true;
         }
 
-        if (!Application.isPlaying && runnedInEditor)
+        if (!Application.isPlaying && _editorConfiguration.runnedInEditor)
         {
             AfterExitPlayMode();
 
@@ -684,18 +683,19 @@ public class AltUnityTesterEditor : EditorWindow
     private void AfterExitPlayMode()
     {
         var activeScene = EditorSceneManager.GetActiveScene();
-        var altUnityRunner = activeScene.GetRootGameObjects()
-            .FirstOrDefault(gameObject => gameObject.name.Equals("AltUnityRunnerPrefab"));
-        if (altUnityRunner != null)
+        var altUnityRunners = activeScene.GetRootGameObjects()
+            .Where(gameObject => gameObject.name.Equals("AltUnityRunnerPrefab"));
+        foreach(var altUnityRunner in altUnityRunners)
         {
             DestroyImmediate(altUnityRunner);
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-            EditorSceneManager.SaveOpenScenes();
+            
         }
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveOpenScenes();
 
         RemoveAltUnityTesterFromScriptingDefineSymbols(EditorUserBuildSettings.selectedBuildTargetGroup);
 
-        runnedInEditor = false;
+        _editorConfiguration.runnedInEditor = false;
     }
 
     private static void RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup targetGroup)
