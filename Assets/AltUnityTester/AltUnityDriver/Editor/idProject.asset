@@ -496,5 +496,5 @@ MonoBehaviour:
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       3 Drag And Drop.unity
     _buildIndex: 2
-  platform: 2
-  runnedInEditor: 0
+  platform: 1
+  runInEditor: 0

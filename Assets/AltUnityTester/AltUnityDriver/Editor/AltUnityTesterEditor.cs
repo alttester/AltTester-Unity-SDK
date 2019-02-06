@@ -507,12 +507,12 @@ public class AltUnityTesterEditor : EditorWindow
                 " Total test:" + (reportTestFailed + reportTestPassed) + Environment.NewLine + " Test passed:" +
                 reportTestPassed + Environment.NewLine + " Test failed:" + reportTestFailed + Environment.NewLine +
                 " Duration:" + timeTestRunned+" seconds", "Ok");
-        if (Application.isPlaying && !_editorConfiguration.runnedInEditor)
+        if (Application.isPlaying && !_editorConfiguration.runInEditor)
         {
-            _editorConfiguration.runnedInEditor = true;
+            _editorConfiguration.runInEditor = true;
         }
 
-        if (!Application.isPlaying && _editorConfiguration.runnedInEditor)
+        if (!Application.isPlaying && _editorConfiguration.runInEditor)
         {
             AfterExitPlayMode();
 
@@ -695,7 +695,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         RemoveAltUnityTesterFromScriptingDefineSymbols(EditorUserBuildSettings.selectedBuildTargetGroup);
 
-        _editorConfiguration.runnedInEditor = false;
+        _editorConfiguration.runInEditor = false;
     }
 
     private static void RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup targetGroup)
