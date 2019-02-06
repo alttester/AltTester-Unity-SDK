@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: idProject
   m_EditorClassIdentifier: 
   appendToName: 0
-  OutputPathName: TestCompression
+  OutputPathName: sampleGame
   AdbPath: /usr/local/bin/adb
   IProxyPath: /usr/local/bin/iproxy
   AutomaticallySign: 0
