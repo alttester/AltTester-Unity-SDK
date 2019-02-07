@@ -136,9 +136,9 @@ public class AltUnityTesterEditor : EditorWindow
         }
 
         if (isTestRunResultAvailable)
-            isTestRunResultAvailable = !EditorUtility.DisplayDialog("Test raport",
-                " Total test:" + (reportTestFailed + reportTestPassed) + Environment.NewLine + " Test passed:" +
-                reportTestPassed + Environment.NewLine + " Test failed:" + reportTestFailed + Environment.NewLine +
+            isTestRunResultAvailable = !EditorUtility.DisplayDialog("Test Report",
+                " Total tests:" + (reportTestFailed + reportTestPassed) + Environment.NewLine + " Tests passed:" +
+                reportTestPassed + Environment.NewLine + " Tests failed:" + reportTestFailed + Environment.NewLine +
                 " Duration:" + timeTestRan+" seconds", "Ok");
         if (Application.isPlaying && !EditorConfiguration.runInEditor)
         {
@@ -178,7 +178,7 @@ public class AltUnityTesterEditor : EditorWindow
 
         EditorGUILayout.LabelField("Test", EditorStyles.boldLabel);
 
-        if (GUILayout.Button("RunAllTest"))
+        if (GUILayout.Button("Run All Tests"))
         {
             if (EditorConfiguration.platform == Platform.Editor)
             {
@@ -191,7 +191,7 @@ public class AltUnityTesterEditor : EditorWindow
                  AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest);
             }
         }
-        if (GUILayout.Button("RunSelectedTest"))
+        if (GUILayout.Button("Run Selected Tests"))
         {
             if (EditorConfiguration.platform == Platform.Editor)
             {
@@ -204,7 +204,7 @@ public class AltUnityTesterEditor : EditorWindow
                 AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest);
             }
         }
-        if (GUILayout.Button("RunFailedTest"))
+        if (GUILayout.Button("Run Failed Tests"))
         {
             if (EditorConfiguration.platform == Platform.Editor)
             {
@@ -245,22 +245,26 @@ public class AltUnityTesterEditor : EditorWindow
         }
 
         EditorGUILayout.LabelField("Build", EditorStyles.boldLabel);
-        if (GUILayout.Button("Build&Run Android"))
+        if (GUILayout.Button("Build & Run Android"))
         {
             AltUnityBuilder.BuildAndroidFromUI();
 
         }
 #if UNITY_EDITOR_OSX
-        if (GUILayout.Button("Build&Run IOS"))
+        if (GUILayout.Button("Build & Run IOS"))
         {
             AltUnityBuilder.BuildiOSFromUI();
 
         }
 #else
         EditorGUI.BeginDisabledGroup(true);
-        GUILayout.Button("Build&Run IOS");
+        GUILayout.Button("Build & Run IOS");
         EditorGUI.EndDisabledGroup();
 #endif
+        EditorGUILayout.Separator();
+        EditorGUILayout.Separator();
+        EditorGUILayout.Separator();
+
         EditorGUILayout.LabelField("Play", EditorStyles.boldLabel);
         if (GUILayout.Button("Run in Editor"))
         {
