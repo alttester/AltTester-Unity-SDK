@@ -19,8 +19,8 @@ build-apk:
       - unity
     script:
     - adb uninstall fi.altom.altunitytester || true
-    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
-    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+    # - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
     - ls 
     artifacts:
       when: always
@@ -36,7 +36,7 @@ run-csharp-android-tests:
         - adb uninstall fi.altom.altunitytester || true
         - adb install sampleGame.apk
         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
-        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
     artifacts:
       when: always
       expire_in: 10 days
