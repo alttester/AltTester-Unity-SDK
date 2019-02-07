@@ -191,36 +191,44 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     /// <param name="altGameObject">GameObject that will be transformed</param>
     /// <returns>An AltUnityObject with information about GameObject</returns>
     private AltUnityObject GameObjectToAltUnityObject(GameObject altGameObject, Camera camera = null) {
-        if (camera == null)//if no camera is given it will iterate through all cameras until found one that can see the object if no camera can see the object it will return the position from the last camera
+        int cameraId=-1;
+        //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
+        //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
+        if (camera == null)
         {
+            _position = new Vector3(-1,-1,-1);
             foreach (var camera1 in Camera.allCameras) {
                 _position = getObjectScreePosition(altGameObject, camera1);
-                camera = camera1;
-                if (_position.x > 0 && _position.y > 0 && _position.x < Screen.width && _position.y < Screen.height && _position.z >= 0)//Check if camera can see the object
+                cameraId = camera1.GetInstanceID();
+                if (_position.x > 0 && _position.y > 0 && _position.x < Screen.width && _position.y < Screen.height && _position.z >= 0)//Check if camera sees the object
                 {
                     break;
                 }
             }
         } else {
             _position = getObjectScreePosition(altGameObject, camera);
+            cameraId = camera.GetInstanceID();
+
         }
         int parentId = 0;
         if (altGameObject.transform.parent != null)
+        {
             parentId = altGameObject.transform.parent.GetInstanceID();
+        }
 
 
         AltUnityObject altObject = new AltUnityObject(name: altGameObject.name,
                                                       id: altGameObject.GetInstanceID(),
                                                       x: Convert.ToInt32(Mathf.Round(_position.x)),
                                                       y: Convert.ToInt32(Mathf.Round(_position.y)),
-                                                      z: Convert.ToInt32(Mathf.Round(_position.z)),//if z is negative that means the cannot see the object(object is behind the camera)
+                                                      z: Convert.ToInt32(Mathf.Round(_position.z)),//if z is negative object is behind the camera
                                                       mobileY: Convert.ToInt32(Mathf.Round(Screen.height - _position.y)),
                                                       type: "",
                                                       enabled: altGameObject.activeSelf,
-                                                      worldX: _position.x,
-                                                      worldY: _position.y,
-                                                      worldZ: _position.z,
-                                                      idCamera: camera.GetInstanceID(),
+                                                      worldX: altGameObject.transform.position.x,
+                                                      worldY: altGameObject.transform.position.y,
+                                                      worldZ: altGameObject.transform.position.z,
+                                                      idCamera: cameraId,
                                                       transformId: altGameObject.transform.GetInstanceID(),
                                                       parentId: parentId);
         return altObject;
