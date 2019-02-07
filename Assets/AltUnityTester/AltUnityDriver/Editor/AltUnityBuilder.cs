@@ -148,10 +148,7 @@ public class AltUnityBuilder {
 
     public static void InsertAltUnityInScene(String scene) {
         Debug.Log("Adding AltUnityRunnerPrefab into the [" + scene + "] scene.");
-        var altUnityRunner =
-            AssetDatabase.LoadAssetAtPath<GameObject>(
-                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
-        PreviousScenePath = SceneManager.GetActiveScene().path;
+        var altUnityRunner = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
         SceneWithAltUnityRunner = EditorSceneManager.OpenScene(scene);
         AltUnityRunner = PrefabUtility.InstantiatePrefab(altUnityRunner);
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());

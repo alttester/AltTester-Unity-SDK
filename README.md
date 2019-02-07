@@ -10,6 +10,7 @@ https://gitter.im/AltUnityTester/Lobby
    - [Downloads - AltUnityTester Package](#downloads-altunitytester-package)
    - [Import AltUnityTester asset/package into your Unity project](#import-altunitytester-assetpackage-into-your-unity-project)
    - [Setting up local machine for iOS testing](#setting-up-local-machine-for-ios-testing)
+   - [Building and running from the command line](#building-and-running-from-the-command-line)
 
 [AltUnityTester User Interface](#altunitytester-user-interface)
    - [Building the game](#building-the-game)
@@ -59,7 +60,52 @@ Other Bindings:
 For iOS, to run the tests on real iOS device, please make sure you also go through this: http://appium.io/docs/en/drivers/ios-xcuitest/ because AltUnityTester uses iproxy command.
 		
 The iproxy command is installed as part of the libimobiledevice package that you should have already installed when setting up your iOS environment (http://appium.io/docs/en/drivers/ios-xcuitest-real-devices/)
-		
+
+
+### Building and running from the command line 
+
+The AltUnityTester provides a couple of methods that can be used to instrument the game and add the AltUnityRunner prefab from the command line. Here is an example of how to do that for Android:
+
+
+```
+
+            PlayerSettings.companyName = "Altom";
+            PlayerSettings.productName = "sampleGame";
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
+            PlayerSettings.bundleVersion = versionNumber;
+            PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+            Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+            buildPlayerOptions.scenes = new string[]
+            {
+              "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+              "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
+              "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
+              "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity"
+            };
+
+			      buildPlayerOptions.locationPathName = "sampleGame.apk";
+            buildPlayerOptions.target = BuildTarget.Android;
+            buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+            
+			      AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+			      AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
+            
+			      var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
+
+```
+
+NOTE here the following 2 lines that are essential for the AltUnityTester instrumentation:
+
+```
+AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android); //add the correct scripting define
+AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]); // inserts the prefab into the first scene
+            
+```
+
+
 ## AltUnityTester User Interface
 
 After you imported AltUnityTester package to the project you are ready to use it. Go to Window -- AltUnityTester to open the user interface.

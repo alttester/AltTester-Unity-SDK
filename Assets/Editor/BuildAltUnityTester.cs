@@ -7,6 +7,7 @@ using UnityEngine;
 public class BuildAltUnityTester {
 
 
+    [MenuItem("Build/Android")]
     static void AndroidBuildFromCommandLine() {
         try {
             string versionNumber = DateTime.Now.ToString("yyMMddHHss");
@@ -25,10 +26,10 @@ public class BuildAltUnityTester {
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             buildPlayerOptions.scenes = new string[]
             {
-            "Scene 1 AltUnityDriverTestScene",
-            "Scene 2 Draggable Panel",
-            "Scene 3 Drag And Drop",
-            "Scene 4 No Cameras"
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity"
             };
 
 			buildPlayerOptions.locationPathName = "sampleGame.apk";
@@ -64,14 +65,15 @@ public class BuildAltUnityTester {
 #endif
 
             Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-            EditorApplication.Exit(0);
+            // EditorApplication.Exit(0);
         } catch (Exception exception) {
-            Debug.Log(exception);
-            EditorApplication.Exit(1);
+            Debug.LogException(exception);
+            // EditorApplication.Exit(1);
         }
 
     }
-
+    
+    [MenuItem("Build/iOS")]
     private static void IosBuildFromCommandLine() {
         try {
             string versionNumber = DateTime.Now.ToString("yyMMddHHss");
@@ -85,12 +87,12 @@ public class BuildAltUnityTester {
 
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             buildPlayerOptions.locationPathName = "sampleGame";
-            buildPlayerOptions.scenes = new string[]
+           buildPlayerOptions.scenes = new string[]
             {
-            "Scene 1 AltUnityDriverTestScene",
-            "Scene 2 Draggable Panel",
-            "Scene 3 Drag And Drop",
-            "Scene 4 No Cameras"
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity"
             };
 
             buildPlayerOptions.target = BuildTarget.iOS;
