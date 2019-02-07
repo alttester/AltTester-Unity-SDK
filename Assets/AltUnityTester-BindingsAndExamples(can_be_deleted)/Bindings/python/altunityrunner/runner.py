@@ -162,7 +162,6 @@ class AltrunUnityDriver(object):
             print('AltUnityServer - adb probably not installed ')
 
     def setup_port_forwarding(self, platform, port):
-        self.remove_port_forwarding(port)
         if (platform == "android"):
             try:
                 subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
