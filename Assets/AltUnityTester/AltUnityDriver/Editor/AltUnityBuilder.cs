@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AltUnityBuilder {
 
-	public static BuildWithAltUnityTesterFromCommandLine(string platform, string[] includedScenes, string packageName, int altunitytesterPort) {
+	public static void BuildWithAltUnityTesterFromCommandLine(string platform, string[] includedScenes, string packageName, int altunitytesterPort) {
 
 	}
 
