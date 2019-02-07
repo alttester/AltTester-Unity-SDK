@@ -18,6 +18,7 @@ build-apk:
     tags:
       - unity
     script:
+    - adb uninstall fi.altom.altunitytester || true
     - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
     - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
     - ls 

@@ -24,404 +24,404 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 54
+    _testCaseCount: 55
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene1TestSample
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 48
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene1TestSample.TestButtonClickWithSwipe
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 3.0937861
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithIncorrectNumberOfParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2066663
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithIncorrectTypeOfParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2476087
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithManyParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2725993
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithMultipleDefinitions
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.3627125
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithNoParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.1998031
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2702332
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallStaticMethod
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2942901
   - _selected: 0
     _testName: TestForScene1TestSample.TestClickElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.4860755
   - _selected: 0
     _testName: TestForScene1TestSample.TestClickOnNothing
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.1972926
   - _selected: 0
     _testName: TestForScene1TestSample.TestClickScreen
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.738086
   - _selected: 0
     _testName: TestForScene1TestSample.TestDeleteKey
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.3346557
   - _selected: 0
     _testName: TestForScene1TestSample.TestDifferentCamera
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.3400942
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.1705211
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementByComponent
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2793306
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementByComponent2
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2588515
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElements
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2625573
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementsWhereNameContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2486477
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementWhereNameContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2285287
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElemetsByComponent
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.3343218
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindNonExistentObject
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2968259
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindNonExistentObjectByName
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2400506
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllComponents
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.4604804
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllElements
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2051767
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllEnabledElements
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.3179977
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllFields
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.4889252
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllMethods
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.3095893
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllScenes
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.1296597
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentProperty
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.4048455
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentPropertyArray
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2680707
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentPropertyUnityEngine
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2789816
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetCurrentScene
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.1626723
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetNonExistingComponentProperty
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.4092493
   - _selected: 0
     _testName: TestForScene1TestSample.TestInactiveObject
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.1823102
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetComponentProperty
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.4305741
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyFloat
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2792721
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyInt
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2887679
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyString
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2616766
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetNonExistingComponentProperty
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2034172
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForCurrentSceneToBe
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.1639747
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForCurrrentSceneToBeANonExistingScene
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 1.2551247
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForElementWithText
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.3138448
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForExistingElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.0772336
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForExistingElementWhereNameContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.2025048
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForNonExistingElementWhereNameContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 1.2784746
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForNonExistingObject
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 1.1097677
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForObjectToNotExistFail
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 1.6066931
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForObjectWithTextWrongText
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 1.273123
   - _selected: 0
     _testName: TestForScene2DraggablePanel
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 3
@@ -429,31 +429,31 @@ MonoBehaviour:
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene2DraggablePanel.ClosePanel
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.4148369
   - _selected: 0
     _testName: TestForScene2DraggablePanel.MovePanel
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 2.2262844
   - _selected: 0
     _testName: TestForScene2DraggablePanel.ResizePanel
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 4.3326643
   - _selected: 0
     _testName: TestForScene3DragAndDrop
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 3
@@ -461,28 +461,44 @@ MonoBehaviour:
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene3DragAndDrop.MultipleDragAndDrop
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 4.7711137
   - _selected: 0
     _testName: TestForScene3DragAndDrop.MultipleDragAndDropWait
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene3DragAndDrop
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: Passed in 5.0895006
+  - _selected: 0
+    _testName: TestForScene3DragAndDrop.TestPointerEnterAndExit
+    _status: 1
+    _isSuite: 0
+    _parentName: TestForScene3DragAndDrop
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: Passed in 0.3865669
+  - _selected: 0
+    _testName: Testforscene4nocameras
+    _status: 1
+    _isSuite: 1
+    _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
-    _testName: TestForScene3DragAndDrop.TestPointerEnterAndExit
-    _status: 0
+    _testName: Testforscene4nocameras.TestFindElementInASceneWithNoCameras
+    _status: 1
     _isSuite: 0
-    _parentName: TestForScene3DragAndDrop
+    _parentName: Testforscene4nocameras
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 
+    _testResultMessage: Passed in 0.1837619
   Scenes:
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
@@ -496,4 +512,9 @@ MonoBehaviour:
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       3 Drag And Drop.unity
     _buildIndex: 2
-  platform: 2
+  - _toBeBuilt: 1
+    _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
+      4 No Cameras.unity
+    _buildIndex: 3
+  platform: 0
+  runInEditor: 0
