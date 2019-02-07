@@ -25,7 +25,7 @@ MonoBehaviour:
     _isSuite: 1
     _parentName: 
     _testCaseCount: 55
-    _foldOut: 1
+    _foldOut: 0
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene1TestSample
@@ -516,4 +516,5 @@ MonoBehaviour:
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       4 No Cameras.unity
     _buildIndex: 3
-  platform: 1
+  platform: 0
+  runInEditor: 0
