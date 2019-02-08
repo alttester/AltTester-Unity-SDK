@@ -361,6 +361,8 @@ public class AltUnityDriver {
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
         }
+        if(data.contains("error:notFound"))
+            return null;
         handleErrors(data);
         return null;
     }

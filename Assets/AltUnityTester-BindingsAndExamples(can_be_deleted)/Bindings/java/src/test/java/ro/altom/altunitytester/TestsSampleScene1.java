@@ -476,5 +476,10 @@ public void TestCallStaticMethod() throws Exception {
         AltUnityObject capsuleInfo=altUnityDriver.findElement("CapsuleInfo");
         assertEquals("6",capsuleInfo.getText());
     }
+    @Test
+    public void TestTapScreenWhereThereIsNoObjects(){
+        AltUnityObject altObject = altUnityDriver.TapScreen(1, 1);
+        Assert.AreEqual(null, altObject);
+    }
 
 }
