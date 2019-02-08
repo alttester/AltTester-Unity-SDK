@@ -49,19 +49,21 @@ public class AltUnityBuilder {
         RemoveAltUnityTesterFromScriptingDefineSymbols(buildTargetGroup);
     }
 
-    public static void BuildAndroidFromUI() {
+    public static void BuildAndroidFromUI(bool autoRun = false) {
         try {
             AltUnityTesterEditor.InitEditorConfiguration();
             InitBuildSetup(BuildTargetGroup.Android);
-
-
             Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName + ".apk";
             buildPlayerOptions.scenes = GetScenesForBuild();
 
             buildPlayerOptions.target = BuildTarget.Android;
-            buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+            if (autoRun) {
+                buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+            } else {
+                buildPlayerOptions.options = BuildOptions.Development;
+            }
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
 
@@ -190,7 +192,7 @@ public class AltUnityBuilder {
     //#if UNITY_EDITOR_OSX
 
 
-    public static void BuildiOSFromUI() {
+    public static void BuildiOSFromUI(bool autoRun) {
         try {
             Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             InitBuildSetup(BuildTargetGroup.iOS);
@@ -199,7 +201,11 @@ public class AltUnityBuilder {
             buildPlayerOptions.scenes = GetScenesForBuild();
 
             buildPlayerOptions.target = BuildTarget.iOS;
-            buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+            if (autoRun) {
+                buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+            } else {
+                buildPlayerOptions.options = BuildOptions.Development;
+            }
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 #if UNITY_2017
