@@ -468,8 +468,8 @@ public void TestCallStaticMethod() throws Exception {
     }
     @Test
     public void TestTapScreenWhereThereIsNoObjects(){
-        AltUnityObject altObject = altUnityDriver.TapScreen(1, 1);
-        Assert.AreEqual(null, altObject);
+        AltUnityObject altObject = altUnityDriver.tapScreen(1, 1);
+        assertEquals(null, altObject);
     }
 
 }
