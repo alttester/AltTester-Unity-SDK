@@ -45,6 +45,9 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     public Shader outlineShader;
     public GameObject panelHightlightPrefab;
 
+    public string requestSeparatorString;
+    public string requestEndingString;
+
     private static AltResponseQueue _responseQueue;
 
     void Awake() {
@@ -133,13 +136,15 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     public void StartSocketServer() {
         AltIClientSocketHandlerDelegate clientSocketHandlerDelegate = this;
         int maxClients = 1;
-        string separatorString = "&";
+        
         Encoding encoding = Encoding.UTF8;
 
         _socketServer = new AltSocketServer(
-            clientSocketHandlerDelegate, SocketPortNumber, maxClients, separatorString, encoding);
+            clientSocketHandlerDelegate, SocketPortNumber, maxClients, requestEndingString, encoding);
 
         _socketServer.StartListeningForConnections();
+
+        Debug.Log("TESTEST " + requestSeparatorString + "  " + requestEndingString);
 
         Debug.Log(String.Format(
             "AltUnity Server at {0} on port {1}",
@@ -236,7 +241,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
 
 
     public void ClientSocketHandlerDidReadMessage(AltClientSocketHandler handler, string message) {
-        string[] separator = new string[] { ";" };
+        string[] separator = new string[] { requestSeparatorString };
         string[] pieces = message.Split(separator, StringSplitOptions.None);
         AltUnityComponent altComponent;
         AltUnityObject altUnityObject;
@@ -246,18 +251,18 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
         switch (pieces[0]) {
             case "findAllObjects":
                 Debug.Log("all objects requested");
-                methodParameters = pieces[1] + ";" + pieces[2];
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2];
                 AltUnityEvents.Instance.GetAllObjects.Invoke(methodParameters, handler);
                 break;
             case "findObjectByName":
                 Debug.Log("find object by name " + pieces[1]);
                 Debug.Log(pieces.Length);
-                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3];
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjectByName.Invoke(methodParameters, handler);
                 break;
             case "findObjectWhereNameContains":
                 Debug.Log("find object where name contains:" + pieces[1]);
-                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3];
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjectWhereNameContains.Invoke(methodParameters, handler);
                 break;
             case "tapObject":
@@ -272,12 +277,12 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 break;
             case "findObjectsByName":
                 Debug.Log("find multiple objects by name " + pieces[1]);
-                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3];
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjectsByName.Invoke(methodParameters, handler);
                 break;
             case "findObjectsWhereNameContains":
                 Debug.Log("find objects where name contains:" + pieces[1]);
-                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3];
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjectsWhereNameContains.Invoke(methodParameters, handler);
                 break;
             case "getCurrentScene":
@@ -286,12 +291,12 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 break;
             case "findObjectByComponent":
                 Debug.Log("find object by component " + pieces[1]);
-                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3] + ";" + pieces[4];
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                 AltUnityEvents.Instance.FindObjectByComponent.Invoke(methodParameters, handler);
                 break;
             case "findObjectsByComponent":
                 Debug.Log("find objects by component " + pieces[1]);
-                methodParameters = pieces[1] + ";" + pieces[2] + ";" + pieces[3] + ";" + pieces[4];
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                 AltUnityEvents.Instance.FindObjectsByComponent.Invoke(methodParameters, handler);
                 break;
             case "getObjectComponentProperty":
@@ -697,7 +702,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
 
 
     private void FindObjectByName(string stringSent, AltClientSocketHandler handler) {
-        var pieces = stringSent.Split(';');
+        var pieces = stringSent.Split(new string[] { requestSeparatorString }, StringSplitOptions.None);
         string objectName = pieces[0];
         string cameraName = pieces[1];
         bool enabled = Convert.ToBoolean(pieces[2]);
@@ -718,7 +723,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -727,7 +732,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     }
 
     private void FindObjectWhereNameContains(string methodParameters, AltClientSocketHandler handler) {
-        var pieces = methodParameters.Split(';');
+        var pieces = methodParameters.Split(new string[] { requestSeparatorString }, StringSplitOptions.None);
         string objectName = pieces[0];
         string cameraName = pieces[1];
         bool enabled = Convert.ToBoolean(pieces[2]);
@@ -742,7 +747,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 }
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             }
 
             handler.SendResponse(response);
@@ -751,7 +756,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     }
 
     private void FindObjectByComponent(string methodParameters, AltClientSocketHandler handler) {
-        var pieces = methodParameters.Split(';');
+        var pieces = methodParameters.Split(new string[] { requestSeparatorString }, StringSplitOptions.None);
         string assemblyName = pieces[0];
         string componentTypeName = pieces[1];
         string cameraName = pieces[2];
@@ -773,7 +778,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 }
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
 
@@ -784,7 +789,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     }
 
     private void FindObjectsByName(string methodParameters, AltClientSocketHandler handler) {
-        var pieces = methodParameters.Split(';');
+        var pieces = methodParameters.Split(new string[] { requestSeparatorString }, StringSplitOptions.None);
         string objectName = pieces[0];
         string cameraName = pieces[1];
         bool enabled = Convert.ToBoolean(pieces[2]);
@@ -804,7 +809,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = JsonConvert.SerializeObject(foundObjects);
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
 
@@ -814,7 +819,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     }
 
     private void FindObjectsByComponent(string methodParameters, AltClientSocketHandler handler) {
-        var pieces = methodParameters.Split(';');
+        var pieces = methodParameters.Split(new string[] { requestSeparatorString }, StringSplitOptions.None);
         string assemblyName = pieces[0];
         string componentTypeName = pieces[1];
         string cameraName = pieces[2];
@@ -837,7 +842,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 }
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
 
@@ -847,7 +852,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     }
 
     private void FindObjectsWhereNameContains(string methodParameters, AltClientSocketHandler handler) {
-        var pieces = methodParameters.Split(';');
+        var pieces = methodParameters.Split(new string[] { requestSeparatorString }, StringSplitOptions.None);
         string objectName = pieces[0];
         string cameraName = pieces[1];
         bool enabled = Convert.ToBoolean(pieces[2]);
@@ -865,7 +870,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
 
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
 
@@ -876,7 +881,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
     }
 
     private void GetAllObjects(string methodParameter, AltClientSocketHandler handler) {
-        var parameters = ";" + methodParameter;
+        var parameters = requestSeparatorString + methodParameter;
         FindObjectsByName(parameters, handler);
     }
 
@@ -902,7 +907,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
 
@@ -941,7 +946,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -970,7 +975,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorComponentNotFoundMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             }
             handler.SendResponse(response);
         });
@@ -998,7 +1003,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorComponentNotFoundMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             }
             handler.SendResponse(response);
         });
@@ -1045,7 +1050,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorComponentNotFoundMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             }
             handler.SendResponse(response);
         });
@@ -1304,7 +1309,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
             catch (Exception exception)
             {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             }
             finally
             {
@@ -1333,7 +1338,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1354,7 +1359,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1375,7 +1380,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1401,7 +1406,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1422,7 +1427,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1443,7 +1448,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1463,7 +1468,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
             catch (Exception exception)
             {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             }
             finally
             {
@@ -1483,7 +1488,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
 
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
 
@@ -1521,7 +1526,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = "Ok";
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1536,7 +1541,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = "Ok";
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1568,7 +1573,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorFormatException;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1596,7 +1601,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 }
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }
@@ -1620,7 +1625,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
             catch (Exception exception)
             {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             }
             finally
             {
@@ -1658,7 +1663,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate {
                 response = errorNullRefferenceMessage;
             } catch (Exception exception) {
                 Debug.Log(exception);
-                response = errorUnknownError + ";" + exception;
+                response = errorUnknownError + requestSeparatorString + exception;
             } finally {
                 handler.SendResponse(response);
             }

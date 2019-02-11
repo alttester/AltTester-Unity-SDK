@@ -130,7 +130,7 @@ public class TestsSampleScene1 {
             altUnityDriver.waitForCurrentSceneToBe(name, 1, 0.5);
             fail();
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "Scene NonExistentScene not loaded after 1.0 seconds");
+            assertEquals(e.getMessage(), "Scene [NonExistentScene] not loaded after 1.0 seconds");
         }
     }
 
