@@ -231,7 +231,7 @@ class PythonTests(unittest.TestCase):
 
     def test_call_method_with_multiple_definitions(self):
         capsule=self.altdriver.find_element("Capsule")
-        capsule.call_component_method("Capsule", "Test","2","System.Int32")
+        capsule.call_component_method("Capsule", "Test","2",type_of_parameters="System.Int32")
         capsuleInfo=self.altdriver.find_element("CapsuleInfo")
         self.assertEquals("6",capsuleInfo.get_text())
     

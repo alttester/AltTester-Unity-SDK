@@ -444,21 +444,6 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    public void TestClickOnNothing()
-    {
-        try
-        {
-            altUnityDriver.TapScreen(0, 0);
-            Assert.Fail();
-        }
-        catch (NullRefferenceException exception)
-        {
-            Assert.AreEqual(exception.Message, "error:nullRefferenceException");
-        }
-
-    }
-
-    [Test]
     public void TestButtonClickWithSwipe()
     {
         var button = altUnityDriver.FindElement("UIButton");

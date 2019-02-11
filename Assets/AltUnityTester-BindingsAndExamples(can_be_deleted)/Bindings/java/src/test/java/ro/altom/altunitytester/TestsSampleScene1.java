@@ -391,16 +391,6 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testClickOnNothing() throws Exception {
-        try {
-            altUnityDriver.clickScreen(0,0);
-            fail();
-        } catch (CouldNotPerformOperationException e) {
-            assertEquals(e.getMessage(), "error:couldNotPerformOperation");
-        }
-    }
-
-    @Test
     public void testButtonClickWithSwipe() throws Exception {
         AltUnityObject button = altUnityDriver.findElement("UIButton");
         altUnityDriver.swipeAndWait(button.x, button.y, button.x, button.y, 1);
