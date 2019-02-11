@@ -61,7 +61,8 @@ class AltElement(object):
 
     def call_component_method(self, component_name, method_name, parameters,assembly_name='',type_of_parameters=''):
         alt_object = self.toJSON()
-        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'"'+',"assembly":"' + assembly_name + '", "typesofparameters":"' + type_of_parameters +'"}'
+        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'", "typeOfParameters":"' + type_of_parameters + '", "assembly":"' +assembly_name  +'"}'
+        print("sent data: "+action_info)
         data = self.alt_unity_driver.send_data('callComponentMethodForObject;' + alt_object + ';'+ action_info + ';&')
         return self.alt_unity_driver.handle_errors(data)
 
@@ -206,14 +207,13 @@ class AltrunUnityDriver(object):
             return self.recvall()
 
     def call_static_methods(self, type_name, method_name, parameters, type_of_parameters = '',assembly=''):
-        action_info = '{"component":"' + type_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '", "typesofparameters":"' + type_of_parameters +'", "assembly":"'+assembly+'"}'
+        action_info = '{"component":"' + type_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '", "typeofparameters":"' + type_of_parameters +'", "assembly":"'+assembly+'"}'
         data=self.send_data("callComponentMethodForObject;" + "" + "; " + action_info + "; &")
         return self.handle_errors(data)
     
     def get_alt_element(self, data):
         print(data)
         if (data != '' and 'error:' not in data):
-            elements = json.loads(data)
             alt_el = None
             try:
                 alt_el = AltElement(self, self.appium_driver, data)
@@ -503,5 +503,7 @@ class AltrunUnityDriver(object):
         
 
     def tap_at_coordinates(self,x,y):
-        data=self.send_data('tapScreen;'+x+';'+y+';&')
+        data=self.send_data('tapScreen;'+str(x)+';'+str(y)+';&')
+        if 'error:notFound' in data:
+            return None
         return self.get_alt_element(data)
