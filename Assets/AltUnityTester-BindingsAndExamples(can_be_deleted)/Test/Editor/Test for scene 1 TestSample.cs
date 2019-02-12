@@ -13,7 +13,7 @@ public class TestForScene1TestSample
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver=new AltUnityDriver(requestSeparator:";",requestEnding:"&");
+        altUnityDriver=new AltUnityDriver();
     }
 
     [OneTimeTearDown]
