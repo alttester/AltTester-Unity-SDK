@@ -34,6 +34,5 @@ class DeviceFarmAppiumTests(unittest.TestCase):
 
 # Start of script
 if __name__ == '__main__':
-    unittest.main()
-    # suite = unittest.TestLoader().loadTestsFromTestCase(DeviceFarmAppiumTests)
-    # unittest.TextTestRunner(verbosity=2).run(suite)
+    suite = unittest.TestLoader().loadTestsFromTestCase(DeviceFarmAppiumTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)

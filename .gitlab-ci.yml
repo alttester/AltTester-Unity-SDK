@@ -171,9 +171,6 @@ run-java-appium-android-tests:
 deploy-altunitytester-python:
     stage: deploy
     when: manual
-    only:
-        refs:
-            - master
     tags:
         - unity
     script:
