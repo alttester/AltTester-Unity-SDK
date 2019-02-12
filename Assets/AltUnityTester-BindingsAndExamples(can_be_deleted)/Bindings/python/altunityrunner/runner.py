@@ -61,7 +61,7 @@ class AltElement(object):
 
     def call_component_method(self, component_name, method_name, parameters,assembly_name='',type_of_parameters=''):
         alt_object = self.toJSON()
-        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'"'+',"assembly":"' + assembly_name + '", "typesofparameters":"' + type_of_parameters +'"}'
+        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'"'+',"assembly":"' + assembly_name + '", "typeofparameters":"' + type_of_parameters +'"}'
         data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('callComponentMethodForObject', alt_object,action_info  ))
         return self.alt_unity_driver.handle_errors(data)
 
@@ -210,14 +210,14 @@ class AltrunUnityDriver(object):
     def create_command(self,*arguments):
         command=''
         for argument in arguments:
-            command+=argument+self.requestSeparator
-        command+=self.requestSeparator+self.requestEnd
+            command+=str(argument)+self.requestSeparator
+        command+=self.requestEnd
         return command
             
 
     def call_static_methods(self, type_name, method_name, parameters, type_of_parameters = '',assembly=''):
-        action_info = '{"component":"' + type_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '", "typesofparameters":"' + type_of_parameters +'", "assembly":"'+assembly+'"}'
-        data=self.send_data(self.create_command(self.create_command("callComponentMethodForObject","",action_info)))
+        action_info = '{"component":"' + type_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '", "typeofparameters":"' + type_of_parameters +'", "assembly":"'+assembly+'"}'
+        data=self.send_data(self.create_command("callComponentMethodForObject","",action_info))
         return self.handle_errors(data)
     
     def get_alt_element(self, data):

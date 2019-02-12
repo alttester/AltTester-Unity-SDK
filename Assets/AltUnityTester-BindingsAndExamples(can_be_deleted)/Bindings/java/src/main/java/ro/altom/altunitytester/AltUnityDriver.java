@@ -69,7 +69,7 @@ public class AltUnityDriver {
         for (String argument:arguments) {
             command+=argument+RequestSeparator;
         }
-        return command+RequestSeparator+RequestEnd;
+        return command+RequestEnd;
 
     }
     public void send(String message) {

@@ -51,7 +51,7 @@ public class AltUnityDriver
         {
             command += argument + requestSeparatorString;
         }
-        command += requestSeparatorString + requestEndingString;
+        command += requestEndingString;
         return command;
     }
     public string Recvall()
