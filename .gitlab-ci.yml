@@ -1,25 +1,50 @@
 stages:
-  - build
-  - unit-tests
-  - ui-tests
+  - build-android
+  - android-tests
+  - create-package
+  - build-ios
+  - ios-tests
+  - appium-tests
   - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - sampleGame.apk
+  - sampleGame/
   
 build-apk:
-    stage: build
+    stage: build-android
     tags:
       - unity
     script:
-       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -projectPath $CI_PROJECT_DIR -executeMethod PerformBuild.AndroidDefault -logFile buildAndroid.log
-       - ls 
+    - adb uninstall fi.altom.altunitytester || true
+    # - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+    - ls 
     artifacts:
       when: always
       expire_in: 10 days
       paths:
         - buildAndroid.log
-        - sampleGame.apk
 
-run-python-tests:
-    stage: unit-tests
+run-csharp-android-tests:
+    stage: android-tests
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - csharpAndroidTests.log
+
+run-python-android-tests:
+    stage: android-tests
     tags:
         - unity
     script:
@@ -32,30 +57,116 @@ run-python-tests:
         - source altunitytests/bin/activate
         - pip install Appium-Python-Client
         - pip uninstall --yes altunityrunner || true
-        - pip install -e Assets/AltUnityTester/Bindings/python
+        - pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python"
         - sleep 30
-        - python Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/altunitydriver-tests.py
+        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python_bindings_tests.py"
 
-run-appium-tests:
-    stage: ui-tests
+
+run-java-android-tests:
+    stage: android-tests
+    tags:
+        - unity
+    script:
+        - adb uninstall fi.altom.altunitytester || true
+        - adb install sampleGame.apk
+        - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+        - adb forward --remove-all
+        - adb forward tcp:13000 tcp:13000
+        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java"
+        - mvn test
+
+create-unity-package:
+    stage: create-package
+    tags:
+      - unity
+    script:
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
+      - mkdir -p public/${CI_COMMIT_REF_NAME} || true
+      - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
+      - cd public/${CI_COMMIT_REF_NAME}/
+      - echo '<a href="https://altom.gitlab.io/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
+      - ls
+    artifacts:
+      when: always
+      paths:
+        - public
+
+
+# build-ipa:
+#     stage: build-ios
+#     tags:
+#       - unity
+#     script:
+#       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
+#       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log -quit
+#       - cd sampleGame
+#       - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS
+#       - ls 
+#     artifacts:
+#       when: always
+#       expire_in: 10 days
+#       paths:
+#         - buildIos.log
+
+# run-csharp-ios-tests:
+#     stage: ios-tests
+#     tags:
+#         - unity
+#     script:
+#         - cd sampleGame
+#         - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone &
+#         - sleep 60
+#         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit     
+#         - killall xcodebuild || true   
+#     artifacts:
+#       when: always
+#       expire_in: 10 days
+#       paths:
+#         - csharpIosTests.log    
+ 
+        
+run-python-appium-android-tests:
+    stage: appium-tests
+    only:
+        refs:
+            - master
     tags:
         - unity
     script:
         - virtualenv altunitytests
         - source altunitytests/bin/activate
-        - killall node || true
-        - appium >> appium.log & 
+        # - killall node || true
+        # - appium >> appium.log & 
         - pip install Appium-Python-Client
         - pip uninstall --yes altunityrunner || true
-        - pip install -e Assets/AltUnityTester/Bindings/python
+        - pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python"
         - sleep 30
-        - python Assets/AltUnityTester/ExamplesAndTests\ \(can\ be\ deleted\)/sampletest.py
-        - killall node || true
+        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python_appium_tests.py"
+        # - killall node || true
     artifacts:
         when: always
         expire_in: 10 days
         paths:
             - appium.log
+
+run-java-appium-android-tests:
+    stage: appium-tests
+    only:
+        refs:
+            - master
+    tags:
+        - unity
+    script:
+        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java"
+        - mvn clean compile assembly:single
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-1.2.2-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.2.2 -Dpackaging=jar
+        - cd ../java-appium-tests
+        - mvn test
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java/target/altunitytester-java-client-1.2.2-SNAPSHOT-jar-with-dependencies.jar"
 
 deploy-altunitytester-python:
     stage: deploy
@@ -66,5 +177,18 @@ deploy-altunitytester-python:
     tags:
         - unity
     script:
-        - cd Assets/AltUnityTester/Bindings/python
+        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python"
         - python setup.py sdist upload -r pypi
+
+pages:
+    stage: deploy
+    dependencies:
+      - create-unity-package
+    script:
+      - echo Pages deploy done
+    tags:
+        - unity
+    artifacts:
+        paths:
+            - public
+        expire_in: 30 days

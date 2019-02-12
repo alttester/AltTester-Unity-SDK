@@ -37,6 +37,8 @@ sysinfo.txt
 **/target
 **/iosBuild/
 
+#AndroidBuilds
+*.apk
 
 # Test results
 TestResults*.xml InitTestScene*
@@ -44,6 +46,7 @@ TestResults*.xml InitTestScene*
 
 # Python related
 *.pyc
+*.pyc.meta
 .cache/
 __pycache__/
 __pycache__.meta
@@ -52,4 +55,23 @@ Assets/AltUnityTester/Bindings/python/altunityrunner.egg-info.meta
 Assets/AltUnityTester/Bindings/python/dist
 Assets/AltUnityTester/Bindings/python/dist.meta
 Assets/AltUnityTester/Bindings/python/build.meta
+altunitytests/**
+Assets/AltUnityTester/Bindings/python/altunityrunner/runner.pyc.meta
+Assets/AltUnityTester/Bindings/python/altunityrunner/__init__.pyc.meta
+*.iml
+*.iml.meta
+Assets/AltUnityTester/Bindings/java/**/*.meta
+.vs/altunitytester/v15/Server/sqlite3/db.lock
+.vs/altunitytester/v15/Server/sqlite3/storage.ide
+.vs/altunitytester/v15/Server/sqlite3/storage.ide-shm
+.vs/altunitytester/v15/Server/sqlite3/storage.ide-wal
+
+Assets/AltUnityTester/AltUnityDriver/Editor/idProject.asset
+Assets/AltUnityTester/Bindings/java/.project
+Assets/AltUnityTester/Bindings/java/.settings
+Assets/AltUnityTester/Bindings/java/.classpath
+omnisharp.json
+Assets/AltUnityTester/Bindings/java-appium-tests/.project
+Assets/AltUnityTester/Bindings/java-appium-tests/.settings/
+Assets/AltUnityTester/Bindings/java-appium-tests/.classpath
 aws-device-farm-example/wheelhouse/**
