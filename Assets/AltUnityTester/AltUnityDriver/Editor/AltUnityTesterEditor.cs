@@ -175,8 +175,11 @@ public class AltUnityTesterEditor : EditorWindow
         EditorConfiguration.platform =(Platform) GUILayout.SelectionGrid((int)EditorConfiguration.platform,Enum.GetNames(typeof(Platform)) , Enum.GetNames(typeof(Platform)).Length, EditorStyles.radioButton);
    
         EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Separator();
+        EditorGUILayout.Separator();
+        EditorGUILayout.Separator();
 
-        EditorGUILayout.LabelField("Test", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Tests", EditorStyles.boldLabel);
 
         if (GUILayout.Button("Run All Tests"))
         {
@@ -245,31 +248,45 @@ public class AltUnityTesterEditor : EditorWindow
         }
 
         EditorGUILayout.LabelField("Build", EditorStyles.boldLabel);
-        if (GUILayout.Button("Build & Run Android"))
-        {
-            AltUnityBuilder.BuildAndroidFromUI();
-
+        if (EditorConfiguration.platform != Platform.Editor) {
+            if (GUILayout.Button("Build Only")) {
+                if (EditorConfiguration.platform == Platform.Android) {
+                    AltUnityBuilder.BuildAndroidFromUI(autoRun: false);
+                } else if (EditorConfiguration.platform == Platform.iOS) {
+                    AltUnityBuilder.BuildiOSFromUI(autoRun: false);
+                } else {
+                    RunInEditor();
+                }
+            }
+        } else {
+            EditorGUI.BeginDisabledGroup(true);
+            GUILayout.Button("Build Only");
+            EditorGUI.EndDisabledGroup();
         }
-#if UNITY_EDITOR_OSX
-        if (GUILayout.Button("Build & Run IOS"))
-        {
-            AltUnityBuilder.BuildiOSFromUI();
 
-        }
-#else
-        EditorGUI.BeginDisabledGroup(true);
-        GUILayout.Button("Build & Run IOS");
-        EditorGUI.EndDisabledGroup();
-#endif
         EditorGUILayout.Separator();
         EditorGUILayout.Separator();
         EditorGUILayout.Separator();
 
-        EditorGUILayout.LabelField("Play", EditorStyles.boldLabel);
-        if (GUILayout.Button("Run in Editor"))
+        EditorGUILayout.LabelField("Run", EditorStyles.boldLabel);
+        if (GUILayout.Button("Play in Editor"))
         {
+            EditorConfiguration.platform = Platform.Editor;
             RunInEditor();
+        }
 
+        if (EditorConfiguration.platform != Platform.Editor) {
+            if (GUILayout.Button("Build & Run on Device")) {
+                if (EditorConfiguration.platform == Platform.Android) {
+                    AltUnityBuilder.BuildAndroidFromUI(autoRun: true);
+                } else if (EditorConfiguration.platform == Platform.iOS) {
+                    AltUnityBuilder.BuildiOSFromUI(autoRun: true);
+                }
+            }
+        } else {
+            EditorGUI.BeginDisabledGroup(true);
+            GUILayout.Button("Build & Run on Device");
+            EditorGUI.EndDisabledGroup();
         }
 
         EditorGUILayout.LabelField("", GUILayout.ExpandHeight(true));
