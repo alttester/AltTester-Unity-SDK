@@ -246,9 +246,11 @@ public class AltUnityDriver
         Socket.Client.Send(toBytes(CreateCommand("tapScreen", x.ToString(), y.ToString() )));
         string data = Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<AltUnityObject>(data);
+        if (data.Contains("error:notFound")) return null;
         HandleErrors(data);
         return null;
     }
+    
 
     public void Tilt(Vector3 acceleration)
     {

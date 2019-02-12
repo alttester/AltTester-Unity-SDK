@@ -223,7 +223,6 @@ class AltrunUnityDriver(object):
     def get_alt_element(self, data):
         print(data)
         if (data != '' and 'error:' not in data):
-            elements = json.loads(data)
             alt_el = None
             try:
                 alt_el = AltElement(self, self.appium_driver, data)
@@ -514,4 +513,6 @@ class AltrunUnityDriver(object):
 
     def tap_at_coordinates(self,x,y):
         data=self.send_data(self.create_command('tapScreen',x,y))
+        if 'error:notFound' in data:
+            return None
         return self.get_alt_element(data)
