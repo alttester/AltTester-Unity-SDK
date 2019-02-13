@@ -43,7 +43,6 @@ public class AltUnityTesterEditor : EditorWindow
     Vector2 _scrollPosition;
     private Vector2 _scrollPositonTestResult;
 
-    //private static List<MyDevices> _myDeviceses=new List<MyDevices>();
 
     private bool _foldOutScenes = true;
     private bool _foldOutBuildSettings = true;
@@ -55,6 +54,8 @@ public class AltUnityTesterEditor : EditorWindow
     public static int reportTestPassed;
     public static int reportTestFailed;
     public static double timeTestRan;
+
+    public static List<MyDevices> devices=new List<MyDevices>();
 
     // Add menu item named "My Window" to the Window menu
     [MenuItem("Window/AltUnityTester")]
@@ -69,6 +70,8 @@ public class AltUnityTesterEditor : EditorWindow
 
     private void OnFocus()
     {
+        RefreshDeviceList();
+
         if (EditorConfiguration == null)
         {
             InitEditorConfiguration();
@@ -131,6 +134,7 @@ public class AltUnityTesterEditor : EditorWindow
 
     private void OnGUI()
     {
+
         if (needsRepaiting)
         {
             needsRepaiting = false;
@@ -174,6 +178,10 @@ public class AltUnityTesterEditor : EditorWindow
         EditorGUILayout.Separator();
 
         DisplayAltUnityServerSettings();
+
+        EditorGUILayout.Separator();
+
+        DisplayPortForwarding();
 
 
         EditorGUILayout.EndScrollView();
@@ -362,6 +370,128 @@ public class AltUnityTesterEditor : EditorWindow
         EditorGUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
+    }
+
+    private void DisplayPortForwarding()
+    {
+        _foldOutScenes = EditorGUILayout.Foldout(_foldOutScenes, "PortForwading");
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+        EditorGUILayout.BeginVertical();
+        if (_foldOutScenes)
+        {
+            if (devices.Count != 0)
+            {
+                GUILayout.BeginVertical(GUI.skin.textField);
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("DeviceId", EditorStyles.boldLabel, GUILayout.MinWidth(50));
+                GUILayout.Label("Local Port", EditorStyles.boldLabel, GUILayout.MinWidth(50), GUILayout.MaxWidth(100));
+                GUILayout.Label("Remote Port", EditorStyles.boldLabel, GUILayout.MinWidth(50), GUILayout.MaxWidth(100));
+                if (GUILayout.Button("Refresh", EditorStyles.boldLabel, GUILayout.MinWidth(50), GUILayout.MaxWidth(100)))
+                {
+                    RefreshDeviceList();
+                }
+
+                GUILayout.EndHorizontal();
+                foreach (var device in devices)
+                {
+                    if (device.Active)
+                    {
+                        var styleActive = new GUIStyle(GUI.skin.textField);
+                        styleActive.normal.background = MakeTexture(20, 20, greenColor);
+                        
+                        GUILayout.BeginHorizontal(styleActive);
+                        GUILayout.Label(device.DeviceId, GUILayout.MinWidth(50));
+                        GUILayout.Label(device.LocalPort.ToString(), GUILayout.MinWidth(50), GUILayout.MaxWidth(100));
+                        GUILayout.Label(device.RemotePort.ToString(), GUILayout.MinWidth(50), GUILayout.MaxWidth(100));
+                        if(GUILayout.Button("Stop", GUILayout.MinWidth(50), GUILayout.MaxWidth(100)))
+                        {
+                            if (device.Platform == Platform.Android)
+                            {
+                                AltUnityPortHandler.RemoveForwardAndroid(device.LocalPort);
+                            }
+#if UNITY_EDITOR_OSX
+                            else
+                            {
+                            //TODO not tested on iOS
+                                AltUnityPortHandler.KillIProxy(0)
+                            }
+#endif
+
+                            device.Active = false;
+                            RefreshDeviceList();
+
+                        }
+                    }
+                    else
+                    {
+                        var style = GUI.skin.textField;
+                        GUILayout.BeginHorizontal(style);
+                        GUILayout.Label(device.DeviceId, GUILayout.MinWidth(50));
+                        device.LocalPort=EditorGUILayout.IntField(device.LocalPort, GUILayout.MinWidth(50), GUILayout.MaxWidth(100));
+                        device.RemotePort=EditorGUILayout.IntField(device.RemotePort, GUILayout.MinWidth(50), GUILayout.MaxWidth(100));
+                        if(GUILayout.Button("Start", GUILayout.MinWidth(50), GUILayout.MaxWidth(100)))
+                        {
+                            if (device.Platform == Platform.Android)
+                            {
+                                AltUnityPortHandler.ForwardAndroid(device.DeviceId,device.LocalPort,device.RemotePort);
+                            }
+#if UNITY_EDITOR_OSX
+                            else
+                            {
+                            //TODO not tested on iOS
+                                AltUnityPortHandler.ThreadForwardIos()
+                            }
+#endif
+
+                            device.Active = true;
+                            RefreshDeviceList();
+                        }
+
+                    }                  
+
+                    GUILayout.EndHorizontal();
+
+                }
+
+                GUILayout.EndVertical();
+            }
+            else
+            {
+                EditorGUILayout.LabelField("No devices connected");
+            }
+        }
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
+    }
+
+    private void RefreshDeviceList()
+    {
+        Debug.Log("Refreshed");
+        List<MyDevices> adbDevices = AltUnityPortHandler.GetDevicesAndroid();
+        List<MyDevices> androidForwardedDevices = AltUnityPortHandler.GetForwardedDevicesAndroid();
+        foreach(var adbDevice in adbDevices)
+        {
+            var deviceForwarded = androidForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(adbDevice.DeviceId));
+            if (deviceForwarded != null)
+            {
+                adbDevice.LocalPort = deviceForwarded.LocalPort;
+                adbDevice.RemotePort = deviceForwarded.RemotePort;
+                adbDevice.Active = deviceForwarded.Active;
+            }
+        }
+        foreach(var device in devices)
+        {
+            var existingDevice = adbDevices.FirstOrDefault(d => d.DeviceId.Equals(device.DeviceId));
+            if (existingDevice != null && device.Active==false && existingDevice.Active==false)
+            {
+                existingDevice.LocalPort = device.LocalPort;
+                existingDevice.RemotePort = device.RemotePort;
+            }
+        }
+
+        devices = adbDevices;
     }
 
     private void DisplayAltUnityServerSettings()
