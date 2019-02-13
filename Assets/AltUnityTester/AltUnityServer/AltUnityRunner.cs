@@ -47,8 +47,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     public Shader outlineShader;
     public GameObject panelHightlightPrefab;
 
-    public string requestSeparatorString;
-    public string requestEndingString;
+    public string requestSeparatorString=";";
+    public string requestEndingString="&";
 
     private static AltResponseQueue _responseQueue;
 
