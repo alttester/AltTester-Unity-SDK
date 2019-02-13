@@ -48,6 +48,7 @@ public class AltUnityTesterEditor : EditorWindow
     private bool _foldOutScenes = true;
     private bool _foldOutBuildSettings = true;
     private bool _foldOutIosSettings = true;
+    private bool _foldOutAltUnityServerSettings = true;
 
     //TestResult after running a test
     public static bool isTestRunResultAvailable = false;
@@ -130,7 +131,8 @@ public class AltUnityTesterEditor : EditorWindow
 
     private void OnGUI()
     {
-        if (needsRepaiting) {
+        if (needsRepaiting)
+        {
             needsRepaiting = false;
             Repaint();
         }
@@ -139,41 +141,52 @@ public class AltUnityTesterEditor : EditorWindow
             isTestRunResultAvailable = !EditorUtility.DisplayDialog("Test Report",
                 " Total tests:" + (reportTestFailed + reportTestPassed) + Environment.NewLine + " Tests passed:" +
                 reportTestPassed + Environment.NewLine + " Tests failed:" + reportTestFailed + Environment.NewLine +
-                " Duration:" + timeTestRan+" seconds", "Ok");
-        if (Application.isPlaying && !EditorConfiguration.runInEditor)
+                " Duration:" + timeTestRan + " seconds", "Ok");
+        if (Application.isPlaying && !EditorConfiguration.ranInEditor)
         {
-            EditorConfiguration.runInEditor = true;
+            EditorConfiguration.ranInEditor = true;
         }
 
-        if (!Application.isPlaying && EditorConfiguration.runInEditor)
+        if (!Application.isPlaying && EditorConfiguration.ranInEditor)
         {
             AfterExitPlayMode();
 
         }
 
-        var screenWidth = EditorGUIUtility.currentViewWidth;
+        DrawGUI();
 
+    }
+
+    private void DrawGUI()
+    {
+        var screenWidth = EditorGUIUtility.currentViewWidth;
+        //----------------------Left Panel------------
         EditorGUILayout.BeginHorizontal();
         var leftSide = (screenWidth / 3) * 2;
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, true, true, GUILayout.Width(leftSide));
 
         DisplayTestGui(EditorConfiguration.MyTests);
+
         EditorGUILayout.Separator();
+
         DisplayBuildSettings();
+
+        EditorGUILayout.Separator();
+
+        DisplayAltUnityServerSettings();
 
 
         EditorGUILayout.EndScrollView();
+
+        //-------------------Right Panel--------------
         var rightSide = (screenWidth / 3);
         EditorGUILayout.BeginVertical(GUILayout.Width(rightSide));
-        EditorGUILayout.BeginHorizontal();
-
-        EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.LabelField("Platform", EditorStyles.boldLabel);
 
         EditorGUILayout.BeginHorizontal();
-        EditorConfiguration.platform =(Platform) GUILayout.SelectionGrid((int)EditorConfiguration.platform,Enum.GetNames(typeof(Platform)) , Enum.GetNames(typeof(Platform)).Length, EditorStyles.radioButton);
-   
+        EditorConfiguration.platform = (Platform)GUILayout.SelectionGrid((int)EditorConfiguration.platform, Enum.GetNames(typeof(Platform)), Enum.GetNames(typeof(Platform)).Length, EditorStyles.radioButton);
+
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Separator();
         EditorGUILayout.Separator();
@@ -191,7 +204,7 @@ public class AltUnityTesterEditor : EditorWindow
             else
             {
 
-                 AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest);
+                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest);
             }
         }
         if (GUILayout.Button("Run Selected Tests"))
@@ -248,17 +261,27 @@ public class AltUnityTesterEditor : EditorWindow
         }
 
         EditorGUILayout.LabelField("Build", EditorStyles.boldLabel);
-        if (EditorConfiguration.platform != Platform.Editor) {
-            if (GUILayout.Button("Build Only")) {
-                if (EditorConfiguration.platform == Platform.Android) {
+        if (EditorConfiguration.platform != Platform.Editor)
+        {
+            if (GUILayout.Button("Build Only"))
+            {
+                if (EditorConfiguration.platform == Platform.Android)
+                {
                     AltUnityBuilder.BuildAndroidFromUI(autoRun: false);
-                } else if (EditorConfiguration.platform == Platform.iOS) {
+                }
+#if UNITY_EDITOR_OSX
+                else if (EditorConfiguration.platform == Platform.iOS) {
                     AltUnityBuilder.BuildiOSFromUI(autoRun: false);
-                } else {
+                }
+#endif
+                else
+                {
                     RunInEditor();
                 }
             }
-        } else {
+        }
+        else
+        {
             EditorGUI.BeginDisabledGroup(true);
             GUILayout.Button("Build Only");
             EditorGUI.EndDisabledGroup();
@@ -275,15 +298,23 @@ public class AltUnityTesterEditor : EditorWindow
             RunInEditor();
         }
 
-        if (EditorConfiguration.platform != Platform.Editor) {
-            if (GUILayout.Button("Build & Run on Device")) {
-                if (EditorConfiguration.platform == Platform.Android) {
+        if (EditorConfiguration.platform != Platform.Editor)
+        {
+            if (GUILayout.Button("Build & Run on Device"))
+            {
+                if (EditorConfiguration.platform == Platform.Android)
+                {
                     AltUnityBuilder.BuildAndroidFromUI(autoRun: true);
-                } else if (EditorConfiguration.platform == Platform.iOS) {
+                }
+#if UNITY_EDITOR_OSX
+                else if (EditorConfiguration.platform == Platform.iOS) {
                     AltUnityBuilder.BuildiOSFromUI(autoRun: true);
                 }
+#endif
             }
-        } else {
+        }
+        else
+        {
             EditorGUI.BeginDisabledGroup(true);
             GUILayout.Button("Build & Run on Device");
             EditorGUI.EndDisabledGroup();
@@ -331,13 +362,35 @@ public class AltUnityTesterEditor : EditorWindow
         EditorGUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
+    }
 
+    private void DisplayAltUnityServerSettings()
+    {
+        _foldOutAltUnityServerSettings = EditorGUILayout.Foldout(_foldOutAltUnityServerSettings, "AltUnityServer Settings");
+        if (_foldOutAltUnityServerSettings)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            EditorConfiguration.requestSeparator = EditorGUILayout.TextField("Request separator", EditorConfiguration.requestSeparator);
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            EditorConfiguration.requestEnding = EditorGUILayout.TextField("Request ending", EditorConfiguration.requestEnding);
+            EditorGUILayout.EndHorizontal();
+
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+            EditorConfiguration.serverPort = EditorGUILayout.IntField("Server port", EditorConfiguration.serverPort);
+            EditorGUILayout.EndHorizontal();
+        }
     }
 
     private void AfterExitPlayMode() {
         RemoveAltUnityRunnerPrefab();
         AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(EditorUserBuildSettings.selectedBuildTargetGroup);
-        EditorConfiguration.runInEditor = false;
+        EditorConfiguration.ranInEditor = false;
     }
 
     private static void RemoveAltUnityRunnerPrefab() {

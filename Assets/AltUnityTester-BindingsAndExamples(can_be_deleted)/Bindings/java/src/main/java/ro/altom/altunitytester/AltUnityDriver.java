@@ -25,12 +25,32 @@ public class AltUnityDriver {
     private final PrintWriter out;
     private final DataInputStream in;
 
+    public static String RequestSeparator=";";
+    public static String RequestEnd="&";
+
     public AltUnityDriver(String ip, int port) {
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
         try {
-            log.info("Initializing connection to {}:{}", ip, port);
+            //log.info("Initializing connection to {}:{}", ip, port);
+            socket = new Socket(ip, port);
+            socket.setSoTimeout(READ_TIMEOUT);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
+        }
+        // TODO: make this unnecessary
+        AltUnityObject.altUnityDriver = this;
+    }
+
+    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd) {
+        if (ip == null || ip.isEmpty()) {
+            throw new InvalidParamerException("Provided IP address is null or empty");
+        }
+        try {
+            //log.info("Initializing connection to {}:{}", ip, port);
             socket = new Socket(ip, port);
             socket.setSoTimeout(READ_TIMEOUT);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -39,9 +59,19 @@ public class AltUnityDriver {
             throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
         }
         // TODO: make this uneccesary
+        RequestEnd=requestEnd;
+        RequestSeparator=requestSeparator;
         AltUnityObject.altUnityDriver = this;
     }
 
+    public String CreateCommand(String... arguments){
+        String command="";
+        for (String argument:arguments) {
+            command+=argument+RequestSeparator;
+        }
+        return command+RequestEnd;
+
+    }
     public void send(String message) {
         log.info("Sending rpc message [{}]", message);
         out.print(message);
@@ -50,7 +80,7 @@ public class AltUnityDriver {
 
     public void stop() {
         log.info("Closing connection with server.");
-        send("closeConnection;&");
+        send(CreateCommand("closeConnection"));
         try {
             in.close();
             out.close();
@@ -88,7 +118,7 @@ public class AltUnityDriver {
     public String callStaticMethods(String assembly, String typeName, String methodName,
                                     String parameters, String typeOfParameters) {
         String actionInfo = new Gson().toJson(new AltUnityObjectAction(typeName, methodName, parameters, typeOfParameters, assembly));
-        send("callComponentMethodForObject;" + "" + "; " + actionInfo + ";&");
+        send(CreateCommand("callComponentMethodForObject", "" , actionInfo ));
         String data = recvall();
         if (!data.contains("error:")) {
             return data;
@@ -103,7 +133,7 @@ public class AltUnityDriver {
 
     public void loadScene(String scene) {
         log.debug("Load scene: " + scene + "...");
-        send("loadScene;" + scene + ";&");
+        send(CreateCommand("loadScene",scene ));
         String data = recvall();
         if (data.equals("Ok")) {
             return;
@@ -112,7 +142,7 @@ public class AltUnityDriver {
     }
 
     public void deletePlayerPref() {
-        send("deletePlayerPref;&");
+        send(CreateCommand("deletePlayerPref"));
         String data = recvall();
         if (data.equals("Ok")) {
             return;
@@ -121,7 +151,7 @@ public class AltUnityDriver {
     }
 
     public void deleteKeyPlayerPref(String keyName) {
-        send("deleteKeyPlayerPref;" + keyName + ";&");
+        send(CreateCommand("deleteKeyPlayerPref", keyName));
         String data = recvall();
         if (data.equals("Ok"))
             return;
@@ -129,7 +159,7 @@ public class AltUnityDriver {
     }
 
     public void setKeyPlayerPref(String keyName, int valueName) {
-        send("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PlayerPrefsKeyType.IntType + ";&");
+        send(CreateCommand("setKeyPlayerPref", keyName, String.valueOf(valueName), String.valueOf(PlayerPrefsKeyType.IntType)));
         String data = recvall();
         if (data.equals("Ok")) {
             return;
@@ -138,7 +168,7 @@ public class AltUnityDriver {
     }
 
     public void setKeyPlayerPref(String keyName, float valueName) {
-        send("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PlayerPrefsKeyType.FloatType + ";&");
+        send(CreateCommand("setKeyPlayerPref", keyName, String.valueOf(valueName), String.valueOf(PlayerPrefsKeyType.FloatType)));
         String data = recvall();
         if (data.equals("Ok")) {
             return;
@@ -147,7 +177,7 @@ public class AltUnityDriver {
     }
 
     public void setKeyPlayerPref(String keyName, String valueName) {
-        send("setKeyPlayerPref;" + keyName + ";" + valueName + ";" + PlayerPrefsKeyType.StringType + ";&");
+        send(CreateCommand("setKeyPlayerPref", keyName, valueName, String.valueOf(PlayerPrefsKeyType.StringType)));
         String data = recvall();
         if (data.equals("Ok")) {
             return;
@@ -156,7 +186,7 @@ public class AltUnityDriver {
     }
 
     public int getIntKeyPlayerPref(String keyname) {
-        send("getKeyPlayerPref;" + keyname + ";" + PlayerPrefsKeyType.IntType + ";&");
+        send(CreateCommand("getKeyPlayerPref", keyname, String.valueOf(PlayerPrefsKeyType.IntType)));
         String data = recvall();
         if (!data.contains("error:")) {
             return Integer.parseInt(data);
@@ -166,7 +196,7 @@ public class AltUnityDriver {
     }
 
     public float getFloatKeyPlayerPref(String keyname) {
-        send("getKeyPlayerPref;" + keyname + ";" + PlayerPrefsKeyType.FloatType + ";&");
+        send(CreateCommand("getKeyPlayerPref", keyname, String.valueOf(PlayerPrefsKeyType.FloatType)));
         String data = recvall();
         if (!data.contains("error:")) {
             return Float.parseFloat(data);
@@ -177,7 +207,7 @@ public class AltUnityDriver {
     }
 
     public String getStringKeyPlayerPref(String keyname) {
-        send("getKeyPlayerPref;" + keyname + ";" + PlayerPrefsKeyType.StringType + ";&");
+        send(CreateCommand("getKeyPlayerPref", keyname, String.valueOf(PlayerPrefsKeyType.StringType)));
         String data = recvall();
         if (!data.contains("error:")) {
             return data;
@@ -187,11 +217,11 @@ public class AltUnityDriver {
     }
 
     public String getCurrentScene() {
-        log.debug("Get current scene...");
-        send("getCurrentScene;&");
+        //log.debug("Get current scene...");
+        send(CreateCommand("getCurrentScene"));
         String data = recvall();
         if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, AltUnityObject.class)).getName();
+            return (new Gson().fromJson(data, AltUnityObject.class)).name;
         }
         handleErrors(data);
         return "";
@@ -200,7 +230,7 @@ public class AltUnityDriver {
     public void swipe(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
         String vectorStartJson = vectorToJsonString(xStart, yStart);
         String vectorEndJson = vectorToJsonString(xEnd, yEnd);
-        send("movingTouch;" + vectorStartJson + ";" + vectorEndJson + ";" + durationInSecs + ";&");
+        send(CreateCommand("movingTouch", vectorStartJson, vectorEndJson, String.valueOf(durationInSecs)));
         String data = recvall();
         if (data.equals("Ok")) {
             return;
@@ -210,10 +240,10 @@ public class AltUnityDriver {
 
     public void swipeAndWait(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
         swipe(xStart, yStart, xEnd, yEnd, durationInSecs);
-        sleepFor(durationInSecs * 1000);
+        sleepFor(durationInSecs );
         String data;
         do {
-            send("swipeFinished;&");
+            send(CreateCommand("swipeFinished"));
             data = recvall();
         } while (data.equals("No"));
 
@@ -232,7 +262,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject clickScreen(float x, float y) {
-        send("clickScreenOnXY;" + x + ";" + y + ";&");
+        send(CreateCommand("clickScreenOnXY", String.valueOf(x), String.valueOf(y)));
         String data = recvall();
         if (!data.contains("error:")) {
             return (new Gson().fromJson(data, AltUnityObject.class));
@@ -243,7 +273,7 @@ public class AltUnityDriver {
 
     public void tilt(int x, int y, int z) {
         String accelerationString = vectorToJsonString(x, y, z);
-        send("tilt;" + accelerationString + ";&");
+        send(CreateCommand("tilt", accelerationString));
         String data = recvall();
         if (data.equals("OK")) {
             return;
@@ -252,7 +282,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject findElementWhereNameContains(String name, String cameraName,boolean enabled) {
-        send("findObjectWhereNameContains;" + name + ";" + cameraName + ";" + enabled + ";&");
+        send(CreateCommand("findObjectWhereNameContains", name, cameraName, String.valueOf(enabled)));
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -273,7 +303,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject[] getAllElements(String cameraName,boolean enabled) {
-        send("findAllObjects;" + cameraName +";"+enabled+ ";&");
+        send(CreateCommand("findAllObjects", cameraName, String.valueOf(enabled)));
         String data = recvall();
         if (!data.contains("error:")) {
             return (new Gson().fromJson(data, AltUnityObject[].class));
@@ -295,7 +325,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject findElement(String name, String cameraName, boolean enabled) {
-        send("findObjectByName;" + name + ";" + cameraName +";"+enabled+ ";&");
+        send(CreateCommand("findObjectByName", name, cameraName, String.valueOf(enabled)));
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -315,7 +345,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject[] findElements(String name, String cameraName, boolean enabled) {
-        send("findObjectsByName;" + name + ";" + cameraName +";"+enabled+ ";&");
+        send(CreateCommand("findObjectsByName", name, cameraName, String.valueOf(enabled)));
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject[].class);
@@ -335,7 +365,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName, boolean enabled) {
-        send("findObjectsWhereNameContains;" + name + ";" + cameraName + ";" + enabled + ";&");
+        send(CreateCommand("findObjectsWhereNameContains", name, cameraName, String.valueOf(enabled)));
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject[].class);
@@ -356,7 +386,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject tapScreen(int x, int y) {
-        send("tapScreen;" + x + ";" + y + ";&");
+        send(CreateCommand("tapScreen", String.valueOf(x), String.valueOf(y)));
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -371,7 +401,7 @@ public class AltUnityDriver {
         double time = 0;
         String currentScene = "";
         while (time < timeout) {
-            log.debug("Waiting for scene to be " + sceneName + "...");
+            //log.debug("Waiting for scene to be " + sceneName + "...");
             currentScene = getCurrentScene();
             if (currentScene != null && currentScene.equals(sceneName)) {
                 return currentScene;
@@ -390,7 +420,7 @@ public class AltUnityDriver {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
-            log.debug("Waiting for element where name contains " + name + "....");
+            //log.debug("Waiting for element where name contains " + name + "....");
             try {
                 altElement = findElementWhereNameContains(name, cameraName);
                 if (altElement != null) {
@@ -413,7 +443,7 @@ public class AltUnityDriver {
         double time = 0;
         AltUnityObject altElement = null;
         while (time <= timeout) {
-            log.debug("Waiting for element " + name + " not to be present");
+            //log.debug("Waiting for element " + name + " not to be present");
             try {
                 altElement = findElement(name, cameraName);
                 if (altElement == null) {
@@ -454,7 +484,7 @@ public class AltUnityDriver {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
-            log.debug("Waiting for element " + name + "...");
+            //log.debug("Waiting for element " + name + "...");
             try {
                 altElement = findElement(name, cameraName);
             } catch (Exception e) {
@@ -479,7 +509,7 @@ public class AltUnityDriver {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
-            log.debug("Waiting for element " + name + " to have text [" + text + "]");
+            //log.debug("Waiting for element " + name + " to have text [" + text + "]");
             try {
                 altElement = findElement(name, cameraName);
                 if (altElement != null && altElement.getText().equals(text)) {
@@ -499,7 +529,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject findElementByComponent(String componentName,String assemblyName, String cameraName,boolean enabled) {
-        send("findObjectByComponent;"+assemblyName+";" + componentName + ";" + cameraName + ";" + enabled + ";&");
+        send(CreateCommand("findObjectByComponent",assemblyName, componentName, cameraName, String.valueOf(enabled)));
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -521,7 +551,7 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName, boolean enabled) {
-        send("findObjectsByComponent;"+assemblyName+";"  + componentName + ";" + cameraName + ";" +enabled + ";&");
+        send(CreateCommand("findObjectsByComponent",assemblyName, componentName, cameraName, String.valueOf(enabled)));
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject[].class);

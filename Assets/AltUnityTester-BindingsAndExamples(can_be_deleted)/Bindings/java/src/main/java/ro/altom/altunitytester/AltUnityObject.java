@@ -109,7 +109,7 @@ public class AltUnityObject {
     public String getComponentProperty(String assemblyName, String componentName, String propertyName) {
         String altObject = new Gson().toJson(this);
         String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName, componentName, propertyName));
-        altUnityDriver.send("getObjectComponentProperty;" + altObject + ";" + propertyInfo + ";&");
+        altUnityDriver.send(altUnityDriver.CreateCommand("getObjectComponentProperty", altObject,propertyInfo ));
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) {
             return data;
@@ -125,7 +125,7 @@ public class AltUnityObject {
     public String setComponentProperty(String assemblyName, String componentName, String propertyName, String value) {
         String altObject = new Gson().toJson(this);
         String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName, componentName, propertyName));
-        altUnityDriver.send("setObjectComponentProperty;" + altObject + ";" + propertyInfo + ";" + value + ";&");
+        altUnityDriver.send(altUnityDriver.CreateCommand("setObjectComponentProperty",altObject,propertyInfo,value ));
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) {
             return data;
@@ -141,7 +141,7 @@ public class AltUnityObject {
     public String callComponentMethod(String assemblyName, String componentName, String methodName, String parameters, String typeOfParameters) {
         String altObject = new Gson().toJson(this);
         String actionInfo = new Gson().toJson(new AltUnityObjectAction(assemblyName, componentName, methodName, parameters, typeOfParameters));
-        altUnityDriver.send("callComponentMethodForObject;" + altObject + ";" + actionInfo + ";&");
+        altUnityDriver.send(altUnityDriver.CreateCommand("callComponentMethodForObject",altObject ,actionInfo ));
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) return data;
         altUnityDriver.handleErrors(data);
@@ -157,40 +157,40 @@ public class AltUnityObject {
     }
 
     public AltUnityObject clickEvent() {
-        return sendActionAndEvaluateResult("clickEvent;");
+        return sendActionAndEvaluateResult("clickEvent");
     }
 
     public AltUnityObject drag(int x, int y) {
-        return sendActionWithCoordinateAndEvaluate(x, y, "dragObject;");
+        return sendActionWithCoordinateAndEvaluate(x, y, "dragObject");
     }
 
     public AltUnityObject drop(int x, int y) {
-        return sendActionWithCoordinateAndEvaluate(x, y, "dropObject;");
+        return sendActionWithCoordinateAndEvaluate(x, y, "dropObject");
     }
 
     public AltUnityObject pointerUp() {
-        return sendActionAndEvaluateResult("pointerUpFromObject;");
+        return sendActionAndEvaluateResult("pointerUpFromObject");
     }
 
     public AltUnityObject pointerDown() {
-        return sendActionAndEvaluateResult("pointerDownFromObject;");
+        return sendActionAndEvaluateResult("pointerDownFromObject");
     }
 
     public AltUnityObject pointerEnter() {
-        return sendActionAndEvaluateResult("pointerEnterObject;");
+        return sendActionAndEvaluateResult("pointerEnterObject");
     }
 
     public AltUnityObject pointerExit() {
-        return sendActionAndEvaluateResult("pointerExitObject;");
+        return sendActionAndEvaluateResult("pointerExitObject");
     }
 
     public AltUnityObject tap() {
-        return sendActionAndEvaluateResult("tapObject;");
+        return sendActionAndEvaluateResult("tapObject");
     }
 
     private AltUnityObject sendActionAndEvaluateResult(String s) {
         String altObject = new Gson().toJson(this);
-        altUnityDriver.send(s + altObject + ";&");
+        altUnityDriver.send(altUnityDriver.CreateCommand(s, altObject ));
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
@@ -202,7 +202,7 @@ public class AltUnityObject {
     private AltUnityObject sendActionWithCoordinateAndEvaluate(int x, int y, String s) {
         String positionString = altUnityDriver.vectorToJsonString(x, y);
         String altObject = new Gson().toJson(this);
-        altUnityDriver.send(s + positionString + ";" + altObject + ";&");
+        altUnityDriver.send(altUnityDriver.CreateCommand(s ,positionString, altObject ));
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);

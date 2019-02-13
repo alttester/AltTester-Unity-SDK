@@ -56,7 +56,7 @@ public class AltUnityObject
         String altObject = JsonConvert.SerializeObject(this);
         String propertyInfo = JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName,assemblyName));
         altUnityDriver.Socket.Client.Send(
-            Encoding.ASCII.GetBytes("getObjectComponentProperty;" + altObject + ";" + propertyInfo + ";&"));
+            Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("getObjectComponentProperty", altObject , propertyInfo )));
         String data = altUnityDriver.Recvall();
         if (!data.Contains("error:")) return data;
         AltUnityDriver.HandleErrors(data);
@@ -67,7 +67,7 @@ public class AltUnityObject
         String altObject = JsonConvert.SerializeObject(this);
         String propertyInfo = JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName,assemblyName));
         altUnityDriver.Socket.Client.Send(
-            Encoding.ASCII.GetBytes("setObjectComponentProperty;" + altObject + ";" + propertyInfo + ";" + value + ";&"));
+            Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("setObjectComponentProperty",altObject , propertyInfo , value )));
         String data = altUnityDriver.Recvall();
         if (!data.Contains("error:")) return data;
         AltUnityDriver.HandleErrors(data);
@@ -80,7 +80,7 @@ public class AltUnityObject
         String actionInfo =
             JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters,typeOfParameters, assemblyName));
         altUnityDriver.Socket.Client.Send(
-            Encoding.ASCII.GetBytes("callComponentMethodForObject;" + altObject + ";" + actionInfo + ";&"));
+            Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("callComponentMethodForObject", altObject , actionInfo )));
         String data = altUnityDriver.Recvall();
         if (!data.Contains("error:")) return data;
         AltUnityDriver.HandleErrors(data);
@@ -97,7 +97,7 @@ public class AltUnityObject
     public AltUnityObject ClickEvent()
     {
         String altObject = JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("clickEvent;" + altObject + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("clickEvent" ,altObject )));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:"))
         {
@@ -119,7 +119,7 @@ public class AltUnityObject
         });
         // Debug.Log("position string:" + positionString);
         string altObject = JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("dragObject;" + positionString + ";" + altObject + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("dragObject",positionString , altObject )));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:"))
         {
@@ -140,7 +140,7 @@ public class AltUnityObject
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         });
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("dropObject;" + positionString + ";" + altObject + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("dropObject", positionString , altObject)));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:"))
         {
@@ -158,7 +158,7 @@ public class AltUnityObject
     public AltUnityObject PointerUpFromObject()
     {
         string altObject = JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("pointerUpFromObject;" + altObject + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("pointerUpFromObject", altObject )));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:"))
         {
@@ -175,7 +175,7 @@ public class AltUnityObject
     public AltUnityObject PointerDownFromObject()
     {
         string altObject = JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("pointerDownFromObject;" + altObject + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("pointerDownFromObject" , altObject)));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:"))
         {
@@ -193,7 +193,7 @@ public class AltUnityObject
     public AltUnityObject PointerEnterObject()
     {
         string altObject = JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("pointerEnterObject;" + altObject + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("pointerEnterObject", altObject)));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:"))
         {
@@ -210,7 +210,7 @@ public class AltUnityObject
     public AltUnityObject PointerExitObject()
     {
         string altObject = JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("pointerExitObject;" + altObject + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("pointerExitObject",altObject )));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:"))
         {
@@ -227,7 +227,7 @@ public class AltUnityObject
     public AltUnityObject Tap()
     {
         string altObject = JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("tapObject;" + altObject + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("tapObject",altObject )));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:"))
         {
@@ -244,7 +244,7 @@ public class AltUnityObject
 
     public List<AltUnityComponent> GetAllComponents()
     {
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("getAllComponents;" + id + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("getAllComponents", id.ToString() )));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityComponent>>(data);
         AltUnityDriver.HandleErrors(data);
@@ -254,8 +254,8 @@ public class AltUnityObject
     public List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent)
     {
         var altComponent = JsonConvert.SerializeObject(altUnityComponent);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("getAllFields;" + id + ";" + altComponent + ";&"));
-        string data = altUnityDriver.Recvall();
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("getAllFields",id.ToString() , altComponent)));
+        string data = altUnityDriver.Recvall(); 
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<AltUnityProperty>>(data);
         AltUnityDriver.HandleErrors(data);
         return null;
@@ -263,7 +263,7 @@ public class AltUnityObject
     public List<string> GetAllMethods(AltUnityComponent altUnityComponent)
     {
         var altComponent = JsonConvert.SerializeObject(altUnityComponent);
-        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes("getAllMethods;" + altComponent + ";&"));
+        altUnityDriver.Socket.Client.Send(Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("getAllMethods",altComponent )));
         string data = altUnityDriver.Recvall();
         if (!data.Contains("error:")) return JsonConvert.DeserializeObject<List<string>>(data);
         AltUnityDriver.HandleErrors(data);
