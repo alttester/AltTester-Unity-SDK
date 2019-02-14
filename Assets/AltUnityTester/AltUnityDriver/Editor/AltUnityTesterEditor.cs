@@ -138,10 +138,15 @@ public class AltUnityTesterEditor : EditorWindow
         }
 
         if (isTestRunResultAvailable)
+        {
             isTestRunResultAvailable = !EditorUtility.DisplayDialog("Test Report",
-                " Total tests:" + (reportTestFailed + reportTestPassed) + Environment.NewLine + " Tests passed:" +
-                reportTestPassed + Environment.NewLine + " Tests failed:" + reportTestFailed + Environment.NewLine +
-                " Duration:" + timeTestRan + " seconds", "Ok");
+                  " Total tests:" + (reportTestFailed + reportTestPassed) + Environment.NewLine + " Tests passed:" +
+                  reportTestPassed + Environment.NewLine + " Tests failed:" + reportTestFailed + Environment.NewLine +
+                  " Duration:" + timeTestRan + " seconds", "Ok");
+            reportTestFailed = 0;
+            reportTestPassed = 0;
+            timeTestRan = 0;
+        }
         if (Application.isPlaying && !EditorConfiguration.ranInEditor)
         {
             EditorConfiguration.ranInEditor = true;
