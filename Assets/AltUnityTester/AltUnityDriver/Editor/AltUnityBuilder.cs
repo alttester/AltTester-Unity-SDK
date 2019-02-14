@@ -169,6 +169,10 @@ public class AltUnityBuilder {
         SceneWithAltUnityRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
 
         AltUnityRunner = PrefabUtility.InstantiatePrefab(altUnityRunner);
+        AltUnityRunner altUnityRunnerComponent = ((GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
+        altUnityRunnerComponent.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.serverPort;
+        altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.requestEnding;
+        altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.requestSeparator;
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         EditorSceneManager.SaveOpenScenes();
 

@@ -50,76 +50,75 @@ class AltElement(object):
     def get_component_property(self, component_name, property_name, assembly_name=''):
         alt_object = self.toJSON()
         property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"'+',"assembly":"' + assembly_name + '"}'
-        data = self.alt_unity_driver.send_data('getObjectComponentProperty;' + alt_object + ';'+ property_info + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('getObjectComponentProperty',alt_object,property_info ))
         return self.alt_unity_driver.handle_errors(data)
 
     def set_component_property(self, component_name, property_name, value, assembly_name=''):
         alt_object = self.toJSON()
         property_info = '{"component":"' + component_name + '", "property":"' + property_name + '"'+',"assembly":"' + assembly_name + '"}'
-        data = self.alt_unity_driver.send_data('setObjectComponentProperty;' + alt_object + ';'+ property_info + ';' + value + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('setObjectComponentProperty',alt_object, property_info,value ))
         return self.alt_unity_driver.handle_errors(data)
 
     def call_component_method(self, component_name, method_name, parameters,assembly_name='',type_of_parameters=''):
         alt_object = self.toJSON()
-        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'", "typeOfParameters":"' + type_of_parameters + '", "assembly":"' +assembly_name  +'"}'
-        print("sent data: "+action_info)
-        data = self.alt_unity_driver.send_data('callComponentMethodForObject;' + alt_object + ';'+ action_info + ';&')
+        action_info = '{"component":"' + component_name + '", "method":"' + method_name + '", "parameters":"' + parameters +'"'+',"assembly":"' + assembly_name + '", "typeofparameters":"' + type_of_parameters +'"}'
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('callComponentMethodForObject', alt_object,action_info  ))
         return self.alt_unity_driver.handle_errors(data)
 
     def get_text(self):
         alt_object = self.toJSON()
         property_info = '{"component":"UnityEngine.UI.Text", "property":"text"}'
-        data = self.alt_unity_driver.send_data('getObjectComponentProperty;' + alt_object + ';'+ property_info + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('getObjectComponentProperty', alt_object,  property_info  ))
         return self.alt_unity_driver.handle_errors(data)
 
     def click_Event(self):
         alt_object = self.toJSON()
-        data = self.alt_unity_driver.send_data('clickObject;' + alt_object + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('clickObject',alt_object))
         return self.alt_unity_driver.handle_errors(data)
     def mobile_tap(self, durationInSeconds=0.5):
         self.appium_driver.tap([[float(self.x), float(self.mobileY)]], durationInSeconds * 1000)
     
     def mobile_dragTo(self, end_x, end_y, durationIndSeconds=0.5):
-        self.appium_driver.swipe(self.x, self.mobileY, end_x, end_y, durationIndSeconds)
+        self.appium_driver.swipe(self.x, self.mobileY, end_x, end_y, durationIndSeconds* 1000)
 
     def mobile_dragToElement(self, other_element, durationIndSeconds=0.5):
-        self.appium_driver.swipe(self.x, self.mobileY, other_element.x, other_element.mobileY, durationIndSeconds)
+        self.appium_driver.swipe(self.x, self.mobileY, other_element.x, other_element.mobileY, durationIndSeconds* 1000)
     
     def drag(self, x, y):
         alt_object = self.toJSON()
         position_string = self.alt_unity_driver.vector_to_json_string(x, y)
-        data = self.alt_unity_driver.send_data('dragObject;' + position_string + ';' + alt_object + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('dragObject', position_string,alt_object  ))
         return self.alt_unity_driver.handle_errors(data)
 
     def drop(self, x, y):
         alt_object = self.toJSON()
         position_string = self.alt_unity_driver.vector_to_json_string(x, y)
-        data = self.alt_unity_driver.send_data('dropObject;' + position_string + ';' + alt_object + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('dropObject', position_string , alt_object ))
         return self.alt_unity_driver.handle_errors(data)
     
     def pointer_up(self):
         alt_object = self.toJSON()
-        data = self.alt_unity_driver.send_data('pointerUpFromObject;' + alt_object + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('pointerUpFromObject', alt_object ))
         return self.alt_unity_driver.handle_errors(data)
 
     def pointer_down(self):
         alt_object = self.toJSON()
-        data = self.alt_unity_driver.send_data('pointerDownFromObject;' + alt_object + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('pointerDownFromObject', alt_object ))
         return self.alt_unity_driver.handle_errors(data)
 
     def pointer_enter(self):
         alt_object = self.toJSON()
-        data = self.alt_unity_driver.send_data('pointerEnterObject;' + alt_object + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('pointerEnterObject', alt_object ))
         return self.alt_unity_driver.handle_errors(data)
 
     def pointer_exit(self):
         alt_object = self.toJSON()
-        data = self.alt_unity_driver.send_data('pointerExitObject;' + alt_object + ';&')
+        data = self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('pointerExitObject', alt_object ))
         return self.alt_unity_driver.handle_errors(data)
     
     def tap(self):
         alt_object=self.toJSON()
-        data=self.alt_unity_driver.send_data('tapObject;'+alt_object+';&')
+        data=self.alt_unity_driver.send_data(self.alt_unity_driver.create_command('tapObject',alt_object))
         return self.alt_unity_driver.handle_errors(data)
 
 
@@ -127,8 +126,10 @@ class AltElement(object):
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,requestSeparator=';',requestEnd='&'):
         self.TCP_PORT = TCP_PORT
+        self.requestSeparator=requestSeparator
+        self.requestEnd=requestEnd
         if (appium_driver != None):
             self.appium_driver = appium_driver
             if (platform != None):
@@ -175,7 +176,7 @@ class AltrunUnityDriver(object):
                 print('AltUnityServer - could not use port ' + str(port))
 
     def stop(self):
-        data = self.send_data('closeConnection;&')
+        data = self.send_data(self.create_command('closeConnection'))
         print('Sent close connection command...')
         time.sleep(1)
         self.socket.close()
@@ -206,9 +207,17 @@ class AltrunUnityDriver(object):
         else:
             return self.recvall()
 
+    def create_command(self,*arguments):
+        command=''
+        for argument in arguments:
+            command+=str(argument)+self.requestSeparator
+        command+=self.requestEnd
+        return command
+            
+
     def call_static_methods(self, type_name, method_name, parameters, type_of_parameters = '',assembly=''):
         action_info = '{"component":"' + type_name + '", "method":"' + method_name + '", "parameters":"' + parameters + '", "typeofparameters":"' + type_of_parameters +'", "assembly":"'+assembly+'"}'
-        data=self.send_data("callComponentMethodForObject;" + "" + "; " + action_info + "; &")
+        data=self.send_data(self.create_command("callComponentMethodForObject","",action_info))
         return self.handle_errors(data)
     
     def get_alt_element(self, data):
@@ -250,43 +259,43 @@ class AltrunUnityDriver(object):
  
     def get_all_elements(self,camera_name='',enabled=True):
         if enabled==True:
-            data = self.send_data('findAllObjects;'+ camera_name +';'+'true'+';&')
+            data = self.send_data(self.create_command('findAllObjects', camera_name ,'true'))
         else:
-            data = self.send_data('findAllObjects;'+ camera_name +';'+'false'+';&')
+            data = self.send_data(self.create_command('findAllObjects', camera_name ,'false'))
 
         return self.get_alt_elements(data)
 
     def find_element(self, name,camera_name='',enabled=True):
         if enabled==True:
-            data = self.send_data('findObjectByName;' + name + ';' + camera_name +';'+'true'+ ';&')
+            data = self.send_data(self.create_command('findObjectByName', name , camera_name ,'true'))
         else:
-            data = self.send_data('findObjectByName;' + name + ';' + camera_name +';'+'false'+ ';&')
+            data = self.send_data(self.create_command('findObjectByName', name , camera_name ,'false'))
 
         return self.get_alt_element(data)
 
     def find_element_where_name_contains(self, name,camera_name='',enabled=True):
         if enabled==True:
-            data = self.send_data('findObjectWhereNameContains;' + name + ';' + camera_name+';'+'true' + ';&')
+            data = self.send_data(self.create_command('findObjectWhereNameContains', name , camera_name,'true' ))
         else:
-            data = self.send_data('findObjectWhereNameContains;' + name + ';' + camera_name+';'+'false' + ';&')
+            data = self.send_data(self.create_command('findObjectWhereNameContains', name , camera_name,'false' ))
         return self.get_alt_element(data)
 
     def find_elements(self, name,camera_name='',enabled=True):
         if enabled==True:
-            data = self.send_data('findObjectsByName;' + name + ';' + camera_name +';'+'true'+ ';&')
+            data = self.send_data(self.create_command('findObjectsByName', name , camera_name ,'true'))
         else:
-            data = self.send_data('findObjectsByName;' + name + ';' + camera_name +';'+'false'+ ';&')
+            data = self.send_data(self.create_command('findObjectsByName', name , camera_name ,'false'))
         return self.get_alt_elements(data)        
 
     def find_elements_where_name_contains(self, name,camera_name='',enabled=True):
         if enabled==True:
-            data = self.send_data('findObjectsWhereNameContains;' + name + ';' + camera_name +';'+'true'+ ';&')
+            data = self.send_data(self.create_command('findObjectsWhereNameContains', name , camera_name ,'true'))
         else:
-            data = self.send_data('findObjectsWhereNameContains;' + name + ';' + camera_name +';'+'false'+ ';&')
+            data = self.send_data(self.create_command('findObjectsWhereNameContains', name , camera_name ,'false'))
         return self.get_all_elements(data)
 
     def get_current_scene(self):
-        data = self.send_data('getCurrentScene;&')
+        data = self.send_data(self.create_command('getCurrentScene'))
         if (data != '' and 'error:' not in data):
             alt_el = self.get_alt_element(data)
             print('Current scene is ' + alt_el.name)
@@ -294,7 +303,7 @@ class AltrunUnityDriver(object):
         return self.handle_errors(data)
 
     def click_at_coordinates(self, x, y):
-        data = self.send_data("clickScreenOnXY;" + x + ";" + y + ";&")
+        data = self.send_data(self.create_command("clickScreenOnXY",x,y ))
         print('Clicked at ' + str(x) + ', ' + str(y))
         return data
 
@@ -302,7 +311,7 @@ class AltrunUnityDriver(object):
         start_position = self.vector_to_json_string(x_start, y_start)
         end_position = self.vector_to_json_string(x_end, y_end)
         print('Swipe from ' + start_position + ' to ' + end_position + ' with duration: ' + str(duration_in_secs) + ' secs')
-        data = self.send_data('movingTouch;' + start_position + ';' + end_position + ';' + str(duration_in_secs) + ';&')
+        data = self.send_data(self.create_command('movingTouch', start_position , end_position , str(duration_in_secs) ))
         return self.handle_errors(data)
 
 
@@ -313,7 +322,7 @@ class AltrunUnityDriver(object):
         time.sleep(duration_in_secs)
         swipe_in_progress = True
         while swipe_in_progress:
-            swipe_finished = self.send_data('swipeFinished;&')
+            swipe_finished = self.send_data(self.create_command('swipeFinished'))
             self.handle_errors(swipe_finished)
             if swipe_finished is 'Yes':
                 break
@@ -324,49 +333,49 @@ class AltrunUnityDriver(object):
     def tilt(self, x, y, z):
         acceleration = self.vector_to_json_string(x, y, z)
         print ('Tilt with acceleration: ' + acceleration)
-        data = self.send_data('tilt;' + acceleration + ';&')
+        data = self.send_data(self.create_command('tilt', acceleration ))
         return self.handle_errors(data)
 
     def set_player_pref_key(self, key_name, value, type):
         data = ''
         if type is 1:
             print('Set Int Player Pref for key: ' + key_name + ' to ' + str(value))
-            data = self.send_data('setKeyPlayerPref;' + key_name + ';' + str(value) + ';' + str(PlayerPrefKeyType.Int) + ';&')
+            data = self.send_data(self.create_command('setKeyPlayerPref', key_name , str(value) , str(PlayerPrefKeyType.Int) ))
         if type is 2:
             print('Set String Player Pref for key: ' + key_name + ' to ' + str(value))
-            data = self.send_data('setKeyPlayerPref;' + key_name + ';' + str(value) + ';' + str(PlayerPrefKeyType.String) + ';&')
+            data = self.send_data(self.create_command('setKeyPlayerPref', key_name , str(value) , str(PlayerPrefKeyType.String) ))
         if type is 3:
             print('Set Float Player Pref for key: ' + key_name + ' to ' + str(value))
-            data = self.send_data('setKeyPlayerPref;' + key_name + ';' + str(value) + ';' + str(PlayerPrefKeyType.Float) + ';&')
+            data = self.send_data(self.create_command('setKeyPlayerPref', key_name , str(value) , str(PlayerPrefKeyType.Float) ))
         return self.handle_errors(data)
 
     def get_player_pref_key(self, key_name, type):
         data = ''
         if type is 1:
             print('Get Int Player Pref for key: ' + key_name)
-            data = self.send_data('getKeyPlayerPref;' + key_name + ';' + str(PlayerPrefKeyType.Int) + ';&')
+            data = self.send_data(self.create_command('getKeyPlayerPref', key_name , str(PlayerPrefKeyType.Int) ))
         if type is 2:
             print('Get String Player Pref for key: ' + key_name)            
-            data = self.send_data('getKeyPlayerPref;' + key_name + ';' + str(PlayerPrefKeyType.String) + ';&')
+            data = self.send_data(self.create_command('getKeyPlayerPref', key_name , str(PlayerPrefKeyType.String) ))
         if type is 3:
             print('Get Float Player Pref for key: ' + key_name)            
-            data = self.send_data('getKeyPlayerPref;' + key_name + ';' + str(PlayerPrefKeyType.Float) + ';&')
+            data = self.send_data(self.create_command('getKeyPlayerPref', key_name , str(PlayerPrefKeyType.Float) ))
         return self.handle_errors(data)
 
     
     def delete_player_pref_key(self, key_name):
         print('Delete Player Pref for key: ' + key_name)        
-        data = self.send_data('deleteKeyPlayerPref;' + key_name + ';&')
+        data = self.send_data(self.create_command('deleteKeyPlayerPref', key_name ))
         return self.handle_errors(data)
 
 
     def delete_player_prefs(self):
         print('Delete all Player Prefs')
-        data = self.send_data('deletePlayerPref;&')
+        data = self.send_data(self.create_command('deletePlayerPref'))
         return self.handle_errors(data)
 
     def load_scene(self, scene_name):
-        data = self.send_data('loadScene;' + scene_name + '&')
+        data = self.send_data(self.create_command('loadScene', scene_name))
         if (data == 'Ok'):
             print('Scene loaded: ' + scene_name)
             return data
@@ -450,16 +459,16 @@ class AltrunUnityDriver(object):
 
     def find_element_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
         if enabled==True:
-            data = self.send_data('findObjectByComponent;' +assembly_name+';'+ component_name + ';' + camera_name +';'+'true'+ ';&')
+            data = self.send_data(self.create_command('findObjectByComponent',assembly_name, component_name , camera_name ,'true'))
         else:
-            data = self.send_data('findObjectByComponent;' +assembly_name+';'+ component_name + ';' + camera_name +';'+'false'+ ';&')
+            data = self.send_data(self.create_command('findObjectByComponent',assembly_name, component_name , camera_name ,'false'))
         return self.get_alt_element(data)
 
     def find_elements_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
         if enabled==True:
-            data = self.send_data('findObjectsByComponent;' +assembly_name+';'+ component_name + ';' + camera_name +';'+'true'+ ';&')
+            data = self.send_data(self.create_command('findObjectsByComponent',assembly_name, component_name , camera_name ,'true'))
         else:
-            data = self.send_data('findObjectsByComponent;'  +assembly_name+';'+ component_name + ';' + camera_name +';'+'false'+';&')
+            data = self.send_data(self.create_command('findObjectsByComponent',assembly_name, component_name , camera_name ,'false'))
         return self.get_alt_elements(data)
 
     def vector_to_json_string(self, x, y, z=None):
@@ -503,7 +512,7 @@ class AltrunUnityDriver(object):
         
 
     def tap_at_coordinates(self,x,y):
-        data=self.send_data('tapScreen;'+str(x)+';'+str(y)+';&')
+        data=self.send_data(self.create_command('tapScreen',x,y))
         if 'error:notFound' in data:
             return None
         return self.get_alt_element(data)

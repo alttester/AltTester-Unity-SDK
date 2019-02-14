@@ -75,7 +75,7 @@ public class AltClientSocketHandler
                     string data = dataBuffer.ToString();
                     dataBuffer = new StringBuilder();
 
-                    string[] tokens = data.Split(SeparatorSequenceChars);
+                    string[] tokens = data.Split(new[] { SeparatorSequence }, StringSplitOptions.None);
 
                     bool endsWithSeparator = data.EndsWith(SeparatorSequence);
 
