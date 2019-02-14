@@ -79,10 +79,10 @@ class AltElement(object):
         self.appium_driver.tap([[float(self.x), float(self.mobileY)]], durationInSeconds * 1000)
     
     def mobile_dragTo(self, end_x, end_y, durationIndSeconds=0.5):
-        self.appium_driver.swipe(self.x, self.mobileY, end_x, end_y, durationIndSeconds)
+        self.appium_driver.swipe(self.x, self.mobileY, end_x, end_y, durationIndSeconds* 1000)
 
     def mobile_dragToElement(self, other_element, durationIndSeconds=0.5):
-        self.appium_driver.swipe(self.x, self.mobileY, other_element.x, other_element.mobileY, durationIndSeconds)
+        self.appium_driver.swipe(self.x, self.mobileY, other_element.x, other_element.mobileY, durationIndSeconds* 1000)
     
     def drag(self, x, y):
         alt_object = self.toJSON()
