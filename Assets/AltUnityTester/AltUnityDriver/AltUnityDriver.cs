@@ -513,9 +513,17 @@ public class AltUnityDriver
     public TextureInformation ReceiveImage() {
 
         var data = Recvall();
+     
         string[] screenshotInfo = JsonConvert.DeserializeObject<string[]>(data);
 
-        var scaleDifference = screenshotInfo[0];
+        // Some workaround this: https://stackoverflow.com/questions/710853/base64-string-throwing-invalid-character-error
+        var screenshotParts = screenshotInfo[4].Split('\0');
+        screenshotInfo[4] = "";
+        for (int i = 0; i < screenshotParts.Length; i++) {
+            screenshotInfo[4] += screenshotParts[i];
+        }
+
+        var scaleDifference = screenshotInfo[0];    
 
         var length = screenshotInfo[1];
         var LongLength = JsonConvert.DeserializeObject<long>(length);
@@ -523,7 +531,10 @@ public class AltUnityDriver
         var textureFormat = (TextureFormat)Enum.Parse(typeof(TextureFormat), textureFormatString);
         var textSizeString = screenshotInfo[3];
         var textSizeVector3 = JsonConvert.DeserializeObject<Vector3>(textSizeString);
-        Byte[] imageCompressed = JsonConvert.DeserializeObject<Byte[]>(screenshotInfo[4]);
+
+        Byte[] imageCompressed = JsonConvert.DeserializeObject<Byte[]>(screenshotInfo[4], new JsonSerializerSettings {
+            StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
+        });  
 
         Byte[] imageDecompressed=DeCompressScreenshot(imageCompressed);
         return new TextureInformation(imageDecompressed, JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3, textureFormat);

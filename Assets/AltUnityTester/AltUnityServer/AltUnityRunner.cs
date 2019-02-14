@@ -2306,7 +2306,11 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
             Debug.Log(DateTime.Now + " Serialize screenshot");
-            fullResponse[4] = JsonConvert.SerializeObject(screenshotCompressed);
+            fullResponse[4] = JsonConvert.SerializeObject(screenshotCompressed, new JsonSerializerSettings
+            {
+                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
+            });
+        
             Debug.Log(DateTime.Now + " Finished Serialize Screenshot Start serialize response");
             handler.SendResponse(JsonConvert.SerializeObject(fullResponse));
             Debug.Log(DateTime.Now + " Finished send Response");
