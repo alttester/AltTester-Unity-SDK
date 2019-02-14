@@ -63,7 +63,7 @@ The tests that are included in the example folder will simply check the current 
 
 There are only 2 special things that I am aware of that you need to be aware of in your tests to get the working with AWS Device Farm:
 
-1. The tests need to be runable with py.test, so check that the following command shows the tests you want to run:
+1. The tests need to be runnable with py.test, so check that the following command shows the tests you want to run:
  ``` py.test --collect-only tests/```
 
 2. You don't need to specify which app to run the Appium tests with when creating the Appium driver - the Appium server is already started with the app capability pointing to the application that you have uploaded at step 1 in the previous section
