@@ -474,9 +474,9 @@ public void TestCallStaticMethod() throws Exception {
 
     @Test
     public void TestGetSetTimeScale(){
-        altUnityDriver.setTimeScale(0.1);
+        altUnityDriver.setTimeScale(0.1f);
         float timeScale = altUnityDriver.getTimeScale();
-        assertEquals(0.1, timeScale);
+        assertEquals(0.1f, timeScale);
     }
 
 }
