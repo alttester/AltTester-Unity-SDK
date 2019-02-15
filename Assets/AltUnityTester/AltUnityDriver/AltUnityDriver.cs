@@ -104,6 +104,25 @@ public class AltUnityDriver
         HandleErrors(data);
     }
 
+    public void SetTimeScale(float timeScale)
+    {
+        Socket.Client.Send(toBytes(CreateCommand("setTimeScale", JsonConvert.SerializeObject(timeScale))));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+    }
+
+    public float GetTimeScale()
+    {
+        Socket.Client.Send(toBytes(CreateCommand("getTimeScale")));
+        var data = Recvall();
+        if (!data.Contains("error"))
+            return JsonConvert.DeserializeObject<float>(data);
+        HandleErrors(data);
+        return -1f;
+    }
+
     public string CallStaticMethods(String typeName, String methodName,
         String parameters, String typeOfParameters = "", String assemblyName = "")
     {
@@ -431,15 +450,7 @@ public class AltUnityDriver
         throw new WaitTimeOutException("Element " + name + " not loaded after " + timeout + " seconds");
     }
 
-    /// <summary>
-    /// Wait until in the scene there is an object with text
-    /// </summary>
-    /// <param name="name">Name of the object</param>
-    /// <param name="text"></param>
-    /// <param name="cameraName"></param>
-    /// <param name="timeout"></param>
-    /// <param name="interval"></param>
-    /// <returns></returns>
+
     public AltUnityObject WaitForElementWithText(String name, string text, String cameraName = "", double timeout = 20, double interval = 0.5)
     {
         double time = 0;
@@ -478,11 +489,7 @@ public class AltUnityDriver
         HandleErrors(data);
         return null;
     }
-    /// <summary>
-    /// Find all GameObjects that have componentName
-    /// </summary>
-    /// <param name="componentName">Name of the component by wich is going to search</param>
-    /// <returns>List of AltUnityObjects that have component</returns>
+  
     public List<AltUnityObject> FindElementsByComponent(String componentName, String assemblyName = "", String cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes(CreateCommand("findObjectsByComponent", assemblyName, componentName, cameraName, enabled.ToString())));

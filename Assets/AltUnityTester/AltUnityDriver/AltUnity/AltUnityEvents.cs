@@ -57,6 +57,9 @@ public class GetScreenshotCommand: UnityEvent<Vector2,AltClientSocketHandler> { 
 public class HighlightObjectScreenshotCommand : UnityEvent<int,string, Vector2, AltClientSocketHandler> { }
 public class HighlightObjectFromCoordinatesScreenshotCommand : UnityEvent<Vector2,string, Vector2, AltClientSocketHandler> { }
 
+public class SetTimeScaleCommand : UnityEvent<float, AltClientSocketHandler> { }
+public class GetTimeScaleCommand : UnityEvent<AltClientSocketHandler> { }
+
 public class AltUnityEvents
 {
 
@@ -110,6 +113,9 @@ public class AltUnityEvents
     public GetScreenshotCommand GetScreenshot;
     public HighlightObjectScreenshotCommand HighlightObjectScreenshot;
     public HighlightObjectFromCoordinatesScreenshotCommand HighlightObjectFromCoordinates;
+
+    public SetTimeScaleCommand SetTimeScale;
+    public GetTimeScaleCommand GetTimeScale;
 
     // We are a singleton!
     private static AltUnityEvents _instance;
@@ -172,7 +178,8 @@ public class AltUnityEvents
                 _instance.HighlightObjectFromCoordinates = new HighlightObjectFromCoordinatesScreenshotCommand();
                 _instance.HighlightObjectScreenshot = new HighlightObjectScreenshotCommand();
 
-
+                _instance.SetTimeScale = new SetTimeScaleCommand();
+                _instance.GetTimeScale = new GetTimeScaleCommand();
             }
             return _instance;
         }

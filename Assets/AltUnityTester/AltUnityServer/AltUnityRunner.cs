@@ -63,7 +63,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     }
     void Start()
     {
-
         _jsonSettings = new JsonSerializerSettings();
         _jsonSettings.NullValueHandling = NullValueHandling.Ignore;
 
@@ -110,9 +109,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         AltUnityEvents.Instance.DeleteKeyPlayerPref.AddListener(DeleteKeyPlayerPref);
         AltUnityEvents.Instance.DeletePlayerPref.AddListener(DeletePlayerPref);
 
-
-
-
         AltUnityEvents.Instance.GetAllComponents.AddListener(GetAllComponents);
         AltUnityEvents.Instance.GetAllMethods.AddListener(GetAllMethods);
         AltUnityEvents.Instance.GetAllFields.AddListener(GetAllFields);
@@ -123,6 +119,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         AltUnityEvents.Instance.HighlightObjectScreenshot.AddListener(HighLightSelectedObject);
         AltUnityEvents.Instance.HighlightObjectFromCoordinates.AddListener(HightObjectFromCoordinates);
 
+        AltUnityEvents.Instance.SetTimeScale.AddListener(SetTimeScale);
+        AltUnityEvents.Instance.GetTimeScale.AddListener(GetTimeScale);
 
         if (DebugBuildNeeded && !Debug.isDebugBuild)
         {
@@ -137,10 +135,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
     }
 
-
-    /// <summary>
-    /// Start listening to client after server starts
-    /// </summary>
     public void StartSocketServer()
     {
         AltIClientSocketHandlerDelegate clientSocketHandlerDelegate = this;
@@ -152,8 +146,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             clientSocketHandlerDelegate, SocketPortNumber, maxClients, requestEndingString, encoding);
 
         _socketServer.StartListeningForConnections();
-
-        Debug.Log("TESTEST " + requestSeparatorString + "  " + requestEndingString);
 
         Debug.Log(String.Format(
             "AltUnity Server at {0} on port {1}",
@@ -464,6 +456,15 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             case "loadScene":
                 Debug.Log("LoadScene");
                 AltUnityEvents.Instance.LoadScene.Invoke(pieces[1], handler);
+                break;
+            case "setTimeScale":
+                Debug.Log("SetTimeScale");
+                float timeScale = JsonConvert.DeserializeObject<float>(pieces[1]);
+                AltUnityEvents.Instance.SetTimeScale.Invoke(timeScale, handler);
+                break;
+            case "getTimeScale":
+                Debug.Log("GetTimeScale");
+                AltUnityEvents.Instance.GetTimeScale.Invoke(handler);
                 break;
             case "deletePlayerPref":
                 Debug.Log("deletePlayerPref");
@@ -2150,6 +2151,37 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 cameraNames.Add(camera.name);
             }
             handler.SendResponse(JsonConvert.SerializeObject(cameraNames));
+        });
+    }
+
+    private void SetTimeScale(float timeScale, AltClientSocketHandler handler) {
+        _responseQueue.ScheduleResponse(delegate {
+            string response = errorCouldNotPerformOperationMessage;
+            try {
+                Time.timeScale = timeScale;
+                response = "Ok";
+            } catch (Exception exception) {
+                Debug.Log(exception);
+                response = errorUnknownError + ";" + exception;
+            } finally {
+                handler.SendResponse(response);
+
+            }
+        });
+    }
+
+    private void GetTimeScale(AltClientSocketHandler handler) {
+        _responseQueue.ScheduleResponse(delegate {
+            string response = errorCouldNotPerformOperationMessage;
+            try {
+                response = JsonConvert.SerializeObject(Time.timeScale);
+            } catch (Exception exception) {
+                Debug.Log(exception);
+                response = errorUnknownError + ";" + exception;
+            } finally {
+                handler.SendResponse(response);
+
+            }
         });
     }
 

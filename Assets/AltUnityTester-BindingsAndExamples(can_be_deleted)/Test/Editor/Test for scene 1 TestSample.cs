@@ -620,6 +620,14 @@ public class TestForScene1TestSample
         Assert.AreEqual(null, altObject);
     }
 
+    [Test]
+    public void TestSetTimeScale() {
+        altUnityDriver.SetTimeScale(0.1f);
+        Thread.Sleep(1000);
+        var timeScaleFromGame = altUnityDriver.GetTimeScale();
+        Assert.AreEqual(0.1f, timeScaleFromGame);
+    }
+
 
 
 }
