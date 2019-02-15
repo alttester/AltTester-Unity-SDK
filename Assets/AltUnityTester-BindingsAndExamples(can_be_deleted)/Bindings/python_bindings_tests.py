@@ -238,6 +238,12 @@ class PythonTests(unittest.TestCase):
     def test_tap_on_screen_where_there_are_no_objects(self):
         alt_element=self.altdriver.tap_at_coordinates(1,1)
         self.assertIsNone(alt_element)
+
+    def test_set_and_get_time_scale(self):
+        self.altdriver.set_time_scale(0.1)
+        time.sleep(1)
+        time_scale=self.altdriver.get_time_scale()
+        self.assertEquals(0.1, time_scale)
     
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
