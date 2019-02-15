@@ -9,6 +9,7 @@ public class EditorConfiguration : ScriptableObject
     public  string OutputPathName = "";
     public  string AdbPath = "/usr/local/bin/adb";
     public string IProxyPath = "/usr/local/bin/iproxy";
+    public string XcrunPath="/usr/bin/xcrun";
     public bool AutomaticallySign;
     public string SigningTeamId;
     public int BuildNumber = 0;

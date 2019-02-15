@@ -636,6 +636,10 @@ public class AltUnityTesterEditor : EditorWindow
                 EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
                 EditorConfiguration.IProxyPath = EditorGUILayout.TextField("Iproxy Path: ", EditorConfiguration.IProxyPath);
                 EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("", GUILayout.MaxWidth(30));
+                EditorConfiguration.XcrunPath = EditorGUILayout.TextField("Xcrun Path: ", EditorConfiguration.XcrunPath);
+                EditorGUILayout.EndHorizontal();
             }
 #endif
 
