@@ -11,7 +11,7 @@
         LocalPort = localPort;
         RemotePort = remotePort;
         Active = active;
-        Platform = Platform;
+        Platform = platform;
     }
 
    
