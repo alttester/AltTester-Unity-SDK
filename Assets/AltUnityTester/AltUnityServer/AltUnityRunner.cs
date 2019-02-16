@@ -122,7 +122,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         AltUnityEvents.Instance.GetScreenshot.AddListener(GetScreenshot);
         AltUnityEvents.Instance.HighlightObjectScreenshot.AddListener(HighLightSelectedObject);
         AltUnityEvents.Instance.HighlightObjectFromCoordinates.AddListener(HightObjectFromCoordinates);
-
+        AltUnityEvents.Instance.ScreenshotReady.AddListener(ScreenshotReady);
 
         if (DebugBuildNeeded && !Debug.isDebugBuild)
         {
@@ -2258,11 +2258,17 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     }
     private void GetScreenshot(Vector2 size, AltClientSocketHandler handler)
     {
-        _responseQueue.ScheduleResponse(delegate
-        {
+        _responseQueue.ScheduleResponse(delegate {
+            StartCoroutine(TakeScreenshot(size, handler));
+        });
+        
+    }
+
+    private void ScreenshotReady(Texture2D screenshot, Vector2 size, AltClientSocketHandler handler) {
+        _responseQueue.ScheduleResponse(delegate {
             int width = (int)size.x;
             int height = (int)size.y;
-            var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+
             var heightDifference = screenshot.height - height;
             var widthDifference = screenshot.width - width;
             if (heightDifference >= 0 || widthDifference >= 0)
@@ -2316,7 +2322,12 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             Debug.Log(DateTime.Now + " Finished send Response");
             Destroy(screenshot);
         });
+    }
 
+    private IEnumerator TakeScreenshot(Vector2 size, AltClientSocketHandler handler) {
+        yield return new WaitForEndOfFrame();
+        var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+        AltUnityEvents.Instance.ScreenshotReady.Invoke(screenshot, size, handler);
     }
 
     public static void CopyTo(Stream src, Stream dest)

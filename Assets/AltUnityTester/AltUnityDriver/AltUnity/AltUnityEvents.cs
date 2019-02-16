@@ -56,6 +56,7 @@ public class GetAllCamerasCommand: UnityEvent<AltClientSocketHandler> { }
 public class GetScreenshotCommand: UnityEvent<Vector2,AltClientSocketHandler> { }
 public class HighlightObjectScreenshotCommand : UnityEvent<int,string, Vector2, AltClientSocketHandler> { }
 public class HighlightObjectFromCoordinatesScreenshotCommand : UnityEvent<Vector2,string, Vector2, AltClientSocketHandler> { }
+public class ScreenshotReady: UnityEvent <Texture2D, Vector2, AltClientSocketHandler> { }
 
 public class AltUnityEvents
 {
@@ -111,6 +112,7 @@ public class AltUnityEvents
     public HighlightObjectScreenshotCommand HighlightObjectScreenshot;
     public HighlightObjectFromCoordinatesScreenshotCommand HighlightObjectFromCoordinates;
 
+    public ScreenshotReady ScreenshotReady;
     // We are a singleton!
     private static AltUnityEvents _instance;
     public static AltUnityEvents Instance
@@ -172,7 +174,7 @@ public class AltUnityEvents
                 _instance.HighlightObjectFromCoordinates = new HighlightObjectFromCoordinatesScreenshotCommand();
                 _instance.HighlightObjectScreenshot = new HighlightObjectScreenshotCommand();
 
-
+                _instance.ScreenshotReady = new ScreenshotReady();
             }
             return _instance;
         }
