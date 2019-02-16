@@ -126,7 +126,7 @@ class AltElement(object):
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,requestSeparator=';',requestEnd='&'):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,requestSeparator=';',requestEnd='&',deviceID=""):
         self.TCP_PORT = TCP_PORT
         self.requestSeparator=requestSeparator
         self.requestEnd=requestEnd
@@ -134,7 +134,7 @@ class AltrunUnityDriver(object):
             self.appium_driver = appium_driver
             if (platform != None):
                 print('Starting tests on ' + platform)
-                self.setup_port_forwarding(platform, TCP_FWD_PORT)
+                self.setup_port_forwarding(deviceID=deviceID,platform=platform, port=TCP_FWD_PORT)
 
         while (timeout > 0):
             try:
@@ -163,15 +163,21 @@ class AltrunUnityDriver(object):
         except:
             print('AltUnityServer - adb probably not installed ')
 
-    def setup_port_forwarding(self, platform, port):
+    def setup_port_forwarding(self,deviceID="", platform="android", port=13000):
         if (platform == "android"):
             try:
-                subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
+                if deviceID=="":
+                    subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
+                else:
+                    subprocess.Popen(['adb', 'forward','-s '+deviceID, 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
             except:
                 print('AltUnityServer - could not use port ' + str(port))
         if (platform == "ios"):
             try:
-                subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT)])
+                if deviceID=="":
+                    subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT)])
+                else:
+                    subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT),deviceID])
             except:
                 print('AltUnityServer - could not use port ' + str(port))
 

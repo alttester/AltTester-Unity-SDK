@@ -35,23 +35,6 @@ public class AltUnityTestRunner {
         Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
 
         var filters = AddTestToBeRun(testMode);
-        if (AltUnityTesterEditor.EditorConfiguration.platform != Platform.Editor) {
-#if UNITY_EDITOR_OSX
-            AltUnityPortHandler.RemoveForwardAndroid();
-            if (AltUnityTesterEditor.EditorConfiguration.platform == Platform.iOS) {
-                thread = new Thread(AltUnityPortHandler.ThreadForwardIos);
-                thread.Start();
-                while (!AltUnityPortHandler.iProxyOn) {
-                    Thread.Sleep(250);
-                }
-            } else
-#endif
-#if UNITY_EDITOR_WIN
-            AltUnityPortHandler.RemoveForwardAndroid();
-#endif
-                AltUnityPortHandler.ForwardAndroid();
-        }
-
         ITestListener listener = new TestRunListener(CallRunDelegate);
         var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
 
@@ -60,16 +43,6 @@ public class AltUnityTestRunner {
         total = filters.Filters.Count;
         Thread runTestThread = new Thread(() => {
             var result = testAssemblyRunner.Run(listener, filters);
-            if (AltUnityTesterEditor.EditorConfiguration.platform != Platform.Editor) {
-#if UNITY_EDITOR_OSX
-                if (AltUnityTesterEditor.EditorConfiguration.platform == Platform.iOS) {
-                    AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
-                    thread.Join();
-                } else
-#endif
-                    AltUnityPortHandler.RemoveForwardAndroid();
-            }
-
             SetTestStatus(result);
             AltUnityTesterEditor.isTestRunResultAvailable = true;
             AltUnityTesterEditor.selectedTest = -1;
@@ -334,28 +307,11 @@ public class AltUnityTestRunner {
                     Debug.Log(t.FullName);
                     filter.Add(new FullNameFilter(t.FullName));
                 }
-            AltUnityPortHandler.RemoveForwardAndroid();
-            thread = new Thread(AltUnityPortHandler.ThreadForwardIos);
-            thread.Start();
-            while (!AltUnityPortHandler.iProxyOn) {
-                Thread.Sleep(250);
-            }
-
-
-
+           
             ITestListener listener = new TestRunListener(null);
             var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
-
             testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
-
-
             var result = testAssemblyRunner.Run(listener, filter);
-
-
-            AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
-            thread.Join();
-
-
             if (result.FailCount > 0) {
                 EditorApplication.Exit(1);
             }
@@ -386,14 +342,6 @@ public class AltUnityTestRunner {
                     filter.Add(new FullNameFilter(t.FullName));
                 }
 
-
-            AltUnityPortHandler.RemoveForwardAndroid();
-#if UNITY_EDITOR_OSX
-            if (AltUnityPortHandler.idIproxyProcess != 0)
-                AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
-#endif
-            AltUnityPortHandler.ForwardAndroid();
-
             ITestListener listener = new TestRunListener(null);
             var testAssemblyRunner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
 
@@ -401,8 +349,6 @@ public class AltUnityTestRunner {
 
 
             var result = testAssemblyRunner.Run(listener, filter);
-
-            AltUnityPortHandler.RemoveForwardAndroid();
             if (result.FailCount > 0) {
                 EditorApplication.Exit(1);
             }

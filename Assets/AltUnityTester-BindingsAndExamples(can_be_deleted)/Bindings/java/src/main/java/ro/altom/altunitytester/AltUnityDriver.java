@@ -629,12 +629,16 @@ public class AltUnityDriver {
     }
 
     // TODO: move those two out of this type and make them compulsory
-    public static void setupPortForwarding(String platform, int tcp_port) {
-        log.info("Setting up port forward for " + platform + " on port " + tcp_port);
+    public static void setupPortForwarding(String platform,String deviceID, int local_tcp_port, int remote_tcp_port) {
+        log.info("Setting up port forward for " + platform + " on port " + remote_tcp_port);
         removePortForwarding();
         if (platform.toLowerCase().equals("android".toLowerCase())) {
             try {
-                String commandToRun = "adb forward tcp:" + tcp_port + " tcp:" + tcp_port;
+                String commandToRun;
+                if(deviceID.equals(""))
+                    commandToRun = "adb forward tcp:" + local_tcp_port + " tcp:" + remote_tcp_port;
+                else
+                    commandToRun = "adb forward -s "+deviceID+" tcp:" + local_tcp_port + " tcp:" + remote_tcp_port;
                 Runtime.getRuntime().exec(commandToRun);
                 Thread.sleep(1000);
                 log.info("adb forward enabled.");
@@ -644,7 +648,12 @@ public class AltUnityDriver {
 
         } else if (platform.toLowerCase().equals("ios".toLowerCase())) {
             try {
-                Runtime.getRuntime().exec("iproxy " + tcp_port + " " + tcp_port + "&");
+                String commandToRun;
+                if(deviceID.equals(""))
+                    commandToRun = "iproxy " + local_tcp_port + " " + remote_tcp_port + "&";
+                else
+                    commandToRun = "iproxy " + local_tcp_port + " " + remote_tcp_port+" "+deviceID  + "&";
+                Runtime.getRuntime().exec(commandToRun);
                 Thread.sleep(1000);
                 log.info("iproxy forward enabled.");
             } catch (Exception e) {
@@ -669,7 +678,7 @@ public class AltUnityDriver {
             Thread.sleep(1000);
             log.info("Removed existing adb forwarding...");
         } catch (Exception e) {
-            log.warn("AltUnityServer - abd probably not installed\n" + e);
+            log.warn("AltUnityServer - adb probably not installed\n" + e);
         }
     }
 }
