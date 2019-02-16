@@ -381,6 +381,22 @@ class AltrunUnityDriver(object):
             return data
         return None
 
+    def set_time_scale(self, time_scale):
+        print('Set time scale to: ' + str(time_scale))
+        data = self.send_data(self.create_command('setTimeScale', str(time_scale)))
+        if (data == 'Ok'):
+            print('Time scale set to: ' + str(time_scale))
+            return data
+        return None
+
+    def get_time_scale(self):
+        print('Get time scale')
+        data = self.send_data(self.create_command('getTimeScale'))
+        if (data != '' and 'error:' not in data):
+            print('Got time scale: ' + data)
+            return float(data)
+        return None
+
     def wait_for_current_scene_to_be(self, scene_name, timeout=30, interval=1):
         t = 0
         current_scene = ''

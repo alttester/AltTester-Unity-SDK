@@ -227,6 +227,25 @@ public class AltUnityDriver {
         return "";
     }
 
+    public float getTimeScale() {
+        send(CreateCommand("getTimeScale"));
+        String data = recvall();
+        if (!data.contains("error:")) {
+            return (new Gson().fromJson(data, float.class));
+        }
+        handleErrors(data);
+        return 0;
+    }
+
+    public void setTimeScale(float timeScale) {
+        send(CreateCommand("setTimeScale", String.valueOf(timeScale)));
+        String data = recvall();
+        if (data.equals("Ok")) {
+            return;
+        }
+        handleErrors(data);
+    }
+
     public void swipe(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
         String vectorStartJson = vectorToJsonString(xStart, yStart);
         String vectorEndJson = vectorToJsonString(xEnd, yEnd);
