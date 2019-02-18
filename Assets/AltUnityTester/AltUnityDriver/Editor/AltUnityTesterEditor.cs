@@ -111,10 +111,13 @@ public class AltUnityTesterEditor : EditorWindow
 
     public static void InitEditorConfiguration()
     {
-        if (AssetDatabase.FindAssets("idProject").Length == 0)
+        if (AssetDatabase.FindAssets("AltUnityTesterEditorSettings").Length == 0)
         {
+            var altUnityEditorFolderPath=AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
+            altUnityEditorFolderPath=altUnityEditorFolderPath.Substring(0,altUnityEditorFolderPath.Length-24);
+            Debug.Log(altUnityEditorFolderPath);
             EditorConfiguration = ScriptableObject.CreateInstance<EditorConfiguration>();
-            AssetDatabase.CreateAsset(EditorConfiguration, "Assets/AltUnityTester/AltUnityDriver/Editor/idProject.asset");
+            AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath+"/AltUnityTesterEditorSettings.asset");
             AssetDatabase.SaveAssets();
 
         }
