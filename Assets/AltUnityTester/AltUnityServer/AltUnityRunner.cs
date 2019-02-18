@@ -36,6 +36,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
 
     private JsonSerializerSettings _jsonSettings;
 
+    private bool destroyHightlight = false; 
 
     enum FindOption
     {
@@ -118,6 +119,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
         AltUnityEvents.Instance.GetScreenshot.AddListener(GetScreenshot);
         AltUnityEvents.Instance.HighlightObjectScreenshot.AddListener(HighLightSelectedObject);
         AltUnityEvents.Instance.HighlightObjectFromCoordinates.AddListener(HightObjectFromCoordinates);
+        AltUnityEvents.Instance.ScreenshotReady.AddListener(ScreenshotReady);
 
         AltUnityEvents.Instance.SetTimeScale.AddListener(SetTimeScale);
         AltUnityEvents.Instance.GetTimeScale.AddListener(GetTimeScale);
@@ -2250,6 +2252,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     }
     IEnumerator HighLightSelectedObjectCorutine(GameObject gameObject, Color color, float width, Vector2 size, AltClientSocketHandler handler)
     {
+        destroyHightlight = false;
         Renderer renderer = gameObject.GetComponent<Renderer>();
         List<Shader> originalShaders = new List<Shader>();
         if (renderer != null)
@@ -2278,8 +2281,10 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                 panelHighlight.GetComponent<Image>().color = color;
                 yield return null;
                 GetScreenshot(size, handler);
-                yield return null;
+                while (!destroyHightlight)
+                    yield return null;
                 Destroy(panelHighlight);
+                destroyHightlight = false;
             }
             else
             {
@@ -2290,11 +2295,17 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     }
     private void GetScreenshot(Vector2 size, AltClientSocketHandler handler)
     {
-        _responseQueue.ScheduleResponse(delegate
-        {
+        _responseQueue.ScheduleResponse(delegate {
+            StartCoroutine(TakeScreenshot(size, handler));
+        });
+        
+    }
+
+    private void ScreenshotReady(Texture2D screenshot, Vector2 size, AltClientSocketHandler handler) {
+        _responseQueue.ScheduleResponse(delegate {
             int width = (int)size.x;
             int height = (int)size.y;
-            var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+
             var heightDifference = screenshot.height - height;
             var widthDifference = screenshot.width - width;
             if (heightDifference >= 0 || widthDifference >= 0)
@@ -2347,8 +2358,14 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             handler.SendResponse(JsonConvert.SerializeObject(fullResponse));
             Debug.Log(DateTime.Now + " Finished send Response");
             Destroy(screenshot);
+            destroyHightlight = true;
         });
+    }
 
+    private IEnumerator TakeScreenshot(Vector2 size, AltClientSocketHandler handler) {
+        yield return new WaitForEndOfFrame();
+        var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+        AltUnityEvents.Instance.ScreenshotReady.Invoke(screenshot, size, handler);
     }
 
     public static void CopyTo(Stream src, Stream dest)

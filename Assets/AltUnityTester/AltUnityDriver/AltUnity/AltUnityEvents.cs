@@ -56,6 +56,7 @@ public class GetAllCamerasCommand: UnityEvent<AltClientSocketHandler> { }
 public class GetScreenshotCommand: UnityEvent<Vector2,AltClientSocketHandler> { }
 public class HighlightObjectScreenshotCommand : UnityEvent<int,string, Vector2, AltClientSocketHandler> { }
 public class HighlightObjectFromCoordinatesScreenshotCommand : UnityEvent<Vector2,string, Vector2, AltClientSocketHandler> { }
+public class ScreenshotReady: UnityEvent <Texture2D, Vector2, AltClientSocketHandler> { }
 
 public class SetTimeScaleCommand : UnityEvent<float, AltClientSocketHandler> { }
 public class GetTimeScaleCommand : UnityEvent<AltClientSocketHandler> { }
@@ -114,6 +115,7 @@ public class AltUnityEvents
     public HighlightObjectScreenshotCommand HighlightObjectScreenshot;
     public HighlightObjectFromCoordinatesScreenshotCommand HighlightObjectFromCoordinates;
 
+    public ScreenshotReady ScreenshotReady;
     public SetTimeScaleCommand SetTimeScale;
     public GetTimeScaleCommand GetTimeScale;
 
@@ -178,6 +180,7 @@ public class AltUnityEvents
                 _instance.HighlightObjectFromCoordinates = new HighlightObjectFromCoordinatesScreenshotCommand();
                 _instance.HighlightObjectScreenshot = new HighlightObjectScreenshotCommand();
 
+                _instance.ScreenshotReady = new ScreenshotReady();
                 _instance.SetTimeScale = new SetTimeScaleCommand();
                 _instance.GetTimeScale = new GetTimeScaleCommand();
             }
