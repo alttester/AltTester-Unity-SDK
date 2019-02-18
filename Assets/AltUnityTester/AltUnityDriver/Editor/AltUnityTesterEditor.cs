@@ -124,7 +124,7 @@ public class AltUnityTesterEditor : EditorWindow
         else
         {
             EditorConfiguration = AssetDatabase.LoadAssetAtPath<EditorConfiguration>(
-                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("idProject")[0]));
+                AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltUnityTesterEditorSettings")[0]));
         }
         EditorUtility.SetDirty(EditorConfiguration);
 
