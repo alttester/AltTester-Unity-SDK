@@ -497,7 +497,7 @@ public class TestForScene1TestSample
         }
         catch (WaitTimeOutException exception)
         {
-            Assert.AreEqual("Element Capsule still not found after 1 seconds", exception.Message);
+            Assert.AreEqual("Element Capsule still found after 1 seconds", exception.Message);
         }
     }
 
