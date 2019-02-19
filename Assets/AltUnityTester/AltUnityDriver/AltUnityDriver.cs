@@ -399,13 +399,15 @@ public class AltUnityDriver
     public void WaitForElementToNotBePresent(String name, String cameraName = "", double timeout = 20, double interval = 0.5)
     {
         double time = 0;
+        bool found = false; 
         AltUnityObject altElement = null;
         while (time <= timeout)
         {
-
+            found = false;
             try
             {
                 altElement = FindElement(name, cameraName);
+                found = true;
                 Thread.Sleep(Convert.ToInt32(interval * 1000));
                 time += interval;
                 Debug.Log("Waiting for element " + name + " to not be present");
@@ -417,8 +419,8 @@ public class AltUnityDriver
 
         }
 
-        if (!altElement.Equals(null))
-            throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
+        if (found)
+            throw new WaitTimeOutException("Element " + name + " still found after " + timeout + " seconds");
     }
 
 
