@@ -42,7 +42,7 @@
 -  Add command to set Time.timeline  - !85  
 
 ## Contributors
--  Robert Poinar @robert_poienar
+-  Robert Poienar @robert_poienar
 -  Ru Cindrea @ru.cindrea
 -  Kamil @kaszarek
 -  Nikita Ershov @ershov1
