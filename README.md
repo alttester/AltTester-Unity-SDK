@@ -10,6 +10,7 @@ https://gitter.im/AltUnityTester/Lobby
    - [Downloads - AltUnityTester Package](#downloads-altunitytester-package)
    - [Import AltUnityTester asset/package into your Unity project](#import-altunitytester-assetpackage-into-your-unity-project)
    - [Setting up local machine for iOS testing](#setting-up-local-machine-for-ios-testing)
+   - [Building and running from the command line](#building-and-running-from-the-command-line)
 
 [AltUnityTester User Interface](#altunitytester-user-interface)
    - [Building the game](#building-the-game)
@@ -38,6 +39,10 @@ Other Bindings:
 
 * From repository: 
 	* https://gitlab.com/altom/altunitytester/blob/master/AltUnityTester.unitypackage
+
+* From pages (deployed using CI): 
+	* https://altom.gitlab.io/altunitytester/master/AltUnityTester.unitypackage
+  * https://altom.gitlab.io/altunitytester/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage - for any other branch (replace ${CI_COMMIT_REF_NAME} with branch name)
 	  
 * From Unity Asset Store - import inside your project directly:
 	* links soon
@@ -55,7 +60,52 @@ Other Bindings:
 For iOS, to run the tests on real iOS device, please make sure you also go through this: http://appium.io/docs/en/drivers/ios-xcuitest/ because AltUnityTester uses iproxy command.
 		
 The iproxy command is installed as part of the libimobiledevice package that you should have already installed when setting up your iOS environment (http://appium.io/docs/en/drivers/ios-xcuitest-real-devices/)
-		
+
+
+### Building and running from the command line 
+
+The AltUnityTester provides a couple of methods that can be used to instrument the game and add the AltUnityRunner prefab from the command line. Here is an example of how to do that for Android:
+
+
+```
+
+            PlayerSettings.companyName = "Altom";
+            PlayerSettings.productName = "sampleGame";
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
+            PlayerSettings.bundleVersion = versionNumber;
+            PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+            Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+            buildPlayerOptions.scenes = new string[]
+            {
+              "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+              "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
+              "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
+              "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity"
+            };
+
+			      buildPlayerOptions.locationPathName = "sampleGame.apk";
+            buildPlayerOptions.target = BuildTarget.Android;
+            buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+            
+			      AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+			      AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
+            
+			      var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
+
+```
+
+NOTE here the following 2 lines that are essential for the AltUnityTester instrumentation:
+
+```
+AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android); //add the correct scripting define
+AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]); // inserts the prefab into the first scene
+            
+```
+
+
 ## AltUnityTester User Interface
 
 After you imported AltUnityTester package to the project you are ready to use it. Go to Window -- AltUnityTester to open the user interface.
@@ -112,7 +162,7 @@ The list below contains all the actions that are currently supported by AltUnity
 All elements in AltUnityTester have the following structure, as seen in the AltUnityObject class:
 
   * `name` - the name of the object as it is in the Unity Scene Hierarchy
-  * `cameraName` - the name of the camera from which the screen coordinate are calculated
+  * `idCamera` - the id of the camera from which the screen coordinate are calculated
   * `id` - the Unity Instance ID, this is unique for each element in the scene
   * `x` - the x coordinate of the middle of the element on screen
   * `y` - the y coordinate of the middle of the element on screen
@@ -122,11 +172,15 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
   * `worldX` - the x coordinate in world space of the element
   * `worldY` - the y coordinate in world space of the element
   * `worldZ` - the z coordinate in world space of the element
-
+  * `enabled` - indicates if element is active in the scene
+  * `parentId` - the id of the parent element; returns 0 if element has no parent
+  * `transformId` - the id of the Transform component of the element
 
 ### Available Actions
 
 #### Finding elements
+
+All methods for finding elements will search for elements that are active in the scene (enabled), and have an optional parameter `enabled=true`. If you want to search for disabled ones as well, change this to `false` when calling the methods. 
 
   * `GetAllElements`
     * params: cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
@@ -142,6 +196,9 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
     * you can search for elements also by specifying a hierarchy path to them. For example, you can look for `Player1/Hand` or `Player2/Hand`, to make sure you find the correct `Hand` object you are interested in. When doing so, make sure you specify all the objects in between the `parent` and the `object` you are interested in. For example, if `Hand` is under a `Body` element for each `Player`, when you search for it make sure you specify it as `Player1/Body/Hand` 
+    * You can also use `..` and `id(id_of_some_object)` for helping to search elements. 
+       * `..` will go to the parent. For example in the scene there more chests and one of them has an object named `treasure` as a child. To get the chest with the treasure you could use `treasure/..`. This way it will return the chest that has the treasure. 
+       * `id(id_of_some_object)` is useful when you have already have searched for an element and you want to access some element relative with that item. For example if you searched for `house` but now you need the `EntranceDoor` which is a child of `House`. You could search for `id(id_House)/EntranceDoor` which will guarantee to get the `EntranceDoor` of the exact `House` you need even though there are more objects named `House` with a child named `EntraceDoor`
 
     ```c#
     altUnityDriver.FindElement("Capsule"); // find object by name
@@ -198,6 +255,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     ```c#
     altUnityDriver.FindElementsByComponent("Plane"); 
     ```
+    
 
 #### Waiting for elements
 * `WaitForElement`
@@ -273,6 +331,27 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
     ```c#
     altUnityDriver.LoadScene("AltUnityDriverTestScene");
     ``` 
+* `GetAllScenes`
+    * params: none
+    * returns: a list of all the scenes in the game
+    ```c#
+    List<string> scenes = altUnityDriver.GetAllScenes();
+    ```
+
+#### Managing the game TimeScale
+
+ * `GetTimeScale`
+    * params: none
+    * returns: current time scale as float
+       
+ * `SetTimeScale`
+    * params: float value to set the time scale to
+    * returns: none
+    
+  ```c#
+        altUnityDriver.SetTimeScale(0.1f);
+        var timeScaleFromGame = altUnityDriver.GetTimeScale();  
+  ``` 
 
 #### Managing Unity PlayerPrefs
   * `DeletePlayerPref`
@@ -495,6 +574,28 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
     var result = altUnityDriver.FindElement("Capsule").GetComponentProperty("Capsule", "arrayOfInts");
    ```
    
+  * `GetAllMethods`
+    * params: 
+      * component: an AltUnityComponent object we want to get the methods for
+    * returns: a list of all the methods
+    
+   
+   ```c#
+    var result = altUnityDriver.GetAllMethods(new AltUnityComponent("Capsule", ""));
+   ```
+  
+  
+  * `GetAllProperties`
+    * params: 
+      * component: an AltUnityComponent object we want to get the methods for
+    * returns: a list of all the properties
+    
+   
+   ```c#
+    var result = altUnityDriver.GetAllProperties(new AltUnityComponent("Capsule", ""));
+   ```
+  
+  
   * `SetComponentProperty`
   * params: 
       * componentName: name of the Unity component that has the public property we want to set the value for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx

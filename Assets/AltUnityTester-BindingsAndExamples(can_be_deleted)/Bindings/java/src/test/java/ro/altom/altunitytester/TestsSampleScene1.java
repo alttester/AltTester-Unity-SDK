@@ -130,7 +130,7 @@ public class TestsSampleScene1 {
             altUnityDriver.waitForCurrentSceneToBe(name, 1, 0.5);
             fail();
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "Scene NonExistentScene not loaded after 1.0 seconds");
+            assertEquals(e.getMessage(), "Scene [NonExistentScene] not loaded after 1.0 seconds");
         }
     }
 
@@ -391,16 +391,6 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testClickOnNothing() throws Exception {
-        try {
-            altUnityDriver.clickScreen(0,0);
-            fail();
-        } catch (CouldNotPerformOperationException e) {
-            assertEquals(e.getMessage(), "error:couldNotPerformOperation");
-        }
-    }
-
-    @Test
     public void testButtonClickWithSwipe() throws Exception {
         AltUnityObject button = altUnityDriver.findElement("UIButton");
         altUnityDriver.swipeAndWait(button.x, button.y, button.x, button.y, 1);
@@ -475,6 +465,18 @@ public void TestCallStaticMethod() throws Exception {
         capsule.callComponentMethod("Capsule", "Test","2","System.Int32","");
         AltUnityObject capsuleInfo=altUnityDriver.findElement("CapsuleInfo");
         assertEquals("6",capsuleInfo.getText());
+    }
+    @Test
+    public void TestTapScreenWhereThereIsNoObjects(){
+        AltUnityObject altObject = altUnityDriver.tapScreen(1, 1);
+        assertEquals(null, altObject);
+    }
+
+    @Test
+    public void TestGetSetTimeScale(){
+        altUnityDriver.setTimeScale(0.1f);
+        float timeScale = altUnityDriver.getTimeScale();
+        assertEquals(0.1f, timeScale);
     }
 
 }

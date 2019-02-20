@@ -36,8 +36,14 @@ Links:
 
 The project contains a Java project called ``altunitytester`` that gives access to the alt_driver commands so that objects can be accessed from  Java code. 
 
-The code for this is available under ``AltUnityTester/Bindings/python`` in the repository. 
+The code for this is available under ``AltUnityTester/Bindings/java`` in the repository. 
 
+### Internal tests
+In order to run unit tests for the bindings implementation run
+`mvn clean test`
+
+For integration tests which actually use the game artifact please use 
+`mvn clean test -Pscene-tests`
 
 ### Installation
 
@@ -50,7 +56,7 @@ Here's how to do that with maven:
     ` mvn clean compile assembly:single`
 
    * Install the jar file:
-    `mvn install:install-file -Dfile=./target/altunitytester-java-client-1.2.2-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.2.2 -Dpackaging=jar` 
+    `mvn install:install-file -Dfile=./target/altunitytester-java-client-1.3.0-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.3.0 -Dpackaging=jar` 
 
 Now your project can use all the AltUnityDriver methods. 
 
@@ -81,7 +87,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     * returns: all elements that are currently Active in the scene
     
     ```java
-      List<AltUnityObject objects = altUnityDriver.getAllElements();
+      List<AltUnityObject> objects = altUnityDriver.getAllElements();
     ```
 
   * `findElement`

@@ -218,22 +218,32 @@ class PythonTests(unittest.TestCase):
                 self.assertEqual(e.args[0],'Scene AltUnityDriverTestScenee not loaded after 1 seconds')
 
    
-    def testGetBool(self):
+    def test_get_bool(self):
         alt_element=self.altdriver.find_element('Capsule')
         text=alt_element.get_component_property('Capsule','TestBool')
         self.assertEqual('true',text)
         
 
-    def TestCallStaticMethod(self):
-        self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1")
-        a=int(self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"))
+    def test_call_static_method(self):
+        self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1",assembly="UnityEngine.CoreModule")
+        a=int(self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2",assembly="UnityEngine.CoreModule"))
         self.assertEquals(1,a)
 
-    def TestCallMethodWithMultipleDefinitions(self):
+    def test_call_method_with_multiple_definitions(self):
         capsule=self.altdriver.find_element("Capsule")
-        capsule.call_component_method("Capsule", "Test","2","System.Int32")
+        capsule.call_component_method("Capsule", "Test","2",type_of_parameters="System.Int32")
         capsuleInfo=self.altdriver.find_element("CapsuleInfo")
         self.assertEquals("6",capsuleInfo.get_text())
+    
+    def test_tap_on_screen_where_there_are_no_objects(self):
+        alt_element=self.altdriver.tap_at_coordinates(1,1)
+        self.assertIsNone(alt_element)
+
+    def test_set_and_get_time_scale(self):
+        self.altdriver.set_time_scale(0.1)
+        time.sleep(1)
+        time_scale=self.altdriver.get_time_scale()
+        self.assertEquals(0.1, time_scale)
     
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
