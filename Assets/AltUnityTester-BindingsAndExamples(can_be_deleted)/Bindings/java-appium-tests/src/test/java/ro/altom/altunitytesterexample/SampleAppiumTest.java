@@ -36,7 +36,7 @@ public class SampleAppiumTest {
         appiumDriver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         appiumDriver.manage().timeouts().implicitlyWait(80, TimeUnit.SECONDS);
         Thread.sleep(10000);
-        AltUnityDriver.setupPortForwarding("android", 13000);
+        AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
         altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
     }
 
