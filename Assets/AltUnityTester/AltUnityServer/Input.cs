@@ -174,25 +174,26 @@ public class Input : MonoBehaviour
 
     public static bool GetMouseButton(int button)
     {
-        return false;
-        //        return touches.Length > button;
+        //method not tested
+        return touches.Length > button;
     }
 
     public static bool GetMouseButtonDown(int button)
     {
-        return false;
-        //        return touches.Length> button && touches[button].phase != TouchPhase.Began;
+        //method not tested
+        return touches.Length > button && touches[button].phase != TouchPhase.Began;
     }
 
     public static bool GetMouseButtonUp(int button)
     {
-        return false;
-        //    return touches.Length > button &&  touches[button].phase == TouchPhase.Ended;
+        //method not tested
+        return touches.Length > button && touches[button].phase == TouchPhase.Ended;
     }
 
     public static Touch GetTouch(int index)
     {
-        return new Touch();
+         return UseCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
+
     }
 
     public static void ResetInputAxes()

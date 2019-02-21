@@ -180,7 +180,7 @@ public class AltUnityPortHandler {
                 int remotePort = int.Parse(parts[2].Split(':')[1]);
                 devices.Add(new MyDevices(deviceId, localPort, remotePort,true));
                 }catch(FormatException){
-                    UnityEngine.Debug.Log("adb forward also has: "+line+" but we did not included");
+                    UnityEngine.Debug.Log("adb forward also has: "+line+" but we did not included in the list");
                 }
             }
         }

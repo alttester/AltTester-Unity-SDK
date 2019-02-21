@@ -512,6 +512,7 @@ public class AltUnityTesterEditor : EditorWindow
                 existingDevice.RemotePort = device.RemotePort;
             }
         }
+ #if UNITY_EDITOR_OSX
         List<MyDevices> iOSDEvices=AltUnityPortHandler.GetConnectediOSDevices();
         foreach(var iOSDEvice in iOSDEvices){
             var iOSForwardedDevice=devices.FirstOrDefault(a=>a.DeviceId.Equals(iOSDEvice.DeviceId));
@@ -521,11 +522,13 @@ public class AltUnityTesterEditor : EditorWindow
                 iOSDEvice.Active=iOSForwardedDevice.Active;
             }
         }
+#endif
         
 
         devices = adbDevices;
-        
+#if UNITY_EDITOR_OSX
         devices.AddRange(iOSDEvices);
+#endif
     }
 
     private void DisplayAltUnityServerSettings()
