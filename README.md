@@ -4,6 +4,9 @@ Join our Gitter room here to chat with others in the community:
 
 https://gitter.im/AltUnityTester/Lobby
 
+## Video Tutorials
+ - [Getting started with AltUnityTester and C#](https://youtu.be/-KK7CO4uoxM)
+
 ## Table of Contents
 
 [Setup](#setup)
