@@ -574,7 +574,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     private GameObject FindObjectInScene(string objectName, bool enabled)
     {
         string[] pathList = objectName.Split('/');
-        List<int> optionList = new List<int>();
         GameObject foundGameObject = null;
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
@@ -693,7 +692,6 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
     {
         List<GameObject> objectsFound = new List<GameObject>();
         string[] pathList = objectName.Split('/');
-        List<int> optionList = new List<int>();
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             foreach (GameObject obj in SceneManager.GetSceneAt(i).GetRootGameObjects())
@@ -1095,25 +1093,25 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             try
             {
                 MockUpPointerInputModule mockUp = new MockUpPointerInputModule();
-                Touch touch = new Touch { position = new Vector2(float.Parse(x), float.Parse(y)) };
-                var pointerEventData = mockUp.GetPointerEventData(touch);
-                if (pointerEventData.pointerPress == null)
+                Touch touch = new Touch { position = new Vector2(float.Parse(x), float.Parse(y)), phase = TouchPhase.Began};
+                var pointerEventData = mockUp.ExecuteTouchEvent(touch);
+                if (pointerEventData.pointerPress == null &&
+                    pointerEventData.pointerEnter == null &&
+                    pointerEventData.pointerDrag == null)
+                {
                     response = errorNotFoundMessage;
+                }
                 else
                 {
                     GameObject gameObject = pointerEventData.pointerPress.gameObject;
 
                     Debug.Log("GameOBject: " + gameObject);
 
-                    ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerEnterHandler);
                     gameObject.SendMessage("OnMouseEnter", SendMessageOptions.DontRequireReceiver);
-                    ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerDownHandler);
                     gameObject.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
-                    ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.initializePotentialDrag);
                     gameObject.SendMessage("OnMouseOver", SendMessageOptions.DontRequireReceiver);
                     ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerUpHandler);
                     gameObject.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
-                    ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerClickHandler);
                     gameObject.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);
                     ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerExitHandler);
                     gameObject.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
@@ -1618,7 +1616,7 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
             try
             {
                 MockUpPointerInputModule mockUp = new MockUpPointerInputModule();
-                var pointerEventData = mockUp.GetPointerEventData(new Touch() { position = position });
+                var pointerEventData = mockUp.ExecuteTouchEvent(new Touch() { position = position });
                 GameObject gameObject = GetGameObject(altUnityObject);
                 Camera viewingCamera = FoundCameraById(altUnityObject.idCamera);
                 Vector3 gameObjectPosition = viewingCamera.WorldToScreenPoint(gameObject.transform.position);

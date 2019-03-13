@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class MockUpPointerInputModule : StandaloneInputModule
 {
-    public PointerEventData GetPointerEventData(Touch touch, PointerEventData previousData = null)
+    public PointerEventData ExecuteTouchEvent(Touch touch, PointerEventData previousData = null)
     {
         if (EventSystem.current != null)
         {
@@ -28,19 +28,23 @@ public class MockUpPointerInputModule : StandaloneInputModule
                     raycastResult = BaseInputModule.FindFirstRaycast(raycastResults);
                     pointerEventData.pointerCurrentRaycast = raycastResult;
                     pointerEventData.pointerPressRaycast = pointerEventData.pointerCurrentRaycast;
+                    
+                    pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(pointerEventData.pointerCurrentRaycast.gameObject, pointerEventData,
+                        ExecuteEvents.pointerEnterHandler);
                     pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(pointerEventData.pointerCurrentRaycast.gameObject,pointerEventData,
                         ExecuteEvents.pointerDownHandler);
                     ExecuteEvents.ExecuteHierarchy(pointerEventData.pointerCurrentRaycast.gameObject, pointerEventData,
                         ExecuteEvents.initializePotentialDrag);
                     ExecuteEvents.ExecuteHierarchy(pointerEventData.pointerCurrentRaycast.gameObject, pointerEventData,
                         ExecuteEvents.beginDragHandler);
-                    pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(pointerEventData.pointerCurrentRaycast.gameObject, pointerEventData,
-                        ExecuteEvents.pointerEnterHandler);
                     pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(pointerEventData.pointerCurrentRaycast.gameObject, pointerEventData,
                         ExecuteEvents.dragHandler);
-
-
-
+                    
+                    if (pointerEventData.pointerPress == null)
+                    {
+                        pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(pointerEventData.pointerCurrentRaycast.gameObject, pointerEventData,
+                            ExecuteEvents.pointerClickHandler);
+                    }
 
                     return pointerEventData;
                 case TouchPhase.Moved:
@@ -84,8 +88,8 @@ public class MockUpPointerInputModule : StandaloneInputModule
                         previousData.pointerCurrentRaycast = raycastResult;
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
                             ExecuteEvents.pointerUpHandler);
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                             ExecuteEvents.pointerClickHandler);
+                        ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                            ExecuteEvents.pointerClickHandler);
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
                             ExecuteEvents.endDragHandler);
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
