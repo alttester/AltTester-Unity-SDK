@@ -1115,6 +1115,8 @@ public class AltUnityRunner : MonoBehaviour, AltIClientSocketHandlerDelegate
                     gameObject.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);
                     ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerExitHandler);
                     gameObject.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
+                    touch.phase = TouchPhase.Ended;
+                    mockUp.ExecuteTouchEvent(touch, pointerEventData);
 
                     response = JsonConvert.SerializeObject(GameObjectToAltUnityObject(gameObject, pointerEventData.enterEventCamera));
                 }
