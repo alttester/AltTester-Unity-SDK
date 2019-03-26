@@ -55,7 +55,7 @@ public class AltUnityPortHandler {
 
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
-#elif UNITY_EDITOR_OSX
+#elif UNITY_EDITOR
         adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
 #endif
 
@@ -92,7 +92,7 @@ public class AltUnityPortHandler {
         string adbFileName;
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
-#elif UNITY_EDITOR_OSX
+#elif UNITY_EDITOR
         adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
 #endif
         var process = new Process();
@@ -116,7 +116,7 @@ public class AltUnityPortHandler {
         string adbFileName;
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
-#elif UNITY_EDITOR_OSX
+#elif UNITY_EDITOR
         adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
 #endif
         var process = new Process();
@@ -151,7 +151,7 @@ public class AltUnityPortHandler {
         string adbFileName;
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
-#elif UNITY_EDITOR_OSX
+#elif UNITY_EDITOR
         adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
 #endif
         var process = new Process();
