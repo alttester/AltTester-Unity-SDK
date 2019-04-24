@@ -3,6 +3,7 @@ import re
 import socket
 import subprocess
 import time
+import multiprocessing
 
 from altunityrunner.altUnityExceptions import *
 
@@ -140,7 +141,19 @@ class AltrunUnityDriver(object):
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_FWD_PORT))
-                self.get_current_scene()
+                
+                process = multiprocessing.Process(target=self.get_current_scene)
+                process.start()
+
+                process.join(5)
+
+                if process.is_alive():
+                    process.terminate()
+                    process.join()
+                    
+                    raise Exception("get_current_scene timeout")
+
+                # self.get_current_scene()
                 break
             except Exception as e:
                 print(e)
