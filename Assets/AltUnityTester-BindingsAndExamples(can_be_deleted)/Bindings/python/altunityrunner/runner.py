@@ -181,7 +181,7 @@ class AltrunUnityDriver(object):
                 if deviceID=="":
                     subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
                 else:
-                    subprocess.Popen(['adb', 'forward','-s '+deviceID, 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
+                    subprocess.Popen(['adb','-s '+deviceID, 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
             except:
                 print('AltUnityServer - could not use port ' + str(port))
         if (platform == "ios"):
@@ -310,7 +310,7 @@ class AltrunUnityDriver(object):
             data = self.send_data(self.create_command('findObjectsWhereNameContains', name , camera_name ,'true'))
         else:
             data = self.send_data(self.create_command('findObjectsWhereNameContains', name , camera_name ,'false'))
-        return self.get_all_elements(data)
+        return self.get_alt_elements(data)
 
     def get_current_scene(self):
         data = self.send_data(self.create_command('getCurrentScene'))

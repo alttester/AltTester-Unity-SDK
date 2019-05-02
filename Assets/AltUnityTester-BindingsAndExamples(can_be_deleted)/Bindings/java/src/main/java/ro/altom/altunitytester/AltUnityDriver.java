@@ -638,7 +638,7 @@ public class AltUnityDriver {
                 if(deviceID.equals(""))
                     commandToRun = "adb forward tcp:" + local_tcp_port + " tcp:" + remote_tcp_port;
                 else
-                    commandToRun = "adb forward -s "+deviceID+" tcp:" + local_tcp_port + " tcp:" + remote_tcp_port;
+                    commandToRun = "adb -s "+deviceID+" forward  tcp:" + local_tcp_port + " tcp:" + remote_tcp_port;
                 Runtime.getRuntime().exec(commandToRun);
                 Thread.sleep(1000);
                 log.info("adb forward enabled.");

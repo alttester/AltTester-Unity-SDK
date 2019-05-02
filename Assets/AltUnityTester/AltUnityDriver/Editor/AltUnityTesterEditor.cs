@@ -417,7 +417,7 @@ public class AltUnityTesterEditor : EditorWindow
                         {
                             if (device.Platform == Platform.Android)
                             {
-                                AltUnityPortHandler.RemoveForwardAndroid(device.LocalPort);
+                                AltUnityPortHandler.RemoveForwardAndroid(device.LocalPort,device.DeviceId);
                             }
 #if UNITY_EDITOR_OSX
                             else
