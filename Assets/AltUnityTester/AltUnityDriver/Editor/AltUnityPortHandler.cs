@@ -47,10 +47,13 @@ public class AltUnityPortHandler {
     public static string ForwardAndroid(string deviceId="",int localPort=13000,int remotePort=13000) {
         string adbFileName;
         string argument;
-        if (!deviceId.Equals(""))
+        if (deviceId.Equals(""))
             argument = "forward tcp:" + localPort + " tcp:" + remotePort;
         else
-            argument = "forward -s " + deviceId + " tcp:" + localPort + " tcp:" + remotePort;
+            {
+            
+                argument = "-s "+ deviceId +" forward" + " tcp:" + localPort + " tcp:" + remotePort;
+            }
 
 
 #if UNITY_EDITOR_WIN
@@ -79,7 +82,7 @@ public class AltUnityPortHandler {
 
     }
 
-    public static void RemoveForwardAndroid(int localPort=-1) {
+    public static void RemoveForwardAndroid(int localPort=-1,string deviceId="") {
         string argument;
         if (localPort == -1)
         {
@@ -87,7 +90,7 @@ public class AltUnityPortHandler {
         }
         else
         {
-            argument = "forward --remove tcp:" + localPort;
+            argument = "-s "+ deviceId +" forward --remove tcp:" + localPort;
         }
         string adbFileName;
 #if UNITY_EDITOR_WIN
