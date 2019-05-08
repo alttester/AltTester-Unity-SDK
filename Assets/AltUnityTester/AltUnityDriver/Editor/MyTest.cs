@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-[Serializable]
+﻿
+[System.Serializable]
 public class MyTest
 {
 
@@ -10,13 +7,13 @@ public class MyTest
     public string _testName;
     public int _status;
     public bool _isSuite;
-    public Type _type;
+    public System.Type _type;
     public string _parentName;
     public int _testCaseCount;
     public bool _foldOut;
     public string _testResultMessage;
 
-    public MyTest(bool selected, string testName, int status, bool isSuite, Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage)
+    public MyTest(bool selected, string testName, int status, bool isSuite, System.Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage)
     {
         _selected = selected;
         _testName = testName;
@@ -47,7 +44,7 @@ public class MyTest
         set { _testCaseCount = value; }
     }
 
-    public Type Type
+    public System.Type Type
     {
         get { return _type; }
         set { _type = value; }

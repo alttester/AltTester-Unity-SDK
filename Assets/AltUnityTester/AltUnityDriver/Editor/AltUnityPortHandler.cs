@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using UnityEngine;
+﻿
 
 public class AltUnityPortHandler {
 
@@ -13,9 +8,10 @@ public class AltUnityPortHandler {
 #if UNITY_EDITOR_OSX
     public static string ForwardIos(string id="",int localPort=13000,int remotePort=13000) {
         var argument=localPort+" "+remotePort+" "+id;
-        Process process = new Process();
-        ProcessStartInfo startInfo = new ProcessStartInfo {
-            WindowStyle = ProcessWindowStyle.Normal,
+        System.Diagnostics.Process process = new System.Diagnostics.Process();
+        System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+        {
+            WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal,
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError=true,
@@ -26,7 +22,7 @@ public class AltUnityPortHandler {
         process.Start();
         idIproxyProcess = process.Id;
 
-        Thread.Sleep(1000);
+        System.Threading.Thread.Sleep(1000);
         if(process.HasExited){
             return process.StandardError.ReadToEnd();
         }
@@ -36,7 +32,7 @@ public class AltUnityPortHandler {
     }
 
     public static void KillIProxy(int id) {
-        var process=Process.GetProcessById(id);
+        var process= System.Diagnostics.Process.GetProcessById(id);
         if(process!=null){
         process.Kill();
         process.WaitForExit();
@@ -60,11 +56,12 @@ public class AltUnityPortHandler {
         adbFileName = "adb.exe";
 #elif UNITY_EDITOR
         adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
-#endif
+        #endif
 
-        Process process = new Process();
-        ProcessStartInfo startInfo = new ProcessStartInfo {
-            WindowStyle = ProcessWindowStyle.Hidden,
+        System.Diagnostics.Process process = new System.Diagnostics.Process();
+        System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+        {
+            WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError=true,
@@ -98,9 +95,10 @@ public class AltUnityPortHandler {
 #elif UNITY_EDITOR
         adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
 #endif
-        var process = new Process();
-        var startInfo = new ProcessStartInfo {
-            WindowStyle = ProcessWindowStyle.Normal,
+        var process = new System.Diagnostics.Process();
+        var startInfo = new System.Diagnostics.ProcessStartInfo
+        {
+            WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal,
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError=true,
@@ -113,7 +111,7 @@ public class AltUnityPortHandler {
     }
 
 
-    public static List<MyDevices> GetDevicesAndroid()
+    public static System.Collections.Generic.List<MyDevices> GetDevicesAndroid()
     {
        
         string adbFileName;
@@ -122,11 +120,11 @@ public class AltUnityPortHandler {
 #elif UNITY_EDITOR
         adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
 #endif
-        var process = new Process();
-        var startInfo = new ProcessStartInfo
+        var process = new System.Diagnostics.Process();
+        var startInfo = new System.Diagnostics.ProcessStartInfo
         {
             CreateNoWindow = true,
-            WindowStyle = ProcessWindowStyle.Normal,
+            WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal,
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError=true,
@@ -135,7 +133,7 @@ public class AltUnityPortHandler {
         };
         process.StartInfo = startInfo;
         process.Start();
-        List<MyDevices> devices = new List<MyDevices>();
+        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
         while (!process.StandardOutput.EndOfStream)
         {
             string line = process.StandardOutput.ReadLine();
@@ -149,7 +147,7 @@ public class AltUnityPortHandler {
         process.WaitForExit();
         return devices;
     }
-    public static List<MyDevices> GetForwardedDevicesAndroid()
+    public static System.Collections.Generic.List<MyDevices> GetForwardedDevicesAndroid()
     {
         string adbFileName;
 #if UNITY_EDITOR_WIN
@@ -157,11 +155,11 @@ public class AltUnityPortHandler {
 #elif UNITY_EDITOR
         adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
 #endif
-        var process = new Process();
-        var startInfo = new ProcessStartInfo
+        var process = new System.Diagnostics.Process();
+        var startInfo = new System.Diagnostics.ProcessStartInfo
         {
             CreateNoWindow=true,
-            WindowStyle = ProcessWindowStyle.Minimized,
+            WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized,
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError=true,
@@ -170,7 +168,7 @@ public class AltUnityPortHandler {
         };
         process.StartInfo = startInfo;
         process.Start();
-        List<MyDevices> devices = new List<MyDevices>();
+        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
         while (!process.StandardOutput.EndOfStream)
         {
             string line = process.StandardOutput.ReadLine();
@@ -182,7 +180,8 @@ public class AltUnityPortHandler {
                 int localPort = int.Parse(parts[1].Split(':')[1]);
                 int remotePort = int.Parse(parts[2].Split(':')[1]);
                 devices.Add(new MyDevices(deviceId, localPort, remotePort,true));
-                }catch(FormatException){
+                }catch(Assets.AltUnityTester.AltUnityDriver.FormatException)
+                {
                     UnityEngine.Debug.Log("adb forward also has: "+line+" but we did not included in the list");
                 }
             }
@@ -191,15 +190,15 @@ public class AltUnityPortHandler {
         return devices;
     }
 #if UNITY_EDITOR_OSX
-     public static List<MyDevices> GetConnectediOSDevices()
+     public static System.Collections.Generic.List<MyDevices> GetConnectediOSDevices()
     {
     
         var xcrun = "/usr/bin/xcrun";
-        var process = new Process();
-        var startInfo = new ProcessStartInfo
+        var process = new System.Diagnostics.Process();
+        var startInfo = new System.Diagnostics.ProcessStartInfo
         {
             CreateNoWindow=true,
-            WindowStyle = ProcessWindowStyle.Minimized,
+            WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized,
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError=true,
@@ -208,7 +207,7 @@ public class AltUnityPortHandler {
         };
         process.StartInfo = startInfo;
         process.Start();
-        List<MyDevices> devices = new List<MyDevices>();
+        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
         string line = process.StandardOutput.ReadLine();//Known devices: line
         line = process.StandardOutput.ReadLine();//mac's id
         while (!process.StandardOutput.EndOfStream)

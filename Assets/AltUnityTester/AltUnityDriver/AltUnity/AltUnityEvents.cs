@@ -1,70 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
+﻿
+public class FindObjectByNameCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectWhereNameContainsCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectByComponentCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 
-public class FindObjectByNameCommand : UnityEvent<string, AltClientSocketHandler> { }
-public class FindObjectWhereNameContainsCommand : UnityEvent<string, AltClientSocketHandler> { }
-public class FindObjectByComponentCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsByNameCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsWhereNameContainsCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsByComponentCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 
-public class FindObjectsByNameCommand : UnityEvent<string, AltClientSocketHandler> { }
-public class FindObjectsWhereNameContainsCommand : UnityEvent<string, AltClientSocketHandler> { }
-public class FindObjectsByComponentCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class GetCurrentSceneCommand : UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
+public class GetAllObjectsCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 
-public class GetCurrentSceneCommand : UnityEvent<AltClientSocketHandler> { }
-public class GetAllObjectsCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class ClickEventCommand : UnityEngine.Events.UnityEvent<AltUnityObject, AltClientSocketHandler> { }
+public class TapScreenCommand : UnityEngine.Events.UnityEvent<string, string, AltClientSocketHandler> { }
 
-public class ClickEventCommand : UnityEvent<AltUnityObject, AltClientSocketHandler> { }
-public class TapScreenCommand : UnityEvent<string, string, AltClientSocketHandler> { }
+public class GetComponentPropertyCommand : UnityEngine.Events.UnityEvent<string, string, AltClientSocketHandler> { }
+public class SetComponentPropertyCommand : UnityEngine.Events.UnityEvent<string, string, string, AltClientSocketHandler> { }
+public class CallComponentMethodCommand : UnityEngine.Events.UnityEvent<string, string, AltClientSocketHandler> { }
+public class GetTextCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 
-public class GetComponentPropertyCommand : UnityEvent<string, string, AltClientSocketHandler> { }
-public class SetComponentPropertyCommand : UnityEvent<string, string, string, AltClientSocketHandler> { }
-public class CallComponentMethodCommand : UnityEvent<string, string, AltClientSocketHandler> { }
-public class GetTextCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class CloseConnectionCommand : UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
+public class UnknownStringCommand : UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
 
-public class CloseConnectionCommand : UnityEvent<AltClientSocketHandler> { }
-public class UnknownStringCommand : UnityEvent<AltClientSocketHandler> { }
+public class SetStationaryTouchCommand : UnityEngine.Events.UnityEvent<UnityEngine.Touch, string, AltClientSocketHandler> { }
+public class SetMovingTouchCommand : UnityEngine.Events.UnityEvent<UnityEngine.Vector2, UnityEngine.Vector2, string, AltClientSocketHandler> { }
+public class DragObjectCommand : UnityEngine.Events.UnityEvent<UnityEngine.Vector2, AltUnityObject, AltClientSocketHandler> { }
+public class DropObjectCommand : UnityEngine.Events.UnityEvent<UnityEngine.Vector2, AltUnityObject, AltClientSocketHandler> { }
+public class PointerUpCommand : UnityEngine.Events.UnityEvent<AltUnityObject, AltClientSocketHandler> { }
+public class PointerDownCommand : UnityEngine.Events.UnityEvent<AltUnityObject, AltClientSocketHandler> { }
+public class TiltCommand : UnityEngine.Events.UnityEvent<UnityEngine.Vector3, AltClientSocketHandler> { }
+public class TapCommand : UnityEngine.Events.UnityEvent<AltUnityObject, AltClientSocketHandler> { }
 
-public class SetStationaryTouchCommand : UnityEvent<Touch, string, AltClientSocketHandler> { }
-public class SetMovingTouchCommand : UnityEvent<Vector2, Vector2, string, AltClientSocketHandler> { }
-public class DragObjectCommand : UnityEvent<Vector2, AltUnityObject, AltClientSocketHandler> { }
-public class DropObjectCommand : UnityEvent<Vector2, AltUnityObject, AltClientSocketHandler> { }
-public class PointerUpCommand : UnityEvent<AltUnityObject, AltClientSocketHandler> { }
-public class PointerDownCommand : UnityEvent<AltUnityObject, AltClientSocketHandler> { }
-public class TiltCommand : UnityEvent<Vector3, AltClientSocketHandler> { }
-public class TapCommand : UnityEvent<AltUnityObject, AltClientSocketHandler> { }
+public class PointerEnterCommand : UnityEngine.Events.UnityEvent<AltUnityObject, AltClientSocketHandler> { }
+public class PointerExitCommand : UnityEngine.Events.UnityEvent<AltUnityObject, AltClientSocketHandler> { }
+public class LoadSceneCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 
-public class PointerEnterCommand : UnityEvent<AltUnityObject, AltClientSocketHandler> { }
-public class PointerExitCommand : UnityEvent<AltUnityObject, AltClientSocketHandler> { }
-public class LoadSceneCommand : UnityEvent<string, AltClientSocketHandler> { }
+public class DeleteKeyPlayerPrefCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+public class DeletePlayerPrefCommand : UnityEngine.Events.UnityEvent< AltClientSocketHandler> { }
+public class GetKeyPlayerPrefCommand : UnityEngine.Events.UnityEvent<string,PLayerPrefKeyType, AltClientSocketHandler> { }
+public class SetKeyPlayerPrefCommand : UnityEngine.Events.UnityEvent<string,string,PLayerPrefKeyType, AltClientSocketHandler> { }
 
-public class DeleteKeyPlayerPrefCommand : UnityEvent<string, AltClientSocketHandler> { }
-public class DeletePlayerPrefCommand : UnityEvent< AltClientSocketHandler> { }
-public class GetKeyPlayerPrefCommand : UnityEvent<string,PLayerPrefKeyType, AltClientSocketHandler> { }
-public class SetKeyPlayerPrefCommand : UnityEvent<string,string,PLayerPrefKeyType, AltClientSocketHandler> { }
-
-public class SwipeFinishedCommand: UnityEvent<AltClientSocketHandler> { }
+public class SwipeFinishedCommand: UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
 
 
-public class GetAllComponentsCommand : UnityEvent<string, AltClientSocketHandler> { }
-public class GetAllFieldsCommand : UnityEvent<string,AltUnityComponent, AltClientSocketHandler> { }
-public class GetAllMethodsCommand : UnityEvent<AltUnityComponent, AltClientSocketHandler> { }
-public class GetAllScenesCommand: UnityEvent<AltClientSocketHandler> { }
-public class GetAllCamerasCommand: UnityEvent<AltClientSocketHandler> { }
+public class GetAllComponentsCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+public class GetAllFieldsCommand : UnityEngine.Events.UnityEvent<string,AltUnityComponent, AltClientSocketHandler> { }
+public class GetAllMethodsCommand : UnityEngine.Events.UnityEvent<AltUnityComponent, AltClientSocketHandler> { }
+public class GetAllScenesCommand: UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
+public class GetAllCamerasCommand: UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
 
-public class GetScreenshotCommand: UnityEvent<Vector2,AltClientSocketHandler> { }
-public class HighlightObjectScreenshotCommand : UnityEvent<int,string, Vector2, AltClientSocketHandler> { }
-public class HighlightObjectFromCoordinatesScreenshotCommand : UnityEvent<Vector2,string, Vector2, AltClientSocketHandler> { }
-public class ScreenshotReady: UnityEvent <Texture2D, Vector2, AltClientSocketHandler> { }
+public class GetScreenshotCommand: UnityEngine.Events.UnityEvent<UnityEngine.Vector2, AltClientSocketHandler> { }
+public class HighlightObjectScreenshotCommand : UnityEngine.Events.UnityEvent<int,string, UnityEngine.Vector2, AltClientSocketHandler> { }
+public class HighlightObjectFromCoordinatesScreenshotCommand : UnityEngine.Events.UnityEvent<UnityEngine.Vector2, string, UnityEngine.Vector2, AltClientSocketHandler> { }
+public class ScreenshotReady: UnityEngine.Events.UnityEvent <UnityEngine.Texture2D, UnityEngine.Vector2, AltClientSocketHandler> { }
 
-public class SetTimeScaleCommand : UnityEvent<float, AltClientSocketHandler> { }
-public class GetTimeScaleCommand : UnityEvent<AltClientSocketHandler> { }
+public class SetTimeScaleCommand : UnityEngine.Events.UnityEvent<float, AltClientSocketHandler> { }
+public class GetTimeScaleCommand : UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
 
 public class AltUnityEvents
 {
 
-    public UnityEvent ResponseReceived;
+    public UnityEngine.Events.UnityEvent ResponseReceived;
 
     public FindObjectByNameCommand FindObjectByName;
     public FindObjectWhereNameContainsCommand FindObjectWhereNameContains;
@@ -150,7 +145,7 @@ public class AltUnityEvents
                 _instance.GetText = new GetTextCommand();
 
                 _instance.UnknownString = new UnknownStringCommand();
-                _instance.ResponseReceived = new UnityEvent();
+                _instance.ResponseReceived = new UnityEngine.Events.UnityEvent();
                 _instance.CloseConnection = new CloseConnectionCommand();
 
                 _instance.SetMovingTouch = new SetMovingTouchCommand();

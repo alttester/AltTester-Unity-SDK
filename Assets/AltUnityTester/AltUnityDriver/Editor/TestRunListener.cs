@@ -1,32 +1,31 @@
-﻿using System;
-using NUnit.Framework.Interfaces;
-using UnityEngine;
+﻿
 
-public class TestRunListener : ITestListener {
+public class TestRunListener : NUnit.Framework.Interfaces.ITestListener
+{
     public readonly TestRunDelegate CallRunDelegate;
 
     public TestRunListener(TestRunDelegate callRunDelegate) {
         this.CallRunDelegate = callRunDelegate;
     }
 
-    public void TestStarted(ITest test) {
+    public void TestStarted(NUnit.Framework.Interfaces.ITest test) {
         if (!test.IsSuite) {
             if (CallRunDelegate != null)
                 CallRunDelegate(test.Name);
         }
     }
 
-    public void TestFinished(ITestResult result) {
+    public void TestFinished(NUnit.Framework.Interfaces.ITestResult result) {
         if (!result.Test.IsSuite) {
-            Debug.Log("==============> TEST " + result.Test.FullName + ": " + result.ResultState.ToString().ToUpper());
-            if (result.ResultState != ResultState.Success) {
-                Debug.Log("Error Message: " + result.Message);
-                Debug.Log(result.StackTrace);
+            UnityEngine.Debug.Log("==============> TEST " + result.Test.FullName + ": " + result.ResultState.ToString().ToUpper());
+            if (result.ResultState != NUnit.Framework.Interfaces.ResultState.Success) {
+                UnityEngine.Debug.Log("Error Message: " + result.Message);
+                UnityEngine.Debug.Log(result.StackTrace);
             }
-            Debug.Log("======================================================");
+            UnityEngine.Debug.Log("======================================================");
         }
     }
 
-    public void TestOutput(TestOutput output) {
+    public void TestOutput(NUnit.Framework.Interfaces.TestOutput output) {
     }
 }

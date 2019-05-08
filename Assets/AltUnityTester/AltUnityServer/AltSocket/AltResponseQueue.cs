@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-
+﻿
 public delegate void SendResponse();
 
 public class AltResponseQueue {
 
-    private Queue<SendResponse> _responseQueue = new Queue<SendResponse>();
+    private System.Collections.Generic.Queue<SendResponse> _responseQueue = new System.Collections.Generic.Queue<SendResponse>();
     private readonly object _queueLock = new object();
 
     public void Cycle() {
