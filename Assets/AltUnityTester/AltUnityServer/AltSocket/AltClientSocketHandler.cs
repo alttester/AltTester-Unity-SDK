@@ -1,8 +1,5 @@
-﻿using UnityEngine;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System;
+﻿
+
 using System.Linq;
 
 public interface AltIClientSocketHandlerDelegate
@@ -14,18 +11,18 @@ public interface AltIClientSocketHandlerDelegate
 public class AltClientSocketHandler
 {
 
-    protected readonly TcpClient Client;
+    protected readonly System.Net.Sockets.TcpClient Client;
     protected readonly string SeparatorSequence;
     protected readonly char[] SeparatorSequenceChars;
-    protected readonly Encoding Encoding;
+    protected readonly System.Text.Encoding Encoding;
     protected AltIClientSocketHandlerDelegate ClientSocketHandlerDelegate;
     public bool ToBeKilled;
 
 
-    public AltClientSocketHandler(TcpClient client,
+    public AltClientSocketHandler(System.Net.Sockets.TcpClient client,
                                     AltIClientSocketHandlerDelegate clientSocketHandlerDelegate,
                                     string separatorString,
-                                    Encoding encoding)
+                                    System.Text.Encoding encoding)
     {
         Client = client;
         Encoding = encoding;
@@ -47,13 +44,13 @@ public class AltClientSocketHandler
     public void SendResponse(string response)
     {
         response = "altstart::" + response + "::altend";
-        Debug.Log("sending response: " + response);
+        UnityEngine.Debug.Log("sending response: " + response);
         Client.Client.Send(Encoding.GetBytes(response));
     }
     public void SendResponse(byte[] response)
     {
-        response = Encoding.ASCII.GetBytes("altstart::").Concat(response).Concat( Encoding.ASCII.GetBytes("::altend")).ToArray();
-        Debug.Log("sending response: " + Encoding.ASCII.GetString(response));
+        response = System.Text.Encoding.ASCII.GetBytes("altstart::").Concat(response).Concat(System.Text.Encoding.ASCII.GetBytes("::altend")).ToArray();
+        UnityEngine.Debug.Log("sending response: " + System.Text.Encoding.ASCII.GetString(response));
         Client.Client.Send(response);
     }
 
@@ -61,7 +58,7 @@ public class AltClientSocketHandler
     {
         try
         {
-            StringBuilder dataBuffer = new StringBuilder();
+            System.Text.StringBuilder dataBuffer = new System.Text.StringBuilder();
 
             while (true)
             {
@@ -73,9 +70,9 @@ public class AltClientSocketHandler
                 {
                     dataBuffer.Append(Encoding.GetString(readBuffer, 0, readLength));
                     string data = dataBuffer.ToString();
-                    dataBuffer = new StringBuilder();
+                    dataBuffer = new System.Text.StringBuilder();
 
-                    string[] tokens = data.Split(new[] { SeparatorSequence }, StringSplitOptions.None);
+                    string[] tokens = data.Split(new[] { SeparatorSequence }, System.StringSplitOptions.None);
 
                     bool endsWithSeparator = data.EndsWith(SeparatorSequence);
 
@@ -106,23 +103,23 @@ public class AltClientSocketHandler
                 }
             }
         }
-        catch (ThreadAbortException exception)
+        catch (System.Threading.ThreadAbortException exception)
         {
-            Debug.Log("Thread aborted(" + exception + ")");
+            UnityEngine.Debug.Log("Thread aborted(" + exception + ")");
         }
-        catch (SocketException exception)
+        catch (System.Net.Sockets.SocketException exception)
         {
-            Debug.Log("Socket exception(" + exception + ")");
+            UnityEngine.Debug.Log("Socket exception(" + exception + ")");
         }
-        catch (Exception exception)
+        catch (System.Exception exception)
 
         {
-            Debug.Log("Exception(" + exception + ")");
+            UnityEngine.Debug.Log("Exception(" + exception + ")");
         }
         finally
         {
             Client.Close();
-            Debug.Log("AltClientSocketHandler - Client closed");
+            UnityEngine.Debug.Log("AltClientSocketHandler - Client closed");
 
         }
     }
