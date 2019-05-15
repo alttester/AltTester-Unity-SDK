@@ -1,7 +1,10 @@
-﻿
-
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Reflection;
+using NUnit.Framework.Api;
+using NUnit.Framework.Internal;
 using UnityEngine;
 
 public delegate void TestRunDelegate(string name);
@@ -253,11 +256,37 @@ public class AltUnityTestRunner {
     }
 
     public static void SetUpListTest() {
-        var myTests = new System.Collections.Generic.List<MyTest>();
-        System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
-        System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
-        var testSuite2 = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new System.Collections.Generic.Dictionary<string, object>());
-        addTestSuiteToMyTest(testSuite2, myTests);
+        var myTests = new List<MyTest>();
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        const string engineTestRunnerAssemblyName = "UnityEngine.TestRunner";
+        const string editorTestRunnerAssemblyName = "UnityEditor.TestRunner";
+        const string editorAssemblyName = "Assembly-CSharp-Editor";
+        foreach (var assembly in assemblies)
+        {
+            /*
+             * Skips test assemblies and assemblies that do not contain references to test assemblies
+             */
+            bool isEditorAssembly = assembly.GetName().Name.Equals(editorAssemblyName);
+            if(!isEditorAssembly)
+            {
+                bool isEngineTestRunnerAssembly = assembly.GetName().Name.Contains(engineTestRunnerAssemblyName);
+                bool isEditorTestRunnerAssembly = assembly.GetName().Name.Contains(editorTestRunnerAssemblyName);
+                bool isTestAssembly = assembly.GetReferencedAssemblies().FirstOrDefault(
+                            reference => reference.Name.Contains(engineTestRunnerAssemblyName) 
+                                         || reference.Name.Contains(editorTestRunnerAssemblyName)) == null;
+                if (isEngineTestRunnerAssembly ||
+                    isEditorTestRunnerAssembly ||
+                    isTestAssembly)
+                {
+                    continue;
+                }
+            }
+
+            var testSuite = (TestSuite)new DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+            addTestSuiteToMyTest(testSuite, myTests);
+        }
+
         AltUnityTesterEditor.EditorConfiguration.MyTests = myTests;
     }
 
