@@ -265,7 +265,7 @@ public class AltUnityTestRunner {
         foreach (var assembly in assemblies)
         {
             /*
-             * Skips test assemblies and assemblies that do not contain references to test assemblies
+             * Skips test runner assemblies and assemblies that do not contain references to test assemblies
              */
             bool isEditorAssembly = assembly.GetName().Name.Equals(editorAssemblyName);
             if(!isEditorAssembly)
