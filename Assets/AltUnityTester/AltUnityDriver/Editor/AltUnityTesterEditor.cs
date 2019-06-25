@@ -562,7 +562,6 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void RunInEditor()
     {
-        //AltUnityBuilder.InsertAltUnityInTheFirstScene();
         AltUnityBuilder.InsertAltUnityInTheActiveScene();
         AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
 

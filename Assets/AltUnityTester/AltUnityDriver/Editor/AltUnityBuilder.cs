@@ -189,8 +189,6 @@ public class AltUnityBuilder {
         return "";
     }
 
-    
-
 #if UNITY_EDITOR_OSX
 
 
