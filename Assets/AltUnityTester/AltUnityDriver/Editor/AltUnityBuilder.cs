@@ -1,6 +1,5 @@
 ﻿
 
-using System.Collections.Generic;
 
 public static class PlatformName
 {	
@@ -127,7 +126,7 @@ public class AltUnityBuilder {
             AltUnityTesterEditor.AddAllScenes();
             AltUnityTesterEditor.SelectAllScenes();
         }
-        List<string> sceneList = new List<string>();
+        System.Collections.Generic.List<string> sceneList = new System.Collections.Generic.List<string>();
         foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes) {
             if (scene.ToBeBuilt) {
                 sceneList.Add(scene.Path);
@@ -148,6 +147,11 @@ public class AltUnityBuilder {
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
         UnityEngine.Debug.Log("Scene successfully modified.");
+    }
+    public static void InsertAltUnityInTheActiveScene()
+    {
+        var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
+        InsertAltUnityInScene(activeScene);
     }
 
     public static void InsertAltUnityInTheFirstScene() {
@@ -185,7 +189,9 @@ public class AltUnityBuilder {
         return "";
     }
 
-    #if UNITY_EDITOR_OSX
+    
+
+#if UNITY_EDITOR_OSX
 
 
     public static void BuildiOSFromUI(bool autoRun) {
