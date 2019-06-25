@@ -435,13 +435,13 @@ public class AltUnityDriver {
         return waitForCurrentSceneToBe(sceneName, 20, 0.5);
     }
 
-    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, double timeout, double interval) {
+    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName,boolean enabled, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
             //log.debug("Waiting for element where name contains " + name + "....");
             try {
-                altElement = findElementWhereNameContains(name, cameraName);
+                altElement = findElementWhereNameContains(name, cameraName,enabled);
                 if (altElement != null) {
                     return altElement;
                 }
@@ -455,16 +455,22 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject waitForElementWhereNameContains(String name) {
-        return waitForElementWhereNameContains(name, "", 20, 0.5);
+        return waitForElementWhereNameContains(name, "",true, 20, 0.5);
+    }
+    public AltUnityObject waitForElementWhereNameContains(String name,boolean enabled) {
+        return waitForElementWhereNameContains(name, "",enabled, 20, 0.5);
+    }
+    public AltUnityObject waitForElementWhereNameContains(String name,String cameraName) {
+        return waitForElementWhereNameContains(name, cameraName,true, 20, 0.5);
     }
 
-    public void waitForElementToNotBePresent(String name, String cameraName, double timeout, double interval) {
+    public void waitForElementToNotBePresent(String name, String cameraName,boolean enabled, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
         while (time <= timeout) {
             //log.debug("Waiting for element " + name + " not to be present");
             try {
-                altElement = findElement(name, cameraName);
+                altElement = findElement(name, cameraName,enabled);
                 if (altElement == null) {
                     return;
                 }
@@ -496,16 +502,22 @@ public class AltUnityDriver {
     }
 
     public void waitForElementToNotBePresent(String name) {
-        waitForElementToNotBePresent(name, "", 20, 0.5);
+        waitForElementToNotBePresent(name, "",true, 20, 0.5);
+    }
+    public void waitForElementToNotBePresent(String name,String cameraName) {
+        waitForElementToNotBePresent(name, cameraName,true, 20, 0.5);
+    }
+    public void waitForElementToNotBePresent(String name, boolean enabled) {
+        waitForElementToNotBePresent(name, "",enabled, 20, 0.5);
     }
 
-    public AltUnityObject waitForElement(String name, String cameraName, double timeout, double interval) {
+    public AltUnityObject waitForElement(String name, String cameraName,boolean enabled, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
             //log.debug("Waiting for element " + name + "...");
             try {
-                altElement = findElement(name, cameraName);
+                altElement = findElement(name, cameraName,enabled);
             } catch (Exception e) {
                 log.warn("Exception thrown: " + e.getLocalizedMessage());
             }
@@ -521,16 +533,22 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject waitForElement(String name) {
-        return waitForElement(name, "", 20, 0.5);
+        return waitForElement(name, "",true, 20, 0.5);
+    }
+    public AltUnityObject waitForElement(String name,String cameraName) {
+        return waitForElement(name, cameraName,true, 20, 0.5);
+    }
+    public AltUnityObject waitForElement(String name,boolean enabled) {
+        return waitForElement(name, "",enabled, 20, 0.5);
     }
 
-    public AltUnityObject waitForElementWithText(String name, String text, String cameraName, double timeout, double interval) {
+    public AltUnityObject waitForElementWithText(String name, String text, String cameraName,boolean enabled, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < timeout) {
             //log.debug("Waiting for element " + name + " to have text [" + text + "]");
             try {
-                altElement = findElement(name, cameraName);
+                altElement = findElement(name, cameraName,enabled);
                 if (altElement != null && altElement.getText().equals(text)) {
                     return altElement;
                 }
@@ -544,7 +562,13 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject waitForElementWithText(String name, String text) {
-        return waitForElementWithText(name, text, "", 20, 0.5);
+        return waitForElementWithText(name, text, "",true, 20, 0.5);
+    }
+    public AltUnityObject waitForElementWithText(String name, String text,String cameraName) {
+        return waitForElementWithText(name, text, cameraName,true, 20, 0.5);
+    }
+    public AltUnityObject waitForElementWithText(String name, String text,boolean enabled) {
+        return waitForElementWithText(name, text, "",enabled, 20, 0.5);
     }
 
     public AltUnityObject findElementByComponent(String componentName,String assemblyName, String cameraName,boolean enabled) {

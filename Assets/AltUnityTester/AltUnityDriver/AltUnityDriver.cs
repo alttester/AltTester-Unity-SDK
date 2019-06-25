@@ -356,7 +356,7 @@ public class AltUnityDriver
 
     }
 
-    public AltUnityObject WaitForElementWhereNameContains(string name, string cameraName = "", double timeout = 20, double interval = 0.5)
+    public AltUnityObject WaitForElementWhereNameContains(string name, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         double time = 0;
         AltUnityObject altElement = null;
@@ -364,7 +364,7 @@ public class AltUnityDriver
         {
             try
             {
-                altElement = FindElementWhereNameContains(name, cameraName);
+                altElement = FindElementWhereNameContains(name, cameraName, enabled);
                 break;
             }
             catch (System.Exception)
@@ -382,7 +382,7 @@ public class AltUnityDriver
 
 
 
-    public void WaitForElementToNotBePresent(string name, string cameraName = "", double timeout = 20, double interval = 0.5)
+    public void WaitForElementToNotBePresent(string name, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         double time = 0;
         bool found = false; 
@@ -392,7 +392,7 @@ public class AltUnityDriver
             found = false;
             try
             {
-                altElement = FindElement(name, cameraName);
+                altElement = FindElement(name, cameraName, enabled);
                 found = true;
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
@@ -411,7 +411,7 @@ public class AltUnityDriver
 
 
 
-    public AltUnityObject WaitForElement(string name, string cameraName = "", double timeout = 20, double interval = 0.5)
+    public AltUnityObject WaitForElement(string name, string cameraName = "",bool enabled=true, double timeout = 20, double interval = 0.5)
     {
         double time = 0;
         AltUnityObject altElement = null;
@@ -419,7 +419,7 @@ public class AltUnityDriver
         {
             try
             {
-                altElement = FindElement(name, cameraName);
+                altElement = FindElement(name, cameraName,enabled);
                 break;
             }
             catch (System.Exception)
@@ -439,7 +439,7 @@ public class AltUnityDriver
     }
 
 
-    public AltUnityObject WaitForElementWithText(string name, string text, string cameraName = "", double timeout = 20, double interval = 0.5)
+    public AltUnityObject WaitForElementWithText(string name, string text, string cameraName = "",bool enabled=true, double timeout = 20, double interval = 0.5)
     {
         double time = 0;
         AltUnityObject altElement = null;
@@ -447,7 +447,7 @@ public class AltUnityDriver
         {
             try
             {
-                altElement = FindElement(name, cameraName);
+                altElement = FindElement(name, cameraName,enabled);
                 if (altElement.GetText().Equals(text))
                     break;
                 throw new System.Exception("Not the wanted text");

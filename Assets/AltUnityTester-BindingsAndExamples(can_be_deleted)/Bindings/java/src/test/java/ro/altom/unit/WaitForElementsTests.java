@@ -19,6 +19,7 @@ public class WaitForElementsTests {
     private static DummyServer dummyServer;
     private final String elementName = "nameOfTheElement";
     private final String cameraName = "cameraName";
+    private final Boolean enabled=true;
 
     @BeforeClass
     public static void setup() {
@@ -49,7 +50,7 @@ public class WaitForElementsTests {
         Mockito.doReturn(getDummyObject()).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
 
         // WHEN
-        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
     private AltUnityObject getDummyObject() {
@@ -62,7 +63,7 @@ public class WaitForElementsTests {
         Mockito.doReturn(null).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
 
         // WHEN
-        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
     @Test
@@ -71,7 +72,7 @@ public class WaitForElementsTests {
         Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
 
         // WHEN
-        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
     @Test(expected = WaitTimeOutException.class)
@@ -80,7 +81,7 @@ public class WaitForElementsTests {
         Mockito.doReturn(null).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
 
         // WHEN
-        spyAltDriver.waitForElement(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElement(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
     @Test
@@ -90,7 +91,7 @@ public class WaitForElementsTests {
         Mockito.doReturn(expectedElement).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
 
         // WHEN
-        AltUnityObject equalElement = spyAltDriver.waitForElement(elementName, cameraName, TIMEOUT, INTERVAL);
+        AltUnityObject equalElement = spyAltDriver.waitForElement(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
 
         // THEN
         Assert.assertEquals("Expected and returned element are different.", expectedElement, equalElement);
@@ -102,7 +103,7 @@ public class WaitForElementsTests {
         Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
 
         // WHEN
-        spyAltDriver.waitForElement(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElement(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
 
@@ -113,7 +114,7 @@ public class WaitForElementsTests {
         String textInElement = "textInElement";
 
         // WHEN
-        spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test
@@ -125,7 +126,7 @@ public class WaitForElementsTests {
         Mockito.doReturn(textInElement).when(expectedElement).getText();
 
         // WHEN
-        AltUnityObject equalElement = spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, TIMEOUT, INTERVAL);
+        AltUnityObject equalElement = spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, enabled, TIMEOUT, INTERVAL);
 
         // THEN
         Assert.assertEquals("Expected and returned element are different.", expectedElement, equalElement);
@@ -140,7 +141,7 @@ public class WaitForElementsTests {
         Mockito.doReturn("text in element").when(expectedElement).getText();
 
         // WHEN
-        AltUnityObject equalElement = spyAltDriver.waitForElementWithText(elementName, textThatIsNotInElement, cameraName, TIMEOUT, INTERVAL);
+        AltUnityObject equalElement = spyAltDriver.waitForElementWithText(elementName, textThatIsNotInElement, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test(expected = WaitTimeOutException.class)
@@ -151,7 +152,7 @@ public class WaitForElementsTests {
         final String textInElement = "textInElement";
 
         // WHEN
-        spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test(expected = WaitTimeOutException.class)
@@ -160,7 +161,7 @@ public class WaitForElementsTests {
         Mockito.doReturn(null).when(spyAltDriver).findElementWhereNameContains(Mockito.anyString(), Mockito.anyString());
 
         // WHEN
-        spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test
@@ -172,7 +173,7 @@ public class WaitForElementsTests {
         Mockito.doReturn(textInElement).when(expectedElement).getText();
 
         // WHEN
-        AltUnityObject equalElement = spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, TIMEOUT, INTERVAL);
+        AltUnityObject equalElement = spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, enabled, TIMEOUT, INTERVAL);
 
         // THEN
         Assert.assertEquals("Expected and returned element are different.", expectedElement, equalElement);
@@ -184,7 +185,7 @@ public class WaitForElementsTests {
         Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElementWhereNameContains(Mockito.anyString(), Mockito.anyString());
 
         // WHEN
-        spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test(expected = WaitTimeOutException.class)

@@ -54,7 +54,7 @@ public class TestsSampleScene2 {
 
     @Test
     public void testClosePanel() throws Exception {
-        altUnityDriver.waitForElement("Panel Drag Area","", 2, 0.5);
+        altUnityDriver.waitForElement("Panel Drag Area","",true, 2, 0.5);
         assertTrue(altUnityDriver.findElement("Panel").enabled);
         AltUnityObject altElement = altUnityDriver.findElement("Close Button");
         altElement.clickEvent();
