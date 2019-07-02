@@ -222,7 +222,6 @@ public class AltUnityDriver
             return;
         HandleErrors(data);
     }
-
     public void SwipeAndWait(UnityEngine.Vector2 start, UnityEngine.Vector2 end, float duration)
     {
         Swipe(start, end, duration);
@@ -230,7 +229,7 @@ public class AltUnityDriver
         string data;
         do
         {
-            Socket.Client.Send(toBytes(CreateCommand("swipeFinished")));
+            Socket.Client.Send(toBytes(CreateCommand("actionFinished")));
             data = Recvall();
         } while (data == "No");
         if (data.Equals("Yes"))
@@ -245,6 +244,84 @@ public class AltUnityDriver
     public void HoldButtonAndWait(UnityEngine.Vector2 position, float duration)
     {
         SwipeAndWait(position, position, duration);
+    }
+    public void PressKey(UnityEngine.KeyCode keyCode, float duration = 0)
+    {
+        Socket.Client.Send(toBytes(CreateCommand("pressKeyboardKey", keyCode.ToString(), duration.ToString())));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+    }
+    public void PressKeyAndWait(UnityEngine.KeyCode keyCode, float duration = 0)
+    {
+        PressKey(keyCode, duration);
+        System.Threading.Thread.Sleep((int)duration * 1000);
+        string data;
+        do
+        {
+            Socket.Client.Send(toBytes(CreateCommand("actionFinished")));
+            data = Recvall();
+        } while (data == "No");
+        if (data.Equals("Yes"))
+            return;
+        HandleErrors(data);
+    }
+    public void MoveMouse(UnityEngine.Vector2 location,float duration=0)
+    {
+        string locationJson = Newtonsoft.Json.JsonConvert.SerializeObject(location, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
+        {
+            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        });
+        Socket.Client.Send(toBytes(CreateCommand("moveMouse", locationJson.ToString(), duration.ToString())));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+
+    }
+
+    public void MoveMouseAndWait(UnityEngine.Vector2 location, float duration = 0)
+    {
+        MoveMouse(location, duration);
+        System.Threading.Thread.Sleep((int)duration * 1000);
+        string data;
+        do
+        {
+            Socket.Client.Send(toBytes(CreateCommand("actionFinished")));
+            data = Recvall();
+        } while (data == "No");
+        if (data.Equals("Yes"))
+            return;
+        HandleErrors(data);
+
+    }
+
+    public void ScrollMouse(float speed, float duration = 0)
+    {
+        
+        Socket.Client.Send(toBytes(CreateCommand("scrollMouse", speed.ToString(), duration.ToString())));
+        var data = Recvall();
+        if (data.Equals("Ok"))
+            return;
+        HandleErrors(data);
+
+    }
+
+    public void ScrollMouseAndWait(float speed, float duration = 0)
+    {
+        ScrollMouse(speed, duration);
+        System.Threading.Thread.Sleep((int)duration * 1000);
+        string data;
+        do
+        {
+            Socket.Client.Send(toBytes(CreateCommand("actionFinished")));
+            data = Recvall();
+        } while (data == "No");
+        if (data.Equals("Yes"))
+            return;
+        HandleErrors(data);
+
     }
     public AltUnityObject TapScreen(float x, float y)
     {
