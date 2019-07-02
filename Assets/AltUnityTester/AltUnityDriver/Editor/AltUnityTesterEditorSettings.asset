@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: AltUnityTesterEditorSettings
   m_EditorClassIdentifier: 
   appendToName: 0
-  OutputPathName: 
+  OutputPathName: sampleGame
   AdbPath: /usr/local/bin/adb
   IProxyPath: /usr/local/bin/iproxy
   XcrunPath: /usr/bin/xcrun
@@ -21,12 +21,12 @@ MonoBehaviour:
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
     _testCaseCount: 56
-    _foldOut: 1
+    _foldOut: 0
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene1TestSample
@@ -516,16 +516,16 @@ MonoBehaviour:
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       2 Draggable Panel.unity
-    _buildIndex: 0
+    _buildIndex: 1
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       3 Drag And Drop.unity
-    _buildIndex: 0
+    _buildIndex: 2
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       4 No Cameras.unity
-    _buildIndex: 0
-  platform: 1
+    _buildIndex: 3
+  platform: 0
   ranInEditor: 0
   requestSeparator: ;
   requestEnding: '&'
