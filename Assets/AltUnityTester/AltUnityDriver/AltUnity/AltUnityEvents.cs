@@ -56,6 +56,11 @@ public class ScreenshotReady: UnityEngine.Events.UnityEvent <UnityEngine.Texture
 public class SetTimeScaleCommand : UnityEngine.Events.UnityEvent<float, AltClientSocketHandler> { }
 public class GetTimeScaleCommand : UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
 
+public class HoldButtonCommand : UnityEngine.Events.UnityEvent<UnityEngine.KeyCode,float, AltClientSocketHandler> { }
+public class ScrollCommand: UnityEngine.Events.UnityEvent<float, float, AltClientSocketHandler> { }
+public class MoveMouseCommand: UnityEngine.Events.UnityEvent<UnityEngine.Vector2,float, AltClientSocketHandler> { }
+
+
 public class AltUnityEvents
 {
 
@@ -99,7 +104,7 @@ public class AltUnityEvents
     public DeletePlayerPrefCommand DeletePlayerPref;
     public GetKeyPlayerPrefCommand GetKeyPlayerPref;
 
-    public SwipeFinishedCommand SwipeFinished;
+    public SwipeFinishedCommand ActionFinished;
 
     public GetAllComponentsCommand GetAllComponents;
     public GetAllFieldsCommand GetAllFields;
@@ -114,6 +119,10 @@ public class AltUnityEvents
     public SetTimeScaleCommand SetTimeScale;
     public GetTimeScaleCommand GetTimeScale;
 
+
+    public HoldButtonCommand HoldButton;
+    public ScrollCommand Scroll;
+    public MoveMouseCommand MoveMouse;
     // We are a singleton!
     private static AltUnityEvents _instance;
     public static AltUnityEvents Instance
@@ -163,7 +172,7 @@ public class AltUnityEvents
                 _instance.GetKeyPlayerPref=new GetKeyPlayerPrefCommand();
                 _instance.DeleteKeyPlayerPref=new DeleteKeyPlayerPrefCommand();
                 _instance.DeletePlayerPref=new DeletePlayerPrefCommand();
-                _instance.SwipeFinished=new SwipeFinishedCommand();
+                _instance.ActionFinished=new SwipeFinishedCommand();
 
 
                 _instance.GetAllComponents=new GetAllComponentsCommand();
@@ -178,6 +187,10 @@ public class AltUnityEvents
                 _instance.ScreenshotReady = new ScreenshotReady();
                 _instance.SetTimeScale = new SetTimeScaleCommand();
                 _instance.GetTimeScale = new GetTimeScaleCommand();
+
+                _instance.HoldButton = new HoldButtonCommand();
+                _instance.MoveMouse = new MoveMouseCommand();
+                _instance.Scroll = new ScrollCommand();
             }
             return _instance;
         }

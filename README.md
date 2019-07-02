@@ -31,6 +31,7 @@ https://gitter.im/AltUnityTester/Lobby
    - [Call static method](#call-static-methods)
    - [Actions on Screen](#actions-on-screen)
    - [Actions on elements](#actions-on-elements)
+   - [Keyboard and Mouse](#keyboard-and-mouse)
 
 Other Bindings:
    - [Python](https://gitlab.com/altom/altunitytester/tree/master/Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python)
@@ -641,6 +642,71 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
    ```
 
    This will call `TestMethodWithManyParameters(1, "this is a text", 0,5, new int[]{1, 2, 3})` 
+
+   #### Keyboard and Mouse
+
+  * `PressKey`
+    * params: 
+      * keycode: Unity Enum that maps what button is pressed. Check https://docs.unity3d.com/ScriptReference/KeyCode.html to see what buttons are available
+      * duration: the time in seconds while the key is pressed
+    * This method will not wait for the button to be released. To wait for the button to be release please use 'PressKeyAndRelease'
+    
+   
+   ```c#
+    altUnityDriver.PressKey(UnityEngine.KeyCode.K, 2);
+   ```
+  * `PressKeyAndWait`
+      * params: 
+        * keycode: Unity Enum that maps what button is pressed. Check https://docs.unity3d.com/ScriptReference/KeyCode.html to see what buttons are available
+        * duration: the time in seconds while the key is pressed
+      * This method will wait for the button to be released. If you don't want to wait for the button to be release please use 'PressKey'
+      
+    
+    ```c#
+      altUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.K, 2);
+    ```
+  * `MoveMouse`
+      * params: 
+        * location: position on the screen where to move the mouse
+        * duration: the time in seconds for the mouse to move from the current position to the one given by location
+      * This method will not wait for the mouse to get to the location. To wait for the mouse to get to the location please use 'PressKeyAndRelease'
+      
+    ```c#
+      altUnityDriver.MoveMouse(new UnityEngine.Vector2(400,400), 1);
+    ```
+  * `MoveMouseAndWait`
+    * params: 
+      * location: position on the screen where to move the mouse
+      * duration: the time in seconds for the mouse to move from the current position to the one given by location
+    * This method will wait for the mouse to get to the location. If you don't want to wait please use 'MoveMouse'
+    
+   
+   ```c#
+      altUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(400,400), 1);
+   ```
+  * `ScrollMouse`
+      * params: 
+        * speed: Positive values simulate scrolling up and negative values simulate scrolling down
+        * duration: the time in seconds while the scroll is applied
+      * This method will not wait for the scroll to be completed. If you want to wait please use 'ScrollMouseAndWait'
+      
+    
+    ```c#
+      altUnityDriver.ScrollMouse(2, 2);
+    ```
+  * `ScrollMouseAndWait`
+      * params: 
+        * speed: Positive values simulate scrolling up and negative values simulate scrolling down
+        * duration: the time in seconds while the scroll is applied
+      * This method will wait for the scroll to be completed. If you don't want to wait please use 'ScrollMouse'
+      
+    
+    ```c#
+      altUnityDriver.ScrollMouseAndWait(2, 2);
+    ```
+
+
+
    
    
    

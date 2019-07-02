@@ -1,6 +1,7 @@
 package ro.altom.altunitytester;
 
 import com.google.gson.Gson;
+import com.sun.javafx.geom.Vec2f;
 import lombok.extern.slf4j.Slf4j;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
@@ -295,6 +296,74 @@ public class AltUnityDriver {
         send(CreateCommand("tilt", accelerationString));
         String data = recvall();
         if (data.equals("OK")) {
+            return;
+        }
+        handleErrors(data);
+    }
+    public void pressKey(String keyName, float duration){
+        send(CreateCommand("pressKeyboardKey", keyName,String.valueOf(duration)));
+        String data = recvall();
+        if (!data.contains("error:")) {
+            return;
+        }
+        handleErrors(data);
+    }
+    public void pressKeyAndWait(String keyName, float duration) {
+        pressKey(keyName, duration);
+        sleepFor(duration );
+        String data;
+        do {
+            send(CreateCommand("actionFinished"));
+            data = recvall();
+        } while (data.equals("No"));
+
+        if (data.equals("Yes")) {
+            return;
+        }
+        handleErrors(data);
+    }
+    public void moveMouse(int x,int y, float duration){
+        send(CreateCommand("moveMouse", vectorToJsonString(x,y),String.valueOf(duration)));
+        String data = recvall();
+        if (!data.contains("error:")) {
+            return;
+        }
+        handleErrors(data);
+
+    }
+    public void moveMouseAndWait(int x,int y, float duration) {
+        moveMouse(x,y, duration);
+        sleepFor(duration );
+        String data;
+        do {
+            send(CreateCommand("actionFinished"));
+            data = recvall();
+        } while (data.equals("No"));
+
+        if (data.equals("Yes")) {
+            return;
+        }
+        handleErrors(data);
+    }
+    public void scrollMouse(float speed, float duration){
+        send(CreateCommand("scrollMouse", String.valueOf(speed),String.valueOf(duration)));
+        String data = recvall();
+        if (!data.contains("error:")) {
+            return;
+        }
+        handleErrors(data);
+
+    }
+    public void moveMouseAndWait(float speed, float duration) {
+        scrollMouse(speed, duration);
+        sleepFor(duration );
+        String data;
+        do {
+            send(CreateCommand("actionFinished"));
+            data = recvall();
+        } while (data.equals("No"));
+
+        if (data.equals("Yes")) {
             return;
         }
         handleErrors(data);
@@ -681,4 +750,5 @@ public class AltUnityDriver {
             log.warn("AltUnityServer - adb probably not installed\n" + e);
         }
     }
+
 }

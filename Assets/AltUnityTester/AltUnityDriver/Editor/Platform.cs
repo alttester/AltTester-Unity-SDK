@@ -4,5 +4,6 @@
 #if UNITY_EDITOR_OSX
     iOS,
 #endif
-    Editor
+    Editor,
+    Standalone
 }

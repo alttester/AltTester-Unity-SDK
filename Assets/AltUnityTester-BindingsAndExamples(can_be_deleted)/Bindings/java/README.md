@@ -20,6 +20,7 @@ Links:
       * [Call static method](#call-static-methods)
       * [Actions on Screen](#actions-on-screen)
       * [Actions on elements](#actions-on-elements)
+      * [Keyboard and Mouse](#keyboard-and-mouse)
 
 
 ## Downloads - AltUnityTester Package
@@ -496,3 +497,67 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
    ```
 
    This will call `TestMethodWithManyParameters(1, "this is a text", 0,5, new int[]{1, 2, 3})` 
+
+    #### Keyboard and Mouse
+
+  * `pressKey`
+    * params: 
+      * keyName: Name of the buttons. Check https://docs.unity3d.com/ScriptReference/KeyCode.html to see what how the button are named. For exemple if you want to press left arrow key then you will need to write "LeftArrow". It is case sensitive.
+      * duration: the time in seconds while the key is pressed
+    * This method will not wait for the button to be released. To wait for the button to be release please use 'PressKeyAndRelease'
+    
+   
+   ```java
+    altUnityDriver.pressKey("K", 2);
+   ```
+  * `pressKeyAndWait`
+      * params: 
+        * keyName: Unity Enum that maps what button is pressed. Check https://docs.unity3d.com/ScriptReference/KeyCode.html to see what buttons are available
+        * duration: the time in seconds while the key is pressed
+      * This method will wait for the button to be released. If you don't want to wait for the button to be release please use 'PressKey'
+      
+    
+    ```java
+      altUnityDriver.pressKeyAndWait("Keypad0", 2);
+    ```
+  * `moveMouse`
+      * params: 
+        * x: x coordinate of the screen where to move the mouse
+        * y: y coordinate of the screen where to move the mouse
+        * duration: the time in seconds for the mouse to move from the current position to the one given by location
+      * This method will not wait for the mouse to get to the location. To wait for the mouse to get to the location please use 'PressKeyAndRelease'
+      
+    ```java
+        altUnityDriver.moveMouse(800, 200, 1);
+    ```
+  * `moveMouseAndWait`
+    * params: 
+        * x: x coordinate of the screen where to move the mouse
+        * y: y coordinate of the screen where to move the mouse
+        * duration: the time in seconds for the mouse to move from the current position to the one given by location
+    * This method will wait for the mouse to get to the location. If you don't want to wait please use 'MoveMouse'
+    
+   
+   ```java
+        altUnityDriver.moveMouseAndWait(800, 200, 1);
+   ```
+  * `scrollMouse`
+      * params: 
+        * speed: Positive values simulate scrolling up and negative values simulate scrolling down
+        * duration: the time in seconds while the scroll is applied
+      * This method will not wait for the scroll to be completed. If you want to wait please use 'ScrollMouseAndWait'
+      
+    
+    ```java
+       altUnityDriver.scrollMouse(3, 2);
+    ```
+  * `scrollMouseAndWait`
+      * params: 
+        * speed: Positive values simulate scrolling up and negative values simulate scrolling down
+        * duration: the time in seconds while the scroll is applied
+      * This method will wait for the scroll to be completed. If you don't want to wait please use 'ScrollMouse'
+      
+    
+    ```java
+       altUnityDriver.scrollMouseAndWait(3, 2);
+    ```
