@@ -16,6 +16,7 @@ public class EditorConfiguration : ScriptableObject
     public List<MyTest> MyTests = new List<MyTest>();
     public List<MyScenes> Scenes = new List<MyScenes>();
     public Platform platform = Platform.Editor;
+    public UnityEditor.BuildTarget standaloneTarget = UnityEditor.BuildTarget.StandaloneWindows;
     public bool ranInEditor = false;
     public string requestSeparator = ";";
     public string requestEnding = "&";

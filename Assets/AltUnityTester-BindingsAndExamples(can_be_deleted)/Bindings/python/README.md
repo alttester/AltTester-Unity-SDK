@@ -522,5 +522,69 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
 
    This will call `TestMethodWithManyParameters(1, "this is a text", 0,5, new int[]{1, 2, 3})` in C#
 
+   #### Keyboard and Mouse
+
+  * `press_key`
+    * params: 
+      * keyName: Name of the buttons. Check https://docs.unity3d.com/ScriptReference/KeyCode.html to see what how the button are named. For exemple if you want to press left arrow key then you will need to write "LeftArrow". It is case sensitive.
+      * duration: the time in seconds while the key is pressed
+    * This method will not wait for the button to be released. To wait for the button to be release please use 'PressKeyAndRelease'
+    
+   
+   ```python
+    self.altdriver.press_key('W', 2)
+   ```
+  * `press_key_and_wait`
+      * params: 
+        * keyName: Unity Enum that maps what button is pressed. Check https://docs.unity3d.com/ScriptReference/KeyCode.html to see what buttons are available
+        * duration: the time in seconds while the key is pressed
+      * This method will wait for the button to be released. If you don't want to wait for the button to be release please use 'PressKey'
+      
+    
+    ```python
+      self.altdriver.press_key_and_wait('W', 2)
+    ```
+  * `move_mouse`
+      * params: 
+        * x: x coordinate of the screen where to move the mouse
+        * y: y coordinate of the screen where to move the mouse
+        * duration: the time in seconds for the mouse to move from the current position to the one given by location
+      * This method will not wait for the mouse to get to the location. To wait for the mouse to get to the location please use 'PressKeyAndRelease'
+      
+    ```python
+       self.altdriver.move_mouse(400,400, 1)
+    ```
+  * `move_mouse_and_wait`
+    * params: 
+        * x: x coordinate of the screen where to move the mouse
+        * y: y coordinate of the screen where to move the mouse
+        * duration: the time in seconds for the mouse to move from the current position to the one given by location
+    * This method will wait for the mouse to get to the location. If you don't want to wait please use 'MoveMouse'
+    
+   
+   ```python
+       self.altdriver.move_mouse_and_wait(400,500, 1)
+   ```
+  * `scroll_mouse`
+      * params: 
+        * speed: Positive values simulate scrolling up and negative values simulate scrolling down
+        * duration: the time in seconds while the scroll is applied
+      * This method will not wait for the scroll to be completed. If you want to wait please use 'ScrollMouseAndWait'
+      
+    
+    ```python
+       self.altdriver.scroll_mouse(30, 1)
+    ```
+  * `scroll_mouse_and_wait`
+      * params: 
+        * speed: Positive values simulate scrolling up and negative values simulate scrolling down
+        * duration: the time in seconds while the scroll is applied
+      * This method will wait for the scroll to be completed. If you don't want to wait please use 'ScrollMouse'
+      
+    
+    ```python
+      self.altdriver.scroll_mouse_and_wait(30, 1)
+    ```
+
   
   
