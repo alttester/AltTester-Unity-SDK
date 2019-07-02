@@ -119,6 +119,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params:
         * name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
         * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
     * you can search for elements also by specifying a hierarchy path to them. For example, you can look for `Player1/Hand` or `Player2/Hand`, to make sure you find the correct `Hand` object you are interested in. When doing so, make sure you specify all the objects in between the `parent` and the `object` you are interested in. For example, if `Hand` is under a `Body` element for each `Player`, when you search for it make sure you specify it as `Player1/Body/Hand` 
     
@@ -132,6 +133,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params: 
         * name - part of the name of the object to be found, as it's shown in the Unity Scene hierarchy
         * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: the element with a name that contains partOfTheName (or the last one found in the hierarchy if more than one element with the same name is present)
     
     ```python
@@ -142,6 +144,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params: 
         * component_name - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
         * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: the element with a componentName component (or the last one found in the hierarchy if more than one element with the same component is present)
     
     ```python
@@ -152,6 +155,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params: 
         * name - the name of the objects to be found, as they are shown in the Unity Scene hierarchy
         * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: a list of elements with the correct name
     
     ```python
@@ -162,6 +166,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params: 
        * name - part of the name of the objects to be found, as they are shown in the Unity Scene hierarchy
        * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene. 
+       * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: a list of elements with a name that contains partOfTheName 
     
     ```python
@@ -172,6 +177,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params: 
         * component_name - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
         * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: a list of elements with a componentName component
 
     ```python
@@ -183,6 +189,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params: 
         * name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
         * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
         * timeout=20 - time in seconds before we timeout (default 20)
         * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
@@ -195,6 +202,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params: 
       * name - part of the name of the object to be found, as it's shown in the Unity Scene hierarchy
       * camera_name="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+      * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
       * timeout=20 - time in seconds before we timeout (default 20)
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with a name that contains partOfTheName (or the last one found in the hierarchy if more than one element with the same name is present)
@@ -207,6 +215,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
    * params: 
       * name - the name of the object, as it's shown in the Unity Scene hierarchy
       * camera_name=""="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+      * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
       * timeout=20 - time in seconds before we timeout (default 20)
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
@@ -219,6 +228,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     * params: 
       * text - the text that we want to wait for (we are looking for an element with a Text component that has the correct value)
       * camera_name=""="" - the name of the camera for wich the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+      * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
       * timeout=20 - time in seconds before we timeout (default 20)
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
