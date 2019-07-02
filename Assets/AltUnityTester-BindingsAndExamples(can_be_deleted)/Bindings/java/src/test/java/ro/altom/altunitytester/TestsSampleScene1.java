@@ -100,6 +100,18 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    public void testWaitForExistingDisabledElement() throws Exception {
+        String name = "Cube";
+        long timeStart = System.currentTimeMillis();
+        AltUnityObject altElement = altUnityDriver.waitForElement(name);
+        long timeEnd = System.currentTimeMillis();
+        long time = timeEnd - timeStart;
+        assertTrue(time / 1000 < 20);
+        assertNotNull(altElement);
+        assertEquals(altElement.name, name);
+    }
+
+    @Test
     public void testWaitForNonExistingElement() {
         String name = "Capsulee";
         try {

@@ -126,6 +126,18 @@ public class TestForScene1TestSample
         Assert.NotNull(altElement);
         Assert.AreEqual(altElement.name, name);
     }
+     [Test]
+    public void TestWaitForExistingDisabledElement()
+    {
+        const string name = "Cube";
+        var timeStart = DateTime.Now;
+        var altElement = altUnityDriver.WaitForElement(name,enabled:false);
+        var timeEnd = DateTime.Now;
+        var time = timeEnd - timeStart;
+        Assert.Less(time.TotalSeconds, 20);
+        Assert.NotNull(altElement);
+        Assert.AreEqual(altElement.name, name);
+    }
 
 
 
