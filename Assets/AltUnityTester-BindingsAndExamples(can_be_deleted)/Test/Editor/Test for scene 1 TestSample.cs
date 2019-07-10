@@ -83,6 +83,11 @@ public class TestForScene1TestSample
 
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
+        string listOfElements="";
+         foreach(var element in altElements){
+            listOfElements=element.name+"; ";
+        }
+        Debug.Log(listOfElements);
         Assert.AreEqual(18, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
@@ -100,6 +105,11 @@ public class TestForScene1TestSample
     {
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);
+        string listOfElements="";
+        foreach(var element in altElements){
+            listOfElements=element.name+"; ";
+        }
+        Debug.Log(listOfElements);
         Assert.AreEqual(19, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
@@ -623,7 +633,7 @@ public class TestForScene1TestSample
     public void TestGetAllScenes()
     {
         var scenes = altUnityDriver.GetAllScenes();
-        Assert.AreEqual(4, scenes.Count);
+        Assert.AreEqual(5, scenes.Count);
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
     }
     [Test]

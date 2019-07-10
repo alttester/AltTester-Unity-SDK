@@ -340,7 +340,7 @@ class AltrunUnityDriver(object):
         time.sleep(duration_in_secs)
         swipe_in_progress = True
         while swipe_in_progress:
-            swipe_finished = self.send_data(self.create_command('swipeFinished'))
+            swipe_finished = self.send_data(self.create_command('actionFinished'))
             self.handle_errors(swipe_finished)
             if swipe_finished is 'Yes':
                 break
@@ -353,6 +353,71 @@ class AltrunUnityDriver(object):
         print ('Tilt with acceleration: ' + acceleration)
         data = self.send_data(self.create_command('tilt', acceleration ))
         return self.handle_errors(data)
+
+    def press_key(self, keyName,duration):
+        print ('Press key: ' + keyName)
+        data = self.send_data(self.create_command('pressKeyboardKey', keyName, duration ))
+        return self.handle_errors(data)
+
+    def press_key_and_wait(self,keyName,duration):
+        data = self.press_key(keyName,duration)
+        self.handle_errors(data)
+        print('Wait for press key to finish')
+        time.sleep(duration)
+        action_in_progress = True
+        while action_in_progress:
+            action_finished = self.send_data(self.create_command('actionFinished'))
+            self.handle_errors(action_finished)
+            if action_finished is 'Yes':
+                break
+            elif action_finished != 'No':
+                action_in_progress = False
+        return self.handle_errors(data)
+
+    def move_mouse(self, x, y, duration):
+        location = self.vector_to_json_string(x, y)
+        print ('Move mouse to: ' + location)
+        data = self.send_data(self.create_command('moveMouse', location, duration ))
+        return self.handle_errors(data)
+        
+    def move_mouse_and_wait(self, x, y, duration):
+        data = self.move_mouse(x, y, duration)
+        self.handle_errors(data)
+        print('Wait for move mouse to finish')
+        time.sleep(duration)
+        action_in_progress = True
+        while action_in_progress:
+            action_finished = self.send_data(self.create_command('actionFinished'))
+            self.handle_errors(action_finished)
+            if action_finished is 'Yes':
+                break
+            elif action_finished != 'No':
+                action_in_progress = False
+        return self.handle_errors(data)
+
+    def scroll_mouse(self, speed, duration):
+        print ('Scroll mouse with: ' + str(speed))
+        data = self.send_data(self.create_command('scrollMouse', speed, duration ))
+        return self.handle_errors(data)
+
+    def scroll_mouse_and_wait(self,speed, duration):
+        data = self.scroll_mouse(speed, duration)
+        self.handle_errors(data)
+        print('Wait for scroll mouse to finish')
+        time.sleep(duration_in_secs)
+        action_in_progress = True
+        while action_in_progress:
+            action_finished = self.send_data(self.create_command('actionFinished'))
+            self.handle_errors(action_finished)
+            if action_finished is 'Yes':
+                break
+            elif action_finished != 'No':
+                action_in_progress = False
+        return self.handle_errors(data)
+
+
+
+    
 
     def set_player_pref_key(self, key_name, value, type):
         data = ''

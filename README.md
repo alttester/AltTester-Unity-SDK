@@ -31,6 +31,7 @@ https://gitter.im/AltUnityTester/Lobby
    - [Call static method](#call-static-methods)
    - [Actions on Screen](#actions-on-screen)
    - [Actions on elements](#actions-on-elements)
+   - [Keyboard and Mouse](#keyboard-and-mouse)
 
 Other Bindings:
    - [Python](https://gitlab.com/altom/altunitytester/tree/master/Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python)
@@ -194,6 +195,7 @@ All methods for finding elements will search for elements that are active in the
     * params:
         * name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
     * you can search for elements also by specifying a hierarchy path to them. For example, you can look for `Player1/Hand` or `Player2/Hand`, to make sure you find the correct `Hand` object you are interested in. When doing so, make sure you specify all the objects in between the `parent` and the `object` you are interested in. For example, if `Hand` is under a `Body` element for each `Player`, when you search for it make sure you specify it as `Player1/Body/Hand` 
     * You can also use `..` and `id(id_of_some_object)` for helping to search elements. 
@@ -210,6 +212,7 @@ All methods for finding elements will search for elements that are active in the
     * params: 
         * partOfTheName - part of the name of the object to be found, as it's shown in the Unity Scene hierarchy
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: the element with a name that contains partOfTheName (or the last one found in the hierarchy if more than one element with the same name is present)
 
     ```c#
@@ -220,6 +223,7 @@ All methods for finding elements will search for elements that are active in the
     * params: 
         * componentName - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: the element with a componentName component (or the last one found in the hierarchy if more than one element with the same component is present)
    
     ```c#
@@ -230,6 +234,7 @@ All methods for finding elements will search for elements that are active in the
     * params: 
         * name - the name of the objects to be found, as they are shown in the Unity Scene hierarchy
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: a list of elements with the correct name
 
     ```c#
@@ -239,7 +244,8 @@ All methods for finding elements will search for elements that are active in the
   * `FindElementsWhereNameContains`
     * params: 
         * partOfTheName - part of the name of the objects to be found, as they are shown in the Unity Scene hierarchy
-        * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene. 
+        * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: a list of elements with a name that contains partOfTheName 
 
     ```c#
@@ -250,6 +256,7 @@ All methods for finding elements will search for elements that are active in the
     * params: 
         * componentName - the name of a Unity Component, for example a C# script that is attached to an element, like Collider2D etc. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. For more info: https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx
         * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+        * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
     * returns: a list of elements with a componentName component
 
     ```c#
@@ -262,8 +269,10 @@ All methods for finding elements will search for elements that are active in the
     * params: 
       * name - the name of the object to be found, as it's shown in the Unity Scene hierarchy
       * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+      * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
       * timeout=20 - time in seconds before we timeout (default 20)
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
+      * enabled=true -
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
     
     ```c#
@@ -274,6 +283,7 @@ All methods for finding elements will search for elements that are active in the
     * params: 
       * partOfTheName - part of the name of the object to be found, as it's shown in the Unity Scene hierarchy
       * cameraName="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+      * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
       * timeout=20 - time in seconds before we timeout (default 20)
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with a name that contains partOfTheName (or the last one found in the hierarchy if more than one element with the same name is present)
@@ -286,6 +296,7 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
     * params: 
       * name - the name of the object, as it's shown in the Unity Scene hierarchy
       * cameraName=""="" - the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+      * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
       * timeout=20 - time in seconds before we timeout (default 20)
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
@@ -298,6 +309,7 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
     * params: 
       * text - the text that we want to wait for (we are looking for an element with a Text component that has the correct value)
       * cameraName=""="" - the name of the camera for wich the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.
+      * enabled - true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not
       * timeout=20 - time in seconds before we timeout (default 20)
       * interval=0.5 - how often to check again to see if the element is there (default 0.5)
     * returns: the element with the correct name (or the last one found in the hierarchy if more than one element with the same name is present)
@@ -641,6 +653,71 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
    ```
 
    This will call `TestMethodWithManyParameters(1, "this is a text", 0,5, new int[]{1, 2, 3})` 
+
+   #### Keyboard and Mouse
+
+  * `PressKey`
+    * params: 
+      * keycode: Unity Enum that maps what button is pressed. Check https://docs.unity3d.com/ScriptReference/KeyCode.html to see what buttons are available
+      * duration: the time in seconds while the key is pressed
+    * This method will not wait for the button to be released. To wait for the button to be release please use 'PressKeyAndRelease'
+    
+   
+   ```c#
+    altUnityDriver.PressKey(UnityEngine.KeyCode.K, 2);
+   ```
+  * `PressKeyAndWait`
+      * params: 
+        * keycode: Unity Enum that maps what button is pressed. Check https://docs.unity3d.com/ScriptReference/KeyCode.html to see what buttons are available
+        * duration: the time in seconds while the key is pressed
+      * This method will wait for the button to be released. If you don't want to wait for the button to be release please use 'PressKey'
+      
+    
+    ```c#
+      altUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.K, 2);
+    ```
+  * `MoveMouse`
+      * params: 
+        * location: position on the screen where to move the mouse
+        * duration: the time in seconds for the mouse to move from the current position to the one given by location
+      * This method will not wait for the mouse to get to the location. To wait for the mouse to get to the location please use 'PressKeyAndRelease'
+      
+    ```c#
+      altUnityDriver.MoveMouse(new UnityEngine.Vector2(400,400), 1);
+    ```
+  * `MoveMouseAndWait`
+    * params: 
+      * location: position on the screen where to move the mouse
+      * duration: the time in seconds for the mouse to move from the current position to the one given by location
+    * This method will wait for the mouse to get to the location. If you don't want to wait please use 'MoveMouse'
+    
+   
+   ```c#
+      altUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(400,400), 1);
+   ```
+  * `ScrollMouse`
+      * params: 
+        * speed: Positive values simulate scrolling up and negative values simulate scrolling down
+        * duration: the time in seconds while the scroll is applied
+      * This method will not wait for the scroll to be completed. If you want to wait please use 'ScrollMouseAndWait'
+      
+    
+    ```c#
+      altUnityDriver.ScrollMouse(2, 2);
+    ```
+  * `ScrollMouseAndWait`
+      * params: 
+        * speed: Positive values simulate scrolling up and negative values simulate scrolling down
+        * duration: the time in seconds while the scroll is applied
+      * This method will wait for the scroll to be completed. If you don't want to wait please use 'ScrollMouse'
+      
+    
+    ```c#
+      altUnityDriver.ScrollMouseAndWait(2, 2);
+    ```
+
+
+
    
    
    

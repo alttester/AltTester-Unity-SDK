@@ -1,28 +1,35 @@
 ﻿#if ALTUNITYTESTER
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class Input : MonoBehaviour
+
+using Assets.AltUnityTester.AltUnityDriver;
+using System.Linq;
+
+public class Input : UnityEngine.MonoBehaviour
 {
   
     private static bool UseCustomInput;
+    private static System.Collections.Generic.List<AltUnityAxis> AxisList;
     public void Start()
     {
        
         instance = this;
         mockUpPointerInputModule = new MockUpPointerInputModule();
+        string filePath = "AltUnityTester/AltUnityTesterInputAxisData";
+
+        UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
+        string dataAsJson = targetFile.text;
+        AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityAxis>>(dataAsJson);
 
     }
     private void Update()
     {
-        UseCustomInput = UnityEngine.Input.touchCount == 0;
+        UseCustomInput = UnityEngine.Input.touchCount == 0 || !UnityEngine.Input.anyKey;
     }
     public static Input instance;
-    public static List<KeyCode> keyCodesPressed = new List<KeyCode>();
-    public static List<KeyCode> keyCodesPressedDown = new List<KeyCode>();
-    public static List<KeyCode> keyCodesPressedUp = new List<KeyCode>();
+    public static System.Collections.Generic.List<UnityEngine.KeyCode> keyCodesPressed = new System.Collections.Generic.List<UnityEngine.KeyCode>();
+    public static System.Collections.Generic.List<UnityEngine.KeyCode> keyCodesPressedDown = new System.Collections.Generic.List<UnityEngine.KeyCode>();
+    public static System.Collections.Generic.List<UnityEngine.KeyCode> keyCodesPressedUp = new System.Collections.Generic.List<UnityEngine.KeyCode>();
     private static MockUpPointerInputModule mockUpPointerInputModule;
 
     public static bool simulateMouseWithTouches
@@ -31,20 +38,122 @@ public class Input : MonoBehaviour
         set { UnityEngine.Input.simulateMouseWithTouches = value; }
     }
 
-    public static bool anyKey { get; set; }
+    public static bool anyKey {
+        get {
+            if (UseCustomInput)
+            {
+                if (keyCodesPressed.Count > 0 )
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return UnityEngine.Input.anyKey;
+            }
+        }
+    }// Must do
 
-    public static bool anyKeyDown { get; set; }
+    public static bool anyKeyDown {
+        get
+        {
+            if (UseCustomInput)
+            {
+                if (keyCodesPressedDown.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return UnityEngine.Input.anyKeyDown;
+            }
+        }
+    }//Must do
 
-    public static string inputString { get; set; }
+    public static string inputString//WIP
+    {
+        get
+        {
+            if (UseCustomInput)
+            {
+                string charachtersPressedCurrentFrame = "";
+               foreach(UnityEngine.KeyCode keyCode in keyCodesPressedDown)
+                {
+                    //need a Parser from keycode to character every characher from keyboard + backspace and enter
+                }
+                return charachtersPressedCurrentFrame;
+               
+            }
+            else
+            {
+                return UnityEngine.Input.inputString;
+            }
+        }
+    }//Doable
+    private static UnityEngine.Vector3 _acceleration;
+    public static UnityEngine.Vector3 acceleration
+    {
+        get
+        {
+            if (UseCustomInput)
+            {
+                return _acceleration;
+            }
+            else
+            {
+                return UnityEngine.Input.acceleration;
+            }
+        }
+        set
+        {
+            _acceleration = acceleration;
+        }
+    }
+    private static UnityEngine.AccelerationEvent[] _accelerationEvents;
+    public static UnityEngine.AccelerationEvent[] accelerationEvents
+    {
+        get
+        {
+            if (UseCustomInput)
+            {
+                return _accelerationEvents;
+            }
+            else
+            {
+                return UnityEngine.Input.accelerationEvents;
+            }
+        }
+        set
+        {
+            _accelerationEvents = accelerationEvents;
+        }
+    }
+    public static int accelerationEventCount
+    {
+        get
+        {
+            if (UseCustomInput)
+            {
+                return _accelerationEvents.Length;
+            }
+            else
+            {
+                return UnityEngine.Input.accelerationEventCount;
+            }
+        }
+    }
 
-    public static Vector3 acceleration { get; set; }
-
-    public static AccelerationEvent[] accelerationEvents { get; set; }
-
-    public static int accelerationEventCount { get; set; }
-
-    private static Touch[] _touches=new Touch[0];
-    public static Touch[] touches
+    private static UnityEngine.Touch[] _touches=new UnityEngine.Touch[0];
+    public static UnityEngine.Touch[] touches
     {
         get { return UseCustomInput ? _touches : UnityEngine.Input.touches; }
         set
@@ -52,7 +161,7 @@ public class Input : MonoBehaviour
             _touches =value;
         }
     }
-    public Touch this[int i]
+    public UnityEngine.Touch this[int i]
     {
         get { return UseCustomInput ? _touches[i] : UnityEngine.Input.GetTouch(i); }
         set { _touches[i] = value; }
@@ -64,77 +173,232 @@ public class Input : MonoBehaviour
         get { return UseCustomInput ? _touchCount : UnityEngine.Input.touchCount; }
         set { _touchCount = value; }
     }
+    //NotImplementedForAltUnityTester
+    public static bool mousePresent
+    {
+        get
+        {
+            return UnityEngine.Input.mousePresent;
+        }
+    }
 
-    public static bool mousePresent { get; set; }
+    //NotImplementedForAltUnityTester
+    public static bool stylusTouchSupported { get; set; }//?
 
-    public static bool stylusTouchSupported { get; set; }
+    //NotImplementedForAltUnityTester
+    public static bool touchSupported { get; set; }//?
 
-    public static bool touchSupported { get; set; }
+    //NotImplementedForAltUnityTester
+    public static bool multiTouchEnabled { get; set; }//?
 
-    public static bool multiTouchEnabled { get; set; }
+    // //NotImplementedForAltUnityTester
+    // public static LocationService location {
+    //     get
+    //     {
+    //         return UnityEngine.Input.location;
+    //     }
+    // }
 
-    public static LocationService location { get; set; }
+    //NotImplementedForAltUnityTester
+    public static UnityEngine.Compass compass {
+        get {
+            return UnityEngine.Input.compass;
+        }
+    }//NotDoableAtThisMoment
 
-    public static Compass compass { get; set; }
+    public static UnityEngine.DeviceOrientation deviceOrientation
+    {
+        get
+        {
+            return UnityEngine.Input.deviceOrientation;
+        }
+    }
 
-    public static DeviceOrientation deviceOrientation { get; set; }
+    //NotImplementedForAltUnityTester
+    public static UnityEngine.IMECompositionMode imeCompositionMode {
+        get
+        {
+            return UnityEngine.Input.imeCompositionMode;
+        }
+    }//?
 
-    public static IMECompositionMode imeCompositionMode { get; set; }
-
+    //NotImplementedForAltUnityTester
     public static string compositionString { get; set; }
 
+    //NotImplementedForAltUnityTester
     public static bool imeIsSelected { get; set; }
 
+    //NotImplementedForAltUnityTester
     public static bool touchPressureSupported { get; set; }
 
-    public static Vector2 mouseScrollDelta { get; set; }
+    private static UnityEngine.Vector2 _mouseScrollDelta=new UnityEngine.Vector2();
+    public static UnityEngine.Vector2 mouseScrollDelta
+    {
+        get
+        {
+            if (UseCustomInput)
+            {
+                return _mouseScrollDelta;
 
-    public static Vector3 mousePosition { get; set; }
+            }
+            else
+            {
+                return UnityEngine.Input.mouseScrollDelta;
 
-    public static Gyroscope gyro { get; set; }
+            }
+        }
+    }
 
-    public static Vector2 compositionCursorPos { get; set; }
+    private static UnityEngine.Vector3 _mousePosition=new UnityEngine.Vector3();
+    public static UnityEngine.Vector3 mousePosition {
+        get
+        {
 
-    public static bool backButtonLeavesApp { get; set; }
+            if (UseCustomInput)
+            {
+                return _mousePosition;
 
-    public static bool isGyroAvailable { get; set; }
+            }
+            else
+            {
+                return UnityEngine.Input.mousePosition;
+            }
+        }
+        set
+        {
+            _mousePosition = value;
+        }
+    }//Doable
 
-    public static bool compensateSensors { get; set; }
+    //NotImplementedForAltUnityTester
+    public static UnityEngine.Gyroscope gyro { get
+        {
+            return UnityEngine.Input.gyro;
+        }
+    }
+
+    //NotImplementedForAltUnityTester
+    public static UnityEngine.Vector2 compositionCursorPos
+    {
+        get
+        {
+            return UnityEngine.Input.compositionCursorPos;
+        }
+    }
+
+    //NotImplementedForAltUnityTester
+    public static bool backButtonLeavesApp
+    {
+        get
+        {
+            return UnityEngine.Input.backButtonLeavesApp;
+        }
+    }
+
+    //NotImplementedForAltUnityTester
+    public static bool isGyroAvailable
+    {
+        get
+        {
+            return UnityEngine.Input.isGyroAvailable;
+        }
+    }
+
+    public static bool compensateSensors
+    {
+        get
+        {
+            return UnityEngine.Input.compensateSensors;
+        }
+    }
+
+
+    //Our
     public static bool Finished { get; set; }
 
 
-    public static AccelerationEvent GetAccelerationEvent(int index)
+    public static UnityEngine.AccelerationEvent GetAccelerationEvent(int index)
     {
         return UnityEngine.Input.GetAccelerationEvent(index);
     }
-
     public static float GetAxis(string axisName)
     {
-        return UnityEngine.Input.GetAxis(axisName);
+        if (UseCustomInput)
+        {
+            var axis = AxisList.First(axle=>axle.name==axisName);
+            if (axis==null)
+            {
+                throw new NotFoundException("No axis with this name was found");
+            }
+            if (keyCodesPressed.Contains(ConvertStringToKeyCode(axis.positiveButton)) || keyCodesPressed.Contains(ConvertStringToKeyCode(axis.altPositiveButton))){
+                return 1;
+            }
+            else if (keyCodesPressed.Contains(ConvertStringToKeyCode(axis.negativeButton)) || keyCodesPressed.Contains(ConvertStringToKeyCode(axis.altNegativeButton))){
+                return -1;
+            }
+            return 0;
 
+        }
+        else
+        {
+            return UnityEngine.Input.GetAxis(axisName);
 
+        }
     }
 
     public static float GetAxisRaw(string axisName)
     {
-        return 0;
+        if (UseCustomInput)
+        {
+            return GetAxis(axisName);
+        }
+        else
+        {
+            return UnityEngine.Input.GetAxisRaw(axisName);
+
+        }
+
     }
     public static bool GetButton(string buttonName)
     {
-        KeyCode keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), buttonName);
-        return keyCodesPressed.Contains(keyCode);
+        if (UseCustomInput)
+        {
+            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), buttonName);
+            return keyCodesPressed.Contains(keyCode);
+        }
+        else
+        {
+            return UnityEngine.Input.GetButton(buttonName);
+        }
     }
 
     public static bool GetButtonDown(string buttonName)
     {
-        KeyCode keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), buttonName);
-        return keyCodesPressedDown.Contains(keyCode);
+        
+        if (UseCustomInput)
+        {
+            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), buttonName);
+            return keyCodesPressedDown.Contains(keyCode);
+        }
+        else
+        {
+            return UnityEngine.Input.GetButtonDown(buttonName);
+            
+        }
     }
 
     public static bool GetButtonUp(string buttonName)
     {
-        KeyCode keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), buttonName);
-        return keyCodesPressedUp.Contains(keyCode);
+        
+        if (UseCustomInput)
+        {
+            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), buttonName);
+            return keyCodesPressedUp.Contains(keyCode);
+        }
+        else
+        {
+            return UnityEngine.Input.GetButtonUp(buttonName);
+        }
     }
 
     public static string[] GetJoystickNames()
@@ -144,53 +408,122 @@ public class Input : MonoBehaviour
 
     public static bool GetKey(string name)
     {
-        return UnityEngine.Input.GetKey(name);
+        if (UseCustomInput)
+        {
+            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
+            return keyCodesPressed.Contains(keyCode);
+        }
+        else
+        {
+            return UnityEngine.Input.GetKey(name);
+        }
     }
 
-    public static bool GetKey(KeyCode key)
+    public static bool GetKey(UnityEngine.KeyCode key)
     {
-        return UnityEngine.Input.GetKey(key);
+        if (UseCustomInput)
+        {
+            return keyCodesPressed.Contains(key);
+        }
+        else
+        {
+            return UnityEngine.Input.GetKey(key);
+        }
     }
 
-    public static bool GetKeyDown(KeyCode key)
+    public static bool GetKeyDown(UnityEngine.KeyCode key)
     {
-        return UnityEngine.Input.GetKeyDown(key);
+        if (UseCustomInput)
+        {
+            return keyCodesPressedDown.Contains(key);
+        }
+        else
+        {
+            return UnityEngine.Input.GetKeyDown(key);
+        }
     }
 
     public static bool GetKeyDown(string name)
     {
-        return UnityEngine.Input.GetKeyDown(name);
+        
+        if (UseCustomInput)
+        {
+            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
+            return keyCodesPressedDown.Contains(keyCode);
+        }
+        else
+        {
+            return UnityEngine.Input.GetKeyDown(name);
+        }
     }
 
-    public static bool GetKeyUp(KeyCode key)
+    public static bool GetKeyUp(UnityEngine.KeyCode key)
     {
-        return UnityEngine.Input.GetKeyUp(key);
+        if (UseCustomInput)
+        {
+            return keyCodesPressedUp.Contains(key);
+        }
+        else
+        {
+            return UnityEngine.Input.GetKeyUp(key);
+        }
     }
 
     public static bool GetKeyUp(string name)
     {
-        return UnityEngine.Input.GetKeyUp(name);
+        if (UseCustomInput)
+        {
+            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
+            return keyCodesPressedUp.Contains(keyCode);
+        }
+        else
+        {
+            return UnityEngine.Input.GetKeyUp(name);
+        }
     }
 
     public static bool GetMouseButton(int button)
     {
-        //method not tested
-        return touches.Length > button;
+        if (UseCustomInput)
+        {
+            var keyCode=(UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
+            return keyCodesPressed.Contains(keyCode) || touches.Length > button ;
+        }
+        else
+        {
+            return UnityEngine.Input.GetMouseButton(button);
+        }
     }
 
     public static bool GetMouseButtonDown(int button)
     {
         //method not tested
-        return touches.Length > button && touches[button].phase != TouchPhase.Began;
+        if (UseCustomInput)
+        {
+            var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
+            return keyCodesPressedDown.Contains(keyCode) || touches.Length > button && touches[button].phase != UnityEngine.TouchPhase.Began;
+        }
+        else
+        {
+            return UnityEngine.Input.GetMouseButtonDown(button);
+        }
     }
 
     public static bool GetMouseButtonUp(int button)
     {
         //method not tested
-        return touches.Length > button && touches[button].phase == TouchPhase.Ended;
+        if (UseCustomInput)
+        {
+            var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
+            return keyCodesPressedUp.Contains(keyCode) || touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Ended;
+        }
+        else
+        {
+            return UnityEngine.Input.GetMouseButtonUp(button);
+        }
     }
 
-    public static Touch GetTouch(int index)
+    public static UnityEngine.Touch GetTouch(int index)
     {
          return UseCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
 
@@ -200,20 +533,20 @@ public class Input : MonoBehaviour
     {
         UnityEngine.Input.ResetInputAxes();
     }
-    public static void SetMovingTouch(Touch touch, Vector2 destination, float duration)
+    public static void SetMovingTouch(UnityEngine.Touch touch, UnityEngine.Vector2 destination, float duration)
     {
         Finished = false;
         instance.StartCoroutine(MovingTouchLifeCycle(touch, destination, duration));
     }
 
-    public static IEnumerator MovingTouchLifeCycle(Touch touch, Vector2 destination, float duration)
+    public static System.Collections.IEnumerator MovingTouchLifeCycle(UnityEngine.Touch touch, UnityEngine.Vector2 destination, float duration)
     {
 
         float xDistance = (destination.x - touch.position.x);
         float yDistance = (destination.y - touch.position.y);
 
         Input.touchCount++;
-        var touchListCopy = new Touch[touchCount];
+        var touchListCopy = new UnityEngine.Touch[touchCount];
         for (int i = 0; i < Input.touches.Length; i++)
         {
             touchListCopy[i] = Input.touches[i];
@@ -221,7 +554,7 @@ public class Input : MonoBehaviour
 
         touchListCopy[Input.touchCount - 1] = touch;
         Input.touches = touchListCopy;
-        mousePosition = new Vector3(touches[0].position.x, touches[0].position.y, 0);
+        mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
         var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
         yield return null;
         float time = 0;
@@ -229,10 +562,10 @@ public class Input : MonoBehaviour
         {
             float deltaX;
             float deltaY;
-            if (time + Time.deltaTime < duration)
+            if (time + UnityEngine.Time.deltaTime < duration)
             {
-                deltaX = xDistance * Time.deltaTime / duration;
-                deltaY = yDistance * Time.deltaTime / duration;
+                deltaX = xDistance * UnityEngine.Time.deltaTime / duration;
+                deltaY = yDistance * UnityEngine.Time.deltaTime / duration;
             }
             else
             {
@@ -240,10 +573,10 @@ public class Input : MonoBehaviour
                 deltaX = xDistance * (duration - time) / duration;
                 deltaY = yDistance * (duration - time) / duration;
             }
-            time += Time.deltaTime;
-            touch.position = new Vector2(touch.position.x + deltaX, touch.position.y + deltaY);
-            touch.deltaPosition = new Vector2(deltaX, deltaY);
-            touch.phase = touch.deltaPosition != Vector2.zero ? TouchPhase.Moved : TouchPhase.Stationary;
+            time += UnityEngine.Time.deltaTime;
+            touch.position = new UnityEngine.Vector2(touch.position.x + deltaX, touch.position.y + deltaY);
+            touch.deltaPosition = new UnityEngine.Vector2(deltaX, deltaY);
+            touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
             for (int i = 0; i < touches.Length; i++)
             {
                 if (touches[i].fingerId == touch.fingerId)
@@ -251,20 +584,19 @@ public class Input : MonoBehaviour
                     touches[i] = touch;
                 }
             }
-            mousePosition = new Vector3(touches[0].position.x, touches[0].position.y, 0);
+            mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
 
 
             //index = touches.IndexOf(touch);
             //touches[index] = touch;
 
             pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
-            Debug.Log(time + "  " + duration);
 
             yield return null;
 
         } while (time <= duration);
 
-        touch.phase = TouchPhase.Ended;
+        touch.phase = UnityEngine.TouchPhase.Ended;
         for (int i = 0; i < touches.Length; i++)
         {
             if (touches[i].fingerId == touch.fingerId)
@@ -275,7 +607,7 @@ public class Input : MonoBehaviour
         //touches[index] = touch;
         mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
         yield return null;
-        var touches2 = new Touch[touchCount - 1];
+        var touches2 = new UnityEngine.Touch[touchCount - 1];
         int contor = 0;
         foreach (var a in Input.touches)
         {
@@ -292,46 +624,214 @@ public class Input : MonoBehaviour
 
 
     }
-    public static void SetKeyDown(KeyCode keyCode, float duration)
+    public static void SetKeyDown(UnityEngine.KeyCode keyCode, float duration)
     {
-        KeyDownLifeCycle(keyCode, duration);
+       Finished = false;
+       instance.StartCoroutine(KeyDownLifeCycle(keyCode, duration));
     }
 
-    private static IEnumerator KeyDownLifeCycle(KeyCode keyCode, float duration)
+    private static System.Collections.IEnumerator KeyDownLifeCycle(UnityEngine.KeyCode keyCode, float duration)
     {
-        float time = Time.time;
+
+        float time = UnityEngine.Time.time;
         keyCodesPressedDown.Add(keyCode);
         yield return null;
         keyCodesPressedDown.Remove(keyCode);
         keyCodesPressed.Add(keyCode);
-        yield return new WaitForSeconds(duration);
+        if (duration != 0)
+        {
+            yield return new UnityEngine.WaitForSeconds(duration);
+        }
         keyCodesPressed.Remove(keyCode);
         keyCodesPressedUp.Add(keyCode);
         yield return null;
         keyCodesPressedUp.Remove(keyCode);
+        Finished = true;
 
-    }
-    private static IEnumerator proprietesSetter()
+    }   
+    public static void MoveMouse(UnityEngine.Vector2 location,float duration)
     {
-        while (true)
+        Finished = false;
+        instance.StartCoroutine(MoveMouseCycle(location, duration));
+    }
+    public static System.Collections.IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
+    {
+        float time = 0;
+        var debugPurpose = mousePosition;
+        var distance = location - new UnityEngine.Vector2(mousePosition.x,mousePosition.y);
+        do
         {
-            if (keyCodesPressed.Count == 0 && keyCodesPressedDown.Count == 0 && keyCodesPressedUp.Count == 0)
+            float deltaX;
+            float deltaY;
+            if (time + UnityEngine.Time.deltaTime < duration)
             {
-                anyKey = false;
-                anyKeyDown = false;
+                deltaX = distance.x * UnityEngine.Time.deltaTime / duration;
+                deltaY = distance.y * UnityEngine.Time.deltaTime / duration;
             }
             else
             {
-                if (keyCodesPressedDown.Count != 0)
-                {
-                    anyKeyDown = true;
-                }
-                anyKey = true;
+
+                deltaX = distance.x * (duration - time) / duration;
+                deltaY = distance.y * (duration - time) / duration;
             }
-            yield return new WaitForEndOfFrame();
-        }
+            mousePosition = new UnityEngine.Vector3(mousePosition.x + deltaX, mousePosition.y + deltaY, 0);
+            yield return null;
+            time += UnityEngine.Time.deltaTime;
+        } while (time <= duration);
+        Finished = true;
     }
-   
+    public static void Scroll(float scrollValue,float duration)
+    {
+        Finished = false;
+        instance.StartCoroutine(ScrollLifeCycle(scrollValue, duration));
+    }
+    private static System.Collections.IEnumerator ScrollLifeCycle(float scrollValue, float duration)
+    {
+        float timeSpent = 0;
+        while (timeSpent < duration)
+        {
+            _mouseScrollDelta = new UnityEngine.Vector2(0, scrollValue);//x value is not taken in consideration
+            yield return null;
+            timeSpent += UnityEngine.Time.deltaTime;
+        }
+        Finished = true;
+
+    }
+    private static UnityEngine.KeyCode ConvertStringToKeyCode(string keyName)
+    {
+        if(keyName.Length==1 && IsEnglishLetter(keyName[0]))
+        {
+            return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), System.Char.ToUpper(keyName[0]).ToString());
+        }
+        if (keyName.Equals("left"))
+        {
+            return UnityEngine.KeyCode.LeftArrow;
+        }
+        if (keyName.Equals("right"))
+        {
+            return UnityEngine.KeyCode.RightArrow;
+        }
+        if (keyName.Equals("down"))
+        {
+            return UnityEngine.KeyCode.DownArrow;
+        }
+        if (keyName.Equals("up"))
+        {
+            return UnityEngine.KeyCode.UpArrow;
+        }
+        if (keyName.Length == 0 && char.IsDigit(keyName[0])) 
+        {
+            return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Alpha" + keyName);
+        }
+        if (System.Text.RegularExpressions.Regex.Match(keyName, @"\[[0-9]{1}\]").Success)
+        {
+            return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Keypad" + keyName);
+        }
+        if (keyName == "[+]")
+        {
+            return UnityEngine.KeyCode.KeypadPlus;
+        }
+        if (keyName == "[equals]")
+        {
+            return UnityEngine.KeyCode.KeypadEquals;
+        }
+        if (System.Text.RegularExpressions.Regex.Match(keyName, "f[0-9]{1,2}").Success)
+        {
+            return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), keyName.ToUpper());
+        }
+        if (keyName.Equals("right shift"))
+        {
+            return UnityEngine.KeyCode.RightShift;
+        }
+        if (keyName.Equals("left shift"))
+        {
+            return UnityEngine.KeyCode.LeftShift;
+        }
+        if (keyName.Equals("right ctrl"))
+        {
+            return UnityEngine.KeyCode.RightControl;
+        }
+        if (keyName.Equals("left ctrl"))
+        {
+            return UnityEngine.KeyCode.LeftControl;
+        }
+        if(keyName.Equals("right alt"))
+        {
+            return UnityEngine.KeyCode.RightAlt;
+        }
+        if (keyName.Equals("left alt"))
+        {
+            return UnityEngine.KeyCode.LeftAlt;
+        }
+        if (keyName.Equals("right cmd"))
+        {
+            return UnityEngine.KeyCode.RightCommand;
+        }
+        if (keyName.Equals("left cmd"))
+        {
+            return UnityEngine.KeyCode.LeftCommand;
+        }
+        if (System.Text.RegularExpressions.Regex.Match(keyName, @"mouse [0-6]").Success)
+        {
+            return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + keyName[6]);
+        }
+        if (keyName.Equals("backspace"))
+        {
+            return UnityEngine.KeyCode.Backspace;
+        }
+        if (keyName.Equals("tab"))
+        {
+            return UnityEngine.KeyCode.Tab;
+        }
+        if (keyName.Equals("return"))
+        {
+            return UnityEngine.KeyCode.Return;
+        }
+        if (keyName.Equals("escape"))
+        {
+            return UnityEngine.KeyCode.Escape;
+        }
+        if (keyName.Equals("space"))
+        {
+            return UnityEngine.KeyCode.Space;
+        }
+        if (keyName.Equals("delete"))
+        {
+            return UnityEngine.KeyCode.Delete;
+        }
+        if (keyName.Equals("enter"))
+        {
+            return UnityEngine.KeyCode.KeypadEnter;
+        }
+        if (keyName.Equals("insert"))
+        {
+            return UnityEngine.KeyCode.Insert;
+        }
+        if (keyName.Equals("home"))
+        {
+            return UnityEngine.KeyCode.Home;
+        }
+        if (keyName.Equals("end"))
+        {
+            return UnityEngine.KeyCode.End;
+        }
+        if (keyName.Equals("page up"))
+        {
+            return UnityEngine.KeyCode.PageUp;
+        }
+        if (keyName.Equals("page down"))
+        {
+            return UnityEngine.KeyCode.Home;
+        }
+        //TODO joystick buttons
+        throw new NotFoundException("Key not recognized");
+    }
+    private static bool IsEnglishLetter(char c)
+    {
+        return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+    }
+    
+
 }
 
 #endif
