@@ -333,7 +333,7 @@ public class AltUnityTestRunner {
                 UnityEditor.EditorApplication.Exit(1);
             }
         } catch (System.Exception e) {
-            UnityEngine.UnityEngine.Debug.LogError(e);
+            UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
         }
 
