@@ -599,8 +599,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void RunInEditor()
     {
+        AltUnityBuilder.InsertAltUnityInTheActiveScene();
         AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
-        AltUnityBuilder.InsertAltUnityInTheFirstScene();
         AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
 
         UnityEditor.EditorApplication.isPlaying = true;

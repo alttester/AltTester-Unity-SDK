@@ -1,6 +1,5 @@
 ﻿
 
-using System.Collections.Generic;
 
 public static class PlatformName
 {
@@ -188,7 +187,7 @@ public class AltUnityBuilder
 
         if (axisArray.arraySize == 0)
             UnityEngine.Debug.Log("No Axes");
-        List<AltUnityAxis> axisList = new List<AltUnityAxis>();
+        System.Collections.Generic.List<AltUnityAxis> axisList = new System.Collections.Generic.List<AltUnityAxis>();
         for (int i = 0; i < axisArray.arraySize; ++i)
         {
             var axis = axisArray.GetArrayElementAtIndex(i);
@@ -221,11 +220,9 @@ public class AltUnityBuilder
             AltUnityTesterEditor.AddAllScenes();
             AltUnityTesterEditor.SelectAllScenes();
         }
-        List<string> sceneList = new List<string>();
-        foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes)
-        {
-            if (scene.ToBeBuilt)
-            {
+        System.Collections.Generic.List<string> sceneList = new System.Collections.Generic.List<string>();
+        foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes) {
+            if (scene.ToBeBuilt) {
                 sceneList.Add(scene.Path);
             }
         }
@@ -245,6 +242,11 @@ public class AltUnityBuilder
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
         UnityEngine.Debug.Log("Scene successfully modified.");
+    }
+    public static void InsertAltUnityInTheActiveScene()
+    {
+        var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
+        InsertAltUnityInScene(activeScene);
     }
 
     public static void InsertAltUnityInTheFirstScene()
