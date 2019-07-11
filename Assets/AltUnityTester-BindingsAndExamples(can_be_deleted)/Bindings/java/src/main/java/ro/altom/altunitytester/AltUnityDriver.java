@@ -300,8 +300,8 @@ public class AltUnityDriver {
         }
         handleErrors(data);
     }
-    public void pressKey(String keyName, float duration){
-        send(CreateCommand("pressKeyboardKey", keyName,String.valueOf(duration)));
+    public void pressKey(String keyName,float power float duration){
+        send(CreateCommand("pressKeyboardKey", keyName,String.valueOf(power),String.valueOf(duration)));
         String data = recvall();
         if (!data.contains("error:")) {
             return;

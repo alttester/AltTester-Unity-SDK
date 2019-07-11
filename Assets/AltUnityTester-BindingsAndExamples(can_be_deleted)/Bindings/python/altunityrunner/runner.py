@@ -354,13 +354,13 @@ class AltrunUnityDriver(object):
         data = self.send_data(self.create_command('tilt', acceleration ))
         return self.handle_errors(data)
 
-    def press_key(self, keyName,duration):
+    def press_key(self, keyName,power=1,duration=1):
         print ('Press key: ' + keyName)
-        data = self.send_data(self.create_command('pressKeyboardKey', keyName, duration ))
+        data = self.send_data(self.create_command('pressKeyboardKey',keyName,power, duration ))
         return self.handle_errors(data)
 
-    def press_key_and_wait(self,keyName,duration):
-        data = self.press_key(keyName,duration)
+    def press_key_and_wait(self,keyName,power=1,duration=1):
+        data = self.press_key(keyName,power,duration)
         self.handle_errors(data)
         print('Wait for press key to finish')
         time.sleep(duration)

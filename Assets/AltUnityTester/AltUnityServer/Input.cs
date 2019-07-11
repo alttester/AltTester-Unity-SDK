@@ -1,7 +1,5 @@
 ﻿#if ALTUNITYTESTER
 
-
-
 using Assets.AltUnityTester.AltUnityDriver;
 using System.Linq;
 
@@ -20,16 +18,16 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
         string dataAsJson = targetFile.text;
         AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityAxis>>(dataAsJson);
-
     }
     private void Update()
     {
-        UseCustomInput = UnityEngine.Input.touchCount == 0 || !UnityEngine.Input.anyKey;
+        UseCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey;
     }
+    
     public static Input instance;
-    public static System.Collections.Generic.List<UnityEngine.KeyCode> keyCodesPressed = new System.Collections.Generic.List<UnityEngine.KeyCode>();
-    public static System.Collections.Generic.List<UnityEngine.KeyCode> keyCodesPressedDown = new System.Collections.Generic.List<UnityEngine.KeyCode>();
-    public static System.Collections.Generic.List<UnityEngine.KeyCode> keyCodesPressedUp = new System.Collections.Generic.List<UnityEngine.KeyCode>();
+    public static System.Collections.Generic.List<KeyStructure> keyCodesPressed = new System.Collections.Generic.List<KeyStructure>();
+    public static System.Collections.Generic.List<KeyStructure> keyCodesPressedDown = new System.Collections.Generic.List<KeyStructure>();
+    public static System.Collections.Generic.List<KeyStructure> keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
     private static MockUpPointerInputModule mockUpPointerInputModule;
 
     public static bool simulateMouseWithTouches
@@ -56,7 +54,7 @@ public class Input : UnityEngine.MonoBehaviour
                 return UnityEngine.Input.anyKey;
             }
         }
-    }// Must do
+    }
 
     public static bool anyKeyDown {
         get
@@ -77,7 +75,7 @@ public class Input : UnityEngine.MonoBehaviour
                 return UnityEngine.Input.anyKeyDown;
             }
         }
-    }//Must do
+    }
 
     public static string inputString//WIP
     {
@@ -86,7 +84,7 @@ public class Input : UnityEngine.MonoBehaviour
             if (UseCustomInput)
             {
                 string charachtersPressedCurrentFrame = "";
-               foreach(UnityEngine.KeyCode keyCode in keyCodesPressedDown)
+                foreach(var keyCode in keyCodesPressedDown)
                 {
                     //need a Parser from keycode to character every characher from keyboard + backspace and enter
                 }
@@ -330,14 +328,14 @@ public class Input : UnityEngine.MonoBehaviour
             {
                 throw new NotFoundException("No axis with this name was found");
             }
-            if (keyCodesPressed.Contains(ConvertStringToKeyCode(axis.positiveButton)) || keyCodesPressed.Contains(ConvertStringToKeyCode(axis.altPositiveButton))){
-                return 1;
-            }
-            else if (keyCodesPressed.Contains(ConvertStringToKeyCode(axis.negativeButton)) || keyCodesPressed.Contains(ConvertStringToKeyCode(axis.altNegativeButton))){
-                return -1;
+            foreach(var keyStructure in keyCodesPressed)
+            {
+                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                    return keyStructure.Power;
+                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
+                    return -1*keyStructure.Power;
             }
             return 0;
-
         }
         else
         {
@@ -363,8 +361,21 @@ public class Input : UnityEngine.MonoBehaviour
     {
         if (UseCustomInput)
         {
-            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), buttonName);
-            return keyCodesPressed.Contains(keyCode);
+
+            var axis = AxisList.First(axle => axle.name == buttonName);
+            if (axis == null)
+            {
+                throw new NotFoundException("No button with this name was found");
+            }
+            foreach (var keyStructure in keyCodesPressed)
+            {
+                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                    return true;
+                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
+                    return true;
+            }
+            return false;
+
         }
         else
         {
@@ -377,8 +388,19 @@ public class Input : UnityEngine.MonoBehaviour
         
         if (UseCustomInput)
         {
-            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), buttonName);
-            return keyCodesPressedDown.Contains(keyCode);
+            var axis = AxisList.First(axle => axle.name == buttonName);
+            if (axis == null)
+            {
+                throw new NotFoundException("No button with this name was found");
+            }
+            foreach (var keyStructure in keyCodesPressedDown)
+            {
+                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                    return true;
+                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
+                    return true;
+            }
+            return false;
         }
         else
         {
@@ -392,8 +414,19 @@ public class Input : UnityEngine.MonoBehaviour
         
         if (UseCustomInput)
         {
-            UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), buttonName);
-            return keyCodesPressedUp.Contains(keyCode);
+            var axis = AxisList.First(axle => axle.name == buttonName);
+            if (axis == null)
+            {
+                throw new NotFoundException("No button with this name was found");
+            }
+            foreach (var keyStructure in keyCodesPressedUp)
+            {
+                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                    return true;
+                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
+                    return true;
+            }
+            return false;
         }
         else
         {
@@ -411,7 +444,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (UseCustomInput)
         {
             UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
-            return keyCodesPressed.Contains(keyCode);
+            return 0 != keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count;
         }
         else
         {
@@ -423,7 +456,7 @@ public class Input : UnityEngine.MonoBehaviour
     {
         if (UseCustomInput)
         {
-            return keyCodesPressed.Contains(key);
+            return 0 != keyCodesPressed.FindAll(keyFromList => keyFromList.KeyCode == key).Count;
         }
         else
         {
@@ -435,7 +468,7 @@ public class Input : UnityEngine.MonoBehaviour
     {
         if (UseCustomInput)
         {
-            return keyCodesPressedDown.Contains(key);
+            return 0 != keyCodesPressedDown.FindAll(keyFromList => keyFromList.KeyCode == key).Count;
         }
         else
         {
@@ -449,7 +482,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (UseCustomInput)
         {
             UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
-            return keyCodesPressedDown.Contains(keyCode);
+            return 0 != keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count;
         }
         else
         {
@@ -461,7 +494,7 @@ public class Input : UnityEngine.MonoBehaviour
     {
         if (UseCustomInput)
         {
-            return keyCodesPressedUp.Contains(key);
+            return 0 != keyCodesPressedUp.FindAll(keyFromList => keyFromList.KeyCode == key).Count;
         }
         else
         {
@@ -474,7 +507,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (UseCustomInput)
         {
             UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
-            return keyCodesPressedUp.Contains(keyCode);
+            return 0 != keyCodesPressedUp.FindAll(key => key.KeyCode == keyCode).Count;
         }
         else
         {
@@ -487,7 +520,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (UseCustomInput)
         {
             var keyCode=(UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return keyCodesPressed.Contains(keyCode) || touches.Length > button ;
+            return 0 != keyCodesPressed.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button ;
         }
         else
         {
@@ -501,7 +534,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (UseCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return keyCodesPressedDown.Contains(keyCode) || touches.Length > button && touches[button].phase != UnityEngine.TouchPhase.Began;
+            return 0 != keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button && touches[button].phase != UnityEngine.TouchPhase.Began;
         }
         else
         {
@@ -515,7 +548,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (UseCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return keyCodesPressedUp.Contains(keyCode) || touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Ended;
+            return 0 != keyCodesPressedUp.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Ended;
         }
         else
         {
@@ -624,28 +657,29 @@ public class Input : UnityEngine.MonoBehaviour
 
 
     }
-    public static void SetKeyDown(UnityEngine.KeyCode keyCode, float duration)
+    public static void SetKeyDown(UnityEngine.KeyCode keyCode,float power, float duration)
     {
        Finished = false;
-       instance.StartCoroutine(KeyDownLifeCycle(keyCode, duration));
+       instance.StartCoroutine(KeyDownLifeCycle(keyCode,power, duration));
     }
 
-    private static System.Collections.IEnumerator KeyDownLifeCycle(UnityEngine.KeyCode keyCode, float duration)
+    private static System.Collections.IEnumerator KeyDownLifeCycle(UnityEngine.KeyCode keyCode,float power, float duration)
     {
 
         float time = UnityEngine.Time.time;
-        keyCodesPressedDown.Add(keyCode);
+        var keyStructure = new KeyStructure(keyCode, power);
+        keyCodesPressedDown.Add(keyStructure);
         yield return null;
-        keyCodesPressedDown.Remove(keyCode);
-        keyCodesPressed.Add(keyCode);
+        keyCodesPressedDown.Remove(keyStructure);
+        keyCodesPressed.Add(keyStructure);
         if (duration != 0)
         {
             yield return new UnityEngine.WaitForSeconds(duration);
         }
-        keyCodesPressed.Remove(keyCode);
-        keyCodesPressedUp.Add(keyCode);
+        keyCodesPressed.Remove(keyStructure);
+        keyCodesPressedUp.Add(keyStructure);
         yield return null;
-        keyCodesPressedUp.Remove(keyCode);
+        keyCodesPressedUp.Remove(keyStructure);
         Finished = true;
 
     }   
@@ -823,6 +857,26 @@ public class Input : UnityEngine.MonoBehaviour
         {
             return UnityEngine.KeyCode.Home;
         }
+        if (System.Text.RegularExpressions.Regex.Match(keyName, "joystick button [0-9]{1,2}").Success)
+        {
+            var splitedString = keyName.Split(' ');
+            var number = System.Int32.Parse(splitedString[2]);
+            if (number >= 20)
+            {
+                throw new NotFoundException("Key not recognized");
+            }
+            return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "JoystickButton" + number);
+        }
+        if (System.Text.RegularExpressions.Regex.Match(keyName, "joystick [1-8] button [0-9]{1,2}").Success)
+        {
+            var splitedString = keyName.Split(' ');
+            var number = System.Int32.Parse(splitedString[3]);
+            if (number >= 20)
+            {
+                throw new NotFoundException("Key not recognized");
+            }
+            return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Joystick"+splitedString[1]+"Button" + number);
+        }
         //TODO joystick buttons
         throw new NotFoundException("Key not recognized");
     }
@@ -832,6 +886,20 @@ public class Input : UnityEngine.MonoBehaviour
     }
     
 
+}
+
+public class KeyStructure
+{
+    public KeyStructure(UnityEngine.KeyCode keyCode, float power)
+    {
+        KeyCode = keyCode;
+        Power = power;
+    }
+
+    public UnityEngine.KeyCode KeyCode { get; set; }
+
+    public float Power { get; set; }
+    
 }
 
 #endif

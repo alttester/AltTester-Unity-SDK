@@ -27,9 +27,9 @@ public class TestScene5
 
         var cube = AltUnityDriver.FindElement("Player1");
         UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
-        AltUnityDriver.PressKey(UnityEngine.KeyCode.K, 2);
+        AltUnityDriver.PressKey(UnityEngine.KeyCode.K,1, 2);
         Thread.Sleep(2000);
-        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.O, 1);
+        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.O, 1,1);
 
         cube = AltUnityDriver.FindElement("Player1");
         UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
@@ -49,7 +49,7 @@ public class TestScene5
         var cube = AltUnityDriver.FindElement("Player1");
         UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
 
-        AltUnityDriver.PressKey(UnityEngine.KeyCode.W, 2);
+        AltUnityDriver.PressKey(UnityEngine.KeyCode.W,1, 2);
         Thread.Sleep(2000);
         cube = AltUnityDriver.FindElement("Player1");
         UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
@@ -71,10 +71,10 @@ public class TestScene5
         UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
         Thread.Sleep(1500);
 
-        AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+        AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0,1, 0);
         AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(stars[0].x, stars[0].y-100), 1);
         Thread.Sleep(1500);
-        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0,1, 1);
 
         stars = AltUnityDriver.FindElementsWhereNameContains("Star");
         Assert.AreEqual(3, stars.Count);

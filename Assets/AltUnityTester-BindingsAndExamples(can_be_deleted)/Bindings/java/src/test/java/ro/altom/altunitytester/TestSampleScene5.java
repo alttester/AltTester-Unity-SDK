@@ -45,10 +45,10 @@ public class TestSampleScene5 {
         AltUnityObject cube = altUnityDriver.findElement("Player1");
         Vec3f cubeInitialPostion = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
         altUnityDriver.scrollMouse(30, 20);
-        altUnityDriver.pressKey("K", 2);
+        altUnityDriver.pressKey("K",,1 2);
         Thread.sleep(2000);
         cube = altUnityDriver.findElement("Player1");
-        altUnityDriver.pressKeyAndWait("O", 1);
+        altUnityDriver.pressKeyAndWait("O",1, 1);
 
         Vec3f cubeFinalPosition = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
 
@@ -66,7 +66,7 @@ public class TestSampleScene5 {
         AltUnityObject cube = altUnityDriver.findElement("Player1");
         Vec3f cubeInitialPostion = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
 
-        altUnityDriver.pressKey("W", 2);
+        altUnityDriver.pressKey("W",1, 2);
         Thread.sleep(2000);
         cube = altUnityDriver.findElement("Player1");
         Vec3f cubeFinalPosition = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
@@ -86,9 +86,9 @@ public class TestSampleScene5 {
         altUnityDriver.moveMouse(800, 400, 1);
         Thread.sleep(1500);
 
-        altUnityDriver.pressKey("Mouse0", 1);
+        altUnityDriver.pressKey("Mouse0",1, 1);
         altUnityDriver.moveMouseAndWait(800, 200, 1);
-        altUnityDriver.pressKeyAndWait("Mouse0", 1);
+        altUnityDriver.pressKeyAndWait("Mouse0",1, 1);
 
 
         stars = altUnityDriver.findElementsWhereNameContains("Star");
