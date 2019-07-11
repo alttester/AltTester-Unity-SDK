@@ -24,6 +24,7 @@ public class TestSampleScene5 {
     @AfterClass
     public static void tearDown() throws Exception {
         altUnityDriver.stop();
+        Thread.sleep(1000);
     }
 
     @Before
@@ -45,7 +46,7 @@ public class TestSampleScene5 {
         AltUnityObject cube = altUnityDriver.findElement("Player1");
         Vec3f cubeInitialPostion = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
         altUnityDriver.scrollMouse(30, 20);
-        altUnityDriver.pressKey("K",,1 2);
+        altUnityDriver.pressKey("K",1, 2);
         Thread.sleep(2000);
         cube = altUnityDriver.findElement("Player1");
         altUnityDriver.pressKeyAndWait("O",1, 1);
@@ -92,7 +93,7 @@ public class TestSampleScene5 {
 
 
         stars = altUnityDriver.findElementsWhereNameContains("Star");
-        assertEquals(4, stars.length);
+        assertEquals(3, stars.length);
 
 
     }

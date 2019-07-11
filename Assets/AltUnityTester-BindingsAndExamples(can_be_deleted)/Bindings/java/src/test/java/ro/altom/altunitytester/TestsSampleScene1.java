@@ -23,6 +23,7 @@ public class TestsSampleScene1 {
     @AfterClass
     public static void tearDown() throws Exception {
         altUnityDriver.stop();
+        Thread.sleep(1000);
     }
 
     @Before
@@ -476,7 +477,8 @@ public void TestCallStaticMethod() throws Exception {
     public void TestGetSetTimeScale(){
         altUnityDriver.setTimeScale(0.1f);
         float timeScale = altUnityDriver.getTimeScale();
-        assertEquals(0.1f, timeScale);
+        assertEquals(0.1f, timeScale,0f);
+        altUnityDriver.setTimeScale(1f);
     }
 
 }

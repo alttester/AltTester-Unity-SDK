@@ -263,7 +263,7 @@ public class AltUnityDriver {
         sleepFor(durationInSecs );
         String data;
         do {
-            send(CreateCommand("swipeFinished"));
+            send(CreateCommand("actionFinished"));
             data = recvall();
         } while (data.equals("No"));
 
@@ -300,7 +300,7 @@ public class AltUnityDriver {
         }
         handleErrors(data);
     }
-    public void pressKey(String keyName,float power float duration){
+    public void pressKey(String keyName,float power, float duration){
         send(CreateCommand("pressKeyboardKey", keyName,String.valueOf(power),String.valueOf(duration)));
         String data = recvall();
         if (!data.contains("error:")) {
@@ -308,8 +308,8 @@ public class AltUnityDriver {
         }
         handleErrors(data);
     }
-    public void pressKeyAndWait(String keyName, float duration) {
-        pressKey(keyName, duration);
+    public void pressKeyAndWait(String keyName,float power, float duration) {
+        pressKey(keyName,power, duration);
         sleepFor(duration );
         String data;
         do {
