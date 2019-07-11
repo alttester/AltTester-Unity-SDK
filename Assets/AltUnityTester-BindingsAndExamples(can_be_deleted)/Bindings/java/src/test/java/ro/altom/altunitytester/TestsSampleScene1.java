@@ -103,7 +103,7 @@ public class TestsSampleScene1 {
     public void testWaitForExistingDisabledElement() throws Exception {
         String name = "Cube";
         long timeStart = System.currentTimeMillis();
-        AltUnityObject altElement = altUnityDriver.waitForElement(name);
+        AltUnityObject altElement = altUnityDriver.waitForElement(name,false);
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
         assertTrue(time / 1000 < 20);

@@ -92,7 +92,7 @@ public class TestSampleScene5 {
 
 
         stars = altUnityDriver.findElementsWhereNameContains("Star");
-        assertEquals(4, stars.length);
+        assertEquals(3, stars.length);
 
 
     }

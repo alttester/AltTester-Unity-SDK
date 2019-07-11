@@ -263,7 +263,7 @@ public class AltUnityDriver {
         sleepFor(durationInSecs );
         String data;
         do {
-            send(CreateCommand("swipeFinished"));
+            send(CreateCommand("actionFinished"));
             data = recvall();
         } while (data.equals("No"));
 
