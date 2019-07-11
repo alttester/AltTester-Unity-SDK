@@ -23,6 +23,7 @@ public class TestsSampleScene1 {
     @AfterClass
     public static void tearDown() throws Exception {
         altUnityDriver.stop();
+        Thread.sleep(2000);
     }
 
     @Before
