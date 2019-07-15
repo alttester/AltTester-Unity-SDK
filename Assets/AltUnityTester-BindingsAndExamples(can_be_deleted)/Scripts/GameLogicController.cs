@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameLogicController : MonoBehaviour {
     public GameObject starPrefab;
     public Camera camera;
+    public StarCounter starCounter;
 	// Use this for initialization
 	void Start () {
 		
@@ -22,9 +23,11 @@ public class GameLogicController : MonoBehaviour {
             {
                 if (hit.transform.gameObject.name == "Floor")
                 {
+                    starCounter.UpdateStarCounter(true);
                     var position = hit.point;
                     position.y += 1;
-                    Instantiate(starPrefab, position, Quaternion.identity);
+                    var star=Instantiate(starPrefab, position, Quaternion.identity);
+                    star.GetComponent<StarController>().starCounter = starCounter;
 
                 }
             }

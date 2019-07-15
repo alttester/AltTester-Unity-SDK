@@ -1,4 +1,4 @@
-﻿#if ALTUNITYTESTER
+﻿//#if ALTUNITYTESTER
 
 using Assets.AltUnityTester.AltUnityDriver;
 using System.Linq;
@@ -313,6 +313,11 @@ public class Input : UnityEngine.MonoBehaviour
 
     //Our
     public static bool Finished { get; set; }
+    public static float LastAxisValue { get; set; }
+    public static string LastAxisName { get; set; }
+    public static string LastButtonDown { get; set; }
+    public static string LastButtonPressed { get; set; }
+    public static string LastButtonUp { get; set; }
 
 
     public static UnityEngine.AccelerationEvent GetAccelerationEvent(int index)
@@ -328,12 +333,20 @@ public class Input : UnityEngine.MonoBehaviour
             {
                 throw new NotFoundException("No axis with this name was found");
             }
-            foreach(var keyStructure in keyCodesPressed)
+            foreach (var keyStructure in keyCodesPressed)
             {
                 if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                {
+                    LastAxisName = axisName;//DebugPurpose
+                    LastAxisValue = keyStructure.Power;
                     return keyStructure.Power;
+                }
                 if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
-                    return -1*keyStructure.Power;
+                {
+                    LastAxisName = axisName;//DebugPurpose
+                    LastAxisValue = -1*keyStructure.Power;
+                    return -1 * keyStructure.Power;
+                }
             }
             return 0;
         }
@@ -363,17 +376,25 @@ public class Input : UnityEngine.MonoBehaviour
         {
 
             var axis = AxisList.First(axle => axle.name == buttonName);
+            
             if (axis == null)
             {
                 throw new NotFoundException("No button with this name was found");
             }
+            
             foreach (var keyStructure in keyCodesPressed)
             {
                 if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                {
+                    LastAxisName = axis.name;//Debug purpose
                     return true;
+                }
                 if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
+                {
+                    LastAxisName = axis.name;//Debug purpose
                     return true;
-            }
+                }
+                }
             return false;
 
         }
@@ -396,9 +417,15 @@ public class Input : UnityEngine.MonoBehaviour
             foreach (var keyStructure in keyCodesPressedDown)
             {
                 if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                {
+                    LastAxisName = axis.name;//Debug purpose
                     return true;
+                }
                 if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
+                {
+                    LastAxisName = axis.name;//Debug purpose
                     return true;
+                }
             }
             return false;
         }
@@ -422,9 +449,15 @@ public class Input : UnityEngine.MonoBehaviour
             foreach (var keyStructure in keyCodesPressedUp)
             {
                 if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                {
+                    LastAxisName = axis.name;//Debug purpose
                     return true;
+                }
                 if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
+                {
+                    LastAxisName = axis.name;//Debug purpose
                     return true;
+                }
             }
             return false;
         }
@@ -902,4 +935,4 @@ public class KeyStructure
     
 }
 
-#endif
+//#endif

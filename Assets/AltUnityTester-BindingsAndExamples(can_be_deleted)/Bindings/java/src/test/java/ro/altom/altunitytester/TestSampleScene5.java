@@ -1,12 +1,15 @@
 package ro.altom.altunitytester;
 
 import com.sun.javafx.geom.Vec3f;
+import javafx.scene.input.KeyCode;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -96,5 +99,27 @@ public class TestSampleScene5 {
         assertEquals(3, stars.length);
 
 
+    }
+
+    @Test
+    public void TestPowerJoystick()
+    {
+        ArrayList<String> ButtonNames = new ArrayList<String>();
+        ButtonNames.add("Horizontal");
+        ButtonNames.add("Vertical");
+        ArrayList<String> KeyToPressForButtons = new ArrayList<>();
+        KeyToPressForButtons.add("D");
+        KeyToPressForButtons.add("W");
+        altUnityDriver.loadScene("Scene 5 Keyboard Input");
+        AltUnityObject axisName = altUnityDriver.findElement("AxisName");
+        AltUnityObject axisValue = altUnityDriver.findElement("AxisValue");
+        int i = 0;
+        for (String key : KeyToPressForButtons)
+        {
+            altUnityDriver.pressKeyAndWait(key,0.5f,0.1f);
+            assertEquals("0.5", axisValue.getText());
+            assertEquals(ButtonNames.get(i), axisName.getText());
+            i++;
+        }
     }
 }

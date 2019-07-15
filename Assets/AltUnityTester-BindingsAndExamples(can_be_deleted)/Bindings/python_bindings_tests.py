@@ -291,7 +291,20 @@ class PythonTests(unittest.TestCase):
 
         stars = self.altdriver.find_elements_where_name_contains("Star")
         self.assertEqual(3, len(stars))
-    
+
+    def test_power_joystick(self):
+        button_names=['Horizontal','Vertical']
+        keys_to_press=['D','W']
+        self.altdriver.load_scene("Scene 5 Keyboard Input")
+        axisName = self.altdriver.find_element("AxisName")
+        axisValue = self.altdriver.find_element("AxisValue")
+        i = 0
+        for key in keys_to_press:
+            self.altdriver.press_key_and_wait(key,0.5, 0.1)
+            self.assertEqual('0.5', axisValue.get_text())
+            self.assertEqual(button_names[i], axisName.get_text())
+            i=i+1
+       
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
     result = unittest.TextTestRunner(verbosity=2).run(suite)
