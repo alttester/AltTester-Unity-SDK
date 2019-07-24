@@ -22,11 +22,11 @@ MonoBehaviour:
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 56
+    _testCaseCount: 59
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
@@ -617,7 +617,12 @@ MonoBehaviour:
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       4 No Cameras.unity
     _buildIndex: 3
+  - _toBeBuilt: 1
+    _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
+      5 Keyboard Input.unity
+    _buildIndex: 4
   platform: 0
+  standaloneTarget: 5
   ranInEditor: 0
   requestSeparator: ;
   requestEnding: '&'
