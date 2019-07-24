@@ -90,9 +90,9 @@ public class TestSampleScene5 {
         altUnityDriver.moveMouse(player.x, player.y+500, 1);
         Thread.sleep(1500);
 
-        altUnityDriver.pressKey("Mouse0", 1);
+        altUnityDriver.pressKey("Mouse0", 1,1);
         altUnityDriver.moveMouseAndWait(player.x, player.y-500, 1);
-        altUnityDriver.pressKeyAndWait("Mouse0", 1);
+        altUnityDriver.pressKeyAndWait("Mouse0", 1,1);
 
 
         stars = altUnityDriver.findElementsWhereNameContains("Star");
