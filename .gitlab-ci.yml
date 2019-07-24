@@ -57,9 +57,9 @@ run-python-android-tests:
         - source altunitytests/bin/activate
         - python3 -m pip install Appium-Python-Client
         - python3 -m pip uninstall --yes altunityrunner || true
-        - python3 -m pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python"
+        - python3 -m pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - sleep 30
-        - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python_bindings_tests.py"
+        - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_bindings_tests.py"
 
 
 run-java-android-tests:
@@ -72,7 +72,7 @@ run-java-android-tests:
         - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
         - adb forward --remove-all
         - adb forward tcp:13000 tcp:13000
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java"
+        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
         - mvn test
 
 create-unity-package:
@@ -139,9 +139,9 @@ run-python-appium-android-tests:
         # - appium >> appium.log & 
         - pip install Appium-Python-Client
         - pip uninstall --yes altunityrunner || true
-        - pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python"
+        - pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - sleep 30
-        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python_appium_tests.py"
+        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_appium_tests.py"
         # - killall node || true
     artifacts:
         when: always
@@ -157,7 +157,7 @@ run-java-appium-android-tests:
     tags:
         - unity
     script:
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java"
+        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
         - mvn clean compile assembly:single
         - mvn install:install-file -Dfile=./target/altunitytester-java-client-1.3.0-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.3.0 -Dpackaging=jar
         - cd ../java-appium-tests
@@ -166,7 +166,7 @@ run-java-appium-android-tests:
         when: always
         expire_in: 10 days
         paths:
-            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java/target/altunitytester-java-client-1.3.0-SNAPSHOT-jar-with-dependencies.jar"
+            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java/target/altunitytester-java-client-1.3.0-SNAPSHOT-jar-with-dependencies.jar"
 
 deploy-altunitytester-python:
     stage: deploy
@@ -174,7 +174,7 @@ deploy-altunitytester-python:
     tags:
         - unity
     script:
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python"
+        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - python setup.py sdist upload -r pypi
 
 pages:

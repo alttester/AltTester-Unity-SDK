@@ -22,5 +22,15 @@ public class Player2Controller : MonoBehaviour {
             movement.z = -1 * speed * Time.deltaTime + Input.mouseScrollDelta.y;
         transform.position += movement;
 
+        if (Input.GetButton("Horizontal"))
+        {
+            Debug.Log("HorizontalPressed");
+        }
+        if (Input.GetButtonDown("Vertical"))
+        {
+            Debug.Log("VerticalPressed");
+
+        }
+
     }
 }

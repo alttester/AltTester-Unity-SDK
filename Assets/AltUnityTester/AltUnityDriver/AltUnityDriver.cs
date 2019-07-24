@@ -245,17 +245,17 @@ public class AltUnityDriver
     {
         SwipeAndWait(position, position, duration);
     }
-    public void PressKey(UnityEngine.KeyCode keyCode, float duration = 0)
+    public void PressKey(UnityEngine.KeyCode keyCode,float power=1, float duration = 1)
     {
-        Socket.Client.Send(toBytes(CreateCommand("pressKeyboardKey", keyCode.ToString(), duration.ToString())));
+        Socket.Client.Send(toBytes(CreateCommand("pressKeyboardKey", keyCode.ToString(),power.ToString(), duration.ToString())));
         var data = Recvall();
         if (data.Equals("Ok"))
             return;
         HandleErrors(data);
     }
-    public void PressKeyAndWait(UnityEngine.KeyCode keyCode, float duration = 0)
+    public void PressKeyAndWait(UnityEngine.KeyCode keyCode,float power=1, float duration = 1)
     {
-        PressKey(keyCode, duration);
+        PressKey(keyCode, power, duration);
         System.Threading.Thread.Sleep((int)duration * 1000);
         string data;
         do
