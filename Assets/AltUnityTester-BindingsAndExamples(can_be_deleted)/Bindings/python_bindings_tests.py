@@ -281,12 +281,13 @@ class PythonTests(unittest.TestCase):
 
         stars = self.altdriver.find_elements_where_name_contains("Star","Player2")
         self.assertEqual(1, len(stars))
+        player = self.altdriver.find_elements_where_name_contains("Player","Player2")
 
-        self.altdriver.move_mouse(int(stars[0].x),int(stars[0].y)+100, 1)
+        self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
         time.sleep(1.5)
 
         self.altdriver.press_key('Mouse0', 1,0)
-        self.altdriver.move_mouse_and_wait(int(stars[0].x),int(stars[0].y)-100, 1)
+        self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
         self.altdriver.press_key('Mouse0', 1,0)
 
         stars = self.altdriver.find_elements_where_name_contains("Star")

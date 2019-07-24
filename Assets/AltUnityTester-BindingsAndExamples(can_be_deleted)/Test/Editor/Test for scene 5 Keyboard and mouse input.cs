@@ -69,13 +69,15 @@ public class TestScene5
 
         var stars = AltUnityDriver.FindElementsWhereNameContains("Star","Player2");
         Assert.AreEqual(1, stars.Count);
+        var player = AltUnityDriver.FindElementsWhereNameContains("Player", "Player2");
 
-        AltUnityDriver.MoveMouse(new UnityEngine.Vector2(stars[0].x,stars[0].y+100), 1);
+        AltUnityDriver.MoveMouse(new UnityEngine.Vector2(stars[0].x, player[0].y+500), 1);
         UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
         Thread.Sleep(1500);
 
         AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0,1, 0);
-        AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(stars[0].x, stars[0].y-100), 1);
+
+        AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(stars[0].x, player[0].y-500), 1);
         Thread.Sleep(1500);
         AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0,1, 1);
 
