@@ -254,10 +254,10 @@ class PythonTests(unittest.TestCase):
         cube = self.altdriver.find_element("Player1")
         cubeInitialPostion = (cube.worldX, cube.worldY, cube.worldY)
         self.altdriver.scroll_mouse(30, 1)
-        self.altdriver.press_key('K', 2)
+        self.altdriver.press_key('K',1, 2)
         time.sleep(2)
         cube = self.altdriver.find_element("Player1")
-        self.altdriver.press_key_and_wait('O', 1)
+        self.altdriver.press_key_and_wait('O',1, 1)
         cubeFinalPosition = (cube.worldX, cube.worldY, cube.worldY)
 
         self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
@@ -269,7 +269,7 @@ class PythonTests(unittest.TestCase):
         cube = self.altdriver.find_element("Player1")
         cubeInitialPostion =(cube.worldX, cube.worldY, cube.worldY)
 
-        self.altdriver.press_key('W', 2)
+        self.altdriver.press_key('W',1, 2)
         time.sleep(2)
         cube = self.altdriver.find_element("Player1")
         cubeFinalPosition =(cube.worldX, cube.worldY, cube.worldY)
@@ -281,17 +281,31 @@ class PythonTests(unittest.TestCase):
 
         stars = self.altdriver.find_elements_where_name_contains("Star","Player2")
         self.assertEqual(1, len(stars))
+        player = self.altdriver.find_elements_where_name_contains("Player","Player2")
 
-        self.altdriver.move_mouse(int(stars[0].x),int(stars[0].y)+100, 1)
+        self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
         time.sleep(1.5)
 
-        self.altdriver.press_key('Mouse0', 0)
-        self.altdriver.move_mouse_and_wait(int(stars[0].x),int(stars[0].y)-100, 1)
-        self.altdriver.press_key('Mouse0', 0)
+        self.altdriver.press_key('Mouse0', 1,0)
+        self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+        self.altdriver.press_key('Mouse0', 1,0)
 
         stars = self.altdriver.find_elements_where_name_contains("Star")
         self.assertEqual(3, len(stars))
-    
+
+    def test_power_joystick(self):
+        button_names=['Horizontal','Vertical']
+        keys_to_press=['D','W']
+        self.altdriver.load_scene("Scene 5 Keyboard Input")
+        axisName = self.altdriver.find_element("AxisName")
+        axisValue = self.altdriver.find_element("AxisValue")
+        i = 0
+        for key in keys_to_press:
+            self.altdriver.press_key_and_wait(key,0.5, 0.1)
+            self.assertEqual('0.5', axisValue.get_text())
+            self.assertEqual(button_names[i], axisName.get_text())
+            i=i+1
+       
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
     result = unittest.TextTestRunner(verbosity=2).run(suite)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StarController : MonoBehaviour {
-
+    public StarCounter starCounter;
 	// Use this for initialization
 	void Start () {
 		
@@ -18,7 +18,7 @@ public class StarController : MonoBehaviour {
     {
         if (collision.gameObject.name == "Player1")
         {
-
+            starCounter.UpdateStarCounter(false);
             Destroy(gameObject);
         }
     }

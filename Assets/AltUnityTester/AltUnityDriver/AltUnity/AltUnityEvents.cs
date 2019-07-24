@@ -56,7 +56,7 @@ public class ScreenshotReady: UnityEngine.Events.UnityEvent <UnityEngine.Texture
 public class SetTimeScaleCommand : UnityEngine.Events.UnityEvent<float, AltClientSocketHandler> { }
 public class GetTimeScaleCommand : UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
 
-public class HoldButtonCommand : UnityEngine.Events.UnityEvent<UnityEngine.KeyCode,float, AltClientSocketHandler> { }
+public class HoldButtonCommand : UnityEngine.Events.UnityEvent<UnityEngine.KeyCode,float,float, AltClientSocketHandler> { }
 public class ScrollCommand: UnityEngine.Events.UnityEvent<float, float, AltClientSocketHandler> { }
 public class MoveMouseCommand: UnityEngine.Events.UnityEvent<UnityEngine.Vector2,float, AltClientSocketHandler> { }
 

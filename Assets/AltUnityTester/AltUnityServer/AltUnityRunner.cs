@@ -547,8 +547,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 UnityEngine.Debug.Log("pressKeyboardKey");
                 var piece1 = pieces[1];
                 UnityEngine.KeyCode keycode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), piece1);
-                float duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
-                AltUnityEvents.Instance.HoldButton.Invoke(keycode, duration, handler);
+                float power = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
+                float duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[3]);
+                AltUnityEvents.Instance.HoldButton.Invoke(keycode,power, duration, handler);
                 break;
             case "moveMouse":
                 UnityEngine.Debug.Log("moveMouse");
@@ -1646,11 +1647,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         });
 
     }
-    private void HoldButton(UnityEngine.KeyCode keyCode, float duration, AltClientSocketHandler handler)
+    private void HoldButton(UnityEngine.KeyCode keyCode,float power, float duration, AltClientSocketHandler handler)
     {
         _responseQueue.ScheduleResponse(delegate
         {
-            Input.SetKeyDown(keyCode, duration);
+            var powerClamped = UnityEngine.Mathf.Clamp01(power);
+            Input.SetKeyDown(keyCode,power, duration);
             handler.SendResponse("Ok");
         });
     }

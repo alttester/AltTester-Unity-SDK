@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
 public class TestScene5
 {
@@ -27,9 +30,9 @@ public class TestScene5
 
         var cube = AltUnityDriver.FindElement("Player1");
         UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
-        AltUnityDriver.PressKey(UnityEngine.KeyCode.K, 2);
+        AltUnityDriver.PressKey(UnityEngine.KeyCode.K,1, 2);
         Thread.Sleep(2000);
-        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.O, 1);
+        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.O, 1,1);
 
         cube = AltUnityDriver.FindElement("Player1");
         UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
@@ -49,7 +52,7 @@ public class TestScene5
         var cube = AltUnityDriver.FindElement("Player1");
         UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
 
-        AltUnityDriver.PressKey(UnityEngine.KeyCode.W, 2);
+        AltUnityDriver.PressKey(UnityEngine.KeyCode.W,1, 2);
         Thread.Sleep(2000);
         cube = AltUnityDriver.FindElement("Player1");
         UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
@@ -66,20 +69,84 @@ public class TestScene5
 
         var stars = AltUnityDriver.FindElementsWhereNameContains("Star","Player2");
         Assert.AreEqual(1, stars.Count);
+        var player = AltUnityDriver.FindElementsWhereNameContains("Player", "Player2");
 
-        AltUnityDriver.MoveMouse(new UnityEngine.Vector2(stars[0].x,stars[0].y+100), 1);
+        AltUnityDriver.MoveMouse(new UnityEngine.Vector2(stars[0].x, player[0].y+500), 1);
         UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
         Thread.Sleep(1500);
 
-        AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
-        AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(stars[0].x, stars[0].y-100), 1);
+        AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0,1, 0);
+
+        AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(stars[0].x, player[0].y-500), 1);
         Thread.Sleep(1500);
-        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0,1, 1);
 
         stars = AltUnityDriver.FindElementsWhereNameContains("Star");
         Assert.AreEqual(3, stars.Count);
 
 
+    }
+    [Test]
+    public void TestKeyboardPress()
+    {
+        AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        var lastKeyDown = AltUnityDriver.FindElement("LastKeyDownValue");
+        var lastKeyUp = AltUnityDriver.FindElement("LastKeyUpValue");
+        var lastKeyPress = AltUnityDriver.FindElement("LastKeyPressedValue");
+        foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+        {
+            AltUnityDriver.PressKeyAndWait(kcode,duration:0.2f);
+            Assert.AreEqual(kcode.ToString(), lastKeyDown.GetText());
+            Assert.AreEqual(kcode.ToString(), lastKeyUp.GetText());
+            Assert.AreEqual(kcode.ToString(), lastKeyPress.GetText());
+        }
+    }
+
+    [Test]
+    public void TestButton()
+    {
+        var ButtonNames = new List<String>()
+        {
+           "Horizontal","Vertical"
+        };
+        var KeyToPressForButtons = new List<KeyCode>()
+        {
+            KeyCode.A,KeyCode.W
+        };
+        AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        var axisName = AltUnityDriver.FindElement("AxisName");
+        int i = 0;
+        foreach (KeyCode kcode in KeyToPressForButtons)
+        {
+            AltUnityDriver.PressKeyAndWait(kcode, duration: 0.05f);
+            Assert.AreEqual(ButtonNames[i].ToString(), axisName.GetText());
+            i++;
+        }
+
+    }
+
+    [Test]
+    public void TestPowerJoystick()
+    {
+        var ButtonNames = new List<String>()
+        {
+           "Horizontal","Vertical"
+        };
+        var KeyToPressForButtons = new List<KeyCode>()
+        {
+            KeyCode.D,KeyCode.W
+        };
+        AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        var axisName = AltUnityDriver.FindElement("AxisName");
+        var axisValue = AltUnityDriver.FindElement("AxisValue");
+        int i = 0;
+        foreach (KeyCode kcode in KeyToPressForButtons)
+        {
+            AltUnityDriver.PressKeyAndWait(kcode,power:0.5f, duration: 0.1f);
+            Assert.AreEqual("0.5", axisValue.GetText());
+            Assert.AreEqual(ButtonNames[i].ToString(), axisName.GetText());
+            i++;
+        }
     }
 
 }
