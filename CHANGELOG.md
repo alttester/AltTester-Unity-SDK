@@ -1,3 +1,25 @@
+# Changes in version 1.4.0
+
+## Keyboard, joystick and mouse simulation
+- Add keyboard input simulation !98 
+- Joystick controls !102 
+
+## Bug fixes and improvements:
+- Modify the project to use AssemblyQualifiedName instead of just class name" !97 
+- Make "Play in Editor" to open the first scene or to put the AltUnityTester in the active scene !100 
+- Fix AltUnityTestWindow when using AssemblyDefinitionFiles !99 
+- Add timeout to get_current_scene call during socket setup !94 
+- "setup_port_forwarding" method in runner.py file from python bindings is throwing an exception !95 
+- Set adbFileName in linux !93 
+- Fix ClickOnScreenAtXy !92 
+- driver.findElement is unable to find some elements in ver 1.3.0 !91 
+
+## Contributors
+-  Robert Poienar @robert_poienar
+-  Ru Cindrea @ru.cindrea
+-  Arthur @LordStuart 
+
+
 # Changes in version 1.3.0
 
 ## Improvements to Unity Editor GUI / AltUnityTester Unity Test Runner
@@ -18,7 +40,6 @@
 ## Release Artifacts:
 -  Create deployment to pages  - !66  
 -  Create AltUnityTester package for every branch via CI pipeline  - !65        
-
 
 ## Bug fixes and improvements:
 -  WaitForElementToNotBePresent doesn't work correctly  - !89 
