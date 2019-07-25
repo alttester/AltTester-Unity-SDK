@@ -101,10 +101,22 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    public void testWaitForExistingDisabledElement() throws Exception {
+        String name = "Cube";
+        long timeStart = System.currentTimeMillis();
+        AltUnityObject altElement = altUnityDriver.waitForElement(name,false);
+        long timeEnd = System.currentTimeMillis();
+        long time = timeEnd - timeStart;
+        assertTrue(time / 1000 < 20);
+        assertNotNull(altElement);
+        assertEquals(altElement.name, name);
+    }
+
+    @Test
     public void testWaitForNonExistingElement() {
         String name = "Capsulee";
         try {
-            altUnityDriver.waitForElement(name,"", 1, 0.5);
+            altUnityDriver.waitForElement(name,"",true, 1, 0.5);
             fail();
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Element Capsulee not loaded after 1.0 seconds");
@@ -151,7 +163,7 @@ public class TestsSampleScene1 {
     public void testWaitForNonExistingElementWhereNameContains() {
         String name = "xyz";
         try {
-            altUnityDriver.waitForElementWhereNameContains(name,"", 1, 0.5);
+            altUnityDriver.waitForElementWhereNameContains(name,"",true, 1, 0.5);
             fail();
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Element xyz still not found after 1.0 seconds");
@@ -177,7 +189,7 @@ public class TestsSampleScene1 {
         String name = "CapsuleInfo";
         String text = altUnityDriver.findElement(name).getText() + "WrongText";
         try {
-            altUnityDriver.waitForElementWithText(name, text,"", 1, 0.5);
+            altUnityDriver.waitForElementWithText(name, text,"",true, 1, 0.5);
             fail();
         } catch (WaitTimeOutException e) {
             assertEquals(e.getMessage(), "Element with text: Capsule InfoWrongText not loaded after 1.0 seconds");
@@ -441,7 +453,7 @@ public class TestsSampleScene1 {
     public void testWaitForObjectWithTextWrongText() throws Exception {
         try
         {
-            AltUnityObject altElement = altUnityDriver.waitForElementWithText("CapsuleInfo", "aaaaa","", 1,0.5);
+            AltUnityObject altElement = altUnityDriver.waitForElementWithText("CapsuleInfo", "aaaaa","",true, 1,0.5);
             assertEquals(false,true);
         }
         catch (WaitTimeOutException exception)
@@ -477,7 +489,7 @@ public void TestCallStaticMethod() throws Exception {
     public void TestGetSetTimeScale(){
         altUnityDriver.setTimeScale(0.1f);
         float timeScale = altUnityDriver.getTimeScale();
-        assertEquals(0.1f, timeScale,0f);
+        assertEquals(0.1f, timeScale,0);
         altUnityDriver.setTimeScale(1f);
     }
 

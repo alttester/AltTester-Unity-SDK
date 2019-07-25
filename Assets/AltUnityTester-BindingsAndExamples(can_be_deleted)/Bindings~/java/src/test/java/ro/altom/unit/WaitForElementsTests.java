@@ -19,6 +19,7 @@ public class WaitForElementsTests {
     private static DummyServer dummyServer;
     private final String elementName = "nameOfTheElement";
     private final String cameraName = "cameraName";
+    private final Boolean enabled=true;
 
     @BeforeClass
     public static void setup() {
@@ -46,10 +47,10 @@ public class WaitForElementsTests {
     @Test(expected = AltUnityException.class)
     public void waitForElementNotToBePresentWhileElementIsPresentTest() {
         // GIVEN
-        Mockito.doReturn(getDummyObject()).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(getDummyObject()).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
 
         // WHEN
-        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
     private AltUnityObject getDummyObject() {
@@ -59,38 +60,38 @@ public class WaitForElementsTests {
     @Test
     public void waitForElementNotToBePresentWhileElementIsGoneTest() {
         // GIVEN
-        Mockito.doReturn(null).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(null).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
 
         // WHEN
-        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
     @Test
     public void waitForElementNotToBePresentExceptionTest() {
         // GIVEN
-        Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
 
         // WHEN
-        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementToNotBePresent(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
     @Test(expected = WaitTimeOutException.class)
     public void waitForElementNullIsReturnedTest() {
         // GIVEN
-        Mockito.doReturn(null).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(null).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
 
         // WHEN
-        spyAltDriver.waitForElement(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElement(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
     @Test
     public void waitForElementTest() {
         // GIVEN
         AltUnityObject expectedElement = getDummyObject();
-        Mockito.doReturn(expectedElement).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(expectedElement).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
 
         // WHEN
-        AltUnityObject equalElement = spyAltDriver.waitForElement(elementName, cameraName, TIMEOUT, INTERVAL);
+        AltUnityObject equalElement = spyAltDriver.waitForElement(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
 
         // THEN
         Assert.assertEquals("Expected and returned element are different.", expectedElement, equalElement);
@@ -99,33 +100,33 @@ public class WaitForElementsTests {
     @Test(expected = WaitTimeOutException.class)
     public void waitForElementExceptionTest() {
         // GIVEN
-        Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
 
         // WHEN
-        spyAltDriver.waitForElement(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElement(elementName, cameraName,enabled, TIMEOUT, INTERVAL);
     }
 
 
     @Test(expected = WaitTimeOutException.class)
     public void waitForElementWithTextNullIsReturnedTest() {
         // GIVEN
-        Mockito.doReturn(null).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(null).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
         String textInElement = "textInElement";
 
         // WHEN
-        spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test
     public void waitForElementWithTextTest() {
         // GIVEN
         AltUnityObject expectedElement = Mockito.spy(getDummyObject());
-        Mockito.doReturn(expectedElement).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(expectedElement).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
         final String textInElement = "";
         Mockito.doReturn(textInElement).when(expectedElement).getText();
 
         // WHEN
-        AltUnityObject equalElement = spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, TIMEOUT, INTERVAL);
+        AltUnityObject equalElement = spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, enabled, TIMEOUT, INTERVAL);
 
         // THEN
         Assert.assertEquals("Expected and returned element are different.", expectedElement, equalElement);
@@ -135,44 +136,44 @@ public class WaitForElementsTests {
     public void waitForElementWithTextButWrongTextReceivedTest() {
         // GIVEN
         AltUnityObject expectedElement = Mockito.spy(getDummyObject());
-        Mockito.doReturn(expectedElement).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(expectedElement).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
         final String textThatIsNotInElement = "someRandomSampleText";
         Mockito.doReturn("text in element").when(expectedElement).getText();
 
         // WHEN
-        AltUnityObject equalElement = spyAltDriver.waitForElementWithText(elementName, textThatIsNotInElement, cameraName, TIMEOUT, INTERVAL);
+        AltUnityObject equalElement = spyAltDriver.waitForElementWithText(elementName, textThatIsNotInElement, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test(expected = WaitTimeOutException.class)
     public void waitForElementWithTextExceptionTest() {
         // GIVEN
-        Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString());
+        Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElement(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
         String testInElement = "testInElement";
         final String textInElement = "textInElement";
 
         // WHEN
-        spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementWithText(elementName, textInElement, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test(expected = WaitTimeOutException.class)
     public void waitForElementWhereNameContainsNullIsReturnedTest() {
         // GIVEN
-        Mockito.doReturn(null).when(spyAltDriver).findElementWhereNameContains(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(null).when(spyAltDriver).findElementWhereNameContains(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
 
         // WHEN
-        spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test
     public void waitForElementWhereNameContainsTest() {
         // GIVEN
         AltUnityObject expectedElement = Mockito.spy(getDummyObject());
-        Mockito.doReturn(expectedElement).when(spyAltDriver).findElementWhereNameContains(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(expectedElement).when(spyAltDriver).findElementWhereNameContains(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
         final String textInElement = "";
         Mockito.doReturn(textInElement).when(expectedElement).getText();
 
         // WHEN
-        AltUnityObject equalElement = spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, TIMEOUT, INTERVAL);
+        AltUnityObject equalElement = spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, enabled, TIMEOUT, INTERVAL);
 
         // THEN
         Assert.assertEquals("Expected and returned element are different.", expectedElement, equalElement);
@@ -181,10 +182,10 @@ public class WaitForElementsTests {
     @Test(expected = WaitTimeOutException.class)
     public void waitForElementWhereNameContainsExceptionTest() {
         // GIVEN
-        Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElementWhereNameContains(Mockito.anyString(), Mockito.anyString());
+        Mockito.doThrow(AltUnityException.class).when(spyAltDriver).findElementWhereNameContains(Mockito.anyString(), Mockito.anyString(),Mockito.anyBoolean());
 
         // WHEN
-        spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, TIMEOUT, INTERVAL);
+        spyAltDriver.waitForElementWhereNameContains(elementName, cameraName, enabled, TIMEOUT, INTERVAL);
     }
 
     @Test(expected = WaitTimeOutException.class)

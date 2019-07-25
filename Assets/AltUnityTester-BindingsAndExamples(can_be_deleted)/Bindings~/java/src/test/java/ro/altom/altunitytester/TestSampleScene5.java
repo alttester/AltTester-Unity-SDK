@@ -86,13 +86,13 @@ public class TestSampleScene5 {
 
         AltUnityObject[] stars = altUnityDriver.findElementsWhereNameContains("Star");
         assertEquals(1, stars.length);
-
-        altUnityDriver.moveMouse(800, 400, 1);
+        AltUnityObject player=altUnityDriver.findElement("Player1","Player2");
+        altUnityDriver.moveMouse(player.x, player.y+500, 1);
         Thread.sleep(1500);
 
-        altUnityDriver.pressKey("Mouse0",1, 1);
-        altUnityDriver.moveMouseAndWait(800, 200, 1);
-        altUnityDriver.pressKeyAndWait("Mouse0",1, 1);
+        altUnityDriver.pressKey("Mouse0", 1,1);
+        altUnityDriver.moveMouseAndWait(player.x, player.y-500, 1);
+        altUnityDriver.pressKeyAndWait("Mouse0", 1,1);
 
 
         stars = altUnityDriver.findElementsWhereNameContains("Star");

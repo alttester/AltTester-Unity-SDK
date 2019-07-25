@@ -64,6 +64,11 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.find_element_where_name_contains('Pla')
 
+    # Fix in issue 184
+    # def test_find_disabled_element_where_name_contains(self):
+    #     self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+    #     self.altdriver.find_element_where_name_contains('Cube',enabled=False)
+
     def test_find_element_by_name_and_parent(self):
         capsule_element = self.altdriver.find_element('Canvas/CapsuleInfo')
         assert capsule_element.name == 'CapsuleInfo'
