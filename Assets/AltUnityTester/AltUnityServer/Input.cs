@@ -1,4 +1,4 @@
-﻿//#if ALTUNITYTESTER
+﻿#if ALTUNITYTESTER
 
 using Assets.AltUnityTester.AltUnityDriver;
 using System.Linq;
@@ -935,4 +935,4 @@ public class KeyStructure
     
 }
 
-//#endif
+#endif

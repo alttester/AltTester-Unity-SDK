@@ -3,9 +3,8 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -22,11 +21,11 @@ MonoBehaviour:
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 59
+    _testCaseCount: 63
     _foldOut: 0
     _testResultMessage: 
   - _selected: 0
@@ -522,8 +521,16 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 3
+    _testCaseCount: 6
     _foldOut: 1
+    _testResultMessage: 
+  - _selected: 0
+    _testName: TestScene5.TestButton
+    _status: 0
+    _isSuite: 0
+    _parentName: TestScene5
+    _testCaseCount: 1
+    _foldOut: 0
     _testResultMessage: 
   - _selected: 0
     _testName: TestScene5.TestCameraMovement
@@ -542,6 +549,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: Passed in 5.3470793
   - _selected: 0
+    _testName: TestScene5.TestKeyboardPress
+    _status: 0
+    _isSuite: 0
+    _parentName: TestScene5
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+  - _selected: 0
     _testName: TestScene5.TestMovementCube
     _status: 1
     _isSuite: 0
@@ -549,6 +564,14 @@ MonoBehaviour:
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: Passed in 3.2249434
+  - _selected: 0
+    _testName: TestScene5.TestPowerJoystick
+    _status: 0
+    _isSuite: 0
+    _parentName: TestScene5
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
   Scenes:
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene

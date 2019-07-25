@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Assets.AltUnityTester.AltUnityDriver
 {
-   public class AltUnityException:Exception
+   public class AltUnityException: System.Exception
     {
         public AltUnityException()
         {
