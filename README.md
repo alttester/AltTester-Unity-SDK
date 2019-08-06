@@ -34,8 +34,8 @@ https://gitter.im/AltUnityTester/Lobby
    - [Keyboard and Mouse](#keyboard-and-mouse)
 
 Other Bindings:
-   - [Python](https://gitlab.com/altom/altunitytester/tree/master/Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/python)
-   - [Java](https://gitlab.com/altom/altunitytester/tree/master/Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings/java)
+   - [Python](https://gitlab.com/altom/altunity/altunitytester/tree/master/Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python)
+   - [Java](https://gitlab.com/altom/altunity/altunitytester/tree/master/Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java)
 
 ## Setup
 
