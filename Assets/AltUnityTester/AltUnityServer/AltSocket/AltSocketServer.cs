@@ -42,7 +42,6 @@ public class AltSocketServer {
     protected readonly int portNumber;
     protected readonly System.Net.IPEndPoint localEndPoint;
     protected readonly int maxClients;
-
     public int PortNumber {
         get {
             return portNumber;

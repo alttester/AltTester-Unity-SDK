@@ -3,6 +3,8 @@
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
 
+    public UnityEngine.GameObject AltUnityPopUp;
+    public UnityEngine.UI.Image AltUnityIcon;
 
     private static AltUnityRunner _altUnityRunner;
     private UnityEngine.Vector3 _position;
@@ -38,6 +40,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     public string requestSeparatorString=";";
     public string requestEndingString="&";
+
+    
 
     private static AltResponseQueue _responseQueue;
 
@@ -1410,9 +1414,31 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             handler.SendResponse(errorCouldNotPerformOperationMessage);
         });
     }
+    public void IconPressed()
+    {
+        _socketServer.Cleanup();
+        _socketServer.StartListeningForConnections();
+        AltUnityPopUp.SetActive(true);
+    }
 
     void Update()
     {
+        if (_socketServer.ClientCount!=0)
+        {
+            AltUnityPopUp.SetActive(false);
+        }
+        else
+        {
+            AltUnityPopUp.SetActive(true);
+        }
+        if (_socketServer.IsStarted())
+        {
+            AltUnityIcon.color = UnityEngine.Color.white;
+        }
+        else
+        {
+            AltUnityIcon.color = UnityEngine.Color.red;
+        }
         _responseQueue.Cycle();
     }
 
