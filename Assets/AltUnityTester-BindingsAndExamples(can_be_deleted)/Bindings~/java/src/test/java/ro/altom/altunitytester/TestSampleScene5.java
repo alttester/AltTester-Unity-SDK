@@ -32,27 +32,21 @@ public class TestSampleScene5 {
 
     @Before
     public void loadLevel() throws Exception {
-        altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
-    }
-
-    @Test
-    public void testGetCurrentScene() throws Exception {
-        assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
+        altUnityDriver.loadScene("Scene 5 Keyboard Input");
     }
 
 
     @Test
     public void TestMovementCube() throws InterruptedException {
-        altUnityDriver.loadScene("Scene 5 Keyboard Input");
 
 
-        AltUnityObject cube = altUnityDriver.findElement("Player1");
+        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
         Vec3f cubeInitialPostion = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
         altUnityDriver.scrollMouse(30, 20);
         altUnityDriver.pressKey("K",1, 2);
         Thread.sleep(2000);
-        cube = altUnityDriver.findElement("Player1");
-        altUnityDriver.pressKeyAndWait("O",1, 1);
+        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
+        altUnityDriver.pressKeyAndWait("O", 1,1);
 
         Vec3f cubeFinalPosition = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
 
@@ -64,15 +58,14 @@ public class TestSampleScene5 {
     @Test
     //Test Keyboard button press
     public void TestCameraMovement() throws InterruptedException {
-        altUnityDriver.loadScene("Scene 5 Keyboard Input");
 
 
-        AltUnityObject cube = altUnityDriver.findElement("Player1");
+        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
         Vec3f cubeInitialPostion = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
 
         altUnityDriver.pressKey("W",1, 2);
         Thread.sleep(2000);
-        cube = altUnityDriver.findElement("Player1");
+        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
         Vec3f cubeFinalPosition = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
 
         assertNotEquals(cubeInitialPostion, cubeFinalPosition);
@@ -82,9 +75,8 @@ public class TestSampleScene5 {
     @Test
     //Testing mouse movement and clicking
     public void TestCreatingStars() throws InterruptedException {
-        altUnityDriver.loadScene("Scene 5 Keyboard Input");
 
-        AltUnityObject[] stars = altUnityDriver.findElementsWhereNameContains("Star");
+        AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
         assertEquals(1, stars.length);
         AltUnityObject player=altUnityDriver.findElement("Player1","Player2");
         altUnityDriver.moveMouse(player.x, player.y+500, 1);
@@ -95,9 +87,8 @@ public class TestSampleScene5 {
         altUnityDriver.pressKeyAndWait("Mouse0", 1,1);
 
 
-        stars = altUnityDriver.findElementsWhereNameContains("Star");
+        stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
         assertEquals(3, stars.length);
-
 
     }
 

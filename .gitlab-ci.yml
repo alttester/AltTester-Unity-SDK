@@ -58,6 +58,7 @@ run-python-android-tests:
         - python3 -m pip install Appium-Python-Client
         - python3 -m pip uninstall --yes altunityrunner || true
         - python3 -m pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
+        - python3 -m pip install Deprecated
         - sleep 30
         - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_bindings_tests.py"
 
@@ -140,6 +141,7 @@ run-python-appium-android-tests:
         - pip install Appium-Python-Client
         - pip uninstall --yes altunityrunner || true
         - pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
+        - pip install Deprecated
         - sleep 30
         - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_appium_tests.py"
         # - killall node || true

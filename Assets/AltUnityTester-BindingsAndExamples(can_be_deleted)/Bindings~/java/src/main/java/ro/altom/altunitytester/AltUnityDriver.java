@@ -9,6 +9,9 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Set;
+
+import static ro.altom.altunitytester.AltUnityDriver.By.TAG;
 
 @Slf4j
 public class AltUnityDriver {
@@ -368,7 +371,93 @@ public class AltUnityDriver {
         }
         handleErrors(data);
     }
+    public AltUnityObject findObject(By by,String value,String cameraName,boolean enabled){
+        if(enabled && by==By.NAME){
+            send(CreateCommand("findActiveObjectByName", value, cameraName, String.valueOf(enabled)));
+        }else{
+            String path= SetPath(by,value);
+            send(CreateCommand("findObject", path, cameraName, String.valueOf(enabled)));
+        }
 
+        String data = recvall();
+        if (!data.contains("error:")) {
+            return new Gson().fromJson(data, AltUnityObject.class);
+        }
+        handleErrors(data);
+        return null;
+    }
+    public AltUnityObject findObject(By by,String value,boolean enabled){
+        return findObject(by,value,"",enabled);
+    }
+    public AltUnityObject findObject(By by,String value,String cameraName){
+        return findObject(by,value,cameraName,true);
+    }
+    public AltUnityObject findObject(By by,String value){
+        return findObject(by,value,"",true);
+    }
+
+    public AltUnityObject findObjectWhichContains(By by,String value,String cameraName,boolean enabled){
+        String path= SetPathContains(by,value);
+        send(CreateCommand("findObject", path, cameraName, String.valueOf(enabled)));
+        String data = recvall();
+        if (!data.contains("error:")) {
+            return new Gson().fromJson(data, AltUnityObject.class);
+        }
+        handleErrors(data);
+        return null;
+    }
+    public AltUnityObject findObjectWhichContains(By by,String value,boolean enabled){
+        return findObjectWhichContains(by,value,"",enabled);
+    }
+    public AltUnityObject findObjectWhichContains(By by,String value,String cameraName){
+        return findObjectWhichContains(by,value,cameraName,true);
+    }
+    public AltUnityObject findObjectWhichContains(By by,String value){
+        return findObjectWhichContains(by,value,"",true);
+    }
+
+    public AltUnityObject[] findObjects(By by,String value, String cameraName, boolean enabled) {
+        String path=SetPath(by,value);
+        send(CreateCommand("findObjects", path, cameraName, String.valueOf(enabled)));
+        String data = recvall();
+        if (!data.contains("error:")) {
+            return new Gson().fromJson(data, AltUnityObject[].class);
+        }
+        handleErrors(data);
+        return new AltUnityObject[]{};
+    }
+    public AltUnityObject[] findObjects(By by,String value, String cameraName) {
+        return findObjects(by,value,cameraName,true);
+    }
+    public AltUnityObject[] findObjects(By by,String value, boolean enabled) {
+        return  findObjects(by,value,"",enabled);
+    }
+    public AltUnityObject[] findObjects(By by,String value) {
+        return findObjects(by,value,"",true);
+    }
+
+    public AltUnityObject[] findObjectsWhichContains(By by,String value, String cameraName, boolean enabled) {
+        String path=SetPathContains(by,value);
+        send(CreateCommand("findObjects", path, cameraName, String.valueOf(enabled)));
+        String data = recvall();
+        if (!data.contains("error:")) {
+            return new Gson().fromJson(data, AltUnityObject[].class);
+        }
+        handleErrors(data);
+        return new AltUnityObject[]{};
+    }
+    public AltUnityObject[] findObjectsWhichContains(By by,String value, String cameraName) {
+        return findObjectsWhichContains(by,value,cameraName,true);
+    }
+    public AltUnityObject[] findObjectsWhichContains(By by,String value, boolean enabled) {
+        return  findObjectsWhichContains(by,value,"",enabled);
+    }
+    public AltUnityObject[] findObjectsWhichContains(By by,String value) {
+        return findObjectsWhichContains(by,value,"",true);
+    }
+
+
+    @Deprecated
     public AltUnityObject findElementWhereNameContains(String name, String cameraName,boolean enabled) {
         send(CreateCommand("findObjectWhereNameContains", name, cameraName, String.valueOf(enabled)));
         String data = recvall();
@@ -379,19 +468,21 @@ public class AltUnityDriver {
         return null;
     }
 
+    @Deprecated
     public AltUnityObject findElementWhereNameContains(String name, String cameraName) {
         return findElementWhereNameContains(name, cameraName, true);
     }
+    @Deprecated
     public AltUnityObject findElementWhereNameContains(String name, boolean enabled) {
         return findElementWhereNameContains(name, "", enabled);
     }
-
+    @Deprecated
     public AltUnityObject findElementWhereNameContains(String name) {
         return findElementWhereNameContains(name, "");
     }
 
     public AltUnityObject[] getAllElements(String cameraName,boolean enabled) {
-        send(CreateCommand("findAllObjects", cameraName, String.valueOf(enabled)));
+        send(CreateCommand("findObjects", "//*",cameraName, String.valueOf(enabled)));
         String data = recvall();
         if (!data.contains("error:")) {
             return (new Gson().fromJson(data, AltUnityObject[].class));
@@ -411,7 +502,7 @@ public class AltUnityDriver {
     public AltUnityObject[] getAllElements() throws Exception {
         return getAllElements("",true);
     }
-
+    @Deprecated
     public AltUnityObject findElement(String name, String cameraName, boolean enabled) {
         send(CreateCommand("findObjectByName", name, cameraName, String.valueOf(enabled)));
         String data = recvall();
@@ -421,17 +512,20 @@ public class AltUnityDriver {
         handleErrors(data);
         return null;
     }
-
+    @Deprecated
     public AltUnityObject findElement(String name,boolean enabled) {
         return findElement(name, "",enabled);
     }
+    @Deprecated
     public AltUnityObject findElement(String name,String cameraName) {
         return findElement(name, cameraName,true);
     }
+    @Deprecated
     public AltUnityObject findElement(String name) {
         return findElement(name, "",true);
     }
 
+    @Deprecated
     public AltUnityObject[] findElements(String name, String cameraName, boolean enabled) {
         send(CreateCommand("findObjectsByName", name, cameraName, String.valueOf(enabled)));
         String data = recvall();
@@ -442,16 +536,20 @@ public class AltUnityDriver {
         return new AltUnityObject[]{};
     }
 
+    @Deprecated
     public AltUnityObject[] findElements(String name) {
         return findElements(name, "",true);
     }
+    @Deprecated
     public AltUnityObject[] findElements(String name, String cameraName) {
         return findElements(name, cameraName,true);
     }
+    @Deprecated
     public AltUnityObject[] findElements(String name, boolean enabled) {
         return findElements(name, "",enabled);
     }
 
+    @Deprecated
     public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName, boolean enabled) {
         send(CreateCommand("findObjectsWhereNameContains", name, cameraName, String.valueOf(enabled)));
         String data = recvall();
@@ -461,13 +559,16 @@ public class AltUnityDriver {
         handleErrors(data);
         return new AltUnityObject[]{};
     }
+    @Deprecated
     public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName) {
         return findElementsWhereNameContains(name,cameraName,true);
     }
+    @Deprecated
     public AltUnityObject[] findElementsWhereNameContains(String name,boolean enabled) {
         return findElementsWhereNameContains(name,"",enabled);
 
     }
+    @Deprecated
     public AltUnityObject[] findElementsWhereNameContains(String name) {
         return findElementsWhereNameContains(name,"",true);
 
@@ -503,7 +604,7 @@ public class AltUnityDriver {
     public String waitForCurrentSceneToBe(String sceneName) {
         return waitForCurrentSceneToBe(sceneName, 20, 0.5);
     }
-
+    @Deprecated
     public AltUnityObject waitForElementWhereNameContains(String name, String cameraName,boolean enabled, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
@@ -523,16 +624,19 @@ public class AltUnityDriver {
         throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
     }
 
+    @Deprecated
     public AltUnityObject waitForElementWhereNameContains(String name) {
         return waitForElementWhereNameContains(name, "",true, 20, 0.5);
     }
+    @Deprecated
     public AltUnityObject waitForElementWhereNameContains(String name,boolean enabled) {
         return waitForElementWhereNameContains(name, "",enabled, 20, 0.5);
     }
+    @Deprecated
     public AltUnityObject waitForElementWhereNameContains(String name,String cameraName) {
         return waitForElementWhereNameContains(name, cameraName,true, 20, 0.5);
     }
-
+    @Deprecated
     public void waitForElementToNotBePresent(String name, String cameraName,boolean enabled, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
@@ -569,17 +673,132 @@ public class AltUnityDriver {
             log.warn("Could not sleep for " + timeToSleep + " ms");
         }
     }
+    public AltUnityObject waitForObject(By by,String value, String cameraName,boolean enabled, double timeout, double interval) {
+        double time = 0;
+        AltUnityObject altElement = null;
+        while (time < timeout) {
+            //log.debug("Waiting for element where name contains " + name + "....");
+            try {
+                altElement = findObject(by,value, cameraName,enabled);
+                if (altElement != null) {
+                    return altElement;
+                }
+            } catch (Exception e) {
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
+            }
+            sleepFor(interval);
+            time += interval;
+        }
+        throw new WaitTimeOutException("Element " + value + " still not found after " + timeout + " seconds");
+    }
+    public AltUnityObject waitForObject(By by,String value) {
+        return waitForObject(by,value,"",true,2,0.5);
+    }
+    public AltUnityObject waitForObjectWithText(By by,String value, String text, String cameraName,boolean enabled, double timeout, double interval) {
+        double time = 0;
+        AltUnityObject altElement = null;
+        while (time < timeout) {
+            //log.debug("Waiting for element " + name + " to have text [" + text + "]");
+            try {
+                altElement = findObject(by,value, cameraName);
+                if (altElement != null && altElement.getText().equals(text)) {
+                    return altElement;
+                }
+            } catch (AltUnityException e) {
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
+            }
+            time += interval;
+            sleepFor(interval);
+        }
+        throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
+    }
+    public AltUnityObject waitForObjectWithText(By by,String value, String text) {
+        return waitForObjectWithText(by,value,text,"",true,2,0.5);
+    }
 
+    public void waitForObjectToNotBePresent(By by,String value, String cameraName,boolean enabled, double timeout, double interval) {
+        double time = 0;
+        AltUnityObject altElement = null;
+        while (time <= timeout) {
+            //log.debug("Waiting for element " + name + " not to be present");
+            try {
+                altElement = findObject(by,value, cameraName);
+                if (altElement == null) {
+                    return;
+                }
+            } catch (Exception e) {
+                log.warn(e.getLocalizedMessage());
+                break;
+            }
+            sleepFor(interval);
+            time += interval;
+        }
+
+        if (altElement != null) {
+            throw new AltUnityException("Element " + value + " still found after " + timeout + " seconds");
+        }
+    }
+    public void waitForObjectToNotBePresent(By by,String value) {
+        waitForObjectToNotBePresent(by,value,"",true,30,0.5);
+    }
+
+    public AltUnityObject waitForObjectWhichContains(By by,String value, String cameraName,boolean enabled, double timeout, double interval) {
+        double time = 0;
+        AltUnityObject altElement = null;
+        while (time < timeout) {
+            //log.debug("Waiting for element where name contains " + name + "....");
+            try {
+                altElement = findObjectWhichContains(by,value, cameraName,enabled);
+                if (altElement != null) {
+                    return altElement;
+                }
+            } catch (Exception e) {
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
+            }
+            sleepFor(interval);
+            time += interval;
+        }
+        throw new WaitTimeOutException("Element " + value + " still not found after " + timeout + " seconds");
+    }
+
+    public AltUnityObject waitForObjectWhichContains(By by,String value) {
+        return waitForObjectWhichContains(by,value,"",true,30,0.5);
+    }
+    @Deprecated
+    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, double timeout, double interval) {
+        double time = 0;
+        AltUnityObject altElement = null;
+        while (time < timeout) {
+            //log.debug("Waiting for element where name contains " + name + "....");
+            try {
+                altElement = findElementWhereNameContains(name, cameraName);
+                if (altElement != null) {
+                    return altElement;
+                }
+            } catch (Exception e) {
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
+            }
+            sleepFor(interval);
+            time += interval;
+        }
+        throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
+    }
+
+
+    @Deprecated
     public void waitForElementToNotBePresent(String name) {
         waitForElementToNotBePresent(name, "",true, 20, 0.5);
     }
+    @Deprecated
     public void waitForElementToNotBePresent(String name,String cameraName) {
         waitForElementToNotBePresent(name, cameraName,true, 20, 0.5);
     }
+    @Deprecated
     public void waitForElementToNotBePresent(String name, boolean enabled) {
         waitForElementToNotBePresent(name, "",enabled, 20, 0.5);
     }
 
+    @Deprecated
     public AltUnityObject waitForElement(String name, String cameraName,boolean enabled, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
@@ -601,16 +820,19 @@ public class AltUnityDriver {
         throw new WaitTimeOutException("Element " + name + " not loaded after " + timeout + " seconds");
     }
 
+    @Deprecated
     public AltUnityObject waitForElement(String name) {
         return waitForElement(name, "",true, 20, 0.5);
     }
+    @Deprecated
     public AltUnityObject waitForElement(String name,String cameraName) {
         return waitForElement(name, cameraName,true, 20, 0.5);
     }
+    @Deprecated
     public AltUnityObject waitForElement(String name,boolean enabled) {
         return waitForElement(name, "",enabled, 20, 0.5);
     }
-
+    @Deprecated
     public AltUnityObject waitForElementWithText(String name, String text, String cameraName,boolean enabled, double timeout, double interval) {
         double time = 0;
         AltUnityObject altElement = null;
@@ -630,16 +852,20 @@ public class AltUnityDriver {
         throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
 
+    @Deprecated
     public AltUnityObject waitForElementWithText(String name, String text) {
         return waitForElementWithText(name, text, "",true, 20, 0.5);
     }
+    @Deprecated
     public AltUnityObject waitForElementWithText(String name, String text,String cameraName) {
         return waitForElementWithText(name, text, cameraName,true, 20, 0.5);
     }
+    @Deprecated
     public AltUnityObject waitForElementWithText(String name, String text,boolean enabled) {
         return waitForElementWithText(name, text, "",enabled, 20, 0.5);
     }
 
+    @Deprecated
     public AltUnityObject findElementByComponent(String componentName,String assemblyName, String cameraName,boolean enabled) {
         send(CreateCommand("findObjectByComponent",assemblyName, componentName, cameraName, String.valueOf(enabled)));
         String data = recvall();
@@ -650,18 +876,22 @@ public class AltUnityDriver {
         return null;
     }
 
+    @Deprecated
     public AltUnityObject findElementByComponent(String componentName) {
         return findElementByComponent(componentName, "","",true);
     }
 
+    @Deprecated
     public AltUnityObject findElementByComponent(String componentName, String cameraName) {
         return findElementByComponent(componentName,"", cameraName,true);
     }
 
+    @Deprecated
     public AltUnityObject findElementByComponent(String componentName,String assemblyName, boolean enabled) {
         return findElementByComponent(componentName, assemblyName,"", enabled);
     }
 
+    @Deprecated
     public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName, boolean enabled) {
         send(CreateCommand("findObjectsByComponent",assemblyName, componentName, cameraName, String.valueOf(enabled)));
         String data = recvall();
@@ -672,10 +902,12 @@ public class AltUnityDriver {
         return new AltUnityObject[]{};
     }
 
+    @Deprecated
     public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName ) {
         return findElementsByComponent(componentName, assemblyName,"",true);
     }
 
+    @Deprecated
     public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName, boolean enabled) {
         return findElementsByComponent(componentName, assemblyName,"", enabled);
     }
@@ -774,5 +1006,63 @@ public class AltUnityDriver {
             log.warn("AltUnityServer - adb probably not installed\n" + e);
         }
     }
+    public enum By
+    {
+        TAG,LAYER,NAME,COMPONENT,PATH,ID
+    }
+    private String SetPath(By by, String value)
+    {
+        String path = "";
+        switch (by)
+        {
+            case TAG:
+                path = "//*[@tag=" + value+"]";
+                break;
+            case LAYER:
+                path = "//*[@layer=" + value+"]";
+                break;
+            case NAME:
+                path = "//" + value;
+                break;
+            case COMPONENT:
+                path = "//*[@component=" + value+"]";
+                break;
+            case PATH:
+                path = value;
+                break;
+            case ID:
+                path = "//*[@id=" + value+"]";
+                break;
+        }
+        return path;
+    }
+    private String SetPathContains(By by, String value)
+    {
+        String path = "";
+        switch (by)
+        {
+            case TAG:
+                path = "//*[contains(@tag," + value + ")]";
+                break;
+            case LAYER:
+                path = "//*[contains(@layer," + value + ")]";
+                break;
+            case NAME:
+                path = "//*[contains(@name," + value+")]";
+                break;
+            case COMPONENT:
+                path = "//*[contains(@component," + value + ")]";
+                break;
+            case PATH:
+                path = value;
+                break;
+            case ID:
+                path = "//*[contains(@id," + value + ")]";
+                break;
+        }
+        return path;
+    }
+
+
 
 }

@@ -27,59 +27,59 @@ public class TestForScene3DragAndDrop  {
     [Test]
     public void MultipleDragAndDrop()
     {
-        var altElement1 = altUnityDriver.FindElement("Drag Image1");
-        var altElement2 = altUnityDriver.FindElement("Drop Box1");
+        var altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image1");
+        var altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Box1");
         altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
 
-        altElement1 = altUnityDriver.FindElement("Drag Image2");
-        altElement2 = altUnityDriver.FindElement("Drop Box2");
+        altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image2");
+        altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Box2");
         altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
 
-        altElement1 = altUnityDriver.FindElement("Drag Image3");
-        altElement2 = altUnityDriver.FindElement("Drop Box1");
+        altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image3");
+        altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Box1");
         altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
 
 
-        altElement1 = altUnityDriver.FindElement("Drag Image1");
-        altElement2 = altUnityDriver.FindElement("Drop Box1");
+        altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image1");
+        altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Box1");
         altUnityDriver.Swipe(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 3);
 
         Thread.Sleep(4000);
         
-        var imageSource = altUnityDriver.FindElement("Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-        var imageSourceDropZone= altUnityDriver.FindElement("Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+        var imageSource = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+        var imageSourceDropZone= altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         Assert.AreNotEqual(imageSource, imageSourceDropZone);
 
-         imageSource = altUnityDriver.FindElement("Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-         imageSourceDropZone = altUnityDriver.FindElement("Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+         imageSource = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+         imageSourceDropZone = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         Assert.AreNotEqual(imageSource, imageSourceDropZone);
        
     }
     [Test]
     public void MultipleDragAndDropWait()
     {
-        var altElement1 = altUnityDriver.FindElement("Drag Image1");
-        var altElement2 = altUnityDriver.FindElement("Drop Box1");
+        var altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image1");
+        var altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Box1");
         altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
 
-        altElement1 = altUnityDriver.FindElement("Drag Image2");
-        altElement2 = altUnityDriver.FindElement("Drop Box2");
+        altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image2");
+        altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Box2");
         altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
 
-        altElement1 = altUnityDriver.FindElement("Drag Image3");
-        altElement2 = altUnityDriver.FindElement("Drop Box1");
+        altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image3");
+        altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Box1");
         altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
 
 
-        altElement1 = altUnityDriver.FindElement("Drag Image1");
-        altElement2 = altUnityDriver.FindElement("Drop Box1");
+        altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image1");
+        altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Box1");
         altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 1);
-        var imageSource = altUnityDriver.FindElement("Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-        var imageSourceDropZone = altUnityDriver.FindElement("Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+        var imageSource = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+        var imageSourceDropZone = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         Assert.AreNotEqual(imageSource, imageSourceDropZone);
 
-        imageSource = altUnityDriver.FindElement("Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-        imageSourceDropZone = altUnityDriver.FindElement("Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+        imageSource = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+        imageSourceDropZone = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         Assert.AreNotEqual(imageSource, imageSourceDropZone);
 
     }
@@ -87,12 +87,12 @@ public class TestForScene3DragAndDrop  {
     [Test]
     public void TestPointerEnterAndExit()
     {
-        var altElement = altUnityDriver.FindElement("Drop Image");
+        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Image");
         var color1 = altElement.GetComponentProperty("DropMe", "highlightColor");
-        altUnityDriver.FindElement("Drop Image").PointerEnterObject();
+        altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Image").PointerEnterObject();
         var color2 = altElement.GetComponentProperty("DropMe", "highlightColor");
         Assert.AreNotEqual(color1,color2);
-        altUnityDriver.FindElement("Drop Image").PointerExitObject();
+        altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drop Image").PointerExitObject();
         var color3 = altElement.GetComponentProperty("DropMe", "highlightColor");
         Assert.AreNotEqual(color3, color2);
         Assert.AreEqual(color1,color3);

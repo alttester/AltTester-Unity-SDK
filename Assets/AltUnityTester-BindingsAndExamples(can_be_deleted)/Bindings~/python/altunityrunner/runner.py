@@ -4,9 +4,9 @@ import socket
 import subprocess
 import time
 import multiprocessing
-
+from enum import Enum
 from altunityrunner.altUnityExceptions import *
-
+from deprecated import deprecated
 BUFFER_SIZE = 1024
 
 class PlayerPrefKeyType(object):
@@ -14,6 +14,13 @@ class PlayerPrefKeyType(object):
     String = 2
     Float = 3
 
+class By(object):
+    NAME=1
+    TAG=2
+    LAYER=3
+    COMPONENT=4
+    ID=5
+    PATH=6
 
 class AltElement(object):
     def __init__(self, alt_unity_driver, appium_driver, json_data):
@@ -277,12 +284,50 @@ class AltrunUnityDriver(object):
  
     def get_all_elements(self,camera_name='',enabled=True):
         if enabled==True:
-            data = self.send_data(self.create_command('findAllObjects', camera_name ,'true'))
+            data = self.send_data(self.create_command('findAllObjects','//*', camera_name ,'true'))
         else:
-            data = self.send_data(self.create_command('findAllObjects', camera_name ,'false'))
+            data = self.send_data(self.create_command('findAllObjects','//*', camera_name ,'false'))
 
         return self.get_alt_elements(data)
 
+    def find_object(self,by,value,camera_name='',enabled=True):
+        path=self.set_path(by,value)
+        if enabled==True:
+            if by==By.NAME:
+                data= self.send_data(self.create_command('findActiveObjectByName', value , camera_name ,'true'))
+            else:
+                data = self.send_data(self.create_command('findObject', path , camera_name ,'true'))
+        else:
+            data = self.send_data(self.create_command('findObject', path , camera_name ,'false'))
+        return self.get_alt_element(data)
+    def find_object_which_contains(self,by,value,camera_name='',enabled=True):
+        path=self.set_path_contains(by,value)
+        if enabled==True:
+            data = self.send_data(self.create_command('findObject', path , camera_name ,'true'))
+        else:
+            data = self.send_data(self.create_command('findObject', path , camera_name ,'false'))
+        return self.get_alt_element(data)
+
+    def find_objects(self,by,value,camera_name='',enabled=True):
+        path=self.set_path(by,value)
+        if enabled==True:
+            data = self.send_data(self.create_command('findObjects', path , camera_name ,'true'))
+        else:
+            data = self.send_data(self.create_command('findObjects', path , camera_name ,'false'))
+        return self.get_alt_elements(data)
+    
+    def find_objects_which_contains(self,by,value,camera_name='',enabled=True):
+        path=self.set_path_contains(by,value)
+        if enabled==True:
+            data = self.send_data(self.create_command('findObjects', path , camera_name ,'true'))
+        else:
+            data = self.send_data(self.create_command('findObjects', path , camera_name ,'false'))
+        return self.get_alt_elements(data)
+
+
+
+    
+    @deprecated(version='1.4.0',reason="Use find_object_by_name instead")
     def find_element(self, name,camera_name='',enabled=True):
         if enabled==True:
             data = self.send_data(self.create_command('findObjectByName', name , camera_name ,'true'))
@@ -291,6 +336,7 @@ class AltrunUnityDriver(object):
 
         return self.get_alt_element(data)
 
+    @deprecated(version='1.4.0',reason="Use find_object_by_name_contains instead")
     def find_element_where_name_contains(self, name,camera_name='',enabled=True):
         if enabled==True:
             data = self.send_data(self.create_command('findObjectWhereNameContains', name , camera_name,'true' ))
@@ -298,6 +344,7 @@ class AltrunUnityDriver(object):
             data = self.send_data(self.create_command('findObjectWhereNameContains', name , camera_name,'false' ))
         return self.get_alt_element(data)
 
+    @deprecated(version='1.4.0',reason="Use find_objects_by_name instead")
     def find_elements(self, name,camera_name='',enabled=True):
         if enabled==True:
             data = self.send_data(self.create_command('findObjectsByName', name , camera_name ,'true'))
@@ -305,6 +352,7 @@ class AltrunUnityDriver(object):
             data = self.send_data(self.create_command('findObjectsByName', name , camera_name ,'false'))
         return self.get_alt_elements(data)        
 
+    @deprecated(version='1.4.0',reason="Use find_objects_by_name_contains instead")
     def find_elements_where_name_contains(self, name,camera_name='',enabled=True):
         if enabled==True:
             data = self.send_data(self.create_command('findObjectsWhereNameContains', name , camera_name ,'true'))
@@ -404,7 +452,7 @@ class AltrunUnityDriver(object):
         data = self.scroll_mouse(speed, duration)
         self.handle_errors(data)
         print('Wait for scroll mouse to finish')
-        time.sleep(duration_in_secs)
+        time.sleep(duration)
         action_in_progress = True
         while action_in_progress:
             action_finished = self.send_data(self.create_command('actionFinished'))
@@ -495,6 +543,7 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Scene ' + scene_name + ' not loaded after ' + str(timeout) + ' seconds')
         return current_scene
 
+    @deprecated(version='1.4.0',reason="Use wait_for_object instead")
     def wait_for_element(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
@@ -510,7 +559,7 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Element ' + name + ' not found after ' + str(timeout) + ' seconds')
         return alt_element
 
-
+    @deprecated(version='1.4.0',reason="Use wait_for_object_which_contains instead")
     def wait_for_element_where_name_contains(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
@@ -525,7 +574,8 @@ class AltrunUnityDriver(object):
         if t>=timeout:
             raise WaitTimeOutException('Element where name contains ' + name + ' not found after ' + str(timeout) + ' seconds')
         return alt_element
-    
+
+    @deprecated(version='1.4.0',reason="Use wait_for_object_to_not_be_present instead")
     def wait_for_element_to_not_be_present(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         while (t <= timeout):
@@ -539,6 +589,7 @@ class AltrunUnityDriver(object):
         if t>=timeout:
             raise WaitTimeOutException('Element ' + name + ' still found after ' + str(timeout) + ' seconds')
 
+    @deprecated(version='1.4.0',reason="Use wait_for_object_with_text instead")
     def wait_for_element_with_text(self, name, text,camera_name='', timeout=20, interval=0.5,enabled=True):
         t = 0
         alt_element = None
@@ -556,6 +607,69 @@ class AltrunUnityDriver(object):
             raise WaitTimeOutException('Element ' + name + ' should have text `' + text + '` but has `' + alt_element.get_text() + '` after ' + str(timeout) + ' seconds')
         return alt_element
 
+
+    def wait_for_object(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
+        t = 0
+        alt_element = None
+        while (t <= timeout):
+            try:
+                alt_element = self.find_object(by,value,camera_name,enabled)
+                break
+            except Exception:
+                print('Waiting for element ' + value + '...')
+                time.sleep(interval)
+                t += interval
+        if t>=timeout:
+            raise WaitTimeOutException('Element ' + value + ' not found after ' + str(timeout) + ' seconds')
+        return alt_element
+
+
+    def wait_for_object_which_contains(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
+        t = 0
+        alt_element = None
+        while (t <= timeout):
+            try:
+                alt_element = self.find_object_which_contains(by,value,camera_name,enabled)
+                break
+            except Exception:
+                print('Waiting for element where name contains ' + value + '...')
+                time.sleep(interval)
+                t += interval
+        if t>=timeout:
+            raise WaitTimeOutException('Element where name contains ' + value + ' not found after ' + str(timeout) + ' seconds')
+        return alt_element
+    
+    def wait_for_object_to_not_be_present(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
+        t = 0
+        while (t <= timeout):
+            try:
+                print('Waiting for element ' + value + ' to not be present...')
+                self.find_object(by,value,camera_name,enabled)
+                time.sleep(interval)
+                t += interval
+            except Exception:
+                break
+        if t>=timeout:
+            raise WaitTimeOutException('Element ' + value + ' still found after ' + str(timeout) + ' seconds')
+
+    def wait_for_object_with_text(self, by,value, text,camera_name='', timeout=20, interval=0.5,enabled=True):
+        t = 0
+        alt_element = None
+        while (t <= timeout):
+            try:
+                alt_element=self.find_object(value,camera_name,enabled)
+                if alt_element.get_text() == text:
+                    break
+                raise Exception('Not the wanted text')
+            except Exception:
+                print('Waiting for element ' + value + ' to have text ' + text)
+                time.sleep(interval)
+                t += interval
+        if t>=timeout:
+            raise WaitTimeOutException('Element ' + value + ' should have text `' + text + '` but has `' + alt_element.get_text() + '` after ' + str(timeout) + ' seconds')
+        return alt_element
+
+    @deprecated(version='1.4.0',reason="Use find_object_by_component instead")
     def find_element_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
         if enabled==True:
             data = self.send_data(self.create_command('findObjectByComponent',assembly_name, component_name , camera_name ,'true'))
@@ -563,6 +677,7 @@ class AltrunUnityDriver(object):
             data = self.send_data(self.create_command('findObjectByComponent',assembly_name, component_name , camera_name ,'false'))
         return self.get_alt_element(data)
 
+    @deprecated(version='1.4.0',reason="Use find_objects_by_component instead")
     def find_elements_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
         if enabled==True:
             data = self.send_data(self.create_command('findObjectsByComponent',assembly_name, component_name , camera_name ,'true'))
@@ -615,3 +730,32 @@ class AltrunUnityDriver(object):
         if 'error:notFound' in data:
             return None
         return self.get_alt_element(data)
+    
+    def set_path(self,by,value):
+        if by==By.TAG:
+            return "//*[@tag="+str(value)+"]"
+        if by==By.COMPONENT:
+            return "//*[@component="+str(value)+"]"
+        if by==By.LAYER:
+            return "//*[@layer="+str(value)+"]"
+        if by==By.NAME:
+            return "//"+str(value)
+        if by==By.ID:
+            return "//*[@id="+str(value)+"]"
+        if by==By.PATH:
+            return value
+
+    def set_path_contains(self,by,value):
+        if by==By.TAG:
+            return "//*[contains(@tag,"+str(value)+")]"
+        if by==By.COMPONENT:
+            return "//*[contains(@component,"+str(value)+")]"
+        if by==By.LAYER:
+            return "//*[contains(@layer,"+str(value)+")]"
+        if by==By.NAME:
+            return "//*[contains(@name,"+str(value)+")]"
+        if by==By.ID:
+            return "//*[contains(@id,"+str(value)+")]"
+        if by==By.PATH:
+            return value
+    

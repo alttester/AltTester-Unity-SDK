@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
@@ -65,6 +66,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         AltUnityEvents.Instance.FindObjectsWhereNameContains.AddListener(FindObjectsWhereNameContains);
         AltUnityEvents.Instance.FindObjectsByComponent.AddListener(FindObjectsByComponent);
 
+        AltUnityEvents.Instance.FindObject.AddListener(FindObject);
+        AltUnityEvents.Instance.FindObjects.AddListener(FindObjects);
+        AltUnityEvents.Instance.FindActiveObjectByName.AddListener(FindActiveObjectByName);
+               
         AltUnityEvents.Instance.GetAllObjects.AddListener(GetAllObjects);
         AltUnityEvents.Instance.GetCurrentScene.AddListener(GetCurrentScene);
 
@@ -344,7 +349,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "dragObject":
                 try
                 {
-                    UnityEngine.Debug.Log("Drag object");
+                    UnityEngine.Debug.Log("Drag object: "+pieces[2]);
                     UnityEngine.Vector2 positionVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[2]);
                     AltUnityEvents.Instance.DragObject.Invoke(positionVector2, altUnityObject, handler);
@@ -358,7 +363,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "dropObject":
                 try
                 {
-                    UnityEngine.Debug.Log("Drop object");
+                    UnityEngine.Debug.Log("Drop object: "+pieces[2]);
                     UnityEngine.Vector2 positionDropVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[2]);
                     AltUnityEvents.Instance.DropObject.Invoke(positionDropVector2, altUnityObject, handler);
@@ -372,7 +377,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "pointerUpFromObject":
                 try
                 {
-                    UnityEngine.Debug.Log("PointerUp");
+                    UnityEngine.Debug.Log("PointerUp object: "+pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     AltUnityEvents.Instance.PointerUp.Invoke(altUnityObject, handler);
                 }
@@ -385,7 +390,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "pointerDownFromObject":
                 try
                 {
-                    UnityEngine.Debug.Log("PointerDown");
+                    UnityEngine.Debug.Log("PointerDown object: "+pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     AltUnityEvents.Instance.PointerDown.Invoke(altUnityObject, handler);
                 }
@@ -399,7 +404,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "pointerEnterObject":
                 try
                 {
-                    UnityEngine.Debug.Log("PointerEnter");
+                    UnityEngine.Debug.Log("PointerEnter object: "+pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     AltUnityEvents.Instance.PointerEnter.Invoke(altUnityObject, handler);
                 }
@@ -412,7 +417,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "pointerExitObject":
                 try
                 {
-                    UnityEngine.Debug.Log("PointerExit");
+                    UnityEngine.Debug.Log("PointerExit object: "+pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     AltUnityEvents.Instance.PointerExit.Invoke(altUnityObject, handler);
                 }
@@ -426,7 +431,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "tilt":
                 try
                 {
-                    UnityEngine.Debug.Log("Tilt");
+                    UnityEngine.Debug.Log("Tilt device with: "+pieces[1]);
                     UnityEngine.Vector3 vector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector3>(pieces[1]);
                     AltUnityEvents.Instance.Tilt.Invoke(vector3, handler);
                 }
@@ -441,7 +446,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "movingTouch":
                 try
                 {
-                    UnityEngine.Debug.Log("Touch");
+                    UnityEngine.Debug.Log("Touch at: "+pieces[1]);
                     UnityEngine.Vector2 start2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     UnityEngine.Vector2 end2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[2]);
                     AltUnityEvents.Instance.SetMovingTouch.Invoke(start2, end2, pieces[3], handler);
@@ -453,11 +458,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 }
                 break;
             case "loadScene":
-                UnityEngine.Debug.Log("LoadScene");
+                UnityEngine.Debug.Log("LoadScene "+pieces[1]);
                 AltUnityEvents.Instance.LoadScene.Invoke(pieces[1], handler);
                 break;
             case "setTimeScale":
-                UnityEngine.Debug.Log("SetTimeScale");
+                UnityEngine.Debug.Log("SetTimeScale at: "+pieces[1]);
                 float timeScale = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);
                 AltUnityEvents.Instance.SetTimeScale.Invoke(timeScale, handler);
                 break;
@@ -470,13 +475,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 AltUnityEvents.Instance.DeletePlayerPref.Invoke(handler);
                 break;
             case "deleteKeyPlayerPref":
-                UnityEngine.Debug.Log("deleteKeyPlayerPref");
+                UnityEngine.Debug.Log("deleteKeyPlayerPref for: "+pieces[1]);
                 AltUnityEvents.Instance.DeleteKeyPlayerPref.Invoke(pieces[1], handler);
                 break;
             case "setKeyPlayerPref":
                 try
                 {
-                    UnityEngine.Debug.Log("setKeyPlayerPref");
+                    UnityEngine.Debug.Log("setKeyPlayerPref for: "+pieces[1]);
                     option = (PLayerPrefKeyType)System.Enum.Parse(typeof(PLayerPrefKeyType), pieces[3]);
                     AltUnityEvents.Instance.SetKeyPlayerPref.Invoke(pieces[1], pieces[2], option, handler);
                 }
@@ -489,7 +494,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "getKeyPlayerPref":
                 try
                 {
-                    UnityEngine.Debug.Log("getKeyPlayerPref");
+                    UnityEngine.Debug.Log("getKeyPlayerPref for: "+pieces[1]);
                     option = (PLayerPrefKeyType)System.Enum.Parse(typeof(PLayerPrefKeyType), pieces[2]);
                     AltUnityEvents.Instance.GetKeyPlayerPref.Invoke(pieces[1], option, handler);
                 }
@@ -532,36 +537,51 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 AltUnityEvents.Instance.GetScreenshot.Invoke(size, handler);
                 break;
             case "hightlightObjectScreenshot":
-                UnityEngine.Debug.Log("HightlightObject");
+                UnityEngine.Debug.Log("HightlightObject wiht id: "+pieces[1]);
                 var id = System.Convert.ToInt32(pieces[1]);
                 size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
                 AltUnityEvents.Instance.HighlightObjectScreenshot.Invoke(id, pieces[2], size, handler);
                 break;
             case "hightlightObjectFromCoordinatesScreenshot":
-                UnityEngine.Debug.Log("HightlightObject");
+                UnityEngine.Debug.Log("HightlightObject with coordinates: "+pieces[1]);
                 var coordinates = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                 size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
                 AltUnityEvents.Instance.HighlightObjectFromCoordinates.Invoke(coordinates, pieces[2], size, handler);
                 break;
             case "pressKeyboardKey":
-                UnityEngine.Debug.Log("pressKeyboardKey");
-                var piece1 = pieces[1];
-                UnityEngine.KeyCode keycode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), piece1);
+                UnityEngine.Debug.Log("pressKeyboardKey: "+pieces[1]);
+                var piece = pieces[1];
+                UnityEngine.KeyCode keycode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), piece);
                 float power = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
                 float duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[3]);
                 AltUnityEvents.Instance.HoldButton.Invoke(keycode,power, duration, handler);
                 break;
             case "moveMouse":
-                UnityEngine.Debug.Log("moveMouse");
+                UnityEngine.Debug.Log("moveMouse to: "+pieces[1]);
                 UnityEngine.Vector2 location = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                 duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
                 AltUnityEvents.Instance.MoveMouse.Invoke(location, duration, handler);
                 break;
             case "scrollMouse":
-                UnityEngine.Debug.Log("scrollMouse");
+                UnityEngine.Debug.Log("scrollMouse with: "+pieces[1]);
                 var scrollValue = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);
                 duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
                 AltUnityEvents.Instance.Scroll.Invoke(scrollValue, duration, handler);
+                break;
+            case "findObject":
+                UnityEngine.Debug.Log("findObject for: "+pieces[1]);
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                AltUnityEvents.Instance.FindObject.Invoke(methodParameters, handler);
+                break;
+            case "findObjects":
+                UnityEngine.Debug.Log("findObjects for: "+pieces[1]);
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                AltUnityEvents.Instance.FindObjects.Invoke(methodParameters, handler);
+                break;
+            case "findActiveObjectByName":
+                UnityEngine.Debug.Log("findActiveObjectByName for: "+pieces[1]);
+                methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                AltUnityEvents.Instance.FindActiveObjectByName.Invoke(methodParameters, handler);
                 break;
 
             default:
@@ -595,14 +615,14 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         UnityEngine.GameObject foundGameObject = null;
         for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
         {
-            foreach (UnityEngine.GameObject obj in UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).GetRootGameObjects())
+            foreach (UnityEngine.GameObject rootGameObject in UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).GetRootGameObjects())
             {
-                foundGameObject = CheckPath(obj, pathList, 0, enabled);
+                foundGameObject = CheckPath(rootGameObject, pathList, 0, enabled);
                 if (foundGameObject != null)
                     return foundGameObject;
                 else
                 {
-                    foundGameObject = CheckChildren(obj, pathList, enabled);
+                    foundGameObject = CheckChildren(rootGameObject, pathList, enabled);
                     if (foundGameObject != null)
                         return foundGameObject;
                 }
@@ -641,15 +661,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     }
     private UnityEngine.GameObject CheckPath(UnityEngine.GameObject obj, string[] pathList, int pathListStep, bool enabled)
     {
-        int option = 1;
-        if (pathList[pathListStep].Equals(".."))
-            option = 2;
-        else
-            if (pathList[pathListStep].StartsWith("id("))
-            option = 3;
+        int option = CheckOption(pathList, pathListStep);
+
         switch (option)
         {
-            case 2:
+            case 2://..
 
                 if (pathListStep == pathList.Length - 1)
                 {
@@ -659,10 +675,20 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 else
                 {
                     int nextStep = pathListStep + 1;
-                    return CheckPath(obj.transform.parent.gameObject, pathList, nextStep, enabled);
+                    return CheckNextElementInPath(obj.transform.parent.gameObject, pathList, nextStep, enabled);
                 }
-            case 3:
-                var id = System.Convert.ToInt32(pathList[pathListStep].Substring(3, pathList[pathListStep].Length - 4));
+            case 3://children
+                if (pathListStep == pathList.Length - 1)
+                {
+                    if (enabled && obj.activeInHierarchy == false) return null;
+                    return obj;
+                }
+                else
+                {
+                    return CheckNextElementInPath(obj, pathList, pathListStep, enabled);
+                }
+            case 4://id
+                var id = System.Convert.ToInt32(pathList[pathListStep].Substring(4, pathList[pathListStep].Length - 4));
                 if (obj.GetInstanceID() != id)
                 {
                     return null;
@@ -671,8 +697,53 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 {
                     return CheckNextElementInPath(obj, pathList, pathListStep, enabled);
                 }
-            default:
-                if (!obj.name.Equals(pathList[pathListStep]))
+            case 5://tag
+                var tagName = pathList[pathListStep].Substring(5, pathList[pathListStep].Length - 5);
+                if (!obj.CompareTag(tagName))
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPath(obj, pathList, pathListStep, enabled);
+                }
+            case 6://layer
+                var layerName= pathList[pathListStep].Substring(7, pathList[pathListStep].Length - 7);
+                int layerId = UnityEngine.LayerMask.NameToLayer(layerName);
+                if (!obj.layer.Equals(layerId))
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPath(obj, pathList, pathListStep, enabled);
+                }
+            case 7://component
+                var componentName= pathList[pathListStep].Substring(11, pathList[pathListStep].Length - 11);
+                var list = obj.GetComponents(typeof(UnityEngine.Component));
+                for (int i = 0; i < list.Length; i++)
+                {
+                    if (componentName.Equals(list[i].GetType().Name))
+                    {
+                        return CheckNextElementInPath(obj, pathList, pathListStep, enabled);
+                    }
+                }
+                return null;
+            case 8://name contains
+                var substringOfName = pathList[pathListStep].Substring(10, pathList[pathListStep].Length - 10);
+                if (!obj.name.Contains(substringOfName))
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPath(obj, pathList, pathListStep, enabled);
+                }
+            default://name
+                var name = pathList[pathListStep];
+                if (option==10)
+                    name = pathList[pathListStep].Substring(6, pathList[pathListStep].Length - 6);
+                if (!obj.name.Equals(name))
                     return null;
                 else
                 {
@@ -682,8 +753,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     }
     private UnityEngine.GameObject CheckNextElementInPath(UnityEngine.GameObject obj, string[] pathList, int pathListStep, bool enabled)
     {
-        if (pathListStep == pathList.Length - 1)
-            if (enabled && obj.activeInHierarchy == false) return null;
+        if (pathListStep == pathList.Length - 1)//Checks if it is at the end of the path
+            if (enabled && obj.activeInHierarchy == false) return null;//Checks if it respects enable conditions
             else
             {
                 return obj;
@@ -691,12 +762,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         else
         {
             int nextStep = pathListStep + 1;
-            if (pathList[nextStep].Equals(".."))
-            {
-                var objectReturned = CheckPath(obj, pathList, nextStep, enabled);
-                if (objectReturned != null)
-                    return objectReturned;
-            }
             foreach (UnityEngine.Transform childrenObject in obj.transform)
             {
                 var objectReturned = CheckPath(childrenObject.gameObject, pathList, nextStep, enabled);
@@ -750,15 +815,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     private System.Collections.Generic.List<UnityEngine.GameObject> CheckPathForMultipleElements(UnityEngine.GameObject obj, string[] pathList, int pathListStep, bool enabled)
     {
         System.Collections.Generic.List<UnityEngine.GameObject> objectsFound = new System.Collections.Generic.List<UnityEngine.GameObject>();
-        int option = 1;
-        if (pathList[pathListStep].Equals(".."))
-            option = 2;
-        else
-            if (pathList[pathListStep].StartsWith("id("))
-            option = 3;
+        int option = CheckOption(pathList, pathListStep);
         switch (option)
         {
-            case 2:
+            case 2://..
                 if (pathListStep == pathList.Length - 1)
                 {
                     if (obj.transform.parent == null || (enabled && obj.activeInHierarchy == false)) return null;
@@ -770,7 +830,22 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     int nextStep = pathListStep + 1;
                     return CheckPathForMultipleElements(obj.transform.parent.gameObject, pathList, nextStep, enabled);
                 }
-            case 3:
+            case 3://children
+                if (pathListStep == pathList.Length - 1)
+                {
+                    if (obj.transform.childCount == 0 || (enabled && obj.activeInHierarchy == false)) return null;
+                    var parent = obj.transform.parent;
+                    for(int i=0;i<=obj.transform.parent.childCount;i++)
+                        objectsFound.Add(parent.GetChild(i).gameObject);
+                    return objectsFound;
+                }
+                else
+                {
+                    int nextStep = pathListStep + 1;
+                    return CheckPathForMultipleElements(obj.transform.parent.gameObject, pathList, nextStep, enabled);
+                }
+
+            case 4://id old version
                 var id = System.Convert.ToInt32(pathList[pathListStep].Substring(3, pathList[pathListStep].Length - 4));
                 if (obj.GetInstanceID() != id)
                 {
@@ -780,8 +855,63 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 {
                     return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
                 }
-            default:
-                if (!(obj.name.Equals(pathList[pathListStep]) || (pathList[pathListStep].Equals("") && pathList.Length == 1)))
+            case 5://tag
+                var tagName = pathList[pathListStep].Substring(5, pathList[pathListStep].Length - 5);
+                if (!obj.CompareTag(tagName))
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
+                }
+            case 6://layer
+                var layerName = pathList[pathListStep].Substring(7, pathList[pathListStep].Length - 7);
+                int layerId = UnityEngine.LayerMask.NameToLayer(layerName);
+                if (!obj.layer.Equals(layerId))
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
+                }
+            case 7://component
+                var componentName = pathList[pathListStep].Substring(11, pathList[pathListStep].Length - 11);
+                var list = obj.GetComponents(typeof(UnityEngine.Component));
+                for (int i = 0; i < list.Length; i++)
+                {
+                    if (componentName.Equals(list[i].GetType().Name))
+                    {
+                        return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
+                    }
+                }
+                return null;
+            case 8://name contains
+                var substringOfName = pathList[pathListStep].Substring(10, pathList[pathListStep].Length - 10);
+                if (!obj.name.Contains(substringOfName))
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
+                }
+            case 9://id new version
+                id = System.Convert.ToInt32(pathList[pathListStep].Substring(4, pathList[pathListStep].Length - 4));
+                if (obj.GetInstanceID() != id)
+                {
+                    return null;
+                }
+                else
+                {
+                    return CheckNextElementInPathForMultipleElements(obj, pathList, pathListStep, enabled);
+                }
+            default://name
+                var name = pathList[pathListStep];
+                if (option == 10)
+                    name = pathList[pathListStep].Substring(6, pathList[pathListStep].Length - 6);
+                if (!(obj.name.Equals(name) || (name.Equals("") && pathList.Length == 1)))
                     return null;
                 else
                 {
@@ -789,6 +919,37 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 }
         }
     }
+
+    private static int CheckOption(string[] pathList, int pathListStep)
+    {
+        int option = 1;
+        if (pathList[pathListStep].Equals(".."))
+            option = 2;
+        if (pathList[pathListStep].Equals("*"))
+            option = 3;
+        else
+            if (pathList[pathListStep].StartsWith("id("))
+            option = 4;
+        else
+            if (pathList[pathListStep].StartsWith("@tag="))
+            option = 5;
+        else
+            if (pathList[pathListStep].StartsWith("@layer="))
+            option = 6;
+        else
+            if (pathList[pathListStep].StartsWith("@component="))
+            option = 7;
+        else
+            if (pathList[pathListStep].StartsWith("@contains="))
+            option = 8;
+        else
+            if (pathList[pathListStep].StartsWith("@id="))
+            option = 9;
+        else if (pathList[pathListStep].StartsWith("@name="))
+            option = 10;
+        return option;
+    }
+
     private System.Collections.Generic.List<UnityEngine.GameObject> CheckNextElementInPathForMultipleElements(UnityEngine.GameObject obj, string[] pathList, int pathListStep, bool enabled)
     {
         System.Collections.Generic.List<UnityEngine.GameObject> objectsFound = new System.Collections.Generic.List<UnityEngine.GameObject>();
@@ -802,13 +963,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         else
         {
             int nextStep = pathListStep + 1;
-            if (pathList[nextStep].Equals(".."))
-            {
-                System.Collections.Generic.List<UnityEngine.GameObject> listGameObjects = CheckPathForMultipleElements(obj, pathList, nextStep, enabled);
-                if (listGameObjects != null)
-                    objectsFound.AddRange(listGameObjects);
-                return objectsFound;
-            }
             foreach (UnityEngine.Transform childrenObject in obj.transform)
             {
                 System.Collections.Generic.List<UnityEngine.GameObject> listGameObjects = CheckPathForMultipleElements(childrenObject.gameObject, pathList, nextStep, enabled);
@@ -817,6 +971,90 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             }
             return objectsFound;
         }
+    }
+
+    private void FindObject(string stringSent,AltClientSocketHandler handler)
+    {
+        var pieces = stringSent.Split(new string[] { requestSeparatorString }, System.StringSplitOptions.None);
+        string objectName = pieces[0];
+        string cameraName = pieces[1];
+        bool enabled = System.Convert.ToBoolean(pieces[2]);
+        _responseQueue.ScheduleResponse(delegate
+        {
+            string response = errorNotFoundMessage;
+            try
+            {
+                var path = ProcessPath(objectName);
+                var isDirectChild = IsNextElementDirectChild(path[0]);
+                var foundGameObject = FindObjects(null, path, 1, true, isDirectChild, enabled);
+                //UnityEngine.GameObject foundGameObject = FindObjectInScene(objectName, enabled);
+                if (foundGameObject.Count()==1)
+                {
+                    if (cameraName.Equals(""))
+                        response = Newtonsoft.Json.JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundGameObject[0]));
+                    else
+                    {
+                        UnityEngine.Camera camera = UnityEngine.Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
+                        response = camera == null ? errorNotFoundMessage : Newtonsoft.Json.JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundGameObject[0], camera));
+                    }
+                }
+            }
+            catch (System.NullReferenceException exception)
+            {
+                UnityEngine.Debug.Log(exception);
+                response = errorNullRefferenceMessage;
+            }
+            catch (System.Exception exception)
+            {
+                UnityEngine.Debug.Log(exception);
+                response = errorUnknownError + ";" + exception;
+            }
+            finally
+            {
+                handler.SendResponse(response);
+            }
+
+        });
+    }
+    private void FindObjects(string stringSent,AltClientSocketHandler handler)
+    {
+        var pieces = stringSent.Split(new string[] { requestSeparatorString }, System.StringSplitOptions.None);
+        string objectName = pieces[0];
+        string cameraName = pieces[1];
+        bool enabled = System.Convert.ToBoolean(pieces[2]);
+
+        _responseQueue.ScheduleResponse(delegate
+        {
+            UnityEngine.Camera camera = null;
+            if (cameraName != null)
+            {
+                camera = UnityEngine.Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
+            }
+            string response = errorNotFoundMessage;
+            var path = ProcessPath(objectName);
+            var isDirectChild = IsNextElementDirectChild(path[0]);
+            try
+            {
+                System.Collections.Generic.List<AltUnityObject> foundObjects = new System.Collections.Generic.List<AltUnityObject>();
+                foreach (UnityEngine.GameObject testableObject in FindObjects(null, path, 1,false, isDirectChild, enabled))
+                {
+                    foundObjects.Add(GameObjectToAltUnityObject(testableObject, camera));
+                }
+
+                response = Newtonsoft.Json.JsonConvert.SerializeObject(foundObjects);
+            }
+            catch (System.Exception exception)
+            {
+                UnityEngine.Debug.Log(exception);
+                response = errorUnknownError + ";" + exception;
+            }
+            finally
+            {
+                handler.SendResponse(response);
+
+            }
+        });
+
     }
 
 
@@ -1351,7 +1589,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 return methodInfo;
 
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
 
             }
@@ -1914,19 +2152,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         });
     }
 
-    //    private bool IsSceneInBuild(string scene)
-    //    {
-    //        UnityEngine.Debug.Log("Scenesnumber:"+UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings);
-    //        for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings; i++)
-    //        {
-    //            UnityEngine.Debug.Log(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex(i));
-    //            if (UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex(i).name.Equals(scene))
-    //                return true;
-    //        }
-    //
-    //        return false;
-    //    }
-
     private UnityEngine.Camera FoundCameraById(int id)
     {
         foreach (var camera in UnityEngine.Camera.allCameras)
@@ -2463,6 +2688,392 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             return memoryStreamOutout.ToArray();
         }
 
+    }
+
+    private System.Collections.Generic.List<System.Collections.Generic.List<string>> ProcessPath(string path)
+    {
+        System.Collections.Generic.List<char> escapeCharacters;
+        var text = EliminateEscapedCharacters(path, out escapeCharacters);
+        var list = SeparateAxesAndSelectors(text);
+        var pathSetCorrectly = SetCondition(list);
+        pathSetCorrectly = AddEscapedCharactersBack(pathSetCorrectly, escapeCharacters);
+        return pathSetCorrectly;
+    }
+
+
+    private System.Collections.Generic.List<System.Collections.Generic.List<string>> AddEscapedCharactersBack(System.Collections.Generic.List<System.Collections.Generic.List<string>> pathSetCorrectly, System.Collections.Generic.List<char> escapeCharacters)
+    {
+        int counter = 0;
+        for (int i = 0; i < pathSetCorrectly.Count; i++)
+        {
+            for (int j = 0; j < pathSetCorrectly[i].Count; j++)
+            {
+                do
+                {
+                    if (pathSetCorrectly[i][j].Contains("!"))
+                    {
+                        int index = pathSetCorrectly[i][j].IndexOf('!');
+                        pathSetCorrectly[i][j] = pathSetCorrectly[i][j].Remove(index, 1);
+                        pathSetCorrectly[i][j] = pathSetCorrectly[i][j].Insert(index, escapeCharacters[counter].ToString());
+                        counter++;
+
+                    }
+
+                } while (pathSetCorrectly[i][j].Contains("!"));
+
+            }
+        }
+        return pathSetCorrectly;
+    }
+
+    private System.Collections.Generic.List<System.Collections.Generic.List<string>> SetCondition(System.Collections.Generic.List<string> list)
+    {
+        System.Collections.Generic.List<System.Collections.Generic.List<string>> conditions = new System.Collections.Generic.List<System.Collections.Generic.List<string>>();
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (i % 2 == 0)
+            {
+                if (!(list[i].Equals("/") || list[i].Equals("//")))
+                    throw new System.Exception("Expected / or // instead of " + list[i]);
+                conditions.Add(new System.Collections.Generic.List<string>() { list[i] });
+
+            }
+            else
+            {
+                conditions.Add(ParseSelector(list[i]));
+            }
+
+        }
+        return conditions;
+    }
+
+    private System.Collections.Generic.List<string> ParseSelector(string selector)
+    {
+        System.Collections.Generic.List<string> conditions = new System.Collections.Generic.List<string>();
+        if (System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[@.+=.+\\]$") || System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[.+(@.+,.+)\\]$"))
+        {
+            var substrings = selector.Split('[');
+            conditions.Add(substrings[0]);
+            conditions.Add(substrings[1].Substring(0, substrings[1].Length - 1));
+            return conditions;
+        }
+        conditions.Add(selector);
+        return conditions;
+    }
+
+    private string EliminateEscapedCharacters(string text, out System.Collections.Generic.List<char> escapedCharacters)
+    {
+        escapedCharacters = new System.Collections.Generic.List<char>();
+        var textWithoutEscapeCharacters = "";
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i].Equals('\\'))
+            {
+                escapedCharacters.Add(text[i + 1]);
+                textWithoutEscapeCharacters += "!";
+                i++;
+                continue;
+            }
+            if (text[i].Equals('!'))
+            {
+                escapedCharacters.Add(text[i]);
+                textWithoutEscapeCharacters += "!";
+                continue;
+            }
+            textWithoutEscapeCharacters += text[i];
+        }
+        return textWithoutEscapeCharacters;
+    }
+
+    private System.Collections.Generic.List<string> SeparateAxesAndSelectors(string path)
+    {
+        string[] substrings = System.Text.RegularExpressions.Regex.Split(path, "(/)");
+        System.Collections.Generic.List<string> listOfSubstring = new System.Collections.Generic.List<string>();
+        foreach (var str in substrings)
+            if (!str.Equals(""))
+                listOfSubstring.Add(str);
+        for (int i = 0; i <= listOfSubstring.Count - 2; i++)
+        {
+            if (listOfSubstring[i].Equals("/") && listOfSubstring[i + 1].Equals("/"))
+            {
+                listOfSubstring[i] += listOfSubstring[i + 1];
+                listOfSubstring[i + 1] = "";
+                continue;
+            }
+        }
+        System.Collections.Generic.List<string> listOfSubstring2 = new System.Collections.Generic.List<string>();
+        foreach (var str in listOfSubstring)
+            if (!str.Equals(""))
+                listOfSubstring2.Add(str);
+        return listOfSubstring2;
+
+    }
+
+    public System.Collections.Generic.List<UnityEngine.GameObject> FindObjects(UnityEngine.GameObject gameObject, System.Collections.Generic.List<System.Collections.Generic.List<string>> conditions, int step, bool singleObject, bool directChildren, bool enabled)
+    {
+
+        if (CheckConditionIfParent(conditions[step]))
+        {
+            if (IsNextElementDirectChild(conditions[step + 1]))
+            {
+                return FindObjects(gameObject.transform.parent.gameObject, conditions, step + 2, singleObject, true, enabled);
+            }
+            else
+            {
+                return FindObjects(gameObject.transform.parent.gameObject, conditions, step + 2, singleObject, false, enabled);
+            }
+
+        }
+        System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = GetGameObjectsToCheck(gameObject);
+        System.Collections.Generic.List<UnityEngine.GameObject> objectsFound = new System.Collections.Generic.List<UnityEngine.GameObject>();
+        foreach (var objectToCheck in objectsToCheck)
+        {
+            
+            if ((!enabled || (enabled && objectToCheck.activeInHierarchy)) && CheckCondition(objectToCheck, conditions[step]))
+            {
+
+                //Pass the condition
+                if (step != conditions.Count - 1)
+                {
+                    if (IsNextElementDirectChild(conditions[step + 1]))
+                    {
+                        return FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled);
+                    }
+                    else
+                    {
+                        return FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled);
+                    }
+
+                }
+                objectsFound.Add(objectToCheck);
+                if (singleObject)
+                {
+                    return objectsFound;
+                }
+
+            }
+
+
+            if (directChildren)
+            {
+                continue;
+            }
+
+            objectsFound.AddRange(FindObjects(objectToCheck, conditions, step, singleObject, false, enabled));
+            if (objectsFound.Count != 0 && singleObject)//Don't search further if you already found an object 
+            {
+                return objectsFound;
+            }
+            continue;
+        }
+        return objectsFound;
+
+    }
+
+    private bool CheckCondition(UnityEngine.GameObject objectToCheck, System.Collections.Generic.List<string> listOfConditions)
+    {
+        bool valid = true;
+        foreach (var condition in listOfConditions)
+        {
+            var option = CheckOption(condition);
+            switch (option)
+            {
+                case 1://name
+                    var name = condition;
+                    valid = objectToCheck.name.Equals(name);
+                    break;
+                case 2://tag
+                    var tagName = condition.Substring(5, condition.Length - 5);
+                    valid = objectToCheck.CompareTag(tagName);
+                    break;
+                case 3://layer
+                    var layerName = condition.Substring(7, condition.Length - 7);
+                    int layerId = UnityEngine.LayerMask.NameToLayer(layerName);
+                    valid = objectToCheck.layer.Equals(layerId);
+                    break;
+                case 4://component
+                    var componentName = condition.Substring(11, condition.Length - 11);
+                    var list = objectToCheck.GetComponents(typeof(UnityEngine.Component));
+                    valid = false;
+
+                    for (int i = 0; i < list.Length; i++)
+                    {
+                        if (componentName.Equals(list[i].GetType().Name))
+                        {
+                            valid = true;
+                            break;
+                        }
+                    }
+                    break;
+                case 5://id
+                    var id = System.Convert.ToInt32(condition.Substring(4, condition.Length - 4));
+                    valid = (objectToCheck.GetInstanceID() == id);
+                    break;
+                case 6://contains
+                    var substring = condition.Substring(9, condition.Length - 10);
+                    var splitedValue = substring.Split(',');
+                    var selector = splitedValue[0];
+                    var value = splitedValue[1];
+                    var optionContains = CheckOption(selector);
+                    switch (optionContains)
+                    {
+                        case 2:
+                            valid = objectToCheck.tag.Contains(value);
+                            break;
+                        case 3:
+                            var layerNm = UnityEngine.LayerMask.LayerToName(objectToCheck.layer);
+                            valid = layerNm.Contains(value);
+                            break;
+                        case 4:
+                            componentName = value;
+                            list = objectToCheck.GetComponents(typeof(UnityEngine.Component));
+                            valid = false;
+
+                            for (int i = 0; i < list.Length; i++)
+                            {
+                                if (componentName.Contains(list[i].GetType().Name))
+                                {
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 5:
+                            var stringId = objectToCheck.GetInstanceID().ToString();
+                            valid = stringId.Contains(value);
+                            break;
+                        case 8:
+                            valid = objectToCheck.name.Contains(value);
+                            break;
+                        default:
+                            throw new System.Exception("No such selector is implemented");
+
+
+                    }
+                    break;
+            }
+            if (!valid)
+                break;
+        }
+        return valid;
+    }
+    private static int CheckOption(string condition)
+    {
+        int option = 1;
+        if (condition.StartsWith("@tag"))
+            option = 2;
+        else
+            if (condition.StartsWith("@layer"))
+            option = 3;
+        else
+            if (condition.StartsWith("@component"))
+            option = 4;
+        else
+            if (condition.StartsWith("@id"))
+            option = 5;
+        else
+            if (condition.StartsWith("contains"))
+            option = 6;
+        else
+            if (condition.Equals("*"))
+            option = 7;
+        else if (condition.Equals("@name"))
+            option = 8;
+        return option;
+    }
+
+    private bool CheckConditionIfParent(System.Collections.Generic.List<string> list)
+    {
+        return list.Count == 1 && list[0].Equals("..");
+    }
+
+    private bool IsNextElementDirectChild(System.Collections.Generic.List<string> list)
+    {
+        if (list.Count == 1 && list[0].Equals("/"))
+            return true;
+        else
+            if (list.Count == 1 && list[0].Equals("//"))
+            return false;
+        throw new System.Exception("Invalid path. Expected / or // but got " + list.ToString());
+    }
+
+    private System.Collections.Generic.List<UnityEngine.GameObject> GetGameObjectsToCheck(UnityEngine.GameObject gameObject)
+    {
+        System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = new System.Collections.Generic.List<UnityEngine.GameObject>();
+        if (gameObject == null)
+        {
+            objectsToCheck = GetAllRootObjects();
+        }
+        else
+        {
+            objectsToCheck = GetAllChildren(gameObject);
+        }
+        return objectsToCheck;
+    }
+
+    private System.Collections.Generic.List<UnityEngine.GameObject> GetAllChildren(UnityEngine.GameObject gameObject)
+    {
+        System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = new System.Collections.Generic.List<UnityEngine.GameObject>();
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            objectsToCheck.Add(gameObject.transform.GetChild(i).gameObject);
+        }
+        return objectsToCheck;
+    }
+
+    private System.Collections.Generic.List<UnityEngine.GameObject> GetAllRootObjects()
+    {
+        System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = new System.Collections.Generic.List<UnityEngine.GameObject>();
+        for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+        {
+            foreach (UnityEngine.GameObject rootGameObject in UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).GetRootGameObjects())
+            {
+                objectsToCheck.Add(rootGameObject);
+            }
+        }
+        foreach (var destroyOnLoadObject in GetDontDestroyOnLoadObjects())
+        {
+            objectsToCheck.Add(destroyOnLoadObject);
+
+        }
+        return objectsToCheck;
+    }
+
+    private void FindActiveObjectByName(string methodParameters, AltClientSocketHandler handler)
+    {
+        var pieces = methodParameters.Split(new string[] { requestSeparatorString }, System.StringSplitOptions.None);
+        string objectName = pieces[0];
+        string cameraName = pieces[1];
+        bool enabled = System.Convert.ToBoolean(pieces[2]);
+        _responseQueue.ScheduleResponse(delegate
+        {
+
+            string response = errorNotFoundMessage;
+            try
+            {
+                var foundGameObject = UnityEngine.GameObject.Find(objectName);
+                if (foundGameObject != null)
+                {
+                    if (cameraName.Equals(""))
+                        response = Newtonsoft.Json.JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundGameObject));
+                    else
+                    {
+                        UnityEngine.Camera camera = UnityEngine.Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
+                        response = camera == null ? errorNotFoundMessage : Newtonsoft.Json.JsonConvert.SerializeObject(GameObjectToAltUnityObject(foundGameObject, camera));
+                    }
+                }
+            }
+            catch (System.NullReferenceException exception)
+            {
+                UnityEngine.Debug.Log(exception);
+                response = errorNullRefferenceMessage;
+            }
+            finally
+            {
+                handler.SendResponse(response);
+            }
+
+        });
     }
 }
 

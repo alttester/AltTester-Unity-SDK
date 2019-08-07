@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameLogicController : MonoBehaviour {
     public GameObject starPrefab;
-    public Camera camera;
+    public Camera cameraControlled;
     public StarCounter starCounter;
 	// Use this for initialization
 	void Start () {
@@ -17,7 +17,7 @@ public class GameLogicController : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = cameraControlled.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray,out hit))
             {

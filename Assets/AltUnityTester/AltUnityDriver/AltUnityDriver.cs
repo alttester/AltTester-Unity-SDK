@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 public enum PLayerPrefKeyType { Int = 1, String, Float }
 
 public class AltUnityDriver
@@ -11,13 +13,11 @@ public class AltUnityDriver
     public static string requestEndingString;
     public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&")
     {
-
         Socket = new System.Net.Sockets.TcpClient();
         Socket.Connect(tcp_ip, tcp_port);
         AltUnityObject.altUnityDriver = this;
         requestSeparatorString = requestSeparator;
         requestEndingString = requestEnding;
-
     }
 
     public void Stop()
@@ -25,10 +25,6 @@ public class AltUnityDriver
         Socket.Client.Send(toBytes(CreateCommand("closeConnection")));
         System.Threading.Thread.Sleep(1000);
         Socket.Close();
-
-
-
-
     }
     public string CreateCommand(params string[] arguments)
     {
@@ -42,7 +38,6 @@ public class AltUnityDriver
     }
     public string Recvall()
     {
-
         string data = "";
         string previousPart = "";
         while (true)
@@ -56,7 +51,6 @@ public class AltUnityDriver
                 break;
             previousPart = part;
         }
-
         try
         {
             string[] start = new string[] { "altstart::" };
@@ -90,6 +84,62 @@ public class AltUnityDriver
         HandleErrors(data);
     }
 
+    private AltUnityObject ReceiveAltUnityObject()
+    {
+        string data = Recvall();
+        if (!data.Contains("error:"))
+        {
+            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
+            return altElement;
+        }
+        HandleErrors(data);
+        return null;
+    }
+    private System.Collections.Generic.List<AltUnityObject> ReceiveListOfAltUnityObjects()
+    {
+        string data = Recvall();
+        if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityObject>>(data);
+        HandleErrors(data);
+        return null;
+    }
+    public System.Collections.Generic.List<AltUnityObject> FindObjects(By by,string value, string cameraName = "", bool enabled = true)
+    {
+        string path=SetPath(by,value);
+        
+        Socket.Client.Send(toBytes(CreateCommand("findObjects", path, cameraName, enabled.ToString())));
+        return ReceiveListOfAltUnityObjects();
+
+    }
+    public System.Collections.Generic.List<AltUnityObject> FindObjectsWhichContain(By by, string value, string cameraName = "", bool enabled = true)
+    {
+        string path = SetPathContains(by, value);
+        Socket.Client.Send(toBytes(CreateCommand("findObjects", path, cameraName, enabled.ToString())));
+        return ReceiveListOfAltUnityObjects();
+
+    }
+    public AltUnityObject FindObject(By by, string value, string cameraName = "", bool enabled = true)
+    {
+        if (enabled && by==By.NAME)
+        {
+            Socket.Client.Send(toBytes(CreateCommand("findActiveObjectByName", value, cameraName, enabled.ToString())));
+        }
+        else
+        {
+            string path = SetPath(by, value);
+            Socket.Client.Send(toBytes(CreateCommand("findObject", path, cameraName, enabled.ToString())));
+        }
+        
+        return ReceiveAltUnityObject();
+
+    }
+    public AltUnityObject FindObjectWhichContains(By by, string value, string cameraName = "", bool enabled = true)
+    {
+        string path = SetPathContains(by, value);
+        Socket.Client.Send(toBytes(CreateCommand("findObject", path, cameraName, enabled.ToString())));
+        return ReceiveAltUnityObject();
+
+    }
+    
     public void SetTimeScale(float timeScale)
     {
         Socket.Client.Send(toBytes(CreateCommand("setTimeScale", Newtonsoft.Json.JsonConvert.SerializeObject(timeScale))));
@@ -278,7 +328,6 @@ public class AltUnityDriver
         if (data.Equals("Ok"))
             return;
         HandleErrors(data);
-
     }
 
     public void MoveMouseAndWait(UnityEngine.Vector2 location, float duration = 0)
@@ -294,18 +343,15 @@ public class AltUnityDriver
         if (data.Equals("Yes"))
             return;
         HandleErrors(data);
-
     }
 
     public void ScrollMouse(float speed, float duration = 0)
-    {
-        
+    {        
         Socket.Client.Send(toBytes(CreateCommand("scrollMouse", speed.ToString(), duration.ToString())));
         var data = Recvall();
         if (data.Equals("Ok"))
             return;
         HandleErrors(data);
-
     }
 
     public void ScrollMouseAndWait(float speed, float duration = 0)
@@ -347,7 +393,7 @@ public class AltUnityDriver
 
 
     }
-
+    [System.ObsoleteAttribute("Use instead FindObjectByNameContains")]
     public AltUnityObject FindElementWhereNameContains(string name, string cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes(CreateCommand("findObjectWhereNameContains",name,cameraName,enabled.ToString() )));
@@ -367,14 +413,14 @@ public class AltUnityDriver
 
     public System.Collections.Generic.List<AltUnityObject> GetAllElements(string cameraName = "", bool enabled = true)
     {
-        Socket.Client.Send(toBytes(CreateCommand("findAllObjects",cameraName,enabled.ToString())));
+        Socket.Client.Send(toBytes(CreateCommand("findObjects","//*",cameraName,enabled.ToString())));
         string data = Recvall();
         if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityObject>>(data);
         HandleErrors(data);
         return null;
 
     }
-
+    [System.ObsoleteAttribute("Use instead FindObjectByName")]
     public AltUnityObject FindElement(string name, string cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes(CreateCommand("findObjectByName",name,cameraName,enabled.ToString())));
@@ -382,12 +428,11 @@ public class AltUnityDriver
         if (!data.Contains("error:"))
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-
         }
         HandleErrors(data);
         return null;
     }
-
+    [System.ObsoleteAttribute("Use instead WaitForObject")]
     public System.Collections.Generic.List<AltUnityObject> FindElements(string name, string cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes(CreateCommand("findObjectsByName", name, cameraName, enabled.ToString())));
@@ -397,6 +442,7 @@ public class AltUnityDriver
         return null;
     }
 
+    [System.ObsoleteAttribute("Use instead WaitForObject")]
     public System.Collections.Generic.List<AltUnityObject> FindElementsWhereNameContains(string name, string cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes(CreateCommand("findObjectsWhereNameContains",name ,cameraName ,enabled.ToString() )));
@@ -433,6 +479,7 @@ public class AltUnityDriver
 
     }
 
+    [System.ObsoleteAttribute("Use instead WaitForObject")]
     public AltUnityObject WaitForElementWhereNameContains(string name, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         double time = 0;
@@ -456,9 +503,58 @@ public class AltUnityDriver
         throw new Assets.AltUnityTester.AltUnityDriver.WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
 
     }
+    public AltUnityObject WaitForObject(By by,string value, string cameraName = "",bool enabled=true, double timeout = 20, double interval = 0.5)
+    {
+        double time = 0;
+        AltUnityObject altElement = null;
+        while (time < timeout)
+        {
+            try
+            {
+                altElement = FindObject(by,value, cameraName, enabled);
+                break;
+            }
+            catch (System.Exception)
+            {
+                UnityEngine.Debug.Log("Waiting for element where name contains " + value + "....");
+                System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                time += interval;
+            }
+        }
+        if (altElement != null)
+            return altElement;
+        throw new Assets.AltUnityTester.AltUnityDriver.WaitTimeOutException("Element " + value + " not loaded after " + timeout + " seconds");
+    }
+
+    public void WaitForObjectNotBePresent(By by,string value, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+    {
+        double time = 0;
+        bool found = false;
+        string path = SetPath(by, value);
+        AltUnityObject altElement = null;
+        while (time <= timeout)
+        {
+            found = false;
+            try
+            {
+                altElement = FindObject(by,value, cameraName,enabled);
+                found = true;
+                System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                time += interval;
+                UnityEngine.Debug.Log("Waiting for element " + path + " to not be present");
+            }
+            catch (System.Exception)
+            {
+                break;
+            }
+
+        }
+        if (found)
+            throw new Assets.AltUnityTester.AltUnityDriver.WaitTimeOutException("Element " + path + " still found after " + timeout + " seconds");
+    }
 
 
-
+    [System.ObsoleteAttribute("Use instead WaitForObjectNotBePresent")]
     public void WaitForElementToNotBePresent(string name, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         double time = 0;
@@ -481,13 +577,12 @@ public class AltUnityDriver
             }
 
         }
-
         if (found)
             throw new Assets.AltUnityTester.AltUnityDriver.WaitTimeOutException("Element " + name + " still found after " + timeout + " seconds");
     }
 
 
-
+    [System.ObsoleteAttribute("Use instead WaitForObject")]
     public AltUnityObject WaitForElement(string name, string cameraName = "",bool enabled=true, double timeout = 20, double interval = 0.5)
     {
         double time = 0;
@@ -505,9 +600,7 @@ public class AltUnityDriver
                 time += interval;
                 UnityEngine.Debug.Log("Waiting for element " + name + "...");
             }
-
         }
-
         if (altElement != null)
         {
             return altElement;
@@ -515,7 +608,7 @@ public class AltUnityDriver
         throw new Assets.AltUnityTester.AltUnityDriver.WaitTimeOutException("Element " + name + " not loaded after " + timeout + " seconds");
     }
 
-
+    [System.ObsoleteAttribute("Use instead WaitForObjectWithText")]
     public AltUnityObject WaitForElementWithText(string name, string text, string cameraName = "",bool enabled=true, double timeout = 20, double interval = 0.5)
     {
         double time = 0;
@@ -542,7 +635,94 @@ public class AltUnityDriver
         }
         throw new Assets.AltUnityTester.AltUnityDriver.WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
     }
+    public AltUnityObject WaitForObjectWithText(By by, string value, string text, string cameraName = "",bool enabled=true, double timeout = 20, double interval = 0.5)
+    {
+        string path = SetPath(by, value);
+        double time = 0;
+        AltUnityObject altElement = null;
+        while (time < timeout)
+        {
+            try
+            {
+                altElement = FindObject(by,value, cameraName,enabled);
+                if (altElement.GetText().Equals(text))
+                    break;
+                throw new System.Exception("Not the wanted text");
+            }
+            catch (Assets.AltUnityTester.AltUnityDriver.NotFoundException)
+            {
+                System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                time += interval;
+                UnityEngine.Debug.Log("Object "+ path+" not found");
+            }
+            catch (System.Exception)
+            {
+                System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                time += interval;
+                UnityEngine.Debug.Log("Waiting for element " + path + " to have text " + text);
+            }
+        }
+        if (altElement != null && altElement.GetText().Equals(text))
+        {
+            return altElement;
+        }
+        throw new Assets.AltUnityTester.AltUnityDriver.WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
+    }
 
+    private string SetPath(By by, string value)
+    {
+        string path = "";
+        switch (by)
+        {
+            case By.TAG:
+                path = "//*[@tag=" + value+"]";
+                break;
+            case By.LAYER:
+                path = "//*[@layer=" + value+"]";
+                break;
+            case By.NAME:
+                path = "//" + value;
+                break;
+            case By.COMPONENT:
+                path = "//*[@component=" + value+"]";
+                break;
+            case By.PATH:
+                path = value;
+                break;
+            case By.ID:
+                path = "//*[@id=" + value+"]";
+                break;
+        }
+        return path;
+    }
+    private string SetPathContains(By by, string value)
+    {
+        string path = "";
+        switch (by)
+        {
+            case By.TAG:
+                path = "//*[contains(@tag," + value + ")]";
+                break;
+            case By.LAYER:
+                path = "//*[contains(@layer," + value + ")]";
+                break;
+            case By.NAME:
+                path = "//*[contains(@name," + value + ")]";
+                break;
+            case By.COMPONENT:
+                path = "//*[contains(@component," + value + ")]";
+                break;
+            case By.PATH:
+                path = value;
+                break;
+            case By.ID:
+                path = "//*[contains(@id," + value + ")]";
+                break;
+        }
+        return path;
+    }
+
+    [System.ObsoleteAttribute("Use instead FindObjectByComponent")]
     public AltUnityObject FindElementByComponent(string componentName, string assemblyName = "", string cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes(CreateCommand("findObjectByComponent",assemblyName,componentName,cameraName,enabled.ToString() )));
@@ -555,6 +735,7 @@ public class AltUnityDriver
         return null;
     }
   
+    [System.ObsoleteAttribute("Use instead FindObjectsByComponent")]
     public System.Collections.Generic.List<AltUnityObject> FindElementsByComponent(string componentName, string assemblyName = "", string cameraName = "", bool enabled = true)
     {
         Socket.Client.Send(toBytes(CreateCommand("findObjectsByComponent", assemblyName, componentName, cameraName, enabled.ToString())));
@@ -584,8 +765,7 @@ public class AltUnityDriver
 
     public TextureInformation ReceiveImage() {
 
-        var data = Recvall();
-     
+        var data = Recvall();     
         string[] screenshotInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(data);
 
         // Some workaround this: https://stackoverflow.com/questions/710853/base64-string-throwing-invalid-character-error
@@ -720,8 +900,12 @@ public class AltUnityDriver
             this.textureFormat = textureFormat;
         }
     }
+    public enum By
+    {
+        TAG,LAYER,NAME,COMPONENT,PATH,ID
+    }
+   
 
-    
 }
 
 
