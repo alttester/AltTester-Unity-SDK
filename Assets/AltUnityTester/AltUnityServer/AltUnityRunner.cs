@@ -1417,7 +1417,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public void IconPressed()
     {
         _socketServer.Cleanup();
-        _socketServer.StartListeningForConnections();
+        StartSocketServer();
         AltUnityPopUp.SetActive(true);
     }
 
@@ -1431,7 +1431,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         {
             AltUnityPopUp.SetActive(true);
         }
-        if (_socketServer.IsStarted())
+        if (!_socketServer.IsServerStopped())
         {
             AltUnityIcon.color = UnityEngine.Color.white;
         }

@@ -65,6 +65,10 @@ public class AltSocketServer {
             return ClientHandlerThreads.Count;
         }
     }
+    public bool IsServerStopped()
+    {
+        return ClientHandlerThreads == null || (ClientHandlerThreads.Count!=0 &&((AltSocketClientThreadHolder)ClientHandlerThreads[0]).Handler.ToBeKilled);
+    }
 
     public AltSocketServer(AltIClientSocketHandlerDelegate clientSocketHandlerDelegate,
 	                         int portNumber = 13000,

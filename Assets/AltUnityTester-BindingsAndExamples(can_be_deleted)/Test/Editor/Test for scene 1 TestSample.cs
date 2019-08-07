@@ -88,7 +88,7 @@ public class TestForScene1TestSample
             listOfElements=element.name+"; ";
         }
         Debug.Log(listOfElements);
-        Assert.AreEqual(18, altElements.Count);
+        Assert.AreEqual(19, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -110,7 +110,7 @@ public class TestForScene1TestSample
             listOfElements=element.name+"; ";
         }
         Debug.Log(listOfElements);
-        Assert.AreEqual(19, altElements.Count);
+        Assert.AreEqual(23, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
