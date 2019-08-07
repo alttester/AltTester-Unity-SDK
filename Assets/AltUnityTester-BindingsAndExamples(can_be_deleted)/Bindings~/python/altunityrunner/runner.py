@@ -4,7 +4,6 @@ import socket
 import subprocess
 import time
 import multiprocessing
-from enum import Enum
 from altunityrunner.altUnityExceptions import *
 from deprecated import deprecated
 BUFFER_SIZE = 1024
