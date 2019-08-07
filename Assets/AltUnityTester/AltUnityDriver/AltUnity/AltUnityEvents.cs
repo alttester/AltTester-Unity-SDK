@@ -2,10 +2,15 @@
 public class FindObjectByNameCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 public class FindObjectWhereNameContainsCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 public class FindObjectByComponentCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
-
 public class FindObjectsByNameCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 public class FindObjectsWhereNameContainsCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
 public class FindObjectsByComponentCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+
+
+public class FindActiveObjectByNameCommand: UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+public class FindObjectsCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
+
 
 public class GetCurrentSceneCommand : UnityEngine.Events.UnityEvent<AltClientSocketHandler> { }
 public class GetAllObjectsCommand : UnityEngine.Events.UnityEvent<string, AltClientSocketHandler> { }
@@ -74,6 +79,10 @@ public class AltUnityEvents
     public FindObjectsWhereNameContainsCommand FindObjectsWhereNameContains;
     public FindObjectsByComponentCommand FindObjectsByComponent;
 
+    public FindObjectCommand FindObject;
+    public FindObjectsCommand FindObjects;
+    public FindActiveObjectByNameCommand FindActiveObjectByName;
+
     public GetCurrentSceneCommand GetCurrentScene;
     public GetAllObjectsCommand GetAllObjects;
 
@@ -140,6 +149,10 @@ public class AltUnityEvents
                 _instance.FindObjectsByName = new FindObjectsByNameCommand();
                 _instance.FindObjectsWhereNameContains = new FindObjectsWhereNameContainsCommand();
                 _instance.FindObjectsByComponent = new FindObjectsByComponentCommand();
+
+                _instance.FindObject = new FindObjectCommand();
+                _instance.FindObjects = new FindObjectsCommand();
+                _instance.FindActiveObjectByName = new FindActiveObjectByNameCommand();
 
                 _instance.GetAllObjects = new GetAllObjectsCommand();
                 _instance.GetCurrentScene = new GetCurrentSceneCommand();

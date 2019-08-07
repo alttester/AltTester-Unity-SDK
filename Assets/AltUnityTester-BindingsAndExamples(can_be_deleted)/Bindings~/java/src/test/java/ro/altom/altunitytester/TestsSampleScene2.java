@@ -34,10 +34,10 @@ public class TestsSampleScene2 {
 
     @Test
     public void testResizePanel() throws Exception {
-        AltUnityObject altElement = altUnityDriver.findElement("Resize Zone");
+        AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
         altUnityDriver.swipe(altElement.x, altElement.y, altElement.x + 200, altElement.y + 200, 2);
         Thread.sleep(2000);
-        AltUnityObject altElementAfterResize = altUnityDriver.findElement("Resize Zone");
+        AltUnityObject altElementAfterResize = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
         assertNotSame(altElement.x, altElementAfterResize.x);
         assertNotSame(altElement.y, altElementAfterResize.y);
     }
@@ -45,10 +45,10 @@ public class TestsSampleScene2 {
     @Test
     public void testMovePanel() throws Exception {
 
-        AltUnityObject altElement = altUnityDriver.findElement("Drag Zone");
+        AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Zone");
         altUnityDriver.swipe(altElement.x, altElement.y, altElement.x + 200, altElement.y + 200, 2);
         Thread.sleep(2000);
-        AltUnityObject altElementAfterMove = altUnityDriver.findElement("Drag Zone");
+        AltUnityObject altElementAfterMove = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Zone");
         assertNotSame(altElement.x, altElementAfterMove.x);
         assertNotSame(altElement.y, altElementAfterMove.y);
     }
@@ -60,9 +60,9 @@ public class TestsSampleScene2 {
         AltUnityObject altElement = altUnityDriver.findElement("Close Button");
         altElement.clickEvent();
 
-        altElement = altUnityDriver.findElement("Button");
+        altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Button");
         altElement.clickEvent();
-        assertTrue(altUnityDriver.findElement("Panel").enabled);
+        assertTrue(altUnityDriver.findObject(AltUnityDriver.By.NAME,"Panel").enabled);
     }
 
 }
