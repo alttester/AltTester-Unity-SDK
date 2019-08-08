@@ -1,7 +1,7 @@
 stages:
   - build-android
   - android-tests
-  - create-package
+#   - create-package
   - build-ios
   - ios-tests
   - appium-tests
