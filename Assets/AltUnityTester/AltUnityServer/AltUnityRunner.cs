@@ -5,6 +5,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     public UnityEngine.GameObject AltUnityPopUp;
     public UnityEngine.UI.Image AltUnityIcon;
+    public UnityEngine.UI.Text AltUnityPopUpText;
+    public bool AltUnityIconPressed=false;
 
     private static AltUnityRunner _altUnityRunner;
     private UnityEngine.Vector3 _position;
@@ -149,7 +151,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             clientSocketHandlerDelegate, SocketPortNumber, maxClients, requestEndingString, encoding);
 
         _socketServer.StartListeningForConnections();
-
+        AltUnityPopUpText.text = "Looking for connection"+System.Environment.NewLine+"on port: " + _socketServer.PortNumber + " !";
         UnityEngine.Debug.Log(string.Format(
             "AltUnity Server at {0} on port {1}",
             _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
@@ -1414,22 +1416,31 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             handler.SendResponse(errorCouldNotPerformOperationMessage);
         });
     }
-    public void IconPressed()
+    public void ServerRestartPressed()
     {
+        AltUnityIconPressed = false;
         _socketServer.Cleanup();
         StartSocketServer();
         AltUnityPopUp.SetActive(true);
     }
+    public void IconPressed()
+    {
+        AltUnityPopUp.SetActive(!AltUnityPopUp.activeSelf);
+        AltUnityIconPressed = !AltUnityIconPressed;
+    }
 
     void Update()
     {
-        if (_socketServer.ClientCount!=0)
+        if (!AltUnityIconPressed)
         {
-            AltUnityPopUp.SetActive(false);
-        }
-        else
-        {
-            AltUnityPopUp.SetActive(true);
+            if (_socketServer.ClientCount != 0)
+            {
+                AltUnityPopUp.SetActive(false);
+            }
+            else
+            {
+                AltUnityPopUp.SetActive(true);
+            }
         }
         if (!_socketServer.IsServerStopped())
         {
@@ -1438,6 +1449,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         else
         {
             AltUnityIcon.color = UnityEngine.Color.red;
+            AltUnityPopUpText.text = "Server stopped working."+System.Environment.NewLine+" Please restart the server";
         }
         _responseQueue.Cycle();
     }
