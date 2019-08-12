@@ -42,7 +42,6 @@ public class AltSocketServer {
     protected readonly int portNumber;
     protected readonly System.Net.IPEndPoint localEndPoint;
     protected readonly int maxClients;
-
     public int PortNumber {
         get {
             return portNumber;
@@ -65,6 +64,10 @@ public class AltSocketServer {
         get {
             return ClientHandlerThreads.Count;
         }
+    }
+    public bool IsServerStopped()
+    {
+        return ClientHandlerThreads == null || (ClientHandlerThreads.Count!=0 &&((AltSocketClientThreadHolder)ClientHandlerThreads[0]).Handler.ToBeKilled);
     }
 
     public AltSocketServer(AltIClientSocketHandlerDelegate clientSocketHandlerDelegate,

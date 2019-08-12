@@ -337,7 +337,7 @@ class PythonTests(unittest.TestCase):
     def test_find_objects_by_layer(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElements = self.altdriver.find_objects(By.LAYER,"Default")
-        self.assertEquals(7, len(altElements))
+        self.assertEquals(8, len(altElements))
     
     def test_find_objects_by_contains_name(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')

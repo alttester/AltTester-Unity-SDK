@@ -119,6 +119,7 @@ public class AltClientSocketHandler
         finally
         {
             Client.Close();
+            ToBeKilled = true;
             UnityEngine.Debug.Log("AltClientSocketHandler - Client closed");
 
         }

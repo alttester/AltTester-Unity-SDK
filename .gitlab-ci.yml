@@ -179,15 +179,15 @@ deploy-altunitytester-python:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - python setup.py sdist upload -r pypi
 
-pages:
-    stage: deploy
-    dependencies:
-      - create-unity-package
-    script:
-      - echo Pages deploy done
-    tags:
-        - unity
-    artifacts:
-        paths:
-            - public
-        expire_in: 30 days
+# pages:
+#     stage: deploy
+#     dependencies:
+#       - create-unity-package
+#     script:
+#       - echo Pages deploy done
+#     tags:
+#         - unity
+#     artifacts:
+#         paths:
+#             - public
+#         expire_in: 30 days
