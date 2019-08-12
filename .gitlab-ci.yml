@@ -76,21 +76,21 @@ run-java-android-tests:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
         - mvn test
 
-# create-unity-package:
-#     stage: create-package
-#     tags:
-#       - unity
-#     script:
-#       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
-#       - mkdir -p public/${CI_COMMIT_REF_NAME} || true
-#       - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
-#       - cd public/${CI_COMMIT_REF_NAME}/
-#       - echo '<a href="https://altom.gitlab.io/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
-#       - ls
-#     artifacts:
-#       when: always
-#       paths:
-#         - public
+create-unity-package:
+    stage: create-package
+    tags:
+      - unity
+    script:
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
+      - mkdir -p public/${CI_COMMIT_REF_NAME} || true
+      - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
+      - cd public/${CI_COMMIT_REF_NAME}/
+      - echo '<a href="https://altom.gitlab.io/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
+      - ls
+    artifacts:
+      when: always
+      paths:
+        - public
 
 
 # build-ipa:
@@ -179,15 +179,15 @@ deploy-altunitytester-python:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - python setup.py sdist upload -r pypi
 
-# pages:
-#     stage: deploy
-#     dependencies:
-#       - create-unity-package
-#     script:
-#       - echo Pages deploy done
-#     tags:
-#         - unity
-#     artifacts:
-#         paths:
-#             - public
-#         expire_in: 30 days
+pages:
+    stage: deploy
+    dependencies:
+      - create-unity-package
+    script:
+      - echo Pages deploy done
+    tags:
+        - unity
+    artifacts:
+        paths:
+            - public
+        expire_in: 30 days
