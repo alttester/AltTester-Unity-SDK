@@ -12,7 +12,7 @@ public class AltUnityDriver
     public static string requestSeparatorString;
     public static string requestEndingString;
     public static bool DebugFlag;
-    public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&",bool enableLogging)
+    public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&",bool enableLogging=false)
     {
         Socket = new System.Net.Sockets.TcpClient();
         Socket.Connect(tcp_ip, tcp_port);

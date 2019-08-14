@@ -275,50 +275,29 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         switch (pieces[0])
         {
             case "findAllObjects":
-                if (debugOn)
-                {
-                    var debugMessage = "all objects requested";
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                var debugMessage = "all objects requested";                   
+                LogMessage(debugMessage);
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2];
                 AltUnityEvents.Instance.GetAllObjects.Invoke(methodParameters, handler);
                 break;
             case "findObjectByName":
-                if (debugOn)
-                {
-                    var debugMessage = "find object by name " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ": find object by name " + pieces[1]);
-                    UnityEngine.Debug.Log("find object by name " + pieces[1]);
-                    UnityEngine.Debug.Log(pieces.Length);
-                }
+                debugMessage = "find object by name " + pieces[1];               
+                LogMessage(debugMessage);
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjectByName.Invoke(methodParameters, handler);
                 break;
             case "findObjectWhereNameContains":
-                if (debugOn)
-                {
-                    var debugMessage = "find object where name contains:" + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "find object where name contains:" + pieces[1];                    
+                LogMessage(debugMessage);
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjectWhereNameContains.Invoke(methodParameters, handler);
                 break;
             case "tapObject":
                 try
                 {
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    if (debugOn)
-                    {
-                        var debugMessage = "tapped object by name " + altUnityObject.name;
-                        debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                        FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                        UnityEngine.Debug.Log(debugMessage);
-                    }
+                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);                   
+                    debugMessage = "tapped object by name " + altUnityObject.name;                       
+                    LogMessage(debugMessage);
                     AltUnityEvents.Instance.Tap.Invoke(altUnityObject, handler);
                 }
                 catch (Newtonsoft.Json.JsonException exception)
@@ -328,107 +307,54 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 }
                 break;
             case "findObjectsByName":
-                if (debugOn)
-                {
-                    var debugMessage = "find multiple objects by name " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "find multiple objects by name " + pieces[1];                    
+                LogMessage(debugMessage);
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjectsByName.Invoke(methodParameters, handler);
                 break;
             case "findObjectsWhereNameContains":
-                if (debugOn)
-                {
-                    var debugMessage = "find objects where name contains:" + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "find objects where name contains:" + pieces[1];                    
+                LogMessage(debugMessage);
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjectsWhereNameContains.Invoke(methodParameters, handler);
                 break;
             case "getCurrentScene":
-                if (debugOn)
-                {
-                    var debugMessage = "get current scene";
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "get current scene";                    
                 AltUnityEvents.Instance.GetCurrentScene.Invoke(handler);
                 break;
             case "findObjectByComponent":
-                if (debugOn)
-                {
-                    var debugMessage = "find object by component " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "find object by component " + pieces[1];                   
+                LogMessage(debugMessage);
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                 AltUnityEvents.Instance.FindObjectByComponent.Invoke(methodParameters, handler);
                 break;
             case "findObjectsByComponent":
-                if (debugOn)
-                {
-                    var debugMessage = "find objects by component " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "find objects by component " + pieces[1];                   
+                LogMessage(debugMessage);
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                 AltUnityEvents.Instance.FindObjectsByComponent.Invoke(methodParameters, handler);
                 break;
             case "getObjectComponentProperty":
-                if (debugOn)
-                {
-                    var debugMessage = "get property " + pieces[2] + " for object " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "get property " + pieces[2] + " for object " + pieces[1];                 
+                LogMessage(debugMessage);
                 AltUnityEvents.Instance.GetComponentProperty.Invoke(pieces[1], pieces[2], handler);
                 break;
             case "setObjectComponentProperty":
-                if (debugOn)
-                {
-                    var debugMessage = "set property " + pieces[2] + " to value: " + pieces[3] + " for object " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "set property " + pieces[2] + " to value: " + pieces[3] + " for object " + pieces[1];                   
                 AltUnityEvents.Instance.SetComponentProperty.Invoke(pieces[1], pieces[2], pieces[3], handler);
                 break;
             case "callComponentMethodForObject":
-                if (debugOn)
-                {
-                    var debugMessage = "call action " + pieces[2] + " for object " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "call action " + pieces[2] + " for object " + pieces[1];                 
                 AltUnityEvents.Instance.CallComponentMethod.Invoke(pieces[1], pieces[2], handler);
                 break;
             case "closeConnection":
-                if (debugOn)
-                {
-                    var debugMessage = "Socket connection closed!";
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                
+                debugMessage = "Socket connection closed!";               
                 AltUnityEvents.Instance.CloseConnection.Invoke(handler);
                 break;
             case "clickEvent":
-                if (debugOn)
-                {
-                    var debugMessage = "ClickEvent on " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
-                }
+                debugMessage = "ClickEvent on " + pieces[1];                 
+                LogMessage(debugMessage);
                 try
                 {
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
@@ -443,19 +369,14 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 break;
             case "tapScreen":
                 debugMessage = "Screen tapped at X:" + pieces[1] + " Y:" + pieces[2];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);
                 AltUnityEvents.Instance.TapScreen.Invoke(pieces[1], pieces[2], handler);
                 break;
             case "dragObject":
                 try
-                {
-
+                {                    
                     debugMessage = "Drag object: " + pieces[2];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    LogMessage(debugMessage);
                     UnityEngine.Vector2 positionVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[2]);
                     AltUnityEvents.Instance.DragObject.Invoke(positionVector2, altUnityObject, handler);
@@ -469,10 +390,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "dropObject":
                 try
                 {
-                    debugMessage = "Drop object: " + pieces[2];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    debugMessage = "Drop object: " + pieces[2];                   
+                    LogMessage(debugMessage);
                     UnityEngine.Vector2 positionDropVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[2]);
                     AltUnityEvents.Instance.DropObject.Invoke(positionDropVector2, altUnityObject, handler);
@@ -486,10 +405,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "pointerUpFromObject":
                 try
                 {
-                    debugMessage = "PointerUp object: " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    debugMessage = "PointerUp object: " + pieces[1];                       
+                    LogMessage(debugMessage);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     AltUnityEvents.Instance.PointerUp.Invoke(altUnityObject, handler);
                 }
@@ -502,10 +419,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             case "pointerDownFromObject":
                 try
                 {
-                    debugMessage = "PointerDown object: " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    debugMessage = "PointerDown object: " + pieces[1];                        
+                    LogMessage(debugMessage);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     AltUnityEvents.Instance.PointerDown.Invoke(altUnityObject, handler);
                 }
@@ -520,9 +435,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 try
                 {
                     debugMessage = "PointerEnter object: " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    LogMessage(debugMessage);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     AltUnityEvents.Instance.PointerEnter.Invoke(altUnityObject, handler);
                 }
@@ -536,9 +449,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 try
                 {
                     debugMessage = "PointerExit object: " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    LogMessage(debugMessage);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     AltUnityEvents.Instance.PointerExit.Invoke(altUnityObject, handler);
                 }
@@ -553,9 +464,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 try
                 {
                     debugMessage = "Tilt device with: " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    LogMessage(debugMessage);
                     UnityEngine.Vector3 vector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector3>(pieces[1]);
                     AltUnityEvents.Instance.Tilt.Invoke(vector3, handler);
                 }
@@ -571,9 +480,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 try
                 {
                     debugMessage = "Touch at: " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    LogMessage(debugMessage);                   
                     UnityEngine.Vector2 start2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     UnityEngine.Vector2 end2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[2]);
                     AltUnityEvents.Instance.SetMovingTouch.Invoke(start2, end2, pieces[3], handler);
@@ -586,47 +493,35 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 break;
             case "loadScene":
                 debugMessage = "LoadScene " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);             
                 AltUnityEvents.Instance.LoadScene.Invoke(pieces[1], handler);
                 break;
             case "setTimeScale":
                 debugMessage = "SetTimeScale at: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 float timeScale = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);
                 AltUnityEvents.Instance.SetTimeScale.Invoke(timeScale, handler);
                 break;
             case "getTimeScale":
                 debugMessage = "GetTimeScale";
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);
                 AltUnityEvents.Instance.GetTimeScale.Invoke(handler);
                 break;
             case "deletePlayerPref":
                 debugMessage = "deletePlayerPref";
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);
                 AltUnityEvents.Instance.DeletePlayerPref.Invoke(handler);
                 break;
             case "deleteKeyPlayerPref":
                 debugMessage = "deleteKeyPlayerPref for: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 AltUnityEvents.Instance.DeleteKeyPlayerPref.Invoke(pieces[1], handler);
                 break;
             case "setKeyPlayerPref":
                 try
                 {
                     debugMessage = "setKeyPlayerPref for: " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    LogMessage(debugMessage);                    
                     option = (PLayerPrefKeyType)System.Enum.Parse(typeof(PLayerPrefKeyType), pieces[3]);
                     AltUnityEvents.Instance.SetKeyPlayerPref.Invoke(pieces[1], pieces[2], option, handler);
                 }
@@ -640,9 +535,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 try
                 {
                     debugMessage = "getKeyPlayerPref for: " + pieces[1];
-                    debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                    FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                    UnityEngine.Debug.Log(debugMessage);
+                    LogMessage(debugMessage);                    
                     option = (PLayerPrefKeyType)System.Enum.Parse(typeof(PLayerPrefKeyType), pieces[2]);
                     AltUnityEvents.Instance.GetKeyPlayerPref.Invoke(pieces[1], option, handler);
                 }
@@ -654,79 +547,59 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 break;
             case "actionFinished":
                 debugMessage = "actionFinished";
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 AltUnityEvents.Instance.ActionFinished.Invoke(handler);
                 break;
             case "getAllComponents":
                 debugMessage = "GetAllComponents";
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 AltUnityEvents.Instance.GetAllComponents.Invoke(pieces[1], handler);
                 break;
             case "getAllFields":
                 debugMessage = "getAllFields";
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 altComponent = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityComponent>(pieces[2]);
                 AltUnityEvents.Instance.GetAllFields.Invoke(pieces[1], altComponent, handler);
                 break;
             case "getAllMethods":
                 debugMessage = "getAllMethods";
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 altComponent = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityComponent>(pieces[1]);
                 AltUnityEvents.Instance.GetAllMethods.Invoke(altComponent, handler);
                 break;
             case "getAllScenes":
                 debugMessage = "getAllScenes";
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);
                 AltUnityEvents.Instance.GetAllScenes.Invoke(handler);
                 break;
             case "getAllCameras":
                 debugMessage = "getAllCameras";
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);
                 AltUnityEvents.Instance.GetAllCameras.Invoke(handler);
                 break;
             case "getScreenshot":
                 debugMessage = "getScreenshot" + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+": getScreenshot" + pieces[1]);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);
                 size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                 AltUnityEvents.Instance.GetScreenshot.Invoke(size, handler);
                 break;
             case "hightlightObjectScreenshot":
                 debugMessage = "HightlightObject wiht id: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);
                 var id = System.Convert.ToInt32(pieces[1]);
                 size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
                 AltUnityEvents.Instance.HighlightObjectScreenshot.Invoke(id, pieces[2], size, handler);
                 break;
             case "hightlightObjectFromCoordinatesScreenshot":
                 debugMessage = "HightlightObject with coordinates: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 var coordinates = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                 size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
                 AltUnityEvents.Instance.HighlightObjectFromCoordinates.Invoke(coordinates, pieces[2], size, handler);
                 break;
             case "pressKeyboardKey":
                 debugMessage = "pressKeyboardKey: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 var piece = pieces[1];
                 UnityEngine.KeyCode keycode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), piece);
                 float power = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
@@ -735,43 +608,33 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 break;
             case "moveMouse":
                 debugMessage = "moveMouse to: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 UnityEngine.Vector2 location = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                 duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
                 AltUnityEvents.Instance.MoveMouse.Invoke(location, duration, handler);
                 break;
             case "scrollMouse":
                 debugMessage = "scrollMouse with: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 var scrollValue = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);
                 duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
                 AltUnityEvents.Instance.Scroll.Invoke(scrollValue, duration, handler);
                 break;
             case "findObject":
                 debugMessage = "findObject for: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObject.Invoke(methodParameters, handler);
                 break;
             case "findObjects":
                 debugMessage = "findObjects for: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+ ":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);                
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindObjects.Invoke(methodParameters, handler);
                 break;
             case "findActiveObjectByName":
                 debugMessage = "findActiveObjectByName for: " + pieces[1];
-                debugMessages += System.DateTime.Now + ":"+ debugMessage + System.Environment.NewLine;
-                FileWriter.WriteLine(System.DateTime.Now+":"+ debugMessage);
-                UnityEngine.Debug.Log(debugMessage);
+                LogMessage(debugMessage);
                 methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                 AltUnityEvents.Instance.FindActiveObjectByName.Invoke(methodParameters, handler);
                 break;
@@ -779,6 +642,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             default:
                 AltUnityEvents.Instance.UnknownString.Invoke(handler);
                 break;
+        }
+    }
+
+    private static void LogMessage(string debugMessage)
+    {
+        if (debugOn)
+        {
+            debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
+            FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
+            UnityEngine.Debug.Log(debugMessage);
         }
     }
 
