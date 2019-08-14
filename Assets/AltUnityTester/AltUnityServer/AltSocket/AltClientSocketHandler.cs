@@ -44,7 +44,7 @@ public class AltClientSocketHandler
     public void SendResponse(string response)
     {
         response = "altstart::" + response + "::altend";
-        UnityEngine.Debug.Log("sending response: " + response);
+        AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now+": sending response: " + response);
         Client.Client.Send(Encoding.GetBytes(response));
     }
     public void SendResponse(byte[] response)
@@ -105,21 +105,25 @@ public class AltClientSocketHandler
         }
         catch (System.Threading.ThreadAbortException exception)
         {
+            AltUnityRunner.FileWriter.WriteLine("Thread aborted(" + exception + ")");
             UnityEngine.Debug.Log("Thread aborted(" + exception + ")");
         }
         catch (System.Net.Sockets.SocketException exception)
         {
+            AltUnityRunner.FileWriter.WriteLine("Socket exception(" + exception + ")");
             UnityEngine.Debug.Log("Socket exception(" + exception + ")");
         }
         catch (System.Exception exception)
 
         {
+            AltUnityRunner.FileWriter.WriteLine("Exception(" + exception + ")");
             UnityEngine.Debug.Log("Exception(" + exception + ")");
         }
         finally
         {
             Client.Close();
             ToBeKilled = true;
+            AltUnityRunner.FileWriter.WriteLine("AltClientSocketHandler - Client closed");
             UnityEngine.Debug.Log("AltClientSocketHandler - Client closed");
 
         }
