@@ -11,13 +11,19 @@ public class AltUnityDriver
     private static int BUFFER_SIZE = 1024;
     public static string requestSeparatorString;
     public static string requestEndingString;
-    public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&")
+    public static bool DebugFlag;
+    public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&",bool enableLogging)
     {
         Socket = new System.Net.Sockets.TcpClient();
         Socket.Connect(tcp_ip, tcp_port);
         AltUnityObject.altUnityDriver = this;
         requestSeparatorString = requestSeparator;
         requestEndingString = requestEnding;
+        DebugFlag = enableLogging;
+
+        //TODO create command to enable debugging
+        Socket.Client.Send(toBytes(CreateCommand("enableDebug",DebugFlag.ToString())));
+
     }
 
     public void Stop()
@@ -390,8 +396,6 @@ public class AltUnityDriver
         string data = Recvall();
         if (data.Equals("OK")) return;
         HandleErrors(data);
-
-
     }
     [System.ObsoleteAttribute("Use instead FindObjectByNameContains")]
     public AltUnityObject FindElementWhereNameContains(string name, string cameraName = "", bool enabled = true)
@@ -408,7 +412,6 @@ public class AltUnityDriver
         }
         HandleErrors(data);
         return null;
-
     }
 
     public System.Collections.Generic.List<AltUnityObject> GetAllElements(string cameraName = "", bool enabled = true)
@@ -884,7 +887,6 @@ public class AltUnityDriver
             dest.Write(bytes, 0, cnt);
         }
     }
-
     public struct TextureInformation
     {
         public byte[] imageData;
@@ -904,8 +906,4 @@ public class AltUnityDriver
     {
         TAG,LAYER,NAME,COMPONENT,PATH,ID
     }
-   
-
 }
-
-

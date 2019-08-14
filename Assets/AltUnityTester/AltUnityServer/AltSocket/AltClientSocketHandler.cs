@@ -43,7 +43,7 @@ public class AltClientSocketHandler
 
     public void SendResponse(string response)
     {
-        response = "altstart::" + response + "::altend";
+        response = "altstart::" + response+"^"+AltUnityRunner.debugMessages + "::altend";
         AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now+": sending response: " + response);
         Client.Client.Send(Encoding.GetBytes(response));
     }
