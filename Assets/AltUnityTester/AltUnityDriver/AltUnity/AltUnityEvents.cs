@@ -65,6 +65,8 @@ public class HoldButtonCommand : UnityEngine.Events.UnityEvent<UnityEngine.KeyCo
 public class ScrollCommand: UnityEngine.Events.UnityEvent<float, float, AltClientSocketHandler> { }
 public class MoveMouseCommand: UnityEngine.Events.UnityEvent<UnityEngine.Vector2,float, AltClientSocketHandler> { }
 
+public class EnableDebuggingCommand: UnityEngine.Events.UnityEvent<bool,AltClientSocketHandler> { }
+
 
 public class AltUnityEvents
 {
@@ -132,6 +134,10 @@ public class AltUnityEvents
     public HoldButtonCommand HoldButton;
     public ScrollCommand Scroll;
     public MoveMouseCommand MoveMouse;
+
+    public EnableDebuggingCommand EnableDebugging;
+
+
     // We are a singleton!
     private static AltUnityEvents _instance;
     public static AltUnityEvents Instance
@@ -204,6 +210,8 @@ public class AltUnityEvents
                 _instance.HoldButton = new HoldButtonCommand();
                 _instance.MoveMouse = new MoveMouseCommand();
                 _instance.Scroll = new ScrollCommand();
+
+                _instance.EnableDebugging = new EnableDebuggingCommand();
             }
             return _instance;
         }

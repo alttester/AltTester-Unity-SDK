@@ -5,9 +5,7 @@ import com.sun.javafx.geom.Vec2f;
 import lombok.extern.slf4j.Slf4j;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Set;
 
@@ -31,6 +29,7 @@ public class AltUnityDriver {
 
     public static String RequestSeparator=";";
     public static String RequestEnd="&";
+    public static boolean debugFlag;
 
     public AltUnityDriver(String ip, int port) {
         if (ip == null || ip.isEmpty()) {
@@ -66,6 +65,27 @@ public class AltUnityDriver {
         RequestEnd=requestEnd;
         RequestSeparator=requestSeparator;
         AltUnityObject.altUnityDriver = this;
+    }
+    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd,boolean enableDebugging) {
+        if (ip == null || ip.isEmpty()) {
+            throw new InvalidParamerException("Provided IP address is null or empty");
+        }
+        try {
+            //log.info("Initializing connection to {}:{}", ip, port);
+            socket = new Socket(ip, port);
+            socket.setSoTimeout(READ_TIMEOUT);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
+        }
+        // TODO: make this uneccesary
+        RequestEnd=requestEnd;
+        RequestSeparator=requestSeparator;
+        AltUnityObject.altUnityDriver = this;
+        this.send(CreateCommand("enableDebug",String.valueOf(enableDebugging)));
+        this.recvall();
+
     }
 
     public String CreateCommand(String... arguments){
@@ -115,8 +135,24 @@ public class AltUnityDriver {
         }
 
         receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
+        String[] splittedString=receivedData.split("::altDebug::");//0=response,1=debug messages from server
+        receivedData=splittedString[0];
+        if(debugFlag){
+            WriteInDebugFile(splittedString[1]);
+        }
         log.debug("Data received: " + receivedData);
         return receivedData;
+    }
+
+    private void WriteInDebugFile(String debugMessages){
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter("LogAltUnityFile", true));
+            writer.append(debugMessages);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String callStaticMethods(String assembly, String typeName, String methodName,

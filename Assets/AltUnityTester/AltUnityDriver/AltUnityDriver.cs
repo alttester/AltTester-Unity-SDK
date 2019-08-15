@@ -1,5 +1,4 @@
 ﻿
-using System;
 
 public enum PLayerPrefKeyType { Int = 1, String, Float }
 
@@ -12,6 +11,7 @@ public class AltUnityDriver
     public static string requestSeparatorString;
     public static string requestEndingString;
     public static bool DebugFlag;
+
     public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&",bool enableLogging=false)
     {
         Socket = new System.Net.Sockets.TcpClient();
@@ -22,8 +22,8 @@ public class AltUnityDriver
         DebugFlag = enableLogging;
 
         //TODO create command to enable debugging
-        Socket.Client.Send(toBytes(CreateCommand("enableDebug",DebugFlag.ToString())));
-
+        Socket.Client.Send(toBytes(CreateCommand("enableDebug",enableLogging.ToString())));
+        Recvall();
     }
 
     public void Stop()
@@ -61,7 +61,18 @@ public class AltUnityDriver
         {
             string[] start = new string[] { "altstart::" };
             string[] end = new string[] { "::altend" };
+            string[] debug = new string[] { "::altDebug::" };
             data = data.Split(start, System.StringSplitOptions.None)[1].Split(end, System.StringSplitOptions.None)[0];
+            var splittedString= data.Split(debug, System.StringSplitOptions.None);
+            var response = splittedString[0];
+            data = response;
+            var debugLogs = splittedString[1];
+            if (DebugFlag)
+            {
+                WriteInDebugFile(debugLogs);
+            }
+
+
         }
         catch (System.Exception)
         {
@@ -69,6 +80,13 @@ public class AltUnityDriver
         }
 
         return data;
+    }
+
+    private void WriteInDebugFile(string debugLogs)
+    {
+        var FileWriter = new System.IO.StreamWriter(@"LogAltUnityFile.txt", true);
+        FileWriter.WriteLine(debugLogs);
+        FileWriter.Close();
     }
 
     private byte[] toBytes(string text)

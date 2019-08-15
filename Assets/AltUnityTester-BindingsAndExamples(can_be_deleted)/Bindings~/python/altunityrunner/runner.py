@@ -133,10 +133,11 @@ class AltElement(object):
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,requestSeparator=';',requestEnd='&',deviceID=""):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,requestSeparator=';',requestEnd='&',deviceID="",enable_debuggging=False):
         self.TCP_PORT = TCP_PORT
         self.requestSeparator=requestSeparator
         self.requestEnd=requestEnd
+        self.debug_flag=enable_debuggging
         if (appium_driver != None):
             self.appium_driver = appium_driver
             if (platform != None):
@@ -168,6 +169,10 @@ class AltrunUnityDriver(object):
 
         if (timeout <= 0):
             raise Exception('AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', did you run ``adb forward tcp:' + str(TCP_FWD_PORT) + ' tcp:' + str(self.TCP_PORT) + '`` or ``iproxy ' + str(TCP_FWD_PORT) + ' ' + str(self.TCP_PORT) + '``?')
+        if(self.debug_flag):
+            self.send_data(self.create_command('enableDebug','true'))
+        else:
+            self.send_data(self.create_command('enableDebug','false'))
 
     def remove_port_forwarding(self, port):
         try:
@@ -218,11 +223,19 @@ class AltrunUnityDriver(object):
             previousPart=str(part)
         try:
             data = data.split('altstart::')[1].split('::altend')[0]
+            splitted_string=data.split('::altDebug::')
+            self.write_to_log_file(splitted_string[1])
+            data=splitted_string[0]
         except:
             print('Data received from socket doesn not have correct start and end control strings')
             return ''
         print('Received data was: ' + data)
         return data
+
+    def write_to_log_file(self,message):
+        f = open("logAltUnityFile.txt", "a")
+        f.write(message)
+        f.close()
 
     def send_data(self, data):
         self.socket.send(data.encode('ascii'))

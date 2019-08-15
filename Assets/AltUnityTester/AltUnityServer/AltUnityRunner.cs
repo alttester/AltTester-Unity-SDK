@@ -14,7 +14,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     private AltSocketServer _socketServer;
 
     public static String debugMessages;
-    public static bool debugOn;
+    public bool debugOn;
 
     private string myPathFile;
     public static System.IO.StreamWriter FileWriter;
@@ -131,6 +131,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         AltUnityEvents.Instance.SetTimeScale.AddListener(SetTimeScale);
         AltUnityEvents.Instance.GetTimeScale.AddListener(GetTimeScale);
 
+        AltUnityEvents.Instance.EnableDebugging.AddListener(EnableDebugging);
         
 
 
@@ -147,11 +148,18 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
         myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
         UnityEngine.Debug.Log(myPathFile);
-        FileWriter = new System.IO.StreamWriter(myPathFile,true);
+        FileWriter = new System.IO.StreamWriter(myPathFile, true);
 
     }
 
-    
+    private void EnableDebugging(bool activateDebug,AltClientSocketHandler handler)
+    {
+        _responseQueue.ScheduleResponse(delegate
+        {
+            debugOn = activateDebug;
+            handler.SendResponse("Ok");
+        });
+    }
 
     public void StartSocketServer()
     {
@@ -274,6 +282,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         PLayerPrefKeyType option;
         switch (pieces[0])
         {
+            case "enableDebug":
+                var enableDebug = bool.Parse( pieces[1]);
+                AltUnityEvents.Instance.EnableDebugging.Invoke(enableDebug, handler);
+                break;
             case "findAllObjects":
                 var debugMessage = "all objects requested";                   
                 LogMessage(debugMessage);
@@ -645,7 +657,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
     }
 
-    private static void LogMessage(string debugMessage)
+    private void LogMessage(string debugMessage)
     {
         if (debugOn)
         {
