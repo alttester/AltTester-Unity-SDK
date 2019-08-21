@@ -140,7 +140,7 @@ public class AltUnityObject {
 
     public String callComponentMethod(String assemblyName, String componentName, String methodName, String parameters, String typeOfParameters) {
         String altObject = new Gson().toJson(this);
-        String actionInfo = new Gson().toJson(new AltUnityObjectAction(assemblyName, componentName, methodName, parameters, typeOfParameters));
+        String actionInfo = new Gson().toJson(new AltUnityObjectAction(componentName,methodName,parameters,typeOfParameters,assemblyName));
         altUnityDriver.send(altUnityDriver.CreateCommand("callComponentMethodForObject",altObject ,actionInfo ));
         String data = altUnityDriver.recvall();
         if (!data.contains("error:")) return data;
