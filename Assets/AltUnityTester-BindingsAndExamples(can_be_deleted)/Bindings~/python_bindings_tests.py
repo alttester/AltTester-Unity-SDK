@@ -434,6 +434,15 @@ class PythonTests(unittest.TestCase):
             except WaitTimeOutException as e:
                 self.assertEqual(e.args[0],'Element CapsuleInfo should have text `aaaaa` but has `Capsule Info` after 1 seconds')
 
+    def test_call_method_with_assembly(self):
+        capsule = self.altdriver.find_object(By.NAME,"Capsule")
+        initialRotation = capsule.get_component_property("UnityEngine.Transform", "rotation")
+        capsule.call_component_method("UnityEngine.Transform", "Rotate", "10?10?10", "UnityEngine.CoreModule", "System.Single?System.Single?System.Single")
+        capsuleAfterRotation = self.altdriver.find_object(By.NAME,"Capsule")
+        finalRotation = capsuleAfterRotation.get_component_property("UnityEngine.Transform", "rotation")
+        self.assertNotEqual(initialRotation, finalRotation)
+    
+
 
        
 if __name__ == '__main__':

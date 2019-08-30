@@ -7,6 +7,7 @@ using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 [Timeout(5000)]
+#pragma warning disable CS0618
 public class TestForScene1WithOldSearch
 {
     private AltUnityDriver altUnityDriver;
@@ -518,5 +519,7 @@ public class TestForScene1WithOldSearch
         Assert.AreEqual(false, cube.enabled);
 
     }
+#pragma warning restore CS0618
+
 
 }
