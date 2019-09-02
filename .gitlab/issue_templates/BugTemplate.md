@@ -1,6 +1,9 @@
 **In what language are the test written?** 
 (C#, Java, Python 2.7, Python 3)
 
+**What version of Unity are you using?**
+(2018.1.9f1,2019.2.0f1,2019.1.14f1,etc)
+
 **What version of AltUnityTester are you using?**
 (0.2.3, 1.2.0, 1.2.1)
 

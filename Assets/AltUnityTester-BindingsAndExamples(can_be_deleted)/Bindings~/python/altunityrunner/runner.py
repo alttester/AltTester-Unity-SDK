@@ -727,8 +727,8 @@ class AltrunUnityDriver(object):
                 raise  ObjectWasNotFoundException(data)
             elif ('error:propertyCannotBeSet' in data): 
                 raise  PropertyNotFoundException(data)
-            elif ('error:nullRefferenceException' in data): 
-                raise  NullRefferenceException(data)
+            elif ('error:nullReferenceException' in data): 
+                raise  NullReferenceException(data)
             elif ('error:unknownError' in data): 
                 raise  UnknownErrorException(data)
             elif ('error:formatException' in data): 

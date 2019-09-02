@@ -863,8 +863,8 @@ public class AltUnityDriver
                 throw new Assets.AltUnityTester.AltUnityDriver.ObjectWasNotFoundException(data);
             case "error:propertyCannotBeSet":
                 throw new Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException(data);
-            case "error:nullRefferenceException":
-                throw new Assets.AltUnityTester.AltUnityDriver.NullRefferenceException(data);
+            case "error:nullReferenceException":
+                throw new Assets.AltUnityTester.AltUnityDriver.NullReferenceException(data);
             case "error:unknownError":
                 throw new Assets.AltUnityTester.AltUnityDriver.UnknownErrorException(data);
             case "error:formatException":

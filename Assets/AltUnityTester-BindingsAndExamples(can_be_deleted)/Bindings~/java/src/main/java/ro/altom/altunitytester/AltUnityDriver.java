@@ -1,15 +1,11 @@
 package ro.altom.altunitytester;
 
 import com.google.gson.Gson;
-import com.sun.javafx.geom.Vec2f;
 import lombok.extern.slf4j.Slf4j;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Set;
-
-import static ro.altom.altunitytester.AltUnityDriver.By.TAG;
 
 @Slf4j
 public class AltUnityDriver {
@@ -980,8 +976,8 @@ public class AltUnityDriver {
             throw new ObjectWasNotFoundException(data);
         } else if ("error:propertyCannotBeSet".equals(typeOfException)) {
             throw new PropertyNotFoundException(data);
-        } else if ("error:nullRefferenceException".equals(typeOfException)) {
-            throw new NullRefferenceException(data);
+        } else if ("error:nullReferenceException".equals(typeOfException)) {
+            throw new NullReferenceException(data);
         } else if ("error:unknownError".equals(typeOfException)) {
             throw new UnknownErrorException(data);
         } else if ("error:formatException".equals(typeOfException)) {
