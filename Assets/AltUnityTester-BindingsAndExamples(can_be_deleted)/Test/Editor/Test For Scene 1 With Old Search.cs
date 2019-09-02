@@ -6,6 +6,8 @@ using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
 using UnityEngine;
+using NullReferenceException = Assets.AltUnityTester.AltUnityDriver.NullReferenceException;
+
 [Timeout(5000)]
 public class TestForScene1WithOldSearch
 {
@@ -243,9 +245,9 @@ public class TestForScene1WithOldSearch
             altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (ComponentNotFoundException exception)
+        catch (NullReferenceException exception)
         {
-            Assert.AreEqual(exception.Message, "error:componentNotFound");
+            Assert.AreEqual(exception.Message, "error:nullReferenceException");
         }
     }
 

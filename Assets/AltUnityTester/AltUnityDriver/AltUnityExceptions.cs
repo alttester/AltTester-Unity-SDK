@@ -124,13 +124,13 @@ namespace Assets.AltUnityTester.AltUnityDriver
         }
     }
 
-    public class NullRefferenceException : AltUnityException
+    public class NullReferenceException : AltUnityException
     {
-        public NullRefferenceException()
+        public NullReferenceException()
         {
         }
 
-        public NullRefferenceException(string message) : base(message)
+        public NullReferenceException(string message) : base(message)
         {
         }
     }
