@@ -19,22 +19,22 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("getKeyPlayerPref for: " + value);
+            AltUnityRunner._altUnityRunner.LogMessage("getKeyPlayerPref for: " + value);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             if (UnityEngine.PlayerPrefs.HasKey(value))
             {
                 switch (type)
                 {
                     case PLayerPrefKeyType.String:
-                        UnityEngine.Debug.Log("Option string " + UnityEngine.PlayerPrefs.GetString(value));
+                        AltUnityRunner._altUnityRunner.LogMessage("Option string " + UnityEngine.PlayerPrefs.GetString(value));
                         response = UnityEngine.PlayerPrefs.GetString(value);
                         break;
                     case PLayerPrefKeyType.Float:
-                        UnityEngine.Debug.Log("Option Float " + UnityEngine.PlayerPrefs.GetFloat(value));
+                        AltUnityRunner._altUnityRunner.LogMessage("Option Float " + UnityEngine.PlayerPrefs.GetFloat(value));
                         response = UnityEngine.PlayerPrefs.GetFloat(value) + "";
                         break;
                     case PLayerPrefKeyType.Int:
-                        UnityEngine.Debug.Log("Option Int " + UnityEngine.PlayerPrefs.GetInt(value));
+                        AltUnityRunner._altUnityRunner.LogMessage("Option Int " + UnityEngine.PlayerPrefs.GetInt(value));
                         response = UnityEngine.PlayerPrefs.GetInt(value) + "";
                         break;
                 }

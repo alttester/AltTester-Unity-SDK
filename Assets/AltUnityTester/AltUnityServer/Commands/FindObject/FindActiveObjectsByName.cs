@@ -19,7 +19,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         {
             var pieces = methodParameters.Split(new string[] { AltUnityRunner._altUnityRunner.requestSeparatorString }, System.StringSplitOptions.None);
             string objectName = pieces[0];
-            UnityEngine.Debug.Log("findActiveObjectByName for: " + objectName);
+            AltUnityRunner._altUnityRunner.LogMessage("findActiveObjectByName for: " + objectName);
             string cameraName = pieces[1];
             bool enabled = System.Convert.ToBoolean(pieces[2]);
             

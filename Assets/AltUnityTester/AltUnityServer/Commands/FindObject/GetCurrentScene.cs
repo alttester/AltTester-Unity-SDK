@@ -4,7 +4,7 @@ namespace altunitytester.Assets.AltUnityTester.AltUnityServer
     {
         public override string Execute()
         {
-            UnityEngine.Debug.Log("get current scene");
+            AltUnityRunner._altUnityRunner.LogMessage("get current scene");
             AltUnityObject scene = new AltUnityObject(name: UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
                                                              type: "UnityScene");
             return UnityEngine.JsonUtility.ToJson(scene);

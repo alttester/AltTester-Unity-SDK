@@ -2,7 +2,7 @@
 {
     public override string Execute()
     {
-        UnityEngine.Debug.Log("getAllScenes");
+        AltUnityRunner._altUnityRunner.LogMessage("getAllScenes");
         System.Collections.Generic.List<string> SceneNames = new System.Collections.Generic.List<string>();
         for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings; i++)
         {

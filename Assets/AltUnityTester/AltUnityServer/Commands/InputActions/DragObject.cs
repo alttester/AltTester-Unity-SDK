@@ -13,7 +13,7 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("Drag object: " + altUnityObject);
+            AltUnityRunner._altUnityRunner.LogMessage("Drag object: " + altUnityObject);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             MockUpPointerInputModule mockUp = new MockUpPointerInputModule();
             var pointerEventData = mockUp.ExecuteTouchEvent(new UnityEngine.Touch() { position = position });
@@ -21,7 +21,7 @@
             UnityEngine.Camera viewingCamera = AltUnityRunner._altUnityRunner.FoundCameraById(altUnityObject.idCamera);
             UnityEngine.Vector3 gameObjectPosition = viewingCamera.WorldToScreenPoint(gameObject.transform.position);
             pointerEventData.delta = pointerEventData.position - new UnityEngine.Vector2(gameObjectPosition.x, gameObjectPosition.y);
-            UnityEngine.Debug.Log("GameOBject: " + gameObject);
+            AltUnityRunner._altUnityRunner.LogMessage("GameOBject: " + gameObject);
             UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.dragHandler);
             var camera = AltUnityRunner._altUnityRunner.FoundCameraById(altUnityObject.idCamera);
             response = Newtonsoft.Json.JsonConvert.SerializeObject(camera != null ? AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, camera) : AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject));

@@ -17,7 +17,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("deleteKeyPlayerPref for: " + keyName);
+            AltUnityRunner._altUnityRunner.LogMessage("deleteKeyPlayerPref for: " + keyName);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             UnityEngine.PlayerPrefs.DeleteKey(keyName);
             response = "Ok";

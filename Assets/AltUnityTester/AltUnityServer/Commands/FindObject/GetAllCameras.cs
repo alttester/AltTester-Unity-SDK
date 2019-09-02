@@ -4,7 +4,7 @@
     {
         public override string Execute()
         {
-            UnityEngine.Debug.Log("getAllCameras");
+            AltUnityRunner._altUnityRunner.LogMessage("getAllCameras");
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
                 var cameras = UnityEngine.GameObject.FindObjectsOfType<UnityEngine.Camera>();
                 System.Collections.Generic.List<string> cameraNames = new System.Collections.Generic.List<string>();

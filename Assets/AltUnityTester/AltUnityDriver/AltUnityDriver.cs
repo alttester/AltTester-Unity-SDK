@@ -21,7 +21,6 @@ public class AltUnityDriver
         requestEndingString = requestEnding;
         DebugFlag = enableLogging;
 
-        //TODO create command to enable debugging
         Socket.Client.Send(toBytes(CreateCommand("enableDebug",enableLogging.ToString())));
         Recvall();
     }
