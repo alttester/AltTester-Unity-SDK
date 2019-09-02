@@ -295,9 +295,9 @@ public class TestForScene1TestSample
             altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (ComponentNotFoundException exception)
+        catch (Assets.AltUnityTester.AltUnityDriver.NullReferenceException exception)
         {
-            Assert.AreEqual(exception.Message, "error:componentNotFound");
+            Assert.AreEqual(exception.Message, "error:nullReferenceException");
         }
     }
 

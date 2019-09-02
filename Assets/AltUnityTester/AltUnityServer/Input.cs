@@ -910,7 +910,6 @@ public class Input : UnityEngine.MonoBehaviour
             }
             return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Joystick"+splitedString[1]+"Button" + number);
         }
-        //TODO joystick buttons
         throw new NotFoundException("Key not recognized");
     }
     private static bool IsEnglishLetter(char c)

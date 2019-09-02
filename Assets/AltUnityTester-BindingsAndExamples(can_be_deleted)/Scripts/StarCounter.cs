@@ -9,7 +9,6 @@ public class StarCounter : MonoBehaviour
     int starsCollected = 0;
     private void Start()
     {
-        stars = GameObject.FindGameObjectsWithTag("Star").Length;
         text.text = starsCollected + "/" + stars;
     }
     public void UpdateStarCounter(bool created)
