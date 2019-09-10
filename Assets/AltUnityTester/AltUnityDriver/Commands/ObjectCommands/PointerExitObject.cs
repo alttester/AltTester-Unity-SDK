@@ -1,4 +1,4 @@
-public class PointerExitObjectDriver : AltBaseCommand
+public class PointerExitObjectDriver : CommandReturningAltElement
 {
     AltUnityObject altUnityObject;
 
@@ -10,14 +10,6 @@ public class PointerExitObjectDriver : AltBaseCommand
     {
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
         Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("pointerExitObject", altObject)));
-        string data = Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            return altElement;
-        }
-
-        HandleErrors(data);
-        return null;
+        return ReceiveAltUnityObject();
     }
 }

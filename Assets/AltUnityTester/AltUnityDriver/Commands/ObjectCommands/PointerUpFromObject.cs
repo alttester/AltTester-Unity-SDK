@@ -1,4 +1,4 @@
-public class PointerUpFromObjectDriver : AltBaseCommand
+public class PointerUpFromObjectDriver : CommandReturningAltElement
 {
     AltUnityObject altUnityObject;
 
@@ -9,14 +9,6 @@ public class PointerUpFromObjectDriver : AltBaseCommand
     public AltUnityObject Execute(){
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
         Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(CreateCommand("pointerUpFromObject", altObject )));
-        string data = Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            return altElement;
-        }
-
-        HandleErrors(data);
-        return null;
+        return ReceiveAltUnityObject();
     }
 }

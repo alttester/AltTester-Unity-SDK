@@ -1,4 +1,4 @@
-public class DragObjectDriver : AltBaseCommand
+public class DragObjectDriver : CommandReturningAltElement
 {   
     UnityEngine.Vector2 position;
     AltUnityObject altUnityObject;
@@ -14,14 +14,6 @@ public class DragObjectDriver : AltBaseCommand
         });
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
         Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(CreateCommand("dragObject",positionString , altObject )));
-        string data = Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            return altElement;
-        }
-
-        HandleErrors(data);
-        return null;
+        return ReceiveAltUnityObject();
     }
 }

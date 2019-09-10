@@ -1,4 +1,4 @@
-public class DropObjectDriver : AltBaseCommand
+public class DropObjectDriver : CommandReturningAltElement
 {
     UnityEngine.Vector2 position;
     AltUnityObject altUnityObject;
@@ -16,14 +16,7 @@ public class DropObjectDriver : AltBaseCommand
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         });
         Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("dropObject", positionString, altObject)));
-        string data = Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            return altElement;
-        }
+        return ReceiveAltUnityObject();
 
-        HandleErrors(data);
-        return null;
     }
 }
