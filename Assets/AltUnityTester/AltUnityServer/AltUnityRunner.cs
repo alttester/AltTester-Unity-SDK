@@ -289,7 +289,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new SetMovingTouch(start2, end2, pieces[3]);
                     break;
                 case "loadScene":
-                    command = new LoadScene(pieces[1]);
+                    command = new Assets.AltUnityTester.AltUnityServer.Commands.LoadScene(pieces[1]);
                     break;
                 case "setTimeScale":
                     float timeScale = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);

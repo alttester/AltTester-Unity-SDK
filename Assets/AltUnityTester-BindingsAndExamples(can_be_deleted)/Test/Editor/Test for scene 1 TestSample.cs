@@ -41,7 +41,7 @@ public class TestForScene1TestSample
     {
 
         const string name = "Capsule";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,name);
+        var altElement = altUnityDriver.FindObject(By.NAME,name);
         Assert.NotNull(altElement);
         Assert.AreEqual(name, altElement.name);
 
@@ -53,7 +53,7 @@ public class TestForScene1TestSample
     {
 
         const string name = "Plane";
-        var altElements = altUnityDriver.FindObjects(AltUnityDriver.By.NAME, name);
+        var altElements = altUnityDriver.FindObjects(By.NAME, name);
         Assert.IsNotEmpty(altElements);
         Assert.AreEqual(altElements[0].name, name);
 
@@ -64,7 +64,7 @@ public class TestForScene1TestSample
     {
 
         const string name = "Cap";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.PATH, "//*[contains(@name," + name + ")]");
+        var altElement = altUnityDriver.FindObject(By.PATH, "//*[contains(@name," + name + ")]");
         Assert.NotNull(altElement);
         Assert.True(altElement.name.Contains(name));
 
@@ -73,7 +73,7 @@ public class TestForScene1TestSample
     public void TestFindElementsWhereNameContains()
     {
         const string name = "Pla";
-        var altElements = altUnityDriver.FindObjects(AltUnityDriver.By.PATH, "//*[contains(@name," + name + ")]");
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name," + name + ")]");
         Assert.IsNotEmpty(altElements);
         Assert.True(altElements[0].name.Contains(name));
     }
@@ -129,7 +129,7 @@ public class TestForScene1TestSample
     {
         const string name = "Capsule";
         var timeStart = DateTime.Now;
-        var altElement = altUnityDriver.WaitForObject(AltUnityDriver.By.NAME, name);
+        var altElement = altUnityDriver.WaitForObject(By.NAME, name);
         var timeEnd = DateTime.Now;
         var time = timeEnd - timeStart;
         Assert.Less(time.TotalSeconds, 20);
@@ -171,7 +171,7 @@ public class TestForScene1TestSample
     {
         const string name = "Dir";
         var timeStart = DateTime.Now;
-        var altElement = altUnityDriver.WaitForObject(AltUnityDriver.By.PATH, "//*[contains(@name," + name + ")]");
+        var altElement = altUnityDriver.WaitForObject(By.PATH, "//*[contains(@name," + name + ")]");
         var timeEnd = DateTime.Now;
         var time = timeEnd - timeStart;
         Assert.Less(time.TotalSeconds, 20);
@@ -184,9 +184,9 @@ public class TestForScene1TestSample
     public void TestWaitForElementWithText()
     {
         const string name = "CapsuleInfo";
-        string text = altUnityDriver.FindObject(AltUnityDriver.By.NAME,name).GetText();
+        string text = altUnityDriver.FindObject(By.NAME,name).GetText();
         var timeStart = DateTime.Now;
-        var altElement = altUnityDriver.WaitForObjectWithText(AltUnityDriver.By.NAME, name, text);
+        var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
         var timeEnd = DateTime.Now;
         var time = timeEnd - timeStart;
         Assert.Less(time.TotalSeconds, 20);
@@ -199,7 +199,7 @@ public class TestForScene1TestSample
     public void TestFindElementByComponent()
     {
         const string componentName = "AltUnityRunner";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.COMPONENT,componentName);
+        var altElement = altUnityDriver.FindObject(By.COMPONENT,componentName);
         Assert.NotNull(altElement);
         Assert.AreEqual(altElement.name, "AltUnityRunnerPrefab");
     }
@@ -207,13 +207,13 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindElementByComponent2()
     {
-        Assert.AreEqual("Capsule", altUnityDriver.FindObject(AltUnityDriver.By.COMPONENT, "Capsule").name);
+        Assert.AreEqual("Capsule", altUnityDriver.FindObject(By.COMPONENT, "Capsule").name);
     }
 
     [Test]
     public void TestFindElemetsByComponent()
     {
-        var a = altUnityDriver.FindObjects(AltUnityDriver.By.COMPONENT,"MeshFilter");
+        var a = altUnityDriver.FindObjects(By.COMPONENT,"MeshFilter");
         Assert.AreEqual(3, a.Count);
     }
 
@@ -222,7 +222,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityRunner";
         const string propertyName = "SocketPortNumber";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"AltUnityRunnerPrefab");
+        var altElement = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual(propertyValue, "13000");
@@ -233,7 +233,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityRunner";
         const string propertyName = "socketPort";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"AltUnityRunnerPrefab");
+        var altElement = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
         try
         {
@@ -251,7 +251,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "Capsule";
         const string propertyName = "arrayOfInts";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         Assert.NotNull(altElement);
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual("[1,2,3]", propertyValue);
@@ -263,7 +263,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "UnityEngine.CapsuleCollider";
         const string propertyName = "isTrigger";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         Assert.NotNull(altElement);
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual("false", propertyValue);
@@ -275,7 +275,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "Capsule";
         const string propertyName = "stringToSetFromTests";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         Assert.NotNull(altElement);
         var propertyValue = altElement.SetComponentProperty(componentName, propertyName, "2");
         Assert.AreEqual("valueSet", propertyValue);
@@ -288,7 +288,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "Capsulee";
         const string propertyName = "stringToSetFromTests";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         Assert.NotNull(altElement);
         try
         {
@@ -306,7 +306,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "Capsule";
         const string methodName = "UIButtonClicked";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, "");
         Assert.AreEqual("null", data);
     }
@@ -317,7 +317,7 @@ public class TestForScene1TestSample
         const string componentName = "Capsule";
         const string methodName = "Jump";
         const string parameters = "New Text";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, parameters);
         Assert.AreEqual("null", data);
     }
@@ -328,7 +328,7 @@ public class TestForScene1TestSample
         const string componentName = "Capsule";
         const string methodName = "TestMethodWithManyParameters";
         const string parameters = "1?stringparam?0.5?[1,2,3]";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, parameters);
         Assert.AreEqual("null", data);
     }
@@ -339,7 +339,7 @@ public class TestForScene1TestSample
         const string componentName = "Capsule";
         const string methodName = "TestMethodWithManyParameters";
         const string parameters = "1?stringparam?[1,2,3]";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         try
         {
             altElement.CallComponentMethod(componentName, methodName, parameters);
@@ -358,7 +358,7 @@ public class TestForScene1TestSample
         const string componentName = "Capsule";
         const string methodName = "TestMethodWithManyParameters";
         const string parameters = "a?stringparam?[1,2,3]";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         try
         {
             altElement.CallComponentMethod(componentName, methodName, parameters);
@@ -423,11 +423,11 @@ public class TestForScene1TestSample
     [Test]
     public void TestDifferentCamera()
     {
-        var altButton = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Button", "Main Camera");
+        var altButton = altUnityDriver.FindObject(By.NAME,"Button", "Main Camera");
         altButton.ClickEvent();
         altButton.ClickEvent();
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule", "Main Camera");
-        var altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule", "Camera");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule", "Main Camera");
+        var altElement2 = altUnityDriver.FindObject(By.NAME,"Capsule", "Camera");
         Vector2 pozOnScreenFromMainCamera = new Vector2(altElement.x, altElement.y);
         Vector2 pozOnScreenFromSecondaryCamera = new Vector2(altElement2.x, altElement2.y);
 
@@ -440,7 +440,7 @@ public class TestForScene1TestSample
     {
         try
         {
-            altUnityDriver.FindObject(AltUnityDriver.By.NAME,"NonExistent");
+            altUnityDriver.FindObject(By.NAME,"NonExistent");
             Assert.Fail();
         }
         catch (NotFoundException exception)
@@ -455,7 +455,7 @@ public class TestForScene1TestSample
     {
         try
         {
-            altUnityDriver.FindObject(AltUnityDriver.By.PATH,"//*[contains(@name,NonExistent)]");
+            altUnityDriver.FindObject(By.PATH,"//*[contains(@name,NonExistent)]");
             Assert.Fail();
         }
         catch (NotFoundException exception)
@@ -468,10 +468,10 @@ public class TestForScene1TestSample
     [Test]
     public void TestButtonClickWithSwipe()
     {
-        var button = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"UIButton");
+        var button = altUnityDriver.FindObject(By.NAME,"UIButton");
         Vector2 vector2 = new Vector2(button.x, button.y);
         altUnityDriver.HoldButtonAndWait(vector2, 1);
-        var capsuleInfo = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"CapsuleInfo");
+        var capsuleInfo = altUnityDriver.FindObject(By.NAME,"CapsuleInfo");
         Thread.Sleep(1400);
         var text = capsuleInfo.GetText();
         Assert.AreEqual(text, "UIButton clicked to jump capsule!");
@@ -481,19 +481,19 @@ public class TestForScene1TestSample
     public void TestClickElement()
     {
         const string name = "Capsule";
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,name).Tap();
+        var altElement = altUnityDriver.FindObject(By.NAME,name).Tap();
         Assert.AreEqual(name, altElement.name);
-        altUnityDriver.WaitForObjectWithText(AltUnityDriver.By.NAME,"CapsuleInfo", "Capsule was clicked to jump!");
+        altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "Capsule was clicked to jump!");
     }
 
     [Test]
     public void TestClickScreen()
     {
         const string name = "UIButton";
-        var altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,name);
+        var altElement2 = altUnityDriver.FindObject(By.NAME,name);
         var altElement = altUnityDriver.TapScreen(altElement2.x, altElement2.y);
         Assert.AreEqual(name, altElement.name);
-        altUnityDriver.WaitForObjectWithText(AltUnityDriver.By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
+        altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
     }
 
     [Test]
@@ -501,7 +501,7 @@ public class TestForScene1TestSample
     {
         try
         {
-            altUnityDriver.WaitForObject(AltUnityDriver.By.NAME,"dlkasldkas", timeout: 1, interval: 1);
+            altUnityDriver.WaitForObject(By.NAME,"dlkasldkas", timeout: 1, interval: 1);
             Assert.Fail();
         }
         catch (WaitTimeOutException exception)
@@ -514,7 +514,7 @@ public class TestForScene1TestSample
     {
         try
         {
-            altUnityDriver.WaitForObjectNotBePresent(AltUnityDriver.By.NAME,"Capsule", timeout: 1, interval: 0.5f);
+            altUnityDriver.WaitForObjectNotBePresent(By.NAME,"Capsule", timeout: 1, interval: 0.5f);
             Assert.Fail();
         }
         catch (WaitTimeOutException exception)
@@ -528,7 +528,7 @@ public class TestForScene1TestSample
     {
         try
         {
-            altUnityDriver.WaitForObjectWithText(AltUnityDriver.By.NAME,"CapsuleInfo", "aaaaa", timeout: 1);
+            altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "aaaaa", timeout: 1);
             Assert.Fail();
         }
         catch (WaitTimeOutException exception)
@@ -560,7 +560,7 @@ public class TestForScene1TestSample
         const string name = "xyz";
         try
         {
-            altUnityDriver.WaitForObject(AltUnityDriver.By.PATH, "//*[contains(@name,"+name+")]", timeout: 1);
+            altUnityDriver.WaitForObject(By.PATH, "//*[contains(@name,"+name+")]", timeout: 1);
             Assert.Fail();
         }
         catch (WaitTimeOutException exception)
@@ -583,16 +583,16 @@ public class TestForScene1TestSample
     public void TestCallMethodWithMultipleDefinitions()
     {
 
-        AltUnityObject capsule = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        AltUnityObject capsule = altUnityDriver.FindObject(By.NAME,"Capsule");
         capsule.CallComponentMethod("Capsule", "Test", "2", "System.Int32");
-        AltUnityObject capsuleInfo = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"CapsuleInfo");
+        AltUnityObject capsuleInfo = altUnityDriver.FindObject(By.NAME,"CapsuleInfo");
         Assert.AreEqual("6", capsuleInfo.GetText());
     }
 
     [Test]
     public void TestGetAllComponents()
     {
-        List<AltUnityComponent> components = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Canvas").GetAllComponents();
+        List<AltUnityComponent> components = altUnityDriver.FindObject(By.NAME,"Canvas").GetAllComponents();
         Assert.AreEqual(4, components.Count);
         Assert.AreEqual("UnityEngine.RectTransform", components[0].componentName);
         Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
@@ -601,7 +601,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetAllMethods()
     {
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         List<String> methods = altElement.GetAllMethods(altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule")));
         Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
     }
@@ -609,7 +609,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetAllFields()
     {
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
         var componentList = altElement.GetAllComponents();
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("Capsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
@@ -621,44 +621,44 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindObjectByTag()
     {
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.TAG,"plane");
+        var altElement = altUnityDriver.FindObject(By.TAG,"plane");
         Assert.True(altElement.name.Equals("Plane"));
     }
     [Test]
     public void TestFindObjectByLayer() 
     {
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.LAYER,"Water");
+        var altElement = altUnityDriver.FindObject(By.LAYER,"Water");
         Assert.True(altElement.name.Equals("Capsule"));
     }
     [Test]
     public void TestFindObjectByUnityComponent()
     {
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.COMPONENT,"CapsuleCollider");
+        var altElement = altUnityDriver.FindObject(By.COMPONENT,"CapsuleCollider");
         Assert.True(altElement.name.Equals("Capsule"));
     }
     [Test]
     public void TestFindObjectByComponent()
     {
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.COMPONENT,"Capsule");
+        var altElement = altUnityDriver.FindObject(By.COMPONENT,"Capsule");
         Assert.True(altElement.name.Equals("Capsule"));
     }
     
     [Test]
     public void TestFindChild()
     {
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.PATH,"//UIButton/*");
+        var altElement = altUnityDriver.FindObject(By.PATH,"//UIButton/*");
         Assert.True(altElement.name.Equals("Text"));
     }
     [Test]
     public void TestFindingDifferentObjects()
     {
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.PATH, "//*[contains(@name,Cub)]", enabled: false);
+        var altElement = altUnityDriver.FindObject(By.PATH, "//*[contains(@name,Cub)]", enabled: false);
         Assert.True(altElement.name.Equals("Cube"));
 
-        altElement = altUnityDriver.FindObject(AltUnityDriver.By.PATH, "//RotateMainCameraButton/../*[contains(@name,Seconda)]/Text");
+        altElement = altUnityDriver.FindObject(By.PATH, "//RotateMainCameraButton/../*[contains(@name,Seconda)]/Text");
         Assert.True(altElement.name.Equals("Text"));
 
-        altElement = altUnityDriver.FindObject(AltUnityDriver.By.PATH,"//*[@component=BoxCollider]", enabled: false);
+        altElement = altUnityDriver.FindObject(By.PATH,"//*[@component=BoxCollider]", enabled: false);
         Assert.True(altElement.name.Equals("Cube"));
 
 
@@ -666,10 +666,10 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindObjectWithDifferentCameras()
     {
-        var changeCameraButton = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Button");
+        var changeCameraButton = altUnityDriver.FindObject(By.NAME,"Button");
         changeCameraButton.Tap().Tap();
-        var altElement1 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule", cameraName:"Main Camera",enabled: false);
-        var altElement2 = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule", cameraName:"Camera",enabled: false);
+        var altElement1 = altUnityDriver.FindObject(By.NAME,"Capsule", cameraName:"Main Camera",enabled: false);
+        var altElement2 = altUnityDriver.FindObject(By.NAME,"Capsule", cameraName:"Camera",enabled: false);
         Assert.AreNotEqual(altElement1.y,altElement2.y);
         Assert.AreNotEqual(altElement1.x,altElement2.x);
     }
@@ -677,7 +677,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindObjectsByTag()
     {
-        var altElements = altUnityDriver.FindObjects(AltUnityDriver.By.TAG,"plane");
+        var altElements = altUnityDriver.FindObjects(By.TAG,"plane");
         Assert.AreEqual(2, altElements.Count);
         foreach(var altElement in altElements)
         {
@@ -688,13 +688,13 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindObjectsByLayer()
     {
-        var altElements = altUnityDriver.FindObjects(AltUnityDriver.By.LAYER,"Default");
+        var altElements = altUnityDriver.FindObjects(By.LAYER,"Default");
         Assert.AreEqual(8, altElements.Count);
     }
     [Test]
     public void TestFindObjectsByContainName()
     {
-        var altElements = altUnityDriver.FindObjects(AltUnityDriver.By.PATH, "//*[contains(@name,Ca)]");
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Ca)]");
         Assert.AreEqual(7, altElements.Count);
         foreach (var altElement in altElements)
         {
@@ -706,7 +706,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestInactiveObject()
     {
-        AltUnityObject cube = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Cube", enabled: false);
+        AltUnityObject cube = altUnityDriver.FindObject(By.NAME,"Cube", enabled: false);
         Assert.AreEqual(false, cube.enabled);
 
     }

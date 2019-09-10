@@ -34,232 +34,73 @@ public class AltUnityObject
         this.parentId = parentId;
         this.transformId = transformId;
     }
-
     public UnityEngine.Vector2 getScreenPosition()
     {
         return new UnityEngine.Vector2(x, y);
     }
-
     public UnityEngine.Vector3 getWorldPosition()
     {
         return new UnityEngine.Vector3(worldX, worldY, worldZ);
     }
     public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null)
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName,assemblyName));
-        altUnityDriver.Socket.Client.Send(
-             System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("getObjectComponentProperty", altObject , propertyInfo )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:")) return data;
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new GetComponentPropertyDriver(AltUnityDriver.socketSettings,componentName,propertyName,assemblyName,this).Execute();
     }
     public string SetComponentProperty(string componentName, string propertyName, string value, string assemblyName = null)
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName,assemblyName));
-        altUnityDriver.Socket.Client.Send(
-            System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("setObjectComponentProperty",altObject , propertyInfo , value )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:")) return data;
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new SetComponentPropertyDriver(AltUnityDriver.socketSettings,componentName,propertyName,value,assemblyName,this).Execute();
     }
-
     public string CallComponentMethod(string componentName, string methodName,string parameters,string typeOfParameters="", string assemblyName = null)
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        string actionInfo =
-            Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters,typeOfParameters, assemblyName));
-        altUnityDriver.Socket.Client.Send(
-             System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("callComponentMethodForObject", altObject , actionInfo )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:")) return data;
-        AltUnityDriver.HandleErrors(data);
-        return null;
-
-
+        
+        return new CallComponentMethodDriver(AltUnityDriver.socketSettings,componentName,methodName,parameters,typeOfParameters,assemblyName,this).Execute();
     }
-
     public string GetText()
     {
         return GetComponentProperty("UnityEngine.UI.Text", "text",null);
-    }
-    
+    }    
     public AltUnityObject ClickEvent()
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("clickEvent" ,altObject )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            if (altElement.name.Contains(name))
-            {
-                return altElement;
-            }
-        }
-
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new ClickEventDriver(AltUnityDriver.socketSettings,this).Execute();
     }
     public AltUnityObject DragObject(UnityEngine.Vector2 position)
     {
-        string positionString = Newtonsoft.Json.JsonConvert.SerializeObject(position, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
-        {
-            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        });
-        // Debug.Log("position string:" + positionString);
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("dragObject",positionString , altObject )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            if (altElement.name.Contains(name))
-            {
-                return altElement;
-            }
-        }
-
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new DragObjectDriver(AltUnityDriver.socketSettings,position,this).Execute();
     }
     public AltUnityObject DropObject(UnityEngine.Vector2 position)
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        string positionString = Newtonsoft.Json.JsonConvert.SerializeObject(position, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
-        {
-            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        });
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("dropObject", positionString , altObject)));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            if (altElement.name.Contains(name))
-            {
-                return altElement;
-            }
-        }
-
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new DropObjectDriver(AltUnityDriver.socketSettings,position,this).Execute();   
     }
-
     public AltUnityObject PointerUpFromObject()
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("pointerUpFromObject", altObject )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            if (altElement.name.Contains(name))
-            {
-                return altElement;
-            }
-        }
-
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new PointerUpFromObjectDriver(AltUnityDriver.socketSettings,this).Execute();
     }
     public AltUnityObject PointerDownFromObject()
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("pointerDownFromObject" , altObject)));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            if (altElement.name.Contains(name))
-            {
-                return altElement;
-            }
-        }
-
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new PointerDownFromObjectDriver(AltUnityDriver.socketSettings,this).Execute();
     }
-
     public AltUnityObject PointerEnterObject()
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("pointerEnterObject", altObject)));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            if (altElement.name.Contains(name))
-            {
-                return altElement;
-            }
-        }
-
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new PointerEnterObjectDriver(AltUnityDriver.socketSettings,this).Execute();
     }
     public AltUnityObject PointerExitObject()
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("pointerExitObject",altObject )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            if (altElement.name.Contains(name))
-            {
-                return altElement;
-            }
-        }
-
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new PointerExitObjectDriver(AltUnityDriver.socketSettings,this).Execute();
     }
     public AltUnityObject Tap()
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("tapObject",altObject )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:"))
-        {
-            AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-            if (altElement.name.Contains(name))
-            {
-                return altElement;
-            }
-        }
-
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new TapDriver(AltUnityDriver.socketSettings,this).Execute();
     }
-
     public System.Collections.Generic.List<AltUnityComponent> GetAllComponents()
     {
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("getAllComponents", id.ToString() )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityComponent>>(data);
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new GetAllComponentsDriver(AltUnityDriver.socketSettings,this).Execute();
     }
-
     public System.Collections.Generic.List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent)
     {
-        var altComponent = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityComponent);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("getAllFields",id.ToString() , altComponent)));
-        string data = altUnityDriver.Recvall(); 
-        if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityProperty>>(data);
-        AltUnityDriver.HandleErrors(data);
-        return null;
+       return new GetAllPropertiesDriver(AltUnityDriver.socketSettings,altUnityComponent,this).Execute();
     }
     public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent)
     {
-        var altComponent = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityComponent);
-        altUnityDriver.Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(altUnityDriver.CreateCommand("getAllMethods",altComponent )));
-        string data = altUnityDriver.Recvall();
-        if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<string>>(data);
-        AltUnityDriver.HandleErrors(data);
-        return null;
+        return new GetAllMethodsDriver(AltUnityDriver.socketSettings,altUnityComponent,this).Execute();
     }
 }
