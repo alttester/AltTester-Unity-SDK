@@ -3,9 +3,9 @@ from altunityrunner.by import By
 import json
 BUFFER_SIZE = 1024
 class BaseCommand(object):
-    def __init__(self, socket,requestSeparator=';',requestEnd='&'):
-        self.requestSeparator=requestSeparator
-        self.requestEnd=requestEnd
+    def __init__(self, socket,request_separator=';',request_end='&'):
+        self.request_separator=request_separator
+        self.request_end=request_end
         self.socket=socket
 
     def recvall(self):
@@ -71,8 +71,8 @@ class BaseCommand(object):
     def create_command(self,*arguments):
         command=''
         for argument in arguments:
-            command+=str(argument)+self.requestSeparator
-        command+=self.requestEnd
+            command+=str(argument)+self.request_separator
+        command+=self.request_end
         return command
     
     def set_path(self,by,value):

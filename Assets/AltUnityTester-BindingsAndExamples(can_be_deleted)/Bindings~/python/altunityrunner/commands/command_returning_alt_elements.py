@@ -3,9 +3,9 @@ from altunityrunner.commands.base_command import BaseCommand
 import json
 BUFFER_SIZE = 1024
 class CommandReturningAltElements(BaseCommand):
-    def __init__(self, socket,requestSeparator=';',requestEnd='&'):
-        self.requestSeparator=requestSeparator
-        self.requestEnd=requestEnd
+    def __init__(self, socket,request_separator=';',request_end='&'):
+        self.request_separator=request_separator
+        self.request_end=request_end
         self.socket=socket
 
     def get_alt_element(self, data):

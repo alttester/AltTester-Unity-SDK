@@ -1,7 +1,7 @@
 from altunityrunner.commands.base_command import BaseCommand
 class GetComponentProperty(BaseCommand):
-    def __init__(self, socket,requestSeparator,requestEnd,component_name, property_name, assembly_name,alt_object):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end,component_name, property_name, assembly_name,alt_object):
+        super().__init__(socket,request_separator,request_end)
         self.component_name=component_name
         self.property_name=property_name
         self.assembly_name=assembly_name

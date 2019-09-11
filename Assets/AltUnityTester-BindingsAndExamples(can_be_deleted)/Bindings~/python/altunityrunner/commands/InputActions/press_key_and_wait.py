@@ -2,14 +2,14 @@ from altunityrunner.commands.command_returning_alt_elements import CommandReturn
 from altunityrunner.commands.InputActions.press_key import PressKey
 import time
 class PressKeyAndWait(CommandReturningAltElements):
-    def __init__(self, socket,requestSeparator,requestEnd, keyName,power,duration):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end, keyName,power,duration):
+        super().__init__(socket,request_separator,request_end)
         self.keyName=keyName
         self.power=power
         self.duration=duration
     
     def execute(self):
-        data = PressKey(self.socket,self.requestSeparator,self.requestEnd,self.keyName,self.power,self.duration).execute()
+        data = PressKey(self.socket,self.request_separator,self.request_end,self.keyName,self.power,self.duration).execute()
         self.handle_errors(data)
         print('Wait for press key to finish')
         time.sleep(self.duration)

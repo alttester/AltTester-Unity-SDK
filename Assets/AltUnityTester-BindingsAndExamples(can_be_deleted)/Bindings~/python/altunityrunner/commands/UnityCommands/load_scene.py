@@ -1,7 +1,7 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 class LoadScene(CommandReturningAltElements):
-    def __init__(self, socket,requestSeparator,requestEnd,scene_name):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end,scene_name):
+        super().__init__(socket,request_separator,request_end)
         self.scene_name=scene_name
     
     def execute(self):

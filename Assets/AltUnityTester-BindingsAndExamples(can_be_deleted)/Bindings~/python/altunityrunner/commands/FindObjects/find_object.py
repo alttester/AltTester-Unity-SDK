@@ -1,8 +1,8 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 from altunityrunner.by import By
 class FindObject(CommandReturningAltElements):
-    def __init__(self, socket,requestSeparator,requestEnd,by,value,camera_name,enabled):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end,by,value,camera_name,enabled):
+        super().__init__(socket,request_separator,request_end)
         self.by=by
         self.value=value
         self.camera_name=camera_name

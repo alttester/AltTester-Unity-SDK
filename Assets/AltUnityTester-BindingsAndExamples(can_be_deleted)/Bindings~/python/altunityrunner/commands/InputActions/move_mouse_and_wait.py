@@ -2,14 +2,14 @@ from altunityrunner.commands.command_returning_alt_elements import CommandReturn
 from altunityrunner.commands.InputActions.move_mouse import MoveMouse
 import time
 class MoveMouseAndWait(CommandReturningAltElements):
-    def __init__(self, socket,requestSeparator,requestEnd, x, y, duration):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end, x, y, duration):
+        super().__init__(socket,request_separator,request_end)
         self.x=x
         self.y=y
         self.duration=duration
     
     def execute(self):
-        data = MoveMouse(self.socket,self.requestSeparator,self.requestEnd,self.x, self.y, self.duration).execute()
+        data = MoveMouse(self.socket,self.request_separator,self.request_end,self.x, self.y, self.duration).execute()
         self.handle_errors(data)
         print('Wait for move mouse to finish')
         time.sleep(self.duration)

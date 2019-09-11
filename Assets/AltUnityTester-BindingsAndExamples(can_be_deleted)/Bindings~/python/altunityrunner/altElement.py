@@ -47,23 +47,23 @@ class AltElement(object):
         
     def get_component_property(self, component_name, property_name, assembly_name=''):
         alt_object = self.toJSON()
-        return GetComponentProperty(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,component_name,property_name,assembly_name,alt_object).execute()
+        return GetComponentProperty(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,component_name,property_name,assembly_name,alt_object).execute()
 
     def set_component_property(self, component_name, property_name, value, assembly_name=''):
         alt_object = self.toJSON()
-        return SetComponentProperty(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,component_name,property_name,value,assembly_name,alt_object).execute()        
+        return SetComponentProperty(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,component_name,property_name,value,assembly_name,alt_object).execute()        
 
     def call_component_method(self, component_name, method_name, parameters,assembly_name='',type_of_parameters=''):
         alt_object = self.toJSON()
-        return CallComponentMethodForObject(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,component_name,method_name,parameters,assembly_name,type_of_parameters,alt_object).execute()        
+        return CallComponentMethodForObject(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,component_name,method_name,parameters,assembly_name,type_of_parameters,alt_object).execute()        
 
     def get_text(self):
         alt_object = self.toJSON()
-        return GetText(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,alt_object).execute()
+        return GetText(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
 
     def click_Event(self):
         alt_object = self.toJSON()
-        return ClickEvent(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,alt_object).execute()
+        return ClickEvent(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
         
     def mobile_tap(self, durationInSeconds=0.5):
         self.appium_driver.tap([[float(self.x), float(self.mobileY)]], durationInSeconds * 1000)
@@ -76,28 +76,28 @@ class AltElement(object):
     
     def drag(self, x, y):
         alt_object = self.toJSON()
-        return Drag(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,x,y,alt_object).execute()
+        return Drag(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,x,y,alt_object).execute()
 
     def drop(self, x, y):
         alt_object = self.toJSON()
-        return Drop(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,x,y,alt_object).execute()
+        return Drop(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,x,y,alt_object).execute()
     
     def pointer_up(self):
         alt_object = self.toJSON()
-        return PointerUp(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,alt_object).execute()
+        return PointerUp(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
 
     def pointer_down(self):
         alt_object = self.toJSON()
-        return PointerDown(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,alt_object).execute()
+        return PointerDown(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
 
     def pointer_enter(self):
         alt_object = self.toJSON()
-        return PointerEnter(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,alt_object).execute()
+        return PointerEnter(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
         
     def pointer_exit(self):
         alt_object = self.toJSON()
-        return PointerExit(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,alt_object).execute()        
+        return PointerExit(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()        
     
     def tap(self):
         alt_object=self.toJSON()
-        return Tap(self.alt_unity_driver.socket,self.alt_unity_driver.requestSeparator,self.alt_unity_driver.requestEnd,alt_object).execute()
+        return Tap(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()

@@ -2,13 +2,13 @@ from altunityrunner.commands.command_returning_alt_elements import CommandReturn
 from altunityrunner.commands.InputActions.scroll_mouse import ScrollMouse
 import time
 class ScrollMouseAndWait(CommandReturningAltElements):
-    def __init__(self, socket,requestSeparator,requestEnd, speed, duration):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end, speed, duration):
+        super().__init__(socket,request_separator,request_end)
         self.speed=speed
         self.duration=duration
     
     def execute(self):
-        data = ScrollMouse(self.socket,self.requestSeparator,self.requestEnd,self.speed, self.duration).execute()
+        data = ScrollMouse(self.socket,self.request_separator,self.request_end,self.speed, self.duration).execute()
         self.handle_errors(data)
         print('Wait for scroll mouse to finish')
         time.sleep(self.duration)

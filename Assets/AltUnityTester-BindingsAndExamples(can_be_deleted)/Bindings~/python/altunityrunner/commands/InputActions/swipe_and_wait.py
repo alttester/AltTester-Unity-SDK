@@ -2,8 +2,8 @@ from altunityrunner.commands.command_returning_alt_elements import CommandReturn
 from altunityrunner.commands.InputActions.swipe import Swipe
 import time
 class SwipeAndWait(CommandReturningAltElements):
-    def __init__(self, socket,requestSeparator,requestEnd,x_start, y_start, x_end, y_end, duration_in_secs):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end,x_start, y_start, x_end, y_end, duration_in_secs):
+        super().__init__(socket,request_separator,request_end)
         self.x_start=x_start
         self.y_start=y_start
         self.x_end=x_end
@@ -11,7 +11,7 @@ class SwipeAndWait(CommandReturningAltElements):
         self.duration_in_secs=duration_in_secs
     
     def execute(self):
-        data = Swipe(self.socket,self.requestSeparator,self.requestEnd,self.x_start, self.y_start, self.x_end, self.y_end, self.duration_in_secs).execute()
+        data = Swipe(self.socket,self.request_separator,self.request_end,self.x_start, self.y_start, self.x_end, self.y_end, self.duration_in_secs).execute()
         self.handle_errors(data)
         print('Wait for swipe to finish')
         time.sleep(self.duration_in_secs)

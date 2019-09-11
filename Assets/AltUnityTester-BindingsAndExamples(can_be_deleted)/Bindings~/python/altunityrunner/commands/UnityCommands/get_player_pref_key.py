@@ -1,8 +1,8 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 from altunityrunner.player_pref_key_type import PlayerPrefKeyType
 class GetPlayerPrefKey(CommandReturningAltElements):
-    def __init__(self, socket,requestSeparator,requestEnd,key_name, key_type):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end,key_name, key_type):
+        super().__init__(socket,request_separator,request_end)
         self.key_name=key_name
         self.key_type=key_type
     

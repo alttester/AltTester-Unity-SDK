@@ -13,15 +13,15 @@ BUFFER_SIZE = 1024
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,requestSeparator=';',requestEnd='&',deviceID=""):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',device_id=""):
         self.TCP_PORT = TCP_PORT
-        self.requestSeparator=requestSeparator
-        self.requestEnd=requestEnd
+        self.request_separator=request_separator
+        self.request_end=request_end
         if (appium_driver != None):
             self.appium_driver = appium_driver
             if (platform != None):
                 print('Starting tests on ' + platform)
-                self.setup_port_forwarding(deviceID=deviceID,platform=platform, port=TCP_FWD_PORT)
+                self.setup_port_forwarding(device_id=device_id,platform=platform, port=TCP_FWD_PORT)
 
         while (timeout > 0):
             try:
@@ -61,154 +61,154 @@ class AltrunUnityDriver(object):
         except:
             print('AltUnityServer - adb probably not installed ')
 
-    def setup_port_forwarding(self,deviceID="", platform="android", port=13000):
+    def setup_port_forwarding(self,device_id="", platform="android", port=13000):
         if (platform == "android"):
             try:
-                if deviceID=="":
+                if device_id=="":
                     subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
                 else:
-                    subprocess.Popen(['adb','-s '+deviceID, 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
+                    subprocess.Popen(['adb','-s '+device_id, 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
             except:
                 print('AltUnityServer - could not use port ' + str(port))
         if (platform == "ios"):
             try:
-                if deviceID=="":
+                if device_id=="":
                     subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT)])
                 else:
-                    subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT),deviceID])
+                    subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT),device_id])
             except:
                 print('AltUnityServer - could not use port ' + str(port))
 
     def stop(self):
-        CloseConnection(self.socket,self.requestSeparator,self.requestEnd).execute()          
+        CloseConnection(self.socket,self.request_separator,self.request_end).execute()          
 
     def call_static_methods(self, type_name, method_name, parameters, type_of_parameters = '',assembly=''):
-        return CallStaticMethods(self.socket,self.requestSeparator,self.requestEnd,type_name,method_name,parameters,type_of_parameters,assembly).execute()
+        return CallStaticMethods(self.socket,self.request_separator,self.request_end,type_name,method_name,parameters,type_of_parameters,assembly).execute()
      
     def get_all_elements(self,camera_name='',enabled=True):
-        return GetAllElements(self.socket,self.requestSeparator,self.requestEnd,camera_name,enabled).execute()
+        return GetAllElements(self.socket,self.request_separator,self.request_end,camera_name,enabled).execute()
 
     def find_object(self,by,value,camera_name='',enabled=True):
-        return FindObject(self.socket,self.requestSeparator,self.requestEnd,by,value,camera_name,enabled).execute()
+        return FindObject(self.socket,self.request_separator,self.request_end,by,value,camera_name,enabled).execute()
         
     def find_object_which_contains(self,by,value,camera_name='',enabled=True):
-        return FindObjectWhichContains(self.socket,self.requestSeparator,self.requestEnd,by,value,camera_name,enabled).execute()
+        return FindObjectWhichContains(self.socket,self.request_separator,self.request_end,by,value,camera_name,enabled).execute()
 
     def find_objects(self,by,value,camera_name='',enabled=True):
-        return FindObjects(self.socket,self.requestSeparator,self.requestEnd,by,value,camera_name,enabled).execute()
+        return FindObjects(self.socket,self.request_separator,self.request_end,by,value,camera_name,enabled).execute()
     
     def find_objects_which_contains(self,by,value,camera_name='',enabled=True):
-        return FindObjectsWhichContains(self.socket,self.requestSeparator,self.requestEnd,by,value,camera_name,enabled).execute()
+        return FindObjectsWhichContains(self.socket,self.request_separator,self.request_end,by,value,camera_name,enabled).execute()
     
     @deprecated(version='1.4.0',reason="Use find_object instead")
     def find_element(self, name,camera_name='',enabled=True):
-        return FindElement(self.socket,self.requestSeparator,self.requestEnd,name,camera_name,enabled).execute()
+        return FindElement(self.socket,self.request_separator,self.request_end,name,camera_name,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use find_object_which_contains instead")
     def find_element_where_name_contains(self, name,camera_name='',enabled=True):
-        return FindElementWhereNameContains(self.socket,self.requestSeparator,self.requestEnd,name,camera_name,enabled).execute()
+        return FindElementWhereNameContains(self.socket,self.request_separator,self.request_end,name,camera_name,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use find_objects instead")
     def find_elements(self, name,camera_name='',enabled=True):
-        return FindElements(self.socket,self.requestSeparator,self.requestEnd,name,camera_name,enabled).execute()        
+        return FindElements(self.socket,self.request_separator,self.request_end,name,camera_name,enabled).execute()        
 
     @deprecated(version='1.4.0',reason="Use find_objects_which_contains instead")
     def find_elements_where_name_contains(self, name,camera_name='',enabled=True):
-        return FindElementsWhereNameContains(self.socket,self.requestSeparator,self.requestEnd,name,camera_name,enabled).execute()
+        return FindElementsWhereNameContains(self.socket,self.request_separator,self.request_end,name,camera_name,enabled).execute()
 
     def get_current_scene(self):
-        return GetCurrentScene(self.socket,self.requestSeparator,self.requestEnd).execute()
+        return GetCurrentScene(self.socket,self.request_separator,self.request_end).execute()
 
     def click_at_coordinates(self, x, y):
-        return ClickAtCoordinates(self.socket,self.requestSeparator,self.requestEnd).execute()
+        return ClickAtCoordinates(self.socket,self.request_separator,self.request_end).execute()
 
     def swipe(self, x_start, y_start, x_end, y_end, duration_in_secs):
-        return Swipe(self.socket,self.requestSeparator,self.requestEnd,x_start,y_start,x_end,y_end,duration_in_secs).execute()
+        return Swipe(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
 
 
     def swipe_and_wait(self, x_start, y_start, x_end, y_end, duration_in_secs):
-        return SwipeAndWait(self.socket,self.requestSeparator,self.requestEnd,x_start,y_start,x_end,y_end,duration_in_secs).execute()
+        return SwipeAndWait(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
 
     def tilt(self, x, y, z):
-        return Tilt(self.socket,self.requestSeparator,self.requestEnd,x,y,z).execute()
+        return Tilt(self.socket,self.request_separator,self.request_end,x,y,z).execute()
 
     def press_key(self, keyName,power=1,duration=1):
-        return PressKey(self.socket,self.requestSeparator,self.requestEnd,keyName,power,duration).execute()
+        return PressKey(self.socket,self.request_separator,self.request_end,keyName,power,duration).execute()
 
     def press_key_and_wait(self,keyName,power=1,duration=1):
-        return PressKeyAndWait(self.socket,self.requestSeparator,self.requestEnd,keyName,power,duration).execute()
+        return PressKeyAndWait(self.socket,self.request_separator,self.request_end,keyName,power,duration).execute()
 
     def move_mouse(self, x, y, duration):
-        return MoveMouse(self.socket,self.requestSeparator,self.requestEnd,x,y,duration).execute()
+        return MoveMouse(self.socket,self.request_separator,self.request_end,x,y,duration).execute()
         
     def move_mouse_and_wait(self, x, y, duration):
-        return MoveMouseAndWait(self.socket,self.requestSeparator,self.requestEnd,x,y,duration).execute()
+        return MoveMouseAndWait(self.socket,self.request_separator,self.request_end,x,y,duration).execute()
 
     def scroll_mouse(self, speed, duration):
-        return ScrollMouse(self.socket,self.requestSeparator,self.requestEnd,speed,duration).execute()
+        return ScrollMouse(self.socket,self.request_separator,self.request_end,speed,duration).execute()
 
     def scroll_mouse_and_wait(self,speed, duration):
-        return ScrollMouseAndWait(self.socket,self.requestSeparator,self.requestEnd,speed,duration).execute()    
+        return ScrollMouseAndWait(self.socket,self.request_separator,self.request_end,speed,duration).execute()    
 
     def set_player_pref_key(self, key_name, value, key_type):
-        return SetPlayerPrefKey(self.socket,self.requestSeparator,self.requestEnd,key_name,value,key_type).execute()
+        return SetPlayerPrefKey(self.socket,self.request_separator,self.request_end,key_name,value,key_type).execute()
 
     def get_player_pref_key(self, key_name, key_type):
-        return GetPlayerPrefKey(self.socket,self.requestSeparator,self.requestEnd,key_name,key_type).execute()
+        return GetPlayerPrefKey(self.socket,self.request_separator,self.request_end,key_name,key_type).execute()
     
     def delete_player_pref_key(self, key_name):
-        return DeletePlayerPrefKey(self.socket,self.requestSeparator,self.requestEnd,key_name).execute()
+        return DeletePlayerPrefKey(self.socket,self.request_separator,self.request_end,key_name).execute()
 
     def delete_player_prefs(self):
-        return DeletePlayerPref(self.socket,self.requestSeparator,self.requestEnd).execute()
+        return DeletePlayerPref(self.socket,self.request_separator,self.request_end).execute()
 
     def load_scene(self, scene_name):
-        return LoadScene(self.socket,self.requestSeparator,self.requestEnd,scene_name).execute()
+        return LoadScene(self.socket,self.request_separator,self.request_end,scene_name).execute()
 
     def set_time_scale(self, time_scale):
-        return SetTimeScale(self.socket,self.requestSeparator,self.requestEnd,time_scale).execute()
+        return SetTimeScale(self.socket,self.request_separator,self.request_end,time_scale).execute()
 
     def get_time_scale(self):
-        return GetTimeScale(self.socket,self.requestSeparator,self.requestEnd).execute()
+        return GetTimeScale(self.socket,self.request_separator,self.request_end).execute()
 
     def wait_for_current_scene_to_be(self, scene_name, timeout=30, interval=1):
-        return WaitForCurrentSceneToBe(self.socket,self.requestSeparator,self.requestEnd,scene_name,timeout,interval).execute()
+        return WaitForCurrentSceneToBe(self.socket,self.request_separator,self.request_end,scene_name,timeout,interval).execute()
 
     @deprecated(version='1.4.0',reason="Use wait_for_object instead")
     def wait_for_element(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForElement(self.socket,self.requestSeparator,self.requestEnd,name,camera_name,timeout,interval,enabled).execute()
+        return WaitForElement(self.socket,self.request_separator,self.request_end,name,camera_name,timeout,interval,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use wait_for_object_which_contains instead")
     def wait_for_element_where_name_contains(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForElementWhereNameContains(self.socket,self.requestSeparator,self.requestEnd,name,camera_name,timeout,interval,enabled).execute()
+        return WaitForElementWhereNameContains(self.socket,self.request_separator,self.request_end,name,camera_name,timeout,interval,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use wait_for_object_to_not_be_present instead")
     def wait_for_element_to_not_be_present(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForElementToNotBePresent(self.socket,self.requestSeparator,self.requestEnd,name,camera_name,timeout,interval,enabled).execute()
+        return WaitForElementToNotBePresent(self.socket,self.request_separator,self.request_end,name,camera_name,timeout,interval,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use wait_for_object_with_text instead")
     def wait_for_element_with_text(self, name, text,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForElementWithText(self.socket,self.requestSeparator,self.requestEnd,name,text,camera_name,timeout,interval,enabled).execute()
+        return WaitForElementWithText(self.socket,self.request_separator,self.request_end,name,text,camera_name,timeout,interval,enabled).execute()
 
     def wait_for_object(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForObject(self.socket,self.requestSeparator,self.requestEnd,by,value,camera_name,timeout,interval,enabled).execute()
+        return WaitForObject(self.socket,self.request_separator,self.request_end,by,value,camera_name,timeout,interval,enabled).execute()
 
     def wait_for_object_which_contains(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForObjectWhichContains(self.socket,self.requestSeparator,self.requestEnd,by,value,camera_name,timeout,interval,enabled).execute()
+        return WaitForObjectWhichContains(self.socket,self.request_separator,self.request_end,by,value,camera_name,timeout,interval,enabled).execute()
     
     def wait_for_object_to_not_be_present(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForObjectToNotBePresent(self.socket,self.requestSeparator,self.requestEnd,by,value,camera_name,timeout,interval,enabled).execute()
+        return WaitForObjectToNotBePresent(self.socket,self.request_separator,self.request_end,by,value,camera_name,timeout,interval,enabled).execute()
 
     def wait_for_object_with_text(self, by,value, text,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForObjectWithText(self.socket,self.requestSeparator,self.requestEnd,by,value,text,camera_name,timeout,interval,enabled).execute()
+        return WaitForObjectWithText(self.socket,self.request_separator,self.request_end,by,value,text,camera_name,timeout,interval,enabled).execute()
 
     def tap_at_coordinates(self,x,y):
-        return TapAtCoordinates(self.socket,self.requestSeparator,self.requestEnd,x,y).execute()
+        return TapAtCoordinates(self.socket,self.request_separator,self.request_end,x,y).execute()
 
     @deprecated(version='1.4.0',reason="Use find_object instead")
     def find_element_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
-        return FindElementByComponent(self.socket,self.requestSeparator,self.requestEnd,component_name,assembly_name,camera_name,enabled).execute()
+        return FindElementByComponent(self.socket,self.request_separator,self.request_end,component_name,assembly_name,camera_name,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use find_objects instead")
     def find_elements_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
-        return FindElementsByComponent(self.socket,self.requestSeparator,self.requestEnd,component_name,assembly_name,camera_name,enabled).execute()
+        return FindElementsByComponent(self.socket,self.request_separator,self.request_end,component_name,assembly_name,camera_name,enabled).execute()

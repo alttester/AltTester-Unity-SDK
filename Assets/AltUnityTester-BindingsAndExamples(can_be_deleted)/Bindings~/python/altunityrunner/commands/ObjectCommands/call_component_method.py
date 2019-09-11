@@ -1,7 +1,7 @@
 from altunityrunner.commands.base_command import BaseCommand
 class CallComponentMethodForObject(BaseCommand):
-    def __init__(self, socket,requestSeparator,requestEnd,component_name,method_name,parameters,assembly_name,type_of_parameters,alt_object):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end,component_name,method_name,parameters,assembly_name,type_of_parameters,alt_object):
+        super().__init__(socket,request_separator,request_end)
         self.component_name=component_name
         self.method_name=method_name
         self.parameters=parameters

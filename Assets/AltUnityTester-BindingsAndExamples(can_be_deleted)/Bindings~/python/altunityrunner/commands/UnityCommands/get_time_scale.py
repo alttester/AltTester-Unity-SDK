@@ -1,8 +1,8 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 
 class GetTimeScale(CommandReturningAltElements):
-    def __init__(self, socket,requestSeparator,requestEnd):
-        super().__init__(socket,requestSeparator,requestEnd)
+    def __init__(self, socket,request_separator,request_end):
+        super().__init__(socket,request_separator,request_end)
     
     def execute(self):
         print('Get time scale')
