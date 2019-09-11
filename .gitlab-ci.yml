@@ -85,7 +85,7 @@ create-unity-package:
       - mkdir -p public/${CI_COMMIT_REF_NAME} || true
       - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
       - cd public/${CI_COMMIT_REF_NAME}/
-      - echo '<a href="https://altom.gitlab.io/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
+      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
       - ls
     artifacts:
       when: always
