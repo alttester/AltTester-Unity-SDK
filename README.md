@@ -42,8 +42,8 @@ Other Bindings:
 ### Downloads - AltUnityTester Package
 
 * From pages (deployed using CI): 
-	* https://altom.gitlab.io/altunitytester/master/AltUnityTester.unitypackage
-  * https://altom.gitlab.io/altunitytester/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage - for any other branch (replace ${CI_COMMIT_REF_NAME} with branch name)
+	* https://altom.gitlab.io/altunity/altunitytester/master/AltUnityTester.unitypackage
+  * https://altom.gitlab.io/altunity/altunitytester/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage - for any other branch (replace ${CI_COMMIT_REF_NAME} with branch name)
 	  
 * From Unity Asset Store - import inside your project directly:
 	* https://assetstore.unity.com/packages/tools/utilities/altunitytester-112101 
