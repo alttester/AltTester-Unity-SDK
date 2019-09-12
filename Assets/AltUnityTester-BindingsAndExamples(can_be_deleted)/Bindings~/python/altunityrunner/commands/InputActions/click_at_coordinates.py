@@ -1,6 +1,6 @@
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.commands.base_command import BaseCommand
 
-class ClickAtCoordinates(CommandReturningAltElements):
+class ClickAtCoordinates(BaseCommand):
     def __init__(self, socket,request_separator,request_end, x, y):
         super().__init__(socket,request_separator,request_end)
         self.x=x
