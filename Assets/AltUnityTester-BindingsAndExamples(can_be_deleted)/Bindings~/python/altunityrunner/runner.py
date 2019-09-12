@@ -17,6 +17,7 @@ class AltrunUnityDriver(object):
         self.TCP_PORT = TCP_PORT
         self.request_separator=request_separator
         self.request_end=request_end
+        self.appium_driver=None
         if (appium_driver != None):
             self.appium_driver = appium_driver
             if (platform != None):
@@ -86,38 +87,38 @@ class AltrunUnityDriver(object):
         return CallStaticMethods(self.socket,self.request_separator,self.request_end,type_name,method_name,parameters,type_of_parameters,assembly).execute()
      
     def get_all_elements(self,camera_name='',enabled=True):
-        return GetAllElements(self.socket,self.request_separator,self.request_end,camera_name,enabled).execute()
+        return GetAllElements(self.socket,self.request_separator,self.request_end,self.appium_driver,camera_name,enabled).execute()
 
     def find_object(self,by,value,camera_name='',enabled=True):
-        return FindObject(self.socket,self.request_separator,self.request_end,by,value,camera_name,enabled).execute()
+        return FindObject(self.socket,self.request_separator,self.request_end,self.appium_driver,by,value,camera_name,enabled).execute()
         
     def find_object_which_contains(self,by,value,camera_name='',enabled=True):
-        return FindObjectWhichContains(self.socket,self.request_separator,self.request_end,by,value,camera_name,enabled).execute()
+        return FindObjectWhichContains(self.socket,self.request_separator,self.request_end,self.appium_driver,by,value,camera_name,enabled).execute()
 
     def find_objects(self,by,value,camera_name='',enabled=True):
-        return FindObjects(self.socket,self.request_separator,self.request_end,by,value,camera_name,enabled).execute()
+        return FindObjects(self.socket,self.request_separator,self.request_end,self.appium_driver,by,value,camera_name,enabled).execute()
     
     def find_objects_which_contains(self,by,value,camera_name='',enabled=True):
-        return FindObjectsWhichContains(self.socket,self.request_separator,self.request_end,by,value,camera_name,enabled).execute()
+        return FindObjectsWhichContains(self.socket,self.request_separator,self.request_end,self.appium_driver,by,value,camera_name,enabled).execute()
     
     @deprecated(version='1.4.0',reason="Use find_object instead")
     def find_element(self, name,camera_name='',enabled=True):
-        return FindElement(self.socket,self.request_separator,self.request_end,name,camera_name,enabled).execute()
+        return FindElement(self.socket,self.request_separator,self.request_end,self.appium_driver,name,camera_name,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use find_object_which_contains instead")
     def find_element_where_name_contains(self, name,camera_name='',enabled=True):
-        return FindElementWhereNameContains(self.socket,self.request_separator,self.request_end,name,camera_name,enabled).execute()
+        return FindElementWhereNameContains(self.socket,self.request_separator,self.request_end,self.appium_driver,name,camera_name,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use find_objects instead")
     def find_elements(self, name,camera_name='',enabled=True):
-        return FindElements(self.socket,self.request_separator,self.request_end,name,camera_name,enabled).execute()        
+        return FindElements(self.socket,self.request_separator,self.request_end,self.appium_driver,name,camera_name,enabled).execute()        
 
     @deprecated(version='1.4.0',reason="Use find_objects_which_contains instead")
     def find_elements_where_name_contains(self, name,camera_name='',enabled=True):
-        return FindElementsWhereNameContains(self.socket,self.request_separator,self.request_end,name,camera_name,enabled).execute()
+        return FindElementsWhereNameContains(self.socket,self.request_separator,self.request_end,self.appium_driver,name,camera_name,enabled).execute()
 
     def get_current_scene(self):
-        return GetCurrentScene(self.socket,self.request_separator,self.request_end).execute()
+        return GetCurrentScene(self.socket,self.request_separator,self.request_end,self.appium_driver).execute()
 
     def click_at_coordinates(self, x, y):
         return ClickAtCoordinates(self.socket,self.request_separator,self.request_end).execute()
@@ -172,43 +173,43 @@ class AltrunUnityDriver(object):
         return GetTimeScale(self.socket,self.request_separator,self.request_end).execute()
 
     def wait_for_current_scene_to_be(self, scene_name, timeout=30, interval=1):
-        return WaitForCurrentSceneToBe(self.socket,self.request_separator,self.request_end,scene_name,timeout,interval).execute()
+        return WaitForCurrentSceneToBe(self.socket,self.request_separator,self.request_end,self.appium_driver,scene_name,timeout,interval).execute()
 
     @deprecated(version='1.4.0',reason="Use wait_for_object instead")
     def wait_for_element(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForElement(self.socket,self.request_separator,self.request_end,name,camera_name,timeout,interval,enabled).execute()
+        return WaitForElement(self.socket,self.request_separator,self.request_end,self.appium_driver,name,camera_name,timeout,interval,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use wait_for_object_which_contains instead")
     def wait_for_element_where_name_contains(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForElementWhereNameContains(self.socket,self.request_separator,self.request_end,name,camera_name,timeout,interval,enabled).execute()
+        return WaitForElementWhereNameContains(self.socket,self.request_separator,self.request_end,self.appium_driver,name,camera_name,timeout,interval,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use wait_for_object_to_not_be_present instead")
     def wait_for_element_to_not_be_present(self, name,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForElementToNotBePresent(self.socket,self.request_separator,self.request_end,name,camera_name,timeout,interval,enabled).execute()
+        return WaitForElementToNotBePresent(self.socket,self.request_separator,self.request_end,self.appium_driver,name,camera_name,timeout,interval,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use wait_for_object_with_text instead")
     def wait_for_element_with_text(self, name, text,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForElementWithText(self.socket,self.request_separator,self.request_end,name,text,camera_name,timeout,interval,enabled).execute()
+        return WaitForElementWithText(self.socket,self.request_separator,self.request_end,self.appium_driver,name,text,camera_name,timeout,interval,enabled).execute()
 
     def wait_for_object(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForObject(self.socket,self.request_separator,self.request_end,by,value,camera_name,timeout,interval,enabled).execute()
+        return WaitForObject(self.socket,self.request_separator,self.request_end,self.appium_driver,by,value,camera_name,timeout,interval,enabled).execute()
 
     def wait_for_object_which_contains(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForObjectWhichContains(self.socket,self.request_separator,self.request_end,by,value,camera_name,timeout,interval,enabled).execute()
+        return WaitForObjectWhichContains(self.socket,self.request_separator,self.request_end,self.appium_driver,by,value,camera_name,timeout,interval,enabled).execute()
     
     def wait_for_object_to_not_be_present(self, by,value,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForObjectToNotBePresent(self.socket,self.request_separator,self.request_end,by,value,camera_name,timeout,interval,enabled).execute()
+        return WaitForObjectToNotBePresent(self.socket,self.request_separator,self.request_end,self.appium_driver,by,value,camera_name,timeout,interval,enabled).execute()
 
     def wait_for_object_with_text(self, by,value, text,camera_name='', timeout=20, interval=0.5,enabled=True):
-        return WaitForObjectWithText(self.socket,self.request_separator,self.request_end,by,value,text,camera_name,timeout,interval,enabled).execute()
+        return WaitForObjectWithText(self.socket,self.request_separator,self.request_end,self.appium_driver,by,value,text,camera_name,timeout,interval,enabled).execute()
 
     def tap_at_coordinates(self,x,y):
-        return TapAtCoordinates(self.socket,self.request_separator,self.request_end,x,y).execute()
+        return TapAtCoordinates(self.socket,self.request_separator,self.request_end,self.appium_driver,x,y).execute()
 
     @deprecated(version='1.4.0',reason="Use find_object instead")
     def find_element_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
-        return FindElementByComponent(self.socket,self.request_separator,self.request_end,component_name,assembly_name,camera_name,enabled).execute()
+        return FindElementByComponent(self.socket,self.request_separator,self.request_end,self.appium_driver,component_name,assembly_name,camera_name,enabled).execute()
 
     @deprecated(version='1.4.0',reason="Use find_objects instead")
     def find_elements_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
-        return FindElementsByComponent(self.socket,self.request_separator,self.request_end,component_name,assembly_name,camera_name,enabled).execute()
+        return FindElementsByComponent(self.socket,self.request_separator,self.request_end,self.appium_driver,component_name,assembly_name,camera_name,enabled).execute()

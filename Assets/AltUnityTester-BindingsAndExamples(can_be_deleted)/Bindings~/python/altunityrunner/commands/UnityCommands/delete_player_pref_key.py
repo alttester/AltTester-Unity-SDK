@@ -1,6 +1,6 @@
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.commands.base_command import BaseCommand
 
-class DeletePlayerPrefKey(CommandReturningAltElements):
+class DeletePlayerPrefKey(BaseCommand):
     def __init__(self, socket,request_separator,request_end,key_name):
         super().__init__(socket,request_separator,request_end)
         self.key_name=key_name

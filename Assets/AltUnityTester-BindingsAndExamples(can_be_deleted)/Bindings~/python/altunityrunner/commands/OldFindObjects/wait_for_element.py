@@ -3,8 +3,8 @@ from altunityrunner.commands.OldFindObjects.find_element import FindElement
 from altunityrunner.altUnityExceptions import WaitTimeOutException
 import time
 class WaitForElement(CommandReturningAltElements):
-    def __init__(self, socket,request_separator,request_end,value,camera_name='', timeout=20, interval=0.5,enabled=True):
-        super().__init__(socket,request_separator,request_end)
+    def __init__(self, socket,request_separator,request_end,appium_driver,value,camera_name='', timeout=20, interval=0.5,enabled=True):
+        super().__init__(socket,request_separator,request_end,appium_driver)
         self.value=value
         self.camera_name=camera_name
         self.timeout=timeout
@@ -16,7 +16,7 @@ class WaitForElement(CommandReturningAltElements):
         alt_element = None
         while (t <= self.timeout):
             try:
-                alt_element = FindElement(self.socket,self.request_separator,self.request_end,self.value,self.camera_name,self.enabled).execute()
+                alt_element = FindElement(self.socket,self.request_separator,self.request_end,self.appium_driver,self.value,self.camera_name,self.enabled).execute()
                 break
             except Exception:
                 print('Waiting for element ' + self.value + '...')
