@@ -42,9 +42,9 @@ class PropertyCannotBeSetException(AltUnityException):
     def __init__(self,message):
         super(PropertyCannotBeSetException,self).__init__(message)
 
-class NullRefferenceException(AltUnityException):
+class NullReferenceException(AltUnityException):
     def __init__(self,message):
-        super(NullRefferenceException,self).__init__(message)
+        super(NullReferenceException,self).__init__(message)
 
 class UnknownErrorException(AltUnityException):
     def __init__(self,message):

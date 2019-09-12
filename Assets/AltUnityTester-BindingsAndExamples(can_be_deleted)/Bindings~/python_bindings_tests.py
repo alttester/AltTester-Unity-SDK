@@ -70,6 +70,7 @@ class PythonTests(unittest.TestCase):
     #     self.altdriver.find_element_where_name_contains('Cube',enabled=False)
 
     def test_find_element_by_name_and_parent(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         capsule_element = self.altdriver.find_element('Canvas/CapsuleInfo')
         assert capsule_element.name == 'CapsuleInfo'
 
@@ -316,14 +317,12 @@ class PythonTests(unittest.TestCase):
     def test_find_object_by_component(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement = self.altdriver.find_object(By.COMPONENT,"Capsule")
-        self.assertTrue(altElement.name=="Capsule")
-    
+        self.assertTrue(altElement.name=="Capsule")    
     
     def test_find_child(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement = self.altdriver.find_object(By.PATH,"//UIButton/*")
         self.assertTrue(altElement.name=="Text")
-    
     
     def test_find_objects_by_tag(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -331,8 +330,6 @@ class PythonTests(unittest.TestCase):
         self.assertEquals(2, len(altElements))
         for altElement in altElements: 
             self.assertEquals("Plane", altElement.name)
-        
-    
 
     def test_find_objects_by_layer(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -344,10 +341,7 @@ class PythonTests(unittest.TestCase):
         altElements = self.altdriver.find_objects_which_contains(By.NAME,"Ca")
         self.assertEquals(7, len(altElements))
         for altElement in altElements:
-            self.assertTrue("Ca" in altElement.name)
-        
-    
-
+            self.assertTrue("Ca" in altElement.name)     
     
     def test_power_joystick(self):
         button_names=['Horizontal','Vertical']
@@ -397,8 +391,7 @@ class PythonTests(unittest.TestCase):
     def test_get_component_property_old(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         result = self.altdriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
-        self.assertEqual(result,"[1,2,3]")
-     
+        self.assertEqual(result,"[1,2,3]")     
 
     def test_set_component_property_old(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -440,10 +433,7 @@ class PythonTests(unittest.TestCase):
         capsule.call_component_method("UnityEngine.Transform", "Rotate", "10?10?10", "UnityEngine.CoreModule", "System.Single?System.Single?System.Single")
         capsuleAfterRotation = self.altdriver.find_object(By.NAME,"Capsule")
         finalRotation = capsuleAfterRotation.get_component_property("UnityEngine.Transform", "rotation")
-        self.assertNotEqual(initialRotation, finalRotation)
-    
-
-
+        self.assertNotEqual(initialRotation, finalRotation) 
        
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
