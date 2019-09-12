@@ -1,6 +1,4 @@
-﻿
-
-namespace Assets.AltUnityTester.AltUnityServer
+﻿namespace Assets.AltUnityTester.AltUnityServer
 {
     class BaseClassFindObjects:Command
     {
