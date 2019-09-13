@@ -62,7 +62,7 @@ public class AltUnityDriver {
         RequestSeparator=requestSeparator;
         AltUnityObject.altUnityDriver = this;
     }
-    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd,boolean enableDebugging) {
+    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd,boolean debugFlag) {
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
@@ -79,7 +79,7 @@ public class AltUnityDriver {
         RequestEnd=requestEnd;
         RequestSeparator=requestSeparator;
         AltUnityObject.altUnityDriver = this;
-        this.send(CreateCommand("enableDebug",String.valueOf(enableDebugging)));
+        this.send(CreateCommand("enableDebug",String.valueOf(debugFlag)));
         this.recvall();
 
     }

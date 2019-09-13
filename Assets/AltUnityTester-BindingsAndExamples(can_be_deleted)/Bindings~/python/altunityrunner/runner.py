@@ -133,11 +133,11 @@ class AltElement(object):
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,requestSeparator=';',requestEnd='&',deviceID="",enable_debuggging=False):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,requestSeparator=';',requestEnd='&',deviceID="",debug_flag=False):
         self.TCP_PORT = TCP_PORT
         self.requestSeparator=requestSeparator
         self.requestEnd=requestEnd
-        self.debug_flag=enable_debuggging
+        self.debug_flag=debug_flag
         if (appium_driver != None):
             self.appium_driver = appium_driver
             if (platform != None):
