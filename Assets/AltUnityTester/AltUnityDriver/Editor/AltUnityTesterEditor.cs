@@ -1,10 +1,7 @@
 ﻿
 using System.Linq;
-
 public class AltUnityTesterEditor : UnityEditor.EditorWindow
 {
-
-
     private UnityEngine.UI.Button _android;
     UnityEngine.Object _obj;
 
@@ -1104,17 +1101,20 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     {
 
         var templatePath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("DefaultTestExample")[0]);
-
         string folderPath = GetPathForSelectedItem();
+        string newFilePath = System.IO.Path.Combine(folderPath, "NewAltUnityTest.cs");
+#if UNITY_2019_1_OR_NEWER
+        UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath,newFilePath);
+#else
         System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
         if (method == null)
-            return;
-        string newFilePath = System.IO.Path.Combine(folderPath, "NewAltUnityTest.cs");
+            throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Method to create Script file was not found");
         method.Invoke((object)null, new object[2]
         {
             (object) templatePath,
             (object) newFilePath
         });
+#endif
 
     }
 

@@ -1,4 +1,3 @@
-﻿
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class ClickEvent: Command
