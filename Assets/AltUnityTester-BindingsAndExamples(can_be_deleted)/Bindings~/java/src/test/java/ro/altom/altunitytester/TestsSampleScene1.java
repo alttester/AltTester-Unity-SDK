@@ -493,4 +493,13 @@ public void TestCallStaticMethod() throws Exception {
         altUnityDriver.setTimeScale(1f);
     }
 
+    @Test
+    public void TestCallMethodWithAssembly(){
+        AltUnityObject capsule = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule");
+        String initialRotation = capsule.getComponentProperty("UnityEngine.Transform", "rotation");
+        capsule.callComponentMethod("UnityEngine.CoreModule","UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single");
+        AltUnityObject capsuleAfterRotation = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule");
+        String finalRotation = capsuleAfterRotation.getComponentProperty("UnityEngine.Transform", "rotation");
+        assertNotEquals(initialRotation, finalRotation);
+    }
 }
