@@ -141,7 +141,7 @@ public class TestForScene1TestSample
     {
         const string name = "Cube";
         var timeStart = DateTime.Now;
-        var altElement = altUnityDriver.WaitForElement(name,enabled:false);
+        var altElement = altUnityDriver.WaitForObject(AltUnityDriver.By.NAME,name,enabled:false);
         var timeEnd = DateTime.Now;
         var time = timeEnd - timeStart;
         Assert.Less(time.TotalSeconds, 20);
@@ -587,6 +587,15 @@ public class TestForScene1TestSample
         capsule.CallComponentMethod("Capsule", "Test", "2", "System.Int32");
         AltUnityObject capsuleInfo = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"CapsuleInfo");
         Assert.AreEqual("6", capsuleInfo.GetText());
+    }
+    [Test]
+    public void TestCallMethodWithAssembly(){
+        AltUnityObject capsule = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
+        capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
+        AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Capsule");
+        var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
+        Assert.AreNotEqual(initialRotation, finalRotation);
     }
 
     [Test]

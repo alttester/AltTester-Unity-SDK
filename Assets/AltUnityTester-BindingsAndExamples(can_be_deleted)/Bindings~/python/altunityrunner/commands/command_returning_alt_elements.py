@@ -3,10 +3,11 @@ from altunityrunner.commands.base_command import BaseCommand
 import json
 BUFFER_SIZE = 1024
 class CommandReturningAltElements(BaseCommand):
-    def __init__(self, socket,request_separator=';',request_end='&'):
+    def __init__(self, socket,request_separator,request_end,appium_driver):
         self.request_separator=request_separator
         self.request_end=request_end
         self.socket=socket
+        self.appium_driver=appium_driver
 
     def get_alt_element(self, data):
         print(data)

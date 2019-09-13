@@ -78,6 +78,10 @@ run-java-android-tests:
 
 create-unity-package:
     stage: create-package
+    only:
+        refs:
+            - master
+
     tags:
       - unity
     script:
@@ -128,9 +132,6 @@ create-unity-package:
         
 run-python-appium-android-tests:
     stage: appium-tests
-    only:
-        refs:
-            - master
     tags:
         - unity
     script:
@@ -153,9 +154,6 @@ run-python-appium-android-tests:
 
 run-java-appium-android-tests:
     stage: appium-tests
-    only:
-        refs:
-            - master
     tags:
         - unity
     script:
