@@ -2,12 +2,10 @@ package ro.altom.altunitytester;
 
 import com.google.gson.Gson;
 import lombok.Getter;
+import ro.altom.altunitytester.Commands.ObjectCommand.*;
 
 @Getter
 public class AltUnityObject {
-    // TODO: decouple AltUnityObject from the driver instance
-    static AltUnityDriver altUnityDriver;
-    // TODO: encapsulate state
     /**
      * Access to this variable will be removed in the future.
      *
@@ -91,6 +89,14 @@ public class AltUnityObject {
      */
     public int idCamera;
 
+    public AltBaseSettings getAltBaseSettings() {
+        return altBaseSettings;
+    }
+    public void setAltBaseSettings(AltBaseSettings altBaseSettings) {
+        this.altBaseSettings = altBaseSettings;
+    }
+    private AltBaseSettings altBaseSettings;
+
     public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled, float worldX, float worldY, float worldZ, int idCamera) {
         this.name = name;
         this.id = id;
@@ -106,46 +112,36 @@ public class AltUnityObject {
         this.idCamera = idCamera;
     }
 
+    public String getComponentProperty(AltGetComponentPropertyParameters altGetComponentPropertyParameters){
+        return new AltGetComponentProperty(altBaseSettings,this,altGetComponentPropertyParameters).Execute();
+    }
     public String getComponentProperty(String assemblyName, String componentName, String propertyName) {
-        String altObject = new Gson().toJson(this);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName, componentName, propertyName));
-        altUnityDriver.send(altUnityDriver.CreateCommand("getObjectComponentProperty", altObject,propertyInfo ));
-        String data = altUnityDriver.recvall();
-        if (!data.contains("error:")) {
-            return data;
-        }
-        altUnityDriver.handleErrors(data);
-        return "";
+        AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters.Builder(componentName,propertyName).withAssembly(assemblyName).build();
+        return getComponentProperty(altGetComponentPropertyParameters);
     }
 
     public String getComponentProperty(String componentName, String propertyName) {
         return getComponentProperty("", componentName, propertyName);
     }
 
+    public String setComponentProperty(AltSetComponentPropertyParameters altSetComponentPropertyParameters){
+        return new AltSetComponentProperty(altBaseSettings,this,altSetComponentPropertyParameters).Execute();
+    }
     public String setComponentProperty(String assemblyName, String componentName, String propertyName, String value) {
-        String altObject = new Gson().toJson(this);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(assemblyName, componentName, propertyName));
-        altUnityDriver.send(altUnityDriver.CreateCommand("setObjectComponentProperty",altObject,propertyInfo,value ));
-        String data = altUnityDriver.recvall();
-        if (!data.contains("error:")) {
-            return data;
-        }
-        altUnityDriver.handleErrors(data);
-        return "";
+        AltSetComponentPropertyParameters altSetComponentPropertyParameters=new AltSetComponentPropertyParameters.Builder(componentName,propertyName,value).withAssembly(assemblyName).build();
+        return setComponentProperty(altSetComponentPropertyParameters);
     }
 
     public String setComponentProperty(String componentName, String propertyName, String value) {
         return setComponentProperty("", componentName, propertyName, value);
     }
 
+    public String callComponentMethod(AltCallComponentMethodParameters altCallComponentMethodParameters){
+        return new AltCallComponentMethod(altBaseSettings,this,altCallComponentMethodParameters).Execute();
+    }
     public String callComponentMethod(String assemblyName, String componentName, String methodName, String parameters, String typeOfParameters) {
-        String altObject = new Gson().toJson(this);
-        String actionInfo = new Gson().toJson(new AltUnityObjectAction(componentName,methodName,parameters,typeOfParameters,assemblyName));
-        altUnityDriver.send(altUnityDriver.CreateCommand("callComponentMethodForObject",altObject ,actionInfo ));
-        String data = altUnityDriver.recvall();
-        if (!data.contains("error:")) return data;
-        altUnityDriver.handleErrors(data);
-        return null;
+        AltCallComponentMethodParameters altCallComponentMethodParameters=new AltCallComponentMethodParameters.Builder(componentName,methodName,parameters).withTypeOfParameters(typeOfParameters).withAssembly(assemblyName).build();
+        return callComponentMethod(altCallComponentMethodParameters);
     }
 
     public String callComponentMethod(String componentName, String methodName, String parameters) throws Exception {
@@ -189,25 +185,10 @@ public class AltUnityObject {
     }
 
     private AltUnityObject sendActionAndEvaluateResult(String s) {
-        String altObject = new Gson().toJson(this);
-        altUnityDriver.send(altUnityDriver.CreateCommand(s, altObject ));
-        String data = altUnityDriver.recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        altUnityDriver.handleErrors(data);
-        return null;
+        return new AltSendActionAndEvaluateResult(altBaseSettings,this,s).Execute();
     }
 
     private AltUnityObject sendActionWithCoordinateAndEvaluate(int x, int y, String s) {
-        String positionString = altUnityDriver.vectorToJsonString(x, y);
-        String altObject = new Gson().toJson(this);
-        altUnityDriver.send(altUnityDriver.CreateCommand(s ,positionString, altObject ));
-        String data = altUnityDriver.recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        altUnityDriver.handleErrors(data);
-        return null;
+        return new AltSendActionWithCoordinateAndEvaluate(altBaseSettings,this,x,y,s).Execute();
     }
 }
