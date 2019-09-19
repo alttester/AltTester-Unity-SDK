@@ -29,7 +29,12 @@ public class AltCommandReturningAltObjects extends AltBaseCommand {
     {
         String data = recvall();
         if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject[].class);
+            AltUnityObject[] altUnityObjects=new Gson().fromJson(data, AltUnityObject[].class);
+            for (AltUnityObject altUnityObject:altUnityObjects
+                 ) {
+                altUnityObject.setAltBaseSettings(altBaseSettings);
+            }
+            return altUnityObjects;
         }
         handleErrors(data);
         return new AltUnityObject[]{};

@@ -17,7 +17,7 @@ public class AltCallComponentMethod extends AltBaseCommand {
     }
     public String Execute(){
         String altObject = new Gson().toJson(altUnityObject);
-        String actionInfo = new Gson().toJson(new AltUnityObjectAction(altCallComponentMethodParameters.getAssembly(),altCallComponentMethodParameters.getMethodName(),altCallComponentMethodParameters.getParameters(),altCallComponentMethodParameters.getTypeOfParameters(),altCallComponentMethodParameters.getAssembly()));
+        String actionInfo = new Gson().toJson(new AltUnityObjectAction(altCallComponentMethodParameters.getComponentName(),altCallComponentMethodParameters.getMethodName(),altCallComponentMethodParameters.getParameters(),altCallComponentMethodParameters.getTypeOfParameters(),altCallComponentMethodParameters.getAssembly()));
         send(CreateCommand("callComponentMethodForObject",altObject ,actionInfo ));
         String data = recvall();
         if (!data.contains("error:")) return data;

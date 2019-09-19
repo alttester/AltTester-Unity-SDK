@@ -16,7 +16,7 @@ public class AltGetComponentProperty extends AltBaseCommand {
     }
     public String Execute(){
         String altObject = new Gson().toJson(altUnityObject);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(altGetComponentPropertyParameters.getAssembly(), altGetComponentPropertyParameters.getMethodName(), altGetComponentPropertyParameters.getAssembly()));
+        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(altGetComponentPropertyParameters.getAssembly(), altGetComponentPropertyParameters.getComponentName(), altGetComponentPropertyParameters.getPropertyName()));
         send(CreateCommand("getObjectComponentProperty", altObject,propertyInfo ));
         String data = recvall();
         if (!data.contains("error:")) {

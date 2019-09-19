@@ -13,7 +13,7 @@ public class AltFindElement extends AltCommandReturningAltObjects {
         this.altFindElementsParameters = altFindElementsParameters;
     }
     public AltUnityObject Execute(){
-        send(CreateCommand("findObjectsByName", altFindElementsParameters.getName(), altFindElementsParameters.getCameraName(), String.valueOf(altFindElementsParameters.isEnabled())));
+        send(CreateCommand("findObjectByName", altFindElementsParameters.getName(), altFindElementsParameters.getCameraName(), String.valueOf(altFindElementsParameters.isEnabled())));
         return ReceiveAltUnityObject();
     }
 

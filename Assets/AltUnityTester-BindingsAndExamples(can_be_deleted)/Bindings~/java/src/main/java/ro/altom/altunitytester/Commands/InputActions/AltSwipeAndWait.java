@@ -19,7 +19,7 @@ public class AltSwipeAndWait extends AltBaseCommand {
         this.durationInSeconds = durationInSeconds;
     }
     public void Execute(){
-        new AltSwipe(altBaseSettings,xStart, yStart, xEnd, yEnd, durationInSeconds);
+        new AltSwipe(altBaseSettings,xStart, yStart, xEnd, yEnd, durationInSeconds).Execute();
         sleepFor(durationInSeconds );
         String data;
         do {

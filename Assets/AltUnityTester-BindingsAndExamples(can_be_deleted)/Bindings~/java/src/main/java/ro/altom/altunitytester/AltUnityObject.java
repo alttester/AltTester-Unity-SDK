@@ -95,7 +95,7 @@ public class AltUnityObject {
     public void setAltBaseSettings(AltBaseSettings altBaseSettings) {
         this.altBaseSettings = altBaseSettings;
     }
-    private AltBaseSettings altBaseSettings;
+    private transient AltBaseSettings altBaseSettings;
 
     public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled, float worldX, float worldY, float worldZ, int idCamera) {
         this.name = name;
@@ -145,7 +145,7 @@ public class AltUnityObject {
     }
 
     public String callComponentMethod(String componentName, String methodName, String parameters) throws Exception {
-        return callComponentMethod(componentName, methodName, parameters, "", "");
+        return callComponentMethod("",componentName, methodName, parameters, "");
     }
 
     public String getText() {
