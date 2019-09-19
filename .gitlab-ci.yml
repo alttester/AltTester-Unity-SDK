@@ -78,6 +78,10 @@ run-java-android-tests:
 
 create-unity-package:
     stage: create-package
+    only:
+        refs:
+            - master
+
     tags:
       - unity
     script:
@@ -85,7 +89,7 @@ create-unity-package:
       - mkdir -p public/${CI_COMMIT_REF_NAME} || true
       - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
       - cd public/${CI_COMMIT_REF_NAME}/
-      - echo '<a href="https://altom.gitlab.io/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
+      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
       - ls
     artifacts:
       when: always
@@ -128,9 +132,6 @@ create-unity-package:
         
 run-python-appium-android-tests:
     stage: appium-tests
-    only:
-        refs:
-            - master
     tags:
         - unity
     script:
@@ -153,9 +154,6 @@ run-python-appium-android-tests:
 
 run-java-appium-android-tests:
     stage: appium-tests
-    only:
-        refs:
-            - master
     tags:
         - unity
     script:
