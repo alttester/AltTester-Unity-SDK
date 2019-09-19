@@ -19,7 +19,7 @@ public struct SocketSettings
 public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
-    public static SocketSettings socketSettings;
+    public SocketSettings socketSettings;
     private static string tcp_ip = "127.0.0.1";
     private static int tcp_port = 13000;
     public static string requestSeparatorString;
@@ -28,7 +28,6 @@ public class AltUnityDriver
     {
         Socket = new System.Net.Sockets.TcpClient();
         Socket.Connect(tcp_ip, tcp_port);
-        AltUnityObject.altUnityDriver = this;
         socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding);
     }
 
