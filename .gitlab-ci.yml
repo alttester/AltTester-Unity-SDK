@@ -179,6 +179,9 @@ deploy-altunitytester-python:
 
 pages:
     stage: deploy
+    only:
+        refs:
+            - master
     dependencies:
       - create-unity-package
     script:
