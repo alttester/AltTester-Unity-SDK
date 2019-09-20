@@ -1,5 +1,5 @@
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
-class Swipe(CommandReturningAltElements):
+from altunityrunner.commands.base_command import BaseCommand
+class Swipe(BaseCommand):
     def __init__(self, socket,request_separator,request_end,x_start, y_start, x_end, y_end, duration_in_secs):
         super().__init__(socket,request_separator,request_end)
         self.x_start=x_start

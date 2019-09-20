@@ -15,6 +15,7 @@ from altunityrunner.commands.ObjectCommands.pointer_up import PointerUp
 class AltElement(object):
     def __init__(self, alt_unity_driver, appium_driver, json_data):
         self.alt_unity_driver = alt_unity_driver
+        self.appium_driver=None
         if (appium_driver != None):
             self.appium_driver = appium_driver
         data = json.loads(json_data)
@@ -63,7 +64,8 @@ class AltElement(object):
 
     def click_Event(self):
         alt_object = self.toJSON()
-        return ClickEvent(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        data= ClickEvent(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)
         
     def mobile_tap(self, durationInSeconds=0.5):
         self.appium_driver.tap([[float(self.x), float(self.mobileY)]], durationInSeconds * 1000)
@@ -76,28 +78,35 @@ class AltElement(object):
     
     def drag(self, x, y):
         alt_object = self.toJSON()
-        return Drag(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,x,y,alt_object).execute()
+        data= Drag(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,x,y,alt_object).execute()
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)
 
     def drop(self, x, y):
         alt_object = self.toJSON()
-        return Drop(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,x,y,alt_object).execute()
+        data= Drop(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,x,y,alt_object).execute()
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)
     
     def pointer_up(self):
         alt_object = self.toJSON()
-        return PointerUp(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        data= PointerUp(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)
 
     def pointer_down(self):
         alt_object = self.toJSON()
-        return PointerDown(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        data= PointerDown(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)
 
     def pointer_enter(self):
         alt_object = self.toJSON()
-        return PointerEnter(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        data= PointerEnter(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)
         
     def pointer_exit(self):
         alt_object = self.toJSON()
-        return PointerExit(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()        
+        data= PointerExit(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()        
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)
     
     def tap(self):
         alt_object=self.toJSON()
-        return Tap(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        data= Tap(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)

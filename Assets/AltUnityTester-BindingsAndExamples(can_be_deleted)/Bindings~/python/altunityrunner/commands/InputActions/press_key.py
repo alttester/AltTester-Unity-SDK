@@ -1,6 +1,6 @@
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.commands.base_command import BaseCommand
 import time
-class PressKey(CommandReturningAltElements):
+class PressKey(BaseCommand):
     def __init__(self, socket,request_separator,request_end, keyName,power,duration):
         super().__init__(socket,request_separator,request_end)
         self.keyName=keyName

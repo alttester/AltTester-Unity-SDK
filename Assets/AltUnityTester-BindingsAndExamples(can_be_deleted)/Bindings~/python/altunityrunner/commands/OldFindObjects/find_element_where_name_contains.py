@@ -1,7 +1,7 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 class FindElementWhereNameContains(CommandReturningAltElements):
-    def __init__(self, socket,request_separator,request_end,value,camera_name,enabled):
-        super().__init__(socket,request_separator,request_end)
+    def __init__(self, socket,request_separator,request_end,appium_driver,value,camera_name,enabled):
+        super().__init__(socket,request_separator,request_end,appium_driver)
         self.value=value
         self.camera_name=camera_name
         self.enabled=enabled

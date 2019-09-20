@@ -1,7 +1,7 @@
 from altunityrunner.commands.base_command import BaseCommand
 class GetAllElements(BaseCommand):
-    def __init__(self, socket,request_separator,request_end,camera_name,enabled):
-        super().__init__(socket,request_separator,request_end)
+    def __init__(self, socket,request_separator,request_end,appium_driver,camera_name,enabled):
+        super().__init__(socket,request_separator,request_end,appium_driver)
         self.camera_name=camera_name
         self.enabled=enabled
     

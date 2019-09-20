@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class TestScene5
 {
+#pragma warning disable CS0618
+
     public AltUnityDriver AltUnityDriver;
     //Before any test it connects with the socket
     [OneTimeSetUp]
@@ -148,4 +150,5 @@ public class TestScene5
         }
     }
 
+#pragma warning restore CS0618
 }

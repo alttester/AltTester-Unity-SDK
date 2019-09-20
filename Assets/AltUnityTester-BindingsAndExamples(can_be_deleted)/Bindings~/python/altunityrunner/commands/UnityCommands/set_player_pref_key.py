@@ -1,6 +1,6 @@
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.player_pref_key_type import PlayerPrefKeyType
-class SetPlayerPrefKey(CommandReturningAltElements):
+class SetPlayerPrefKey(BaseCommand):
     def __init__(self, socket,request_separator,request_end,key_name, value, key_type):
         super().__init__(socket,request_separator,request_end)
         self.key_name=key_name

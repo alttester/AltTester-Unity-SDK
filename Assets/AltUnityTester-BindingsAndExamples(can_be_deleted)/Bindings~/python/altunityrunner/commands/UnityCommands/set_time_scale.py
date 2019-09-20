@@ -1,6 +1,6 @@
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.commands.base_command import BaseCommand
 
-class SetTimeScale(CommandReturningAltElements):
+class SetTimeScale(BaseCommand):
     def __init__(self, socket,request_separator,request_end,time_scale):
         super().__init__(socket,request_separator,request_end)
         self.time_scale=time_scale
