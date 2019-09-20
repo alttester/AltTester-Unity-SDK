@@ -1,4 +1,4 @@
-public class FindElementsWhereNameContainsDriver : AltBaseCommand
+public class FindElementsWhereNameContainsDriver : CommandReturningAltElement
 {
     string name;
     string cameraName;
@@ -12,9 +12,6 @@ public class FindElementsWhereNameContainsDriver : AltBaseCommand
     public System.Collections.Generic.List<AltUnityObject> Execute()
     {
         Socket.Client.Send(toBytes(CreateCommand("findObjectsWhereNameContains", name, cameraName, enabled.ToString())));
-        string data = Recvall();
-        if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityObject>>(data);
-        HandleErrors(data);
-        return null;
+        return ReceiveListOfAltUnityObjects();
     }
 }

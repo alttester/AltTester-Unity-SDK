@@ -1,4 +1,4 @@
-public class FindElementByComponentDriver : AltBaseCommand
+public class FindElementByComponentDriver : CommandReturningAltElement
 {
     string componentName;
     string assemblyName;
@@ -13,12 +13,6 @@ public class FindElementByComponentDriver : AltBaseCommand
     }
     public AltUnityObject Execute(){
         Socket.Client.Send(toBytes(CreateCommand("findObjectByComponent", assemblyName, componentName, cameraName, enabled.ToString())));
-        string data = Recvall();
-        if (!data.Contains("error:"))
-        {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-        }
-        HandleErrors(data);
-        return null;
+        return ReceiveAltUnityObject();
     }
 }
