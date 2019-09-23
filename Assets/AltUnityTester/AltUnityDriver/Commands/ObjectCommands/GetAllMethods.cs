@@ -1,9 +1,9 @@
-public class GetAllMethodsDriver : AltBaseCommand
+public class GetAllMethods : AltBaseCommand
 {
     AltUnityComponent altUnityComponent;
     AltUnityObject altUnityObject;
 
-    public GetAllMethodsDriver(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject) : base(socketSettings)
+    public GetAllMethods(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.altUnityComponent = altUnityComponent;
         this.altUnityObject = altUnityObject;

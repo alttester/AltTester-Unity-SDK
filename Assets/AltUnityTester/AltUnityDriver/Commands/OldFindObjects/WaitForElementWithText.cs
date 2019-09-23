@@ -23,7 +23,7 @@ public class WaitForElementWithText : AltBaseCommand
         {
             try
             {
-                altElement =new FindElementDriver(SocketSettings, name, cameraName, enabled).Execute();
+                altElement =new FindElement(SocketSettings, name, cameraName, enabled).Execute();
                 if (altElement.GetText().Equals(text))
                     break;
                 throw new System.Exception("Not the wanted text");

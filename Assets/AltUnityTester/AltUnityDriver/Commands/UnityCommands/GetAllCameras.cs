@@ -1,6 +1,6 @@
-public class GetAllCamerasDriver : AltBaseCommand
+public class GetAllCameras : AltBaseCommand
 {
-    public GetAllCamerasDriver(SocketSettings socketSettings) : base(socketSettings)
+    public GetAllCameras(SocketSettings socketSettings) : base(socketSettings)
     {
     }
     public System.Collections.Generic.List<string> Execute(){

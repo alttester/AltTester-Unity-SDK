@@ -1,7 +1,7 @@
-public class TiltDriver : AltBaseCommand
+public class Tilt : AltBaseCommand
 {
     UnityEngine.Vector3 acceleration;
-    public TiltDriver(SocketSettings socketSettings, UnityEngine.Vector3 acceleration) : base(socketSettings)
+    public Tilt(SocketSettings socketSettings, UnityEngine.Vector3 acceleration) : base(socketSettings)
     {
         this.acceleration = acceleration;
     }

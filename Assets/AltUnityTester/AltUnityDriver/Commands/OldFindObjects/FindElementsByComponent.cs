@@ -1,10 +1,10 @@
-public class FindElementsByComponentDriver : CommandReturningAltElement
+public class FindElementsByComponent : CommandReturningAltElement
 {
     string componentName;
     string assemblyName;
     string cameraName;
     bool enabled;
-    public FindElementsByComponentDriver(SocketSettings socketSettings, string componentName, string assemblyName, string cameraName, bool enabled) : base(socketSettings)
+    public FindElementsByComponent(SocketSettings socketSettings, string componentName, string assemblyName, string cameraName, bool enabled) : base(socketSettings)
     {
         this.componentName = componentName;
         this.assemblyName = assemblyName;

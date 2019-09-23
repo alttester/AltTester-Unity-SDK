@@ -1,7 +1,7 @@
-public class LoadSceneDriver : AltBaseCommand
+public class LoadScene : AltBaseCommand
 {
     string sceneName;
-    public LoadSceneDriver(SocketSettings socketSettings,string sceneName) : base(socketSettings)
+    public LoadScene(SocketSettings socketSettings,string sceneName) : base(socketSettings)
     {
         this.sceneName=sceneName;
     }

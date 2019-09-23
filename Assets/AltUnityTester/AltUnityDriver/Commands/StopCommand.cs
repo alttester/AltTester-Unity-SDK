@@ -1,6 +1,6 @@
-public class StopCommandDriver : AltBaseCommand
+public class StopCommand : AltBaseCommand
 {
-    public StopCommandDriver(SocketSettings socketSettings) : base(socketSettings)
+    public StopCommand(SocketSettings socketSettings) : base(socketSettings)
     {
     }
     public void Execute(){

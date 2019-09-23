@@ -1,6 +1,6 @@
-public class GetTimeScaleDriver : AltBaseCommand
+public class GetTimeScale : AltBaseCommand
 {
-    public GetTimeScaleDriver(SocketSettings socketSettings) : base(socketSettings)
+    public GetTimeScale(SocketSettings socketSettings) : base(socketSettings)
     {
     }
     public float Execute()

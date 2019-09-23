@@ -1,7 +1,7 @@
-public class PointerDownFromObjectDriver : CommandReturningAltElement
+public class PointerDownFromObject : CommandReturningAltElement
 {
     AltUnityObject altUnityObject;
-    public PointerDownFromObjectDriver(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+    public PointerDownFromObject(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.altUnityObject = altUnityObject;
     }

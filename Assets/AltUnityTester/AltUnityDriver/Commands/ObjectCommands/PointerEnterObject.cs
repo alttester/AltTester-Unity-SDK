@@ -1,7 +1,7 @@
-public class PointerEnterObjectDriver : CommandReturningAltElement
+public class PointerEnterObject : CommandReturningAltElement
 {
     AltUnityObject altUnityObject;
-    public PointerEnterObjectDriver(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+    public PointerEnterObject(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.altUnityObject = altUnityObject;
     }

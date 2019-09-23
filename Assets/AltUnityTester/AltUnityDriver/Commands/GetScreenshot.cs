@@ -1,4 +1,4 @@
-public class GetScreenshotDriver : AltBaseCommand
+public class GetScreenshot : AltBaseCommand
 {
     int id;
     UnityEngine.Color color;
@@ -8,12 +8,12 @@ public class GetScreenshotDriver : AltBaseCommand
 
     int option = 0;
 
-    public GetScreenshotDriver(SocketSettings socketSettings, UnityEngine.Vector2 size) : base(socketSettings)
+    public GetScreenshot(SocketSettings socketSettings, UnityEngine.Vector2 size) : base(socketSettings)
     {
         this.size = size;
         this.option = 1;
     }
-    public GetScreenshotDriver(SocketSettings socketSettings, int id, UnityEngine.Color color, float width, UnityEngine.Vector2 size) : base(socketSettings)
+    public GetScreenshot(SocketSettings socketSettings, int id, UnityEngine.Color color, float width, UnityEngine.Vector2 size) : base(socketSettings)
     {
         this.size = size;
         this.color = color;
@@ -21,7 +21,7 @@ public class GetScreenshotDriver : AltBaseCommand
         this.id = id;
         this.option = 2;
     }
-    public GetScreenshotDriver(SocketSettings socketSettings, UnityEngine.Vector2 coordinates, UnityEngine.Color color, float width, UnityEngine.Vector2 size) : base(socketSettings)
+    public GetScreenshot(SocketSettings socketSettings, UnityEngine.Vector2 coordinates, UnityEngine.Color color, float width, UnityEngine.Vector2 size) : base(socketSettings)
     {
         this.coordinates = coordinates;
         this.color = color;

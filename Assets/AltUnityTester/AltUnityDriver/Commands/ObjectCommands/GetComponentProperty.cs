@@ -1,10 +1,10 @@
-public class GetComponentPropertyDriver : AltBaseCommand
+public class GetComponentProperty : AltBaseCommand
 {
     string componentName;
     string propertyName;
     string assemblyName;
     AltUnityObject altUnityObject;
-    public GetComponentPropertyDriver(SocketSettings socketSettings, string componentName, string propertyName, string assemblyName, AltUnityObject altUnityObject) : base(socketSettings)
+    public GetComponentProperty(SocketSettings socketSettings, string componentName, string propertyName, string assemblyName, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.componentName = componentName;
         this.propertyName = propertyName;

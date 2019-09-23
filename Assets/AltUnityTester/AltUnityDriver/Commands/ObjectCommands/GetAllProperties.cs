@@ -1,8 +1,8 @@
-public class GetAllPropertiesDriver : AltBaseCommand
+public class GetAllProperties : AltBaseCommand
 {
     AltUnityComponent altUnityComponent;
     AltUnityObject altUnityObject;
-    public GetAllPropertiesDriver(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject) : base(socketSettings)
+    public GetAllProperties(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.altUnityComponent = altUnityComponent;
         this.altUnityObject = altUnityObject;

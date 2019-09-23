@@ -1,4 +1,4 @@
-public class WaitForObjectDriver : BaseFindObjects
+public class WaitForObject : BaseFindObjects
 {
     By by;
     string value;
@@ -7,7 +7,7 @@ public class WaitForObjectDriver : BaseFindObjects
     double timeout;
     double interval;
 
-    public WaitForObjectDriver(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
+    public WaitForObject(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
@@ -24,7 +24,7 @@ public class WaitForObjectDriver : BaseFindObjects
         {
             try
             {
-                altElement = new FindObjectDriver(SocketSettings, by, value, cameraName, enabled).Execute();
+                altElement = new FindObject(SocketSettings, by, value, cameraName, enabled).Execute();
                 break;
             }
             catch (System.Exception)

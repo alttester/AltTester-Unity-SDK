@@ -1,14 +1,14 @@
-public class MoveMouseAndWaitDriver : AltBaseCommand
+public class MoveMouseAndWait : AltBaseCommand
 {
     UnityEngine.Vector2 location;
     float duration;
-    public MoveMouseAndWaitDriver(SocketSettings socketSettings, UnityEngine.Vector2 location, float duration) : base(socketSettings)
+    public MoveMouseAndWait(SocketSettings socketSettings, UnityEngine.Vector2 location, float duration) : base(socketSettings)
     {
         this.location = location;
         this.duration = duration;
     }
     public void Execute(){
-        new MoveMouseDriver(SocketSettings,location, duration).Execute();
+        new MoveMouse(SocketSettings,location, duration).Execute();
         System.Threading.Thread.Sleep((int)duration * 1000);
         string data;
         do

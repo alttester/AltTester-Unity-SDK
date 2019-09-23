@@ -1,11 +1,11 @@
-public class FindObjectsWhichContainDriver : BaseFindObjects
+public class FindObjectsWhichContain : BaseFindObjects
 {
     By by;
     string value;
     string cameraName;
     bool enabled;
 
-    public FindObjectsWhichContainDriver(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled) : base(socketSettings)
+    public FindObjectsWhichContain(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled) : base(socketSettings)
     {
         this.by = by;
         this.value = value;

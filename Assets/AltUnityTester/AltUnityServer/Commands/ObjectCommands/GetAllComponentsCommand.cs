@@ -1,0 +1,29 @@
+﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+{
+    class GetAllComponentsCommand : Command
+    {
+        string objectID;
+
+        public GetAllComponentsCommand(string objectID)
+        {
+            this.objectID = objectID;
+        }
+
+        public override string Execute()
+        {
+            UnityEngine.Debug.Log("GetAllComponents");
+            UnityEngine.GameObject altObject = AltUnityRunner.GetGameObject(System.Convert.ToInt32(objectID));
+            System.Collections.Generic.List<AltUnityComponent> listComponents = new System.Collections.Generic.List<AltUnityComponent>();
+            foreach (var component in altObject.GetComponents<UnityEngine.Component>())
+            {
+                var a = component.GetType();
+                var componentName = a.FullName;
+                var assemblyName = a.Assembly.GetName().Name;
+                listComponents.Add(new AltUnityComponent(componentName, assemblyName));
+            }
+
+            var response = Newtonsoft.Json.JsonConvert.SerializeObject(listComponents);
+            return response;
+        }
+    }
+}

@@ -1,8 +1,8 @@
-public class GetAllElementsDriver : AltBaseCommand
+public class GetAllElements : AltBaseCommand
 {
     string cameraName;
     bool enabled;
-    public GetAllElementsDriver(SocketSettings socketSettings, string cameraName, bool enabled) : base(socketSettings)
+    public GetAllElements(SocketSettings socketSettings, string cameraName, bool enabled) : base(socketSettings)
     {
         this.cameraName = cameraName;
         this.enabled = enabled;

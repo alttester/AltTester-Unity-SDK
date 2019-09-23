@@ -1,23 +1,23 @@
-public class SetKeyPLayerPrefDriver : AltBaseCommand
+public class SetKeyPLayerPref : AltBaseCommand
 {
     string keyName;
     int intValue;
     float floatValue;
     string stringValue;
     int option = 0;
-    public SetKeyPLayerPrefDriver(SocketSettings socketSettings, string keyName, int intValue) : base(socketSettings)
+    public SetKeyPLayerPref(SocketSettings socketSettings, string keyName, int intValue) : base(socketSettings)
     {
         this.keyName = keyName;
         this.intValue = intValue;
         option = 1;
     }
-    public SetKeyPLayerPrefDriver(SocketSettings socketSettings, string keyName, float floatValue) : base(socketSettings)
+    public SetKeyPLayerPref(SocketSettings socketSettings, string keyName, float floatValue) : base(socketSettings)
     {
         this.keyName = keyName;
         this.floatValue = floatValue;
         option = 2;
     }
-    public SetKeyPLayerPrefDriver(SocketSettings socketSettings, string keyName, string stringValue) : base(socketSettings)
+    public SetKeyPLayerPref(SocketSettings socketSettings, string keyName, string stringValue) : base(socketSettings)
     {
         this.keyName = keyName;
         this.stringValue = stringValue;

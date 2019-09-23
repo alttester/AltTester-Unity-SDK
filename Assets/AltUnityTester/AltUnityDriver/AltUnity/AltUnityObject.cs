@@ -44,16 +44,16 @@ public class AltUnityObject
     }
     public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null)
     {
-        return new GetComponentPropertyDriver(socketSettings,componentName,propertyName,assemblyName,this).Execute();
+        return new GetComponentProperty(socketSettings,componentName,propertyName,assemblyName,this).Execute();
     }
     public string SetComponentProperty(string componentName, string propertyName, string value, string assemblyName = null)
     {
-        return new SetComponentPropertyDriver(socketSettings,componentName,propertyName,value,assemblyName,this).Execute();
+        return new SetComponentProperty(socketSettings,componentName,propertyName,value,assemblyName,this).Execute();
     }
     public string CallComponentMethod(string componentName, string methodName,string parameters,string typeOfParameters="", string assemblyName = null)
     {
         
-        return new CallComponentMethodDriver(socketSettings,componentName,methodName,parameters,typeOfParameters,assemblyName,this).Execute();
+        return new CallComponentMethod(socketSettings,componentName,methodName,parameters,typeOfParameters,assemblyName,this).Execute();
     }
     public string GetText()
     {
@@ -61,46 +61,46 @@ public class AltUnityObject
     }    
     public AltUnityObject ClickEvent()
     {
-        return new ClickEventDriver(socketSettings,this).Execute();
+        return new ClickEvent(socketSettings,this).Execute();
     }
     public AltUnityObject DragObject(UnityEngine.Vector2 position)
     {
-        return new DragObjectDriver(socketSettings,position,this).Execute();
+        return new DragObject(socketSettings,position,this).Execute();
     }
     public AltUnityObject DropObject(UnityEngine.Vector2 position)
     {
-        return new DropObjectDriver(socketSettings,position,this).Execute();   
+        return new DropObject(socketSettings,position,this).Execute();   
     }
     public AltUnityObject PointerUpFromObject()
     {
-        return new PointerUpFromObjectDriver(socketSettings,this).Execute();
+        return new PointerUpFromObject(socketSettings,this).Execute();
     }
     public AltUnityObject PointerDownFromObject()
     {
-        return new PointerDownFromObjectDriver(socketSettings,this).Execute();
+        return new PointerDownFromObject(socketSettings,this).Execute();
     }
     public AltUnityObject PointerEnterObject()
     {
-        return new PointerEnterObjectDriver(socketSettings,this).Execute();
+        return new PointerEnterObject(socketSettings,this).Execute();
     }
     public AltUnityObject PointerExitObject()
     {
-        return new PointerExitObjectDriver(socketSettings,this).Execute();
+        return new PointerExitObject(socketSettings,this).Execute();
     }
     public AltUnityObject Tap()
     {
-        return new TapDriver(socketSettings,this).Execute();
+        return new Tap(socketSettings,this).Execute();
     }
     public System.Collections.Generic.List<AltUnityComponent> GetAllComponents()
     {
-        return new GetAllComponentsDriver(socketSettings,this).Execute();
+        return new GetAllComponents(socketSettings,this).Execute();
     }
     public System.Collections.Generic.List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent)
     {
-       return new GetAllPropertiesDriver(socketSettings,altUnityComponent,this).Execute();
+       return new GetAllProperties(socketSettings,altUnityComponent,this).Execute();
     }
     public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent)
     {
-        return new GetAllMethodsDriver(socketSettings,altUnityComponent,this).Execute();
+        return new GetAllMethods(socketSettings,altUnityComponent,this).Execute();
     }
 }

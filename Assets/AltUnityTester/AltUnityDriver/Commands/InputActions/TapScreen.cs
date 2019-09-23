@@ -1,8 +1,8 @@
-public class TapScreenDriver : AltBaseCommand
+public class TapScreen : AltBaseCommand
 {
     float x;
     float y;
-    public TapScreenDriver(SocketSettings socketSettings, float x, float y) : base(socketSettings)
+    public TapScreen(SocketSettings socketSettings, float x, float y) : base(socketSettings)
     {
         this.x = x;
         this.y = y;

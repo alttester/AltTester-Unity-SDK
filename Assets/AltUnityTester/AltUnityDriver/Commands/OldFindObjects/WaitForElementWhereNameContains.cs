@@ -1,11 +1,11 @@
-public class WaitForElementWhereNameContainsDriver : AltBaseCommand
+public class WaitForElementWhereNameContains : AltBaseCommand
 {
     string name;
     string cameraName;
     bool enabled;
     double timeout;
     double interval;
-    public WaitForElementWhereNameContainsDriver(SocketSettings socketSettings, string name, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
+    public WaitForElementWhereNameContains(SocketSettings socketSettings, string name, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.name = name;
         this.cameraName = cameraName;
@@ -20,7 +20,7 @@ public class WaitForElementWhereNameContainsDriver : AltBaseCommand
         {
             try
             {
-                altElement = new FindElementWhereNameContainsDriver(SocketSettings, name, cameraName, enabled).Execute();
+                altElement = new FindElementWhereNameContains(SocketSettings, name, cameraName, enabled).Execute();
                 break;
             }
             catch (System.Exception)

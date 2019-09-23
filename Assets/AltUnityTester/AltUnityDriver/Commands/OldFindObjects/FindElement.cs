@@ -1,9 +1,9 @@
-public class FindElementDriver : CommandReturningAltElement
+public class FindElement : CommandReturningAltElement
 {
     string name;
     string cameraName;
     bool enabled;
-    public FindElementDriver(SocketSettings socketSettings, string name, string cameraName, bool enabled) : base(socketSettings)
+    public FindElement(SocketSettings socketSettings, string name, string cameraName, bool enabled) : base(socketSettings)
     {
         this.name = name;
         this.cameraName = cameraName;

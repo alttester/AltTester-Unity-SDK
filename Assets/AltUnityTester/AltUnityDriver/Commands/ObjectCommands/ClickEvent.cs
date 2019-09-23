@@ -1,7 +1,7 @@
-public class ClickEventDriver : CommandReturningAltElement
+public class ClickEvent : CommandReturningAltElement
 {
     AltUnityObject altUnityObject;
-    public ClickEventDriver(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+    public ClickEvent(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.altUnityObject = altUnityObject;
     }

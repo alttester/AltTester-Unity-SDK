@@ -1,7 +1,7 @@
-public class TapDriver : CommandReturningAltElement
+public class Tap : CommandReturningAltElement
 {
     AltUnityObject altUnityObject;
-    public TapDriver(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+    public Tap(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.altUnityObject = altUnityObject;
     }

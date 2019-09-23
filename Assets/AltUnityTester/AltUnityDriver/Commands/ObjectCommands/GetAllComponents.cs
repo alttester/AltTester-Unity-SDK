@@ -1,8 +1,8 @@
-public class GetAllComponentsDriver : AltBaseCommand
+public class GetAllComponents : AltBaseCommand
 {
     AltUnityObject AltUnityObject;
 
-    public GetAllComponentsDriver(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+    public GetAllComponents(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
     {
         AltUnityObject = altUnityObject;
     }

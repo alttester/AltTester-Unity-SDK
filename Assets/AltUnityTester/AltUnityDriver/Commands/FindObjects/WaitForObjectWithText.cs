@@ -1,4 +1,4 @@
-public class WaitForObjectWithTextDriver : BaseFindObjects
+public class WaitForObjectWithText : BaseFindObjects
 {
     By by;
     string value;
@@ -7,7 +7,7 @@ public class WaitForObjectWithTextDriver : BaseFindObjects
     bool enabled;
     double timeout;
     double interval;
-    public WaitForObjectWithTextDriver(SocketSettings socketSettings, By by, string value, string text, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
+    public WaitForObjectWithText(SocketSettings socketSettings, By by, string value, string text, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
@@ -26,7 +26,7 @@ public class WaitForObjectWithTextDriver : BaseFindObjects
         {
             try
             {
-                altElement = new FindObjectDriver(SocketSettings, by, value, cameraName, enabled).Execute();
+                altElement = new FindObject(SocketSettings, by, value, cameraName, enabled).Execute();
                 if (altElement.GetText().Equals(text))
                     break;
                 throw new System.Exception("Not the wanted text");

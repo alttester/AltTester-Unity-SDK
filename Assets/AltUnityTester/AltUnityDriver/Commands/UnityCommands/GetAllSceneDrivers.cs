@@ -1,6 +1,6 @@
-public class GetAllScenesDriver : AltBaseCommand
+public class GetAllScenes : AltBaseCommand
 {
-    public GetAllScenesDriver(SocketSettings socketSettings) : base(socketSettings)
+    public GetAllScenes(SocketSettings socketSettings) : base(socketSettings)
     {
     }
     public System.Collections.Generic.List<string> Execute()

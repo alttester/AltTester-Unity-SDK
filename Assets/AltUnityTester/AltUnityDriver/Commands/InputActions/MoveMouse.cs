@@ -1,8 +1,8 @@
-public class MoveMouseDriver : AltBaseCommand
+public class MoveMouse : AltBaseCommand
 {
     UnityEngine.Vector2 location;
     float duration;
-    public MoveMouseDriver(SocketSettings socketSettings, UnityEngine.Vector2 location, float duration) : base(socketSettings)
+    public MoveMouse(SocketSettings socketSettings, UnityEngine.Vector2 location, float duration) : base(socketSettings)
     {
         this.location = location;
         this.duration = duration;

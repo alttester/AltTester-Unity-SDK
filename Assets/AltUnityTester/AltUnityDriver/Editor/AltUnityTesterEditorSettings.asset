@@ -25,15 +25,15 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 111
+    _testCaseCount: 113
     _foldOut: 1
     _testResultMessage: 
   - _selected: 0
     _testName: TestForScene1TestSample
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 60
+    _testCaseCount: 61
     _foldOut: 1
     _testResultMessage: 
   - _selected: 0
@@ -43,7 +43,15 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 2.9535065
+    _testResultMessage: Passed in 2.9648852
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallMethodWithAssembly
+    _status: 1
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: Passed in 0.4584546
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithIncorrectNumberOfParameters
     _status: 1
@@ -51,7 +59,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2954574
+    _testResultMessage: Passed in 0.2202723
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithIncorrectTypeOfParameters
     _status: 1
@@ -59,7 +67,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3019262
+    _testResultMessage: Passed in 0.2137529
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithManyParameters
     _status: 1
@@ -67,7 +75,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3083636
+    _testResultMessage: Passed in 0.2174036
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithMultipleDefinitions
     _status: 1
@@ -75,7 +83,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3625148
+    _testResultMessage: Passed in 0.3431098
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithNoParameters
     _status: 1
@@ -83,7 +91,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.242986
+    _testResultMessage: Passed in 0.2420417
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithParameters
     _status: 1
@@ -91,7 +99,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2847387
+    _testResultMessage: Passed in 0.2218887
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallStaticMethod
     _status: 1
@@ -99,15 +107,15 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2809035
-  - _selected: 1
+    _testResultMessage: Passed in 0.2584111
+  - _selected: 0
     _testName: TestForScene1TestSample.TestClickElement
     _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.583661
+    _testResultMessage: Passed in 0.4007865
   - _selected: 0
     _testName: TestForScene1TestSample.TestClickScreen
     _status: 1
@@ -115,7 +123,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3862739
+    _testResultMessage: Passed in 0.4365094
   - _selected: 0
     _testName: TestForScene1TestSample.TestDeleteKey
     _status: 1
@@ -123,7 +131,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.5827342
+    _testResultMessage: Passed in 0.3124621
   - _selected: 0
     _testName: TestForScene1TestSample.TestDifferentCamera
     _status: 1
@@ -131,7 +139,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4484468
+    _testResultMessage: Passed in 0.2674289
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindChild
     _status: 1
@@ -139,7 +147,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2429234
+    _testResultMessage: Passed in 0.1177415
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElement
     _status: 1
@@ -147,7 +155,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3430738
+    _testResultMessage: Passed in 0.1849939
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementByComponent
     _status: 1
@@ -155,7 +163,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3558141
+    _testResultMessage: Passed in 0.1996736
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementByComponent2
     _status: 1
@@ -163,7 +171,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3569926
+    _testResultMessage: Passed in 0.2227859
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElements
     _status: 1
@@ -171,7 +179,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3519983
+    _testResultMessage: Passed in 0.2011698
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementsWhereNameContains
     _status: 1
@@ -179,7 +187,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3432746
+    _testResultMessage: Passed in 0.1932964
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementWhereNameContains
     _status: 1
@@ -187,7 +195,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3820015
+    _testResultMessage: Passed in 0.1898233
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElemetsByComponent
     _status: 1
@@ -195,7 +203,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3937917
+    _testResultMessage: Passed in 0.202737
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindingDifferentObjects
     _status: 1
@@ -203,7 +211,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.5789525
+    _testResultMessage: Passed in 0.3257274
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindNonExistentObject
     _status: 1
@@ -211,7 +219,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1163323
+    _testResultMessage: Passed in 0.0935825
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindNonExistentObjectByName
     _status: 1
@@ -219,7 +227,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3544815
+    _testResultMessage: Passed in 0.205277
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectByComponent
     _status: 1
@@ -227,7 +235,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.311238
+    _testResultMessage: Passed in 0.2006161
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectByLayer
     _status: 1
@@ -235,7 +243,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.29876
+    _testResultMessage: Passed in 0.2024091
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectByTag
     _status: 1
@@ -243,7 +251,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2858776
+    _testResultMessage: Passed in 0.1928961
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectByUnityComponent
     _status: 1
@@ -251,7 +259,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2839963
+    _testResultMessage: Passed in 0.1891808
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectsByContainName
     _status: 1
@@ -259,7 +267,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3032935
+    _testResultMessage: Passed in 0.2006079
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectsByLayer
     _status: 1
@@ -267,7 +275,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.280168
+    _testResultMessage: Passed in 0.1851293
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectsByTag
     _status: 1
@@ -275,7 +283,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3230505
+    _testResultMessage: Passed in 0.2069811
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectWithDifferentCameras
     _status: 1
@@ -283,7 +291,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.5973468
+    _testResultMessage: Passed in 0.3576437
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllComponents
     _status: 1
@@ -291,7 +299,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3498154
+    _testResultMessage: Passed in 0.2179861
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllElements
     _status: 1
@@ -299,7 +307,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1967466
+    _testResultMessage: Passed in 0.1114314
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllEnabledElements
     _status: 1
@@ -307,7 +315,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2666139
+    _testResultMessage: Passed in 0.1901899
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllFields
     _status: 1
@@ -315,7 +323,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.5145229
+    _testResultMessage: Passed in 0.3262773
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllMethods
     _status: 1
@@ -323,7 +331,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.323161
+    _testResultMessage: Passed in 0.2512105
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllScenes
     _status: 1
@@ -331,7 +339,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1013702
+    _testResultMessage: Passed in 0.1029916
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentProperty
     _status: 1
@@ -339,7 +347,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2346536
+    _testResultMessage: Passed in 0.3034531
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentPropertyArray
     _status: 1
@@ -347,7 +355,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2874323
+    _testResultMessage: Passed in 0.2443598
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentPropertyUnityEngine
     _status: 1
@@ -355,7 +363,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2980763
+    _testResultMessage: Passed in 0.2121185
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetCurrentScene
     _status: 1
@@ -363,7 +371,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1428792
+    _testResultMessage: Passed in 0.1114302
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetNonExistingComponentProperty
     _status: 1
@@ -371,7 +379,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2852597
+    _testResultMessage: Passed in 0.2947646
   - _selected: 0
     _testName: TestForScene1TestSample.TestInactiveObject
     _status: 1
@@ -379,7 +387,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1226724
+    _testResultMessage: Passed in 0.1153026
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetComponentProperty
     _status: 1
@@ -387,7 +395,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3634832
+    _testResultMessage: Passed in 0.3236108
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyFloat
     _status: 1
@@ -395,7 +403,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3106388
+    _testResultMessage: Passed in 0.2532949
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyInt
     _status: 1
@@ -403,7 +411,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3145026
+    _testResultMessage: Passed in 0.2344868
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyString
     _status: 1
@@ -411,7 +419,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3212279
+    _testResultMessage: Passed in 0.2476035
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetNonExistingComponentProperty
     _status: 1
@@ -419,7 +427,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2536265
+    _testResultMessage: Passed in 0.2022185
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetTimeScale
     _status: 1
@@ -427,7 +435,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.2046169
+    _testResultMessage: Passed in 1.139345
   - _selected: 0
     _testName: TestForScene1TestSample.TestTapScreenWhereThereIsNoObjects
     _status: 1
@@ -435,7 +443,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1036991
+    _testResultMessage: Passed in 0.0913007
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForCurrentSceneToBe
     _status: 1
@@ -443,7 +451,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.274763
+    _testResultMessage: Passed in 0.1773313
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForCurrrentSceneToBeANonExistingScene
     _status: 1
@@ -451,7 +459,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.2578976
+    _testResultMessage: Passed in 1.1813871
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForElementWithText
     _status: 1
@@ -459,7 +467,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4014165
+    _testResultMessage: Passed in 0.2796051
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForExistingDisabledElement
     _status: 1
@@ -467,7 +475,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1211619
+    _testResultMessage: Passed in 0.0874056
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForExistingElement
     _status: 1
@@ -475,7 +483,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2676966
+    _testResultMessage: Passed in 0.180942
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForExistingElementWhereNameContains
     _status: 1
@@ -483,7 +491,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2772407
+    _testResultMessage: Passed in 0.1915152
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForNonExistingElementWhereNameContains
     _status: 1
@@ -491,7 +499,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.286491
+    _testResultMessage: Passed in 1.2013554
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForNonExistingObject
     _status: 1
@@ -499,7 +507,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.0976098
+    _testResultMessage: Passed in 1.0954484
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForObjectToNotExistFail
     _status: 1
@@ -507,7 +515,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.7400171
+    _testResultMessage: Passed in 1.6337129
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForObjectWithTextWrongText
     _status: 1
@@ -515,10 +523,10 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.3926301
+    _testResultMessage: Passed in 1.3275693
   - _selected: 0
     _testName: TestForScene1WithOldSearch
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 39
@@ -531,7 +539,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 2.9067785
+    _testResultMessage: Passed in 2.7305271
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithIncorrectNumberOfParameters
     _status: 1
@@ -539,7 +547,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2647749
+    _testResultMessage: Passed in 0.2257007
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithIncorrectTypeOfParameters
     _status: 1
@@ -547,7 +555,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2774658
+    _testResultMessage: Passed in 0.2123685
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithManyParameters
     _status: 1
@@ -555,7 +563,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3004244
+    _testResultMessage: Passed in 0.2033966
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithMultipleDefinitions
     _status: 1
@@ -563,7 +571,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.348856
+    _testResultMessage: Passed in 0.2680495
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithNoParameters
     _status: 1
@@ -571,7 +579,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.254695
+    _testResultMessage: Passed in 0.1841205
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithParameters
     _status: 1
@@ -579,7 +587,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2777338
+    _testResultMessage: Passed in 0.2144865
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestClickElement
     _status: 1
@@ -587,7 +595,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3523853
+    _testResultMessage: Passed in 0.2844898
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestClickScreen
     _status: 1
@@ -595,7 +603,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.355709
+    _testResultMessage: Passed in 0.2616679
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestDifferentCamera
     _status: 1
@@ -603,7 +611,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4560397
+    _testResultMessage: Passed in 0.2749561
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElement
     _status: 1
@@ -611,7 +619,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1212989
+    _testResultMessage: Passed in 0.1132462
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElementByComponent
     _status: 1
@@ -619,7 +627,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2852266
+    _testResultMessage: Passed in 0.1887492
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElementByComponent2
     _status: 1
@@ -627,7 +635,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2599405
+    _testResultMessage: Passed in 0.1823342
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElements
     _status: 1
@@ -635,7 +643,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2664895
+    _testResultMessage: Passed in 0.1955603
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElementsWhereNameContains
     _status: 1
@@ -643,7 +651,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2665523
+    _testResultMessage: Passed in 0.1928517
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElementWhereNameContains
     _status: 1
@@ -651,7 +659,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2718569
+    _testResultMessage: Passed in 0.1974555
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElemetsByComponent
     _status: 1
@@ -659,7 +667,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.286038
+    _testResultMessage: Passed in 0.1902587
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindNonExistentObject
     _status: 1
@@ -667,7 +675,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2674947
+    _testResultMessage: Passed in 0.1944289
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindNonExistentObjectByName
     _status: 1
@@ -675,7 +683,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2589339
+    _testResultMessage: Passed in 0.1944098
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetAllComponents
     _status: 1
@@ -683,7 +691,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3982416
+    _testResultMessage: Passed in 0.2904315
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetAllFields
     _status: 1
@@ -691,7 +699,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3505991
+    _testResultMessage: Passed in 0.2722763
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetAllMethods
     _status: 1
@@ -699,7 +707,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3099339
+    _testResultMessage: Passed in 0.2722345
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetComponentProperty
     _status: 1
@@ -707,7 +715,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2499128
+    _testResultMessage: Passed in 0.1927877
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetComponentPropertyArray
     _status: 1
@@ -715,7 +723,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2869554
+    _testResultMessage: Passed in 0.2091207
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetComponentPropertyUnityEngine
     _status: 1
@@ -723,7 +731,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2896929
+    _testResultMessage: Passed in 0.2234698
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetNonExistingComponentProperty
     _status: 1
@@ -731,7 +739,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.285272
+    _testResultMessage: Passed in 0.2500195
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestInactiveObject
     _status: 1
@@ -739,7 +747,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1681912
+    _testResultMessage: Passed in 0.1302001
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestSetComponentProperty
     _status: 1
@@ -747,7 +755,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3409306
+    _testResultMessage: Passed in 0.3186265
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestSetNonExistingComponentProperty
     _status: 1
@@ -755,7 +763,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3268233
+    _testResultMessage: Passed in 0.2226222
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForCurrentSceneToBe
     _status: 1
@@ -763,7 +771,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1936987
+    _testResultMessage: Passed in 0.1162608
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForCurrrentSceneToBeANonExistingScene
     _status: 1
@@ -771,7 +779,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.3476164
+    _testResultMessage: Passed in 1.2136603
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForElementWithText
     _status: 1
@@ -779,7 +787,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3732895
+    _testResultMessage: Passed in 0.2812429
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForExistingDisabledElement
     _status: 1
@@ -787,7 +795,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1357243
+    _testResultMessage: Passed in 0.0917312
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForExistingElement
     _status: 1
@@ -795,7 +803,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2780021
+    _testResultMessage: Passed in 0.1931644
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForExistingElementWhereNameContains
     _status: 1
@@ -803,7 +811,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2986504
+    _testResultMessage: Passed in 0.2027597
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForNonExistingElementWhereNameContains
     _status: 1
@@ -811,7 +819,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.4488237
+    _testResultMessage: Passed in 1.2048432
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForNonExistingObject
     _status: 1
@@ -819,7 +827,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.1110779
+    _testResultMessage: Passed in 1.0914443
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForObjectToNotExistFail
     _status: 1
@@ -827,7 +835,7 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.704089
+    _testResultMessage: Passed in 1.6333567
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForObjectWithTextWrongText
     _status: 1
@@ -835,13 +843,13 @@ MonoBehaviour:
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.3477135
+    _testResultMessage: Passed in 1.2906767
   - _selected: 0
     _testName: TestForScene2DraggablePanel
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 2
+    _testCaseCount: 3
     _foldOut: 1
     _testResultMessage: 
   - _selected: 0
@@ -851,7 +859,7 @@ MonoBehaviour:
     _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4303236
+    _testResultMessage: Passed in 0.3127457
   - _selected: 0
     _testName: TestForScene2DraggablePanel.MovePanel
     _status: 1
@@ -859,7 +867,15 @@ MonoBehaviour:
     _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 2.4321586
+    _testResultMessage: Passed in 2.1799732
+  - _selected: 1
+    _testName: TestForScene2DraggablePanel.ResizePanel
+    _status: 1
+    _isSuite: 0
+    _parentName: TestForScene2DraggablePanel
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: Passed in 4.2064868
   - _selected: 0
     _testName: TestForScene3DragAndDrop
     _status: 1
@@ -875,7 +891,7 @@ MonoBehaviour:
     _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 4.8392123
+    _testResultMessage: Passed in 4.7228845
   - _selected: 0
     _testName: TestForScene3DragAndDrop.MultipleDragAndDropWait
     _status: 1
@@ -883,7 +899,7 @@ MonoBehaviour:
     _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 5.4245409
+    _testResultMessage: Passed in 4.9409206
   - _selected: 0
     _testName: TestForScene3DragAndDrop.TestPointerEnterAndExit
     _status: 1
@@ -891,7 +907,7 @@ MonoBehaviour:
     _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4282473
+    _testResultMessage: Passed in 0.3609985
   - _selected: 0
     _testName: Testforscene4nocameras
     _status: 1
@@ -907,10 +923,10 @@ MonoBehaviour:
     _parentName: Testforscene4nocameras
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1975082
+    _testResultMessage: Passed in 0.1526006
   - _selected: 0
     _testName: TestScene5
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 6
@@ -923,7 +939,7 @@ MonoBehaviour:
     _parentName: TestScene5
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.7420131
+    _testResultMessage: Passed in 0.6888588
   - _selected: 0
     _testName: TestScene5.TestCameraMovement
     _status: 1
@@ -931,7 +947,7 @@ MonoBehaviour:
     _parentName: TestScene5
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 2.2830215
+    _testResultMessage: Passed in 2.2724629
   - _selected: 0
     _testName: TestScene5.TestCreatingStars
     _status: 1
@@ -939,7 +955,7 @@ MonoBehaviour:
     _parentName: TestScene5
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 5.6016595
+    _testResultMessage: Passed in 5.4504282
   - _selected: 0
     _testName: TestScene5.TestKeyboardPress
     _status: 1
@@ -947,7 +963,7 @@ MonoBehaviour:
     _parentName: TestScene5
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 158.0778612
+    _testResultMessage: Passed in 127.0793494
   - _selected: 0
     _testName: TestScene5.TestMovementCube
     _status: 1
@@ -955,7 +971,7 @@ MonoBehaviour:
     _parentName: TestScene5
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 3.3542603
+    _testResultMessage: Passed in 3.473295
   - _selected: 0
     _testName: TestScene5.TestPowerJoystick
     _status: 1
@@ -963,7 +979,7 @@ MonoBehaviour:
     _parentName: TestScene5
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.0721975
+    _testResultMessage: Passed in 0.7801884
   Scenes:
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene

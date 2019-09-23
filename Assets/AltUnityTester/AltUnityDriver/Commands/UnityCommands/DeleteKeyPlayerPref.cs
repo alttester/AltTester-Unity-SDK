@@ -1,7 +1,7 @@
-public class DeleteKeyPlayerPrefDriver : AltBaseCommand
+public class DeleteKeyPlayerPref : AltBaseCommand
 {
     string keyName;
-    public DeleteKeyPlayerPrefDriver(SocketSettings socketSettings, string keyname) : base(socketSettings)
+    public DeleteKeyPlayerPref(SocketSettings socketSettings, string keyname) : base(socketSettings)
     {
         this.keyName = keyname;
     }

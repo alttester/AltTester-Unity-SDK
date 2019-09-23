@@ -1,11 +1,11 @@
-public class WaitForElementDriver : AltBaseCommand
+public class WaitForElement : AltBaseCommand
 {
     string name;
     string cameraName;
     bool enabled;
     double timeout;
     double interval;
-    public WaitForElementDriver(SocketSettings socketSettings, string name, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
+    public WaitForElement(SocketSettings socketSettings, string name, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.name = name;
         this.cameraName = cameraName;
@@ -21,7 +21,7 @@ public class WaitForElementDriver : AltBaseCommand
         {
             try
             {
-                altElement = new FindElementDriver(SocketSettings, name, cameraName, enabled).Execute();
+                altElement = new FindElement(SocketSettings, name, cameraName, enabled).Execute();
                 break;
             }
             catch (System.Exception)

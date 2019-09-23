@@ -1,4 +1,4 @@
-public class CallComponentMethodDriver : AltBaseCommand
+public class CallComponentMethod : AltBaseCommand
 {
     string componentName;
     string methodName;
@@ -6,7 +6,7 @@ public class CallComponentMethodDriver : AltBaseCommand
     string typeOfParameters;
     string assemblyName;
     AltUnityObject altUnityObject;
-    public CallComponentMethodDriver(SocketSettings socketSettings, string componentName, string methodName, string parameters, string typeOfParameters, string assembly, AltUnityObject altUnityObject) : base(socketSettings)
+    public CallComponentMethod(SocketSettings socketSettings, string componentName, string methodName, string parameters, string typeOfParameters, string assembly, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.componentName = componentName;
         this.methodName = methodName;

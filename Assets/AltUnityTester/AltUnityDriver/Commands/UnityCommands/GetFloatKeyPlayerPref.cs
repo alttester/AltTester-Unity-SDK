@@ -1,7 +1,7 @@
-public class GetFloatKeyPlayerPrefDriver : AltBaseCommand
+public class GetFloatKeyPlayerPref : AltBaseCommand
 {
     string keyName;
-    public GetFloatKeyPlayerPrefDriver(SocketSettings socketSettings, string keyName) : base(socketSettings)
+    public GetFloatKeyPlayerPref(SocketSettings socketSettings, string keyName) : base(socketSettings)
     {
         this.keyName = keyName;
     }

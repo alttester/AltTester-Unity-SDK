@@ -1,7 +1,7 @@
-public class GetIntKeyPLayerPrefDriver : AltBaseCommand
+public class GetIntKeyPLayerPref : AltBaseCommand
 {
     string keyName;
-    public GetIntKeyPLayerPrefDriver(SocketSettings socketSettings, string keyName) : base(socketSettings)
+    public GetIntKeyPLayerPref(SocketSettings socketSettings, string keyName) : base(socketSettings)
     {
         this.keyName = keyName;
     }

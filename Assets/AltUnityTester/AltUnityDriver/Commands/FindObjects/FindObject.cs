@@ -1,11 +1,11 @@
-public class FindObjectDriver : BaseFindObjects
+public class FindObject : BaseFindObjects
 {
     By by;
     string value;
     string cameraName;
     bool enabled;
 
-    public FindObjectDriver(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled) : base(socketSettings)
+    public FindObject(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled) : base(socketSettings)
     {
         this.by = by;
         this.value = value;

@@ -1,11 +1,11 @@
-public class CallStaticMethodsDriver : AltBaseCommand
+public class CallStaticMethods : AltBaseCommand
 {
     string typeName;
     string methodName;
     string parameters;
     string typeOfParameters;
     string assemblyName;
-    public CallStaticMethodsDriver(SocketSettings socketSettings, string typeName, string methodName, string parameters, string typeOfParameters, string assemblyName) : base(socketSettings)
+    public CallStaticMethods(SocketSettings socketSettings, string typeName, string methodName, string parameters, string typeOfParameters, string assemblyName) : base(socketSettings)
     {
         this.typeName = typeName;
         this.methodName = methodName;

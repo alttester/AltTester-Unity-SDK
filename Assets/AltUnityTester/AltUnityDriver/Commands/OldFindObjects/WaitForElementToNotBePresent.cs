@@ -1,11 +1,11 @@
-public class WaitForElementToNotBePresentDriver : AltBaseCommand
+public class WaitForElementToNotBePresent : AltBaseCommand
 {
     string name;
     string cameraName;
     bool enabled;
     double timeout;
     double interval;
-    public WaitForElementToNotBePresentDriver(SocketSettings socketSettings, string name, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
+    public WaitForElementToNotBePresent(SocketSettings socketSettings, string name, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.name = name;
         this.cameraName = cameraName;
@@ -23,7 +23,7 @@ public class WaitForElementToNotBePresentDriver : AltBaseCommand
             found = false;
             try
             {
-                altElement = new FindElementDriver(SocketSettings, name, cameraName, enabled).Execute();
+                altElement = new FindElement(SocketSettings, name, cameraName, enabled).Execute();
                 found = true;
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;

@@ -1,9 +1,9 @@
-public class DropObjectDriver : CommandReturningAltElement
+public class DropObject : CommandReturningAltElement
 {
     UnityEngine.Vector2 position;
     AltUnityObject altUnityObject;
 
-    public DropObjectDriver(SocketSettings socketSettings, UnityEngine.Vector2 position, AltUnityObject altUnityObject) : base(socketSettings)
+    public DropObject(SocketSettings socketSettings, UnityEngine.Vector2 position, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.position = position;
         this.altUnityObject = altUnityObject;

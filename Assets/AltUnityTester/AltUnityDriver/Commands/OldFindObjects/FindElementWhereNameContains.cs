@@ -1,9 +1,9 @@
-public class FindElementWhereNameContainsDriver : CommandReturningAltElement
+public class FindElementWhereNameContains : CommandReturningAltElement
 {
     string name;
     string cameraName;
     bool enabled;
-    public FindElementWhereNameContainsDriver(SocketSettings socketSettings, string name, string cameraName, bool enabled) : base(socketSettings)
+    public FindElementWhereNameContains(SocketSettings socketSettings, string name, string cameraName, bool enabled) : base(socketSettings)
     {
         this.name = name;
         this.cameraName = cameraName;

@@ -1,4 +1,4 @@
-public class WaitForObjectNotBePresentDriver : BaseFindObjects
+public class WaitForObjectNotBePresent : BaseFindObjects
 {
     By by;
     string value;
@@ -6,7 +6,7 @@ public class WaitForObjectNotBePresentDriver : BaseFindObjects
     bool enabled;
     double timeout;
     double interval;
-    public WaitForObjectNotBePresentDriver(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
+    public WaitForObjectNotBePresent(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
@@ -26,7 +26,7 @@ public class WaitForObjectNotBePresentDriver : BaseFindObjects
             found = false;
             try
             {
-                altElement = new FindObjectDriver(SocketSettings, by, value, cameraName, enabled).Execute();
+                altElement = new FindObject(SocketSettings, by, value, cameraName, enabled).Execute();
                 found = true;
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;

@@ -1,4 +1,4 @@
-public class SetComponentPropertyDriver : AltBaseCommand
+public class SetComponentProperty : AltBaseCommand
 {
     string componentName;
     string propertyName;
@@ -6,7 +6,7 @@ public class SetComponentPropertyDriver : AltBaseCommand
     string assemblyName;
     AltUnityObject altUnityObject;
 
-    public SetComponentPropertyDriver(SocketSettings socketSettings, string componentName, string propertyName, string value, string assemblyName, AltUnityObject altUnityObject) : base(socketSettings)
+    public SetComponentProperty(SocketSettings socketSettings, string componentName, string propertyName, string value, string assemblyName, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.componentName = componentName;
         this.propertyName = propertyName;

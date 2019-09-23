@@ -1,6 +1,6 @@
-public class GetCurrentSceneDriver : AltBaseCommand
+public class GetCurrentScene : AltBaseCommand
 {
-    public GetCurrentSceneDriver(SocketSettings socketSettings) : base(socketSettings)
+    public GetCurrentScene(SocketSettings socketSettings) : base(socketSettings)
     {
     }
     public string Execute(){

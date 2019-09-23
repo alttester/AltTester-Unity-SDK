@@ -1,9 +1,9 @@
-public class SwipeDriver : AltBaseCommand
+public class Swipe : AltBaseCommand
 {
     UnityEngine.Vector2 start;
     UnityEngine.Vector2 end;
     float duration;
-    public SwipeDriver(SocketSettings socketSettings, UnityEngine.Vector2 start, UnityEngine.Vector2 end, float duration) : base(socketSettings)
+    public Swipe(SocketSettings socketSettings, UnityEngine.Vector2 start, UnityEngine.Vector2 end, float duration) : base(socketSettings)
     {
         this.start = start;
         this.end = end;

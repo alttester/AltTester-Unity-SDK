@@ -1,9 +1,9 @@
-public class PressKeyDriver : AltBaseCommand
+public class PressKey : AltBaseCommand
 {
     UnityEngine.KeyCode keyCode;
     float power;
     float duration;
-    public PressKeyDriver(SocketSettings socketSettings, UnityEngine.KeyCode keyCode, float power, float duration) : base(socketSettings)
+    public PressKey(SocketSettings socketSettings, UnityEngine.KeyCode keyCode, float power, float duration) : base(socketSettings)
     {
         this.keyCode = keyCode;
         this.power = power;

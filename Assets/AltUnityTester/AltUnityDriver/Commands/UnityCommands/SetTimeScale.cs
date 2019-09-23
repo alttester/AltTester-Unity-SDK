@@ -1,8 +1,8 @@
-public class SetTimeScaleDriver : AltBaseCommand
+public class SetTimeScale : AltBaseCommand
 {
     float timeScale;
 
-    public SetTimeScaleDriver(SocketSettings socketSettings, float timescale) : base(socketSettings)
+    public SetTimeScale(SocketSettings socketSettings, float timescale) : base(socketSettings)
     {
         this.timeScale = timescale;
     }

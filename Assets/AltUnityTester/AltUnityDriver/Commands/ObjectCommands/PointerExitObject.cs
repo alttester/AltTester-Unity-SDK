@@ -1,8 +1,8 @@
-public class PointerExitObjectDriver : CommandReturningAltElement
+public class PointerExitObject : CommandReturningAltElement
 {
     AltUnityObject altUnityObject;
 
-    public PointerExitObjectDriver(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+    public PointerExitObject(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.altUnityObject = altUnityObject;
     }

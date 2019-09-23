@@ -1,8 +1,8 @@
-public class PointerUpFromObjectDriver : CommandReturningAltElement
+public class PointerUpFromObject : CommandReturningAltElement
 {
     AltUnityObject altUnityObject;
 
-    public PointerUpFromObjectDriver(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+    public PointerUpFromObject(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.altUnityObject = altUnityObject;
     }

@@ -1,6 +1,6 @@
-public class DeletePlayerPrefDriver : AltBaseCommand
+public class DeletePlayerPref : AltBaseCommand
 {
-    public DeletePlayerPrefDriver(SocketSettings socketSettings) : base(socketSettings)
+    public DeletePlayerPref(SocketSettings socketSettings) : base(socketSettings)
     {
     }
     public void Execute()

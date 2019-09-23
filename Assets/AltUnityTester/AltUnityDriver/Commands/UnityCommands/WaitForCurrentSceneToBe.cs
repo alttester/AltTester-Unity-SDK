@@ -1,9 +1,9 @@
-public class WaitForCurrentSceneToBeDriver : AltBaseCommand
+public class WaitForCurrentSceneToBe : AltBaseCommand
 {
     string sceneName;
     double timeout;
     double interval;
-    public WaitForCurrentSceneToBeDriver(SocketSettings socketSettings, string sceneName, double timeout, double interval) : base(socketSettings)
+    public WaitForCurrentSceneToBe(SocketSettings socketSettings, string sceneName, double timeout, double interval) : base(socketSettings)
     {
         this.sceneName = sceneName;
         this.timeout = timeout;
@@ -15,7 +15,7 @@ public class WaitForCurrentSceneToBeDriver : AltBaseCommand
         string currentScene = "";
         while (time < timeout)
         {
-            currentScene = new GetCurrentSceneDriver(SocketSettings).Execute();
+            currentScene = new GetCurrentScene(SocketSettings).Execute();
             if (!currentScene.Equals(sceneName))
             {
                 UnityEngine.Debug.Log("Waiting for scene to be " + sceneName + "...");

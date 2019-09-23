@@ -1,8 +1,8 @@
-public class ScrollMouseDriver : AltBaseCommand
+public class ScrollMouse : AltBaseCommand
 {
     float speed;
     float duration;
-    public ScrollMouseDriver(SocketSettings socketSettings, float speed, float duration) : base(socketSettings)
+    public ScrollMouse(SocketSettings socketSettings, float speed, float duration) : base(socketSettings)
     {
         this.speed = speed;
         this.duration = duration;
