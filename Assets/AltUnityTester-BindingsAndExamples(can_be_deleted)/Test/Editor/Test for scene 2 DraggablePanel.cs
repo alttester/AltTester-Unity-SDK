@@ -12,7 +12,7 @@ public class TestForScene2DraggablePanel
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver = new AltUnityDriver(enableLogging:true);
+        altUnityDriver = new AltUnityDriver(debugFlag:true);
     }
 
     [OneTimeTearDown]

@@ -50,10 +50,7 @@ class AltrunUnityDriver(object):
 
         if (timeout <= 0):
             raise Exception('AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', did you run ``adb forward tcp:' + str(TCP_FWD_PORT) + ' tcp:' + str(self.TCP_PORT) + '`` or ``iproxy ' + str(TCP_FWD_PORT) + ' ' + str(self.TCP_PORT) + '``?')
-        if(self.debug_flag):
-            self.send_data(self.create_command('enableDebug','true'))
-        else:
-            self.send_data(self.create_command('enableDebug','false'))
+        EnableDebugging(self.socket,self.request_separator,self.request_end,debug_flag).execute()
 
     def remove_port_forwarding(self, port):
         try:
