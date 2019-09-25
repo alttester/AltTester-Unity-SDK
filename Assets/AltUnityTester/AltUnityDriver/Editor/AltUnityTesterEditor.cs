@@ -161,6 +161,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     {
         var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
         //----------------------Left Panel------------
+
+       
         UnityEditor.EditorGUILayout.BeginHorizontal();
         var leftSide = (screenWidth / 3) * 2;
         _scrollPosition = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPosition, false, false, UnityEngine.GUILayout.MinWidth(leftSide));
@@ -950,7 +952,13 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     }
                 }
             }
-
+            if (test.path != null)
+            {
+                if (UnityEngine.GUILayout.Button("OpenFile", UnityEditor.EditorStyles.miniButtonLeft))
+                {
+                    UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                }
+            }
             if (!test.IsSuite)
             {
                 if (UnityEngine.GUILayout.Button("Info", UnityEngine.GUILayout.Width(50)))
