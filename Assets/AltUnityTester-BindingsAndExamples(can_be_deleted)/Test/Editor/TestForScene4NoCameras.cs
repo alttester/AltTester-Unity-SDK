@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-public class Testforscene4nocameras
+public class TestForScene4NoCameras
 {
     public AltUnityDriver AltUnityDriver;
     //Before any test it connects with the socket

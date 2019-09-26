@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public class TestScene5
+public class TestForScene5KeyboardAndMouseInput
 {
 #pragma warning disable CS0618
 
