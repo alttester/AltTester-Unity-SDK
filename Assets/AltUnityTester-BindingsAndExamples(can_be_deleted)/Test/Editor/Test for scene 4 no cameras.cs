@@ -22,7 +22,7 @@ public class Testforscene4nocameras
     public void TestFindElementInASceneWithNoCameras() 
     {
         Assert.AreEqual(0, AltUnityDriver.GetAllCameras().Count);
-        var altObject = AltUnityDriver.FindObject(AltUnityDriver.By.NAME,"Plane");
+        var altObject = AltUnityDriver.FindObject(By.NAME,"Plane");
         Assert.AreEqual(0, altObject.worldX,"WorldX was: "+ altObject.worldX+" when it should have been 0");
         Assert.AreEqual(0, altObject.worldY, "WorldY was: " + altObject.worldY + " when it should have been 0");
         Assert.AreEqual(0, altObject.worldZ, "WorldZ was: " + altObject.worldZ + " when it should have been 0");
