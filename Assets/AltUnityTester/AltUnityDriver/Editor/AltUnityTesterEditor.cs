@@ -64,7 +64,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     private void OnFocus()
     {
 
-
+        var color = UnityEngine.Color.black;
+        if (UnityEditor.EditorGUIUtility.isProSkin)
+        {
+            color = UnityEngine.Color.white;
+        }
         if (EditorConfiguration == null)
         {
             InitEditorConfiguration();
@@ -936,7 +940,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             }
             else
             {
-                UnityEditor.EditorGUILayout.BeginHorizontal();
+                UnityEditor.EditorGUILayout.BeginHorizontal(); 
             }
 
             if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
@@ -973,8 +977,18 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             }
             if (test.Status == 0)
             {
-                var style = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label) { alignment = UnityEngine.TextAnchor.MiddleLeft };
-                UnityEditor.EditorGUILayout.LabelField(testName, style);
+                UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEngine.Color.black } };
+                if (UnityEngine.GUILayout.Button(testName, guiStyle))
+                {
+                    if (selectedTest == tests.IndexOf(test))
+                    {
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                    }
+                    else
+                    {
+                        selectedTest = tests.IndexOf(test);
+                    }
+                }
             }
             else
             {
@@ -988,7 +1002,17 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 UnityEngine.GUILayout.Label(icon, UnityEngine.GUILayout.Width(30));
                 UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = color } };
 
-                UnityEditor.EditorGUILayout.LabelField(testName, guiStyle, UnityEngine.GUILayout.ExpandWidth(true));
+                if (UnityEngine.GUILayout.Button(testName, guiStyle))
+                {
+                    if(selectedTest == tests.IndexOf(test))
+                    {
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                    }
+                    else
+                    {
+                        selectedTest = tests.IndexOf(test);
+                    }
+                }
             }
 
             if (test.Type != typeof(NUnit.Framework.Internal.TestMethod))
@@ -1005,24 +1029,6 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         foldOutCounter = test.TestCaseCount;
                     }
                 }
-            }
-            if (test.path != null) 
-            {
-                if (UnityEngine.GUILayout.Button(openFileIcon, UnityEngine.GUILayout.Width(50)))
-                {
-                    UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
-                }
-            }
-            if (!test.IsSuite)
-            {
-                if (UnityEngine.GUILayout.Button(infoIcon, UnityEngine.GUILayout.Width(50)))
-                {
-                    selectedTest = tests.IndexOf(test);
-                }
-            }
-            else
-            {
-                UnityEngine.GUILayout.Label("", new UnityEngine.GUIStyle { stretchWidth = true });
             }
             UnityEditor.EditorGUILayout.EndHorizontal();
 
