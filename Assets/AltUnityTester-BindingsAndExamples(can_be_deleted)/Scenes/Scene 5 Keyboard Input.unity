@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.56452316, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1195,39 +1195,6 @@ MonoBehaviour:
   starPrefab: {fileID: 1768235295843564, guid: 498075f2b42d9bd4f8b5887858ff68ef, type: 2}
   cameraControlled: {fileID: 1211672636}
   starCounter: {fileID: 2050311567}
---- !u!114 &1218478018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 44
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 
 --- !u!1 &1246963988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,8 +1321,8 @@ MonoBehaviour:
   lastKeyUp: {fileID: 1134564425}
   lastKeyPressed: {fileID: 1959532712}
   lastButtonDown: {fileID: 1665887879}
-  lastButtonUp: {fileID: 1218478018}
-  lastButtonPressed: {fileID: 1218478018}
+  lastButtonUp: {fileID: 1426529803}
+  lastButtonPressed: {fileID: 1257804858}
   mousePosition: {fileID: 1346449710}
   scroll: {fileID: 1609959479}
   lastAxis: {fileID: 172789538}

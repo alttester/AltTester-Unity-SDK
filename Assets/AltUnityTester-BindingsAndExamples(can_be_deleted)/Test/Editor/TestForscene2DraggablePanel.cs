@@ -26,28 +26,28 @@ public class TestForScene2DraggablePanel
     {
         altUnityDriver.LoadScene("Scene 2 Draggable Panel");
     }
-    //[Test]
-    //public void ResizePanel()
-    //{
+    [Test]
+    public void ResizePanel()
+    {
 
-    //    var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Resize Zone");
-    //    var position = new Vector2(altElement.x, altElement.y);
-    //    altUnityDriver.SwipeAndWait(altElement.getScreenPosition(), new Vector2(altElement.x - 200, altElement.y - 200), 2);
+       var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+       var position = new Vector2(altElement.x, altElement.y);
+       altUnityDriver.SwipeAndWait(altElement.getScreenPosition(), new Vector2(altElement.x - 200, altElement.y - 200), 2);
 
-    //    Thread.Sleep(2000);
-    //    altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Resize Zone");
-    //    var position2 = new Vector2(altElement.x, altElement.y);
-    //    Assert.AreNotEqual(position, position2);
-    //}
+       Thread.Sleep(2000);
+       altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+       var position2 = new Vector2(altElement.x, altElement.y);
+       Assert.AreNotEqual(position, position2);
+    }
     [Test]
     public void MovePanel()
     {
 
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Zone");
+        var altElement = altUnityDriver.FindObject(By.NAME,"Drag Zone");
         var position = new Vector2(altElement.x, altElement.y);
         altUnityDriver.Swipe(new Vector2(altElement.x, altElement.y), new Vector2(altElement.x + 200, altElement.y + 200), 2);
         Thread.Sleep(2000);
-        altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Drag Zone");
+        altElement = altUnityDriver.FindObject(By.NAME,"Drag Zone");
         var position2 = new Vector2(altElement.x, altElement.y);
 
         Assert.AreNotEqual(position, position2);
@@ -56,12 +56,12 @@ public class TestForScene2DraggablePanel
     [Test]
     public void ClosePanel()
     {
-        altUnityDriver.WaitForObject(AltUnityDriver.By.NAME,"Panel Drag Area", timeout:2);
-        Assert.IsTrue(altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Panel").enabled);
-        var altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Close Button");
+        altUnityDriver.WaitForObject(By.NAME,"Panel Drag Area", timeout:2);
+        Assert.IsTrue(altUnityDriver.FindObject(By.NAME,"Panel").enabled);
+        var altElement = altUnityDriver.FindObject(By.NAME,"Close Button");
         altElement.ClickEvent();
         
-        altElement = altUnityDriver.FindObject(AltUnityDriver.By.NAME,"Button");
+        altElement = altUnityDriver.FindObject(By.NAME,"Button");
         altElement.ClickEvent();
 //        Assert.IsTrue(altUnityDriver.FindElement("Panel").enabled);
     }
