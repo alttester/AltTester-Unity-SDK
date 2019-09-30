@@ -12,8 +12,9 @@ public class MyTest
     public int _testCaseCount;
     public bool _foldOut;
     public string _testResultMessage;
+    public string path;
 
-    public MyTest(bool selected, string testName, int status, bool isSuite, System.Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage)
+    public MyTest(bool selected, string testName, int status, bool isSuite, System.Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage,string path)
     {
         _selected = selected;
         _testName = testName;
@@ -24,6 +25,7 @@ public class MyTest
         _testCaseCount = testCaseCount;
         _foldOut = foldOut;
         _testResultMessage = testResultMessage;
+        this.path = path;
     }
 
     public string TestResultMessage
