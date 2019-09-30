@@ -369,7 +369,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             else
             {
                 string text = EditorConfiguration.MyTests[selectedTest].TestResultMessage;
-                int lineContor = 1;
+                int lineCounter = 1;
                 int textLength = (int)rightSide / 7;
                 if (text.Length > textLength)
                 {
@@ -378,14 +378,13 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     foreach (var word in splited)
                     {
                         text = text + " " + word;
-                        if (text.Length > textLength * lineContor)
+                        if (text.Length > textLength * lineCounter)
                         {
-                            lineContor++;
+                            lineCounter++;
                             text = text + "\n";
                         }
                     }
                 }
-
                 UnityEditor.EditorGUILayout.TextArea(text);
             }
         }
