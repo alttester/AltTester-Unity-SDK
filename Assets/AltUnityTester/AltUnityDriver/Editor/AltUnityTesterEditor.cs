@@ -89,38 +89,27 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
         }
         if (downArrowIcon == null) 
-        {
-            var findIcon = UnityEditor.AssetDatabase.FindAssets("downArrowIcon");
+        { 
+            var findIcon = UnityEditor.EditorGUIUtility.isProSkin ? UnityEditor.AssetDatabase.FindAssets("downArrowIcon") : UnityEditor.AssetDatabase.FindAssets("downArrowIconDark");
             downArrowIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
 
         }
         if (upArrowIcon == null)
         {
-            var findIcon = UnityEditor.AssetDatabase.FindAssets("upArrowIcon");
+            var findIcon = UnityEditor.EditorGUIUtility.isProSkin ? UnityEditor.AssetDatabase.FindAssets("upArrowIcon") : UnityEditor.AssetDatabase.FindAssets("upArrowIconDark"); 
             upArrowIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
 
         }
-        if (infoIcon == null)
-        {
-            var findIcon = UnityEditor.AssetDatabase.FindAssets("infoIcon");
-            infoIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
-
-        }
-        if (openFileIcon == null)
-        {
-            var findIcon = UnityEditor.AssetDatabase.FindAssets("openFileIcon");
-            openFileIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
-
-        }
+        
         if (xIcon == null)
         {
-            var findIcon = UnityEditor.AssetDatabase.FindAssets("xIcon");
+            var findIcon = UnityEditor.EditorGUIUtility.isProSkin ? UnityEditor.AssetDatabase.FindAssets("xIcon") : UnityEditor.AssetDatabase.FindAssets("xIconDark"); 
             xIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
 
         }
         if (reloadIcon == null)
         {
-            var findIcon = UnityEditor.AssetDatabase.FindAssets("reloadIcon");
+            var findIcon = UnityEditor.EditorGUIUtility.isProSkin ? UnityEditor.AssetDatabase.FindAssets("reloadIcon") : UnityEditor.AssetDatabase.FindAssets("reloadIconDark");
             reloadIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
 
         }
@@ -936,13 +925,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 UnityEngine.GUIStyle gsAlterQuest = new UnityEngine.GUIStyle();
                 gsAlterQuest.normal.background = MakeTexture(20, 20, selectedTestColor);
                 UnityEditor.EditorGUILayout.BeginHorizontal(gsAlterQuest);
-
             }
             else
             {
                 UnityEditor.EditorGUILayout.BeginHorizontal(); 
             }
-
             if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
             {
                 UnityEditor.EditorGUILayout.LabelField("    ", UnityEngine.GUILayout.Width(30));
