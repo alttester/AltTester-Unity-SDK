@@ -10,7 +10,7 @@ public class AltGetCurrentScene extends AltBaseCommand {
         super(altBaseSettings);
     }
     public String Execute(){
-        //log.debug("Get current scene...");
+        log.debug("Get current scene...");
         send(CreateCommand("getCurrentScene"));
         String data = recvall();
         if (!data.contains("error:")) {

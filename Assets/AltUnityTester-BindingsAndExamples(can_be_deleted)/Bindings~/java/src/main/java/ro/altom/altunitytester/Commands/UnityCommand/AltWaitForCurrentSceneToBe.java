@@ -14,14 +14,14 @@ public class AltWaitForCurrentSceneToBe extends AltBaseCommand {
         double time = 0;
         String currentScene = "";
         while (time < altWaitForCurrentSceneToBeParameters.getTimeout()) {
-            //log.debug("Waiting for scene to be " + sceneName + "...");
+            log.debug("Waiting for scene to be " + altWaitForCurrentSceneToBeParameters.getSceneName()+ "...");
             currentScene = new AltGetCurrentScene(altBaseSettings).Execute();
-            if (currentScene != null && currentScene.equals(altWaitForCurrentSceneToBeParameters.getScenaName())) {
+            if (currentScene != null && currentScene.equals(altWaitForCurrentSceneToBeParameters.getSceneName())) {
                 return currentScene;
             }
             sleepFor(altWaitForCurrentSceneToBeParameters.getInterval());
             time += altWaitForCurrentSceneToBeParameters.getInterval();
         }
-        throw new WaitTimeOutException("Scene [" + altWaitForCurrentSceneToBeParameters.getScenaName()+ "] not loaded after " + altWaitForCurrentSceneToBeParameters.getTimeout()+ " seconds");
+        throw new WaitTimeOutException("Scene [" + altWaitForCurrentSceneToBeParameters.getSceneName()+ "] not loaded after " + altWaitForCurrentSceneToBeParameters.getTimeout()+ " seconds");
     }
 }

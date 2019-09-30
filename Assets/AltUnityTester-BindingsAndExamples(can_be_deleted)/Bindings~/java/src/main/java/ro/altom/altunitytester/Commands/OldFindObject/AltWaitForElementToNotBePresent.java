@@ -15,14 +15,14 @@ public class AltWaitForElementToNotBePresent extends AltBaseCommand {
         double time = 0;
         AltUnityObject altElement = null;
         while (time <= altWaitForElementParameters.getTimeout()) {
-            //log.debug("Waiting for element " + name + " not to be present");
+            log.debug("Waiting for element " + altWaitForElementParameters.getAltFindObjectsParameters().getName() + " not to be present");
             try {
                 altElement = new AltFindElement(altBaseSettings,altWaitForElementParameters.getAltFindObjectsParameters()).Execute();
                 if (altElement == null) {
                     return;
                 }
             } catch (Exception e) {
-//                log.warn(e.getLocalizedMessage());
+                log.warn(e.getLocalizedMessage());
                 break;
             }
             sleepFor(altWaitForElementParameters.getInterval());

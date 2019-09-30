@@ -15,14 +15,14 @@ public class AltWaitForObjectWithText extends AltBaseFindObject{
         double time = 0;
         AltUnityObject altElement = null;
         while (time < altWaitForObjectWithTextParameters.getTimeout()) {
-            //log.debug("Waiting for element " + name + " to have text [" + text + "]");
+            log.debug("Waiting for element " + altWaitForObjectWithTextParameters.getAltFindObjectsParameters().getValue() + " to have text [" + altWaitForObjectWithTextParameters.getText() + "]");
             try {
                 altElement = new AltFindObject(altBaseSettings,altWaitForObjectWithTextParameters.getAltFindObjectsParameters()).Execute();
                 if (altElement != null && altElement.getText().equals(altWaitForObjectWithTextParameters.getText())) {
                     return altElement;
                 }
             } catch (AltUnityException e) {
-//                log.warn("Exception thrown: " + e.getLocalizedMessage());
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
             }
             time += altWaitForObjectWithTextParameters.getInterval();
             sleepFor(altWaitForObjectWithTextParameters.getInterval());

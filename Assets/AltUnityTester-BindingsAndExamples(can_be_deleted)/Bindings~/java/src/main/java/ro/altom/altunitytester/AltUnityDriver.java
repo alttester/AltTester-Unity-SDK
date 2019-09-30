@@ -15,10 +15,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-@Slf4j
 public class AltUnityDriver {
 
-
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AltUnityDriver.class);
     public static class PlayerPrefsKeyType {
         public static int IntType = 1;
         public static int StringType = 2;
@@ -40,7 +39,7 @@ public class AltUnityDriver {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
         try {
-            //log.info("Initializing connection to {}:{}", ip, port);
+            log.info("Initializing connection to {}:{}", ip, port);
             socket = new Socket(ip, port);
             socket.setSoTimeout(READ_TIMEOUT);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -56,7 +55,7 @@ public class AltUnityDriver {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
         try {
-            //log.info("Initializing connection to {}:{}", ip, port);
+            log.info("Initializing connection to {}:{}", ip, port);
             socket = new Socket(ip, port);
             socket.setSoTimeout(READ_TIMEOUT);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -594,7 +593,7 @@ public class AltUnityDriver {
 
     // TODO: move those two out of this type and make them compulsory
     public static void setupPortForwarding(String platform,String deviceID, int local_tcp_port, int remote_tcp_port) {
-//        log.info("Setting up port forward for " + platform + " on port " + remote_tcp_port);
+        log.info("Setting up port forward for " + platform + " on port " + remote_tcp_port);
         removePortForwarding();
         if (platform.toLowerCase().equals("android".toLowerCase())) {
             try {
@@ -605,9 +604,9 @@ public class AltUnityDriver {
                     commandToRun = "adb -s "+deviceID+" forward  tcp:" + local_tcp_port + " tcp:" + remote_tcp_port;
                 Runtime.getRuntime().exec(commandToRun);
                 Thread.sleep(1000);
-//                log.info("adb forward enabled.");
+                log.info("adb forward enabled.");
             } catch (Exception e) {
-//                log.warn("AltUnityServer - abd probably not installed\n" + e);
+                log.warn("AltUnityServer - abd probably not installed\n" + e);
             }
 
         } else if (platform.toLowerCase().equals("ios".toLowerCase())) {
@@ -619,9 +618,9 @@ public class AltUnityDriver {
                     commandToRun = "iproxy " + local_tcp_port + " " + remote_tcp_port+" "+deviceID  + "&";
                 Runtime.getRuntime().exec(commandToRun);
                 Thread.sleep(1000);
-//                log.info("iproxy forward enabled.");
+                log.info("iproxy forward enabled.");
             } catch (Exception e) {
-//                log.warn("AltUnityServer - no iproxy process was running/present\n" + e);
+                log.warn("AltUnityServer - no iproxy process was running/present\n" + e);
             }
         }
     }
@@ -631,18 +630,18 @@ public class AltUnityDriver {
             String commandToExecute = "killall iproxy";
             Runtime.getRuntime().exec(commandToExecute);
             Thread.sleep(1000);
-//            log.info("Killed any iproxy process that may have been running...");
+            log.info("Killed any iproxy process that may have been running...");
         } catch (Exception e) {
-//            log.warn("AltUnityServer - no iproxy process was running/present\n" + e);
+            log.warn("AltUnityServer - no iproxy process was running/present\n" + e);
         }
 
         try {
             String commandToExecute = "adb forward --remove-all";
             Runtime.getRuntime().exec(commandToExecute);
             Thread.sleep(1000);
-//            log.info("Removed existing adb forwarding...");
+            log.info("Removed existing adb forwarding...");
         } catch (Exception e) {
-//            log.warn("AltUnityServer - adb probably not installed\n" + e);
+            log.warn("AltUnityServer - adb probably not installed\n" + e);
         }
     }
     public enum By

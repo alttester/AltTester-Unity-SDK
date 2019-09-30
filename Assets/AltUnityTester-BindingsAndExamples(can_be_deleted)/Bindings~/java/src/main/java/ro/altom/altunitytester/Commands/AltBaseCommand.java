@@ -1,11 +1,14 @@
 package ro.altom.altunitytester.Commands;
 
 import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.IOException;
 
 public class AltBaseCommand {
+
+    protected static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AltBaseCommand.class);
 
     private final static int BUFFER_SIZE = 1024;
     public AltBaseSettings altBaseSettings;
@@ -34,11 +37,11 @@ public class AltBaseCommand {
         }
 
         receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
-//        log.debug("Data received: " + receivedData);
+        log.debug("Data received: " + receivedData);
         return receivedData;
     }
     protected void send(String message) {
-//        log.info("Sending rpc message [{}]", message);
+        log.info("Sending rpc message [{}]", message);
         altBaseSettings.out.print(message);
         altBaseSettings.out.flush();
     }
@@ -101,7 +104,7 @@ public class AltBaseCommand {
         try {
             Thread.sleep(timeToSleep);
         } catch (InterruptedException e) {
-//            log.warn("Could not sleep for " + timeToSleep + " ms");
+            log.warn("Could not sleep for " + timeToSleep + " ms");
         }
     }
 }

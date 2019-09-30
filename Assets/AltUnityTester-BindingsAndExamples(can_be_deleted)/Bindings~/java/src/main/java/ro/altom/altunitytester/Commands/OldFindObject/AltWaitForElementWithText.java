@@ -16,14 +16,14 @@ public class AltWaitForElementWithText extends AltBaseCommand {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < altWaitForElementWithTextParameters.getTimeout()) {
-            //log.debug("Waiting for element " + name + " to have text [" + text + "]");
+            log.debug("Waiting for element " +altWaitForElementWithTextParameters.getAltFindElementsParameters().getName()+ " to have text [" + altWaitForElementWithTextParameters.getText() + "]");
             try {
                 altElement = new AltFindElement(altBaseSettings,altWaitForElementWithTextParameters.getAltFindElementsParameters()).Execute();
                 if (altElement != null && altElement.getText().equals(altWaitForElementWithTextParameters.getText())) {
                     return altElement;
                 }
             } catch (AltUnityException e) {
-//                log.warn("Exception thrown: " + e.getLocalizedMessage());
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
             }
             time += altWaitForElementWithTextParameters.getInterval();
             sleepFor(altWaitForElementWithTextParameters.getInterval());

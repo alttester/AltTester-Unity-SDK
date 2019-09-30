@@ -15,14 +15,14 @@ public class AltWaitForElementWhereNameContains extends AltBaseCommand {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < altWaitForElementParameters.getTimeout()) {
-            //log.debug("Waiting for element where name contains " + name + "....");
+            log.debug("Waiting for element where name contains " + altWaitForElementParameters.getAltFindObjectsParameters().getName() + "....");
             try {
                 altElement = new AltFindElementWhereNameContains(altBaseSettings,altWaitForElementParameters.getAltFindObjectsParameters()).Execute();
                 if (altElement != null) {
                     return altElement;
                 }
             } catch (Exception e) {
-//                log.warn("Exception thrown: " + e.getLocalizedMessage());
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
             }
             sleepFor(altWaitForElementParameters.getInterval());
             time += altWaitForElementParameters.getInterval();

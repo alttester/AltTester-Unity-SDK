@@ -20,7 +20,7 @@ public class AltWaitForCurrentSceneToBeParameters {
             AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters =new AltWaitForCurrentSceneToBeParameters();
             altWaitForCurrentSceneToBeParameters.timeout=this.timeout;
             altWaitForCurrentSceneToBeParameters.interval=this.interval;
-            altWaitForCurrentSceneToBeParameters.scenaName=this.sceneName;
+            altWaitForCurrentSceneToBeParameters.sceneName =this.sceneName;
             return altWaitForCurrentSceneToBeParameters;
         }
     }
@@ -31,15 +31,15 @@ public class AltWaitForCurrentSceneToBeParameters {
     private double timeout=20;
     private double interval=0.5;
 
-    public String getScenaName() {
-        return scenaName;
+    public String getSceneName() {
+        return sceneName;
     }
 
-    public void setScenaName(String scenaName) {
-        this.scenaName = scenaName;
+    public void setSceneName(String sceneName) {
+        this.sceneName = sceneName;
     }
 
-    private String scenaName;
+    private String sceneName;
 
 
     public double getTimeout() {

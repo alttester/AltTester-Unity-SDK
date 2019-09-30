@@ -15,11 +15,11 @@ public class AltWaitForElement extends AltBaseCommand {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < altWaitForElementParameters.getTimeout()) {
-            //log.debug("Waiting for element " + name + "...");
+            log.debug("Waiting for element " + altWaitForElementParameters.getAltFindObjectsParameters().getName() + "...");
             try {
                 altElement = new AltFindElement(altBaseSettings,altWaitForElementParameters.getAltFindObjectsParameters()).Execute();
             } catch (Exception e) {
-//                log.warn("Exception thrown: " + e.getLocalizedMessage());
+                log.warn("Exception thrown: " + e.getLocalizedMessage());
             }
 
             if (altElement != null) {
