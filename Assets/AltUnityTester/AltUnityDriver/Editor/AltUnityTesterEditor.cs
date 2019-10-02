@@ -965,17 +965,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             if (test.Status == 0)
             {
                 UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEngine.Color.black } };
-                if (UnityEngine.GUILayout.Button(testName, guiStyle))
-                {
-                    if (selectedTest == tests.IndexOf(test))
-                    {
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
-                    }
-                    else
-                    {
-                        selectedTest = tests.IndexOf(test);
-                    }
-                }
+                SelectTest(tests, test, testName, guiStyle);
             }
             else
             {
@@ -988,18 +978,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 }
                 UnityEngine.GUILayout.Label(icon, UnityEngine.GUILayout.Width(30));
                 UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = color } };
-
-                if (UnityEngine.GUILayout.Button(testName, guiStyle))
-                {
-                    if(selectedTest == tests.IndexOf(test))
-                    {
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
-                    }
-                    else
-                    {
-                        selectedTest = tests.IndexOf(test);
-                    }
-                }
+                SelectTest(tests, test, testName, guiStyle);
             }
 
             if (test.Type != typeof(NUnit.Framework.Internal.TestMethod))
@@ -1021,6 +1000,28 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
         }
         UnityEditor.EditorGUILayout.EndVertical();
+    }
+
+    private static void SelectTest(System.Collections.Generic.List<MyTest> tests, MyTest test, string testName, UnityEngine.GUIStyle guiStyle)
+    {
+        if (!test.IsSuite)
+        {
+            if (UnityEngine.GUILayout.Button(testName, guiStyle))
+            {
+                if (selectedTest == tests.IndexOf(test))
+                {
+                    UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, 1);
+                }
+                else
+                {
+                    selectedTest = tests.IndexOf(test);
+                }
+            }
+        }
+        else
+        {
+            UnityEngine.GUILayout.Label(testName, guiStyle);
+        }
     }
 
     private void ChangeSelectionChildsAndParent(MyTest test)
