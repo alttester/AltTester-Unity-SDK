@@ -1010,7 +1010,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             {
                 if (selectedTest == tests.IndexOf(test))
                 {
-                    UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, 1);
+                    UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
                 }
                 else
                 {
