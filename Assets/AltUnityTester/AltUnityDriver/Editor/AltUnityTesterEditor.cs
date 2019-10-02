@@ -226,11 +226,21 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.BeginVertical();
 
         UnityEditor.EditorGUILayout.LabelField("Platform", UnityEditor.EditorStyles.boldLabel);
+        if (rightSide <= 300)
+        {
+            UnityEditor.EditorGUILayout.BeginVertical();
+            EditorConfiguration.platform = (Platform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(Platform)), 1, UnityEditor.EditorStyles.radioButton);
 
-        UnityEditor.EditorGUILayout.BeginHorizontal();
-        EditorConfiguration.platform = (Platform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(Platform)), System.Enum.GetNames(typeof(Platform)).Length, UnityEditor.EditorStyles.radioButton);
+            UnityEditor.EditorGUILayout.EndVertical();
+        }
+        else
+        {
+            UnityEditor.EditorGUILayout.BeginHorizontal();
+            EditorConfiguration.platform = (Platform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(Platform)), System.Enum.GetNames(typeof(Platform)).Length, UnityEditor.EditorStyles.radioButton);
 
-        UnityEditor.EditorGUILayout.EndHorizontal();
+            UnityEditor.EditorGUILayout.EndHorizontal(); 
+        }
+        
 
         if (EditorConfiguration.platform == Platform.Standalone)
         {
@@ -389,43 +399,75 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         else
         {
             UnityEditor.EditorGUI.BeginDisabledGroup(true);
-            UnityEngine.GUILayout.Button("Build & Run on Device");
+            UnityEngine.GUILayout.Button("Build & Run", UnityEngine.GUILayout.MinWidth(50));
             UnityEditor.EditorGUI.EndDisabledGroup();
         }
 
-        UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.ExpandHeight(true));
         //Status test
 
-        _scrollPositonTestResult = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPositonTestResult, UnityEngine.GUI.skin.textArea);
+        _scrollPositonTestResult = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPositonTestResult, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.ExpandHeight(true));
         if (selectedTest != -1)
         {
-            UnityEditor.EditorGUILayout.LabelField("Test Result for:  " + EditorConfiguration.MyTests[selectedTest].TestName, UnityEditor.EditorStyles.boldLabel);
+            UnityEngine.GUIStyle gUIStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label);
+            gUIStyle.wordWrap = true;
+            gUIStyle.richText = true;
+            gUIStyle.alignment = UnityEngine.TextAnchor.MiddleCenter;
+            UnityEngine.GUIStyle gUIStyle2= new UnityEngine.GUIStyle();
+            UnityEditor.EditorGUILayout.LabelField("<b>" + EditorConfiguration.MyTests[selectedTest].TestName+"</b>",  gUIStyle);
+           
+
             UnityEditor.EditorGUILayout.Separator();
-            UnityEditor.EditorGUILayout.LabelField("Message:");
-            if (EditorConfiguration.MyTests[selectedTest].TestResultMessage == null)
-                UnityEngine.GUILayout.TextArea("No informartion about this test available.\nPlease rerun the test.",
-                    UnityEngine.GUILayout.MaxHeight(75));
+            string textToDisplayForMessage;
+            if (EditorConfiguration.MyTests[selectedTest].Status==0)
+            {
+                textToDisplayForMessage = "No informartion about this test available.\nPlease rerun the test.";
+                UnityEditor.EditorGUILayout.LabelField(textToDisplayForMessage, gUIStyle, UnityEngine.GUILayout.MinWidth(30));
+            }
             else
             {
-                string text = EditorConfiguration.MyTests[selectedTest].TestResultMessage;
-                int lineCounter = 1;
-                int textLength = (int)rightSide / 7;
-                if (text.Length > textLength)
+                gUIStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label);
+                gUIStyle.wordWrap = true;
+                gUIStyle.richText = true;
+
+                string status = "";
+                switch (EditorConfiguration.MyTests[selectedTest].Status)
                 {
-                    var splited = text.Split(' ');
-                    text = "";
-                    foreach (var word in splited)
-                    {
-                        text = text + " " + word;
-                        if (text.Length > textLength * lineCounter)
-                        {
-                            lineCounter++;
-                            text = text + "\n";
-                        }
-                    }
+                    case 1:
+                        status = "<color=green>Passed</color>";
+                        break;
+                    case -1:
+                        status = "<color=red>Failed</color>";
+                        break;
+
                 }
-                UnityEditor.EditorGUILayout.TextArea(text);
+            
+
+                UnityEngine.GUILayout.BeginHorizontal();
+                    UnityEditor.EditorGUILayout.LabelField("<b>Time</b>", gUIStyle, UnityEngine.GUILayout.MinWidth(30));
+                    UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[selectedTest].TestDuration.ToString(), gUIStyle, UnityEngine.GUILayout.MinWidth(100));
+                UnityEngine.GUILayout.EndHorizontal();
+
+                UnityEngine.GUILayout.BeginHorizontal();
+                    UnityEditor.EditorGUILayout.LabelField("<b>Status</b>", gUIStyle, UnityEngine.GUILayout.MinWidth(30));
+                    UnityEditor.EditorGUILayout.LabelField(status, gUIStyle, UnityEngine.GUILayout.MinWidth(100));
+                UnityEngine.GUILayout.EndHorizontal();
+                if (EditorConfiguration.MyTests[selectedTest].Status == -1)
+                {
+                    UnityEngine.GUILayout.BeginHorizontal();
+                    UnityEditor.EditorGUILayout.LabelField("<b>Message</b>", gUIStyle, UnityEngine.GUILayout.MinWidth(30));
+                    UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[selectedTest].TestResultMessage, gUIStyle, UnityEngine.GUILayout.MinWidth(100));
+                    UnityEngine.GUILayout.EndHorizontal();
+
+                    UnityEngine.GUILayout.BeginHorizontal();
+                    UnityEditor.EditorGUILayout.LabelField("<b>StackTrace</b>", gUIStyle, UnityEngine.GUILayout.MinWidth(30));
+                    UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[selectedTest].TestStackTrace, gUIStyle, UnityEngine.GUILayout.MinWidth(100));
+                    UnityEngine.GUILayout.EndHorizontal();
+                }
             }
+
+
+
+
         }
         else
         {
@@ -446,10 +488,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         {
             UnityEngine.GUILayout.BeginVertical(UnityEngine.GUI.skin.textField);
             UnityEngine.GUILayout.BeginHorizontal();
-            UnityEngine.GUILayout.Label("DeviceId", UnityEditor.EditorStyles.boldLabel, UnityEngine.GUILayout.MinWidth(50));
-            UnityEngine.GUILayout.Label("Local Port", UnityEditor.EditorStyles.boldLabel, UnityEngine.GUILayout.MinWidth(50), UnityEngine.GUILayout.MaxWidth(100));
-            UnityEngine.GUILayout.Label("Remote Port", UnityEditor.EditorStyles.boldLabel, UnityEngine.GUILayout.MinWidth(50), UnityEngine.GUILayout.MaxWidth(100));
-            if (UnityEngine.GUILayout.Button(reloadIcon, UnityEngine.GUILayout.MinWidth(50), UnityEngine.GUILayout.MaxWidth(100)))
+            UnityEngine.GUILayout.Label("DeviceId", UnityEditor.EditorStyles.boldLabel, UnityEngine.GUILayout.MinWidth(75));
+            UnityEngine.GUILayout.Label("Local Port", UnityEditor.EditorStyles.boldLabel, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
+            UnityEngine.GUILayout.Label("Remote Port", UnityEditor.EditorStyles.boldLabel, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
+            if (UnityEngine.GUILayout.Button(reloadIcon, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100)))
             {
                 RefreshDeviceList();
             }
@@ -465,10 +507,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         styleActive.normal.background = MakeTexture(20, 20, greenColor);
 
                         UnityEngine.GUILayout.BeginHorizontal(styleActive);
-                        UnityEngine.GUILayout.Label(device.DeviceId, UnityEngine.GUILayout.MinWidth(50));
-                        UnityEngine.GUILayout.Label(device.LocalPort.ToString(), UnityEngine.GUILayout.MinWidth(50), UnityEngine.GUILayout.MaxWidth(100));
-                        UnityEngine.GUILayout.Label(device.RemotePort.ToString(), UnityEngine.GUILayout.MinWidth(50), UnityEngine.GUILayout.MaxWidth(100));
-                        if (UnityEngine.GUILayout.Button("Stop", UnityEngine.GUILayout.MinWidth(50), UnityEngine.GUILayout.MaxWidth(100)))
+                        UnityEngine.GUILayout.Label(device.DeviceId, UnityEngine.GUILayout.MinWidth(75));
+                        UnityEngine.GUILayout.Label(device.LocalPort.ToString(), UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
+                        UnityEngine.GUILayout.Label(device.RemotePort.ToString(), UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
+                        if (UnityEngine.GUILayout.Button("Stop", UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100)))
                         {
                             if (device.Platform == Platform.Android)
                             {
@@ -752,6 +794,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         var splitedPath = sceneName.Split('/');
                         sceneName = splitedPath[splitedPath.Length - 1];
                     }
+                    
                     UnityEditor.EditorGUILayout.LabelField(sceneName);
                     string value;
                     if (scene.ToBeBuilt)
@@ -831,30 +874,65 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 _obj = null;
             }
             UnityEditor.EditorGUILayout.EndHorizontal();
-            UnityEditor.EditorGUILayout.BeginHorizontal();
-            if (UnityEngine.GUILayout.Button("Add all scenes", UnityEditor.EditorStyles.miniButtonLeft))
+           
+            if (UnityEditor.EditorGUIUtility.currentViewWidth / 3 * 2 > 700)//All scene button in one line
             {
-                AddAllScenes();
+                UnityEditor.EditorGUILayout.BeginHorizontal();
+                if (UnityEngine.GUILayout.Button("Add all scenes", UnityEditor.EditorStyles.miniButtonLeft, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    AddAllScenes();
+                }
+
+                if (UnityEngine.GUILayout.Button("Select all scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    SelectAllScenes();
+                }
+                if (UnityEngine.GUILayout.Button("Deselect all scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    DeselectAllScenes();
+                }
+                if (UnityEngine.GUILayout.Button("Remove unselected scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    RemoveNotSelectedScenes();
+                }
+                if (UnityEngine.GUILayout.Button("Remove all scenes", UnityEditor.EditorStyles.miniButtonRight, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    EditorConfiguration.Scenes = new System.Collections.Generic.List<MyScenes>();
+                    UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+                }
+                UnityEditor.EditorGUILayout.EndHorizontal();
+            }
+            else
+            {
+                UnityEditor.EditorGUILayout.BeginHorizontal();
+                if (UnityEngine.GUILayout.Button("Add all scenes", UnityEditor.EditorStyles.miniButtonLeft, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    AddAllScenes();
+                }
+
+                if (UnityEngine.GUILayout.Button("Select all scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    SelectAllScenes();
+                }
+                UnityEditor.EditorGUILayout.EndHorizontal();
+                UnityEditor.EditorGUILayout.BeginHorizontal();
+
+                if (UnityEngine.GUILayout.Button("Deselect all scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30))) 
+                {
+                    DeselectAllScenes();
+                }
+                if (UnityEngine.GUILayout.Button("Remove unselected scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    RemoveNotSelectedScenes();
+                }
+                if (UnityEngine.GUILayout.Button("Remove all scenes", UnityEditor.EditorStyles.miniButtonRight, UnityEngine.GUILayout.MinWidth(30)))
+                {
+                    EditorConfiguration.Scenes = new System.Collections.Generic.List<MyScenes>();
+                    UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+                }
+                UnityEditor.EditorGUILayout.EndHorizontal();
             }
 
-            if (UnityEngine.GUILayout.Button("Select all scenes", UnityEditor.EditorStyles.miniButtonMid))
-            {
-                SelectAllScenes();
-            }
-            if (UnityEngine.GUILayout.Button("Deselect all scenes", UnityEditor.EditorStyles.miniButtonMid))
-            {
-                DeselectAllScenes();
-            }
-            if (UnityEngine.GUILayout.Button("Remove not selected scenes", UnityEditor.EditorStyles.miniButtonMid))
-            {
-                RemoveNotSelectedScenes();
-            }
-            if (UnityEngine.GUILayout.Button("Remove all scenes", UnityEditor.EditorStyles.miniButtonRight))
-            {
-                EditorConfiguration.Scenes = new System.Collections.Generic.List<MyScenes>();
-                UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
-            }
-            UnityEditor.EditorGUILayout.EndHorizontal();
             UnityEditor.EditorGUILayout.EndVertical();
         }
             
@@ -931,11 +1009,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             }
             if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
             {
-                UnityEditor.EditorGUILayout.LabelField("    ", UnityEngine.GUILayout.Width(30));
+                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(30));
             }
             else if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
             {
-                UnityEditor.EditorGUILayout.LabelField("    ", UnityEngine.GUILayout.Width(60));
+                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(60));
             }
 
             var valueChanged = UnityEditor.EditorGUILayout.Toggle(test.Selected, UnityEngine.GUILayout.Width(10));
@@ -963,12 +1041,13 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             }
             if (test.Status == 0)
             {
+                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(20));
                 UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEngine.Color.black } };
                 if (UnityEngine.GUILayout.Button(testName, guiStyle))
                 {
                     if (selectedTest == tests.IndexOf(test))
                     {
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, 1);
                     }
                     else
                     {
@@ -985,14 +1064,14 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     color = greenColor;
                     icon = passIcon;
                 }
-                UnityEngine.GUILayout.Label(icon, UnityEngine.GUILayout.Width(30));
+                UnityEngine.GUILayout.Label(icon, UnityEngine.GUILayout.Width(20));
                 UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = color } };
 
                 if (UnityEngine.GUILayout.Button(testName, guiStyle))
                 {
                     if(selectedTest == tests.IndexOf(test))
                     {
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, 1);
                     }
                     else
                     {
