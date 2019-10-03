@@ -31,7 +31,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     private static UnityEngine.Color selectedTestColor = new UnityEngine.Color(1f, 1f, 1f, 1f);
 
 
-
+    private static long timeSinceLastClick;
     UnityEngine.Vector2 _scrollPosition;
     private UnityEngine.Vector2 _scrollPositonTestResult;
 
@@ -1010,12 +1010,18 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             {
                 if (selectedTest == tests.IndexOf(test))
                 {
-                    UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                    var actualTime = System.DateTime.Now.Ticks;
+                    if (actualTime - timeSinceLastClick < 5000000)
+                    {
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                    }
                 }
                 else
                 {
                     selectedTest = tests.IndexOf(test);
+                    
                 }
+                timeSinceLastClick = System.DateTime.Now.Ticks;
             }
         }
         else
