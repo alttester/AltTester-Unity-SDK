@@ -1,5 +1,4 @@
-﻿
-public class AltUnityObject
+﻿public class AltUnityObject
 {
     public string name;
     public int id;
@@ -52,12 +51,11 @@ public class AltUnityObject
     }
     public string CallComponentMethod(string componentName, string methodName,string parameters,string typeOfParameters="", string assemblyName = null)
     {
-        
         return new CallComponentMethod(socketSettings,componentName,methodName,parameters,typeOfParameters,assemblyName,this).Execute();
     }
     public string GetText()
     {
-        return GetComponentProperty("UnityEngine.UI.Text", "text",null);
+        return new GetText(socketSettings,this).Execute();
     }    
     public AltUnityObject ClickEvent()
     {
