@@ -1,10 +1,10 @@
 **Describe the feature/enhancement**
 
-(Please offer a description of your feature/enhancement ideea)
+(Please describe your feature/enhancement idea)
 
 **What is the reason you need this feature?**
 
-(Offer us some context how you will use this feature or why you this enhancement)
+(Offer us some context about how you will use this feature or why you this enhancement)
 
 
 (Select which label is suitable for your issue)
