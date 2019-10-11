@@ -742,6 +742,14 @@ public class TestForScene1TestSample
         altUnityDriver.SetTimeScale(1);
     }
 
+    [Test]
+    public void TestWaitForObjectWhichContains()
+    {
+        var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
+        Assert.AreEqual("Canvas", altElement.name);
+        
+    }
+
 
 
 }
