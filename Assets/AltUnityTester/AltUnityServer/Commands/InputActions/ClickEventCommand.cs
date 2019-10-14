@@ -12,6 +12,8 @@
         public override string Execute()
         {
             UnityEngine.Debug.Log("ClickEvent on " + altUnityObject);
+            AltUnityRunner._altUnityRunner.ShowClick(altUnityObject.getScreenPosition());
+            
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             UnityEngine.GameObject foundGameObject = AltUnityRunner.GetGameObject(altUnityObject);
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
