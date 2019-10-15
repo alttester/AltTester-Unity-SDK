@@ -625,6 +625,8 @@ public class Input : UnityEngine.MonoBehaviour
         
         mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
         var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
+        var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
+        
         yield return null;
         
         var oneInputDuration = duration / (positions.Length - 1);
@@ -654,8 +656,6 @@ public class Input : UnityEngine.MonoBehaviour
                 touch.deltaPosition = new UnityEngine.Vector2(deltaX, deltaY);
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
 
-                //todo Show input
-
                 for (var t = 0; t < touches.Length; t++)
                 {
                     if (touches[t].fingerId == touch.fingerId)
@@ -665,10 +665,11 @@ public class Input : UnityEngine.MonoBehaviour
                 }
 
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
-
                 pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
 
+                AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
                 yield return null;
+                
             } while (time <= oneInputDuration);
         }
 
