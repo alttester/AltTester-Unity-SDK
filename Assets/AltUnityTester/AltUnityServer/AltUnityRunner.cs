@@ -5,18 +5,13 @@ using Assets.AltUnityTester.AltUnityServer.Commands;
 
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
-    enum FindOption
-    {
-        Name, ContainName, Component
-    }
-    
-    public static AltUnityRunner _altUnityRunner;
-    
+
     public UnityEngine.GameObject AltUnityPopUp;
     public UnityEngine.UI.Image AltUnityIcon;
     public UnityEngine.UI.Text AltUnityPopUpText;
     public bool AltUnityIconPressed=false;
-    
+
+    public static AltUnityRunner _altUnityRunner;
     private UnityEngine.Vector3 _position;
     protected AltSocketServer _socketServer;
 
@@ -36,12 +31,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     public Newtonsoft.Json.JsonSerializerSettings _jsonSettings;
 
-    [UnityEngine.Space] 
-    [UnityEngine.SerializeField] private bool _showInputs;
-    [UnityEngine.SerializeField] private InputsVisualiser _inputsVisualiser;
-    
-    [UnityEngine.Space]
     public bool destroyHightlight = false; 
+
+    enum FindOption
+    {
+        Name, ContainName, Component
+    }
     public int SocketPortNumber = 13000;
     public bool DebugBuildNeeded = true;
 
@@ -52,9 +47,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public string requestEndingString="&";
 
     
-    public static AltResponseQueue _responseQueue;
 
-    #region MonoBehaviour
+    public static AltResponseQueue _responseQueue;
 
     void Awake()
     {
@@ -84,39 +78,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
 
     }  
-    
-    void Update()
-    {
-        if (!AltUnityIconPressed)
-        {
-            if (_socketServer.ClientCount != 0)
-            {
-                AltUnityPopUp.SetActive(false);
-            }
-            else
-            {
-                AltUnityPopUp.SetActive(true);
-            }
-        }
-        if (!_socketServer.IsServerStopped())
-        {
-            AltUnityIcon.color = UnityEngine.Color.white;
-        }
-        else
-        {
-            AltUnityIcon.color = UnityEngine.Color.red;
-            AltUnityPopUpText.text = "Server stopped working."+System.Environment.NewLine+" Please restart the server";
-        }
-        _responseQueue.Cycle();
-    }
-    
-    void OnApplicationQuit()
-    {
-        CleanUp();
-    }
-    
-    #endregion
-    
     public void StartSocketServer()
     {
         AltIClientSocketHandlerDelegate clientSocketHandlerDelegate = this;
@@ -133,7 +94,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             "AltUnity Server at {0} on port {1}",
             _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
     }
-    
+    void OnApplicationQuit()
+    {
+        CleanUp();
+    }
+
     public void CleanUp()
     {
         UnityEngine.Debug.Log("Cleaning up socket server");
@@ -450,7 +415,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 DestroyImmediate(temp);
         }
     }        
-   
     public void ServerRestartPressed()
     {
         AltUnityIconPressed = false;
@@ -458,11 +422,34 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         StartSocketServer();
         AltUnityPopUp.SetActive(true);
     }
-    
     public void IconPressed()
     {
         AltUnityPopUp.SetActive(!AltUnityPopUp.activeSelf);
         AltUnityIconPressed = !AltUnityIconPressed;
+    }
+    void Update()
+    {
+        if (!AltUnityIconPressed)
+        {
+            if (_socketServer.ClientCount != 0)
+            {
+                AltUnityPopUp.SetActive(false);
+            }
+            else
+            {
+                AltUnityPopUp.SetActive(true);
+            }
+        }
+        if (!_socketServer.IsServerStopped())
+        {
+            AltUnityIcon.color = UnityEngine.Color.white;
+        }
+        else
+        {
+            AltUnityIcon.color = UnityEngine.Color.red;
+            AltUnityPopUpText.text = "Server stopped working."+System.Environment.NewLine+" Please restart the server";
+        }
+        _responseQueue.Cycle();
     }
 
     public static UnityEngine.GameObject GetGameObject(AltUnityObject altUnityObject)
@@ -474,7 +461,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
         return null;
     }
-    
     public static UnityEngine.GameObject GetGameObject(int objectId)
     {
         foreach (UnityEngine.GameObject gameObject in FindObjectsOfType<UnityEngine.GameObject>())
@@ -495,7 +481,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
         return null;
     }
-    
     public System.Collections.IEnumerator HighLightSelectedObjectCorutine(UnityEngine.GameObject gameObject, UnityEngine.Color color, float width, UnityEngine.Vector2 size, AltClientSocketHandler handler)
     {
         destroyHightlight = false;
@@ -539,7 +524,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             }
         }
     }
-    
     public System.Collections.IEnumerator TakeScreenshot(UnityEngine.Vector2 size, AltClientSocketHandler handler) {
         yield return new UnityEngine.WaitForEndOfFrame();
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
@@ -548,22 +532,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         handler.SendResponse(response);
     }
 
-    public void ShowClick(UnityEngine.Vector2 position)
-    {
-        if (!_showInputs || _inputsVisualiser == null)
-            return;
-        
-        _inputsVisualiser.ShowClick(position);
-    }
-    
-    public int ShowInput(UnityEngine.Vector2 position, int markId = -1)
-    {
-        if (!_showInputs || _inputsVisualiser == null)
-            return -1;
-
-        return _inputsVisualiser.ShowContinuousInput(position, markId);
-    }
-    
     public static void CopyTo(System.IO.Stream src, System.IO.Stream dest)
     {
         byte[] bytes = new byte[4096];
@@ -575,9 +543,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             dest.Write(bytes, 0, cnt);
         }
     }
-    
     public static byte[] CompressScreenshot(byte[] screenshotSerialized)
     {
+
         using (var memoryStreamInput = new System.IO.MemoryStream(screenshotSerialized))
         using (var memoryStreamOutout = new System.IO.MemoryStream())
         {
