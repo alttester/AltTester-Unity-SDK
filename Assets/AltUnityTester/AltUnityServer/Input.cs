@@ -617,7 +617,7 @@ public class Input : UnityEngine.MonoBehaviour
 
         touch.fingerId = fingerId;
         touchCount++;
-        
+
         var touchListCopy = new UnityEngine.Touch[touchCount];
         System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
         touchListCopy[touchCount - 1] = touch;
@@ -630,7 +630,7 @@ public class Input : UnityEngine.MonoBehaviour
         yield return null;
         
         var oneInputDuration = duration / (positions.Length - 1);
-        for (var i = 0; i < positions.Length; i++)
+        for (var i = 1; i < positions.Length; i++)
         {
             var dest = positions[i];
             float xDistance = (dest.x - touch.position.x);
