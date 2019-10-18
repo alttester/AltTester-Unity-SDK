@@ -567,10 +567,19 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
 
   * `GetText`
     * params: none
-    * returns: the value of the Text component if the element has one 
+    * returns: the value of the Text or InputField component if the element has one 
   
     ```c#
-        var text=altUnityDriver.FindElement("CapsuleInfo").GetText();'
+        var text=altUnityDriver.FindElement("CapsuleInfo").GetText();
+    ``` 
+  
+  * `SetText`
+    * params:
+        * text: the value to be set in the InputField
+    * returns: current element
+    
+    ```c#
+      altUnityDriver.FindElement("InputField").SetText("New Text");
     ``` 
   
   * `GetComponentProperty`
