@@ -622,8 +622,6 @@ public class Input : UnityEngine.MonoBehaviour
         Input.touches = touchListCopy;
         mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
         var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
-        var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
-        
         yield return null;
         float time = 0;
         do
@@ -660,7 +658,6 @@ public class Input : UnityEngine.MonoBehaviour
 
             pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
 
-            AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
             yield return null;
 
         } while (time <= duration);
