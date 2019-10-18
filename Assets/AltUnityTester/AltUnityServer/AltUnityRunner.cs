@@ -379,6 +379,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     command = new GetTextCommand(altUnityObject);
                     break;
+                case "setText":
+                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
+                    command = new SetTextCommand(altUnityObject, pieces[2]);
+                    break;
                 
                 default:
                     command = new UnknowStringCommand();

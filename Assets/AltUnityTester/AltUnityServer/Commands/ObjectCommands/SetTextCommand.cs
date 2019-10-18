@@ -1,25 +1,25 @@
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class GetTextCommand : ReflectionMethodsCommand
+    class SetTextCommand : ReflectionMethodsCommand
     {
         static readonly AltUnityObjectProperty[] TextProperties =
         {
-            new AltUnityObjectProperty("UnityEngine.UI.Text", "text"),
             new AltUnityObjectProperty("UnityEngine.UI.InputField", "text"),
-            new AltUnityObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltUnityObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
         };
 
         AltUnityObject altUnityObject;
+        string inputText;
 
-        public GetTextCommand(AltUnityObject altUnityObject)
+        public SetTextCommand(AltUnityObject altUnityObject, string text)
         {
             this.altUnityObject = altUnityObject;
+            this.inputText = text;
         }
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("Get text from object by name " + this.altUnityObject.name);
+            UnityEngine.Debug.Log("Set text for object by name " + this.altUnityObject.name);
             var response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
 
             var targetObject = AltUnityRunner.GetGameObject(altUnityObject);
@@ -27,9 +27,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             foreach (var property in TextProperties)
             {
                 var memberInfo = GetMemberForObjectComponent(altUnityObject, property);
-                response = GetValueForMember(memberInfo, targetObject, property);
+                response = SetValueForMember(memberInfo, inputText, targetObject, property);
                 if (!response.Contains("error:"))
-                    break;
+                    return Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject));
             }
 
             return response;

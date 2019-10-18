@@ -56,7 +56,11 @@
     public string GetText()
     {
         return new GetText(socketSettings,this).Execute();
-    }    
+    }   
+    public AltUnityObject SetText(string text)
+    {
+        return new SetText(socketSettings, this, text).Execute();
+    }
     public AltUnityObject ClickEvent()
     {
         return new ClickEvent(socketSettings,this).Execute();

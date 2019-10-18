@@ -80,15 +80,13 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetAllEnabledElements()
     {
-
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
-        string listOfElements="";
-         foreach(var element in altElements){
-            listOfElements=element.name+"; ";
-        }
+        
+        var listOfElements = string.Join("; ", altElements.Select(e => e.name));
         Debug.Log(listOfElements);
-        Assert.AreEqual(19, altElements.Count);
+
+        Assert.AreEqual(22, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -99,18 +97,18 @@ public class TestForScene1TestSample
         Assert.IsNotNull(altElements.Where(p => p.name == "CapsuleInfo"));
         Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Text"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "InputField"));
     }
     [Test]
     public void TestGetAllElements()
     {
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);
-        string listOfElements="";
-        foreach(var element in altElements){
-            listOfElements=element.name+"; ";
-        }
+        
+        var listOfElements = string.Join("; ", altElements.Select(e => e.name));
         Debug.Log(listOfElements);
-        Assert.AreEqual(25, altElements.Count);
+        
+        Assert.AreEqual(28, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -122,6 +120,7 @@ public class TestForScene1TestSample
         Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Cube"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Camera"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "InputField"));
     }
 
     [Test]
@@ -192,9 +191,18 @@ public class TestForScene1TestSample
         Assert.Less(time.TotalSeconds, 20);
         Assert.NotNull(altElement);
         Assert.AreEqual(altElement.GetText(), text);
-
     }
 
+    [Test]
+    public void TestSetTextForElement()
+    {
+        const string name = "InputField";
+        const string text = "InputFieldTest";
+        var input = altUnityDriver.FindObject(By.NAME, name).SetText(text);
+        Assert.NotNull(input);
+        Assert.AreEqual(input.GetText(), text);
+    }
+    
     [Test]
     public void TestFindElementByComponent()
     {
