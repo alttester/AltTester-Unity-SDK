@@ -177,18 +177,41 @@ deploy-altunitytester-python:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - python setup.py sdist upload -r pypi
 
+# pages:
+#     stage: deploy
+#     only:
+#         refs:
+#             - master
+#     dependencies:
+#       - create-unity-package
+#     script:
+#       - echo Pages deploy done
+#     tags:
+#         - unity
+#     artifacts:
+#         paths:
+#             - public
+#         expire_in: 30 days
+
+
+docs:
+  stage: docs
+  artifacts:
+    paths:
+      - documentation
+  only:
+    - master
+  script:
+    - cd docs
+    - make html
+    - cp -r _build/html ../documentation
+
 pages:
-    stage: deploy
-    only:
-        refs:
-            - master
-    dependencies:
-      - create-unity-package
-    script:
-      - echo Pages deploy done
-    tags:
-        - unity
-    artifacts:
-        paths:
-            - public
-        expire_in: 30 days
+  stage: deploy
+  dependencies:
+    - docs
+  artifacts:
+    paths:
+    - public
+  script:
+    - cp -r documentation/ public/

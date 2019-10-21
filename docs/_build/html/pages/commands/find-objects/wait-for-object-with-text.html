@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Command: WaitForObjectWithText &#8212; TestSphinx 1.5 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_tabs/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.scss" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.js"></script>
+    <script type="text/javascript" src="../../../_static/sphinx_tabs/tabs.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Command: MoveMouse" href="../input-actions/move-mouse.html" />
+    <link rel="prev" title="Command: WaitForObjectWhichContains" href="wait-for-object-which-contains.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="command-waitforobjectwithtext">
+<h1>Command: WaitForObjectWithText<a class="headerlink" href="#command-waitforobjectwithtext" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="description">
+<h2>Description:<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>Wait until it finds an object that respect the given criteria and it has the text you are looking for or times run out and will throw an error. Check <a class="reference external" href="../../other/by.html">By</a> for more information about criterias.</p>
+</div>
+<div class="section" id="parameters">
+<h2>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Optional</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>by</td>
+<td><a href="../../other/by.html">By</a></td>
+<td>false</td>
+<td>Set what criteria to use in order to find the object</td>
+</tr>
+<tr>
+<td>value</td>
+<td>string</td>
+<td>false</td>
+<td>The value to which object will be compared to see if they respect the criteria or not</td>
+</tr>
+<tr>
+<td>text</td>
+<td>string</td>
+<td>false</td>
+<td>Text that the intented object should have</td>
+</tr>
+<tr>
+<td>cameraName</td>
+<td>string</td>
+<td>true</td>
+<td>the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>boolean</td>
+<td>true</td>
+<td>true =&gt; will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>double</td>
+<td>true</td>
+<td>number of seconds that it will wait for object</td>
+</tr>
+<tr>
+<td>interval</td>
+<td>double</td>
+<td>true</td>
+<td>number of seconds after which it will try to find the object again. interval should be smaller than timeout</td>
+</tr>
+</tbody>
+</table><div class="section" id="observation-since-java-doesn-t-have-optional-parameters-we-decided-to-go-with-an-builder-pattern-approach-but-also-didn-t-want-to-change-the-way-how-the-commands-are-made-so-instead-of-calling-command-with-the-parameters-mentioned-in-the-table-you-will-need-to-build-an-object-name-altwaitforobjectwithtextparameters-which-we-use-the-parameters-mentioned-the-java-example-will-also-show-how-to-build-such-an-object">
+<h3>Observation: Since Java doesn’t have optional parameters we decided to go with an builder pattern approach but also didn’t want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name <strong><a class="reference external" href="../../other/java-builders.html#altwaitforobjectwithtextparameters">AltWaitForObjectWithTextParameters</a></strong> which we use the parameters mentioned. The java example will also show how to build such an object.<a class="headerlink" href="#observation-since-java-doesn-t-have-optional-parameters-we-decided-to-go-with-an-builder-pattern-approach-but-also-didn-t-want-to-change-the-way-how-the-commands-are-made-so-instead-of-calling-command-with-the-parameters-mentioned-in-the-table-you-will-need-to-build-an-object-name-altwaitforobjectwithtextparameters-which-we-use-the-parameters-mentioned-the-java-example-will-also-show-how-to-build-such-an-object" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="return">
+<h2>Return<a class="headerlink" href="#return" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>AltUnityObject</p></li>
+</ul>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QyM= docutils container">
+<div class="docutils container">
+<p>C#</p>
+</div>
+</div>
+<div class="item sphinx-data-tab-SmF2YQ== docutils container">
+<div class="docutils container">
+<p>Java</p>
+</div>
+</div>
+<div class="item sphinx-data-tab-UHl0aG9u docutils container">
+<div class="docutils container">
+<p>Python</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QyM= active docutils container">
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="na">[Test]</span>
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">TestWaitForElementWithText</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">const</span> <span class="kt">string</span> <span class="n">name</span> <span class="p">=</span> <span class="s">&quot;CapsuleInfo&quot;</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="n">text</span> <span class="p">=</span> <span class="n">altUnityDriver</span><span class="p">.</span><span class="n">FindObject</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">NAME</span><span class="p">,</span><span class="n">name</span><span class="p">).</span><span class="n">GetText</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">timeStart</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
+        <span class="kt">var</span> <span class="n">altElement</span> <span class="p">=</span> <span class="n">altUnityDriver</span><span class="p">.</span><span class="n">WaitForObjectWithText</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">NAME</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span><span class="p">);</span>
+        <span class="kt">var</span> <span class="n">timeEnd</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
+        <span class="kt">var</span> <span class="n">time</span> <span class="p">=</span> <span class="n">timeEnd</span> <span class="p">-</span> <span class="n">timeStart</span><span class="p">;</span>
+        <span class="n">Assert</span><span class="p">.</span><span class="n">Less</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">TotalSeconds</span><span class="p">,</span> <span class="m">20</span><span class="p">);</span>
+        <span class="n">Assert</span><span class="p">.</span><span class="n">NotNull</span><span class="p">(</span><span class="n">altElement</span><span class="p">);</span>
+        <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="n">altElement</span><span class="p">.</span><span class="n">GetText</span><span class="p">(),</span> <span class="n">text</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-SmF2YQ== docutils container">
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testWaitForElementWithText</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;CapsuleInfo&quot;</span><span class="o">;</span>
+    <span class="n">String</span> <span class="n">text</span> <span class="o">=</span> <span class="n">altUnityDriver</span><span class="o">.</span><span class="na">findObject</span><span class="o">(</span><span class="n">AltUnityDriver</span><span class="o">.</span><span class="na">By</span><span class="o">.</span><span class="na">NAME</span><span class="o">,</span><span class="n">name</span><span class="o">).</span><span class="na">getText</span><span class="o">();</span>
+    <span class="kt">long</span> <span class="n">timeStart</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+    <span class="n">AltUnityObject</span> <span class="n">altElement</span> <span class="o">=</span> <span class="n">altUnityDriver</span><span class="o">.</span><span class="na">waitForObjectWithText</span><span class="o">(</span><span class="n">AltUnityDriver</span><span class="o">.</span><span class="na">By</span><span class="o">.</span><span class="na">NAME</span><span class="o">,</span><span class="n">name</span><span class="o">,</span> <span class="n">text</span><span class="o">);</span>
+    <span class="kt">long</span> <span class="n">timeEnd</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+    <span class="kt">long</span> <span class="n">time</span> <span class="o">=</span> <span class="n">timeEnd</span> <span class="o">-</span> <span class="n">timeStart</span><span class="o">;</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="n">time</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="o">);</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">altElement</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="n">altElement</span><span class="o">.</span><span class="na">getText</span><span class="o">(),</span> <span class="n">text</span><span class="o">);</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-UHl0aG9u docutils container">
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_tap_ui_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">altdriver</span><span class="o">.</span><span class="n">load_scene</span><span class="p">(</span><span class="s1">&#39;Scene 1 AltUnityDriverTestScene&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">altdriver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;UIButton&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">altdriver</span><span class="o">.</span><span class="n">wait_for_element_with_text</span><span class="p">(</span><span class="s1">&#39;CapsuleInfo&#39;</span><span class="p">,</span> <span class="s1">&#39;UIButton clicked to jump capsule!&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">TestSphinx</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../building-games.html">Building games with AltUnityTester</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../download-import.html">Download&amp;Import</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../writting-running-tests.html">Writting and running tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="find-object.html">Command: FindObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="find-object-which-contains.html">Command: FindObjectWhichContains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="find-objects.html">Command: FindObjects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="find-objects-which-contains.html">Command: FindObjectsWhichContains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get-all-elements.html">Command: GetAllElements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wait-for-object.html">Command: WaitForObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wait-for-object-not-be-present.html">Command: WaitForObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wait-for-object-which-contains.html">Command: WaitForObjectWhichContains</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command: WaitForObjectWithText</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#return">Return</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/move-mouse.html">Command: MoveMouse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/move-mouse-and-wait.html">Command: MoveMouseAndWait</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/press-key.html">Command: PressKey</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/press-key-and-wait.html">Command: PressKeyAndWait</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/scroll-mouse.html">Command: ScrollMouse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/scroll-mouse-and-wait.html">Command: ScrollMouseAndWait</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/swipe.html">Command: Swipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/swipe-and-wait.html">Command: SwipeAndWait</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/tap-screen.html">Command: TapScreen(c#) / TapAtCoordinates(python/java)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input-actions/tilt.html">Command: Tilt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/call-component-method.html">Command: CallComponentMethod</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/call-static-method.html">Command: CallStaticMethod</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/click-event.html">Command: ClickEvent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/drag-object.html">Command: DragObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/drop-object.html">Command: DropObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/get-all-components.html">Command: GetAllComponents(C#)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/get-all-methods.html">Command: GetAllMethods(C#)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/get-all-properties.html">Command: GetAllProperties(C#)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/get-component-property.html">Command: GetComponentPropery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/get-text.html">Command: GetText</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/pointer-down.html">Command: PointerDownFromObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-commands/pointer-up.html">Command: PointerUpFromObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/delete-key-player-pref.html">Command: DeleteKeyPlayerPref</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/delete-player-pref.html">Command: DeletePlayerPref</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/get-all-cameras.html">Command: GetAllCameras(C#)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/get-all-scenes.html">Command: GetAllScenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/get-current-scene.html">Command: GetCurrentScene</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/get-key-player-pref.html">Command: FindObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/get-time-scale.html">Command: GetTimeScale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/load-scene.html">Command: FindObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/set-key-player-pref.html">Command: FindObject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/set-time-scale.html">Command: SetTimeScale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unity-commands/wait-for-current-scene-to-be.html">Command: WaitForCurrentSceneToBe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other/by.html">BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other/java-builders.html">Java builders</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="wait-for-object-which-contains.html" title="previous chapter">Command: WaitForObjectWhichContains</a></li>
+      <li>Next: <a href="../input-actions/move-mouse.html" title="next chapter">Command: MoveMouse</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Altom.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../../_sources/pages/commands/find-objects/wait-for-object-with-text.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
