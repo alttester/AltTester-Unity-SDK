@@ -1,9 +1,9 @@
 public class SwipeAndWait : AltBaseCommand
 {
-    UnityEngine.Vector2 start;
-    UnityEngine.Vector2 end;
+    System.Numerics.Vector2 start;
+    System.Numerics.Vector2 end;
     float duration;
-    public SwipeAndWait(SocketSettings socketSettings, UnityEngine.Vector2 start, UnityEngine.Vector2 end, float duration) : base(socketSettings)
+    public SwipeAndWait(SocketSettings socketSettings, System.Numerics.Vector2 start, System.Numerics.Vector2 end, float duration) : base(socketSettings)
     {
         this.start = start;
         this.end = end;

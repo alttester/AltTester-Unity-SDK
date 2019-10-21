@@ -1,4 +1,4 @@
-﻿public class AltUnityObject
+public class AltUnityObject
 {
     public string name;
     public int id;
@@ -33,13 +33,13 @@
         this.parentId = parentId;
         this.transformId = transformId;
     }
-    public UnityEngine.Vector2 getScreenPosition()
+    public System.Numerics.Vector2 getScreenPosition()
     {
-        return new UnityEngine.Vector2(x, y);
+        return new System.Numerics.Vector2(x, y);
     }
-    public UnityEngine.Vector3 getWorldPosition()
+    public System.Numerics.Vector3 getWorldPosition()
     {
-        return new UnityEngine.Vector3(worldX, worldY, worldZ);
+        return new System.Numerics.Vector3(worldX, worldY, worldZ);
     }
     public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null)
     {
@@ -65,11 +65,11 @@
     {
         return new ClickEvent(socketSettings,this).Execute();
     }
-    public AltUnityObject DragObject(UnityEngine.Vector2 position)
+    public AltUnityObject DragObject(System.Numerics.Vector2 position)
     {
         return new DragObject(socketSettings,position,this).Execute();
     }
-    public AltUnityObject DropObject(UnityEngine.Vector2 position)
+    public AltUnityObject DropObject(System.Numerics.Vector2 position)
     {
         return new DropObject(socketSettings,position,this).Execute();   
     }

@@ -31,7 +31,7 @@ public class AltBaseCommand
         }
         catch (System.Exception)
         {
-            UnityEngine.Debug.Log("Data received from socket doesn't have correct start and end control strings");
+            System.Diagnostics.Debug.Print("Data received from socket doesn't have correct start and end control strings");
         }
 
         return data;
@@ -109,9 +109,9 @@ public class AltBaseCommand
         var length = screenshotInfo[1];
         var LongLength = Newtonsoft.Json.JsonConvert.DeserializeObject<long>(length);
         var textureFormatString = screenshotInfo[2];
-        var textureFormat = (UnityEngine.TextureFormat)System.Enum.Parse(typeof(UnityEngine.TextureFormat), textureFormatString);
+        var textureFormat = (Assets.AltUnityTester.AltUnityDriver.UnityStruct.TextureFormat)System.Enum.Parse(typeof(Assets.AltUnityTester.AltUnityDriver.UnityStruct.TextureFormat), textureFormatString);
         var textSizeString = screenshotInfo[3];
-        var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector3>(textSizeString);
+        var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Numerics.Vector3>(textSizeString);
 
         System.Byte[] imageCompressed = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Byte[]>(screenshotInfo[4], new Newtonsoft.Json.JsonSerializerSettings
         {
@@ -119,7 +119,7 @@ public class AltBaseCommand
         });
 
         System.Byte[] imageDecompressed = DeCompressScreenshot(imageCompressed);
-        return new TextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(scaleDifference), textSizeVector3, textureFormat);
+        return new TextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<System.Numerics.Vector2>(scaleDifference), textSizeVector3, textureFormat);
     }
     public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
     {

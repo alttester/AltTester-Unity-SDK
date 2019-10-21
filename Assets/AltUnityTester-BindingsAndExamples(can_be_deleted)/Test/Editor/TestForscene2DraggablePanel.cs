@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading;
-using UnityEngine;
 [Timeout(5000)]
 public class TestForScene2DraggablePanel
 {

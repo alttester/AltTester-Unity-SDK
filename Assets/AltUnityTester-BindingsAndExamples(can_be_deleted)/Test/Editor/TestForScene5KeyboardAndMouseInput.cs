@@ -1,8 +1,9 @@
-﻿using NUnit.Framework;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading;
-using UnityEngine;
 
 public class TestForScene5KeyboardAndMouseInput
 {
@@ -32,9 +33,9 @@ public class TestForScene5KeyboardAndMouseInput
 
         var cube = AltUnityDriver.FindObject(By.NAME,"Player1");
         UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
-        AltUnityDriver.PressKey(UnityEngine.KeyCode.K,1, 2);
+        AltUnityDriver.PressKey(KeyCode.K,1, 2);
         Thread.Sleep(2000);
-        AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.O, 1,1);
+        AltUnityDriver.PressKeyAndWait(KeyCode.O, 1,1);
 
         cube = AltUnityDriver.FindObject(By.NAME,"Player1");
         UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
@@ -54,7 +55,7 @@ public class TestForScene5KeyboardAndMouseInput
         var cube = AltUnityDriver.FindObject(By.NAME,"Player1");
         UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
 
-        AltUnityDriver.PressKey(UnityEngine.KeyCode.W,1, 2);
+        AltUnityDriver.PressKey(KeyCode.W,1, 2);
         Thread.Sleep(2000);
         cube = AltUnityDriver.FindObject(By.NAME,"Player1");
         UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
@@ -73,14 +74,14 @@ public class TestForScene5KeyboardAndMouseInput
        var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
         Assert.AreEqual(1, stars.Count);
 
-       AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
+       AltUnityDriver.MoveMouse(new Vector2(player[0].x, player[0].y+500), 1);
        UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
        Thread.Sleep(1500);
 
-       AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
-       AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
+       AltUnityDriver.PressKey(KeyCode.Mouse0, 0);
+       AltUnityDriver.MoveMouseAndWait(new Vector2(player[0].x, player[0].y-500), 1);
        Thread.Sleep(1500);
-       AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+       AltUnityDriver.PressKeyAndWait(KeyCode.Mouse0, 1);
 
        stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
        Assert.AreEqual(3, stars.Count);

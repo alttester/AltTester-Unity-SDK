@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+using System.Numerics;
 using System.Threading;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.UI;
 [Timeout(5000)]
 public class TestForScene3DragAndDrop  {
     private AltUnityDriver altUnityDriver;

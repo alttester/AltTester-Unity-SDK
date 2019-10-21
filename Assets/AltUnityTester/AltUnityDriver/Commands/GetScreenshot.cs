@@ -1,19 +1,19 @@
 public class GetScreenshot : AltBaseCommand
 {
     int id;
-    UnityEngine.Color color;
+    Assets.AltUnityTester.AltUnityDriver.UnityStruct.Color color;
     float width;
-    UnityEngine.Vector2 size;
-    UnityEngine.Vector2 coordinates;
+    System.Numerics.Vector2 size;
+    System.Numerics.Vector2 coordinates;
 
     int option = 0;
 
-    public GetScreenshot(SocketSettings socketSettings, UnityEngine.Vector2 size) : base(socketSettings)
+    public GetScreenshot(SocketSettings socketSettings, System.Numerics.Vector2 size) : base(socketSettings)
     {
         this.size = size;
         this.option = 1;
     }
-    public GetScreenshot(SocketSettings socketSettings, int id, UnityEngine.Color color, float width, UnityEngine.Vector2 size) : base(socketSettings)
+    public GetScreenshot(SocketSettings socketSettings, int id, Assets.AltUnityTester.AltUnityDriver.UnityStruct.Color color, float width, System.Numerics.Vector2 size) : base(socketSettings)
     {
         this.size = size;
         this.color = color;
@@ -21,7 +21,7 @@ public class GetScreenshot : AltBaseCommand
         this.id = id;
         this.option = 2;
     }
-    public GetScreenshot(SocketSettings socketSettings, UnityEngine.Vector2 coordinates, UnityEngine.Color color, float width, UnityEngine.Vector2 size) : base(socketSettings)
+    public GetScreenshot(SocketSettings socketSettings, System.Numerics.Vector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.Color color, float width, System.Numerics.Vector2 size) : base(socketSettings)
     {
         this.coordinates = coordinates;
         this.color = color;

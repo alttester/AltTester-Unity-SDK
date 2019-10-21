@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
-using UnityEngine;
 using NullReferenceException = Assets.AltUnityTester.AltUnityDriver.NullReferenceException;
+using System.Numerics;
 
 [Timeout(5000)]
 #pragma warning disable CS0618

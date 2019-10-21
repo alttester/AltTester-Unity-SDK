@@ -1,9 +1,9 @@
 public class DropObject : CommandReturningAltElement
 {
-    UnityEngine.Vector2 position;
+    System.Numerics.Vector2 position;
     AltUnityObject altUnityObject;
 
-    public DropObject(SocketSettings socketSettings, UnityEngine.Vector2 position, AltUnityObject altUnityObject) : base(socketSettings)
+    public DropObject(SocketSettings socketSettings, System.Numerics.Vector2 position, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.position = position;
         this.altUnityObject = altUnityObject;

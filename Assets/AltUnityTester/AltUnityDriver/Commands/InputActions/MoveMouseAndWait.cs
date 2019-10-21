@@ -1,8 +1,8 @@
 public class MoveMouseAndWait : AltBaseCommand
 {
-    UnityEngine.Vector2 location;
+    System.Numerics.Vector2 location;
     float duration;
-    public MoveMouseAndWait(SocketSettings socketSettings, UnityEngine.Vector2 location, float duration) : base(socketSettings)
+    public MoveMouseAndWait(SocketSettings socketSettings, System.Numerics.Vector2 location, float duration) : base(socketSettings)
     {
         this.location = location;
         this.duration = duration;
