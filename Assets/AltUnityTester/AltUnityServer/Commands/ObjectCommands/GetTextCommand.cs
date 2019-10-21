@@ -20,16 +20,27 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
             UnityEngine.Debug.Log("Get text from object by name " + this.altUnityObject.name);
-            var response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
+            var response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
 
             var targetObject = AltUnityRunner.GetGameObject(altUnityObject);
 
             foreach (var property in TextProperties)
             {
-                var memberInfo = GetMemberForObjectComponent(altUnityObject, property);
-                response = GetValueForMember(memberInfo, targetObject, property);
-                if (!response.Contains("error:"))
-                    break;
+                try
+                {
+                    var memberInfo = GetMemberForObjectComponent(altUnityObject, property);
+                    response = GetValueForMember(memberInfo, targetObject, property);
+                    if (!response.Contains("error:"))
+                        break;
+                }
+                catch(Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException e)
+                {
+                    response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
+                }
+                catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException e)
+                {
+                    response = AltUnityRunner._altUnityRunner.errorComponentNotFoundMessage;
+                }
             }
 
             return response;
