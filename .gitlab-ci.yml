@@ -1,5 +1,4 @@
 stages:
-  - deploy
   - build-android
   - android-tests
   - create-package
@@ -7,7 +6,7 @@ stages:
   - ios-tests
   - docs
   - appium-tests
-  
+  - deploy
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
