@@ -4,6 +4,7 @@ stages:
   - create-package
   - build-ios
   - ios-tests
+  - docs
   - appium-tests
   - deploy
 
