@@ -29,8 +29,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     private static UnityEngine.Color greenColor = new UnityEngine.Color(0.0f, 0.5f, 0.2f, 1f);
     private static UnityEngine.Color redColor = new UnityEngine.Color(0.7f, 0.15f, 0.15f, 1f);
     private static UnityEngine.Color selectedTestColor = new UnityEngine.Color(1f, 1f, 1f, 1f);
-    private static UnityEngine.Color oddNumberTestColor = new UnityEngine.Color(0.6f, 0.6f, 0.6f, 0.6f);
-    private static UnityEngine.Color evenNumberTestColor = new UnityEngine.Color(0.3f, 0.3f, 0.3f, 0.3f);
+    private static UnityEngine.Color oddNumberTestColor = new UnityEngine.Color(0.75f, 0.75f, 0.75f, 1f);
+    private static UnityEngine.Color evenNumberTestColor = new UnityEngine.Color(0.7f, 0.7f, 0.7f, 1f);
+    private static UnityEngine.Color oddNumberTestColorDark = new UnityEngine.Color(0.23f, 0.23f, 0.23f, 1f);
+    private static UnityEngine.Color evenNumberTestColorDark = new UnityEngine.Color(0.25f, 0.25f, 0.25f, 1f);
     private static UnityEngine.Texture2D selectedTestTexture;
     private static UnityEngine.Texture2D oddNumberTestTexture;
     private static UnityEngine.Texture2D evenNumberTestTexture;
@@ -125,11 +127,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         }
         if (evenNumberTestTexture == null)
         {
-            evenNumberTestTexture = MakeTexture(20, 20, evenNumberTestColor);
+            evenNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin? evenNumberTestColorDark:evenNumberTestColor);
         }
         if (oddNumberTestTexture == null)
         {
-            oddNumberTestTexture = MakeTexture(20, 20, oddNumberTestColor);
+            oddNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? oddNumberTestColorDark:oddNumberTestColor );
         }
         if (portForwardingTexture == null)
         {
