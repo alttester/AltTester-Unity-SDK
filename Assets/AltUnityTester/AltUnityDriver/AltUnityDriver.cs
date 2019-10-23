@@ -155,7 +155,7 @@ public class AltUnityDriver
     {
         new Tilt(socketSettings, acceleration).Execute();
     }
-    [System.ObsoleteAttribute("Use instead FindObjectWhichContain")]
+    [System.ObsoleteAttribute("Use instead FindObjectWhichContains")]
     public AltUnityObject FindElementWhereNameContains(string name, string cameraName = "", bool enabled = true)
     {
         return new FindElementWhereNameContains(socketSettings, name, cameraName, enabled).Execute();
