@@ -66,10 +66,10 @@ public class BuildAltUnityTester {
 #endif
 
             Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-            // EditorApplication.Exit(0);
+            EditorApplication.Exit(0);
         } catch (Exception exception) {
             Debug.LogException(exception);
-            // EditorApplication.Exit(1);
+            EditorApplication.Exit(1);
         }
 
     }
