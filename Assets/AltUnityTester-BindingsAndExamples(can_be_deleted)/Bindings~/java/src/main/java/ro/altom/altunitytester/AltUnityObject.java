@@ -1,6 +1,5 @@
 package ro.altom.altunitytester;
 
-import com.google.gson.Gson;
 import lombok.Getter;
 import ro.altom.altunitytester.Commands.ObjectCommand.*;
 
@@ -149,7 +148,11 @@ public class AltUnityObject {
     }
 
     public String getText() {
-        return getComponentProperty("UnityEngine.UI.Text", "text");
+        return new AltGetText(altBaseSettings,this).Execute();
+    }
+
+    public AltUnityObject setText(String text) {
+        return new AltSetText(altBaseSettings,this, text).Execute();
     }
 
     public AltUnityObject clickEvent() {

@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using altunitytester.Assets.AltUnityTester.AltUnityServer;
 using Assets.AltUnityTester.AltUnityServer.Commands;
-
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
 
@@ -375,7 +374,15 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                     command = new FindActiveObjectsByNameCommand(methodParameters);
                     break;
-
+                case "getText":
+                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
+                    command = new GetTextCommand(altUnityObject);
+                    break;
+                case "setText":
+                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
+                    command = new SetTextCommand(altUnityObject, pieces[2]);
+                    break;
+                
                 default:
                     command = new UnknowStringCommand();
                     break;
@@ -455,7 +462,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             if (gameObject.GetInstanceID() == altUnityObject.id)
                 return gameObject;
         }
-        return null;
+        throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Object not found");
     }
     public static UnityEngine.GameObject GetGameObject(int objectId)
     {
@@ -464,7 +471,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             if (gameObject.GetInstanceID() == objectId)
                 return gameObject;
         }
-        return null;
+        throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Object not found");
     }       
 
     public UnityEngine.Camera FoundCameraById(int id)

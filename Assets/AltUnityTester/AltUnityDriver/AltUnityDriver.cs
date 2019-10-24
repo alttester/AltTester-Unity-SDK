@@ -155,7 +155,7 @@ public class AltUnityDriver
     {
         new Tilt(socketSettings, acceleration).Execute();
     }
-    [System.ObsoleteAttribute("Use instead FindObjectByNameContains")]
+    [System.ObsoleteAttribute("Use instead FindObjectWhichContains")]
     public AltUnityObject FindElementWhereNameContains(string name, string cameraName = "", bool enabled = true)
     {
         return new FindElementWhereNameContains(socketSettings, name, cameraName, enabled).Execute();
@@ -164,7 +164,7 @@ public class AltUnityDriver
     {
         return new GetAllElements(socketSettings, cameraName, enabled).Execute();
     }
-    [System.ObsoleteAttribute("Use instead FindObjectByName")]
+    [System.ObsoleteAttribute("Use instead FindObject")]
     public AltUnityObject FindElement(string name, string cameraName = "", bool enabled = true)
     {
         return new FindElement(socketSettings, name, cameraName, enabled).Execute();
@@ -175,7 +175,7 @@ public class AltUnityDriver
         return new FindElements(socketSettings, name, cameraName, enabled).Execute();
     }
 
-    [System.ObsoleteAttribute("Use instead WaitForObject")]
+    [System.ObsoleteAttribute("Use instead WaitForObjectWhichContains")]
     public System.Collections.Generic.List<AltUnityObject> FindElementsWhereNameContains(string name, string cameraName = "", bool enabled = true)
     {
         return new FindElementsWhereNameContains(socketSettings, name, cameraName, enabled).Execute();
@@ -200,6 +200,10 @@ public class AltUnityDriver
         new WaitForObjectNotBePresent(socketSettings, by, value, cameraName, enabled, timeout, interval).Execute();
     }
 
+    public AltUnityObject WaitForObjectWhichContains(By by, string value, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5){
+        return new WaitForObjectWhichContains(socketSettings,by,value,cameraName,enabled,timeout,interval).Execute();
+    }
+
 
     [System.ObsoleteAttribute("Use instead WaitForObjectNotBePresent")]
     public void WaitForElementToNotBePresent(string name, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
@@ -221,12 +225,12 @@ public class AltUnityDriver
     {
         return new WaitForObjectWithText(socketSettings, by, value, text, cameraName, enabled, timeout, interval).Execute();
     }
-    [System.ObsoleteAttribute("Use instead FindObjectByComponent")]
+    [System.ObsoleteAttribute("Use instead FindObject")]
     public AltUnityObject FindElementByComponent(string componentName, string assemblyName = "", string cameraName = "", bool enabled = true)
     {
         return new FindElementByComponent(socketSettings, componentName, assemblyName, cameraName, enabled).Execute();
     }
-    [System.ObsoleteAttribute("Use instead FindObjectsByComponent")]
+    [System.ObsoleteAttribute("Use instead FindObjects")]
     public System.Collections.Generic.List<AltUnityObject> FindElementsByComponent(string componentName, string assemblyName = "", string cameraName = "", bool enabled = true)
     {
         return new FindElementsByComponent(socketSettings, componentName, assemblyName, cameraName, enabled).Execute();

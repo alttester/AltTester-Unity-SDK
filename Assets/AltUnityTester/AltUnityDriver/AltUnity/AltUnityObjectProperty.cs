@@ -1,15 +1,11 @@
-﻿
-public struct AltUnityObjectProperty {
-
-	public string Component;
-	public string Property;
+﻿public struct AltUnityObjectProperty
+{ 
+    public string Component;
+    public string Property;
     public string Assembly;
 
-	public AltUnityObjectProperty(string componentName = "", string propertyName = "") {
-		Component = componentName;
-		Property = propertyName;
-	    Assembly = null;
-	}
+    public AltUnityObjectProperty(string component = "", string property = "") :
+        this(component, property, null) { }
 
     public AltUnityObjectProperty(string component, string property, string assembly)
     {
