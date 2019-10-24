@@ -200,8 +200,6 @@ docs:
   artifacts:
     paths:
       - documentation
-  only:
-    - master
   tags:
     - unity
   script:
