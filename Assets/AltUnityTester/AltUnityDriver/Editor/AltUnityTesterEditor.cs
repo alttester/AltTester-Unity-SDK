@@ -803,6 +803,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.BeginVertical();
         var guiStyle = new UnityEngine.GUIStyle();
         guiStyle.alignment = UnityEngine.TextAnchor.MiddleLeft;
+        guiStyle.normal.textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black;
+        guiStyle.wordWrap = true;
         if (_foldOutScenes)
         {
             if (EditorConfiguration.Scenes.Count != 0)
@@ -835,6 +837,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     }
                     
                     UnityEditor.EditorGUILayout.LabelField(sceneName, guiStyle);
+                    UnityEngine.GUILayout.FlexibleSpace();
                     string value;
                     if (scene.ToBeBuilt)
                     {
