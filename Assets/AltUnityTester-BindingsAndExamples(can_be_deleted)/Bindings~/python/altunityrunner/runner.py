@@ -13,7 +13,7 @@ BUFFER_SIZE = 1024
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',deviceID="",debug_flag=False):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',device_id="",debug_flag=False):
         self.TCP_PORT = TCP_PORT
         self.request_separator=request_separator
         self.request_end=request_end
