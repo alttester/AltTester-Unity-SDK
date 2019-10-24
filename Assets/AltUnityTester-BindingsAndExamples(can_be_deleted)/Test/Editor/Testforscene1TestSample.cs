@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
@@ -310,9 +310,9 @@ public class TestForScene1TestSample
             altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (Assets.AltUnityTester.AltUnityDriver.NullReferenceException exception)
+        catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:nullReferenceException");
+            Assert.AreEqual(exception.Message, "error:componentNotFound");
         }
     }
 
