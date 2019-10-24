@@ -29,6 +29,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     private static UnityEngine.Color greenColor = new UnityEngine.Color(0.0f, 0.5f, 0.2f, 1f);
     private static UnityEngine.Color redColor = new UnityEngine.Color(0.7f, 0.15f, 0.15f, 1f);
     private static UnityEngine.Color selectedTestColor = new UnityEngine.Color(1f, 1f, 1f, 1f);
+    private static UnityEngine.Color selectedTestColorDark = new UnityEngine.Color(0.4f, 0.4f, 0.4f, 1f);
     private static UnityEngine.Color oddNumberTestColor = new UnityEngine.Color(0.75f, 0.75f, 0.75f, 1f);
     private static UnityEngine.Color evenNumberTestColor = new UnityEngine.Color(0.7f, 0.7f, 0.7f, 1f);
     private static UnityEngine.Color oddNumberTestColorDark = new UnityEngine.Color(0.23f, 0.23f, 0.23f, 1f);
@@ -123,7 +124,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
         if (selectedTestTexture == null)
         {
-            selectedTestTexture= MakeTexture(20, 20, selectedTestColor);
+            selectedTestTexture= MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin? selectedTestColorDark:selectedTestColor);
         }
         if (evenNumberTestTexture == null)
         {
@@ -1090,8 +1091,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
             if (test.Status == 0)
             {
-                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(20));
-                UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEngine.Color.black } };
+                UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEditor.EditorGUIUtility.isProSkin?UnityEngine.Color.white: UnityEngine.Color.black } };
                 SelectTest(tests, test, testName, guiStyle);
             }
             else
