@@ -202,23 +202,19 @@ public class AltUnityTestRunner {
 
         if (!test.Test.IsSuite) {
             var status = 0;
-            string message = "";
             if (test.PassCount == 1) {
                 status = 1;
-                message = "Passed in " + test.Duration;
                 AltUnityTesterEditor.reportTestPassed++;
-
             } else if (test.FailCount == 1) {
                 status = -1;
-                message = test.Message;
                 AltUnityTesterEditor.reportTestFailed++;
             }
-
             AltUnityTesterEditor.timeTestRan += test.Duration;
             int index = AltUnityTesterEditor.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName));
             AltUnityTesterEditor.EditorConfiguration.MyTests[index].Status = status;
-            AltUnityTesterEditor.EditorConfiguration.MyTests[index].TestResultMessage = message;
-
+            AltUnityTesterEditor.EditorConfiguration.MyTests[index].TestDuration = test.Duration;
+            AltUnityTesterEditor.EditorConfiguration.MyTests[index].TestStackTrace = test.StackTrace;
+            AltUnityTesterEditor.EditorConfiguration.MyTests[index].TestResultMessage = test.Message;
             return status;
         }
 
@@ -303,15 +299,15 @@ public class AltUnityTestRunner {
         if (index == null) {
             if (testSuite.Parent == null) {
                 newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
-                    "", testSuite.TestCaseCount, false, null, path));
+                    "", testSuite.TestCaseCount, false, null,null,0, path));
             } else {
                 newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
-                    testSuite.Parent.FullName, testSuite.TestCaseCount, false, null, path));
+                    testSuite.Parent.FullName, testSuite.TestCaseCount, false, null, null, 0, path));
             }
 
         } else {
             newMyTests.Add(new MyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
-                index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, path));
+                index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage,index.TestStackTrace,index.TestDuration, path));
         }
         foreach (var test in testSuite.Tests) {
             addTestSuiteToMyTest(test, newMyTests);
