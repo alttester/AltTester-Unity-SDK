@@ -206,8 +206,7 @@ docs:
     - cd docs
     - virtualenv altunitytests
     - source altunitytests/bin/activate
-    - ls
-    - python3 -m pip install -r docs/requirements.txt
+    - python3 -m pip install -r requirements.txt
     - make html
     - cp -r _build/html ../documentation
 
