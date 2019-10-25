@@ -287,19 +287,31 @@ public class AltUnityTestRunner {
     }
 
     private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, System.Collections.Generic.List<MyTest> newMyTests) {
+        string path = null;
+
+        if (testSuite.GetType() == typeof(NUnit.Framework.Internal.TestMethod))
+        {
+            var fullName = testSuite.FullName;
+            var className = fullName.Split('.')[0];
+            var assets = UnityEditor.AssetDatabase.FindAssets(className);
+            if (assets.Length != 0)
+            {
+                path = UnityEditor.AssetDatabase.GUIDToAssetPath(assets[0]);
+            }
+        }
         var index = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName));
         if (index == null) {
             if (testSuite.Parent == null) {
                 newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
-                    "", testSuite.TestCaseCount, false, null));
+                    "", testSuite.TestCaseCount, false, null, path));
             } else {
                 newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
-                    testSuite.Parent.FullName, testSuite.TestCaseCount, false, null));
+                    testSuite.Parent.FullName, testSuite.TestCaseCount, false, null, path));
             }
 
         } else {
             newMyTests.Add(new MyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
-                index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage));
+                index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, path));
         }
         foreach (var test in testSuite.Tests) {
             addTestSuiteToMyTest(test, newMyTests);

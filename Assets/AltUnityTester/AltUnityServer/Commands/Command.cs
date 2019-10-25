@@ -29,6 +29,16 @@ public abstract class Command
                 UnityEngine.Debug.Log(e);
                 response = AltUnityRunner._altUnityRunner.errorCouldNotParseJsonString;
             }
+            catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException e)
+            {
+                UnityEngine.Debug.Log(e);
+                response = AltUnityRunner._altUnityRunner.errorComponentNotFoundMessage;
+            }
+            catch (Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException e)
+            {
+                UnityEngine.Debug.Log(e);
+                response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
+            }
             catch (System.Exception exception)
             {
                 UnityEngine.Debug.Log(exception);

@@ -475,7 +475,7 @@ public void TestCallStaticMethod() throws Exception {
     public void TestCallMethodWithMultipleDefinitions() throws Exception {
 
         AltUnityObject capsule=altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule");
-        capsule.callComponentMethod("Capsule", "Test","2","System.Int32","");
+        capsule.callComponentMethod("","Capsule", "Test","2","System.Int32");
         AltUnityObject capsuleInfo=altUnityDriver.findObject(AltUnityDriver.By.NAME,"CapsuleInfo");
         assertEquals("6",capsuleInfo.getText());
     }

@@ -1,27 +1,35 @@
 package ro.altom.altunitytester;
 
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import ro.altom.altunitytester.Commands.AltCallStaticMethods;
+import ro.altom.altunitytester.Commands.AltCallStaticMethodsParameters;
+import ro.altom.altunitytester.Commands.AltStop;
+import ro.altom.altunitytester.Commands.FindObject.*;
+import ro.altom.altunitytester.Commands.InputActions.*;
+import ro.altom.altunitytester.Commands.OldFindObject.*;
+import ro.altom.altunitytester.Commands.UnityCommand.*;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
-import java.io.*;
+import java.io.DataInputStream; 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 
-@Slf4j
 public class AltUnityDriver {
 
-    public static final int READ_TIMEOUT = 30 * 1000;
-
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AltUnityDriver.class);
     public static class PlayerPrefsKeyType {
         public static int IntType = 1;
         public static int StringType = 2;
         public static int FloatType = 3;
     }
+    public static final int READ_TIMEOUT = 30 * 1000;
 
     private final Socket socket;
-    private final static int BUFFER_SIZE = 1024;
     private final PrintWriter out;
     private final DataInputStream in;
+
+    private AltBaseSettings altBaseSettings;
 
     public static String RequestSeparator=";";
     public static String RequestEnd="&";
@@ -32,16 +40,15 @@ public class AltUnityDriver {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
         try {
-            //log.info("Initializing connection to {}:{}", ip, port);
+            log.info("Initializing connection to {}:{}", ip, port);
             socket = new Socket(ip, port);
             socket.setSoTimeout(READ_TIMEOUT);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new DataInputStream(socket.getInputStream());
+            altBaseSettings=new AltBaseSettings(socket,";","&",out,in);
         } catch (IOException e) {
             throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
         }
-        // TODO: make this unnecessary
-        AltUnityObject.altUnityDriver = this;
     }
 
     public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd) {
@@ -49,7 +56,7 @@ public class AltUnityDriver {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
         try {
-            //log.info("Initializing connection to {}:{}", ip, port);
+            log.info("Initializing connection to {}:{}", ip, port);
             socket = new Socket(ip, port);
             socket.setSoTimeout(READ_TIMEOUT);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -60,84 +67,15 @@ public class AltUnityDriver {
         // TODO: make this uneccesary
         RequestEnd=requestEnd;
         RequestSeparator=requestSeparator;
-        AltUnityObject.altUnityDriver = this;
-    }
-    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd,boolean debugFlag) {
-        if (ip == null || ip.isEmpty()) {
-            throw new InvalidParamerException("Provided IP address is null or empty");
-        }
-        try {
-            //log.info("Initializing connection to {}:{}", ip, port);
-            socket = new Socket(ip, port);
-            socket.setSoTimeout(READ_TIMEOUT);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new DataInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
-        }
-        // TODO: make this uneccesary
-        RequestEnd=requestEnd;
-        RequestSeparator=requestSeparator;
-        AltUnityObject.altUnityDriver = this;
-        this.send(CreateCommand("enableDebug",String.valueOf(debugFlag)));
-        this.recvall();
-
-    }
-
-    public String CreateCommand(String... arguments){
-        String command="";
-        for (String argument:arguments) {
-            command+=argument+RequestSeparator;
-        }
-        return command+RequestEnd;
-
-    }
-    public void send(String message) {
-        log.info("Sending rpc message [{}]", message);
-        out.print(message);
-        out.flush();
+        altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in);
     }
 
     public void stop() {
-        log.info("Closing connection with server.");
-        send(CreateCommand("closeConnection"));
-        try {
-            in.close();
-            out.close();
-            socket.close();
-        } catch (IOException e) {
-            throw new ConnectionException("Could not close the socket.", e);
-        }
+        new AltStop(altBaseSettings).Execute();
     }
 
-    // TODO: move this out from the driver
-    public String recvall() {
-        String receivedData = "";
-        boolean streamIsFinished = false;
-
-        while (!streamIsFinished) {
-            byte[] messageByte = new byte[BUFFER_SIZE];
-            int bytesRead = 0;
-            try {
-                bytesRead = in.read(messageByte);
-            } catch (IOException e) {
-                throw new ConnectionException(e);
-            }
-            if (bytesRead > 0)
-                receivedData += new String(messageByte, 0, bytesRead);
-            if (receivedData.contains("::altend")) {
-                streamIsFinished = true;
-            }
-        }
-
-        receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
-        String[] splittedString=receivedData.split("::altDebug::");//0=response,1=debug messages from server
-        receivedData=splittedString[0];
-        if(debugFlag){
-            WriteInDebugFile(splittedString[1]);
-        }
-        log.debug("Data received: " + receivedData);
-        return receivedData;
+    public String callStaticMethods(AltCallStaticMethodsParameters altCallStaticMethodsParameters){
+        return new AltCallStaticMethods(altBaseSettings,altCallStaticMethodsParameters).Execute();
     }
 
     private void WriteInDebugFile(String debugMessages){
@@ -153,14 +91,8 @@ public class AltUnityDriver {
 
     public String callStaticMethods(String assembly, String typeName, String methodName,
                                     String parameters, String typeOfParameters) {
-        String actionInfo = new Gson().toJson(new AltUnityObjectAction(typeName, methodName, parameters, typeOfParameters, assembly));
-        send(CreateCommand("callComponentMethodForObject", "" , actionInfo ));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return data;
-        }
-        handleErrors(data);
-        return "";
+        AltCallStaticMethodsParameters altCallStaticMethodsParameters=new AltCallStaticMethodsParameters.Builder(typeName,methodName,parameters).withAssembly(assembly).withTypeOfParameters(typeOfParameters).build();
+        return callStaticMethods(altCallStaticMethodsParameters);
     }
 
     public String callStaticMethods(String typeName, String methodName, String parameters) {
@@ -168,144 +100,59 @@ public class AltUnityDriver {
     }
 
     public void loadScene(String scene) {
-        log.debug("Load scene: " + scene + "...");
-        send(CreateCommand("loadScene",scene ));
-        String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        new AltLoadScene(altBaseSettings,scene).Execute();
     }
 
     public void deletePlayerPref() {
-        send(CreateCommand("deletePlayerPref"));
-        String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        new AltDeletePlayerPref(altBaseSettings).Execute();
     }
 
     public void deleteKeyPlayerPref(String keyName) {
-        send(CreateCommand("deleteKeyPlayerPref", keyName));
-        String data = recvall();
-        if (data.equals("Ok"))
-            return;
-        handleErrors(data);
+        new AltDeleteKeyPlayerPref(altBaseSettings,keyName).Execute();
     }
 
     public void setKeyPlayerPref(String keyName, int valueName) {
-        send(CreateCommand("setKeyPlayerPref", keyName, String.valueOf(valueName), String.valueOf(PlayerPrefsKeyType.IntType)));
-        String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        new AltSetKeyPlayerPref(altBaseSettings,keyName,valueName).Execute();
     }
 
     public void setKeyPlayerPref(String keyName, float valueName) {
-        send(CreateCommand("setKeyPlayerPref", keyName, String.valueOf(valueName), String.valueOf(PlayerPrefsKeyType.FloatType)));
-        String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        new AltSetKeyPlayerPref(altBaseSettings,keyName,valueName).Execute();
     }
 
     public void setKeyPlayerPref(String keyName, String valueName) {
-        send(CreateCommand("setKeyPlayerPref", keyName, valueName, String.valueOf(PlayerPrefsKeyType.StringType)));
-        String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        new AltSetKeyPlayerPref(altBaseSettings,keyName,valueName).Execute();
     }
 
     public int getIntKeyPlayerPref(String keyname) {
-        send(CreateCommand("getKeyPlayerPref", keyname, String.valueOf(PlayerPrefsKeyType.IntType)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return Integer.parseInt(data);
-        }
-        handleErrors(data);
-        return 0;
+        return new AltIntGetKeyPlayerPref(altBaseSettings,keyname).Execute();
     }
 
     public float getFloatKeyPlayerPref(String keyname) {
-        send(CreateCommand("getKeyPlayerPref", keyname, String.valueOf(PlayerPrefsKeyType.FloatType)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return Float.parseFloat(data);
-        }
-        handleErrors(data);
-        return 0;
-
+        return new AltFloatGetKeyPlayerPref(altBaseSettings,keyname).Execute();
     }
 
     public String getStringKeyPlayerPref(String keyname) {
-        send(CreateCommand("getKeyPlayerPref", keyname, String.valueOf(PlayerPrefsKeyType.StringType)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return data;
-        }
-        handleErrors(data);
-        return "";
+        return new AltStringGetKeyPlayerPref(altBaseSettings,keyname).Execute();
     }
 
     public String getCurrentScene() {
-        //log.debug("Get current scene...");
-        send(CreateCommand("getCurrentScene"));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, AltUnityObject.class)).name;
-        }
-        handleErrors(data);
-        return "";
+        return new AltGetCurrentScene(altBaseSettings).Execute();
     }
 
     public float getTimeScale() {
-        send(CreateCommand("getTimeScale"));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, float.class));
-        }
-        handleErrors(data);
-        return 0;
+        return new AltGetTimeScale(altBaseSettings).Execute();
     }
 
     public void setTimeScale(float timeScale) {
-        send(CreateCommand("setTimeScale", String.valueOf(timeScale)));
-        String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        new AltSetTimeScale(altBaseSettings,timeScale).Execute();
     }
 
     public void swipe(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
-        String vectorStartJson = vectorToJsonString(xStart, yStart);
-        String vectorEndJson = vectorToJsonString(xEnd, yEnd);
-        send(CreateCommand("movingTouch", vectorStartJson, vectorEndJson, String.valueOf(durationInSecs)));
-        String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        new AltSwipe(altBaseSettings,xStart,yStart,xEnd,yEnd,durationInSecs).Execute();
     }
 
     public void swipeAndWait(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
-        swipe(xStart, yStart, xEnd, yEnd, durationInSecs);
-        sleepFor(durationInSecs );
-        String data;
-        do {
-            send(CreateCommand("actionFinished"));
-            data = recvall();
-        } while (data.equals("No"));
-
-        if (data.equals("Yes")) {
-            return;
-        }
-        handleErrors(data);
+        new AltSwipeAndWait(altBaseSettings,xStart,yStart,xEnd,yEnd,durationInSecs).Execute();
     }
 
     public void holdButton(int xPosition, int yPosition, float durationInSecs) {
@@ -317,106 +164,61 @@ public class AltUnityDriver {
     }
 
     public AltUnityObject clickScreen(float x, float y) {
-        send(CreateCommand("clickScreenOnXY", String.valueOf(x), String.valueOf(y)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, AltUnityObject.class));
-        }
-        handleErrors(data);
-        return null;
+        return new AltClickScreen(altBaseSettings,x,y).Execute();
     }
-
     public void tilt(int x, int y, int z) {
-        String accelerationString = vectorToJsonString(x, y, z);
-        send(CreateCommand("tilt", accelerationString));
-        String data = recvall();
-        if (data.equals("OK")) {
-            return;
-        }
-        handleErrors(data);
+        new AltTilt(altBaseSettings,x,y,z).Execute();
+    }
+    public void pressKey(AltPressKeyParameters altPressKeyParameters){
+        new AltPressKey(altBaseSettings,altPressKeyParameters).Execute();
     }
     public void pressKey(String keyName,float power, float duration){
-        send(CreateCommand("pressKeyboardKey", keyName,String.valueOf(power),String.valueOf(duration)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return;
-        }
-        handleErrors(data);
+        AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder(keyName).withDuration(duration).withPower(power).build();
+        pressKey(altPressKeyParameters);
+    }
+    public void pressKeyAndWait(AltPressKeyParameters altPressKeyParameters){
+        new AltPressKeyAndWait(altBaseSettings,altPressKeyParameters).Execute();
     }
     public void pressKeyAndWait(String keyName,float power, float duration) {
-        pressKey(keyName,power, duration);
-        sleepFor(duration );
-        String data;
-        do {
-            send(CreateCommand("actionFinished"));
-            data = recvall();
-        } while (data.equals("No"));
-
-        if (data.equals("Yes")) {
-            return;
-        }
-        handleErrors(data);
+        AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder(keyName).withPower(power).withDuration(duration).build();
+        pressKeyAndWait(altPressKeyParameters);
+    }
+    public void moveMouse(AltMoveMouseParameters altMoveMouseParameters){
+        new AltMoveMouse(altBaseSettings,altMoveMouseParameters).Execute();
     }
     public void moveMouse(int x,int y, float duration){
-        send(CreateCommand("moveMouse", vectorToJsonString(x,y),String.valueOf(duration)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return;
-        }
-        handleErrors(data);
-
+        AltMoveMouseParameters altMoveMouseParameters=new AltMoveMouseParameters.Builder(x, y).withDuration(duration).build();
+        moveMouse(altMoveMouseParameters);
+    }
+    public void moveMouseAndWait(AltMoveMouseParameters altMoveMouseParameters){
+        new AltMoveMouseAndWait(altBaseSettings,altMoveMouseParameters).Execute();
     }
     public void moveMouseAndWait(int x,int y, float duration) {
-        moveMouse(x,y, duration);
-        sleepFor(duration );
-        String data;
-        do {
-            send(CreateCommand("actionFinished"));
-            data = recvall();
-        } while (data.equals("No"));
-
-        if (data.equals("Yes")) {
-            return;
-        }
-        handleErrors(data);
+        AltMoveMouseParameters altMoveMouseParameters=new AltMoveMouseParameters.Builder(x,y).withDuration(duration).build();
+        moveMouseAndWait(altMoveMouseParameters);
+    }
+    public void scrollMouse(AltScrollMouseParameters altScrollMouseParameters){
+        new AltScrollMouse(altBaseSettings,altScrollMouseParameters).Execute();
     }
     public void scrollMouse(float speed, float duration){
-        send(CreateCommand("scrollMouse", String.valueOf(speed),String.valueOf(duration)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return;
-        }
-        handleErrors(data);
+        AltScrollMouseParameters altScrollMouseParameters=new AltScrollMouseParameters.Builder().withDuration(duration).withSpeed(speed).build();
+        scrollMouse(altScrollMouseParameters);
 
     }
-    public void moveMouseAndWait(float speed, float duration) {
-        scrollMouse(speed, duration);
-        sleepFor(duration );
-        String data;
-        do {
-            send(CreateCommand("actionFinished"));
-            data = recvall();
-        } while (data.equals("No"));
+    public void scrollMouseAndWait(AltScrollMouseParameters altScrollMouseParameters){
+        new AltScrollMouseAndWait(altBaseSettings,altScrollMouseParameters).Execute();
+    }
+    public void scrollMouseAndWait(float speed, float duration) {
+        AltScrollMouseParameters altScrollMouseParameters=new AltScrollMouseParameters.Builder().withSpeed(speed).withDuration(duration).build();
+        scrollMouseAndWait(altScrollMouseParameters);
+    }
+    public AltUnityObject findObject(AltFindObjectsParameters altFindObjectsParameters){
+        return new AltFindObject(altBaseSettings,altFindObjectsParameters).Execute();
 
-        if (data.equals("Yes")) {
-            return;
-        }
-        handleErrors(data);
     }
     public AltUnityObject findObject(By by,String value,String cameraName,boolean enabled){
-        if(enabled && by==By.NAME){
-            send(CreateCommand("findActiveObjectByName", value, cameraName, String.valueOf(enabled)));
-        }else{
-            String path= SetPath(by,value);
-            send(CreateCommand("findObject", path, cameraName, String.valueOf(enabled)));
-        }
-
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        handleErrors(data);
-        return null;
+        AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by,value).isEnabled(enabled).withCamera(cameraName).build();
+        return findObject(altFindObjectsParameters);
     }
     public AltUnityObject findObject(By by,String value,boolean enabled){
         return findObject(by,value,"",enabled);
@@ -428,15 +230,12 @@ public class AltUnityDriver {
         return findObject(by,value,"",true);
     }
 
+    public AltUnityObject findObjectWhichContains(AltFindObjectsParameters altFindObjectsParameters){
+        return new AltFindObjectWhichContains(altBaseSettings,altFindObjectsParameters).Execute();
+    }
     public AltUnityObject findObjectWhichContains(By by,String value,String cameraName,boolean enabled){
-        String path= SetPathContains(by,value);
-        send(CreateCommand("findObject", path, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        handleErrors(data);
-        return null;
+        AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by,value).withCamera(cameraName).isEnabled(enabled).build();
+        return findObjectWhichContains(altFindObjectsParameters);
     }
     public AltUnityObject findObjectWhichContains(By by,String value,boolean enabled){
         return findObjectWhichContains(by,value,"",enabled);
@@ -447,16 +246,12 @@ public class AltUnityDriver {
     public AltUnityObject findObjectWhichContains(By by,String value){
         return findObjectWhichContains(by,value,"",true);
     }
-
+    public AltUnityObject[] findObjects(AltFindObjectsParameters altFindObjectsParameters){
+        return new AltFindObjects(altBaseSettings,altFindObjectsParameters).Execute();
+    }
     public AltUnityObject[] findObjects(By by,String value, String cameraName, boolean enabled) {
-        String path=SetPath(by,value);
-        send(CreateCommand("findObjects", path, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject[].class);
-        }
-        handleErrors(data);
-        return new AltUnityObject[]{};
+        AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by,value).withCamera(cameraName).isEnabled(enabled).build();
+        return findObjects(altFindObjectsParameters);
     }
     public AltUnityObject[] findObjects(By by,String value, String cameraName) {
         return findObjects(by,value,cameraName,true);
@@ -468,15 +263,13 @@ public class AltUnityDriver {
         return findObjects(by,value,"",true);
     }
 
+    public AltUnityObject[] findObjectsWhichContains(AltFindObjectsParameters altFindObjectsParameters){
+        return new AltFindObjectsWhichContains(altBaseSettings,altFindObjectsParameters).Execute();
+    }
+
     public AltUnityObject[] findObjectsWhichContains(By by,String value, String cameraName, boolean enabled) {
-        String path=SetPathContains(by,value);
-        send(CreateCommand("findObjects", path, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject[].class);
-        }
-        handleErrors(data);
-        return new AltUnityObject[]{};
+        AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by, value).withCamera(cameraName).isEnabled(enabled).build();
+        return findObjectsWhichContains(altFindObjectsParameters);
     }
     public AltUnityObject[] findObjectsWhichContains(By by,String value, String cameraName) {
         return findObjectsWhichContains(by,value,cameraName,true);
@@ -488,16 +281,15 @@ public class AltUnityDriver {
         return findObjectsWhichContains(by,value,"",true);
     }
 
+    @Deprecated
+    public AltUnityObject findElementWhereNameContains(AltFindElementsParameters altFindElementsParameters) {
+        return new AltFindElementWhereNameContains(altBaseSettings,altFindElementsParameters).Execute();
 
+    }
     @Deprecated
     public AltUnityObject findElementWhereNameContains(String name, String cameraName,boolean enabled) {
-        send(CreateCommand("findObjectWhereNameContains", name, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        handleErrors(data);
-        return null;
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).withCamera(cameraName).isEnabled(enabled).build();
+        return findElementWhereNameContains(altFindElementsParameters);
     }
 
     @Deprecated
@@ -513,14 +305,12 @@ public class AltUnityDriver {
         return findElementWhereNameContains(name, "");
     }
 
+    public AltUnityObject[] getAllElements(AltGetAllElementsParameters altGetAllElementsParameters){
+        return new AltGetAllElements(altBaseSettings,altGetAllElementsParameters).Execute();
+    }
     public AltUnityObject[] getAllElements(String cameraName,boolean enabled) {
-        send(CreateCommand("findObjects", "//*",cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, AltUnityObject[].class));
-        }
-        handleErrors(data);
-        return null;
+        AltGetAllElementsParameters altGetAllElementsParameters=new AltGetAllElementsParameters.Builder().withCamera(cameraName).isEnabled(enabled).build();
+        return getAllElements(altGetAllElementsParameters);
     }
 
     public AltUnityObject[] getAllElements(String cameraName) {
@@ -535,14 +325,13 @@ public class AltUnityDriver {
         return getAllElements("",true);
     }
     @Deprecated
+    public AltUnityObject findElement(AltFindElementsParameters altFindElementsParameters){
+        return new AltFindElement(altBaseSettings,altFindElementsParameters).Execute();
+    }
+    @Deprecated
     public AltUnityObject findElement(String name, String cameraName, boolean enabled) {
-        send(CreateCommand("findObjectByName", name, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        handleErrors(data);
-        return null;
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).isEnabled(enabled).withCamera(cameraName).build();
+        return findElement(altFindElementsParameters);
     }
     @Deprecated
     public AltUnityObject findElement(String name,boolean enabled) {
@@ -557,17 +346,14 @@ public class AltUnityDriver {
         return findElement(name, "",true);
     }
 
+    public AltUnityObject[] findElements(AltFindElementsParameters altFindElementsParameters){
+        return new AltFindElements(altBaseSettings,altFindElementsParameters).Execute();
+    }
     @Deprecated
     public AltUnityObject[] findElements(String name, String cameraName, boolean enabled) {
-        send(CreateCommand("findObjectsByName", name, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject[].class);
-        }
-        handleErrors(data);
-        return new AltUnityObject[]{};
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).withCamera(cameraName).isEnabled(enabled).build();
+        return findElements(altFindElementsParameters);
     }
-
     @Deprecated
     public AltUnityObject[] findElements(String name) {
         return findElements(name, "",true);
@@ -582,14 +368,13 @@ public class AltUnityDriver {
     }
 
     @Deprecated
+    public AltUnityObject[] findElementsWhereNameContains(AltFindElementsParameters altFindElementsParameters){
+        return new AltFindElementsWhereNameContains(altBaseSettings,altFindElementsParameters).Execute();
+    }
+    @Deprecated
     public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName, boolean enabled) {
-        send(CreateCommand("findObjectsWhereNameContains", name, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject[].class);
-        }
-        handleErrors(data);
-        return new AltUnityObject[]{};
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).withCamera(cameraName).isEnabled(enabled).build();
+        return findElementsWhereNameContains(altFindElementsParameters);
     }
     @Deprecated
     public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName) {
@@ -605,55 +390,37 @@ public class AltUnityDriver {
         return findElementsWhereNameContains(name,"",true);
 
     }
-
     public AltUnityObject tapScreen(int x, int y) {
-        send(CreateCommand("tapScreen", String.valueOf(x), String.valueOf(y)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        if(data.contains("error:notFound"))
-            return null;
-        handleErrors(data);
-        return null;
+        return new AltTapScreen(altBaseSettings,x,y).Execute();
     }
 
+    public String waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters){
+        return new AltWaitForCurrentSceneToBe(altBaseSettings,altWaitForCurrentSceneToBeParameters).Execute();
+    }
     public String waitForCurrentSceneToBe(String sceneName, double timeout, double interval) {
-        double time = 0;
-        String currentScene = "";
-        while (time < timeout) {
-            //log.debug("Waiting for scene to be " + sceneName + "...");
-            currentScene = getCurrentScene();
-            if (currentScene != null && currentScene.equals(sceneName)) {
-                return currentScene;
-            }
-            sleepFor(interval);
-            time += interval;
-        }
-        throw new WaitTimeOutException("Scene [" + sceneName + "] not loaded after " + timeout + " seconds");
+        AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters=new AltWaitForCurrentSceneToBeParameters.Builder(sceneName).withInterval(interval).withTimeout(timeout).build();
+        return  waitForCurrentSceneToBe(altWaitForCurrentSceneToBeParameters);
     }
 
     public String waitForCurrentSceneToBe(String sceneName) {
         return waitForCurrentSceneToBe(sceneName, 20, 0.5);
     }
+
+    @Deprecated
+    public AltUnityObject waitForElementWhereNameContains(AltWaitForElementParameters altWaitForElementParameters){
+        return new AltWaitForElementWhereNameContains(altBaseSettings,altWaitForElementParameters).Execute();
+    }
     @Deprecated
     public AltUnityObject waitForElementWhereNameContains(String name, String cameraName,boolean enabled, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time < timeout) {
-            //log.debug("Waiting for element where name contains " + name + "....");
-            try {
-                altElement = findElementWhereNameContains(name, cameraName,enabled);
-                if (altElement != null) {
-                    return altElement;
-                }
-            } catch (Exception e) {
-                log.warn("Exception thrown: " + e.getLocalizedMessage());
-            }
-            sleepFor(interval);
-            time += interval;
-        }
-        throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForElementParameters altWaitForElementParameters=new AltWaitForElementParameters.Builder(altFindElementsParameters).withInterval(interval).withTimeout(timeout).build();
+        return waitForElementWhereNameContains(altWaitForElementParameters);
+    }
+    @Deprecated
+    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, double timeout, double interval) {
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).withCamera(cameraName).build();
+        AltWaitForElementParameters altWaitForElementParameters=new AltWaitForElementParameters.Builder(altFindElementsParameters).withInterval(interval).withTimeout(timeout).build();
+        return waitForElementWhereNameContains(altWaitForElementParameters);
     }
 
     @Deprecated
@@ -669,153 +436,66 @@ public class AltUnityDriver {
         return waitForElementWhereNameContains(name, cameraName,true, 20, 0.5);
     }
     @Deprecated
-    public void waitForElementToNotBePresent(String name, String cameraName,boolean enabled, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time <= timeout) {
-            //log.debug("Waiting for element " + name + " not to be present");
-            try {
-                altElement = findElement(name, cameraName,enabled);
-                if (altElement == null) {
-                    return;
-                }
-            } catch (Exception e) {
-                log.warn(e.getLocalizedMessage());
-                break;
-            }
-            sleepFor(interval);
-            time += interval;
-        }
+    public void waitForElementToNotBePresent(AltWaitForElementParameters altWaitForElementParameters) {
+        new AltWaitForElementToNotBePresent(altBaseSettings,altWaitForElementParameters).Execute();
 
-        if (altElement != null) {
-            throw new AltUnityException("Element " + name + " still found after " + timeout + " seconds");
-        }
+    }
+    @Deprecated
+    public void waitForElementToNotBePresent(String name, String cameraName,boolean enabled, double timeout, double interval) {
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForElementParameters altWaitForElementParameters=new AltWaitForElementParameters.Builder(altFindElementsParameters).withTimeout(timeout).withInterval(interval).build();
+        waitForElementToNotBePresent(altWaitForElementParameters);
     }
 
-    /**
-     * Sleeps for certain amount of seconds.
-     *
-     * @param interval Seconds to sleep for.
-     */
-    private void sleepFor(double interval) {
-        long timeToSleep = (long) (interval * 1000);
-        try {
-            Thread.sleep(timeToSleep);
-        } catch (InterruptedException e) {
-            log.warn("Could not sleep for " + timeToSleep + " ms");
-        }
+    public AltUnityObject waitForObject(AltWaitForObjectsParameters altWaitForObjectsParameters){
+        return new AltWaitForObject(altBaseSettings,altWaitForObjectsParameters).Execute();
     }
     public AltUnityObject waitForObject(By by,String value, String cameraName,boolean enabled, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time < timeout) {
-            //log.debug("Waiting for element where name contains " + name + "....");
-            try {
-                altElement = findObject(by,value, cameraName,enabled);
-                if (altElement != null) {
-                    return altElement;
-                }
-            } catch (Exception e) {
-                log.warn("Exception thrown: " + e.getLocalizedMessage());
-            }
-            sleepFor(interval);
-            time += interval;
-        }
-        throw new WaitTimeOutException("Element " + value + " still not found after " + timeout + " seconds");
+        AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by,value).withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForObjectsParameters altWaitForObjectsParameters=new AltWaitForObjectsParameters.Builder(altFindObjectsParameters).withInterval(interval).withTimeout(timeout).build();
+        return waitForObject(altWaitForObjectsParameters);
     }
     public AltUnityObject waitForObject(By by,String value) {
         return waitForObject(by,value,"",true,2,0.5);
     }
+    public AltUnityObject waitForObjectWithText(AltWaitForObjectWithTextParameters altWaitForObjectWithTextParameters){
+        return new AltWaitForObjectWithText(altBaseSettings,altWaitForObjectWithTextParameters).Execute();
+    }
     public AltUnityObject waitForObjectWithText(By by,String value, String text, String cameraName,boolean enabled, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time < timeout) {
-            //log.debug("Waiting for element " + name + " to have text [" + text + "]");
-            try {
-                altElement = findObject(by,value, cameraName);
-                if (altElement != null && altElement.getText().equals(text)) {
-                    return altElement;
-                }
-            } catch (AltUnityException e) {
-                log.warn("Exception thrown: " + e.getLocalizedMessage());
-            }
-            time += interval;
-            sleepFor(interval);
-        }
-        throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
+        AltFindObjectsParameters altFindElementsParameters=new AltFindObjectsParameters.Builder(by,value).isEnabled(enabled).withCamera(cameraName).build();
+        AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters=new AltWaitForObjectWithTextParameters.Builder(altFindElementsParameters,text).withInterval(interval).withTimeout(timeout).build();
+        return waitForObjectWithText(altWaitForElementWithTextParameters);
     }
     public AltUnityObject waitForObjectWithText(By by,String value, String text) {
         return waitForObjectWithText(by,value,text,"",true,2,0.5);
     }
 
+    public void waitForObjectToNotBePresent(AltWaitForObjectsParameters altWaitForObjectsParameters){
+        new AltWaitForObjectToNotBePresent(altBaseSettings,altWaitForObjectsParameters).Execute();
+    }
     public void waitForObjectToNotBePresent(By by,String value, String cameraName,boolean enabled, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time <= timeout) {
-            //log.debug("Waiting for element " + name + " not to be present");
-            try {
-                altElement = findObject(by,value, cameraName);
-                if (altElement == null) {
-                    return;
-                }
-            } catch (Exception e) {
-                log.warn(e.getLocalizedMessage());
-                break;
-            }
-            sleepFor(interval);
-            time += interval;
-        }
-
-        if (altElement != null) {
-            throw new AltUnityException("Element " + value + " still found after " + timeout + " seconds");
-        }
+        AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by, value).withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForObjectsParameters altWaitForObjectsParameters=new AltWaitForObjectsParameters.Builder(altFindObjectsParameters).withTimeout(timeout).withInterval(interval).build();
+        waitForObjectToNotBePresent(altWaitForObjectsParameters);
     }
     public void waitForObjectToNotBePresent(By by,String value) {
-        waitForObjectToNotBePresent(by,value,"",true,30,0.5);
+        waitForObjectToNotBePresent(by,value,"",true,20,0.5);
+    }
+
+    public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParameters altWaitForObjectsParameters){
+        return new AltWaitForObjectWhichContains(altBaseSettings,altWaitForObjectsParameters).Execute();
     }
 
     public AltUnityObject waitForObjectWhichContains(By by,String value, String cameraName,boolean enabled, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time < timeout) {
-            //log.debug("Waiting for element where name contains " + name + "....");
-            try {
-                altElement = findObjectWhichContains(by,value, cameraName,enabled);
-                if (altElement != null) {
-                    return altElement;
-                }
-            } catch (Exception e) {
-                log.warn("Exception thrown: " + e.getLocalizedMessage());
-            }
-            sleepFor(interval);
-            time += interval;
-        }
-        throw new WaitTimeOutException("Element " + value + " still not found after " + timeout + " seconds");
+        AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by,value).isEnabled(enabled).withCamera(cameraName).build();
+        AltWaitForObjectsParameters altWaitForObjectsParameters=new AltWaitForObjectsParameters.Builder(altFindObjectsParameters).withInterval(interval).withTimeout(timeout).build();
+        return waitForObjectWhichContains(altWaitForObjectsParameters);
+
     }
 
     public AltUnityObject waitForObjectWhichContains(By by,String value) {
         return waitForObjectWhichContains(by,value,"",true,30,0.5);
     }
-    @Deprecated
-    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time < timeout) {
-            //log.debug("Waiting for element where name contains " + name + "....");
-            try {
-                altElement = findElementWhereNameContains(name, cameraName);
-                if (altElement != null) {
-                    return altElement;
-                }
-            } catch (Exception e) {
-                log.warn("Exception thrown: " + e.getLocalizedMessage());
-            }
-            sleepFor(interval);
-            time += interval;
-        }
-        throw new WaitTimeOutException("Element " + name + " still not found after " + timeout + " seconds");
-    }
-
 
     @Deprecated
     public void waitForElementToNotBePresent(String name) {
@@ -831,25 +511,14 @@ public class AltUnityDriver {
     }
 
     @Deprecated
+    public AltUnityObject waitForElement(AltWaitForElementParameters altWaitForElementParameters) {
+        return new AltWaitForElement(altBaseSettings,altWaitForElementParameters).Execute();
+    }
+    @Deprecated
     public AltUnityObject waitForElement(String name, String cameraName,boolean enabled, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time < timeout) {
-            //log.debug("Waiting for element " + name + "...");
-            try {
-                altElement = findElement(name, cameraName,enabled);
-            } catch (Exception e) {
-                log.warn("Exception thrown: " + e.getLocalizedMessage());
-            }
-
-            if (altElement != null) {
-                return altElement;
-            }
-            sleepFor(interval);
-            time += interval;
-        }
-
-        throw new WaitTimeOutException("Element " + name + " not loaded after " + timeout + " seconds");
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForElementParameters altWaitForElementParameters=new AltWaitForElementParameters.Builder(altFindElementsParameters).withTimeout(timeout).withInterval(interval).build();
+        return waitForElement(altWaitForElementParameters);
     }
 
     @Deprecated
@@ -865,23 +534,14 @@ public class AltUnityDriver {
         return waitForElement(name, "",enabled, 20, 0.5);
     }
     @Deprecated
+    public AltUnityObject waitForElementWithText(AltWaitForElementWithTextParameters altWaitForElementWithTextParameters) {
+        return new AltWaitForElementWithText(altBaseSettings,altWaitForElementWithTextParameters).Execute();
+    }
+    @Deprecated
     public AltUnityObject waitForElementWithText(String name, String text, String cameraName,boolean enabled, double timeout, double interval) {
-        double time = 0;
-        AltUnityObject altElement = null;
-        while (time < timeout) {
-            //log.debug("Waiting for element " + name + " to have text [" + text + "]");
-            try {
-                altElement = findElement(name, cameraName,enabled);
-                if (altElement != null && altElement.getText().equals(text)) {
-                    return altElement;
-                }
-            } catch (AltUnityException e) {
-                log.warn("Exception thrown: " + e.getLocalizedMessage());
-            }
-            time += interval;
-            sleepFor(interval);
-        }
-        throw new WaitTimeOutException("Element with text: " + text + " not loaded after " + timeout + " seconds");
+        AltFindElementsParameters altFindElementsParameters=new AltFindElementsParameters.Builder(name).withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForElementWithTextParameters altWaitForElementWithTextParameters=new AltWaitForElementWithTextParameters.Builder(altFindElementsParameters,text).withInterval(interval).withTimeout(timeout).build();
+        return waitForElementWithText(altWaitForElementWithTextParameters);
     }
 
     @Deprecated
@@ -898,14 +558,14 @@ public class AltUnityDriver {
     }
 
     @Deprecated
+    public AltUnityObject findElementByComponent(AltFindElementsByComponentParameters altFindElementsByComponentParameters){
+        return new AltFindElementByComponent(altBaseSettings,altFindElementsByComponentParameters).Execute();
+    }
+
+    @Deprecated
     public AltUnityObject findElementByComponent(String componentName,String assemblyName, String cameraName,boolean enabled) {
-        send(CreateCommand("findObjectByComponent",assemblyName, componentName, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        handleErrors(data);
-        return null;
+        AltFindElementsByComponentParameters altFindElementsByComponentParameters=new AltFindElementsByComponentParameters.Builder(componentName).inAssembly(assemblyName).isEnabled(enabled).withCamera(cameraName).build();
+        return findElementByComponent(altFindElementsByComponentParameters);
     }
 
     @Deprecated
@@ -924,14 +584,13 @@ public class AltUnityDriver {
     }
 
     @Deprecated
+    public AltUnityObject[] findElementsByComponent(AltFindElementsByComponentParameters altFindElementsByComponentParameters){
+        return new AltFindElementsByComponent(altBaseSettings,altFindElementsByComponentParameters).Execute();
+    }
+    @Deprecated
     public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName, boolean enabled) {
-        send(CreateCommand("findObjectsByComponent",assemblyName, componentName, cameraName, String.valueOf(enabled)));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject[].class);
-        }
-        handleErrors(data);
-        return new AltUnityObject[]{};
+        AltFindElementsByComponentParameters altFindElementsByComponentParameters=new AltFindElementsByComponentParameters.Builder(componentName).inAssembly(assemblyName).isEnabled(enabled).withCamera(cameraName).build();
+        return  findElementsByComponent(altFindElementsByComponentParameters);
     }
 
     @Deprecated
@@ -942,47 +601,6 @@ public class AltUnityDriver {
     @Deprecated
     public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName, boolean enabled) {
         return findElementsByComponent(componentName, assemblyName,"", enabled);
-    }
-
-
-
-    public String vectorToJsonString(int x, int y) {
-        return "{\"x\":" + x + ", \"y\":" + y + "}";
-    }
-
-    public String vectorToJsonString(int x, int y, int z) {
-        return "{\"x\":" + x + ", \"y\":" + y + ", \"z\":" + z + "}";
-    }
-
-    public void handleErrors(String data) {
-        String typeOfException = data.split(";")[0];
-        if ("error:notFound".equals(typeOfException)) {
-            throw new NotFoundException(data);
-        } else if ("error:propertyNotFound".equals(typeOfException)) {
-            throw new PropertyNotFoundException(data);
-        } else if ("error:methodNotFound".equals(typeOfException)) {
-            throw new MethodNotFoundException(data);
-        } else if ("error:componentNotFound".equals(typeOfException)) {
-            throw new ComponentNotFoundException(data);
-        } else if ("error:couldNotPerformOperation".equals(typeOfException)) {
-            throw new CouldNotPerformOperationException(data);
-        } else if ("error:couldNotParseJsonString".equals(typeOfException)) {
-            throw new CouldNotParseJsonStringException(data);
-        } else if ("error:incorrectNumberOfParameters".equals(typeOfException)) {
-            throw new IncorrectNumberOfParametersException(data);
-        } else if ("error:failedToParseMethodArguments".equals(typeOfException)) {
-            throw new FailedToParseArgumentsException(data);
-        } else if ("error:objectNotFound".equals(typeOfException)) {
-            throw new ObjectWasNotFoundException(data);
-        } else if ("error:propertyCannotBeSet".equals(typeOfException)) {
-            throw new PropertyNotFoundException(data);
-        } else if ("error:nullReferenceException".equals(typeOfException)) {
-            throw new NullReferenceException(data);
-        } else if ("error:unknownError".equals(typeOfException)) {
-            throw new UnknownErrorException(data);
-        } else if ("error:formatException".equals(typeOfException)) {
-            throw new FormatException(data);
-        }
     }
 
     // TODO: move those two out of this type and make them compulsory
@@ -1042,59 +660,5 @@ public class AltUnityDriver {
     {
         TAG,LAYER,NAME,COMPONENT,PATH,ID
     }
-    private String SetPath(By by, String value)
-    {
-        String path = "";
-        switch (by)
-        {
-            case TAG:
-                path = "//*[@tag=" + value+"]";
-                break;
-            case LAYER:
-                path = "//*[@layer=" + value+"]";
-                break;
-            case NAME:
-                path = "//" + value;
-                break;
-            case COMPONENT:
-                path = "//*[@component=" + value+"]";
-                break;
-            case PATH:
-                path = value;
-                break;
-            case ID:
-                path = "//*[@id=" + value+"]";
-                break;
-        }
-        return path;
-    }
-    private String SetPathContains(By by, String value)
-    {
-        String path = "";
-        switch (by)
-        {
-            case TAG:
-                path = "//*[contains(@tag," + value + ")]";
-                break;
-            case LAYER:
-                path = "//*[contains(@layer," + value + ")]";
-                break;
-            case NAME:
-                path = "//*[contains(@name," + value+")]";
-                break;
-            case COMPONENT:
-                path = "//*[contains(@component," + value + ")]";
-                break;
-            case PATH:
-                path = value;
-                break;
-            case ID:
-                path = "//*[contains(@id," + value + ")]";
-                break;
-        }
-        return path;
-    }
-
-
 
 }

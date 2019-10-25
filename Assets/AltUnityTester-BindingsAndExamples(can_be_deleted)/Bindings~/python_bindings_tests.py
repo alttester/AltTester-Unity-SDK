@@ -284,16 +284,17 @@ class PythonTests(unittest.TestCase):
 
     def test_creating_stars(self):
         self.altdriver.load_scene("Scene 5 Keyboard Input")
-
         stars = self.altdriver.find_objects_which_contains(By.NAME,"Star","Player2")
         self.assertEqual(1, len(stars))
         player = self.altdriver.find_objects_which_contains(By.NAME,"Player","Player2")
+        pressing_point_1=self.altdriver.find_object(By.NAME,"PressingPoint1","Player2")
 
-        self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+        self.altdriver.move_mouse(int(pressing_point_1.x),int(pressing_point_1.y), 1)
         time.sleep(1.5)
 
         self.altdriver.press_key('Mouse0', 1,0)
-        self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+        pressing_point_2=self.altdriver.find_object(By.NAME,"PressingPoint2","Player2")
+        self.altdriver.move_mouse_and_wait(int(pressing_point_1.x),int(pressing_point_2.y), 1)
         self.altdriver.press_key('Mouse0', 1,0)
 
         stars = self.altdriver.find_objects_which_contains(By.NAME,"Star")

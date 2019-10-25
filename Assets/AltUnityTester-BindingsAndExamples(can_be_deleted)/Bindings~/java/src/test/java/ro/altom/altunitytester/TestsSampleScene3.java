@@ -29,7 +29,7 @@ public class TestsSampleScene3 {
         altUnityDriver.loadScene("Scene 3 Drag And Drop");
     }
 
-     @Test
+    @Test
     public void testMultipleDragAndDrop() throws Exception {
         AltUnityObject altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
         AltUnityObject altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");

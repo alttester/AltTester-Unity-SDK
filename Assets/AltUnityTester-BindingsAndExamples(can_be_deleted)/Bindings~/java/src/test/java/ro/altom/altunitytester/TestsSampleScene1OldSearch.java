@@ -390,7 +390,7 @@ public class TestsSampleScene1OldSearch {
     public void TestCallMethodWithMultipleDefinitions() throws Exception {
 
         AltUnityObject capsule=altUnityDriver.findElement("Capsule");
-        capsule.callComponentMethod("Capsule", "Test","2","System.Int32","");
+        capsule.callComponentMethod("","Capsule", "Test","2","System.Int32");
         AltUnityObject capsuleInfo=altUnityDriver.findElement("CapsuleInfo");
         assertEquals("6",capsuleInfo.getText());
     }
