@@ -390,7 +390,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "enableDebug":
                     var enableDebug = bool.Parse(pieces[1]);
-                    command = new EnableDebugging(enableDebug);
+                    command = new EnableDebuggingCommand(enableDebug);
                     break;
 
                 case "getText":

@@ -1,19 +1,17 @@
-﻿
-using System;
-using System.Net.Sockets;
-
 public enum PLayerPrefKeyType { Int = 1, String, Float }
 public struct SocketSettings
 {
     public System.Net.Sockets.TcpClient socket;
     public string requestSeparator;
     public string requestEnding;
+    public bool DebugFlag;
 
-    public SocketSettings(TcpClient socket, string requestSeparator, string requestEnding)
+    public SocketSettings(System.Net.Sockets.TcpClient socket, string requestSeparator, string requestEnding,bool debugFlag)
     {
         this.socket = socket;
         this.requestSeparator = requestSeparator;
         this.requestEnding = requestEnding;
+        DebugFlag = debugFlag;
     }
 }
 public class AltUnityDriver
@@ -24,13 +22,16 @@ public class AltUnityDriver
     private static int tcp_port = 13000;
     public static string requestSeparatorString;
     public static string requestEndingString;
-    public static bool DebugFlag;
 
     public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool debugFlag = false)
     {
         Socket = new System.Net.Sockets.TcpClient();
         Socket.Connect(tcp_ip, tcp_port);
-        socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding);
+        socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding,debugFlag);
+        EnableDebugging();
+    }
+    private void EnableDebugging(){
+        new EnableDebugging(socketSettings).Execute();
     }
 
     public void Stop()

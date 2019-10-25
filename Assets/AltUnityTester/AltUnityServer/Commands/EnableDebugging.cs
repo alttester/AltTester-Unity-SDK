@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class EnableDebugging : Command
+    class EnableDebuggingCommand : Command
     {
         bool activateDebug;
 
-        public EnableDebugging(bool activateDebug)
+        public EnableDebuggingCommand(bool activateDebug)
         {
             this.activateDebug = activateDebug;
         }

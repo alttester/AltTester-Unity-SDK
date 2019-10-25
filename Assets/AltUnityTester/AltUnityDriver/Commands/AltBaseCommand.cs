@@ -27,7 +27,17 @@ public class AltBaseCommand
         {
             string[] start = new string[] { "altstart::" };
             string[] end = new string[] { "::altend" };
+            string[] debug = new string[] { "::altDebug::" };
             data = data.Split(start, System.StringSplitOptions.None)[1].Split(end, System.StringSplitOptions.None)[0];
+            var splittedString = data.Split(debug, System.StringSplitOptions.None);
+            var response = splittedString[0];
+            data = response;
+            var debugLogs = splittedString[1];
+            if (SocketSettings.DebugFlag)
+            {
+                WriteInDebugFile(debugLogs);
+            }
+
         }
         catch (System.Exception)
         {
@@ -36,6 +46,13 @@ public class AltBaseCommand
 
         return data;
     }
+    private void WriteInDebugFile(string debugLogs)
+    {
+        var FileWriter = new System.IO.StreamWriter(@"LogAltUnityFile.txt", true);
+        FileWriter.WriteLine(debugLogs);
+        FileWriter.Close();
+    }
+
     public string CreateCommand(params string[] arguments)
     {
         string command = "";
