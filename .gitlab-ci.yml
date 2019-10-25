@@ -212,6 +212,8 @@ docs:
 
 pages:
   stage: deploy
+  tags:
+    - unity
   dependencies:
     - docs
   artifacts:
