@@ -15,16 +15,11 @@ Get the value of a property from one of the component of the object.
 ###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **AltGetAllElementsParameters** which we use the parameters mentioned. The java example will also show how to build such an object.
 
 ## Examples
-<!-- Language Specific -->
-<div>
-    <button class="language-btn active">C#</button>
-    <button class="language-btn">Java</button>
-    <button class="language-btn">Python</button>
-</div>
-<div id="language-c" class="languageContent" markdown=1 style="display:block;">
 
-``` c#
+```eval_rst
+.. tabs::
 
+    .. code-tab:: c#
     [Test]
     public void TestGetComponentProperty()
     {
@@ -36,34 +31,24 @@ Get the value of a property from one of the component of the object.
         Assert.AreEqual(propertyValue, "13000");
     }
 
+    .. code-tab:: java
 
-```
+        @Test
+        public void testGetComponentProperty() throws Exception {
+            String componentName = "AltUnityRunner";
+            String propertyName = "SocketPortNumber";
+            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"AltUnityRunnerPrefab");
+            assertNotNull(altElement);
+            String propertyValue = altElement.getComponentProperty(componentName, propertyName);
+            assertEquals(propertyValue, "13000");
+        }
 
-</div>
-<div id="language-python" class="languageContent" markdown=1>
 
-``` python
 
+    .. code-tab:: py
     def test_get_component_property(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         result = self.altdriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
         self.assertEqual(result,"[1,2,3]")
 
 ```
-
-</div>
-<div id="language-java" class="languageContent" markdown=1>
-
-``` java
-  @Test
-    public void testGetComponentProperty() throws Exception {
-        String componentName = "AltUnityRunner";
-        String propertyName = "SocketPortNumber";
-        AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"AltUnityRunnerPrefab");
-        assertNotNull(altElement);
-        String propertyValue = altElement.getComponentProperty(componentName, propertyName);
-        assertEquals(propertyValue, "13000");
-    }
-
-```
-</div>

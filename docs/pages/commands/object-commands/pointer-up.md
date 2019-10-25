@@ -6,34 +6,16 @@ Simulates pointer up action on the object
 
 
 ## Examples
-<!-- Language Specific -->
-<div>
-    <button class="language-btn active">C#</button>
-    <button class="language-btn">Java</button>
-    <button class="language-btn">Python</button>
-</div>
-<div id="language-c" class="languageContent" markdown=1 style="display:block;">
+```eval_rst
+.. tabs::
 
-``` c#
+    .. code-tab:: c#
+        //TODO
 
-    //TODO
+    .. code-tab:: java
+        //TODO
 
-
-```
-
-</div>
-<div id="language-python" class="languageContent" markdown=1>
-
-``` python
-
-   //TODO
-```
-
-</div>
-<div id="language-java" class="languageContent" markdown=1>
-
-``` java
-  //TODO
+    .. code-tab:: py
+        //TODO
 
 ```
-</div>
