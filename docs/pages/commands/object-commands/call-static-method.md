@@ -17,51 +17,35 @@ Invoke static methods from your game.
 ###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **AltGetAllElementsParameters** which we use the parameters mentioned. The java example will also show how to build such an object.
 
 ## Examples
-<!-- Language Specific -->
-<div>
-    <button class="language-btn active">C#</button>
-    <button class="language-btn">Java</button>
-    <button class="language-btn">Python</button>
-</div>
-<div id="language-c" class="languageContent" markdown=1 style="display:block;">
 
-``` c#
+```eval_rst
+.. tabs::
 
-    [Test]
-    public void TestCallStaticMethod()
-    {
+    .. code-tab:: c#
+        [Test]
+        public void TestCallStaticMethod()
+        {
 
-        altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
-        int a = Int32.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
-        Assert.AreEqual(1, a);
+            altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
+            int a = Int32.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+            Assert.AreEqual(1, a);
 
-    }
+        }
+
+    .. code-tab:: java
+        @Test
+        public void TestCallStaticMethod() throws Exception {
+
+            altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "SetInt","Test?1");
+            int a=Integer.parseInt(altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+            assertEquals(1,a);
+        }
+
+
+    .. code-tab:: py
+        def test_call_static_method(self):
+            self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1",assembly="UnityEngine.CoreModule")
+            a=int(self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2",assembly="UnityEngine.CoreModule"))
+            self.assertEquals(1,a)
 
 ```
-
-</div>
-<div id="language-python" class="languageContent" markdown=1>
-
-``` python
-
- def test_call_static_method(self):
-        self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1",assembly="UnityEngine.CoreModule")
-        a=int(self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2",assembly="UnityEngine.CoreModule"))
-        self.assertEquals(1,a)
-
-```
-
-</div>
-<div id="language-java" class="languageContent" markdown=1>
-
-``` java
-@Test
-public void TestCallStaticMethod() throws Exception {
-
-    altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "SetInt","Test?1");
-    int a=Integer.parseInt(altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
-    assertEquals(1,a);
-
-}
-```
-</div>

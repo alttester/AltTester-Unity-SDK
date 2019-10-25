@@ -17,53 +17,39 @@ Invoke a method from an existing component of the object.
 ###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **AltGetAllElementsParameters** which we use the parameters mentioned. The java example will also show how to build such an object.
 
 ## Examples
-<!-- Language Specific -->
-<div>
-    <button class="language-btn active">C#</button>
-    <button class="language-btn">Java</button>
-    <button class="language-btn">Python</button>
-</div>
-<div id="language-c" class="languageContent" markdown=1 style="display:block;">
 
-``` c#
+```eval_rst
+.. tabs::
 
-   [Test]
-    public void TestCallMethodWithAssembly(){
-        AltUnityObject capsule = altUnityDriver.FindObject(By.NAME,"Capsule");
-        var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
-        capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
-        AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME,"Capsule");
-        var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
-        Assert.AreNotEqual(initialRotation, finalRotation);
-    }
+    .. code-tab:: c#
+        [Test]
+        public void TestCallMethodWithAssembly(){
+            AltUnityObject capsule = altUnityDriver.FindObject(By.NAME,"Capsule");
+            var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
+            capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
+            AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME,"Capsule");
+            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
+            Assert.AreNotEqual(initialRotation, finalRotation);
+        }
+
+    .. code-tab:: java
+        @Test
+        public void TestCallMethodWithMultipleDefinitions() throws Exception {
+
+            AltUnityObject capsule=altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule");
+            capsule.callComponentMethod("","Capsule", "Test","2","System.Int32");
+            AltUnityObject capsuleInfo=altUnityDriver.findObject(AltUnityDriver.By.NAME,"CapsuleInfo");
+            assertEquals("6",capsuleInfo.getText());
+        }
+
+
+
+    .. code-tab:: py
+        def test_call_component_method(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
+            self.assertEqual(result,"null")
+            self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
+            self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
 
 ```
-
-</div>
-<div id="language-python" class="languageContent" markdown=1>
-
-``` python
-
- def test_call_component_method(self):
-        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-        self.assertEqual(result,"null")
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-        self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
-
-```
-
-</div>
-<div id="language-java" class="languageContent" markdown=1>
-
-``` java
- @Test
-    public void TestCallMethodWithMultipleDefinitions() throws Exception {
-
-        AltUnityObject capsule=altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule");
-        capsule.callComponentMethod("","Capsule", "Test","2","System.Int32");
-        AltUnityObject capsuleInfo=altUnityDriver.findObject(AltUnityDriver.By.NAME,"CapsuleInfo");
-        assertEquals("6",capsuleInfo.getText());
-    }
-```
-</div>

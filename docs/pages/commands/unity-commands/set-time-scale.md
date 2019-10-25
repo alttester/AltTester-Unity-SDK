@@ -2,7 +2,7 @@
 
 ## Description:
 
-Modify the current time scale of the game 
+Modify the current time scale of the game. 1 is normal speed. If you want to slow down the game give a value between \[0.1\) or to make it faster a value >1.
 
 
 ## Parameters:

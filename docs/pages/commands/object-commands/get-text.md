@@ -6,16 +6,11 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
 
 ## Examples
-<!-- Language Specific -->
-<div>
-    <button class="language-btn active">C#</button>
-    <button class="language-btn">Java</button>
-    <button class="language-btn">Python</button>
-</div>
-<div id="language-c" class="languageContent" markdown=1 style="display:block;">
 
-``` c#
+```eval_rst
+.. tabs::
 
+    .. code-tab:: c#
     [Test]
     public void TestWaitForElementWithText()
     {
@@ -31,28 +26,8 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
     }
 
-
-```
-
-</div>
-<div id="language-python" class="languageContent" markdown=1>
-
-``` python
-
-    def test_call_component_method(self):
-        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-        self.assertEqual(result,"null")
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-        self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
-
-```
-
-</div>
-<div id="language-java" class="languageContent" markdown=1>
-
-``` java
-  @Test
+    .. code-tab:: java
+    @Test
     public void testWaitForElementWithText() throws Exception {
         String name = "CapsuleInfo";
         String text = altUnityDriver.findObject(AltUnityDriver.By.NAME,name).getText();
@@ -66,5 +41,14 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
     }
 
+
+
+    .. code-tab:: py
+    def test_call_component_method(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
+        self.assertEqual(result,"null")
+        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
+        self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
+
 ```
-</div>

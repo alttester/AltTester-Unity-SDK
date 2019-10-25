@@ -1,21 +1,20 @@
-# Command: FindObject
+# Command: SetKeyPlayerPref
 
 ## Description:
 
-Find the first object in the scene that respects the given criteria. Check :doc:'by' for more information about criterias.
-
-###### Observation: No longer possible to search for object by name giving a path in hierarchy, if you want to search that way please use by path.
+Set a key-value pair in the game player pref.
 
 ## Parameters:
 
 |      Name       |     Type      | Optional | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     By    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| keyName      |     string    |   false   | Key that will be stored in player pref|
+| intValue      |     int    |   true   | Value stored together with the key|
+| floatValue      |     float    |   true   | Value stored together with the key|
+| strinValue      |     string    |   true   | Value stored together with the key|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **AltFindObjectParameters** which we use the parameters mentioned. The java example will also show how to build such an object.
+######## Only one of the three type of value is needed
+
 
 ## Examples
 ```eval_rst
@@ -24,33 +23,78 @@ Find the first object in the scene that respects the given criteria. Check :doc:
     .. code-tab:: c#
 
         [Test]
-        public void TestFindElement()
+        public void TestSetKeyInt()
         {
-    
-            const string name = "Capsule";
-            var altElement = altUnityDriver.FindObject(By.NAME,name);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(name, altElement.name);
-    
+            altUnityDriver.DeletePlayerPref();
+            altUnityDriver.SetKeyPlayerPref("test", 1);
+            var val = altUnityDriver.GetIntKeyPlayerPref("test");
+            Assert.AreEqual(1, val);
+        }
+        [Test]
+        public void TestSetKeyFloat()
+        {
+            altUnityDriver.DeletePlayerPref();
+            altUnityDriver.SetKeyPlayerPref("test", 1f);
+            var val = altUnityDriver.GetFloatKeyPlayerPref("test");
+            Assert.AreEqual(1f, val);
+        }
+
+        [Test]
+        public void TestSetKeyString()
+        {
+            altUnityDriver.DeletePlayerPref();
+            altUnityDriver.SetKeyPlayerPref("test", "test");
+            var val = altUnityDriver.GetStringKeyPlayerPref("test");
+            Assert.AreEqual("test", val);
         }
     .. code-tab:: java
 
         @Test
-        public void testfindElement() throws Exception {
-            String name = "Capsule";
-            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,name);
-            assertNotNull(altElement);
-            assertEquals(name, altElement.name);
+        public void testSetKeyInt() throws Exception {
+            altUnityDriver.deletePlayerPref();
+            altUnityDriver.setKeyPlayerPref("test", 1);
+            int val = altUnityDriver.getIntKeyPlayerPref("test");
+            assertEquals(1, val);
+        }
+
+        @Test
+        public void testSetKeyFloat() throws Exception {
+            altUnityDriver.deletePlayerPref();
+            altUnityDriver.setKeyPlayerPref("test", 1f);
+            float val = altUnityDriver.getFloatKeyPlayerPref("test");
+            assertEquals(1f, val, 0.01);
+        }
+
+        @Test
+        public void testSetKeyString() throws Exception {
+            altUnityDriver.deletePlayerPref();
+            altUnityDriver.setKeyPlayerPref("test", "test");
+            String val = altUnityDriver.getStringKeyPlayerPref("test");
+            assertEquals("test", val);
         }
 
 
     .. code-tab:: py
 
-       def test_find_objects_by_tag(self):
-        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        altElements = self.altdriver.find_objects(By.TAG,"plane")
-        self.assertEquals(2, len(altElements))
-        for altElement in altElements: 
-        self.assertEquals("Plane", altElement.name)
+        def test_set_player_pref_keys_int(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            self.altdriver.delete_player_prefs()
+            self.altdriver.set_player_pref_key('test', 1, PlayerPrefKeyType.Int)
+            value = self.altdriver.get_player_pref_key('test', PlayerPrefKeyType.Int)
+            self.assertEqual(int(value), 1)
+
+        def test_set_player_pref_keys_float(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            self.altdriver.delete_player_prefs()
+            self.altdriver.set_player_pref_key('test', 1.3, PlayerPrefKeyType.Float)
+            value = self.altdriver.get_player_pref_key('test', PlayerPrefKeyType.Float)
+            self.assertEqual(float(value), 1.3)
+
+        def test_set_player_pref_keys_string(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            self.altdriver.delete_player_prefs()
+            self.altdriver.set_player_pref_key('test', 'string value', PlayerPrefKeyType.String)
+            value = self.altdriver.get_player_pref_key('test', PlayerPrefKeyType.String)
+            self.assertEqual(value, 'string value')
 ```
 
