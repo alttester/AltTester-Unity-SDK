@@ -1,7 +1,9 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public class Tilt : AltBaseCommand
 {
-    System.Numerics.Vector3 acceleration;
-    public Tilt(SocketSettings socketSettings, System.Numerics.Vector3 acceleration) : base(socketSettings)
+    Vector3 acceleration;
+    public Tilt(SocketSettings socketSettings, Vector3 acceleration) : base(socketSettings)
     {
         this.acceleration = acceleration;
     }

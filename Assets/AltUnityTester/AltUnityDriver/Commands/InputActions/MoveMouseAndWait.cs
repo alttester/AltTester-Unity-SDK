@@ -1,8 +1,10 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public class MoveMouseAndWait : AltBaseCommand
 {
-    System.Numerics.Vector2 location;
+    Vector2 location;
     float duration;
-    public MoveMouseAndWait(SocketSettings socketSettings, System.Numerics.Vector2 location, float duration) : base(socketSettings)
+    public MoveMouseAndWait(SocketSettings socketSettings, Vector2 location, float duration) : base(socketSettings)
     {
         this.location = location;
         this.duration = duration;

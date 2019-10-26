@@ -1,9 +1,11 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public class Swipe : AltBaseCommand
 {
-    System.Numerics.Vector2 start;
-    System.Numerics.Vector2 end;
+    Vector2 start;
+    Vector2 end;
     float duration;
-    public Swipe(SocketSettings socketSettings, System.Numerics.Vector2 start, System.Numerics.Vector2 end, float duration) : base(socketSettings)
+    public Swipe(SocketSettings socketSettings, Vector2 start, Vector2 end, float duration) : base(socketSettings)
     {
         this.start = start;
         this.end = end;

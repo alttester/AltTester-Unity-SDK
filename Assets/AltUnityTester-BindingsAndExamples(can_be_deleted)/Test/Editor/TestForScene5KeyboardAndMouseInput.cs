@@ -2,7 +2,6 @@ using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Threading;
 
 public class TestForScene5KeyboardAndMouseInput

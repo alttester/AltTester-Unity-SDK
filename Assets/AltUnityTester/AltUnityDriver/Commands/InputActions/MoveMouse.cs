@@ -1,8 +1,10 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public class MoveMouse : AltBaseCommand
 {
-    System.Numerics.Vector2 location;
+    Vector2 location;
     float duration;
-    public MoveMouse(SocketSettings socketSettings, System.Numerics.Vector2 location, float duration) : base(socketSettings)
+    public MoveMouse(SocketSettings socketSettings, Vector2 location, float duration) : base(socketSettings)
     {
         this.location = location;
         this.duration = duration;

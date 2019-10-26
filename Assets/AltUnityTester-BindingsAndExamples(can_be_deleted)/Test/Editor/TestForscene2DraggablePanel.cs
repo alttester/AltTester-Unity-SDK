@@ -1,8 +1,7 @@
 using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 using System.Threading;
+
 [Timeout(5000)]
 public class TestForScene2DraggablePanel
 {

@@ -6,7 +6,7 @@ using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
 using System.Diagnostics;
-using System.Numerics;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 [Timeout(5000)]
 public class TestForScene1TestSample

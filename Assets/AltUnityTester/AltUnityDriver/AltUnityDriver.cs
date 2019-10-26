@@ -1,3 +1,5 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public enum PLayerPrefKeyType { Int = 1, String, Float }
 public struct SocketSettings
 {
@@ -100,19 +102,19 @@ public class AltUnityDriver
     {
         return new GetCurrentScene(socketSettings).Execute();
     }
-    public void Swipe(System.Numerics.Vector2 start, System.Numerics.Vector2 end, float duration)
+    public void Swipe(Vector2 start, Vector2 end, float duration)
     {
         new Swipe(socketSettings, start, end, duration).Execute();
     }
-    public void SwipeAndWait(System.Numerics.Vector2 start, System.Numerics.Vector2 end, float duration)
+    public void SwipeAndWait(Vector2 start, Vector2 end, float duration)
     {
         new SwipeAndWait(socketSettings, start, end, duration).Execute();
     }
-    public void HoldButton(System.Numerics.Vector2 position, float duration)
+    public void HoldButton(Vector2 position, float duration)
     {
         Swipe(position, position, duration);
     }
-    public void HoldButtonAndWait(System.Numerics.Vector2 position, float duration)
+    public void HoldButtonAndWait(Vector2 position, float duration)
     {
         SwipeAndWait(position, position, duration);
     }
@@ -124,12 +126,12 @@ public class AltUnityDriver
     {
         new PressKeyAndWait(socketSettings, keyCode, power, duration).Execute();
     }
-    public void MoveMouse(System.Numerics.Vector2 location, float duration = 0)
+    public void MoveMouse(Vector2 location, float duration = 0)
     {
         new MoveMouse(socketSettings, location, duration).Execute();
     }
 
-    public void MoveMouseAndWait(System.Numerics.Vector2 location, float duration = 0)
+    public void MoveMouseAndWait(Vector2 location, float duration = 0)
     {
         new MoveMouseAndWait(socketSettings, location, duration).Execute();
     }
@@ -147,7 +149,7 @@ public class AltUnityDriver
     {
         return new TapScreen(socketSettings, x, y).Execute();
     }
-    public void Tilt(System.Numerics.Vector3 acceleration)
+    public void Tilt(Vector3 acceleration)
     {
         new Tilt(socketSettings, acceleration).Execute();
     }
@@ -239,15 +241,15 @@ public class AltUnityDriver
     {
         return new GetAllCameras(socketSettings).Execute();
     }
-    public TextureInformation GetScreenshot(System.Numerics.Vector2 size = default(System.Numerics.Vector2))
+    public TextureInformation GetScreenshot(Vector2 size = default(Vector2))
     {
         return new GetScreenshot(socketSettings, size).Execute();
     }
-    public TextureInformation GetScreenshot(int id, Assets.AltUnityTester.AltUnityDriver.UnityStruct.Color color, float width, System.Numerics.Vector2 size = default(System.Numerics.Vector2))
+    public TextureInformation GetScreenshot(int id, Assets.AltUnityTester.AltUnityDriver.UnityStruct.Color color, float width, Vector2 size = default(Vector2))
     {
         return new GetScreenshot(socketSettings, id, color, width, size).Execute();
     }
-    public TextureInformation GetScreenshot(System.Numerics.Vector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.Color color, float width, System.Numerics.Vector2 size = default(System.Numerics.Vector2))
+    public TextureInformation GetScreenshot(Vector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.Color color, float width, Vector2 size = default(Vector2))
     {
         return new GetScreenshot(socketSettings, coordinates, color, width, size).Execute();
 

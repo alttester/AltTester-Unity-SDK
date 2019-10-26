@@ -6,7 +6,7 @@ using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
 using NullReferenceException = Assets.AltUnityTester.AltUnityDriver.NullReferenceException;
-using System.Numerics;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 [Timeout(5000)]
 #pragma warning disable CS0618

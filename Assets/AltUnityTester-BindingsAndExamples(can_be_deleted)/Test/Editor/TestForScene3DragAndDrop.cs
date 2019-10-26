@@ -1,6 +1,6 @@
-using System.Numerics;
 using System.Threading;
 using NUnit.Framework;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 [Timeout(5000)]
 public class TestForScene3DragAndDrop  {
     private AltUnityDriver altUnityDriver;
