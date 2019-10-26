@@ -269,8 +269,8 @@ public class TestsSampleScene1 {
         try {
             altElement.setComponentProperty(componentName, propertyName, "2");
             fail();
-        } catch (NullReferenceException e) {
-            assertEquals(e.getMessage(), "error:nullReferenceException");
+        } catch (ComponentNotFoundException e) {
+            assertEquals(e.getMessage(), "error:componentNotFound");
         }
     }
 

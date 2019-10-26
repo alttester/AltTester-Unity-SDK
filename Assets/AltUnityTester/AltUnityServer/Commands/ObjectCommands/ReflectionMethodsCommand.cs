@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace Assets.AltUnityTester.AltUnityServer
 {
@@ -20,7 +20,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                     {
                         var assembly = System.Reflection.Assembly.Load(assemblyName);
                         if (assembly.GetType(typeName) == null)
-                            return null;
+                            throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
                         return assembly.GetType(typeName);
                     }
                     catch (System.Exception e)
@@ -30,7 +30,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                     }
                 }
 
-                return null;
+                throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
             }
             else
             {
@@ -38,7 +38,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                 {
                     var assembly = System.Reflection.Assembly.Load(assemblyName);
                     if (assembly.GetType(typeName) == null)
-                        return null;
+                        throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
                     return assembly.GetType(typeName);
                 }
                 catch (System.Exception e)
@@ -62,8 +62,10 @@ namespace Assets.AltUnityTester.AltUnityServer
                     return propertyInfo;
                 if (fieldInfo != null)
                     return fieldInfo;
+                throw new Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException("Property not found");
+
             }
-            return memberInfo;
+            throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
         }
 
 
