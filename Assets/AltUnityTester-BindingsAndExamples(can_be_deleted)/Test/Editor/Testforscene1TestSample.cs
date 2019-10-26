@@ -85,7 +85,10 @@ public class TestForScene1TestSample
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
         
-        var listOfElements = string.Join("; ", altElements.Select(e => e.name));
+        string listOfElements="";
+        foreach(var element in altElements){
+            listOfElements=element.name+"; ";
+        }
 
         Assert.AreEqual(22, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
@@ -106,8 +109,11 @@ public class TestForScene1TestSample
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);
         
-        var listOfElements = string.Join("; ", altElements.Select(e => e.name));
-        
+        string listOfElements="";
+        foreach(var element in altElements){
+            listOfElements=element.name+"; ";
+        }
+
         Assert.AreEqual(28, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
@@ -303,9 +309,9 @@ public class TestForScene1TestSample
             altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (Assets.AltUnityTester.AltUnityDriver.NullReferenceException exception)
+        catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:nullReferenceException");
+            Assert.AreEqual(exception.Message, "error:componentNotFound");
         }
     }
 

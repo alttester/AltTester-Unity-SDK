@@ -246,9 +246,9 @@ public class TestForScene1WithOldSearch
             altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (NullReferenceException exception)
+        catch (ComponentNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:nullReferenceException");
+            Assert.AreEqual(exception.Message, "error:componentNotFound");
         }
     }
 

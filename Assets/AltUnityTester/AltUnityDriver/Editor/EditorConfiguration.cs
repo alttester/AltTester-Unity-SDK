@@ -22,6 +22,5 @@ public class EditorConfiguration : ScriptableObject
     public string requestEnding = "&";
     public int serverPort = 13000;
     public bool scenePathDisplayed;
-    public bool testPathDisplayed;
 
 }

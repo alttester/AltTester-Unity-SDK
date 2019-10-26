@@ -202,7 +202,7 @@ class PythonTests(unittest.TestCase):
         except WaitTimeOutException as e:
             self.assertEqual(e.args[0],"Element dlkasldkas not found after 1 seconds")
     
-    def test_wait_forobject_to_not_exist_fail(self):
+    def test_wait_for_object_to_not_exist_fail(self):
             try:
                 alt_element = self.altdriver.wait_for_element_to_not_be_present("Capsule",'',1,0.5)
                 self.assertEqual(False,True)
@@ -284,17 +284,16 @@ class PythonTests(unittest.TestCase):
 
     def test_creating_stars(self):
         self.altdriver.load_scene("Scene 5 Keyboard Input")
+
         stars = self.altdriver.find_objects_which_contains(By.NAME,"Star","Player2")
         self.assertEqual(1, len(stars))
         player = self.altdriver.find_objects_which_contains(By.NAME,"Player","Player2")
-        pressing_point_1=self.altdriver.find_object(By.NAME,"PressingPoint1","Player2")
 
-        self.altdriver.move_mouse(int(pressing_point_1.x),int(pressing_point_1.y), 1)
+        self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
         time.sleep(1.5)
 
         self.altdriver.press_key('Mouse0', 1,0)
-        pressing_point_2=self.altdriver.find_object(By.NAME,"PressingPoint2","Player2")
-        self.altdriver.move_mouse_and_wait(int(pressing_point_1.x),int(pressing_point_2.y), 1)
+        self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
         self.altdriver.press_key('Mouse0', 1,0)
 
         stars = self.altdriver.find_objects_which_contains(By.NAME,"Star")

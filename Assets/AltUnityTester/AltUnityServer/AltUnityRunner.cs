@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using altunitytester.Assets.AltUnityTester.AltUnityServer;
 using Assets.AltUnityTester.AltUnityServer.Commands;
-
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
 
@@ -463,7 +462,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             if (gameObject.GetInstanceID() == altUnityObject.id)
                 return gameObject;
         }
-        return null;
+        throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Object not found");
     }
     public static UnityEngine.GameObject GetGameObject(int objectId)
     {
@@ -472,7 +471,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             if (gameObject.GetInstanceID() == objectId)
                 return gameObject;
         }
-        return null;
+        throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Object not found");
     }       
 
     public UnityEngine.Camera FoundCameraById(int id)
