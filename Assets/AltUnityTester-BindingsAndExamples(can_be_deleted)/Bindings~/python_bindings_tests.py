@@ -435,6 +435,51 @@ class PythonTests(unittest.TestCase):
         capsuleAfterRotation = self.altdriver.find_object(By.NAME,"Capsule")
         finalRotation = capsuleAfterRotation.get_component_property("UnityEngine.Transform", "rotation")
         self.assertNotEqual(initialRotation, finalRotation) 
+
+
+    def test_get_all_enabled_elements(self):
+        alt_elements = self.altdriver.get_all_elements(enabled= True)
+        self.assertIsNotNone(alt_elements)
+        
+        list_of_elements=[]
+        for element in alt_elements:
+            list_of_elements.append(element.name)
+
+        self.assertEqual(22, len(list_of_elements))
+        self.assertTrue("Capsule" in list_of_elements)
+        self.assertTrue("Main Camera" in list_of_elements)
+        self.assertTrue("Directional Light" in list_of_elements)
+        self.assertTrue("Plane" in list_of_elements)
+        self.assertTrue("Canvas" in list_of_elements)
+        self.assertTrue("EventSystem" in list_of_elements)
+        self.assertTrue("AltUnityRunnerPrefab" in list_of_elements)
+        self.assertTrue("CapsuleInfo" in list_of_elements)
+        self.assertTrue("UIButton" in list_of_elements)
+        self.assertTrue("Text" in list_of_elements)
+        self.assertTrue("InputField" in list_of_elements)
+
+    def test_get_all_elements(self):
+        alt_elements = self.altdriver.get_all_elements(enabled= False)
+        self.assertIsNotNone(alt_elements)
+        
+        list_of_elements=[]
+        for element in alt_elements:
+            list_of_elements.append(element.name)
+        
+        self.assertEqual(28, len(list_of_elements))
+        self.assertTrue("Capsule" in list_of_elements)
+        self.assertTrue("Main Camera" in list_of_elements)
+        self.assertTrue("Directional Light" in list_of_elements)
+        self.assertTrue("Plane" in list_of_elements)
+        self.assertTrue("Canvas" in list_of_elements)
+        self.assertTrue("EventSystem" in list_of_elements)
+        self.assertTrue("AltUnityRunnerPrefab" in list_of_elements)
+        self.assertTrue("CapsuleInfo" in list_of_elements)
+        self.assertTrue("UIButton" in list_of_elements)
+        self.assertTrue("Cube" in list_of_elements)
+        self.assertTrue("Camera" in list_of_elements)
+        self.assertTrue("InputField" in list_of_elements)
+
        
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
