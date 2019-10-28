@@ -445,7 +445,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(23, len(list_of_elements))
+        self.assertEqual(22, len(list_of_elements))
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -466,7 +466,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
         
-        self.assertEqual(29, len(list_of_elements))
+        self.assertEqual(28, len(list_of_elements))
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
