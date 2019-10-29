@@ -14,7 +14,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("call action " + actionString + " for object " + altObjectString);
+            AltUnityRunner._altUnityRunner.LogMessage("call action " + actionString + " for object " + altObjectString);
             string response = AltUnityRunner._altUnityRunner.errorMethodNotFoundMessage;
             System.Reflection.MethodInfo methodInfoToBeInvoked;
             AltUnityObjectAction altAction = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObjectAction>(actionString);

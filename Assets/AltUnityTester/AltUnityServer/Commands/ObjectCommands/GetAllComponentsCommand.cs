@@ -11,7 +11,7 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("GetAllComponents");
+            AltUnityRunner._altUnityRunner.LogMessage("GetAllComponents");
             UnityEngine.GameObject altObject = AltUnityRunner.GetGameObject(System.Convert.ToInt32(objectID));
             System.Collections.Generic.List<AltUnityComponent> listComponents = new System.Collections.Generic.List<AltUnityComponent>();
             foreach (var component in altObject.GetComponents<UnityEngine.Component>())

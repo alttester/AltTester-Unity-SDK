@@ -4,6 +4,8 @@ import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class AltBaseCommand {
@@ -37,8 +39,23 @@ public class AltBaseCommand {
         }
 
         receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
+        String[] data=receivedData.split("::altDebug::");
+        receivedData=data[0];
         log.debug("Data received: " + receivedData);
+        if(altBaseSettings.debugEnabled)
+            WriteInDebugFile(data[1]);
         return receivedData;
+    }
+
+    private void WriteInDebugFile(String debugMessages){
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter("LogAltUnityFile", true));
+            writer.append(debugMessages);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     protected void send(String message) {
         log.info("Sending rpc message [{}]", message);

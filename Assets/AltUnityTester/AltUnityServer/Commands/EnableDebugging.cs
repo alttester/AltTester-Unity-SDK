@@ -12,6 +12,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
             AltUnityRunner._altUnityRunner.debugOn = activateDebug;
+            AltUnityRunner._altUnityRunner.LogMessage("Debugging is set to "+activateDebug);
             return "Ok";
         }
     }

@@ -10,12 +10,14 @@ public class AltBaseSettings {
     public String RequestEnd;
     public PrintWriter out;
     public DataInputStream in;
+    public Boolean debugEnabled;
 
-    public AltBaseSettings(Socket socket, String requestSeparator, String requestEnd, PrintWriter out, DataInputStream in) {
+    public AltBaseSettings(Socket socket, String requestSeparator, String requestEnd, PrintWriter out, DataInputStream in,Boolean debugEnabled) {
         this.socket = socket;
         RequestSeparator = requestSeparator;
         RequestEnd = requestEnd;
         this.out = out;
         this.in = in;
+        this.debugEnabled=debugEnabled;
     }
 }
