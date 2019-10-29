@@ -8,11 +8,11 @@ stages:
   # - appium-tests
   - deploy
 
-# cache:
-#   key: ${CI_COMMIT_REF_SLUG}
-#   paths:
-#   - sampleGame.apk
-#   - sampleGame/
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - sampleGame.apk
+  - sampleGame/
   
 # build-apk:
 #     stage: build-android
@@ -79,9 +79,9 @@ stages:
 
 create-unity-package:
     stage: create-package
-    only:
-        refs:
-            - master
+    # only:
+    #     refs:
+    #         - master
     tags:
       - unity
     script:
