@@ -79,9 +79,6 @@ cache:
 
 create-unity-package:
     stage: create-package
-    # only:
-    #     refs:
-    #         - master
     tags:
       - unity
     script:
