@@ -26,3 +26,11 @@ If you find yourself wishing for a feature that doesn’t exist in AltUnityTeste
 
 ## Merge Requests
 
+Simply create a merge request taking in consideration the following:
+
+* Respect the project structure
+* If it is a new feature like a new command try to make it for all three languages(Java, C# and python) and also tests
+* If it is a bugfix then write a test to show that the bug is no longer reproducible
+* Write a description of what you did
+* Target with the merge request: Development branch and not the master branch
+* Assign one of the maintainers to review the merge request

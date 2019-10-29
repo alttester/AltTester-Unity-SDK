@@ -268,7 +268,28 @@ Returns information about every objects loaded in the currently loaded scenes. T
             }
     .. code-tab:: py
     
-        //TODO
+        def test_get_all_elements(self):
+            alt_elements = self.altdriver.get_all_elements(enabled= False)
+            self.assertIsNotNone(alt_elements)
+            
+            list_of_elements=[]
+            for element in alt_elements:
+                list_of_elements.append(element.name)
+            
+            self.assertEqual(28, len(list_of_elements))
+            self.assertTrue("Capsule" in list_of_elements)
+            self.assertTrue("Main Camera" in list_of_elements)
+            self.assertTrue("Directional Light" in list_of_elements)
+            self.assertTrue("Plane" in list_of_elements)
+            self.assertTrue("Canvas" in list_of_elements)
+            self.assertTrue("EventSystem" in list_of_elements)
+            self.assertTrue("AltUnityRunnerPrefab" in list_of_elements)
+            self.assertTrue("CapsuleInfo" in list_of_elements)
+            self.assertTrue("UIButton" in list_of_elements)
+            self.assertTrue("Cube" in list_of_elements)
+            self.assertTrue("Camera" in list_of_elements)
+            self.assertTrue("InputField" in list_of_elements)
+
 
 ```
 
@@ -1243,7 +1264,7 @@ Invoke a method from an existing component of the object.
 | typeOfParamaters      |     string    |   false   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
 | assemblyName  | string | true | name of the assembly where the component is |
 
-###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **AltGetAllElementsParameters** which we use the parameters mentioned. The java example will also show how to build such an object.
+###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltComponentMethodParameters](other/java-builders.html#ltcomponentmethodparameters) which we use the parameters mentioned. The java example will also show how to build such an object.
 
 #### Examples
 
@@ -1299,7 +1320,7 @@ Invoke static methods from your game.
 | typeOfParamaters      |     string    |   false   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
 | assemblyName  | string | true | name of the assembly where the component is |
 
-###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **AltGetAllElementsParameters** which we use the parameters mentioned. The java example will also show how to build such an object.
+###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltCallStaticMethodsParameters](other/java-builders.html#altcallstaticmethodsparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
 
 #### Examples
 
@@ -1499,7 +1520,7 @@ Get all properties from a component attached to an object. This method is implem
 ```
 
 
-### Command: GetComponentPropery
+### Command: GetComponentProperty
 
 #### Description:
 
@@ -1513,7 +1534,7 @@ Get the value of a property from one of the component of the object.
 | propertyName      |     string    |   false   |  name of the property of which value you want |
 | assemblyName  | string | true | name of the assembly where the component is |
 
-###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **AltGetAllElementsParameters** which we use the parameters mentioned. The java example will also show how to build such an object.
+###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltGetComponentPropertyParameters](other/java-builders.html#altgetcomponentpropertyparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
 
 #### Examples
 
