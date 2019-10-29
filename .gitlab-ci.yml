@@ -1,7 +1,7 @@
 stages:
   # - build-android
   # - android-tests
-  # - create-package
+  - create-package
   # - build-ios
   # - ios-tests
   - docs
@@ -77,25 +77,24 @@ stages:
 #         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
 #         - mvn test
 
-# create-unity-package:
-#     stage: create-package
-#     only:
-#         refs:
-#             - master
-
-#     tags:
-#       - unity
-#     script:
-#       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
-#       - mkdir -p public/${CI_COMMIT_REF_NAME} || true
-#       - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
-#       - cd public/${CI_COMMIT_REF_NAME}/
-#       - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
-#       - ls
-#     artifacts:
-#       when: always
-#       paths:
-#         - public
+create-unity-package:
+    stage: create-package
+    only:
+        refs:
+            - master
+    tags:
+      - unity
+    script:
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
+      - mkdir -p public/${CI_COMMIT_REF_NAME} || true
+      - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
+      - cd public/${CI_COMMIT_REF_NAME}/
+      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
+      - ls
+    artifacts:
+      when: always
+      paths:
+        - public
 
 
 # # build-ipa:
@@ -216,6 +215,7 @@ pages:
     - unity
   dependencies:
     - docs
+    - create-unity-package
   artifacts:
     paths:
     - public

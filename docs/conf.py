@@ -19,8 +19,8 @@
 
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
-project = 'TestSphinx'
-copyright = '2019, Altom'
+project = 'AltUnityTester'
+copyright = '2019, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
