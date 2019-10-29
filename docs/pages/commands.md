@@ -1,7 +1,7 @@
 # Commands
 ## FindObjects
 
-### Command: FindObject
+###  FindObject
 
 #### Description:
 
@@ -57,7 +57,7 @@ Find the first object in the scene that respects the given criteria. Check [by](
         self.assertEquals("Plane", altElement.name)
 ```
 
-### Command: FindObjectsWhichContains
+###  FindObjectsWhichContains
 
 #### Description:
 
@@ -136,7 +136,7 @@ Find all objects in the scene that respects the given criteria. Check [By](other
                 stars = self.altdriver.find_objects_which_contains(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 ```
-### Command: FindObjects
+###  FindObjects
 
 #### Description:
 
@@ -198,7 +198,7 @@ Find all objects in the scene that respects the given criteria. Check [By](other
 
 ```
 
-### Command: GetAllElements
+###  GetAllElements
 
 #### Description:
 
@@ -293,7 +293,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 ```
 
-### Command: WaitForObject
+###  WaitForObject
 
 #### Description:
 
@@ -345,7 +345,7 @@ Wait until there is no longer any objects that respect the given criteria or tim
         //TODO
 
 ```
-### Command: WaitForObjectWhichContains
+###  WaitForObjectWhichContains
 
 #### Description:
 
@@ -388,7 +388,7 @@ Wait until it finds an object that respect the given criteria or times run out a
     
         //TODO
 ```
-### Command: WaitForObjectWithText
+###  WaitForObjectWithText
 
 #### Description:
 
@@ -453,7 +453,7 @@ Wait until it finds an object that respect the given criteria and it has the tex
                 self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!','',1)
 
 ```
-### Command: WaitForObject
+###  WaitForObject
 
 #### Description:
 
@@ -525,7 +525,7 @@ Wait until finds an object in the scene that respect the given criteria or times
 
 ## InputActions 
 
-### Command: MoveMouseAndWait
+###  MoveMouseAndWait
 
 #### Description:
 
@@ -611,7 +611,7 @@ Simulate mouse movement in your game. This command will wait for the movement to
                 self.assertEqual(3, len(stars))
 
 ```
-### Command: MoveMouse
+###  MoveMouse
 
 #### Description:
 
@@ -695,7 +695,7 @@ Simulate mouse movement in your game. This command does not wait for the movemen
                 self.assertEqual(3, len(stars))
 
 ```
-### Command: PressKeyAndWait
+###  PressKeyAndWait
 
 #### Description:
 
@@ -782,7 +782,7 @@ Simulate key press action in your game. This command waist for the action to fin
                 self.assertEqual(3, len(stars))
 
 ```
-### Command: PressKey
+###  PressKey
 
 #### Description:
 
@@ -869,7 +869,7 @@ Simulate key press action in your game. This command does not wait for the actio
                 self.assertEqual(3, len(stars))
 
 ```
-### Command: ScrollMouseAndWait
+###  ScrollMouseAndWait
 
 #### Description:
 
@@ -897,7 +897,7 @@ Simulate scroll mouse action in your game. This command waist for the action to 
     .. code-tab:: py
         //TODO
 ```
-### Command: ScrollMouse
+###  ScrollMouse
 
 #### Description:
 
@@ -926,7 +926,7 @@ Simulate scroll mouse action in your game. This command does not wait for the ac
         //TODO
 ```
 
-### Command: SwipeAndWait
+###  SwipeAndWait
 
 #### Description:
 
@@ -1040,7 +1040,7 @@ Simulate a swipe action in your game. This command waist for the action to finis
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
 ```
-### Command: Swipe
+###  Swipe
 
 #### Description:
 
@@ -1163,7 +1163,7 @@ Simulate a swipe action in your game. This command does not wait for the action 
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
 ```
-### Command: TapScreen(c#) / TapAtCoordinates(python/java)
+###  TapScreen(c#) / TapAtCoordinates(python/java)
 
 #### Description:
 
@@ -1215,7 +1215,7 @@ Simulate a tap action on the screen at the given coordinates.
 
 ```
 
-### Command: Tilt
+###  Tilt
 
 #### Description:
 
@@ -1248,7 +1248,7 @@ Simulates device rotation action in your game.
 
 ```
 ## ObjectCommands
-### Command: CallComponentMethod
+###  CallComponentMethod
 
 #### Description:
 
@@ -1304,7 +1304,7 @@ Invoke a method from an existing component of the object.
 
 ```
 
-### Command: CallStaticMethod
+###  CallStaticMethod
 
 #### Description:
 
@@ -1356,7 +1356,7 @@ Invoke static methods from your game.
 
 ```
 
-### Command: ClickEvent
+###  ClickEvent
 
 #### Description:
 
@@ -1406,7 +1406,7 @@ Simulate a click on the object. It will click the object even if the object is n
 ```
 
 
-### Command: DragObject
+###  DragObject
 
 #### Description:
 
@@ -1438,7 +1438,7 @@ Drag an object to a certain position on the screen
 
 ```
 
-### Command: DropObject
+###  DropObject
 
 #### Description:
 
@@ -1471,7 +1471,7 @@ Drop an object to a certain position on the screen
 ```
 
 
-### Command: GetAllComponents(C#)
+###  GetAllComponents(C#)
 
 #### Description:
 
@@ -1486,7 +1486,7 @@ Get all components attached to an object
         //TODO
 ```
 
-### Command: GetAllMethods(C#)
+###  GetAllMethods(C#)
 
 #### Description:
 
@@ -1503,7 +1503,7 @@ Get all methods from a component attached to an object
 ```
 
 
-### Command: GetAllProperties(C#)
+###  GetAllProperties(C#)
 
 #### Description:
 
@@ -1520,7 +1520,7 @@ Get all properties from a component attached to an object. This method is implem
 ```
 
 
-### Command: GetComponentProperty
+###  GetComponentProperty
 
 #### Description:
 
@@ -1576,7 +1576,7 @@ Get the value of a property from one of the component of the object.
 ```
 
 
-### Command: GetText
+###  GetText
 
 #### Description:
 
@@ -1632,7 +1632,7 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 ```
 
 
-### Command: PointerDownFromObject
+###  PointerDownFromObject
 
 #### Description:
 
@@ -1655,7 +1655,7 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 ```
 
 
-### Command: PointerUpFromObject
+###  PointerUpFromObject
 
 #### Description:
 
@@ -1678,7 +1678,7 @@ Simulates pointer up action on the object
 ```
 
 ## UnityCommands 
-### Command: DeleteKeyPlayerPref  
+###  DeleteKeyPlayerPref  
 
 #### Description:
 
@@ -1743,7 +1743,7 @@ Delete from games player pref a key
 ```
 
 
-### Command: DeletePlayerPref
+###  DeletePlayerPref
 
 #### Description:
 
@@ -1792,7 +1792,7 @@ Delete entire player pref of the game
               self.assertEqual(int(value), 1)
 ```
 
-### Command: GetAllCameras(C#)
+###  GetAllCameras(C#)
 
 #### Description:
 
@@ -1816,7 +1816,7 @@ Return all cameras that are in the scene. This method is only implemented in C#
        //TODO
     
 ```
-### Command: GetAllScenes
+###  GetAllScenes
 
 #### Description:
 
@@ -1841,7 +1841,7 @@ Return list of scene in the game
         //TODO
 ```
 
-### Command: GetCurrentScene
+###  GetCurrentScene
 
 #### Description:
 

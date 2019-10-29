@@ -1,72 +1,72 @@
 # Java builders
 
 ## AltCallStaticMethodsParameters
-### Usage
+#### Usage
 This builder is used for following commands:
 *  callStaticMethods
-### Methods
+#### Methods
 
 * Builder(By,String)
 * withAssembly(String)
 * withTypeOfParameters(String)
 * build()
 
-### Example
+#### Example
  ```java
  AltCallStaticMethodsParameters altCallStaticMethodsParameters=new AltCallStaticMethodsParameters.Builder(typeName,methodName,parameters).withAssembly(assembly).withTypeOfParameters(typeOfParameters).build();
  ```
  
 ## AltFindObjectParameters
-### Usage
+#### Usage
 This builder is used for following commands:
 * findObject
 * findObjectWhichContains
 * findObjects
 * findObjectsWhichContains
 
-### Methods
+#### Methods
 
 * Builder(By,String)
 * isEnabled(boolean)
 * withCamera(String)
 * build()
 
-### Example
+#### Example
  ```java
  AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by,value).isEnabled(enabled).withCamera(cameraName).build();
  ```
 ## AltGetAllElementsParameters
-### Usage
+#### Usage
 This builder is used for following commands:
 *  getAllElements
-### Methods
+#### Methods
 
 * Builder()
 * isEnabled(boolean)
 * withCamera(String)
 * build()
 
-### Example
+#### Example
  ```java
  AltGetAllElementsParameters altGetAllElementsParameters=new AltGetAllElementsParameters.Builder().withCamera(cameraName).isEnabled(enabled).build();
  ```
   
  
 ## AltWaitForObjectsParameters
-### Usage
+#### Usage
 This builder is used for following commands:
 * waitForObject
 * waitForObjectToNotBePresent
 * waitForObjectWhichContains
 
-### Methods
+#### Methods
 
 * Builder(AltFindObjectParameters)
 * withTimeout(double)
 * withInterval(double)
 * build()
 
-### Example
+#### Example
  ```java
  AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(by,value).withCamera(cameraName).isEnabled(enabled).build();
  AltWaitForObjectsParameters altWaitForObjectsParameters=new AltWaitForObjectsParameters.Builder(altFindObjectsParameters).withInterval(interval).withTimeout(timeout).build();
@@ -74,18 +74,18 @@ This builder is used for following commands:
 
 ## AltWaitForObjectWithTextParameters
 
-### Usage
+#### Usage
 This builder is used for following commands:
 * waitForObjectWithText
 
-### Methods
+#### Methods
 
 * Builder(AltFindObjectsParameters,String)
 * withTimeout(double)
 * withInterval(double)
 * build()
 
-### Example
+#### Example
  ```java
  AltFindObjectsParameters altFindElementsParameters=new AltFindObjectsParameters.Builder(by,value).isEnabled(enabled).withCamera(cameraName).build();
  AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters=new AltWaitForObjectWithTextParameters.Builder(altFindElementsParameters,text).withInterval(interval).withTimeout(timeout).build();
@@ -93,64 +93,64 @@ This builder is used for following commands:
 
 ## AltMoveMouseParameters
 
-### Usage
+#### Usage
 This builder is used for following commands:
 * moveMouse
 * moveMouseAndWait
-### Methods
+#### Methods
 
 * Builder(int,int)
 * withDuration(float)
 * build()
 
-### Example
+#### Example
  ```java
  AltMoveMouseParameters altMoveMouseParameters=new AltMoveMouseParameters.Builder(x, y).withDuration(duration).build();
  ```
 
 ## AltPressKeyParameters
 
-### Usage
+#### Usage
 This builder is used for following commands:
 * pressKey
 * pressKeyAndWait
 
-### Methods
+#### Methods
 
 * Builder(String)
 * withDuration(float)
 * withPower(float)
 * build()
 
-### Example
+#### Example
  ```java
   AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder(keyName).withPower(power).withDuration(duration).build();
  ```
 
 ## AltScrollMouseParameters
 
-### Usage
+#### Usage
 This builder is used for following commands:
 * scrollMouse
 * scrollMouseAndWait
 
-### Methods
+#### Methods
 
 * Builder()
 * withDuration(boolean)
 * withSpeed(String)
 * build()
 
-### Example
+#### Example
  ```java
  AltMoveMouseParameters altMoveMouseParameters=new AltMoveMouseParameters.Builder(x,y).withDuration(duration).build();
  ```
 
 ## AltComponentMethodParameters
-### Usage
+#### Usage
 This builder is used for following commands:
 * callComponentMethod
-### Methods
+#### Methods
 
 * Builder(String.String,String)
 * withAssembly(String)
@@ -158,54 +158,54 @@ This builder is used for following commands:
 * build()
 
 
-### Example
+#### Example
  ```java
  AltCallComponentMethodParameters altCallComponentMethodParameters=new AltCallComponentMethodParameters.Builder(componentName,methodName,parameters).withTypeOfParameters(typeOfParameters).withAssembly(assemblyName).build();
 
  ```
 
 ## AltGetComponentPropertyParameters
-### Usage
+#### Usage
 This builder is used for following commands:
 * getComponentProperty
-### Methods
+#### Methods
 
 * Builder(String,String)
 * withAssembly(String)
 * build()
 
-### Example
+#### Example
  ```java
  AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters.Builder(componentName,propertyName).withAssembly(assemblyName).build();
  ```
 
 ## AltSetComponentPropertyParameters
-### Usage
+#### Usage
 This builder is used for following commands:
 * setComponentProperty
-### Methods
+#### Methods
 
 * Builder(String.String,String)
 * withAssembly(String)
 * build()
 
-### Example
+#### Example
  ```java
  AltSetComponentPropertyParameters altSetComponentPropertyParameters=new AltSetComponentPropertyParameters.Builder(componentName,propertyName,value).withAssembly(assemblyName).build();
  ```
 
 ## AltWaitForCurrentSceneToBeParameters
-### Usage
+#### Usage
 This builder is used for following commands:
 * waitForCurrentSceneToBe
-### Methods
+#### Methods
 
 * Builder(String)
 * withTimeout(double)
 * withInterval(double)
 * build()
 
-### Example
+#### Example
  ```java
  AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters=new AltWaitForCurrentSceneToBeParameters.Builder(sceneName).withInterval(interval).withTimeout(timeout).build();
  ```
