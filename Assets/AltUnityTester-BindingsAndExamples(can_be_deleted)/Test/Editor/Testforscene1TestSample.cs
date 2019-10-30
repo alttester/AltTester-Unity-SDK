@@ -83,10 +83,14 @@ public class TestForScene1TestSample
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
         
-        var listOfElements = string.Join("; ", altElements.Select(e => e.name).ToArray());
+        string listOfElements="";
+        foreach(var element in altElements){
+            listOfElements=element.name+"; ";
+        }
+
         Debug.Log(listOfElements);
 
-        Assert.AreEqual(22, altElements.Count);
+        Assert.AreEqual(25, altElements.Count,listOfElements);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -105,10 +109,14 @@ public class TestForScene1TestSample
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);
         
-        var listOfElements = string.Join("; ", altElements.Select(e => e.name).ToArray());
+        string listOfElements="";
+        foreach(var element in altElements){
+            listOfElements=element.name+"; ";
+        }
+
         Debug.Log(listOfElements);
         
-        Assert.AreEqual(28, altElements.Count);
+        Assert.AreEqual(31, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -706,13 +714,13 @@ public class TestForScene1TestSample
     public void TestFindObjectsByLayer()
     {
         var altElements = altUnityDriver.FindObjects(By.LAYER,"Default");
-        Assert.AreEqual(8, altElements.Count);
+        Assert.AreEqual(11, altElements.Count);
     }
     [Test]
     public void TestFindObjectsByContainName()
     {
         var altElements = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Ca)]");
-        Assert.AreEqual(7, altElements.Count);
+        Assert.AreEqual(9, altElements.Count);
         foreach (var altElement in altElements)
         {
             Assert.True(altElement.name.Contains("Ca"));
