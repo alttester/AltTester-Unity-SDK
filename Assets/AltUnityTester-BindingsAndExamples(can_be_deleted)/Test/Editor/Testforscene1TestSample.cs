@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
@@ -85,7 +85,7 @@ public class TestForScene1TestSample
         
         string listOfElements="";
         foreach(var element in altElements){
-            listOfElements=element.name+"; ";
+            listOfElements+=element.name+"; ";
         }
 
         Debug.Log(listOfElements);
@@ -111,7 +111,7 @@ public class TestForScene1TestSample
         
         string listOfElements="";
         foreach(var element in altElements){
-            listOfElements=element.name+"; ";
+            listOfElements+=element.name+"; ";
         }
 
         Debug.Log(listOfElements);
