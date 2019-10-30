@@ -83,10 +83,7 @@ public class TestForScene1TestSample
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
         
-        string listOfElements="";
-        foreach(var element in altElements){
-            listOfElements=element.name+"; ";
-        }
+        var listOfElements = string.Join("; ", altElements.Select(e => e.name).ToArray());
         Debug.Log(listOfElements);
 
         Assert.AreEqual(22, altElements.Count);
@@ -108,11 +105,7 @@ public class TestForScene1TestSample
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);
         
-        string listOfElements="";
-        foreach(var element in altElements){
-            listOfElements=element.name+"; ";
-        }
-
+        var listOfElements = string.Join("; ", altElements.Select(e => e.name).ToArray());
         Debug.Log(listOfElements);
         
         Assert.AreEqual(28, altElements.Count);
