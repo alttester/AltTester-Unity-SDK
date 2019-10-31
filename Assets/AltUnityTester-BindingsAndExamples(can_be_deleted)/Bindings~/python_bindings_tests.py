@@ -480,6 +480,17 @@ class PythonTests(unittest.TestCase):
         self.assertTrue("Camera" in list_of_elements)
         self.assertTrue("InputField" in list_of_elements)
 
+    def test_find_object_which_contains(self):
+        altElement = self.altdriver.find_object_which_contains(By.NAME, "Event");
+        self.assertEqual("EventSystem", altElement.name)
+
+    def test_find_with_find_object_which_contains_not_existing_object(self):
+        try:
+            altElement = self.altdriver.find_object_which_contains(By.NAME, "EventNonExisting");
+            self.assertEqual(False,True)
+        except NotFoundException as e:
+            self.assertEqual(e.args[0],"error:notFound")
+
        
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

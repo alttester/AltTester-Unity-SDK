@@ -395,4 +395,24 @@ public class TestsSampleScene1OldSearch {
         assertEquals("6",capsuleInfo.getText());
     }
     
+    @Test
+    public void TestFindObjectWhichContains()
+    {
+        AltUnityObject altElement = altUnityDriver.findObjectWhichContains(AltUnityDriver.By.NAME, "Event");
+        assertEquals("EventSystem", altElement.name);
+    }
+    @Test
+    public void TestFindWithFindObjectWhichContainsNotExistingObject()
+    {
+        try
+        {
+            AltUnityObject altElement = altUnityDriver.findObjectWhichContains(AltUnityDriver.By.NAME, "EventNonExisting");
+            assertFalse("Error should have been thrown",true);
+        }
+        catch(NotFoundException exception)
+        {
+            assertEquals(exception.getMessage(), "error:notFound");
+        }
+    }
+    
 }

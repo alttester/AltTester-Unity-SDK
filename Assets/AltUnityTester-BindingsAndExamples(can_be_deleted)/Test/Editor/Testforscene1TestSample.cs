@@ -185,7 +185,7 @@ public class TestForScene1TestSample
         Assert.NotNull(altElement);
         Assert.AreEqual(altElement.name, "Directional Light");
     }
-
+   
 
     [Test]
     public void TestWaitForElementWithText()
@@ -765,7 +765,25 @@ public class TestForScene1TestSample
         Assert.AreEqual("Canvas", altElement.name);
         
     }
-
+    [Test]
+    public void TestFindObjectWhichContains()
+    {
+        var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
+        Assert.AreEqual("EventSystem", altElement.name);
+    }
+    [Test]
+    public void TestFindWithFindObjectWhichContainsNotExistingObject()
+    {
+        try
+        {
+            var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "EventNonExisting");
+            Assert.Fail("Error should have been thrown");
+        }
+        catch(NotFoundException exception)
+        {
+            Assert.AreEqual(exception.Message, "error:notFound");
+        }
+    }
 
 
 }

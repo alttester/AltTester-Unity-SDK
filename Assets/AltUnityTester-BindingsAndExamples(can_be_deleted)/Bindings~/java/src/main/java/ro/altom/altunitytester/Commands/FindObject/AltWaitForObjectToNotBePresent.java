@@ -14,7 +14,7 @@ public class AltWaitForObjectToNotBePresent extends AltBaseFindObject {
         double time = 0;
         AltUnityObject altElement = null;
         while (time <= altWaitForObjectsParameters.getTimeout()) {
-            log.debug("Waiting for element " + altElement.name + " not to be present");
+            log.debug("Waiting for element " + altWaitForObjectsParameters.getAltFindObjectsParameters().getValue() + " not to be present");
             try {
                 altElement = new AltFindObject(altBaseSettings,altWaitForObjectsParameters.getAltFindObjectsParameters()).Execute();
                 if (altElement == null) {
