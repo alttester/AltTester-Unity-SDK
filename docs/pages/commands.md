@@ -150,14 +150,28 @@ Find the first object in the scene that respects the given criteria. Check [by](
 .. tabs::
 
     .. code-tab:: c#
-       //TODO
+       [Test]
+        public void TestFindObjectWhichContains()
+        {
+            var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
+            Assert.AreEqual("EventSystem", altElement.name);
+        }
+
 
     .. code-tab:: java
-      //TODO
+        @Test
+        public void TestFindObjectWhichContains()
+        {
+            AltUnityObject altElement = altUnityDriver.findObjectWhichContains(AltUnityDriver.By.NAME, "Event");
+            assertEquals("EventSystem", altElement.name);
+        }
 
 
     .. code-tab:: py
-        //TODO
+       def test_find_object_which_contains(self):
+        altElement = self.altdriver.find_object_which_contains(By.NAME, "Event");
+        self.assertEqual("EventSystem", altElement.name)
+
 ```
 
 
