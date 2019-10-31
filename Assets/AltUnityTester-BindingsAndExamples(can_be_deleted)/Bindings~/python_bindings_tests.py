@@ -340,7 +340,7 @@ class PythonTests(unittest.TestCase):
     def test_find_objects_by_contains_name(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElements = self.altdriver.find_objects_which_contains(By.NAME,"Ca")
-        self.assertEquals(11, len(altElements))
+        self.assertEquals(9, len(altElements),altElements)
         for altElement in altElements:
             self.assertTrue("Ca" in altElement.name)     
     
