@@ -14,7 +14,7 @@ public class AltWaitForObject extends AltBaseFindObject{
         double time = 0;
         AltUnityObject altElement = null;
         while (time < altWaitForObjectsParameters.getTimeout()) {
-            log.debug("Waiting for element where name contains " + altElement.name + "....");
+            log.debug("Waiting for element where name contains " + altWaitForObjectsParameters.getAltFindObjectsParameters() + "....");
             try {
                 altElement = new AltFindObject(altBaseSettings,altWaitForObjectsParameters.getAltFindObjectsParameters()).Execute();
                 if (altElement != null) {
