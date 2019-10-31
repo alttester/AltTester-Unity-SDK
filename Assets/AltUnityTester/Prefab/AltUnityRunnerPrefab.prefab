@@ -220,7 +220,7 @@ MonoBehaviour:
   AltUnityIcon: {fileID: 114778842740058800}
   AltUnityPopUpText: {fileID: 114239400658104300}
   AltUnityIconPressed: 0
-  _showInputs: 1
+  _showInputs: 0
   _inputsVisualiser: {fileID: 114401516753921902}
   destroyHightlight: 0
   SocketPortNumber: 13000

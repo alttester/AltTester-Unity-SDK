@@ -340,7 +340,7 @@ class PythonTests(unittest.TestCase):
     def test_find_objects_by_contains_name(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElements = self.altdriver.find_objects_which_contains(By.NAME,"Ca")
-        self.assertEquals(9, len(altElements))
+        self.assertEquals(11, len(altElements))
         for altElement in altElements:
             self.assertTrue("Ca" in altElement.name)     
     
@@ -445,7 +445,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(26, len(list_of_elements))
+        self.assertEqual(25, len(list_of_elements),list_of_elements)
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -466,7 +466,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
         
-        self.assertEqual(32, len(list_of_elements))
+        self.assertEqual(31, len(list_of_elements))
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
