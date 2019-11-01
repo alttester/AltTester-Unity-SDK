@@ -1,0 +1,265 @@
+$navMenuWidth: 20%;
+body{
+    background-color: #333333;
+    color: #CCCCCC;
+}
+a{
+    color:#fc0;
+    padding: 20px,20px;
+    text-decoration: none; 
+
+}
+a:hover{
+    color:#f90;
+}
+nav{
+    background-color: #2B2b2b;
+    height: 100%;
+    width: $navMenuWidth;
+    position: fixed;
+    z-index: 900;
+    top: 0;
+    left: 0;
+    padding-top: 60px;
+    overflow-x: auto;
+    min-width: 200px;
+    border-right-style: solid;
+    border-color: #2D2D2D;
+    
+}
+nav a{
+    font-size: 1rem;
+    padding: 20px;
+    color:#fc0;
+    display: block;
+    
+}
+.sub{
+    font-size: 1.5rem;
+    padding: 20px 20px 20px 40px;
+    color:#fc0;
+    display: block;
+}
+h1{
+    font-size: 4em;
+    font-weight: bold;
+    font-style: oblique;
+    color:#BCD2EE;
+}
+h2{
+    font-size: 2rem;
+    font-weight: bold;
+    color:#EEEFA8;
+}
+h3{
+    font-size: 2rem;
+    font-weight: bold
+}
+h4{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+h6{
+    background-color: rgb(30, 34, 39);
+    font-size: 1rem;
+    font-weight: 100;
+    color:rgb(214, 201, 149);
+    padding: 5px;
+    box-shadow: #569CB3;
+}
+p,li{
+    font-size: 1rem;
+    font-weight: 10;
+}
+ul ul li{
+    font-size: 1rem;
+    font-weight: 10;
+}
+.page-content{
+    margin-left: $navMenuWidth; 
+    padding: 5%;
+}
+
+div.highlight{
+    box-shadow: inset 0 1px 10px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5);
+    color:#fff;
+    background-color: #2B2b2b;
+    overflow: auto;
+    padding: 20px;
+    font-size: 1.5em;
+}
+
+//C# element color
+.language-c\# code .n{
+    color:#98D9F0
+}
+.language-c\# code .m{
+    color:#D0D3A6
+}
+.language-c\# code .p{
+    color:rgb(255, 255, 255)
+}
+.language-c\# code .nf{
+    color:#D0D3A6
+}
+.language-c\# code .k{
+    color:#569CD6
+}
+.language-c\# code .s{
+    color:#CE9178
+}
+.language-c\# code .kt{
+    color:#569CD6
+}
+.language-c\# code .cp{
+    color:#98D9F0
+}
+
+//python element color
+.language-python  code .n{
+    color:white;
+}
+
+.language-python  code .nb{
+    color:#D0D3A6
+}
+
+.language-python  code .p{
+    color:white;
+}
+
+.language-python  code .k{
+    color:#C586C0;
+}
+
+.language-python  code .s{
+    color:#CE9178;
+}
+
+.language-python  code .mi{
+    color:#B5CEA8;
+}
+
+//java element color
+
+.language-java code .kd{
+    color:#569CB3;
+}
+.language-java code .nf{
+    color:#D0D3A6
+}
+.language-java code .k{
+    color:#C586C0;
+}
+.language-java code .nc{
+    color:#DCDCAA;
+}
+.language-java code .s{
+    color:#CE9178;
+}
+.language-java code .na{
+    color:#DCDCAA;
+}
+
+// language content
+
+.language-btn{
+    background-color: rgb(77, 66, 73);
+    color: rgb(190, 190, 185);
+    height: 40px;
+    width: 100px;
+    border: rgb(77, 66, 73);
+}
+.language-btn.active{
+    background-color: rgb(79, 73, 163);
+    color: rgb(197, 197, 195);
+}
+
+
+.languageContent{
+    display: none;
+}
+//
+body {
+    font-family: "Lato", sans-serif;
+  }
+  
+  
+  /* Style the sidenav links and the dropdown button */
+  .sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #818181;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+  }
+  .sidenav a{
+      font-style: italic;
+      color: #818181;
+  }
+  .dropdown-btn{
+      font-weight: bold;
+      color: #999898;
+  }
+
+  
+  /* Add an active class to the active dropdown button */
+//   .active {
+//     background-color: rgb(120, 136, 120);
+//     color: white;
+//   }
+  
+  /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+  .dropdown-container {
+    display: none;
+    // background-color: #262626;
+    padding-left: 10px;
+    border-left-style: solid;
+    border-left-color: #999898
+
+  }
+//   .dropdown-container .dropdown-container {
+//     display: none;
+//     background-color: #141414;
+//     padding-left: 10px;
+//   }
+  
+  /* Optional: Style the caret down icon */
+  .fa-caret-down {
+    float: right;
+    padding-right: 8px;
+  }
+  
+//   /* Some media queries for responsiveness */
+//   @media screen and (max-height: 450px) {
+//     .sidenav {padding-top: 15px;}
+//     .sidenav a {font-size: 18px;}
+//   }
+
+
+table{
+    background: #2B2b2b;
+    border-color: #2B2b2b;
+    border-style: solid;
+}
+table thead{
+    text-align: center;
+    background-color: rgb(58, 57, 57);
+
+}
+table tbody tr:nth-child(even){
+    background-color: rgb(58, 57, 57);
+}
+table tbody tr:nth-child(odd){
+    background-color: rgb(73, 68, 68);
+}
+table td,th{
+    padding: 5px;
+}
