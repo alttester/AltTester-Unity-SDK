@@ -335,12 +335,12 @@ class PythonTests(unittest.TestCase):
     def test_find_objects_by_layer(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElements = self.altdriver.find_objects(By.LAYER,"Default")
-        self.assertEquals(8, len(altElements))
+        self.assertEquals(11, len(altElements))
     
     def test_find_objects_by_contains_name(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElements = self.altdriver.find_objects_which_contains(By.NAME,"Ca")
-        self.assertEquals(7, len(altElements))
+        self.assertEquals(9, len(altElements),altElements)
         for altElement in altElements:
             self.assertTrue("Ca" in altElement.name)     
     
@@ -435,6 +435,62 @@ class PythonTests(unittest.TestCase):
         capsuleAfterRotation = self.altdriver.find_object(By.NAME,"Capsule")
         finalRotation = capsuleAfterRotation.get_component_property("UnityEngine.Transform", "rotation")
         self.assertNotEqual(initialRotation, finalRotation) 
+
+
+    def test_get_all_enabled_elements(self):
+        alt_elements = self.altdriver.get_all_elements(enabled= True)
+        self.assertIsNotNone(alt_elements)
+        
+        list_of_elements=[]
+        for element in alt_elements:
+            list_of_elements.append(element.name)
+
+        self.assertEqual(25, len(list_of_elements),list_of_elements)
+        self.assertTrue("Capsule" in list_of_elements)
+        self.assertTrue("Main Camera" in list_of_elements)
+        self.assertTrue("Directional Light" in list_of_elements)
+        self.assertTrue("Plane" in list_of_elements)
+        self.assertTrue("Canvas" in list_of_elements)
+        self.assertTrue("EventSystem" in list_of_elements)
+        self.assertTrue("AltUnityRunnerPrefab" in list_of_elements)
+        self.assertTrue("CapsuleInfo" in list_of_elements)
+        self.assertTrue("UIButton" in list_of_elements)
+        self.assertTrue("Text" in list_of_elements)
+        self.assertTrue("InputField" in list_of_elements)
+
+    def test_get_all_elements(self):
+        alt_elements = self.altdriver.get_all_elements(enabled= False)
+        self.assertIsNotNone(alt_elements)
+        
+        list_of_elements=[]
+        for element in alt_elements:
+            list_of_elements.append(element.name)
+        
+        self.assertEqual(31, len(list_of_elements))
+        self.assertTrue("Capsule" in list_of_elements)
+        self.assertTrue("Main Camera" in list_of_elements)
+        self.assertTrue("Directional Light" in list_of_elements)
+        self.assertTrue("Plane" in list_of_elements)
+        self.assertTrue("Canvas" in list_of_elements)
+        self.assertTrue("EventSystem" in list_of_elements)
+        self.assertTrue("AltUnityRunnerPrefab" in list_of_elements)
+        self.assertTrue("CapsuleInfo" in list_of_elements)
+        self.assertTrue("UIButton" in list_of_elements)
+        self.assertTrue("Cube" in list_of_elements)
+        self.assertTrue("Camera" in list_of_elements)
+        self.assertTrue("InputField" in list_of_elements)
+
+    def test_find_object_which_contains(self):
+        altElement = self.altdriver.find_object_which_contains(By.NAME, "Event");
+        self.assertEqual("EventSystem", altElement.name)
+
+    def test_find_with_find_object_which_contains_not_existing_object(self):
+        try:
+            altElement = self.altdriver.find_object_which_contains(By.NAME, "EventNonExisting");
+            self.assertEqual(False,True)
+        except NotFoundException as e:
+            self.assertEqual(e.args[0],"error:notFound")
+
        
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

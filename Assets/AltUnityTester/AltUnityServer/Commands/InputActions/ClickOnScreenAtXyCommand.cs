@@ -14,9 +14,11 @@
         public override string Execute()
         {
             AltUnityRunner._altUnityRunner.LogMessage("Screen tapped at X:" + x + " Y:" + y);
+            var clickPosition = new UnityEngine.Vector2(float.Parse(x), float.Parse(y));
+            AltUnityRunner._altUnityRunner.ShowClick(clickPosition);
             string response =  AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             MockUpPointerInputModule mockUp = new MockUpPointerInputModule();
-            UnityEngine.Touch touch = new UnityEngine.Touch { position = new UnityEngine.Vector2(float.Parse(x), float.Parse(y)), phase = UnityEngine.TouchPhase.Began };
+            UnityEngine.Touch touch = new UnityEngine.Touch { position = clickPosition, phase = UnityEngine.TouchPhase.Began };
             var pointerEventData = mockUp.ExecuteTouchEvent(touch);
             if (pointerEventData.pointerPress == null &&
                 pointerEventData.pointerEnter == null &&

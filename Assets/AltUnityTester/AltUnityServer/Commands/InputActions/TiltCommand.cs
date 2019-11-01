@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class TiltCommand:Command
     {
         UnityEngine.Vector3 acceleration;
 
-        public TiltCommand(Vector3 acceleration)
+        public TiltCommand(UnityEngine.Vector3 acceleration)
         {
             this.acceleration = acceleration;
         }

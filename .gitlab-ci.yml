@@ -1,11 +1,12 @@
 stages:
-  - build-android
-  - android-tests
-  - create-package
-  - build-ios
-  - ios-tests
-  - appium-tests
-  - deploy
+    - build-android
+    - android-tests
+    - create-package
+    - build-ios
+    - ios-tests
+    - docs
+    - appium-tests
+    - deploy
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -20,7 +21,7 @@ build-apk:
     script:
     - adb uninstall fi.altom.altunitytester || true
     # - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
-    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
     - ls 
     artifacts:
       when: always
@@ -81,7 +82,6 @@ create-unity-package:
     only:
         refs:
             - master
-
     tags:
       - unity
     script:
@@ -177,18 +177,38 @@ deploy-altunitytester-python:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - python setup.py sdist upload -r pypi
 
-pages:
-    stage: deploy
-    only:
+
+
+docs:
+  stage: docs
+  only:
         refs:
             - master
-    dependencies:
-      - create-unity-package
-    script:
-      - echo Pages deploy done
-    tags:
-        - unity
-    artifacts:
-        paths:
-            - public
-        expire_in: 30 days
+  artifacts:
+    paths:
+      - documentation
+  tags:
+    - unity
+  script:
+    - cd docs
+    - virtualenv altunitytests
+    - source altunitytests/bin/activate
+    - python3 -m pip install -r requirements.txt
+    - make html
+    - cp -r _build/html ../documentation
+
+pages:
+  stage: deploy
+  only:
+        refs:
+            - master
+  tags:
+    - unity
+  dependencies:
+    - docs
+    - create-unity-package
+  artifacts:
+    paths:
+    - public
+  script:
+    - cp -r documentation/ public/
