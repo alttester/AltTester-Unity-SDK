@@ -27,15 +27,16 @@ public class AltBaseCommand
         {
             string[] start = new string[] { "altstart::" };
             string[] end = new string[] { "::altend" };
-            string[] debug = new string[] { "::altDebug::" };
+            string[] startLogMessage = new string[] { "::altLog::" };
             data = data.Split(start, System.StringSplitOptions.None)[1].Split(end, System.StringSplitOptions.None)[0];
-            var splittedString = data.Split(debug, System.StringSplitOptions.None);
+            var splittedString = data.Split(startLogMessage, System.StringSplitOptions.None);
             var response = splittedString[0];
             data = response;
-            var debugLogs = splittedString[1];
-            if (SocketSettings.DebugFlag)
+            var logMessage = splittedString[1];
+            if (SocketSettings.logFlag)
             {
-                WriteInDebugFile(debugLogs);
+                WriteInLogFile(logMessage);
+                WriteInLogFile(System.DateTime.Now + ": response received: " + response);
             }
 
         }
@@ -46,10 +47,10 @@ public class AltBaseCommand
 
         return data;
     }
-    private void WriteInDebugFile(string debugLogs)
+    private void WriteInLogFile(string logMessage)
     {
-        var FileWriter = new System.IO.StreamWriter(@"LogAltUnityFile.txt", true);
-        FileWriter.WriteLine(debugLogs);
+        var FileWriter = new System.IO.StreamWriter(@"AltUnityTesterLog.txt", true);
+        FileWriter.WriteLine(logMessage);
         FileWriter.Close();
     }
 

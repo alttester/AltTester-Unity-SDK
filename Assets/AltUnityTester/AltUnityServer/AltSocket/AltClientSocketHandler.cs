@@ -1,4 +1,4 @@
-﻿
+
 
 using System.Linq;
 
@@ -43,8 +43,9 @@ public class AltClientSocketHandler
 
     public void SendResponse(string response)
     {
-        response = "altstart::" + response+"::altDebug::"+AltUnityRunner.debugMessages + "::altend";
-        AltUnityRunner.debugMessages = "";
+        AltUnityRunner.logMessage = System.Text.RegularExpressions.Regex.Replace(AltUnityRunner.logMessage, @"\r\n|\n|\r$", "");//Removes the last new line
+        response = "altstart::" + response+"::altLog::"+AltUnityRunner.logMessage + "::altend";
+        AltUnityRunner.logMessage = "";
         AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now+": sending response: " + response);
         Client.Client.Send(Encoding.GetBytes(response));
     }

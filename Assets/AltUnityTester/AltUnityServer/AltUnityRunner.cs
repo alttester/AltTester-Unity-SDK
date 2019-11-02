@@ -19,7 +19,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     private UnityEngine.Vector3 _position;
     private AltSocketServer _socketServer;
 
-    public static String debugMessages;
+    public static String logMessage;
     public bool debugOn;
 
     private string myPathFile;
@@ -421,9 +421,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                     command = new FindActiveObjectsByNameCommand(methodParameters);
                     break;
-                case "enableDebug":
-                    var enableDebug = bool.Parse(pieces[1]);
-                    command = new EnableDebuggingCommand(enableDebug);
+                case "enableLogging":
+                    var enableLogging = bool.Parse(pieces[1]);
+                    command = new EnableLoggingCommand(enableLogging);
                     break;
 
                 case "getText":
@@ -455,7 +455,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     {
         if (debugOn)
         {
-            debugMessages += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
+            logMessage += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
             FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
             UnityEngine.Debug.Log(debugMessage);
         }

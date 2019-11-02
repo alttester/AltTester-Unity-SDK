@@ -1,10 +1,10 @@
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class EnableDebuggingCommand : Command
+    class EnableLoggingCommand : Command
     {
         bool activateDebug;
 
-        public EnableDebuggingCommand(bool activateDebug)
+        public EnableLoggingCommand(bool activateDebug)
         {
             this.activateDebug = activateDebug;
         }
@@ -12,7 +12,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
             AltUnityRunner._altUnityRunner.debugOn = activateDebug;
-            AltUnityRunner._altUnityRunner.LogMessage("Debugging is set to "+activateDebug);
+            AltUnityRunner._altUnityRunner.LogMessage("Logging is set to "+activateDebug);
             return "Ok";
         }
     }
