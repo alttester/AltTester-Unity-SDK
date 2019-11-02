@@ -2,12 +2,12 @@ package ro.altom.altunitytester.Commands;
 
 import ro.altom.altunitytester.AltBaseSettings;
 
-public class EnableDebugging extends AltBaseCommand {
-    public EnableDebugging(AltBaseSettings altBaseSettings) {
+public class EnableLogging extends AltBaseCommand {
+    public EnableLogging(AltBaseSettings altBaseSettings) {
         super(altBaseSettings);
     }
     public String Execute(){
-        send(CreateCommand("enableDebug", altBaseSettings.debugEnabled.toString()));
+        send(CreateCommand("enableLogging", altBaseSettings.logEnabled.toString()));
         String data = recvall();
         if (data.equals("OK")) {
             return data;

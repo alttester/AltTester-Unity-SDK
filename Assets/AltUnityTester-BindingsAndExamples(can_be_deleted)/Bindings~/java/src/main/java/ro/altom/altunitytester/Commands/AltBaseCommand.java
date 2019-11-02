@@ -1,5 +1,6 @@
 package ro.altom.altunitytester.Commands;
 
+import org.omg.CORBA.Environment;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
@@ -7,6 +8,8 @@ import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AltBaseCommand {
 
@@ -39,19 +42,24 @@ public class AltBaseCommand {
         }
 
         receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
-        String[] data=receivedData.split("::altDebug::");
+        String[] data=receivedData.split("::altLog::");
         receivedData=data[0];
         log.debug("Data received: " + receivedData);
-        if(altBaseSettings.debugEnabled)
-            WriteInDebugFile(data[1]);
+        if(altBaseSettings.logEnabled)
+        {    
+            WriteInLogFile(data[1]);
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+            WriteInLogFile(formatter.format(date)+" : response received : "+receivedData);
+        }
         return receivedData;
     }
 
-    private void WriteInDebugFile(String debugMessages){
+    private void WriteInLogFile(String logMessages){
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter("LogAltUnityFile", true));
-            writer.append(debugMessages);
+            writer = new BufferedWriter(new FileWriter("AltUnityTesterLog.txt", true));
+            writer.append(logMessages+ System.lineSeparator());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

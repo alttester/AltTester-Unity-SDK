@@ -1,10 +1,9 @@
 package ro.altom.altunitytester;
 
-import lombok.extern.slf4j.Slf4j;
 import ro.altom.altunitytester.Commands.AltCallStaticMethods;
 import ro.altom.altunitytester.Commands.AltCallStaticMethodsParameters;
 import ro.altom.altunitytester.Commands.AltStop;
-import ro.altom.altunitytester.Commands.EnableDebugging;
+import ro.altom.altunitytester.Commands.EnableLogging;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.OldFindObject.*;
@@ -36,7 +35,7 @@ public class AltUnityDriver {
     public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd) {
         this(ip,port,requestSeparator,requestEnd,false);
     }
-    public AltUnityDriver(String ip,int port,String requestSeparator,String requestEnd,Boolean debugEnabled){
+    public AltUnityDriver(String ip,int port,String requestSeparator,String requestEnd,Boolean logEnabled){
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
@@ -49,11 +48,11 @@ public class AltUnityDriver {
         } catch (IOException e) {
             throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
         }
-        altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in,debugEnabled);
-        EnableDebugging();
+        altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in,logEnabled);
+        EnableLogging();
     }
-    private void EnableDebugging(){
-        new EnableDebugging(altBaseSettings).Execute();
+    private void EnableLogging(){
+        new EnableLogging(altBaseSettings).Execute();
     }
 
     public void stop() {
