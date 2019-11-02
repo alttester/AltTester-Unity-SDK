@@ -13,11 +13,11 @@ BUFFER_SIZE = 1024
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',device_id="",debug_flag=False):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',device_id="",log_flag=False):
         self.TCP_PORT = TCP_PORT
         self.request_separator=request_separator
         self.request_end=request_end
-        self.debug_flag=debug_flag
+        self.log_flag=log_flag
         self.appium_driver=None
         if (appium_driver != None):
             self.appium_driver = appium_driver
@@ -50,7 +50,7 @@ class AltrunUnityDriver(object):
 
         if (timeout <= 0):
             raise Exception('AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', did you run ``adb forward tcp:' + str(TCP_FWD_PORT) + ' tcp:' + str(self.TCP_PORT) + '`` or ``iproxy ' + str(TCP_FWD_PORT) + ' ' + str(self.TCP_PORT) + '``?')
-        EnableDebugging(self.socket,self.request_separator,self.request_end,debug_flag).execute()
+        EnableLogging(self.socket,self.request_separator,self.request_end,self.log_flag).execute()
 
     def remove_port_forwarding(self, port):
         try:

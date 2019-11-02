@@ -11,7 +11,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.loggingEnabled = activateDebug;
+            AltUnityRunner._altUnityRunner.logEnabled = activateDebug;
             AltUnityRunner._altUnityRunner.LogMessage("Logging is set to "+activateDebug);
             return "Ok";
         }

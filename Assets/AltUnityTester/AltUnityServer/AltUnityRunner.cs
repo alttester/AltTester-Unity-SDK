@@ -19,8 +19,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     private UnityEngine.Vector3 _position;
     private AltSocketServer _socketServer;
 
-    public static String logMessage;
-    public bool debugOn;
+    public static String logMessage="";
+    public bool logEnabled;
 
     private string myPathFile;
     public static System.IO.StreamWriter FileWriter;
@@ -451,13 +451,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }           
     }
 
-    public void LogMessage(string debugMessage)
+    public void LogMessage(string logMessage)
     {
-        if (debugOn)
+        if (logEnabled)
         {
-            logMessage += System.DateTime.Now + ":" + debugMessage + System.Environment.NewLine;
-            FileWriter.WriteLine(System.DateTime.Now + ":" + debugMessage);
-            UnityEngine.Debug.Log(debugMessage);
+            AltUnityRunner.logMessage += System.DateTime.Now + ":" + logMessage + System.Environment.NewLine;
+            FileWriter.WriteLine(System.DateTime.Now + ":" + logMessage);
+            UnityEngine.Debug.Log(logMessage);
         }
     }
 
