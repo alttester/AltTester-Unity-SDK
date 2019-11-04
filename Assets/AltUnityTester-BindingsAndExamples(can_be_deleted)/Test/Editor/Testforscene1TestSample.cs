@@ -784,6 +784,13 @@ public class TestForScene1TestSample
             Assert.AreEqual(exception.Message, "error:notFound");
         }
     }
+    [Test]
+    public void TestGetAllCameras()
+    {
+        var cameras = altUnityDriver.GetAllCameras();
+        Assert.AreEqual(2,cameras.Count);
+    }
 
+    
 
 }
