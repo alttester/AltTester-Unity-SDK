@@ -1,4 +1,4 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class TapCommand:Command
     {
@@ -12,7 +12,7 @@
         public override string Execute()
         {
             AltUnityRunner._altUnityRunner.LogMessage("tapped object by name " + altUnityObject.name);
-            AltUnityRunner._altUnityRunner.ShowClick(altUnityObject.getScreenPosition());
+            AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(altUnityObject.getScreenPosition().x, altUnityObject.getScreenPosition().y));
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
             UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altUnityObject);

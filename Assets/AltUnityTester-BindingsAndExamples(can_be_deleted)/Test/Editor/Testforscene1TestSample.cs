@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
@@ -90,7 +90,7 @@ public class TestForScene1TestSample
             listOfElements+=element.name+"; ";
         }
 
-        Debug.Log(listOfElements);
+        Debug.Print(listOfElements);
 
         Assert.AreEqual(25, altElements.Count,listOfElements);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
@@ -116,7 +116,7 @@ public class TestForScene1TestSample
             listOfElements+=element.name+"; ";
         }
 
-        Debug.Log(listOfElements);
+        Debug.Print(listOfElements);
         
         Assert.AreEqual(31, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
