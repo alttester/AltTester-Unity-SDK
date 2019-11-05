@@ -29,7 +29,7 @@ public class WaitForObject : BaseFindObjects
             }
             catch (System.Exception)
             {
-                System.Diagnostics.Debug.Print("Waiting for element where name contains " + value + "....");
+                System.Diagnostics.Debug.WriteLine("Waiting for element where name contains " + value + "....");
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
             }

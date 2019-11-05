@@ -27,7 +27,7 @@ public class WaitForElementToNotBePresent : AltBaseCommand
                 found = true;
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
-                System.Diagnostics.Debug.Print("Waiting for element " + name + " to not be present");
+                System.Diagnostics.Debug.WriteLine("Waiting for element " + name + " to not be present");
             }
             catch (System.Exception)
             {
