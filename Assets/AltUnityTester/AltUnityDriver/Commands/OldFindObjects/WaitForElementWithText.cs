@@ -32,7 +32,7 @@ public class WaitForElementWithText : AltBaseCommand
             {
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
-                UnityEngine.Debug.Log("Waiting for element " + name + " to have text " + text);
+                System.Diagnostics.Debug.Print("Waiting for element " + name + " to have text " + text);
             }
         }
         if (altElement != null && altElement.GetText().Equals(text))

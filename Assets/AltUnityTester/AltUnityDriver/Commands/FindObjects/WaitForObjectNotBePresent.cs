@@ -30,7 +30,7 @@ public class WaitForObjectNotBePresent : BaseFindObjects
                 found = true;
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
-                UnityEngine.Debug.Log("Waiting for element " + path + " to not be present");
+                System.Diagnostics.Debug.Print("Waiting for element " + path + " to not be present");
             }
             catch (System.Exception)
             {

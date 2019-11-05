@@ -129,6 +129,7 @@ public class AltBaseCommand
         });
 
         System.Byte[] imageDecompressed = DeCompressScreenshot(imageCompressed);
+
         return new TextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3, textureFormat);
     }
     public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
@@ -137,7 +138,7 @@ public class AltBaseCommand
         using (var memoryStreamInput = new System.IO.MemoryStream(screenshotCompressed))
         using (var memoryStreamOutput = new System.IO.MemoryStream())
         {
-            using (var gs = new Unity.IO.Compression.GZipStream(memoryStreamInput, Unity.IO.Compression.CompressionMode.Decompress))
+            using (var gs = new System.IO.Compression.GZipStream(memoryStreamInput, System.IO.Compression.CompressionMode.Decompress))
             {
                 CopyTo(gs, memoryStreamOutput);
             }

@@ -25,7 +25,7 @@ public class WaitForElementWhereNameContains : AltBaseCommand
             }
             catch (System.Exception)
             {
-                UnityEngine.Debug.Log("Waiting for element where name contains " + name + "....");
+                System.Diagnostics.Debug.Print("Waiting for element where name contains " + name + "....");
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
             }
