@@ -1,4 +1,4 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class ClickEventCommand: Command
     {
@@ -11,7 +11,7 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("ClickEvent on " + altUnityObject);
+            AltUnityRunner._altUnityRunner.LogMessage("ClickEvent on " + altUnityObject);
             AltUnityRunner._altUnityRunner.ShowClick(altUnityObject.getScreenPosition());
             
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;

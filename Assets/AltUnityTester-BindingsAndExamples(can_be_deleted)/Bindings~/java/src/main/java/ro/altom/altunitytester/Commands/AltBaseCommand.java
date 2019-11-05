@@ -1,10 +1,15 @@
 package ro.altom.altunitytester.Commands;
 
+import org.omg.CORBA.Environment;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AltBaseCommand {
 
@@ -37,8 +42,28 @@ public class AltBaseCommand {
         }
 
         receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
+        String[] data=receivedData.split("::altLog::");
+        receivedData=data[0];
         log.debug("Data received: " + receivedData);
+        if(altBaseSettings.logEnabled)
+        {    
+            WriteInLogFile(data[1]);
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+            WriteInLogFile(formatter.format(date)+" : response received : "+receivedData);
+        }
         return receivedData;
+    }
+
+    private void WriteInLogFile(String logMessages){
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter("AltUnityTesterLog.txt", true));
+            writer.append(logMessages+ System.lineSeparator());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     protected void send(String message) {
         log.info("Sending rpc message [{}]", message);

@@ -19,7 +19,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         {
 
 #if ALTUNITYTESTER
-            UnityEngine.Debug.Log("Touch at: " + start);
+            AltUnityRunner._altUnityRunner.LogMessage("Touch at: " + start);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             UnityEngine.Touch touch = new UnityEngine.Touch();
             touch.phase = UnityEngine.TouchPhase.Began;

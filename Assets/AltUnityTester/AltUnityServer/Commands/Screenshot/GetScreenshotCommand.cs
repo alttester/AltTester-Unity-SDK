@@ -15,7 +15,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("getScreenshot" + size);
+            AltUnityRunner._altUnityRunner.LogMessage("getScreenshot" + size);
             AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.TakeScreenshot(size, handler));
             return "Ok";
         }

@@ -19,7 +19,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("Set text for object by name " + this.altUnityObject.name);
+            AltUnityRunner._altUnityRunner.LogMessage("Set text for object by name " + this.altUnityObject.name);
             var response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
 
             var targetObject = AltUnityRunner.GetGameObject(altUnityObject);

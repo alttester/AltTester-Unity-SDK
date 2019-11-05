@@ -15,7 +15,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                 if (typeName.Contains("."))
                 {
                     assemblyName = typeName.Substring(0, typeName.LastIndexOf('.'));
-                    UnityEngine.Debug.Log("assembly name " + assemblyName);
+                    AltUnityRunner._altUnityRunner.LogMessage("assembly name " + assemblyName);
                     try
                     {
                         var assembly = System.Reflection.Assembly.Load(assemblyName);
@@ -25,7 +25,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                     }
                     catch (System.Exception e)
                     {
-                        UnityEngine.Debug.Log(e);
+                        AltUnityRunner._altUnityRunner.LogMessage(e.Message);
                         return null;
                     }
                 }

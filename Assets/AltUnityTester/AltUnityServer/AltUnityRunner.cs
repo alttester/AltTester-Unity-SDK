@@ -17,7 +17,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public bool AltUnityIconPressed=false;
     
     private UnityEngine.Vector3 _position;
-    protected AltSocketServer _socketServer;
+    private AltSocketServer _socketServer;
+
+    public static String logMessage="";
+    public bool logEnabled;
+
+    private string myPathFile;
+    public static System.IO.StreamWriter FileWriter;
+    
+
+
 
     public readonly string errorNotFoundMessage = "error:notFound";
     public readonly string errorPropertyNotFoundMessage = "error:propertyNotFound";
@@ -81,8 +90,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             StartSocketServer();
             UnityEngine.Debug.Log("AltUnity Driver started");
         }
+        myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
+        UnityEngine.Debug.Log(myPathFile);
+        FileWriter = new System.IO.StreamWriter(myPathFile, true);
 
-    }  
+    }
+
     
     void Update()
     {
@@ -108,13 +121,18 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
         _responseQueue.Cycle();
     }
-    
-    void OnApplicationQuit()
+     void OnApplicationQuit()
     {
         CleanUp();
+        FileWriter.Close();
     }
     
     #endregion
+    public void CleanUp()
+    {
+        UnityEngine.Debug.Log("Cleaning up socket server");
+        _socketServer.Cleanup();
+    }
     
     public void StartSocketServer()
     {
@@ -132,13 +150,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             "AltUnity Server at {0} on port {1}",
             _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
     }
-    
-    public void CleanUp()
-    {
-        UnityEngine.Debug.Log("Cleaning up socket server");
-        _socketServer.Cleanup();
-    }
-
+   
     private UnityEngine.Vector3 getObjectScreePosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
     {
         UnityEngine.Canvas canvasParent = gameObject.GetComponentInParent<UnityEngine.Canvas>();
@@ -409,6 +421,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                     command = new FindActiveObjectsByNameCommand(methodParameters);
                     break;
+                case "enableLogging":
+                    var enableLogging = bool.Parse(pieces[1]);
+                    command = new EnableLoggingCommand(enableLogging);
+                    break;
+
                 case "getText":
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     command = new GetTextCommand(altUnityObject);
@@ -432,6 +449,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         {
             command.SendResponse(handler);
         }           
+    }
+
+    public void LogMessage(string logMessage)
+    {
+        if (logEnabled)
+        {
+            AltUnityRunner.logMessage += System.DateTime.Now + ":" + logMessage + System.Environment.NewLine;
+            FileWriter.WriteLine(System.DateTime.Now + ":" + logMessage);
+            UnityEngine.Debug.Log(logMessage);
+        }
     }
 
     public static UnityEngine.GameObject[] GetDontDestroyOnLoadObjects()
