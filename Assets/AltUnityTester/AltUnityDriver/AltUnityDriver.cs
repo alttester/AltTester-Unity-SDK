@@ -6,12 +6,14 @@ public struct SocketSettings
     public System.Net.Sockets.TcpClient socket;
     public string requestSeparator;
     public string requestEnding;
+    public bool logFlag;
 
-    public SocketSettings(System.Net.Sockets.TcpClient socket, string requestSeparator, string requestEnding)
+    public SocketSettings(System.Net.Sockets.TcpClient socket, string requestSeparator, string requestEnding,bool logFlag)
     {
         this.socket = socket;
         this.requestSeparator = requestSeparator;
         this.requestEnding = requestEnding;
+        this.logFlag = logFlag;
     }
 }
 public class AltUnityDriver
@@ -22,11 +24,16 @@ public class AltUnityDriver
     private static int tcp_port = 13000;
     public static string requestSeparatorString;
     public static string requestEndingString;
-    public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&")
+
+    public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false)
     {
         Socket = new System.Net.Sockets.TcpClient();
         Socket.Connect(tcp_ip, tcp_port);
-        socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding);
+        socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding,logFlag);
+        EnableLogging();
+    }
+    private void EnableLogging(){
+        new EnableLogging(socketSettings).Execute();
     }
 
     public void Stop()

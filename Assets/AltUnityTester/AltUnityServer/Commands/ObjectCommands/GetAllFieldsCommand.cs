@@ -13,7 +13,7 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("getAllFields");
+            AltUnityRunner._altUnityRunner.LogMessage("getAllFields");
             UnityEngine.GameObject altObject;
             altObject = id.Equals("null") ? null : AltUnityRunner.GetGameObject(System.Convert.ToInt32(id));
             System.Type type = GetType(component.componentName, component.assemblyName);

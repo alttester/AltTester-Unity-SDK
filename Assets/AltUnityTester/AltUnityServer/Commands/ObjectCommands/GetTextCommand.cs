@@ -19,7 +19,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("Get text from object by name " + this.altUnityObject.name);
+            AltUnityRunner._altUnityRunner.LogMessage("Get text from object by name " + this.altUnityObject.name);
             var response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
 
             var targetObject = AltUnityRunner.GetGameObject(altUnityObject);

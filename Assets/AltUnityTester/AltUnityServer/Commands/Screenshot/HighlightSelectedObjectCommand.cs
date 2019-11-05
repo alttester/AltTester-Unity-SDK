@@ -22,7 +22,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("HightlightObject wiht id: " + id);
+            AltUnityRunner._altUnityRunner.LogMessage("HightlightObject wiht id: " + id);
             var pieces = ColorAndWidth.Split(new[] { "!-!" }, System.StringSplitOptions.None);
                 var piecesColor = pieces[0].Split(new[] { "!!" }, System.StringSplitOptions.None);
                 float red = float.Parse(piecesColor[0]);

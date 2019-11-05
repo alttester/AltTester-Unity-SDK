@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Writting and running tests &#8212; TestSphinx 1.5 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.scss" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Commands" href="commands.html" />
+    <link rel="prev" title="Examples" href="examples.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="writting-and-running-tests">
+<h1>Writting and running tests<a class="headerlink" href="#writting-and-running-tests" title="Permalink to this headline">¶</a></h1>
+<p>It is very simple to write tests with AltUnityTester. You can use any testing framework and all you need to do is to import the driver for the specific language to your test file.</p>
+<p>After that in your setup method you will need to make an instance of the driver and in you tear-down method you have to invoke the stop method of the driver.</p>
+<p>If you do this in your test method you could access all the commands that AltUnityTester offers to test your game.</p>
+<div class="section" id="c">
+<h2>C#<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h2>
+<p>If you are writing tests in c# then you could use create your tests direct from Unity.</p>
+<ol class="simple">
+<li><p>Create an folder named Editor</p></li>
+<li><p>Right-click and select to create a new AltUnityTest file.(This will create a template file in which you could start write your test)</p></li>
+<li><p>Name the file however you want.</p></li>
+<li><p>Open AltUnityTester window</p></li>
+<li><p>You should be able to see your test in the left column</p></li>
+<li><p>Run by pressing one of the 3 options on the right column</p></li>
+</ol>
+<p>Check the this video for more details</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-KK7CO4uoxM?start=135" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TestSphinx</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building-games.html">Building games with AltUnityTester</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download-import.html">Download&amp;Import</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Writting and running tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#c">C#</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other/by.html">BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other/java-builders.html">Java builders</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="examples.html" title="previous chapter">Examples</a></li>
+      <li>Next: <a href="commands.html" title="next chapter">Commands</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Altom.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/pages/writting-running-tests.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

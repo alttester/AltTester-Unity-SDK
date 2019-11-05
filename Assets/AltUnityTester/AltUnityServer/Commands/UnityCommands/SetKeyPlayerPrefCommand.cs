@@ -15,20 +15,20 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("setKeyPlayerPref for: " + keyName);
+            AltUnityRunner._altUnityRunner.LogMessage("setKeyPlayerPref for: " + keyName);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
                 switch (type)
                 {
                     case PLayerPrefKeyType.String:
-                        UnityEngine.Debug.Log("Set Option string ");
+                    AltUnityRunner._altUnityRunner.LogMessage("Set Option string ");
                         UnityEngine.PlayerPrefs.SetString(keyName, value);
                         break;
                     case PLayerPrefKeyType.Float:
-                        UnityEngine.Debug.Log("Set Option Float ");
+                    AltUnityRunner._altUnityRunner.LogMessage("Set Option Float ");
                         UnityEngine.PlayerPrefs.SetFloat(keyName, float.Parse(value));
                         break;
                     case PLayerPrefKeyType.Int:
-                        UnityEngine.Debug.Log("Set Option Int ");
+                    AltUnityRunner._altUnityRunner.LogMessage("Set Option Int ");
                         UnityEngine.PlayerPrefs.SetInt(keyName, int.Parse(value));
                         break;
                 }

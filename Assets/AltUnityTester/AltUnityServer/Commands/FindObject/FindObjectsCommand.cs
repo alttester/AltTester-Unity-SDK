@@ -14,7 +14,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         {
             var pieces = stringSent.Split(new string[] { AltUnityRunner._altUnityRunner.requestSeparatorString }, System.StringSplitOptions.None);
             string objectName = pieces[0];
-            UnityEngine.Debug.Log("findObjects for: " + objectName);
+            AltUnityRunner._altUnityRunner.LogMessage("findObjects for: " + objectName);
             string cameraName = pieces[1];
             bool enabled = System.Convert.ToBoolean(pieces[2]);
 

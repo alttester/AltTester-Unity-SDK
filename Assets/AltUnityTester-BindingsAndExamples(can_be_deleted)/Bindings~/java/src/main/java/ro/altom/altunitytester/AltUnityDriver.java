@@ -1,18 +1,16 @@
 package ro.altom.altunitytester;
 
-import lombok.extern.slf4j.Slf4j;
 import ro.altom.altunitytester.Commands.AltCallStaticMethods;
 import ro.altom.altunitytester.Commands.AltCallStaticMethodsParameters;
 import ro.altom.altunitytester.Commands.AltStop;
+import ro.altom.altunitytester.Commands.EnableLogging;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.OldFindObject.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
-import java.io.DataInputStream; 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class AltUnityDriver {
@@ -25,32 +23,19 @@ public class AltUnityDriver {
     }
     public static final int READ_TIMEOUT = 30 * 1000;
 
-    private final Socket socket;
-    private final PrintWriter out;
-    private final DataInputStream in;
+    private Socket socket=null;
+    private PrintWriter out=null;
+    private DataInputStream in = null;
 
     private AltBaseSettings altBaseSettings;
-
-    public static String RequestSeparator=";";
-    public static String RequestEnd="&";
-
     public AltUnityDriver(String ip, int port) {
-        if (ip == null || ip.isEmpty()) {
-            throw new InvalidParamerException("Provided IP address is null or empty");
-        }
-        try {
-            log.info("Initializing connection to {}:{}", ip, port);
-            socket = new Socket(ip, port);
-            socket.setSoTimeout(READ_TIMEOUT);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new DataInputStream(socket.getInputStream());
-            altBaseSettings=new AltBaseSettings(socket,";","&",out,in);
-        } catch (IOException e) {
-            throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
-        }
+        this(ip,port,";","&",false);
     }
 
     public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd) {
+        this(ip,port,requestSeparator,requestEnd,false);
+    }
+    public AltUnityDriver(String ip,int port,String requestSeparator,String requestEnd,Boolean logEnabled){
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
@@ -63,10 +48,11 @@ public class AltUnityDriver {
         } catch (IOException e) {
             throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
         }
-        // TODO: make this uneccesary
-        RequestEnd=requestEnd;
-        RequestSeparator=requestSeparator;
-        altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in);
+        altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in,logEnabled);
+        EnableLogging();
+    }
+    private void EnableLogging(){
+        new EnableLogging(altBaseSettings).Execute();
     }
 
     public void stop() {
@@ -76,6 +62,8 @@ public class AltUnityDriver {
     public String callStaticMethods(AltCallStaticMethodsParameters altCallStaticMethodsParameters){
         return new AltCallStaticMethods(altBaseSettings,altCallStaticMethodsParameters).Execute();
     }
+
+    
 
     public String callStaticMethods(String assembly, String typeName, String methodName,
                                     String parameters, String typeOfParameters) {

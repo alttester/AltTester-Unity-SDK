@@ -25,7 +25,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 116
+    _testCaseCount: 117
     _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
@@ -36,8 +36,8 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 64
-    _foldOut: 1
+    _testCaseCount: 65
+    _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
@@ -49,8 +49,7 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: "OneTimeSetUp: System.Net.Sockets.SocketException : No connection
-      could be made because the target machine actively refused it.\r\n"
+    _testResultMessage: Passed in 2.9367217
     _testStackTrace: 
     _testDuration: 0
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
@@ -385,6 +384,17 @@ MonoBehaviour:
     _testDuration: 0
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
+    _testName: TestForScene1TestSample.TestFindObjectWhichContains
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
+    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
+  - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectWithDifferentCameras
     _status: 1
     _isSuite: 0
@@ -392,6 +402,17 @@ MonoBehaviour:
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: Passed in 0.4129107
+    _testStackTrace: 
+    _testDuration: 0
+    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindWithFindObjectWhichContainsNotExistingObject
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
@@ -515,17 +536,6 @@ MonoBehaviour:
     _testResultMessage: Passed in 0.4009254
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
-  - _selected: 1
-    _testName: TestForScene1TestSample.TestGetScreenshot
-    _status: 1
-    _isSuite: 0
-    _parentName: TestForScene1TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 
-    _testStackTrace: 
-    _testDuration: 0.4715168
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestInactiveObject
@@ -753,7 +763,7 @@ MonoBehaviour:
     _isSuite: 1
     _parentName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 39
-    _foldOut: 1
+    _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
@@ -1187,7 +1197,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
-  - _selected: 0
+  - _selected: 1
     _testName: TestForScene2DraggablePanel
     _status: 1
     _isSuite: 1
@@ -1198,38 +1208,38 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-  - _selected: 0
+  - _selected: 1
     _testName: TestForScene2DraggablePanel.ClosePanel
     _status: 1
     _isSuite: 0
     _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4936003
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.4054213
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForscene2DraggablePanel.cs
-  - _selected: 0
+  - _selected: 1
     _testName: TestForScene2DraggablePanel.MovePanel
     _status: 1
     _isSuite: 0
     _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 2.2091952
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 2.2323432
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForscene2DraggablePanel.cs
-  - _selected: 0
+  - _selected: 1
     _testName: TestForScene2DraggablePanel.ResizePanel
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene2DraggablePanel
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 4.5240907
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForscene2DraggablePanel.cs
   - _selected: 0
     _testName: TestForScene3DragAndDrop

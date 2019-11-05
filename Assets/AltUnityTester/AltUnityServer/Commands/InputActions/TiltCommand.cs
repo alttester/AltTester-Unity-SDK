@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class TiltCommand:Command
     {
         UnityEngine.Vector3 acceleration;
 
-        public TiltCommand(Vector3 acceleration)
+        public TiltCommand(UnityEngine.Vector3 acceleration)
         {
             this.acceleration = acceleration;
         }
@@ -14,7 +12,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            UnityEngine.Debug.Log("Tilt device with: " + acceleration);
+            AltUnityRunner._altUnityRunner.LogMessage("Tilt device with: " + acceleration);
             Input.acceleration = acceleration;
             return "OK";
 #endif

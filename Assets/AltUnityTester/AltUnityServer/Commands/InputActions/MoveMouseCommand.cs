@@ -16,7 +16,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-                UnityEngine.Debug.Log("moveMouse to: " + location);
+                AltUnityRunner._altUnityRunner.LogMessage("moveMouse to: " + location);
                 Input.MoveMouse(location, duration);
                 return "Ok";
 #endif

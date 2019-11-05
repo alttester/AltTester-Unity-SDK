@@ -18,7 +18,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            UnityEngine.Debug.Log("pressKeyboardKey: " + keyCode);
+            AltUnityRunner._altUnityRunner.LogMessage("pressKeyboardKey: " + keyCode);
             var powerClamped = UnityEngine.Mathf.Clamp01(power);
             Input.SetKeyDown(keyCode, power, duration);
 #endif      
