@@ -1,3 +1,40 @@
+# Changes in version 1.5.0
+
+## Refactoring
+- Modify C# driver not to depend on Unity !131 
+- Project refactoring: Server !108 
+- Project refactoring: AltDriver(python) !113 
+- Project refactoring: AltDriver(Java) !115 
+
+## New
+- Add pop-up to AltUnityPrefab !106 
+- Add clicks visualization !122 
+- Add set text command !125
+- Open file test when clicking on a test from window editor !118 
+- Create documentation in form of a wiki !128 
+- Get Server output !107 
+
+## Bug fixes and improvements:
+- Divide editor window to see better the content !119 
+- The method callComponentMethod was constructing an AltUnityObjectAction with...!109 
+- Server throw more generic error for getComponent than it used to !130 
+- Add test for Java method to callComponentMethod with assembly name too !111 
+- Correct obsolete texts in c# driver !123 
+- Update readme with correct url to download latest Unity package !116 
+- AltUnityTester - Create new AltUnity Test doesn't do anything !110 
+- Add command for getting text from ui text and text mesh pro !120 
+- Missing tests for getAllElement in python !134 
+- Missing tests for FindObjectWhichContains!135 
+- Add test for "inspector" commands c# !137 
+- Change tests to be independent of the screen resolution !129 
+- Missing command in c# driver: WaitForObjectWhichContains !124 
+
+## Contributors
+-  Robert Poienar @robert_poienar
+-  Ru Cindrea @ru.cindrea
+-  Ka3u6y6a @ka3u6y6a
+-  ricardo larrahondo @ricardorlg
+ 
 # Changes in version 1.4.0
 
 ## Keyboard, joystick and mouse simulation
@@ -18,8 +55,6 @@
 -  Robert Poienar @robert_poienar
 -  Ru Cindrea @ru.cindrea
 -  Arthur @LordStuart 
-
-
 # Changes in version 1.3.0
 
 ## Improvements to Unity Editor GUI / AltUnityTester Unity Test Runner
