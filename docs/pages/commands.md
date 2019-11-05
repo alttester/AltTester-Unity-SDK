@@ -1540,7 +1540,14 @@ Get all components attached to an object
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        [Test]
+        public void TestGetAllComponents()
+        {
+            List<AltUnityComponent> components = altUnityDriver.FindObject(By.NAME,"Canvas").GetAllComponents();
+            Assert.AreEqual(4, components.Count);
+            Assert.AreEqual("UnityEngine.RectTransform", components[0].componentName);
+            Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
+        }
 ```
 
 ###  GetAllMethods(C#)
@@ -1556,7 +1563,13 @@ Get all methods from a component attached to an object
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        [Test]
+        public void TestGetAllMethods()
+        {
+            var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
+            List<String> methods = altElement.GetAllMethods(altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule")));
+            Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
+        }
 ```
 
 
@@ -1573,7 +1586,18 @@ Get all properties from a component attached to an object. This method is implem
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        [Test]
+        public void TestGetAllFields()
+        {
+            var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
+            var componentList = altElement.GetAllComponents();
+            var component = componentList.First(componenta =>
+                componenta.componentName.Equals("Capsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+            List<AltUnityProperty> properties = altElement.GetAllProperties(component);
+            AltUnityProperty field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
+            Assert.NotNull(field);
+            Assert.AreEqual(field.value, "intialValue");
+        }
 ```
 
 
@@ -1864,13 +1888,19 @@ Return all cameras that are in the scene. This method is only implemented in C#
 
 #### Return
 - List of AltUnityObjects
+
 #### Examples
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
 
-       //TODO
+        [Test]
+        public void TestGetAllCameras()
+        {
+            var cameras = altUnityDriver.GetAllCameras();
+            Assert.AreEqual(2,cameras.Count);
+        }
     
 ```
 ###  GetAllScenes
@@ -1884,6 +1914,7 @@ Return list of scene in the game
 |      Name       |     Type      | Optional | Description |
 | --------------- | ------------- | -------- | ----------- |
 |None|
+
 #### Return
 
 - List of string
@@ -1895,7 +1926,13 @@ Return list of scene in the game
 
     .. code-tab:: c#
 
-        //TODO
+        [Test]
+        public void TestGetAllScenes()
+        {
+            var scenes = altUnityDriver.GetAllScenes();
+            Assert.AreEqual(5, scenes.Count);
+            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
+        }
 ```
 
 ###  GetCurrentScene

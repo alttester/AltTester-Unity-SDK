@@ -19,7 +19,7 @@
 
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
-project = 'AltUnityTester'
+project = 'AltUnity Tester'
 copyright = '2019, Altom Consulting'
 author = 'Altom'
 
