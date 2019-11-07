@@ -1,8 +1,10 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public class DragObject : CommandReturningAltElement
-{   
-    UnityEngine.Vector2 position;
+{
+    Vector2 position;
     AltUnityObject altUnityObject;
-    public DragObject(SocketSettings socketSettings, UnityEngine.Vector2 position, AltUnityObject altUnityObject) : base(socketSettings)
+    public DragObject(SocketSettings socketSettings, Vector2 position, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.position = position;
         this.altUnityObject = altUnityObject;

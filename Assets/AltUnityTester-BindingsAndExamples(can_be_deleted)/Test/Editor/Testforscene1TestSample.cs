@@ -1,11 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
-using UnityEngine;
+using System.Diagnostics;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 [Timeout(5000)]
 public class TestForScene1TestSample
 {
@@ -88,7 +90,7 @@ public class TestForScene1TestSample
             listOfElements+=element.name+"; ";
         }
 
-        Debug.Log(listOfElements);
+        Debug.WriteLine(listOfElements);
 
         Assert.AreEqual(25, altElements.Count,listOfElements);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
@@ -114,7 +116,7 @@ public class TestForScene1TestSample
             listOfElements+=element.name+"; ";
         }
 
-        Debug.Log(listOfElements);
+        Debug.WriteLine(listOfElements);
         
         Assert.AreEqual(31, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
