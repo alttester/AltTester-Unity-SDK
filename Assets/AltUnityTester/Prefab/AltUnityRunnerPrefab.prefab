@@ -414,7 +414,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: AltUnityTester v.1.4.0
+  m_Text: AltUnityTester v.1.5.0
 --- !u!114 &114664786847040960
 MonoBehaviour:
   m_ObjectHideFlags: 1
