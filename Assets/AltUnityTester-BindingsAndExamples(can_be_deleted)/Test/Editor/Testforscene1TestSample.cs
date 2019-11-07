@@ -90,7 +90,7 @@ public class TestForScene1TestSample
             listOfElements+=element.name+"; ";
         }
 
-        Debug.Print(listOfElements);
+        Debug.WriteLine(listOfElements);
 
         Assert.AreEqual(25, altElements.Count,listOfElements);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
@@ -116,7 +116,7 @@ public class TestForScene1TestSample
             listOfElements+=element.name+"; ";
         }
 
-        Debug.Print(listOfElements);
+        Debug.WriteLine(listOfElements);
         
         Assert.AreEqual(31, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
