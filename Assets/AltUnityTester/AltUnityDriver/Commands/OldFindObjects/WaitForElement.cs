@@ -28,7 +28,7 @@ public class WaitForElement : AltBaseCommand
             {
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
-                System.Diagnostics.Debug.Print("Waiting for element " + name + "...");
+                System.Diagnostics.Debug.WriteLine("Waiting for element " + name + "...");
             }
         }
         if (altElement != null)

@@ -44,7 +44,7 @@ public class AltBaseCommand
         }
         catch (System.Exception)
         {
-            System.Diagnostics.Debug.Print("Data received from socket doesn't have correct start and end control strings");
+            System.Diagnostics.Debug.WriteLine("Data received from socket doesn't have correct start and end control strings");
         }
 
         return data;

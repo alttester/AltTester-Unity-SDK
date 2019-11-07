@@ -96,9 +96,9 @@ public class TestForScene5KeyboardAndMouseInput
         foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
         {
             AltUnityDriver.PressKeyAndWait(kcode,duration:0.2f);
-            Assert.AreEqual(kcode.ToString(), lastKeyDown.GetText());
-            Assert.AreEqual(kcode.ToString(), lastKeyUp.GetText());
-            Assert.AreEqual(kcode.ToString(), lastKeyPress.GetText());
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(KeyCode), lastKeyDown.GetText(), true)); 
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(KeyCode), lastKeyUp.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(KeyCode), lastKeyPress.GetText(), true));
         }
     }
 
