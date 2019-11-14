@@ -11,10 +11,13 @@ variables:
 
 .initialize_venv: &initialize_venv
 - >
+  virtualenv altunitytests
+  source altunitytests/bin/activate
   if [ -z "$VIRTUAL_ENV" ]
   then
-    virtualenv altunitytests
-    source altunitytests/bin/activate
+    #virtualenv altunitytests
+    #source altunitytests/bin/activate
+    echo "$VIRTUAL_ENV"
   fi
 
 .pip_install_appium: &pip_install_appium 
