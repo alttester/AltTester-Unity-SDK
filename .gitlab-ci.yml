@@ -11,18 +11,11 @@ variables:
 
 .initialize_venv: &initialize_venv
 - >
-  # if [ -z "$VIRTUAL_ENV" ]
-  # then
-  #   virtualenv altunitytests
-  #   source altunitytests/bin/activate
-  # fi
-  VAR1="Linuxize"
-  VAR2="Linuxize"
-
-  if [ "$VAR1" = "$VAR2" ]; then
-    echo "Strings are equal."
+  if [ -z "$VIRTUAL_ENV" ]; then
+    virtualenv altunitytests
+    source altunitytests/bin/activate
   else
-    echo "Strings are not equal."
+    echo "Virtual enviroment is activated"
   fi
 
 .pip_install_appium: &pip_install_appium 
