@@ -3,7 +3,6 @@ image: python:latest
 # only cache local items.
 variables:
     PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-    VIRTENV: "$VIRTUAL_ENV"
 
 .uninstall_install_tester: &uninstall_install_tester
 - adb uninstall fi.altom.altunitytester || true
@@ -19,9 +18,6 @@ variables:
     echo "Virtual enviroment has been activated"
     echo "$VIRTUAL_ENV"
     export VIRTUAL_ENV
-    artifacts:
-      variables:
-        - VIRTUAL_ENV
   else
     echo "Virtual enviroment is activated"
   fi
