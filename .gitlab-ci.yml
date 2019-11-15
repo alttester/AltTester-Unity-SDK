@@ -12,6 +12,7 @@ variables:
 .initialize_venv: &initialize_venv
 - >
   echo "$VIRTUAL_ENV"
+  echo "Test message"
   # if [ -z "$VIRTUAL_ENV" ]; then
   #   virtualenv altunitytests
   #   source altunitytests/bin/activate
