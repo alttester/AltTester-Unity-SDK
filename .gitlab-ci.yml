@@ -11,13 +11,15 @@ variables:
 
 .initialize_venv: &initialize_venv
 - >
+  virtualenv altunitytests
+  source altunitytests/bin/activate
   echo "$VIRTUAL_ENV"
-  if [ -z "$VIRTUAL_ENV" ]; then
-    virtualenv altunitytests
-    source altunitytests/bin/activate
-  else
-    echo "Virtual enviroment is activated"
-  fi
+  # if [ -z "$VIRTUAL_ENV" ]; then
+  #   virtualenv altunitytests
+  #   source altunitytests/bin/activate
+  # else
+  #   echo "Virtual enviroment is activated"
+  # fi
 
 .pip_install_appium: &pip_install_appium 
 - pip install Appium-Python-Client
