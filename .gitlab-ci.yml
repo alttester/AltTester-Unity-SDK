@@ -10,17 +10,8 @@ variables:
 - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
 
 .initialize_venv: &initialize_venv
-- >
-  if [ -z "$VIRTUAL_ENV" ]; then
-    echo "Activating virtual enviroment"
-    virtualenv altunitytests
-    source altunitytests/bin/activate
-    echo "Virtual enviroment has been activated"
-    echo "$VIRTUAL_ENV"
-    export VIRTUAL_ENV
-  else
-    echo "Virtual enviroment is activated"
-  fi
+- virtualenv altunitytests
+- source altunitytests/bin/activate
 
 .pip_install_appium: &pip_install_appium 
 - pip install Appium-Python-Client
