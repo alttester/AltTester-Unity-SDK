@@ -10,8 +10,8 @@ variables:
 - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
 
 .initialize_venv: &initialize_venv
-pwd
- if [[ -d altunitytests ]]; then
+- >
+  if [[ -d altunitytests ]]; then
     echo "Activating virtual enviroment"
     source altunitytests/bin/activate
     echo "Virtual enviroment has been activated"
