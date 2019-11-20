@@ -12,14 +12,14 @@ variables:
 .initialize_venv: &initialize_venv
 - >
   if [[ -d altunitytests ]]; then
-    echo "Activating virtual enviroment"
+    echo "Activating virtual enviroment."
     source altunitytests/bin/activate
-    echo "Virtual enviroment has been activated"
+    echo "Virtual enviroment has been activated."
   else
-    echo "Creating virtual enviroment"
+    echo "Creating virtual enviroment."
     virtualenv altunitytests
     source altunitytests/bin/activate
-    echo "Virtual enviroment has been created and activated"
+    echo "Virtual enviroment has been created and activated."
   fi
 
 .pip_install_appium: &pip_install_appium 
