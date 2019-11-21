@@ -798,8 +798,16 @@ public class TestForScene1TestSample
     {
         altUnityDriver.LoadScene("Scene6");
         Thread.Sleep(1000);
-        var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
-        Assert.AreEqual( 3, altElements.Count);
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
+        Assert.AreEqual(2, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "/*/*/Text");
+        Assert.AreEqual( 2, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "/*/Text");
+        Assert.AreEqual(1, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Text");
+        Assert.AreEqual(4, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
+        Assert.AreEqual(3, altElements.Count);
     }
 
     
