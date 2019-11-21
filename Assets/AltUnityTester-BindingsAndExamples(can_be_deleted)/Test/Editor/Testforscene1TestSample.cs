@@ -793,6 +793,15 @@ public class TestForScene1TestSample
         Assert.AreEqual(2,cameras.Count);
     }
 
+    [Test]
+    public void TestFindObjectScene6()
+    {
+        altUnityDriver.LoadScene("Scene6");
+        Thread.Sleep(1000);
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
+        Assert.AreEqual( 3, altElements.Count);
+    }
+
     
 
 }
