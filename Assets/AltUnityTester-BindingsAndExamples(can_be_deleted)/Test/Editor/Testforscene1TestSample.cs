@@ -716,7 +716,7 @@ public class TestForScene1TestSample
     public void TestFindObjectsByLayer()
     {
         var altElements = altUnityDriver.FindObjects(By.LAYER,"Default");
-        Assert.AreEqual(12, altElements.Count);
+        Assert.AreEqual(11, altElements.Count);
     }
     [Test]
     public void TestFindObjectsByContainName()
