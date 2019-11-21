@@ -1,28 +1,22 @@
-image: python:latest
-# Change pip's cache directory to be inside the project directory since we can
-# only cache local items.
-variables:
-    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
-.uninstall_install_tester: &uninstall_install_tester
+.reinstall_and_start_app: &reinstall_and_start_app
 - adb uninstall fi.altom.altunitytester || true
 - adb install sampleGame.apk
 - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
 
 .initialize_venv: &initialize_venv
 - >
-  if [[ -d altunitytests ]]; then
-    echo "Activating virtual enviroment."
+  if [ -d altunitytests ]; then
+    echo "Activating virtual environment."
     source altunitytests/bin/activate
-    echo "Virtual enviroment has been activated."
+    echo "Virtual environment has been activated."
   else
-    echo "Creating virtual enviroment."
+    echo "Creating virtual environment."
     virtualenv altunitytests
     source altunitytests/bin/activate
-    echo "Virtual enviroment has been created and activated."
+    echo "Virtual environment has been created and activated."
   fi
 
-.pip_install_appium: &pip_install_appium 
+.pip_install_dependencies: &pip_install_dependencies
 - pip install Appium-Python-Client
 - pip uninstall --yes altunityrunner || true
 - pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
@@ -66,7 +60,7 @@ run-csharp-android-tests:
     tags:
         - unity
     script:
-        - *uninstall_install_tester
+        - *reinstall_and_start_app
         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
     artifacts:
       when: always
@@ -79,11 +73,11 @@ run-python-android-tests:
     tags:
         - unity
     script:
-        - *uninstall_install_tester
+        - *reinstall_and_start_app
         - adb forward --remove-all
         - adb forward tcp:13000 tcp:13000
         - *initialize_venv
-        - *pip_install_appium
+        - *pip_install_dependencies
         - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_bindings_tests.py"
 
 run-java-android-tests:
@@ -91,7 +85,7 @@ run-java-android-tests:
     tags:
         - unity
     script:
-        - *uninstall_install_tester
+        - *reinstall_and_start_app
         - adb forward --remove-all
         - adb forward tcp:13000 tcp:13000
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
@@ -154,7 +148,7 @@ run-python-appium-android-tests:
         - unity
     script:
         - *initialize_venv
-        - *pip_install_appium
+        - *pip_install_dependencies
         - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_appium_tests.py"
     artifacts:
         when: always
