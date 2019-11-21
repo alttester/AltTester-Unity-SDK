@@ -8,7 +8,7 @@ Welcome to AltUnity Tester's documentation!
 
 .. toctree::
    :maxdepth: 3
-   
+   pages/overview
    pages/commands
    pages/building-games
    pages/download-import
