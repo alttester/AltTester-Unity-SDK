@@ -44,25 +44,25 @@ MonoBehaviour:
     path: 
   - _selected: 0
     _testName: TestForScene1TestSample.TestButtonClickWithSwipe
-    _status: -1
-    _isSuite: 0
-    _parentName: TestForScene1TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: Passed in 2.9367217
-    _testStackTrace: 
-    _testDuration: 0
-    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
-  - _selected: 0
-    _testName: TestForScene1TestSample.TestCallMethodWithAssembly
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 2.6129291
+    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestCallMethodWithAssembly
+    _status: 1
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.166034
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithIncorrectNumberOfParameters
@@ -71,9 +71,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2175654
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.10399
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithIncorrectTypeOfParameters
@@ -82,9 +82,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2339143
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1009713
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithManyParameters
@@ -93,9 +93,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.238587
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1070344
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithMultipleDefinitions
@@ -104,9 +104,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3592647
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1311284
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithNoParameters
@@ -115,9 +115,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2048614
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1006203
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallMethodWithParameters
@@ -126,9 +126,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2921002
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1052664
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestCallStaticMethod
@@ -137,9 +137,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2427718
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1357001
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestClickElement
@@ -148,9 +148,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.368971
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1610236
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestClickScreen
@@ -159,9 +159,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3405798
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1587905
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestDeleteKey
@@ -170,9 +170,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3259244
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1598146
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestDifferentCamera
@@ -181,9 +181,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2905816
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1559279
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindChild
@@ -192,9 +192,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.0926436
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0829331
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElement
@@ -203,9 +203,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2140108
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0869738
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementByComponent
@@ -214,9 +214,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2143996
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.10112
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementByComponent2
@@ -225,9 +225,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2258292
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.085415
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElements
@@ -236,9 +236,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2177989
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.095061
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementsWhereNameContains
@@ -247,9 +247,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2128339
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0844211
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElementWhereNameContains
@@ -258,9 +258,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2262795
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0884942
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindElemetsByComponent
@@ -269,9 +269,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2179387
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0891628
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindingDifferentObjects
@@ -280,9 +280,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.339337
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1301874
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindNonExistentObject
@@ -291,9 +291,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.0934021
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0746459
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindNonExistentObjectByName
@@ -302,9 +302,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2291637
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0855731
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectByComponent
@@ -313,9 +313,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.22984
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0890531
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectByLayer
@@ -324,9 +324,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2500071
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0991813
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectByTag
@@ -335,9 +335,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2188487
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0901844
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectByUnityComponent
@@ -346,9 +346,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2141935
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0923588
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectsByContainName
@@ -357,9 +357,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1387914
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0897424
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectsByLayer
@@ -368,9 +368,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2176274
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0917324
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectsByTag
@@ -379,9 +379,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.215976
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0854423
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 1
     _testName: TestForScene1TestSample.TestFindObjectScene6
@@ -392,18 +392,18 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 104.6202241
+    _testDuration: 1.2080931
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectWhichContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0789285
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindObjectWithDifferentCameras
@@ -412,31 +412,31 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4129107
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1641151
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestFindWithFindObjectWhichContainsNotExistingObject
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0737517
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllCameras
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0867127
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllComponents
@@ -445,9 +445,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2168003
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1225543
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllElements
@@ -456,9 +456,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1245616
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.07818
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllEnabledElements
@@ -467,9 +467,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2170846
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.089728
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllFields
@@ -478,9 +478,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3815505
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1344826
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllMethods
@@ -489,9 +489,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2937011
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1190674
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetAllScenes
@@ -500,9 +500,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1058702
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0992379
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentProperty
@@ -511,9 +511,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3789972
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.103838
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentPropertyArray
@@ -522,9 +522,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2368689
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1039897
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetComponentPropertyUnityEngine
@@ -533,9 +533,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2402082
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.10197
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetCurrentScene
@@ -544,9 +544,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.131213
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0809528
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestGetNonExistingComponentProperty
@@ -555,9 +555,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4009254
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1127968
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestInactiveObject
@@ -566,9 +566,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1161121
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0754794
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetComponentProperty
@@ -577,9 +577,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.4081081
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1360949
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyFloat
@@ -588,9 +588,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3014403
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1232649
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyInt
@@ -599,9 +599,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2529493
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1303316
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetKeyString
@@ -610,9 +610,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2453858
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1203004
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetNonExistingComponentProperty
@@ -621,20 +621,20 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2103676
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1038692
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetTextForElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1411061
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestSetTimeScale
@@ -643,9 +643,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.1438611
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.1061477
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestTapScreenWhereThereIsNoObjects
@@ -654,9 +654,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1582699
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0785562
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForCurrentSceneToBe
@@ -665,9 +665,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2154607
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0896334
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForCurrrentSceneToBeANonExistingScene
@@ -676,9 +676,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.2739613
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.0867362
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForElementWithText
@@ -687,20 +687,20 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3699672
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1619521
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForExistingDisabledElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0797371
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForExistingElement
@@ -709,9 +709,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.1202089
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0929141
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForExistingElementWhereNameContains
@@ -720,9 +720,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.2848469
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1291199
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForNonExistingElementWhereNameContains
@@ -731,9 +731,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.2921856
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.108852
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForNonExistingObject
@@ -742,9 +742,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.1062918
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.0755086
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForObjectToNotExistFail
@@ -753,20 +753,20 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.6282348
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.5984479
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForObjectWhichContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0679277
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1TestSample.TestWaitForObjectWithTextWrongText
@@ -775,9 +775,9 @@ MonoBehaviour:
     _parentName: TestForScene1TestSample
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 1.2723718
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.139489
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch
@@ -785,439 +785,439 @@ MonoBehaviour:
     _isSuite: 1
     _parentName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 39
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestButtonClickWithSwipe
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 2.5883747
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithIncorrectNumberOfParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1051444
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithIncorrectTypeOfParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1054083
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithManyParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1027714
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithMultipleDefinitions
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1345244
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithNoParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0998432
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestCallMethodWithParameters
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1047356
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestClickElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1594663
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestClickScreen
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1586671
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestDifferentCamera
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1574958
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0744034
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElementByComponent
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0927137
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElementByComponent2
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0851467
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElements
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.087671
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElementsWhereNameContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0991555
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElementWhereNameContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0903482
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindElemetsByComponent
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0860814
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindNonExistentObject
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0861563
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestFindNonExistentObjectByName
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0830143
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetAllComponents
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1083833
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetAllFields
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1428885
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetAllMethods
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1209693
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetComponentProperty
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.112061
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetComponentPropertyArray
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0978265
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetComponentPropertyUnityEngine
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1017287
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestGetNonExistingComponentProperty
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1034105
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestInactiveObject
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0789582
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestSetComponentProperty
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1307895
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestSetNonExistingComponentProperty
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1026409
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForCurrentSceneToBe
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0789072
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForCurrrentSceneToBeANonExistingScene
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.0898508
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForElementWithText
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1733586
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForExistingDisabledElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0783762
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForExistingElement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0833553
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForExistingElementWhereNameContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.0847901
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForNonExistingElementWhereNameContains
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.1007597
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForNonExistingObject
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.0680118
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForObjectToNotExistFail
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.5842009
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene1WithOldSearch.TestWaitForObjectWithTextWrongText
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene1WithOldSearch
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 1.1266598
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene1WithOldSearch.cs
   - _selected: 0
     _testName: TestForScene2DraggablePanel
@@ -1239,7 +1239,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.4054213
+    _testDuration: 0.3874616
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForscene2DraggablePanel.cs
   - _selected: 0
     _testName: TestForScene2DraggablePanel.MovePanel
@@ -1250,7 +1250,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 2.2323432
+    _testDuration: 2.104893
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForscene2DraggablePanel.cs
   - _selected: 0
     _testName: TestForScene2DraggablePanel.ResizePanel
@@ -1261,7 +1261,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 4.5240907
+    _testDuration: 4.173586
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForscene2DraggablePanel.cs
   - _selected: 0
     _testName: TestForScene3DragAndDrop
@@ -1281,9 +1281,9 @@ MonoBehaviour:
     _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 4.8062116
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 4.4706709
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene3DragAndDrop.cs
   - _selected: 0
     _testName: TestForScene3DragAndDrop.MultipleDragAndDropWait
@@ -1292,9 +1292,9 @@ MonoBehaviour:
     _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 5.1311482
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 4.6360429
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene3DragAndDrop.cs
   - _selected: 0
     _testName: TestForScene3DragAndDrop.TestPointerEnterAndExit
@@ -1303,13 +1303,13 @@ MonoBehaviour:
     _parentName: TestForScene3DragAndDrop
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: Passed in 0.3525779
+    _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.2061637
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene3DragAndDrop.cs
   - _selected: 0
     _testName: TestForScene4NoCameras
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 1
@@ -1320,18 +1320,18 @@ MonoBehaviour:
     path: 
   - _selected: 0
     _testName: TestForScene4NoCameras.TestFindElementInASceneWithNoCameras
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene4NoCameras
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.1014979
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene4NoCameras.cs
   - _selected: 0
     _testName: TestForScene5KeyboardAndMouseInput
-    _status: 0
+    _status: 1
     _isSuite: 1
     _parentName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 6
@@ -1342,69 +1342,69 @@ MonoBehaviour:
     path: 
   - _selected: 0
     _testName: TestForScene5KeyboardAndMouseInput.TestButton
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.440554
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene5KeyboardAndMouseInput.cs
   - _selected: 0
     _testName: TestForScene5KeyboardAndMouseInput.TestCameraMovement
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 2.1151645
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene5KeyboardAndMouseInput.cs
   - _selected: 0
     _testName: TestForScene5KeyboardAndMouseInput.TestCreatingStars
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 3.7842684
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene5KeyboardAndMouseInput.cs
   - _selected: 0
     _testName: TestForScene5KeyboardAndMouseInput.TestKeyboardPress
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 103.9055168
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene5KeyboardAndMouseInput.cs
   - _selected: 0
     _testName: TestForScene5KeyboardAndMouseInput.TestMovementCube
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 3.154703
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene5KeyboardAndMouseInput.cs
   - _selected: 0
     _testName: TestForScene5KeyboardAndMouseInput.TestPowerJoystick
-    _status: 0
+    _status: 1
     _isSuite: 0
     _parentName: TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0
+    _testDuration: 0.5077473
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/TestForScene5KeyboardAndMouseInput.cs
   Scenes:
   - _toBeBuilt: 1
@@ -1428,7 +1428,7 @@ MonoBehaviour:
       5 Keyboard Input.unity
     _buildIndex: 4
   - _toBeBuilt: 1
-    _path: Assets/AltUnityTester-BindingsAndExampless/Scenes/Scene6.unity
+    _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity
     _buildIndex: 5
   platform: 1
   standaloneTarget: 5
