@@ -23,4 +23,6 @@ public class EditorConfiguration : ScriptableObject
     public int serverPort = 13000;
     public bool scenePathDisplayed;
 
+    public bool inputVisualizer;
+
 }

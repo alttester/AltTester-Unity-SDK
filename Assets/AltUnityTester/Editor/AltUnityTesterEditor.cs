@@ -1,4 +1,4 @@
-﻿
+
 using System.Linq;
 public class AltUnityTesterEditor : UnityEditor.EditorWindow
 {
@@ -514,7 +514,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.BeginVertical();
         if (_foldOutScenes)
         {
-            UnityEngine.GUILayout.BeginVertical(UnityEngine.GUI.skin.textField);
+            UnityEngine.GUILayout.BeginVertical(UnityEngine.GUI.skin.textField,UnityEngine.GUILayout.MaxHeight(30));
             UnityEngine.GUILayout.BeginHorizontal();
             UnityEngine.GUILayout.Label("DeviceId", guiStyle, UnityEngine.GUILayout.MinWidth(75), UnityEngine.GUILayout.ExpandWidth(true));
             UnityEngine.GUILayout.FlexibleSpace();
@@ -713,7 +713,6 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         AltUnityBuilder.InsertAltUnityInTheActiveScene();
         AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
         AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
-
         UnityEditor.EditorApplication.isPlaying = true;
 
     }
@@ -756,10 +755,19 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             UnityEditor.EditorGUILayout.EndHorizontal();
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
-            UnityEditor.EditorGUILayout.LabelField("Append \"Test\" to product name for AltUnityTester builds:", UnityEngine.GUILayout.Width(330));
 
+            UnityEditor.EditorGUILayout.LabelField("Input visualizer:", UnityEngine.GUILayout.Width(145));
+            EditorConfiguration.inputVisualizer =
+                UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.inputVisualizer, UnityEngine.GUILayout.MaxWidth(30));
+            UnityEngine.GUILayout.FlexibleSpace();
+            UnityEditor.EditorGUILayout.EndHorizontal();
+
+            UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
+            UnityEditor.EditorGUILayout.LabelField("Append \"Test\" to product name for AltUnityTester builds:", UnityEngine.GUILayout.Width(330));
             EditorConfiguration.appendToName =
                 UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.appendToName, UnityEngine.GUILayout.MaxWidth(30));
+
             UnityEngine.GUILayout.FlexibleSpace();
             UnityEditor.EditorGUILayout.EndHorizontal();
 
