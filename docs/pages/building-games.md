@@ -103,6 +103,6 @@ This is our method to build for Android that we call with the following command:
 ```
 More info about commands you can find [here](https://docs.unity3d.com/Manual/CommandLineArguments.html)
 
-**The two important lines in the method that add AltUnityTester in the build are the same as mentioned in [custom build](#2.Custom Build)**
+**The two important lines in the method that add AltUnityTester in the build are the same as mentioned in [Custom build](#2.custom-build)**
 
 
