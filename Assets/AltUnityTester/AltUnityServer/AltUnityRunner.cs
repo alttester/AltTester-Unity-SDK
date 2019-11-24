@@ -62,6 +62,19 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     
     public static AltResponseQueue _responseQueue;
 
+    public bool ShowInputs
+    {
+        get
+        {
+            return _showInputs;
+        }
+
+        set
+        {
+            _showInputs = value;
+        }
+    }
+
     #region MonoBehaviour
 
     void Awake()

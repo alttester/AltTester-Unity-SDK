@@ -1,4 +1,4 @@
-﻿
+
 
 
 public static class PlatformName
@@ -237,8 +237,12 @@ public class AltUnityBuilder
     {
         UnityEngine.Debug.Log("Adding AltUnityRunnerPrefab into the [" + scene + "] scene.");
         var altUnityRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
+        
         SceneWithAltUnityRunner = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scene);
         AltUnityRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altUnityRunner);
+        var component = ((UnityEngine.GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
+        component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
+
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
         UnityEngine.Debug.Log("Scene successfully modified.");
@@ -254,6 +258,7 @@ public class AltUnityBuilder
         var altUnityRunner =
             UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(
                 UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
+        altUnityRunner.GetComponent<AltUnityRunner>().ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
 
 
 
@@ -265,6 +270,7 @@ public class AltUnityBuilder
         altUnityRunnerComponent.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.serverPort;
         altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.requestEnding;
         altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.requestSeparator;
+        altUnityRunnerComponent.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
 
