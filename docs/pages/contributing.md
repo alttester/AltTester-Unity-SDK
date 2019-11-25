@@ -19,7 +19,7 @@ If you’re unable to find an open issue addressing the problem, open a [new iss
 If you find yourself wishing for a feature that doesn’t exist in AltUnityTester:
 
 * Ensure the enhancement was not already reported by searching all issues.
-* Open an (TODO add link to issue template). Be sure to include a clear description of the feature you would like to see, as much relevant information as possible:
+* Open an [new issue](https://gitlab.com/altom/altunity/altunitytester/issues/new?issuable_template=NewFeatureTemplate). Be sure to include a clear description of the feature you would like to see, as much relevant information as possible:
   * Why you need it?
   * How should it work?
 
