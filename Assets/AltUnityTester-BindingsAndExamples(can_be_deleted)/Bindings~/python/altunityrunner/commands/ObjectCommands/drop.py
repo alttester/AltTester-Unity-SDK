@@ -1,7 +1,7 @@
 from altunityrunner.commands.base_command import BaseCommand
 class Drop(BaseCommand):
     def __init__(self, socket,request_separator,request_end,alt_object):
-        super().__init__(socket,request_separator,request_end,x,y)
+        super(Drop, self).__init__(socket,request_separator,request_end,x,y)
         self.x=x
         self.y=y
         self.alt_object=alt_object

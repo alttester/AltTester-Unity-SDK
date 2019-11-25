@@ -1,7 +1,7 @@
 from altunityrunner.commands.base_command import BaseCommand
 class CallStaticMethods(BaseCommand):
     def __init__(self, socket,request_separator,request_end,type_name, method_name, parameters, type_of_parameters = '',assembly=''):
-        super().__init__(socket,request_separator,request_end)
+        super(CallStaticMethods, self).__init__(socket,request_separator,request_end)
         self.type_name=type_name
         self.method_name=method_name
         self.parameters=parameters

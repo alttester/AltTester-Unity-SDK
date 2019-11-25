@@ -2,7 +2,7 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class ClickAtCoordinates(BaseCommand):
     def __init__(self, socket,request_separator,request_end, x, y):
-        super().__init__(socket,request_separator,request_end)
+        super(ClickAtCoordinates, self).__init__(socket,request_separator,request_end)
         self.x=x
         self.y=y
     
