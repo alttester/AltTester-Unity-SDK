@@ -122,8 +122,6 @@ class AltrunUnityDriver(object):
     def get_current_scene(self):
         return GetCurrentScene(self.socket,self.request_separator,self.request_end,self.appium_driver).execute()
 
-    def click_at_coordinates(self, x, y):
-        return ClickAtCoordinates(self.socket,self.request_separator,self.request_end).execute()
 
     def swipe(self, x_start, y_start, x_end, y_end, duration_in_secs):
         return Swipe(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
