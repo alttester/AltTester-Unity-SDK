@@ -1,5 +1,6 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 from altunityrunner.altUnityExceptions import WaitTimeOutException
+from altunityrunner.commands.FindObjects.find_object import FindObject
 import time
 class WaitForObjectWithText(CommandReturningAltElements):
     def __init__(self, socket,request_separator,request_end,appium_driver, by,value,text,camera_name, timeout, interval,enabled):
@@ -15,16 +16,16 @@ class WaitForObjectWithText(CommandReturningAltElements):
     def execute(self):
         t = 0
         alt_element = None
-        while (t <= timeout):
+        while (t <= self.timeout):
             try:
-                alt_element=self.find_object(value,camera_name,enabled)
-                if alt_element.get_text() == text:
+                alt_element=FindObject(self.socket,self.request_separator,self.request_end,self.appium_driver,self.by,self.value,self.camera_name,self.enabled).execute()
+                if alt_element.get_text() == self.text:
                     break
                 raise Exception('Not the wanted text')
-            except Exception:
-                print('Waiting for element ' + value + ' to have text ' + text)
-                time.sleep(interval)
-                t += interval
-        if t>=timeout:
-            raise WaitTimeOutException('Element ' + value + ' should have text `' + text + '` but has `' + alt_element.get_text() + '` after ' + str(timeout) + ' seconds')
+            except Exception as e:
+                print('Waiting for element ' + self.value + ' to have text ' + self.text)
+                time.sleep(self.interval)
+                t += self.interval
+        if t>=self.timeout:
+            raise WaitTimeOutException('Element ' + self.value + ' should have text `' + self.text + '` but has `' + alt_element.get_text() + '` after ' + str(self.timeout) + ' seconds')
         return alt_element
