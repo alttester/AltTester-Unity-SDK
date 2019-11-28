@@ -20,7 +20,11 @@ Welcome to AltUnity Tester's documentation!
    pages/other/java-builders
 
 
-   
+.. toctree::
+    :caption: Community:
+
+    Gitter <https://gitter.im/AltUnityTester/Lobby>
+
 
 
 
