@@ -14,7 +14,7 @@
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            UnityEngine.Debug.Log("scrollMouse with: " + scrollValue);
+            AltUnityRunner._altUnityRunner.LogMessage("scrollMouse with: " + scrollValue);
             Input.Scroll(scrollValue, duration);
             return "Ok";
 #endif

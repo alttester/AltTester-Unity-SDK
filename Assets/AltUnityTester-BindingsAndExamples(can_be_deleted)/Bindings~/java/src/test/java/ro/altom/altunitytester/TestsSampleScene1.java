@@ -5,6 +5,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class TestsSampleScene1 {
 
     @BeforeClass
     public static void setUp() throws IOException {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000,";","&",true);
     }
 
     @AfterClass
@@ -501,5 +503,16 @@ public void TestCallStaticMethod() throws Exception {
         AltUnityObject capsuleAfterRotation = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule");
         String finalRotation = capsuleAfterRotation.getComponentProperty("UnityEngine.Transform", "rotation");
         assertNotEquals(initialRotation, finalRotation);
+    }
+    @Test
+    public void TestWaitForObjectToNotBePresent(){
+        AltFindObjectsParameters altFindObjectsParameters1=new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"ObjectDestroyedIn5Secs").build();
+        AltWaitForObjectsParameters altWaitForObjectsParameters1=new AltWaitForObjectsParameters.Builder(altFindObjectsParameters1).build();
+        altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParameters1);
+
+
+        AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Capsulee").build();
+        AltWaitForObjectsParameters altWaitForObjectsParameters=new AltWaitForObjectsParameters.Builder(altFindObjectsParameters).build();
+        altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParameters);
     }
 }

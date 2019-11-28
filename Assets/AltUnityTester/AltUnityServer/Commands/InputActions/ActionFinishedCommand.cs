@@ -6,7 +6,7 @@
         {
                 string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
 #if ALTUNITYTESTER
-                UnityEngine.Debug.Log("actionFinished");
+                AltUnityRunner._altUnityRunner.LogMessage("actionFinished");
                 if (Input.Finished)
                     response = "Yes";
                 else

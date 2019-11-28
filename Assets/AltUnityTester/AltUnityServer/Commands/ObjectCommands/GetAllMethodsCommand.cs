@@ -11,7 +11,7 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("getAllMethods");
+            AltUnityRunner._altUnityRunner.LogMessage("getAllMethods");
             System.Type type = GetType(component.componentName, component.assemblyName);
             var methodInfos = type.GetMembers(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 

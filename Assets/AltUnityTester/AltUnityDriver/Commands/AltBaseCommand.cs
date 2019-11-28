@@ -1,3 +1,5 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public class AltBaseCommand
 {
     private static int BUFFER_SIZE = 1024;
@@ -27,15 +29,33 @@ public class AltBaseCommand
         {
             string[] start = new string[] { "altstart::" };
             string[] end = new string[] { "::altend" };
+            string[] startLogMessage = new string[] { "::altLog::" };
             data = data.Split(start, System.StringSplitOptions.None)[1].Split(end, System.StringSplitOptions.None)[0];
+            var splittedString = data.Split(startLogMessage, System.StringSplitOptions.None);
+            var response = splittedString[0];
+            data = response;
+            var logMessage = splittedString[1];
+            if (SocketSettings.logFlag)
+            {
+                WriteInLogFile(logMessage);
+                WriteInLogFile(System.DateTime.Now + ": response received: " + response);
+            }
+
         }
         catch (System.Exception)
         {
-            UnityEngine.Debug.Log("Data received from socket doesn't have correct start and end control strings");
+            System.Diagnostics.Debug.WriteLine("Data received from socket doesn't have correct start and end control strings");
         }
 
         return data;
     }
+    private void WriteInLogFile(string logMessage)
+    {
+        var FileWriter = new System.IO.StreamWriter(@"AltUnityTesterLog.txt", true);
+        FileWriter.WriteLine(logMessage);
+        FileWriter.Close();
+    }
+
     public string CreateCommand(params string[] arguments)
     {
         string command = "";
@@ -92,8 +112,16 @@ public class AltBaseCommand
     }
     public TextureInformation ReceiveImage()
     {
-
+        
         var data = Recvall();
+        if (data == "Ok")
+        {
+            data = Recvall();
+        }
+        else
+        {
+            throw new System.Exception("Out of order operations");
+        }
         string[] screenshotInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(data);
 
         // Some workaround this: https://stackoverflow.com/questions/710853/base64-string-throwing-invalid-character-error
@@ -109,9 +137,9 @@ public class AltBaseCommand
         var length = screenshotInfo[1];
         var LongLength = Newtonsoft.Json.JsonConvert.DeserializeObject<long>(length);
         var textureFormatString = screenshotInfo[2];
-        var textureFormat = (UnityEngine.TextureFormat)System.Enum.Parse(typeof(UnityEngine.TextureFormat), textureFormatString);
+        var textureFormat = (Assets.AltUnityTester.AltUnityDriver.UnityStruct.TextureFormat)System.Enum.Parse(typeof(Assets.AltUnityTester.AltUnityDriver.UnityStruct.TextureFormat), textureFormatString);
         var textSizeString = screenshotInfo[3];
-        var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector3>(textSizeString);
+        var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<Vector3>(textSizeString);
 
         System.Byte[] imageCompressed = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Byte[]>(screenshotInfo[4], new Newtonsoft.Json.JsonSerializerSettings
         {
@@ -119,7 +147,8 @@ public class AltBaseCommand
         });
 
         System.Byte[] imageDecompressed = DeCompressScreenshot(imageCompressed);
-        return new TextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(scaleDifference), textSizeVector3, textureFormat);
+
+        return new TextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3, textureFormat);
     }
     public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
     {
@@ -127,7 +156,7 @@ public class AltBaseCommand
         using (var memoryStreamInput = new System.IO.MemoryStream(screenshotCompressed))
         using (var memoryStreamOutput = new System.IO.MemoryStream())
         {
-            using (var gs = new Unity.IO.Compression.GZipStream(memoryStreamInput, Unity.IO.Compression.CompressionMode.Decompress))
+            using (var gs = new System.IO.Compression.GZipStream(memoryStreamInput, System.IO.Compression.CompressionMode.Decompress))
             {
                 CopyTo(gs, memoryStreamOutput);
             }

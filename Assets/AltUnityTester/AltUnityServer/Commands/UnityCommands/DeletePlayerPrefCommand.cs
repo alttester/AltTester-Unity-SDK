@@ -6,7 +6,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("deletePlayerPref");
+            AltUnityRunner._altUnityRunner.LogMessage("deletePlayerPref");
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             UnityEngine.PlayerPrefs.DeleteAll();
             response = "Ok";

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
-using UnityEngine;
+using System.Diagnostics;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 [Timeout(5000)]
 public class TestForScene1TestSample
 {
@@ -88,9 +90,9 @@ public class TestForScene1TestSample
             listOfElements+=element.name+"; ";
         }
 
-        Debug.Log(listOfElements);
+        Debug.WriteLine(listOfElements);
 
-        Assert.AreEqual(25, altElements.Count,listOfElements);
+        Assert.AreEqual(26, altElements.Count,listOfElements);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -114,9 +116,9 @@ public class TestForScene1TestSample
             listOfElements+=element.name+"; ";
         }
 
-        Debug.Log(listOfElements);
+        Debug.WriteLine(listOfElements);
         
-        Assert.AreEqual(31, altElements.Count);
+        Assert.AreEqual(32, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -185,7 +187,7 @@ public class TestForScene1TestSample
         Assert.NotNull(altElement);
         Assert.AreEqual(altElement.name, "Directional Light");
     }
-
+   
 
     [Test]
     public void TestWaitForElementWithText()
@@ -526,6 +528,13 @@ public class TestForScene1TestSample
         }
     }
     [Test]
+    public void TestWaitForObjectToNotExist()
+    {
+            altUnityDriver.WaitForObjectNotBePresent(By.NAME, "ObjectDestroyedIn5Secs");
+            altUnityDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee", timeout: 1, interval: 0.5f);
+    }
+
+    [Test]
     public void TestWaitForObjectToNotExistFail()
     {
         try
@@ -714,7 +723,7 @@ public class TestForScene1TestSample
     public void TestFindObjectsByLayer()
     {
         var altElements = altUnityDriver.FindObjects(By.LAYER,"Default");
-        Assert.AreEqual(11, altElements.Count);
+        Assert.AreEqual(12, altElements.Count);
     }
     [Test]
     public void TestFindObjectsByContainName()
@@ -765,7 +774,32 @@ public class TestForScene1TestSample
         Assert.AreEqual("Canvas", altElement.name);
         
     }
+    [Test]
+    public void TestFindObjectWhichContains()
+    {
+        var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
+        Assert.AreEqual("EventSystem", altElement.name);
+    }
+    [Test]
+    public void TestFindWithFindObjectWhichContainsNotExistingObject()
+    {
+        try
+        {
+            var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "EventNonExisting");
+            Assert.Fail("Error should have been thrown");
+        }
+        catch(NotFoundException exception)
+        {
+            Assert.AreEqual(exception.Message, "error:notFound");
+        }
+    }
+    [Test]
+    public void TestGetAllCameras()
+    {
+        var cameras = altUnityDriver.GetAllCameras();
+        Assert.AreEqual(2,cameras.Count);
+    }
 
-
+    
 
 }

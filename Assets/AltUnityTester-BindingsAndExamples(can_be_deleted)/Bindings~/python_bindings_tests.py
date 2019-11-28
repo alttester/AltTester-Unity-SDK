@@ -14,7 +14,7 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltrunUnityDriver(None, 'android', TCP_FWD_PORT=13000)
+        cls.altdriver = AltrunUnityDriver(None, 'android', TCP_FWD_PORT=13000,log_flag=True)
 
     @classmethod
     def tearDownClass(cls):
@@ -335,7 +335,7 @@ class PythonTests(unittest.TestCase):
     def test_find_objects_by_layer(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElements = self.altdriver.find_objects(By.LAYER,"Default")
-        self.assertEquals(11, len(altElements))
+        self.assertEquals(12, len(altElements))
     
     def test_find_objects_by_contains_name(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -445,7 +445,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(25, len(list_of_elements),list_of_elements)
+        self.assertEqual(26, len(list_of_elements),list_of_elements)
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -466,7 +466,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
         
-        self.assertEqual(31, len(list_of_elements))
+        self.assertEqual(32, len(list_of_elements))
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -479,6 +479,30 @@ class PythonTests(unittest.TestCase):
         self.assertTrue("Cube" in list_of_elements)
         self.assertTrue("Camera" in list_of_elements)
         self.assertTrue("InputField" in list_of_elements)
+
+    def test_find_object_which_contains(self):
+        altElement = self.altdriver.find_object_which_contains(By.NAME, "Event");
+        self.assertEqual("EventSystem", altElement.name)
+
+    def test_find_with_find_object_which_contains_not_existing_object(self):
+        try:
+            altElement = self.altdriver.find_object_which_contains(By.NAME, "EventNonExisting");
+            self.assertEqual(False,True)
+        except NotFoundException as e:
+            self.assertEqual(e.args[0],"error:notFound")
+
+    def test_wait_for_object(self):
+        altElement=self.altdriver.wait_for_object(By.NAME,"Capsule")
+        self.assertEqual(altElement.name,"Capsule")
+    def test_wait_for_object_to_not_be_present(self):
+        self.altdriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
+    def test_wait_for_object_which_contains(self):
+        altElement=self.altdriver.wait_for_object_which_contains(By.NAME,"Main")
+        self.assertEqual(altElement.name,"Main Camera")
+
+    def test_wait_for_object_with_text(self):
+        altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
+        self.assertEqual(altElement.name,"CapsuleInfo")
 
        
 if __name__ == '__main__':

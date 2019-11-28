@@ -21,7 +21,7 @@ public class TestSampleScene5 {
 
     @BeforeClass
     public static void setUp() throws IOException {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000,";","&",true);
     }
 
     @AfterClass

@@ -4,7 +4,7 @@
     {
         public override string Execute()
         {
-            UnityEngine.Debug.Log("GetTimeScale");
+            AltUnityRunner._altUnityRunner.LogMessage("GetTimeScale");
             string response = AltUnityRunner._altUnityRunner.errorCouldNotPerformOperationMessage;
             response = Newtonsoft.Json.JsonConvert.SerializeObject(UnityEngine.Time.timeScale);
             return response;

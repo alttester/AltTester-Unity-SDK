@@ -12,7 +12,7 @@
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            UnityEngine.Debug.Log("Tilt device with: " + acceleration);
+            AltUnityRunner._altUnityRunner.LogMessage("Tilt device with: " + acceleration);
             Input.acceleration = acceleration;
             return "OK";
 #endif

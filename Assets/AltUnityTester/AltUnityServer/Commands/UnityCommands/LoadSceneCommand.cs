@@ -11,7 +11,7 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("LoadScene " + scene);
+            AltUnityRunner._altUnityRunner.LogMessage("LoadScene " + scene);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             UnityEngine.SceneManagement.SceneManager.LoadScene(scene);
             response = "Ok";

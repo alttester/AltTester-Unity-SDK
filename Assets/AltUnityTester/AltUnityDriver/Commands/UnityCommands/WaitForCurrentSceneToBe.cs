@@ -18,7 +18,7 @@ public class WaitForCurrentSceneToBe : AltBaseCommand
             currentScene = new GetCurrentScene(SocketSettings).Execute();
             if (!currentScene.Equals(sceneName))
             {
-                UnityEngine.Debug.Log("Waiting for scene to be " + sceneName + "...");
+                System.Diagnostics.Debug.WriteLine("Waiting for scene to be " + sceneName + "...");
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
             }
