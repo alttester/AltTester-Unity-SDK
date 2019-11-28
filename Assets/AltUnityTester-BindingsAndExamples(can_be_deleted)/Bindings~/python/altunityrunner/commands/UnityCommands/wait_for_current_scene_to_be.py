@@ -4,7 +4,7 @@ from altunityrunner.commands.UnityCommands.get_current_scene import *
 import time
 class WaitForCurrentSceneToBe(CommandReturningAltElements):
     def __init__(self, socket,request_separator,request_end,appium_driver, scene_name, timeout, interval):
-        super().__init__(socket,request_separator,request_end,appium_driver)
+        super(WaitForCurrentSceneToBe, self).__init__(socket,request_separator,request_end,appium_driver)
         self.scene_name=scene_name
         self.timeout=timeout
         self.interval=interval
