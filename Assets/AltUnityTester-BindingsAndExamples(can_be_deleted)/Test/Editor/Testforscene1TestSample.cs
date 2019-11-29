@@ -800,25 +800,24 @@ public class TestForScene1TestSample
         Assert.AreEqual(5, altElements.Count);
     }
 
-    //TODO failing on pipeline, thinking is a problem how we load scene and this cause test flakiness
-    // [Test]
-    // public void TestFindObjectScene6()
-    // {
-    //     altUnityDriver.LoadScene("Scene6");
+    [Test]
+    public void TestFindObjectScene6()
+    {
+        altUnityDriver.LoadScene("Scene6");
         
-    //     Thread.Sleep(1000);
-    //     altUnityDriver.WaitForCurrentSceneToBe("Scene6");
-    //     var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
-    //     Assert.AreEqual(2, altElements.Count);
-    //     altElements = altUnityDriver.FindObjects(By.PATH, "/*/*/Text");
-    //     Assert.AreEqual( 2, altElements.Count);
-    //     altElements = altUnityDriver.FindObjects(By.PATH, "/*/Text");
-    //     Assert.AreEqual(1, altElements.Count);
-    //     altElements = altUnityDriver.FindObjects(By.PATH, "//Text");
-    //     Assert.AreEqual(4, altElements.Count);
-    //     altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
-    //     Assert.AreEqual(3, altElements.Count);
-    // }
+        Thread.Sleep(1000);
+        altUnityDriver.WaitForCurrentSceneToBe("Scene6");
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
+        Assert.AreEqual(2, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "/*/*/Text");
+        Assert.AreEqual( 2, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "/*/Text");
+        Assert.AreEqual(1, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Text");
+        Assert.AreEqual(4, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
+        Assert.AreEqual(3, altElements.Count);
+    }
 
     
 
