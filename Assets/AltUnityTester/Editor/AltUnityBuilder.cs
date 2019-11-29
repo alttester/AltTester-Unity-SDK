@@ -241,7 +241,14 @@ public class AltUnityBuilder
         SceneWithAltUnityRunner = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scene);
         AltUnityRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altUnityRunner);
         var component = ((UnityEngine.GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
-        component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
+        if (AltUnityTesterEditor.EditorConfiguration == null)
+        {
+            component.ShowInputs = false;
+        }
+        else
+        {
+            component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
+        }
 
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
