@@ -82,7 +82,7 @@ public class AltSocketServer {
         ClientHandlerThreads = System.Collections.ArrayList.Synchronized(new System.Collections.ArrayList());
         this.maxClients = maxClients;
 
-        System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
+        System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse("0.0.0.0");
         localEndPoint = new System.Net.IPEndPoint(ipAddress, this.portNumber);
         Listener = new AltTcpListener(localEndPoint.Address, this.portNumber);
 
