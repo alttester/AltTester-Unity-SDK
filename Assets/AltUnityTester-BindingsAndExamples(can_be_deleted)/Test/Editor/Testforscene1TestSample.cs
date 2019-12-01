@@ -800,6 +800,13 @@ public class TestForScene1TestSample
         Assert.AreEqual(2,cameras.Count);
     }
 
+    [Test]
+    public void TestGetScreenshot(){
+        var path="testC.png";
+        altUnityDriver.GetPNGScreenshot(path);
+        FileAssert.Exists(path);
+    }
+
     
 
 }

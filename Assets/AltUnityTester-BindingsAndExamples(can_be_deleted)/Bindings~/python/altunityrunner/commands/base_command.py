@@ -9,7 +9,7 @@ class BaseCommand(object):
         self.request_end=request_end
         self.socket=socket
 
-    def recvall(self):
+    def recvall(self,print_output=True):
         data = ''
         previousPart=''
         while True:
@@ -28,7 +28,8 @@ class BaseCommand(object):
         except:
             print('Data received from socket doesn not have correct start and end control strings')
             return ''
-        print('Received data was: ' + data)
+        if print_output:
+            print('Received data was: ' + data)
         return data
     
     def write_to_log_file(self,message):
