@@ -749,7 +749,7 @@ public class TestForScene1TestSample
     public void TestGetAllScenes()
     {
         var scenes = altUnityDriver.GetAllScenes();
-        Assert.AreEqual(5, scenes.Count);
+        Assert.AreEqual(6, scenes.Count);
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
     }
     [Test]
@@ -801,6 +801,30 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestFindObjectScene1()
+    {
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
+        Assert.AreEqual(5, altElements.Count);
+    }
+
+    [Test]
+    public void TestFindObjectScene6()
+    {
+        altUnityDriver.LoadScene("Scene6");
+        
+        Thread.Sleep(1000);
+        altUnityDriver.WaitForCurrentSceneToBe("Scene6");
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
+        Assert.AreEqual(2, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "/*/*/Text");
+        Assert.AreEqual( 2, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "/*/Text");
+        Assert.AreEqual(1, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Text");
+        Assert.AreEqual(4, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
+        Assert.AreEqual(3, altElements.Count);
+    }
     public void TestGetScreenshot(){
         var path="testC.png";
         altUnityDriver.GetPNGScreenshot(path);
