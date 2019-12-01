@@ -770,12 +770,9 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.showPopUp, UnityEngine.GUILayout.MaxWidth(30));
             UnityEngine.GUILayout.FlexibleSpace();
             UnityEditor.EditorGUILayout.EndHorizontal();
-
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.LabelField("Append \"Test\" to product name for AltUnityTester builds:", UnityEngine.GUILayout.Width(330));
-
-
             EditorConfiguration.appendToName =
                 UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.appendToName, UnityEngine.GUILayout.MaxWidth(30));
 
