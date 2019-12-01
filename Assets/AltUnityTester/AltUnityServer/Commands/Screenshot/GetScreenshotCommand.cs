@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -16,7 +16,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
             AltUnityRunner._altUnityRunner.LogMessage("getScreenshot" + size);
-            AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.TakeScreenshot(size, handler));
+            AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.TakeTexturedScreenshot(size, handler));
             return "Ok";
         }
     }

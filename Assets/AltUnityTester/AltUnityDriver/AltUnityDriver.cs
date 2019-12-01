@@ -261,4 +261,8 @@ public class AltUnityDriver
         return new GetScreenshot(socketSettings, coordinates, color, width, size).Execute();
 
     }
+    public void GetPNGScreenshot(string path)
+    {
+        new GetPNGScreenshot(socketSettings,path).Execute();
+    }
 }
