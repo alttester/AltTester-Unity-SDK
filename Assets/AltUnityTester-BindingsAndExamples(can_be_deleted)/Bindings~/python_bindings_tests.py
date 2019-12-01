@@ -3,6 +3,7 @@ import unittest
 import sys
 import json
 import time
+from os import path
 from altunityrunner import *
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -490,6 +491,10 @@ class PythonTests(unittest.TestCase):
             self.assertEqual(False,True)
         except NotFoundException as e:
             self.assertEqual(e.args[0],"error:notFound")
+    def test_screenshot(self):
+        png_path="testPython.png"
+        self.altdriver.get_png_screenshot(png_path)
+        self.assertTrue(path.exists(png_path))
 
     def test_wait_for_object(self):
         altElement=self.altdriver.wait_for_object(By.NAME,"Capsule")

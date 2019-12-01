@@ -434,7 +434,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     command = new SetTextCommand(altUnityObject, pieces[2]);
                     break;
-                
+                case "getPNGScreenshot":
+                    command = new GetScreenshotPNGCommand(handler);
+                    break;
+
+
                 default:
                     command = new UnknowStringCommand();
                     break;
@@ -570,12 +574,21 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
     }
     
-    public System.Collections.IEnumerator TakeScreenshot(UnityEngine.Vector2 size, AltClientSocketHandler handler) {
+    public System.Collections.IEnumerator TakeTexturedScreenshot(UnityEngine.Vector2 size, AltClientSocketHandler handler) {
         yield return new UnityEngine.WaitForEndOfFrame();
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
 
         var response=new ScreenshotReadyCommand(screenshot, size).Execute();
         handler.SendResponse(response);
+    }
+    public System.Collections.IEnumerator TakeScreenshot(AltClientSocketHandler handler)
+    {
+        yield return new UnityEngine.WaitForEndOfFrame();
+        var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
+        var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
+        var pngAsString = Convert.ToBase64String(bytesPNG);
+
+        handler.SendResponse(pngAsString);
     }
 
     public void ShowClick(UnityEngine.Vector2 position)
@@ -618,5 +631,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
             return memoryStreamOutout.ToArray();
         }
+    }
+    static bool ByteArrayCompare(byte[] a1, byte[] a2)
+    {
+        if (a1.Length != a2.Length)
+            return false;
+
+        for (int i = 0; i < a1.Length; i++)
+            if (a1[i] != a2[i])
+                return false;
+
+        return true;
     }
 }
