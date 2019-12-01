@@ -47,8 +47,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     [UnityEngine.Space] 
     [UnityEngine.SerializeField] private bool _showInputs;
     [UnityEngine.SerializeField] private InputsVisualiser _inputsVisualiser;
-    
+
     [UnityEngine.Space]
+
+    public bool showPopUp;
+    [UnityEngine.SerializeField] private UnityEngine.GameObject AltUnityPopUpCanvas;
     public bool destroyHightlight = false; 
     public int SocketPortNumber = 13000;
     public bool DebugBuildNeeded = true;
@@ -106,6 +109,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
         UnityEngine.Debug.Log(myPathFile);
         FileWriter = new System.IO.StreamWriter(myPathFile, true);
+        if (showPopUp == false)
+        {
+            AltUnityPopUpCanvas.SetActive(false);
+        }
 
     }
 

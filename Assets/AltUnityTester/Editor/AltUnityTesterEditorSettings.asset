@@ -21,11 +21,11 @@ MonoBehaviour:
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 118
+    _testCaseCount: 120
     _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
@@ -36,7 +36,7 @@ MonoBehaviour:
     _status: 1
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 66
+    _testCaseCount: 68
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
@@ -548,6 +548,17 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0.2512556
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestGetScreenshot
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
+    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 1
     _testName: TestForScene1TestSample.TestInactiveObject
     _status: 1
@@ -734,6 +745,17 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 1.1062344
+    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestWaitForObjectToNotExist
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 1
     _testName: TestForScene1TestSample.TestWaitForObjectToNotExistFail
@@ -1403,19 +1425,19 @@ MonoBehaviour:
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       2 Draggable Panel.unity
-    _buildIndex: 1
+    _buildIndex: 0
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       3 Drag And Drop.unity
-    _buildIndex: 2
+    _buildIndex: 0
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       4 No Cameras.unity
-    _buildIndex: 3
+    _buildIndex: 0
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       5 Keyboard Input.unity
-    _buildIndex: 4
+    _buildIndex: 0
   platform: 1
   standaloneTarget: 5
   ranInEditor: 1
@@ -1423,3 +1445,5 @@ MonoBehaviour:
   requestEnding: '&'
   serverPort: 13000
   scenePathDisplayed: 1
+  inputVisualizer: 0
+  showPopUp: 1

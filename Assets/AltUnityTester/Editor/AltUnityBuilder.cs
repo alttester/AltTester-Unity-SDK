@@ -244,10 +244,12 @@ public class AltUnityBuilder
         if (AltUnityTesterEditor.EditorConfiguration == null)
         {
             component.ShowInputs = false;
+            component.showPopUp = true;
         }
         else
         {
             component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
+            component.showPopUp = AltUnityTesterEditor.EditorConfiguration.showPopUp;
         }
 
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
@@ -267,8 +269,6 @@ public class AltUnityBuilder
                 UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
         altUnityRunner.GetComponent<AltUnityRunner>().ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
 
-
-
         PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
         SceneWithAltUnityRunner = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
 
@@ -278,6 +278,7 @@ public class AltUnityBuilder
         altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.requestEnding;
         altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.requestSeparator;
         altUnityRunnerComponent.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
+        altUnityRunnerComponent.showPopUp = AltUnityTesterEditor.EditorConfiguration.showPopUp;
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
 

@@ -26,3 +26,9 @@ You can also activate this option from test using the following code:
 
         self.altdriver.find_object(By.NAME,"AltUnityRunnerPrefab").set_component_property("AltUnityRunner", "ShowInputs", "true")
 ```
+
+## Show popup
+
+If this option is checked an popup with that shows when AltUnityTester is inside the build appears on the screen. The popup goes away once the tests are started.
+
+![popup](../_static/images/AltUnityTesterPopup.png)

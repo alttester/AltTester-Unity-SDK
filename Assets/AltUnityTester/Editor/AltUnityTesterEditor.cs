@@ -753,6 +753,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.PlayerSettings.productName = UnityEditor.EditorGUILayout.TextField("Product Name", UnityEditor.PlayerSettings.productName);
             UnityEditor.EditorGUILayout.EndHorizontal();
+
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
 
@@ -762,6 +763,13 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             UnityEngine.GUILayout.FlexibleSpace();
             UnityEditor.EditorGUILayout.EndHorizontal();
 
+            UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
+            UnityEditor.EditorGUILayout.LabelField("Show popup", UnityEngine.GUILayout.Width(145));
+            EditorConfiguration.showPopUp =
+                UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.showPopUp, UnityEngine.GUILayout.MaxWidth(30));
+            UnityEngine.GUILayout.FlexibleSpace();
+            UnityEditor.EditorGUILayout.EndHorizontal();
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.LabelField("Append \"Test\" to product name for AltUnityTester builds:", UnityEngine.GUILayout.Width(330));

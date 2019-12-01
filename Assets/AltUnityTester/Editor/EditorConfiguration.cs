@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -22,7 +22,6 @@ public class EditorConfiguration : ScriptableObject
     public string requestEnding = "&";
     public int serverPort = 13000;
     public bool scenePathDisplayed;
-
     public bool inputVisualizer;
-
+    public bool showPopUp = true;
 }
