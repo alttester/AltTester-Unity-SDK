@@ -5,3 +5,4 @@ recommonmark
 
 sphinx-markdown-tables
 sphinx-tabs
+sphinx-rtd-theme

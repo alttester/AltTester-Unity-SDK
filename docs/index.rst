@@ -1,25 +1,30 @@
-.. TestSphinx documentation master file, created by
+.. AltUnity Tester documentation master file, created by
    sphinx-quickstart on Thu Oct 17 09:19:29 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to TestSphinx's documentation!
+Welcome to AltUnity Tester's documentation!
 ======================================
 
 .. toctree::
    :maxdepth: 3
    
-   pages/contributing
+   pages/overview
+   pages/commands
    pages/building-games
    pages/download-import
-   pages/examples
    pages/writting-running-tests
-   pages/commands
+   pages/examples
+   pages/contributing
    pages/other/by
    pages/other/java-builders
 
 
-   
+.. toctree::
+    :caption: Community:
+
+    Gitter <https://gitter.im/AltUnityTester/Lobby>
+
 
 
 

@@ -399,7 +399,9 @@ Wait until there is no longer any objects that respect the given criteria or tim
 
 
     .. code-tab:: py
-        //TODO
+        def test_wait_for_object(self):
+            altElement=self.altdriver.wait_for_object(By.NAME,"Capsule")
+            self.assertEqual(altElement.name,"Capsule")
 
 ```
 ###  WaitForObjectWhichContains
@@ -442,8 +444,9 @@ Wait until it finds an object that respect the given criteria or times run out a
 
 
     .. code-tab:: py
-    
-        //TODO
+        def test_wait_for_object_which_contains(self):
+            altElement=self.altdriver.wait_for_object_which_contains(By.NAME,"Main")
+            self.assertEqual(altElement.name,"Main Camera")
 ```
 ###  WaitForObjectWithText
 
@@ -504,17 +507,16 @@ Wait until it finds an object that respect the given criteria and it has the tex
 
     .. code-tab:: py
     
-        def test_tap_ui_object(self):
-                self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-                self.altdriver.find_element('UIButton').tap()
-                self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!','',1)
+        def test_wait_for_object_with_text(self):
+            altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
+            self.assertEqual(altElement.name,"CapsuleInfo")
 
 ```
-###  WaitForObject
+###  WaitForObjectNotBePresent
 
 #### Description:
 
-Wait until finds an object in the scene that respect the given criteria or times run out and will throw an error. Check [By](other/by.html) for more information about criterias.
+Wait until the object in the scene that respect the given criteria is no longer in the scene or times run out and will throw an error. Check [By](other/by.html) for more information about criterias.
 
 #### Parameters:
 
@@ -531,7 +533,7 @@ Wait until finds an object in the scene that respect the given criteria or times
 
 #### Return
 
-- An AltUnityObject
+- Nothing
 
 #### Examples
 
@@ -541,41 +543,25 @@ Wait until finds an object in the scene that respect the given criteria or times
     .. code-tab:: c#
     
         [Test]
-            public void TestWaitForExistingElement()
-            {
-                const string name = "Capsule";
-                var timeStart = DateTime.Now;
-                var altElement = altUnityDriver.WaitForObject(By.NAME, name);
-                var timeEnd = DateTime.Now;
-                var time = timeEnd - timeStart;
-                Assert.Less(time.TotalSeconds, 20);
-                Assert.NotNull(altElement);
-                Assert.AreEqual(altElement.name, name);
-            }
+        public void TestWaitForObjectToNotExist()
+        {
+            altUnityDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee", timeout: 1, interval: 0.5f);
+        }
 
     .. code-tab:: java
         
         @Test
-            public void testWaitForExistingElement() throws Exception {
-                String name = "Capsule";
-                long timeStart = System.currentTimeMillis();
-                AltUnityObject altElement = altUnityDriver.waitForObject(AltUnityDriver.By.NAME,name);
-                long timeEnd = System.currentTimeMillis();
-                long time = timeEnd - timeStart;
-                assertTrue(time / 1000 < 20);
-                assertNotNull(altElement);
-                assertEquals(altElement.name, name);
-            }
+        public void TestWaitForObjectToNotBePresent(){
+            AltFindObjectsParameters altFindObjectsParameters=new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Capsulee").build();
+            AltWaitForObjectsParameters altWaitForObjectsParameters=new AltWaitForObjectsParameters.Builder(altFindObjectsParameters).build();
+            altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParameters);
+        }
 
 
     .. code-tab:: py
     
-        def test_wait_for_non_existing_object(self):
-            try:
-                alt_element = self.altdriver.wait_for_element("dlkasldkas",'',1,0.5)
-                self.assertEqual(False,True)
-            except WaitTimeOutException as e:
-                self.assertEqual(e.args[0],"Element dlkasldkas not found after 1 seconds")
+        def test_wait_for_object_to_not_be_present(self):
+            self.altdriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
 
 
 ```

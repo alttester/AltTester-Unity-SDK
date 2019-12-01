@@ -3,6 +3,7 @@ import unittest
 import sys
 import json
 import time
+from os import path
 from altunityrunner import *
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -335,7 +336,7 @@ class PythonTests(unittest.TestCase):
     def test_find_objects_by_layer(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElements = self.altdriver.find_objects(By.LAYER,"Default")
-        self.assertEquals(11, len(altElements))
+        self.assertEquals(12, len(altElements))
     
     def test_find_objects_by_contains_name(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -445,7 +446,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(25, len(list_of_elements),list_of_elements)
+        self.assertEqual(26, len(list_of_elements),list_of_elements)
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -466,7 +467,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
         
-        self.assertEqual(31, len(list_of_elements))
+        self.assertEqual(32, len(list_of_elements))
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -490,6 +491,23 @@ class PythonTests(unittest.TestCase):
             self.assertEqual(False,True)
         except NotFoundException as e:
             self.assertEqual(e.args[0],"error:notFound")
+    def test_screenshot(self):
+        png_path="testPython.png"
+        self.altdriver.get_png_screenshot(png_path)
+        self.assertTrue(path.exists(png_path))
+
+    def test_wait_for_object(self):
+        altElement=self.altdriver.wait_for_object(By.NAME,"Capsule")
+        self.assertEqual(altElement.name,"Capsule")
+    def test_wait_for_object_to_not_be_present(self):
+        self.altdriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
+    def test_wait_for_object_which_contains(self):
+        altElement=self.altdriver.wait_for_object_which_contains(By.NAME,"Main")
+        self.assertEqual(altElement.name,"Main Camera")
+
+    def test_wait_for_object_with_text(self):
+        altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
+        self.assertEqual(altElement.name,"CapsuleInfo")
 
        
 if __name__ == '__main__':

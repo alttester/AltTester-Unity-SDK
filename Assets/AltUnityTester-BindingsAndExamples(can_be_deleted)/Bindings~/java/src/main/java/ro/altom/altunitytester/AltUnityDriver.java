@@ -1,9 +1,6 @@
 package ro.altom.altunitytester;
 
-import ro.altom.altunitytester.Commands.AltCallStaticMethods;
-import ro.altom.altunitytester.Commands.AltCallStaticMethodsParameters;
-import ro.altom.altunitytester.Commands.AltStop;
-import ro.altom.altunitytester.Commands.EnableLogging;
+import ro.altom.altunitytester.Commands.*;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.OldFindObject.*;
@@ -577,6 +574,9 @@ public class AltUnityDriver {
     @Deprecated
     public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName, boolean enabled) {
         return findElementsByComponent(componentName, assemblyName,"", enabled);
+    }
+    public void getPNGScreeshot(String path){
+        new GetPNGScreenshotCommand(altBaseSettings,path).Execute();
     }
 
     // TODO: move those two out of this type and make them compulsory

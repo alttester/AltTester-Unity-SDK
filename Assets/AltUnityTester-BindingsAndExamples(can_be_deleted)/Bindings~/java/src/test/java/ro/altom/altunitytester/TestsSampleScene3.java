@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -15,7 +16,7 @@ public class TestsSampleScene3 {
 
     @BeforeClass
     public static void setUp() throws IOException {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000,";","&",true);
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000,";","&",false);
     }
 
     @AfterClass
@@ -28,7 +29,13 @@ public class TestsSampleScene3 {
     public void loadLevel() throws Exception {
         altUnityDriver.loadScene("Scene 3 Drag And Drop");
     }
-
+    @Test
+    public void testScreenshot(){
+        String path="testJava2.png";
+        altUnityDriver.getPNGScreeshot(path);
+        assertTrue(new File(path).isFile());
+    }
+   
     @Test
     public void testMultipleDragAndDrop() throws Exception {
         AltUnityObject altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");

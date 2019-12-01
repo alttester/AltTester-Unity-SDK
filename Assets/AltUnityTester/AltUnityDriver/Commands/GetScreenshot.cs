@@ -7,7 +7,7 @@ public class GetScreenshot : AltBaseCommand
     float width;
     Vector2 size;
     Vector2 coordinates;
-
+   
     int option = 0;
 
     public GetScreenshot(SocketSettings socketSettings, Vector2 size) : base(socketSettings)
