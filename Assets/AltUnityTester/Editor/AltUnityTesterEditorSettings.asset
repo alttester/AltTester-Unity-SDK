@@ -21,7 +21,7 @@ MonoBehaviour:
   BuildNumber: 0
   MyTests:
   - _selected: 0
-    _testName: D:/AltUnityTester/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _status: 0
     _isSuite: 1
     _parentName: 
@@ -1416,6 +1416,9 @@ MonoBehaviour:
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       5 Keyboard Input.unity
     _buildIndex: 4
+  - _toBeBuilt: 1
+    _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity
+    _buildIndex: 5
   platform: 1
   standaloneTarget: 5
   ranInEditor: 1
@@ -1423,3 +1426,4 @@ MonoBehaviour:
   requestEnding: '&'
   serverPort: 13000
   scenePathDisplayed: 1
+  showPopUp: 1
