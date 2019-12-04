@@ -1967,7 +1967,7 @@ Get the current active scene.
 
 #### Description:
 
-Create a sceenshot of the current scene in png format.
+Create a screenshot of the current scene in png format.
 
 
 #### Parameters:
@@ -2007,8 +2007,3 @@ Create a sceenshot of the current scene in png format.
         self.altdriver.get_png_screenshot(png_path)
         self.assertTrue(path.exists(png_path))
 ```
-
-
-
-
-
