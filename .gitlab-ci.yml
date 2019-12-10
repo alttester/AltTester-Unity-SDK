@@ -44,6 +44,7 @@ cache:
 build-apk:
     stage: build-android
     tags:
+      - android
       - unity
     script:
     - adb uninstall fi.altom.altunitytester || true
@@ -58,6 +59,7 @@ build-apk:
 run-csharp-android-tests:
     stage: android-tests
     tags:
+        - android
         - unity
     script:
         - *reinstall_and_start_app
@@ -71,6 +73,7 @@ run-csharp-android-tests:
 run-python-android-tests:
     stage: android-tests
     tags:
+        - android
         - unity
     script:
         - *reinstall_and_start_app
@@ -83,6 +86,7 @@ run-python-android-tests:
 run-java-android-tests:
     stage: android-tests
     tags:
+        - android
         - unity
     script:
         - *reinstall_and_start_app
@@ -145,6 +149,7 @@ create-unity-package:
 run-python-appium-android-tests:
     stage: appium-tests
     tags:
+        - android
         - unity
     script:
         - *initialize_venv
@@ -159,6 +164,7 @@ run-python-appium-android-tests:
 run-java-appium-android-tests:
     stage: appium-tests
     tags:
+        - android
         - unity
     script:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
