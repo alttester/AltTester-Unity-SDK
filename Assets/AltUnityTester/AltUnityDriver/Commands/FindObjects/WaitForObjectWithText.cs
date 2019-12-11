@@ -35,13 +35,13 @@ public class WaitForObjectWithText : BaseFindObjects
             {
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
-                UnityEngine.Debug.Log("Object " + path + " not found");
+                System.Diagnostics.Debug.WriteLine("Object " + path + " not found");
             }
             catch (System.Exception)
             {
                 System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
-                UnityEngine.Debug.Log("Waiting for element " + path + " to have text " + text);
+                System.Diagnostics.Debug.WriteLine("Waiting for element " + path + " to have text " + text);
             }
         }
         if (altElement != null && altElement.GetText().Equals(text))

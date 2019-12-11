@@ -17,8 +17,9 @@ public class TestsSampleScene1OldSearch {
 
     @BeforeClass
     public static void setUp() throws IOException {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
-    }
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000,";","&",true);
+    }        
+
 
     @AfterClass
     public static void tearDown() throws Exception {
@@ -231,8 +232,8 @@ public class TestsSampleScene1OldSearch {
         try {
             altElement.setComponentProperty(componentName, propertyName, "2");
             fail();
-        } catch (NullReferenceException e) {
-            assertEquals(e.getMessage(), "error:nullReferenceException");
+        } catch (ComponentNotFoundException e) {
+            assertEquals(e.getMessage(), "error:componentNotFound");
         }
     }
 
@@ -393,6 +394,26 @@ public class TestsSampleScene1OldSearch {
         capsule.callComponentMethod("","Capsule", "Test","2","System.Int32");
         AltUnityObject capsuleInfo=altUnityDriver.findElement("CapsuleInfo");
         assertEquals("6",capsuleInfo.getText());
+    }
+    
+    @Test
+    public void TestFindObjectWhichContains()
+    {
+        AltUnityObject altElement = altUnityDriver.findObjectWhichContains(AltUnityDriver.By.NAME, "Event");
+        assertEquals("EventSystem", altElement.name);
+    }
+    @Test
+    public void TestFindWithFindObjectWhichContainsNotExistingObject()
+    {
+        try
+        {
+            AltUnityObject altElement = altUnityDriver.findObjectWhichContains(AltUnityDriver.By.NAME, "EventNonExisting");
+            assertFalse("Error should have been thrown",true);
+        }
+        catch(NotFoundException exception)
+        {
+            assertEquals(exception.getMessage(), "error:notFound");
+        }
     }
     
 }

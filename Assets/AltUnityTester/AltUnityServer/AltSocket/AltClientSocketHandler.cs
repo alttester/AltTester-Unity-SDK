@@ -1,4 +1,4 @@
-﻿
+
 
 using System.Linq;
 
@@ -43,13 +43,15 @@ public class AltClientSocketHandler
 
     public void SendResponse(string response)
     {
-        response = "altstart::" + response + "::altend";
-        UnityEngine.Debug.Log("sending response: " + response);
+        AltUnityRunner.logMessage = System.Text.RegularExpressions.Regex.Replace(AltUnityRunner.logMessage, @"\r\n|\n|\r$", "");//Removes the last new line
+        response = "altstart::" + response+"::altLog::"+AltUnityRunner.logMessage + "::altend";
+        AltUnityRunner.logMessage = "";
+        AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now+": sending response: " + response);
         Client.Client.Send(Encoding.GetBytes(response));
     }
     public void SendResponse(byte[] response)
     {
-        response = System.Text.Encoding.ASCII.GetBytes("altstart::").Concat(response).Concat(System.Text.Encoding.ASCII.GetBytes("::altend")).ToArray();
+        response = System.Text.Encoding.ASCII.GetBytes("altstart::").Concat(response).Concat(System.Text.Encoding.ASCII.GetBytes("::altLog::")).Concat(System.Text.Encoding.ASCII.GetBytes(AltUnityRunner.logMessage)).Concat(System.Text.Encoding.ASCII.GetBytes("::altend")).ToArray();
         UnityEngine.Debug.Log("sending response: " + System.Text.Encoding.ASCII.GetString(response));
         Client.Client.Send(response);
     }
@@ -105,21 +107,25 @@ public class AltClientSocketHandler
         }
         catch (System.Threading.ThreadAbortException exception)
         {
+            AltUnityRunner.FileWriter.WriteLine("Thread aborted(" + exception + ")");
             UnityEngine.Debug.Log("Thread aborted(" + exception + ")");
         }
         catch (System.Net.Sockets.SocketException exception)
         {
+            AltUnityRunner.FileWriter.WriteLine("Socket exception(" + exception + ")");
             UnityEngine.Debug.Log("Socket exception(" + exception + ")");
         }
         catch (System.Exception exception)
 
         {
+            AltUnityRunner.FileWriter.WriteLine("Exception(" + exception + ")");
             UnityEngine.Debug.Log("Exception(" + exception + ")");
         }
         finally
         {
             Client.Close();
             ToBeKilled = true;
+            AltUnityRunner.FileWriter.WriteLine("AltClientSocketHandler - Client closed");
             UnityEngine.Debug.Log("AltClientSocketHandler - Client closed");
 
         }

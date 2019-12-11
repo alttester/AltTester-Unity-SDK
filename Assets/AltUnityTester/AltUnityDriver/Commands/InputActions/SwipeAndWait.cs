@@ -1,9 +1,11 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public class SwipeAndWait : AltBaseCommand
 {
-    UnityEngine.Vector2 start;
-    UnityEngine.Vector2 end;
+    Vector2 start;
+    Vector2 end;
     float duration;
-    public SwipeAndWait(SocketSettings socketSettings, UnityEngine.Vector2 start, UnityEngine.Vector2 end, float duration) : base(socketSettings)
+    public SwipeAndWait(SocketSettings socketSettings, Vector2 start, Vector2 end, float duration) : base(socketSettings)
     {
         this.start = start;
         this.end = end;

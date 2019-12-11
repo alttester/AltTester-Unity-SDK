@@ -1,4 +1,4 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer
+namespace Assets.AltUnityTester.AltUnityServer
 {
     class BaseClassFindObjectsCommand:Command
     {
@@ -149,11 +149,29 @@
                     {
                         if (IsNextElementDirectChild(conditions[step + 1]))
                         {
-                            return FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled);
+                            if (singleObject)
+                            {
+                                return FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled);
+                            }
+                            else
+                            {
+                                objectsFound.AddRange( FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled));
+                                continue;
+
+                            }
                         }
                         else
                         {
-                            return FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled);
+                            if (singleObject)
+                            {
+                                return FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled);
+                            }
+                            else
+                            {
+                                objectsFound.AddRange( FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled));
+                                continue;
+
+                            }
                         }
 
                     }

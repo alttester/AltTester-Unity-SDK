@@ -1,5 +1,6 @@
 from altunityrunner.altUnityExceptions import *
 from altunityrunner.by import By
+from datetime import datetime
 import json
 BUFFER_SIZE = 1024
 class BaseCommand(object):
@@ -8,7 +9,7 @@ class BaseCommand(object):
         self.request_end=request_end
         self.socket=socket
 
-    def recvall(self):
+    def recvall(self,print_output=True):
         data = ''
         previousPart=''
         while True:
@@ -20,11 +21,21 @@ class BaseCommand(object):
             previousPart=str(part)
         try:
             data = data.split('altstart::')[1].split('::altend')[0]
+            splitted_string=data.split('::altLog::')
+            self.write_to_log_file(splitted_string[1])
+            data=splitted_string[0]
+            self.write_to_log_file(datetime.now().strftime("%m/%d/%Y %H:%M:%S")+": response received: "+data)
         except:
             print('Data received from socket doesn not have correct start and end control strings')
             return ''
-        print('Received data was: ' + data)
+        if print_output:
+            print('Received data was: ' + data)
         return data
+    
+    def write_to_log_file(self,message):
+        f = open("AltUnityTesterLog.txt", "a")
+        f.write(message+"\n")
+        f.close()
 
     def handle_errors(self, data):
         if ('error' in data):

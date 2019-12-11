@@ -1,9 +1,11 @@
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 public class DropObject : CommandReturningAltElement
 {
-    UnityEngine.Vector2 position;
+    Vector2 position;
     AltUnityObject altUnityObject;
 
-    public DropObject(SocketSettings socketSettings, UnityEngine.Vector2 position, AltUnityObject altUnityObject) : base(socketSettings)
+    public DropObject(SocketSettings socketSettings, Vector2 position, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.position = position;
         this.altUnityObject = altUnityObject;

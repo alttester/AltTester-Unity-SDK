@@ -30,7 +30,9 @@ public class BuildAltUnityTester {
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity"
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity"
+            
             };
 
             buildPlayerOptions.locationPathName = "sampleGame.apk";
@@ -66,10 +68,10 @@ public class BuildAltUnityTester {
 #endif
 
             Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-            // EditorApplication.Exit(0);
+            EditorApplication.Exit(0);
         } catch (Exception exception) {
             Debug.LogException(exception);
-            // EditorApplication.Exit(1);
+            EditorApplication.Exit(1);
         }
 
     }
@@ -94,7 +96,8 @@ public class BuildAltUnityTester {
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity"
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity"
             };
 
             buildPlayerOptions.target = BuildTarget.iOS;

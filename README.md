@@ -1,11 +1,14 @@
 # AltUnityTester
 
-Join our Gitter room here to chat with others in the community:  
+AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java.
 
-https://gitter.im/AltUnityTester/Lobby
+Join our Gitter room here to chat with others in the community: https://gitter.im/AltUnityTester/Lobby
+
+Read the documentation on https://altom.gitlab.io/altunity/altunitytester 
 
 ## Video Tutorials
  - [Getting started with AltUnityTester and C#](https://youtu.be/-KK7CO4uoxM)
+
 
 ## Table of Contents
 
@@ -567,10 +570,19 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
 
   * `GetText`
     * params: none
-    * returns: the value of the Text component if the element has one 
+    * returns: the value of the Text or InputField component if the element has one 
   
     ```c#
-        var text=altUnityDriver.FindElement("CapsuleInfo").GetText();'
+        var text=altUnityDriver.FindElement("CapsuleInfo").GetText();
+    ``` 
+  
+  * `SetText`
+    * params:
+        * text: the value to be set in the InputField
+    * returns: current element
+    
+    ```c#
+      altUnityDriver.FindElement("InputField").SetText("New Text");
     ``` 
   
   * `GetComponentProperty`

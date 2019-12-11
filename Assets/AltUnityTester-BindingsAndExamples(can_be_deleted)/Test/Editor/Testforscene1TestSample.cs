@@ -1,11 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
-using UnityEngine;
+using System.Diagnostics;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
 [Timeout(5000)]
 public class TestForScene1TestSample
 {
@@ -80,15 +82,19 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetAllEnabledElements()
     {
+        Thread.Sleep(1000);
 
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
+        
         string listOfElements="";
-         foreach(var element in altElements){
-            listOfElements=element.name+"; ";
+        foreach(var element in altElements){
+            listOfElements+=element.name+"; ";
         }
-        Debug.Log(listOfElements);
-        Assert.AreEqual(19, altElements.Count);
+
+        Debug.WriteLine(listOfElements);
+
+        Assert.AreEqual(26, altElements.Count,listOfElements);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -99,18 +105,24 @@ public class TestForScene1TestSample
         Assert.IsNotNull(altElements.Where(p => p.name == "CapsuleInfo"));
         Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Text"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "InputField"));
     }
     [Test]
     public void TestGetAllElements()
     {
+        Thread.Sleep(1000);
+
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);
+        
         string listOfElements="";
         foreach(var element in altElements){
-            listOfElements=element.name+"; ";
+            listOfElements+=element.name+"; ";
         }
-        Debug.Log(listOfElements);
-        Assert.AreEqual(25, altElements.Count);
+
+        Debug.WriteLine(listOfElements);
+        
+        Assert.AreEqual(32, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -122,6 +134,7 @@ public class TestForScene1TestSample
         Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Cube"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Camera"));
+        Assert.IsNotNull(altElements.Where(p => p.name == "InputField"));
     }
 
     [Test]
@@ -178,7 +191,7 @@ public class TestForScene1TestSample
         Assert.NotNull(altElement);
         Assert.AreEqual(altElement.name, "Directional Light");
     }
-
+   
 
     [Test]
     public void TestWaitForElementWithText()
@@ -192,9 +205,18 @@ public class TestForScene1TestSample
         Assert.Less(time.TotalSeconds, 20);
         Assert.NotNull(altElement);
         Assert.AreEqual(altElement.GetText(), text);
-
     }
 
+    [Test]
+    public void TestSetTextForElement()
+    {
+        const string name = "InputField";
+        const string text = "InputFieldTest";
+        var input = altUnityDriver.FindObject(By.NAME, name).SetText(text);
+        Assert.NotNull(input);
+        Assert.AreEqual(input.GetText(), text);
+    }
+    
     [Test]
     public void TestFindElementByComponent()
     {
@@ -220,6 +242,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetComponentProperty()
     {
+        Thread.Sleep(1000);
         const string componentName = "AltUnityRunner";
         const string propertyName = "SocketPortNumber";
         var altElement = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
@@ -295,9 +318,9 @@ public class TestForScene1TestSample
             altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (Assets.AltUnityTester.AltUnityDriver.NullReferenceException exception)
+        catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:nullReferenceException");
+            Assert.AreEqual(exception.Message, "error:componentNotFound");
         }
     }
 
@@ -510,6 +533,13 @@ public class TestForScene1TestSample
         }
     }
     [Test]
+    public void TestWaitForObjectToNotExist()
+    {
+            altUnityDriver.WaitForObjectNotBePresent(By.NAME, "ObjectDestroyedIn5Secs");
+            altUnityDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee", timeout: 1, interval: 0.5f);
+    }
+
+    [Test]
     public void TestWaitForObjectToNotExistFail()
     {
         try
@@ -698,13 +728,13 @@ public class TestForScene1TestSample
     public void TestFindObjectsByLayer()
     {
         var altElements = altUnityDriver.FindObjects(By.LAYER,"Default");
-        Assert.AreEqual(8, altElements.Count);
+        Assert.AreEqual(12, altElements.Count);
     }
     [Test]
     public void TestFindObjectsByContainName()
     {
         var altElements = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Ca)]");
-        Assert.AreEqual(7, altElements.Count);
+        Assert.AreEqual(9, altElements.Count);
         foreach (var altElement in altElements)
         {
             Assert.True(altElement.name.Contains("Ca"));
@@ -724,7 +754,7 @@ public class TestForScene1TestSample
     public void TestGetAllScenes()
     {
         var scenes = altUnityDriver.GetAllScenes();
-        Assert.AreEqual(5, scenes.Count);
+        Assert.AreEqual(6, scenes.Count);
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
     }
     [Test]
@@ -742,6 +772,70 @@ public class TestForScene1TestSample
         altUnityDriver.SetTimeScale(1);
     }
 
+    [Test]
+    public void TestWaitForObjectWhichContains()
+    {
+        var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
+        Assert.AreEqual("Canvas", altElement.name);
+        
+    }
+    [Test]
+    public void TestFindObjectWhichContains()
+    {
+        var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
+        Assert.AreEqual("EventSystem", altElement.name);
+    }
+    [Test]
+    public void TestFindWithFindObjectWhichContainsNotExistingObject()
+    {
+        try
+        {
+            var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "EventNonExisting");
+            Assert.Fail("Error should have been thrown");
+        }
+        catch(NotFoundException exception)
+        {
+            Assert.AreEqual(exception.Message, "error:notFound");
+        }
+    }
+    [Test]
+    public void TestGetAllCameras()
+    {
+        var cameras = altUnityDriver.GetAllCameras();
+        Assert.AreEqual(2,cameras.Count);
+    }
 
+    [Test]
+    public void TestFindObjectScene1()
+    {
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
+        Assert.AreEqual(5, altElements.Count);
+    }
+
+    [Test]
+    public void TestFindObjectScene6()
+    {
+        altUnityDriver.LoadScene("Scene6");
+        
+        Thread.Sleep(1000);
+        altUnityDriver.WaitForCurrentSceneToBe("Scene6");
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
+        Assert.AreEqual(2, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "/*/*/Text");
+        Assert.AreEqual( 2, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "/*/Text");
+        Assert.AreEqual(1, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Text");
+        Assert.AreEqual(4, altElements.Count);
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
+        Assert.AreEqual(3, altElements.Count);
+    }
+    public void TestGetScreenshot(){
+        var path="testC.png";
+        altUnityDriver.GetPNGScreenshot(path);
+        FileAssert.Exists(path);
+    }
+
+    
 
 }

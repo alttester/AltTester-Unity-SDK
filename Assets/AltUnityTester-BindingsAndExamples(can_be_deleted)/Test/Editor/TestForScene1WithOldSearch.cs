@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
 using NUnit.Framework.Constraints;
-using UnityEngine;
 using NullReferenceException = Assets.AltUnityTester.AltUnityDriver.NullReferenceException;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 [Timeout(5000)]
 #pragma warning disable CS0618
@@ -171,6 +171,8 @@ public class TestForScene1WithOldSearch
     [Test]
     public void TestGetComponentProperty()
     {
+        Thread.Sleep(1000);
+
         const string componentName = "AltUnityRunner";
         const string propertyName = "SocketPortNumber";
         var altElement = altUnityDriver.FindElement("AltUnityRunnerPrefab");
@@ -246,9 +248,9 @@ public class TestForScene1WithOldSearch
             altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (NullReferenceException exception)
+        catch (ComponentNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:nullReferenceException");
+            Assert.AreEqual(exception.Message, "error:componentNotFound");
         }
     }
 

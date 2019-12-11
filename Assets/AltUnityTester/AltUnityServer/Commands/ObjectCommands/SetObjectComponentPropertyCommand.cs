@@ -15,7 +15,7 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("set property " + propertyString + " to value: " + valueString + " for object " + altObjectString);
+            AltUnityRunner._altUnityRunner.LogMessage("set property " + propertyString + " to value: " + valueString + " for object " + altObjectString);
             string response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
             AltUnityObjectProperty altProperty =
                 Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObjectProperty>(propertyString);

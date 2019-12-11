@@ -151,6 +151,10 @@ public class AltUnityObject {
         return new AltGetText(altBaseSettings,this).Execute();
     }
 
+    public AltUnityObject setText(String text) {
+        return new AltSetText(altBaseSettings,this, text).Execute();
+    }
+
     public AltUnityObject clickEvent() {
         return sendActionAndEvaluateResult("clickEvent");
     }

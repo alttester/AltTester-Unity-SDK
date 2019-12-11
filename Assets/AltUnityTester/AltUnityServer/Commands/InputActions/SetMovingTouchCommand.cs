@@ -16,7 +16,7 @@
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            UnityEngine.Debug.Log("Touch at: " + start);
+            AltUnityRunner._altUnityRunner.LogMessage("Touch at: " + start);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             
             UnityEngine.Vector2[] positions = {start, destination};

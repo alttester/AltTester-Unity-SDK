@@ -1,4 +1,3 @@
-from altunityrunner.commands.InputActions.click_at_coordinates import *
 from altunityrunner.commands.InputActions.move_mouse_and_wait import *
 from altunityrunner.commands.InputActions.move_mouse import *
 from altunityrunner.commands.InputActions.press_key import *

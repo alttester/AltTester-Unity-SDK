@@ -1,8 +1,7 @@
-﻿using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
+using NUnit.Framework;
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 using System.Threading;
-using UnityEngine;
+
 [Timeout(5000)]
 public class TestForScene2DraggablePanel
 {
@@ -12,7 +11,7 @@ public class TestForScene2DraggablePanel
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver = new AltUnityDriver();
+        altUnityDriver = new AltUnityDriver(logFlag:true);
     }
 
     [OneTimeTearDown]
@@ -63,7 +62,7 @@ public class TestForScene2DraggablePanel
         
         altElement = altUnityDriver.FindObject(By.NAME,"Button");
         altElement.ClickEvent();
-//        Assert.IsTrue(altUnityDriver.FindElement("Panel").enabled);
+        Assert.IsTrue(altUnityDriver.FindElement("Panel").enabled);
     }
 
 

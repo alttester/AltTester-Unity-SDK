@@ -11,7 +11,7 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("all objects requested");
+            AltUnityRunner._altUnityRunner.LogMessage("all objects requested");
             var parameters = ";" + methodParameter;
             return new FindObjectsByNameCommand(parameters).Execute();
         }

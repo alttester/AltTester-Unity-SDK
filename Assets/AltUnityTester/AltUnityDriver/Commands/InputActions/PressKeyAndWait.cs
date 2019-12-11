@@ -1,9 +1,9 @@
 public class PressKeyAndWait : AltBaseCommand
 {
-    UnityEngine.KeyCode keyCode;
+    Assets.AltUnityTester.AltUnityDriver.UnityStruct.KeyCode keyCode;
     float power;
     float duration;
-    public PressKeyAndWait(SocketSettings socketSettings, UnityEngine.KeyCode keyCode, float power, float duration) : base(socketSettings)
+    public PressKeyAndWait(SocketSettings socketSettings, Assets.AltUnityTester.AltUnityDriver.UnityStruct.KeyCode keyCode, float power, float duration) : base(socketSettings)
     {
         this.keyCode = keyCode;
         this.power = power;

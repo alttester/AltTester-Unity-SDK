@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using altunitytester.Assets.AltUnityTester.AltUnityServer;
 using Assets.AltUnityTester.AltUnityServer.Commands;
-
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
     enum FindOption
@@ -18,7 +17,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public bool AltUnityIconPressed=false;
     
     private UnityEngine.Vector3 _position;
-    protected AltSocketServer _socketServer;
+    private AltSocketServer _socketServer;
+
+    public static String logMessage="";
+    public bool logEnabled;
+
+    private string myPathFile;
+    public static System.IO.StreamWriter FileWriter;
+    
+
+
 
     public readonly string errorNotFoundMessage = "error:notFound";
     public readonly string errorPropertyNotFoundMessage = "error:propertyNotFound";
@@ -39,8 +47,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     [UnityEngine.Space] 
     [UnityEngine.SerializeField] private bool _showInputs;
     [UnityEngine.SerializeField] private InputsVisualiser _inputsVisualiser;
-    
+
     [UnityEngine.Space]
+
+    public bool showPopUp;
+    [UnityEngine.SerializeField] private UnityEngine.GameObject AltUnityPopUpCanvas;
     public bool destroyHightlight = false; 
     public int SocketPortNumber = 13000;
     public bool DebugBuildNeeded = true;
@@ -53,6 +64,19 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     
     public static AltResponseQueue _responseQueue;
+
+    public bool ShowInputs
+    {
+        get
+        {
+            return _showInputs;
+        }
+
+        set
+        {
+            _showInputs = value;
+        }
+    }
 
     #region MonoBehaviour
 
@@ -82,8 +106,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             StartSocketServer();
             UnityEngine.Debug.Log("AltUnity Driver started");
         }
+        myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
+        UnityEngine.Debug.Log(myPathFile);
+        FileWriter = new System.IO.StreamWriter(myPathFile, true);
+        if (showPopUp == false)
+        {
+            AltUnityPopUpCanvas.SetActive(false);
+        }
 
-    }  
+    }
+
     
     void Update()
     {
@@ -109,13 +141,18 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
         _responseQueue.Cycle();
     }
-    
-    void OnApplicationQuit()
+     void OnApplicationQuit()
     {
         CleanUp();
+        FileWriter.Close();
     }
     
     #endregion
+    public void CleanUp()
+    {
+        UnityEngine.Debug.Log("Cleaning up socket server");
+        _socketServer.Cleanup();
+    }
     
     public void StartSocketServer()
     {
@@ -133,13 +170,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             "AltUnity Server at {0} on port {1}",
             _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
     }
-    
-    public void CleanUp()
-    {
-        UnityEngine.Debug.Log("Cleaning up socket server");
-        _socketServer.Cleanup();
-    }
-
+   
     private UnityEngine.Vector3 getObjectScreePosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
     {
         UnityEngine.Canvas canvasParent = gameObject.GetComponentInParent<UnityEngine.Canvas>();
@@ -331,7 +362,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new SetMovingTouchChainCommand(positions, pieces[1]);
                     break;
                 case "loadScene":
-                    command = new LoadSceneCommand(pieces[1]);
+                    command = new LoadSceneCommand(pieces[1],handler);
                     break;
                 case "setTimeScale":
                     float timeScale = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);
@@ -417,11 +448,24 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
                     command = new FindActiveObjectsByNameCommand(methodParameters);
                     break;
+                case "enableLogging":
+                    var enableLogging = bool.Parse(pieces[1]);
+                    command = new EnableLoggingCommand(enableLogging);
+                    break;
+
                 case "getText":
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
                     command = new GetTextCommand(altUnityObject);
                     break;
-                
+                case "setText":
+                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
+                    command = new SetTextCommand(altUnityObject, pieces[2]);
+                    break;
+                case "getPNGScreenshot":
+                    command = new GetScreenshotPNGCommand(handler);
+                    break;
+
+
                 default:
                     command = new UnknowStringCommand();
                     break;
@@ -436,6 +480,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         {
             command.SendResponse(handler);
         }           
+    }
+
+    public void LogMessage(string logMessage)
+    {
+        if (logEnabled)
+        {
+            AltUnityRunner.logMessage += System.DateTime.Now + ":" + logMessage + System.Environment.NewLine;
+            FileWriter.WriteLine(System.DateTime.Now + ":" + logMessage);
+            UnityEngine.Debug.Log(logMessage);
+        }
     }
 
     public static UnityEngine.GameObject[] GetDontDestroyOnLoadObjects()
@@ -479,7 +533,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             if (gameObject.GetInstanceID() == altUnityObject.id)
                 return gameObject;
         }
-        return null;
+        throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Object not found");
     }
     
     public static UnityEngine.GameObject GetGameObject(int objectId)
@@ -489,7 +543,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             if (gameObject.GetInstanceID() == objectId)
                 return gameObject;
         }
-        return null;
+        throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Object not found");
     }       
 
     public UnityEngine.Camera FoundCameraById(int id)
@@ -547,12 +601,21 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
     }
     
-    public System.Collections.IEnumerator TakeScreenshot(UnityEngine.Vector2 size, AltClientSocketHandler handler) {
+    public System.Collections.IEnumerator TakeTexturedScreenshot(UnityEngine.Vector2 size, AltClientSocketHandler handler) {
         yield return new UnityEngine.WaitForEndOfFrame();
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
 
         var response=new ScreenshotReadyCommand(screenshot, size).Execute();
         handler.SendResponse(response);
+    }
+    public System.Collections.IEnumerator TakeScreenshot(AltClientSocketHandler handler)
+    {
+        yield return new UnityEngine.WaitForEndOfFrame();
+        var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
+        var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
+        var pngAsString = Convert.ToBase64String(bytesPNG);
+
+        handler.SendResponse(pngAsString);
     }
 
     public void ShowClick(UnityEngine.Vector2 position)
@@ -595,5 +658,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
             return memoryStreamOutout.ToArray();
         }
+    }
+    static bool ByteArrayCompare(byte[] a1, byte[] a2)
+    {
+        if (a1.Length != a2.Length)
+            return false;
+
+        for (int i = 0; i < a1.Length; i++)
+            if (a1[i] != a2[i])
+                return false;
+
+        return true;
     }
 }

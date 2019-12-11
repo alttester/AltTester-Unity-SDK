@@ -1,4 +1,6 @@
-﻿public class AltUnityObject
+using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+
+public class AltUnityObject
 {
     public string name;
     public int id;
@@ -33,13 +35,13 @@
         this.parentId = parentId;
         this.transformId = transformId;
     }
-    public UnityEngine.Vector2 getScreenPosition()
+    public Vector2 getScreenPosition()
     {
-        return new UnityEngine.Vector2(x, y);
+        return new Vector2(x, y);
     }
-    public UnityEngine.Vector3 getWorldPosition()
+    public Vector3 getWorldPosition()
     {
-        return new UnityEngine.Vector3(worldX, worldY, worldZ);
+        return new Vector3(worldX, worldY, worldZ);
     }
     public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null)
     {
@@ -56,16 +58,20 @@
     public string GetText()
     {
         return new GetText(socketSettings,this).Execute();
-    }    
+    }   
+    public AltUnityObject SetText(string text)
+    {
+        return new SetText(socketSettings, this, text).Execute();
+    }
     public AltUnityObject ClickEvent()
     {
         return new ClickEvent(socketSettings,this).Execute();
     }
-    public AltUnityObject DragObject(UnityEngine.Vector2 position)
+    public AltUnityObject DragObject(Vector2 position)
     {
         return new DragObject(socketSettings,position,this).Execute();
     }
-    public AltUnityObject DropObject(UnityEngine.Vector2 position)
+    public AltUnityObject DropObject(Vector2 position)
     {
         return new DropObject(socketSettings,position,this).Execute();   
     }

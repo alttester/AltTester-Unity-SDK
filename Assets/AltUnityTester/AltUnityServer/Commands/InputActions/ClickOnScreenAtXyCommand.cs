@@ -13,13 +13,10 @@
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("Screen tapped at X:" + x + " Y:" + y);
-            
+            AltUnityRunner._altUnityRunner.LogMessage("Screen tapped at X:" + x + " Y:" + y);
             var clickPosition = new UnityEngine.Vector2(float.Parse(x), float.Parse(y));
             AltUnityRunner._altUnityRunner.ShowClick(clickPosition);
-            
             string response =  AltUnityRunner._altUnityRunner.errorNotFoundMessage;
-            
             MockUpPointerInputModule mockUp = new MockUpPointerInputModule();
             UnityEngine.Touch touch = new UnityEngine.Touch { position = clickPosition, phase = UnityEngine.TouchPhase.Began };
             var pointerEventData = mockUp.ExecuteTouchEvent(touch);
@@ -33,7 +30,7 @@
             {
                 UnityEngine.GameObject gameObject = pointerEventData.pointerPress.gameObject;
 
-                UnityEngine.Debug.Log("GameObject: " + gameObject);
+                AltUnityRunner._altUnityRunner.LogMessage("GameOBject: " + gameObject);
 
                 gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                 gameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);

@@ -15,7 +15,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         {
             var pieces = methodParameters.Split(new string[] { AltUnityRunner._altUnityRunner.requestSeparatorString }, System.StringSplitOptions.None);
             string objectName = pieces[0];
-            UnityEngine.Debug.Log("find objects where name contains:" + objectName);
+            AltUnityRunner._altUnityRunner.LogMessage("find objects where name contains:" + objectName);
             string cameraName = pieces[1];
             bool enabled = System.Convert.ToBoolean(pieces[2]);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;

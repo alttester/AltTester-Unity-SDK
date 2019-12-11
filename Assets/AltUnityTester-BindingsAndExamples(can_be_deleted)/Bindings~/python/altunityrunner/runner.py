@@ -13,10 +13,11 @@ BUFFER_SIZE = 1024
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',device_id=""):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',device_id="",log_flag=False):
         self.TCP_PORT = TCP_PORT
         self.request_separator=request_separator
         self.request_end=request_end
+        self.log_flag=log_flag
         self.appium_driver=None
         if (appium_driver != None):
             self.appium_driver = appium_driver
@@ -49,6 +50,7 @@ class AltrunUnityDriver(object):
 
         if (timeout <= 0):
             raise Exception('AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', did you run ``adb forward tcp:' + str(TCP_FWD_PORT) + ' tcp:' + str(self.TCP_PORT) + '`` or ``iproxy ' + str(TCP_FWD_PORT) + ' ' + str(self.TCP_PORT) + '``?')
+        EnableLogging(self.socket,self.request_separator,self.request_end,self.log_flag).execute()
 
     def remove_port_forwarding(self, port):
         try:
@@ -120,8 +122,6 @@ class AltrunUnityDriver(object):
     def get_current_scene(self):
         return GetCurrentScene(self.socket,self.request_separator,self.request_end,self.appium_driver).execute()
 
-    def click_at_coordinates(self, x, y):
-        return ClickAtCoordinates(self.socket,self.request_separator,self.request_end).execute()
 
     def swipe(self, x_start, y_start, x_end, y_end, duration_in_secs):
         return Swipe(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
@@ -213,3 +213,6 @@ class AltrunUnityDriver(object):
     @deprecated(version='1.4.0',reason="Use find_objects instead")
     def find_elements_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
         return FindElementsByComponent(self.socket,self.request_separator,self.request_end,self.appium_driver,component_name,assembly_name,camera_name,enabled).execute()
+    def get_png_screenshot(self,path):
+        GetPNGScreenshot(self.socket,self.request_separator,self.request_end,path).execute()
+        

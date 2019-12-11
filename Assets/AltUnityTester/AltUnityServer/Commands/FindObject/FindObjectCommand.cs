@@ -12,7 +12,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            UnityEngine.Debug.Log("findObject for: " + stringSent);
+            AltUnityRunner._altUnityRunner.LogMessage("findObject for: " + stringSent);
             var pieces = stringSent.Split(new string[] { AltUnityRunner._altUnityRunner.requestSeparatorString }, System.StringSplitOptions.None);
             string objectName = pieces[0];
             string cameraName = pieces[1];
