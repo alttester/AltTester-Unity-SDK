@@ -24,36 +24,46 @@ class PythonTests(unittest.TestCase):
     def test_tap_ui_object(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.find_element('UIButton').tap()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!','',1)
+        capsule_info=self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!','',1)
+        self.assertEqual('UIButton clicked to jump capsule!',capsule_info.get_text())
 
     def test_tap_object(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         capsule_element = self.altdriver.find_element('Capsule')
         capsule_element.tap()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
+        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
+        self.assertEqual('Capsule was clicked to jump!',capsule_info.get_text())
 
 
     def test_tap_at_coordinates(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         capsule_element = self.altdriver.find_element('Capsule')
         self.altdriver.tap_at_coordinates(capsule_element.x, capsule_element.y)
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
+        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
+        self.assertEqual('Capsule was clicked to jump!',capsule_info.get_text())
 
     def test_load_and_wait_for_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.wait_for_current_scene_to_be('Scene 1 AltUnityDriverTestScene',1)
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         self.altdriver.wait_for_current_scene_to_be('Scene 2 Draggable Panel',1)
+        self.assertEqual('Scene 2 Draggable Panel',self.altdriver.get_current_scene())
 
     def test_find_element(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        self.altdriver.find_element('Plane')
-        self.altdriver.find_element('Capsule')
+        plane = self.altdriver.find_element('Plane')
+        capsule = self.altdriver.find_element('Capsule')
+        self.assertEqual('Plane',plane.name)
+        self.assertEqual('Capsule',capsule.name)
+
 
     def test_wait_for_element_with_text(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         text_to_wait_for = self.altdriver.find_element('CapsuleInfo').get_text()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', text_to_wait_for,'',1)   
+        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', text_to_wait_for,'',1)   
+        self.assertEqual('CapsuleInfo',capsule_info.name)
+        self.assertEqual(text_to_wait_for,capsule_info.get_text())
+        
 
     def test_find_elements(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -63,7 +73,8 @@ class PythonTests(unittest.TestCase):
 
     def test_find_element_where_name_contains(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        self.altdriver.find_element_where_name_contains('Pla')
+        plane = self.altdriver.find_element_where_name_contains('Pla')
+        self.assertTrue('Pla' in plane.name)
 
     # Fix in issue 184
     # def test_find_disabled_element_where_name_contains(self):
