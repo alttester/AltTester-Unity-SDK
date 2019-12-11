@@ -500,6 +500,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.EndScrollView();
         UnityEditor.EditorGUILayout.EndVertical();
         UnityEditor.EditorGUILayout.EndHorizontal();
+
+
     }
 
     private void DisplayPortForwarding()
@@ -689,7 +691,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     private void AfterExitPlayMode()
     {
         RemoveAltUnityRunnerPrefab();
-        AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
+        AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
         EditorConfiguration.ranInEditor = false;
     }
 
@@ -697,14 +699,18 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     {
         var activeScene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();
         var altUnityRunners = activeScene.GetRootGameObjects()
-            .Where(gameObject => gameObject.name.Equals("AltUnityRunnerPrefab"));
-        foreach (var altUnityRunner in altUnityRunners)
+            .Where(gameObject => gameObject.name.Equals("AltUnityRunnerPrefab")).ToList();
+        if (altUnityRunners.Count != 0)
         {
-            DestroyImmediate(altUnityRunner);
+            foreach (var altUnityRunner in altUnityRunners)
+            {
+                DestroyImmediate(altUnityRunner);
 
+            }
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
+            UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
         }
-        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
-        UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
+        
     }
 
 
