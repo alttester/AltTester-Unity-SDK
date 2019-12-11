@@ -198,6 +198,22 @@ docs:
     - make html
     - cp -r _build/html ../documentation
 
+  docs_test:
+  stage: docs
+  except:
+        refs:
+            - master
+  artifacts:
+    paths:
+      - documentation
+  tags:
+    - unity
+  script:
+    - cd docs
+    - *initialize_venv
+    - python3 -m pip install -r requirements.txt
+    - make html
+    - cp -r _build/html ../documentation/test
 pages:
   stage: deploy
   only:
