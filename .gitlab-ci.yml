@@ -207,6 +207,7 @@ docs_test:
     paths:
       - documentation
   tags:
+    - android
     - unity
   script:
     - cd docs
