@@ -198,7 +198,7 @@ docs:
     - make html
     - cp -r _build/html ../documentation
 
-  docs_test:
+docs_test:
   stage: docs
   except:
         refs:
