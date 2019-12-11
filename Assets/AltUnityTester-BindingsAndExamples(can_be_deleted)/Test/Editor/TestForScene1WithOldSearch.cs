@@ -171,6 +171,8 @@ public class TestForScene1WithOldSearch
     [Test]
     public void TestGetComponentProperty()
     {
+        Thread.Sleep(1000);
+
         const string componentName = "AltUnityRunner";
         const string propertyName = "SocketPortNumber";
         var altElement = altUnityDriver.FindElement("AltUnityRunnerPrefab");
