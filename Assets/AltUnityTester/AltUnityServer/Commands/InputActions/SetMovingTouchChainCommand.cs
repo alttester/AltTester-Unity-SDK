@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     public class SetMovingTouchChainCommand : Command
@@ -14,7 +16,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            UnityEngine.Debug.Log("Start moving touch chain for: " + string.Join(", ", positions));
+            UnityEngine.Debug.Log("Start moving touch chain for: " + string.Join(", ", positions.Select(p => p.ToString()).ToArray()));
             var response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             
             Input.SetMovingTouch(positions, float.Parse(duration));
