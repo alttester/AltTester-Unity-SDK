@@ -25,7 +25,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 120
+    _testCaseCount: 121
     _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
@@ -36,7 +36,7 @@ MonoBehaviour:
     _status: 1
     _isSuite: 1
     _parentName: D:/altUnityTesterPublic/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 68
+    _testCaseCount: 69
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
@@ -383,6 +383,17 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0.0854423
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
+  - _selected: 0
+    _testName: TestForScene1TestSample.TestFindObjectScene1
+    _status: 0
+    _isSuite: 0
+    _parentName: TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
+    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 1
     _testName: TestForScene1TestSample.TestFindObjectScene6
     _status: 1
@@ -437,17 +448,6 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0.0867127
-    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
-  - _selected: 1
-    _testName: TestForScene1TestSample.TestGetAllCameras
-    _status: 1
-    _isSuite: 0
-    _parentName: TestForScene1TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 
-    _testStackTrace: 
-    _testDuration: 0.17704
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 1
     _testName: TestForScene1TestSample.TestGetAllComponents
@@ -569,17 +569,6 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0.1127968
-    path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
-  - _selected: 0
-    _testName: TestForScene1TestSample.TestGetScreenshot
-    _status: 0
-    _isSuite: 0
-    _parentName: TestForScene1TestSample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 
-    _testStackTrace: 
-    _testDuration: 0
     path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Test/Editor/Testforscene1TestSample.cs
   - _selected: 1
     _testName: TestForScene1TestSample.TestInactiveObject
@@ -1447,22 +1436,25 @@ MonoBehaviour:
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       2 Draggable Panel.unity
-    _buildIndex: 0
+    _buildIndex: 1
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       3 Drag And Drop.unity
-    _buildIndex: 0
+    _buildIndex: 2
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       4 No Cameras.unity
-    _buildIndex: 0
+    _buildIndex: 3
   - _toBeBuilt: 1
     _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene
       5 Keyboard Input.unity
-    _buildIndex: 0
-  platform: 1
+    _buildIndex: 4
+  - _toBeBuilt: 1
+    _path: Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity
+    _buildIndex: 5
+  platform: 0
   standaloneTarget: 5
-  ranInEditor: 1
+  ranInEditor: 0
   requestSeparator: ;
   requestEnding: '&'
   serverPort: 13000
