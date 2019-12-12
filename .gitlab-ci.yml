@@ -56,44 +56,44 @@ build-apk:
       paths:
         - buildAndroid.log
  
-run-csharp-android-tests:
-    stage: android-tests
-    tags:
-        - android
-        - unity
-    script:
-        - *reinstall_and_start_app
-        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
-    artifacts:
-      when: always
-      expire_in: 10 days
-      paths:
-        - csharpAndroidTests.log
+# run-csharp-android-tests:
+#     stage: android-tests
+#     tags:
+#         - android
+#         - unity
+#     script:
+#         - *reinstall_and_start_app
+#         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
+#     artifacts:
+#       when: always
+#       expire_in: 10 days
+#       paths:
+#         - csharpAndroidTests.log
 
-run-python-android-tests:
-    stage: android-tests
-    tags:
-        - android
-        - unity
-    script:
-        - *reinstall_and_start_app
-        - adb forward --remove-all
-        - adb forward tcp:13000 tcp:13000
-        - *initialize_venv
-        - *pip_install_dependencies
-        - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_bindings_tests.py"
+# run-python-android-tests:
+#     stage: android-tests
+#     tags:
+#         - android
+#         - unity
+#     script:
+#         - *reinstall_and_start_app
+#         - adb forward --remove-all
+#         - adb forward tcp:13000 tcp:13000
+#         - *initialize_venv
+#         - *pip_install_dependencies
+#         - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_bindings_tests.py"
 
-run-java-android-tests:
-    stage: android-tests
-    tags:
-        - android
-        - unity
-    script:
-        - *reinstall_and_start_app
-        - adb forward --remove-all
-        - adb forward tcp:13000 tcp:13000
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
-        - mvn test
+# run-java-android-tests:
+#     stage: android-tests
+#     tags:
+#         - android
+#         - unity
+#     script:
+#         - *reinstall_and_start_app
+#         - adb forward --remove-all
+#         - adb forward tcp:13000 tcp:13000
+#         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+#         - mvn test
 
 create-unity-package:
     stage: create-package
@@ -222,6 +222,7 @@ docs_test:
     - python3 -m pip install -r requirements.txt
     - make html
     - make html
+
     - cp -r _build/html ../test_documentation
 
 pages:
@@ -238,7 +239,8 @@ pages:
     paths:
     - public
   script:
-    - cp -r test_documentation public/test
+    - mkdir -p public/test || true
+    - cp -r test_documentation public/test/
     
 pages:
   stage: deploy
