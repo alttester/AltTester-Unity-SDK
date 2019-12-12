@@ -10,7 +10,11 @@ public class LoadScene : AltBaseCommand
         Socket.Client.Send(toBytes(CreateCommand("loadScene", sceneName)));
         var data = Recvall();
         if (data.Equals("Ok"))
-            return;
+        {
+            data = Recvall();
+            if(data.Equals("Scene Loaded"))
+                return;
+        }
         HandleErrors(data);
     }
 }

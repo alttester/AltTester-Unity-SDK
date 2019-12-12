@@ -82,6 +82,8 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetAllEnabledElements()
     {
+        Thread.Sleep(1000);
+
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
         
@@ -108,6 +110,8 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetAllElements()
     {
+        Thread.Sleep(1000);
+
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);
         
@@ -238,6 +242,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetComponentProperty()
     {
+        Thread.Sleep(1000);
         const string componentName = "AltUnityRunner";
         const string propertyName = "SocketPortNumber";
         var altElement = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");

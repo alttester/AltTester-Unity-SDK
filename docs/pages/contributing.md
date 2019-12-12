@@ -2,6 +2,10 @@
 
 First off, thank you for considering contributing to AltUnityTester.
 
+## Leave a review
+
+It would help us enormously if you would let a review in the [asset store](https://assetstore.unity.com/packages/tools/utilities/altunity-tester-ui-test-automation-112101).
+
 ## Did you find a bug? 
 
 Ensure the bug was not already reported by searching all issues.  

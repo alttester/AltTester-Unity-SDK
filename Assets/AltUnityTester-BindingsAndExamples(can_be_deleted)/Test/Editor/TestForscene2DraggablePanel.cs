@@ -62,7 +62,7 @@ public class TestForScene2DraggablePanel
         
         altElement = altUnityDriver.FindObject(By.NAME,"Button");
         altElement.ClickEvent();
-//        Assert.IsTrue(altUnityDriver.FindElement("Panel").enabled);
+        Assert.IsTrue(altUnityDriver.FindElement("Panel").enabled);
     }
 
 
