@@ -221,8 +221,7 @@ docs_test:
     - *initialize_venv
     - python3 -m pip install -r requirements.txt
     - make html
-    - make html
-
+    - mkdir -p test_documentation || true
     - cp -r _build/html ../test_documentation
 
 pages_test:
@@ -240,8 +239,8 @@ pages_test:
     paths:
     - public
   script:
-    - mkdir -p public/test || true
-    - cp -r test_documentation/ public/test/
+    - mkdir -p .public/test || true
+    - cp -r test_documentation/ ./public/test/
     
 pages:
   stage: deploy
