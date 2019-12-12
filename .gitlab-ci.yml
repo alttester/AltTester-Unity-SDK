@@ -212,7 +212,7 @@ docs_test:
             - master
   artifacts:
     paths:
-      - test_documentation
+      - documentation
   tags:
     - android
     - unity
@@ -221,8 +221,8 @@ docs_test:
     - *initialize_venv
     - python3 -m pip install -r requirements.txt
     - make html
-    - mkdir -p test_documentation || true
-    - cp -r _build/html ../test_documentation
+    - mkdir -p documentation || true
+    - cp -r _build/html ../documentation
 
 pages_test:
   stage: deploy
@@ -240,7 +240,7 @@ pages_test:
     - public
   script:
     - mkdir -p .public/test || true
-    - cp -r test_documentation/ ./public/test/
+    - cp -r documentation/ public/test/
     
 pages:
   stage: deploy
