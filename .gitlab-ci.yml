@@ -239,7 +239,7 @@ pages_test:
     paths:
     - public
   script:
-    - mkdir -p .public/test || true
+    - mkdir -p public/test || true
     - cp -r documentation/ public/test/
     
 pages:
