@@ -221,7 +221,25 @@ docs_test:
     - *initialize_venv
     - python3 -m pip install -r requirements.txt
     - make html
+    - make html
     - cp -r _build/html ../documentation/test
+
+pages:
+  stage: deploy
+  except:
+        refs:
+            - master
+  tags:
+    - unity
+  dependencies:
+    - docs
+    - create-unity-package
+  artifacts:
+    paths:
+    - public
+  script:
+    - cp -r documentation/test public/test
+    
 pages:
   stage: deploy
   only:
