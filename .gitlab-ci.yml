@@ -225,7 +225,7 @@ docs_test:
 
     - cp -r _build/html ../test_documentation
 
-pages:
+pages_test:
   stage: deploy
   except:
         refs:
