@@ -1,7 +1,9 @@
-.reinstall_and_start_app: &reinstall_and_start_app
+.reinstall_and_start_android_app: &reinstall_and_start_android_app
 - adb uninstall fi.altom.altunitytester || true
 - adb install sampleGame.apk
 - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
+- adb forward --remove-all
+- adb forward tcp:13000 tcp:13000
 
 .initialize_venv: &initialize_venv
 - >
@@ -24,13 +26,9 @@
 - sleep 30
 
 stages:
-    - build-android
-    - android-tests
-    - create-package
-    - build-ios
-    - ios-tests
+    - build
+    - test
     - docs
-    - appium-tests
     - deploy
 
 cache:
@@ -42,10 +40,9 @@ cache:
   - altunitytests/
 
 build-apk:
-    stage: build-android
+    stage: build
     tags:
       - android
-      - unity
     script:
     - adb uninstall fi.altom.altunitytester || true
     - /Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
@@ -55,54 +52,114 @@ build-apk:
       expire_in: 10 days
       paths:
         - buildAndroid.log
+
+build-ipa:
+    stage: build
+    tags:
+      - iPhone
+    script:
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
+      - cd sampleGame
+      - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS
+      - ls 
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - buildIos.log
  
 run-csharp-android-tests:
-    stage: android-tests
+    stage: test
     tags:
         - android
-        - unity
     script:
-        - *reinstall_and_start_app
+        - *reinstall_and_start_android_app
         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
     artifacts:
       when: always
       expire_in: 10 days
       paths:
         - csharpAndroidTests.log
+    needs: ["build-apk"]
 
 run-python-android-tests:
-    stage: android-tests
+    stage: test
     tags:
         - android
-        - unity
     script:
-        - *reinstall_and_start_app
-        - adb forward --remove-all
-        - adb forward tcp:13000 tcp:13000
+        - *reinstall_and_start_android_app
         - *initialize_venv
         - *pip_install_dependencies
         - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_bindings_tests.py"
+    needs: ["build-apk"]
 
 run-java-android-tests:
-    stage: android-tests
+    stage: test
     tags:
         - android
-        - unity
     script:
-        - *reinstall_and_start_app
-        - adb forward --remove-all
-        - adb forward tcp:13000 tcp:13000
+        - *reinstall_and_start_android_app
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
         - mvn test
+    needs: ["build-apk"]
+
+run-python-appium-android-tests:
+    stage: test
+    tags:
+        - android
+    script:
+        - *initialize_venv
+        - *pip_install_dependencies
+        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_appium_tests.py"
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - appium.log
+    needs: ["build-apk"]
+
+run-java-appium-android-tests:
+    stage: test
+    tags:
+        - android
+    script:
+        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+        - mvn clean compile assembly:single
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-1.5.2-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.2 -Dpackaging=jar
+        - cd ../java-appium-tests
+        - mvn test
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java/target/altunitytester-java-client-1.5.2-SNAPSHOT-jar-with-dependencies.jar"
+    needs: ["build-apk"]
+
+run-csharp-ios-tests:
+    stage: test
+    tags:
+        - iPhone
+    script:
+        - cd sampleGame
+        - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone &
+        - sleep 60
+        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit     
+        - killall xcodebuild || true   
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - csharpIosTests.log    
+    needs: ["build-ipa"]
 
 create-unity-package:
-    stage: create-package
+    stage: docs
     only:
         refs:
             - master
     tags:
-      - android
       - unity
+      - mac 
     script:
       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
       - mkdir -p public/${CI_COMMIT_REF_NAME} || true
@@ -115,75 +172,12 @@ create-unity-package:
       paths:
         - public
 
-# build-ipa:
-#     stage: build-ios
-#     tags:
-#       - unity
-#     script:
-#       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.InitEditorConfiguration -logFile initEditorConfiguration.log -quit
-#       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.IosBuildFromCommandLine -logFile buildIos.log -quit
-#       - cd sampleGame
-#       - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS
-#       - ls 
-#     artifacts:
-#       when: always
-#       expire_in: 10 days
-#       paths:
-#         - buildIos.log
-
-# run-csharp-ios-tests:
-#     stage: ios-tests
-#     tags:
-#         - unity
-#     script:
-#         - cd sampleGame
-#         - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone &
-#         - sleep 60
-#         - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit     
-#         - killall xcodebuild || true   
-#     artifacts:
-#       when: always
-#       expire_in: 10 days
-#       paths:
-#         - csharpIosTests.log    
-        
-run-python-appium-android-tests:
-    stage: appium-tests
-    tags:
-        - android
-        - unity
-    script:
-        - *initialize_venv
-        - *pip_install_dependencies
-        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_appium_tests.py"
-    artifacts:
-        when: always
-        expire_in: 10 days
-        paths:
-            - appium.log
-
-run-java-appium-android-tests:
-    stage: appium-tests
-    tags:
-        - android
-        - unity
-    script:
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
-        - mvn clean compile assembly:single
-        - mvn install:install-file -Dfile=./target/altunitytester-java-client-1.5.2-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.2 -Dpackaging=jar
-        - cd ../java-appium-tests
-        - mvn test
-    artifacts:
-        when: always
-        expire_in: 10 days
-        paths:
-            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java/target/altunitytester-java-client-1.5.2-SNAPSHOT-jar-with-dependencies.jar"
-
 deploy-altunitytester-python:
     stage: deploy
     when: manual
     tags:
         - unity
+        - mac
     script:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - python setup.py sdist upload -r pypi
@@ -198,6 +192,7 @@ docs:
       - documentation
   tags:
     - unity
+    - mac
   script:
     - cd docs
     - *initialize_venv
@@ -212,6 +207,7 @@ pages:
             - master
   tags:
     - unity
+    - mac
   dependencies:
     - docs
     - create-unity-package
