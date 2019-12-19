@@ -103,7 +103,7 @@ public class BuildAltUnityTester {
             buildPlayerOptions.target = BuildTarget.iOS;
             buildPlayerOptions.options = BuildOptions.Development;
 
-			AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+			AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
 			AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
             
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
