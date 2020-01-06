@@ -236,8 +236,7 @@ pages_test:
     paths:
     - public
   script:
-  - cd docs
-    # - *initialize_venv
+    - cd docs
     - python3 -m pip install -r requirements.txt
     - make html
     - mkdir -p public/test || true
