@@ -240,9 +240,8 @@ pages_test:
     - *initialize_venv
     - python3 -m pip install -r requirements.txt
     - make html
-    - cp -r _build/html ../documentationtest
     - mkdir -p public/test || true
-    - cp -r documentationtest/ public/test/
+    - cp -r _build/html public/test/
     
 pages:
   stage: deploy
