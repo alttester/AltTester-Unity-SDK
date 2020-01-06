@@ -90,6 +90,8 @@ public class AltUnityBuilder
             switch (buildTarget)
             {
                 case UnityEditor.BuildTarget.StandaloneOSX:
+                if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".app";
                     break;
 
                 case UnityEditor.BuildTarget.StandaloneWindows:
