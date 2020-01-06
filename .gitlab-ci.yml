@@ -205,23 +205,23 @@ docs:
     - make html
     - cp -r _build/html ../documentation
 
-docs_test:
-  stage: docs
-  except:
-        refs:
-            - master
-  artifacts:
-    paths:
-      - documentationtest
-  tags:
-    - android
-    - unity
-  script:
-    - cd docs
-    - *initialize_venv
-    - python3 -m pip install -r requirements.txt
-    - make html
-    - cp -r _build/html ../documentationtest
+# docs_test:
+#   stage: docs
+#   except:
+#         refs:
+#             - master
+#   artifacts:
+#     paths:
+#       - documentationtest
+#   tags:
+#     - android
+#     - unity
+#   script:
+#     - cd docs
+#     - *initialize_venv
+#     - python3 -m pip install -r requirements.txt
+#     - make html
+#     - cp -r _build/html ../documentationtest
 
 pages_test:
   stage: deploy
@@ -231,13 +231,16 @@ pages_test:
   tags:
     - unity
     - android
-  dependencies:
-    - docs
-    - create-unity-package
+ 
   artifacts:
     paths:
     - public
   script:
+  - cd docs
+    - *initialize_venv
+    - python3 -m pip install -r requirements.txt
+    - make html
+    - cp -r _build/html ../documentationtest
     - mkdir -p public/test || true
     - cp -r documentationtest/ public/test/
     
