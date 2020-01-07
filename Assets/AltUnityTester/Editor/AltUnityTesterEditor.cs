@@ -57,7 +57,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     public static double timeTestRan;
 
     public static System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
-    public static System.Collections.Generic.Dictionary<string, int> iosForwards = new System.Collections.Generic.Dictionary<string, int>();
+    // public static System.Collections.Generic.Dictionary<string, int> iosForwards = new System.Collections.Generic.Dictionary<string, int>();
 
     // Add menu item named "My Window" to the Window menu
     [UnityEditor.MenuItem("Window/AltUnityTester")]
@@ -556,11 +556,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 #if UNITY_EDITOR_OSX
                             else
                             {
-                                int id;
-                                if(iosForwards.TryGetValue(device.DeviceId,out id)){
-                                    AltUnityPortHandler.KillIProxy(id);
-                                    iosForwards.Remove(device.DeviceId);
-                                }
+                                
+                                AltUnityPortHandler.KillIProxy(device.Pid);
 
                             }
 #endif
@@ -592,8 +589,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                                 var response=AltUnityPortHandler.ForwardIos(device.DeviceId,device.LocalPort,device.RemotePort);
                                 if(response.StartsWith("Ok")){
                                     var processID=int.Parse(response.Split(' ')[1]);
-                                    iosForwards.Add(device.DeviceId,processID);
                                     device.Active=true;
+                                    device.Pid=processID;
                                 }else{
                                     UnityEngine.Debug.LogError(response);
                                 }
@@ -637,23 +634,17 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 adbDevice.Active = deviceForwarded.Active;
             }
         }
-        foreach (var device in devices)
-        {
-            var existingDevice = adbDevices.FirstOrDefault(d => d.DeviceId.Equals(device.DeviceId));
-            if (existingDevice != null && device.Active == false && existingDevice.Active == false)
-            {
-                existingDevice.LocalPort = device.LocalPort;
-                existingDevice.RemotePort = device.RemotePort; 
-            }
-        }
 #if UNITY_EDITOR_OSX
         System.Collections.Generic.List<MyDevices> iOSDEvices=AltUnityPortHandler.GetConnectediOSDevices();
+        System.Collections.Generic.List<MyDevices> iOSForwardedDevices=AltUnityPortHandler.GetForwardediOSDevices();
         foreach(var iOSDEvice in iOSDEvices){
-            var iOSForwardedDevice=devices.FirstOrDefault(a=>a.DeviceId.Equals(iOSDEvice.DeviceId));
-            if(iOSForwardedDevice!=null){
-                iOSDEvice.LocalPort=iOSForwardedDevice.LocalPort;
-                iOSDEvice.RemotePort=iOSForwardedDevice.RemotePort;
-                iOSDEvice.Active=iOSForwardedDevice.Active;
+            var deviceForwarded = iOSForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(iOSDEvice.DeviceId));
+            if (deviceForwarded != null)
+            {
+                iOSDEvice.LocalPort = deviceForwarded.LocalPort;
+                iOSDEvice.RemotePort = deviceForwarded.RemotePort;
+                iOSDEvice.Active = deviceForwarded.Active;
+                iOSDEvice.Pid=deviceForwarded.Pid;
             }
         }
 #endif
