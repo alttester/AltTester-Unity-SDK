@@ -40,7 +40,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 }
                 else
                     new GetScreenshotCommand(size, handler).Execute();
-            return null;
+            return "Ok";
         }
     }
 }
