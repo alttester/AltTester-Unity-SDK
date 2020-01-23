@@ -31,6 +31,11 @@ public class AltUnityDriver
         Socket.Connect(tcp_ip, tcp_port);
         socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding,logFlag);
         EnableLogging();
+        CheckServerVersion();
+    }
+    private void CheckServerVersion()
+    {
+        new CheckServerVersion(socketSettings).Execute();
     }
     private void EnableLogging(){
         new EnableLogging(socketSettings).Execute();

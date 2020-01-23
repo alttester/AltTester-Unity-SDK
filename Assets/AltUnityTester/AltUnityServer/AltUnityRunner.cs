@@ -463,6 +463,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 case "getPNGScreenshot":
                     command = new GetScreenshotPNGCommand(handler);
                     break;
+                case "getServerVersion":
+                    command = new GetServerVersionCommand();
+                    break;
 
 
                 default:
