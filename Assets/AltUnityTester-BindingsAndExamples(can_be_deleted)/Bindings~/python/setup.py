@@ -15,4 +15,5 @@ setup(name='altunityrunner',
 		'altunityrunner.commands.ObjectCommands', 
 		'altunityrunner.commands.OldFindObjects', 
 		'altunityrunner.commands.UnityCommands'],
+      packages_data={'altunityrunner/commands/PythonServerVersion.txt'},
       zip_safe=False)

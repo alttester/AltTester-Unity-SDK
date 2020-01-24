@@ -1,5 +1,7 @@
 from altunityrunner.commands.base_command import BaseCommand
-
+import os
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+my_file = os.path.join(THIS_FOLDER, 'PythonServerVersion.txt')
 
 class GetServerVersion(BaseCommand):
 
@@ -9,7 +11,7 @@ class GetServerVersion(BaseCommand):
     def execute(self):
         serverVersion=self.send_data(self.create_command('getServerVersion'))
         serverVersion=self.handle_errors(serverVersion)
-        f= open("Assets\AltUnityTester-BindingsAndExamples(can_be_deleted)\Bindings~\python\altunityrunner\commands\PythonServerVersion.txt","r")
+        f= open(my_file,"r")
         driverVersion= f.readline()
-        if not driverVersion.Equals(serverVersion):
-            raise Exception("Missmatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + driverVersion);
+        if not driverVersion==serverVersion:
+            raise Exception("Mismatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + driverVersion);

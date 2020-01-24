@@ -6,6 +6,7 @@ import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.OldFindObject.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
+import sun.awt.windows.awtLocalization_zh_TW;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,14 +26,14 @@ public class AltUnityDriver {
     private DataInputStream in = null;
 
     private AltBaseSettings altBaseSettings;
-    public AltUnityDriver(String ip, int port) {
+    public AltUnityDriver(String ip, int port) throws Exception {
         this(ip,port,";","&",false);
     }
 
-    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd) {
+    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd) throws Exception {
         this(ip,port,requestSeparator,requestEnd,false);
     }
-    public AltUnityDriver(String ip,int port,String requestSeparator,String requestEnd,Boolean logEnabled){
+    public AltUnityDriver(String ip,int port,String requestSeparator,String requestEnd,Boolean logEnabled) throws Exception {
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
@@ -47,7 +48,9 @@ public class AltUnityDriver {
         }
         altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in,logEnabled);
         EnableLogging();
+        GetServerVersion();
     }
+    private void GetServerVersion() throws Exception { new GetServerVersionCommand(altBaseSettings).Execute();}
     private void EnableLogging(){
         new EnableLogging(altBaseSettings).Execute();
     }
