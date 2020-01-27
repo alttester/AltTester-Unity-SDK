@@ -118,11 +118,11 @@ public class AltUnityDriver
     {
         new SwipeAndWait(socketSettings, start, end, duration).Execute();
     }
-    public void MoveTouch(Vector3[] positions, float duration)
+    public void MoveTouch(Vector2[] positions, float duration)
     {
         new MovingTouch(socketSettings, duration, positions).Execute();
     }
-    public void MoveTouchAndWait(Vector3[] positions, float duration)
+    public void MoveTouchAndWait(Vector2[] positions, float duration)
     {
         new MovingTouchAndWait(socketSettings, duration, positions).Execute();
     }

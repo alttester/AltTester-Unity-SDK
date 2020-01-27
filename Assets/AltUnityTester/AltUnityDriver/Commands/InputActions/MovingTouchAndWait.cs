@@ -4,10 +4,10 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
 {
     public class MovingTouchAndWait : AltBaseCommand
     {
-        Vector3[] positions;
+        Vector2[] positions;
         float duration;
         
-        public MovingTouchAndWait(SocketSettings socketSettings, float duration, Vector3[] positions) : base(socketSettings)
+        public MovingTouchAndWait(SocketSettings socketSettings, float duration, Vector2[] positions) : base(socketSettings)
         {
             this.positions = positions;
             this.duration = duration;

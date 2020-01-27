@@ -37,9 +37,9 @@ public class AltUnityObject
         this.parentId = parentId;
         this.transformId = transformId;
     }
-    public Vector3 getScreenPosition()
+    public Vector2 getScreenPosition()
     {
-        return new Vector3(x, y, z);
+        return new Vector2(x, y);
     }
     public Vector3 getWorldPosition()
     {
