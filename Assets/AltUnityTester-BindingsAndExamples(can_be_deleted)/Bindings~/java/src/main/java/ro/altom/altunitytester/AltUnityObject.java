@@ -2,6 +2,7 @@ package ro.altom.altunitytester;
 
 import lombok.Getter;
 import ro.altom.altunitytester.Commands.ObjectCommand.*;
+import ro.altom.altunitytester.position.Vector3;
 
 @Getter
 public class AltUnityObject {
@@ -111,9 +112,14 @@ public class AltUnityObject {
         this.idCamera = idCamera;
     }
 
+    public Vector3 getPosition(){
+        return new Vector3(this.x, this.y, this.z);
+    }
+    
     public String getComponentProperty(AltGetComponentPropertyParameters altGetComponentPropertyParameters){
         return new AltGetComponentProperty(altBaseSettings,this,altGetComponentPropertyParameters).Execute();
     }
+    
     public String getComponentProperty(String assemblyName, String componentName, String propertyName) {
         AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters.Builder(componentName,propertyName).withAssembly(assemblyName).build();
         return getComponentProperty(altGetComponentPropertyParameters);
@@ -126,6 +132,7 @@ public class AltUnityObject {
     public String setComponentProperty(AltSetComponentPropertyParameters altSetComponentPropertyParameters){
         return new AltSetComponentProperty(altBaseSettings,this,altSetComponentPropertyParameters).Execute();
     }
+    
     public String setComponentProperty(String assemblyName, String componentName, String propertyName, String value) {
         AltSetComponentPropertyParameters altSetComponentPropertyParameters=new AltSetComponentPropertyParameters.Builder(componentName,propertyName,value).withAssembly(assemblyName).build();
         return setComponentProperty(altSetComponentPropertyParameters);
@@ -138,6 +145,7 @@ public class AltUnityObject {
     public String callComponentMethod(AltCallComponentMethodParameters altCallComponentMethodParameters){
         return new AltCallComponentMethod(altBaseSettings,this,altCallComponentMethodParameters).Execute();
     }
+    
     public String callComponentMethod(String assemblyName, String componentName, String methodName, String parameters, String typeOfParameters) {
         AltCallComponentMethodParameters altCallComponentMethodParameters=new AltCallComponentMethodParameters.Builder(componentName,methodName,parameters).withTypeOfParameters(typeOfParameters).withAssembly(assemblyName).build();
         return callComponentMethod(altCallComponentMethodParameters);
