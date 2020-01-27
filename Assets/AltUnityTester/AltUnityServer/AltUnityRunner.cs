@@ -173,19 +173,25 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
    
     private UnityEngine.Vector3 getObjectScreePosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
     {
-        UnityEngine.Canvas canvasParent = gameObject.GetComponentInParent<UnityEngine.Canvas>();
-        if (canvasParent != null)
+        UnityEngine.Canvas canvas = gameObject.GetComponentInParent<UnityEngine.Canvas>();
+        if (canvas != null)
         {
-            if (canvasParent.renderMode != UnityEngine.RenderMode.ScreenSpaceOverlay)
+            if (canvas.renderMode != UnityEngine.RenderMode.ScreenSpaceOverlay)
             {
                 if (gameObject.GetComponent<UnityEngine.RectTransform>() == null)
                 {
-                    return canvasParent.worldCamera.WorldToScreenPoint(gameObject.transform.position);
+                    if(canvas.worldCamera!=null)
+                    {
+                        return canvas.worldCamera.WorldToScreenPoint(gameObject.transform.position);
+                    }
                 }
                 UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
                 gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
                 var center = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
-                return canvasParent.worldCamera.WorldToScreenPoint(center);
+                if (canvas.worldCamera != null)
+                {
+                    return canvas.worldCamera.WorldToScreenPoint(center);
+                }
             }
             if (gameObject.GetComponent<UnityEngine.RectTransform>() != null)
             {

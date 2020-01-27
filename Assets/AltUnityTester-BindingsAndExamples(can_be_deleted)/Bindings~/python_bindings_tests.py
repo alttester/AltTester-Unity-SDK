@@ -15,7 +15,7 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltrunUnityDriver(None, 'android', TCP_FWD_PORT=13000,log_flag=False)
+        cls.altdriver = AltrunUnityDriver(None, 'android', log_flag=False)
 
     @classmethod
     def tearDownClass(cls):
