@@ -46,7 +46,10 @@ class AltElement(object):
                  "worldY":"' + self.worldY + '", \
                  "worldZ":"' + self.worldZ + '",\
                  "idCamera":"'+self.idCamera+'"}'
-        
+
+    def position(self):
+        return self.x, self.y, self.z
+    
     def get_component_property(self, component_name, property_name, assembly_name=''):
         alt_object = self.toJSON()
         return GetComponentProperty(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,component_name,property_name,assembly_name,alt_object).execute()

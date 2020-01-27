@@ -90,14 +90,18 @@ class AltrunUnityDriver(object):
     def get_current_scene(self):
         return GetCurrentScene(self.socket,self.request_separator,self.request_end,self.appium_driver).execute()
 
-
     def swipe(self, x_start, y_start, x_end, y_end, duration_in_secs):
         return Swipe(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
-
 
     def swipe_and_wait(self, x_start, y_start, x_end, y_end, duration_in_secs):
         return SwipeAndWait(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
 
+    def move_touch(self, *positions, duration_in_secs=1):
+        return MovingTouch(self.socket,self.request_separator,self.request_end,duration_in_secs,*positions).execute()
+
+    def move_touch_and_wait(self, *positions, duration_in_secs=1):
+        return MovingTouchAndWait(self.socket,self.request_separator,self.request_end,duration_in_secs,*positions).execute()
+    
     def tilt(self, x, y, z):
         return Tilt(self.socket,self.request_separator,self.request_end,x,y,z).execute()
 

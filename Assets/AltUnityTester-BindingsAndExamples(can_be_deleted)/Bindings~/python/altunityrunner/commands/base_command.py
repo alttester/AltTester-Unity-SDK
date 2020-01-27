@@ -67,11 +67,17 @@ class BaseCommand(object):
                 raise  FormatException(data)
         else:
             return data
+        
     def vector_to_json_string(self, x, y, z=None):
         if z is None:
             return '{"x":' + str(x) + ', "y":' + str(y) + '}'
         else:
             return '{"x":' + str(x) + ', "y":' + str(y) +', "z":' + str(z) + '}'
+
+    def positions_to_json_string(self, positions):
+        json_positions = [self.vector_to_json_string(p[0], p[1]) for p in positions]
+        return self.request_separator.join(json_positions)
+    
     def send_data(self, data):
         self.socket.send(data.encode('ascii'))
         if ('closeConnection' in data):
