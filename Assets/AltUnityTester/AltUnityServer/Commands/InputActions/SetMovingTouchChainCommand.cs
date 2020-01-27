@@ -16,12 +16,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            UnityEngine.Debug.Log("Start moving touch chain for: " + string.Join(", ", positions.Select(p => p.ToString()).ToArray()));
-            var response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
+            AltUnityRunner._altUnityRunner.LogMessage("Start moving touch chain for: " + string.Join(", ", positions.Select(p => p.ToString()).ToArray()));
             
             Input.SetMovingTouch(positions, float.Parse(duration));
-            response = "Ok";
-            return response;
+            return "OK";
 #endif
             return null;
         }

@@ -1,3 +1,4 @@
+using Assets.AltUnityTester.AltUnityDriver.Commands.InputActions;
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 public enum PLayerPrefKeyType { Int = 1, String, Float }
@@ -116,6 +117,14 @@ public class AltUnityDriver
     public void SwipeAndWait(Vector2 start, Vector2 end, float duration)
     {
         new SwipeAndWait(socketSettings, start, end, duration).Execute();
+    }
+    public void MoveTouch(Vector3[] positions, float duration)
+    {
+        new MovingTouch(socketSettings, duration, positions).Execute();
+    }
+    public void MoveTouchAndWait(Vector3[] positions, float duration)
+    {
+        new MovingTouchAndWait(socketSettings, duration, positions).Execute();
     }
     public void HoldButton(Vector2 position, float duration)
     {

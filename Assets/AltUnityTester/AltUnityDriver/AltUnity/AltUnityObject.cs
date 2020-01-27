@@ -1,3 +1,5 @@
+
+
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 public class AltUnityObject
@@ -35,9 +37,9 @@ public class AltUnityObject
         this.parentId = parentId;
         this.transformId = transformId;
     }
-    public Vector2 getScreenPosition()
+    public Vector3 getScreenPosition()
     {
-        return new Vector2(x, y);
+        return new Vector3(x, y, z);
     }
     public Vector3 getWorldPosition()
     {

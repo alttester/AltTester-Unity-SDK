@@ -18,11 +18,15 @@ namespace Assets.AltUnityTester.AltUnityDriver.UnityStruct
         public float y;
         public float z;
 
-        public Vector3(float x, float y,float z)
+        public Vector3(float x, float y, float z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
+        }
+        
+        public Vector3(float x, float y) : this(x, y, 0)
+        {
         }
     }
 }

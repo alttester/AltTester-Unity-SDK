@@ -601,8 +601,7 @@ public class Input : UnityEngine.MonoBehaviour
         var touch = new UnityEngine.Touch
         {
             phase = UnityEngine.TouchPhase.Began, 
-            position = positions[0], 
-            deltaPosition = positions[1]
+            position = positions[0]
         };
 
         System.Collections.Generic.List<UnityEngine.Touch> currentTouches = touches.ToList();
@@ -651,10 +650,10 @@ public class Input : UnityEngine.MonoBehaviour
                     deltaY = yDistance * (oneInputDuration - time) / oneInputDuration;
                 }
 
+                touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
                 time += UnityEngine.Time.deltaTime;
                 touch.position = new UnityEngine.Vector2(touch.position.x + deltaX, touch.position.y + deltaY);
                 touch.deltaPosition = new UnityEngine.Vector2(deltaX, deltaY);
-                touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
 
                 for (var t = 0; t < touches.Length; t++)
                 {
