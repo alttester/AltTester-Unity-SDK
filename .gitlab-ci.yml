@@ -199,45 +199,7 @@ docs:
     - python3 -m pip install -r requirements.txt
     - make html
     - cp -r _build/html ../documentation
-
-# docs_test:
-#   stage: docs
-#   except:
-#         refs:
-#             - master
-#   artifacts:
-#     paths:
-#       - documentationtest
-#   tags:
-#     - android
-#     - unity
-#   script:
-#     - cd docs
-#     - *initialize_venv
-#     - python3 -m pip install -r requirements.txt
-#     - make html
-#     - cp -r _build/html ../documentationtest
-
-pages_test:
-  stage: deploy
-  except:
-        refs:
-            - master
-  tags:
-    - unity
-    - android
- 
-  artifacts:
-    paths:
-    - public
-  script:
-    - cd docs
-    - *initialize_venv
-    - python3 -m pip install -r requirements.txt
-    - make html
-    - mkdir -p public/test || true
-    - cp -r _build/html public/test/
-    
+   
 pages:
   stage: deploy
   only:
