@@ -18,7 +18,7 @@ public class GetServerVersionCommand extends AltBaseCommand {
         }
         String driverVersion="";
         try {
-            File myObj = new File("JavaDriverVersion.txt.txt");
+            File myObj = new File("JavaDriverVersion.txt");
             Scanner myReader = new Scanner(myObj);
             driverVersion=myReader.nextLine();
             myReader.close();
