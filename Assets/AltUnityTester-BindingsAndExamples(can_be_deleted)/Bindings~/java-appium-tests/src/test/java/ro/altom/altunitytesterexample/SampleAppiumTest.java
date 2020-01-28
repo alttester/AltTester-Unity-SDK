@@ -26,7 +26,7 @@ public class SampleAppiumTest {
     private static AndroidDriver appiumDriver;
 
     @BeforeClass
-    public static void setUp() throws IOException, InterruptedException {
+    public static void setUp() throws Exception{
         AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
         File app = new File("../../../../sampleGame.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
