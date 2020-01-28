@@ -18,6 +18,7 @@ public class AltUnityDriver {
         public static int StringType = 2;
         public static int FloatType = 3;
     }
+    public static final String VERSION="1.5.3-Alpha";
     public static final int READ_TIMEOUT = 30 * 1000;
 
     private Socket socket=null;
