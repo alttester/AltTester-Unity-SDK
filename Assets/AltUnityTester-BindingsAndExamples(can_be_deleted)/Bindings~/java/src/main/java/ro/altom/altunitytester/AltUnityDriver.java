@@ -6,7 +6,6 @@ import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.OldFindObject.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
-import sun.awt.windows.awtLocalization_zh_TW;
 
 import java.io.*;
 import java.net.Socket;
