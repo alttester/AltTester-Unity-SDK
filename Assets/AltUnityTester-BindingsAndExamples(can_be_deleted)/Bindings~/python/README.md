@@ -317,8 +317,8 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
 	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `swipe_and_wait`
 
     ```python
-        var altElement1 = alt_driver.find_element('Drag Image1')
-        var altElement2 = alt_driver.find_element('Drop Box1')
+        altElement1 = alt_driver.find_element('Drag Image1')
+        altElement2 = alt_driver.find_element('Drop Box1')
         alt_driver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2)
     ```
 
@@ -330,12 +330,40 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
 		* y_end - y postion on the screen where the swipe will end
 		* duration - how many seconds the swipe will need to complete
 	* return: none
-	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `Swipe`
+	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `swipe`
 
 	```python
-        var altElement1 = alt_driver.find_element("Drag Image1")
-        var altElement2 = alt_driver.find_element("Drop Box1")
+        altElement1 = alt_driver.find_element("Drag Image1")
+        altElement2 = alt_driver.find_element("Drop Box1")
         alt_driver.swipe_and_wait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2)
+    ``` 
+ 
+  * `move_touch`
+	* params: 
+		* positions - collection of positions on the screen where the swipe be made
+		* duration - how many seconds the swipe will need to complete
+	* return: none
+	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `move_touch_and_wait`
+
+    ```python
+        altElement1 = alt_driver.find_element('Drag Image1')
+        altElement2 = alt_driver.find_element('Drop Box1')
+        positions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
+        alt_driver.move_touch(positions, 2)
+    ```
+
+  * `move_touch_and_wait`
+	* params: 
+		* positions - collection of positions on the screen where the swipe be made
+		* duration - how many seconds the swipe will need to complete
+	* return: none
+	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `move_touch`
+
+	```python
+        altElement1 = alt_driver.find_element('Drag Image1')
+        altElement2 = alt_driver.find_element('Drop Box1')
+        positions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
+        alt_driver.move_touch_and_wait(positions, 2)
     ``` 
  
   * `tap_at_coordinates`
