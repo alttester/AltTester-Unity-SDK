@@ -2,6 +2,7 @@ package ro.altom.altunitytester;
 
 import lombok.Getter;
 import ro.altom.altunitytester.Commands.ObjectCommand.*;
+import ro.altom.altunitytester.position.Vector2;
 import ro.altom.altunitytester.position.Vector3;
 
 @Getter
@@ -112,8 +113,12 @@ public class AltUnityObject {
         this.idCamera = idCamera;
     }
 
-    public Vector3 getPosition(){
-        return new Vector3(this.x, this.y, this.z);
+    public Vector2 getScreenPosition(){
+        return new Vector2(this.x, this.y);
+    }
+
+    public Vector3 getWorldPosition(){
+        return new Vector3(this.worldX, this.worldY, this.worldZ);
     }
     
     public String getComponentProperty(AltGetComponentPropertyParameters altGetComponentPropertyParameters){

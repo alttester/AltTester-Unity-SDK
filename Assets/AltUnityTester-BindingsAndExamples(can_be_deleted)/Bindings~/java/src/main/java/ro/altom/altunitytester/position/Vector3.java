@@ -4,25 +4,13 @@ import lombok.Data;
 import lombok.Getter;
 
 @Getter
-public @Data class Vector3 {
-    public int x;
-    public int y;
-    public int z;
+public @Data class Vector3 extends Vector2 {
+    public float z;
 
-    public Vector3(int x, int y, int z)
+    public Vector3(float x, float y, float z)
     {
-        this(x, y);
+        super(x, y);
         this.z = z;
-    }
-
-    public Vector3(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-    }
-
-    public String toVector2Json() {
-        return "{\"x\":" + x + ", \"y\":" + y + "}";
     }
 
     public String toVector3Json() {

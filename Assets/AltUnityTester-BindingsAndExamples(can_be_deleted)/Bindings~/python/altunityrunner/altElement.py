@@ -47,8 +47,11 @@ class AltElement(object):
                  "worldZ":"' + self.worldZ + '",\
                  "idCamera":"'+self.idCamera+'"}'
 
-    def position(self):
-        return self.x, self.y, self.z
+    def get_screen_position(self):
+        return self.x, self.y
+    
+    def get_world_position(self):
+        return self.worldX, self.worldY, self.worldZ
     
     def get_component_property(self, component_name, property_name, assembly_name=''):
         alt_object = self.toJSON()
