@@ -2,14 +2,14 @@ package ro.altom.altunitytester.Commands.InputActions;
 
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
-import ro.altom.altunitytester.position.Vector3;
+import ro.altom.altunitytester.position.Vector2;
 
 import java.util.List;
 
 public class AltMovingTouchAndWait extends AltBaseCommand {
-    private List<Vector3> positions;
+    private List<Vector2> positions;
     private float durationInSeconds;
-    public AltMovingTouchAndWait(AltBaseSettings altBaseSettings, List<Vector3> positions, float durationInSeconds) {
+    public AltMovingTouchAndWait(AltBaseSettings altBaseSettings, List<Vector2> positions, float durationInSeconds) {
         super(altBaseSettings);
         this.positions = positions;
         this.durationInSeconds = durationInSeconds;

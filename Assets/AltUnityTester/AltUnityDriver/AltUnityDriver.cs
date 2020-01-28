@@ -120,11 +120,11 @@ public class AltUnityDriver
     }
     public void MoveTouch(Vector2[] positions, float duration)
     {
-        new MovingTouch(socketSettings, duration, positions).Execute();
+        new MovingTouch(socketSettings, positions, duration).Execute();
     }
     public void MoveTouchAndWait(Vector2[] positions, float duration)
     {
-        new MovingTouchAndWait(socketSettings, duration, positions).Execute();
+        new MovingTouchAndWait(socketSettings, positions, duration).Execute();
     }
     public void HoldButton(Vector2 position, float duration)
     {

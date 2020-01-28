@@ -2,15 +2,15 @@ package ro.altom.altunitytester.Commands.InputActions;
 
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
-import ro.altom.altunitytester.position.Vector3;
+import ro.altom.altunitytester.position.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AltMovingTouch extends AltBaseCommand {
-    private List<Vector3> positions;
+    private List<Vector2> positions;
     private float durationInSeconds;
-    public AltMovingTouch(AltBaseSettings altBaseSettings, List<Vector3> positions, float durationInSeconds) {
+    public AltMovingTouch(AltBaseSettings altBaseSettings, List<Vector2> positions, float durationInSeconds) {
         super(altBaseSettings);
         this.positions = positions;
         this.durationInSeconds = durationInSeconds;
@@ -19,7 +19,7 @@ public class AltMovingTouch extends AltBaseCommand {
         ArrayList<String> args = new ArrayList<String>();
         args.add("movingTouchChain");
         args.add(String.valueOf(durationInSeconds));
-        for (Vector3 v : positions) {
+        for (Vector2 v : positions) {
             args.add(v.toVector2Json());
         }
         String[] results = new String[args.size()];

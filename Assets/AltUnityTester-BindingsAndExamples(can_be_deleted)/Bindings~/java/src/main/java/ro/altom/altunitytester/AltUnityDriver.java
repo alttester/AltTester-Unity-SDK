@@ -6,7 +6,7 @@ import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.OldFindObject.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
-import ro.altom.altunitytester.position.Vector3;
+import ro.altom.altunitytester.position.Vector2;
 
 import java.io.*;
 import java.net.Socket;
@@ -130,11 +130,11 @@ public class AltUnityDriver {
         new AltSwipeAndWait(altBaseSettings,xStart,yStart,xEnd,yEnd,durationInSecs).Execute();
     }
 
-    public void moveTouch(List<Vector3> positions, float durationInSecs) {
+    public void moveTouch(List<Vector2> positions, float durationInSecs) {
         new AltMovingTouch(altBaseSettings,positions,durationInSecs).Execute();
     }
 
-    public void moveTouchAndWait(List<Vector3> positions, float durationInSecs) {
+    public void moveTouchAndWait(List<Vector2> positions, float durationInSecs) {
         new AltMovingTouchAndWait(altBaseSettings,positions,durationInSecs).Execute();
     }
     

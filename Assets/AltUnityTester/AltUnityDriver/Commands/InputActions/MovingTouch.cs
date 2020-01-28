@@ -7,7 +7,7 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
         Vector2[] positions;
         float duration;
         
-        public MovingTouch(SocketSettings socketSettings, float duration, Vector2[] positions) : base(socketSettings)
+        public MovingTouch(SocketSettings socketSettings, Vector2[] positions, float duration) : base(socketSettings)
         {
             this.positions = positions;
             this.duration = duration;

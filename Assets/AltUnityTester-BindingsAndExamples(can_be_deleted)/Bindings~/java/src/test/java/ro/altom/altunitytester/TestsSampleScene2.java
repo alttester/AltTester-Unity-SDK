@@ -4,7 +4,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ro.altom.altunitytester.position.Vector3;
+import ro.altom.altunitytester.position.Vector2;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -60,10 +60,10 @@ public class TestsSampleScene2 {
     public void testResizePanelWithMovingTouch() throws Exception {
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
 
-        List<Vector3> positions = Arrays.asList(
-            new Vector3(altElement.x, altElement.y), 
-            new Vector3(altElement.x + 100, altElement.y + 100),
-            new Vector3(altElement.x + 100, altElement.y + 200));
+        List<Vector2> positions = Arrays.asList(
+            altElement.getScreenPosition(), 
+            new Vector2(altElement.x + 100, altElement.y + 100),
+            new Vector2(altElement.x + 100, altElement.y + 200));
         
         altUnityDriver.moveTouchAndWait(positions, 3);
 
