@@ -18,7 +18,7 @@ public class GetServerVersionCommand extends AltBaseCommand {
         
         if(!driverVersion.equals(serverVersion))
         {
-            String message="Mismatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + driverVersion
+            String message="Mismatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + driverVersion;
             super.WriteInLogFile(message);
             throw new Exception(message);
         }
