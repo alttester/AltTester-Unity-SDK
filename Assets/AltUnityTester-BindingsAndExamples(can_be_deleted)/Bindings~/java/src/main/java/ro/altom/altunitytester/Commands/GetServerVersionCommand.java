@@ -17,7 +17,11 @@ public class GetServerVersionCommand extends AltBaseCommand {
         String driverVersion= AltUnityDriver.VERSION;
         
         if(!driverVersion.equals(serverVersion))
-            throw new Exception("Mismatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + driverVersion);
+        {
+            String message="Mismatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + driverVersion
+            super.WriteInLogFile(message);
+            throw new Exception(message);
+        }
     }
 }
 

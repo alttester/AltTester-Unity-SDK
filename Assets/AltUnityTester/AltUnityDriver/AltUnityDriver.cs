@@ -20,6 +20,7 @@ public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
     public SocketSettings socketSettings;
+    public static readonly string VERSION="1.5.3-ALPHA";
     private static string tcp_ip = "127.0.0.1";
     private static int tcp_port = 13000;
     public static string requestSeparatorString;

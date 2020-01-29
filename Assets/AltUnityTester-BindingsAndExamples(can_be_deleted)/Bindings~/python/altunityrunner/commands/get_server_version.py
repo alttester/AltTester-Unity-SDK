@@ -3,6 +3,7 @@ import subprocess
 import re
 import os
 from altunityrunner.__version__ import VERSION
+import warnings
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'PythonServerVersion.txt')
 
@@ -16,4 +17,9 @@ class GetServerVersion(BaseCommand):
         serverVersion=self.handle_errors(serverVersion)
         
         if not VERSION==serverVersion:
-            raise Exception("Mismatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + VERSION);
+            message="Mismatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + VERSION
+            warnings.warn(message)
+            super().write_to_log_file(message)
+            return "Version mismatch"
+        else:
+            return "Ok"
