@@ -1,4 +1,4 @@
-﻿
+
 
 using System.Linq;
 
@@ -203,10 +203,10 @@ try{
         return devices;
     }
 #if UNITY_EDITOR_OSX
-     public static System.Collections.Generic.List<MyDevices> GetConnectediOSDevices()
+     public static System.Collections.Generic.List<AltUnityMyDevices> GetConnectediOSDevices()
     {
     
-        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
+        System.Collections.Generic.List<AltUnityMyDevices> devices = new System.Collections.Generic.List<AltUnityMyDevices>();
         try{
 
         var xcrun = AltUnityTesterEditor.EditorConfiguration.XcrunPath;
@@ -232,7 +232,7 @@ try{
             {
                 var parts = line.Split('[');
                 string deviceId = parts[1].Split(']')[0];
-                devices.Add(new MyDevices(deviceId,13000,13000,false,Platform.iOS));
+                devices.Add(new AltUnityMyDevices(deviceId,13000,13000,false,AltUnityPlatform.iOS));
             }
         }
         process.WaitForExit();
@@ -241,7 +241,7 @@ try{
         }
         return devices;
     }
-    public static System.Collections.Generic.List<MyDevices> GetForwardediOSDevices(){
+    public static System.Collections.Generic.List<AltUnityMyDevices> GetForwardediOSDevices(){
         var process = new System.Diagnostics.Process();
         var startInfo = new System.Diagnostics.ProcessStartInfo
         {
@@ -255,7 +255,7 @@ try{
         };
         process.StartInfo = startInfo;
         process.Start();
-        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
+        System.Collections.Generic.List<AltUnityMyDevices> devices = new System.Collections.Generic.List<AltUnityMyDevices>();
         while(!process.StandardOutput.EndOfStream)
         {
             var line2 = process.StandardOutput.ReadLine();//mac's id    
@@ -267,7 +267,7 @@ try{
                 var localPort=System.Int32.Parse(splitedString[splitedString.Length-3]);
                 var remotePort=System.Int32.Parse(splitedString[splitedString.Length-2]);
                 var pid=System.Int32.Parse(splitedString[1]);
-                devices.Add(new MyDevices(id,localPort,remotePort,true,Platform.iOS,pid));
+                devices.Add(new AltUnityMyDevices(id,localPort,remotePort,true,AltUnityPlatform.iOS,pid));
             }            
         }
         return devices;
