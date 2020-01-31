@@ -90,16 +90,14 @@ public class AltUnityBuilder
             switch (buildTarget)
             {
                 case UnityEditor.BuildTarget.StandaloneOSX:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".app";
                     break;
-
                 case UnityEditor.BuildTarget.StandaloneWindows:
                     if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
                         ouputPath += "/" + ouputPath;
                     if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
                         ouputPath += ".exe";
-                    break;
-                case UnityEditor.BuildTarget.StandaloneLinux:
-
                     break;
                 case UnityEditor.BuildTarget.StandaloneWindows64:
                     if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
@@ -107,11 +105,7 @@ public class AltUnityBuilder
                     if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
                         ouputPath += ".exe";
                     break;
-
                 case UnityEditor.BuildTarget.StandaloneLinux64:
-                    break;
-
-                case UnityEditor.BuildTarget.StandaloneLinuxUniversal:
                     break;
             }
             buildPlayerOptions.locationPathName = ouputPath;
