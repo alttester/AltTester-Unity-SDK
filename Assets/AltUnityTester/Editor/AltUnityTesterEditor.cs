@@ -359,7 +359,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     AltUnityBuilder.BuildAndroidFromUI(autoRun: false);
                 }
 #if UNITY_EDITOR_OSX
-                else if (EditorConfiguration.platform == Platform.iOS) {
+                else if (EditorConfiguration.platform == AltUnityPlatform.iOS) {
                     AltUnityBuilder.BuildiOSFromUI(autoRun: false);
                 }
 #endif
@@ -408,7 +408,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     AltUnityBuilder.BuildAndroidFromUI(autoRun: true);
                 }
 #if UNITY_EDITOR_OSX
-                else if (EditorConfiguration.platform == Platform.iOS) {
+                else if (EditorConfiguration.platform == AltUnityPlatform.iOS) {
                     AltUnityBuilder.BuildiOSFromUI(autoRun: true);
                 }
 #endif
@@ -638,8 +638,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             }
         }
 #if UNITY_EDITOR_OSX
-        System.Collections.Generic.List<MyDevices> iOSDEvices=AltUnityPortHandler.GetConnectediOSDevices();
-        System.Collections.Generic.List<MyDevices> iOSForwardedDevices=AltUnityPortHandler.GetForwardediOSDevices();
+        System.Collections.Generic.List<AltUnityMyDevices> iOSDEvices=AltUnityPortHandler.GetConnectediOSDevices();
+        System.Collections.Generic.List<AltUnityMyDevices> iOSForwardedDevices=AltUnityPortHandler.GetForwardediOSDevices();
         foreach(var iOSDEvice in iOSDEvices){
             var deviceForwarded = iOSForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(iOSDEvice.DeviceId));
             if (deviceForwarded != null)

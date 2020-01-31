@@ -333,7 +333,7 @@ public class AltUnityTestRunner {
                     filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
                 }
 
-            NUnit.Framework.Interfaces.ITestListener listener = new TestRunListener(null);
+            NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(null);
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
             testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
             var result = testAssemblyRunner.Run(listener, filter);
