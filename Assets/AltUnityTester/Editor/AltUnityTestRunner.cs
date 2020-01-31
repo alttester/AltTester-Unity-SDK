@@ -25,7 +25,7 @@ public class AltUnityTestRunner {
         System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
 
         var filters = AddTestToBeRun(testMode);
-        NUnit.Framework.Interfaces.ITestListener listener = new TestRunListener(CallRunDelegate);
+        NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(CallRunDelegate);
         var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
 
         testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
@@ -39,7 +39,7 @@ public class AltUnityTestRunner {
         });
 
         runTestThread.Start();
-        if (AltUnityTesterEditor.EditorConfiguration.platform != Platform.Editor) {
+        if (AltUnityTesterEditor.EditorConfiguration.platform != AltUnityPlatform.Editor) {
             float previousProgres = progress - 1;
             while (runTestThread.IsAlive) {
                 if (previousProgres == progress) continue;
@@ -50,7 +50,7 @@ public class AltUnityTestRunner {
         }
 
         runTestThread.Join();
-        if (AltUnityTesterEditor.EditorConfiguration.platform != Platform.Editor) {
+        if (AltUnityTesterEditor.EditorConfiguration.platform != AltUnityPlatform.Editor) {
             AltUnityTesterEditor.needsRepaiting = true;
             UnityEditor.EditorUtility.ClearProgressBar();
         }
@@ -248,7 +248,7 @@ public class AltUnityTestRunner {
     }
 
     public static void SetUpListTest() {
-        var myTests = new System.Collections.Generic.List<MyTest>();
+        var myTests = new System.Collections.Generic.List<AltUnityMyTest>();
         System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
 
         const string engineTestRunnerAssemblyName = "UnityEngine.TestRunner";
@@ -282,7 +282,7 @@ public class AltUnityTestRunner {
         AltUnityTesterEditor.EditorConfiguration.MyTests = myTests;
     }
 
-    private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, System.Collections.Generic.List<MyTest> newMyTests) {
+    private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, System.Collections.Generic.List<AltUnityMyTest> newMyTests) {
         string path = null;
 
         if (testSuite.GetType() == typeof(NUnit.Framework.Internal.TestMethod))
@@ -298,15 +298,15 @@ public class AltUnityTestRunner {
         var index = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName));
         if (index == null) {
             if (testSuite.Parent == null) {
-                newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
+                newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
                     "", testSuite.TestCaseCount, false, null,null,0, path));
             } else {
-                newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
+                newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
                     testSuite.Parent.FullName, testSuite.TestCaseCount, false, null, null, 0, path));
             }
 
         } else {
-            newMyTests.Add(new MyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
+            newMyTests.Add(new AltUnityMyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
                 index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage,index.TestStackTrace,index.TestDuration, path));
         }
         foreach (var test in testSuite.Tests) {
@@ -367,7 +367,7 @@ public class AltUnityTestRunner {
                     filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
                 }
 
-            NUnit.Framework.Interfaces.ITestListener listener = new TestRunListener(null);
+            NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(null);
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
 
             testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());

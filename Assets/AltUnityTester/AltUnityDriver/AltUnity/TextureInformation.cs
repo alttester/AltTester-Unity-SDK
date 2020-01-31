@@ -4,11 +4,11 @@ using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 public struct TextureInformation
     {
         public byte[] imageData;
-        public Vector2 scaleDifference;
-        public Vector3 textureSize;
-        public Assets.AltUnityTester.AltUnityDriver.UnityStruct.TextureFormat textureFormat;
+        public AltUnityVector2 scaleDifference;
+        public AltUnityVector3 textureSize;
+        public Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat textureFormat;
 
-        public TextureInformation(byte[] imageData, Vector2 scaleDifference,Vector3 textureSize, Assets.AltUnityTester.AltUnityDriver.UnityStruct.TextureFormat textureFormat)
+        public TextureInformation(byte[] imageData, AltUnityVector2 scaleDifference,AltUnityVector3 textureSize, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat textureFormat)
         {
             this.imageData = imageData;
             this.scaleDifference = scaleDifference;

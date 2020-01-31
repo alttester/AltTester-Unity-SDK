@@ -137,9 +137,9 @@ public class AltBaseCommand
         var length = screenshotInfo[1];
         var LongLength = Newtonsoft.Json.JsonConvert.DeserializeObject<long>(length);
         var textureFormatString = screenshotInfo[2];
-        var textureFormat = (Assets.AltUnityTester.AltUnityDriver.UnityStruct.TextureFormat)System.Enum.Parse(typeof(Assets.AltUnityTester.AltUnityDriver.UnityStruct.TextureFormat), textureFormatString);
+        var textureFormat = (Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat)System.Enum.Parse(typeof(Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat), textureFormatString);
         var textSizeString = screenshotInfo[3];
-        var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<Vector3>(textSizeString);
+        var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector3>(textSizeString);
 
         System.Byte[] imageCompressed = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Byte[]>(screenshotInfo[4], new Newtonsoft.Json.JsonSerializerSettings
         {
@@ -148,7 +148,7 @@ public class AltBaseCommand
 
         System.Byte[] imageDecompressed = DeCompressScreenshot(imageCompressed);
 
-        return new TextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<Vector2>(scaleDifference), textSizeVector3, textureFormat);
+        return new TextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector2>(scaleDifference), textSizeVector3, textureFormat);
     }
     public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
     {

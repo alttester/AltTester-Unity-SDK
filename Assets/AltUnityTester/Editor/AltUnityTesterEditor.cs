@@ -7,7 +7,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     public static bool needsRepaiting = false;
 
-    public static EditorConfiguration EditorConfiguration;
+    public static AltUnityEditorConfiguration EditorConfiguration;
     public static AltUnityTesterEditor _window;
 
     public static NUnit.Framework.Internal.TestSuite _testSuite;
@@ -56,7 +56,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     public static int reportTestFailed;
     public static double timeTestRan;
 
-    public static System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
+    public static System.Collections.Generic.List<AltUnityMyDevices> devices = new System.Collections.Generic.List<AltUnityMyDevices>();
     // public static System.Collections.Generic.Dictionary<string, int> iosForwards = new System.Collections.Generic.Dictionary<string, int>();
 
     // Add menu item named "My Window" to the Window menu
@@ -147,10 +147,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void GetListOfSceneFromEditor()
     {
-        System.Collections.Generic.List<MyScenes> newSceneses = new System.Collections.Generic.List<MyScenes>();
+        System.Collections.Generic.List<AltUnityMyScenes> newSceneses = new System.Collections.Generic.List<AltUnityMyScenes>();
         foreach (var scene in UnityEditor.EditorBuildSettings.scenes)
         {
-            newSceneses.Add(new MyScenes(scene.enabled, scene.path, 0));
+            newSceneses.Add(new AltUnityMyScenes(scene.enabled, scene.path, 0));
         }
 
         EditorConfiguration.Scenes = newSceneses;
@@ -163,14 +163,14 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         {
             var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
             altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
-            EditorConfiguration = UnityEngine.ScriptableObject.CreateInstance<EditorConfiguration>();
+            EditorConfiguration = UnityEngine.ScriptableObject.CreateInstance<AltUnityEditorConfiguration>();
             UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltUnityTesterEditorSettings.asset");
             UnityEditor.AssetDatabase.SaveAssets();
 
         }
         else
         {
-            EditorConfiguration = UnityEditor.AssetDatabase.LoadAssetAtPath<EditorConfiguration>(
+            EditorConfiguration = UnityEditor.AssetDatabase.LoadAssetAtPath<AltUnityEditorConfiguration>(
                 UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditorSettings")[0]));
         }
         UnityEditor.EditorUtility.SetDirty(EditorConfiguration);
@@ -252,20 +252,20 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         if (rightSide <= 300)
         {
             UnityEditor.EditorGUILayout.BeginVertical();
-            EditorConfiguration.platform = (Platform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(Platform)), 1, UnityEditor.EditorStyles.radioButton);
+            EditorConfiguration.platform = (AltUnityPlatform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(AltUnityPlatform)), 1, UnityEditor.EditorStyles.radioButton);
 
             UnityEditor.EditorGUILayout.EndVertical();
         }
         else
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
-            EditorConfiguration.platform = (Platform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(Platform)), System.Enum.GetNames(typeof(Platform)).Length, UnityEditor.EditorStyles.radioButton);
+            EditorConfiguration.platform = (AltUnityPlatform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(AltUnityPlatform)), System.Enum.GetNames(typeof(AltUnityPlatform)).Length, UnityEditor.EditorStyles.radioButton);
 
             UnityEditor.EditorGUILayout.EndHorizontal(); 
         }
         
 
-        if (EditorConfiguration.platform == Platform.Standalone)
+        if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
         {
             UnityEditor.BuildTarget[] options = new UnityEditor.BuildTarget[]
             {
@@ -285,7 +285,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
         if (UnityEngine.GUILayout.Button("Run All Tests"))
         {
-            if (EditorConfiguration.platform == Platform.Editor)
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
             {
                 System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest));
                 testThread.Start();
@@ -298,7 +298,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         }
         if (UnityEngine.GUILayout.Button("Run Selected Tests"))
         {
-            if (EditorConfiguration.platform == Platform.Editor)
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
             {
                 System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest));
                 testThread.Start();
@@ -311,7 +311,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         }
         if (UnityEngine.GUILayout.Button("Run Failed Tests"))
         {
-            if (EditorConfiguration.platform == Platform.Editor)
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
             {
                 System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest));
                 testThread.Start();
@@ -350,11 +350,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         }
 
         UnityEditor.EditorGUILayout.LabelField("Build", UnityEditor.EditorStyles.boldLabel);
-        if (EditorConfiguration.platform != Platform.Editor)
+        if (EditorConfiguration.platform != AltUnityPlatform.Editor)
         {
             if (UnityEngine.GUILayout.Button("Build Only"))
             {
-                if (EditorConfiguration.platform == Platform.Android)
+                if (EditorConfiguration.platform == AltUnityPlatform.Android)
                 {
                     AltUnityBuilder.BuildAndroidFromUI(autoRun: false);
                 }
@@ -363,7 +363,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     AltUnityBuilder.BuildiOSFromUI(autoRun: false);
                 }
 #endif
-                else if (EditorConfiguration.platform == Platform.Standalone)
+                else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                 {
                     AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.standaloneTarget, autoRun: false);
                 }
@@ -385,7 +385,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.Separator();
 
         UnityEditor.EditorGUILayout.LabelField("Run", UnityEditor.EditorStyles.boldLabel);
-        if (EditorConfiguration.platform == Platform.Editor)
+        if (EditorConfiguration.platform == AltUnityPlatform.Editor)
         {
             if (UnityEngine.GUILayout.Button("Play in Editor"))
             {
@@ -399,11 +399,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             UnityEditor.EditorGUI.EndDisabledGroup();
         }
 
-        if (EditorConfiguration.platform != Platform.Editor)
+        if (EditorConfiguration.platform != AltUnityPlatform.Editor)
         {
             if (UnityEngine.GUILayout.Button("Build & Run"))
             {
-                if (EditorConfiguration.platform == Platform.Android)
+                if (EditorConfiguration.platform == AltUnityPlatform.Android)
                 {
                     AltUnityBuilder.BuildAndroidFromUI(autoRun: true);
                 }
@@ -412,7 +412,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     AltUnityBuilder.BuildiOSFromUI(autoRun: true);
                 }
 #endif
-                else if (EditorConfiguration.platform == Platform.Standalone)
+                else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                 {
                     AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.standaloneTarget, autoRun: true);
                 }
@@ -552,7 +552,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         UnityEngine.GUILayout.Label(device.RemotePort.ToString(), guiStyleNormal, UnityEngine.GUILayout.Width(widthColumn/7));
                         if (UnityEngine.GUILayout.Button("Stop",UnityEngine.GUILayout.Width(widthColumn/10),UnityEngine.GUILayout.Height(15)))
                         {
-                            if (device.Platform == Platform.Android)
+                            if (device.Platform == AltUnityPlatform.Android)
                             {
                                 AltUnityPortHandler.RemoveForwardAndroid(device.LocalPort, device.DeviceId);
                             }
@@ -578,7 +578,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         device.RemotePort = UnityEditor.EditorGUILayout.IntField(device.RemotePort, UnityEngine.GUILayout.Width(widthColumn/7));
                         if (UnityEngine.GUILayout.Button("Start", UnityEngine.GUILayout.Width(widthColumn/10),UnityEngine.GUILayout.MaxHeight(15)))
                         {
-                            if (device.Platform == Platform.Android)
+                            if (device.Platform == AltUnityPlatform.Android)
                             {
                                 var response = AltUnityPortHandler.ForwardAndroid(device.DeviceId, device.LocalPort, device.RemotePort);
                                 if (!response.Equals("Ok"))
@@ -625,8 +625,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void RefreshDeviceList()
     {
-        System.Collections.Generic.List<MyDevices> adbDevices = AltUnityPortHandler.GetDevicesAndroid();
-        System.Collections.Generic.List<MyDevices> androidForwardedDevices = AltUnityPortHandler.GetForwardedDevicesAndroid();
+        System.Collections.Generic.List<AltUnityMyDevices> adbDevices = AltUnityPortHandler.GetDevicesAndroid();
+        System.Collections.Generic.List<AltUnityMyDevices> androidForwardedDevices = AltUnityPortHandler.GetForwardedDevicesAndroid();
         foreach (var adbDevice in adbDevices)
         {
             var deviceForwarded = androidForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(adbDevice.DeviceId));
@@ -834,7 +834,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
                 UnityEditor.EditorGUILayout.EndHorizontal();
                 UnityEngine.GUILayout.BeginVertical(UnityEngine.GUI.skin.textField);
-                MyScenes sceneToBeRemoved = null;
+                AltUnityMyScenes sceneToBeRemoved = null;
                 int counter = 0;
                 foreach (var scene in EditorConfiguration.Scenes)
                 {
@@ -926,7 +926,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 var path = UnityEditor.AssetDatabase.GetAssetPath(_obj);
                 if (EditorConfiguration.Scenes.All(n => n.Path != path))
                 {
-                    EditorConfiguration.Scenes.Add(new MyScenes(false, path, 0));
+                    EditorConfiguration.Scenes.Add(new AltUnityMyScenes(false, path, 0));
                     _obj = new UnityEngine.Object();
                 }
 
@@ -956,7 +956,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 }
                 if (UnityEngine.GUILayout.Button("Remove all scenes", UnityEditor.EditorStyles.miniButtonRight, UnityEngine.GUILayout.MinWidth(30)))
                 {
-                    EditorConfiguration.Scenes = new System.Collections.Generic.List<MyScenes>();
+                    EditorConfiguration.Scenes = new System.Collections.Generic.List<AltUnityMyScenes>();
                     UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
                 }
                 UnityEditor.EditorGUILayout.EndHorizontal();
@@ -986,7 +986,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 }
                 if (UnityEngine.GUILayout.Button("Remove all scenes", UnityEditor.EditorStyles.miniButtonRight, UnityEngine.GUILayout.MinWidth(30)))
                 {
-                    EditorConfiguration.Scenes = new System.Collections.Generic.List<MyScenes>();
+                    EditorConfiguration.Scenes = new System.Collections.Generic.List<AltUnityMyScenes>();
                     UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
                 }
                 UnityEditor.EditorGUILayout.EndHorizontal();
@@ -1002,7 +1002,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void RemoveNotSelectedScenes()
     {
-        System.Collections.Generic.List<MyScenes> copyMySceneses = new System.Collections.Generic.List<MyScenes>();
+        System.Collections.Generic.List<AltUnityMyScenes> copyMySceneses = new System.Collections.Generic.List<AltUnityMyScenes>();
         foreach (var scene in EditorConfiguration.Scenes)
         {
             if (scene.ToBeBuilt)
@@ -1035,7 +1035,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     }
 
 
-    private void DisplayTestGui(System.Collections.Generic.List<MyTest> tests)
+    private void DisplayTestGui(System.Collections.Generic.List<AltUnityMyTest> tests)
     {
         UnityEditor.EditorGUILayout.LabelField("Tests list", UnityEditor.EditorStyles.boldLabel);
         UnityEditor.EditorGUILayout.BeginHorizontal();
@@ -1145,7 +1145,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.EndVertical();
     }
 
-    private static void SelectTest(System.Collections.Generic.List<MyTest> tests, MyTest test, string testName, UnityEngine.GUIStyle guiStyle)
+    private static void SelectTest(System.Collections.Generic.List<AltUnityMyTest> tests, AltUnityMyTest test, string testName, UnityEngine.GUIStyle guiStyle)
     {
         if (!test.IsSuite)
         {
@@ -1173,7 +1173,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         }
     }
 
-    private void ChangeSelectionChildsAndParent(MyTest test)
+    private void ChangeSelectionChildsAndParent(AltUnityMyTest test)
     {
         if (test.Selected)
         {
@@ -1229,7 +1229,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     }
 
-    private static void SceneMove(MyScenes scene, bool up)
+    private static void SceneMove(AltUnityMyScenes scene, bool up)
     {
         int index = EditorConfiguration.Scenes.IndexOf(scene);
         if (up)
@@ -1245,7 +1245,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     public static void Swap(int index1, int index2)
     {
-        MyScenes backUp = EditorConfiguration.Scenes[index1];
+        AltUnityMyScenes backUp = EditorConfiguration.Scenes[index1];
         EditorConfiguration.Scenes[index1] = EditorConfiguration.Scenes[index2];
         EditorConfiguration.Scenes[index2] = backUp;
     }
@@ -1254,11 +1254,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     public static void AddAllScenes()
     {
         var scenesToBeAddedGuid = UnityEditor.AssetDatabase.FindAssets("t:SceneAsset");
-        EditorConfiguration.Scenes = new System.Collections.Generic.List<MyScenes>();
+        EditorConfiguration.Scenes = new System.Collections.Generic.List<AltUnityMyScenes>();
         foreach (var sceneGuid in scenesToBeAddedGuid)
         {
             var scenePath = UnityEditor.AssetDatabase.GUIDToAssetPath(sceneGuid);
-            EditorConfiguration.Scenes.Add(new MyScenes(false, scenePath, 0));
+            EditorConfiguration.Scenes.Add(new AltUnityMyScenes(false, scenePath, 0));
 
         }
 
@@ -1277,7 +1277,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         return listofPath.ToArray();
     }
 
-    private void RemoveScene(MyScenes scene)
+    private void RemoveScene(AltUnityMyScenes scene)
     {
 
         EditorConfiguration.Scenes.Remove(scene);
