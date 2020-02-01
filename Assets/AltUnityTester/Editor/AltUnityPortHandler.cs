@@ -1,5 +1,7 @@
 ﻿
 
+using System.Linq;
+
 public class AltUnityPortHandler {
 
 
@@ -8,6 +10,7 @@ public class AltUnityPortHandler {
 #if UNITY_EDITOR_OSX
     public static string ForwardIos(string id="",int localPort=13000,int remotePort=13000) {
         var argument=localPort+" "+remotePort+" "+id;
+        try{
         System.Diagnostics.Process process = new System.Diagnostics.Process();
         System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
         {
@@ -26,9 +29,10 @@ public class AltUnityPortHandler {
         if(process.HasExited){
             return process.StandardError.ReadToEnd();
         }
-        
         return "Ok "+process.Id;
-               
+        }catch(System.ComponentModel.Win32Exception){
+            return "The path to Iproxy is not correct or Iproxy is not installed";
+        }
     }
 
     public static void KillIProxy(int id) {
@@ -113,7 +117,8 @@ public class AltUnityPortHandler {
 
     public static System.Collections.Generic.List<MyDevices> GetDevicesAndroid()
     {
-       
+       System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
+       try{
         string adbFileName;
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
@@ -133,7 +138,6 @@ public class AltUnityPortHandler {
         };
         process.StartInfo = startInfo;
         process.Start();
-        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
         while (!process.StandardOutput.EndOfStream)
         {
             string line = process.StandardOutput.ReadLine();
@@ -145,11 +149,18 @@ public class AltUnityPortHandler {
             }
         }
         process.WaitForExit();
+        string stdout=process.StandardError.ReadToEnd();
+        }catch(System.ComponentModel.Win32Exception){
+            UnityEngine.Debug.LogWarning("The path to adb is not correct or Adb is not installed. If you don't need Android device just ignore this warning");
+        }
         return devices;
     }
     public static System.Collections.Generic.List<MyDevices> GetForwardedDevicesAndroid()
     {
-        string adbFileName;
+        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
+try{
+
+       string adbFileName;
 #if UNITY_EDITOR_WIN
         adbFileName = "adb.exe";
 #elif UNITY_EDITOR
@@ -168,7 +179,6 @@ public class AltUnityPortHandler {
         };
         process.StartInfo = startInfo;
         process.Start();
-        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
         while (!process.StandardOutput.EndOfStream)
         {
             string line = process.StandardOutput.ReadLine();
@@ -187,13 +197,19 @@ public class AltUnityPortHandler {
             }
         }
         process.WaitForExit();
+        }catch(System.ComponentModel.Win32Exception){
+            UnityEngine.Debug.LogWarning("The path to adb is not correct or Adb is not installed. If you don't need Android device just ignore this warning");
+        }
         return devices;
     }
 #if UNITY_EDITOR_OSX
      public static System.Collections.Generic.List<MyDevices> GetConnectediOSDevices()
     {
     
-        var xcrun = "/usr/bin/xcrun";
+        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
+        try{
+
+        var xcrun = AltUnityTesterEditor.EditorConfiguration.XcrunPath;
         var process = new System.Diagnostics.Process();
         var startInfo = new System.Diagnostics.ProcessStartInfo
         {
@@ -207,7 +223,6 @@ public class AltUnityPortHandler {
         };
         process.StartInfo = startInfo;
         process.Start();
-        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
         string line = process.StandardOutput.ReadLine();//Known devices: line
         line = process.StandardOutput.ReadLine();//mac's id
         while (!process.StandardOutput.EndOfStream)
@@ -221,6 +236,40 @@ public class AltUnityPortHandler {
             }
         }
         process.WaitForExit();
+        }catch(System.ComponentModel.Win32Exception){
+            UnityEngine.Debug.LogWarning("The path to Xcrun is not correct or Xcrun is not installed. If you don't need iOS device just ignore this warning");
+        }
+        return devices;
+    }
+    public static System.Collections.Generic.List<MyDevices> GetForwardediOSDevices(){
+        var process = new System.Diagnostics.Process();
+        var startInfo = new System.Diagnostics.ProcessStartInfo
+        {
+            CreateNoWindow=true,
+            WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError=true,
+            FileName = "ps",
+            Arguments = "aux"
+        };
+        process.StartInfo = startInfo;
+        process.Start();
+        System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
+        while(!process.StandardOutput.EndOfStream)
+        {
+            var line2 = process.StandardOutput.ReadLine();//mac's id    
+            if(line2.Contains("/iproxy"))
+            {
+                var splitedString=line2.Split(' ');
+                splitedString=splitedString.Where(a=> !string.IsNullOrEmpty(a)).ToArray();
+                var id=splitedString[splitedString.Length-1];
+                var localPort=System.Int32.Parse(splitedString[splitedString.Length-3]);
+                var remotePort=System.Int32.Parse(splitedString[splitedString.Length-2]);
+                var pid=System.Int32.Parse(splitedString[1]);
+                devices.Add(new MyDevices(id,localPort,remotePort,true,Platform.iOS,pid));
+            }            
+        }
         return devices;
     }
 #endif

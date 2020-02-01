@@ -3,14 +3,17 @@ import unittest
 import sys
 from appium import webdriver
 from altunityrunner import AltrunUnityDriver
+from altunityrunner.by import By
 
-PATH = lambda p: os.path.abspath(
+
+def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+
 class SampleAppiumTest(unittest.TestCase):
     altdriver = None
-    platform = "android" # set to `ios` or `android` to change platform
+    platform = "android"  # set to `ios` or `android` to change platform
 
     @classmethod
     def setUpClass(cls):
@@ -19,8 +22,9 @@ class SampleAppiumTest(unittest.TestCase):
             cls.setup_android()
         else:
             cls.setup_ios()
-        cls.driver = webdriver.Remote('http://localhost:4723/wd/hub', cls.desired_caps)
-        cls.altdriver = AltrunUnityDriver(cls.driver, cls.platform)
+        cls.driver = webdriver.Remote(
+            'http://localhost:4723/wd/hub', cls.desired_caps)
+        cls.altdriver = AltrunUnityDriver(cls.driver, cls.platform,log_flag=True)
 
     @classmethod
     def tearDownClass(cls):
@@ -43,12 +47,16 @@ class SampleAppiumTest(unittest.TestCase):
     def test_find_element_and_tap(self):
         # tap UIButton to make capsule jump
         self.altdriver.find_element('UIButton').mobile_tap()
-        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!')
-        assert capsule_info.get_text() == capsule_info.get_text()
-        
+        capsule_info = self.altdriver.wait_for_object_with_text(By.NAME,
+            'CapsuleInfo', 'UIButton clicked to jump capsule!')
+        self.assertEqual('UIButton clicked to jump capsule!',capsule_info.get_text())
+
         # tap capsule to make it jump
         self.altdriver.find_element('Capsule').mobile_tap()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!')
+        capsule_info = self.altdriver.wait_for_object_with_text(By.NAME,
+            'CapsuleInfo', 'Capsule was clicked to jump!')
+        self.assertEqual('Capsule was clicked to jump!',
+                         capsule_info.get_text())
 
 
 if __name__ == '__main__':
