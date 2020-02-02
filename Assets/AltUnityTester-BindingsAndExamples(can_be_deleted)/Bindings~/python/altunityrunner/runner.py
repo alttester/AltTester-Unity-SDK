@@ -4,6 +4,8 @@ import socket
 import subprocess
 import time
 import multiprocessing
+
+import pathos as pathos
 from altunityrunner.altUnityExceptions import *
 from deprecated import deprecated
 from altunityrunner.commands import *
@@ -26,17 +28,18 @@ class AltrunUnityDriver(object):
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_PORT))
-                process = multiprocessing.Process(target=self.get_current_scene)
-                process.start()
-
-                process.join(5)
-                if process.is_alive():
-                    process.terminate()
-                    process.join()
-                    
-                    raise Exception("get_current_scene timeout")
-                if process.exitcode != 0:
-                    raise Exception("Error getting current scene")
+                self.socket.settimeout(5)
+                # process = multiprocessing.Process(target=self.get_current_scene)
+                # process.start()
+                # 
+                # process.join(5)
+                # if process.is_alive():
+                #     process.terminate()
+                #     process.join()
+                # 
+                #     raise Exception("get_current_scene timeout")
+                # if process.exitcode != 0:
+                #     raise Exception("Error getting current scene")
                 break
             except Exception as e:
                 print(e)
@@ -47,6 +50,7 @@ class AltrunUnityDriver(object):
 
         if (timeout <= 0):
             raise Exception('Could not connect to AltUnityServer on: '+ TCP_IP +':'+ str(self.TCP_PORT))
+        self.get_current_scene()
         EnableLogging(self.socket,self.request_separator,self.request_end,self.log_flag).execute()
 
     
