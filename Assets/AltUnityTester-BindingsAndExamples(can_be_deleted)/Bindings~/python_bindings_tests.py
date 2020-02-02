@@ -466,7 +466,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(26, len(list_of_elements),list_of_elements)
+        self.assertEqual(28, len(list_of_elements),list_of_elements)
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -489,7 +489,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
         
-        self.assertEqual(32, len(list_of_elements))
+        self.assertEqual(34, len(list_of_elements))
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -536,6 +536,14 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
         self.assertEqual(altElement.name,"CapsuleInfo")
+
+    def test_get_chinese_letters(self):
+        text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
+        self.assertEqual("哦伊娜哦", text)
+    
+    def test_non_english_text(self):
+        text = self.altdriver.find_object(By.NAME, "NonEnglishText").get_text()
+        self.assertEqual("BJÖRN'S PASS", text)
 
        
 if __name__ == '__main__':
