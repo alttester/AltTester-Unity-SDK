@@ -88,13 +88,14 @@ public class TestForScene1TestSample
         Assert.IsNotEmpty(altElements);
 
         string listOfElements = "";
-        foreach (var element in altElements) {
+        foreach (var element in altElements)
+        {
             listOfElements += element.name + "; ";
         }
 
         Debug.WriteLine(listOfElements);
 
-        Assert.AreEqual(26, altElements.Count, listOfElements);
+        Assert.AreEqual(28, altElements.Count, listOfElements);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -116,13 +117,14 @@ public class TestForScene1TestSample
         Assert.IsNotEmpty(altElements);
 
         string listOfElements = "";
-        foreach (var element in altElements) {
+        foreach (var element in altElements)
+        {
             listOfElements += element.name + "; ";
         }
 
         Debug.WriteLine(listOfElements);
 
-        Assert.AreEqual(32, altElements.Count);
+        Assert.AreEqual(34, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
@@ -619,7 +621,8 @@ public class TestForScene1TestSample
         Assert.AreEqual("6", capsuleInfo.GetText());
     }
     [Test]
-    public void TestCallMethodWithAssembly() {
+    public void TestCallMethodWithAssembly()
+    {
         AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
         capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
@@ -758,13 +761,15 @@ public class TestForScene1TestSample
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
     }
     [Test]
-    public void TestTapScreenWhereThereIsNoObjects() {
+    public void TestTapScreenWhereThereIsNoObjects()
+    {
         AltUnityObject altObject = altUnityDriver.TapScreen(1, 1);
         Assert.AreEqual(null, altObject);
     }
 
     [Test]
-    public void TestSetTimeScale() {
+    public void TestSetTimeScale()
+    {
         altUnityDriver.SetTimeScale(0.1f);
         Thread.Sleep(1000);
         var timeScaleFromGame = altUnityDriver.GetTimeScale();
@@ -831,7 +836,8 @@ public class TestForScene1TestSample
         Assert.AreEqual(3, altElements.Count);
     }
     [Test]
-    public void TestGetScreenshot() {
+    public void TestGetScreenshot()
+    {
         var path = "testC.png";
         altUnityDriver.GetPNGScreenshot(path);
         FileAssert.Exists(path);
@@ -849,6 +855,6 @@ public class TestForScene1TestSample
         Assert.AreEqual("BJÖRN'S PASS", text);
     }
 
-    
+
 
 }
