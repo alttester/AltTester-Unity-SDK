@@ -5,7 +5,6 @@ import subprocess
 import time
 import multiprocessing
 
-import pathos as pathos
 from altunityrunner.altUnityExceptions import *
 from deprecated import deprecated
 from altunityrunner.commands import *
