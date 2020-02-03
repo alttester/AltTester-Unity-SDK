@@ -30,16 +30,15 @@ class BaseCommand(object):
                 "%m/%d/%Y %H:%M:%S")+": response received: "+data)
         except:
             print(
-                'Data received from socket doesn not have correct start and end control strings')
+                'Data received from socket does not have correct start and end control strings')
             return ''
         if print_output:
             print('Received data was: ' + data)
         return data
 
     def write_to_log_file(self, message):
-        f = open("AltUnityTesterLog.txt", "a")
-        f.write(message+"\n")
-        f.close()
+        with open("AltUnityTesterLog.txt", "a",encoding="utf-8") as f:
+            f.write(message+"\n")
 
     def handle_errors(self, data):
         if ('error' in data):
