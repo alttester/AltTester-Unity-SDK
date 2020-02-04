@@ -106,6 +106,10 @@ public class AltUnityBuilder
                         ouputPath += ".exe";
                     break;
                 case UnityEditor.BuildTarget.StandaloneLinux64:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
+                        ouputPath += "/" + ouputPath;
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".x86_64";
                     break;
             }
             buildPlayerOptions.locationPathName = ouputPath;
