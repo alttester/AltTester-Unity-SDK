@@ -1,6 +1,6 @@
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class GetServerVersionCommand : Command
+    class AltUnityGetServerVersionCommand : AltUnityCommand
     {
         public override string Execute()
         {
