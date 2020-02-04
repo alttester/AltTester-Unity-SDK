@@ -15,7 +15,7 @@
             
             if (!AltUnityDriver.VERSION.Equals(serverVersion))
             {
-            var message = "Mismatch version. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + AltUnityDriver.VERSION;
+            var message = "Version mismatch. You are using different version of server and driver. Server version: " + serverVersion + " and Driver version: " + AltUnityDriver.VERSION;
 #if UNITY_EDITOR
             UnityEngine.Debug.LogWarning(message);
 #endif
