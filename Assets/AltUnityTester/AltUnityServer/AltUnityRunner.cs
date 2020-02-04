@@ -55,7 +55,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public bool destroyHightlight = false; 
     public int SocketPortNumber = 13000;
     public bool DebugBuildNeeded = true;
-
     public UnityEngine.Shader outlineShader;
     public UnityEngine.GameObject panelHightlightPrefab;
 
@@ -112,6 +111,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         if (showPopUp == false)
         {
             AltUnityPopUpCanvas.SetActive(false);
+        }
+        else
+        {
+            AltUnityPopUpCanvas.SetActive(true);
         }
 
     }
