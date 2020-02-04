@@ -56,7 +56,11 @@ public class AltUnityBuilder
             InitBuildSetup(UnityEditor.BuildTargetGroup.Android);
             UnityEngine.Debug.Log("Starting Android build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-            buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName + ".apk";
+            if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 2)
+                buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+            else
+                buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName + ".apk";
+
             buildPlayerOptions.scenes = GetScenesForBuild();
 
             buildPlayerOptions.target = UnityEditor.BuildTarget.Android;
@@ -81,7 +85,36 @@ public class AltUnityBuilder
             InitBuildSetup(UnityEditor.BuildTargetGroup.Standalone);
             UnityEngine.Debug.Log("Starting Standalone build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-            buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+
+            string ouputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+            switch (buildTarget)
+            {
+                case UnityEditor.BuildTarget.StandaloneOSX:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".app";
+                    break;
+                case UnityEditor.BuildTarget.StandaloneWindows:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
+                        ouputPath += "/" + ouputPath;
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".exe";
+                    break;
+                case UnityEditor.BuildTarget.StandaloneWindows64:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
+                        ouputPath += "/" + ouputPath;
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".exe";
+                    break;
+                case UnityEditor.BuildTarget.StandaloneLinux64:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
+                        ouputPath += "/" + ouputPath;
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".x86_64";
+                    break;
+            }
+            buildPlayerOptions.locationPathName = ouputPath;
+
+
             buildPlayerOptions.scenes = GetScenesForBuild();
 
             buildPlayerOptions.target = buildTarget;
