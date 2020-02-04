@@ -8,7 +8,7 @@ iOS: `iproxy LOCAL_TCP_PORT DEVICE_TCP_PORT [UDID]`
 
 ### ADB
 
-To install ADB you can get from Android SDK. For more information about this check this [article](https://www.xda-developers.com/install-adb-windows-macos-linux/)
+To install ADB you can get from Android SDK. For more information check this [article](https://www.xda-developers.com/install-adb-windows-macos-linux/)
 
 ### IProxy
 
