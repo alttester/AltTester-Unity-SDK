@@ -20,6 +20,7 @@ public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
     public SocketSettings socketSettings;
+    public static readonly string VERSION="1.5.3-ALPHA";
     private static string tcp_ip = "127.0.0.1";
     private static int tcp_port = 13000;
     public static string requestSeparatorString;
@@ -31,6 +32,11 @@ public class AltUnityDriver
         Socket.Connect(tcp_ip, tcp_port);
         socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding,logFlag);
         EnableLogging();
+        CheckServerVersion();
+    }
+    private void CheckServerVersion()
+    {
+        new CheckServerVersion(socketSettings).Execute();
     }
     private void EnableLogging(){
         new AltUnityEnableLogging(socketSettings).Execute();

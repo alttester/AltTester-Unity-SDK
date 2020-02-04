@@ -5,6 +5,7 @@ import json
 import time
 from os import path
 from altunityrunner import *
+import altunityrunner.__version__ as VERSION
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
@@ -536,6 +537,16 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
         self.assertEqual(altElement.name,"CapsuleInfo")
+
+    def test_find_objects_fail(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        plane = self.altdriver.wait_for_object(By.NAME, 'Plane')
+        capsule = self.altdriver.wait_for_object(By.NAME, 'Capsule')
+        self.assertEqual('Plane', plane.name)
+        self.assertEqual('Capsule', capsule.name)
+
+    
+
 
        
 if __name__ == '__main__':

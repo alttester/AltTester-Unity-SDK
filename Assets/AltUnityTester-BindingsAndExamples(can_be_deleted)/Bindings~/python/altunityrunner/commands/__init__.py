@@ -6,3 +6,4 @@ from altunityrunner.commands.OldFindObjects import *
 from altunityrunner.commands.close_connection import *
 from altunityrunner.commands.enable_logging import *
 from altunityrunner.commands.get_png_screenshot import *
+from altunityrunner.commands.get_server_version import *

@@ -49,7 +49,7 @@ public class AltBaseCommand
 
         return data;
     }
-    private void WriteInLogFile(string logMessage)
+    protected void WriteInLogFile(string logMessage)
     {
         var FileWriter = new System.IO.StreamWriter(@"AltUnityTesterLog.txt", true);
         FileWriter.WriteLine(logMessage);

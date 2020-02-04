@@ -55,7 +55,7 @@ public class AltBaseCommand {
         return receivedData;
     }
 
-    private void WriteInLogFile(String logMessages){
+    protected void WriteInLogFile(String logMessages){
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter("AltUnityTesterLog.txt", true));

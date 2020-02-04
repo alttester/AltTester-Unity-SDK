@@ -26,7 +26,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public static System.IO.StreamWriter FileWriter;
     
 
-
+    public static readonly string VERSION="1.5.3-ALPHA";
 
     public readonly string errorNotFoundMessage = "error:notFound";
     public readonly string errorPropertyNotFoundMessage = "error:propertyNotFound";
@@ -465,6 +465,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "getPNGScreenshot":
                     command = new AltUnityGetScreenshotPNGCommand (handler);
+                    break;
+                case "getServerVersion":
+                    command = new AltUnityGetServerVersionCommand();
                     break;
 
 
