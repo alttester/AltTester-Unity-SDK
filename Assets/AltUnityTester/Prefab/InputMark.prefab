@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224475551776997048}
-  - component: {fileID: 114274600495547546}
+  - component: {fileID: 114304672768169282}
   m_Layer: 5
   m_Name: InputMark
   m_TagString: Untagged
@@ -45,42 +45,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114274600495547546
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1259584491064052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45a00a0da0804108a348bb941267f2aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CanvasGroup: {fileID: 225093371929242256}
-  VisibilityCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0000007627532
-      value: 1
-      inSlope: -0.09972006
-      outSlope: -0.09972006
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.14195295
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -2.8344407
-      outSlope: -2.8344407
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.14912851
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &114293112498650464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,6 +72,42 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114304672768169282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259584491064052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc6dbfb80514e79438c84791b8905d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanvasGroup: {fileID: 225093371929242256}
+  VisibilityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0041656494
+      value: 0.98750305
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.0125122
+      value: -0.099998474
+      inSlope: -2.2239003
+      outSlope: -2.2239003
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11886317
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!222 &222094701652606126
 CanvasRenderer:
   m_ObjectHideFlags: 1

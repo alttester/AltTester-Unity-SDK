@@ -8,11 +8,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bcbb7697f22cd348aafc3b0e2b5b136, type: 3}
+  m_Script: {fileID: 11500000, guid: 073b5878cbef2364cb928faafba64ca5, type: 3}
   m_Name: AltUnityTesterEditorSettings
   m_EditorClassIdentifier: 
   appendToName: 0
-  OutputPathName: sampleGame/sampleGame.exe
+  OutputPathName: 
   AdbPath: /usr/local/bin/adb
   IProxyPath: /usr/local/bin/iproxy
   XcrunPath: /usr/bin/xcrun
@@ -1460,6 +1460,6 @@ MonoBehaviour:
   requestSeparator: ;
   requestEnding: '&'
   serverPort: 13000
-  scenePathDisplayed: 1
+  scenePathDisplayed: 0
   inputVisualizer: 0
   showPopUp: 1

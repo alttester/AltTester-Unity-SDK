@@ -12,7 +12,7 @@ public class Input : UnityEngine.MonoBehaviour
     {
        
         instance = this;
-        mockUpPointerInputModule = new MockUpPointerInputModule();
+        mockUpPointerInputModule = new AltUnityMockUpPointerInputModule();
         string filePath = "AltUnityTester/AltUnityTesterInputAxisData";
 
         UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
@@ -28,7 +28,7 @@ public class Input : UnityEngine.MonoBehaviour
     public static System.Collections.Generic.List<KeyStructure> keyCodesPressed = new System.Collections.Generic.List<KeyStructure>();
     public static System.Collections.Generic.List<KeyStructure> keyCodesPressedDown = new System.Collections.Generic.List<KeyStructure>();
     public static System.Collections.Generic.List<KeyStructure> keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
-    private static MockUpPointerInputModule mockUpPointerInputModule;
+    private static AltUnityMockUpPointerInputModule mockUpPointerInputModule;
 
     public static bool simulateMouseWithTouches
     {
