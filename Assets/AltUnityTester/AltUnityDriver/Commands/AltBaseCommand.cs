@@ -110,7 +110,7 @@ public class AltBaseCommand
                 throw new Assets.AltUnityTester.AltUnityDriver.FormatException(data);
         }
     }
-    public TextureInformation ReceiveImage()
+    public AltUnityTextureInformation ReceiveImage()
     {
         
         var data = Recvall();
@@ -148,7 +148,7 @@ public class AltBaseCommand
 
         System.Byte[] imageDecompressed = DeCompressScreenshot(imageCompressed);
 
-        return new TextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector2>(scaleDifference), textSizeVector3, textureFormat);
+        return new AltUnityTextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector2>(scaleDifference), textSizeVector3, textureFormat);
     }
     public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
     {

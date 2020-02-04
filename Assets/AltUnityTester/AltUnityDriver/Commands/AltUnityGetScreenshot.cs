@@ -31,7 +31,7 @@ public class AltUnityGetScreenshot : AltBaseCommand
         this.size = size;
         this.option = 3;
     }
-    public TextureInformation Execute()
+    public AltUnityTextureInformation Execute()
     {
         switch (option)
         {
@@ -44,20 +44,20 @@ public class AltUnityGetScreenshot : AltBaseCommand
         }
     }
 
-    private TextureInformation GetSimpleScreenshot()
+    private AltUnityTextureInformation GetSimpleScreenshot()
     {
         var sizeSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(size);
         Socket.Client.Send(toBytes(CreateCommand("getScreenshot", sizeSerialized)));
         return ReceiveImage();
     }
-    private TextureInformation GetHighlightObjectScreenshot()
+    private AltUnityTextureInformation GetHighlightObjectScreenshot()
     {
         var sizeSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(size);
         var colorAndWidth = color.r + "!!" + color.g + "!!" + color.b + "!!" + color.a + "!-!" + width;
         Socket.Client.Send(toBytes(CreateCommand("hightlightObjectScreenshot", id.ToString(), colorAndWidth, sizeSerialized)));
         return ReceiveImage();
     }
-    private TextureInformation GetHighlightObjectFromCoordinatesScreenshot()
+    private AltUnityTextureInformation GetHighlightObjectFromCoordinatesScreenshot()
     {
         var coordinatesSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(coordinates);
         var sizeSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(size);
