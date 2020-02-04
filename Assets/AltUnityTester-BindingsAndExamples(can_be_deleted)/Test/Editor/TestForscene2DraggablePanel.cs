@@ -28,13 +28,13 @@ public class TestForScene2DraggablePanel
     [Test]
     public void ResizePanel()
     {
-        var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-       var position = new Vector2(altElement.x, altElement.y);
-       altUnityDriver.SwipeAndWait(altElement.getScreenPosition(), new Vector2(altElement.x - 200, altElement.y - 200), 2);
+       var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+       var position = new AltUnityVector2(altElement.x, altElement.y);
+       altUnityDriver.SwipeAndWait(altElement.getScreenPosition(), new AltUnityVector2(altElement.x - 200, altElement.y - 200), 2);
 
        Thread.Sleep(2000);
        altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-       var position2 = new Vector2(altElement.x, altElement.y);
+       var position2 = new AltUnityVector2(altElement.x, altElement.y);
        Assert.AreNotEqual(position, position2);
     }
     
@@ -65,11 +65,11 @@ public class TestForScene2DraggablePanel
     public void MovePanel()
     {
         var altElement = altUnityDriver.FindObject(By.NAME,"Drag Zone");
-        var position = new Vector2(altElement.x, altElement.y);
-        altUnityDriver.Swipe(new Vector2(altElement.x, altElement.y), new Vector2(altElement.x + 200, altElement.y + 200), 2);
+        var position = new AltUnityVector2(altElement.x, altElement.y);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement.x, altElement.y), new AltUnityVector2(altElement.x + 200, altElement.y + 200), 2);
         Thread.Sleep(2000);
         altElement = altUnityDriver.FindObject(By.NAME,"Drag Zone");
-        var position2 = new Vector2(altElement.x, altElement.y);
+        var position2 = new AltUnityVector2(altElement.x, altElement.y);
 
         Assert.AreNotEqual(position, position2);
     }
