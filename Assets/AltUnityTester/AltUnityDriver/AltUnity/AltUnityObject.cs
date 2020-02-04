@@ -35,76 +35,76 @@ public class AltUnityObject
         this.parentId = parentId;
         this.transformId = transformId;
     }
-    public Vector2 getScreenPosition()
+    public AltUnityVector2 getScreenPosition()
     {
-        return new Vector2(x, y);
+        return new AltUnityVector2(x, y);
     }
-    public Vector3 getWorldPosition()
+    public AltUnityVector3 getWorldPosition()
     {
-        return new Vector3(worldX, worldY, worldZ);
+        return new AltUnityVector3(worldX, worldY, worldZ);
     }
     public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null)
     {
-        return new GetComponentProperty(socketSettings,componentName,propertyName,assemblyName,this).Execute();
+        return new AltUnityGetComponentProperty(socketSettings,componentName,propertyName,assemblyName,this).Execute();
     }
     public string SetComponentProperty(string componentName, string propertyName, string value, string assemblyName = null)
     {
-        return new SetComponentProperty(socketSettings,componentName,propertyName,value,assemblyName,this).Execute();
+        return new AltUnitySetComponentProperty(socketSettings,componentName,propertyName,value,assemblyName,this).Execute();
     }
     public string CallComponentMethod(string componentName, string methodName,string parameters,string typeOfParameters="", string assemblyName = null)
     {
-        return new CallComponentMethod(socketSettings,componentName,methodName,parameters,typeOfParameters,assemblyName,this).Execute();
+        return new AltUnityCallComponentMethod(socketSettings,componentName,methodName,parameters,typeOfParameters,assemblyName,this).Execute();
     }
     public string GetText()
     {
-        return new GetText(socketSettings,this).Execute();
+        return new AltUnityGetText(socketSettings,this).Execute();
     }   
     public AltUnityObject SetText(string text)
     {
-        return new SetText(socketSettings, this, text).Execute();
+        return new AltUnitySetText(socketSettings, this, text).Execute();
     }
     public AltUnityObject ClickEvent()
     {
-        return new ClickEvent(socketSettings,this).Execute();
+        return new AltUnityClickEvent(socketSettings,this).Execute();
     }
-    public AltUnityObject DragObject(Vector2 position)
+    public AltUnityObject DragObject(AltUnityVector2 position)
     {
-        return new DragObject(socketSettings,position,this).Execute();
+        return new AltUnityDragObject(socketSettings,position,this).Execute();
     }
-    public AltUnityObject DropObject(Vector2 position)
+    public AltUnityObject DropObject(AltUnityVector2 position)
     {
-        return new DropObject(socketSettings,position,this).Execute();   
+        return new AltUnityDropObject(socketSettings,position,this).Execute();   
     }
     public AltUnityObject PointerUpFromObject()
     {
-        return new PointerUpFromObject(socketSettings,this).Execute();
+        return new AltUnityPointerUpFromObject(socketSettings,this).Execute();
     }
     public AltUnityObject PointerDownFromObject()
     {
-        return new PointerDownFromObject(socketSettings,this).Execute();
+        return new AltUnityPointerDownFromObject(socketSettings,this).Execute();
     }
     public AltUnityObject PointerEnterObject()
     {
-        return new PointerEnterObject(socketSettings,this).Execute();
+        return new AltUnityPointerEnterObject(socketSettings,this).Execute();
     }
     public AltUnityObject PointerExitObject()
     {
-        return new PointerExitObject(socketSettings,this).Execute();
+        return new AltUnityPointerExitObject(socketSettings,this).Execute();
     }
     public AltUnityObject Tap()
     {
-        return new Tap(socketSettings,this).Execute();
+        return new AltUnityTap(socketSettings,this).Execute();
     }
     public System.Collections.Generic.List<AltUnityComponent> GetAllComponents()
     {
-        return new GetAllComponents(socketSettings,this).Execute();
+        return new AltUnityGetAllComponents(socketSettings,this).Execute();
     }
     public System.Collections.Generic.List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent)
     {
-       return new GetAllProperties(socketSettings,altUnityComponent,this).Execute();
+       return new AltUnityGetAllProperties(socketSettings,altUnityComponent,this).Execute();
     }
     public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent)
     {
-        return new GetAllMethods(socketSettings,altUnityComponent,this).Execute();
+        return new AltUnityGetAllMethods(socketSettings,altUnityComponent,this).Execute();
     }
 }
