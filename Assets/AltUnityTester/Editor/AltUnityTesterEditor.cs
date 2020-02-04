@@ -57,7 +57,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     public static double timeTestRan;
 
     public static System.Collections.Generic.List<MyDevices> devices = new System.Collections.Generic.List<MyDevices>();
-    public static System.Collections.Generic.Dictionary<string, int> iosForwards = new System.Collections.Generic.Dictionary<string, int>();
+    // public static System.Collections.Generic.Dictionary<string, int> iosForwards = new System.Collections.Generic.Dictionary<string, int>();
 
     // Add menu item named "My Window" to the Window menu
     [UnityEditor.MenuItem("Window/AltUnityTester")]
@@ -65,6 +65,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     {
         //Show existing window instance. If one doesn't exist, make one.
         _window = (AltUnityTesterEditor)GetWindow(typeof(AltUnityTesterEditor));
+        _window.minSize=new UnityEngine.Vector2(600,100);
         _window.Show();
 
     }
@@ -72,7 +73,6 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void OnFocus()
     {
-
         var color = UnityEngine.Color.black;
         if (UnityEditor.EditorGUIUtility.isProSkin)
         {
@@ -163,7 +163,6 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         {
             var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
             altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
-            UnityEngine.Debug.Log(altUnityEditorFolderPath);
             EditorConfiguration = UnityEngine.ScriptableObject.CreateInstance<EditorConfiguration>();
             UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltUnityTesterEditorSettings.asset");
             UnityEditor.AssetDatabase.SaveAssets();
@@ -240,7 +239,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
         UnityEditor.EditorGUILayout.Separator();
 
-        DisplayPortForwarding();
+        DisplayPortForwarding(leftSide);
 
 
         UnityEditor.EditorGUILayout.EndScrollView();
@@ -504,35 +503,39 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     }
 
-    private void DisplayPortForwarding()
+    private void DisplayPortForwarding(float widthColumn)
     {
         _foldOutScenes = UnityEditor.EditorGUILayout.Foldout(_foldOutScenes, "Port Forwading");
-        var guiStyle = new UnityEngine.GUIStyle();
-        guiStyle.alignment = UnityEngine.TextAnchor.MiddleLeft;
-        guiStyle.stretchHeight = true;
-        guiStyle.fontStyle = UnityEngine.FontStyle.Bold;
+        var guiStyleBolded = new UnityEngine.GUIStyle();
+        guiStyleBolded.alignment = UnityEngine.TextAnchor.MiddleLeft;
+        guiStyleBolded.stretchHeight = true;
+        guiStyleBolded.fontStyle = UnityEngine.FontStyle.Bold;
+        guiStyleBolded.wordWrap=true;
+
+        var guiStyleNormal = new UnityEngine.GUIStyle();
+        guiStyleNormal.alignment = UnityEngine.TextAnchor.MiddleLeft;
+        guiStyleNormal.stretchHeight = true;
+        guiStyleNormal.wordWrap=true;
         UnityEditor.EditorGUILayout.BeginHorizontal();
         UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
         UnityEditor.EditorGUILayout.BeginVertical();
+        widthColumn=widthColumn-30;
         if (_foldOutScenes)
         {
             UnityEngine.GUILayout.BeginVertical(UnityEngine.GUI.skin.textField,UnityEngine.GUILayout.MaxHeight(30));
             UnityEngine.GUILayout.BeginHorizontal();
-            UnityEngine.GUILayout.Label("DeviceId", guiStyle, UnityEngine.GUILayout.MinWidth(75), UnityEngine.GUILayout.ExpandWidth(true));
+            UnityEngine.GUILayout.Label("DeviceId", guiStyleBolded, UnityEngine.GUILayout.Width(widthColumn/2), UnityEngine.GUILayout.ExpandWidth(true));
             UnityEngine.GUILayout.FlexibleSpace();
-            UnityEngine.GUILayout.Label("Local Port", guiStyle, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
-            UnityEngine.GUILayout.Label("Remote Port", guiStyle, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
+            UnityEngine.GUILayout.Label("Local Port", guiStyleBolded, UnityEngine.GUILayout.Width(widthColumn/7));
+            UnityEngine.GUILayout.Label("Remote Port", guiStyleBolded, UnityEngine.GUILayout.Width(widthColumn/7));
 
             UnityEngine.GUILayout.BeginHorizontal();
-            if (UnityEngine.GUILayout.Button(reloadIcon,UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(40)))
+            if (UnityEngine.GUILayout.Button(reloadIcon,UnityEngine.GUILayout.Width(widthColumn/10)))
             {
                 RefreshDeviceList();
             }
             UnityEngine.GUILayout.EndHorizontal();
             UnityEngine.GUILayout.EndHorizontal();
-            var guiStyle2 = new UnityEngine.GUIStyle();
-            guiStyle2.alignment = UnityEngine.TextAnchor.MiddleLeft;
-            guiStyle2.stretchHeight = true;
 
             if (devices.Count != 0)
             {
@@ -544,10 +547,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         styleActive.normal.background = portForwardingTexture;
 
                         UnityEngine.GUILayout.BeginHorizontal(styleActive);
-                        UnityEngine.GUILayout.Label(device.DeviceId, guiStyle2, UnityEngine.GUILayout.MinWidth(75),UnityEngine.GUILayout.ExpandWidth(true));
-                        UnityEngine.GUILayout.Label(device.LocalPort.ToString(), guiStyle2, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
-                        UnityEngine.GUILayout.Label(device.RemotePort.ToString(), guiStyle2, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
-                        if (UnityEngine.GUILayout.Button("Stop", UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(40)))
+                        UnityEngine.GUILayout.Label(device.DeviceId, guiStyleNormal, UnityEngine.GUILayout.Width(widthColumn/2),UnityEngine.GUILayout.ExpandWidth(true));
+                        UnityEngine.GUILayout.Label(device.LocalPort.ToString(), guiStyleNormal, UnityEngine.GUILayout.Width(widthColumn/7));
+                        UnityEngine.GUILayout.Label(device.RemotePort.ToString(), guiStyleNormal, UnityEngine.GUILayout.Width(widthColumn/7));
+                        if (UnityEngine.GUILayout.Button("Stop",UnityEngine.GUILayout.Width(widthColumn/10),UnityEngine.GUILayout.Height(15)))
                         {
                             if (device.Platform == Platform.Android)
                             {
@@ -556,11 +559,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 #if UNITY_EDITOR_OSX
                             else
                             {
-                                int id;
-                                if(iosForwards.TryGetValue(device.DeviceId,out id)){
-                                    AltUnityPortHandler.KillIProxy(id);
-                                    iosForwards.Remove(device.DeviceId);
-                                }
+                                
+                                AltUnityPortHandler.KillIProxy(device.Pid);
 
                             }
 #endif
@@ -573,10 +573,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     else
                     {
                         UnityEngine.GUILayout.BeginHorizontal();
-                        UnityEngine.GUILayout.Label(device.DeviceId, guiStyle2, UnityEngine.GUILayout.MinWidth(75));
-                        device.LocalPort = UnityEditor.EditorGUILayout.IntField(device.LocalPort, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
-                        device.RemotePort = UnityEditor.EditorGUILayout.IntField(device.RemotePort, UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(100));
-                        if (UnityEngine.GUILayout.Button("Start", UnityEngine.GUILayout.MinWidth(30), UnityEngine.GUILayout.MaxWidth(40)))
+                        UnityEngine.GUILayout.Label(device.DeviceId, guiStyleNormal, UnityEngine.GUILayout.Width(widthColumn/2),UnityEngine.GUILayout.ExpandWidth(true));
+                        device.LocalPort = UnityEditor.EditorGUILayout.IntField(device.LocalPort, UnityEngine.GUILayout.Width(widthColumn/7));
+                        device.RemotePort = UnityEditor.EditorGUILayout.IntField(device.RemotePort, UnityEngine.GUILayout.Width(widthColumn/7));
+                        if (UnityEngine.GUILayout.Button("Start", UnityEngine.GUILayout.Width(widthColumn/10),UnityEngine.GUILayout.MaxHeight(15)))
                         {
                             if (device.Platform == Platform.Android)
                             {
@@ -592,8 +592,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                                 var response=AltUnityPortHandler.ForwardIos(device.DeviceId,device.LocalPort,device.RemotePort);
                                 if(response.StartsWith("Ok")){
                                     var processID=int.Parse(response.Split(' ')[1]);
-                                    iosForwards.Add(device.DeviceId,processID);
                                     device.Active=true;
+                                    device.Pid=processID;
                                 }else{
                                     UnityEngine.Debug.LogError(response);
                                 }
@@ -614,7 +614,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             }
             else
             {
-                UnityEditor.EditorGUILayout.LabelField("No devices connected. Click \"refresh\" button to search for devices");
+                UnityEditor.EditorGUILayout.LabelField("No devices connected. Click \"refresh\" button to search for devices",guiStyleNormal);
             }
             UnityEngine.GUILayout.EndVertical();
         }
@@ -637,23 +637,17 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 adbDevice.Active = deviceForwarded.Active;
             }
         }
-        foreach (var device in devices)
-        {
-            var existingDevice = adbDevices.FirstOrDefault(d => d.DeviceId.Equals(device.DeviceId));
-            if (existingDevice != null && device.Active == false && existingDevice.Active == false)
-            {
-                existingDevice.LocalPort = device.LocalPort;
-                existingDevice.RemotePort = device.RemotePort; 
-            }
-        }
 #if UNITY_EDITOR_OSX
         System.Collections.Generic.List<MyDevices> iOSDEvices=AltUnityPortHandler.GetConnectediOSDevices();
+        System.Collections.Generic.List<MyDevices> iOSForwardedDevices=AltUnityPortHandler.GetForwardediOSDevices();
         foreach(var iOSDEvice in iOSDEvices){
-            var iOSForwardedDevice=devices.FirstOrDefault(a=>a.DeviceId.Equals(iOSDEvice.DeviceId));
-            if(iOSForwardedDevice!=null){
-                iOSDEvice.LocalPort=iOSForwardedDevice.LocalPort;
-                iOSDEvice.RemotePort=iOSForwardedDevice.RemotePort;
-                iOSDEvice.Active=iOSForwardedDevice.Active;
+            var deviceForwarded = iOSForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(iOSDEvice.DeviceId));
+            if (deviceForwarded != null)
+            {
+                iOSDEvice.LocalPort = deviceForwarded.LocalPort;
+                iOSDEvice.RemotePort = deviceForwarded.RemotePort;
+                iOSDEvice.Active = deviceForwarded.Active;
+                iOSDEvice.Pid=deviceForwarded.Pid;
             }
         }
 #endif

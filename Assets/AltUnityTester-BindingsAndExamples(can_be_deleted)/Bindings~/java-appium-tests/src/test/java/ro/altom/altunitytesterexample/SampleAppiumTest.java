@@ -54,10 +54,11 @@ public class SampleAppiumTest {
     @Test
     public void testTapOnButton() throws Exception {
         assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
-        AltUnityObject jumpButton = altUnityDriver.findElement("UIButton");
+        AltUnityObject jumpButton = altUnityDriver.findObject(AltUnityDriver.By.NAME,"UIButton");
         TouchAction tapButton = new TouchAction(appiumDriver);
         tapButton.tap(new PointOption().withCoordinates(jumpButton.x, jumpButton.mobileY)).perform();
-        altUnityDriver.waitForElementWithText("CapsuleInfo", "UIButton clicked to jump capsule!");
+        String text=altUnityDriver.waitForObjectWithText(AltUnityDriver.By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!").getText();
+        assertEquals("UIButton clicked to jump capsule!",text);
     }
 }
 
