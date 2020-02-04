@@ -1961,7 +1961,49 @@ Get the current active scene.
        //TODO
 ```
 
+## Screenshot
+
+###  GetPNGScreenshot
+
+#### Description:
+
+Create a screenshot of the current scene in png format.
 
 
+#### Parameters:
+
+|      Name       |     Type      | Optional | Description |
+| --------------- | ------------- | -------- | ----------- |
+|path| string | false | location where the image is created|
+
+#### Return
+- nothing
+
+#### Examples
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        public void TestGetScreenshot(){
+        var path="testC.png";
+        altUnityDriver.GetPNGScreenshot(path);
+        FileAssert.Exists(path);
+        }
+    .. code-tab:: java
+
+        @Test
+        public void testScreenshot(){
+            String path="testJava2.png";
+            altUnityDriver.getPNGScreeshot(path);
+            assertTrue(new File(path).isFile());
+        }
 
 
+    .. code-tab:: py
+
+       def test_screenshot(self):
+        png_path="testPython.png"
+        self.altdriver.get_png_screenshot(png_path)
+        self.assertTrue(path.exists(png_path))
+```

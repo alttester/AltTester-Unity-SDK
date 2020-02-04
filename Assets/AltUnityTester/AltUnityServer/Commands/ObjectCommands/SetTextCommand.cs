@@ -26,10 +26,21 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
             foreach (var property in TextProperties)
             {
-                var memberInfo = GetMemberForObjectComponent(altUnityObject, property);
-                response = SetValueForMember(memberInfo, inputText, targetObject, property);
-                if (!response.Contains("error:"))
-                    return Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject));
+                try
+                {
+                    var memberInfo = GetMemberForObjectComponent(altUnityObject, property);
+                    response = SetValueForMember(memberInfo, inputText, targetObject, property);
+                    if (!response.Contains("error:"))
+                        return Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject));
+                }
+                catch(Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException e)
+                {
+                    response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
+                }
+                catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException e)
+                {
+                    response = AltUnityRunner._altUnityRunner.errorComponentNotFoundMessage;
+                }
             }
 
             return response;

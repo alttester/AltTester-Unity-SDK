@@ -7,6 +7,8 @@ class LoadScene(BaseCommand):
     def execute(self):
         data = self.send_data(self.create_command('loadScene', self.scene_name))
         if (data == 'Ok'):
-            print('Scene loaded: ' + self.scene_name)
-            return data
+            data=self.recvall()
+            if (data =="Scene Loaded"):
+                print('Scene loaded: ' + self.scene_name)
+                return data
         return None

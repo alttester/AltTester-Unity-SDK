@@ -15,7 +15,7 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltrunUnityDriver(None, 'android', TCP_FWD_PORT=13000,log_flag=True)
+        cls.altdriver = AltrunUnityDriver(None, 'android', log_flag=False)
 
     @classmethod
     def tearDownClass(cls):
@@ -24,36 +24,46 @@ class PythonTests(unittest.TestCase):
     def test_tap_ui_object(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.find_element('UIButton').tap()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!','',1)
+        capsule_info=self.altdriver.wait_for_element_with_text('CapsuleInfo', 'UIButton clicked to jump capsule!','',1)
+        self.assertEqual('UIButton clicked to jump capsule!',capsule_info.get_text())
 
     def test_tap_object(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         capsule_element = self.altdriver.find_element('Capsule')
         capsule_element.tap()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
+        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
+        self.assertEqual('Capsule was clicked to jump!',capsule_info.get_text())
 
 
     def test_tap_at_coordinates(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         capsule_element = self.altdriver.find_element('Capsule')
         self.altdriver.tap_at_coordinates(capsule_element.x, capsule_element.y)
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
+        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
+        self.assertEqual('Capsule was clicked to jump!',capsule_info.get_text())
 
     def test_load_and_wait_for_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.wait_for_current_scene_to_be('Scene 1 AltUnityDriverTestScene',1)
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         self.altdriver.wait_for_current_scene_to_be('Scene 2 Draggable Panel',1)
+        self.assertEqual('Scene 2 Draggable Panel',self.altdriver.get_current_scene())
 
     def test_find_element(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        self.altdriver.find_element('Plane')
-        self.altdriver.find_element('Capsule')
+        plane = self.altdriver.find_element('Plane')
+        capsule = self.altdriver.find_element('Capsule')
+        self.assertEqual('Plane',plane.name)
+        self.assertEqual('Capsule',capsule.name)
+
 
     def test_wait_for_element_with_text(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         text_to_wait_for = self.altdriver.find_element('CapsuleInfo').get_text()
-        self.altdriver.wait_for_element_with_text('CapsuleInfo', text_to_wait_for,'',1)   
+        capsule_info = self.altdriver.wait_for_element_with_text('CapsuleInfo', text_to_wait_for,'',1)   
+        self.assertEqual('CapsuleInfo',capsule_info.name)
+        self.assertEqual(text_to_wait_for,capsule_info.get_text())
+        
 
     def test_find_elements(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -63,7 +73,8 @@ class PythonTests(unittest.TestCase):
 
     def test_find_element_where_name_contains(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        self.altdriver.find_element_where_name_contains('Pla')
+        plane = self.altdriver.find_element_where_name_contains('Pla')
+        self.assertTrue('Pla' in plane.name)
 
     # Fix in issue 184
     # def test_find_disabled_element_where_name_contains(self):
@@ -198,6 +209,7 @@ class PythonTests(unittest.TestCase):
  
     def test_wait_for_non_existing_object(self):
         try:
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
             alt_element = self.altdriver.wait_for_element("dlkasldkas",'',1,0.5)
             self.assertEqual(False,True)
         except WaitTimeOutException as e:
@@ -205,6 +217,7 @@ class PythonTests(unittest.TestCase):
     
     def test_wait_forobject_to_not_exist_fail(self):
             try:
+                self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
                 alt_element = self.altdriver.wait_for_element_to_not_be_present("Capsule",'',1,0.5)
                 self.assertEqual(False,True)
             except WaitTimeOutException as e:
@@ -212,6 +225,7 @@ class PythonTests(unittest.TestCase):
     
     def test_wait_for_object_with_text_wrong_text(self):
             try:
+                self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
                 alt_element = self.altdriver.wait_for_element_with_text("CapsuleInfo","aaaaa",'',1,0.5)
                 self.assertEqual(False,True)
             except WaitTimeOutException as e:
@@ -226,6 +240,7 @@ class PythonTests(unittest.TestCase):
 
    
     def test_get_bool(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         alt_element=self.altdriver.find_element('Capsule')
         text=alt_element.get_component_property('Capsule','TestBool')
         self.assertEqual('true',text)
@@ -243,6 +258,7 @@ class PythonTests(unittest.TestCase):
         self.assertEquals("6",capsuleInfo.get_text())
     
     def test_tap_on_screen_where_there_are_no_objects(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         alt_element=self.altdriver.tap_at_coordinates(1,1)
         self.assertIsNone(alt_element)
 
@@ -335,11 +351,13 @@ class PythonTests(unittest.TestCase):
 
     def test_find_objects_by_layer(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        time.sleep(1)
         altElements = self.altdriver.find_objects(By.LAYER,"Default")
         self.assertEquals(12, len(altElements))
     
     def test_find_objects_by_contains_name(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        time.sleep(1)
         altElements = self.altdriver.find_objects_which_contains(By.NAME,"Ca")
         self.assertEquals(9, len(altElements),altElements)
         for altElement in altElements:
@@ -439,6 +457,8 @@ class PythonTests(unittest.TestCase):
 
 
     def test_get_all_enabled_elements(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        time.sleep(1)
         alt_elements = self.altdriver.get_all_elements(enabled= True)
         self.assertIsNotNone(alt_elements)
         
@@ -460,6 +480,8 @@ class PythonTests(unittest.TestCase):
         self.assertTrue("InputField" in list_of_elements)
 
     def test_get_all_elements(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        time.sleep(1)
         alt_elements = self.altdriver.get_all_elements(enabled= False)
         self.assertIsNotNone(alt_elements)
         
@@ -482,11 +504,13 @@ class PythonTests(unittest.TestCase):
         self.assertTrue("InputField" in list_of_elements)
 
     def test_find_object_which_contains(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement = self.altdriver.find_object_which_contains(By.NAME, "Event");
         self.assertEqual("EventSystem", altElement.name)
 
     def test_find_with_find_object_which_contains_not_existing_object(self):
         try:
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
             altElement = self.altdriver.find_object_which_contains(By.NAME, "EventNonExisting");
             self.assertEqual(False,True)
         except NotFoundException as e:
@@ -497,15 +521,19 @@ class PythonTests(unittest.TestCase):
         self.assertTrue(path.exists(png_path))
 
     def test_wait_for_object(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement=self.altdriver.wait_for_object(By.NAME,"Capsule")
         self.assertEqual(altElement.name,"Capsule")
     def test_wait_for_object_to_not_be_present(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
     def test_wait_for_object_which_contains(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement=self.altdriver.wait_for_object_which_contains(By.NAME,"Main")
         self.assertEqual(altElement.name,"Main Camera")
 
     def test_wait_for_object_with_text(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
         self.assertEqual(altElement.name,"CapsuleInfo")
 
