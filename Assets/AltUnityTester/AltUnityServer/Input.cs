@@ -335,13 +335,13 @@ public class Input : UnityEngine.MonoBehaviour
             }
             foreach (var keyStructure in keyCodesPressed)
             {
-                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton))
+                if ((axis.positiveButton!="" && keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton)) || (axis.altPositiveButton != "" && keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton)))
                 {
                     LastAxisName = axisName;//DebugPurpose
                     LastAxisValue = keyStructure.Power;
                     return keyStructure.Power;
                 }
-                if (keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton) || keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton))
+                if ((axis.negativeButton!="" && keyStructure.KeyCode == ConvertStringToKeyCode(axis.negativeButton)) || (axis.altNegativeButton != "" && keyStructure.KeyCode == ConvertStringToKeyCode(axis.altNegativeButton)))
                 {
                     LastAxisName = axisName;//DebugPurpose
                     LastAxisValue = -1*keyStructure.Power;
