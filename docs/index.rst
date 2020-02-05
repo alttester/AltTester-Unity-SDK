@@ -18,6 +18,7 @@ Join our Gitter chat room `here <https://gitter.im/AltUnityTester/Lobby>`_ to ch
    pages/commands
    pages/building-games
    pages/download-import
+   pages/port-forwarding
    pages/writting-running-tests
    pages/altunity-tester-gui
    pages/examples
