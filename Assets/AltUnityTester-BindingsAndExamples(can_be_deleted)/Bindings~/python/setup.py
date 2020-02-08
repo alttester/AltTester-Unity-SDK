@@ -15,4 +15,7 @@ setup(name='altunityrunner',
 		'altunityrunner.commands.ObjectCommands', 
 		'altunityrunner.commands.OldFindObjects', 
 		'altunityrunner.commands.UnityCommands'],
-      zip_safe=False)
+      zip_safe=False,
+      install_requires=[
+         'deprecated'
+         ])
