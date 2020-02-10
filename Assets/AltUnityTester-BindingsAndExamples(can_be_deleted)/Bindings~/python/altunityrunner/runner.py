@@ -51,8 +51,9 @@ class AltrunUnityDriver(object):
             raise Exception('Could not connect to AltUnityServer on: '+ TCP_IP +':'+ str(self.TCP_PORT))
         self.get_current_scene()
         EnableLogging(self.socket,self.request_separator,self.request_end,self.log_flag).execute()
+        print("Get server Version")
+        GetServerVersion(self.socket,self.request_separator,self.request_end).execute()
 
-    
     def stop(self):
         CloseConnection(self.socket,self.request_separator,self.request_end).execute()          
 

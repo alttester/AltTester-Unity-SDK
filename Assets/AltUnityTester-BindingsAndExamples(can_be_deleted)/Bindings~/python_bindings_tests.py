@@ -537,6 +537,16 @@ class PythonTests(unittest.TestCase):
         altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
         self.assertEqual(altElement.name,"CapsuleInfo")
 
+    def test_find_objects_fail(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        plane = self.altdriver.wait_for_object(By.NAME, 'Plane')
+        capsule = self.altdriver.wait_for_object(By.NAME, 'Capsule')
+        self.assertEqual('Plane', plane.name)
+        self.assertEqual('Capsule', capsule.name)
+
+    
+
+
        
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
