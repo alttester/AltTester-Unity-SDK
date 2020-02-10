@@ -538,10 +538,12 @@ class PythonTests(unittest.TestCase):
         self.assertEqual(altElement.name,"CapsuleInfo")
 
     def test_get_chinese_letters(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
         self.assertEqual("哦伊娜哦", text)
     
     def test_non_english_text(self):
+        self.altdriver.get_all_elements()
         text = self.altdriver.find_object(By.NAME, "NonEnglishText").get_text()
         self.assertEqual("BJÖRN'S PASS", text)
 
