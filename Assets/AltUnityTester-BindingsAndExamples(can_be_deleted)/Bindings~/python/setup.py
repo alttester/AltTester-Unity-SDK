@@ -1,5 +1,6 @@
 from setuptools import setup
-from altunityrunner.__version__ import VERSION
+with open("altunityrunner/__version__.py") as version_file:
+   VERSION=version_file.readline().replace("VERSION = ","").replace("\"","")
 setup(name='altunityrunner',
       version=VERSION,
       description='Python Binding to allow Appium tests to be run against Unity games and apps using AltUnityTester',
