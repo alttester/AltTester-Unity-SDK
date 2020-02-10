@@ -24,3 +24,13 @@ We took the game from [asset store link](https://assetstore.unity.com/packages/e
 This was made as a sample for mobile devices. To run the test follow the instructions from ReadMe.
 
 We took the game from [asset store link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
+
+
+
+## AltTrashCat Tests - Java
+
+[Link to Project](https://gitlab.com/altom/altunity/examples/alttrashcat-tests---java)
+
+This was made as a sample for iOS mobile devices. To run the test follow the instructions from ReadMe.
+
+We took the game from [asset store link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
