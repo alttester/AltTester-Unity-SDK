@@ -27,7 +27,7 @@ We took the game from [asset store link](https://assetstore.unity.com/packages/e
 
 
 
-## AltTrashCat Tests - Java 
+## AltTrashCat Tests - Java
 
 [Link to Project](https://gitlab.com/altom/altunity/examples/alttrashcat-tests---java)
 
