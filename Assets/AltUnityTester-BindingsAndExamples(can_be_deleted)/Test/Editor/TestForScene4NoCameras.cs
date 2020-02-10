@@ -7,7 +7,7 @@ public class TestForScene4NoCameras
     [OneTimeSetUp]
     public void SetUp()
     {
-        AltUnityDriver =new AltUnityDriver();
+        AltUnityDriver =new AltUnityDriver(logFlag:true);
         AltUnityDriver.LoadScene("Scene 4 No Cameras");
     }
 

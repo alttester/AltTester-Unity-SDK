@@ -199,7 +199,7 @@ docs:
     - python3 -m pip install -r requirements.txt
     - make html
     - cp -r _build/html ../documentation
-
+   
 pages:
   stage: deploy
   only:

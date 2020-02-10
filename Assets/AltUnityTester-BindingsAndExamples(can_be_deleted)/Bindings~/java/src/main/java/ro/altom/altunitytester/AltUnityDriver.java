@@ -18,6 +18,7 @@ public class AltUnityDriver {
         public static int StringType = 2;
         public static int FloatType = 3;
     }
+    public static final String VERSION="1.5.3-ALPHA";
     public static final int READ_TIMEOUT = 30 * 1000;
 
     private Socket socket=null;
@@ -25,11 +26,11 @@ public class AltUnityDriver {
     private DataInputStream in = null;
 
     private AltBaseSettings altBaseSettings;
-    public AltUnityDriver(String ip, int port) {
+    public AltUnityDriver(String ip, int port){
         this(ip,port,";","&",false);
     }
 
-    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd) {
+    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd){
         this(ip,port,requestSeparator,requestEnd,false);
     }
     public AltUnityDriver(String ip,int port,String requestSeparator,String requestEnd,Boolean logEnabled){
@@ -47,6 +48,16 @@ public class AltUnityDriver {
         }
         altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in,logEnabled);
         EnableLogging();
+        GetServerVersion();
+    }
+    private String GetServerVersion(){
+        try{
+            new GetServerVersionCommand(altBaseSettings).Execute();
+            return "Ok";
+        }catch (Exception e){
+            log.warn(e.getMessage());
+            return "Version mismatch";
+        }
     }
     private void EnableLogging(){
         new EnableLogging(altBaseSettings).Execute();

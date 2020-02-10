@@ -545,6 +545,13 @@ class PythonTests(unittest.TestCase):
         text = self.altdriver.find_object(By.NAME, "NonEnglishText").get_text()
         self.assertEqual("BJÖRN'S PASS", text)
 
+    def test_find_objects_fail(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        plane = self.altdriver.wait_for_object(By.NAME, 'Plane')
+        capsule = self.altdriver.wait_for_object(By.NAME, 'Capsule')
+        self.assertEqual('Plane', plane.name)
+        self.assertEqual('Capsule', capsule.name)
+
        
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
