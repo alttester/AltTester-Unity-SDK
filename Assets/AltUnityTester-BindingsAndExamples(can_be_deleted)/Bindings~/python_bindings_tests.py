@@ -543,7 +543,7 @@ class PythonTests(unittest.TestCase):
         self.assertEqual("哦伊娜哦", text)
     
     def test_non_english_text(self):
-        self.altdriver.get_all_elements()
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         text = self.altdriver.find_object(By.NAME, "NonEnglishText").get_text()
         self.assertEqual("BJÖRN'S PASS", text)
 
