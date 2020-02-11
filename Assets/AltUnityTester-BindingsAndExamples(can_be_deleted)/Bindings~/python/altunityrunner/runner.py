@@ -23,22 +23,13 @@ class AltrunUnityDriver(object):
         if (appium_driver != None):
             self.appium_driver = appium_driver
 
-        while (timeout > 0):
+        while timeout > 0:
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_PORT))
                 self.socket.settimeout(5)
-                # process = multiprocessing.Process(target=self.get_current_scene)
-                # process.start()
-                # 
-                # process.join(5)
-                # if process.is_alive():
-                #     process.terminate()
-                #     process.join()
-                # 
-                #     raise Exception("get_current_scene timeout")
-                # if process.exitcode != 0:
-                #     raise Exception("Error getting current scene")
+                print("Get server Version")
+                GetServerVersion(self.socket, self.request_separator, self.request_end).execute()
                 break
             except Exception as e:
                 print(e)
@@ -47,12 +38,9 @@ class AltrunUnityDriver(object):
                 timeout -= 5
                 time.sleep(5)
 
-        if (timeout <= 0):
+        if timeout <= 0:
             raise Exception('Could not connect to AltUnityServer on: '+ TCP_IP +':'+ str(self.TCP_PORT))
-        self.get_current_scene()
         EnableLogging(self.socket,self.request_separator,self.request_end,self.log_flag).execute()
-        print("Get server Version")
-        GetServerVersion(self.socket,self.request_separator,self.request_end).execute()
 
     def stop(self):
         CloseConnection(self.socket,self.request_separator,self.request_end).execute()          
