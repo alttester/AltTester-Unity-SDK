@@ -5,7 +5,6 @@ import json
 import time
 from os import path
 from altunityrunner import *
-import altunityrunner.__version__ as VERSION
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
