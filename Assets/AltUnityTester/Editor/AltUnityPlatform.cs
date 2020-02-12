@@ -1,4 +1,4 @@
-﻿public enum AltUnityPlatform
+public enum AltUnityPlatform
 {
     Android,
 #if UNITY_EDITOR_OSX
