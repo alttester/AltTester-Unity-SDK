@@ -31,14 +31,25 @@ public class AltUnityDriver
         
         int timeout=60;
         while(timeout>0){
-            Socket = new System.Net.Sockets.TcpClient();
-            Socket.Connect(tcp_ip, tcp_port);
-            Socket.SendTimeout=5000;
-            Socket.ReceiveTimeout=5000;
+            try
+            {
+                Socket = new System.Net.Sockets.TcpClient();
+                Socket.Connect(tcp_ip, tcp_port);
+                Socket.SendTimeout = 5000;
+                Socket.ReceiveTimeout = 5000;
 
-            socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding,logFlag);
-            EnableLogging();
-            CheckServerVersion();
+                socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding, logFlag);
+                EnableLogging();
+                CheckServerVersion();
+                break;
+            }
+            catch(System.Exception e)
+            {
+                System.Console.WriteLine(e.Message);
+                timeout -= 5;
+                System.Threading.Thread.Sleep(5000);
+            }
+            
         }
         
     }
