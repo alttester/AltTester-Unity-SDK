@@ -29,7 +29,7 @@ To install IProxy use the following command:
         - ForwardIos(string id="",int localPort=13000,int remotePort=13000)
         - KillIProxy(int id)
 
-        With this method you can handle port forwarding logic from tests.
+        With this methods you can handle port forwarding logic from tests.
 
     .. tab:: java
 
@@ -38,14 +38,21 @@ To install IProxy use the following command:
         - setupPortForwarding(String platform,String deviceId, int local_tcp_port, int remote_tcp_port)
         - removePortForwarding()
 
+        With this methods you can handle port forwarding logic from tests.
+
     .. tab:: python
 
-        In runner file you can find the following methods:
+        In runner file you can find the following classes:
         
-        - remove_port_forwarding()
-        - setup_port_forwarding(device_id="", platform="android", port=13000,device_port=13000)
-
-        With this method you can handle port forwarding logic from tests.
-
+        - AltUnityAndroidPortForwarding with the following methods:
+            - forward_port_device(self, local_port=13000, device_port=13000, device_id="")
+            - remove_forward_port_device(self, port=13000, device_id="")
+            - remove_all_forwards(self):
+        
+        - AltUnityiOSPortForwarding with the following methods:
+            - forward_port_device(local_port=13000, device_port=13000, device_id="")
+            - kill_iproxy_process(pid)
+                - pid is returned by forward_port_device
+            - kill_all_iproxy_process()
     
 ```

@@ -79,3 +79,4 @@ aws-device-farm-example/wheelhouse/**
 build.app/
 sampleGame/
 [vV]env/
+_build/
