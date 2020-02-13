@@ -28,11 +28,30 @@ public class AltUnityDriver
 
     public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false)
     {
-        Socket = new System.Net.Sockets.TcpClient();
-        Socket.Connect(tcp_ip, tcp_port);
-        socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding,logFlag);
-        EnableLogging();
-        CheckServerVersion();
+        
+        int timeout=60;
+        while(timeout>0){
+            try
+            {
+                Socket = new System.Net.Sockets.TcpClient();
+                Socket.Connect(tcp_ip, tcp_port);
+                Socket.SendTimeout = 5000;
+                Socket.ReceiveTimeout = 5000;
+
+                socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding, logFlag);
+                EnableLogging();
+                CheckServerVersion();
+                break;
+            }
+            catch(System.Exception e)
+            {
+                System.Console.WriteLine(e.Message);
+                timeout -= 5;
+                System.Threading.Thread.Sleep(5000);
+            }
+            
+        }
+        
     }
     private void CheckServerVersion()
     {
