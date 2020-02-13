@@ -185,33 +185,3 @@ class AltrunUnityDriver(object):
     def get_png_screenshot(self,path):
         GetPNGScreenshot(self.socket,self.request_separator,self.request_end,path).execute()
 
-
-def remove_port_forwarding():
-        try:
-            subprocess.Popen(['killall', 'iproxy']).wait()
-            print('Removed iproxy forwarding')
-        except:
-            print('AltUnityServer - no iproxy process was running/present')
-        try:
-            subprocess.Popen(['adb', 'forward', '--remove-all']).wait()
-            print('Removed adb forwarding')
-        except:
-            print('AltUnityServer - adb probably not installed ')
-
-def setup_port_forwarding(device_id="", platform="android", port=13000,device_port=13000):
-    if (platform == "android"):
-        try:
-            if device_id=="":
-                subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(device_port)])
-            else:
-                subprocess.Popen(['adb','-s '+device_id, 'forward', 'tcp:' + str(port), 'tcp:' + str(device_port)])
-        except:
-            print('AltUnityServer - could not use port ' + str(port))
-    if (platform == "ios"):
-        try:
-            if device_id=="":
-                subprocess.Popen(['iproxy', str(port),str(device_port)])
-            else:
-                subprocess.Popen(['iproxy', str(port),str(device_port),device_id])
-        except:
-            print('AltUnityServer - could not use port ' + str(port))
