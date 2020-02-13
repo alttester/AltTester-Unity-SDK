@@ -68,12 +68,12 @@ public class AltBaseCommand
     }
     protected byte[] toBytes(string text)
     {
-        return System.Text.Encoding.ASCII.GetBytes(text);
+        return System.Text.Encoding.UTF8.GetBytes(text);
     }
 
     protected string fromBytes(byte[] text)
     {
-        return System.Text.Encoding.ASCII.GetString(text);
+        return System.Text.Encoding.UTF8.GetString(text);
     }
 
     public static void HandleErrors(string data)

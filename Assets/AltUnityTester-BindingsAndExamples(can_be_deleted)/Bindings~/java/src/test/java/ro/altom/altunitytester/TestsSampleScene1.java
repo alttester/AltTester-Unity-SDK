@@ -528,4 +528,21 @@ public class TestsSampleScene1 {
             assertTrue(e.getMessage().equals("error:notFound"));
         }
     }
+    
+    @Test
+    public void TestGetChineseLetters()
+    {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ChineseLetters").build();
+        String text = altUnityDriver.findObject(altFindObjectsParameters1).getText();
+        assertEquals("哦伊娜哦", text);
+    }
+    @Test
+    public void TestNonEnglishText()
+    {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "NonEnglishText").build();
+        String text = altUnityDriver.findObject(altFindObjectsParameters1).getText();
+        assertEquals("BJÖRN'S PASS", text);
+    }
 }

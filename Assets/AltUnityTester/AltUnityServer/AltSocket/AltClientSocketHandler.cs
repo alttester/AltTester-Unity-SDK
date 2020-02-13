@@ -51,7 +51,7 @@ public class AltClientSocketHandler
     }
     public void SendResponse(byte[] response)
     {
-        response = System.Text.Encoding.ASCII.GetBytes("altstart::").Concat(response).Concat(System.Text.Encoding.ASCII.GetBytes("::altLog::")).Concat(System.Text.Encoding.ASCII.GetBytes(AltUnityRunner.logMessage)).Concat(System.Text.Encoding.ASCII.GetBytes("::altend")).ToArray();
+        response = Encoding.GetBytes("altstart::").Concat(response).Concat(Encoding.GetBytes("::altLog::")).Concat(Encoding.GetBytes(AltUnityRunner.logMessage)).Concat(Encoding.GetBytes("::altend")).ToArray();
         UnityEngine.Debug.Log("sending response: " + System.Text.Encoding.ASCII.GetString(response));
         Client.Client.Send(response);
     }

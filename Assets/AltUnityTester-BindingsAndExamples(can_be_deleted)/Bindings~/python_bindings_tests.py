@@ -466,7 +466,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(26, len(list_of_elements),list_of_elements)
+        self.assertEqual(28, len(list_of_elements),list_of_elements)
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -489,7 +489,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
         
-        self.assertEqual(32, len(list_of_elements))
+        self.assertEqual(34, len(list_of_elements))
         self.assertTrue("Capsule" in list_of_elements)
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Directional Light" in list_of_elements)
@@ -537,15 +537,22 @@ class PythonTests(unittest.TestCase):
         altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
         self.assertEqual(altElement.name,"CapsuleInfo")
 
+    def test_get_chinese_letters(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
+        self.assertEqual("哦伊娜哦", text)
+    
+    def test_non_english_text(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        text = self.altdriver.find_object(By.NAME, "NonEnglishText").get_text()
+        self.assertEqual("BJÖRN'S PASS", text)
+
     def test_find_objects_fail(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         plane = self.altdriver.wait_for_object(By.NAME, 'Plane')
         capsule = self.altdriver.wait_for_object(By.NAME, 'Capsule')
         self.assertEqual('Plane', plane.name)
         self.assertEqual('Capsule', capsule.name)
-
-    
-
 
        
 if __name__ == '__main__':

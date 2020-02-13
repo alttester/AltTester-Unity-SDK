@@ -1,4 +1,4 @@
-﻿public class AltSocketClientThreadHolder {
+public class AltSocketClientThreadHolder {
     protected readonly System.Threading.Thread thread;
     protected readonly AltClientSocketHandler handler;
 
@@ -78,7 +78,7 @@ public class AltSocketServer {
         this.portNumber = portNumber;
         ClientSocketHandlerDelegate = clientSocketHandlerDelegate;
         SeparatorString = separatorString;
-        Encoding = encoding ?? System.Text.Encoding.UTF8;
+        Encoding = encoding ?? System.Text.Encoding.UTF32;
         ClientHandlerThreads = System.Collections.ArrayList.Synchronized(new System.Collections.ArrayList());
         this.maxClients = maxClients;
 
