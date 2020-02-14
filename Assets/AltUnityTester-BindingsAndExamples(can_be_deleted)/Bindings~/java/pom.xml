@@ -6,6 +6,7 @@
 
     <groupId>ro.altom</groupId>
     <artifactId>altunitytester-java-client</artifactId>
+    <packaging>jar</packaging>
     <version>1.5.2-SNAPSHOT</version>
 
     <properties>
@@ -79,6 +80,7 @@
     </profiles>
 
     <build>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

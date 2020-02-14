@@ -14,6 +14,7 @@ Read the documentation on https://altom.gitlab.io/altunity/altunitytester
 
 [Setup](#setup)
    - [Downloads - AltUnityTester Package](#downloads-altunitytester-package)
+   - [Downloads - AltUnityTester Java Client](#downloads-altunitytester-java-client)
    - [Import AltUnityTester asset/package into your Unity project](#import-altunitytester-assetpackage-into-your-unity-project)
    - [Setting up local machine for iOS testing](#setting-up-local-machine-for-ios-testing)
    - [Building and running from the command line](#building-and-running-from-the-command-line)
@@ -45,12 +46,16 @@ Other Bindings:
 ### Downloads - AltUnityTester Package
 
 * From pages (deployed using CI): 
-	* https://altom.gitlab.io/altunity/altunitytester/master/AltUnityTester.unitypackage
+	* https://altom.gitlab.io/altunity/altunitytester/master/AltUnityPackage/AltUnityTester.unitypackage
 	  
 * From Unity Asset Store - import inside your project directly:
 	* https://assetstore.unity.com/packages/tools/utilities/altunitytester-112101 
 
 
+### Downloads - AltUnityTester Java Client
+
+* From pages (deployed using CI): 
+	* https://altom.gitlab.io/altunity/altunitytester/master/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar
 
 ### Import AltUnityTester asset/package into your Unity project:
 
