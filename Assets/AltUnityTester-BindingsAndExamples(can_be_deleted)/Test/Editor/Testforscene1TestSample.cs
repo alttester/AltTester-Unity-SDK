@@ -79,65 +79,7 @@ public class TestForScene1TestSample
         Assert.IsNotEmpty(altElements);
         Assert.True(altElements[0].name.Contains(name));
     }
-    [Test]
-    public void TestGetAllEnabledElements()
-    {
-        Thread.Sleep(1000);
-
-        var altElements = altUnityDriver.GetAllElements(enabled: true);
-        Assert.IsNotEmpty(altElements);
-
-        string listOfElements = "";
-        foreach (var element in altElements)
-        {
-            listOfElements += element.name + "; ";
-        }
-
-        Debug.WriteLine(listOfElements);
-
-        Assert.AreEqual(28, altElements.Count, listOfElements);
-        Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Plane"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "AltUnityRunner"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "CapsuleInfo"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Text"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "InputField"));
-    }
-    [Test]
-    public void TestGetAllElements()
-    {
-        Thread.Sleep(1000);
-
-        var altElements = altUnityDriver.GetAllElements(enabled: false);
-        Assert.IsNotEmpty(altElements);
-
-        string listOfElements = "";
-        foreach (var element in altElements)
-        {
-            listOfElements += element.name + "; ";
-        }
-
-        Debug.WriteLine(listOfElements);
-
-        Assert.AreEqual(34, altElements.Count);
-        Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Plane"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "AltUnityRunner"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "CapsuleInfo"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Cube"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "Camera"));
-        Assert.IsNotNull(altElements.Where(p => p.name == "InputField"));
-    }
+    
 
     [Test]
     public void TestWaitForExistingElement()
