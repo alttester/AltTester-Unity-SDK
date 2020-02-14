@@ -8,6 +8,8 @@ import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,7 +37,7 @@ public class AltBaseCommand {
                 throw new ConnectionException(e);
             }
             if (bytesRead > 0)
-                receivedData += new String(messageByte, 0, bytesRead);
+                receivedData += new String(messageByte, 0, bytesRead, StandardCharsets.UTF_8);
             if (receivedData.contains("::altend")) {
                 streamIsFinished = true;
             }
@@ -55,7 +57,7 @@ public class AltBaseCommand {
         return receivedData;
     }
 
-    private void WriteInLogFile(String logMessages){
+    protected void WriteInLogFile(String logMessages){
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter("AltUnityTesterLog.txt", true));

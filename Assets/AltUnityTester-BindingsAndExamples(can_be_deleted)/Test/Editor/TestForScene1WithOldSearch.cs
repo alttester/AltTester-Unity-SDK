@@ -171,6 +171,8 @@ public class TestForScene1WithOldSearch
     [Test]
     public void TestGetComponentProperty()
     {
+        Thread.Sleep(1000);
+
         const string componentName = "AltUnityRunner";
         const string propertyName = "SocketPortNumber";
         var altElement = altUnityDriver.FindElement("AltUnityRunnerPrefab");
@@ -330,8 +332,8 @@ public class TestForScene1WithOldSearch
         altButton.ClickEvent();
         var altElement = altUnityDriver.FindElement("Capsule", "Main Camera");
         var altElement2 = altUnityDriver.FindElement("Capsule", "Camera");
-        Vector2 pozOnScreenFromMainCamera = new Vector2(altElement.x, altElement.y);
-        Vector2 pozOnScreenFromSecondaryCamera = new Vector2(altElement2.x, altElement2.y);
+        AltUnityVector2 pozOnScreenFromMainCamera = new AltUnityVector2(altElement.x, altElement.y);
+        AltUnityVector2 pozOnScreenFromSecondaryCamera = new AltUnityVector2(altElement2.x, altElement2.y);
 
         Assert.AreNotEqual(pozOnScreenFromSecondaryCamera, pozOnScreenFromMainCamera);
 
@@ -371,7 +373,7 @@ public class TestForScene1WithOldSearch
     public void TestButtonClickWithSwipe()
     {
         var button = altUnityDriver.FindElement("UIButton");
-        Vector2 vector2 = new Vector2(button.x, button.y);
+        AltUnityVector2 vector2 = new AltUnityVector2(button.x, button.y);
         altUnityDriver.HoldButtonAndWait(vector2, 1);
         var capsuleInfo = altUnityDriver.FindElement("CapsuleInfo");
         Thread.Sleep(1400);

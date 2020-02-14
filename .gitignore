@@ -78,3 +78,5 @@ Assets/AltUnityTester/Bindings/java-appium-tests/.classpath
 aws-device-farm-example/wheelhouse/**
 build.app/
 sampleGame/
+[vV]env/
+_build/

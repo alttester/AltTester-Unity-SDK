@@ -30,7 +30,9 @@ public class BuildAltUnityTester {
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity"
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity"
+            
             };
 
             buildPlayerOptions.locationPathName = "sampleGame.apk";
@@ -94,13 +96,14 @@ public class BuildAltUnityTester {
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
             "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity"
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity",
+            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity"
             };
 
             buildPlayerOptions.target = BuildTarget.iOS;
             buildPlayerOptions.options = BuildOptions.Development;
 
-			AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+			AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
 			AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
             
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);

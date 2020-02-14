@@ -4,6 +4,7 @@ import socket
 import subprocess
 import time
 import multiprocessing
+
 from altunityrunner.altUnityExceptions import *
 from deprecated import deprecated
 from altunityrunner.commands import *
@@ -13,7 +14,7 @@ BUFFER_SIZE = 1024
 
 class AltrunUnityDriver(object):
 
-    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1', TCP_FWD_PORT=13000, TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',device_id="",log_flag=False):
+    def __init__(self, appium_driver,  platform, TCP_IP='127.0.0.1',TCP_PORT=13000, timeout=60,request_separator=';',request_end='&',device_id="",log_flag=False):
         self.TCP_PORT = TCP_PORT
         self.request_separator=request_separator
         self.request_end=request_end
@@ -21,66 +22,25 @@ class AltrunUnityDriver(object):
         self.appium_driver=None
         if (appium_driver != None):
             self.appium_driver = appium_driver
-            if (platform != None):
-                print('Starting tests on ' + platform)
-                self.setup_port_forwarding(device_id=device_id,platform=platform, port=TCP_FWD_PORT)
 
-        while (timeout > 0):
+        while timeout > 0:
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.socket.connect((TCP_IP, TCP_FWD_PORT))
-                process = multiprocessing.Process(target=self.get_current_scene)
-                process.start()
-
-                process.join(5)
-                if process.is_alive():
-                    process.terminate()
-                    process.join()
-                    
-                    raise Exception("get_current_scene timeout")
-                if process.exitcode != 0:
-                    raise Exception("Error getting current scene")
-                # self.get_current_scene()
+                self.socket.connect((TCP_IP, TCP_PORT))
+                self.socket.settimeout(5)
+                print("Get server Version")
+                GetServerVersion(self.socket, self.request_separator, self.request_end).execute()
                 break
             except Exception as e:
                 print(e)
-                print('AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', retrying (timing out in ' + str(timeout) + ' secs)...')
+                print('AltUnityServer not running on port ' + str(self.TCP_PORT) +
+                      ', retrying (timing out in ' + str(timeout) + ' secs)...')
                 timeout -= 5
                 time.sleep(5)
 
-        if (timeout <= 0):
-            raise Exception('AltUnityServer not running on port ' + str(TCP_FWD_PORT) + ', did you run ``adb forward tcp:' + str(TCP_FWD_PORT) + ' tcp:' + str(self.TCP_PORT) + '`` or ``iproxy ' + str(TCP_FWD_PORT) + ' ' + str(self.TCP_PORT) + '``?')
+        if timeout <= 0:
+            raise Exception('Could not connect to AltUnityServer on: '+ TCP_IP +':'+ str(self.TCP_PORT))
         EnableLogging(self.socket,self.request_separator,self.request_end,self.log_flag).execute()
-
-    def remove_port_forwarding(self, port):
-        try:
-            subprocess.Popen(['killall', 'iproxy']).wait()
-            print('Removed iproxy forwarding')
-        except:
-            print('AltUnityServer - no iproxy process was running/present')
-        try:
-            subprocess.Popen(['adb', 'forward', '--remove-all']).wait()
-            print('Removed adb forwarding')
-        except:
-            print('AltUnityServer - adb probably not installed ')
-
-    def setup_port_forwarding(self,device_id="", platform="android", port=13000):
-        if (platform == "android"):
-            try:
-                if device_id=="":
-                    subprocess.Popen(['adb', 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
-                else:
-                    subprocess.Popen(['adb','-s '+device_id, 'forward', 'tcp:' + str(port), 'tcp:' + str(self.TCP_PORT)])
-            except:
-                print('AltUnityServer - could not use port ' + str(port))
-        if (platform == "ios"):
-            try:
-                if device_id=="":
-                    subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT)])
-                else:
-                    subprocess.Popen(['iproxy', str(port),str(self.TCP_PORT),device_id])
-            except:
-                print('AltUnityServer - could not use port ' + str(port))
 
     def stop(self):
         CloseConnection(self.socket,self.request_separator,self.request_end).execute()          
@@ -213,3 +173,5 @@ class AltrunUnityDriver(object):
     @deprecated(version='1.4.0',reason="Use find_objects instead")
     def find_elements_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
         return FindElementsByComponent(self.socket,self.request_separator,self.request_end,self.appium_driver,component_name,assembly_name,camera_name,enabled).execute()
+    def get_png_screenshot(self,path):
+        GetPNGScreenshot(self.socket,self.request_separator,self.request_end,path).execute()

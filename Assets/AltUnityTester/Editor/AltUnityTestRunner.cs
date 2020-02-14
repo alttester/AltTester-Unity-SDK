@@ -1,11 +1,10 @@
-﻿
-
 using System.Linq;
 
 public delegate void TestRunDelegate(string name);
 
 
-public class AltUnityTestRunner {
+public class AltUnityTestRunner
+{
 
 
     public enum TestRunMode { RunAllTest, RunSelectedTest, RunFailedTest }
@@ -19,19 +18,21 @@ public class AltUnityTestRunner {
     public static TestRunDelegate CallRunDelegate = new TestRunDelegate(ShowProgresBar);
 
 
-    public static void RunTests(TestRunMode testMode) {
+    public static void RunTests(TestRunMode testMode)
+    {
         UnityEngine.Debug.Log("Started running test");
         System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
         System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
 
         var filters = AddTestToBeRun(testMode);
-        NUnit.Framework.Interfaces.ITestListener listener = new TestRunListener(CallRunDelegate);
+        NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(CallRunDelegate);
         var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
 
         testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
         progress = 0;
         total = filters.Filters.Count;
-        System.Threading.Thread runTestThread = new System.Threading.Thread(() => {
+        System.Threading.Thread runTestThread = new System.Threading.Thread(() =>
+        {
             var result = testAssemblyRunner.Run(listener, filters);
             SetTestStatus(result);
             AltUnityTesterEditor.isTestRunResultAvailable = true;
@@ -39,9 +40,11 @@ public class AltUnityTestRunner {
         });
 
         runTestThread.Start();
-        if (AltUnityTesterEditor.EditorConfiguration.platform != Platform.Editor) {
+        if (AltUnityTesterEditor.EditorConfiguration.platform != AltUnityPlatform.Editor)
+        {
             float previousProgres = progress - 1;
-            while (runTestThread.IsAlive) {
+            while (runTestThread.IsAlive)
+            {
                 if (previousProgres == progress) continue;
                 UnityEditor.EditorUtility.DisplayProgressBar(progress == total ? "This may take a few seconds" : _testName,
                     progress + "/" + total, progress / total);
@@ -50,7 +53,8 @@ public class AltUnityTestRunner {
         }
 
         runTestThread.Join();
-        if (AltUnityTesterEditor.EditorConfiguration.platform != Platform.Editor) {
+        if (AltUnityTesterEditor.EditorConfiguration.platform != AltUnityPlatform.Editor)
+        {
             AltUnityTesterEditor.needsRepaiting = true;
             UnityEditor.EditorUtility.ClearProgressBar();
         }
@@ -58,33 +62,42 @@ public class AltUnityTestRunner {
 
 
 
-    private static void ShowProgresBar(string name) {
+    private static void ShowProgresBar(string name)
+    {
         progress++;
         _testName = name;
     }
 
-    private void SetTestStatus(System.Collections.Generic.List<NUnit.Framework.Interfaces.ITestResult> results) {
+    private void SetTestStatus(System.Collections.Generic.List<NUnit.Framework.Interfaces.ITestResult> results)
+    {
         bool passed = true;
         int numberOfTestPassed = 0;
         int numberOfTestFailed = 0;
         double totalTime = 0;
-        foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests) {
+        foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+        {
             int counter = 0;
             // int testPassed = 0;
             int testPassedCounter = 0;
             int testFailedCounter = 0;
-            foreach (var result in results) {
-                if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly)) {
+            foreach (var result in results)
+            {
+                if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
+                {
                     counter++;
                     var enumerator = result.Children.GetEnumerator();
                     enumerator.MoveNext();
-                    if (enumerator.Current != null) {
+                    if (enumerator.Current != null)
+                    {
                         var enumerator2 = enumerator.Current.Children.GetEnumerator();
                         enumerator2.MoveNext();
-                        if (enumerator2.Current != null && enumerator2.Current.FailCount > 0) {
+                        if (enumerator2.Current != null && enumerator2.Current.FailCount > 0)
+                        {
 
                             testFailedCounter++;
-                        } else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0) {
+                        }
+                        else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0)
+                        {
                             testPassedCounter++;
                         }
 
@@ -95,17 +108,22 @@ public class AltUnityTestRunner {
 
                 }
 
-                if (test.Type == typeof(NUnit.Framework.Internal.TestFixture)) {
+                if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
+                {
                     var enumerator = result.Children.GetEnumerator();
                     enumerator.MoveNext();
-                    if (enumerator.Current != null && enumerator.Current.FullName.Equals(test.TestName)) {
+                    if (enumerator.Current != null && enumerator.Current.FullName.Equals(test.TestName))
+                    {
                         counter++;
                         var enumerator2 = enumerator.Current.Children.GetEnumerator();
                         enumerator2.MoveNext();
-                        if (enumerator2.Current != null && enumerator2.Current.FailCount > 0) {
+                        if (enumerator2.Current != null && enumerator2.Current.FailCount > 0)
+                        {
                             testFailedCounter++;
 
-                        } else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0) {
+                        }
+                        else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0)
+                        {
                             testPassedCounter++;
 
                         }
@@ -114,20 +132,26 @@ public class AltUnityTestRunner {
                     enumerator.Dispose();
                 }
 
-                if (test.Type == typeof(NUnit.Framework.Internal.TestMethod)) {
+                if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
+                {
                     var enumerator = result.Children.GetEnumerator();
                     enumerator.MoveNext();
-                    if (enumerator.Current != null) {
+                    if (enumerator.Current != null)
+                    {
                         var enumerator2 = enumerator.Current.Children.GetEnumerator();
                         enumerator2.MoveNext();
-                        if (enumerator2.Current != null && enumerator2.Current.FullName.Equals(test.TestName)) {
-                            if (enumerator2.Current.FailCount > 0) {
+                        if (enumerator2.Current != null && enumerator2.Current.FullName.Equals(test.TestName))
+                        {
+                            if (enumerator2.Current.FailCount > 0)
+                            {
                                 test.Status = -1;
                                 test.TestResultMessage = enumerator2.Current.Message + " \n\n\n StackTrace:  " + enumerator2.Current.StackTrace;
                                 passed = false;
                                 numberOfTestFailed++;
 
-                            } else if (enumerator2.Current.PassCount > 0) {
+                            }
+                            else if (enumerator2.Current.PassCount > 0)
+                            {
                                 test.Status = 1;
                                 test.TestResultMessage = "Passed in " + enumerator2.Current.Duration;
                                 numberOfTestPassed++;
@@ -144,12 +168,17 @@ public class AltUnityTestRunner {
 
             }
 
-            if (test.Type != typeof(NUnit.Framework.Internal.TestMethod)) {
-                if (test.TestCaseCount == counter) {
-                    if (testFailedCounter == 0 && testPassedCounter == counter) {
+            if (test.Type != typeof(NUnit.Framework.Internal.TestMethod))
+            {
+                if (test.TestCaseCount == counter)
+                {
+                    if (testFailedCounter == 0 && testPassedCounter == counter)
+                    {
                         test.Status = 1;
                         test.TestResultMessage = "All method passed ";
-                    } else {
+                    }
+                    else
+                    {
                         test.Status = -1;
                         passed = false;
                         test.TestResultMessage = "There are methods that failed";
@@ -169,15 +198,19 @@ public class AltUnityTestRunner {
         AltUnityTesterEditor.isTestRunResultAvailable = true;
         AltUnityTesterEditor.selectedTest = -1;
         AltUnityTesterEditor.timeTestRan = totalTime;
-        if (passed) {
+        if (passed)
+        {
             UnityEngine.Debug.Log("All test passed");
-        } else
+        }
+        else
             UnityEngine.Debug.Log("Test failed");
     }
 
-    private static NUnit.Framework.Internal.Filters.OrFilter AddTestToBeRun(TestRunMode testMode) {
+    private static NUnit.Framework.Internal.Filters.OrFilter AddTestToBeRun(TestRunMode testMode)
+    {
         NUnit.Framework.Internal.Filters.OrFilter filter = new NUnit.Framework.Internal.Filters.OrFilter();
-        switch (testMode) {
+        switch (testMode)
+        {
             case TestRunMode.RunAllTest:
                 foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
                     if (!test.IsSuite)
@@ -198,14 +231,19 @@ public class AltUnityTestRunner {
         return filter;
     }
 
-    static int SetTestStatus(NUnit.Framework.Interfaces.ITestResult test) {
+    static int SetTestStatus(NUnit.Framework.Interfaces.ITestResult test)
+    {
 
-        if (!test.Test.IsSuite) {
+        if (!test.Test.IsSuite)
+        {
             var status = 0;
-            if (test.PassCount == 1) {
+            if (test.PassCount == 1)
+            {
                 status = 1;
                 AltUnityTesterEditor.reportTestPassed++;
-            } else if (test.FailCount == 1) {
+            }
+            else if (test.FailCount == 1)
+            {
                 status = -1;
                 AltUnityTesterEditor.reportTestFailed++;
             }
@@ -221,24 +259,30 @@ public class AltUnityTestRunner {
         var failCount = 0;
         var notExecutedCount = 0;
         var passCount = 0;
-        foreach (var testChild in test.Children) {
+        foreach (var testChild in test.Children)
+        {
             var status = SetTestStatus(testChild);
             if (status == 0)
                 notExecutedCount++;
-            else if (status == -1) {
+            else if (status == -1)
+            {
                 failCount++;
 
-            } else {
+            }
+            else
+            {
                 passCount++;
             }
         }
 
-        if (test.Test.TestCaseCount != passCount + failCount + notExecutedCount) {
+        if (test.Test.TestCaseCount != passCount + failCount + notExecutedCount)
+        {
             AltUnityTesterEditor.EditorConfiguration.MyTests[AltUnityTesterEditor.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = 0;
             return 0;
         }
 
-        if (failCount > 0) {
+        if (failCount > 0)
+        {
             AltUnityTesterEditor.EditorConfiguration.MyTests[AltUnityTesterEditor.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = -1;
             return -1;
 
@@ -247,8 +291,9 @@ public class AltUnityTestRunner {
         return 1;
     }
 
-    public static void SetUpListTest() {
-        var myTests = new System.Collections.Generic.List<MyTest>();
+    public static void SetUpListTest()
+    {
+        var myTests = new System.Collections.Generic.List<AltUnityMyTest>();
         System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
 
         const string engineTestRunnerAssemblyName = "UnityEngine.TestRunner";
@@ -260,12 +305,12 @@ public class AltUnityTestRunner {
              * Skips test runner assemblies and assemblies that do not contain references to test assemblies
              */
             bool isEditorAssembly = assembly.GetName().Name.Equals(editorAssemblyName);
-            if(!isEditorAssembly)
+            if (!isEditorAssembly)
             {
                 bool isEngineTestRunnerAssembly = assembly.GetName().Name.Contains(engineTestRunnerAssemblyName);
                 bool isEditorTestRunnerAssembly = assembly.GetName().Name.Contains(editorTestRunnerAssemblyName);
                 bool isTestAssembly = assembly.GetReferencedAssemblies().FirstOrDefault(
-                            reference => reference.Name.Contains(engineTestRunnerAssemblyName) 
+                            reference => reference.Name.Contains(engineTestRunnerAssemblyName)
                                          || reference.Name.Contains(editorTestRunnerAssemblyName)) == null;
                 if (isEngineTestRunnerAssembly ||
                     isEditorTestRunnerAssembly ||
@@ -282,7 +327,8 @@ public class AltUnityTestRunner {
         AltUnityTesterEditor.EditorConfiguration.MyTests = myTests;
     }
 
-    private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, System.Collections.Generic.List<MyTest> newMyTests) {
+    private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, System.Collections.Generic.List<AltUnityMyTest> newMyTests)
+    {
         string path = null;
 
         if (testSuite.GetType() == typeof(NUnit.Framework.Internal.TestMethod))
@@ -296,20 +342,27 @@ public class AltUnityTestRunner {
             }
         }
         var index = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName));
-        if (index == null) {
-            if (testSuite.Parent == null) {
-                newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
-                    "", testSuite.TestCaseCount, false, null,null,0, path));
-            } else {
-                newMyTests.Add(new MyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
+        if (index == null)
+        {
+            if (testSuite.Parent == null)
+            {
+                newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
+                    "", testSuite.TestCaseCount, false, null, null, 0, path));
+            }
+            else
+            {
+                newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
                     testSuite.Parent.FullName, testSuite.TestCaseCount, false, null, null, 0, path));
             }
 
-        } else {
-            newMyTests.Add(new MyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
-                index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage,index.TestStackTrace,index.TestDuration, path));
         }
-        foreach (var test in testSuite.Tests) {
+        else
+        {
+            newMyTests.Add(new AltUnityMyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
+                index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, index.TestStackTrace, index.TestDuration, path));
+        }
+        foreach (var test in testSuite.Tests)
+        {
             addTestSuiteToMyTest(test, newMyTests);
         }
     }
@@ -333,7 +386,7 @@ public class AltUnityTestRunner {
                     filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
                 }
 
-            NUnit.Framework.Interfaces.ITestListener listener = new TestRunListener(null);
+            NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(null);
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
             testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
             var result = testAssemblyRunner.Run(listener, filter);
@@ -350,8 +403,10 @@ public class AltUnityTestRunner {
 
 
 
-    static void RunAllTestsAndroid() {
-        try {
+    static void RunAllTestsAndroid()
+    {
+        try
+        {
             AltUnityTesterEditor.InitEditorConfiguration();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
@@ -362,22 +417,26 @@ public class AltUnityTestRunner {
 
             NUnit.Framework.Internal.Filters.OrFilter filter = new NUnit.Framework.Internal.Filters.OrFilter();
             foreach (var test in testSuite2.Tests)
-                foreach (var t in test.Tests) {
+                foreach (var t in test.Tests)
+                {
                     UnityEngine.Debug.Log(t.FullName);
                     filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
                 }
 
-            NUnit.Framework.Interfaces.ITestListener listener = new TestRunListener(null);
+            NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(null);
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
 
             testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
 
 
             var result = testAssemblyRunner.Run(listener, filter);
-            if (result.FailCount > 0) {
+            if (result.FailCount > 0)
+            {
                 UnityEditor.EditorApplication.Exit(1);
             }
-        } catch (System.Exception e) {
+        }
+        catch (System.Exception e)
+        {
             UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
         }

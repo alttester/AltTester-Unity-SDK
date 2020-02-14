@@ -1,4 +1,4 @@
-﻿
+
 
 
 public static class PlatformName
@@ -56,7 +56,11 @@ public class AltUnityBuilder
             InitBuildSetup(UnityEditor.BuildTargetGroup.Android);
             UnityEngine.Debug.Log("Starting Android build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-            buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName + ".apk";
+            if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 2)
+                buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+            else
+                buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName + ".apk";
+
             buildPlayerOptions.scenes = GetScenesForBuild();
 
             buildPlayerOptions.target = UnityEditor.BuildTarget.Android;
@@ -81,7 +85,36 @@ public class AltUnityBuilder
             InitBuildSetup(UnityEditor.BuildTargetGroup.Standalone);
             UnityEngine.Debug.Log("Starting Standalone build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-            buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+
+            string ouputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+            switch (buildTarget)
+            {
+                case UnityEditor.BuildTarget.StandaloneOSX:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".app";
+                    break;
+                case UnityEditor.BuildTarget.StandaloneWindows:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
+                        ouputPath += "/" + ouputPath;
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".exe";
+                    break;
+                case UnityEditor.BuildTarget.StandaloneWindows64:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
+                        ouputPath += "/" + ouputPath;
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".exe";
+                    break;
+                case UnityEditor.BuildTarget.StandaloneLinux64:
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
+                        ouputPath += "/" + ouputPath;
+                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
+                        ouputPath += ".x86_64";
+                    break;
+            }
+            buildPlayerOptions.locationPathName = ouputPath;
+
+
             buildPlayerOptions.scenes = GetScenesForBuild();
 
             buildPlayerOptions.target = buildTarget;
@@ -237,8 +270,21 @@ public class AltUnityBuilder
     {
         UnityEngine.Debug.Log("Adding AltUnityRunnerPrefab into the [" + scene + "] scene.");
         var altUnityRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
+        
         SceneWithAltUnityRunner = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scene);
         AltUnityRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altUnityRunner);
+        var component = ((UnityEngine.GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
+        if (AltUnityTesterEditor.EditorConfiguration == null)
+        {
+            component.ShowInputs = false;
+            component.showPopUp = true;
+        }
+        else
+        {
+            component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
+            component.showPopUp = AltUnityTesterEditor.EditorConfiguration.showPopUp;
+        }
+
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
         UnityEngine.Debug.Log("Scene successfully modified.");
@@ -254,8 +300,7 @@ public class AltUnityBuilder
         var altUnityRunner =
             UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(
                 UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
-
-
+        altUnityRunner.GetComponent<AltUnityRunner>().ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
 
         PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
         SceneWithAltUnityRunner = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
@@ -265,6 +310,8 @@ public class AltUnityBuilder
         altUnityRunnerComponent.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.serverPort;
         altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.requestEnding;
         altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.requestSeparator;
+        altUnityRunnerComponent.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
+        altUnityRunnerComponent.showPopUp = AltUnityTesterEditor.EditorConfiguration.showPopUp;
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
 

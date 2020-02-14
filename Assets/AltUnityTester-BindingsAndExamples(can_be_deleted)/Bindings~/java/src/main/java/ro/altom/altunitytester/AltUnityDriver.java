@@ -1,9 +1,6 @@
 package ro.altom.altunitytester;
 
-import ro.altom.altunitytester.Commands.AltCallStaticMethods;
-import ro.altom.altunitytester.Commands.AltCallStaticMethodsParameters;
-import ro.altom.altunitytester.Commands.AltStop;
-import ro.altom.altunitytester.Commands.EnableLogging;
+import ro.altom.altunitytester.Commands.*;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.OldFindObject.*;
@@ -21,18 +18,19 @@ public class AltUnityDriver {
         public static int StringType = 2;
         public static int FloatType = 3;
     }
-    public static final int READ_TIMEOUT = 30 * 1000;
+    public static final String VERSION="1.5.3-ALPHA";
+    public static final int READ_TIMEOUT = 5 * 1000;
 
     private Socket socket=null;
     private PrintWriter out=null;
     private DataInputStream in = null;
 
     private AltBaseSettings altBaseSettings;
-    public AltUnityDriver(String ip, int port) {
+    public AltUnityDriver(String ip, int port){
         this(ip,port,";","&",false);
     }
 
-    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd) {
+    public AltUnityDriver(String ip, int port,String requestSeparator,String requestEnd){
         this(ip,port,requestSeparator,requestEnd,false);
     }
     public AltUnityDriver(String ip,int port,String requestSeparator,String requestEnd,Boolean logEnabled){
@@ -50,6 +48,16 @@ public class AltUnityDriver {
         }
         altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in,logEnabled);
         EnableLogging();
+        GetServerVersion();
+    }
+    private String GetServerVersion(){
+        try{
+            new GetServerVersionCommand(altBaseSettings).Execute();
+            return "Ok";
+        }catch (Exception e){
+            log.warn(e.getMessage());
+            return "Version mismatch";
+        }
     }
     private void EnableLogging(){
         new EnableLogging(altBaseSettings).Execute();
@@ -577,6 +585,9 @@ public class AltUnityDriver {
     @Deprecated
     public AltUnityObject[] findElementsByComponent(String componentName,String assemblyName, boolean enabled) {
         return findElementsByComponent(componentName, assemblyName,"", enabled);
+    }
+    public void getPNGScreeshot(String path){
+        new GetPNGScreenshotCommand(altBaseSettings,path).Execute();
     }
 
     // TODO: move those two out of this type and make them compulsory
