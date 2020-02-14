@@ -2,7 +2,8 @@
 ## Downloads - AltUnityTester Package
 
 * From pages (deployed using CI): 
-	* [UnityPackage](https://altom.gitlab.io/altunity/altunitytester/master/AltUnityTester.unitypackage)       
+	* [UnityPackage](https://altom.gitlab.io/altunity/altunitytester/master/AltUnityPackage/AltUnityTester.unitypackage)
+  * [JAR Dependency](https://altom.gitlab.io/altunity/altunitytester/master/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar)       
 * From Unity Asset Store - import inside your project directly:
 	* [Asset Store Link](https://assetstore.unity.com/packages/tools/utilities/altunitytester-112101) 
 
