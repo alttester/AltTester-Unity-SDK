@@ -84,11 +84,11 @@ public class TestForScene3DragAndDrop
     }
 
     [Test]
-    public void MultipleDragAndDropWaitWithMoveTouch()
+    public void MultipleDragAndDropWaitWithMultipointSwipe()
     {
         var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
         var altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-        altUnityDriver.MoveTouch(new []{new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y)}, 2);
+        altUnityDriver.MultipointSwipe(new []{new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y)}, 2);
         Thread.Sleep(2000);
 
         altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
@@ -101,7 +101,7 @@ public class TestForScene3DragAndDrop
             new Vector2(altElement3.x, altElement3.y)
         };
         
-        altUnityDriver.MoveTouchAndWait(positions, 3);
+        altUnityDriver.MultipointSwipeAndWait(positions, 3);
         var imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         var imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         Assert.AreNotEqual(imageSource, imageSourceDropZone);

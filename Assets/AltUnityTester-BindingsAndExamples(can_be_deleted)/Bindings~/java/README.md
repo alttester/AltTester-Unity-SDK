@@ -338,12 +338,12 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
         altUnityDriver.swipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
     ``` 
  
-* `moveTouch`
+* `multipointSwipe`
     * params: 
         * positions - collection of positions on the screen where the swipe be made
         * duration - how many seconds the swipe will need to complete
     * return: none
-    * Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `moveTouchAndWait`
+    * Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `multipointSwipeAndWait`
 
      ```java
          AltUnityObject altElement1 = altUnityDriver.FindElement("Drag Image1");
@@ -352,15 +352,15 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
               altElement1.getScreenPosition(), 
               new Vector2(altElement2.x, altElement2.y));
           
-         altUnityDriver.moveTouch(positions, 3);
+         altUnityDriver.multipointSwipe(positions, 3);
      ``` 
 
-* `moveTouchAndWait`
+* `multipointSwipeAndWait`
      * params: 
         * positions - collection of positions on the screen where the swipe be made
         * duration - how many seconds the swipe will need to complete
      * return: none
-     * Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `moveTouch`
+     * Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `multipointSwipe`
      
      ```java
          AltUnityObject altElement1 = altUnityDriver.findElement("Drag Image1");
@@ -369,7 +369,7 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
               altElement1.getScreenPosition(), 
               new Vector2(altElement2.x, altElement2.y));
           
-         altUnityDriver.moveTouchAndWait(positions, 3);
+         altUnityDriver.multipointSwipeAndWait(positions, 3);
      ``` 
    
 * `holdButton`

@@ -57,7 +57,7 @@ public class TestsSampleScene2 {
     }
 
     @Test
-    public void testResizePanelWithMovingTouch() throws Exception {
+    public void testResizePanelWithMultipointSwipe() throws Exception {
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
 
         List<Vector2> positions = Arrays.asList(
@@ -65,7 +65,7 @@ public class TestsSampleScene2 {
             new Vector2(altElement.x + 100, altElement.y + 100),
             new Vector2(altElement.x + 100, altElement.y + 200));
         
-        altUnityDriver.moveTouchAndWait(positions, 3);
+        altUnityDriver.multipointSwipeAndWait(positions, 3);
 
         AltUnityObject altElementAfterResize = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
         assertNotSame(altElement.x, altElementAfterResize.x);

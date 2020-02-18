@@ -463,32 +463,32 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
     altUnityDriver.SwipeAndWait(new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y), 2);
     ``` 
 	
-   * `MoveTouch`
+   * `MultipointSwipe`
 	* params: 
 		* positions - collection of positions on the screen where the swipe be made
 		* duration - how many seconds the swipe will need to complete
 	* return: none
-	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `MoveTouchAndWait`
+	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `MultipointSwipeAndWait`
 
    ```c#
     var altElement1 = altUnityDriver.FindElement("Drag Image1");
     var altElement2 = altUnityDriver.FindElement("Drop Box1");
 	var positions = new []{altElement1.getScreenPosition(), new Vector2(altElement2.x, altElement2.y)};
-    altUnityDriver.MoveTouch(positions, 2);
+    altUnityDriver.MultipointSwipe(positions, 2);
   ``` 
 	
-  * `MoveTouchAndWait`
+  * `MultipointSwipeAndWait`
 	* params: 
 		* positions - collection of positions on the screen where the swipe be made
 		* duration - how many seconds the swipe will need to complete
 	* return: none
-	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `MoveTouch`
+	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `MultipointSwipe`
 
 	```c#
     var altElement1 = altUnityDriver.FindElement("Drag Image1");
     var altElement2 = altUnityDriver.FindElement("Drop Box1");
 	var positions = new []{altElement1.getScreenPosition(), new Vector2(altElement2.x, altElement2.y)};
-    altUnityDriver.MoveTouchAndWait(positions, 2);
+    altUnityDriver.MultipointSwipeAndWait(positions, 2);
     ``` 
 	
   * `HoldButton`

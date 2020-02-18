@@ -590,13 +590,13 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
     
-    public static void SetMovingTouch(UnityEngine.Vector2[] positions, float duration)
+    public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration)
     {
         Finished = false;
-        instance.StartCoroutine(MovingTouchLifeCycle(positions, duration));
+        instance.StartCoroutine(MultipointSwipeLifeCycle(positions, duration));
     }
 
-    public static System.Collections.IEnumerator MovingTouchLifeCycle(UnityEngine.Vector2[] positions, float duration)
+    public static System.Collections.IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
     {
         var touch = new UnityEngine.Touch
         {

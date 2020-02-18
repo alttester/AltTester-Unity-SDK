@@ -338,32 +338,32 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
         alt_driver.swipe_and_wait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2)
     ``` 
  
-  * `move_touch`
+  * `multipoint_swipe`
 	* params: 
 		* positions - collection of positions on the screen where the swipe be made
 		* duration - how many seconds the swipe will need to complete
 	* return: none
-	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `move_touch_and_wait`
+	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command. If you want to wait until the swipe is completed use `multipoint_swipe_and_wait`
 
     ```python
         altElement1 = alt_driver.find_element('Drag Image1')
         altElement2 = alt_driver.find_element('Drop Box1')
         positions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
-        alt_driver.move_touch(positions, 2)
+        alt_driver.multipoint_swipe(positions, 2)
     ```
 
-  * `move_touch_and_wait`
+  * `multipoint_swipe_and_wait`
 	* params: 
 		* positions - collection of positions on the screen where the swipe be made
 		* duration - how many seconds the swipe will need to complete
 	* return: none
-	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `move_touch`
+	* Use this method if you don't need more inputs to run until th swipe is completed because this method will wait until the swipe is completed to execute the next command. If you want to use more inputs or check something mid-swipe use `multipoint_swipe`
 
 	```python
         altElement1 = alt_driver.find_element('Drag Image1')
         altElement2 = alt_driver.find_element('Drop Box1')
         positions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
-        alt_driver.move_touch_and_wait(positions, 2)
+        alt_driver.multipoint_swipe_and_wait(positions, 2)
     ``` 
  
   * `tap_at_coordinates`

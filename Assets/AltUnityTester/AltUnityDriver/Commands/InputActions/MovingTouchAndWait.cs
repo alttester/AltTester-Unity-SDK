@@ -2,12 +2,12 @@ using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
 {
-    public class MovingTouchAndWait : AltBaseCommand
+    public class MultipointSwipeAndWait : AltBaseCommand
     {
         Vector2[] positions;
         float duration;
         
-        public MovingTouchAndWait(SocketSettings socketSettings, Vector2[] positions, float duration) : base(socketSettings)
+        public MultipointSwipeAndWait(SocketSettings socketSettings, Vector2[] positions, float duration) : base(socketSettings)
         {
             this.positions = positions;
             this.duration = duration;
@@ -15,7 +15,7 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
 
         public void Execute()
         {
-            new MovingTouch(SocketSettings, positions, duration).Execute();
+            new MultipointSwipe(SocketSettings, positions, duration).Execute();
             System.Threading.Thread.Sleep((int)duration * 1000);
             string data;
             do

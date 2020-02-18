@@ -143,13 +143,13 @@ public class AltUnityDriver
     {
         new AltUnitySwipeAndWait(socketSettings, start, end, duration).Execute();
     }
-    public void MoveTouch(AltUnityVector2[] positions, float duration)
+    public void MultipointSwipe(AltUnityVector2[] positions, float duration)
     {
-        new MovingTouch(socketSettings, positions, duration).Execute();
+        new MultipointSwipe(socketSettings, positions, duration).Execute();
     }
-    public void MoveTouchAndWait(AltUnityVector2[] positions, float duration)
+    public void MultipointSwipeAndWait(AltUnityVector2[] positions, float duration)
     {
-        new MovingTouchAndWait(socketSettings, positions, duration).Execute();
+        new MultipointSwipeAndWait(socketSettings, positions, duration).Execute();
     }
     public void HoldButton(AltUnityVector2 position, float duration)
     {

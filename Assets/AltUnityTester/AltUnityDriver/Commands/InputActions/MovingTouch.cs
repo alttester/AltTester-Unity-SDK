@@ -2,12 +2,12 @@ using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
 {
-    public class MovingTouch : AltBaseCommand
+    public class MultipointSwipe : AltBaseCommand
     {
         Vector2[] positions;
         float duration;
         
-        public MovingTouch(SocketSettings socketSettings, Vector2[] positions, float duration) : base(socketSettings)
+        public MultipointSwipe(SocketSettings socketSettings, Vector2[] positions, float duration) : base(socketSettings)
         {
             this.positions = positions;
             this.duration = duration;
@@ -15,7 +15,7 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
 
         public void Execute()
         {
-            var args = new System.Collections.Generic.List<string>{"movingTouchChain", duration.ToString()};
+            var args = new System.Collections.Generic.List<string>{"MultipointSwipeChain", duration.ToString()};
             foreach (var pos in positions)
             {
                 var posJson = Newtonsoft.Json.JsonConvert.SerializeObject(pos, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings

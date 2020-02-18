@@ -1206,6 +1206,54 @@ Simulate a swipe action in your game. This command does not wait for the action 
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
 ```
+###  Swipe
+
+#### Description:
+
+Simulate a swipe action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [SwipeAndWait]({{ site.baseurl }}/pages/commands/input-actions/swipe-and-wait)
+
+#### Parameters:
+
+|      Name       |     Type      | Optional | Description |
+| --------------- | ------------- | -------- | ----------- |
+| start      |     Vector2(C#)    |   false   | Starting location of the swipe|
+| end      |     Vector2(C#)    |   false   | Ending location of the swipe|
+| xStart      |     float(python/java)    |   false   | x coordinate of the screen where the swipe begins.|
+| yStart      |     float(python/java)    |   false   | y coordinate of the screen where the swipe begins|
+| xEnd      |     float(python/java)    |   false   | x coordinate of the screen where the swipe ends|
+| yEnd      |     float(python/java)    |   false   | x coordinate of the screen where the swipe ends|
+| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+
+
+#### Examples
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+        [Test]
+            public void MultipleDragAndDrop()
+            {
+                var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                               
+            }
+
+    .. code-tab:: java
+        @Test
+            public void testMultipleDragAndDrop() throws Exception {
+                AltUnityObject altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
+                       
+            }
+
+
+
+    .. code-tab:: py
+        def test_multiple_swipes(self):
+                self.altdriver.load_scene('Scene 3 Drag And Drop')
+         
+                
+```
+
 ###  TapScreen(c#) / TapAtCoordinates(python/java)
 
 #### Description:

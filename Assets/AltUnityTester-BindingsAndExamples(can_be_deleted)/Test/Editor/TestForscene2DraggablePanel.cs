@@ -39,7 +39,7 @@ public class TestForScene2DraggablePanel
     }
     
     [Test]
-    public void ResizePanelWithMoveTouch()
+    public void ResizePanelWithMultipointSwipe()
     {
         var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
         var position = new Vector2(altElement.x, altElement.y);
@@ -52,7 +52,7 @@ public class TestForScene2DraggablePanel
             new Vector2(altElement.x - 100, altElement.y - 100)
         };
         
-        altUnityDriver.MoveTouchAndWait(pos, 4);
+        altUnityDriver.MultipointSwipeAndWait(pos, 4);
 
         Thread.Sleep(4000);
        
