@@ -89,7 +89,10 @@ class AltrunUnityDriver(object):
 
     def swipe_and_wait(self, x_start, y_start, x_end, y_end, duration_in_secs):
         return SwipeAndWait(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
-
+    def move_touch(self, positions, duration_in_secs):
+        return MovingTouch(self.socket,self.request_separator,self.request_end,positions,duration_in_secs).execute()
+    def move_touch_and_wait(self, positions, duration_in_secs):
+        return MovingTouchAndWait(self.socket,self.request_separator,self.request_end,positions,duration_in_secs).execute()
     def tilt(self, x, y, z):
         return Tilt(self.socket,self.request_separator,self.request_end,x,y,z).execute()
 

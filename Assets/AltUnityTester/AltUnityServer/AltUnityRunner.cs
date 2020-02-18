@@ -363,6 +363,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     UnityEngine.Vector2 end2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[2]);
                     command = new AltUnitySetMovingTouchCommand (start2, end2, pieces[3]);
                     break;
+                case "movingTouchChain":
+                    var length = pieces.Length - 3;
+                    var positions = new UnityEngine.Vector2[length];
+                    for (var i = 0; i < length; i++)
+                        positions[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[i + 2]);
+                    command = new SetMovingTouchChainCommand(positions, pieces[1]);
+                    break;
                 case "loadScene":
                     command = new AltUnityLoadSceneCommand (pieces[1],handler);
                     break;

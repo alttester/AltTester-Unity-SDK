@@ -1,12 +1,14 @@
 package ro.altom.altunitytester;
 
-import com.google.gson.Gson;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ro.altom.altunitytester.position.Vector2;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -55,6 +57,22 @@ public class TestsSampleScene2 {
     }
 
     @Test
+    public void testResizePanelWithMovingTouch() throws Exception {
+        AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+
+        List<Vector2> positions = Arrays.asList(
+            altElement.getScreenPosition(), 
+            new Vector2(altElement.x + 100, altElement.y + 100),
+            new Vector2(altElement.x + 100, altElement.y + 200));
+        
+        altUnityDriver.moveTouchAndWait(positions, 3);
+
+        AltUnityObject altElementAfterResize = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+        assertNotSame(altElement.x, altElementAfterResize.x);
+        assertNotSame(altElement.y, altElementAfterResize.y);
+    }
+    
+    @Test
     public void testClosePanel() throws Exception {
         altUnityDriver.waitForElement("Panel Drag Area","",true, 2, 0.5);
         assertTrue(altUnityDriver.findElement("Panel").enabled);
@@ -65,5 +83,4 @@ public class TestsSampleScene2 {
         altElement.clickEvent();
         assertTrue(altUnityDriver.findObject(AltUnityDriver.By.NAME,"Panel").enabled);
     }
-
 }

@@ -237,12 +237,10 @@ public class Input : UnityEngine.MonoBehaviour
             if (UseCustomInput)
             {
                 return _mouseScrollDelta;
-
             }
             else
             {
                 return UnityEngine.Input.mouseScrollDelta;
-
             }
         }
     }
@@ -251,11 +249,9 @@ public class Input : UnityEngine.MonoBehaviour
     public static UnityEngine.Vector3 mousePosition {
         get
         {
-
             if (UseCustomInput)
             {
                 return _mousePosition;
-
             }
             else
             {
@@ -353,7 +349,6 @@ public class Input : UnityEngine.MonoBehaviour
         else
         {
             return UnityEngine.Input.GetAxis(axisName);
-
         }
     }
 
@@ -366,15 +361,12 @@ public class Input : UnityEngine.MonoBehaviour
         else
         {
             return UnityEngine.Input.GetAxisRaw(axisName);
-
         }
-
     }
     public static bool GetButton(string buttonName)
     {
         if (UseCustomInput)
         {
-
             var axis = AxisList.First(axle => axle.name == buttonName);
             
             if (axis == null)
@@ -394,9 +386,8 @@ public class Input : UnityEngine.MonoBehaviour
                     LastAxisName = axis.name;//Debug purpose
                     return true;
                 }
-                }
+            }
             return false;
-
         }
         else
         {
@@ -592,107 +583,125 @@ public class Input : UnityEngine.MonoBehaviour
     public static UnityEngine.Touch GetTouch(int index)
     {
          return UseCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
-
     }
 
     public static void ResetInputAxes()
     {
         UnityEngine.Input.ResetInputAxes();
     }
-    public static void SetMovingTouch(UnityEngine.Touch touch, UnityEngine.Vector2 destination, float duration)
+    
+    public static void SetMovingTouch(UnityEngine.Vector2[] positions, float duration)
     {
         Finished = false;
-        instance.StartCoroutine(MovingTouchLifeCycle(touch, destination, duration));
+        instance.StartCoroutine(MovingTouchLifeCycle(positions, duration));
     }
 
-    public static System.Collections.IEnumerator MovingTouchLifeCycle(UnityEngine.Touch touch, UnityEngine.Vector2 destination, float duration)
+    public static System.Collections.IEnumerator MovingTouchLifeCycle(UnityEngine.Vector2[] positions, float duration)
     {
-
-        float xDistance = (destination.x - touch.position.x);
-        float yDistance = (destination.y - touch.position.y);
-
-        Input.touchCount++;
-        var touchListCopy = new UnityEngine.Touch[touchCount];
-        for (int i = 0; i < Input.touches.Length; i++)
+        var touch = new UnityEngine.Touch
         {
-            touchListCopy[i] = Input.touches[i];
+            phase = UnityEngine.TouchPhase.Began, 
+            position = positions[0]
+        };
+
+        System.Collections.Generic.List<UnityEngine.Touch> currentTouches = touches.ToList();
+        currentTouches.Sort((touch1, touch2) => (touch1.fingerId.CompareTo(touch2.fingerId)));
+        int fingerId = 0;
+        foreach (var iter in currentTouches)
+        {
+            if (iter.fingerId != fingerId)
+                break;
+            fingerId++;
         }
 
-        touchListCopy[Input.touchCount - 1] = touch;
-        Input.touches = touchListCopy;
+        touch.fingerId = fingerId;
+        touchCount++;
+
+        var touchListCopy = new UnityEngine.Touch[touchCount];
+        System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
+        touchListCopy[touchCount - 1] = touch;
+        touches = touchListCopy;
+        
         mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
         var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
         var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
         
         yield return null;
-        float time = 0;
-        do
+        
+        var oneInputDuration = duration / (positions.Length - 1);
+        for (var i = 1; i < positions.Length; i++)
         {
-            float deltaX;
-            float deltaY;
-            if (time + UnityEngine.Time.deltaTime < duration)
+            var dest = positions[i];
+            float xDistance = (dest.x - touch.position.x);
+            float yDistance = (dest.y - touch.position.y);
+            float time = 0;
+            do
             {
-                deltaX = xDistance * UnityEngine.Time.deltaTime / duration;
-                deltaY = yDistance * UnityEngine.Time.deltaTime / duration;
-            }
-            else
-            {
-
-                deltaX = xDistance * (duration - time) / duration;
-                deltaY = yDistance * (duration - time) / duration;
-            }
-            time += UnityEngine.Time.deltaTime;
-            touch.position = new UnityEngine.Vector2(touch.position.x + deltaX, touch.position.y + deltaY);
-            touch.deltaPosition = new UnityEngine.Vector2(deltaX, deltaY);
-            touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
-            for (int i = 0; i < touches.Length; i++)
-            {
-                if (touches[i].fingerId == touch.fingerId)
+                float deltaX;
+                float deltaY;
+                if (time + UnityEngine.Time.deltaTime < oneInputDuration)
                 {
-                    touches[i] = touch;
+                    deltaX = xDistance * UnityEngine.Time.deltaTime / oneInputDuration;
+                    deltaY = yDistance * UnityEngine.Time.deltaTime / oneInputDuration;
                 }
-            }
-            mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
+                else
+                {
+                    deltaX = xDistance * (oneInputDuration - time) / oneInputDuration;
+                    deltaY = yDistance * (oneInputDuration - time) / oneInputDuration;
+                }
 
+                touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
+                time += UnityEngine.Time.deltaTime;
+                touch.position = new UnityEngine.Vector2(touch.position.x + deltaX, touch.position.y + deltaY);
+                touch.deltaPosition = new UnityEngine.Vector2(deltaX, deltaY);
 
-            //index = touches.IndexOf(touch);
-            //touches[index] = touch;
+                for (var t = 0; t < touches.Length; t++)
+                {
+                    if (touches[t].fingerId == touch.fingerId)
+                    {
+                        touches[t] = touch;
+                    }
+                }
 
-            pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+                mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
+                pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
 
-            AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
-            yield return null;
-
-        } while (time <= duration);
-
-        touch.phase = UnityEngine.TouchPhase.Ended;
-        for (int i = 0; i < touches.Length; i++)
-        {
-            if (touches[i].fingerId == touch.fingerId)
-            {
-                touches[i] = touch;
-            }
+                AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
+                yield return null;
+                
+            } while (time <= oneInputDuration);
         }
-        //touches[index] = touch;
+
+        yield return null;
+        
+        touch.phase = UnityEngine.TouchPhase.Ended;
+        for (var i = 0; i < touches.Length; i++)
+        {
+          if (touches[i].fingerId == touch.fingerId)
+          {
+            touches[i] = touch;
+          }
+        }
+
         mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
         yield return null;
-        var touches2 = new UnityEngine.Touch[touchCount - 1];
+        
+        var newTouches = new UnityEngine.Touch[touchCount - 1];
         int contor = 0;
-        foreach (var a in Input.touches)
+        foreach (var t in touches)
         {
-            if (a.fingerId != touch.fingerId)
-            {
-                touches2[contor] = a;
-                contor++;
-            }
+          if (t.fingerId != touch.fingerId)
+          {
+            newTouches[contor] = t;
+            contor++;
+          }
         }
 
-        Input.touches = touches2;
-        Input.touchCount--;
+        touches = newTouches;
+        touchCount--;
         Finished = true;
-
-
     }
+
     public static void SetKeyDown(UnityEngine.KeyCode keyCode,float power, float duration)
     {
        Finished = false;
