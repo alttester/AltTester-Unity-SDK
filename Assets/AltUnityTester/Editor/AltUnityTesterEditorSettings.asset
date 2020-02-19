@@ -1509,7 +1509,7 @@ MonoBehaviour:
     _buildIndex: 5
   platform: 1
   standaloneTarget: 5
-  ranInEditor: 1
+  ranInEditor: 0
   requestSeparator: ;
   requestEnding: '&'
   serverPort: 13000

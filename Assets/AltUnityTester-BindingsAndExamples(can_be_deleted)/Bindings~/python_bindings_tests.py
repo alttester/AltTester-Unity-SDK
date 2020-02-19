@@ -64,6 +64,28 @@ class PythonTests(unittest.TestCase):
         self.assertNotEqual(positionInitX, positionFinalX)
         self.assertNotEqual(positionInitY, positionFinalY)
 
+    def test_resize_panel_with_multipoinit_swipe(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        altElement = self.altdriver.find_element('Resize Zone')
+        positionInitX = altElement.x
+        positionInitY = altElement.y 
+        positions = [
+          altElement.get_screen_position(),
+          [int(altElement.x) - 200, int(altElement.y) - 200],
+          [int(altElement.x) - 300, int(altElement.y) - 100],
+          [int(altElement.x) - 50, int(altElement.y) - 100],
+          [int(altElement.x) - 100, int(altElement.y) - 100]
+        ]
+        self.altdriver.multipoint_swipe_and_wait(positions, 4)
+
+        time.sleep(4)
+
+        altElement = self.altdriver.find_element('Resize Zone')
+        positionFinalX = altElement.x
+        positionFinalY = altElement.y 
+        self.assertNotEqual(positionInitX, positionFinalX)
+        self.assertNotEqual(positionInitY, positionFinalY)
+
     def test_find_element(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         plane = self.altdriver.find_element('Plane')
