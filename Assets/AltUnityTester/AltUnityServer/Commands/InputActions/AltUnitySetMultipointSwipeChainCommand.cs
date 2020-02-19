@@ -2,12 +2,12 @@ using System.Linq;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public class SetMultipointSwipeChainCommand : Command
+    public class AltUnitySetMultipointSwipeChainCommand : AltUnityCommand
     {
         UnityEngine.Vector2[] positions;
         string duration;
 
-        public SetMultipointSwipeChainCommand(UnityEngine.Vector2[] positions, string duration)
+        public AltUnitySetMultipointSwipeChainCommand(UnityEngine.Vector2[] positions, string duration)
         {
             this.positions = positions;
             this.duration = duration;

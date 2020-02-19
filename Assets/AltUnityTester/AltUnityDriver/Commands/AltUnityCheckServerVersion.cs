@@ -1,6 +1,6 @@
-    public class CheckServerVersion : AltBaseCommand
+    public class AltUnityCheckServerVersion : AltBaseCommand
     {
-        public CheckServerVersion(SocketSettings socketSettings) : base(socketSettings)
+        public AltUnityCheckServerVersion(SocketSettings socketSettings) : base(socketSettings)
         {
         }
         public string Execute()

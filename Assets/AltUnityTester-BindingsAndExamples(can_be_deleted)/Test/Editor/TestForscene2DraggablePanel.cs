@@ -42,22 +42,21 @@ public class TestForScene2DraggablePanel
     public void ResizePanelWithMultipointSwipe()
     {
         var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-        var position = new Vector2(altElement.x, altElement.y);
+        var position = new AltUnityVector2(altElement.x, altElement.y);
         var pos = new []
         {
             altElement.getScreenPosition(),
-            new Vector2(altElement.x - 200, altElement.y - 200),
-            new Vector2(altElement.x - 300, altElement.y - 100),
-            new Vector2(altElement.x - 50, altElement.y - 100),
-            new Vector2(altElement.x - 100, altElement.y - 100)
+            new AltUnityVector2(altElement.x - 200, altElement.y - 200),
+            new AltUnityVector2(altElement.x - 300, altElement.y - 100),
+            new AltUnityVector2(altElement.x - 50, altElement.y - 100),
+            new AltUnityVector2(altElement.x - 100, altElement.y - 100)
         };
-        
         altUnityDriver.MultipointSwipeAndWait(pos, 4);
 
         Thread.Sleep(4000);
-       
+
         altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-        var position2 = new Vector2(altElement.x, altElement.y);
+        var position2 = new AltUnityVector2(altElement.x, altElement.y);
         Assert.AreNotEqual(position, position2);
     }
     
@@ -84,6 +83,6 @@ public class TestForScene2DraggablePanel
         
         altElement = altUnityDriver.FindObject(By.NAME,"Button");
         altElement.ClickEvent();
-        Assert.IsTrue(altUnityDriver.FindElement("Panel").enabled);
+        Assert.IsTrue(altUnityDriver.FindObject(By.NAME,"Panel").enabled);
     }
 }

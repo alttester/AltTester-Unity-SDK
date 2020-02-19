@@ -56,7 +56,7 @@ public class AltUnityDriver
     }
     private void CheckServerVersion()
     {
-        new CheckServerVersion(socketSettings).Execute();
+        new AltUnityCheckServerVersion(socketSettings).Execute();
     }
     private void EnableLogging(){
         new AltUnityEnableLogging(socketSettings).Execute();
@@ -145,11 +145,11 @@ public class AltUnityDriver
     }
     public void MultipointSwipe(AltUnityVector2[] positions, float duration)
     {
-        new MultipointSwipe(socketSettings, positions, duration).Execute();
+        new AltUnityMultipointSwipe(socketSettings, positions, duration).Execute();
     }
     public void MultipointSwipeAndWait(AltUnityVector2[] positions, float duration)
     {
-        new MultipointSwipeAndWait(socketSettings, positions, duration).Execute();
+        new AltUnityMultipointSwipeAndWait(socketSettings, positions, duration).Execute();
     }
     public void HoldButton(AltUnityVector2 position, float duration)
     {

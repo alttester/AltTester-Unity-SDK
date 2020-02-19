@@ -368,7 +368,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     var positions = new UnityEngine.Vector2[length];
                     for (var i = 0; i < length; i++)
                         positions[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[i + 2]);
-                    command = new SetMultipointSwipeChainCommand(positions, pieces[1]);
+                    command = new AltUnitySetMultipointSwipeChainCommand(positions, pieces[1]);
                     break;
                 case "loadScene":
                     command = new AltUnityLoadSceneCommand (pieces[1],handler);

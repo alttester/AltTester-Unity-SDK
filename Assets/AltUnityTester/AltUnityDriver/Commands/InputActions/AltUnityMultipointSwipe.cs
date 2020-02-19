@@ -2,12 +2,12 @@ using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
 {
-    public class MultipointSwipe : AltBaseCommand
+    public class AltUnityMultipointSwipe : AltBaseCommand
     {
-        Vector2[] positions;
+        AltUnityVector2[] positions;
         float duration;
         
-        public MultipointSwipe(SocketSettings socketSettings, Vector2[] positions, float duration) : base(socketSettings)
+        public AltUnityMultipointSwipe(SocketSettings socketSettings, AltUnityVector2[] positions, float duration) : base(socketSettings)
         {
             this.positions = positions;
             this.duration = duration;

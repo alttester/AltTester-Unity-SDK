@@ -88,7 +88,7 @@ public class TestForScene3DragAndDrop
     {
         var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
         var altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-        altUnityDriver.MultipointSwipe(new []{new Vector2(altElement1.x, altElement1.y), new Vector2(altElement2.x, altElement2.y)}, 2);
+        altUnityDriver.MultipointSwipe(new []{new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y)}, 2);
         Thread.Sleep(2000);
 
         altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
@@ -96,9 +96,9 @@ public class TestForScene3DragAndDrop
         var altElement3 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
         var positions = new[]
         {
-            new Vector2(altElement1.x, altElement1.y), 
-            new Vector2(altElement2.x, altElement2.y), 
-            new Vector2(altElement3.x, altElement3.y)
+            new AltUnityVector2(altElement1.x, altElement1.y), 
+            new AltUnityVector2(altElement2.x, altElement2.y), 
+            new AltUnityVector2(altElement3.x, altElement3.y)
         };
         
         altUnityDriver.MultipointSwipeAndWait(positions, 3);
