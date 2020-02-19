@@ -1250,16 +1250,46 @@ Similar command like swipe but instead of swipe from point A to point B you are 
 
     .. code-tab:: java
         @Test
-            public void testMultipleDragAndDrop() throws Exception {
-                AltUnityObject altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
-                       
-            }
+        public void testResizePanelWithMultipointSwipe() throws Exception {
+            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+
+            List<Vector2> positions = Arrays.asList(
+                altElement.getScreenPosition(), 
+                new Vector2(altElement.x + 100, altElement.y + 100),
+                new Vector2(altElement.x + 100, altElement.y + 200));
+            
+            altUnityDriver.multipointSwipe(positions, 3);
+            Thread.sleep(3000);
+
+            AltUnityObject altElementAfterResize = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+            assertNotSame(altElement.x, altElementAfterResize.x);
+            assertNotSame(altElement.y, altElementAfterResize.y);
+        }   
 
 
 
     .. code-tab:: py
-        def test_multiple_swipes(self):
-                self.altdriver.load_scene('Scene 3 Drag And Drop')
+        def test_resize_panel_with_multipoinit_swipe(self):
+            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            altElement = self.altdriver.find_element('Resize Zone')
+            positionInitX = altElement.x
+            positionInitY = altElement.y 
+            positions = [
+            altElement.get_screen_position(),
+            [int(altElement.x) - 200, int(altElement.y) - 200],
+            [int(altElement.x) - 300, int(altElement.y) - 100],
+            [int(altElement.x) - 50, int(altElement.y) - 100],
+            [int(altElement.x) - 100, int(altElement.y) - 100]
+            ]
+            self.altdriver.multipoint_swipe(positions, 4)
+
+            time.sleep(4)
+
+            altElement = self.altdriver.find_element('Resize Zone')
+            positionFinalX = altElement.x
+            positionFinalY = altElement.y 
+            self.assertNotEqual(positionInitX, positionFinalX)
+            self.assertNotEqual(positionInitY, positionFinalY)
          
                 
 ```
@@ -1332,8 +1362,33 @@ Similar command like `SwipeAndWait` but instead of swipe from point A to point B
 
 
     .. code-tab:: py
-        def test_multiple_swipes(self):
-                self.altdriver.load_scene('Scene 3 Drag And Drop')
+        def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
+            altElement1 = self.altdriver.find_element('Drag Image1')
+            altElement2 = self.altdriver.find_element('Drop Box1')
+
+            multipointPositions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
+
+            self.altdriver.multipoint_swipe_and_wait(multipointPositions, 2)
+            time.sleep(2)
+
+            altElement1 = self.altdriver.find_element('Drag Image1')
+            altElement2 = self.altdriver.find_element('Drop Box1')
+            altElement3 = self.altdriver.find_element('Drop Box2')
+
+            positions = [
+            [altElement1.x, altElement1.y], 
+            [altElement2.x, altElement2.y], 
+            [altElement3.x, altElement3.y]
+            ]
+
+            self.altdriver.multipoint_swipe_and_wait(positions, 3)
+            imageSource = self.altdriver.find_element('Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
+            imageSourceDropZone = self.altdriver.find_element('Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
+            self.assertNotEqual(imageSource, imageSourceDropZone)
+
+            imageSource = self.altdriver.find_element('Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
+            imageSourceDropZone = self.altdriver.find_element('Drop').get_component_property("UnityEngine.UI.Image", "sprite")
+            self.assertNotEqual(imageSource, imageSourceDropZone)
          
                 
 ```
