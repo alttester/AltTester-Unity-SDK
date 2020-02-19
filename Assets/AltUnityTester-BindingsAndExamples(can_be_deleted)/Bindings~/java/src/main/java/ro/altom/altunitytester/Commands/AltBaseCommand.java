@@ -1,6 +1,5 @@
 package ro.altom.altunitytester.Commands;
 
-import org.omg.CORBA.Environment;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;

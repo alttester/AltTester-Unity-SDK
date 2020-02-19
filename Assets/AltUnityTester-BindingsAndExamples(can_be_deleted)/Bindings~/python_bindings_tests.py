@@ -244,7 +244,10 @@ class PythonTests(unittest.TestCase):
         self.altdriver.multipoint_swipe_and_wait(positions, 3)
         imageSource = self.altdriver.find_element('Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
         imageSourceDropZone = self.altdriver.find_element('Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
+        self.assertNotEqual(imageSource, imageSourceDropZone)
 
+        imageSource = self.altdriver.find_element('Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSourceDropZone = self.altdriver.find_element('Drop').get_component_property("UnityEngine.UI.Image", "sprite")
         self.assertNotEqual(imageSource, imageSourceDropZone)
 
     def test_set_player_pref_keys_int(self):

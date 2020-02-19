@@ -5,9 +5,12 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ro.altom.altunitytester.position.Vector2;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -106,5 +109,34 @@ public class TestsSampleScene3 {
         assertNotSame(color3, color2);
         assertEquals(color1,color3);
 
+    }
+    
+    @Test
+    public void testMultipleDragAndDropWaitWithMultipointSwipe() throws InterruptedException {
+        AltUnityObject altElement1 = altUnityDriver.findElement("Drop Image1");
+        AltUnityObject altElement2 = altUnityDriver.findElement("Drop Box1");
+        List<Vector2> positions = new ArrayList<Vector2>();
+        positions.add(new Vector2(altElement1.x, altElement1.y));
+        positions.add(new Vector2(altElement2.x, altElement2.y));
+        altUnityDriver.multipointSwipe(positions, 2);
+        
+        Thread.sleep(2000);
+        altElement1 = altUnityDriver.findElement("Drop Image1");
+        altElement2 = altUnityDriver.findElement("Drop Box1");
+        AltUnityObject altElement3 = altUnityDriver.findElement("Drop Box2");
+
+        List<Vector2> positions2 = new ArrayList<Vector2>();
+        positions2.add(new Vector2(altElement1.x, altElement1.y));
+        positions2.add(new Vector2(altElement2.x, altElement2.y));
+        positions2.add(new Vector2(altElement3.x, altElement3.y));
+        altUnityDriver.multipointSwipeAndWait(positions2, 3);
+
+        String imageSource = altUnityDriver.findElement("Drag Image1").getComponentProperty("UnityEngine.UI.Image", "sprite");
+        String imageSourceDropZone = altUnityDriver.findElement("Drop Image").getComponentProperty("UnityEngine.UI.Image", "sprite");
+        assertNotEquals(imageSource,imageSourceDropZone);
+
+        imageSource = altUnityDriver.findElement("Drag Image1").getComponentProperty("UnityEngine.UI.Image", "sprite");
+        imageSourceDropZone = altUnityDriver.findElement("Drop Image").getComponentProperty("UnityEngine.UI.Image", "sprite");
+        assertNotEquals(imageSource,imageSourceDropZone);
     }
 }
