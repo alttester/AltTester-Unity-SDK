@@ -49,12 +49,20 @@ class PythonTests(unittest.TestCase):
         self.altdriver.wait_for_current_scene_to_be('Scene 2 Draggable Panel',1)
         self.assertEqual('Scene 2 Draggable Panel',self.altdriver.get_current_scene())
 
-    # def test_resize_panel(self):
-    #     self.altdriver.load_scene('Scene 2 Draggable Panel')
-    #     altElement = self.altdriver.find_element('Resize Zone')
-    #     self.altdriver.swipe_and_wait(altElement.get_screen_position(), [altElement.x - 200, altElement.y - 200], 2)
+    def test_resize_panel(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        altElement = self.altdriver.find_element('Resize Zone')
+        positionInitX = altElement.x 
+        positionInitY = altElement.y
+        self.altdriver.swipe_and_wait(altElement.x, altElement.y, int(altElement.x) - 200, int(altElement.y) - 200, 2)
 
-        #-------------------------------------------
+        time.sleep(2)
+
+        altElement = self.altdriver.find_element('Resize Zone')
+        positionFinalX = altElement.x 
+        positionFinalY = altElement.y 
+        self.assertNotEqual(positionInitX, positionFinalX)
+        self.assertNotEqual(positionInitY, positionFinalY)
 
     def test_find_element(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
