@@ -166,7 +166,6 @@ class PythonTests(unittest.TestCase):
 
         self.altdriver.swipe_and_wait(image2.x, image2.y, box2.x, box2.y, 2)
 
-
         image3 = self.altdriver.find_element('Drag Image3')
         box1 = self.altdriver.find_element('Drop Box1')
 

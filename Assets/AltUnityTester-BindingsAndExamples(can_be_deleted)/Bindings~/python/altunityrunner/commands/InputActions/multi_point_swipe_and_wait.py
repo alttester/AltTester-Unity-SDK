@@ -1,4 +1,4 @@
-from altunityrunner.commands.InputActions.moving_touch import MultipointSwipe
+from altunityrunner.commands.InputActions.multi_point_swipe import MultipointSwipe
 from altunityrunner.commands.base_command import BaseCommand
 import time
 
