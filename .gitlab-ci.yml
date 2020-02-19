@@ -125,14 +125,14 @@ run-java-appium-android-tests:
     script:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
         - mvn clean compile assembly:single
-        - mvn install:install-file -Dfile=./target/altunitytester-java-client-1.5.2-SNAPSHOT-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.2 -Dpackaging=jar
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.2 -Dpackaging=jar
         - cd ../java-appium-tests
         - mvn test
     artifacts:
         when: always
         expire_in: 10 days
         paths:
-            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java/target/altunitytester-java-client-1.5.2-SNAPSHOT-jar-with-dependencies.jar"
+            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
     needs: ["build-apk"]
 
 run-csharp-ios-tests:
@@ -161,12 +161,34 @@ create-unity-package:
       - unity
       - mac 
     script:
+      - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityPackage || true
       - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
-      - mkdir -p public/${CI_COMMIT_REF_NAME} || true
-      - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityTester.unitypackage
-      - cd public/${CI_COMMIT_REF_NAME}/
-      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
+      - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityPackage/AltUnityTester.unitypackage
+      - cd public/${CI_COMMIT_REF_NAME}/AltUnityPackage
+      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityPackage/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
       - ls
+    artifacts:
+      when: always
+      paths:
+        - public
+
+create-jar-archive:
+    stage: docs
+    only:
+        refs:
+            - master
+    tags:
+      - unity
+      - mac
+    script:
+      - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityJAR || true
+      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+      - mvn clean compile assembly:single
+      - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar
+      - cd ../../../../public/${CI_COMMIT_REF_NAME}/
+      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
+      - ls
+      - cat index.html
     artifacts:
       when: always
       paths:
@@ -211,8 +233,10 @@ pages:
   dependencies:
     - docs
     - create-unity-package
+    - create-jar-archive
   artifacts:
     paths:
     - public
   script:
     - cp -r documentation/ public/
+    - ls public/

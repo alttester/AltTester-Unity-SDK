@@ -4,23 +4,9 @@ The AltUnityTester package contains a alt_driver module that will open a socket 
 
 Using this socket connection and the actions available in the AltUnity driver, we can run python tests tests against the Unity app running on iOS or Android. 
 
-Links:
+Join our Gitter room here to chat with others in the community: https://gitter.im/AltUnityTester/Lobby
 
-* [Setup AltUnityTester and configure your app for testing](https://gitlab.com/altom/altunitytester/blob/master/README.md#setup)
-* [Downloads](#downloads-altunitytester-package)
-* [Java Docs - AltUnityRunner - Getting started](#python-altunityrunner-module)
-    * [Installation](#installation)
-    * [Getting Started](#getting-started)
-    * [AltElements](#altelements)
-    * [Available Actions](#available-actions)
-      * [Finding elements](#finding-elements)
-      * [Waiting for elements](#waiting-for-elements)
-      * [Managing Unity Scenes](#managing-unity-scenes)
-      * [Managing Unity PlayerPrefs](#managing-unity-playerprefs)
-      * [Call static method](#call-static-methods)
-      * [Actions on Screen](#actions-on-screen)
-      * [Actions on elements](#actions-on-elements)
-      * [Keyboard and Mouse](#keyboard-and-mouse)
+Read the documentation on https://altom.gitlab.io/altunity/altunitytester 
 
 
 ## Downloads - AltUnityTester Package
