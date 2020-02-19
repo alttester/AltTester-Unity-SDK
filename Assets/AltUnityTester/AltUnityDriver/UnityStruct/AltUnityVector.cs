@@ -24,5 +24,9 @@ namespace Assets.AltUnityTester.AltUnityDriver.UnityStruct
             this.y = y;
             this.z = z;
         }
+        
+        public AltUnityVector3(float x, float y) : this(x, y, 0)
+        {
+        }
     }
 }

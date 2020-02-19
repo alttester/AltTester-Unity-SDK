@@ -20,7 +20,7 @@ public class AltUnityAltUnitySwipe : AltBaseCommand
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         });
-        Socket.Client.Send(toBytes(CreateCommand("movingTouch", vectorStartJson, vectorEndJson, duration.ToString())));
+        Socket.Client.Send(toBytes(CreateCommand("MultipointSwipe", vectorStartJson, vectorEndJson, duration.ToString())));
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

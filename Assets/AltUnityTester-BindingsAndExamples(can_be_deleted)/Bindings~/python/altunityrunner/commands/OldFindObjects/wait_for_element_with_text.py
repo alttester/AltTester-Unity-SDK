@@ -5,7 +5,7 @@ from altunityrunner.altUnityExceptions import WaitTimeOutException
 import time
 class WaitForElementWithText(CommandReturningAltElements):
     def __init__(self, socket,request_separator,request_end,appium_driver,value,text,camera_name='', timeout=20, interval=0.5,enabled=True):
-        super().__init__(socket,request_separator,request_end,appium_driver)
+        super(WaitForElementWithText, self).__init__(socket,request_separator,request_end,appium_driver)
         self.value=value
         self.text=text
         self.camera_name=camera_name

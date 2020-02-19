@@ -1,3 +1,4 @@
+using Assets.AltUnityTester.AltUnityDriver.Commands.InputActions;
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 public enum PLayerPrefKeyType { Int = 1, String, Float }
@@ -55,7 +56,7 @@ public class AltUnityDriver
     }
     private void CheckServerVersion()
     {
-        new CheckServerVersion(socketSettings).Execute();
+        new AltUnityCheckServerVersion(socketSettings).Execute();
     }
     private void EnableLogging(){
         new AltUnityEnableLogging(socketSettings).Execute();
@@ -141,6 +142,14 @@ public class AltUnityDriver
     public void SwipeAndWait(AltUnityVector2 start, AltUnityVector2 end, float duration)
     {
         new AltUnitySwipeAndWait(socketSettings, start, end, duration).Execute();
+    }
+    public void MultipointSwipe(AltUnityVector2[] positions, float duration)
+    {
+        new AltUnityMultipointSwipe(socketSettings, positions, duration).Execute();
+    }
+    public void MultipointSwipeAndWait(AltUnityVector2[] positions, float duration)
+    {
+        new AltUnityMultipointSwipeAndWait(socketSettings, positions, duration).Execute();
     }
     public void HoldButton(AltUnityVector2 position, float duration)
     {

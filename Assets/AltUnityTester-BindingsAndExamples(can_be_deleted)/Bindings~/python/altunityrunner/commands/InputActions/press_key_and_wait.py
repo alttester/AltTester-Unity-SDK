@@ -3,7 +3,7 @@ from altunityrunner.commands.InputActions.press_key import PressKey
 import time
 class PressKeyAndWait(BaseCommand):
     def __init__(self, socket,request_separator,request_end, keyName,power,duration):
-        super().__init__(socket,request_separator,request_end)
+        super(PressKeyAndWait, self).__init__(socket,request_separator,request_end)
         self.keyName=keyName
         self.power=power
         self.duration=duration

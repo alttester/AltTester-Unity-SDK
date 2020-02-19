@@ -4,7 +4,7 @@ from altunityrunner.altUnityExceptions import WaitTimeOutException
 import time
 class WaitForElement(CommandReturningAltElements):
     def __init__(self, socket,request_separator,request_end,appium_driver,value,camera_name='', timeout=20, interval=0.5,enabled=True):
-        super().__init__(socket,request_separator,request_end,appium_driver)
+        super(WaitForElement, self).__init__(socket,request_separator,request_end,appium_driver)
         self.value=value
         self.camera_name=camera_name
         self.timeout=timeout

@@ -1,7 +1,5 @@
 package ro.altom.altunitytester;
 
-import com.sun.javafx.geom.Vec3f;
-import javafx.scene.input.KeyCode;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -41,34 +39,36 @@ public class TestSampleScene5 {
 
 
         AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
-        Vec3f cubeInitialPostion = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
+        float cubeInitWorldX = cube.worldX;
+        float cubeInitWorldY = cube.worldY;
+        float cubeInitWorldZ = cube.worldZ;
+
         altUnityDriver.scrollMouse(30, 20);
         altUnityDriver.pressKey("K",1, 2);
         Thread.sleep(2000);
         cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
         altUnityDriver.pressKeyAndWait("O", 1,1);
+        float cubeFinalWorldX = cube.worldX;
+        float cubeFinalWorldZ = cube.worldZ;
 
-        Vec3f cubeFinalPosition = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
-
-        assertNotEquals(cubeInitialPostion, cubeFinalPosition);
-
+        assertNotEquals(cubeInitWorldX, cubeFinalWorldX);
+        assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
 
     }
 
     @Test
     //Test Keyboard button press
     public void TestCameraMovement() throws InterruptedException {
-
-
+        
         AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
-        Vec3f cubeInitialPostion = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
+        float cubeInitWorldZ = cube.worldZ;
 
         altUnityDriver.pressKey("W",1, 2);
         Thread.sleep(2000);
         cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
-        Vec3f cubeFinalPosition = new Vec3f(cube.worldX, cube.worldY, cube.worldY);
+        float cubeFinalWorldZ = cube.worldZ;
 
-        assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+        assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
 
     }
 
@@ -99,7 +99,7 @@ public class TestSampleScene5 {
         ArrayList<String> ButtonNames = new ArrayList<String>();
         ButtonNames.add("Horizontal");
         ButtonNames.add("Vertical");
-        ArrayList<String> KeyToPressForButtons = new ArrayList<>();
+        ArrayList<String> KeyToPressForButtons = new ArrayList<String>();
         KeyToPressForButtons.add("D");
         KeyToPressForButtons.add("W");
         altUnityDriver.loadScene("Scene 5 Keyboard Input");

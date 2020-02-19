@@ -3,7 +3,7 @@ from altunityrunner.commands.InputActions.scroll_mouse import ScrollMouse
 import time
 class ScrollMouseAndWait(BaseCommand):
     def __init__(self, socket,request_separator,request_end, speed, duration):
-        super().__init__(socket,request_separator,request_end)
+        super(ScrollMouseAndWait, self).__init__(socket,request_separator,request_end)
         self.speed=speed
         self.duration=duration
     

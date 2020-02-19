@@ -2,7 +2,7 @@ from altunityrunner.commands.command_returning_alt_elements import CommandReturn
 from altunityrunner.by import By
 class FindObjectWhichContains(CommandReturningAltElements):
     def __init__(self, socket,request_separator,request_end,appium_driver,by,value,camera_name,enabled):
-        super().__init__(socket,request_separator,request_end,appium_driver)
+        super(FindObjectWhichContains, self).__init__(socket,request_separator,request_end,appium_driver)
         self.by=by
         self.value=value
         self.camera_name=camera_name
