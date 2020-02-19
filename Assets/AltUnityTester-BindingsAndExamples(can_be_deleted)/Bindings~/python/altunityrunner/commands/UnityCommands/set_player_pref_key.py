@@ -2,7 +2,7 @@ from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.player_pref_key_type import PlayerPrefKeyType
 class SetPlayerPrefKey(BaseCommand):
     def __init__(self, socket,request_separator,request_end,key_name, value, key_type):
-        super().__init__(socket,request_separator,request_end)
+        super(SetPlayerPrefKey, self).__init__(socket,request_separator,request_end)
         self.key_name=key_name
         self.value=value
         self.key_type=key_type

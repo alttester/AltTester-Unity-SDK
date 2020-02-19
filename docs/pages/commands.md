@@ -1206,6 +1206,193 @@ Simulate a swipe action in your game. This command does not wait for the action 
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
 ```
+###  MultiPointSwipe
+
+#### Description:
+
+Similar command like swipe but instead of swipe from point A to point B you are able to give list a points. 
+
+#### Parameters:
+
+|      Name       |     Type      | Optional | Description |
+| --------------- | ------------- | -------- | ----------- |
+| positions      |   List/Array of Vector2    |   false   | collection of positions on the screen where the swipe be made|
+| duration      |     float    |   false   | how many seconds the swipe will need to complete|
+
+
+#### Examples
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+            [Test]
+            public void ResizePanelWithMultipointSwipe()
+            {
+                var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+                var position = new AltUnityVector2(altElement.x, altElement.y);
+                var pos = new []
+                {
+                    altElement.getScreenPosition(),
+                    new AltUnityVector2(altElement.x - 200, altElement.y - 200),
+                    new AltUnityVector2(altElement.x - 300, altElement.y - 100),
+                    new AltUnityVector2(altElement.x - 50, altElement.y - 100),
+                    new AltUnityVector2(altElement.x - 100, altElement.y - 100)
+                };
+                altUnityDriver.MultipointSwipe(pos, 4);
+
+                Thread.Sleep(4000);
+
+                altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+                var position2 = new AltUnityVector2(altElement.x, altElement.y);
+                Assert.AreNotEqual(position, position2);
+            }
+
+    .. code-tab:: java
+        @Test
+        public void testResizePanelWithMultipointSwipe() throws Exception {
+            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+
+            List<Vector2> positions = Arrays.asList(
+                altElement.getScreenPosition(), 
+                new Vector2(altElement.x + 100, altElement.y + 100),
+                new Vector2(altElement.x + 100, altElement.y + 200));
+            
+            altUnityDriver.multipointSwipe(positions, 3);
+            Thread.sleep(3000);
+
+            AltUnityObject altElementAfterResize = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+            assertNotSame(altElement.x, altElementAfterResize.x);
+            assertNotSame(altElement.y, altElementAfterResize.y);
+        }   
+
+
+
+    .. code-tab:: py
+        def test_resize_panel_with_multipoinit_swipe(self):
+            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            altElement = self.altdriver.find_element('Resize Zone')
+            positionInitX = altElement.x
+            positionInitY = altElement.y 
+            positions = [
+            altElement.get_screen_position(),
+            [int(altElement.x) - 200, int(altElement.y) - 200],
+            [int(altElement.x) - 300, int(altElement.y) - 100],
+            [int(altElement.x) - 50, int(altElement.y) - 100],
+            [int(altElement.x) - 100, int(altElement.y) - 100]
+            ]
+            self.altdriver.multipoint_swipe(positions, 4)
+
+            time.sleep(4)
+
+            altElement = self.altdriver.find_element('Resize Zone')
+            positionFinalX = altElement.x
+            positionFinalY = altElement.y 
+            self.assertNotEqual(positionInitX, positionFinalX)
+            self.assertNotEqual(positionInitY, positionFinalY)
+         
+                
+```
+
+###  MultiPointSwipeAndWait
+
+#### Description:
+
+Similar command like `SwipeAndWait` but instead of swipe from point A to point B you are able to give list a points. 
+
+#### Parameters:
+
+|      Name       |     Type      | Optional | Description |
+| --------------- | ------------- | -------- | ----------- |
+| positions      |   List/Array of Vector2    |   false   | collection of positions on the screen where the swipe be made|
+| duration      |     float    |   false   | how many seconds the swipe will need to complete|
+
+
+#### Examples
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+            [Test]
+            public void MultipleDragAndDropWaitWithMultipointSwipe()
+            {
+                var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                var altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                altUnityDriver.MultipointSwipe(new []{new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y)}, 2);
+                Thread.Sleep(2000);
+
+                altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                var altElement3 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
+                var positions = new[]
+                {
+                    new AltUnityVector2(altElement1.x, altElement1.y), 
+                    new AltUnityVector2(altElement2.x, altElement2.y), 
+                    new AltUnityVector2(altElement3.x, altElement3.y)
+                };
+                
+                altUnityDriver.MultipointSwipeAndWait(positions, 3);
+                var imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+                var imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+                Assert.AreNotEqual(imageSource, imageSourceDropZone);
+
+                imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+                imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+                Assert.AreNotEqual(imageSource, imageSourceDropZone);
+            }
+
+    .. code-tab:: java
+        @Test
+        public void testResizePanelWithMultipointSwipe() throws Exception {
+            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+
+            List<Vector2> positions = Arrays.asList(
+                altElement.getScreenPosition(), 
+                new Vector2(altElement.x + 100, altElement.y + 100),
+                new Vector2(altElement.x + 100, altElement.y + 200));
+            
+            altUnityDriver.multipointSwipeAndWait(positions, 3);
+
+            AltUnityObject altElementAfterResize = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+            assertNotSame(altElement.x, altElementAfterResize.x);
+            assertNotSame(altElement.y, altElementAfterResize.y);
+        }
+
+
+
+    .. code-tab:: py
+        def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
+            altElement1 = self.altdriver.find_element('Drag Image1')
+            altElement2 = self.altdriver.find_element('Drop Box1')
+
+            multipointPositions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
+
+            self.altdriver.multipoint_swipe_and_wait(multipointPositions, 2)
+            time.sleep(2)
+
+            altElement1 = self.altdriver.find_element('Drag Image1')
+            altElement2 = self.altdriver.find_element('Drop Box1')
+            altElement3 = self.altdriver.find_element('Drop Box2')
+
+            positions = [
+            [altElement1.x, altElement1.y], 
+            [altElement2.x, altElement2.y], 
+            [altElement3.x, altElement3.y]
+            ]
+
+            self.altdriver.multipoint_swipe_and_wait(positions, 3)
+            imageSource = self.altdriver.find_element('Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
+            imageSourceDropZone = self.altdriver.find_element('Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
+            self.assertNotEqual(imageSource, imageSourceDropZone)
+
+            imageSource = self.altdriver.find_element('Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
+            imageSourceDropZone = self.altdriver.find_element('Drop').get_component_property("UnityEngine.UI.Image", "sprite")
+            self.assertNotEqual(imageSource, imageSourceDropZone)
+         
+                
+```
+
 ###  TapScreen(c#) / TapAtCoordinates(python/java)
 
 #### Description:

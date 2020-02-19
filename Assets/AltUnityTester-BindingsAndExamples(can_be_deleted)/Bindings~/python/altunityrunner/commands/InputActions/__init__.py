@@ -8,4 +8,6 @@ from altunityrunner.commands.InputActions.swipe import *
 from altunityrunner.commands.InputActions.swipe_and_wait import *
 from altunityrunner.commands.InputActions.tilt import *
 from altunityrunner.commands.InputActions.tap_at_coordinates import *
+from altunityrunner.commands.InputActions.multi_point_swipe import *
+from altunityrunner.commands.InputActions.multi_point_swipe_and_wait import *
 

@@ -2,7 +2,7 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class SetText(BaseCommand):
     def __init__(self, socket,request_separator,request_end, text_value, alt_object):
-        super().__init__(socket,request_separator,request_end)
+        super(SetText, self).__init__(socket,request_separator,request_end)
         self.alt_object = alt_object
         self.text = text_value
 

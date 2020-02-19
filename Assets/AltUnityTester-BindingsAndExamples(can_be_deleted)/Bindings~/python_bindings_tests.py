@@ -61,6 +61,43 @@ class PythonTests(unittest.TestCase):
         self.assertEqual('Scene 2 Draggable Panel',
                          self.altdriver.get_current_scene())
 
+    def test_resize_panel(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        altElement = self.altdriver.find_element('Resize Zone')
+        positionInitX = altElement.x 
+        positionInitY = altElement.y
+        self.altdriver.swipe_and_wait(altElement.x, altElement.y, int(altElement.x) - 200, int(altElement.y) - 200, 2)
+
+        time.sleep(2)
+
+        altElement = self.altdriver.find_element('Resize Zone')
+        positionFinalX = altElement.x 
+        positionFinalY = altElement.y 
+        self.assertNotEqual(positionInitX, positionFinalX)
+        self.assertNotEqual(positionInitY, positionFinalY)
+
+    def test_resize_panel_with_multipoinit_swipe(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        altElement = self.altdriver.find_element('Resize Zone')
+        positionInitX = altElement.x
+        positionInitY = altElement.y 
+        positions = [
+          altElement.get_screen_position(),
+          [int(altElement.x) - 200, int(altElement.y) - 200],
+          [int(altElement.x) - 300, int(altElement.y) - 100],
+          [int(altElement.x) - 50, int(altElement.y) - 100],
+          [int(altElement.x) - 100, int(altElement.y) - 100]
+        ]
+        self.altdriver.multipoint_swipe_and_wait(positions, 4)
+
+        time.sleep(4)
+
+        altElement = self.altdriver.find_element('Resize Zone')
+        positionFinalX = altElement.x
+        positionFinalY = altElement.y 
+        self.assertNotEqual(positionInitX, positionFinalX)
+        self.assertNotEqual(positionInitY, positionFinalY)
+
     def test_find_element(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         plane = self.altdriver.find_element('Plane')
@@ -208,6 +245,35 @@ class PythonTests(unittest.TestCase):
         image_source_drop_zone = self.altdriver.find_element(
             'Drop').get_component_property('UnityEngine.UI.Image', 'sprite')
         self.assertNotEqual(image_source, image_source_drop_zone)
+
+
+    def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
+        altElement1 = self.altdriver.find_element('Drag Image1')
+        altElement2 = self.altdriver.find_element('Drop Box1')
+
+        multipointPositions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
+
+        self.altdriver.multipoint_swipe_and_wait(multipointPositions, 2)
+        time.sleep(2)
+
+        altElement1 = self.altdriver.find_element('Drag Image1')
+        altElement2 = self.altdriver.find_element('Drop Box1')
+        altElement3 = self.altdriver.find_element('Drop Box2')
+
+        positions = [
+          [altElement1.x, altElement1.y], 
+          [altElement2.x, altElement2.y], 
+          [altElement3.x, altElement3.y]
+        ]
+
+        self.altdriver.multipoint_swipe_and_wait(positions, 3)
+        imageSource = self.altdriver.find_element('Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSourceDropZone = self.altdriver.find_element('Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
+        self.assertNotEqual(imageSource, imageSourceDropZone)
+
+        imageSource = self.altdriver.find_element('Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSourceDropZone = self.altdriver.find_element('Drop').get_component_property("UnityEngine.UI.Image", "sprite")
+        self.assertNotEqual(imageSource, imageSourceDropZone)
 
     def test_set_player_pref_keys_int(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')

@@ -1,7 +1,7 @@
 from altunityrunner.commands.base_command import BaseCommand
 class LoadScene(BaseCommand):
     def __init__(self, socket,request_separator,request_end,scene_name):
-        super().__init__(socket,request_separator,request_end)
+        super(LoadScene, self).__init__(socket,request_separator,request_end)
         self.scene_name=scene_name
     
     def execute(self):

@@ -3,7 +3,7 @@ from altunityrunner.commands.InputActions.move_mouse import MoveMouse
 import time
 class MoveMouseAndWait(BaseCommand):
     def __init__(self, socket,request_separator,request_end, x, y, duration):
-        super().__init__(socket,request_separator,request_end)
+        super(MoveMouseAndWait, self).__init__(socket,request_separator,request_end)
         self.x=x
         self.y=y
         self.duration=duration
