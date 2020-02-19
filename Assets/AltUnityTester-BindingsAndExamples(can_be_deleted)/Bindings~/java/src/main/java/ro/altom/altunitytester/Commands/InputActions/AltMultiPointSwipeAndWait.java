@@ -6,16 +6,16 @@ import ro.altom.altunitytester.position.Vector2;
 
 import java.util.List;
 
-public class AltMultipointSwipeAndWait extends AltBaseCommand {
+public class AltMultiPointSwipeAndWait extends AltBaseCommand {
     private List<Vector2> positions;
     private float durationInSeconds;
-    public AltMultipointSwipeAndWait(AltBaseSettings altBaseSettings, List<Vector2> positions, float durationInSeconds) {
+    public AltMultiPointSwipeAndWait(AltBaseSettings altBaseSettings, List<Vector2> positions, float durationInSeconds) {
         super(altBaseSettings);
         this.positions = positions;
         this.durationInSeconds = durationInSeconds;
     }
     public void Execute(){
-        new AltMultipointSwipe(altBaseSettings, positions, durationInSeconds).Execute();
+        new AltMultiPointSwipe(altBaseSettings, positions, durationInSeconds).Execute();
         sleepFor(durationInSeconds );
         String data;
         do {

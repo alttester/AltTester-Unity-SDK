@@ -142,11 +142,11 @@ public class AltUnityDriver {
     }
 
     public void multipointSwipe(List<Vector2> positions, float durationInSecs) {
-        new AltMultipointSwipe(altBaseSettings,positions,durationInSecs).Execute();
+        new AltMultiPointSwipe(altBaseSettings,positions,durationInSecs).Execute();
     }
 
     public void multipointSwipeAndWait(List<Vector2> positions, float durationInSecs) {
-        new AltMultipointSwipeAndWait(altBaseSettings,positions,durationInSecs).Execute();
+        new AltMultiPointSwipeAndWait(altBaseSettings,positions,durationInSecs).Execute();
     }
     
     public void holdButton(int xPosition, int yPosition, float durationInSecs) {

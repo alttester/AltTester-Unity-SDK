@@ -7,10 +7,10 @@ import ro.altom.altunitytester.position.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AltMultipointSwipe extends AltBaseCommand {
+public class AltMultiPointSwipe extends AltBaseCommand {
     private List<Vector2> positions;
     private float durationInSeconds;
-    public AltMultipointSwipe(AltBaseSettings altBaseSettings, List<Vector2> positions, float durationInSeconds) {
+    public AltMultiPointSwipe(AltBaseSettings altBaseSettings, List<Vector2> positions, float durationInSeconds) {
         super(altBaseSettings);
         this.positions = positions;
         this.durationInSeconds = durationInSeconds;
