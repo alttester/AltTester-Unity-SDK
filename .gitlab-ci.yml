@@ -100,7 +100,7 @@ run-java-android-tests:
     script:
         - *reinstall_and_start_android_app
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
-        - mvn test
+        - mvn -Dtest=ro.altom.altunitytester.Tests* test
     needs: ["build-apk"]
 
 run-python-appium-android-tests:

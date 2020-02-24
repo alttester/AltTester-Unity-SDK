@@ -96,6 +96,12 @@ class AltrunUnityDriver(object):
     def tilt(self, x, y, z):
         return Tilt(self.socket,self.request_separator,self.request_end,x,y,z).execute()
 
+    def hold_button(self, x_position, y_position, duration_in_secs):
+        return Swipe(self.socket, self.request_separator, self.request_end, x_position, y_position, x_position, y_position, duration_in_secs).execute()
+
+    def hold_button_and_wait(self, x_position, y_position, duration_in_secs):
+        return SwipeAndWait(self.socket, self.request_separator, self.request_end, x_position, y_position, x_position, y_position, duration_in_secs).execute()
+
     def press_key(self, keyName,power=1,duration=1):
         return PressKey(self.socket,self.request_separator,self.request_end,keyName,power,duration).execute()
 
