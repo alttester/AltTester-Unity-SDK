@@ -246,6 +246,20 @@ class PythonTests(unittest.TestCase):
             'Drop').get_component_property('UnityEngine.UI.Image', 'sprite')
         self.assertNotEqual(image_source, image_source_drop_zone)
 
+    def test_button_click_and_wait_with_swipe(self):
+        button = self.altdriver.find_object(By.NAME, 'UIButton')
+        self.altdriver.hold_button_and_wait(button.x, button.y, 1)
+        capsule_info = self.altdriver.find_object(By.NAME, 'CapsuleInfo')
+        time.sleep(1.4)
+        text = capsule_info.get_text()
+        self.assertEqual(text, "UIButton clicked to jump capsule!")
+
+    def test_button_click_with_swipe(self):
+        button = self.altdriver.find_object(By.NAME, 'UIButton')
+        self.altdriver.hold_button(button.x, button.y,1)
+        capsule_info = self.altdriver.find_object(By.NAME, 'CapsuleInfo')
+        text = capsule_info.get_text()
+        self.assertEqual(text, "UIButton clicked to jump capsule!")
 
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
         altElement1 = self.altdriver.find_element('Drag Image1')
@@ -259,7 +273,7 @@ class PythonTests(unittest.TestCase):
         altElement1 = self.altdriver.find_element('Drag Image1')
         altElement2 = self.altdriver.find_element('Drop Box1')
         altElement3 = self.altdriver.find_element('Drop Box2')
-
+ 
         positions = [
           [altElement1.x, altElement1.y], 
           [altElement2.x, altElement2.y], 
