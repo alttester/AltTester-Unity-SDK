@@ -463,6 +463,14 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     altUnityDriver.findElement("UIButton").tap();
     ``` 
 
+* `doubleTap`
+    * params: none
+    * simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame
+    
+    ```java
+    altUnityDriver.findElement("UIButton").doubleTap();
+    ``` 
+
   * `getText`
     * params: none
     * returns: the value of the Text component if the element has one 

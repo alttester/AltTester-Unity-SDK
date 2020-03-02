@@ -287,7 +287,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "tapObject":
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityTapCommand (altUnityObject);
+                    var tapCount = 1;
+                    if (pieces.Length > 1 && !string.IsNullOrEmpty(pieces[2]))
+                        tapCount = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(pieces[2]);
+                    command = new AltUnityTapCommand(altUnityObject, tapCount < 1 ? 1 : tapCount);
                     break;
                 case "findObjectsByName":
                     methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];

@@ -491,7 +491,14 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     ```python
     alt_driver.find_element("UIButton").tap()
     ``` 
-
+  
+* `double_tap`
+    * params: none
+    * simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame 
+    
+    ```python
+    alt_driver.find_element("UIButton").double_tap()
+    ``` 
 
 * `get_text`
     * params: none
