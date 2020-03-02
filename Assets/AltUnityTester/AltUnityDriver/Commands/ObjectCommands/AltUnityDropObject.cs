@@ -4,7 +4,6 @@ public class AltUnityDropObject : AltUnityCommandReturningAltElement
 {
     AltUnityVector2 position;
     AltUnityObject altUnityObject;
-
     public AltUnityDropObject(SocketSettings socketSettings, AltUnityVector2 position, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.position = position;
@@ -12,13 +11,10 @@ public class AltUnityDropObject : AltUnityCommandReturningAltElement
     }
     public AltUnityObject Execute()
     {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-        string positionString = Newtonsoft.Json.JsonConvert.SerializeObject(position, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
-        {
-            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        });
+        var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
+        var positionString = PositionToJson(position);
+        
         Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("dropObject", positionString, altObject)));
         return ReceiveAltUnityObject();
-
     }
 }

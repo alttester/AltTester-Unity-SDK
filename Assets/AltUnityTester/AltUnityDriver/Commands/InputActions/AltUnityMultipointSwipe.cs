@@ -18,10 +18,7 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
             var args = new System.Collections.Generic.List<string>{"MultipointSwipeChain", duration.ToString()};
             foreach (var pos in positions)
             {
-                var posJson = Newtonsoft.Json.JsonConvert.SerializeObject(pos, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                });
+                var posJson = PositionToJson(pos);
                 args.Add(posJson);
             }
 
