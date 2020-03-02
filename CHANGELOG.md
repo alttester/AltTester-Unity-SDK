@@ -1,3 +1,43 @@
+# Changes in version 1.5.3
+
+## New
+
+- Add methods for swipe by more then two points !173 
+- Server needs GetVersion() command" !172 
+
+## Bug fixes and improvements
+
+- Move tests that search for multiple object to another scene" !185 
+- Update ReadMe from project" !186 
+- Add java package in pages and bindings" !183 
+- Test in Python doesn't run at all" !177 
+- Error thrown for object name when Encoding/Decoding" !178 
+- Implement static `removePortForwarding` methods so that they don't remove all other existing ports that are forwarded" !167 
+- Add link to java examples documentation" !182 
+- adb path should be configurable on windows and should be part of Android (not iOS) Settings" !179 
+- Python bindings: missed install requirement - "deprecated" package" !180 
+- Add documentation for port forwarding for iOS and Android" !160 
+- Change class names to have prefix alt|altunity" !176 
+- If extension is not define in output path it will be set automatically !156 
+- AltUnityPopCanvas set to be in front and option to deactivate" !175 
+- Input axis not working if it not set all four values" !174 
+- Bug: null reference returned for object where parent is canvas with world space and no camera set" !169 
+- Update appium tests" !170 
+- Python bindings - port forwarding cannot be done if Appium is not used" !159 
+- HighlightSelectedObjectCommand should return "Ok" not "null"" !168 
+- Refresh port forwarding throws error" !166 
+- SetText doesn’t work for TextMeshPro components" !164 
+- DeviceId overlapping with Local Port Id" !165 
+
+## Contributors
+
+- Robert Poienar @robert_poienar
+- Ru Cindrea @ru.cindrea
+- Ka3u6y6a @ka3u6y6a
+- Andrei Ionut Benyi @ionut.benyi
+- pusoktimea @pusoktimea
+- Alexandru Rotaru @alex.rotaru
+
 # Changes in version 1.5.2
 
 ## New

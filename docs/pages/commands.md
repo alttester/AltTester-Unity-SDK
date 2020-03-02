@@ -994,7 +994,7 @@ Simulate a swipe action in your game. This command waist for the action to finis
 .. tabs::
 
     .. code-tab:: c#
-        [Test]
+            [Test]
             public void MultipleDragAndDropWait()
             {
                 var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
@@ -1024,7 +1024,7 @@ Simulate a swipe action in your game. This command waist for the action to finis
             }
 
     .. code-tab:: java
-        @Test
+            @Test
             public void testMultipleDragAndDropWait() throws Exception {
                 AltUnityObject altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
                 AltUnityObject altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");
@@ -1055,7 +1055,7 @@ Simulate a swipe action in your game. This command waist for the action to finis
 
 
     .. code-tab:: py
-        def test_multiple_swipe_and_waits(self):
+            def test_multiple_swipe_and_waits(self):
                 self.altdriver.load_scene('Scene 3 Drag And Drop')
         
                 image2 = self.altdriver.find_element('Drag Image2')
@@ -1108,7 +1108,7 @@ Simulate a swipe action in your game. This command does not wait for the action 
 .. tabs::
 
     .. code-tab:: c#
-        [Test]
+            [Test]
             public void MultipleDragAndDrop()
             {
                 var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
@@ -1141,7 +1141,7 @@ Simulate a swipe action in your game. This command does not wait for the action 
             }
 
     .. code-tab:: java
-        @Test
+            @Test
             public void testMultipleDragAndDrop() throws Exception {
                 AltUnityObject altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
                 AltUnityObject altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");
@@ -1175,7 +1175,7 @@ Simulate a swipe action in your game. This command does not wait for the action 
 
 
     .. code-tab:: py
-        def test_multiple_swipes(self):
+            def test_multiple_swipes(self):
                 self.altdriver.load_scene('Scene 3 Drag And Drop')
          
                 image1 = self.altdriver.find_element('Drag Image1')

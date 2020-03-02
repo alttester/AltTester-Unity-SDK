@@ -100,7 +100,7 @@ run-java-android-tests:
     script:
         - *reinstall_and_start_android_app
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
-        - mvn test
+        - mvn -Dtest=ro.altom.altunitytester.Tests* test
     needs: ["build-apk"]
 
 run-python-appium-android-tests:
@@ -125,7 +125,7 @@ run-java-appium-android-tests:
     script:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
         - mvn clean compile assembly:single
-        - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.2 -Dpackaging=jar
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.3 -Dpackaging=jar
         - cd ../java-appium-tests
         - mvn test
     artifacts:
