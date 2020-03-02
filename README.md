@@ -596,6 +596,14 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
         altUnityDriver.FindElement("UIButton").Tap();
     ``` 
 
+  * `DoubleTap`
+    * params: none
+    * simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame 
+  
+    ```c#
+        altUnityDriver.FindElement("UIButton").DoubleTap();
+    ``` 
+
   * `GetText`
     * params: none
     * returns: the value of the Text or InputField component if the element has one 
