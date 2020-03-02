@@ -608,7 +608,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             else
             {
                 new AltUnityGetScreenshotCommand (size,handler).Execute();
-                //handler.SendResponse(response);  
             }
         }
     }
