@@ -331,6 +331,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 case "tapScreen":
                     command = new AltUnityClickOnScreenAtXyCommand(pieces[1], pieces[2]);
                     break;
+                case "tapCustom":
+                    UnityEngine.Vector2 clickPos = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
+                    command = new AltUnityClickOnScreenCustom(clickPos, pieces[2], pieces[3]);
+                    break;
                 case "dragObject":
                     UnityEngine.Vector2 positionVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[2]);

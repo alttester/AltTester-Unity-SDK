@@ -702,6 +702,45 @@ public class Input : UnityEngine.MonoBehaviour
         Finished = true;
     }
 
+    public static void SetCustomClick(UnityEngine.Vector2 position, int count, float interval)
+    {
+        Finished = false;
+        instance.StartCoroutine(CustomClickLifeCycle(position, count, interval));
+    }
+
+    private static System.Collections.IEnumerator CustomClickLifeCycle(UnityEngine.Vector2 position, int count, float interval)
+    {
+        var mockUp = new AltUnityMockUpPointerInputModule();
+        var touch = new UnityEngine.Touch { position = position };
+
+        for (var i = 0; i < count; i++)
+        {
+            AltUnityRunner._altUnityRunner.ShowClick(position);
+            
+            touch.phase = UnityEngine.TouchPhase.Began;
+            var pointerEventData = mockUp.ExecuteTouchEvent(touch);
+
+            if (pointerEventData.pointerPress != null)
+            {
+                UnityEngine.GameObject targetGameObject = pointerEventData.pointerPress.gameObject;
+
+                targetGameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                targetGameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                targetGameObject.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+                targetGameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                targetGameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                targetGameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                touch.phase = UnityEngine.TouchPhase.Ended;
+                mockUp.ExecuteTouchEvent(touch, pointerEventData);
+            }
+            
+            yield return new UnityEngine.WaitForSeconds(interval);
+        }
+        Finished = true;
+    }
+    
     public static void SetKeyDown(UnityEngine.KeyCode keyCode,float power, float duration)
     {
        Finished = false;

@@ -496,7 +496,7 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
 		* position - (x,y) coordinates on the screen where a touch will be simulated
 		* duration - how many seconds the touch will exist/be pressing 
 	* return: none
-	*Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command.If you want to wait until the hold is completed use `HoldButtonAndWait`
+	* Use this method if more than one input is needed because this method will not wait until the swipe is completed to execute the next command.If you want to wait until the hold is completed use `HoldButtonAndWait`
 
     ```c#
     var altElement1 = altUnityDriver.FindElement("Button");
@@ -520,12 +520,23 @@ altUnityDriver.WaitForElementWhereNameContains("Capsul", timeout=30); // should 
 	* return: the element that received the tap
 
     ```c#
-    altUnityDriver.TapScreen(100,200);
+    altUnityDriver.TapScreen(100, 200);
     ``` 
  
+  * `TapCustom`
+    * params: 
+        * position - (x,y) coordinates on the screen where a touch will be simulated
+        * count - how many touches will be 
+        * interval - how many seconds will be between touches
+ 	* return: none
+ 
+     ```c#
+     altUnityDriver.TapScreen(100, 200, 5, 0.3f);
+     ``` 
+     
   * `Tilt`
 	* params: acceleration - (x,y,z) values to simulate the device rotation
-	*return: none
+	* return: none
 
      ```c#
      altUnityDriver.Tilt(new Vector3(2, 2, 2));

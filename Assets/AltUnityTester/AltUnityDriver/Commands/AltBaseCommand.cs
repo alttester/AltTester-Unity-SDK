@@ -70,15 +70,24 @@ public class AltBaseCommand
     {
         return System.Text.Encoding.UTF8.GetBytes(text);
     }
-
     protected string fromBytes(byte[] text)
     {
         return System.Text.Encoding.UTF8.GetString(text);
     }
-
+    protected string PositionToJson(AltUnityVector2 position)
+    {
+        return Newtonsoft.Json.JsonConvert.SerializeObject(position, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
+        {
+            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        });
+    }
+    protected string PositionToJson(float x, float y)
+    {
+        return PositionToJson(new AltUnityVector2(x, y));
+    }
+    
     public static void HandleErrors(string data)
     {
-
         var typeOfException = data.Split(';')[0];
         switch (typeOfException)
         {
