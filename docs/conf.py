@@ -24,7 +24,7 @@ copyright = '2019, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
-release = '1.5'
+release = '1.5.3'
 
 
 # -- General configuration ---------------------------------------------------
