@@ -42,10 +42,10 @@ public class TestsSampleScene5 {
         float cubeInitWorldZ = cube.worldZ;
 
 
-        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
-        float cubeInitWorldX = cube.worldX;
+        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
+        cubeInitWorldX = cube.worldX;
         float cubeInitWorldY = cube.worldY;
-        float cubeInitWorldZ = cube.worldZ;
+        cubeInitWorldZ = cube.worldZ;
 
         altUnityDriver.scrollMouse(30, 20);
         altUnityDriver.pressKey("K",1, 2);
