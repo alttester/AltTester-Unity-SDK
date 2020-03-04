@@ -549,4 +549,30 @@ public class TestsSampleScene1 {
         String text = altUnityDriver.findObject(altFindObjectsParameters1).getText();
         assertEquals("BJÖRN'S PASS", text);
     }
+    
+    @Test
+    public void TestDoubleTap() throws InterruptedException {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ButtonCounter").build();
+        AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
+        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
+        AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
+        counterButton.doubleTap();
+        Thread.sleep(500);
+        assertEquals("2", counterButtonText.getText());
+    }
+    @Test
+    public void TestCustomTap() throws InterruptedException {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ButtonCounter").build();
+        AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
+        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
+        AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
+        altUnityDriver.tapCustom(counterButton.x, counterButton.y, 4);
+        Thread.sleep(1000);
+        assertEquals("4", counterButtonText.getText());
+
+    }
 }
