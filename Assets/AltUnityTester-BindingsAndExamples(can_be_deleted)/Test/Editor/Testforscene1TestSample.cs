@@ -758,7 +758,7 @@ public class TestForScene1TestSample
     public void TestFindObjectScene1()
     {
         var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
-        Assert.AreEqual(5, altElements.Count);
+        Assert.AreEqual(6, altElements.Count);
     }
 
     [Test]
