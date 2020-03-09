@@ -13,8 +13,8 @@ class GetServerVersion(BaseCommand):
         super().__init__(socket,request_separator,request_end)
     
     def execute(self):
-        serverVersion=self.send_data(self.create_command('error:unknownError'))
-        if serverVersion=='':
+        serverVersion=self.send_data(self.create_command('getServerVersion'))
+        if serverVersion=='error:unknownError':
             write_warning(True)
             return "Version mismatch"
 
