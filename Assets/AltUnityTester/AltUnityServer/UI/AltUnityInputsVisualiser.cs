@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine;
 
 public class AltUnityInputsVisualiser : UnityEngine.MonoBehaviour
 {
@@ -9,15 +11,33 @@ public class AltUnityInputsVisualiser : UnityEngine.MonoBehaviour
     private readonly List<AltUnityInputMark> _pool = new List<AltUnityInputMark>();
     private readonly Dictionary<int, AltUnityInputMark> _continuously = new Dictionary<int, AltUnityInputMark>();
     private UnityEngine.Transform _transform;
+    private float currentRatio;
+    private float initialRatio = 1;
+    public float growthBound = 2f;
+    public float approachSpeed = 0.02f;
   
     private void Awake()
     {
         _transform = GetComponent<UnityEngine.Transform>();
     }
 
+    private IEnumerator VisualizerPulse(AltUnityInputMark mark)
+    {
+        currentRatio = initialRatio;
+        while(this.currentRatio != this.growthBound){
+            currentRatio = Mathf.MoveTowards(currentRatio, growthBound, approachSpeed);
+            mark.transform.localScale = Vector2.one * currentRatio;
+            yield return new WaitForEndOfFrame();
+        }
+        currentRatio = initialRatio;
+        mark.transform.localScale=Vector2.one*currentRatio;
+    }
+
     public void ShowClick(UnityEngine.Vector2 pos)
     {
-        GetMark().Show(pos);
+        AltUnityInputMark mark = GetMark(); 
+        StartCoroutine(VisualizerPulse(mark));
+        mark.Show(pos);
     }
     
     public int ShowContinuousInput(UnityEngine.Vector2 pos, int id)
