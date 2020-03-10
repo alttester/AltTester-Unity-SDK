@@ -1,5 +1,7 @@
 # Building games with AltUnityTester
 
+If changes are made inside a test, rebuilding the application is not necessary. A rebuild is needed only if changes are made inside the Unity project. For more information on writing tests, consult [Writing and running tests](writing-running-tests.md) page.
+
 ### 1.AltUnityTester GUI:
 
 1. Open AltUnityTester from UnityEditor->Window->AltUnityTester

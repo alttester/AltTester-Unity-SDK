@@ -1,10 +1,10 @@
-# Writting and running tests
+# Writing and running tests
 
 It is very simple to write tests with AltUnityTester. You can use any testing framework and all you need to do is to import the driver for the specific language to your test file.
 
 After that in your setup method you will need to make an instance of the driver and in you tear-down method you have to invoke the stop method of the driver.
 
-If you do this in your test method you could access all the commands that AltUnityTester offers to test your game.
+If you do this in your test method you could access all the commands that AltUnityTester offers to test your game. 
 
 
 ## C#
