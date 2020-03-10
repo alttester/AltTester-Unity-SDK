@@ -200,6 +200,7 @@ deploy-altunitytester-python:
     tags:
         - unity
         - mac
+        - android
     script:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - python setup.py sdist upload -r pypi
