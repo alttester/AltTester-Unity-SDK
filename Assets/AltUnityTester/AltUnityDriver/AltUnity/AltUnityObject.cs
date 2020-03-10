@@ -105,8 +105,8 @@ public class AltUnityObject
     {
        return new AltUnityGetAllProperties(socketSettings,altUnityComponent,this).Execute();
     }
-    public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent)
+    public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent,AltUnityMethodSelection methodSelection=AltUnityMethodSelection.ALLMETHODS)
     {
-        return new AltUnityGetAllMethods(socketSettings,altUnityComponent,this).Execute();
+        return new AltUnityGetAllMethods(socketSettings,altUnityComponent,this, methodSelection).Execute();
     }
 }

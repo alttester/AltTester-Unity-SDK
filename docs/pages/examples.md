@@ -34,3 +34,12 @@ We took the game from [asset store link](https://assetstore.unity.com/packages/e
 This was made as a sample for iOS mobile devices. To run the test follow the instructions from ReadMe.
 
 We took the game from [asset store link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
+
+
+## AltTank Multiplayer - Python
+
+[Link to Project](https://gitlab.com/altom/altunity/examples/alttanksmultiplayer-test-python)
+
+This was made as a sample to show how to use Altunity Tester for multiplayer features. To run the tests follow the instructions from ReadMe.
+
+We took the game from [asset store link](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-reference-project-80165)
