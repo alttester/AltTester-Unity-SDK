@@ -82,7 +82,7 @@ class BaseCommand(object):
         return self.request_separator.join(json_positions)
     
     def send_data(self, data):
-        self.socket.send(data.encode('ascii'))
+        self.socket.send(data.encode('utf-8'))
         if ('closeConnection' in data):
             return ''
         else:
