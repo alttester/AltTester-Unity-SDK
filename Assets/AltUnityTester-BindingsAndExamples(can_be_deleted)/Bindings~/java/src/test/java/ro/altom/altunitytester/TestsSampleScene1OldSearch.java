@@ -161,6 +161,7 @@ public class TestsSampleScene1OldSearch {
 
     @Test
     public void testFindElementByComponent() throws Exception {
+        Thread.sleep(1000);
         String componentName = "AltUnityRunner";
         AltUnityObject altElement = altUnityDriver.findElementByComponent(componentName);
         assertNotNull(altElement);
@@ -169,6 +170,7 @@ public class TestsSampleScene1OldSearch {
 
     @Test
     public void testGetComponentProperty() throws Exception {
+        Thread.sleep(1000);
         String componentName = "AltUnityRunner";
         String propertyName = "SocketPortNumber";
         AltUnityObject altElement = altUnityDriver.findElement("AltUnityRunnerPrefab");
@@ -179,6 +181,7 @@ public class TestsSampleScene1OldSearch {
 
     @Test
     public void testGetNonExistingComponentProperty() throws Exception {
+        Thread.sleep(1000);
         String componentName = "AltUnityRunner";
         String propertyName = "socketPort";
         AltUnityObject altElement = altUnityDriver.findElement("AltUnityRunnerPrefab");

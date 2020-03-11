@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class TestSampleScene5 {
+public class TestsSampleScene5 {
 
 
     private static AltUnityDriver altUnityDriver;
@@ -36,24 +36,22 @@ public class TestSampleScene5 {
 
     @Test
     public void TestMovementCube() throws InterruptedException {
-
-
-        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
+        
+        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player2","");
         float cubeInitWorldX = cube.worldX;
-        float cubeInitWorldY = cube.worldY;
         float cubeInitWorldZ = cube.worldZ;
 
         altUnityDriver.scrollMouse(30, 20);
         altUnityDriver.pressKey("K",1, 2);
         Thread.sleep(2000);
-        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
+        
         altUnityDriver.pressKeyAndWait("O", 1,1);
+        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player2","");
         float cubeFinalWorldX = cube.worldX;
         float cubeFinalWorldZ = cube.worldZ;
 
         assertNotEquals(cubeInitWorldX, cubeFinalWorldX);
         assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
-
     }
 
     @Test
