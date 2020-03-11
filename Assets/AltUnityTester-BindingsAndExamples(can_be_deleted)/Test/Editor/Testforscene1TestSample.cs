@@ -585,10 +585,30 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestGetAllMethodsFromClass()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        List<String> methods = altElement.GetAllMethods(component2,AltUnityMethodSelection.CLASSMETHODS);
+        Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
+        Assert.IsFalse(methods.Contains("Void CancelInvoke(System.String)"));
+    }
+    [Test]
+    public void TestGetAllMethodsFromInherited()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.INHERITEDMETHODS);
+        Assert.IsTrue(methods.Contains("Void CancelInvoke(System.String)"));
+        Assert.IsFalse(methods.Contains("Void UIButtonClicked()"));
+    }
+    [Test]
     public void TestGetAllMethods()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        List<String> methods = altElement.GetAllMethods(altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule")));
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.ALLMETHODS);
+        Assert.IsTrue(methods.Contains("Void CancelInvoke(System.String)"));
         Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
     }
 

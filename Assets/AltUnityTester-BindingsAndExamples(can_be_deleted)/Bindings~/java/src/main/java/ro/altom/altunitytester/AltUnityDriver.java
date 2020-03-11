@@ -51,9 +51,9 @@ public class AltUnityDriver {
         } catch (IOException e) {
             throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
         }
-        altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
-        EnableLogging();
+        altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in,logEnabled);
         GetServerVersion();
+        EnableLogging();
     }
 
     private String GetServerVersion() {

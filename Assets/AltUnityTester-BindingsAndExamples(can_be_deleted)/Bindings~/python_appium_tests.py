@@ -4,7 +4,7 @@ import sys
 from appium import webdriver
 from altunityrunner import AltrunUnityDriver
 from altunityrunner.by import By
-
+import time
 
 def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -24,6 +24,7 @@ class SampleAppiumTest(unittest.TestCase):
             cls.setup_ios()
         cls.driver = webdriver.Remote(
             'http://localhost:4723/wd/hub', cls.desired_caps)
+        time.sleep(20)
         cls.altdriver = AltrunUnityDriver(cls.driver, cls.platform,log_flag=True)
 
     @classmethod

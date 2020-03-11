@@ -32,6 +32,8 @@ class AltrunUnityDriver(object):
                 GetServerVersion(self.socket, self.request_separator, self.request_end).execute()
                 break
             except Exception as e:
+                if not self.socket==None:
+                    self.stop()
                 print(e)
                 print('AltUnityServer not running on port ' + str(self.TCP_PORT) +
                       ', retrying (timing out in ' + str(timeout) + ' secs)...')
