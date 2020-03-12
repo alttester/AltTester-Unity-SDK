@@ -1,4 +1,4 @@
-altunityrunner>=1.5.3
+altunityrunner>=1.5.4-Alpha
 Appium-Python-Client>=0.26
 atomicwrites==1.3.0
 attrs==18.2.0

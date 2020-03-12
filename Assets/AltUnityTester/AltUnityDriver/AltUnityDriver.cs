@@ -21,7 +21,7 @@ public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
     public SocketSettings socketSettings;
-    public static readonly string VERSION="1.5.3";
+    public static readonly string VERSION="1.5.4-Alpha";
     private static string tcp_ip = "127.0.0.1";
     private static int tcp_port = 13000;
     public static string requestSeparatorString;
@@ -40,12 +40,14 @@ public class AltUnityDriver
                 Socket.ReceiveTimeout = 5000;
 
                 socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding, logFlag);
-                EnableLogging();
                 CheckServerVersion();
+                EnableLogging();
                 break;
             }
             catch(System.Exception e)
             {
+                if (Socket != null)
+                    Stop();
                 System.Console.WriteLine(e.Message);
                 timeout -= 5;
                 System.Threading.Thread.Sleep(5000);
@@ -54,9 +56,9 @@ public class AltUnityDriver
         }
         
     }
-    private void CheckServerVersion()
+    public string CheckServerVersion()
     {
-        new AltUnityCheckServerVersion(socketSettings).Execute();
+        return new AltUnityCheckServerVersion(socketSettings).Execute();
     }
     private void EnableLogging(){
         new AltUnityEnableLogging(socketSettings).Execute();
