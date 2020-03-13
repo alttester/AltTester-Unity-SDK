@@ -818,7 +818,32 @@ public class TestForScene1TestSample
         var text = altUnityDriver.FindObject(By.NAME, "NonEnglishText").GetText();
         Assert.AreEqual("BJÖRN'S PASS", text);
     }
+    [Test]
+    public void TestGet3DObjectFromScreenshot()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        AltUnityObject altUnityObject;
+        altUnityDriver.GetScreenshot(new AltUnityVector2(capsule.x, capsule.y), new AltUnityColor(1, 0, 0, 1), 1, out altUnityObject,new AltUnityVector2(1920,1080));
+        Assert.AreEqual("Capsule", altUnityObject.name);
+    }
 
+    [Test]
+    public void TestGetUIObjectFromScreenshot()
+    {
+        var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+        AltUnityObject altUnityObject;
+        altUnityDriver.GetScreenshot(new AltUnityVector2(capsuleInfo.x, capsuleInfo.y), new AltUnityColor(1, 0, 0, 1), 1, out altUnityObject, new AltUnityVector2(1920, 1080));
+        Assert.AreEqual("CapsuleInfo", altUnityObject.name);
+    }
+    [Test]
+    public void TestObjectFromScreenshot()
+    {
+        var icon = altUnityDriver.FindObject(By.NAME, "Icon");
+        AltUnityVector2 offscreenCoordinates = new AltUnityVector2(icon.x + 400, icon.y);
+        AltUnityObject altUnityObject;
+        altUnityDriver.GetScreenshot(offscreenCoordinates, new AltUnityColor(1, 0, 0, 1), 1, out altUnityObject, new AltUnityVector2(1920, 1080));
+        Assert.IsNull(altUnityObject);
+    }
 
 
 }
