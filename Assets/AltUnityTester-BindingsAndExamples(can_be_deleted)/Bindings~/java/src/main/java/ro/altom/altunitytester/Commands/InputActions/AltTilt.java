@@ -3,9 +3,21 @@ package ro.altom.altunitytester.Commands.InputActions;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
+/**
+ * Simulates device rotation action in your game.
+ */
 public class AltTilt extends AltBaseCommand {
+    /**
+     * @param x Linear acceleration of a device on x
+     */
     private int x;
+    /**
+     * @param y Linear acceleration of a device on y
+     */
     private int y;
+    /**
+     * @param z Linear acceleration of a device on z
+     */
     private int z;
     public AltTilt(AltBaseSettings altBaseSettings, int x, int y, int z) {
         super(altBaseSettings);

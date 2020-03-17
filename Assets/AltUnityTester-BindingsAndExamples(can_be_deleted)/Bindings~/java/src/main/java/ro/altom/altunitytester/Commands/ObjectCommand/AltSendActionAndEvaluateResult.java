@@ -6,7 +6,13 @@ import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSendActionAndEvaluateResult extends AltBaseCommand {
+    /**
+     * @param command The action command
+     */
     private String command;
+    /**
+     * @param altUnityObject The game object
+     */
     private AltUnityObject altUnityObject;
     public AltSendActionAndEvaluateResult(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject, String command) {
         super(altBaseSettings);
