@@ -254,9 +254,8 @@ javadoc:
         paths:
             - target/site/apidocs/
     tags:
-        - mac
         - unity
-        - java
+        - mac
       
 maven-snapshot-repo:
   stage: deploy
