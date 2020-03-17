@@ -242,7 +242,7 @@ pages:
     - ls public/
 
 javadoc:
-    stage: build
+    stage: docs
     # only:
     #     - master
     script:
