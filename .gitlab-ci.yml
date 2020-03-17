@@ -240,3 +240,43 @@ pages:
   script:
     - cp -r documentation/ public/
     - ls public/
+
+javadoc:
+    stage: build
+    # only:
+    #     - master
+    script:
+        - mvn javadoc:javadoc
+    artifacts:
+        name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
+        expire_in: 6 mos
+        when: always
+        paths:
+            - target/site/apidocs/
+    tags:
+        - mac
+        - unity
+        - java
+      
+maven-snapshot-repo:
+  stage: deploy
+  # environment: staging
+  # only:
+  #     - master
+  script:
+      - mvn deploy -DskipTests
+  tags:
+      - artifactory
+
+maven-repo:
+  stage: deploy
+  # environment: production
+  when: manual
+  only:
+      - master
+  script:
+      - mvn deploy -f pom-release.xml -DskipTests
+  tags:
+      - artifactory
+
+
