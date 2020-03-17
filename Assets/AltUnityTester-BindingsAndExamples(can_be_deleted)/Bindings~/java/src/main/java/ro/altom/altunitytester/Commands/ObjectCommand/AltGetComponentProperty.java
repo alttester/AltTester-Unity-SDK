@@ -6,8 +6,17 @@ import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.AltUnityObjectProperty;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
+/**
+ * Get the value of a property from one of the component of the object.
+ */
 public class AltGetComponentProperty extends AltBaseCommand {
+    /**
+     * @param altUnityObject The game object
+     */
     private AltUnityObject altUnityObject;
+    /**
+     * @param altGetComponentPropertyParameters builder for getting components' property
+     */
     private AltGetComponentPropertyParameters altGetComponentPropertyParameters;
     public AltGetComponentProperty(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject, AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
         super(altBaseSettings);

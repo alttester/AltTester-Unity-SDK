@@ -7,8 +7,17 @@ import ro.altom.altunitytester.AltUnityObjectAction;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 import ro.altom.altunitytester.Commands.AltCallStaticMethodsParameters;
 
+/**
+ * Invoke a method from an existing component of the object.
+ */
 public class AltCallComponentMethod extends AltBaseCommand {
+    /**
+     * @param altUnityObject The game object
+     */
     private AltUnityObject altUnityObject;
+    /**
+     * @param altCallComponentMethodParameters builder for calling component methods
+     */
     private AltCallComponentMethodParameters altCallComponentMethodParameters;
     public AltCallComponentMethod(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject, AltCallComponentMethodParameters altCallComponentMethodParameters) {
         super(altBaseSettings);

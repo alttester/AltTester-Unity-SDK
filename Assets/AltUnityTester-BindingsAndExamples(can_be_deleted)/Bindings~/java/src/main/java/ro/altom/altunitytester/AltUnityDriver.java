@@ -89,14 +89,21 @@ public class AltUnityDriver {
         new AltLoadScene(altBaseSettings,scene).Execute();
     }
 
+    /**
+     * Delete entire player pref of the game
+     */
     public void deletePlayerPref() {
         new AltDeletePlayerPref(altBaseSettings).Execute();
     }
 
+    /**
+     * Delete from games player pref a key
+     */
     public void deleteKeyPlayerPref(String keyName) {
         new AltDeleteKeyPlayerPref(altBaseSettings,keyName).Execute();
     }
 
+    
     public void setKeyPlayerPref(String keyName, int valueName) {
         new AltSetKeyPlayerPref(altBaseSettings,keyName,valueName).Execute();
     }
@@ -133,21 +140,48 @@ public class AltUnityDriver {
         new AltSetTimeScale(altBaseSettings,timeScale).Execute();
     }
 
+    /**
+     * Simulate scroll mouse action in your game. This command does not wait for the action to finish.
+     * @param xStart x coordinate of the screen where the swipe begins.
+     * @param yStart y coordinate of the screen where the swipe begins.
+     * @param xEnd x coordinate of the screen where the swipe ends.
+     * @param yEnd y coordinate of the screen where the swipe ends.
+     * @param durationInSecs The time measured in seconds to move the mouse from current position to the set location.
+     */
     public void swipe(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
         new AltSwipe(altBaseSettings,xStart,yStart,xEnd,yEnd,durationInSecs).Execute();
     }
 
+    /**
+     * Simulate scroll mouse action in your game. This command waits for the action to finish.
+     * @param xStart x coordinate of the screen where the swipe begins.
+     * @param yStart y coordinate of the screen where the swipe begins.
+     * @param xEnd x coordinate of the screen where the swipe ends.
+     * @param yEnd y coordinate of the screen where the swipe ends.
+     * @param durationInSecs The time measured in seconds to move the mouse from current position to the set location.
+     */
     public void swipeAndWait(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
         new AltSwipeAndWait(altBaseSettings,xStart,yStart,xEnd,yEnd,durationInSecs).Execute();
     }
 
+    /**
+     * Similar command like swipe but instead of swipe from point A to point B you are able to give list a points. 
+     * @param positions collection of positions on the screen where the swipe be made
+     * @param durationInSecs how many seconds the swipe will need to complete
+     */
     public void multipointSwipe(List<Vector2> positions, float durationInSecs) {
         new AltMultiPointSwipe(altBaseSettings,positions,durationInSecs).Execute();
     }
 
+    /**
+     * Similar command like swipe but instead of swipe from point A to point B you are able to give list a points. Waits for the movement to finish
+     * @param positions collection of positions on the screen where the swipe be made
+     * @param durationInSecs how many seconds the swipe will need to complete
+     */
     public void multipointSwipeAndWait(List<Vector2> positions, float durationInSecs) {
         new AltMultiPointSwipeAndWait(altBaseSettings,positions,durationInSecs).Execute();
     }
+    
     
     public void holdButton(int xPosition, int yPosition, float durationInSecs) {
         swipe(xPosition, yPosition, xPosition, yPosition, durationInSecs);
@@ -160,9 +194,21 @@ public class AltUnityDriver {
     public AltUnityObject clickScreen(float x, float y) {
         return new AltClickScreen(altBaseSettings,x,y).Execute();
     }
+
+    /**
+     * Simulates device rotation action in your game.
+     * @param x Linear acceleration of a device on x
+     * @param y Linear acceleration of a device on y
+     * @param z Linear acceleration of a device on z
+     */
     public void tilt(int x, int y, int z) {
         new AltTilt(altBaseSettings,x,y,z).Execute();
     }
+
+    /**
+     * Similar command like swipe but instead of swipe from point A to point B you are able to give list a points. 
+     * @param altPressKeyParameters the builder for the press key commands.
+     */
     public void pressKey(AltPressKeyParameters altPressKeyParameters){
         new AltPressKey(altBaseSettings,altPressKeyParameters).Execute();
     }
@@ -170,6 +216,11 @@ public class AltUnityDriver {
         AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder(keyName).withDuration(duration).withPower(power).build();
         pressKey(altPressKeyParameters);
     }
+
+    /**
+     * Similar command like swipe but instead of swipe from point A to point B you are able to give list a points. 
+     * @param altPressKeyParameters the builder for the press key commands.
+     */
     public void pressKeyAndWait(AltPressKeyParameters altPressKeyParameters){
         new AltPressKeyAndWait(altBaseSettings,altPressKeyParameters).Execute();
     }
@@ -177,6 +228,11 @@ public class AltUnityDriver {
         AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder(keyName).withPower(power).withDuration(duration).build();
         pressKeyAndWait(altPressKeyParameters);
     }
+
+    /**
+     * Simulate mouse movement in your game. This command does not wait for the movement to finish. 
+     * @param altMoveMouseParameters the builder for the mouse moves command.
+     */
     public void moveMouse(AltMoveMouseParameters altMoveMouseParameters){
         new AltMoveMouse(altBaseSettings,altMoveMouseParameters).Execute();
     }
@@ -184,6 +240,11 @@ public class AltUnityDriver {
         AltMoveMouseParameters altMoveMouseParameters=new AltMoveMouseParameters.Builder(x, y).withDuration(duration).build();
         moveMouse(altMoveMouseParameters);
     }
+
+    /**
+     * Simulate mouse movement in your game. This command waits for the movement to finish. 
+     * @param altMoveMouseParameters the builder for the mouse moves command.
+     */
     public void moveMouseAndWait(AltMoveMouseParameters altMoveMouseParameters){
         new AltMoveMouseAndWait(altBaseSettings,altMoveMouseParameters).Execute();
     }
@@ -191,6 +252,11 @@ public class AltUnityDriver {
         AltMoveMouseParameters altMoveMouseParameters=new AltMoveMouseParameters.Builder(x,y).withDuration(duration).build();
         moveMouseAndWait(altMoveMouseParameters);
     }
+
+    /**
+     * Simulate scroll mouse action in your game. This command does not wait for the action to finish.
+     * @param altScrollMouseParameters the builder for the scroll commands.
+     */
     public void scrollMouse(AltScrollMouseParameters altScrollMouseParameters){
         new AltScrollMouse(altBaseSettings,altScrollMouseParameters).Execute();
     }
@@ -199,6 +265,11 @@ public class AltUnityDriver {
         scrollMouse(altScrollMouseParameters);
 
     }
+
+    /**
+     * Simulate scroll mouse action in your game. This command waits for the action to finish.
+     * @param altScrollMouseParameters the builder for the scroll commands.
+     */
     public void scrollMouseAndWait(AltScrollMouseParameters altScrollMouseParameters){
         new AltScrollMouseAndWait(altBaseSettings,altScrollMouseParameters).Execute();
     }
@@ -206,6 +277,11 @@ public class AltUnityDriver {
         AltScrollMouseParameters altScrollMouseParameters=new AltScrollMouseParameters.Builder().withSpeed(speed).withDuration(duration).build();
         scrollMouseAndWait(altScrollMouseParameters);
     }
+
+    /**
+     * @param altFindObjectsParameters
+     * @return the first object in the scene that respects the given criteria.
+     */
     public AltUnityObject findObject(AltFindObjectsParameters altFindObjectsParameters){
         return new AltFindObject(altBaseSettings,altFindObjectsParameters).Execute();
 
@@ -224,6 +300,11 @@ public class AltUnityDriver {
         return findObject(by,value,"",true);
     }
 
+    /**
+     * 
+     * @param altFindObjectsParameters
+     * @return the first object containing the given criteria
+     */
     public AltUnityObject findObjectWhichContains(AltFindObjectsParameters altFindObjectsParameters){
         return new AltFindObjectWhichContains(altBaseSettings,altFindObjectsParameters).Execute();
     }
@@ -240,6 +321,12 @@ public class AltUnityDriver {
     public AltUnityObject findObjectWhichContains(By by,String value){
         return findObjectWhichContains(by,value,"",true);
     }
+
+    /**
+     * 
+     * @param altFindObjectsParameters
+     * @return all the objects respecting the given criteria
+     */
     public AltUnityObject[] findObjects(AltFindObjectsParameters altFindObjectsParameters){
         return new AltFindObjects(altBaseSettings,altFindObjectsParameters).Execute();
     }
@@ -257,6 +344,11 @@ public class AltUnityDriver {
         return findObjects(by,value,"",true);
     }
 
+    /**
+     *
+     * @param altFindObjectsParameters
+     * @return all objects containing the given criteria
+     */
     public AltUnityObject[] findObjectsWhichContains(AltFindObjectsParameters altFindObjectsParameters){
         return new AltFindObjectsWhichContains(altBaseSettings,altFindObjectsParameters).Execute();
     }
@@ -299,6 +391,11 @@ public class AltUnityDriver {
         return findElementWhereNameContains(name, "");
     }
 
+    /**
+     * 
+     * @param altGetAllElementsParameters
+     * @return information about every object loaded in the currently loaded scenes.
+     */
     public AltUnityObject[] getAllElements(AltGetAllElementsParameters altGetAllElementsParameters){
         return new AltGetAllElements(altBaseSettings,altGetAllElementsParameters).Execute();
     }
@@ -384,6 +481,12 @@ public class AltUnityDriver {
         return findElementsWhereNameContains(name,"",true);
 
     }
+
+    /**
+     * Simulate a tap action on the screen at the given coordinates.
+     * @param x x coordinate of the screen
+     * @param y y coordinate of the screen
+     */
     public AltUnityObject tapScreen(int x, int y) {
         return new AltTapScreen(altBaseSettings,x,y).Execute();
     }
@@ -441,6 +544,10 @@ public class AltUnityDriver {
         waitForElementToNotBePresent(altWaitForElementParameters);
     }
 
+    /**
+     * Wait until there are no longer any objects that respect the given criteria or times run out and will throw an error.
+     * @param altWaitForObjectsParameters the properties parameter for finding the objects in a scene.
+     */
     public AltUnityObject waitForObject(AltWaitForObjectsParameters altWaitForObjectsParameters){
         return new AltWaitForObject(altBaseSettings,altWaitForObjectsParameters).Execute();
     }
@@ -464,6 +571,10 @@ public class AltUnityDriver {
         return waitForObjectWithText(by,value,text,"",true,2,0.5);
     }
 
+    /**
+     * Wait until the object in the scene that respect the given criteria is no longer in the scene or times run out and will throw an error.
+     * @param altWaitForObjectsParameters the properties parameter for finding the objects in a scene.
+     */
     public void waitForObjectToNotBePresent(AltWaitForObjectsParameters altWaitForObjectsParameters){
         new AltWaitForObjectToNotBePresent(altBaseSettings,altWaitForObjectsParameters).Execute();
     }
