@@ -835,7 +835,7 @@ public class TestForScene1TestSample
         altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
         Thread.Sleep(1000);
         Assert.AreEqual("4", counterButtonText.GetText());
-
+    }
     public void TestGet3DObjectFromScreenshot()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
