@@ -10,14 +10,12 @@
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-            <url>https://repo.altom.ro/artifactory/libs-snapshot-local</url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <layout>default</layout>
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
-<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-            <url>https://repo.altom.ro/artifactory/libs-release-local</url>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
             <layout>default</layout>
         </repository>
     </distributionManagement>
@@ -26,7 +24,7 @@
         <connection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</connection>
         <developerConnection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</developerConnection>
         <url>http://gitlab.com/altom/altunity/altunitytester/tree/master</url>
-      <tag>1.5.3</tag>
+        <tag>1.5.3</tag>
   </scm>
     
     <properties>
@@ -177,12 +175,24 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
                 <configuration>
+                    <localCheckout>true</localCheckout>
+                    <pushChanges>false</pushChanges>
+                    <mavenExecutorId>forked-path</mavenExecutorId>
+                    <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
                     <checkModificationExcludes>
                         <checkModificationExclude>pom.xml</checkModificationExclude>
                         <checkModificationExclude>**</checkModificationExclude>
                     </checkModificationExcludes>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-gitexe</artifactId>
+                        <version>1.9.5</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
