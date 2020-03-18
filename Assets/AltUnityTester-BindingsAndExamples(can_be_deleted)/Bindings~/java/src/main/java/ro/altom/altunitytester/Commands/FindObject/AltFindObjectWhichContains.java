@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityObject;
 
+/**
+ * Find the first object in the scene which respects the given criteria.
+ */
 public class AltFindObjectWhichContains extends AltBaseFindObject {
     private AltFindObjectsParameters altFindObjectsParameters;
     public AltFindObjectWhichContains(AltBaseSettings altBaseSettings, AltFindObjectsParameters altFindObjectsParameters) {

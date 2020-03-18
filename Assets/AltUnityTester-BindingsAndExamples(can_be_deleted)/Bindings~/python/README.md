@@ -440,12 +440,12 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
   self.altdriver.find_element('Button2').mobile_dragToElement(other_button)
   ``` 
 
-* `click_Event`
+* `click_event`
 	* params: none
 	* Execute pointerClick event on the object
  
  ```python
-     self.alt_driver.find_element("Capsule").click_Event()
+     self.alt_driver.find_element("Capsule").click_event()
   ``` 
   
  * `drag`

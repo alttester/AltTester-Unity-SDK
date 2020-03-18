@@ -74,7 +74,7 @@ class AltElement(object):
         data = SetText(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,text,alt_object).execute()
         return AltElement(self.alt_unity_driver, self.appium_driver, data)
     
-    def click_Event(self):
+    def click_event(self):
         alt_object = self.toJSON()
         data= ClickEvent(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
         return AltElement(self.alt_unity_driver,self.appium_driver,data)

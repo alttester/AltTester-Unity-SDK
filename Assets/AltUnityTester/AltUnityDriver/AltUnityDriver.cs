@@ -295,9 +295,9 @@ public class AltUnityDriver
     {
         return new AltUnityGetScreenshot(socketSettings, id, color, width, size).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2))
+    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width,out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2))
     {
-        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size).Execute();
+        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size).Execute(out selectedObject);
 
     }
     public void GetPNGScreenshot(string path)

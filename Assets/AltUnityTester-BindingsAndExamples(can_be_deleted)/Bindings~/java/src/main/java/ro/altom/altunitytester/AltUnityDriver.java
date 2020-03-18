@@ -21,7 +21,8 @@ public class AltUnityDriver {
         public static int StringType = 2;
         public static int FloatType = 3;
     }
-    public static final String VERSION="1.5.4-Alpha";
+
+    public static final String VERSION = "1.5.4-Alpha";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private Socket socket = null;
@@ -51,7 +52,7 @@ public class AltUnityDriver {
         } catch (IOException e) {
             throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
         }
-        altBaseSettings=new AltBaseSettings(socket,requestSeparator,requestEnd,out,in,logEnabled);
+        altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
         GetServerVersion();
         EnableLogging();
     }
@@ -78,12 +79,10 @@ public class AltUnityDriver {
         return new AltCallStaticMethods(altBaseSettings, altCallStaticMethodsParameters).Execute();
     }
 
-    public String callStaticMethods(String assembly, String typeName, String methodName, String parameters, String typeOfParameters) {
-        AltCallStaticMethodsParameters altCallStaticMethodsParameters = new AltCallStaticMethodsParameters
-            .Builder(typeName, methodName, parameters)
-            .withAssembly(assembly)
-            .withTypeOfParameters(typeOfParameters)
-            .build();
+    public String callStaticMethods(String assembly, String typeName, String methodName, String parameters,
+            String typeOfParameters) {
+        AltCallStaticMethodsParameters altCallStaticMethodsParameters = new AltCallStaticMethodsParameters.Builder(
+                typeName, methodName, parameters).withAssembly(assembly).withTypeOfParameters(typeOfParameters).build();
         return callStaticMethods(altCallStaticMethodsParameters);
     }
 
@@ -95,10 +94,16 @@ public class AltUnityDriver {
         new AltLoadScene(altBaseSettings, scene).Execute();
     }
 
+    /**
+     * Delete entire player pref of the game
+     */
     public void deletePlayerPref() {
         new AltDeletePlayerPref(altBaseSettings).Execute();
     }
 
+    /**
+     * Delete from games player pref a key
+     */
     public void deleteKeyPlayerPref(String keyName) {
         new AltDeleteKeyPlayerPref(altBaseSettings, keyName).Execute();
     }
@@ -139,18 +144,56 @@ public class AltUnityDriver {
         new AltSetTimeScale(altBaseSettings, timeScale).Execute();
     }
 
+    /**
+     * Simulate scroll mouse action in your game. This command does not wait for the
+     * action to finish.
+     * 
+     * @param xStart         x coordinate of the screen where the swipe begins.
+     * @param yStart         y coordinate of the screen where the swipe begins.
+     * @param xEnd           x coordinate of the screen where the swipe ends.
+     * @param yEnd           y coordinate of the screen where the swipe ends.
+     * @param durationInSecs The time measured in seconds to move the mouse from
+     *                       current position to the set location.
+     */
     public void swipe(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
         new AltSwipe(altBaseSettings, xStart, yStart, xEnd, yEnd, durationInSecs).Execute();
     }
 
+    /**
+     * Simulate scroll mouse action in your game. This command waits for the action
+     * to finish.
+     * 
+     * @param xStart         x coordinate of the screen where the swipe begins.
+     * @param yStart         y coordinate of the screen where the swipe begins.
+     * @param xEnd           x coordinate of the screen where the swipe ends.
+     * @param yEnd           y coordinate of the screen where the swipe ends.
+     * @param durationInSecs The time measured in seconds to move the mouse from
+     *                       current position to the set location.
+     */
     public void swipeAndWait(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
         new AltSwipeAndWait(altBaseSettings, xStart, yStart, xEnd, yEnd, durationInSecs).Execute();
     }
 
+    /**
+     * Similar command like swipe but instead of swipe from point A to point B you
+     * are able to give list a points.
+     * 
+     * @param positions      collection of positions on the screen where the swipe
+     *                       be made
+     * @param durationInSecs how many seconds the swipe will need to complete
+     */
     public void multipointSwipe(List<Vector2> positions, float durationInSecs) {
         new AltMultiPointSwipe(altBaseSettings, positions, durationInSecs).Execute();
     }
 
+    /**
+     * Similar command like swipe but instead of swipe from point A to point B you
+     * are able to give list a points. Waits for the movement to finish
+     * 
+     * @param positions      collection of positions on the screen where the swipe
+     *                       be made
+     * @param durationInSecs how many seconds the swipe will need to complete
+     */
     public void multipointSwipeAndWait(List<Vector2> positions, float durationInSecs) {
         new AltMultiPointSwipeAndWait(altBaseSettings, positions, durationInSecs).Execute();
     }
@@ -167,10 +210,23 @@ public class AltUnityDriver {
         return new AltClickScreen(altBaseSettings, x, y).Execute();
     }
 
+    /**
+     * Simulates device rotation action in your game.
+     * 
+     * @param x Linear acceleration of a device on x
+     * @param y Linear acceleration of a device on y
+     * @param z Linear acceleration of a device on z
+     */
     public void tilt(int x, int y, int z) {
         new AltTilt(altBaseSettings, x, y, z).Execute();
     }
 
+    /**
+     * Similar command like swipe but instead of swipe from point A to point B you
+     * are able to give list a points.
+     * 
+     * @param altPressKeyParameters the builder for the press key commands.
+     */
     public void pressKey(AltPressKeyParameters altPressKeyParameters) {
         new AltPressKey(altBaseSettings, altPressKeyParameters).Execute();
     }
@@ -179,6 +235,12 @@ public class AltUnityDriver {
         pressKey(BuildPressKeyParameters(keyName, power, duration));
     }
 
+    /**
+     * Similar command like swipe but instead of swipe from point A to point B you
+     * are able to give list a points.
+     * 
+     * @param altPressKeyParameters the builder for the press key commands.
+     */
     public void pressKeyAndWait(AltPressKeyParameters altPressKeyParameters) {
         new AltPressKeyAndWait(altBaseSettings, altPressKeyParameters).Execute();
     }
@@ -187,6 +249,12 @@ public class AltUnityDriver {
         pressKeyAndWait(BuildPressKeyParameters(keyName, power, duration));
     }
 
+    /**
+     * Simulate mouse movement in your game. This command does not wait for the
+     * movement to finish.
+     * 
+     * @param altMoveMouseParameters the builder for the mouse moves command.
+     */
     public void moveMouse(AltMoveMouseParameters altMoveMouseParameters) {
         new AltMoveMouse(altBaseSettings, altMoveMouseParameters).Execute();
     }
@@ -195,6 +263,12 @@ public class AltUnityDriver {
         moveMouse(BuildMoveMouseParameters(x, y, duration));
     }
 
+    /**
+     * Simulate mouse movement in your game. This command waits for the movement to
+     * finish.
+     * 
+     * @param altMoveMouseParameters the builder for the mouse moves command.
+     */
     public void moveMouseAndWait(AltMoveMouseParameters altMoveMouseParameters) {
         new AltMoveMouseAndWait(altBaseSettings, altMoveMouseParameters).Execute();
     }
@@ -203,6 +277,12 @@ public class AltUnityDriver {
         moveMouseAndWait(BuildMoveMouseParameters(x, y, duration));
     }
 
+    /**
+     * Simulate scroll mouse action in your game. This command does not wait for the
+     * action to finish.
+     * 
+     * @param altScrollMouseParameters the builder for the scroll commands.
+     */
     public void scrollMouse(AltScrollMouseParameters altScrollMouseParameters) {
         new AltScrollMouse(altBaseSettings, altScrollMouseParameters).Execute();
     }
@@ -211,6 +291,12 @@ public class AltUnityDriver {
         scrollMouse(BuildScrollMouseParameters(speed, duration));
     }
 
+    /**
+     * Simulate scroll mouse action in your game. This command waits for the action
+     * to finish.
+     * 
+     * @param altScrollMouseParameters the builder for the scroll commands.
+     */
     public void scrollMouseAndWait(AltScrollMouseParameters altScrollMouseParameters) {
         new AltScrollMouseAndWait(altBaseSettings, altScrollMouseParameters).Execute();
     }
@@ -219,6 +305,10 @@ public class AltUnityDriver {
         scrollMouseAndWait(BuildScrollMouseParameters(speed, duration));
     }
 
+    /**
+     * @param altFindObjectsParameters
+     * @return the first object in the scene that respects the given criteria.
+     */
     public AltUnityObject findObject(AltFindObjectsParameters altFindObjectsParameters) {
         return new AltFindObject(altBaseSettings, altFindObjectsParameters).Execute();
     }
@@ -239,6 +329,11 @@ public class AltUnityDriver {
         return findObject(by, value, "", true);
     }
 
+    /**
+     * 
+     * @param altFindObjectsParameters
+     * @return the first object containing the given criteria
+     */
     public AltUnityObject findObjectWhichContains(AltFindObjectsParameters altFindObjectsParameters) {
         return new AltFindObjectWhichContains(altBaseSettings, altFindObjectsParameters).Execute();
     }
@@ -259,6 +354,11 @@ public class AltUnityDriver {
         return findObjectWhichContains(by, value, "", true);
     }
 
+    /**
+     * 
+     * @param altFindObjectsParameters
+     * @return all the objects respecting the given criteria
+     */
     public AltUnityObject[] findObjects(AltFindObjectsParameters altFindObjectsParameters) {
         return new AltFindObjects(altBaseSettings, altFindObjectsParameters).Execute();
     }
@@ -279,6 +379,11 @@ public class AltUnityDriver {
         return findObjects(by, value, "", true);
     }
 
+    /**
+     *
+     * @param altFindObjectsParameters
+     * @return all objects containing the given criteria
+     */
     public AltUnityObject[] findObjectsWhichContains(AltFindObjectsParameters altFindObjectsParameters) {
         return new AltFindObjectsWhichContains(altBaseSettings, altFindObjectsParameters).Execute();
     }
@@ -306,11 +411,8 @@ public class AltUnityDriver {
 
     @Deprecated
     public AltUnityObject findElementWhereNameContains(String name, String cameraName, boolean enabled) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .withCamera(cameraName)
-            .isEnabled(enabled)
-            .build();
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .withCamera(cameraName).isEnabled(enabled).build();
         return findElementWhereNameContains(altFindElementsParameters);
     }
 
@@ -329,16 +431,18 @@ public class AltUnityDriver {
         return findElementWhereNameContains(name, "");
     }
 
+    /**
+     * 
+     * @param altGetAllElementsParameters
+     * @return information about every object loaded in the currently loaded scenes.
+     */
     public AltUnityObject[] getAllElements(AltGetAllElementsParameters altGetAllElementsParameters) {
         return new AltGetAllElements(altBaseSettings, altGetAllElementsParameters).Execute();
     }
 
     public AltUnityObject[] getAllElements(String cameraName, boolean enabled) {
-        AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters
-            .Builder()
-            .withCamera(cameraName)
-            .isEnabled(enabled)
-            .build();
+        AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters.Builder()
+                .withCamera(cameraName).isEnabled(enabled).build();
         return getAllElements(altGetAllElementsParameters);
     }
 
@@ -361,11 +465,8 @@ public class AltUnityDriver {
 
     @Deprecated
     public AltUnityObject findElement(String name, String cameraName, boolean enabled) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .isEnabled(enabled)
-            .withCamera(cameraName)
-            .build();
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .isEnabled(enabled).withCamera(cameraName).build();
         return findElement(altFindElementsParameters);
     }
 
@@ -390,11 +491,8 @@ public class AltUnityDriver {
 
     @Deprecated
     public AltUnityObject[] findElements(String name, String cameraName, boolean enabled) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .withCamera(cameraName)
-            .isEnabled(enabled)
-            .build();
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .withCamera(cameraName).isEnabled(enabled).build();
         return findElements(altFindElementsParameters);
     }
 
@@ -420,11 +518,8 @@ public class AltUnityDriver {
 
     @Deprecated
     public AltUnityObject[] findElementsWhereNameContains(String name, String cameraName, boolean enabled) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .withCamera(cameraName)
-            .isEnabled(enabled)
-            .build();
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .withCamera(cameraName).isEnabled(enabled).build();
         return findElementsWhereNameContains(altFindElementsParameters);
     }
 
@@ -443,6 +538,12 @@ public class AltUnityDriver {
         return findElementsWhereNameContains(name, "", true);
     }
 
+    /**
+     * Simulate a tap action on the screen at the given coordinates.
+     * 
+     * @param x x coordinate of the screen
+     * @param y y coordinate of the screen
+     */
     public AltUnityObject tapScreen(int x, int y) {
         return new AltTapScreen(altBaseSettings, x, y).Execute();
     }
@@ -454,17 +555,14 @@ public class AltUnityDriver {
     public void tapCustom(int x, int y, int count) {
         tapCustom(x, y, count, 0.1f);
     }
-    
+
     public String waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters) {
         return new AltWaitForCurrentSceneToBe(altBaseSettings, altWaitForCurrentSceneToBeParameters).Execute();
     }
 
     public String waitForCurrentSceneToBe(String sceneName, double timeout, double interval) {
-        AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters = new AltWaitForCurrentSceneToBeParameters
-            .Builder(sceneName)
-            .withInterval(interval)
-            .withTimeout(timeout)
-            .build();
+        AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters = new AltWaitForCurrentSceneToBeParameters.Builder(
+                sceneName).withInterval(interval).withTimeout(timeout).build();
         return waitForCurrentSceneToBe(altWaitForCurrentSceneToBeParameters);
     }
 
@@ -478,31 +576,22 @@ public class AltUnityDriver {
     }
 
     @Deprecated
-    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, boolean enabled, double timeout, double interval) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .withCamera(cameraName)
-            .isEnabled(enabled)
-            .build();
-        AltWaitForElementParameters altWaitForElementParameters = new AltWaitForElementParameters
-            .Builder(altFindElementsParameters)
-            .withInterval(interval)
-            .withTimeout(timeout)
-            .build();
+    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, boolean enabled,
+            double timeout, double interval) {
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForElementParameters altWaitForElementParameters = new AltWaitForElementParameters.Builder(
+                altFindElementsParameters).withInterval(interval).withTimeout(timeout).build();
         return waitForElementWhereNameContains(altWaitForElementParameters);
     }
 
     @Deprecated
-    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, double timeout, double interval) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .withCamera(cameraName)
-            .build();
-        AltWaitForElementParameters altWaitForElementParameters = new AltWaitForElementParameters
-            .Builder(altFindElementsParameters)
-            .withInterval(interval)
-            .withTimeout(timeout)
-            .build();
+    public AltUnityObject waitForElementWhereNameContains(String name, String cameraName, double timeout,
+            double interval) {
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .withCamera(cameraName).build();
+        AltWaitForElementParameters altWaitForElementParameters = new AltWaitForElementParameters.Builder(
+                altFindElementsParameters).withInterval(interval).withTimeout(timeout).build();
         return waitForElementWhereNameContains(altWaitForElementParameters);
     }
 
@@ -527,25 +616,28 @@ public class AltUnityDriver {
     }
 
     @Deprecated
-    public void waitForElementToNotBePresent(String name, String cameraName, boolean enabled, double timeout, double interval) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .withCamera(cameraName)
-            .isEnabled(enabled)
-            .build();
-        AltWaitForElementParameters altWaitForElementParameters = new AltWaitForElementParameters
-            .Builder(altFindElementsParameters)
-            .withTimeout(timeout)
-            .withInterval(interval)
-            .build();
+    public void waitForElementToNotBePresent(String name, String cameraName, boolean enabled, double timeout,
+            double interval) {
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForElementParameters altWaitForElementParameters = new AltWaitForElementParameters.Builder(
+                altFindElementsParameters).withTimeout(timeout).withInterval(interval).build();
         waitForElementToNotBePresent(altWaitForElementParameters);
     }
 
+    /**
+     * Wait until there are no longer any objects that respect the given criteria or
+     * times run out and will throw an error.
+     * 
+     * @param altWaitForObjectsParameters the properties parameter for finding the
+     *                                    objects in a scene.
+     */
     public AltUnityObject waitForObject(AltWaitForObjectsParameters altWaitForObjectsParameters) {
         return new AltWaitForObject(altBaseSettings, altWaitForObjectsParameters).Execute();
     }
 
-    public AltUnityObject waitForObject(By by, String value, String cameraName, boolean enabled, double timeout, double interval) {
+    public AltUnityObject waitForObject(By by, String value, String cameraName, boolean enabled, double timeout,
+            double interval) {
         return waitForObject(BuildWaitForObjectsParameters(by, value, cameraName, enabled, timeout, interval));
     }
 
@@ -557,13 +649,11 @@ public class AltUnityDriver {
         return new AltWaitForObjectWithText(altBaseSettings, altWaitForObjectWithTextParameters).Execute();
     }
 
-    public AltUnityObject waitForObjectWithText(By by, String value, String text, String cameraName, boolean enabled, double timeout, double interval) {
+    public AltUnityObject waitForObjectWithText(By by, String value, String text, String cameraName, boolean enabled,
+            double timeout, double interval) {
         AltFindObjectsParameters altFindElementsParameters = BuildFindObjectsParameters(by, value, cameraName, enabled);
-        AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters
-            .Builder(altFindElementsParameters, text)
-            .withInterval(interval)
-            .withTimeout(timeout)
-            .build();
+        AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(
+                altFindElementsParameters, text).withInterval(interval).withTimeout(timeout).build();
         return waitForObjectWithText(altWaitForElementWithTextParameters);
     }
 
@@ -571,17 +661,22 @@ public class AltUnityDriver {
         return waitForObjectWithText(by, value, text, "", true, 2, 0.5);
     }
 
+    /**
+     * Wait until the object in the scene that respect the given criteria is no
+     * longer in the scene or times run out and will throw an error.
+     * 
+     * @param altWaitForObjectsParameters the properties parameter for finding the
+     *                                    objects in a scene.
+     */
     public void waitForObjectToNotBePresent(AltWaitForObjectsParameters altWaitForObjectsParameters) {
         new AltWaitForObjectToNotBePresent(altBaseSettings, altWaitForObjectsParameters).Execute();
     }
 
-    public void waitForObjectToNotBePresent(By by, String value, String cameraName, boolean enabled, double timeout, double interval) {
+    public void waitForObjectToNotBePresent(By by, String value, String cameraName, boolean enabled, double timeout,
+            double interval) {
         AltFindObjectsParameters altFindObjectsParameters = BuildFindObjectsParameters(by, value, cameraName, enabled);
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters
-            .Builder(altFindObjectsParameters)
-            .withTimeout(timeout)
-            .withInterval(interval)
-            .build();
+        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+                altFindObjectsParameters).withTimeout(timeout).withInterval(interval).build();
         waitForObjectToNotBePresent(altWaitForObjectsParameters);
     }
 
@@ -593,51 +688,37 @@ public class AltUnityDriver {
         return new AltWaitForObjectWhichContains(altBaseSettings, altWaitForObjectsParameters).Execute();
     }
 
-    public AltUnityObject waitForObjectWhichContains(By by, String value, String cameraName, boolean enabled, double timeout, double interval) {
-        return waitForObjectWhichContains(BuildWaitForObjectsParameters(by, value, cameraName, enabled, timeout, interval));
+    public AltUnityObject waitForObjectWhichContains(By by, String value, String cameraName, boolean enabled,
+            double timeout, double interval) {
+        return waitForObjectWhichContains(
+                BuildWaitForObjectsParameters(by, value, cameraName, enabled, timeout, interval));
     }
 
     public AltUnityObject waitForObjectWhichContains(By by, String value) {
         return waitForObjectWhichContains(by, value, "", true, 30, 0.5);
     }
-    
+
     private AltPressKeyParameters BuildPressKeyParameters(String keyName, float power, float duration) {
-        return new AltPressKeyParameters
-            .Builder(keyName)
-            .withPower(power)
-            .withDuration(duration)
-            .build();
+        return new AltPressKeyParameters.Builder(keyName).withPower(power).withDuration(duration).build();
     }
-    
+
     private AltMoveMouseParameters BuildMoveMouseParameters(int x, int y, float duration) {
-        return new AltMoveMouseParameters
-            .Builder(x, y)
-            .withDuration(duration)
-            .build();
+        return new AltMoveMouseParameters.Builder(x, y).withDuration(duration).build();
     }
-    
+
     private AltScrollMouseParameters BuildScrollMouseParameters(float speed, float duration) {
-        return new AltScrollMouseParameters
-            .Builder()
-            .withDuration(duration)
-            .withSpeed(speed)
-            .build();
+        return new AltScrollMouseParameters.Builder().withDuration(duration).withSpeed(speed).build();
     }
-    
-    private AltFindObjectsParameters BuildFindObjectsParameters(By by, String value, String cameraName, boolean enabled) {
-        return new AltFindObjectsParameters
-            .Builder(by, value)
-            .isEnabled(enabled)
-            .withCamera(cameraName)
-            .build();
+
+    private AltFindObjectsParameters BuildFindObjectsParameters(By by, String value, String cameraName,
+            boolean enabled) {
+        return new AltFindObjectsParameters.Builder(by, value).isEnabled(enabled).withCamera(cameraName).build();
     }
-    
-    private AltWaitForObjectsParameters BuildWaitForObjectsParameters(By by, String value, String cameraName, boolean enabled, double timeout, double interval) {
-        return new AltWaitForObjectsParameters
-            .Builder(BuildFindObjectsParameters(by, value, cameraName, enabled))
-            .withInterval(interval)
-            .withTimeout(timeout)
-            .build();
+
+    private AltWaitForObjectsParameters BuildWaitForObjectsParameters(By by, String value, String cameraName,
+            boolean enabled, double timeout, double interval) {
+        return new AltWaitForObjectsParameters.Builder(BuildFindObjectsParameters(by, value, cameraName, enabled))
+                .withInterval(interval).withTimeout(timeout).build();
     }
 
     @Deprecated
@@ -661,17 +742,12 @@ public class AltUnityDriver {
     }
 
     @Deprecated
-    public AltUnityObject waitForElement(String name, String cameraName, boolean enabled, double timeout, double interval) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .withCamera(cameraName)
-            .isEnabled(enabled)
-            .build();
-        AltWaitForElementParameters altWaitForElementParameters = new AltWaitForElementParameters
-            .Builder(altFindElementsParameters)
-            .withTimeout(timeout)
-            .withInterval(interval)
-            .build();
+    public AltUnityObject waitForElement(String name, String cameraName, boolean enabled, double timeout,
+            double interval) {
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForElementParameters altWaitForElementParameters = new AltWaitForElementParameters.Builder(
+                altFindElementsParameters).withTimeout(timeout).withInterval(interval).build();
         return waitForElement(altWaitForElementParameters);
     }
 
@@ -691,22 +767,18 @@ public class AltUnityDriver {
     }
 
     @Deprecated
-    public AltUnityObject waitForElementWithText(AltWaitForElementWithTextParameters altWaitForElementWithTextParameters) {
+    public AltUnityObject waitForElementWithText(
+            AltWaitForElementWithTextParameters altWaitForElementWithTextParameters) {
         return new AltWaitForElementWithText(altBaseSettings, altWaitForElementWithTextParameters).Execute();
     }
 
     @Deprecated
-    public AltUnityObject waitForElementWithText(String name, String text, String cameraName, boolean enabled, double timeout, double interval) {
-        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters
-            .Builder(name)
-            .withCamera(cameraName)
-            .isEnabled(enabled)
-            .build();
-        AltWaitForElementWithTextParameters altWaitForElementWithTextParameters = new AltWaitForElementWithTextParameters
-            .Builder(altFindElementsParameters, text)
-            .withInterval(interval)
-            .withTimeout(timeout)
-            .build();
+    public AltUnityObject waitForElementWithText(String name, String text, String cameraName, boolean enabled,
+            double timeout, double interval) {
+        AltFindElementsParameters altFindElementsParameters = new AltFindElementsParameters.Builder(name)
+                .withCamera(cameraName).isEnabled(enabled).build();
+        AltWaitForElementWithTextParameters altWaitForElementWithTextParameters = new AltWaitForElementWithTextParameters.Builder(
+                altFindElementsParameters, text).withInterval(interval).withTimeout(timeout).build();
         return waitForElementWithText(altWaitForElementWithTextParameters);
     }
 
@@ -726,18 +798,16 @@ public class AltUnityDriver {
     }
 
     @Deprecated
-    public AltUnityObject findElementByComponent(AltFindElementsByComponentParameters altFindElementsByComponentParameters) {
+    public AltUnityObject findElementByComponent(
+            AltFindElementsByComponentParameters altFindElementsByComponentParameters) {
         return new AltFindElementByComponent(altBaseSettings, altFindElementsByComponentParameters).Execute();
     }
 
     @Deprecated
-    public AltUnityObject findElementByComponent(String componentName, String assemblyName, String cameraName, boolean enabled) {
-        AltFindElementsByComponentParameters altFindElementsByComponentParameters = new AltFindElementsByComponentParameters
-            .Builder(componentName)
-            .inAssembly(assemblyName)
-            .isEnabled(enabled)
-            .withCamera(cameraName)
-            .build();
+    public AltUnityObject findElementByComponent(String componentName, String assemblyName, String cameraName,
+            boolean enabled) {
+        AltFindElementsByComponentParameters altFindElementsByComponentParameters = new AltFindElementsByComponentParameters.Builder(
+                componentName).inAssembly(assemblyName).isEnabled(enabled).withCamera(cameraName).build();
         return findElementByComponent(altFindElementsByComponentParameters);
     }
 
@@ -757,18 +827,16 @@ public class AltUnityDriver {
     }
 
     @Deprecated
-    public AltUnityObject[] findElementsByComponent(AltFindElementsByComponentParameters altFindElementsByComponentParameters) {
+    public AltUnityObject[] findElementsByComponent(
+            AltFindElementsByComponentParameters altFindElementsByComponentParameters) {
         return new AltFindElementsByComponent(altBaseSettings, altFindElementsByComponentParameters).Execute();
     }
 
     @Deprecated
-    public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName, boolean enabled) {
-        AltFindElementsByComponentParameters altFindElementsByComponentParameters = new AltFindElementsByComponentParameters
-            .Builder(componentName)
-            .inAssembly(assemblyName)
-            .isEnabled(enabled)
-            .withCamera(cameraName)
-            .build();
+    public AltUnityObject[] findElementsByComponent(String componentName, String assemblyName, String cameraName,
+            boolean enabled) {
+        AltFindElementsByComponentParameters altFindElementsByComponentParameters = new AltFindElementsByComponentParameters.Builder(
+                componentName).inAssembly(assemblyName).isEnabled(enabled).withCamera(cameraName).build();
         return findElementsByComponent(altFindElementsByComponentParameters);
     }
 

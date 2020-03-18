@@ -6,8 +6,18 @@ import ro.altom.altunitytester.position.Vector2;
 
 import java.util.List;
 
+/**
+ * Similar command like swipe but instead of swipe from point A to point B you are able to give list a points. 
+ */
 public class AltMultiPointSwipeAndWait extends AltBaseCommand {
+
+    /**
+     * @param positions collection of positions on the screen where the swipe be made
+     */
     private List<Vector2> positions;
+    /**
+     * @param durationInSeconds how many seconds the swipe will need to complete
+     */
     private float durationInSeconds;
     public AltMultiPointSwipeAndWait(AltBaseSettings altBaseSettings, List<Vector2> positions, float durationInSeconds) {
         super(altBaseSettings);
