@@ -17,16 +17,14 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
             <layout>default</layout>
-            
         </repository>
-        
     </distributionManagement>
 
     <scm>
         <connection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</connection>
         <developerConnection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</developerConnection>
         <url>http://gitlab.com/altom/altunity/altunitytester/tree/master</url>
-        <tag>HEAD</tag>
+        <tag>1.5.3</tag>
     </scm>
     
     <properties>
