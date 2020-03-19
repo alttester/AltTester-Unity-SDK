@@ -260,8 +260,8 @@ javadoc:
 maven-snapshot-repo:
   stage: deploy
   # environment: staging
-  # only:
-  #     - master
+  only:
+      - master
   script:
       - mvn deploy -DskipTests
   tags:
