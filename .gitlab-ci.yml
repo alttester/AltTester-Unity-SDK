@@ -243,23 +243,26 @@ pages:
       
 maven-snapshot-repo:
   stage: deploy
-  # environment: staging
-  only:
-      - master
-  script:
-      - mvn deploy -DskipTests
-  tags:
-      - artifactory
-
-maven-repo:
-  stage: deploy
-  # environment: production
   when: manual
   only:
       - master
   script:
+      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+      - mvn deploy -DskipTests
+  tags:
+      - unity
+      - mac
+
+maven-repo:
+  stage: deploy
+  when: manual
+  only:
+      - master
+  script:
+      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
       - mvn deploy -f pom-release.xml -DskipTests
   tags:
-      - artifactory
+      - unity
+      - mac
 
 
