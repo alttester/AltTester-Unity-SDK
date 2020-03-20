@@ -84,17 +84,18 @@ class AltrunUnityDriver(object):
     def get_current_scene(self):
         return GetCurrentScene(self.socket,self.request_separator,self.request_end,self.appium_driver).execute()
 
-
     def swipe(self, x_start, y_start, x_end, y_end, duration_in_secs):
         return Swipe(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
 
-
     def swipe_and_wait(self, x_start, y_start, x_end, y_end, duration_in_secs):
         return SwipeAndWait(self.socket,self.request_separator,self.request_end,x_start,y_start,x_end,y_end,duration_in_secs).execute()
+    
     def multipoint_swipe(self, positions, duration_in_secs):
         return MultipointSwipe(self.socket,self.request_separator,self.request_end,positions,duration_in_secs).execute()
+    
     def multipoint_swipe_and_wait(self, positions, duration_in_secs):
         return MultipointSwipeAndWait(self.socket,self.request_separator,self.request_end,positions,duration_in_secs).execute()
+    
     def tilt(self, x, y, z):
         return Tilt(self.socket,self.request_separator,self.request_end,x,y,z).execute()
 
@@ -177,6 +178,9 @@ class AltrunUnityDriver(object):
     def tap_at_coordinates(self,x,y):
         return TapAtCoordinates(self.socket,self.request_separator,self.request_end,self.appium_driver,x,y).execute()
 
+    def tap_custom(self, x, y, count, interval=0.1):
+        return TapCustom(self.socket,self.request_separator,self.request_end,self.appium_driver,x,y,count,interval).execute()
+    
     @deprecated(version='1.4.0',reason="Use find_object instead")
     def find_element_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
         return FindElementByComponent(self.socket,self.request_separator,self.request_end,self.appium_driver,component_name,assembly_name,camera_name,enabled).execute()
@@ -184,5 +188,6 @@ class AltrunUnityDriver(object):
     @deprecated(version='1.4.0',reason="Use find_objects instead")
     def find_elements_by_component(self, component_name,assembly_name='',camera_name='',enabled=True):
         return FindElementsByComponent(self.socket,self.request_separator,self.request_end,self.appium_driver,component_name,assembly_name,camera_name,enabled).execute()
+    
     def get_png_screenshot(self,path):
         GetPNGScreenshot(self.socket,self.request_separator,self.request_end,path).execute()

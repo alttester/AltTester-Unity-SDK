@@ -91,7 +91,7 @@ public class TestForScene2DraggablePanel
     [Test]
     public void TestGetAllEnabledElements()
     {
-        Thread.Sleep(1000);
+        Thread.Sleep(2000);
 
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
@@ -123,7 +123,7 @@ public class TestForScene2DraggablePanel
     [Test]
     public void TestGetAllElements()
     {
-        Thread.Sleep(1000);
+        Thread.Sleep(2000);
 
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);

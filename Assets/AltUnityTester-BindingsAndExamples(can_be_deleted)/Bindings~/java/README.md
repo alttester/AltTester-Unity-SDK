@@ -387,12 +387,23 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
 	* return: the element that received the tap
 
  ```java
-     altUnityDriver.tapScreen(100,200);
-  ``` 
+     altUnityDriver.tapScreen(100, 200);
+ ``` 
  
+  * `tapCustom`
+	* params: 
+		* position - (x,y) coordinates on the screen where a touch will be simulated
+		* count - how many touches will be 
+		* interval - how many seconds will be between touches
+ 	* return: none
+ 
+  ```java
+      altUnityDriver.tapCustom(100, 200, 5, 0.3f);
+  ``` 
+
   * `tilt`
 	* params: acceleration - (x,y,z) values to simulate the device rotation
-	*return: none
+	* return: none
 
  ```java
      altUnityDriver.tilt(new Vector3(2, 2, 2));
@@ -461,6 +472,14 @@ All elements in AltUnityTester have the following structure, as seen in the AltU
     
     ```java
     altUnityDriver.findElement("UIButton").tap();
+    ``` 
+
+* `doubleTap`
+    * params: none
+    * simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame
+    
+    ```java
+    altUnityDriver.findElement("UIButton").doubleTap();
     ``` 
 
   * `getText`

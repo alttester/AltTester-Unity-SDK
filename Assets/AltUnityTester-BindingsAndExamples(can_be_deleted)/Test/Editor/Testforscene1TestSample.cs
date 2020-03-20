@@ -778,7 +778,7 @@ public class TestForScene1TestSample
     public void TestFindObjectScene1()
     {
         var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
-        Assert.AreEqual(5, altElements.Count);
+        Assert.AreEqual(6, altElements.Count);
     }
 
     [Test]
@@ -819,6 +819,23 @@ public class TestForScene1TestSample
         Assert.AreEqual("BJÖRN'S PASS", text);
     }
     [Test]
+    public void TestDoubleTap()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        counterButton.DoubleTap();
+        Thread.Sleep(500);
+        Assert.AreEqual("2", counterButtonText.GetText());
+    }
+    [Test]
+    public void TestCustomTap()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
+        Thread.Sleep(1000);
+        Assert.AreEqual("4", counterButtonText.GetText());
+    }
     public void TestGet3DObjectFromScreenshot()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");

@@ -287,7 +287,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "tapObject":
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityTapCommand (altUnityObject);
+                    var tapCount = 1;
+                    if (pieces.Length > 1 && !string.IsNullOrEmpty(pieces[2]))
+                        tapCount = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(pieces[2]);
+                    command = new AltUnityTapCommand(altUnityObject, tapCount < 1 ? 1 : tapCount);
                     break;
                 case "findObjectsByName":
                     methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
@@ -327,6 +330,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "tapScreen":
                     command = new AltUnityClickOnScreenAtXyCommand(pieces[1], pieces[2]);
+                    break;
+                case "tapCustom":
+                    UnityEngine.Vector2 clickPos = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
+                    command = new AltUnityClickOnScreenCustom(clickPos, pieces[2], pieces[3]);
                     break;
                 case "dragObject":
                     UnityEngine.Vector2 positionVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);

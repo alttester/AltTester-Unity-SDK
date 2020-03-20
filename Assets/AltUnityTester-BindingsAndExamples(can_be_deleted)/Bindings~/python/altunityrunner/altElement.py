@@ -119,6 +119,11 @@ class AltElement(object):
         return AltElement(self.alt_unity_driver,self.appium_driver,data)
     
     def tap(self):
-        alt_object=self.toJSON()
-        data= Tap(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
+        alt_object = self.toJSON()
+        data = Tap(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object,1).execute()
+        return AltElement(self.alt_unity_driver,self.appium_driver,data)
+
+    def double_tap(self):
+        alt_object = self.toJSON()
+        data = Tap(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object,2).execute()
         return AltElement(self.alt_unity_driver,self.appium_driver,data)

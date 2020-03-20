@@ -708,6 +708,23 @@ class PythonTests(unittest.TestCase):
         self.assertEqual('Plane', plane.name)
         self.assertEqual('Capsule', capsule.name)
 
+    def test_double_tap(self):  
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
+        counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
+        counterButton.double_tap();
+        time.sleep(0.5);
+        self.assertEqual("2", counterButtonText.get_text());
+        
+    def test_custom_tap(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
+        counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
+        self.altdriver.tap_custom(counterButton.x, counterButton.y, 4);
+        time.sleep(1);
+        self.assertEqual("4", counterButtonText.get_text());
+
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

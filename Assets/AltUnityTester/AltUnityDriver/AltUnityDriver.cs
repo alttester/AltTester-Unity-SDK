@@ -139,7 +139,7 @@ public class AltUnityDriver
     }
     public void Swipe(AltUnityVector2 start, AltUnityVector2 end, float duration)
     {
-        new AltUnityAltUnitySwipe(socketSettings, start, end, duration).Execute();
+        new AltUnitySwipe(socketSettings, start, end, duration).Execute();
     }
     public void SwipeAndWait(AltUnityVector2 start, AltUnityVector2 end, float duration)
     {
@@ -183,7 +183,6 @@ public class AltUnityDriver
     {
         new AltUnityScrollMouse(socketSettings, speed, duration).Execute();
     }
-
     public void ScrollMouseAndWait(float speed, float duration = 0)
     {
         new AltUnityScrollMouseAndWait(socketSettings, speed, duration).Execute();
@@ -191,6 +190,10 @@ public class AltUnityDriver
     public AltUnityObject TapScreen(float x, float y)
     {
         return new AltUnityTapScreen(socketSettings, x, y).Execute();
+    }
+    public void TapCustom(float x, float y, int count, float interval = 0.1f)
+    {
+        new AltUnityTapCustom(socketSettings, x, y, count, interval).Execute();
     }
     public void Tilt(AltUnityVector3 acceleration)
     {
