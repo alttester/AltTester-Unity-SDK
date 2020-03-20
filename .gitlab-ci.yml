@@ -184,9 +184,9 @@ create-jar-archive:
       - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityJAR || true
       - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
       - mvn clean compile assembly:single
-      - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar
+      - mv target/altunitytester-java-client.jar ../../../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar.jar
       - cd ../../../../public/${CI_COMMIT_REF_NAME}/
-      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
+      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
       - ls
       - cat index.html
     artifacts:
@@ -240,22 +240,6 @@ pages:
   script:
     - cp -r documentation/ public/
     - ls public/
-
-javadoc:
-    stage: docs
-    # only:
-    #     - master
-    script:
-        - mvn javadoc:javadoc
-    artifacts:
-        name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
-        expire_in: 6 mos
-        when: always
-        paths:
-            - target/site/apidocs/
-    tags:
-        - unity
-        - mac
       
 maven-snapshot-repo:
   stage: deploy
