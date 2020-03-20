@@ -196,6 +196,9 @@ create-jar-archive:
 
 deploy-altunitytester-python:
     stage: deploy
+    only:
+      refs: 
+          - master
     when: manual
     tags:
         - unity
@@ -243,8 +246,10 @@ pages:
       
 maven-snapshot-repo:
   stage: deploy
+  only:
+      refs: 
+          - master
   when: manual
- 
   script:
       - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
       - mvn deploy -DskipTests
@@ -254,8 +259,10 @@ maven-snapshot-repo:
 
 maven-repo:
   stage: deploy
+  only:
+      refs: 
+          - master
   when: manual
-
   script:
       - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
       - mvn deploy -f pom-release.xml -DskipTests
