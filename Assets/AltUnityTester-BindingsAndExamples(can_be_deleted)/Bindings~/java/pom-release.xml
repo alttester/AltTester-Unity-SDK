@@ -5,7 +5,27 @@
     <groupId>com.altom</groupId>
     <artifactId>altunitytester-java-client</artifactId>
     <packaging>jar</packaging>
-    <version>1.5.4-Alpha-SNAPSHOT</version>
+    <version>1.5.3</version>
+
+    <name>AltUnity Tester - Java Client</name>
+    <description>An automated tool for testing Unity Games</description>
+    <url>http://://gitlab.com/altom/altunity/altunitytester</url>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License, Version 3</name>
+            <url>http://www.gnu.org/licenses/gpl.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Ionut Benyi</name>
+            <email>ionut.benyi@altom.com@altom.ro</email>
+            <organization>Altom</organization>
+            <organizationUrl>http://altom.com/</organizationUrl>
+        </developer>
+    </developers>
 
     <distributionManagement>
         <snapshotRepository>
@@ -17,9 +37,7 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
             <layout>default</layout>
-            
         </repository>
-        
     </distributionManagement>
 
     <scm>
@@ -161,14 +179,14 @@
             </plugin>
 
             <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
-                        <id>default-deploy</id>
-                        <phase>deploy</phase>
+                        <id>attach-sources</id>
                         <goals>
-                            <goal>deploy</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -193,13 +211,28 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
                 <executions>
                     <execution>
-                        <id>attach-sources</id>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
                         </goals>
                     </execution>
                 </executions>

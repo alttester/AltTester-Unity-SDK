@@ -5,7 +5,7 @@
     <groupId>com.altom</groupId>
     <artifactId>altunitytester-java-client</artifactId>
     <packaging>jar</packaging>
-    <version>1.5.4-Alpha-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
 
     <distributionManagement>
         <snapshotRepository>
@@ -17,16 +17,14 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
             <layout>default</layout>
-            
         </repository>
-        
     </distributionManagement>
 
     <scm>
         <connection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</connection>
         <developerConnection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</developerConnection>
         <url>http://gitlab.com/altom/altunity/altunitytester/tree/master</url>
-        <tag>HEAD</tag>
+        <tag>1.5.3</tag>
     </scm>
     
     <properties>
@@ -174,49 +172,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                </configuration>
-                <version>2.10.4</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>

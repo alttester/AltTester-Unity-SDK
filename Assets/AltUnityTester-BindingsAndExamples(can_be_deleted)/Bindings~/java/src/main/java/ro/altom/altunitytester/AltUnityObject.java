@@ -10,83 +10,83 @@ public class AltUnityObject {
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getName()}
+     * As of version 1.3.0 use getter getName()
      */
     public String name;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getId()}
+     * As of version 1.3.0 use getter getId()
      */
     public int id;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getX()}
+     * As of version 1.3.0 use getter getX()
      */
     public int x;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getY()}
+     * As of version 1.3.0 use getter getY()
      */
     public int y;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getZ()}
+     * As of version 1.3.0 use getter getZ()
      */
     public int z;
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getMobileY()}
+     * As of version 1.3.0 use getter getMobileY()
      */
     public int mobileY;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getType()}
+     * As of version 1.3.0 use getter getType()
      */
     public String type;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #isEnabled()}
+     * As of version 1.3.0 use getter isEnabled()
      */
     public boolean enabled;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getWorldX()}
+     * As of version 1.3.0 use getter getWorldX()
      */
     public float worldX;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getWorldY()}
+     * As of version 1.3.0 use getter getWorldY()
      */
     public float worldY;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getWorldZ()}
+     * As of version 1.3.0 use getter getWorldZ()
      */
     public float worldZ;
 
     /**
      * Access to this variable will be removed in the future.
      *
-     * As of version 1.3.0 use getter {@link #getIdCamera()}
+     * As of version 1.3.0 use getter getIdCamera()
      */
     public int idCamera;
 
