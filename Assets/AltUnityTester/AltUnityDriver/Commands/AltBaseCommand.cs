@@ -1,4 +1,5 @@
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+using System.Linq;
 
 public class AltBaseCommand
 {
@@ -14,17 +15,27 @@ public class AltBaseCommand
     {
         string data = "";
         string previousPart = "";
-        while (true)
+        System.Collections.Generic.List<byte[]> byteArray = new System.Collections.Generic.List<byte[]>();
+        int received = 0;
+        do
         {
             var bytesReceived = new byte[BUFFER_SIZE];
-            SocketSettings.socket.Client.Receive(bytesReceived);
-            string part = fromBytes(bytesReceived);
+            received = SocketSettings.socket.Client.Receive(bytesReceived);
+            var newBytesReceived = new byte[received];
+            for (int i = 0; i < received; i++)
+            {
+                newBytesReceived[i] = bytesReceived[i];
+            }
+            byteArray.Add(newBytesReceived);
+            string part = fromBytes(newBytesReceived);
             string partToSeeAltEnd = previousPart + part;
-            data += part;
             if (partToSeeAltEnd.Contains("::altend"))
                 break;
             previousPart = part;
-        }
+
+        } while (true);
+        data = fromBytes(byteArray.SelectMany(x => x).ToArray());
+
         try
         {
             string[] start = new string[] { "altstart::" };
