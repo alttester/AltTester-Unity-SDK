@@ -558,7 +558,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     
     public static UnityEngine.GameObject GetGameObject(int objectId)
     {
-        foreach (UnityEngine.GameObject gameObject in FindObjectsOfType<UnityEngine.GameObject>())
+        foreach (UnityEngine.GameObject gameObject in UnityEngine.Resources.FindObjectsOfTypeAll<UnityEngine.GameObject>())
         {
             if (gameObject.GetInstanceID() == objectId)
                 return gameObject;
