@@ -6,7 +6,7 @@ import base64
 class GetPNGScreenshot(BaseCommand):
 
     def __init__(self, socket, request_separator, request_end, path):
-        super(GetPNGScreenshot).__init__(
+        super(GetPNGScreenshot, self).__init__(
             socket, request_separator, request_end)
         self.path = path
 

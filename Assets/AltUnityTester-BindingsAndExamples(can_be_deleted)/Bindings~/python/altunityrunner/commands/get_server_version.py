@@ -11,7 +11,7 @@ my_file = os.path.join(THIS_FOLDER, 'PythonServerVersion.txt')
 class GetServerVersion(BaseCommand):
 
     def __init__(self, socket, request_separator, request_end):
-        super(GetServerVersion).__init__(
+        super(GetServerVersion, self).__init__(
             socket, request_separator, request_end)
 
     def execute(self):
