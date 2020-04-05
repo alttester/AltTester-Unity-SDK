@@ -22,7 +22,7 @@ public class AltUnityDriver {
         public static int FloatType = 3;
     }
 
-    public static final String VERSION = "1.5.4-Alpha";
+    public static final String VERSION = "1.5.4";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private Socket socket = null;
