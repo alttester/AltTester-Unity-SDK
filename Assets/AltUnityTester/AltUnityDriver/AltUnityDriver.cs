@@ -283,7 +283,7 @@ public class AltUnityDriver
     {
         return new AltUnityGetAllScenes(socketSettings).Execute();
     }
-    public System.Collections.Generic.List<string> GetAllCameras()
+    public System.Collections.Generic.List<AltUnityObject> GetAllCameras()
     {
         return new AltUnityGetAllCameras(socketSettings).Execute();
     }
