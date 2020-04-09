@@ -13,7 +13,7 @@ public class AltUnitySwipeAndWait : AltBaseCommand
     }
     public void Execute()
     {
-        new AltUnityAltUnitySwipe(SocketSettings, start, end, duration).Execute();
+        new AltUnitySwipe(SocketSettings, start, end, duration).Execute();
         System.Threading.Thread.Sleep((int)duration * 1000);
         string data;
         do

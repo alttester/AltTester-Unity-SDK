@@ -73,6 +73,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testGetAllElements() throws Exception {
+        Thread.sleep(1000);
         AltUnityObject[] altElements = altUnityDriver.getAllElements();
         assertNotNull(altElements);
         String altElementsString = new Gson().toJson(altElements);
@@ -198,6 +199,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testFindElementByComponent() throws Exception {
+        Thread.sleep(1000);
         String componentName = "AltUnityRunner";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.COMPONENT, componentName);
         assertNotNull(altElement);
@@ -206,6 +208,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testGetComponentProperty() throws Exception {
+        Thread.sleep(1000);
         String componentName = "AltUnityRunner";
         String propertyName = "SocketPortNumber";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "AltUnityRunnerPrefab");
@@ -216,6 +219,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testGetNonExistingComponentProperty() throws Exception {
+        Thread.sleep(1000);
         String componentName = "AltUnityRunner";
         String propertyName = "socketPort";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "AltUnityRunnerPrefab");
@@ -404,7 +408,7 @@ public class TestsSampleScene1 {
     @Test
     public void testButtonClickWithSwipe() throws Exception {
         AltUnityObject button = altUnityDriver.findObject(AltUnityDriver.By.NAME, "UIButton");
-        altUnityDriver.swipeAndWait(button.x, button.y, button.x, button.y, 1);
+        altUnityDriver.holdButtonAndWait(button.x, button.y, 1);
         AltUnityObject capsuleInfo = altUnityDriver.findObject(AltUnityDriver.By.NAME, "CapsuleInfo");
         Thread.sleep(2);
         String text = capsuleInfo.getText();
@@ -544,5 +548,31 @@ public class TestsSampleScene1 {
             AltUnityDriver.By.NAME, "NonEnglishText").build();
         String text = altUnityDriver.findObject(altFindObjectsParameters1).getText();
         assertEquals("BJÖRN'S PASS", text);
+    }
+    
+    @Test
+    public void TestDoubleTap() throws InterruptedException {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ButtonCounter").build();
+        AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
+        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
+        AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
+        counterButton.doubleTap();
+        Thread.sleep(500);
+        assertEquals("2", counterButtonText.getText());
+    }
+    @Test
+    public void TestCustomTap() throws InterruptedException {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ButtonCounter").build();
+        AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
+        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+            AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
+        AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
+        altUnityDriver.tapCustom(counterButton.x, counterButton.y, 4);
+        Thread.sleep(1000);
+        assertEquals("4", counterButtonText.getText());
+
     }
 }

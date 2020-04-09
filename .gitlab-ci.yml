@@ -100,7 +100,7 @@ run-java-android-tests:
     script:
         - *reinstall_and_start_android_app
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
-        - mvn test
+        - mvn -Dtest=ro.altom.altunitytester.Tests* test
     needs: ["build-apk"]
 
 run-python-appium-android-tests:
@@ -125,7 +125,7 @@ run-java-appium-android-tests:
     script:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
         - mvn clean compile assembly:single
-        - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.3 -Dpackaging=jar
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.4 -Dpackaging=jar
         - cd ../java-appium-tests
         - mvn test
     artifacts:
@@ -184,9 +184,9 @@ create-jar-archive:
       - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityJAR || true
       - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
       - mvn clean compile assembly:single
-      - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar
+      - mv target/altunitytester-java-client.jar ../../../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar.jar
       - cd ../../../../public/${CI_COMMIT_REF_NAME}/
-      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
+      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
       - ls
       - cat index.html
     artifacts:
@@ -196,10 +196,14 @@ create-jar-archive:
 
 deploy-altunitytester-python:
     stage: deploy
+    only:
+      refs: 
+          - master
     when: manual
     tags:
         - unity
         - mac
+        - android
     script:
         - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
         - python setup.py sdist upload -r pypi
@@ -207,7 +211,7 @@ deploy-altunitytester-python:
 docs:
   stage: docs
   only:
-        refs:
+        refs: 
             - master
   artifacts:
     paths:
@@ -240,3 +244,31 @@ pages:
   script:
     - cp -r documentation/ public/
     - ls public/
+      
+maven-snapshot-repo:
+  stage: deploy
+  only:
+      refs: 
+          - master
+  when: manual
+  script:
+      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+      - mvn deploy -DskipTests
+  tags:
+      - unity
+      - mac
+
+maven-repo:
+  stage: deploy
+  only:
+      refs: 
+          - master
+  when: manual
+  script:
+      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+      - mvn deploy -f pom-release.xml -DskipTests
+  tags:
+      - unity
+      - mac
+
+

@@ -4,10 +4,16 @@ import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
 
+/**
+ * Wait until there are no longer any objects that respect the given criteria or times run out and will throw an error.
+ */
 public class AltWaitForObject extends AltBaseFindObject{
+    /**
+     * @param altFindObjectsParameters the properties parameter for finding the objects in a scene.
+     */
     private AltWaitForObjectsParameters altWaitForObjectsParameters;
     public AltWaitForObject(AltBaseSettings altBaseSettings, AltWaitForObjectsParameters altWaitForObjectsParameters) {
-        super(altBaseSettings);
+        super(altBaseSettings); 
         this.altWaitForObjectsParameters = altWaitForObjectsParameters;
     }
     public AltUnityObject Execute(){

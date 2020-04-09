@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
@@ -164,6 +164,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindElementByComponent()
     {
+        Thread.Sleep(1000);
         const string componentName = "AltUnityRunner";
         var altElement = altUnityDriver.FindObject(By.COMPONENT, componentName);
         Assert.NotNull(altElement);
@@ -198,6 +199,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetNonExistingComponentProperty()
     {
+        Thread.Sleep(1000);
         const string componentName = "AltUnityRunner";
         const string propertyName = "socketPort";
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
@@ -583,10 +585,30 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestGetAllMethodsFromClass()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        List<String> methods = altElement.GetAllMethods(component2,AltUnityMethodSelection.CLASSMETHODS);
+        Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
+        Assert.IsFalse(methods.Contains("Void CancelInvoke(System.String)"));
+    }
+    [Test]
+    public void TestGetAllMethodsFromInherited()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.INHERITEDMETHODS);
+        Assert.IsTrue(methods.Contains("Void CancelInvoke(System.String)"));
+        Assert.IsFalse(methods.Contains("Void UIButtonClicked()"));
+    }
+    [Test]
     public void TestGetAllMethods()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        List<String> methods = altElement.GetAllMethods(altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule")));
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.ALLMETHODS);
+        Assert.IsTrue(methods.Contains("Void CancelInvoke(System.String)"));
         Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
     }
 
@@ -756,7 +778,7 @@ public class TestForScene1TestSample
     public void TestFindObjectScene1()
     {
         var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
-        Assert.AreEqual(5, altElements.Count);
+        Assert.AreEqual(6, altElements.Count);
     }
 
     [Test]
@@ -796,7 +818,49 @@ public class TestForScene1TestSample
         var text = altUnityDriver.FindObject(By.NAME, "NonEnglishText").GetText();
         Assert.AreEqual("BJÖRN'S PASS", text);
     }
+    [Test]
+    public void TestDoubleTap()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        counterButton.DoubleTap();
+        Thread.Sleep(500);
+        Assert.AreEqual("2", counterButtonText.GetText());
+    }
+    [Test]
+    public void TestCustomTap()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
+        Thread.Sleep(1000);
+        Assert.AreEqual("4", counterButtonText.GetText());
+    }
+    public void TestGet3DObjectFromScreenshot()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        AltUnityObject altUnityObject;
+        altUnityDriver.GetScreenshot(new AltUnityVector2(capsule.x, capsule.y), new AltUnityColor(1, 0, 0, 1), 1, out altUnityObject,new AltUnityVector2(1920,1080));
+        Assert.AreEqual("Capsule", altUnityObject.name);
+    }
 
+    [Test]
+    public void TestGetUIObjectFromScreenshot()
+    {
+        var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+        AltUnityObject altUnityObject;
+        altUnityDriver.GetScreenshot(new AltUnityVector2(capsuleInfo.x, capsuleInfo.y), new AltUnityColor(1, 0, 0, 1), 1, out altUnityObject, new AltUnityVector2(1920, 1080));
+        Assert.AreEqual("CapsuleInfo", altUnityObject.name);
+    }
+    [Test]
+    public void TestObjectFromScreenshot()
+    {
+        var icon = altUnityDriver.FindObject(By.NAME, "Icon");
+        AltUnityVector2 offscreenCoordinates = new AltUnityVector2(icon.x + 400, icon.y);
+        AltUnityObject altUnityObject;
+        altUnityDriver.GetScreenshot(offscreenCoordinates, new AltUnityColor(1, 0, 0, 1), 1, out altUnityObject, new AltUnityVector2(1920, 1080));
+        Assert.IsNull(altUnityObject);
+    }
 
 
 }

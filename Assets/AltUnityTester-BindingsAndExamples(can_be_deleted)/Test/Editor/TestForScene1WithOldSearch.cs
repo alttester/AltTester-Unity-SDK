@@ -149,6 +149,7 @@ public class TestForScene1WithOldSearch
     [Test]
     public void TestFindElementByComponent()
     {
+        Thread.Sleep(1000);
         const string componentName = "AltUnityRunner";
         var altElement = altUnityDriver.FindElementByComponent(componentName);
         Assert.NotNull(altElement);
@@ -184,6 +185,7 @@ public class TestForScene1WithOldSearch
     [Test]
     public void TestGetNonExistingComponentProperty()
     {
+        Thread.Sleep(1000);
         const string componentName = "AltUnityRunner";
         const string propertyName = "socketPort";
         var altElement = altUnityDriver.FindElement("AltUnityRunnerPrefab");

@@ -4,7 +4,14 @@ import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
 
+/**
+ * Wait until the object in the scene that respect the given criteria is no longer in the scene or times run out and will throw an error.
+ */
 public class AltWaitForObjectToNotBePresent extends AltBaseFindObject {
+
+    /**
+     * @param altWaitForObjectsParameters the properties parameter for finding the objects in a scene.
+     */
     private AltWaitForObjectsParameters altWaitForObjectsParameters;
     public AltWaitForObjectToNotBePresent(AltBaseSettings altBaseSettings, AltWaitForObjectsParameters altWaitForObjectsParameters) {
         super(altBaseSettings);

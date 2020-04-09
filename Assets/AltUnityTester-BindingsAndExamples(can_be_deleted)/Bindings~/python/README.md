@@ -371,9 +371,21 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
 	* return: the element that received the tap
 
  ```python
-     alt_driver.tap_at_coordinates(100,200)
+     alt_driver.tap_at_coordinates(100, 200)
   ``` 
  
+  * `tap_custom`
+	* params: 
+		* x - x position on the screen where a touch will be simulated
+		* y - y position on the screen where a touch will be simulated
+		* count - how many touches will be 
+		* interval - how many seconds will be between touches
+ 	* return: none
+
+ ```python
+     alt_driver.tap_custom(100, 200, 5, 0.3)
+  ``` 
+
   * `tilt`
 	* params: acceleration - x,y,z values to simulate the device rotation
 	* return: none
@@ -428,12 +440,12 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
   self.altdriver.find_element('Button2').mobile_dragToElement(other_button)
   ``` 
 
-* `click_Event`
+* `click_event`
 	* params: none
 	* Execute pointerClick event on the object
  
  ```python
-     self.alt_driver.find_element("Capsule").click_Event()
+     self.alt_driver.find_element("Capsule").click_event()
   ``` 
   
  * `drag`
@@ -491,7 +503,14 @@ All elements in AltUnityTester have the following structure, as seen in the AltE
     ```python
     alt_driver.find_element("UIButton").tap()
     ``` 
-
+  
+* `double_tap`
+    * params: none
+    * simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame 
+    
+    ```python
+    alt_driver.find_element("UIButton").double_tap()
+    ``` 
 
 * `get_text`
     * params: none
