@@ -87,14 +87,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         {
             Destroy(this.gameObject);
         }
-    }
-    void Start()
-    {
-        _jsonSettings = new Newtonsoft.Json.JsonSerializerSettings();
-        _jsonSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-
-        _responseQueue = new AltResponseQueue();
-
         if (DebugBuildNeeded && !UnityEngine.Debug.isDebugBuild)
         {
             UnityEngine.Debug.Log("AltUnityTester will not run if this is not a Debug/Development build");
@@ -105,6 +97,15 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             StartSocketServer();
             UnityEngine.Debug.Log("AltUnity Driver started");
         }
+    }
+    void Start()
+    {
+        _jsonSettings = new Newtonsoft.Json.JsonSerializerSettings();
+        _jsonSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+
+        _responseQueue = new AltResponseQueue();
+
+       
         myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
         UnityEngine.Debug.Log(myPathFile);
         FileWriter = new System.IO.StreamWriter(myPathFile, true);
