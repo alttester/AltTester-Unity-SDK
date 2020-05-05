@@ -21,7 +21,7 @@
 .pip_install_dependencies: &pip_install_dependencies
 - pip install Appium-Python-Client
 - pip uninstall --yes altunityrunner || true
-- pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
+- pip install -e "Bindings~/python"
 - pip install Deprecated
 - sleep 30
 
@@ -90,7 +90,7 @@ run-python-android-tests:
         - *reinstall_and_start_android_app
         - *initialize_venv
         - *pip_install_dependencies
-        - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_bindings_tests.py"
+        - python3 "Bindings~/python_bindings_tests.py"
     needs: ["build-apk"]
 
 run-java-android-tests:
@@ -99,7 +99,7 @@ run-java-android-tests:
         - android
     script:
         - *reinstall_and_start_android_app
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+        - cd "Bindings~/java"
         - mvn -Dtest=ro.altom.altunitytester.Tests* test
     needs: ["build-apk"]
 
@@ -110,7 +110,7 @@ run-python-appium-android-tests:
     script:
         - *initialize_venv
         - *pip_install_dependencies
-        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_appium_tests.py"
+        - python "Bindings~/python_appium_tests.py"
     artifacts:
         when: always
         expire_in: 10 days
@@ -123,7 +123,7 @@ run-java-appium-android-tests:
     tags:
         - android
     script:
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+        - cd "Bindings~/java"
         - mvn clean compile assembly:single
         - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.4 -Dpackaging=jar
         - cd ../java-appium-tests
@@ -132,7 +132,7 @@ run-java-appium-android-tests:
         when: always
         expire_in: 10 days
         paths:
-            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
+            - "./Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
     needs: ["build-apk"]
 
 run-csharp-ios-tests:
@@ -182,10 +182,10 @@ create-jar-archive:
       - mac
     script:
       - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityJAR || true
-      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+      - cd "Bindings~/java"
       - mvn clean compile assembly:single
-      - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar.jar
-      - cd ../../../../public/${CI_COMMIT_REF_NAME}/
+      - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar.jar
+      - cd ../../public/${CI_COMMIT_REF_NAME}/
       - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
       - ls
       - cat index.html
@@ -205,7 +205,7 @@ deploy-altunitytester-python:
         - mac
         - android
     script:
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
+        - cd "Bindings~/python"
         - python setup.py sdist upload -r pypi
 
 docs:
@@ -252,7 +252,7 @@ maven-snapshot-repo:
           - master
   when: manual
   script:
-      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+      - cd "Bindings~/java"
       - mvn deploy -DskipTests
   tags:
       - unity
@@ -265,7 +265,7 @@ maven-repo:
           - master
   when: manual
   script:
-      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+      - cd "Bindings~/java"
       - mvn deploy -f pom-release.xml -DskipTests
   tags:
       - unity

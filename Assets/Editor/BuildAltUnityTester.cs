@@ -26,12 +26,12 @@ public class BuildAltUnityTester {
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             buildPlayerOptions.scenes = new string[]
             {
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity"
+            "Assets/AltUnityTesterExamples/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene 2 Draggable Panel.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene 3 Drag And Drop.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene 4 No Cameras.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene 5 Keyboard Input.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene6.unity"
             
             };
 
@@ -92,12 +92,12 @@ public class BuildAltUnityTester {
             buildPlayerOptions.locationPathName = "sampleGame";
            buildPlayerOptions.scenes = new string[]
             {
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 1 AltUnityDriverTestScene.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 2 Draggable Panel.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 3 Drag And Drop.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene 5 Keyboard Input.unity",
-            "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Scenes/Scene6.unity"
+            "Assets/AltUnityTesterExamples/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene 2 Draggable Panel.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene 3 Drag And Drop.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene 4 No Cameras.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene 5 Keyboard Input.unity",
+            "Assets/AltUnityTesterExamples/Scenes/Scene6.unity"
             };
 
             buildPlayerOptions.target = BuildTarget.iOS;
