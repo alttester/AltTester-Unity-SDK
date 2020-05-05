@@ -8,7 +8,7 @@ Welcome to AltUnity Tester's documentation!
 
 AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java. You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
 
-Join our Gitter chat room `here <https://gitter.im/AltUnityTester/Lobby>`_ to chat with us or with other members of the community.
+Join our Gitter chat room `here <https://gitter.im/AltUnityTester>`_ to chat with us or with other members of the community.
 
 .. toctree::
    :caption: Table of contents:
@@ -29,7 +29,7 @@ Join our Gitter chat room `here <https://gitter.im/AltUnityTester/Lobby>`_ to ch
 .. toctree::
     :caption: Community:
 
-    Gitter <https://gitter.im/AltUnityTester/Lobby>
+    Gitter <https://gitter.im/AltUnityTester>
 
 
 
