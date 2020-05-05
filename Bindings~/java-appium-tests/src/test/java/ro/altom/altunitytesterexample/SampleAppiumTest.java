@@ -26,9 +26,9 @@ public class SampleAppiumTest {
     private static AndroidDriver appiumDriver;
 
     @BeforeClass
-    public static void setUp() throws Exception{
+    public static void setUp() throws Exception {
         AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
-        File app = new File("../../../../sampleGame.apk");
+        File app = new File("../../sampleGame.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
         capabilities.setCapability("deviceName", "Android");
@@ -54,11 +54,12 @@ public class SampleAppiumTest {
     @Test
     public void testTapOnButton() throws Exception {
         assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
-        AltUnityObject jumpButton = altUnityDriver.findObject(AltUnityDriver.By.NAME,"UIButton");
+        AltUnityObject jumpButton = altUnityDriver.findObject(AltUnityDriver.By.NAME, "UIButton");
         TouchAction tapButton = new TouchAction(appiumDriver);
         tapButton.tap(new PointOption().withCoordinates(jumpButton.x, jumpButton.mobileY)).perform();
-        String text=altUnityDriver.waitForObjectWithText(AltUnityDriver.By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!").getText();
-        assertEquals("UIButton clicked to jump capsule!",text);
+        String text = altUnityDriver
+                .waitForObjectWithText(AltUnityDriver.By.NAME, "CapsuleInfo", "UIButton clicked to jump capsule!")
+                .getText();
+        assertEquals("UIButton clicked to jump capsule!", text);
     }
 }
-
