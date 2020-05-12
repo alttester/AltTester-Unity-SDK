@@ -56,7 +56,7 @@ public class BuildAltUnityTester {
             }
             else
                 Debug.LogError("Build Error!");
-            EditorApplication.Exit(1);
+            // EditorApplication.Exit(1);
 
 #else
             if (results.summary.totalErrors == 0)
@@ -68,7 +68,7 @@ public class BuildAltUnityTester {
             {
                 Debug.LogError("Total Errors: " + results.summary.totalErrors);
                 Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
 
 #endif
@@ -77,7 +77,7 @@ public class BuildAltUnityTester {
             EditorApplication.Exit(0);
         } catch (Exception exception) {
             Debug.LogException(exception);
-            EditorApplication.Exit(1);
+            // EditorApplication.Exit(1);
         }
 
     }
