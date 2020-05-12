@@ -65,7 +65,7 @@ public class BuildAltUnityTester {
                 Debug.LogError("Total Errors: " + results.summary.totalErrors);
                 if (results.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
                 {
-                    EditorApplication.Exit(0);
+                    //EditorApplication.Exit(0);
                 }
                 else
                 {
@@ -76,7 +76,7 @@ public class BuildAltUnityTester {
 
                     }
                     Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                    EditorApplication.Exit(1);
+                    //EditorApplication.Exit(1);
                 }
                 
             }
@@ -84,10 +84,10 @@ public class BuildAltUnityTester {
 #endif
 
             Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-            EditorApplication.Exit(0);
+            //EditorApplication.Exit(0);
         } catch (Exception exception) {
             Debug.LogException(exception);
-            EditorApplication.Exit(1);
+            //EditorApplication.Exit(1);
         }
 
     }
