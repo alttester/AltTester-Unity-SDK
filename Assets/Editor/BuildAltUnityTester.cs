@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -18,6 +18,7 @@ public class BuildAltUnityTester {
             PlayerSettings.bundleVersion = versionNumber;
             PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Android, ApiCompatibilityLevel.NET_4_6);
 #if UNITY_2018_1_OR_NEWER
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 #endif
@@ -82,10 +83,11 @@ public class BuildAltUnityTester {
             string versionNumber = DateTime.Now.ToString("yyMMddHHss");
             PlayerSettings.companyName = "Altom";
             PlayerSettings.productName = "sampleGame";
-            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, "fi.altom.altunitytester");
             PlayerSettings.bundleVersion = versionNumber;
             PlayerSettings.iOS.appleEnableAutomaticSigning = true;
             PlayerSettings.iOS.appleDeveloperTeamID = "59ESG8ELF5";
+            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.iOS, ApiCompatibilityLevel.NET_4_6);
             Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
 
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -129,7 +131,7 @@ public class BuildAltUnityTester {
 
 #endif
             Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-            // EditorApplication.Exit(0);
+            EditorApplication.Exit(0);
 
         } catch (Exception exception) {
             Debug.Log(exception);
