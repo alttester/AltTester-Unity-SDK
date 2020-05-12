@@ -63,14 +63,22 @@ public class BuildAltUnityTester {
 
             } else {
                 Debug.LogError("Total Errors: " + results.summary.totalErrors);
-                foreach ( var step in results.steps)
+                if (results.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
                 {
-                    Debug.LogError("Step Name: " + step.name);
-                    Debug.LogError("Step message: " + step.messages);
-
+                    EditorApplication.Exit(0);
                 }
-                Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                EditorApplication.Exit(1);
+                else
+                {
+                    foreach (var step in results.steps)
+                    {
+                        Debug.LogError("Step Name: " + step.name);
+                        Debug.LogError("Step message: " + step.messages);
+
+                    }
+                    Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
+                    EditorApplication.Exit(1);
+                }
+                
             }
 
 #endif
