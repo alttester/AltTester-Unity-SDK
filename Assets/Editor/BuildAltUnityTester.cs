@@ -9,7 +9,8 @@ public class BuildAltUnityTester {
 
     [MenuItem("Build/Android")]
     static void AndroidBuildFromCommandLine() {
-        try {
+        try
+        {
             string versionNumber = DateTime.Now.ToString("yyMMddHHss");
 
             PlayerSettings.companyName = "Altom";
@@ -33,17 +34,17 @@ public class BuildAltUnityTester {
             "Assets/AltUnityTesterExamples/Scenes/Scene 4 No Cameras.unity",
             "Assets/AltUnityTesterExamples/Scenes/Scene 5 Keyboard Input.unity",
             "Assets/AltUnityTesterExamples/Scenes/Scene6.unity"
-            
+
             };
 
             buildPlayerOptions.locationPathName = "sampleGame.apk";
             buildPlayerOptions.target = BuildTarget.Android;
             buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
-            
-			AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
-			AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
-            
-			var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+            AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
+
+            var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
             AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
 
 
@@ -58,36 +59,25 @@ public class BuildAltUnityTester {
             EditorApplication.Exit(1);
 
 #else
-            if (results.summary.totalErrors == 0) {
+            if (results.summary.totalErrors == 0)
+            {
                 Debug.Log("No Build Errors");
 
-            } else {
+            }
+            else
+            {
                 Debug.LogError("Total Errors: " + results.summary.totalErrors);
-                if (results.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
-                {
-                    //EditorApplication.Exit(0);
-                }
-                else
-                {
-                    foreach (var step in results.steps)
-                    {
-                        Debug.LogError("Step Name: " + step.name);
-                        Debug.LogError("Step message: " + step.messages);
-
-                    }
-                    Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                    //EditorApplication.Exit(1);
-                }
-                
+                Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
+                EditorApplication.Exit(1);
             }
 
 #endif
 
             Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-            //EditorApplication.Exit(0);
+            EditorApplication.Exit(0);
         } catch (Exception exception) {
             Debug.LogException(exception);
-            //EditorApplication.Exit(1);
+            EditorApplication.Exit(1);
         }
 
     }
