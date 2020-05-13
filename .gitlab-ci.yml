@@ -58,7 +58,7 @@ build-ipa:
     tags:
       - iPhone
     script:
-      - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
+      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
       - cd sampleGame
       - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS
       - ls 
