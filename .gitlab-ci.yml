@@ -73,6 +73,7 @@ run-csharp-android-tests:
     tags:
         - android
     script:
+        - ls
         - *reinstall_and_start_android_app
         - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
     artifacts:
