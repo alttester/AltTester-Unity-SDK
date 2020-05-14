@@ -43,18 +43,38 @@ public class AltUnityDriver {
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
-        try {
-            log.info("Initializing connection to {}:{}", ip, port);
-            socket = new Socket(ip, port);
-            socket.setSoTimeout(READ_TIMEOUT);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new DataInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port), e);
+        int timeout = 60;
+        while (timeout > 0) {
+            try {
+                log.info("Initializing connection to {}:{}", ip, port);
+                socket = new Socket(ip, port);
+                socket.setSoTimeout(READ_TIMEOUT);
+                out = new PrintWriter(socket.getOutputStream(), true);
+                in = new DataInputStream(socket.getInputStream());
+                altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
+                GetServerVersion();
+                EnableLogging();
+            } catch (Exception e) {
+                if (socket != null) {
+                    stop();
+                }
+                System.out.println(e.getMessage());
+                System.out.println("AltUnityServer not running on port " + port + ", retrying (timing out in " + timeout
+                        + " secs)...");
+                timeout -= 5;
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
         }
-        altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
-        GetServerVersion();
-        EnableLogging();
+        if (timeout <= 0) {
+            throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port),
+                    new Throwable());
+        }
+
     }
 
     private String GetServerVersion() {
