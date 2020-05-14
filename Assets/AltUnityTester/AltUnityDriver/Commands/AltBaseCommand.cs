@@ -17,10 +17,24 @@ public class AltBaseCommand
         string previousPart = "";
         System.Collections.Generic.List<byte[]> byteArray = new System.Collections.Generic.List<byte[]>();
         int received = 0;
+        int receivedZeroBytesCounter = 0;
+        int receivedZeroBytesCounterLimit = 2;
         do
         {
             var bytesReceived = new byte[BUFFER_SIZE];
             received = SocketSettings.socket.Client.Receive(bytesReceived);
+            if (received == 0)
+            {
+                if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit)
+                {
+                    receivedZeroBytesCounter++;
+                    continue;
+                }
+                else
+                {
+                    throw new System.Exception("Socket not connected yet");
+                }
+            }
             var newBytesReceived = new byte[received];
             for (int i = 0; i < received; i++)
             {
