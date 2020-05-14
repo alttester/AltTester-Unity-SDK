@@ -47,6 +47,9 @@ build-apk:
     - adb uninstall fi.altom.altunitytester || true
     - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
     - ls 
+    cache:
+        paths:
+            - sampleGame.apk
     artifacts:
       when: always
       expire_in: 10 days
