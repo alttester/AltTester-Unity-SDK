@@ -55,6 +55,7 @@ build-apk:
       expire_in: 10 days
       paths:
         - buildAndroid.log
+        - sampleGame.apk
 
 build-ipa:
     stage: build
