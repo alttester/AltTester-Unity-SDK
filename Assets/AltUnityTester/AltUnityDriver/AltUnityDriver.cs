@@ -21,7 +21,7 @@ public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
     public SocketSettings socketSettings;
-    public static readonly string VERSION="1.5.4-Alpha";
+    public static readonly string VERSION="1.5.4";
     private static string tcp_ip = "127.0.0.1";
     private static int tcp_port = 13000;
     public static string requestSeparatorString;
@@ -283,7 +283,7 @@ public class AltUnityDriver
     {
         return new AltUnityGetAllScenes(socketSettings).Execute();
     }
-    public System.Collections.Generic.List<string> GetAllCameras()
+    public System.Collections.Generic.List<AltUnityObject> GetAllCameras()
     {
         return new AltUnityGetAllCameras(socketSettings).Execute();
     }
