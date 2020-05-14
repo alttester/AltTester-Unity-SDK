@@ -46,18 +46,20 @@ public class AltUnityDriver {
         int timeout = 60;
         while (timeout > 0) {
             try {
-                log.info("Initializing connection to {}:{}", ip, port);
-                socket = new Socket(ip, port);
-                socket.setSoTimeout(READ_TIMEOUT);
-                out = new PrintWriter(socket.getOutputStream(), true);
-                in = new DataInputStream(socket.getInputStream());
+                try{
+                    log.info("Initializing connection to {}:{}", ip, port);
+                    socket = new Socket(ip, port);
+                    socket.setSoTimeout(READ_TIMEOUT);
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                    in = new DataInputStream(socket.getInputStream());
+                }catch(IOException e){
+                    throw new ConnectionException("AltUnityServer not running on port "+port + ",retrying (timing out in " +timeout+" secs)...", e);
+                }
                 altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
                 GetServerVersion();
                 EnableLogging();
+                break;
             } catch (Exception e) {
-                if (socket != null) {
-                    stop();
-                }
                 System.out.println(e.getMessage());
                 System.out.println("AltUnityServer not running on port " + port + ", retrying (timing out in " + timeout
                         + " secs)...");
