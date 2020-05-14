@@ -1,4 +1,4 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityGetAllCamerasCommand : AltUnityCommand
     {
@@ -7,12 +7,12 @@
             AltUnityRunner._altUnityRunner.LogMessage("getAllCameras");
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
                 var cameras = UnityEngine.GameObject.FindObjectsOfType<UnityEngine.Camera>();
-                System.Collections.Generic.List<string> cameraNames = new System.Collections.Generic.List<string>();
+                System.Collections.Generic.List<AltUnityObject> cameraObjects = new System.Collections.Generic.List<AltUnityObject>();
                 foreach (UnityEngine.Camera camera in cameras)
                 {
-                    cameraNames.Add(camera.name);
+                cameraObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(camera.gameObject));
                 }
-            response = Newtonsoft.Json.JsonConvert.SerializeObject(cameraNames);
+            response = Newtonsoft.Json.JsonConvert.SerializeObject(cameraObjects);
             return response;
         }
     }
