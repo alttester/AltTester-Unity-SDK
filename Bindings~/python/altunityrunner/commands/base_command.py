@@ -16,6 +16,8 @@ class BaseCommand(object):
         previousPart = ''
         while True:
             part = self.socket.recv(BUFFER_SIZE)
+            if not part:  # If received message is empty
+                raise SystemError('Server is not yet reachable')
             data += str(part.decode('utf-8'))
             partToSeeAltEnd = previousPart+str(part)
             if '::altend' in partToSeeAltEnd:

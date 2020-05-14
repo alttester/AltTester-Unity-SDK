@@ -34,7 +34,7 @@ public class BuildAltUnityTester {
             "Assets/AltUnityTesterExamples/Scenes/Scene 4 No Cameras.unity",
             "Assets/AltUnityTesterExamples/Scenes/Scene 5 Keyboard Input.unity",
             "Assets/AltUnityTesterExamples/Scenes/Scene6.unity"
-
+            
             };
 
             buildPlayerOptions.locationPathName = "sampleGame.apk";
