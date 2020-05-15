@@ -1,5 +1,6 @@
 from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.commands.InputActions.press_key import PressKey
+from loguru import logger
 import time
 class PressKeyAndWait(BaseCommand):
     def __init__(self, socket,request_separator,request_end, keyName,power,duration):
@@ -11,7 +12,7 @@ class PressKeyAndWait(BaseCommand):
     def execute(self):
         data = PressKey(self.socket,self.request_separator,self.request_end,self.keyName,self.power,self.duration).execute()
         self.handle_errors(data)
-        print('Wait for press key to finish')
+        logger.trace('Wait for press key to finish')
         time.sleep(self.duration)
         action_in_progress = True
         while action_in_progress:

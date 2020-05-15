@@ -1,4 +1,5 @@
 from altunityrunner.commands.base_command import BaseCommand
+from loguru import logger
 class LoadScene(BaseCommand):
     def __init__(self, socket,request_separator,request_end,scene_name):
         super(LoadScene, self).__init__(socket,request_separator,request_end)
@@ -9,6 +10,6 @@ class LoadScene(BaseCommand):
         if (data == 'Ok'):
             data=self.recvall()
             if (data =="Scene Loaded"):
-                print('Scene loaded: ' + self.scene_name)
+                logger.trace('Scene loaded: ' + self.scene_name)
                 return data
         return None

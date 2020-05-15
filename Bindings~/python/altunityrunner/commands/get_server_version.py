@@ -24,7 +24,7 @@ class GetServerVersion(BaseCommand):
             self.write_warning(False,serverVersion)
             return "Version mismatch"
         else:
-            return "Ok"
+            return str(serverVersion)
     def write_warning(self,is_earlier,serverVersion=""):
         message=""
         if is_earlier:

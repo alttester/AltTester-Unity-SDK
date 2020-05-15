@@ -1,13 +1,14 @@
 from altunityrunner.commands.base_command import BaseCommand
+from loguru import logger
 
 class GetTimeScale(BaseCommand):
     def __init__(self, socket,request_separator,request_end):
         super(GetTimeScale, self).__init__(socket,request_separator,request_end)
     
     def execute(self):
-        print('Get time scale')
+        logger.trace('Get time scale')
         data = self.send_data(self.create_command('getTimeScale'))
         if (data != '' and 'error:' not in data):
-            print('Got time scale: ' + data)
+            logger.trace('Got time scale: ' + data)
             return float(data)
         return None

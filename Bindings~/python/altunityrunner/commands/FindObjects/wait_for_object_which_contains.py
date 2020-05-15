@@ -1,6 +1,7 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 from altunityrunner.altUnityExceptions import WaitTimeOutException
 from altunityrunner.commands.FindObjects.find_object_which_contains import FindObjectWhichContains
+from loguru import logger
 import time
 class WaitForObjectWhichContains(CommandReturningAltElements):
     def __init__(self, socket,request_separator,request_end,appium_driver, by,value,camera_name, timeout, interval,enabled):
@@ -20,7 +21,7 @@ class WaitForObjectWhichContains(CommandReturningAltElements):
                 alt_element = FindObjectWhichContains(self.socket,self.request_separator,self.request_end,self.appium_driver,self.by,self.value,self.camera_name,self.enabled).execute()
                 break
             except Exception:
-                print('Waiting for element where name contains ' + self.value + '...')
+                logger.trace('Waiting for element where name contains ' + self.value + '...')
                 time.sleep(self.interval)
                 t += self.interval
         if t>=self.timeout:
