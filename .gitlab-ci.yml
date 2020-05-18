@@ -44,6 +44,7 @@ build-apk:
     tags:
       - android
     script:
+    - whoami
     - adb uninstall fi.altom.altunitytester || true
     - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
     - ls 
@@ -62,6 +63,7 @@ build-ipa:
     tags:
       - iPhone
     script:
+      - whoami
       - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
       - cd sampleGame
       - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS -allowProvisioningUpdates
@@ -128,6 +130,7 @@ run-java-appium-android-tests:
     tags:
         - android
     script:
+        - whoami
         - cd "Bindings~/java"
         - mvn clean compile assembly:single
         - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.4 -Dpackaging=jar
