@@ -13,7 +13,7 @@
     echo "Virtual environment has been activated."
   else
     echo "Creating virtual environment."
-    virtualenv altunitytests
+    python3 -venv altunitytests
     source altunitytests/bin/activate
     echo "Virtual environment has been created and activated."
   fi
