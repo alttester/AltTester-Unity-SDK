@@ -108,7 +108,7 @@ public class BuildAltUnityTester {
             };
 
             buildPlayerOptions.target = BuildTarget.iOS;
-            buildPlayerOptions.options = BuildOptions.Development;
+            buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;;
 
 			AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
 			AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
