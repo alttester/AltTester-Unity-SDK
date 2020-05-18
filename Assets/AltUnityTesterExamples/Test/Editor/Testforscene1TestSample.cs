@@ -862,5 +862,14 @@ public class TestForScene1TestSample
         Assert.IsNull(altUnityObject);
     }
 
+    [Test]
+    public void TestPressNextSceneButtton()
+    {
+        var initialScene= altUnityDriver.GetCurrentScene();
+        altUnityDriver.FindObject(By.NAME, "NextScene").Tap();
+        var currentScene= altUnityDriver.GetCurrentScene();
+        Assert.AreNotEqual(initialScene, currentScene);
+    }
+
 
 }
