@@ -33,7 +33,6 @@ class SampleAppiumTest(unittest.TestCase):
 
         cls.driver = webdriver.Remote(
             'http://localhost:4723/wd/hub', cls.desired_caps)
-        time.sleep(20)
         cls.altdriver = AltrunUnityDriver(
             cls.driver, cls.platform, log_flag=True)
 
