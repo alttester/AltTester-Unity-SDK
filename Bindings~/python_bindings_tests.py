@@ -710,19 +710,25 @@ class PythonTests(unittest.TestCase):
 
     def test_double_tap(self):  
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
-        counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
-        counterButton.double_tap();
-        time.sleep(0.5);
-        self.assertEqual("2", counterButtonText.get_text());
+        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter")
+        counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text")
+        counterButton.double_tap()
+        time.sleep(0.5)
+        self.assertEqual("2", counterButtonText.get_text())
         
     def test_custom_tap(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
-        counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
-        self.altdriver.tap_custom(counterButton.x, counterButton.y, 4);
-        time.sleep(1);
-        self.assertEqual("4", counterButtonText.get_text());
+        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter")
+        counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text")
+        self.altdriver.tap_custom(counterButton.x, counterButton.y, 4)
+        time.sleep(1)
+        self.assertEqual("4", counterButtonText.get_text())
+
+    def test_set_text_normal_text(self):
+        text_object=self.altdriver.find_object(By.NAME,"NonEnglishText")
+        original_text=text_object.get_text()
+        after_text=text_object.set_text("ModifiedText").get_text()
+        self.assertNotEqual(original_text,after_text)
 
 
 

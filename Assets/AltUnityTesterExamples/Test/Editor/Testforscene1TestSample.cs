@@ -862,5 +862,14 @@ public class TestForScene1TestSample
         Assert.IsNull(altUnityObject);
     }
 
+    [Test]
+    public void TestForSetText()
+    {
+        var text = altUnityDriver.FindObject(By.NAME, "NonEnglishText");
+        var originalText = text.GetText();
+        var afterText = text.SetText("ModifiedText").GetText();
+        Assert.AreNotEqual(originalText, afterText);
+    }
+
 
 }

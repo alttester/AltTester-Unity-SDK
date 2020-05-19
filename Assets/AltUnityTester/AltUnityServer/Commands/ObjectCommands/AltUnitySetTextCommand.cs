@@ -4,7 +4,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
     {
         static readonly AltUnityObjectProperty[] TextProperties =
         {
+            new AltUnityObjectProperty("UnityEngine.UI.Text", "text"),
             new AltUnityObjectProperty("UnityEngine.UI.InputField", "text"),
+            new AltUnityObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltUnityObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
         };
 
