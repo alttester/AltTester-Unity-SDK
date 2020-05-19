@@ -27,6 +27,7 @@ Join our Gitter chat room `here <https://gitter.im/AltUnityTester>`_ to chat wit
    pages/contributing
    pages/other/by
    pages/other/java-builders
+   pages/license
 
 .. toctree::
     :caption: Community:
