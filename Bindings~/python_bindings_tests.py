@@ -726,8 +726,8 @@ class PythonTests(unittest.TestCase):
 
     def test_set_text_normal_text(self):
         text_object=self.altdriver.find_object(By.NAME,"NonEnglishText")
-        original_text=self.altdriver.get_text()
-        after_text=self.altdriver.set_text("ModifiedText").get_text()
+        original_text=text_object.get_text()
+        after_text=text_object.set_text("ModifiedText").get_text()
         self.assertNotEqual(original_text,after_text)
 
 
