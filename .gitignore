@@ -4,7 +4,7 @@
 **/[Bb]uild/ 
 **/[Bb]uilds/ 
 **/[Aa]ssets/AssetStoreTools* 
-**/[Pp]rojectSettings/
+# **/[Pp]rojectSettings/
 **/[Bb]in 
 .vscode/ 
 **/.DS_Store
