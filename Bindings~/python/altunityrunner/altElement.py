@@ -33,6 +33,9 @@ class AltElement(object):
         self.worldZ = str(data['worldZ'])
         self.idCamera=str(data['idCamera'])
 
+    def __repr__(self):
+        return f'AltElement called: {self.name}'
+
     def toJSON(self):
         return '{"name":"' + self.name + '", \
                  "id":"' + self.id + '", \
