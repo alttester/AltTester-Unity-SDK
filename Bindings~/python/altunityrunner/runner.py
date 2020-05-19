@@ -34,11 +34,11 @@ class AltrunUnityDriver(object):
             except Exception as e:
                 if not self.socket==None:
                     self.stop()
-                print(e)
-                print('AltUnityServer not running on port ' + str(self.TCP_PORT) +
-                      ', retrying (timing out in ' + str(timeout) + ' secs)...')
-                timeout -= 5
-                time.sleep(5)
+                logger.error(e)
+                logger.warning(f'Trying to reach AltUnity Server at port {self.TCP_PORT},'
+                               f' retrying (timing out in {timeout} secs)...')
+                timeout -= 1
+                time.sleep(1)
 
         if timeout <= 0:
             raise Exception('Could not connect to AltUnityServer on: '+ TCP_IP +':'+ str(self.TCP_PORT))
