@@ -1,5 +1,7 @@
+from os import getenv
 from altunityrunner.altUnityExceptions import *
 from altunityrunner.by import By
+from loguru import logger
 from datetime import datetime
 import json
 BUFFER_SIZE = 1024
@@ -11,7 +13,7 @@ class BaseCommand(object):
         self.request_end = request_end
         self.socket = socket
 
-    def recvall(self, print_output=False):
+    def recvall(self):
         data = ''
         previousPart = ''
         while True:
@@ -32,12 +34,12 @@ class BaseCommand(object):
             data = splitted_string[0]
             self.write_to_log_file(datetime.now().strftime(
                 "%m/%d/%Y %H:%M:%S")+": response received: "+data)
-        except:
-            print(
-                'Data received from socket does not have correct start and end control strings')
+        except Exception as e:
+            logger.error(
+                f'Data received from socket does not have correct start and end control strings.'
+                f'{e}')
             return ''
-        if print_output:
-            print('Received data was: ' + data)
+        loguru.trace(f'Received data was: {data}')
         return data
 
     def write_to_log_file(self, message):

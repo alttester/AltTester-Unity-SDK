@@ -1,3 +1,4 @@
+from loguru import logger
 from altunityrunner.commands.base_command import BaseCommand
 
 class MoveMouse(BaseCommand):
@@ -9,6 +10,6 @@ class MoveMouse(BaseCommand):
     
     def execute(self):
         location = self.vector_to_json_string(self.x, self.y)
-        print ('Move mouse to: ' + location)
+        logger.trace('Move mouse to: ' + location)
         data = self.send_data(self.create_command('moveMouse', location, self.duration ))
         return self.handle_errors(data)
