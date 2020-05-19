@@ -65,3 +65,4 @@ html_static_path = ['_static']
 html_css_files = [
     'css/custom.scss',
 ]
+html_favicon = '_static/images/altUnity-512x512.png'
