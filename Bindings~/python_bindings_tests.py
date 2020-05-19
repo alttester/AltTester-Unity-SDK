@@ -713,7 +713,7 @@ class PythonTests(unittest.TestCase):
         counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter")
         counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text")
         counterButton.double_tap()
-        time.sleep(0.5
+        time.sleep(0.5)
         self.assertEqual("2", counterButtonText.get_text())
         
     def test_custom_tap(self):
