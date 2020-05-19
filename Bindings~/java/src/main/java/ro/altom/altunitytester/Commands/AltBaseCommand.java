@@ -26,7 +26,8 @@ public class AltBaseCommand {
     protected String recvall() {
         String receivedData = "";
         boolean streamIsFinished = false;
-
+        int receivedZeroBytesCounter = 0;
+        int receivedZeroBytesCounterLimit = 2;
         while (!streamIsFinished) {
             byte[] messageByte = new byte[BUFFER_SIZE];
             int bytesRead = 0;
@@ -37,47 +38,55 @@ public class AltBaseCommand {
             }
             if (bytesRead > 0)
                 receivedData += new String(messageByte, 0, bytesRead, StandardCharsets.UTF_8);
+            else {
+                if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit) {
+                    receivedZeroBytesCounter++;
+                    continue;
+                } else {
+                    throw new ConnectionException(new Throwable("Received empty response"));
+                }
+            }
             if (receivedData.contains("::altend")) {
                 streamIsFinished = true;
             }
         }
 
         receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
-        String[] data=receivedData.split("::altLog::");
-        receivedData=data[0];
+        String[] data = receivedData.split("::altLog::");
+        receivedData = data[0];
         log.debug("Data received: " + receivedData);
-        if(altBaseSettings.logEnabled)
-        {    
+        if (altBaseSettings.logEnabled) {
             WriteInLogFile(data[1]);
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-            WriteInLogFile(formatter.format(date)+" : response received : "+receivedData);
+            WriteInLogFile(formatter.format(date) + " : response received : " + receivedData);
         }
         return receivedData;
     }
 
-    protected void WriteInLogFile(String logMessages){
+    protected void WriteInLogFile(String logMessages) {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter("AltUnityTesterLog.txt", true));
-            writer.append(logMessages+ System.lineSeparator());
+            writer.append(logMessages + System.lineSeparator());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     protected void send(String message) {
         log.info("Sending rpc message [{}]", message);
         altBaseSettings.out.print(message);
         altBaseSettings.out.flush();
     }
 
-    protected String CreateCommand(String... arguments){
-        String command="";
-        for (String argument:arguments) {
-            command+=argument+altBaseSettings.RequestSeparator;
+    protected String CreateCommand(String... arguments) {
+        String command = "";
+        for (String argument : arguments) {
+            command += argument + altBaseSettings.RequestSeparator;
         }
-        return command+altBaseSettings.RequestEnd;
+        return command + altBaseSettings.RequestEnd;
 
     }
 
