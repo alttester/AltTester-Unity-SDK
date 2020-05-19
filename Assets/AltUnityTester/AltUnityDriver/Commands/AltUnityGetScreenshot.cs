@@ -1,6 +1,6 @@
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
-public class AltUnityGetScreenshot : AltBaseCommand
+public class AltUnityGetScreenshot : AltUnityCommandReturningAltElement
 {
     int id;
     Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color;
@@ -31,14 +31,28 @@ public class AltUnityGetScreenshot : AltBaseCommand
         this.size = size;
         this.option = 3;
     }
-    public AltUnityTextureInformation Execute()
+    public AltUnityTextureInformation Execute(out AltUnityObject selectedObject)
     {
+        selectedObject = null;
         switch (option)
         {
             case 2:
                 return GetHighlightObjectScreenshot();
             case 3:
-                return GetHighlightObjectFromCoordinatesScreenshot();
+                return GetHighlightObjectFromCoordinatesScreenshot(out selectedObject);
+            default:
+                return GetSimpleScreenshot();
+        }
+    }
+    public AltUnityTextureInformation Execute()
+    {
+        AltUnityObject selectedObject = null;
+        switch (option)
+        {
+            case 2:
+                return GetHighlightObjectScreenshot();
+            case 3:
+                return GetHighlightObjectFromCoordinatesScreenshot(out selectedObject);
             default:
                 return GetSimpleScreenshot();
         }
@@ -57,12 +71,17 @@ public class AltUnityGetScreenshot : AltBaseCommand
         Socket.Client.Send(toBytes(CreateCommand("hightlightObjectScreenshot", id.ToString(), colorAndWidth, sizeSerialized)));
         return ReceiveImage();
     }
-    private AltUnityTextureInformation GetHighlightObjectFromCoordinatesScreenshot()
+    private AltUnityTextureInformation GetHighlightObjectFromCoordinatesScreenshot(out AltUnityObject selectedObject)
     {
         var coordinatesSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(coordinates);
         var sizeSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(size);
         var colorAndWidth = color.r + "!!" + color.g + "!!" + color.b + "!!" + color.a + "!-!" + width;
         Socket.Client.Send(toBytes(CreateCommand("hightlightObjectFromCoordinatesScreenshot", coordinatesSerialized, colorAndWidth, sizeSerialized)));
+        selectedObject = ReceiveAltUnityObject();
+        if(selectedObject.name.Equals("Null") && selectedObject.id == 0)
+        {
+            selectedObject = null;
+        }
         return ReceiveImage();
     }
 }

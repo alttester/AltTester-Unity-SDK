@@ -95,7 +95,11 @@ public class AltUnityObject
     }
     public AltUnityObject Tap()
     {
-        return new AltUnityTap(socketSettings,this).Execute();
+        return new AltUnityTap(socketSettings,this,1).Execute();
+    }
+    public AltUnityObject DoubleTap()
+    {
+        return new AltUnityTap(socketSettings,this,2).Execute();
     }
     public System.Collections.Generic.List<AltUnityComponent> GetAllComponents()
     {
@@ -105,8 +109,8 @@ public class AltUnityObject
     {
        return new AltUnityGetAllProperties(socketSettings,altUnityComponent,this).Execute();
     }
-    public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent)
+    public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent,AltUnityMethodSelection methodSelection=AltUnityMethodSelection.ALLMETHODS)
     {
-        return new AltUnityGetAllMethods(socketSettings,altUnityComponent,this).Execute();
+        return new AltUnityGetAllMethods(socketSettings,altUnityComponent,this, methodSelection).Execute();
     }
 }

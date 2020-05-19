@@ -1,0 +1,182 @@
+3/10/2020 6:38:53 PM:Logging is set to True
+3/10/2020 6:38:53 PM: response received: Ok
+
+3/10/2020 6:38:53 PM: response received: 1.5.3
+3/10/2020 6:38:53 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:38:53 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:38:53 PM: response received: Scene Loaded
+3/10/2020 6:38:53 PM:findActiveObjectByName for: Panel Drag Area
+3/10/2020 6:38:53 PM: response received: {"name":"Panel Drag Area","id":63470,"x":428,"y":960,"z":113,"mobileY":960,"type":"","enabled":true,"worldX":-20.4733276,"worldY":0.0,"worldZ":0.0,"idCamera":63404,"parentId":63466,"transformId":63472}
+3/10/2020 6:38:53 PM:findActiveObjectByName for: Panel
+3/10/2020 6:38:53 PM: response received: {"name":"Panel","id":63442,"x":428,"y":1069,"z":113,"mobileY":851,"type":"","enabled":true,"worldX":-14.0837622,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":63404,"parentId":63472,"transformId":63444}
+3/10/2020 6:38:53 PM:findActiveObjectByName for: Close Button
+3/10/2020 6:38:53 PM: response received: {"name":"Close Button","id":63424,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":3.76055026,"worldY":23.9007149,"worldZ":20.33464,"idCamera":63404,"parentId":63444,"transformId":63426}
+3/10/2020 6:38:53 PM:ClickEvent on AltUnityObject
+3/10/2020 6:38:53 PM: response received: {"name":"Close Button","id":63424,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":3.76055026,"worldY":23.9007149,"worldZ":20.33464,"idCamera":63404,"parentId":63444,"transformId":63426}
+3/10/2020 6:38:53 PM:findActiveObjectByName for: Button
+3/10/2020 6:38:53 PM: response received: {"name":"Button","id":63406,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":17.9740677,"worldY":34.1404,"worldZ":0.0,"idCamera":63404,"parentId":63466,"transformId":63408}
+3/10/2020 6:38:53 PM:ClickEvent on AltUnityObject
+3/10/2020 6:38:53 PM: response received: {"name":"Button","id":63406,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":17.9740677,"worldY":34.1404,"worldZ":0.0,"idCamera":63404,"parentId":63466,"transformId":63408}
+3/10/2020 6:38:53 PM:findActiveObjectByName for: Panel
+3/10/2020 6:38:53 PM: response received: {"name":"Panel","id":63442,"x":428,"y":1069,"z":113,"mobileY":851,"type":"","enabled":true,"worldX":-14.0837622,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":63404,"parentId":63472,"transformId":63444}
+3/10/2020 6:38:53 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:38:53 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:38:53 PM: response received: Scene Loaded
+3/10/2020 6:38:53 PM:findActiveObjectByName for: Drag Zone
+3/10/2020 6:38:53 PM: response received: {"name":"Drag Zone","id":63704,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":63724,"parentId":63764,"transformId":63706}
+3/10/2020 6:38:53 PM:Touch at: (428.0, 1472.0)
+3/10/2020 6:38:53 PM: response received: Ok
+3/10/2020 6:38:55 PM:findActiveObjectByName for: Drag Zone
+3/10/2020 6:38:55 PM: response received: {"name":"Drag Zone","id":63704,"x":576,"y":1683,"z":119,"mobileY":237,"type":"","enabled":true,"worldX":1.59971571,"worldY":34.9016342,"worldZ":18.5214863,"idCamera":63724,"parentId":63764,"transformId":63706}
+3/10/2020 6:38:55 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:38:55 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:38:55 PM: response received: Scene Loaded
+3/10/2020 6:38:55 PM:findActiveObjectByName for: Resize Zone
+3/10/2020 6:38:55 PM: response received: {"name":"Resize Zone","id":64034,"x":606,"y":671,"z":120,"mobileY":1249,"type":"","enabled":true,"worldX":4.50406361,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":64044,"parentId":64084,"transformId":64036}
+3/10/2020 6:38:55 PM:Touch at: (606.0, 671.0)
+3/10/2020 6:38:55 PM: response received: Ok
+3/10/2020 6:38:57 PM:actionFinished
+3/10/2020 6:38:57 PM: response received: Yes
+3/10/2020 6:38:59 PM:findActiveObjectByName for: Resize Zone
+3/10/2020 6:38:59 PM: response received: {"name":"Resize Zone","id":64034,"x":524,"y":489,"z":117,"mobileY":1431,"type":"","enabled":true,"worldX":0.786497355,"worldY":-22.7658653,"worldZ":17.8391151,"idCamera":64044,"parentId":64084,"transformId":64036}
+3/10/2020 6:38:59 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:39:00 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:39:00 PM: response received: Scene Loaded
+3/10/2020 6:39:00 PM:findActiveObjectByName for: Resize Zone
+3/10/2020 6:39:00 PM: response received: {"name":"Resize Zone","id":64354,"x":606,"y":671,"z":120,"mobileY":1249,"type":"","enabled":true,"worldX":4.50406361,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":64364,"parentId":64404,"transformId":64356}
+3/10/2020 6:39:00 PM:Start moving touch chain for: (606.0, 671.0), (406.0, 471.0), (306.0, 571.0), (556.0, 571.0), (506.0, 571.0)
+3/10/2020 6:39:00 PM: response received: OK
+3/10/2020 6:39:04 PM:actionFinished
+3/10/2020 6:39:04 PM: response received: No
+3/10/2020 6:39:04 PM:actionFinished
+3/10/2020 6:39:04 PM: response received: No
+3/10/2020 6:39:04 PM:actionFinished
+3/10/2020 6:39:04 PM: response received: No
+3/10/2020 6:39:04 PM:actionFinished
+3/10/2020 6:39:04 PM: response received: No
+3/10/2020 6:39:04 PM:actionFinished
+3/10/2020 6:39:04 PM: response received: No
+3/10/2020 6:39:04 PM:actionFinished
+3/10/2020 6:39:04 PM: response received: No
+3/10/2020 6:39:04 PM:actionFinished
+3/10/2020 6:39:04 PM: response received: Yes
+3/10/2020 6:39:08 PM:findActiveObjectByName for: Resize Zone
+3/10/2020 6:39:08 PM: response received: {"name":"Resize Zone","id":64354,"x":524,"y":573,"z":117,"mobileY":1347,"type":"","enabled":true,"worldX":0.786497355,"worldY":-19.0264912,"worldZ":17.8391151,"idCamera":64364,"parentId":64404,"transformId":64356}
+3/10/2020 6:39:08 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:39:08 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:39:08 PM: response received: Scene Loaded
+3/10/2020 6:39:09 PM:findObjects for: //*
+3/10/2020 6:39:09 PM: response received: [{"name":"EventSystem","id":64652,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":64684,"parentId":0,"transformId":64660},{"name":"Canvas","id":64740,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":64684,"parentId":0,"transformId":64746},{"name":"Panel Drag Area","id":64750,"x":428,"y":960,"z":113,"mobileY":960,"type":"","enabled":true,"worldX":-20.4733276,"worldY":0.0,"worldZ":0.0,"idCamera":64684,"parentId":64746,"transformId":64752},{"name":"Panel","id":64722,"x":428,"y":1069,"z":113,"mobileY":851,"type":"","enabled":true,"worldX":-14.0837622,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":64684,"parentId":64752,"transformId":64724},{"name":"Header","id":64768,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":64684,"parentId":64724,"transformId":64770},{"name":"Text","id":64636,"x":428,"y":1026,"z":113,"mobileY":894,"type":"","enabled":true,"worldX":-4.78985,"worldY":18.3198376,"worldZ":13.1600027,"idCamera":64684,"parentId":64724,"transformId":64638},{"name":"Drag Zone","id":64664,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":64684,"parentId":64724,"transformId":64666},{"name":"Resize Zone","id":64674,"x":606,"y":671,"z":120,"mobileY":1249,"type":"","enabled":true,"worldX":4.50406361,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":64684,"parentId":64724,"transformId":64676},{"name":"Close Button","id":64704,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":3.76055026,"worldY":23.9007149,"worldZ":20.33464,"idCamera":64684,"parentId":64724,"transformId":64706},{"name":"Text","id":64732,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":2.27352381,"worldY":21.95954,"worldZ":19.0868778,"idCamera":64684,"parentId":64706,"transformId":64734},{"name":"Button","id":64686,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":17.9740677,"worldY":34.1404,"worldZ":0.0,"idCamera":64684,"parentId":64746,"transformId":64688},{"name":"Text","id":64696,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":5.841726,"worldY":31.1073132,"worldZ":0.0,"idCamera":64684,"parentId":64688,"transformId":64698},{"name":"Debugging","id":64714,"x":1552,"y":499,"z":100,"mobileY":1421,"type":"","enabled":true,"worldX":38.384304,"worldY":-17.4705734,"worldZ":0.0,"idCamera":64684,"parentId":64746,"transformId":64716},{"name":"SF Scene Elements","id":64644,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":64684,"parentId":0,"transformId":64650},{"name":"Main Camera","id":64624,"x":0,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":-100.0,"idCamera":64684,"parentId":64650,"transformId":64626},{"name":"Background","id":64754,"x":320,"y":960,"z":180,"mobileY":960,"type":"","enabled":true,"worldX":-15.0,"worldY":0.0,"worldZ":80.0,"idCamera":64684,"parentId":64650,"transformId":64756},{"name":"Particle System","id":64760,"x":-3856,"y":960,"z":60,"mobileY":960,"type":"","enabled":true,"worldX":-100.0,"worldY":0.0,"worldZ":-40.0,"idCamera":64684,"parentId":64650,"transformId":64762},{"name":"AltUnityRunnerPrefab","id":-1540,"x":25861,"y":15203,"z":100,"mobileY":-13283,"type":"","enabled":true,"worldX":960.0,"worldY":540.0,"worldZ":0.0,"idCamera":64684,"parentId":0,"transformId":-1542},{"name":"CanvasInputVisualiser","id":-1582,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":64684,"parentId":-1542,"transformId":-1558},{"name":"InputsVisualiser","id":-1574,"x":0,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":64684,"parentId":-1558,"transformId":-1584},{"name":"CanvasPopUp","id":-1556,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":64684,"parentId":-1542,"transformId":-1560},{"name":"PopUp","id":-1548,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":false,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":64684,"parentId":-1560,"transformId":-1562},{"name":"AltUnityTesterTitleText","id":-1608,"x":540,"y":1060,"z":0,"mobileY":860,"type":"","enabled":true,"worldX":540.0,"worldY":1060.0,"worldZ":0.0,"idCamera":64684,"parentId":-1562,"transformId":-1600},{"name":"LookingForConnections","id":-1576,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":64684,"parentId":-1562,"transformId":-1592},{"name":"RestartServerButton","id":-1604,"x":540,"y":870,"z":0,"mobileY":1050,"type":"","enabled":true,"worldX":540.0,"worldY":870.0,"worldZ":0.0,"idCamera":64684,"parentId":-1562,"transformId":-1602},{"name":"Text","id":-1620,"x":540,"y":890,"z":0,"mobileY":1030,"type":"","enabled":true,"worldX":540.0,"worldY":890.0,"worldZ":0.0,"idCamera":64684,"parentId":-1602,"transformId":-1606},{"name":"Icon","id":-1578,"x":1080,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":1080.0,"worldY":0.0,"worldZ":0.0,"idCamera":64684,"parentId":-1560,"transformId":-1580}]
+3/10/2020 6:39:09 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:39:09 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:39:09 PM: response received: Scene Loaded
+3/10/2020 6:39:10 PM:findObjects for: //*
+3/10/2020 6:39:10 PM: response received: [{"name":"EventSystem","id":64972,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":65004,"parentId":0,"transformId":64980},{"name":"Canvas","id":65060,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":65004,"parentId":0,"transformId":65066},{"name":"Panel Drag Area","id":65070,"x":428,"y":960,"z":113,"mobileY":960,"type":"","enabled":true,"worldX":-20.4733276,"worldY":0.0,"worldZ":0.0,"idCamera":65004,"parentId":65066,"transformId":65072},{"name":"Panel","id":65042,"x":428,"y":1069,"z":113,"mobileY":851,"type":"","enabled":true,"worldX":-14.0837622,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":65004,"parentId":65072,"transformId":65044},{"name":"Header","id":65088,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":65004,"parentId":65044,"transformId":65090},{"name":"Text","id":64956,"x":428,"y":1026,"z":113,"mobileY":894,"type":"","enabled":true,"worldX":-4.78985,"worldY":18.3198376,"worldZ":13.1600027,"idCamera":65004,"parentId":65044,"transformId":64958},{"name":"Drag Zone","id":64984,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":65004,"parentId":65044,"transformId":64986},{"name":"Resize Zone","id":64994,"x":606,"y":671,"z":120,"mobileY":1249,"type":"","enabled":true,"worldX":4.50406361,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":65004,"parentId":65044,"transformId":64996},{"name":"Close Button","id":65024,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":3.76055026,"worldY":23.9007149,"worldZ":20.33464,"idCamera":65004,"parentId":65044,"transformId":65026},{"name":"Text","id":65052,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":2.27352381,"worldY":21.95954,"worldZ":19.0868778,"idCamera":65004,"parentId":65026,"transformId":65054},{"name":"Button","id":65006,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":17.9740677,"worldY":34.1404,"worldZ":0.0,"idCamera":65004,"parentId":65066,"transformId":65008},{"name":"Text","id":65016,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":5.841726,"worldY":31.1073132,"worldZ":0.0,"idCamera":65004,"parentId":65008,"transformId":65018},{"name":"Debugging","id":65034,"x":1552,"y":499,"z":100,"mobileY":1421,"type":"","enabled":true,"worldX":38.384304,"worldY":-17.4705734,"worldZ":0.0,"idCamera":65004,"parentId":65066,"transformId":65036},{"name":"SF Scene Elements","id":64964,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":65004,"parentId":0,"transformId":64970},{"name":"Main Camera","id":64944,"x":0,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":-100.0,"idCamera":65004,"parentId":64970,"transformId":64946},{"name":"Background","id":65074,"x":320,"y":960,"z":180,"mobileY":960,"type":"","enabled":true,"worldX":-15.0,"worldY":0.0,"worldZ":80.0,"idCamera":65004,"parentId":64970,"transformId":65076},{"name":"Particle System","id":65080,"x":-3856,"y":960,"z":60,"mobileY":960,"type":"","enabled":true,"worldX":-100.0,"worldY":0.0,"worldZ":-40.0,"idCamera":65004,"parentId":64970,"transformId":65082},{"name":"AltUnityRunnerPrefab","id":-1540,"x":25861,"y":15203,"z":100,"mobileY":-13283,"type":"","enabled":true,"worldX":960.0,"worldY":540.0,"worldZ":0.0,"idCamera":65004,"parentId":0,"transformId":-1542},{"name":"CanvasInputVisualiser","id":-1582,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":65004,"parentId":-1542,"transformId":-1558},{"name":"InputsVisualiser","id":-1574,"x":0,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":65004,"parentId":-1558,"transformId":-1584},{"name":"CanvasPopUp","id":-1556,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":65004,"parentId":-1542,"transformId":-1560},{"name":"Icon","id":-1578,"x":1080,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":1080.0,"worldY":0.0,"worldZ":0.0,"idCamera":65004,"parentId":-1560,"transformId":-1580}]
+3/10/2020 6:39:27 PM:Logging is set to True
+3/10/2020 6:39:27 PM: response received: Ok
+
+3/10/2020 6:39:27 PM: response received: 1.5.3
+3/10/2020 6:39:27 PM:LoadScene Scene 4 No Cameras
+3/10/2020 6:39:27 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:39:27 PM: response received: Scene Loaded
+3/10/2020 6:39:28 PM:getAllCameras
+3/10/2020 6:39:28 PM: response received: []
+3/10/2020 6:39:28 PM:findActiveObjectByName for: Plane
+3/10/2020 6:39:28 PM: response received: {"name":"Plane","id":67482,"x":-1,"y":-1,"z":-1,"mobileY":1921,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":-1,"parentId":0,"transformId":67490}
+3/10/2020 6:47:54 PM:Logging is set to True
+3/10/2020 6:47:54 PM: response received: Ok
+
+3/10/2020 6:47:54 PM: response received: 1.5.3
+3/10/2020 6:47:54 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:47:54 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:47:54 PM: response received: Scene Loaded
+3/10/2020 6:47:54 PM:findActiveObjectByName for: Panel Drag Area
+3/10/2020 6:47:54 PM: response received: {"name":"Panel Drag Area","id":123874,"x":428,"y":960,"z":113,"mobileY":960,"type":"","enabled":true,"worldX":-20.4733276,"worldY":0.0,"worldZ":0.0,"idCamera":123808,"parentId":123870,"transformId":123876}
+3/10/2020 6:47:54 PM:findActiveObjectByName for: Panel
+3/10/2020 6:47:54 PM: response received: {"name":"Panel","id":123846,"x":428,"y":1069,"z":113,"mobileY":851,"type":"","enabled":true,"worldX":-14.0837622,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":123808,"parentId":123876,"transformId":123848}
+3/10/2020 6:47:54 PM:findActiveObjectByName for: Close Button
+3/10/2020 6:47:54 PM: response received: {"name":"Close Button","id":123828,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":3.76055026,"worldY":23.9007149,"worldZ":20.33464,"idCamera":123808,"parentId":123848,"transformId":123830}
+3/10/2020 6:47:54 PM:ClickEvent on AltUnityObject
+3/10/2020 6:47:54 PM: response received: {"name":"Close Button","id":123828,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":3.76055026,"worldY":23.9007149,"worldZ":20.33464,"idCamera":123808,"parentId":123848,"transformId":123830}
+3/10/2020 6:47:54 PM:findActiveObjectByName for: Button
+3/10/2020 6:47:54 PM: response received: {"name":"Button","id":123810,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":17.9740677,"worldY":34.1404,"worldZ":0.0,"idCamera":123808,"parentId":123870,"transformId":123812}
+3/10/2020 6:47:54 PM:ClickEvent on AltUnityObject
+3/10/2020 6:47:54 PM: response received: {"name":"Button","id":123810,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":17.9740677,"worldY":34.1404,"worldZ":0.0,"idCamera":123808,"parentId":123870,"transformId":123812}
+3/10/2020 6:47:54 PM:findActiveObjectByName for: Panel
+3/10/2020 6:47:54 PM: response received: {"name":"Panel","id":123846,"x":428,"y":1069,"z":113,"mobileY":851,"type":"","enabled":true,"worldX":-14.0837622,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":123808,"parentId":123876,"transformId":123848}
+3/10/2020 6:47:54 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:47:54 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:47:54 PM: response received: Scene Loaded
+3/10/2020 6:47:54 PM:findActiveObjectByName for: Drag Zone
+3/10/2020 6:47:54 PM: response received: {"name":"Drag Zone","id":124108,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":124128,"parentId":124168,"transformId":124110}
+3/10/2020 6:47:54 PM:Touch at: (428.0, 1472.0)
+3/10/2020 6:47:54 PM: response received: Ok
+3/10/2020 6:47:56 PM:findActiveObjectByName for: Drag Zone
+3/10/2020 6:47:56 PM: response received: {"name":"Drag Zone","id":124108,"x":576,"y":1683,"z":119,"mobileY":237,"type":"","enabled":true,"worldX":1.59971571,"worldY":34.935276,"worldZ":18.5214863,"idCamera":124128,"parentId":124168,"transformId":124110}
+3/10/2020 6:47:56 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:47:56 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:47:56 PM: response received: Scene Loaded
+3/10/2020 6:47:56 PM:findActiveObjectByName for: Resize Zone
+3/10/2020 6:47:56 PM: response received: {"name":"Resize Zone","id":124438,"x":606,"y":671,"z":120,"mobileY":1249,"type":"","enabled":true,"worldX":4.50406361,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":124448,"parentId":124488,"transformId":124440}
+3/10/2020 6:47:56 PM:Touch at: (606.0, 671.0)
+3/10/2020 6:47:56 PM: response received: Ok
+3/10/2020 6:47:59 PM:actionFinished
+3/10/2020 6:47:59 PM: response received: Yes
+3/10/2020 6:48:01 PM:findActiveObjectByName for: Resize Zone
+3/10/2020 6:48:01 PM: response received: {"name":"Resize Zone","id":124438,"x":524,"y":489,"z":117,"mobileY":1431,"type":"","enabled":true,"worldX":0.786497355,"worldY":-22.7658539,"worldZ":17.8391151,"idCamera":124448,"parentId":124488,"transformId":124440}
+3/10/2020 6:48:01 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:48:01 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:48:01 PM: response received: Scene Loaded
+3/10/2020 6:48:01 PM:findActiveObjectByName for: Resize Zone
+3/10/2020 6:48:01 PM: response received: {"name":"Resize Zone","id":124758,"x":606,"y":671,"z":120,"mobileY":1249,"type":"","enabled":true,"worldX":4.50406361,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":124768,"parentId":124808,"transformId":124760}
+3/10/2020 6:48:01 PM:Start moving touch chain for: (606.0, 671.0), (406.0, 471.0), (306.0, 571.0), (556.0, 571.0), (506.0, 571.0)
+3/10/2020 6:48:01 PM: response received: OK
+3/10/2020 6:48:05 PM:actionFinished
+3/10/2020 6:48:05 PM: response received: No
+3/10/2020 6:48:05 PM:actionFinished
+3/10/2020 6:48:05 PM: response received: No
+3/10/2020 6:48:05 PM:actionFinished
+3/10/2020 6:48:05 PM: response received: No
+3/10/2020 6:48:05 PM:actionFinished
+3/10/2020 6:48:05 PM: response received: No
+3/10/2020 6:48:05 PM:actionFinished
+3/10/2020 6:48:05 PM: response received: No
+3/10/2020 6:48:05 PM:actionFinished
+3/10/2020 6:48:05 PM: response received: Yes
+3/10/2020 6:48:09 PM:findActiveObjectByName for: Resize Zone
+3/10/2020 6:48:09 PM: response received: {"name":"Resize Zone","id":124758,"x":524,"y":573,"z":117,"mobileY":1347,"type":"","enabled":true,"worldX":0.786497355,"worldY":-19.026495,"worldZ":17.8391151,"idCamera":124768,"parentId":124808,"transformId":124760}
+3/10/2020 6:48:09 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:48:09 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:48:09 PM: response received: Scene Loaded
+3/10/2020 6:48:10 PM:findObjects for: //*
+3/10/2020 6:48:10 PM: response received: [{"name":"EventSystem","id":125056,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":125088,"parentId":0,"transformId":125064},{"name":"Canvas","id":125144,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":125088,"parentId":0,"transformId":125150},{"name":"Panel Drag Area","id":125154,"x":428,"y":960,"z":113,"mobileY":960,"type":"","enabled":true,"worldX":-20.4733276,"worldY":0.0,"worldZ":0.0,"idCamera":125088,"parentId":125150,"transformId":125156},{"name":"Panel","id":125126,"x":428,"y":1069,"z":113,"mobileY":851,"type":"","enabled":true,"worldX":-14.0837622,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":125088,"parentId":125156,"transformId":125128},{"name":"Header","id":125172,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":125088,"parentId":125128,"transformId":125174},{"name":"Text","id":125040,"x":428,"y":1026,"z":113,"mobileY":894,"type":"","enabled":true,"worldX":-4.78985,"worldY":18.3198376,"worldZ":13.1600027,"idCamera":125088,"parentId":125128,"transformId":125042},{"name":"Drag Zone","id":125068,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":125088,"parentId":125128,"transformId":125070},{"name":"Resize Zone","id":125078,"x":606,"y":671,"z":120,"mobileY":1249,"type":"","enabled":true,"worldX":4.50406361,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":125088,"parentId":125128,"transformId":125080},{"name":"Close Button","id":125108,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":3.76055026,"worldY":23.9007149,"worldZ":20.33464,"idCamera":125088,"parentId":125128,"transformId":125110},{"name":"Text","id":125136,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":2.27352381,"worldY":21.95954,"worldZ":19.0868778,"idCamera":125088,"parentId":125110,"transformId":125138},{"name":"Button","id":125090,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":17.9740677,"worldY":34.1404,"worldZ":0.0,"idCamera":125088,"parentId":125150,"transformId":125092},{"name":"Text","id":125100,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":5.841726,"worldY":31.1073132,"worldZ":0.0,"idCamera":125088,"parentId":125092,"transformId":125102},{"name":"Debugging","id":125118,"x":1552,"y":499,"z":100,"mobileY":1421,"type":"","enabled":true,"worldX":38.384304,"worldY":-17.4705734,"worldZ":0.0,"idCamera":125088,"parentId":125150,"transformId":125120},{"name":"SF Scene Elements","id":125048,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":125088,"parentId":0,"transformId":125054},{"name":"Main Camera","id":125028,"x":0,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":-100.0,"idCamera":125088,"parentId":125054,"transformId":125030},{"name":"Background","id":125158,"x":320,"y":960,"z":180,"mobileY":960,"type":"","enabled":true,"worldX":-15.0,"worldY":0.0,"worldZ":80.0,"idCamera":125088,"parentId":125054,"transformId":125160},{"name":"Particle System","id":125164,"x":-3856,"y":960,"z":60,"mobileY":960,"type":"","enabled":true,"worldX":-100.0,"worldY":0.0,"worldZ":-40.0,"idCamera":125088,"parentId":125054,"transformId":125166},{"name":"AltUnityRunnerPrefab","id":-23794,"x":25861,"y":15203,"z":100,"mobileY":-13283,"type":"","enabled":true,"worldX":960.0,"worldY":540.0,"worldZ":0.0,"idCamera":125088,"parentId":0,"transformId":-23796},{"name":"CanvasInputVisualiser","id":-23836,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":125088,"parentId":-23796,"transformId":-23812},{"name":"InputsVisualiser","id":-23828,"x":0,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":125088,"parentId":-23812,"transformId":-23838},{"name":"CanvasPopUp","id":-23810,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":125088,"parentId":-23796,"transformId":-23814},{"name":"PopUp","id":-23802,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":false,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":125088,"parentId":-23814,"transformId":-23816},{"name":"AltUnityTesterTitleText","id":-23862,"x":540,"y":1060,"z":0,"mobileY":860,"type":"","enabled":true,"worldX":540.0,"worldY":1060.0,"worldZ":0.0,"idCamera":125088,"parentId":-23816,"transformId":-23854},{"name":"LookingForConnections","id":-23830,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":125088,"parentId":-23816,"transformId":-23846},{"name":"RestartServerButton","id":-23858,"x":540,"y":870,"z":0,"mobileY":1050,"type":"","enabled":true,"worldX":540.0,"worldY":870.0,"worldZ":0.0,"idCamera":125088,"parentId":-23816,"transformId":-23856},{"name":"Text","id":-23874,"x":540,"y":890,"z":0,"mobileY":1030,"type":"","enabled":true,"worldX":540.0,"worldY":890.0,"worldZ":0.0,"idCamera":125088,"parentId":-23856,"transformId":-23860},{"name":"Icon","id":-23832,"x":1080,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":1080.0,"worldY":0.0,"worldZ":0.0,"idCamera":125088,"parentId":-23814,"transformId":-23834}]
+3/10/2020 6:48:10 PM:LoadScene Scene 2 Draggable Panel
+3/10/2020 6:48:10 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:48:10 PM: response received: Scene Loaded
+3/10/2020 6:48:11 PM:findObjects for: //*
+3/10/2020 6:48:11 PM: response received: [{"name":"EventSystem","id":125376,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":125408,"parentId":0,"transformId":125384},{"name":"Canvas","id":125464,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":125408,"parentId":0,"transformId":125470},{"name":"Panel Drag Area","id":125474,"x":428,"y":960,"z":113,"mobileY":960,"type":"","enabled":true,"worldX":-20.4733276,"worldY":0.0,"worldZ":0.0,"idCamera":125408,"parentId":125470,"transformId":125476},{"name":"Panel","id":125446,"x":428,"y":1069,"z":113,"mobileY":851,"type":"","enabled":true,"worldX":-14.0837622,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":125408,"parentId":125476,"transformId":125448},{"name":"Header","id":125492,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":125408,"parentId":125448,"transformId":125494},{"name":"Text","id":125360,"x":428,"y":1026,"z":113,"mobileY":894,"type":"","enabled":true,"worldX":-4.78985,"worldY":18.3198376,"worldZ":13.1600027,"idCamera":125408,"parentId":125448,"transformId":125362},{"name":"Drag Zone","id":125388,"x":428,"y":1472,"z":113,"mobileY":448,"type":"","enabled":true,"worldX":-4.78985,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":125408,"parentId":125448,"transformId":125390},{"name":"Resize Zone","id":125398,"x":606,"y":671,"z":120,"mobileY":1249,"type":"","enabled":true,"worldX":4.50406361,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":125408,"parentId":125448,"transformId":125400},{"name":"Close Button","id":125428,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":3.76055026,"worldY":23.9007149,"worldZ":20.33464,"idCamera":125408,"parentId":125448,"transformId":125430},{"name":"Text","id":125456,"x":590,"y":1446,"z":119,"mobileY":474,"type":"","enabled":true,"worldX":2.27352381,"worldY":21.95954,"worldZ":19.0868778,"idCamera":125408,"parentId":125430,"transformId":125458},{"name":"Button","id":125410,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":17.9740677,"worldY":34.1404,"worldZ":0.0,"idCamera":125408,"parentId":125470,"transformId":125412},{"name":"Text","id":125420,"x":694,"y":1780,"z":100,"mobileY":140,"type":"","enabled":true,"worldX":5.841726,"worldY":31.1073132,"worldZ":0.0,"idCamera":125408,"parentId":125412,"transformId":125422},{"name":"Debugging","id":125438,"x":1552,"y":499,"z":100,"mobileY":1421,"type":"","enabled":true,"worldX":38.384304,"worldY":-17.4705734,"worldZ":0.0,"idCamera":125408,"parentId":125470,"transformId":125440},{"name":"SF Scene Elements","id":125368,"x":540,"y":960,"z":100,"mobileY":960,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":125408,"parentId":0,"transformId":125374},{"name":"Main Camera","id":125348,"x":0,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":-100.0,"idCamera":125408,"parentId":125374,"transformId":125350},{"name":"Background","id":125478,"x":320,"y":960,"z":180,"mobileY":960,"type":"","enabled":true,"worldX":-15.0,"worldY":0.0,"worldZ":80.0,"idCamera":125408,"parentId":125374,"transformId":125480},{"name":"Particle System","id":125484,"x":-3856,"y":960,"z":60,"mobileY":960,"type":"","enabled":true,"worldX":-100.0,"worldY":0.0,"worldZ":-40.0,"idCamera":125408,"parentId":125374,"transformId":125486},{"name":"AltUnityRunnerPrefab","id":-23794,"x":25861,"y":15203,"z":100,"mobileY":-13283,"type":"","enabled":true,"worldX":960.0,"worldY":540.0,"worldZ":0.0,"idCamera":125408,"parentId":0,"transformId":-23796},{"name":"CanvasInputVisualiser","id":-23836,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":125408,"parentId":-23796,"transformId":-23812},{"name":"InputsVisualiser","id":-23828,"x":0,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":125408,"parentId":-23812,"transformId":-23838},{"name":"CanvasPopUp","id":-23810,"x":540,"y":960,"z":0,"mobileY":960,"type":"","enabled":true,"worldX":540.0,"worldY":960.0,"worldZ":0.0,"idCamera":125408,"parentId":-23796,"transformId":-23814},{"name":"Icon","id":-23832,"x":1080,"y":0,"z":0,"mobileY":1920,"type":"","enabled":true,"worldX":1080.0,"worldY":0.0,"worldZ":0.0,"idCamera":125408,"parentId":-23814,"transformId":-23834}]
+3/10/2020 6:48:28 PM:Logging is set to True
+3/10/2020 6:48:28 PM: response received: Ok
+
+3/10/2020 6:48:28 PM: response received: 1.5.3
+3/10/2020 6:48:28 PM:LoadScene Scene 4 No Cameras
+3/10/2020 6:48:28 PM: response received: Ok
+Scene Loaded
+3/10/2020 6:48:28 PM: response received: Scene Loaded
+3/10/2020 6:48:28 PM:getAllCameras
+3/10/2020 6:48:28 PM: response received: []
+3/10/2020 6:48:28 PM:findActiveObjectByName for: Plane
+3/10/2020 6:48:28 PM: response received: {"name":"Plane","id":127884,"x":-1,"y":-1,"z":-1,"mobileY":1921,"type":"","enabled":true,"worldX":0.0,"worldY":0.0,"worldZ":0.0,"idCamera":-1,"parentId":0,"transformId":127892}

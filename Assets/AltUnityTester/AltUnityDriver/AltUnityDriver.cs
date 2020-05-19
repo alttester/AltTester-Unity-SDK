@@ -21,7 +21,7 @@ public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
     public SocketSettings socketSettings;
-    public static readonly string VERSION="1.5.3";
+    public static readonly string VERSION="1.5.4";
     private static string tcp_ip = "127.0.0.1";
     private static int tcp_port = 13000;
     public static string requestSeparatorString;
@@ -40,12 +40,14 @@ public class AltUnityDriver
                 Socket.ReceiveTimeout = 5000;
 
                 socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding, logFlag);
-                EnableLogging();
                 CheckServerVersion();
+                EnableLogging();
                 break;
             }
             catch(System.Exception e)
             {
+                if (Socket != null)
+                    Stop();
                 System.Console.WriteLine(e.Message);
                 timeout -= 5;
                 System.Threading.Thread.Sleep(5000);
@@ -54,9 +56,9 @@ public class AltUnityDriver
         }
         
     }
-    private void CheckServerVersion()
+    public string CheckServerVersion()
     {
-        new AltUnityCheckServerVersion(socketSettings).Execute();
+        return new AltUnityCheckServerVersion(socketSettings).Execute();
     }
     private void EnableLogging(){
         new AltUnityEnableLogging(socketSettings).Execute();
@@ -137,7 +139,7 @@ public class AltUnityDriver
     }
     public void Swipe(AltUnityVector2 start, AltUnityVector2 end, float duration)
     {
-        new AltUnityAltUnitySwipe(socketSettings, start, end, duration).Execute();
+        new AltUnitySwipe(socketSettings, start, end, duration).Execute();
     }
     public void SwipeAndWait(AltUnityVector2 start, AltUnityVector2 end, float duration)
     {
@@ -181,7 +183,6 @@ public class AltUnityDriver
     {
         new AltUnityScrollMouse(socketSettings, speed, duration).Execute();
     }
-
     public void ScrollMouseAndWait(float speed, float duration = 0)
     {
         new AltUnityScrollMouseAndWait(socketSettings, speed, duration).Execute();
@@ -189,6 +190,10 @@ public class AltUnityDriver
     public AltUnityObject TapScreen(float x, float y)
     {
         return new AltUnityTapScreen(socketSettings, x, y).Execute();
+    }
+    public void TapCustom(float x, float y, int count, float interval = 0.1f)
+    {
+        new AltUnityTapCustom(socketSettings, x, y, count, interval).Execute();
     }
     public void Tilt(AltUnityVector3 acceleration)
     {
@@ -278,7 +283,7 @@ public class AltUnityDriver
     {
         return new AltUnityGetAllScenes(socketSettings).Execute();
     }
-    public System.Collections.Generic.List<string> GetAllCameras()
+    public System.Collections.Generic.List<AltUnityObject> GetAllCameras()
     {
         return new AltUnityGetAllCameras(socketSettings).Execute();
     }
@@ -290,9 +295,9 @@ public class AltUnityDriver
     {
         return new AltUnityGetScreenshot(socketSettings, id, color, width, size).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2))
+    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width,out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2))
     {
-        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size).Execute();
+        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size).Execute(out selectedObject);
 
     }
     public void GetPNGScreenshot(string path)

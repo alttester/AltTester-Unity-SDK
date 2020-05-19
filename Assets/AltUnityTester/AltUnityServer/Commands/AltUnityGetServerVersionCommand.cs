@@ -4,6 +4,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
     {
         public override string Execute()
         {
+            AltUnityRunner._altUnityRunner.LogMessage("Server version is: " + AltUnityRunner.VERSION);
             return AltUnityRunner.VERSION;
         }
     }

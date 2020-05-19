@@ -13,7 +13,7 @@
     echo "Virtual environment has been activated."
   else
     echo "Creating virtual environment."
-    virtualenv altunitytests
+    python3 -m venv altunitytests
     source altunitytests/bin/activate
     echo "Virtual environment has been created and activated."
   fi
@@ -21,7 +21,7 @@
 .pip_install_dependencies: &pip_install_dependencies
 - pip install Appium-Python-Client
 - pip uninstall --yes altunityrunner || true
-- pip install -e "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
+- pip install -e "Bindings~/python"
 - pip install Deprecated
 - sleep 30
 
@@ -44,28 +44,35 @@ build-apk:
     tags:
       - android
     script:
+    - whoami
     - adb uninstall fi.altom.altunitytester || true
-    - /Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+    - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
     - ls 
+    cache:
+        paths:
+            - sampleGame.apk
     artifacts:
       when: always
       expire_in: 10 days
       paths:
         - buildAndroid.log
+        - sampleGame.apk
 
 build-ipa:
     stage: build
     tags:
       - iPhone
     script:
-      - /Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
+      - whoami
+      - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
       - cd sampleGame
-      - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS
+      - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS -allowProvisioningUpdates
       - ls 
     artifacts:
       when: always
       expire_in: 10 days
       paths:
+        - sampleGame/
         - buildIos.log
  
 run-csharp-android-tests:
@@ -73,8 +80,9 @@ run-csharp-android-tests:
     tags:
         - android
     script:
+        - ls
         - *reinstall_and_start_android_app
-        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
+        - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit 
     artifacts:
       when: always
       expire_in: 10 days
@@ -90,7 +98,7 @@ run-python-android-tests:
         - *reinstall_and_start_android_app
         - *initialize_venv
         - *pip_install_dependencies
-        - python3 "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_bindings_tests.py"
+        - python3 "Bindings~/python_bindings_tests.py"
     needs: ["build-apk"]
 
 run-java-android-tests:
@@ -99,8 +107,8 @@ run-java-android-tests:
         - android
     script:
         - *reinstall_and_start_android_app
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
-        - mvn test
+        - cd "Bindings~/java"
+        - mvn -Dtest=ro.altom.altunitytester.Tests* test
     needs: ["build-apk"]
 
 run-python-appium-android-tests:
@@ -110,7 +118,7 @@ run-python-appium-android-tests:
     script:
         - *initialize_venv
         - *pip_install_dependencies
-        - python "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python_appium_tests.py"
+        - python "Bindings~/python_appium_tests.py"
     artifacts:
         when: always
         expire_in: 10 days
@@ -123,16 +131,17 @@ run-java-appium-android-tests:
     tags:
         - android
     script:
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+        - whoami
+        - cd "Bindings~/java"
         - mvn clean compile assembly:single
-        - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.3 -Dpackaging=jar
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.4 -Dpackaging=jar
         - cd ../java-appium-tests
         - mvn test
     artifacts:
         when: always
         expire_in: 10 days
         paths:
-            - "./Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
+            - "./Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
     needs: ["build-apk"]
 
 run-csharp-ios-tests:
@@ -141,14 +150,15 @@ run-csharp-ios-tests:
         - iPhone
     script:
         - cd sampleGame
-        - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone &
+        - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone -allowProvisioningUpdates &
         - sleep 60
-        - /Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit     
+        - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit     
         - killall xcodebuild || true   
     artifacts:
       when: always
       expire_in: 10 days
       paths:
+        - sampleGame/
         - csharpIosTests.log    
     needs: ["build-ipa"]
 
@@ -182,11 +192,11 @@ create-jar-archive:
       - mac
     script:
       - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityJAR || true
-      - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/java"
+      - cd "Bindings~/java"
       - mvn clean compile assembly:single
-      - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar
-      - cd ../../../../public/${CI_COMMIT_REF_NAME}/
-      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client-jar-with-dependencies.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
+      - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar.jar
+      - cd ../../public/${CI_COMMIT_REF_NAME}/
+      - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
       - ls
       - cat index.html
     artifacts:
@@ -196,18 +206,22 @@ create-jar-archive:
 
 deploy-altunitytester-python:
     stage: deploy
+    only:
+      refs: 
+          - master
     when: manual
     tags:
         - unity
         - mac
+        - android
     script:
-        - cd "Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python"
+        - cd "Bindings~/python"
         - python setup.py sdist upload -r pypi
 
 docs:
   stage: docs
   only:
-        refs:
+        refs: 
             - master
   artifacts:
     paths:
@@ -240,3 +254,31 @@ pages:
   script:
     - cp -r documentation/ public/
     - ls public/
+      
+maven-snapshot-repo:
+  stage: deploy
+  only:
+      refs: 
+          - master
+  when: manual
+  script:
+      - cd "Bindings~/java"
+      - mvn deploy -DskipTests
+  tags:
+      - unity
+      - mac
+
+maven-repo:
+  stage: deploy
+  only:
+      refs: 
+          - master
+  when: manual
+  script:
+      - cd "Bindings~/java"
+      - mvn deploy -f pom-release.xml -DskipTests
+  tags:
+      - unity
+      - mac
+
+

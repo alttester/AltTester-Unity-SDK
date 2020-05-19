@@ -26,7 +26,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public static System.IO.StreamWriter FileWriter;
     
 
-    public static readonly string VERSION="1.5.3";
+    public static readonly string VERSION="1.5.4";
 
     public readonly string errorNotFoundMessage = "error:notFound";
     public readonly string errorPropertyNotFoundMessage = "error:propertyNotFound";
@@ -287,7 +287,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "tapObject":
                     altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityTapCommand (altUnityObject);
+                    var tapCount = 1;
+                    if (pieces.Length > 1 && !string.IsNullOrEmpty(pieces[2]))
+                        tapCount = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(pieces[2]);
+                    command = new AltUnityTapCommand(altUnityObject, tapCount < 1 ? 1 : tapCount);
                     break;
                 case "findObjectsByName":
                     methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
@@ -327,6 +330,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "tapScreen":
                     command = new AltUnityClickOnScreenAtXyCommand(pieces[1], pieces[2]);
+                    break;
+                case "tapCustom":
+                    UnityEngine.Vector2 clickPos = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
+                    command = new AltUnityClickOnScreenCustom(clickPos, pieces[2], pieces[3]);
                     break;
                 case "dragObject":
                     UnityEngine.Vector2 positionVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
@@ -406,7 +413,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "getAllMethods":
                     altComponent = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityComponent>(pieces[1]);
-                    command = new AltUnityGetAllMethodsCommand (altComponent);
+                    var methodSelection = (AltUnityMethodSelection)Enum.Parse(typeof(AltUnityMethodSelection), pieces[2], true);
+                    command = new AltUnityGetAllMethodsCommand (altComponent,methodSelection);
                     break;
                 case "getAllScenes":
                     command = new AltUnityGetAllScenesCommand();
@@ -550,7 +558,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     
     public static UnityEngine.GameObject GetGameObject(int objectId)
     {
-        foreach (UnityEngine.GameObject gameObject in FindObjectsOfType<UnityEngine.GameObject>())
+        foreach (UnityEngine.GameObject gameObject in UnityEngine.Resources.FindObjectsOfTypeAll<UnityEngine.GameObject>())
         {
             if (gameObject.GetInstanceID() == objectId)
                 return gameObject;
@@ -607,8 +615,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             }
             else
             {
-                var response= new AltUnityGetScreenshotCommand (size,handler).Execute();
-                handler.SendResponse(response);  
+                new AltUnityGetScreenshotCommand (size,handler).Execute();
             }
         }
     }

@@ -1445,6 +1445,67 @@ Simulate a tap action on the screen at the given coordinates.
 
 ```
 
+###  TapCustom
+
+#### Description:
+
+Simulate n number of tap actions on the screen at the given coordinates .
+
+#### Parameters:
+
+|      Name       |     Type      | Optional | Description |
+| --------------- | ------------- | -------- | ----------- |
+| x      |     float    |   false   |  x coordinate of the screen|
+| y      |     float    |   false   |  y coordinate of the screen|
+| count  |     int      |   false   | number of taps|
+| interval |   float    |   true    | how many seconds will be between touches |
+
+
+
+#### Examples
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+        [Test]
+            public void TestCustomTap()
+            {
+                var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+                var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+                altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
+                Thread.Sleep(1000);
+                Assert.AreEqual("4", counterButtonText.GetText());
+
+            }
+
+
+    .. code-tab:: java
+        @Test
+            public void TestCustomTap() throws InterruptedException {
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "ButtonCounter").build();
+                AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
+                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
+                AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.tapCustom(counterButton.x, counterButton.y, 4);
+                Thread.sleep(1000);
+                assertEquals("4", counterButtonText.getText());
+
+            }
+
+    .. code-tab:: py
+        def test_custom_tap(self):
+            counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
+            counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
+            self.altdriver.tap_custom(counterButton.x, counterButton.y, 4);
+            time.sleep(1);
+            self.assertEqual("4", counterButtonText.get_text());
+
+
+```
+
 ###  Tilt
 
 #### Description:
@@ -1885,6 +1946,57 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
 ```
 
+###  DoubleTap
+
+#### Description:
+
+ Simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame.
+
+
+#### Examples
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+        [Test]
+            public void TestDoubleTap()
+            {
+                var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+                var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+                counterButton.DoubleTap();
+                Thread.Sleep(500);
+                Assert.AreEqual("2", counterButtonText.GetText());
+            }
+
+
+    .. code-tab:: java
+        @Test
+        public void TestDoubleTap() throws InterruptedException {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "ButtonCounter").build();
+            AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
+            AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
+            counterButton.doubleTap();
+            Thread.sleep(500);
+            assertEquals("2", counterButtonText.getText());
+        }
+
+
+
+
+    .. code-tab:: py
+        def test_double_tap(self):  
+            counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
+            counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
+            counterButton.double_tap();
+            time.sleep(0.5);
+            self.assertEqual("2", counterButtonText.get_text());
+
+
+```
 
 ###  PointerDownFromObject
 

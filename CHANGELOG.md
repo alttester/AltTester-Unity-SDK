@@ -1,5 +1,38 @@
-# Changes in version 1.5.3
+# Changes in version 1.5.4
+## New
 
+- Double tap method for AltUnityObject !190 
+- Add TapCustom command !194 
+- "Add AltUnity to Maven" !204 
+
+## Bug fixes and improvements
+
+- "C# receive method adds additional characters in the response" !206 
+- "Some elements to be highlighted are not found" !205 
+- "Screenshot with object highlighted not working for camera" !196 
+- "Return the object with the screenshot when given x y coordinates" !201 
+- "Add Tank Sample to documentation" !191 
+- "Change function name in python from click_Event to click_event" !200 
+- "Error when uploading to pypi the latest version" !193 
+- "Modify check version for earlier version that don't have the command to not throw an error" !199 
+- "Sort better the order how method are returned from getAllMethods command" !198 
+- "Make input visualizer pulsate when clicking" !189 
+- "Add information about communication between server and driver" !197 
+- "Add a note to Documentation about not having to rebuild the game when tests are changed" !192 
+- "Are there similar methods for HoldButton , HoldButtonAndWait and Send_keys in Python binding?" !184
+- "Add javadoc to AltUnity tester" !203 
+
+## Contributors
+
+- Robert Poienar @robert_poienar
+- Ru Cindrea @ru.cindrea
+- Ka3u6y6a @ka3u6y6a
+- Andrei Ionut Benyi @ionut.benyi
+- pusoktimea @pusoktimea
+- Alexandru Rotaru @alex.rotaru
+
+
+# Changes in version 1.5.3
 ## New
 
 - Add methods for swipe by more then two points !173 
