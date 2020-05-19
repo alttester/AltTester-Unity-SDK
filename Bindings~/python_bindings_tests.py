@@ -613,7 +613,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(22, len(list_of_elements), list_of_elements)
+        self.assertEqual(24, len(list_of_elements), list_of_elements)
         self.assertTrue("EventSystem" in list_of_elements)
         self.assertTrue("Canvas" in list_of_elements)
         self.assertTrue("Panel Drag Area" in list_of_elements)
@@ -639,7 +639,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(27, len(list_of_elements))
+        self.assertEqual(29, len(list_of_elements))
         self.assertTrue("EventSystem" in list_of_elements)
         self.assertTrue("Canvas" in list_of_elements)
         self.assertTrue("Panel Drag Area" in list_of_elements)
