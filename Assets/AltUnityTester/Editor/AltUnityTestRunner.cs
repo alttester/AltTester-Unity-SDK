@@ -371,8 +371,8 @@ public class AltUnityTestRunner
     // This method is used to run test in our pipeline. If you want to use them you might need to modify them.
     static void RunAllTestsIOS() {
         try {
-            AltUnityPortHandler.ForwardIos();
             AltUnityTesterEditor.InitEditorConfiguration();
+            AltUnityPortHandler.ForwardIos();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
@@ -413,8 +413,8 @@ public class AltUnityTestRunner
     {
         try
         {
-            AltUnityPortHandler.ForwardAndroid();
             AltUnityTesterEditor.InitEditorConfiguration();
+            AltUnityPortHandler.ForwardAndroid();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
