@@ -367,10 +367,11 @@ public class AltUnityTestRunner
         }
     }
 
+#if UNITY_EDITOR_OSX
 
     static void RunAllTestsIOS() {
         try {
-
+            AltUnityPortHandler.ForwardIos();
             AltUnityTesterEditor.InitEditorConfiguration();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
@@ -396,15 +397,22 @@ public class AltUnityTestRunner
             UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
         }
+        finally 
+        {
+            AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
+        }
+
+        
 
     }
-
+#endif
 
 
     static void RunAllTestsAndroid()
     {
         try
         {
+            AltUnityPortHandler.ForwardAndroid();
             AltUnityTesterEditor.InitEditorConfiguration();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
@@ -437,6 +445,10 @@ public class AltUnityTestRunner
         {
             UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
+        }
+        finally
+        {
+            AltUnityPortHandler.RemoveForwardAndroid();
         }
     }
 
