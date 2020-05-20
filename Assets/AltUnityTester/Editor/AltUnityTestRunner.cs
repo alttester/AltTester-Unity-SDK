@@ -368,7 +368,7 @@ public class AltUnityTestRunner
     }
 
 #if UNITY_EDITOR_OSX
-
+    // This method is used to run test in our pipeline. If you want to use them you might need to modify them.
     static void RunAllTestsIOS() {
         try {
             AltUnityPortHandler.ForwardIos();
@@ -408,6 +408,7 @@ public class AltUnityTestRunner
 #endif
 
 
+    // This method is used to run test in our pipeline. If you want to use them you might need to modify them.
     static void RunAllTestsAndroid()
     {
         try
