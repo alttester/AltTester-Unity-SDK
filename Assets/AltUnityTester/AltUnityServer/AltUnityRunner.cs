@@ -94,15 +94,14 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         else
         {
             DontDestroyOnLoad(this);
-            StartSocketServer();
-            UnityEngine.Debug.Log("AltUnity Driver started");
         }
     }
     void Start()
     {
         _jsonSettings = new Newtonsoft.Json.JsonSerializerSettings();
         _jsonSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-
+         StartSocketServer();
+        UnityEngine.Debug.Log("AltUnity Driver started");
         _responseQueue = new AltResponseQueue();
 
        
