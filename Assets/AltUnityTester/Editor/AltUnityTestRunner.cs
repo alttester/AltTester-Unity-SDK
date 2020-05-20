@@ -368,7 +368,6 @@ public class AltUnityTestRunner
     }
 
 
-#if UNITY_EDITOR_OSX
     static void RunAllTestsIOS() {
         try {
 
@@ -399,7 +398,6 @@ public class AltUnityTestRunner
         }
 
     }
-#endif
 
 
 
