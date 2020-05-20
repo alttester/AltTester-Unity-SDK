@@ -266,7 +266,7 @@ public class AltUnityBuilder
         return sceneList.ToArray();
     }
 
-    public static void InsertAltUnityInScene(string scene)
+    public static void InsertAltUnityInScene(string scene,int port=13000)
     {
         UnityEngine.Debug.Log("Adding AltUnityRunnerPrefab into the [" + scene + "] scene.");
         var altUnityRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
@@ -278,11 +278,13 @@ public class AltUnityBuilder
         {
             component.ShowInputs = false;
             component.showPopUp = true;
+            component.SocketPortNumber = port;
         }
         else
         {
             component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
             component.showPopUp = AltUnityTesterEditor.EditorConfiguration.showPopUp;
+            component.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.serverPort;
         }
 
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());

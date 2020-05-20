@@ -152,7 +152,7 @@ run-csharp-ios-tests:
         - cd sampleGame
         - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone -allowProvisioningUpdates &
         - sleep 60
-        - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.RunAllTestsIOS -logFile csharpIosTests.log -quit     
+        - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsIOS -logFile csharpIosTests.log -quit     
         - killall xcodebuild || true   
     artifacts:
       when: always
