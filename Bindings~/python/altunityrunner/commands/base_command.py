@@ -14,8 +14,16 @@ class BaseCommand(object):
     def recvall(self, print_output=True):
         data = ''
         previousPart = ''
+        receive_zero_bytes_counter=0
+        receive_zero_bytes_counter_limit=2
         while True:
             part = self.socket.recv(BUFFER_SIZE)
+            if not part:  # If received message is empty
+                if receive_zero_bytes_counter<receive_zero_bytes_counter_limit:
+                    receive_zero_bytes_counter+=1
+                    continue
+                else:
+                    raise SystemError('Server is not yet reachable')
             data += str(part.decode('utf-8'))
             partToSeeAltEnd = previousPart+str(part)
             if '::altend' in partToSeeAltEnd:

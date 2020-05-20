@@ -870,6 +870,14 @@ public class TestForScene1TestSample
         var currentScene= altUnityDriver.GetCurrentScene();
         Assert.AreNotEqual(initialScene, currentScene);
     }
+    [Test]
+    public void TestForSetText()
+    {
+        var text = altUnityDriver.FindObject(By.NAME, "NonEnglishText");
+        var originalText = text.GetText();
+        var afterText = text.SetText("ModifiedText").GetText();
+        Assert.AreNotEqual(originalText, afterText);
+    }
 
 
 }

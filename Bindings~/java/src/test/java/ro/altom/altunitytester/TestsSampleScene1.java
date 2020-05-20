@@ -584,4 +584,14 @@ public class TestsSampleScene1 {
         String currentScene = altUnityDriver.getCurrentScene();
         assertNotEquals(initialScene, currentScene);
     }
+
+    @Test
+    public void TestSetTextFunction() {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "NonEnglishText").build();
+        AltUnityObject textObject = altUnityDriver.findObject(altFindObjectsParameters1);
+        String originalText = textObject.getText();
+        String afterText = textObject.setText("ModifiedText").getText();
+        assertNotEquals(originalText, afterText);
+    }
 }

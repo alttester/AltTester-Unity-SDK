@@ -1,4 +1,4 @@
-﻿#if ALTUNITYTESTER
+#if ALTUNITYTESTER
 
 using Assets.AltUnityTester.AltUnityDriver;
 using System.Linq;
@@ -189,13 +189,14 @@ public class Input : UnityEngine.MonoBehaviour
     //NotImplementedForAltUnityTester
     public static bool multiTouchEnabled { get; set; }//?
 
-    // //NotImplementedForAltUnityTester
-    // public static LocationService location {
-    //     get
-    //     {
-    //         return UnityEngine.Input.location;
-    //     }
-    // }
+    //NotImplementedForAltUnityTester
+    public static UnityEngine.LocationService location
+    {
+        get
+        {
+            return UnityEngine.Input.location;
+        }
+    }
 
     //NotImplementedForAltUnityTester
     public static UnityEngine.Compass compass {

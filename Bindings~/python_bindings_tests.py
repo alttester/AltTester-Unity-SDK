@@ -732,6 +732,12 @@ class PythonTests(unittest.TestCase):
         time.sleep(1)
         self.assertEqual("4", counterButtonText.get_text())
 
+    def test_set_text_normal_text(self):
+        text_object = self.altdriver.find_object(By.NAME, "NonEnglishText")
+        original_text = text_object.get_text()
+        after_text = text_object.set_text("ModifiedText").get_text()
+        self.assertNotEqual(original_text, after_text)
+
     def test_press_next_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         initial_scene = self.altdriver.get_current_scene()
