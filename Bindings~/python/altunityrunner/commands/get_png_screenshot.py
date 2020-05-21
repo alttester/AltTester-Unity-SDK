@@ -14,7 +14,7 @@ class GetPNGScreenshot(BaseCommand):
         response = self.send_data(self.create_command('getPNGScreenshot'))
         screenshot_data = ""
         if(response == "Ok"):
-            screenshot_data = self.recvall(print_output=False)
+            screenshot_data = self.recvall()
             screenshot_data_bytes = base64.b64decode(screenshot_data)
             f = open(self.path, 'wb')
             f.write(screenshot_data_bytes)
