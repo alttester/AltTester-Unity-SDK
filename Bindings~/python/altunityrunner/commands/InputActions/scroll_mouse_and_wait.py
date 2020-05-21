@@ -2,20 +2,25 @@ from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.commands.InputActions.scroll_mouse import ScrollMouse
 from loguru import logger
 import time
+
+
 class ScrollMouseAndWait(BaseCommand):
-    def __init__(self, socket,request_separator,request_end, speed, duration):
-        super(ScrollMouseAndWait, self).__init__(socket,request_separator,request_end)
-        self.speed=speed
-        self.duration=duration
-    
+    def __init__(self, socket, request_separator, request_end, speed, duration):
+        super(ScrollMouseAndWait, self).__init__(
+            socket, request_separator, request_end)
+        self.speed = speed
+        self.duration = duration
+
     def execute(self):
-        data = ScrollMouse(self.socket,self.request_separator,self.request_end,self.speed, self.duration).execute()
+        data = ScrollMouse(self.socket, self.request_separator,
+                           self.request_end, self.speed, self.duration).execute()
         self.handle_errors(data)
-        logger.trace('Wait for scroll mouse to finish')
+        logger.debug('Wait for scroll mouse to finish')
         time.sleep(self.duration)
         action_in_progress = True
         while action_in_progress:
-            action_finished = self.send_data(self.create_command('actionFinished'))
+            action_finished = self.send_data(
+                self.create_command('actionFinished'))
             self.handle_errors(action_finished)
             if action_finished is 'Yes':
                 break

@@ -43,7 +43,7 @@ class BaseCommand(object):
                 f'Data received from socket does not have correct start and end control strings.'
                 f'{e}')
             return ''
-        logger.trace(f'Received data was: {data}')
+        logger.debug(f'Received data was: {data}')
         return data
 
     def write_to_log_file(self, message):
