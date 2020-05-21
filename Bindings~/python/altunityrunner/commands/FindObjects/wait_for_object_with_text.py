@@ -1,6 +1,7 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 from altunityrunner.altUnityExceptions import WaitTimeOutException
 from altunityrunner.commands.FindObjects.find_object import FindObject
+from loguru import logger
 import time
 class WaitForObjectWithText(CommandReturningAltElements):
     def __init__(self, socket,request_separator,request_end,appium_driver, by,value,text,camera_name, timeout, interval,enabled):
@@ -23,7 +24,7 @@ class WaitForObjectWithText(CommandReturningAltElements):
                     break
                 raise Exception('Not the wanted text')
             except Exception as e:
-                print('Waiting for element ' + self.value + ' to have text ' + self.text)
+                logger.trace('Waiting for element ' + self.value + ' to have text ' + self.text)
                 time.sleep(self.interval)
                 t += self.interval
         if t>=self.timeout:

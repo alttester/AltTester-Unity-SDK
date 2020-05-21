@@ -1,4 +1,5 @@
 from altunityrunner.commands.base_command import BaseCommand
+from loguru import logger
 
 
 class MultipointSwipe(BaseCommand):
@@ -10,6 +11,6 @@ class MultipointSwipe(BaseCommand):
     def execute(self):
         moving_position = self.positions_to_json_string(self.positions)
 
-        print('Moving touch by positions ' + moving_position + ' with duration: ' + self.duration_in_secs + ' secs')
+        logger.trace('Moving touch by positions ' + moving_position + ' with duration: ' + self.duration_in_secs + ' secs')
         data = self.send_data(self.create_command('MultipointSwipeChain', self.duration_in_secs, moving_position))
         return self.handle_errors(data)

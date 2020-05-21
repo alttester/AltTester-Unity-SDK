@@ -1,4 +1,5 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from loguru import logger
 import time
 
 
@@ -14,7 +15,7 @@ class TapCustom(CommandReturningAltElements):
         position = self.vector_to_json_string(self.x, self.y)
         data = self.send_data(self.create_command('tapCustom', position, self.count, self.interval))
         self.handle_errors(data)
-        print('Wait for custom tap is finished')
+        logger.trace('Wait for custom tap is finished')
         time.sleep(self.interval * self.count)
         action_in_progress = True
         while action_in_progress:

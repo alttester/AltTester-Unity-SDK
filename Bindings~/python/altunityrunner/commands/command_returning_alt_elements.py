@@ -1,5 +1,6 @@
 from altunityrunner.altElement import AltElement
 from altunityrunner.commands.base_command import BaseCommand
+from loguru import logger
 import json
 BUFFER_SIZE = 1024
 class CommandReturningAltElements(BaseCommand):
@@ -10,14 +11,14 @@ class CommandReturningAltElements(BaseCommand):
         self.appium_driver=appium_driver
 
     def get_alt_element(self, data):
-        print(data)
+        logger.trace(data)
         if (data != '' and 'error:' not in data):
             alt_el = None
             try:
                 alt_el = AltElement(self, self.appium_driver, data)
             except:
                 alt_el = AltElement(self, None, data)
-            print('Element ' + alt_el.name + ' found at x:' + str(alt_el.x) + ' y:' + str(alt_el.y) + ' mobileY:' + str(alt_el.mobileY))
+            logger.trace('Element ' + alt_el.name + ' found at x:' + str(alt_el.x) + ' y:' + str(alt_el.y) + ' mobileY:' + str(alt_el.mobileY))
             return alt_el
         self.handle_errors(data)
         return None
@@ -39,7 +40,7 @@ class CommandReturningAltElements(BaseCommand):
                     alt_el = AltElement(self, None, json.dumps(elements[i]))
                     
                 alt_elements.append(alt_el)
-                print('Element ' + alt_el.name + ' found at x:' + str(alt_el.x) + ' y:' + str(alt_el.y) + ' mobileY:' + str(alt_el.mobileY))
+                logger.trace('Element ' + alt_el.name + ' found at x:' + str(alt_el.x) + ' y:' + str(alt_el.y) + ' mobileY:' + str(alt_el.mobileY))
             return alt_elements
             
         self.handle_errors(data)

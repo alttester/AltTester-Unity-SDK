@@ -1,5 +1,6 @@
 from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.player_pref_key_type import PlayerPrefKeyType
+from loguru import logger
 class GetPlayerPrefKey(BaseCommand):
     def __init__(self, socket,request_separator,request_end,key_name, key_type):
         super(GetPlayerPrefKey, self).__init__(socket,request_separator,request_end)
@@ -9,12 +10,12 @@ class GetPlayerPrefKey(BaseCommand):
     def execute(self):
         data = ''
         if self.key_type is 1:
-            print('Get Int Player Pref for key: ' + self.key_name)
+            logger.trace('Get Int Player Pref for key: ' + self.key_name)
             data = self.send_data(self.create_command('getKeyPlayerPref', self.key_name , str(PlayerPrefKeyType.Int) ))
         if self.key_type is 2:
-            print('Get String Player Pref for key: ' + self.key_name)            
+            logger.trace('Get String Player Pref for key: ' + self.key_name)
             data = self.send_data(self.create_command('getKeyPlayerPref', self.key_name , str(PlayerPrefKeyType.String) ))
         if self.key_type is 3:
-            print('Get Float Player Pref for key: ' + self.key_name)            
+            logger.trace('Get Float Player Pref for key: ' + self.key_name)
             data = self.send_data(self.create_command('getKeyPlayerPref', self.key_name , str(PlayerPrefKeyType.Float) ))
         return self.handle_errors(data)

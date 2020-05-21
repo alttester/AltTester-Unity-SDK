@@ -1,6 +1,7 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 from altunityrunner.altUnityExceptions import WaitTimeOutException
 from altunityrunner.commands.FindObjects.find_object import FindObject
+from loguru import logger
 import time
 class WaitForObjectToNotBePresent(CommandReturningAltElements):
     def __init__(self, socket,request_separator,request_end,appium_driver, by,value,camera_name, timeout, interval,enabled):
@@ -16,7 +17,7 @@ class WaitForObjectToNotBePresent(CommandReturningAltElements):
         t = 0
         while (t <= self.timeout):
             try:
-                print('Waiting for element ' + self.value + ' to not be present...')
+                logger.trace('Waiting for element ' + self.value + ' to not be present...')
                 FindObject(self.socket,self.request_separator,self.request_end,self.appium_driver,self.by,self.value,self.camera_name,self.enabled).execute()
                 time.sleep(self.interval)
                 t += self.interval

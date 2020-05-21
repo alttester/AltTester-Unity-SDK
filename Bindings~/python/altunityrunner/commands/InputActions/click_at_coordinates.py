@@ -1,4 +1,5 @@
 from altunityrunner.commands.base_command import BaseCommand
+from loguru import logger
 
 class ClickAtCoordinates(BaseCommand):
     def __init__(self, socket,request_separator,request_end, x, y):
@@ -8,5 +9,5 @@ class ClickAtCoordinates(BaseCommand):
     
     def execute(self):
         data = self.send_data(self.create_command("clickScreenOnXY",self.x,self.y ))
-        print('Clicked at ' + str(self.x) + ', ' + str(self.y))
+        logger.trace('Clicked at ' + str(self.x) + ', ' + str(self.y))
         return data

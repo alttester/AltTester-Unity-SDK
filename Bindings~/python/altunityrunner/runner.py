@@ -10,6 +10,7 @@ from deprecated import deprecated
 from altunityrunner.commands import *
 from altunityrunner.altElement import AltElement
 from altunityrunner.player_pref_key_type import PlayerPrefKeyType
+from loguru import logger
 BUFFER_SIZE = 1024
 
 class AltrunUnityDriver(object):
@@ -28,17 +29,18 @@ class AltrunUnityDriver(object):
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_PORT))
                 self.socket.settimeout(5)
-                print("Get server Version")
-                GetServerVersion(self.socket, self.request_separator, self.request_end).execute()
+                logger.trace("Get server Version")
+                version = GetServerVersion(self.socket, self.request_separator, self.request_end).execute()
+                logger.info(f"Connection established with AltUnity Server. Version: {version}")
                 break
             except Exception as e:
                 if not self.socket==None:
                     self.stop()
-                print(e)
-                print('AltUnityServer not running on port ' + str(self.TCP_PORT) +
-                      ', retrying (timing out in ' + str(timeout) + ' secs)...')
-                timeout -= 5
-                time.sleep(5)
+                logger.error(e)
+                logger.warning(f'Trying to reach AltUnity Server at port {self.TCP_PORT},'
+                               f' retrying (timing out in {timeout} secs)...')
+                timeout -= 1
+                time.sleep(1)
 
         if timeout <= 0:
             raise Exception('Could not connect to AltUnityServer on: '+ TCP_IP +':'+ str(self.TCP_PORT))
