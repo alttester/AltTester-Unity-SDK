@@ -372,7 +372,7 @@ public class AltUnityTestRunner
     static void RunAllTestsIOS() {
         try {
             AltUnityTesterEditor.InitEditorConfiguration();
-            AltUnityPortHandler.ForwardIos();
+            // AltUnityPortHandler.ForwardIos();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
@@ -397,10 +397,10 @@ public class AltUnityTestRunner
             UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
         }
-        finally 
-        {
-            AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
-        }
+        // finally 
+        // {
+        //     // AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
+        // }
 
         
 
