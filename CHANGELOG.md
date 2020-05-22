@@ -1,3 +1,27 @@
+# Changes in version 1.5.5
+
+## Bug fixes and improvements
+
+- Resolve "Create in sample scene a button that load other scene and test it" !221 
+- Resolve "Add a way to control the amount of output" !222 
+- Resolve "Add option to set port in BuildGame Method and move to Awake runner instantiation settings" !213 
+- Resolve "Compile errors after adding 'ALTUNITYTESTER' in scripting define symbols" !210 
+- Resolve "Add Text and TextMeshPro Text component to SetText" !220 
+- Resolve "Add favicon to altom.gitlab.io" !223 
+- Resolve "If the server is not started when calling getServerVersion, it's stuck" !217 
+- Resolve "Add license information in documentation" !219 
+- Resolve "Add google groups links in documentation" !215 
+- Resolve "Move Bindings folder from BindingAndExample Folder" !214 
+
+
+## Contributors
+
+- Robert Poienar @robert_poienar
+- Ru Cindrea @ru.cindrea
+- pusoktimea @pusoktimea
+- Alexandru Rotaru @alex.rotaru
+- Mike Talalaevskiy @Day0Dreamer
+
 # Changes in version 1.5.4
 ## New
 
