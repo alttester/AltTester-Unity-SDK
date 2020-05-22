@@ -393,6 +393,9 @@ public class AltUnityTestRunner
             if (result.FailCount > 0) {
                 UnityEditor.EditorApplication.Exit(1);
             }
+            else{
+                UnityEditor.EditorApplication.Exit(0);
+            }
         } catch (System.Exception e) {
             UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
@@ -439,6 +442,7 @@ public class AltUnityTestRunner
             var result = testAssemblyRunner.Run(listener, filter);
             if (result.FailCount > 0)
             {
+                AltUnityPortHandler.RemoveForwardAndroid();
                 UnityEditor.EditorApplication.Exit(1);
             }
         }
