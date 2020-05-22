@@ -367,12 +367,12 @@ public class AltUnityTestRunner
         }
     }
 
-
 #if UNITY_EDITOR_OSX
+    // This method is used to run test in our pipeline. If you want to use them you might need to modify them.
     static void RunAllTestsIOS() {
         try {
-
             AltUnityTesterEditor.InitEditorConfiguration();
+            // AltUnityPortHandler.ForwardIos();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
@@ -393,21 +393,31 @@ public class AltUnityTestRunner
             if (result.FailCount > 0) {
                 UnityEditor.EditorApplication.Exit(1);
             }
+            else{
+                UnityEditor.EditorApplication.Exit(0);
+            }
         } catch (System.Exception e) {
             UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
         }
+        // finally 
+        // {
+        //     // AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
+        // }
+
+        
 
     }
 #endif
 
 
-
+    // This method is used to run test in our pipeline. If you want to use them you might need to modify them.
     static void RunAllTestsAndroid()
     {
         try
         {
             AltUnityTesterEditor.InitEditorConfiguration();
+            AltUnityPortHandler.ForwardAndroid();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
@@ -432,6 +442,7 @@ public class AltUnityTestRunner
             var result = testAssemblyRunner.Run(listener, filter);
             if (result.FailCount > 0)
             {
+                AltUnityPortHandler.RemoveForwardAndroid();
                 UnityEditor.EditorApplication.Exit(1);
             }
         }
@@ -439,6 +450,10 @@ public class AltUnityTestRunner
         {
             UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
+        }
+        finally
+        {
+            AltUnityPortHandler.RemoveForwardAndroid();
         }
     }
 

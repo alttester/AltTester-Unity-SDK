@@ -34,9 +34,9 @@ public class SampleAppiumTest {
         capabilities.setCapability("deviceName", "Android");
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("app", app.getAbsolutePath());
+        AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
         appiumDriver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         appiumDriver.manage().timeouts().implicitlyWait(80, TimeUnit.SECONDS);
-        Thread.sleep(10000);
         altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
     }
 
@@ -44,6 +44,7 @@ public class SampleAppiumTest {
     public static void tearDown() throws Exception {
         altUnityDriver.stop();
         appiumDriver.quit();
+        AltUnityDriver.removePortForwarding();
     }
 
     @Before

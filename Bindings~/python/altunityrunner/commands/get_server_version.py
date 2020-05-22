@@ -7,11 +7,13 @@ import warnings
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'PythonServerVersion.txt')
 
+
 class GetServerVersion(BaseCommand):
 
-    def __init__(self, socket,request_separator,request_end):
-        super().__init__(socket,request_separator,request_end)
-    
+    def __init__(self, socket, request_separator, request_end):
+        super(GetServerVersion, self).__init__(
+            socket, request_separator, request_end)
+
     def execute(self):
         serverVersion=self.send_data(self.create_command('getServerVersion'))
         if serverVersion=='error:unknownError':
@@ -24,7 +26,7 @@ class GetServerVersion(BaseCommand):
             self.write_warning(False,serverVersion)
             return "Version mismatch"
         else:
-            return "Ok"
+            return str(serverVersion)
     def write_warning(self,is_earlier,serverVersion=""):
         message=""
         if is_earlier:

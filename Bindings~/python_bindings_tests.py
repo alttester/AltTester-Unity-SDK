@@ -64,15 +64,16 @@ class PythonTests(unittest.TestCase):
     def test_resize_panel(self):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         altElement = self.altdriver.find_element('Resize Zone')
-        positionInitX = altElement.x 
+        positionInitX = altElement.x
         positionInitY = altElement.y
-        self.altdriver.swipe_and_wait(altElement.x, altElement.y, int(altElement.x) - 200, int(altElement.y) - 200, 2)
+        self.altdriver.swipe_and_wait(altElement.x, altElement.y, int(
+            altElement.x) - 200, int(altElement.y) - 200, 2)
 
         time.sleep(2)
 
         altElement = self.altdriver.find_element('Resize Zone')
-        positionFinalX = altElement.x 
-        positionFinalY = altElement.y 
+        positionFinalX = altElement.x
+        positionFinalY = altElement.y
         self.assertNotEqual(positionInitX, positionFinalX)
         self.assertNotEqual(positionInitY, positionFinalY)
 
@@ -80,13 +81,13 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         altElement = self.altdriver.find_element('Resize Zone')
         positionInitX = altElement.x
-        positionInitY = altElement.y 
+        positionInitY = altElement.y
         positions = [
-          altElement.get_screen_position(),
-          [int(altElement.x) - 200, int(altElement.y) - 200],
-          [int(altElement.x) - 300, int(altElement.y) - 100],
-          [int(altElement.x) - 50, int(altElement.y) - 100],
-          [int(altElement.x) - 100, int(altElement.y) - 100]
+            altElement.get_screen_position(),
+            [int(altElement.x) - 200, int(altElement.y) - 200],
+            [int(altElement.x) - 300, int(altElement.y) - 100],
+            [int(altElement.x) - 50, int(altElement.y) - 100],
+            [int(altElement.x) - 100, int(altElement.y) - 100]
         ]
         self.altdriver.multipoint_swipe_and_wait(positions, 4)
 
@@ -94,7 +95,7 @@ class PythonTests(unittest.TestCase):
 
         altElement = self.altdriver.find_element('Resize Zone')
         positionFinalX = altElement.x
-        positionFinalY = altElement.y 
+        positionFinalY = altElement.y
         self.assertNotEqual(positionInitX, positionFinalX)
         self.assertNotEqual(positionInitY, positionFinalY)
 
@@ -256,7 +257,7 @@ class PythonTests(unittest.TestCase):
 
     def test_button_click_with_swipe(self):
         button = self.altdriver.find_object(By.NAME, 'UIButton')
-        self.altdriver.hold_button(button.x, button.y,1)
+        self.altdriver.hold_button(button.x, button.y, 1)
         capsule_info = self.altdriver.find_object(By.NAME, 'CapsuleInfo')
         text = capsule_info.get_text()
         self.assertEqual(text, "UIButton clicked to jump capsule!")
@@ -265,7 +266,8 @@ class PythonTests(unittest.TestCase):
         altElement1 = self.altdriver.find_element('Drag Image1')
         altElement2 = self.altdriver.find_element('Drop Box1')
 
-        multipointPositions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
+        multipointPositions = [altElement1.get_screen_position(), [
+            altElement2.x, altElement2.y]]
 
         self.altdriver.multipoint_swipe_and_wait(multipointPositions, 2)
         time.sleep(2)
@@ -273,20 +275,24 @@ class PythonTests(unittest.TestCase):
         altElement1 = self.altdriver.find_element('Drag Image1')
         altElement2 = self.altdriver.find_element('Drop Box1')
         altElement3 = self.altdriver.find_element('Drop Box2')
- 
+
         positions = [
-          [altElement1.x, altElement1.y], 
-          [altElement2.x, altElement2.y], 
-          [altElement3.x, altElement3.y]
+            [altElement1.x, altElement1.y],
+            [altElement2.x, altElement2.y],
+            [altElement3.x, altElement3.y]
         ]
 
         self.altdriver.multipoint_swipe_and_wait(positions, 3)
-        imageSource = self.altdriver.find_element('Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
-        imageSourceDropZone = self.altdriver.find_element('Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSource = self.altdriver.find_element(
+            'Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSourceDropZone = self.altdriver.find_element(
+            'Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
         self.assertNotEqual(imageSource, imageSourceDropZone)
 
-        imageSource = self.altdriver.find_element('Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
-        imageSourceDropZone = self.altdriver.find_element('Drop').get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSource = self.altdriver.find_element(
+            'Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSourceDropZone = self.altdriver.find_element(
+            'Drop').get_component_property("UnityEngine.UI.Image", "sprite")
         self.assertNotEqual(imageSource, imageSourceDropZone)
 
     def test_set_player_pref_keys_int(self):
@@ -607,7 +613,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(22, len(list_of_elements), list_of_elements)
+        self.assertEqual(24, len(list_of_elements), list_of_elements)
         self.assertTrue("EventSystem" in list_of_elements)
         self.assertTrue("Canvas" in list_of_elements)
         self.assertTrue("Panel Drag Area" in list_of_elements)
@@ -633,7 +639,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(27, len(list_of_elements))
+        self.assertEqual(29, len(list_of_elements))
         self.assertTrue("EventSystem" in list_of_elements)
         self.assertTrue("Canvas" in list_of_elements)
         self.assertTrue("Panel Drag Area" in list_of_elements)
@@ -708,22 +714,36 @@ class PythonTests(unittest.TestCase):
         self.assertEqual('Plane', plane.name)
         self.assertEqual('Capsule', capsule.name)
 
-    def test_double_tap(self):  
+    def test_double_tap(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
-        counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
-        counterButton.double_tap();
-        time.sleep(0.5);
-        self.assertEqual("2", counterButtonText.get_text());
-        
+        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter")
+        counterButtonText = self.altdriver.find_object(
+            By.NAME, "ButtonCounter/Text")
+        counterButton.double_tap()
+        time.sleep(0.5)
+        self.assertEqual("2", counterButtonText.get_text())
+
     def test_custom_tap(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
-        counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
-        self.altdriver.tap_custom(counterButton.x, counterButton.y, 4);
-        time.sleep(1);
-        self.assertEqual("4", counterButtonText.get_text());
+        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter")
+        counterButtonText = self.altdriver.find_object(
+            By.NAME, "ButtonCounter/Text")
+        self.altdriver.tap_custom(counterButton.x, counterButton.y, 4)
+        time.sleep(1)
+        self.assertEqual("4", counterButtonText.get_text())
 
+    def test_set_text_normal_text(self):
+        text_object = self.altdriver.find_object(By.NAME, "NonEnglishText")
+        original_text = text_object.get_text()
+        after_text = text_object.set_text("ModifiedText").get_text()
+        self.assertNotEqual(original_text, after_text)
+
+    def test_press_next_scene(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        initial_scene = self.altdriver.get_current_scene()
+        self.altdriver.find_object(By.NAME, "NextScene").tap()
+        current_scene = self.altdriver.get_current_scene()
+        self.assertNotEqual(initial_scene, current_scene)
 
 
 if __name__ == '__main__':

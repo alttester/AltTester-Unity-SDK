@@ -226,7 +226,7 @@ public class TestForScene1TestSample
         Assert.AreEqual("[1,2,3]", propertyValue);
     }
 
-    //#if !UNITY_IOS
+    #if !UNITY_IOS
     [Test]
     public void TestGetComponentPropertyUnityEngine()
     {
@@ -237,7 +237,7 @@ public class TestForScene1TestSample
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual("false", propertyValue);
     }
-    //#endif 
+    #endif 
 
     [Test]
     public void TestSetComponentProperty()
@@ -778,7 +778,7 @@ public class TestForScene1TestSample
     public void TestFindObjectScene1()
     {
         var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
-        Assert.AreEqual(6, altElements.Count);
+        Assert.AreEqual(7, altElements.Count);
     }
 
     [Test]
@@ -789,15 +789,15 @@ public class TestForScene1TestSample
         Thread.Sleep(1000);
         altUnityDriver.WaitForCurrentSceneToBe("Scene6");
         var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
-        Assert.AreEqual(2, altElements.Count);
+        Assert.AreEqual(3, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "/*/*/Text");
-        Assert.AreEqual(2, altElements.Count);
+        Assert.AreEqual(3, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "/*/Text");
         Assert.AreEqual(1, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "//Text");
-        Assert.AreEqual(4, altElements.Count);
+        Assert.AreEqual(5, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
-        Assert.AreEqual(3, altElements.Count);
+        Assert.AreEqual(4, altElements.Count);
     }
     [Test]
     public void TestGetScreenshot()
@@ -860,6 +860,23 @@ public class TestForScene1TestSample
         AltUnityObject altUnityObject;
         altUnityDriver.GetScreenshot(offscreenCoordinates, new AltUnityColor(1, 0, 0, 1), 1, out altUnityObject, new AltUnityVector2(1920, 1080));
         Assert.IsNull(altUnityObject);
+    }
+
+    [Test]
+    public void TestPressNextSceneButtton()
+    {
+        var initialScene= altUnityDriver.GetCurrentScene();
+        altUnityDriver.FindObject(By.NAME, "NextScene").Tap();
+        var currentScene= altUnityDriver.GetCurrentScene();
+        Assert.AreNotEqual(initialScene, currentScene);
+    }
+    [Test]
+    public void TestForSetText()
+    {
+        var text = altUnityDriver.FindObject(By.NAME, "NonEnglishText");
+        var originalText = text.GetText();
+        var afterText = text.SetText("ModifiedText").GetText();
+        Assert.AreNotEqual(originalText, afterText);
     }
 
 
