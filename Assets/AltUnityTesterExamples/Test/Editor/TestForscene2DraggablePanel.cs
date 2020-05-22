@@ -104,7 +104,7 @@ public class TestForScene2DraggablePanel
 
         Debug.WriteLine(listOfElements);
 
-        Assert.AreEqual(22, altElements.Count, listOfElements);
+        Assert.AreEqual(24, altElements.Count, listOfElements);
         Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Panel Drag Area"));
@@ -137,7 +137,7 @@ public class TestForScene2DraggablePanel
         Debug.WriteLine(listOfElements);
 
 
-        Assert.AreEqual(27, altElements.Count);
+        Assert.AreEqual(29, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Panel Drag Area"));
