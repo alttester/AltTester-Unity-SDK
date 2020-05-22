@@ -372,7 +372,7 @@ public class AltUnityTestRunner
     static void RunAllTestsIOS() {
         try {
             AltUnityTesterEditor.InitEditorConfiguration();
-            AltUnityPortHandler.ForwardIos();
+            // AltUnityPortHandler.ForwardIos();
             UnityEngine.Debug.Log("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
@@ -393,14 +393,17 @@ public class AltUnityTestRunner
             if (result.FailCount > 0) {
                 UnityEditor.EditorApplication.Exit(1);
             }
+            else{
+                UnityEditor.EditorApplication.Exit(0);
+            }
         } catch (System.Exception e) {
             UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
         }
-        finally 
-        {
-            AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
-        }
+        // finally 
+        // {
+        //     // AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
+        // }
 
         
 
@@ -439,6 +442,7 @@ public class AltUnityTestRunner
             var result = testAssemblyRunner.Run(listener, filter);
             if (result.FailCount > 0)
             {
+                AltUnityPortHandler.RemoveForwardAndroid();
                 UnityEditor.EditorApplication.Exit(1);
             }
         }
