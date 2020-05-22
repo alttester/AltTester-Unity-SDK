@@ -20,5 +20,6 @@ setup(name='altunityrunner',
       zip_safe=False,
       install_requires=[
           'deprecated',
-          'pure-python-adb'
+          'pure-python-adb',
+          'loguru'
       ])

@@ -1,5 +1,7 @@
+from os import getenv
 from altunityrunner.altUnityExceptions import *
 from altunityrunner.by import By
+from loguru import logger
 from datetime import datetime
 import json
 BUFFER_SIZE = 1024
@@ -11,16 +13,16 @@ class BaseCommand(object):
         self.request_end = request_end
         self.socket = socket
 
-    def recvall(self, print_output=True):
+    def recvall(self):
         data = ''
         previousPart = ''
-        receive_zero_bytes_counter=0
-        receive_zero_bytes_counter_limit=2
+        receive_zero_bytes_counter = 0
+        receive_zero_bytes_counter_limit = 2
         while True:
             part = self.socket.recv(BUFFER_SIZE)
             if not part:  # If received message is empty
-                if receive_zero_bytes_counter<receive_zero_bytes_counter_limit:
-                    receive_zero_bytes_counter+=1
+                if receive_zero_bytes_counter < receive_zero_bytes_counter_limit:
+                    receive_zero_bytes_counter += 1
                     continue
                 else:
                     raise SystemError('Server is not yet reachable')
@@ -36,16 +38,16 @@ class BaseCommand(object):
             data = splitted_string[0]
             self.write_to_log_file(datetime.now().strftime(
                 "%m/%d/%Y %H:%M:%S")+": response received: "+data)
-        except:
-            print(
-                'Data received from socket does not have correct start and end control strings')
+        except Exception as e:
+            logger.error(
+                f'Data received from socket does not have correct start and end control strings.'
+                f'{e}')
             return ''
-        if print_output:
-            print('Received data was: ' + data)
+        logger.debug(f'Received data was: {data}')
         return data
 
     def write_to_log_file(self, message):
-        with open("AltUnityTesterLog.txt", "a",encoding="utf-8") as f:
+        with open("AltUnityTesterLog.txt", "a", encoding="utf-8") as f:
             f.write(message+"\n")
 
     def handle_errors(self, data):
@@ -78,17 +80,18 @@ class BaseCommand(object):
                 raise FormatException(data)
         else:
             return data
-        
+
     def vector_to_json_string(self, x, y, z=None):
         if z is None:
             return '{"x":' + str(x) + ', "y":' + str(y) + '}'
         else:
-            return '{"x":' + str(x) + ', "y":' + str(y) +', "z":' + str(z) + '}'
+            return '{"x":' + str(x) + ', "y":' + str(y) + ', "z":' + str(z) + '}'
 
     def positions_to_json_string(self, positions):
-        json_positions = [self.vector_to_json_string(p[0], p[1]) for p in positions]
+        json_positions = [self.vector_to_json_string(
+            p[0], p[1]) for p in positions]
         return self.request_separator.join(json_positions)
-    
+
     def send_data(self, data):
         self.socket.send(data.encode('utf-8'))
         if ('closeConnection' in data):
