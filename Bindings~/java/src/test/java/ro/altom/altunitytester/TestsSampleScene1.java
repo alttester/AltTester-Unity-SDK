@@ -573,7 +573,16 @@ public class TestsSampleScene1 {
         altUnityDriver.tapCustom(counterButton.x, counterButton.y, 4);
         Thread.sleep(1000);
         assertEquals("4", counterButtonText.getText());
+    }
 
+    @Test
+    public void TestPressNextScene() throws InterruptedException {
+        String initialScene = altUnityDriver.getCurrentScene();
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "NextScene").build();
+        altUnityDriver.findObject(altFindObjectsParameters1).tap();
+        String currentScene = altUnityDriver.getCurrentScene();
+        assertNotEquals(initialScene, currentScene);
     }
 
     @Test
