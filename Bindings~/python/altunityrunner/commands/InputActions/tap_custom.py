@@ -24,7 +24,7 @@ class TapCustom(CommandReturningAltElements):
             action_finished = self.send_data(
                 self.create_command('actionFinished'))
             self.handle_errors(action_finished)
-            if action_finished is 'Yes':
+            if action_finished == 'Yes':
                 break
             elif action_finished != 'No':
                 action_in_progress = False
