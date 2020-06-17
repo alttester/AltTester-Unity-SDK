@@ -1,0 +1,414 @@
+4/3/2020 1:46:25 PM:Logging is set to True
+04-03-2020 13:46:25 : response received : Ok
+4/3/2020 1:46:25 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:46:25 : response received : Ok
+Scene Loaded
+04-03-2020 13:46:25 : response received : Scene Loaded
+4/3/2020 1:46:26 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:46:26 : response received : {"name":"Resize Zone","id":14408,"x":159,"y":148,"z":120,"mobileY":275,"type":"","enabled":true,"worldX":-21.7450333,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":14418,"parentId":14458,"transformId":14410}
+4/3/2020 1:46:26 PM:Touch at: (159.0, 148.0)
+04-03-2020 13:46:26 : response received : Ok
+4/3/2020 1:46:28 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:46:28 : response received : {"name":"Resize Zone","id":14408,"x":172,"y":139,"z":105,"mobileY":284,"type":"","enabled":true,"worldX":-16.0681744,"worldY":-15.0441046,"worldZ":5.361483,"idCamera":14418,"parentId":14458,"transformId":14410}
+4/3/2020 1:49:05 PM:Server version is: 1.5.4-Alpha
+04-03-2020 13:49:05 : response received : 1.5.4-Alpha
+4/3/2020 1:49:05 PM:Logging is set to True
+04-03-2020 13:49:05 : response received : Ok
+4/3/2020 1:49:05 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:49:05 : response received : Ok
+Scene Loaded
+04-03-2020 13:49:05 : response received : Scene Loaded
+4/3/2020 1:49:05 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:49:05 : response received : {"name":"Resize Zone","id":14732,"x":159,"y":148,"z":120,"mobileY":275,"type":"","enabled":true,"worldX":-21.7450333,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":14742,"parentId":14782,"transformId":14734}
+4/3/2020 1:49:06 PM:Start moving touch chain for: (159.0, 148.0), (259.0, 248.0), (259.0, 348.0)
+04-03-2020 13:49:06 : response received : OK
+4/3/2020 1:49:09 PM:actionFinished
+04-03-2020 13:49:09 : response received : No
+4/3/2020 1:49:09 PM:actionFinished
+04-03-2020 13:49:09 : response received : No
+4/3/2020 1:49:09 PM:actionFinished
+04-03-2020 13:49:09 : response received : No
+4/3/2020 1:49:09 PM:actionFinished
+04-03-2020 13:49:09 : response received : No
+4/3/2020 1:49:09 PM:actionFinished
+04-03-2020 13:49:09 : response received : Yes
+4/3/2020 1:49:09 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:49:09 : response received : {"name":"Resize Zone","id":14732,"x":172,"y":139,"z":105,"mobileY":284,"type":"","enabled":true,"worldX":-16.0681744,"worldY":-15.0441046,"worldZ":5.361483,"idCamera":14742,"parentId":14782,"transformId":14734}
+4/3/2020 1:53:39 PM:Server version is: 1.5.4-Alpha
+04-03-2020 13:53:39 : response received : 1.5.4-Alpha
+4/3/2020 1:53:39 PM:Logging is set to True
+04-03-2020 13:53:39 : response received : Ok
+4/3/2020 1:53:39 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:53:39 : response received : Ok
+Scene Loaded
+04-03-2020 13:53:39 : response received : Scene Loaded
+4/3/2020 1:53:39 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:53:39 : response received : {"name":"Resize Zone","id":15056,"x":159,"y":148,"z":120,"mobileY":275,"type":"","enabled":true,"worldX":-21.7450333,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":15066,"parentId":15106,"transformId":15058}
+4/3/2020 1:53:40 PM:Start moving touch chain for: (159.0, 148.0), (259.0, 248.0), (259.0, 348.0)
+04-03-2020 13:53:40 : response received : OK
+4/3/2020 1:53:43 PM:actionFinished
+04-03-2020 13:53:43 : response received : No
+4/3/2020 1:53:43 PM:actionFinished
+04-03-2020 13:53:43 : response received : No
+4/3/2020 1:53:43 PM:actionFinished
+04-03-2020 13:53:43 : response received : No
+4/3/2020 1:53:43 PM:actionFinished
+04-03-2020 13:53:43 : response received : No
+4/3/2020 1:53:43 PM:actionFinished
+04-03-2020 13:53:43 : response received : Yes
+4/3/2020 1:53:43 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:53:43 : response received : {"name":"Resize Zone","id":15056,"x":172,"y":139,"z":105,"mobileY":284,"type":"","enabled":true,"worldX":-16.0681744,"worldY":-15.0441046,"worldZ":5.361483,"idCamera":15066,"parentId":15106,"transformId":15058}
+4/3/2020 1:53:57 PM:Server version is: 1.5.4-Alpha
+04-03-2020 13:53:57 : response received : 1.5.4-Alpha
+4/3/2020 1:53:57 PM:Logging is set to True
+04-03-2020 13:53:57 : response received : Ok
+4/3/2020 1:53:57 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:53:57 : response received : Ok
+Scene Loaded
+04-03-2020 13:53:58 : response received : Scene Loaded
+4/3/2020 1:53:58 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:53:58 : response received : {"name":"Resize Zone","id":15380,"x":159,"y":148,"z":120,"mobileY":275,"type":"","enabled":true,"worldX":-21.7450333,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":15390,"parentId":15430,"transformId":15382}
+4/3/2020 1:53:58 PM:Touch at: (159.0, 148.0)
+04-03-2020 13:53:58 : response received : Ok
+4/3/2020 1:54:00 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:54:00 : response received : {"name":"Resize Zone","id":15380,"x":172,"y":139,"z":105,"mobileY":284,"type":"","enabled":true,"worldX":-16.0681744,"worldY":-15.0441046,"worldZ":5.361483,"idCamera":15390,"parentId":15430,"transformId":15382}
+4/3/2020 1:54:00 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:54:00 : response received : Ok
+Scene Loaded
+04-03-2020 13:54:00 : response received : Scene Loaded
+4/3/2020 1:54:00 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:54:00 : response received : {"name":"Resize Zone","id":15704,"x":159,"y":148,"z":120,"mobileY":275,"type":"","enabled":true,"worldX":-21.7450333,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":15714,"parentId":15754,"transformId":15706}
+4/3/2020 1:54:00 PM:Start moving touch chain for: (159.0, 148.0), (259.0, 248.0), (259.0, 348.0)
+04-03-2020 13:54:00 : response received : OK
+4/3/2020 1:54:03 PM:actionFinished
+04-03-2020 13:54:03 : response received : No
+4/3/2020 1:54:03 PM:actionFinished
+04-03-2020 13:54:03 : response received : No
+4/3/2020 1:54:03 PM:actionFinished
+04-03-2020 13:54:03 : response received : No
+4/3/2020 1:54:03 PM:actionFinished
+04-03-2020 13:54:03 : response received : No
+4/3/2020 1:54:03 PM:actionFinished
+04-03-2020 13:54:03 : response received : No
+4/3/2020 1:54:03 PM:actionFinished
+04-03-2020 13:54:03 : response received : No
+4/3/2020 1:54:03 PM:actionFinished
+04-03-2020 13:54:03 : response received : Yes
+4/3/2020 1:54:03 PM:findActiveObjectByName for: Resize Zone
+04-03-2020 13:54:03 : response received : {"name":"Resize Zone","id":15704,"x":172,"y":139,"z":105,"mobileY":284,"type":"","enabled":true,"worldX":-16.0681744,"worldY":-15.0441046,"worldZ":5.361483,"idCamera":15714,"parentId":15754,"transformId":15706}
+4/3/2020 1:54:03 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:54:03 : response received : Ok
+Scene Loaded
+04-03-2020 13:54:03 : response received : Scene Loaded
+4/3/2020 1:54:03 PM:find object by name Panel Drag Area
+04-03-2020 13:54:03 : response received : {"name":"Panel Drag Area","id":16106,"x":223,"y":212,"z":130,"mobileY":212,"type":"","enabled":true,"worldX":-46.7224236,"worldY":0.0,"worldZ":0.0,"idCamera":16038,"parentId":16102,"transformId":16108}
+4/3/2020 1:54:03 PM:find object by name Panel
+04-03-2020 13:54:03 : response received : {"name":"Panel","id":16076,"x":116,"y":237,"z":105,"mobileY":186,"type":"","enabled":true,"worldX":-40.33286,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":16038,"parentId":16108,"transformId":16078}
+4/3/2020 1:54:03 PM:find object by name Close Button
+04-03-2020 13:54:03 : response received : {"name":"Close Button","id":16058,"x":167,"y":333,"z":105,"mobileY":90,"type":"","enabled":true,"worldX":-17.0387611,"worldY":23.9007149,"worldZ":5.361482,"idCamera":16038,"parentId":16078,"transformId":16060}
+4/3/2020 1:54:03 PM:ClickEvent on AltUnityObject
+04-03-2020 13:54:04 : response received : {"name":"Close Button","id":16058,"x":167,"y":333,"z":105,"mobileY":90,"type":"","enabled":true,"worldX":-17.0387611,"worldY":23.9007149,"worldZ":5.361482,"idCamera":16038,"parentId":16078,"transformId":16060}
+4/3/2020 1:54:04 PM:findActiveObjectByName for: Button
+04-03-2020 13:54:04 : response received : {"name":"Button","id":16040,"x":458,"y":392,"z":100,"mobileY":31,"type":"","enabled":true,"worldX":44.2231636,"worldY":34.1404,"worldZ":0.0,"idCamera":16038,"parentId":16102,"transformId":16042}
+4/3/2020 1:54:04 PM:ClickEvent on AltUnityObject
+04-03-2020 13:54:04 : response received : {"name":"Button","id":16040,"x":458,"y":392,"z":100,"mobileY":31,"type":"","enabled":true,"worldX":44.2231636,"worldY":34.1404,"worldZ":0.0,"idCamera":16038,"parentId":16102,"transformId":16042}
+4/3/2020 1:54:04 PM:findActiveObjectByName for: Panel
+04-03-2020 13:54:04 : response received : {"name":"Panel","id":16076,"x":116,"y":237,"z":105,"mobileY":186,"type":"","enabled":true,"worldX":-40.33286,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":16038,"parentId":16108,"transformId":16078}
+4/3/2020 1:54:04 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:54:04 : response received : Ok
+Scene Loaded
+04-03-2020 13:54:04 : response received : Scene Loaded
+4/3/2020 1:54:04 PM:findActiveObjectByName for: Drag Zone
+04-03-2020 13:54:04 : response received : {"name":"Drag Zone","id":16342,"x":112,"y":324,"z":113,"mobileY":99,"type":"","enabled":true,"worldX":-31.0389462,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":16362,"parentId":16402,"transformId":16344}
+4/3/2020 1:54:04 PM:Touch at: (112.0, 324.0)
+04-03-2020 13:54:04 : response received : Ok
+4/3/2020 1:54:06 PM:findActiveObjectByName for: Drag Zone
+04-03-2020 13:54:06 : response received : {"name":"Drag Zone","id":16342,"x":324,"y":353,"z":140,"mobileY":70,"type":"","enabled":true,"worldX":12.5118885,"worldY":36.3970261,"worldZ":39.5232544,"idCamera":16362,"parentId":16402,"transformId":16344}
+4/3/2020 1:56:10 PM:Server version is: 1.5.4-Alpha
+04-03-2020 13:56:10 : response received : 1.5.4-Alpha
+4/3/2020 1:56:10 PM:Logging is set to True
+04-03-2020 13:56:10 : response received : Ok
+4/3/2020 1:56:10 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:56:10 : response received : Ok
+Scene Loaded
+04-03-2020 13:56:10 : response received : Scene Loaded
+4/3/2020 1:56:10 PM:findActiveObjectByName for: Drag Zone
+04-03-2020 13:56:11 : response received : {"name":"Drag Zone","id":16666,"x":112,"y":324,"z":113,"mobileY":99,"type":"","enabled":true,"worldX":-31.0389462,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":16686,"parentId":16726,"transformId":16668}
+4/3/2020 1:56:11 PM:Drag object: AltUnityObject4/3/2020 1:56:11 PM:GameOBject: Drag Zone (UnityEngine.GameObject)
+04-03-2020 13:56:11 : response received : {"name":"Drag Zone","id":16666,"x":346,"y":348,"z":144,"mobileY":75,"type":"","enabled":true,"worldX":18.404995,"worldY":36.3970261,"worldZ":44.46816,"idCamera":16686,"parentId":16726,"transformId":16668}
+4/3/2020 1:56:12 PM:findActiveObjectByName for: Drag Zone
+04-03-2020 13:56:12 : response received : {"name":"Drag Zone","id":16666,"x":346,"y":348,"z":144,"mobileY":75,"type":"","enabled":true,"worldX":18.404995,"worldY":36.3970261,"worldZ":44.46816,"idCamera":16686,"parentId":16726,"transformId":16668}
+4/3/2020 1:58:40 PM:Server version is: 1.5.4-Alpha
+04-03-2020 13:58:40 : response received : 1.5.4-Alpha
+4/3/2020 1:58:41 PM:Logging is set to True
+04-03-2020 13:58:41 : response received : Ok
+4/3/2020 1:58:41 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 13:58:41 : response received : Ok
+Scene Loaded
+04-03-2020 13:58:41 : response received : Scene Loaded
+4/3/2020 1:58:41 PM:findActiveObjectByName for: Drag Zone
+04-03-2020 13:58:41 : response received : {"name":"Drag Zone","id":16990,"x":112,"y":324,"z":113,"mobileY":99,"type":"","enabled":true,"worldX":-31.0389462,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":17010,"parentId":17050,"transformId":16992}
+4/3/2020 1:58:41 PM:Drag object: AltUnityObject4/3/2020 1:58:41 PM:GameOBject: Drag Zone (UnityEngine.GameObject)
+04-03-2020 13:58:41 : response received : {"name":"Drag Zone","id":16990,"x":346,"y":348,"z":144,"mobileY":75,"type":"","enabled":true,"worldX":18.404995,"worldY":36.3970261,"worldZ":44.46816,"idCamera":17010,"parentId":17050,"transformId":16992}
+4/3/2020 1:58:42 PM:findActiveObjectByName for: Drag Zone
+04-03-2020 13:58:42 : response received : {"name":"Drag Zone","id":16990,"x":346,"y":348,"z":144,"mobileY":75,"type":"","enabled":true,"worldX":18.404995,"worldY":36.3970261,"worldZ":44.46816,"idCamera":17010,"parentId":17050,"transformId":16992}
+4/3/2020 2:00:15 PM:Server version is: 1.5.4-Alpha
+04-03-2020 14:00:15 : response received : 1.5.4-Alpha
+4/3/2020 2:00:15 PM:Logging is set to True
+04-03-2020 14:00:15 : response received : Ok
+4/3/2020 2:00:15 PM:LoadScene Scene 2 Draggable Panel
+04-03-2020 14:00:15 : response received : Ok
+Scene Loaded
+04-03-2020 14:00:15 : response received : Scene Loaded
+4/3/2020 2:00:15 PM:findActiveObjectByName for: Drag Zone
+04-03-2020 14:00:15 : response received : {"name":"Drag Zone","id":17314,"x":112,"y":324,"z":113,"mobileY":99,"type":"","enabled":true,"worldX":-31.0389462,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":17334,"parentId":17374,"transformId":17316}
+4/3/2020 2:00:15 PM:Drop object: AltUnityObject4/3/2020 2:00:15 PM:GameOBject: Drag Zone (UnityEngine.GameObject)
+04-03-2020 14:00:15 : response received : {"name":"Drag Zone","id":17314,"x":116,"y":333,"z":105,"mobileY":90,"type":"","enabled":true,"worldX":-28.2005157,"worldY":24.3860073,"worldZ":5.36148167,"idCamera":17334,"parentId":17374,"transformId":17316}
+4/3/2020 2:00:16 PM:findActiveObjectByName for: Drag Zone
+04-03-2020 14:00:16 : response received : {"name":"Drag Zone","id":17314,"x":116,"y":333,"z":105,"mobileY":90,"type":"","enabled":true,"worldX":-28.2005157,"worldY":24.3860073,"worldZ":5.36148167,"idCamera":17334,"parentId":17374,"transformId":17316}
+4/7/2020 9:13:18 AM:Logging is set to True
+04-07-2020 09:13:18 : response received : Ok
+4/7/2020 9:13:18 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:13:18 : response received : Ok
+Scene Loaded
+04-07-2020 09:13:18 : response received : Scene Loaded
+4/7/2020 9:13:18 AM:findActiveObjectByName for: Panel
+04-07-2020 09:13:18 : response received : {"name":"Panel","id":14258,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":14200,"parentId":14298,"transformId":14260}
+4/7/2020 9:13:19 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":14258,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":14200}
+04-07-2020 09:13:19 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:13:19 AM:PointerDown object: AltUnityObject4/7/2020 9:13:19 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:13:19 : response received : {"name":"Panel","id":14258,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":14200,"parentId":14298,"transformId":14260}
+4/7/2020 9:13:20 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":14258,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":14200}
+04-07-2020 09:13:20 : response received : RGBA(1.000, 0.922, 0.016, 1.000)
+4/7/2020 9:15:00 AM:Server version is: 1.5.4-Alpha
+04-07-2020 09:15:00 : response received : 1.5.4-Alpha
+4/7/2020 9:15:00 AM:Logging is set to True
+04-07-2020 09:15:00 : response received : Ok
+4/7/2020 9:15:00 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:15:00 : response received : Ok
+Scene Loaded
+04-07-2020 09:15:01 : response received : Scene Loaded
+4/7/2020 9:15:01 AM:findActiveObjectByName for: Panel
+04-07-2020 09:15:01 : response received : {"name":"Panel","id":14758,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":14700,"parentId":14798,"transformId":14760}
+4/7/2020 9:15:01 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":14758,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":14700}
+04-07-2020 09:15:01 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:15:01 AM:PointerDown object: AltUnityObject4/7/2020 9:15:01 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:15:01 : response received : {"name":"Panel","id":14758,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":14700,"parentId":14798,"transformId":14760}
+4/7/2020 9:15:02 AM:PointerUp object: AltUnityObject4/7/2020 9:15:02 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:15:02 : response received : {"name":"Panel","id":14758,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":14700,"parentId":14798,"transformId":14760}
+4/7/2020 9:15:02 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":14758,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":14700}
+04-07-2020 09:15:02 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:15:40 AM:Server version is: 1.5.4-Alpha
+04-07-2020 09:15:40 : response received : 1.5.4-Alpha
+4/7/2020 9:15:40 AM:Logging is set to True
+04-07-2020 09:15:40 : response received : Ok
+4/7/2020 9:15:40 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:15:40 : response received : Ok
+Scene Loaded
+04-07-2020 09:15:40 : response received : Scene Loaded
+4/7/2020 9:15:41 AM:findActiveObjectByName for: Panel
+04-07-2020 09:15:41 : response received : {"name":"Panel","id":15258,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":15200,"parentId":15298,"transformId":15260}
+4/7/2020 9:15:41 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":15258,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":15200}
+04-07-2020 09:15:41 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:15:41 AM:PointerDown object: AltUnityObject4/7/2020 9:15:41 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:15:41 : response received : {"name":"Panel","id":15258,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":15200,"parentId":15298,"transformId":15260}
+4/7/2020 9:15:42 AM:PointerUp object: AltUnityObject4/7/2020 9:15:42 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:15:42 : response received : {"name":"Panel","id":15258,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":15200,"parentId":15298,"transformId":15260}
+4/7/2020 9:15:43 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":15258,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":15200}
+04-07-2020 09:15:43 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:16:20 AM:Server version is: 1.5.4-Alpha
+04-07-2020 09:16:20 : response received : 1.5.4-Alpha
+4/7/2020 9:16:20 AM:Logging is set to True
+04-07-2020 09:16:20 : response received : Ok
+4/7/2020 9:16:20 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:16:20 : response received : Ok
+Scene Loaded
+04-07-2020 09:16:20 : response received : Scene Loaded
+4/7/2020 9:16:20 AM:findActiveObjectByName for: Panel
+04-07-2020 09:16:20 : response received : {"name":"Panel","id":15758,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":15700,"parentId":15798,"transformId":15760}
+4/7/2020 9:16:20 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":15758,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":15700}
+04-07-2020 09:16:20 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:16:20 AM:PointerDown object: AltUnityObject4/7/2020 9:16:20 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:16:20 : response received : {"name":"Panel","id":15758,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":15700,"parentId":15798,"transformId":15760}
+4/7/2020 9:16:21 AM:PointerUp object: AltUnityObject4/7/2020 9:16:21 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:16:21 : response received : {"name":"Panel","id":15758,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":15700,"parentId":15798,"transformId":15760}
+4/7/2020 9:16:22 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":15758,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":15700}
+04-07-2020 09:16:22 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:18:56 AM:Logging is set to True
+04-07-2020 09:18:56 : response received : Ok
+4/7/2020 9:18:57 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:18:57 : response received : Ok
+Scene Loaded
+04-07-2020 09:18:57 : response received : Scene Loaded
+4/7/2020 9:18:57 AM:findActiveObjectByName for: Panel
+04-07-2020 09:18:57 : response received : {"name":"Panel","id":16988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":16922,"parentId":17020,"transformId":16990}
+4/7/2020 9:18:57 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":16988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":16922}
+04-07-2020 09:18:57 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:18:57 AM:PointerDown object: AltUnityObject4/7/2020 9:18:57 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:18:57 : response received : {"name":"Panel","id":16988,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":16922,"parentId":17020,"transformId":16990}
+4/7/2020 9:18:58 AM:PointerUp object: AltUnityObject4/7/2020 9:18:58 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:18:58 : response received : {"name":"Panel","id":16988,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":16922,"parentId":17020,"transformId":16990}
+4/7/2020 9:18:59 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":16988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":16922}
+04-07-2020 09:18:59 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:19:31 AM:Server version is: 1.5.4-Alpha
+04-07-2020 09:19:31 : response received : 1.5.4-Alpha
+4/7/2020 9:19:31 AM:Logging is set to True
+04-07-2020 09:19:31 : response received : Ok
+4/7/2020 9:19:31 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:19:32 : response received : Ok
+Scene Loaded
+04-07-2020 09:19:32 : response received : Scene Loaded
+4/7/2020 9:19:32 AM:findActiveObjectByName for: Panel
+04-07-2020 09:19:32 : response received : {"name":"Panel","id":17488,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":17422,"parentId":17520,"transformId":17490}
+4/7/2020 9:19:32 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":17488,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":17422}
+04-07-2020 09:19:32 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:19:32 AM:PointerDown object: AltUnityObject4/7/2020 9:19:32 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:19:32 : response received : {"name":"Panel","id":17488,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":17422,"parentId":17520,"transformId":17490}
+4/7/2020 9:19:33 AM:PointerUp object: AltUnityObject4/7/2020 9:19:33 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:19:33 : response received : {"name":"Panel","id":17488,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":17422,"parentId":17520,"transformId":17490}
+4/7/2020 9:19:34 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":17488,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":17422}
+04-07-2020 09:19:34 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:19:54 AM:Server version is: 1.5.4-Alpha
+04-07-2020 09:19:54 : response received : 1.5.4-Alpha
+4/7/2020 9:19:54 AM:Logging is set to True
+04-07-2020 09:19:54 : response received : Ok
+4/7/2020 9:19:54 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:19:54 : response received : Ok
+Scene Loaded
+04-07-2020 09:19:54 : response received : Scene Loaded
+4/7/2020 9:19:54 AM:findActiveObjectByName for: Panel
+04-07-2020 09:19:54 : response received : {"name":"Panel","id":17988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":17922,"parentId":18020,"transformId":17990}
+4/7/2020 9:19:54 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":17988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":17922}
+04-07-2020 09:19:54 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:19:54 AM:PointerDown object: AltUnityObject4/7/2020 9:19:54 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:19:54 : response received : {"name":"Panel","id":17988,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":17922,"parentId":18020,"transformId":17990}
+4/7/2020 9:19:55 AM:PointerUp object: AltUnityObject4/7/2020 9:19:55 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:19:55 : response received : {"name":"Panel","id":17988,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":17922,"parentId":18020,"transformId":17990}
+4/7/2020 9:19:56 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":17988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":17922}
+04-07-2020 09:19:56 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:26:53 AM:Server version is: 1.5.4-Alpha
+04-07-2020 09:26:53 : response received : 1.5.4-Alpha
+4/7/2020 9:26:53 AM:Logging is set to True
+04-07-2020 09:26:53 : response received : Ok
+4/7/2020 9:26:53 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:26:53 : response received : Ok
+Scene Loaded
+04-07-2020 09:26:53 : response received : Scene Loaded
+4/7/2020 9:26:53 AM:findActiveObjectByName for: Resize Zone
+04-07-2020 09:26:53 : response received : {"name":"Resize Zone","id":18412,"x":170,"y":145,"z":120,"mobileY":269,"type":"","enabled":true,"worldX":-37.5305367,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":18422,"parentId":18490,"transformId":18414}
+4/7/2020 9:26:53 AM:Touch at: (170.0, 145.0)
+04-07-2020 09:26:53 : response received : Ok
+4/7/2020 9:26:55 AM:findActiveObjectByName for: Resize Zone
+04-07-2020 09:26:55 : response received : {"name":"Resize Zone","id":18412,"x":304,"y":244,"z":105,"mobileY":170,"type":"","enabled":true,"worldX":-7.588997,"worldY":4.97426033,"worldZ":5.36148167,"idCamera":18422,"parentId":18490,"transformId":18414}
+4/7/2020 9:26:55 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:26:55 : response received : Ok
+Scene Loaded
+04-07-2020 09:26:55 : response received : Scene Loaded
+4/7/2020 9:26:56 AM:findActiveObjectByName for: Drag Zone
+04-07-2020 09:26:56 : response received : {"name":"Drag Zone","id":18902,"x":120,"y":317,"z":113,"mobileY":97,"type":"","enabled":true,"worldX":-46.8244553,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":18922,"parentId":18990,"transformId":18904}
+4/7/2020 9:26:56 AM:Drop object: AltUnityObject4/7/2020 9:26:56 AM:GameOBject: Drag Zone (UnityEngine.GameObject)
+04-07-2020 09:26:56 : response received : {"name":"Drag Zone","id":18902,"x":118,"y":326,"z":105,"mobileY":88,"type":"","enabled":true,"worldX":-43.9860229,"worldY":24.3860073,"worldZ":5.36148167,"idCamera":18922,"parentId":18990,"transformId":18904}
+4/7/2020 9:26:57 AM:findActiveObjectByName for: Drag Zone
+04-07-2020 09:26:57 : response received : {"name":"Drag Zone","id":18902,"x":118,"y":326,"z":105,"mobileY":88,"type":"","enabled":true,"worldX":-43.9860229,"worldY":24.3860073,"worldZ":5.36148167,"idCamera":18922,"parentId":18990,"transformId":18904}
+4/7/2020 9:26:57 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:26:57 : response received : Ok
+Scene Loaded
+04-07-2020 09:26:57 : response received : Scene Loaded
+4/7/2020 9:26:57 AM:findActiveObjectByName for: Resize Zone
+04-07-2020 09:26:57 : response received : {"name":"Resize Zone","id":19412,"x":170,"y":145,"z":120,"mobileY":269,"type":"","enabled":true,"worldX":-37.5305367,"worldY":-15.0441046,"worldZ":20.9585228,"idCamera":19422,"parentId":19490,"transformId":19414}
+4/7/2020 9:26:57 AM:Start moving touch chain for: (170.0, 145.0), (270.0, 245.0), (270.0, 345.0)
+04-07-2020 09:26:57 : response received : OK
+4/7/2020 9:27:00 AM:actionFinished
+04-07-2020 09:27:00 : response received : No
+4/7/2020 9:27:00 AM:actionFinished
+04-07-2020 09:27:00 : response received : No
+4/7/2020 9:27:00 AM:actionFinished
+04-07-2020 09:27:00 : response received : No
+4/7/2020 9:27:00 AM:actionFinished
+04-07-2020 09:27:00 : response received : No
+4/7/2020 9:27:00 AM:actionFinished
+04-07-2020 09:27:00 : response received : Yes
+4/7/2020 9:27:00 AM:findActiveObjectByName for: Resize Zone
+04-07-2020 09:27:00 : response received : {"name":"Resize Zone","id":19412,"x":273,"y":244,"z":105,"mobileY":170,"type":"","enabled":true,"worldX":-13.3278484,"worldY":4.97426033,"worldZ":5.36148262,"idCamera":19422,"parentId":19490,"transformId":19414}
+4/7/2020 9:27:00 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:27:00 : response received : Ok
+Scene Loaded
+04-07-2020 09:27:00 : response received : Scene Loaded
+4/7/2020 9:27:00 AM:findActiveObjectByName for: Panel
+04-07-2020 09:27:00 : response received : {"name":"Panel","id":19988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":19922,"parentId":20020,"transformId":19990}
+4/7/2020 9:27:00 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":19988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":19922}
+04-07-2020 09:27:00 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:27:00 AM:PointerDown object: AltUnityObject4/7/2020 9:27:00 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:27:00 : response received : {"name":"Panel","id":19988,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":19922,"parentId":20020,"transformId":19990}
+4/7/2020 9:27:01 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":19988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":19922}
+04-07-2020 09:27:01 : response received : RGBA(1.000, 0.922, 0.016, 1.000)
+4/7/2020 9:27:01 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:27:01 : response received : Ok
+Scene Loaded
+04-07-2020 09:27:01 : response received : Scene Loaded
+4/7/2020 9:27:01 AM:find object by name Panel Drag Area
+04-07-2020 09:27:01 : response received : {"name":"Panel Drag Area","id":20518,"x":296,"y":207,"z":140,"mobileY":207,"type":"","enabled":true,"worldX":-62.50793,"worldY":0.0,"worldZ":0.0,"idCamera":20422,"parentId":20514,"transformId":20520}
+4/7/2020 9:27:01 AM:find object by name Panel
+04-07-2020 09:27:01 : response received : {"name":"Panel","id":20488,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":20422,"parentId":20520,"transformId":20490}
+4/7/2020 9:27:01 AM:find object by name Close Button
+04-07-2020 09:27:01 : response received : {"name":"Close Button","id":20460,"x":168,"y":326,"z":105,"mobileY":88,"type":"","enabled":true,"worldX":-32.82427,"worldY":23.9007149,"worldZ":5.361482,"idCamera":20422,"parentId":20490,"transformId":20462}
+4/7/2020 9:27:01 AM:ClickEvent on AltUnityObject
+04-07-2020 09:27:01 : response received : {"name":"Close Button","id":20460,"x":168,"y":326,"z":105,"mobileY":88,"type":"","enabled":true,"worldX":-32.82427,"worldY":23.9007149,"worldZ":5.361482,"idCamera":20422,"parentId":20490,"transformId":20462}
+4/7/2020 9:27:01 AM:findActiveObjectByName for: Button
+04-07-2020 09:27:01 : response received : {"name":"Button","id":20424,"x":628,"y":384,"z":100,"mobileY":30,"type":"","enabled":true,"worldX":60.00867,"worldY":34.1404,"worldZ":0.0,"idCamera":20422,"parentId":20514,"transformId":20426}
+4/7/2020 9:27:01 AM:ClickEvent on AltUnityObject
+04-07-2020 09:27:01 : response received : {"name":"Button","id":20424,"x":628,"y":384,"z":100,"mobileY":30,"type":"","enabled":true,"worldX":60.00867,"worldY":34.1404,"worldZ":0.0,"idCamera":20422,"parentId":20514,"transformId":20426}
+4/7/2020 9:27:01 AM:findActiveObjectByName for: Panel
+04-07-2020 09:27:01 : response received : {"name":"Panel","id":20488,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":20422,"parentId":20520,"transformId":20490}
+4/7/2020 9:27:02 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:27:02 : response received : Ok
+Scene Loaded
+04-07-2020 09:27:02 : response received : Scene Loaded
+4/7/2020 9:27:02 AM:findActiveObjectByName for: Drag Zone
+04-07-2020 09:27:02 : response received : {"name":"Drag Zone","id":20902,"x":120,"y":317,"z":113,"mobileY":97,"type":"","enabled":true,"worldX":-46.8244553,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":20922,"parentId":20990,"transformId":20904}
+4/7/2020 9:27:02 AM:Touch at: (120.0, 317.0)
+04-07-2020 09:27:02 : response received : Ok
+4/7/2020 9:27:04 AM:findActiveObjectByName for: Drag Zone
+04-07-2020 09:27:04 : response received : {"name":"Drag Zone","id":20902,"x":328,"y":348,"z":137,"mobileY":66,"type":"","enabled":true,"worldX":-6.711313,"worldY":36.3970261,"worldZ":36.6386833,"idCamera":20922,"parentId":20990,"transformId":20904}
+4/7/2020 9:27:04 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:27:04 : response received : Ok
+Scene Loaded
+04-07-2020 09:27:04 : response received : Scene Loaded
+4/7/2020 9:27:04 AM:findActiveObjectByName for: Drag Zone
+04-07-2020 09:27:04 : response received : {"name":"Drag Zone","id":21402,"x":120,"y":317,"z":113,"mobileY":97,"type":"","enabled":true,"worldX":-46.8244553,"worldY":24.3860073,"worldZ":13.1600027,"idCamera":21422,"parentId":21490,"transformId":21404}
+4/7/2020 9:27:04 AM:Drag object: AltUnityObject4/7/2020 9:27:04 AM:GameOBject: Drag Zone (UnityEngine.GameObject)
+04-07-2020 09:27:04 : response received : {"name":"Drag Zone","id":21402,"x":448,"y":324,"z":165,"mobileY":90,"type":"","enabled":true,"worldX":26.804287,"worldY":36.3970261,"worldZ":64.76162,"idCamera":21422,"parentId":21490,"transformId":21404}
+4/7/2020 9:27:05 AM:findActiveObjectByName for: Drag Zone
+04-07-2020 09:27:05 : response received : {"name":"Drag Zone","id":21402,"x":448,"y":324,"z":165,"mobileY":90,"type":"","enabled":true,"worldX":26.804287,"worldY":36.3970261,"worldZ":64.76162,"idCamera":21422,"parentId":21490,"transformId":21404}
+4/7/2020 9:27:05 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:27:05 : response received : Ok
+Scene Loaded
+04-07-2020 09:27:05 : response received : Scene Loaded
+4/7/2020 9:27:05 AM:findActiveObjectByName for: Panel
+04-07-2020 09:27:05 : response received : {"name":"Panel","id":21988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":21922,"parentId":22020,"transformId":21990}
+4/7/2020 9:27:05 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":21988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":21922}
+04-07-2020 09:27:05 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:27:05 AM:PointerDown object: AltUnityObject4/7/2020 9:27:05 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:27:05 : response received : {"name":"Panel","id":21988,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":21922,"parentId":22020,"transformId":21990}
+4/7/2020 9:27:06 AM:PointerUp object: AltUnityObject4/7/2020 9:27:06 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:27:06 : response received : {"name":"Panel","id":21988,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":21922,"parentId":22020,"transformId":21990}
+4/7/2020 9:27:07 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":21988,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":21922}
+04-07-2020 09:27:07 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:28:03 AM:Server version is: 1.5.4-Alpha
+04-07-2020 09:28:03 : response received : 1.5.4-Alpha
+4/7/2020 9:28:03 AM:Logging is set to True
+04-07-2020 09:28:03 : response received : Ok
+4/7/2020 9:28:03 AM:LoadScene Scene 2 Draggable Panel
+04-07-2020 09:28:03 : response received : Ok
+Scene Loaded
+04-07-2020 09:28:03 : response received : Scene Loaded
+4/7/2020 9:28:03 AM:findActiveObjectByName for: Panel
+04-07-2020 09:28:03 : response received : {"name":"Panel","id":22488,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":22422,"parentId":22520,"transformId":22490}
+4/7/2020 9:28:04 AM:get property {"component":"PanelScript","property":"normalColor","assembly":""} for object {"name":"Panel","id":22488,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":22422}
+04-07-2020 09:28:04 : response received : RGBA(1.000, 1.000, 1.000, 0.392)
+4/7/2020 9:28:04 AM:PointerDown object: AltUnityObject4/7/2020 9:28:04 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:28:04 : response received : {"name":"Panel","id":22488,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":22422,"parentId":22520,"transformId":22490}
+4/7/2020 9:28:05 AM:PointerUp object: AltUnityObject4/7/2020 9:28:05 AM:GameOBject: Panel (UnityEngine.GameObject)
+04-07-2020 09:28:05 : response received : {"name":"Panel","id":22488,"x":118,"y":232,"z":105,"mobileY":182,"type":"","enabled":true,"worldX":-56.1183662,"worldY":24.3860073,"worldZ":5.36148262,"idCamera":22422,"parentId":22520,"transformId":22490}
+4/7/2020 9:28:05 AM:get property {"component":"PanelScript","property":"highlightColor","assembly":""} for object {"name":"Panel","id":22488,"x":120,"y":230,"z":113,"mobileY":184,"type":"","enabled":true,"worldX":-56.118366,"worldY":24.386007,"worldZ":5.3614826,"idCamera":22422}
+04-07-2020 09:28:05 : response received : RGBA(1.000, 1.000, 1.000, 0.392)

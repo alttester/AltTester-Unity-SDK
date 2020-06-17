@@ -20,6 +20,11 @@ public class Player2Controller : MonoBehaviour {
             movement.z = 1 * speed * Time.deltaTime + Input.mouseScrollDelta.y;
         if (Input.GetKey(KeyCode.L))
             movement.z = -1 * speed * Time.deltaTime + Input.mouseScrollDelta.y;
+            
+        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
+            movement.x = 1 * speed * Time.deltaTime + Input.mouseScrollDelta.x;
+        if(Input.GetAxis("Mouse ScrollWheel") < 0f)
+            movement.x = -1 * speed * Time.deltaTime + Input.mouseScrollDelta.x;
         transform.position += movement;
 
         if (Input.GetButton("Horizontal"))
