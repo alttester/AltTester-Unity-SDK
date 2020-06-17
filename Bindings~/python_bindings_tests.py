@@ -732,6 +732,30 @@ class PythonTests(unittest.TestCase):
         time.sleep(1)
         self.assertEqual("4", counterButtonText.get_text())
 
+    def test_drag_object(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        time.sleep(1)
+        d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
+        p_initial = (d_panel.x, d_panel.y, d_panel.z)
+        d_panel.drag(200, 200)
+        time.sleep(1)
+        d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
+        p_final = (d_panel.x, d_panel.y, d_panel.z)
+        self.assertNotEqual(p_initial, p_final)
+
+    def test_drop_object(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        time.sleep(1)
+        d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
+        p_initial = (d_panel.x, d_panel.y, d_panel.z)
+        d_panel.drag(100, 200)
+        time.sleep(1)
+        d_panel.drop(100, 200)
+        time.sleep(1)
+        d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
+        p_final = (d_panel.x, d_panel.y, d_panel.z)
+        self.assertNotEqual(p_initial, p_final)
+
     def test_set_text_normal_text(self):
         text_object = self.altdriver.find_object(By.NAME, "NonEnglishText")
         original_text = text_object.get_text()
@@ -744,6 +768,29 @@ class PythonTests(unittest.TestCase):
         self.altdriver.find_object(By.NAME, "NextScene").tap()
         current_scene = self.altdriver.get_current_scene()
         self.assertNotEqual(initial_scene, current_scene)
+
+    def test_pointer_down_from_object(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        time.sleep(1)
+        p_panel = self.altdriver.find_object(By.NAME, 'Panel')
+        color1 = p_panel.get_component_property('PanelScript', 'normalColor')
+        p_panel.pointer_down()
+        time.sleep(1)
+        color2 = p_panel.get_component_property(
+            'PanelScript', 'highlightColor')
+        self.assertNotEquals(color1, color2)
+
+    def test_pointer_up_from_object(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        time.sleep(1)
+        p_panel = self.altdriver.find_object(By.NAME, 'Panel')
+        color1 = p_panel.get_component_property('PanelScript', 'normalColor')
+        p_panel.pointer_down()
+        time.sleep(1)
+        p_panel.pointer_up()
+        color2 = p_panel.get_component_property(
+            'PanelScript', 'highlightColor')
+        self.assertEquals(color1, color2)
 
 
 if __name__ == '__main__':

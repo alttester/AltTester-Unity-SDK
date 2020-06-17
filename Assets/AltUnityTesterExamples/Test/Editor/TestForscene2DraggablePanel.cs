@@ -155,5 +155,50 @@ public class TestForScene2DraggablePanel
         Assert.IsNotNull(altElements.Where(p => p.name == "PopUp"));
     }
 
+    
 
+    [Test]
+    public void TestDragObject()
+    {
+        var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+        panel.DragObject( new AltUnityVector2(200, 200));
+        Thread.Sleep(2000); 
+        panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+        Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
+    }
+
+    [Test]
+    public void TestDropObject()
+    {
+        var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+        panel.DropObject(new AltUnityVector2(100, 200));
+        Thread.Sleep(2000); 
+        panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+        Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
+    }
+
+    [Test]
+    public void TestPointerDownFromObject(){
+        var panel = altUnityDriver.FindObject(By.NAME, "Panel");
+        var color1 = panel.GetComponentProperty("PanelScript","normalColor");
+        panel.PointerDownFromObject();
+        Thread.Sleep(1000);
+        var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
+        Assert.AreNotEqual(color1, color2);
+    }
+
+    [Test] 
+    public void TestPointerUpFromObject(){
+        var panel = altUnityDriver.FindObject(By.NAME, "Panel");
+        var color1 = panel.GetComponentProperty("PanelScript","normalColor");
+        panel.PointerDownFromObject();
+        Thread.Sleep(1000);
+        panel.PointerUpFromObject();
+        var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
+        Assert.AreEqual(color1, color2);
+    }
 }
