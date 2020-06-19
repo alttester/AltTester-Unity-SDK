@@ -15,7 +15,7 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
 
         public void Execute()
         {
-            var args = new System.Collections.Generic.List<string>{"MultipointSwipeChain", duration.ToString()};
+            var args = new System.Collections.Generic.List<string>{"multipointSwipeChain", duration.ToString()};
             foreach (var pos in positions)
             {
                 var posJson = PositionToJson(pos);
