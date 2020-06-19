@@ -4,7 +4,8 @@ import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
- * Simulate scroll mouse action in your game. This command does not wait for the action to finish.
+ * Simulate scroll mouse action in your game. This command does not wait for the
+ * action to finish.
  */
 public class AltSwipe extends AltBaseCommand {
     /**
@@ -24,10 +25,13 @@ public class AltSwipe extends AltBaseCommand {
      */
     private int yEnd;
     /**
-     * @param durationInSeconds The time measured in seconds to move the mouse from current position to the set location.
+     * @param durationInSeconds The time measured in seconds to move the mouse from
+     *                          current position to the set location.
      */
     private float durationInSeconds;
-    public AltSwipe(AltBaseSettings altBaseSettings, int xStart, int yStart, int xEnd, int yEnd, float durationInSeconds) {
+
+    public AltSwipe(AltBaseSettings altBaseSettings, int xStart, int yStart, int xEnd, int yEnd,
+            float durationInSeconds) {
         super(altBaseSettings);
         this.xStart = xStart;
         this.yStart = yStart;
@@ -35,10 +39,11 @@ public class AltSwipe extends AltBaseCommand {
         this.yEnd = yEnd;
         this.durationInSeconds = durationInSeconds;
     }
-    public void Execute(){
+
+    public void Execute() {
         String vectorStartJson = vectorToJsonString(xStart, yStart);
         String vectorEndJson = vectorToJsonString(xEnd, yEnd);
-        send(CreateCommand("MultipointSwipe", vectorStartJson, vectorEndJson, String.valueOf(durationInSeconds)));
+        send(CreateCommand("multipointSwipe", vectorStartJson, vectorEndJson, String.valueOf(durationInSeconds)));
         String data = recvall();
         if (data.equals("Ok")) {
             return;
