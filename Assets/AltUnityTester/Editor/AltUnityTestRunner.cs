@@ -357,17 +357,21 @@ public class AltUnityTestRunner
                 path = UnityEditor.AssetDatabase.GUIDToAssetPath(assets[0]);
             }
         }
-        if (testSuite.Parent == null)
+        var parentName = testSuite.Parent?.FullName ?? string.Empty;
+        var index = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName) && a.ParentName.Equals(parentName));
+        if(index == null)
         {
             newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
-                "", testSuite.TestCaseCount, false, null, null, 0, path));
+                parentName, testSuite.TestCaseCount, false, null, null, 0, path));
         }
         else
         {
-            newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
-                testSuite.Parent.FullName, testSuite.TestCaseCount, false, null, null, 0, path));
+            newMyTests.Add(new AltUnityMyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
+               index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, index.TestStackTrace, index.TestDuration, path));
         }
-        foreach (var test in testSuite.Tests)
+
+
+        foreach(var test in testSuite.Tests)
         {
             addTestSuiteToMyTest(test, newMyTests);
         }

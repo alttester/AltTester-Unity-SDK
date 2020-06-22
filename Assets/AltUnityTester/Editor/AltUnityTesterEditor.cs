@@ -1174,53 +1174,33 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     {
         if (test.Selected)
         {
-            if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
+            if (test.IsSuite)
             {
-                foreach (var test2 in EditorConfiguration.MyTests)
+                var index = EditorConfiguration.MyTests.IndexOf(test);
+                for (int i = index + 1; i <= index + test.TestCaseCount; i++)
                 {
-                    test2.Selected = true;
-                }
-            }
-            else
-            {
-                if (test.IsSuite)
-                {
-                    var index = EditorConfiguration.MyTests.IndexOf(test);
-                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
-                    {
-                        EditorConfiguration.MyTests[i].Selected = true;
-                    }
+                    EditorConfiguration.MyTests[i].Selected = true;
                 }
             }
         }
         else
         {
-            if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
+            var dummy = test;
+            if (test.IsSuite)
             {
-                foreach (var test2 in EditorConfiguration.MyTests)
+                var index = EditorConfiguration.MyTests.IndexOf(test);
+                for (int i = index + 1; i <= index + test.TestCaseCount; i++)
                 {
-                    test2.Selected = false;
+                    EditorConfiguration.MyTests[i].Selected = false;
                 }
             }
-            else
+            while (dummy.ParentName != null)
             {
-                var dummy = test;
-                if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
-                {
-                    var index = EditorConfiguration.MyTests.IndexOf(test);
-                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
-                    {
-                        EditorConfiguration.MyTests[i].Selected = false;
-                    }
-                }
-                while (dummy.ParentName != null)
-                {
-                    dummy = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(dummy.ParentName));
-                    if (dummy != null)
-                        dummy.Selected = false;
-                    else
-                        return;
-                }
+                dummy = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(dummy.ParentName));
+                if (dummy != null)
+                    dummy.Selected = false;
+                else
+                    return;
             }
         }
 
