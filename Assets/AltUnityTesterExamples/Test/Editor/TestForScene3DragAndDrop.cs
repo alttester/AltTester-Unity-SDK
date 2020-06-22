@@ -115,12 +115,12 @@ public class TestForScene3DragAndDrop
     public void TestPointerEnterAndExit()
     {
         var altElement = altUnityDriver.FindObject(By.NAME,"Drop Image");
-        var color1 = altElement.GetComponentProperty("DropMe", "highlightColor");
+        var color1 = altElement.GetComponentProperty("AltUnityExampleScriptDropMe", "highlightColor");
         altUnityDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
-        var color2 = altElement.GetComponentProperty("DropMe", "highlightColor");
+        var color2 = altElement.GetComponentProperty("AltUnityExampleScriptDropMe", "highlightColor");
         Assert.AreNotEqual(color1,color2);
         altUnityDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
-        var color3 = altElement.GetComponentProperty("DropMe", "highlightColor");
+        var color3 = altElement.GetComponentProperty("AltUnityExampleScriptDropMe", "highlightColor");
         Assert.AreNotEqual(color3, color2);
         Assert.AreEqual(color1,color3);
     }

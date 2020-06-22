@@ -140,7 +140,7 @@ class PythonTests(unittest.TestCase):
     def test_find_element_by_component(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.assertEqual(self.altdriver.find_element_by_component(
-            "Capsule").name, "Capsule")
+            "AltUnityExampleScriptCapsule").name, "Capsule")
 
     def test_find_elements_by_component(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -150,21 +150,21 @@ class PythonTests(unittest.TestCase):
     def test_get_component_property(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         result = self.altdriver.find_element(
-            "Capsule").get_component_property("Capsule", "arrayOfInts")
+            "Capsule").get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
         self.assertEqual(result, "[1,2,3]")
 
     def test_set_component_property(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.find_element("Capsule").set_component_property(
-            "Capsule", "arrayOfInts", "[2,3,4]")
+            "AltUnityExampleScriptCapsule", "arrayOfInts", "[2,3,4]")
         result = self.altdriver.find_element(
-            "Capsule").get_component_property("Capsule", "arrayOfInts")
+            "Capsule").get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
         self.assertEqual(result, "[2,3,4]")
 
     def test_call_component_method(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         result = self.altdriver.find_element("Capsule").call_component_method(
-            "Capsule", "Jump", "setFromMethod")
+            "AltUnityExampleScriptCapsule", "Jump", "setFromMethod")
         self.assertEqual(result, "null")
         self.altdriver.wait_for_element_with_text(
             'CapsuleInfo', 'setFromMethod')
@@ -175,13 +175,16 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 3 Drag And Drop')
 
         alt_element = self.altdriver.find_element('Drop Image')
-        color1 = alt_element.get_component_property('DropMe', 'highlightColor')
+        color1 = alt_element.get_component_property(
+            'AltUnityExampleScriptDropMe', 'highlightColor')
         alt_element.pointer_enter()
-        color2 = alt_element.get_component_property('DropMe', 'highlightColor')
+        color2 = alt_element.get_component_property(
+            'AltUnityExampleScriptDropMe', 'highlightColor')
         self.assertNotEqual(color1, color2)
 
         alt_element.pointer_exit()
-        color3 = alt_element.get_component_property('DropMe', 'highlightColor')
+        color3 = alt_element.get_component_property(
+            'AltUnityExampleScriptDropMe', 'highlightColor')
         self.assertNotEqual(color3, color2)
         self.assertEqual(color3, color1)
 
@@ -248,6 +251,7 @@ class PythonTests(unittest.TestCase):
         self.assertNotEqual(image_source, image_source_drop_zone)
 
     def test_button_click_and_wait_with_swipe(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         button = self.altdriver.find_object(By.NAME, 'UIButton')
         self.altdriver.hold_button_and_wait(button.x, button.y, 1)
         capsule_info = self.altdriver.find_object(By.NAME, 'CapsuleInfo')
@@ -256,8 +260,10 @@ class PythonTests(unittest.TestCase):
         self.assertEqual(text, "UIButton clicked to jump capsule!")
 
     def test_button_click_with_swipe(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         button = self.altdriver.find_object(By.NAME, 'UIButton')
         self.altdriver.hold_button(button.x, button.y, 1)
+        time.sleep(2)
         capsule_info = self.altdriver.find_object(By.NAME, 'CapsuleInfo')
         text = capsule_info.get_text()
         self.assertEqual(text, "UIButton clicked to jump capsule!")
@@ -363,7 +369,8 @@ class PythonTests(unittest.TestCase):
     def test_get_bool(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         alt_element = self.altdriver.find_element('Capsule')
-        text = alt_element.get_component_property('Capsule', 'TestBool')
+        text = alt_element.get_component_property(
+            'AltUnityExampleScriptCapsule', 'TestBool')
         self.assertEqual('true', text)
 
     def test_call_static_method(self):
@@ -376,7 +383,7 @@ class PythonTests(unittest.TestCase):
     def test_call_method_with_multiple_definitions(self):
         capsule = self.altdriver.find_element("Capsule")
         capsule.call_component_method(
-            "Capsule", "Test", "2", type_of_parameters="System.Int32")
+            "AltUnityExampleScriptCapsule", "Test", "2", type_of_parameters="System.Int32")
         capsuleInfo = self.altdriver.find_element("CapsuleInfo")
         self.assertEquals("6", capsuleInfo.get_text())
 
@@ -461,7 +468,8 @@ class PythonTests(unittest.TestCase):
 
     def test_find_object_by_component(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        altElement = self.altdriver.find_object(By.COMPONENT, "Capsule")
+        altElement = self.altdriver.find_object(
+            By.COMPONENT, "AltUnityExampleScriptCapsule")
         self.assertTrue(altElement.name == "Capsule")
 
     def test_find_child(self):
@@ -534,7 +542,7 @@ class PythonTests(unittest.TestCase):
     def test_find_element_by_component_old(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.assertEqual(self.altdriver.find_element_by_component(
-            "Capsule").name, "Capsule")
+            "AltUnityExampleScriptCapsule").name, "Capsule")
 
     def test_find_elements_by_component_old(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -544,21 +552,21 @@ class PythonTests(unittest.TestCase):
     def test_get_component_property_old(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         result = self.altdriver.find_element(
-            "Capsule").get_component_property("Capsule", "arrayOfInts")
+            "Capsule").get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
         self.assertEqual(result, "[1,2,3]")
 
     def test_set_component_property_old(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.find_element("Capsule").set_component_property(
-            "Capsule", "arrayOfInts", "[2,3,4]")
+            "AltUnityExampleScriptCapsule", "arrayOfInts", "[2,3,4]")
         result = self.altdriver.find_element(
-            "Capsule").get_component_property("Capsule", "arrayOfInts")
+            "Capsule").get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
         self.assertEqual(result, "[2,3,4]")
 
     def test_call_component_method_old(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         result = self.altdriver.find_element("Capsule").call_component_method(
-            "Capsule", "Jump", "setFromMethod")
+            "AltUnityExampleScriptCapsule", "Jump", "setFromMethod")
         self.assertEqual(result, "null")
         self.altdriver.wait_for_element_with_text(
             'CapsuleInfo', 'setFromMethod')

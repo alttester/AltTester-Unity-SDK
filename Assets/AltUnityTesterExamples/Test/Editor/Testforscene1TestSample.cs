@@ -174,7 +174,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindElementByComponent2()
     {
-        Assert.AreEqual("Capsule", altUnityDriver.FindObject(By.COMPONENT, "Capsule").name);
+        Assert.AreEqual("Capsule", altUnityDriver.FindObject(By.COMPONENT, "AltUnityExampleScriptCapsule").name);
     }
 
     [Test]
@@ -218,7 +218,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetComponentPropertyArray()
     {
-        const string componentName = "Capsule";
+        const string componentName = "AltUnityExampleScriptCapsule";
         const string propertyName = "arrayOfInts";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
@@ -242,7 +242,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestSetComponentProperty()
     {
-        const string componentName = "Capsule";
+        const string componentName = "AltUnityExampleScriptCapsule";
         const string propertyName = "stringToSetFromTests";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
@@ -273,7 +273,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestCallMethodWithNoParameters()
     {
-        const string componentName = "Capsule";
+        const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "UIButtonClicked";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, "");
@@ -283,7 +283,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestCallMethodWithParameters()
     {
-        const string componentName = "Capsule";
+        const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "Jump";
         const string parameters = "New Text";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -294,7 +294,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestCallMethodWithManyParameters()
     {
-        const string componentName = "Capsule";
+        const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
         const string parameters = "1?stringparam?0.5?[1,2,3]";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -305,7 +305,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestCallMethodWithIncorrectNumberOfParameters()
     {
-        const string componentName = "Capsule";
+        const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
         const string parameters = "1?stringparam?[1,2,3]";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -324,7 +324,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestCallMethodWithIncorrectTypeOfParameters()
     {
-        const string componentName = "Capsule";
+        const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
         const string parameters = "a?stringparam?[1,2,3]";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -560,7 +560,7 @@ public class TestForScene1TestSample
     {
 
         AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        capsule.CallComponentMethod("Capsule", "Test", "2", "System.Int32");
+        capsule.CallComponentMethod("AltUnityExampleScriptCapsule", "Test", "2", "System.Int32");
         AltUnityObject capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
         Assert.AreEqual("6", capsuleInfo.GetText());
     }
@@ -588,7 +588,7 @@ public class TestForScene1TestSample
     public void TestGetAllMethodsFromClass()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("AltUnityExampleScriptCapsule"));
         List<String> methods = altElement.GetAllMethods(component2,AltUnityMethodSelection.CLASSMETHODS);
         Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
         Assert.IsFalse(methods.Contains("Void CancelInvoke(System.String)"));
@@ -597,7 +597,7 @@ public class TestForScene1TestSample
     public void TestGetAllMethodsFromInherited()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("AltUnityExampleScriptCapsule"));
         List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.INHERITEDMETHODS);
         Assert.IsTrue(methods.Contains("Void CancelInvoke(System.String)"));
         Assert.IsFalse(methods.Contains("Void UIButtonClicked()"));
@@ -606,7 +606,7 @@ public class TestForScene1TestSample
     public void TestGetAllMethods()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule"));
+        var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("AltUnityExampleScriptCapsule"));
         List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.ALLMETHODS);
         Assert.IsTrue(methods.Contains("Void CancelInvoke(System.String)"));
         Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
@@ -618,7 +618,7 @@ public class TestForScene1TestSample
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var componentList = altElement.GetAllComponents();
         var component = componentList.First(componenta =>
-            componenta.componentName.Equals("Capsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+            componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
         List<AltUnityProperty> properties = altElement.GetAllProperties(component);
         AltUnityProperty field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
         Assert.NotNull(field);
@@ -645,7 +645,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindObjectByComponent()
     {
-        var altElement = altUnityDriver.FindObject(By.COMPONENT, "Capsule");
+        var altElement = altUnityDriver.FindObject(By.COMPONENT, "AltUnityExampleScriptCapsule");
         Assert.True(altElement.name.Equals("Capsule"));
     }
 
