@@ -157,7 +157,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 93313321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16adfeb90f2004348b7dfad7eb9ae316, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f627be6a643d874cb088b2a404bb873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dragOnSurfaces: 1
@@ -690,6 +690,7 @@ GameObject:
   - component: {fileID: 695465773}
   - component: {fileID: 695465772}
   - component: {fileID: 695465771}
+  - component: {fileID: 695465774}
   m_Layer: 5
   m_Name: Drop
   m_TagString: Untagged
@@ -757,6 +758,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 266dee177694435468095e35de5218cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerImage: {fileID: 1161611646}
+  receivingImage: {fileID: 695465771}
+  highlightColor: {r: 1, g: 1, b: 0, a: 1}
+--- !u!114 &695465774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 695465769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d58e3927dd57db4db73732c25c9f01a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   containerImage: {fileID: 1161611646}
@@ -1185,7 +1200,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1194704062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16adfeb90f2004348b7dfad7eb9ae316, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f627be6a643d874cb088b2a404bb873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dragOnSurfaces: 1
@@ -1329,7 +1344,18 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114410765086795832, guid: 2ea5eee8af6b94d4197bb363a3101027,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1325505801}
+    - target: {fileID: 114410765086795832, guid: 2ea5eee8af6b94d4197bb363a3101027,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextSceneButtonPressed
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114017221364623038, guid: 2ea5eee8af6b94d4197bb363a3101027, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2ea5eee8af6b94d4197bb363a3101027, type: 2}
   m_IsPrefabParent: 0
 --- !u!224 &1325505799 stripped
@@ -1337,6 +1363,22 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224946861213191138, guid: 2ea5eee8af6b94d4197bb363a3101027,
     type: 2}
   m_PrefabInternal: {fileID: 1325505798}
+--- !u!1 &1325505800 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1034641407387060, guid: 2ea5eee8af6b94d4197bb363a3101027,
+    type: 2}
+  m_PrefabInternal: {fileID: 1325505798}
+--- !u!114 &1325505801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1325505800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76ff65a31420684db530f6d7747ff41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1583289236
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,9 +1387,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1583289237}
-  - component: {fileID: 1583289240}
   - component: {fileID: 1583289239}
   - component: {fileID: 1583289238}
+  - component: {fileID: 1583289240}
   m_Layer: 5
   m_Name: Drop Image
   m_TagString: Untagged
@@ -1414,7 +1456,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1583289236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 266dee177694435468095e35de5218cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d58e3927dd57db4db73732c25c9f01a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   containerImage: {fileID: 657950953}
@@ -1464,7 +1506,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1740219186}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16adfeb90f2004348b7dfad7eb9ae316, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f627be6a643d874cb088b2a404bb873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dragOnSurfaces: 1

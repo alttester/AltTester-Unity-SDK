@@ -234,7 +234,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testGetComponentPropertyArray() throws Exception {
-        String componentName = "Capsule";
+        String componentName = "AltUnityExampleScriptCapsule";
         String propertyName = "arrayOfInts";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
         assertNotNull(altElement);
@@ -254,7 +254,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testSetComponentProperty() throws Exception {
-        String componentName = "Capsule";
+        String componentName = "AltUnityExampleScriptCapsule";
         String propertyName = "stringToSetFromTests";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
         assertNotNull(altElement);
@@ -266,7 +266,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testSetNonExistingComponentProperty() throws Exception {
-        String componentName = "Capsulee";
+        String componentName = "AltUnityExampleScriptCapsulee";
         String propertyName = "stringToSetFromTests";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
         assertNotNull(altElement);
@@ -280,7 +280,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testCallMethodWithNoParameters() throws Exception {
-        String componentName = "Capsule";
+        String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "UIButtonClicked";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
         String data = altElement.callComponentMethod(componentName, methodName, "");
@@ -289,7 +289,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testCallMethodWithParameters() throws Exception {
-        String componentName = "Capsule";
+        String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "Jump";
         String parameters = "New Text";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
@@ -299,7 +299,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testCallMethodWithManyParameters() throws Exception {
-        String componentName = "Capsule";
+        String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "TestMethodWithManyParameters";
         String parameters = "1?stringparam?0.5?[1,2,3]";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
@@ -309,7 +309,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testCallMethodWithIncorrectNumberOfParameters() throws Exception {
-        String componentName = "Capsule";
+        String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "TestMethodWithManyParameters";
         String parameters = "1?stringparam?[1,2,3]";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
@@ -323,7 +323,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void testCallMethodWithIncorrectTypeOfParameters() throws Exception {
-        String componentName = "Capsule";
+        String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "TestMethodWithManyParameters";
         String parameters = "a?stringparam?[1,2,3]";
         AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
@@ -476,7 +476,7 @@ public class TestsSampleScene1 {
     public void TestCallMethodWithMultipleDefinitions() throws Exception {
 
         AltUnityObject capsule = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Capsule");
-        capsule.callComponentMethod("", "Capsule", "Test", "2", "System.Int32");
+        capsule.callComponentMethod("", "AltUnityExampleScriptCapsule", "Test", "2", "System.Int32");
         AltUnityObject capsuleInfo = altUnityDriver.findObject(AltUnityDriver.By.NAME, "CapsuleInfo");
         assertEquals("6", capsuleInfo.getText());
     }
