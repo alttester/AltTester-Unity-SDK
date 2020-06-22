@@ -283,51 +283,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.Separator();
         UnityEditor.EditorGUILayout.Separator();
 
-        UnityEditor.EditorGUILayout.LabelField("Run tests", UnityEditor.EditorStyles.boldLabel);
-
-        if (UnityEngine.GUILayout.Button("Run All Tests"))
-        {
-            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
-            {
-                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest));
-                testThread.Start();
-            }
-            else
-            {
-
-                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest);
-            }
-        }
-        if (UnityEngine.GUILayout.Button("Run Selected Tests"))
-        {
-            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
-            {
-                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest));
-                testThread.Start();
-            }
-            else
-            {
-
-                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest);
-            }
-        }
-        if (UnityEngine.GUILayout.Button("Run Failed Tests"))
-        {
-            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
-            {
-                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest));
-                testThread.Start();
-            }
-            else
-            {
-
-                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest);
-            }
-        }
-
-        UnityEditor.EditorGUILayout.Separator();
-        UnityEditor.EditorGUILayout.Separator();
-        UnityEditor.EditorGUILayout.Separator();
+        
         if (AltUnityBuilder.built)
         {
             var found = false;
@@ -427,6 +383,52 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             UnityEngine.GUILayout.Button("Build & Run", UnityEngine.GUILayout.MinWidth(50));
             UnityEditor.EditorGUI.EndDisabledGroup();
         }
+        UnityEditor.EditorGUILayout.Separator();
+        UnityEditor.EditorGUILayout.Separator();
+        UnityEditor.EditorGUILayout.Separator();
+        UnityEditor.EditorGUILayout.LabelField("Run tests", UnityEditor.EditorStyles.boldLabel);
+
+        if (UnityEngine.GUILayout.Button("Run All Tests"))
+        {
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            {
+                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest);
+            }
+        }
+        if (UnityEngine.GUILayout.Button("Run Selected Tests"))
+        {
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            {
+                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest);
+            }
+        }
+        if (UnityEngine.GUILayout.Button("Run Failed Tests"))
+        {
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            {
+                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest);
+            }
+        }
+
+        
 
         //Status test
 

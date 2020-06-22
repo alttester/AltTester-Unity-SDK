@@ -436,12 +436,18 @@ Wait until it finds an object that respect the given criteria or times run out a
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
-    .. code-tab:: java
     
-        //TODO
-
-
+        var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
+        Assert.AreEqual("Canvas", altElement.name);
+    .. code-tab:: java
+        String name = "Dir";
+        long timeStart = System.currentTimeMillis();
+        AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(AltUnityDriver.By.NAME, name);
+        long timeEnd = System.currentTimeMillis();
+        long time = timeEnd - timeStart;
+        assertTrue(time / 1000 < 20);
+        assertNotNull(altElement);
+        assertEquals(altElement.name, "Directional Light");
 
     .. code-tab:: py
         def test_wait_for_object_which_contains(self):
@@ -1719,13 +1725,40 @@ Drag an object to a certain position on the screen
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        public void TestDragObject()
+        {
+            var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+            panel.DragObject( new AltUnityVector2(200, 200));
+            Thread.Sleep(2000); 
+            panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+            Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
+        }
 
     .. code-tab:: java
-        //TODO
+        @Test
+        public void testDragObject() throws InterruptedException {
+            AltUnityObject dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
+            Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+            dragPanel.drag(200,200);
+            Thread.sleep(1000);
+            dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
+            Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+            assertTrue(initPosition != finalPosition);
+        }
 
     .. code-tab:: py
-        //TODO
+        def test_drag_object(self):
+          self.altdriver.load_scene('Scene 2 Draggable Panel')
+          time.sleep(1)
+          d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
+          p_initial = (d_panel.x, d_panel.y, d_panel.z)
+          d_panel.drag(200,200)
+          time.sleep(1)
+          d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
+          p_final = (d_panel.x, d_panel.y, d_panel.z)
+          self.assertNotEqual(p_initial, p_final)
 
 ```
 
@@ -1751,13 +1784,42 @@ Drop an object to a certain position on the screen
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        public void TestDropObject()
+        {
+            var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+            panel.DropObject(new AltUnityVector2(100, 200));
+            Thread.Sleep(2000); 
+            panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+            Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
+        }
 
     .. code-tab:: java
-        //TODO
+        @Test
+        public void testDropObject() throws InterruptedException {
+            AltUnityObject dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
+            Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+            dragPanel.drop(200,200);
+            Thread.sleep(1000);
+            dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
+            Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+            assertTrue(initPosition != finalPosition);
+        }
 
     .. code-tab:: py
-        //TODO
+        def test_drop_object(self):
+            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            time.sleep(1)
+            d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
+            p_initial = (d_panel.x, d_panel.y, d_panel.z)
+            d_panel.drag(100,200)
+            time.sleep(1)
+            d_panel.drop(100,200)
+            time.sleep(1)
+            d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
+            p_final = (d_panel.x, d_panel.y, d_panel.z)
+            self.assertNotEqual(p_initial, p_final)
 
 ```
 
@@ -2010,13 +2072,38 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        [Test]
+            public void TestPointerDownFromObject(){
+                var panel = altUnityDriver.FindObject(By.NAME, "Panel");
+                var color1 = panel.GetComponentProperty("PanelScript","normalColor");
+                panel.PointerDownFromObject();
+                Thread.Sleep(1000);
+                var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
+                Assert.AreNotEqual(color1, color2);
+            }
 
     .. code-tab:: java
-        //TODO
+        @Test
+        public void testPointerDownFromObject() throws InterruptedException {
+            AltUnityObject panel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Panel");
+            String color1 = panel.getComponentProperty("PanelScript", "normalColor");
+            panel.pointerDown();
+            Thread.sleep(1000);
+            String color2 = panel.getComponentProperty("PanelScript", "highlightColor");
+            assertTrue(color1 != color2);
+        }
+
 
     .. code-tab:: py
-        //TODO
+        def test_pointer_down_from_object(self):
+            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            time.sleep(1)
+            p_panel = self.altdriver.find_object(By.NAME, 'Panel')
+            color1 = p_panel.get_component_property('PanelScript', 'normalColor')
+            p_panel.pointer_down()
+            time.sleep(1)
+            color2 = p_panel.get_component_property('PanelScript', 'highlightColor')
+            self.assertNotEquals(color1, color2)
 
 ```
 
@@ -2033,13 +2120,40 @@ Simulates pointer up action on the object
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        [Test] 
+            public void TestPointerUpFromObject(){
+                var panel = altUnityDriver.FindObject(By.NAME, "Panel");
+                var color1 = panel.GetComponentProperty("PanelScript","normalColor");
+                panel.PointerDownFromObject();
+                Thread.Sleep(1000);
+                panel.PointerUpFromObject();
+                var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
+                Assert.AreEqual(color1, color2);
+            }
 
     .. code-tab:: java
-        //TODO
+        @Test
+        public void testPointerUpFromObject() throws InterruptedException {
+            AltUnityObject panel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Panel");
+            String color1 = panel.getComponentProperty("PanelScript", "normalColor");
+            panel.pointerDown();
+            Thread.sleep(1000);
+            panel.pointerUp();
+            String color2 = panel.getComponentProperty("PanelScript", "highlightColor");
+            assertEquals(color1, color2);
+        }
 
     .. code-tab:: py
-        //TODO
+        def test_pointer_up_from_object(self):
+            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            time.sleep(1)
+            p_panel = self.altdriver.find_object(By.NAME, 'Panel')
+            color1 = p_panel.get_component_property('PanelScript', 'normalColor')
+            p_panel.pointer_down()
+            time.sleep(1)
+            p_panel.pointer_up()
+            color2 = p_panel.get_component_property('PanelScript', 'highlightColor')
+            self.assertEquals(color1, color2)
 
 ```
 

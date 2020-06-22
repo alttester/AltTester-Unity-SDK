@@ -16,7 +16,7 @@ public class AltUnitySwipe : AltBaseCommand
         var vectorStartJson = PositionToJson(start);
         var vectorEndJson = PositionToJson(end);
         
-        Socket.Client.Send(toBytes(CreateCommand("MultipointSwipe", vectorStartJson, vectorEndJson, duration.ToString())));
+        Socket.Client.Send(toBytes(CreateCommand("multipointSwipe", vectorStartJson, vectorEndJson, duration.ToString())));
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

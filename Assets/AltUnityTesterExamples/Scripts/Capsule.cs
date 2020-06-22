@@ -9,7 +9,7 @@ public class Capsule : MonoBehaviour {
     public int[] arrayOfInts = {1, 2, 3};
     public bool TestBool = true;
     public string stringToSetFromTests = "intialValue";
-
+    
     void OnMouseDown() {
         Jump("Capsule was clicked to jump!");
     }

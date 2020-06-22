@@ -1,5 +1,7 @@
 package ro.altom.altunitytester;
 
+import org.apache.log4j.BasicConfigurator;
+import org.slf4j.LoggerFactory;
 import ro.altom.altunitytester.Commands.*;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
@@ -12,9 +14,12 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+
 public class AltUnityDriver {
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AltUnityDriver.class);
+    private static final Logger log = LogManager.getLogger(AltUnityDriver.class);
 
     public static class PlayerPrefsKeyType {
         public static int IntType = 1;
@@ -32,28 +37,33 @@ public class AltUnityDriver {
     private AltBaseSettings altBaseSettings;
 
     public AltUnityDriver(String ip, int port) {
+
         this(ip, port, ";", "&", false);
+        BasicConfigurator.configure();
     }
 
     public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd) {
         this(ip, port, requestSeparator, requestEnd, false);
+        BasicConfigurator.configure();
     }
 
     public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logEnabled) {
+        BasicConfigurator.configure();
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
         int timeout = 60;
         while (timeout > 0) {
             try {
-                try{
-                    log.info("Initializing connection to {}:{}", ip, port);
+                try {
+                    log.info(String.format("Initializing connection to %s:%d", ip, port));
                     socket = new Socket(ip, port);
                     socket.setSoTimeout(READ_TIMEOUT);
                     out = new PrintWriter(socket.getOutputStream(), true);
                     in = new DataInputStream(socket.getInputStream());
-                }catch(IOException e){
-                    throw new ConnectionException("AltUnityServer not running on port "+port + ",retrying (timing out in " +timeout+" secs)...", e);
+                } catch (IOException e) {
+                    throw new ConnectionException("AltUnityServer not running on port " + port
+                            + ",retrying (timing out in " + timeout + " secs)...", e);
                 }
                 altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
                 GetServerVersion();

@@ -26,7 +26,7 @@ public class AltMultiPointSwipe extends AltBaseCommand {
     }
     public void Execute(){
         ArrayList<String> args = new ArrayList<String>();
-        args.add("MultipointSwipeChain");
+        args.add("multipointSwipeChain");
         args.add(String.valueOf(durationInSeconds));
         for (Vector2 v : positions) {
             args.add(v.toVector2Json());

@@ -1,10 +1,8 @@
 package ro.altom.altunitytester;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import ro.altom.altunitytester.position.Vector2;
+import ro.altom.altunitytester.position.Vector3;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -82,5 +80,48 @@ public class TestsSampleScene2 {
         altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Button");
         altElement.clickEvent();
         assertTrue(altUnityDriver.findObject(AltUnityDriver.By.NAME,"Panel").enabled);
+    }
+
+    @Test
+    public void testDragObject() throws InterruptedException {
+        AltUnityObject dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
+        Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+        dragPanel.drag(200,200);
+        Thread.sleep(1000);
+        dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
+        Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+        assertTrue(initPosition != finalPosition);
+    }
+
+    @Test
+    public void testDropObject() throws InterruptedException {
+        AltUnityObject dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
+        Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+        dragPanel.drop(200,200);
+        Thread.sleep(1000);
+        dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
+        Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+        assertTrue(initPosition != finalPosition);
+    }
+    
+    @Test
+    public void testPointerDownFromObject() throws InterruptedException {
+        AltUnityObject panel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Panel");
+        String color1 = panel.getComponentProperty("PanelScript", "normalColor");
+        panel.pointerDown();
+        Thread.sleep(1000);
+        String color2 = panel.getComponentProperty("PanelScript", "highlightColor");
+        assertTrue(color1 != color2);
+    }
+
+    @Test
+    public void testPointerUpFromObject() throws InterruptedException {
+        AltUnityObject panel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Panel");
+        String color1 = panel.getComponentProperty("PanelScript", "normalColor");
+        panel.pointerDown();
+        Thread.sleep(1000);
+        panel.pointerUp();
+        String color2 = panel.getComponentProperty("PanelScript", "highlightColor");
+        assertEquals(color1, color2);
     }
 }
