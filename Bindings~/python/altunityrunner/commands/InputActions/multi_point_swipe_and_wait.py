@@ -22,7 +22,7 @@ class MultipointSwipeAndWait(BaseCommand):
             swipe_finished = self.send_data(
                 self.create_command('actionFinished'))
             self.handle_errors(swipe_finished)
-            if swipe_finished is 'Yes':
+            if swipe_finished == 'Yes':
                 break
             elif swipe_finished != 'No':
                 swipe_in_progress = False
