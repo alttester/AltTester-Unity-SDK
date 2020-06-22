@@ -1,7 +1,9 @@
+from typing import List
 import json
 from altunityrunner.commands.ObjectCommands.get_text import GetText
 from altunityrunner.commands.ObjectCommands.set_component_property import SetComponentProperty
 from altunityrunner.commands.ObjectCommands.get_component_property import GetComponentProperty
+from altunityrunner.commands.ObjectCommands.get_all_components import GetAllComponents
 from altunityrunner.commands.ObjectCommands.set_text import SetText
 from altunityrunner.commands.ObjectCommands.tap import Tap
 from altunityrunner.commands.ObjectCommands.call_component_method import CallComponentMethodForObject
@@ -56,6 +58,9 @@ class AltElement(object):
     def get_world_position(self):
         return self.worldX, self.worldY, self.worldZ
     
+    def get_all_components(self) -> List[dict]:
+        return GetAllComponents(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end, self).execute()
+
     def get_component_property(self, component_name, property_name, assembly_name=''):
         alt_object = self.toJSON()
         return GetComponentProperty(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,component_name,property_name,assembly_name,alt_object).execute()
