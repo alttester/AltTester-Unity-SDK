@@ -88,7 +88,6 @@ Packages/
 .vs/altunitytester/v16/Server/sqlite3/storage.ide-shm
 Assets/TextMesh Pro/Resources.meta
 Assets/AltUnityTester/Editor/AltUnityTesterEditorSettings.asset
-Assets/AltUnityTester/Editor/AltUnityTesterEditorSettings.asset
 
 Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/python/altunityrunner.egg-info/
 Assets/AltUnityTester-BindingsAndExamples(can_be_deleted)/Bindings~/AltUnityTesterLog.txt

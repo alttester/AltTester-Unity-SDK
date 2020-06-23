@@ -28,7 +28,7 @@ public class TestForScene2DraggablePanel
     }
     
     [Test]
-    public void ResizePanel()
+    public void TestResizePanel()
     {
        var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
        var position = new AltUnityVector2(altElement.x, altElement.y);
@@ -41,7 +41,7 @@ public class TestForScene2DraggablePanel
     }
     
     [Test]
-    public void ResizePanelWithMultipointSwipe()
+    public void TestResizePanelWithMultipointSwipe()
     {
         var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
         var position = new AltUnityVector2(altElement.x, altElement.y);
@@ -63,7 +63,7 @@ public class TestForScene2DraggablePanel
     }
     
     [Test]
-    public void MovePanel()
+    public void TestMovePanel()
     {
         var altElement = altUnityDriver.FindObject(By.NAME,"Drag Zone");
         var position = new AltUnityVector2(altElement.x, altElement.y);
@@ -76,7 +76,7 @@ public class TestForScene2DraggablePanel
     }
 
     [Test]
-    public void ClosePanel()
+    public void TestClosePanel()
     {
         altUnityDriver.WaitForObject(By.NAME, "Panel Drag Area", timeout: 2);
         Assert.IsTrue(altUnityDriver.FindObject(By.NAME, "Panel").enabled);
@@ -91,6 +91,7 @@ public class TestForScene2DraggablePanel
     [Test]
     public void TestGetAllEnabledElements()
     {
+
         Thread.Sleep(2000);
 
         var altElements = altUnityDriver.GetAllElements(enabled: true);
