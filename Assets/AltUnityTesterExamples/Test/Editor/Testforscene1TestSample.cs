@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
@@ -584,7 +584,6 @@ public class TestForScene1TestSample
         Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
     }
 
-    [Test]
     public void TestGetAllMethodsFromClass()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
