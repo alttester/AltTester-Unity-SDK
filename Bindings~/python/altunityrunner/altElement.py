@@ -8,6 +8,7 @@ from altunityrunner.commands.ObjectCommands.set_text import SetText
 from altunityrunner.commands.ObjectCommands.tap import Tap
 from altunityrunner.commands.ObjectCommands.call_component_method import CallComponentMethodForObject
 from altunityrunner.commands.ObjectCommands.click_event import ClickEvent
+from altunityrunner.commands.ObjectCommands.get_all_fields import GetAllFields
 from altunityrunner.commands.ObjectCommands.drag import Drag
 from altunityrunner.commands.ObjectCommands.drop import Drop
 from altunityrunner.commands.ObjectCommands.pointer_down import PointerDown
@@ -76,7 +77,11 @@ class AltElement(object):
     def get_text(self):
         alt_object = self.toJSON()
         return GetText(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object).execute()
-    
+
+    def get_all_fields_of(self, component):
+        alt_object = self
+        return GetAllFields(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,alt_object, component).execute()
+
     def set_text(self, text):
         alt_object = self.toJSON()
         data = SetText(self.alt_unity_driver.socket,self.alt_unity_driver.request_separator,self.alt_unity_driver.request_end,text,alt_object).execute()
