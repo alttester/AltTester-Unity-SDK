@@ -163,7 +163,7 @@ public class TestForScene1WithOldSearch
     }
 
     [Test]
-    public void TestFindElemetsByComponent()
+    public void TestFindElementsByComponent()
     {
         var a = altUnityDriver.FindElementsByComponent("UnityEngine.MeshFilter");
         Assert.AreEqual(3, a.Count);

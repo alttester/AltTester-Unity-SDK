@@ -8,7 +8,6 @@ public abstract class AltUnityCommand
             try
             {
                 response = Execute();
-
             }
             catch (System.NullReferenceException exception)
             {
