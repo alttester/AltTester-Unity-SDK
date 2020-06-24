@@ -1,12 +1,12 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityFindObjectsByComponentCommand :AltUnityReflectionMethodsCommand 
+    class AltUnityFindObjectsByComponentCommand : AltUnityReflectionMethodsCommand
     {
         string methodParameters;
 
-        public AltUnityFindObjectsByComponentCommand (string methodParameters)
+        public AltUnityFindObjectsByComponentCommand(string methodParameters)
         {
             this.methodParameters = methodParameters;
         }

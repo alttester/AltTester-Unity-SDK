@@ -472,6 +472,12 @@ class PythonTests(unittest.TestCase):
             By.COMPONENT, "AltUnityExampleScriptCapsule")
         self.assertTrue(altElement.name == "Capsule")
 
+    def test_find_object_by_component_with_namespace(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altElement = self.altdriver.find_object(
+            By.COMPONENT, "AltUnityTesterExamples.Scripts.AltUnityExampleScriptCapsule")
+        self.assertTrue(altElement.name == "Capsule")
+
     def test_find_child(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement = self.altdriver.find_object(By.PATH, "//UIButton/*")

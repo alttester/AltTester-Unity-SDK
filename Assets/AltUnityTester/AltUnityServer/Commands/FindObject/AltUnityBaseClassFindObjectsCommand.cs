@@ -1,6 +1,8 @@
+using System.Linq;
+
 namespace Assets.AltUnityTester.AltUnityServer
 {
-    class AltUnityBaseClassFindObjectsCommand :AltUnityCommand
+    class AltUnityBaseClassFindObjectsCommand : AltUnityCommand
     {
         protected System.Collections.Generic.List<System.Collections.Generic.List<string>> ProcessPath(string path)
         {
@@ -155,7 +157,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                             }
                             else
                             {
-                                objectsFound.AddRange( FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled));
+                                objectsFound.AddRange(FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled));
                                 continue;
 
                             }
@@ -168,7 +170,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                             }
                             else
                             {
-                                objectsFound.AddRange( FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled));
+                                objectsFound.AddRange(FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled));
                                 continue;
 
                             }
@@ -223,6 +225,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                         break;
                     case 4://component
                         var componentName = condition.Substring(11, condition.Length - 11);
+                        componentName = componentName.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
                         var list = objectToCheck.GetComponents(typeof(UnityEngine.Component));
                         valid = false;
 
@@ -374,5 +377,5 @@ namespace Assets.AltUnityTester.AltUnityServer
             throw new System.NotImplementedException();
         }
     }
-   
+
 }

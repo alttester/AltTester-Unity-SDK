@@ -205,6 +205,15 @@ public class TestsSampleScene1 {
         assertNotNull(altElement);
         assertEquals(altElement.name, "AltUnityRunnerPrefab");
     }
+    
+    @Test
+    public void testFindElementByComponentWithNamespace() throws Exception {
+        Thread.sleep(1000);
+        String componentName = "AltUnityTester.AltUnityServer.AltUnityRunner";
+        AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.COMPONENT, componentName);
+        assertNotNull(altElement);
+        assertEquals(altElement.name, "AltUnityRunnerPrefab");
+    }
 
     @Test
     public void testGetComponentProperty() throws Exception {
