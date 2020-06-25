@@ -792,6 +792,29 @@ class PythonTests(unittest.TestCase):
             'PanelScript', 'highlightColor')
         self.assertEquals(color1, color2)
 
+    def test_get_all_components(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        components = self.altdriver.find_object(
+            By.NAME, "Canvas").get_all_components()
+        self.assertEquals(4, len(components))
+        self.assertEquals("UnityEngine.RectTransform",
+                          components[0]["componentName"])
+        self.assertEquals("UnityEngine.CoreModule",
+                          components[0]["assemblyName"])
+
+    def test_get_all_fields(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule = self.altdriver.find_object(
+            By.NAME, "Capsule")
+        components = capsule.get_all_components()
+        capsule_component = None
+        for component in components:
+            if component["componentName"] == "Capsule":
+                capsule_component = component
+        print(capsule_component["componentName"])
+        fields = capsule.get_all_fields(capsule_component)
+        self.assertEquals("intialValue", fields["stringToSetFromTests"])
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
