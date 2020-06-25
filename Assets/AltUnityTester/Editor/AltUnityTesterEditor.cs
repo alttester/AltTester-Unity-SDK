@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using System.Linq;
 public class AltUnityTesterEditor : UnityEditor.EditorWindow
 {
@@ -562,7 +563,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 #if UNITY_EDITOR_OSX
                             else
                             {
-                                
+
                                 AltUnityPortHandler.KillIProxy(device.Pid);
 
                             }
@@ -600,7 +601,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                                 }else{
                                     UnityEngine.Debug.LogError(response);
                                 }
-                                
+
                             }
 
 #endif
@@ -769,7 +770,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         LabelAndInputFieldHorizontalLayout("Iproxy Path: ", ref EditorConfiguration.IProxyPath);
                         LabelAndInputFieldHorizontalLayout("Xcrun Path: ", ref EditorConfiguration.XcrunPath);
                     }
-                    
+
                     break;
 #endif
             }
@@ -1038,14 +1039,25 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
         int foldOutCounter = 0;
         int testCounter = 0;
+        var parentNames = new List<string>();
         foreach (var test in tests)
         {
-            testCounter++;
-            if (foldOutCounter > 0)
+            if(test.TestCaseCount == 0)
+            {
+                continue;
+            }
+            if(foldOutCounter > 0 && test.Type == typeof(NUnit.Framework.Internal.TestMethod))
             {
                 foldOutCounter--;
                 continue;
             }
+            if(foldOutCounter > 0)
+            {
+                continue;
+            }
+            testCounter++;
+            var idx = parentNames.IndexOf(test.ParentName) + 1;
+            parentNames.RemoveRange(idx, parentNames.Count - idx);
 
             if (tests.IndexOf(test) == selectedTest)
             {
@@ -1068,14 +1080,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     UnityEditor.EditorGUILayout.BeginHorizontal(gsAlterQuest);
                 }
             }
-            if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
-            {
-                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(30));
-            }
-            else if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
-            {
-                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(60));
-            }
+            UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(30 * parentNames.Count));
             UnityEngine.GUIStyle gUIStyle = new UnityEngine.GUIStyle();
             gUIStyle.alignment = UnityEngine.TextAnchor.MiddleLeft;
             var valueChanged = UnityEditor.EditorGUILayout.Toggle(test.Selected, UnityEngine.GUILayout.Width(15));
@@ -1118,20 +1123,18 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 SelectTest(tests, test, testName, guiStyle);
             }
             UnityEngine.GUILayout.FlexibleSpace();
-            if (test.Type != typeof(NUnit.Framework.Internal.TestMethod))
+            if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
+            {
+                test.FoldOut = true;
+            }
+            else
             {
                 test.FoldOut = UnityEditor.EditorGUILayout.Foldout(test.FoldOut, "");
                 if (!test.FoldOut)
                 {
-                    if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
-                    {
-                        foldOutCounter = tests.Count - 1;
-                    }
-                    else
-                    {
-                        foldOutCounter = test.TestCaseCount;
-                    }
+                    foldOutCounter = test.TestCaseCount;
                 }
+                parentNames.Add(test.TestName);
             }
             UnityEditor.EditorGUILayout.EndHorizontal();
 
@@ -1171,53 +1174,33 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     {
         if (test.Selected)
         {
-            if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
+            if (test.IsSuite)
             {
-                foreach (var test2 in EditorConfiguration.MyTests)
+                var index = EditorConfiguration.MyTests.IndexOf(test);
+                for (int i = index + 1; i <= index + test.TestCaseCount; i++)
                 {
-                    test2.Selected = true;
-                }
-            }
-            else
-            {
-                if (test.IsSuite)
-                {
-                    var index = EditorConfiguration.MyTests.IndexOf(test);
-                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
-                    {
-                        EditorConfiguration.MyTests[i].Selected = true;
-                    }
+                    EditorConfiguration.MyTests[i].Selected = true;
                 }
             }
         }
         else
         {
-            if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
+            var dummy = test;
+            if (test.IsSuite)
             {
-                foreach (var test2 in EditorConfiguration.MyTests)
+                var index = EditorConfiguration.MyTests.IndexOf(test);
+                for (int i = index + 1; i <= index + test.TestCaseCount; i++)
                 {
-                    test2.Selected = false;
+                    EditorConfiguration.MyTests[i].Selected = false;
                 }
             }
-            else
+            while (dummy.ParentName != null)
             {
-                var dummy = test;
-                if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
-                {
-                    var index = EditorConfiguration.MyTests.IndexOf(test);
-                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
-                    {
-                        EditorConfiguration.MyTests[i].Selected = false;
-                    }
-                }
-                while (dummy.ParentName != null)
-                {
-                    dummy = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(dummy.ParentName));
-                    if (dummy != null)
-                        dummy.Selected = false;
-                    else
-                        return;
-                }
+                dummy = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(dummy.ParentName));
+                if (dummy != null)
+                    dummy.Selected = false;
+                else
+                    return;
             }
         }
 
@@ -1336,7 +1319,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     private static string GetPathForSelectedItem()
     {
         string path = UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.Selection.activeObject);
-        if (System.IO.Path.GetExtension(path) != "") //checks if current item is a folder or a file 
+        if (System.IO.Path.GetExtension(path) != "") //checks if current item is a folder or a file
         {
             path = path.Replace(System.IO.Path.GetFileName(UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.Selection.activeObject)), "");
         }
