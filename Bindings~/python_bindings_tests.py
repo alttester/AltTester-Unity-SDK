@@ -823,7 +823,7 @@ class PythonTests(unittest.TestCase):
         components = capsule.get_all_components()
         capsule_component = None
         for component in components:
-            if component["componentName"] == "Capsule":
+            if component["componentName"] == "AltUnityExampleScriptCapsule":
                 capsule_component = component
         print(capsule_component["componentName"])
         fields = capsule.get_all_fields(capsule_component)
