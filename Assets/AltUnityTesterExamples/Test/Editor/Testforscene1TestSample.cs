@@ -881,6 +881,11 @@ public class TestForScene1TestSample
         var afterText = text.SetText("ModifiedText").GetText();
         Assert.AreNotEqual(originalText, afterText);
     }
-
+    [Test]
+    public void TestFindParentUsingPath()
+    {
+        var parent = altUnityDriver.FindObject(By.PATH, "//CapsuleInfo/..");
+        Assert.AreEqual("Canvas", parent.name);
+    }
 
 }
