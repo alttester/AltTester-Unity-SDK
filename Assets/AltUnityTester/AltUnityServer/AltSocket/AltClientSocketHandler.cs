@@ -36,6 +36,7 @@ public class AltClientSocketHandler
     {
         if (Client != null)
         {
+            ToBeKilled = true;
             Client.Close();
         }
 
