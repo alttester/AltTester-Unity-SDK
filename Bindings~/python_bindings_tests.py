@@ -783,6 +783,11 @@ class PythonTests(unittest.TestCase):
         current_scene = self.altdriver.get_current_scene()
         self.assertNotEqual(initial_scene, current_scene)
 
+    def test_find_parent_using_path(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        parent = self.altdriver.find_object(By.PATH, "//CapsuleInfo/..")
+        self.assertEqual("Canvas", parent.name)
+        
     def test_pointer_down_from_object(self):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         time.sleep(1)

@@ -603,4 +603,12 @@ public class TestsSampleScene1 {
         String afterText = textObject.setText("ModifiedText").getText();
         assertNotEquals(originalText, afterText);
     }
+
+    @Test
+    public void TestFindParentUsingPath() {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.PATH, "//CapsuleInfo/..").build();
+        AltUnityObject parent = altUnityDriver.findObject(altFindObjectsParameters1);
+        assertEquals("Canvas", parent.name);
+    }
 }

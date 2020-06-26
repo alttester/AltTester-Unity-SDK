@@ -128,6 +128,10 @@ namespace Assets.AltUnityTester.AltUnityServer
 
             if (CheckConditionIfParent(conditions[step]))
             {
+                if (step == conditions.Count - 1)//if last condition is .. then it will return the parent
+                {
+                    return new System.Collections.Generic.List<UnityEngine.GameObject>(){ gameObject.transform.parent.gameObject };
+                }
                 if (IsNextElementDirectChild(conditions[step + 1]))
                 {
                     return FindObjects(gameObject.transform.parent.gameObject, conditions, step + 2, singleObject, true, enabled);
