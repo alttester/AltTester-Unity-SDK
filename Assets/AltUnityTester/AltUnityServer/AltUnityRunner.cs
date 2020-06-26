@@ -122,6 +122,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     
     void Update()
     {
+#if UNITY_EDITOR
+        if (_socketServer == null)
+        {
+            UnityEditor.EditorApplication.isPlaying=false;
+            return;
+        }
+#endif
         if (!AltUnityIconPressed)
         {
             if (_socketServer.ClientCount != 0)
@@ -147,14 +154,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
      void OnApplicationQuit()
     {
         CleanUp();
-        FileWriter.Close();
+        if(FileWriter!=null)
+            FileWriter.Close();
     }
     
     #endregion
     public void CleanUp()
     {
         UnityEngine.Debug.Log("Cleaning up socket server");
-        _socketServer.Cleanup();
+        if(_socketServer!=null)
+            _socketServer.Cleanup();
     }
     
     public void StartSocketServer()
