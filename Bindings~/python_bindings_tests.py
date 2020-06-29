@@ -834,6 +834,27 @@ class PythonTests(unittest.TestCase):
         fields = capsule.get_all_fields(capsule_component)
         self.assertEquals("intialValue", fields["stringToSetFromTests"])
 
+    def test_scroll(self):
+        self.altdriver.load_scene("Scene 5 Keyboard Input")
+        player2 = self.altdriver.find_object(By.NAME, "Player2")
+        cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
+        self.altdriver.scroll_mouse(4, 2)
+        time.sleep(2)
+        player2 = self.altdriver.find_object(By.NAME, "Player2")
+        cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
+
+        self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
+
+    def test_scroll_and_wait(self):
+        self.altdriver.load_scene("Scene 5 Keyboard Input")
+        player2 = self.altdriver.find_object(By.NAME, "Player2")
+        cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
+        self.altdriver.scroll_mouse_and_wait(4, 2)
+        player2 = self.altdriver.find_object(By.NAME, "Player2")
+        cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
+
+        self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
