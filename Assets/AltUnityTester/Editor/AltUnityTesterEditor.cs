@@ -714,6 +714,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         _foldOutBuildSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutBuildSettings, "Build Settings");
         if (_foldOutBuildSettings)
         {
+
             LabelAndInputFieldHorizontalLayout("Output path", ref EditorConfiguration.OutputPathName);
             var companyName = UnityEditor.PlayerSettings.companyName;
             LabelAndInputFieldHorizontalLayout("Company Name", ref companyName);
@@ -1286,7 +1287,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         string folderPath = GetPathForSelectedItem();
         string newFilePath = System.IO.Path.Combine(folderPath, "NewAltUnityTest.cs");
 #if UNITY_2019_1_OR_NEWER
-        UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath,newFilePath);
+        UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath, newFilePath);
 #else
         System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
         if (method == null)
