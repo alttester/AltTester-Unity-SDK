@@ -792,23 +792,23 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         time.sleep(1)
         p_panel = self.altdriver.find_object(By.NAME, 'Panel')
-        color1 = p_panel.get_component_property('PanelScript', 'normalColor')
+        color1 = p_panel.get_component_property('AltUnityExampleScriptPanel', 'normalColor')
         p_panel.pointer_down()
         time.sleep(1)
         color2 = p_panel.get_component_property(
-            'PanelScript', 'highlightColor')
+            'AltUnityExampleScriptPanel', 'highlightColor')
         self.assertNotEquals(color1, color2)
 
     def test_pointer_up_from_object(self):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         time.sleep(1)
         p_panel = self.altdriver.find_object(By.NAME, 'Panel')
-        color1 = p_panel.get_component_property('PanelScript', 'normalColor')
+        color1 = p_panel.get_component_property('AltUnityExampleScriptPanel', 'normalColor')
         p_panel.pointer_down()
         time.sleep(1)
         p_panel.pointer_up()
         color2 = p_panel.get_component_property(
-            'PanelScript', 'highlightColor')
+            'AltUnityExampleScriptPanel', 'highlightColor')
         self.assertEquals(color1, color2)
 
     def test_get_all_components(self):
