@@ -377,94 +377,121 @@ public class AltUnityTestRunner
         }
     }
 
-#if UNITY_EDITOR_OSX
-    // This method is used to run test in our pipeline. If you want to use them you might need to modify them.
-    static void RunAllTestsIOS() {
-        try {
-            AltUnityTesterEditor.InitEditorConfiguration();
-            // AltUnityPortHandler.ForwardIos();
-            UnityEngine.Debug.Log("Started running test");
-            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
-            System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
+    static void RunTestFromCommandLine()
+    {
 
-            var testSuite2 = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new System.Collections.Generic.Dictionary<string, object>());
+        var arguments = System.Environment.GetCommandLineArgs();
+        
+        bool runAllTests = true;
+        var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
+        NUnit.Framework.Internal.TestSuite testSuite = null;
+        NUnit.Framework.Internal.Filters.OrFilter filter = new NUnit.Framework.Internal.Filters.OrFilter();
+        NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(null);
+        System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
+        System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
+        testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
 
-            NUnit.Framework.Internal.Filters.OrFilter filter = new NUnit.Framework.Internal.Filters.OrFilter();
-            foreach (var test in testSuite2.Tests)
-                foreach (var t in test.Tests) {
-                    UnityEngine.Debug.Log(t.FullName);
-                    filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
+        foreach (var arg in arguments)
+        {
+            if (arg.Equals("-testsClass") || arg.Equals("-tests"))
+            {
+                runAllTests = false;
+                break;
+            }
+        }
+        AltUnityTesterEditor.InitEditorConfiguration();
+        var tests = AltUnityTesterEditor.EditorConfiguration.MyTests;
+
+        if (!runAllTests)
+        {
+            System.Collections.Generic.List<string> ClassToTest = new System.Collections.Generic.List<string>();
+            System.Collections.Generic.List<string> Tests = new System.Collections.Generic.List<string>();
+            int argumentFound = 0;
+            for (int i = 0; i < arguments.Length; i++)
+            {
+                if (argumentFound != 0)
+                {
+                    if (arguments[i].StartsWith("-"))
+                    {
+                        argumentFound = 0;
+                    }
+                    else
+                    {
+                        switch (argumentFound)
+                        {
+                            case 1:
+                                ClassToTest.Add(arguments[i]);
+                                break;
+                            case 2:
+                                Tests.Add(arguments[i]);
+                                break;
+                        }
+                    }
+                }
+                if (arguments[i].Equals("-testsClass"))
+                {
+                    argumentFound = 1;
+                    continue;
+                }
+                if (arguments[i].Equals("-tests"))
+                {
+                    argumentFound = 2;
+                    continue;
+                }
+            }
+            foreach (var className in ClassToTest)
+            {
+                var classIndex = tests.FindIndex(test => test.TestName.Equals(className));
+                if (classIndex != -1)
+                {
+                    var classFoundInList = tests[classIndex];
+                    for (int i = 0; i < classFoundInList.TestCaseCount; i++)
+                    {
+                        filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(tests[i + classIndex + 1].TestName));
+                    }
+                }
+                else
+                {
+                    throw new System.Exception("Class name: " + className + " not found");
                 }
 
-            NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(null);
-            var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
-            testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
-            var result = testAssemblyRunner.Run(listener, filter);
-            if (result.FailCount > 0) {
-                UnityEditor.EditorApplication.Exit(1);
             }
-            else{
-                UnityEditor.EditorApplication.Exit(0);
+            foreach (var testName in Tests)
+            {
+                var classIndex = tests.FindIndex(test => test.TestName.Equals(testName));
+                if (classIndex != -1)
+                {
+                    filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(tests[classIndex].TestName));
+                }
+                else
+                {
+                    throw new System.Exception("Test name: " + testName + " not found");
+                }
+
             }
-        } catch (System.Exception e) {
-            UnityEngine.Debug.LogError(e);
-            UnityEditor.EditorApplication.Exit(1);
+
         }
-        // finally
-        // {
-        //     // AltUnityPortHandler.KillIProxy(AltUnityPortHandler.idIproxyProcess);
-        // }
-
-
-
-    }
-#endif
-
-
-    // This method is used to run test in our pipeline. If you want to use them you might need to modify them.
-    static void RunAllTestsAndroid()
-    {
-        try
+        else //NoArgumentsGiven
         {
-            AltUnityTesterEditor.InitEditorConfiguration();
-            AltUnityPortHandler.ForwardAndroid();
-            UnityEngine.Debug.Log("Started running test");
-            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
-            System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
 
-            var testSuite2 =
-                (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new System.Collections.Generic.Dictionary<string, object>());
-
-            NUnit.Framework.Internal.Filters.OrFilter filter = new NUnit.Framework.Internal.Filters.OrFilter();
-            foreach (var test in testSuite2.Tests)
+            testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new System.Collections.Generic.Dictionary<string, object>());
+            foreach (var test in testSuite.Tests)
                 foreach (var t in test.Tests)
                 {
                     UnityEngine.Debug.Log(t.FullName);
                     filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
                 }
-
-            NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(null);
-            var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
-
-            testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
-
-
-            var result = testAssemblyRunner.Run(listener, filter);
-            if (result.FailCount > 0)
-            {
-                AltUnityPortHandler.RemoveForwardAndroid();
-                UnityEditor.EditorApplication.Exit(1);
-            }
         }
-        catch (System.Exception e)
+        var result = testAssemblyRunner.Run(listener, filter);
+        if (result.FailCount > 0)
         {
-            UnityEngine.Debug.LogError(e);
             UnityEditor.EditorApplication.Exit(1);
         }
-        finally
+        else
         {
-            AltUnityPortHandler.RemoveForwardAndroid();
+            UnityEditor.EditorApplication.Exit(0);
         }
+
     }
 
 

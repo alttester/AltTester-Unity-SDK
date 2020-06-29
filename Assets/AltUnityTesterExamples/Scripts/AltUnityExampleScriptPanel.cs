@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PanelScript : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
+public class AltUnityExampleScriptPanel : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
     float speed = 10f;
     // Start is called before the first frame update
