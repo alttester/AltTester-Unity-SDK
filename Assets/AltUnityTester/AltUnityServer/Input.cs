@@ -21,7 +21,7 @@ public class Input : UnityEngine.MonoBehaviour
     }
     private void Update()
     {
-        UseCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey;
+        UseCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta==UnityEngine.Vector2.zero;
     }
     
     public static Input instance;
@@ -809,10 +809,12 @@ public class Input : UnityEngine.MonoBehaviour
         float timeSpent = 0;
         while (timeSpent < duration)
         {
+            UnityEngine.Debug.Log("Scrolling");
             _mouseScrollDelta = new UnityEngine.Vector2(0, scrollValue);//x value is not taken in consideration
             yield return null;
             timeSpent += UnityEngine.Time.deltaTime;
         }
+        _mouseScrollDelta=UnityEngine.Vector2.zero;//reset the value after scroll ended
         Finished = true;
 
     }

@@ -12,6 +12,7 @@ public class AltUnityExampleScriptPlayer2Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         var movement = new Vector3();
+        movement.y += Input.mouseScrollDelta.y;
         if (Input.GetKey(KeyCode.K))
             movement.x = -1 * speed * Time.deltaTime+Input.mouseScrollDelta.y;
         if (Input.GetKey(KeyCode.Semicolon))

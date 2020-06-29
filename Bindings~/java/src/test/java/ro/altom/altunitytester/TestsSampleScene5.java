@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ro.altom.altunitytester.position.Vector3;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +17,11 @@ import static org.junit.Assert.assertNotEquals;
 
 public class TestsSampleScene5 {
 
-
     private static AltUnityDriver altUnityDriver;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000,";","&",true);
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, ";", "&", true);
     }
 
     @AfterClass
@@ -33,26 +35,24 @@ public class TestsSampleScene5 {
         altUnityDriver.loadScene("Scene 5 Keyboard Input");
     }
 
-
     @Test
     public void TestMovementCube() throws InterruptedException {
-        
-        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player2","");
+
+        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Player2", "");
         float cubeInitWorldX = cube.worldX;
         float cubeInitWorldZ = cube.worldZ;
 
-
-        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
+        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Player1", "");
         cubeInitWorldX = cube.worldX;
         float cubeInitWorldY = cube.worldY;
         cubeInitWorldZ = cube.worldZ;
 
         altUnityDriver.scrollMouse(30, 20);
-        altUnityDriver.pressKey("K",1, 2);
+        altUnityDriver.pressKey("K", 1, 2);
         Thread.sleep(2000);
-        
-        altUnityDriver.pressKeyAndWait("O", 1,1);
-        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player2","");
+
+        altUnityDriver.pressKeyAndWait("O", 1, 1);
+        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Player2", "");
         float cubeFinalWorldX = cube.worldX;
         float cubeFinalWorldZ = cube.worldZ;
 
@@ -61,15 +61,15 @@ public class TestsSampleScene5 {
     }
 
     @Test
-    //Test Keyboard button press
+    // Test Keyboard button press
     public void TestCameraMovement() throws InterruptedException {
-        
-        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
+
+        AltUnityObject cube = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Player1", "");
         float cubeInitWorldZ = cube.worldZ;
 
-        altUnityDriver.pressKey("W",1, 2);
+        altUnityDriver.pressKey("W", 1, 2);
         Thread.sleep(2000);
-        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Player1","");
+        cube = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Player1", "");
         float cubeFinalWorldZ = cube.worldZ;
 
         assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
@@ -77,29 +77,27 @@ public class TestsSampleScene5 {
     }
 
     @Test
-    //Testing mouse movement and clicking
+    // Testing mouse movement and clicking
     public void TestCreatingStars() throws InterruptedException {
 
-        AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
+        AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME, "Star", "");
         assertEquals(1, stars.length);
-        AltUnityObject pressingPoint1=altUnityDriver.findElement("PressingPoint1","Player2");
+        AltUnityObject pressingPoint1 = altUnityDriver.findElement("PressingPoint1", "Player2");
         altUnityDriver.moveMouse(pressingPoint1.x, pressingPoint1.y, 1);
         Thread.sleep(1500);
 
-        altUnityDriver.pressKey("Mouse0", 1,1);
-        AltUnityObject pressingPoint2=altUnityDriver.findElement("PressingPoint2","Player2");
+        altUnityDriver.pressKey("Mouse0", 1, 1);
+        AltUnityObject pressingPoint2 = altUnityDriver.findElement("PressingPoint2", "Player2");
         altUnityDriver.moveMouseAndWait(pressingPoint2.x, pressingPoint2.y, 1);
-        altUnityDriver.pressKeyAndWait("Mouse0", 1,1);
+        altUnityDriver.pressKeyAndWait("Mouse0", 1, 1);
 
-
-        stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
+        stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME, "Star", "");
         assertEquals(3, stars.length);
 
     }
 
     @Test
-    public void TestPowerJoystick()
-    {
+    public void TestPowerJoystick() {
         ArrayList<String> ButtonNames = new ArrayList<String>();
         ButtonNames.add("Horizontal");
         ButtonNames.add("Vertical");
@@ -110,12 +108,39 @@ public class TestsSampleScene5 {
         AltUnityObject axisName = altUnityDriver.findElement("AxisName");
         AltUnityObject axisValue = altUnityDriver.findElement("AxisValue");
         int i = 0;
-        for (String key : KeyToPressForButtons)
-        {
-            altUnityDriver.pressKeyAndWait(key,0.5f,0.1f);
+        for (String key : KeyToPressForButtons) {
+            altUnityDriver.pressKeyAndWait(key, 0.5f, 0.1f);
             assertEquals("0.5", axisValue.getText());
             assertEquals(ButtonNames.get(i), axisName.getText());
             i++;
         }
     }
+
+    @Test
+    public void TestScroll() throws InterruptedException {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                "Player2").build();
+        AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParameters);
+        Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+        altUnityDriver.scrollMouse(4, 2);
+        Thread.sleep(2000);
+        player2 = altUnityDriver.findObject(altFindObjectsParameters);
+        Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+        assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+    }
+
+    @Test
+    public void TestScrollAndWait() throws InterruptedException {
+
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                "Player2").build();
+        AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParameters);
+        Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+        altUnityDriver.scrollMouse(4, 2);
+        Thread.sleep(2000);
+        player2 = altUnityDriver.findObject(altFindObjectsParameters);
+        Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+        assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+    }
+
 }
