@@ -3,24 +3,21 @@
 
 ###  FindObject
 
-#### Description:
+Find the first object in the scene that respects the given criteria. Check [By](#by) for more information about criterias.
 
-Find the first object in the scene that respects the given criteria. Check [by](other/by.md) for more information about criterias.
+***Parameters***
 
-###### Observation: No longer possible to search for object by name giving a path in hierarchy, if you want to search that way please use by path.
-
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](other/by.html)    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
+| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltFindObjectParameters](other/java-builders.html#altfindobjectparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- AltUnityObject
 
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -29,23 +26,24 @@ Find the first object in the scene that respects the given criteria. Check [by](
         [Test]
         public void TestFindElement()
         {
-    
             const string name = "Capsule";
             var altElement = altUnityDriver.FindObject(By.NAME,name);
             Assert.NotNull(altElement);
             Assert.AreEqual(name, altElement.name);
-    
         }
-    .. code-tab:: java
 
+    .. code-tab:: java
+    
         @Test
-        public void testfindElement() throws Exception {
+        public void testfindElement() throws Exception
+        {
             String name = "Capsule";
-            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,name);
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                    name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotNull(altElement);
             assertEquals(name, altElement.name);
         }
-
 
     .. code-tab:: py
 
@@ -57,59 +55,51 @@ Find the first object in the scene that respects the given criteria. Check [by](
         self.assertEquals("Plane", altElement.name)
 ```
 
-
 ###  FindObjects
 
-#### Description:
+Find all objects in the scene that respects the given criteria. Check [By](#by) for more information about criterias.
 
-Find all objects in the scene that respects the given criteria. Check [By](other/by.html) for more information about criterias.
+***Parameters***
 
-###### Observation: No longer possible to search for object by name giving a path in hierarchy, if you want to search that way please use by path.
-
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](other/by.html)    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| by      |     [By](#by)    |   Yes  | Set what criteria to use in order to find the object|
+| value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
+| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltFindObjectParameters](other/java-builders.html#altfindobjectparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
-
-#### Returns
-
+***Returns***
 - List of AltUnityObjects/ empty list if no objects were found
 
-
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
 
         [Test]
-            public void TestFindObjectsByTag()
+        public void TestFindObjectsByTag()
+        {
+            var altElements = altUnityDriver.FindObjects(By.TAG,"plane");
+            Assert.AreEqual(2, altElements.Count);
+            foreach(var altElement in altElements)
             {
-                var altElements = altUnityDriver.FindObjects(By.TAG,"plane");
-                Assert.AreEqual(2, altElements.Count);
-                foreach(var altElement in altElements)
-                {
-                    Assert.AreEqual("Plane", altElement.name);
-                }
+                Assert.AreEqual("Plane", altElement.name);
             }
         }
+
     .. code-tab:: java
 
            @Test
-            public void testfindElements() throws Exception {
+            public void testfindElements() throws Exception
+            {
                 String name = "Plane";
-                AltUnityObject[] altElements = altUnityDriver.findObjects(AltUnityDriver.By.NAME,name);
+                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                    name).isEnabled(true).withCamera("Main Camera").build();
+                AltUnityObject[] altElements = altUnityDriver.findObjects(altFindObjectsParameters);
                 assertNotNull(altElements);
                 assertEquals(altElements[0].name, name);
             }
-
 
     .. code-tab:: py
 
@@ -122,30 +112,21 @@ Find all objects in the scene that respects the given criteria. Check [By](other
 
 ###  FindObjectWhichContains
 
-#### Description:
+Find the first object in the scene that respects the given criteria. Check [By](#by) for more information about criterias.
 
-Find the first object in the scene that respects the given criteria. Check [by](other/by.md) for more information about criterias.
+***Parameters***
 
-###### Observation: Every criteria except of path works for this command
-
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](other/by.html)    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
+| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltFindObjectParameters](other/java-builders.html#altfindobjectparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
-
-#### Returns
-
+***Returns***
 - List of AltUnityObjects/ empty list if no objects were found
 
-#### Examples
-
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -162,10 +143,12 @@ Find the first object in the scene that respects the given criteria. Check [by](
         @Test
         public void TestFindObjectWhichContains()
         {
-            AltUnityObject altElement = altUnityDriver.findObjectWhichContains(AltUnityDriver.By.NAME, "Event");
+            String name = "Event";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                   name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altUnityDriver.findObjectWhichContains(altFindObjectsParameters);
             assertEquals("EventSystem", altElement.name);
         }
-
 
     .. code-tab:: py
        def test_find_object_which_contains(self):
@@ -177,30 +160,21 @@ Find the first object in the scene that respects the given criteria. Check [by](
 
 ###  FindObjectsWhichContains
 
-#### Description:
+Find all objects in the scene that respects the given criteria. Check [By](#by) for more information about criterias.
 
-Find all objects in the scene that respects the given criteria. Check [By](other/by.html) for more information about criterias.
+***Parameters***
 
-###### Observation: Every criteria except of path works for this command
-
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](other/by.html)    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
+| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltFindObjectParameters](other/java-builders.html#altfindobjectparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
-
-#### Returns
-
+***Returns***
 - List of AltUnityObjects/ empty list if no objects were found
 
-#### Examples
-
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -227,14 +201,16 @@ Find all objects in the scene that respects the given criteria. Check [By](other
         }
 
     .. code-tab:: java
-      @Test
-          public void testFindElementsWhereNameContains() throws Exception {
-              String name = "Pla";
-              AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,name);
-              assertNotNull(altElements);
-              assertTrue(altElements[0].name.contains(name));
-          }
-
+        @Test
+        public void testFindElementsWhereNameContains() throws Exception
+        {
+            String name = "Pla";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertNotNull(altElements);
+            assertTrue(altElements[0].name.contains(name));
+        }
 
     .. code-tab:: py
         def test_creating_stars(self):
@@ -257,26 +233,19 @@ Find all objects in the scene that respects the given criteria. Check [By](other
 
 ###  GetAllElements
 
-#### Description:
-
 Returns information about every objects loaded in the currently loaded scenes. This also means objects that are set as DontDestroyOnLoad.
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| cameraName      |     string    |   No  | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No  | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
-
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **AltGetAllElementsParameters** which we use the parameters mentioned. The java example will also show how to build such an object.
-
-#### Return
-
+***Returns***
 - List of AltUnityObjects/ empty list if no objects were found
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::    
 
@@ -308,21 +277,23 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
     .. code-tab:: java        
         @Test
-            public void testGetAllElements() throws Exception {
-                AltUnityObject[] altElements = altUnityDriver.getAllElements();
-                assertNotNull(altElements);
-                String altElementsString = new Gson().toJson(altElements);
-                assertTrue(altElementsString.contains("Capsule"));
-                assertTrue(altElementsString.contains("Main Camera"));
-                assertTrue(altElementsString.contains("Directional Light"));
-                assertTrue(altElementsString.contains("Plane"));
-                assertTrue(altElementsString.contains("Canvas"));
-                assertTrue(altElementsString.contains("EventSystem"));
-                assertTrue(altElementsString.contains("AltUnityRunnerPrefab"));
-                assertTrue(altElementsString.contains("CapsuleInfo"));
-                assertTrue(altElementsString.contains("UIButton"));
-                assertTrue(altElementsString.contains("Text"));
-            }
+        public void testGetAllElements() throws Exception {
+            AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters.Builder().withCamera("Main Camera").isEnabled(true).build();
+            AltUnityObject[] altElements = altUnityDriver.getAllElements(altGetAllElementsParameters);
+            assertNotNull(altElements);
+            String altElementsString = new Gson().toJson(altElements);
+            assertTrue(altElementsString.contains("Capsule"));
+            assertTrue(altElementsString.contains("Main Camera"));
+            assertTrue(altElementsString.contains("Directional Light"));
+            assertTrue(altElementsString.contains("Plane"));
+            assertTrue(altElementsString.contains("Canvas"));
+            assertTrue(altElementsString.contains("EventSystem"));
+            assertTrue(altElementsString.contains("AltUnityRunnerPrefab"));
+            assertTrue(altElementsString.contains("CapsuleInfo"));
+            assertTrue(altElementsString.contains("UIButton"));
+            assertTrue(altElementsString.contains("Text"));
+        }
+
     .. code-tab:: py
     
         def test_get_all_elements(self):
@@ -352,51 +323,45 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 ###  WaitForObject
 
-#### Description:
+Wait until there is no longer any objects that respect the given criteria or times run out and will throw an error. Check [By](#by) for more information about criterias.
 
-Wait until there is no longer any objects that respect the given criteria or times run out and will throw an error. Check [By](other/by.html) for more information about criterias.
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](other/by.html)    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
-| timeout         | double        |   true   | number of seconds that it will wait for object|
-| interval        | double        |   true   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
+| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
+| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| timeout         | double        |   No   | number of seconds that it will wait for object|
+| interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltWaitForObjectsParameters](other/java-builders.html#altwaitforobjectsparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- AltUnityObject
 
-#### Return
-- Nothing
-#### Examples
-
-
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
     
        [Test]
-           public void TestWaitForObjectToNotExistFail()
-           {
-               try
-               {
-                   altUnityDriver.WaitForObjectNotBePresent(By.NAME,"Capsule", timeout: 1, interval: 0.5f);
-                   Assert.Fail();
-               }
-               catch (WaitTimeOutException exception)
-               {
-                   Assert.AreEqual("Element //Capsule still found after 1 seconds", exception.Message);
-               }
-           }
+        public void TestWaitForObjectToNotExistFail()
+        {
+            try
+            {
+                altUnityDriver.WaitForObjectNotBePresent(By.NAME,"Capsule", timeout: 1, interval: 0.5f);
+                Assert.Fail();
+            }
+            catch (WaitTimeOutException exception)
+            {
+                Assert.AreEqual("Element //Capsule still found after 1 seconds", exception.Message);
+            }
+        }
 
     .. code-tab:: java
 
         //TODO
-
 
     .. code-tab:: py
         def test_wait_for_object(self):
@@ -406,42 +371,36 @@ Wait until there is no longer any objects that respect the given criteria or tim
 ```
 ###  WaitForObjectWhichContains
 
-#### Description:
+Wait until it finds an object that respect the given criteria or times run out and will throw an error. Check [By](#by) for more information about criterias.
 
-Wait until it finds an object that respect the given criteria or times run out and will throw an error. Check [By](other/by.html) for more information about criterias.
+***Parameters***
 
-###### Observation: Every criteria except of path works for this command
-
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](other/by.html)    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
-| timeout         | double        |   true   | number of seconds that it will wait for object|
-| interval        | double        |   true   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
+| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
+| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| timeout         | double        |   No  | number of seconds that it will wait for object|
+| interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltWaitForObjectsParameters](other/java-builders.html#altwaitforobjectsparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
-
-#### Return
-
+***Returns***
 - AltUnityObject
 
-#### Examples
-
-
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        [Test]
+        public void TestWaitForObjectWhichContains()
+        {
+            var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
+            Assert.AreEqual("Canvas", altElement.name);
+        }
     .. code-tab:: java
     
         //TODO
-
-
 
     .. code-tab:: py
         def test_wait_for_object_which_contains(self):
@@ -450,59 +409,57 @@ Wait until it finds an object that respect the given criteria or times run out a
 ```
 ###  WaitForObjectWithText
 
-#### Description:
+Wait until it finds an object that respect the given criteria and it has the text you are looking for or times run out and will throw an error. Check [By](#by) for more information about criterias.
 
-Wait until it finds an object that respect the given criteria and it has the text you are looking for or times run out and will throw an error. Check [By](other/by.html) for more information about criterias.
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](other/by.html)    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| text    |   string  | false  | Text that the intented object should have|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
-| timeout         | double        |   true   | number of seconds that it will wait for object|
-| interval        | double        |   true   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
+| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
+| text    |   string  | Yes  | Text that the intented object should have|
+| cameraName      |     string    |   No  | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| timeout         | double        |   No   | number of seconds that it will wait for object|
+| interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltWaitForObjectWithTextParameters](other/java-builders.html#altwaitforobjectwithtextparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
-
-#### Return
+***Returns***
 - AltUnityObject
-#### Examples
 
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
     
         [Test]
-            public void TestWaitForElementWithText()
-            {
-                const string name = "CapsuleInfo";
-                string text = altUnityDriver.FindObject(By.NAME,name).GetText();
-                var timeStart = DateTime.Now;
-                var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
-                var timeEnd = DateTime.Now;
-                var time = timeEnd - timeStart;
-                Assert.Less(time.TotalSeconds, 20);
-                Assert.NotNull(altElement);
-                Assert.AreEqual(altElement.GetText(), text);
+        public void TestWaitForElementWithText()
+        {
+            const string name = "CapsuleInfo";
+            string text = altUnityDriver.FindObject(By.NAME,name).GetText();
+            var timeStart = DateTime.Now;
+            var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.Less(time.TotalSeconds, 20);
+            Assert.NotNull(altElement);
+            Assert.AreEqual(altElement.GetText(), text);
+        }
 
     .. code-tab:: java
         @Test
-            public void testWaitForElementWithText() throws Exception {
+        public void testWaitForElementWithText() throws Exception {
                 String name = "CapsuleInfo";
-                String text = altUnityDriver.findObject(AltUnityDriver.By.NAME,name).getText();
+                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+                String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
                 long timeStart = System.currentTimeMillis();
-                AltUnityObject altElement = altUnityDriver.waitForObjectWithText(AltUnityDriver.By.NAME,name, text);
+                AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters,text).withInterval(0).withTimeout(0).build();
+                AltUnityObject altElement = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParameters);
                 long timeEnd = System.currentTimeMillis();
                 long time = timeEnd - timeStart;
                 assertTrue(time / 1000 < 20);
                 assertNotNull(altElement);
-                assertEquals(altElement.getText(), text);
-        
+                assertEquals(altElement.getText(), text);      
             }
 
     .. code-tab:: py
@@ -514,29 +471,23 @@ Wait until it finds an object that respect the given criteria and it has the tex
 ```
 ###  WaitForObjectNotBePresent
 
-#### Description:
+Wait until the object in the scene that respect the given criteria is no longer in the scene or times run out and will throw an error. Check [By](#by) for more information about criterias.
 
-Wait until the object in the scene that respect the given criteria is no longer in the scene or times run out and will throw an error. Check [By](other/by.html) for more information about criterias.
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](other/by.html)    |   false   | Set what criteria to use in order to find the object|
-| value         | string       |   false   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   true   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   true   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
-| timeout         | double        |   true   | number of seconds that it will wait for object|
-| interval        | double        |   true   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
+| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
+| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| enabled         | boolean       |   No  | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| timeout         | double        |   No   | number of seconds that it will wait for object|
+| interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltWaitForObjectsParameters](other/java-builders.html#altwaitforobjectsparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
-
-#### Return
-
+***Returns***
 - Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -565,75 +516,114 @@ Wait until the object in the scene that respect the given criteria is no longer 
 
 
 ```
+### By
 
+It is used in find objects methods to set the criteria of which the objects are searched.  
+Currenty there are 6 type implemented:
+  * *Tag* - search for objects that have a specific tag
+  * *Layer* - search for objects that are set on a specific layer
+  * *Name* - search for objects that are named in a certain way
+  * *Component* - search for objects that have certain component
+  * *Id* - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects)
+  * *Path* - search for objects that respect a certain path
+
+
+**Searching object by path**
+
+The following selecting nodes, attributes and attributes are implemented:
+  * *object* -	Selects all object with the name "object"
+  * */* - 	Selects from the root node
+  * *//* - Selects nodes in the document from the current node that match the selection no matter where they are
+  * *..* - Selects the parent of the current node
+  * *\** - 	Matches any element node
+  * *@tag* - 
+  * *@layer* -
+  * *@name* -
+  * *@component* -
+  * *@id* -
+  * *contains* -
+  
+
+
+How a correct path should look like:  
+  ```//Canvas/Panel/*[@tag="UI"]```
+  
+**Examples**
+ ```
+//Button - Returns every object named button in the scene 
+//*[@tag=UI] -Returns every object that is tagged as UI
+/Canvas//Button[@component=ButtonLogic] - Return every button who are in an canvas that is a root object and has a component name ButtonLogic
+//*[contains(@name,Ca)] - Returns every object in the scene that contains in the name "Ca"
+```
+
+ 
 ## InputActions 
 
 ###  MoveMouseAndWait
 
-#### Description:
+Simulate mouse movement in your game. This command will wait for the movement to finish. If you don't want to wait until the mouse movement stops use [MoveMouse](#movemouse)
 
-Simulate mouse movement in your game. This command will wait for the movement to finish. If you don't want to wait until the mouse movement stops use [MoveMouse]({{ site.baseurl }}/pages/commands/input-actions/move-mouse)
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| location      |     Vector2    |   false   | The destination coordinates for mouse to go from the current mouse position|
-| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+| location      |     Vector2    |   Yes   | The destination coordinates for mouse to go from the current mouse position|
+| duration      |     float    |   Yes  | The time measured in seconds to move the mouse from current position to the set location.|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltMoveMouseParameters](other/java-builders.html#altmovemouseparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
         [Test]
-            public void TestCreatingStars()
-            {
-               AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        public void TestCreatingStars()
+        {
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
         
-               var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-               var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
-                Assert.AreEqual(1, stars.Count);
+            var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
+            var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            Assert.AreEqual(1, stars.Count);
         
-               AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
-               UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-               Thread.Sleep(1500);
+            AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
+            UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
+            Thread.Sleep(1500);
         
-               AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
-               AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
-               Thread.Sleep(1500);
-               AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+            AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+            AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
+            Thread.Sleep(1500);
+            AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
         
-               stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
-               Assert.AreEqual(3, stars.Count);
-        
-        
-            }
+            stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            Assert.AreEqual(3, stars.Count);
+        }
 
     .. code-tab:: java
         @Test
-            public void TestCreatingStars() throws InterruptedException {
-        
-                AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
-                assertEquals(1, stars.length);
-                AltUnityObject player=altUnityDriver.findElement("Player1","Player2");
-                altUnityDriver.moveMouse(player.x, player.y+500, 1);
-                Thread.sleep(1500);
-        
-                altUnityDriver.pressKey("Mouse0", 1,1);
-                altUnityDriver.moveMouseAndWait(player.x, player.y-500, 1);
-                altUnityDriver.pressKeyAndWait("Mouse0", 1,1);
-        
-        
-                stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
-                assertEquals(3, stars.length);
-        
-            }
+        public void TestCreatingStars() throws InterruptedException 
+        {
+            String name = "Star";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertEquals(1, stars.length);
 
+            AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
+            altUnityDriver.moveMouse(altMoveMouseParameters);
+                
+            Thread.sleep(1500);
 
+            AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder("Mouse0").withPower(1).withDuration(1).build();
+            altUnityDriver.pressKey(altPressKeyParameters);
+
+            altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y-500).withDuration(1).build();
+            altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
+            altUnityDriver.pressKeyAndWait(altPressKeyParameters);
+
+            stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertEquals(3, stars.length);
+        }
 
     .. code-tab:: py
         def test_creating_stars(self):
@@ -656,68 +646,69 @@ Simulate mouse movement in your game. This command will wait for the movement to
 ```
 ###  MoveMouse
 
-#### Description:
+Simulate mouse movement in your game. This command does not wait for the movement to finish. To also wait for the movement to finish use [MoveMouseAndWait](#movemouseandwait)
 
-Simulate mouse movement in your game. This command does not wait for the movement to finish. To also wait for the movement to finish use [MoveMouseAndWait]({{ site.baseurl }}/pages/commands/input-actions/move-mouse-and-wait)
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| location      |     Vector2    |   false   | The destination coordinates for mouse to go from the current mouse position|
-| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+| location      |     Vector2    |   Yes  | The destination coordinates for mouse to go from the current mouse position|
+| duration      |     float    |   Yes  | The time measured in seconds to move the mouse from current position to the set location.|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltMoveMouseParameters](other/java-builders.html#altmovemouseparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
         [Test]
-            public void TestCreatingStars()
-            {
-               AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        public void TestCreatingStars()
+        {
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
         
-               var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-               var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
-                Assert.AreEqual(1, stars.Count);
+            var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
+            var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            Assert.AreEqual(1, stars.Count);
         
-               AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
-               UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-               Thread.Sleep(1500);
+            AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
+            UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
+            Thread.Sleep(1500);
         
-               AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
-               AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
-               Thread.Sleep(1500);
-               AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+            AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+            AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
+            Thread.Sleep(1500);
+            AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
         
-               stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
-               Assert.AreEqual(3, stars.Count);
-            }
+            stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            Assert.AreEqual(3, stars.Count);
+        }
 
     .. code-tab:: java
-         @Test
-            public void TestCreatingStars() throws InterruptedException {
-        
-                AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
-                assertEquals(1, stars.length);
-                AltUnityObject player=altUnityDriver.findElement("Player1","Player2");
-                altUnityDriver.moveMouse(player.x, player.y+500, 1);
-                Thread.sleep(1500);
-        
-                altUnityDriver.pressKey("Mouse0", 1,1);
-                altUnityDriver.moveMouseAndWait(player.x, player.y-500, 1);
-                altUnityDriver.pressKeyAndWait("Mouse0", 1,1);
-        
-        
-                stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
-                assertEquals(3, stars.length);
-        
-            }
+        @Test
+        public void TestCreatingStars() throws InterruptedException 
+        {
+            String name = "Star";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertEquals(1, stars.length);
 
+            AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
+            altUnityDriver.moveMouse(altMoveMouseParameters);
+                
+            Thread.sleep(1500);
 
+            AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder("Mouse0").withPower(1).withDuration(1).build();
+            altUnityDriver.pressKey(altPressKeyParameters);
+
+            altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y-500).withDuration(1).build();
+            altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
+            altUnityDriver.pressKeyAndWait(altPressKeyParameters);
+
+            stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertEquals(3, stars.length);
+        }
 
     .. code-tab:: py
         def test_creating_stars(self):
@@ -740,71 +731,70 @@ Simulate mouse movement in your game. This command does not wait for the movemen
 ```
 ###  PressKeyAndWait
 
-#### Description:
+Simulate key press action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [PressKey](#presskey)
 
-Simulate key press action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [PressKey]({{ site.baseurl }}/pages/commands/input-actions/press-key)
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| keycode      |     KeyCode(C#)/string(python/java)    |   false   | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names|
-| power      |     float    |   false   | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1|
-| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+| keycode      |     KeyCode(C#)/string(python/java)    |   Yes  | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names|
+| power      |     float    |   Yes   | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1|
+| duration      |     float    |   Yes   | The time measured in seconds to move the mouse from current position to the set location.|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltPressKeyParameters](other/java-builders.html#altpresskeyparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
         [Test]
-            public void TestCreatingStars()
-            {
-               AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        public void TestCreatingStars()
+        {
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
         
-               var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-               var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
-                Assert.AreEqual(1, stars.Count);
+            var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
+            var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            Assert.AreEqual(1, stars.Count);
         
-               AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
-               UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-               Thread.Sleep(1500);
+            AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
+            UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
+            Thread.Sleep(1500);
         
-               AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
-               AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
-               Thread.Sleep(1500);
-               AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+            AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+            AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
+            Thread.Sleep(1500);
+            AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
         
-               stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
-               Assert.AreEqual(3, stars.Count);
-        
-        
-            }
+            stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            Assert.AreEqual(3, stars.Count);
+        }
 
     .. code-tab:: java
         @Test
-            public void TestCreatingStars() throws InterruptedException {
-        
-                AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
-                assertEquals(1, stars.length);
-                AltUnityObject player=altUnityDriver.findElement("Player1","Player2");
-                altUnityDriver.moveMouse(player.x, player.y+500, 1);
-                Thread.sleep(1500);
-        
-                altUnityDriver.pressKey("Mouse0", 1,1);
-                altUnityDriver.moveMouseAndWait(player.x, player.y-500, 1);
-                altUnityDriver.pressKeyAndWait("Mouse0", 1,1);
-        
-        
-                stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
-                assertEquals(3, stars.length);
-        
-            }
+        public void TestCreatingStars() throws InterruptedException 
+        {
+            String name = "Star";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertEquals(1, stars.length);
 
+            AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
+            altUnityDriver.moveMouse(altMoveMouseParameters);
+                
+            Thread.sleep(1500);
 
+            AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder("Mouse0").withPower(1).withDuration(1).build();
+            altUnityDriver.pressKey(altPressKeyParameters);
+
+            altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y-500).withDuration(1).build();
+            altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
+            altUnityDriver.pressKeyAndWait(altPressKeyParameters);
+
+            stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertEquals(3, stars.length);
+        }
 
     .. code-tab:: py
         def test_creating_stars(self):
@@ -827,71 +817,70 @@ Simulate key press action in your game. This command waist for the action to fin
 ```
 ###  PressKey
 
-#### Description:
+Simulate key press action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [PressKeyAndWait](#presskeyandwait)
 
-Simulate key press action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [PressKeyAndWait]({{ site.baseurl }}/pages/commands/input-actions/press-key-and-wait)
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| keycode      |     KeyCode(C#)/string(python/java)    |   false   | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names|
-| power      |     float    |   false   | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1|
-| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+| keycode      |     KeyCode(C#)/string(python/java)    |   Yes   | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names|
+| power      |     float    |   Yes   | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1|
+| duration      |     float    |   Yes   | The time measured in seconds to move the mouse from current position to the set location.|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltPressKeyParameters](other/java-builders.html#altpresskeyparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
         [Test]
-            public void TestCreatingStars()
-            {
-               AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        public void TestCreatingStars()
+        {
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
         
-               var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-               var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
-                Assert.AreEqual(1, stars.Count);
+            var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
+            var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            Assert.AreEqual(1, stars.Count);
         
-               AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
-               UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-               Thread.Sleep(1500);
+            AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
+            UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
+            Thread.Sleep(1500);
         
-               AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
-               AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
-               Thread.Sleep(1500);
-               AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+            AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+            AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
+            Thread.Sleep(1500);
+            AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
         
-               stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
-               Assert.AreEqual(3, stars.Count);
-        
-        
-            }
+            stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            Assert.AreEqual(3, stars.Count);
+        }
 
     .. code-tab:: java
         @Test
-            public void TestCreatingStars() throws InterruptedException {
-        
-                AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
-                assertEquals(1, stars.length);
-                AltUnityObject player=altUnityDriver.findElement("Player1","Player2");
-                altUnityDriver.moveMouse(player.x, player.y+500, 1);
-                Thread.sleep(1500);
-        
-                altUnityDriver.pressKey("Mouse0", 1,1);
-                altUnityDriver.moveMouseAndWait(player.x, player.y-500, 1);
-                altUnityDriver.pressKeyAndWait("Mouse0", 1,1);
-        
-        
-                stars = altUnityDriver.findObjectsWhichContains(AltUnityDriver.By.NAME,"Star","");
-                assertEquals(3, stars.length);
-        
-            }
+        public void TestCreatingStars() throws InterruptedException 
+        {
+            String name = "Star";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertEquals(1, stars.length);
 
+            AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
+            altUnityDriver.moveMouse(altMoveMouseParameters);
+                
+            Thread.sleep(1500);
 
+            AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder("Mouse0").withPower(1).withDuration(1).build();
+            altUnityDriver.pressKey(altPressKeyParameters);
+
+            altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y-500).withDuration(1).build();
+            altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
+            altUnityDriver.pressKeyAndWait(altPressKeyParameters);
+
+            stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            assertEquals(3, stars.length);
+        }
 
     .. code-tab:: py
         def test_creating_stars(self):
@@ -914,82 +903,155 @@ Simulate key press action in your game. This command does not wait for the actio
 ```
 ###  ScrollMouseAndWait
 
-#### Description:
+Simulate scroll mouse action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [ScrollMouse](#scrollmouse)
 
-Simulate scroll mouse action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [ScrollMouse]({{ site.baseurl }}/pages/commands/input-actions/scroll-mouse)
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| speed      |     float    |   false   | Set how fast to scroll. Positive values will scroll up and negative values will scroll down.|
-| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+| speed      |     float    |   Yes   | Set how fast to scroll. Positive values will scroll up and negative values will scroll down.|
+| duration      |     float    |   Yes   | The time measured in seconds to move the mouse from current position to the set location.|
 
-###### Observation: Since Java doesn't have optional parameters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltScrollMouseParameters](other/java-builders.html#altscrollmouseparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        
+        [Test]
+        public void TestScrollAndWait()
+        {
+
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            var player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
+            UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(player2.worldX, player2.worldY, player2.worldY);
+            AltUnityDriver.ScrollMouseAndWait(4, 2);
+            player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
+            UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(player2.worldX, player2.worldY, player2.worldY);
+
+            Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
+        }
+
+
     .. code-tab:: java
-        //TODO
+        
+        @Test
+        public void TestScrollAndWait() throws InterruptedException {
+
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                    "Player2").build();
+            AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParameters);
+            Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+            altUnityDriver.scrollMouse(4, 2);
+            Thread.sleep(2000);
+            player2 = altUnityDriver.findObject(altFindObjectsParameters);
+            Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+            assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+        }
+
 
 
     .. code-tab:: py
-        //TODO
+        
+        def test_scroll_and_wait(self):
+            self.altdriver.load_scene("Scene 5 Keyboard Input")
+            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
+            self.altdriver.scroll_mouse_and_wait(4, 2)
+            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
+            self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
+
 ```
 ###  ScrollMouse
 
-#### Description:
+Simulate scroll mouse action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [ScrollMouseAndWait](#scrollmouseandwait)
 
-Simulate scroll mouse action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [ScrollMouseAndWait]({{ site.baseurl }}/pages/commands/input-actions/scroll-mouse-and-wait)
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| speed      |     float    |   false   | Set how fast to scroll. Positive values will scroll up and negative values will scroll down.|
-| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+| speed      |     float    |   Yes   | Set how fast to scroll. Positive values will scroll up and negative values will scroll down.|
+| duration      |     float    |   Yes  | The time measured in seconds to move the mouse from current position to the set location.|
 
-###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltScrollMouseParameters](other/java-builders.html#altscrollmouseparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        
+        [Test]
+        public void TestScroll()
+        {
+        
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            var player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
+            UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(player2.worldX, player2.worldY, player2.worldY);
+            AltUnityDriver.ScrollMouse(4,2);
+            Thread.Sleep(2000);
+            player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
+            UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(player2.worldX, player2.worldY, player2.worldY);
+            Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
+        }
+
     .. code-tab:: java
-        //TODO
+        
+        @Test
+        public void TestScroll() throws InterruptedException {
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                    "Player2").build();
+            AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParameters);
+            Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+            altUnityDriver.scrollMouse(4, 2);
+            Thread.sleep(2000);
+            player2 = altUnityDriver.findObject(altFindObjectsParameters);
+            Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+            assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+        }
 
 
     .. code-tab:: py
-        //TODO
+        
+        def test_scroll(self):
+            self.altdriver.load_scene("Scene 5 Keyboard Input")
+            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
+            self.altdriver.scroll_mouse(4, 2)
+            time.sleep(2)
+            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
+            self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
+
+
 ```
 
 ###  SwipeAndWait
 
-#### Description:
+Simulate a swipe action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [Swipe](#swipe)
 
-Simulate a swipe action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [Swipe]({{ site.baseurl }}/pages/commands/input-actions/swipe)
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| start      |     Vector2(C#)    |   false   | Starting location of the swipe|
-| end      |     Vector2(C#)    |   false   | Ending location of the swipe|
-| xStart      |     float(python/java)    |   false   | x coordinate of the screen where the swipe begins.|
-| yStart      |     float(python/java)    |   false   | y coordinate of the screen where the swipe begins|
-| xEnd      |     float(python/java)    |   false   | x coordinate of the screen where the swipe ends|
-| yEnd      |     float(python/java)    |   false   | x coordinate of the screen where the swipe ends|
-| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+| start      |     Vector2(C#)    |   Yes   | Starting location of the swipe|
+| end      |     Vector2(C#)    |   Yes   | Ending location of the swipe|
+| xStart      |     float(python/java)    |   Yes   | x coordinate of the screen where the swipe begins.|
+| yStart      |     float(python/java)    |   Yes   | y coordinate of the screen where the swipe begins|
+| xEnd      |     float(python/java)    |   Yes  | x coordinate of the screen where the swipe ends|
+| yEnd      |     float(python/java)    |   Yes   | x coordinate of the screen where the swipe ends|
+| duration      |     float    |   Yes   | The time measured in seconds to move the mouse from current position to the set location.|
 
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1025,34 +1087,59 @@ Simulate a swipe action in your game. This command waist for the action to finis
 
     .. code-tab:: java
             @Test
-            public void testMultipleDragAndDropWait() throws Exception {
-                AltUnityObject altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
-                AltUnityObject altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");
+            public void testMultipleDragAndDropWait() throws Exception
+            {
+                String altElement1Name = "Drag Image1";
+                String altElement2Name = "Drop Box1";
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+
+                AltUnityObject altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
                 altUnityDriver.swipeAndWait(altElement1.x, altElement1.y,altElement2.x, altElement2.y, 2);
-        
-                altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image2");
-                altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box2");
+
+                altElement1Name = "Drag Image2";
+                altElement2Name = "Drop Box2";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+
+                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2,);
                 altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
-        
-                altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image3");
-                altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");
+
+                altElement1Name = "Drag Image3";
+                altElement2Name = "Drop Box1";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+
+                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
                 altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 3);
-        
-        
-                altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
-                altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");
+
+                altElement1Name = "Drag Image1";
+                altElement2Name = "Drop Box1";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+
+                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
                 altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 1);
-                String imageSource = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1").getComponentProperty("UnityEngine.UI.Image", "sprite");
-                String imageSourceDropZone = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Image").getComponentProperty("UnityEngine.UI.Image", "sprite");
+
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image",  "sprite").build();
+                String imageSource = altUnityDriver.findObject(altFindObjectsParameters1).getComponentProperty(altGetComponentPropertyParameters);
+
+                String altDropElementImageName = "Drop Image";
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altDropElementImageName).isEnabled(true).withCamera("Main Camera").build();
+                String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 assertNotSame(imageSource, imageSourceDropZone);
-        
-                imageSource = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image2").getComponentProperty("UnityEngine.UI.Image", "sprite");
-                imageSourceDropZone = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop").getComponentProperty("UnityEngine.UI.Image", "sprite");
+
+                altElement1Name = "Drag Image2";
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                imageSource = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
+                imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 assertNotSame(imageSource, imageSourceDropZone);
-        
             }
-
-
 
     .. code-tab:: py
             def test_multiple_swipe_and_waits(self):
@@ -1085,25 +1172,24 @@ Simulate a swipe action in your game. This command waist for the action to finis
 ```
 ###  Swipe
 
-#### Description:
+Simulate a swipe action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [SwipeAndWait](#swipeandwait)
 
-Simulate a swipe action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [SwipeAndWait]({{ site.baseurl }}/pages/commands/input-actions/swipe-and-wait)
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| start      |     Vector2(C#)    |   false   | Starting location of the swipe|
-| end      |     Vector2(C#)    |   false   | Ending location of the swipe|
-| xStart      |     float(python/java)    |   false   | x coordinate of the screen where the swipe begins.|
-| yStart      |     float(python/java)    |   false   | y coordinate of the screen where the swipe begins|
-| xEnd      |     float(python/java)    |   false   | x coordinate of the screen where the swipe ends|
-| yEnd      |     float(python/java)    |   false   | x coordinate of the screen where the swipe ends|
-| duration      |     float    |   false   | The time measured in seconds to move the mouse from current position to the set location.|
+| start      |     Vector2(C#)    |   Yes   | Starting location of the swipe|
+| end      |     Vector2(C#)    |   Yes   | Ending location of the swipe|
+| xStart      |     float(python/java)    |   Yes   | x coordinate of the screen where the swipe begins.|
+| yStart      |     float(python/java)    |   Yes   | y coordinate of the screen where the swipe begins|
+| xEnd      |     float(python/java)    |   Yes   | x coordinate of the screen where the swipe ends|
+| yEnd      |     float(python/java)    |   Yes   | x coordinate of the screen where the swipe ends|
+| duration      |     float    |   Yes  | The time measured in seconds to move the mouse from current position to the set location.|
 
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1142,37 +1228,59 @@ Simulate a swipe action in your game. This command does not wait for the action 
 
     .. code-tab:: java
             @Test
-            public void testMultipleDragAndDrop() throws Exception {
-                AltUnityObject altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
-                AltUnityObject altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");
-                altUnityDriver.swipe(altElement1.x, altElement1.y,altElement2.x, altElement2.y, 2);
-        
-                altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image2");
-                altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box2");
-                altUnityDriver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
-        
-                altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image3");
-                altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");
-                altUnityDriver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 3);
-        
-        
-                altElement1 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1");
-                altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Box1");
-                altUnityDriver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 5);
-        
-                Thread.sleep(6000);
-        
-                String imageSource = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image1").getComponentProperty("UnityEngine.UI.Image", "sprite");
-                String imageSourceDropZone= altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop Image").getComponentProperty("UnityEngine.UI.Image", "sprite");
+            public void testMultipleDragAndDropWait() throws Exception
+            {
+                String altElement1Name = "Drag Image1";
+                String altElement2Name = "Drop Box1";
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+
+                AltUnityObject altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y,altElement2.x, altElement2.y, 2);
+
+                altElement1Name = "Drag Image2";
+                altElement2Name = "Drop Box2";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+
+                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2,);
+                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
+
+                altElement1Name = "Drag Image3";
+                altElement2Name = "Drop Box1";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+
+                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 3);
+
+                altElement1Name = "Drag Image1";
+                altElement2Name = "Drop Box1";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+
+                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 1);
+
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image",  "sprite").build();
+                String imageSource = altUnityDriver.findObject(altFindObjectsParameters1).getComponentProperty(altGetComponentPropertyParameters);
+
+                String altDropElementImageName = "Drop Image";
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altDropElementImageName).isEnabled(true).withCamera("Main Camera").build();
+                String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 assertNotSame(imageSource, imageSourceDropZone);
-        
-                imageSource = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drag Image2").getComponentProperty("UnityEngine.UI.Image", "sprite");
-                imageSourceDropZone = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Drop").getComponentProperty("UnityEngine.UI.Image", "sprite");
+
+                altElement1Name = "Drag Image2";
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                imageSource = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
+                imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 assertNotSame(imageSource, imageSourceDropZone);
-        
             }
-
-
 
     .. code-tab:: py
             def test_multiple_swipes(self):
@@ -1208,20 +1316,19 @@ Simulate a swipe action in your game. This command does not wait for the action 
 ```
 ###  MultiPointSwipe
 
-#### Description:
-
 Similar command like swipe but instead of swipe from point A to point B you are able to give list a points. 
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| positions      |   List/Array of Vector2    |   false   | collection of positions on the screen where the swipe be made|
-| duration      |     float    |   false   | how many seconds the swipe will need to complete|
+| positions      |   List/Array of Vector2    |   Yes   | collection of positions on the screen where the swipe be made|
+| duration      |     float    |   Yes   | how many seconds the swipe will need to complete|
 
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1250,23 +1357,24 @@ Similar command like swipe but instead of swipe from point A to point B you are 
 
     .. code-tab:: java
         @Test
-        public void testResizePanelWithMultipointSwipe() throws Exception {
-            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+        public void testResizePanelWithMultipointSwipe() throws Exception
+        {
+            String name = "Resize Zone";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
 
             List<Vector2> positions = Arrays.asList(
                 altElement.getScreenPosition(), 
                 new Vector2(altElement.x + 100, altElement.y + 100),
                 new Vector2(altElement.x + 100, altElement.y + 200));
-            
+
             altUnityDriver.multipointSwipe(positions, 3);
             Thread.sleep(3000);
 
-            AltUnityObject altElementAfterResize = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+            AltUnityObject altElementAfterResize = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotSame(altElement.x, altElementAfterResize.x);
             assertNotSame(altElement.y, altElementAfterResize.y);
         }   
-
-
 
     .. code-tab:: py
         def test_resize_panel_with_multipoinit_swipe(self):
@@ -1296,20 +1404,19 @@ Similar command like swipe but instead of swipe from point A to point B you are 
 
 ###  MultiPointSwipeAndWait
 
-#### Description:
+Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from point A to point B you are able to give list a points. 
 
-Similar command like `SwipeAndWait` but instead of swipe from point A to point B you are able to give list a points. 
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| positions      |   List/Array of Vector2    |   false   | collection of positions on the screen where the swipe be made|
-| duration      |     float    |   false   | how many seconds the swipe will need to complete|
+| positions      |   List/Array of Vector2    |   Yes   | collection of positions on the screen where the swipe be made|
+| duration      |     float    |   Yes   | how many seconds the swipe will need to complete|
 
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1344,17 +1451,20 @@ Similar command like `SwipeAndWait` but instead of swipe from point A to point B
 
     .. code-tab:: java
         @Test
-        public void testResizePanelWithMultipointSwipe() throws Exception {
-            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+        public void testResizePanelWithMultipointSwipe() throws Exception
+        {
+            String name = "Resize Zone";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
 
             List<Vector2> positions = Arrays.asList(
                 altElement.getScreenPosition(), 
                 new Vector2(altElement.x + 100, altElement.y + 100),
                 new Vector2(altElement.x + 100, altElement.y + 200));
-            
-            altUnityDriver.multipointSwipeAndWait(positions, 3);
 
-            AltUnityObject altElementAfterResize = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Resize Zone");
+            altUnityDriver.multipointSwipe(positions, 3);
+
+            AltUnityObject altElementAfterResize = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotSame(altElement.x, altElementAfterResize.x);
             assertNotSame(altElement.y, altElementAfterResize.y);
         }
@@ -1395,40 +1505,42 @@ Similar command like `SwipeAndWait` but instead of swipe from point A to point B
 
 ###  TapScreen(c#) / TapAtCoordinates(python/java)
 
-#### Description:
-
 Simulate a tap action on the screen at the given coordinates.
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| x      |     float    |   false   |  x coordinate of the screen|
-| y      |     float    |   false   |  y coordinate of the screen|
+| x      |     float    |   Yes  |  x coordinate of the screen|
+| y      |     float    |   Yes  |  y coordinate of the screen|
 
+***Returns***
+- Nothing
 
-
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
         [Test]
-            public void TestClickScreen()
-            {
-                const string name = "UIButton";
-                var altElement2 = altUnityDriver.FindObject(By.NAME,name);
-                var altElement = altUnityDriver.TapScreen(altElement2.x, altElement2.y);
-                Assert.AreEqual(name, altElement.name);
-                altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
-            }
+        public void TestClickScreen()
+        {
+            const string name = "UIButton";
+            var altElement2 = altUnityDriver.FindObject(By.NAME,name);
+            var altElement = altUnityDriver.TapScreen(altElement2.x, altElement2.y);
+            Assert.AreEqual(name, altElement.name);
+            altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
+        }
 
     .. code-tab:: java
         @Test
             public void testTapScreen() throws Exception {
-                AltUnityObject capsule = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule");
-                AltUnityObject capsuleInfo = altUnityDriver.findObject(AltUnityDriver.By.NAME,"CapsuleInfo");
+                String capsuleName = "Capsule";
+                String capsuleInfo = "CapsuleInfo";
+                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
+                AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters);
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
+                AltUnityObject capsuleInfo = altUnityDriver.findObject(altMoveMouseParameters);
                 altUnityDriver.tapScreen(capsule.x, capsule.y);
                 Thread.sleep(2);
                 String text = capsuleInfo.getText();
@@ -1447,23 +1559,21 @@ Simulate a tap action on the screen at the given coordinates.
 
 ###  TapCustom
 
-#### Description:
-
 Simulate n number of tap actions on the screen at the given coordinates .
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| x      |     float    |   false   |  x coordinate of the screen|
-| y      |     float    |   false   |  y coordinate of the screen|
-| count  |     int      |   false   | number of taps|
-| interval |   float    |   true    | how many seconds will be between touches |
+| x      |     float    |   Yes   |  x coordinate of the screen|
+| y      |     float    |   Yes   |  y coordinate of the screen|
+| count  |     int      |   Yes   | number of taps|
+| interval |   float    |   No    | how many seconds will be between touches |
 
+***Returns***
+- Nothing
 
-
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1476,24 +1586,21 @@ Simulate n number of tap actions on the screen at the given coordinates .
                 altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
                 Thread.Sleep(1000);
                 Assert.AreEqual("4", counterButtonText.GetText());
-
             }
 
 
     .. code-tab:: java
         @Test
-            public void TestCustomTap() throws InterruptedException {
-                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                    AltUnityDriver.By.NAME, "ButtonCounter").build();
-                AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
-                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
-                    AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
-                AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.tapCustom(counterButton.x, counterButton.y, 4);
-                Thread.sleep(1000);
-                assertEquals("4", counterButtonText.getText());
-
-            }
+        public void TestCustomTap() throws InterruptedException
+        {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "ButtonCounter").build();
+            AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
+            AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
+            altUnityDriver.tapCustom(counterButton.x, counterButton.y, 4);
+            Thread.sleep(1000);
+            assertEquals("4", counterButtonText.getText());    
+        }
 
     .. code-tab:: py
         def test_custom_tap(self):
@@ -1508,22 +1615,21 @@ Simulate n number of tap actions on the screen at the given coordinates .
 
 ###  Tilt
 
-#### Description:
-
 Simulates device rotation action in your game.
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| acceleration      |     Vector3(C#)    |   false   | Linear acceleration of a device in three-dimensional space|
-| x      |     float(python/java)    |   false   |  Linear acceleration of a device on x|
-| y      |     float(python/java)    |   false   |  Linear acceleration of a device on y|
-| z      |     float(python/java)    |   false   |  Linear acceleration of a device on z|
+| acceleration      |     Vector3(C#)    |   Yes  | Linear acceleration of a device in three-dimensional space|
+| x      |     float(python/java)    |   Yes  |  Linear acceleration of a device on x|
+| y      |     float(python/java)    |   Yes  |  Linear acceleration of a device on y|
+| z      |     float(python/java)    |   Yes  |  Linear acceleration of a device on z|
 
+***Returns***
+- Nothing
 
-
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1539,26 +1645,25 @@ Simulates device rotation action in your game.
 
 ```
 ## ObjectCommands
-###  CallComponentMethod
 
-#### Description:
+###  CallComponentMethod
 
 Invoke a method from an existing component of the object.
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| componentName      |     string    |   false   | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
-| methodName      |     string    |   false   |   The name of the public method that we want to call |
-| parameters      |     string    |   false   |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
-| typeOfParamaters      |     string    |   false   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
-| assemblyName  | string | true | name of the assembly where the component is |
+| componentName      |     string    |   Yes   | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
+| methodName      |     string    |   Yes  |   The name of the public method that we want to call |
+| parameters      |     string    |   Yes  |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
+| typeOfParamaters      |     string    |   Yes   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
+| assemblyName  | string | No | name of the assembly where the component is |
 
-###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltComponentMethodParameters](other/java-builders.html#ltcomponentmethodparameters) which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1575,15 +1680,22 @@ Invoke a method from an existing component of the object.
 
     .. code-tab:: java
         @Test
-        public void TestCallMethodWithMultipleDefinitions() throws Exception {
+        public void TestCallMethodWithMultipleDefinitions() throws Exception
+        {
 
-            AltUnityObject capsule=altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule");
-            capsule.callComponentMethod("","Capsule", "Test","2","System.Int32");
-            AltUnityObject capsuleInfo=altUnityDriver.findObject(AltUnityDriver.By.NAME,"CapsuleInfo");
+            String capsuleName = "Capsule";
+            String capsuleInfo = "CapsuleInfo";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject capsule=altUnityDriver.findObject(altFindObjectsParameters);
+
+            AltCallComponentMethodParameters altCallComponentMethodParameters=new AltCallComponentMethodParameters.Builder("Capsule","Test","2").withTypeOfParameters("System.Int32").withAssembly("").build();
+            capsule.callComponentMethod(altCallComponentMethodParameters);
+
+            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject capsuleInfo=altUnityDriver.findObject(altFindObjectsParameters);
+
             assertEquals("6",capsuleInfo.getText());
         }
-
-
 
     .. code-tab:: py
         def test_call_component_method(self):
@@ -1597,24 +1709,22 @@ Invoke a method from an existing component of the object.
 
 ###  CallStaticMethod
 
-#### Description:
-
 Invoke static methods from your game.
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| typeName      |     string    |   false   | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
-| methodName      |     string    |   false   |   The name of the public method that we want to call |
-| parameters      |     string    |   false   |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
-| typeOfParamaters      |     string    |   false   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
-| assemblyName  | string | true | name of the assembly where the component is |
+| typeName      |     string    |   Yes  | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
+| methodName      |     string    |   Yes   |   The name of the public method that we want to call |
+| parameters      |     string    |   Yes   |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
+| typeOfParamaters      |     string    |   Yes |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
+| assemblyName  | string | No | name of the assembly where the component is |
 
-###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltCallStaticMethodsParameters](other/java-builders.html#altcallstaticmethodsparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1631,13 +1741,15 @@ Invoke static methods from your game.
 
     .. code-tab:: java
         @Test
-        public void TestCallStaticMethod() throws Exception {
+        public void TestCallStaticMethod() throws Exception
+        {
 
-            altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "SetInt","Test?1");
-            int a=Integer.parseInt(altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+            AltCallStaticMethodsParameters altCallStaticMethodsParameters = new AltCallStaticMethodsParameters.Builder("UnityEngine.PlayerPrefs","SetInt","Test?1").withAssembly("").withTypeOfParameters("").build();
+            altUnityDriver.callStaticMethods(altCallStaticMethodsParameters);
+            altCallStaticMethodsParameters = new AltCallStaticMethodsParameters.Builder("UnityEngine.PlayerPrefs","GetInt","Test?2").withAssembly("").withTypeOfParameters("").build();
+            int a=Integer.parseInt(altUnityDriver.callStaticMethods(altCallStaticMethodsParameters);
             assertEquals(1,a);
         }
-
 
     .. code-tab:: py
         def test_call_static_method(self):
@@ -1649,12 +1761,16 @@ Invoke static methods from your game.
 
 ###  ClickEvent
 
-#### Description:
-
 Simulate a click on the object. It will click the object even if the object is not visible something that you could not do on a real device.
 
+***Parameters***
 
-#### Examples
+None
+
+***Returns***
+- Nothing
+
+***Examples***
 
 ```eval_rst
 .. tabs::
@@ -1679,42 +1795,43 @@ Simulate a click on the object. It will click the object even if the object is n
     .. code-tab:: java
 
         @Test
-        public void testDifferentCamera() throws Exception {
-            AltUnityObject altButton = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Button","Main Camera");
+        public void testDifferentCamera() throws Exception
+        {
+            String name = "Button";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParameters);
             altButton.clickEvent();
             altButton.clickEvent();
-            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule", "Main Camera");
-            AltUnityObject altElement2 = altUnityDriver.findObject(AltUnityDriver.By.NAME,"Capsule", "Camera");
+            String capsuleName = "Capsule";
+            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Camera").build();
+            AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotSame(altElement.x, altElement2.x);
             assertNotSame(altElement.y, altElement2.y);
         }
-
-
 
     .. code-tab:: py
      //TODO
 
 ```
 
-
 ###  DragObject
-
-#### Description:
 
 Drag an object to a certain position on the screen
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| position      |     Vecto2(C#)    |   false   | coordinates of the screen where the object will be dragged|
-| x      |     int(python/java)    |   false   |   x coordinate of the screen where the object will be dragged |
-| y      |     int(python/java)    |   false   |   y coordinate of the screen where the object will be dragged|
+| position      |     Vecto2(C#)    |   Yes   | coordinates of the screen where the object will be dragged|
+| x      |     int(python/java)    |   Yes  |   x coordinate of the screen where the object will be dragged |
+| y      |     int(python/java)    |   Yes   |   y coordinate of the screen where the object will be dragged|
 
+***Returns***
+- Nothing
 
-
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1728,25 +1845,22 @@ Drag an object to a certain position on the screen
         //TODO
 
 ```
-
 ###  DropObject
-
-#### Description:
 
 Drop an object to a certain position on the screen
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| position      |     Vecto2(C#)    |   false   | coordinates of the screen where the object will be dragged|
-| x      |     int(python/java)    |   false   |   x coordinate of the screen where the object will be dragged |
-| y      |     int(python/java)    |   false   |   y coordinate of the screen where the object will be dragged|
+| position      |     Vecto2(C#)    |   Yes   | coordinates of the screen where the object will be dragged|
+| x      |     int(python/java)    |   Yes  |   x coordinate of the screen where the object will be dragged |
+| y      |     int(python/java)    |   Yes   |   y coordinate of the screen where the object will be dragged|
 
+***Returns***
+- Nothing
 
-
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1761,14 +1875,18 @@ Drop an object to a certain position on the screen
 
 ```
 
-
 ###  GetAllComponents(C#)
-
-#### Description:
 
 Get all components attached to an object
 
-#### Examples
+***Parameters***
+
+None
+
+***Returns***
+- Nothing
+
+***Examples***
 
 ```eval_rst
 .. tabs::
@@ -1786,12 +1904,16 @@ Get all components attached to an object
 
 ###  GetAllMethods(C#)
 
-#### Description:
-
 Get all methods from a component attached to an object
 
+***Parameters***
 
-#### Examples
+None
+
+***Returns***
+- Nothing
+
+***Examples***
 
 ```eval_rst
 .. tabs::
@@ -1806,16 +1928,18 @@ Get all methods from a component attached to an object
         }
 ```
 
-
 ###  GetAllProperties(C#)
-
-#### Description:
 
 Get all properties from a component attached to an object. This method is implement only in C#.
 
-#### Examples
+***Parameters***
 
+None
 
+***Returns***
+- Nothing
+
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1834,25 +1958,22 @@ Get all properties from a component attached to an object. This method is implem
         }
 ```
 
-
 ###  GetComponentProperty
-
-#### Description:
 
 Get the value of a property from one of the component of the object.
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| componentName      |     string    |   false   | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
-| propertyName      |     string    |   false   |  name of the property of which value you want |
-| assemblyName  | string | true | name of the assembly where the component is |
+| componentName      |     string    |   Yes   | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
+| propertyName      |     string    |   Yes   |  name of the property of which value you want |
+| assemblyName  | string | No | name of the assembly where the component is |
 
-###### Observation: Since Java doesn't have optional paramaters we decided to go with an builder pattern approach but also didn't want to change the way how the commands are made. So instead of calling command with the parameters mentioned in the table, you will need to build an object name **[AltGetComponentPropertyParameters](other/java-builders.html#altgetcomponentpropertyparameters)** which we use the parameters mentioned. The java example will also show how to build such an object.
+***Returns***
+- Nothing
 
-#### Examples
-
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1871,16 +1992,17 @@ Get the value of a property from one of the component of the object.
     .. code-tab:: java
 
         @Test
-        public void testGetComponentProperty() throws Exception {
+        public void testGetComponentProperty() throws Exception
+        {
             String componentName = "AltUnityRunner";
             String propertyName = "SocketPortNumber";
-            AltUnityObject altElement = altUnityDriver.findObject(AltUnityDriver.By.NAME,"AltUnityRunnerPrefab");
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "AltUnityRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotNull(altElement);
-            String propertyValue = altElement.getComponentProperty(componentName, propertyName);
+            AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters.Builder(componentName,propertyName).withAssembly("").build();
+            String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParameters);
             assertEquals(propertyValue, "13000");
         }
-
-
 
     .. code-tab:: py
         def test_get_component_property(self):
@@ -1890,16 +2012,18 @@ Get the value of a property from one of the component of the object.
 
 ```
 
-
 ###  GetText
-
-#### Description:
 
 Get text value from a Button, Text, InputField. This also works with TextMeshPro elements.
 
+***Parameters***
 
-#### Examples
+None
 
+***Returns***
+- Nothing
+
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -1921,20 +2045,20 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
     .. code-tab:: java
         @Test
-        public void testWaitForElementWithText() throws Exception {
+        public void testWaitForElementWithText() throws Exception
+        {
             String name = "CapsuleInfo";
-            String text = altUnityDriver.findObject(AltUnityDriver.By.NAME,name).getText();
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
             long timeStart = System.currentTimeMillis();
-            AltUnityObject altElement = altUnityDriver.waitForObjectWithText(AltUnityDriver.By.NAME,name, text);
+            AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters,text).withInterval(0).withTimeout(0).build();
+            AltUnityObject altElement = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParameters);
             long timeEnd = System.currentTimeMillis();
             long time = timeEnd - timeStart;
             assertTrue(time / 1000 < 20);
             assertNotNull(altElement);
             assertEquals(altElement.getText(), text);
-
         }
-
-
 
     .. code-tab:: py
         def test_call_component_method(self):
@@ -1948,12 +2072,16 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
 ###  DoubleTap
 
-#### Description:
+Simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame.
 
- Simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame.
+***Parameters***
 
+None
 
-#### Examples
+***Returns***
+- Nothing
+
+***Examples***
 
 ```eval_rst
 .. tabs::
@@ -1972,7 +2100,8 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
     .. code-tab:: java
         @Test
-        public void TestDoubleTap() throws InterruptedException {
+        public void TestDoubleTap() throws InterruptedException
+        {
             AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "ButtonCounter").build();
             AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
@@ -1983,8 +2112,6 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
             Thread.sleep(500);
             assertEquals("2", counterButtonText.getText());
         }
-
-
 
 
     .. code-tab:: py
@@ -2000,12 +2127,16 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
 ###  PointerDownFromObject
 
-#### Description:
-
 Get text value from a Button, Text, InputField. This also works with TextMeshPro elements.
 
+***Parameters***
 
-#### Examples
+None
+
+***Returns***
+- Nothing
+
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -2020,15 +2151,18 @@ Get text value from a Button, Text, InputField. This also works with TextMeshPro
 
 ```
 
-
 ###  PointerUpFromObject
-
-#### Description:
 
 Simulates pointer up action on the object
 
+***Parameters***
 
-#### Examples
+None
+
+***Returns***
+- Nothing
+
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -2044,23 +2178,21 @@ Simulates pointer up action on the object
 ```
 
 ## UnityCommands 
-###  DeleteKeyPlayerPref  
 
-#### Description:
+###  DeleteKeyPlayerPref  
 
 Delete from games player pref a key
 
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| keyname      |     sting    |   false   | Key to be deleted|
+| keyname      |     sting    |   Yes   | Key to be deleted|
 
-#### Return 
+***Returns***
 - Nothing
 
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -2088,7 +2220,8 @@ Delete from games player pref a key
     .. code-tab:: java
 
         @Test
-            public void testDeleteKey() throws Exception {
+            public void testDeleteKey() throws Exception
+            {
                 altUnityDriver.deletePlayerPref();
                 altUnityDriver.setKeyPlayerPref("test", 1);
                 int val = altUnityDriver.getIntKeyPlayerPref("test");
@@ -2108,22 +2241,18 @@ Delete from games player pref a key
        //TODO
 ```
 
-
 ###  DeletePlayerPref
-
-#### Description:
 
 Delete entire player pref of the game
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
-| --------------- | ------------- | -------- | ----------- |
-|None|
-#### Return:
+None
+
+***Returns***
 - Nothing
 
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -2140,12 +2269,13 @@ Delete entire player pref of the game
     .. code-tab:: java
 
          @Test
-            public void testSetKeyFloat() throws Exception {
-                altUnityDriver.deletePlayerPref();
-                altUnityDriver.setKeyPlayerPref("test", 1f);
-                float val = altUnityDriver.getFloatKeyPlayerPref("test");
-                assertEquals(1f, val, 0.01);
-            }
+        public void testSetKeyFloat() throws Exception
+        {
+            altUnityDriver.deletePlayerPref();
+            altUnityDriver.setKeyPlayerPref("test", 1f);
+            float val = altUnityDriver.getFloatKeyPlayerPref("test");
+            assertEquals(1f, val, 0.01);
+        }
 
 
     .. code-tab:: py
@@ -2160,21 +2290,16 @@ Delete entire player pref of the game
 
 ###  GetAllCameras(C#)
 
-#### Description:
-
 Return all cameras that are in the scene. This method is only implemented in C#
 
+***Parameters***
 
-#### Parameters:
+None
 
-|      Name       |     Type      | Optional | Description |
-| --------------- | ------------- | -------- | ----------- |
-|None|
-
-#### Return
+***Returns***
 - List of AltUnityObjects
 
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -2190,21 +2315,17 @@ Return all cameras that are in the scene. This method is only implemented in C#
 ```
 ###  GetAllScenes
 
-#### Description:
-
 Return list of scene in the game
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
-| --------------- | ------------- | -------- | ----------- |
-|None|
+None
 
-#### Return
+***Returns***
 
 - List of string
 
-#### Examples
+***Examples***
 
 ```eval_rst
 .. tabs::
@@ -2222,21 +2343,17 @@ Return list of scene in the game
 
 ###  GetCurrentScene
 
-#### Description:
-
 Get the current active scene.
 
 
-#### Parameters:
+***Parameters***
 
-|      Name       |     Type      | Optional | Description |
-| --------------- | ------------- | -------- | ----------- |
-|None|
+None
 
-#### Return
+***Returns***
 - String
 
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -2250,10 +2367,10 @@ Get the current active scene.
     .. code-tab:: java
 
         @Test
-            public void testGetCurrentScene() throws Exception {
-                assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
-            }
-
+        public void testGetCurrentScene() throws Exception
+        {
+            assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
+        }
 
     .. code-tab:: py
 
@@ -2264,21 +2381,18 @@ Get the current active scene.
 
 ###  GetPNGScreenshot
 
-#### Description:
-
 Create a screenshot of the current scene in png format.
 
+***Parameters***
 
-#### Parameters:
-
-|      Name       |     Type      | Optional | Description |
+|      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-|path| string | false | location where the image is created|
+|path| string | Yes| location where the image is created|
 
-#### Return
-- nothing
+***Returns***
+- Nothing
 
-#### Examples
+***Examples***
 ```eval_rst
 .. tabs::
 
@@ -2292,7 +2406,8 @@ Create a screenshot of the current scene in png format.
     .. code-tab:: java
 
         @Test
-        public void testScreenshot(){
+        public void testScreenshot()
+        {
             String path="testJava2.png";
             altUnityDriver.getPNGScreeshot(path);
             assertTrue(new File(path).isFile());
