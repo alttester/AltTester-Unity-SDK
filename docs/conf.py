@@ -65,6 +65,5 @@ html_static_path = ['_static']
 
 html_css_files = [
     'css/pre.css',
-    'css/rtd_dark.css',
 ]
 html_favicon = '_static/images/altUnity-512x512.png'
