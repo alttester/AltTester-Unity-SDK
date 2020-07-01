@@ -339,8 +339,51 @@ public class AltUnityTestRunner
             var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new System.Collections.Generic.Dictionary<string, object>());
             addTestSuiteToMyTest(testSuite, myTests);
         }
-
+        SetCorrectCheck(myTests);
         AltUnityTesterEditor.EditorConfiguration.MyTests = myTests;
+    }
+
+    private static void SetCorrectCheck(System.Collections.Generic.List<AltUnityMyTest> myTests)
+    {
+        bool classCheck = true;
+        bool assemblyCheck = true;
+        for(int i = myTests.Count - 1; i >= 0; i--)
+        {
+            AltUnityMyTest test = myTests[i];
+            System.Type testType = test.Type;
+            switch (testType.ToString())
+            {
+                case "NUnit.Framework.Internal.TestMethod":
+                    if (!test.Selected)//test not selected then the class which the test belong must be not selected
+                    {
+                        classCheck = false;
+                    }
+                    break;
+                case "NUnit.Framework.Internal.TestFixture":
+                    if (classCheck)
+                    {
+                        test.Selected = true;
+                    }
+                    else
+                    {
+                        test.Selected = false;
+                        assemblyCheck = false;//class not selected then the assembly which the test belong must be not selected
+                    }
+                    classCheck = true;//Reset value for new class
+                    break;
+                case "NUnit.Framework.Internal.TestAssembly":
+                    if (assemblyCheck)
+                    {
+                        test.Selected = true;
+                    }
+                    else
+                    {
+                        test.Selected = false;
+                    }
+                    assemblyCheck = true;//Reset value for new assembly
+                    break;
+            }
+        }
     }
 
     private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, System.Collections.Generic.List<AltUnityMyTest> newMyTests)

@@ -1062,23 +1062,23 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
             if (tests.IndexOf(test) == selectedTest)
             {
-                UnityEngine.GUIStyle gsAlterQuest = new UnityEngine.GUIStyle();
-                gsAlterQuest.normal.background = selectedTestTexture;
-                UnityEditor.EditorGUILayout.BeginHorizontal(gsAlterQuest);
+                UnityEngine.GUIStyle selectedTestStyle = new UnityEngine.GUIStyle();
+                selectedTestStyle.normal.background = selectedTestTexture;
+                UnityEditor.EditorGUILayout.BeginHorizontal(selectedTestStyle);
             }
             else
             {
                 if (testCounter % 2 == 0)
                 {
-                    UnityEngine.GUIStyle gsAlterQuest = new UnityEngine.GUIStyle();
-                    gsAlterQuest.normal.background = evenNumberTestTexture;
-                    UnityEditor.EditorGUILayout.BeginHorizontal(gsAlterQuest);
+                    UnityEngine.GUIStyle evenNumberStyle = new UnityEngine.GUIStyle();
+                    evenNumberStyle.normal.background = evenNumberTestTexture;
+                    UnityEditor.EditorGUILayout.BeginHorizontal(evenNumberStyle);
                 }
                 else
                 {
-                    UnityEngine.GUIStyle gsAlterQuest = new UnityEngine.GUIStyle();
-                    gsAlterQuest.normal.background = oddNumberTestTexture;
-                    UnityEditor.EditorGUILayout.BeginHorizontal(gsAlterQuest);
+                    UnityEngine.GUIStyle oddNumberStyle = new UnityEngine.GUIStyle();
+                    oddNumberStyle.normal.background = oddNumberTestTexture;
+                    UnityEditor.EditorGUILayout.BeginHorizontal(oddNumberStyle);
                 }
             }
             UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(30 * parentNames.Count));
@@ -1173,36 +1173,42 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void ChangeSelectionChildsAndParent(AltUnityMyTest test)
     {
-        if (test.Selected)
+        if (test.Type.ToString().Equals("NUnit.Framework.Internal.TestAssembly"))
         {
-            if (test.IsSuite)
+            var index = EditorConfiguration.MyTests.IndexOf(test);
+            for(int i= index + 1; i < EditorConfiguration.MyTests.Count; i++)
             {
-                var index = EditorConfiguration.MyTests.IndexOf(test);
-                for (int i = index + 1; i <= index + test.TestCaseCount; i++)
+                if (EditorConfiguration.MyTests[i].Type.ToString().Equals("NUnit.Framework.Internal.TestAssembly")){
+                    break;
+                }
+                else
                 {
-                    EditorConfiguration.MyTests[i].Selected = true;
+                    EditorConfiguration.MyTests[i].Selected = test.Selected;
                 }
             }
         }
         else
         {
-            var dummy = test;
-            if (test.IsSuite)
-            {
-                var index = EditorConfiguration.MyTests.IndexOf(test);
-                for (int i = index + 1; i <= index + test.TestCaseCount; i++)
+                if (test.IsSuite)
                 {
-                    EditorConfiguration.MyTests[i].Selected = false;
+                    var index = EditorConfiguration.MyTests.IndexOf(test);
+                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
+                    {
+                        EditorConfiguration.MyTests[i].Selected = test.Selected;
+                    }
+                }
+            if (test.Selected == false)
+            {
+                while (test.ParentName != null)
+                {
+                    test = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
+                    if (test != null)
+                        test.Selected = false;
+                    else
+                        return;
                 }
             }
-            while (dummy.ParentName != null)
-            {
-                dummy = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(dummy.ParentName));
-                if (dummy != null)
-                    dummy.Selected = false;
-                else
-                    return;
-            }
+                
         }
 
     }
