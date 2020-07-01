@@ -89,18 +89,21 @@ public class AltUnityObject {
      * As of version 1.3.0 use getter getIdCamera()
      */
     public int idCamera;
+    public int parentId;
+    public int tranformId;
 
     public AltBaseSettings getAltBaseSettings() {
         return altBaseSettings;
     }
-    
+
     public void setAltBaseSettings(AltBaseSettings altBaseSettings) {
         this.altBaseSettings = altBaseSettings;
     }
-    
+
     private transient AltBaseSettings altBaseSettings;
 
-    public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled, float worldX, float worldY, float worldZ, int idCamera) {
+    public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled,
+            float worldX, float worldY, float worldZ, int idCamera, int parentId, int transformId) {
         this.name = name;
         this.id = id;
         this.x = x;
@@ -113,6 +116,8 @@ public class AltUnityObject {
         this.worldY = worldY;
         this.worldZ = worldZ;
         this.idCamera = idCamera;
+        this.tranformId = transformId;
+        this.parentId = parentId;
     }
 
     public Vector2 getScreenPosition() {
@@ -122,16 +127,14 @@ public class AltUnityObject {
     public Vector3 getWorldPosition() {
         return new Vector3(this.worldX, this.worldY, this.worldZ);
     }
-    
+
     public String getComponentProperty(AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
         return new AltGetComponentProperty(altBaseSettings, this, altGetComponentPropertyParameters).Execute();
     }
-    
+
     public String getComponentProperty(String assemblyName, String componentName, String propertyName) {
-        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters
-            .Builder(componentName, propertyName)
-            .withAssembly(assemblyName)
-            .build();
+        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
+                componentName, propertyName).withAssembly(assemblyName).build();
         return getComponentProperty(altGetComponentPropertyParameters);
     }
 
@@ -142,12 +145,10 @@ public class AltUnityObject {
     public String setComponentProperty(AltSetComponentPropertyParameters altSetComponentPropertyParameters) {
         return new AltSetComponentProperty(altBaseSettings, this, altSetComponentPropertyParameters).Execute();
     }
-    
+
     public String setComponentProperty(String assemblyName, String componentName, String propertyName, String value) {
-        AltSetComponentPropertyParameters altSetComponentPropertyParameters = new AltSetComponentPropertyParameters
-            .Builder(componentName, propertyName, value)
-            .withAssembly(assemblyName)
-            .build();
+        AltSetComponentPropertyParameters altSetComponentPropertyParameters = new AltSetComponentPropertyParameters.Builder(
+                componentName, propertyName, value).withAssembly(assemblyName).build();
         return setComponentProperty(altSetComponentPropertyParameters);
     }
 
@@ -156,15 +157,14 @@ public class AltUnityObject {
     }
 
     public String callComponentMethod(AltCallComponentMethodParameters altCallComponentMethodParameters) {
-        return new AltCallComponentMethod(altBaseSettings, this,altCallComponentMethodParameters).Execute();
+        return new AltCallComponentMethod(altBaseSettings, this, altCallComponentMethodParameters).Execute();
     }
-    
-    public String callComponentMethod(String assemblyName, String componentName, String methodName, String parameters, String typeOfParameters) {
-        AltCallComponentMethodParameters altCallComponentMethodParameters = new AltCallComponentMethodParameters
-            .Builder(componentName, methodName, parameters)
-            .withTypeOfParameters(typeOfParameters)
-            .withAssembly(assemblyName)
-            .build();
+
+    public String callComponentMethod(String assemblyName, String componentName, String methodName, String parameters,
+            String typeOfParameters) {
+        AltCallComponentMethodParameters altCallComponentMethodParameters = new AltCallComponentMethodParameters.Builder(
+                componentName, methodName, parameters).withTypeOfParameters(typeOfParameters).withAssembly(assemblyName)
+                        .build();
         return callComponentMethod(altCallComponentMethodParameters);
     }
 
@@ -211,11 +211,11 @@ public class AltUnityObject {
     public AltUnityObject tap() {
         return sendActionAndEvaluateResult("tapObject", "1");
     }
-    
+
     public AltUnityObject doubleTap() {
         return sendActionAndEvaluateResult("tapObject", "2");
     }
-    
+
     private AltUnityObject sendActionAndEvaluateResult(String command) {
         return new AltSendActionAndEvaluateResult(altBaseSettings, this, command).Execute();
     }
@@ -223,7 +223,7 @@ public class AltUnityObject {
     private AltUnityObject sendActionAndEvaluateResult(String command, String parameter) {
         return new AltSendActionAndEvaluateResult(altBaseSettings, this, command, parameter).Execute();
     }
-    
+
     private AltUnityObject sendActionWithCoordinateAndEvaluate(int x, int y, String s) {
         return new AltSendActionWithCoordinateAndEvaluate(altBaseSettings, this, x, y, s).Execute();
     }
