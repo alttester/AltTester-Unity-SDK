@@ -1,45 +1,23 @@
 # Examples
 
-We used AltUnityTester to test some sample games to help you understand better how to use it. We plan add more examples in the near future.
+We used AltUnity Tester to test some sample games to help you understand better how to use it. 
+We plan to add more examples in the near future.
 
+```eval_rst
+.. note::
+    Example test projects below can be run on any platform.
+```
 
+**1.** Example test projects created for different languages and platforms:
 
+* [Standalone Build | C# tests](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-csharp)
+* [Android | Python tests](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python)
+* [iOS | Java tests](https://gitlab.com/altom/altunity/examples/alttrashcat-tests---java)
 
-## AltTrashCat Tests - CSharp
+    You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
 
-<iframe width="720" height="360" src="https://www.youtube.com/embed/tr3_8YawBck" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+**2.** Example test project for multiplayer features:
 
-[Link to Project](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-csharp)
+* [Multiplayer - iOS / Android | Python tests](https://gitlab.com/altom/altunity/examples/alttanksmultiplayer-test-python)
 
-This was made as a sample for standalone devices. To run the test follow the instructions from ReadMe.
-
-We took the game from [asset store link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
-
-
-
-## AltTrashCat Tests - Python
-
-[Link to Project](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python)
-
-This was made as a sample for mobile devices. To run the test follow the instructions from ReadMe.
-
-We took the game from [asset store link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
-
-
-
-## AltTrashCat Tests - Java 
-
-[Link to Project](https://gitlab.com/altom/altunity/examples/alttrashcat-tests---java)
-
-This was made as a sample for iOS mobile devices. To run the test follow the instructions from ReadMe.
-
-We took the game from [asset store link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
-
-
-## AltTank Multiplayer - Python
-
-[Link to Project](https://gitlab.com/altom/altunity/examples/alttanksmultiplayer-test-python)
-
-This was made as a sample to show how to use Altunity Tester for multiplayer features. To run the tests follow the instructions from ReadMe.
-
-We took the game from [asset store link](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-reference-project-80165)
+    You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-reference-project-80165).

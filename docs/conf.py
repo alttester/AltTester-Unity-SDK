@@ -20,11 +20,12 @@
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
 project = 'AltUnity Tester'
-copyright = '2019, Altom Consulting'
+copyright = '2020, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
-release = '1.5.5'
+version = 'v.1.5.5'   # displays version under project title
+release = 'v.1.5.5'
 
 
 # -- General configuration ---------------------------------------------------
@@ -63,6 +64,6 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 html_css_files = [
-    'css/custom.scss',
+    'css/pre.css',
 ]
 html_favicon = '_static/images/altUnity-512x512.png'
