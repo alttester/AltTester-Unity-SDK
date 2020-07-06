@@ -104,8 +104,11 @@ class AltrunUnityDriver(object):
     def multipoint_swipe_and_wait(self, positions, duration_in_secs):
         return MultipointSwipeAndWait(self.socket, self.request_separator, self.request_end, positions, duration_in_secs).execute()
 
-    def tilt(self, x, y, z):
-        return Tilt(self.socket, self.request_separator, self.request_end, x, y, z).execute()
+    def tilt(self, x, y, z, duration=0):
+        return Tilt(self.socket, self.request_separator, self.request_end, x, y, z, duration).execute()
+
+    def tilt_and_wait(self, x, y, z, duration=0):
+        return TiltAndWait(self.socket, self.request_separator, self.request_end, x, y, z, duration).execute()
 
     def hold_button(self, x_position, y_position, duration_in_secs):
         return Swipe(self.socket, self.request_separator, self.request_end, x_position, y_position, x_position, y_position, duration_in_secs).execute()

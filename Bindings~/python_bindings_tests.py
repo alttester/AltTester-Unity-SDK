@@ -787,12 +787,13 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         parent = self.altdriver.find_object(By.PATH, "//CapsuleInfo/..")
         self.assertEqual("Canvas", parent.name)
-        
+
     def test_pointer_down_from_object(self):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         time.sleep(1)
         p_panel = self.altdriver.find_object(By.NAME, 'Panel')
-        color1 = p_panel.get_component_property('AltUnityExampleScriptPanel', 'normalColor')
+        color1 = p_panel.get_component_property(
+            'AltUnityExampleScriptPanel', 'normalColor')
         p_panel.pointer_down()
         time.sleep(1)
         color2 = p_panel.get_component_property(
@@ -803,7 +804,8 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
         time.sleep(1)
         p_panel = self.altdriver.find_object(By.NAME, 'Panel')
-        color1 = p_panel.get_component_property('AltUnityExampleScriptPanel', 'normalColor')
+        color1 = p_panel.get_component_property(
+            'AltUnityExampleScriptPanel', 'normalColor')
         p_panel.pointer_down()
         time.sleep(1)
         p_panel.pointer_up()
@@ -854,6 +856,25 @@ class PythonTests(unittest.TestCase):
         cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
 
         self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
+
+    def test_acceleration(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        self.altdriver.tilt(1, 1, 1, 1)
+        time.sleep(1)
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        self.assertNotEqual(initial_position, final_position)
+
+    def test_acceleration_and_wait(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        self.altdriver.tilt_and_wait(1, 1, 1, 1)
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        self.assertNotEqual(initial_position, final_position)
 
 
 if __name__ == '__main__':

@@ -195,9 +195,13 @@ public class AltUnityDriver
     {
         new AltUnityTapCustom(socketSettings, x, y, count, interval).Execute();
     }
-    public void Tilt(AltUnityVector3 acceleration)
+    public void Tilt(AltUnityVector3 acceleration,float duration=0)
     {
-        new AltUnityTilt(socketSettings, acceleration).Execute();
+        new AltUnityTilt(socketSettings, acceleration,duration).Execute();
+    }
+    public void TiltAndWait(AltUnityVector3 acceleration,float duration = 0)
+    {
+        new AltUnityTiltAndWait(socketSettings, acceleration, duration).Execute();
     }
     [System.ObsoleteAttribute("Use instead FindObjectWhichContains")]
     public AltUnityObject FindElementWhereNameContains(string name, string cameraName = "", bool enabled = true)

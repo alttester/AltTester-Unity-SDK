@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
@@ -886,6 +886,29 @@ public class TestForScene1TestSample
     {
         var parent = altUnityDriver.FindObject(By.PATH, "//CapsuleInfo/..");
         Assert.AreEqual("Canvas", parent.name);
+    }
+
+    [Test]
+    public void TestAcceleration()
+    {
+        var capsule= altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialWorldCoordinates = capsule.getWorldPosition();
+        altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1),1);
+        Thread.Sleep(1000);
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var afterTiltCoordinates = capsule.getWorldPosition();
+        Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
+    }
+    [Test]
+    public void TestAccelerationAndWait()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialWorldCoordinates = capsule.getWorldPosition();
+        altUnityDriver.TiltAndWait(new AltUnityVector3(1, 1, 1), 1);
+        Thread.Sleep(1000);
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var afterTiltCoordinates = capsule.getWorldPosition();
+        Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
     }
 
 }
