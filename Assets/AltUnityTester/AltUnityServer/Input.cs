@@ -818,6 +818,26 @@ public class Input : UnityEngine.MonoBehaviour
         Finished = true;
 
     }
+
+    public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration)
+    {
+        Finished = false;
+        instance.StartCoroutine(AccelerationLifeCycle(accelarationValue, duration));
+    }
+    private static System.Collections.IEnumerator AccelerationLifeCycle(UnityEngine.Vector3 accelarationValue, float duration)
+    {
+        float timeSpent = 0;
+        while (timeSpent < duration)
+        {
+            UnityEngine.Debug.Log("Acceleration");
+            _acceleration =accelarationValue;
+            yield return null;
+            timeSpent += UnityEngine.Time.deltaTime;
+        }
+        _acceleration = UnityEngine.Vector3.zero;//reset the value after acceleration ended
+        Finished = true;
+
+    }
     private static UnityEngine.KeyCode ConvertStringToKeyCode(string keyName)
     {
         if(keyName.Length==1 && IsEnglishLetter(keyName[0]))

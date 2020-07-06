@@ -9,7 +9,11 @@ public class AltUnityExampleScriptCapsule : MonoBehaviour {
     public int[] arrayOfInts = {1, 2, 3};
     public bool TestBool = true;
     public string stringToSetFromTests = "intialValue";
-    
+
+    private void Update()
+    {
+        transform.Rotate(Input.acceleration);
+    }
     void OnMouseDown() {
         Jump("Capsule was clicked to jump!");
     }

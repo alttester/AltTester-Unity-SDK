@@ -244,13 +244,17 @@ public class AltUnityDriver {
 
     /**
      * Simulates device rotation action in your game.
-     * 
-     * @param x Linear acceleration of a device on x
-     * @param y Linear acceleration of a device on y
-     * @param z Linear acceleration of a device on z
      */
-    public void tilt(int x, int y, int z) {
-        new AltTilt(altBaseSettings, x, y, z).Execute();
+    public void tilt(AltTiltParameters altTiltParameter) {
+        new AltTilt(altBaseSettings, altTiltParameter).Execute();
+    }
+
+    /**
+     * Simulates device rotation action in your game and waits for the action to
+     * finish.
+     */
+    public void tiltAndWait(AltTiltParameters altTiltParameters) {
+        new AltTiltAndWait(altBaseSettings, altTiltParameters).Execute();
     }
 
     /**

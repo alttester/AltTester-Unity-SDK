@@ -372,7 +372,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "tilt":
                     UnityEngine.Vector3 vector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector3>(pieces[1]);
-                    command = new AltUnityTiltCommand (vector3);
+                    float duration = float.Parse(pieces[2]);
+                    command = new AltUnityTiltCommand (vector3,duration);
                     break;
                 case "multipointSwipe":
                     UnityEngine.Vector2 start2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
@@ -449,7 +450,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     var piece = pieces[1];
                     UnityEngine.KeyCode keycode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), piece);
                     float power = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
-                    float duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[3]);
+                    duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[3]);
                     command = new AltUnityHoldButtonCommand (keycode, power, duration);
                     break;
                 case "moveMouse":

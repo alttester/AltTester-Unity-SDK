@@ -7,9 +7,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltTiltParameters;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
+import ro.altom.altunitytester.position.Vector3;
 
 import java.io.IOException;
+import java.sql.Time;
 
 import static org.junit.Assert.*;
 
@@ -205,7 +208,7 @@ public class TestsSampleScene1 {
         assertNotNull(altElement);
         assertEquals(altElement.name, "AltUnityRunnerPrefab");
     }
-    
+
     @Test
     public void testFindElementByComponentWithNamespace() throws Exception {
         Thread.sleep(1000);
@@ -611,4 +614,32 @@ public class TestsSampleScene1 {
         AltUnityObject parent = altUnityDriver.findObject(altFindObjectsParameters1);
         assertEquals("Canvas", parent.name);
     }
+
+    @Test
+    public void TestAcceleration() throws InterruptedException {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "Capsule").build();
+        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+        Vector3 initialWorldCoordinates = capsule.getWorldPosition();
+        AltTiltParameters altTiltParameters = new AltTiltParameters.Builder(1, 1, 1).withDuration(1).build();
+        altUnityDriver.tilt(altTiltParameters);
+        Thread.sleep(1000);
+        capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+        Vector3 afterTiltCoordinates = capsule.getWorldPosition();
+        assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
+    }
+
+    @Test
+    public void TestAccelerationAndWait() throws InterruptedException {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "Capsule").build();
+        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+        Vector3 initialWorldCoordinates = capsule.getWorldPosition();
+        AltTiltParameters altTiltParameters = new AltTiltParameters.Builder(1, 1, 1).withDuration(1).build();
+        altUnityDriver.tiltAndWait(altTiltParameters);
+        capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+        Vector3 afterTiltCoordinates = capsule.getWorldPosition();
+        assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
+    }
+
 }
