@@ -857,6 +857,14 @@ class PythonTests(unittest.TestCase):
 
         self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
 
+    def test_click_event(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        self.altdriver.find_object(By.NAME, 'UIButton').click_event()
+        capsule_info = self.altdriver.wait_for_element_with_text(
+            'CapsuleInfo', 'UIButton clicked to jump capsule!', '', 1)
+        self.assertEqual('UIButton clicked to jump capsule!',
+                         capsule_info.get_text())
+
     def test_acceleration(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
