@@ -166,6 +166,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
             altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
             EditorConfiguration = UnityEngine.ScriptableObject.CreateInstance<AltUnityEditorConfiguration>();
+            EditorConfiguration.MyTests=null;
             UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltUnityTesterEditorSettings.asset");
             UnityEditor.AssetDatabase.SaveAssets();
 
@@ -228,8 +229,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.BeginHorizontal();
         var leftSide = (screenWidth / 3) * 2;
         _scrollPosition = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPosition, false, false, UnityEngine.GUILayout.MinWidth(leftSide));
-
-        DisplayTestGui(EditorConfiguration.MyTests);
+        if (EditorConfiguration.MyTests != null)
+        {
+            DisplayTestGui(EditorConfiguration.MyTests);
+        }
 
         UnityEditor.EditorGUILayout.Separator();
 
