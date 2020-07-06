@@ -1154,7 +1154,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     var actualTime = System.DateTime.Now.Ticks;
                     if (actualTime - timeSinceLastClick < 5000000)
                     {
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1,0);
                     }
                 }
                 else

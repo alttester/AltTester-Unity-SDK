@@ -392,12 +392,15 @@ Wait until it finds an object that respect the given criteria or times run out a
 .. tabs::
 
     .. code-tab:: c#
-    
-        var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
-        Assert.AreEqual("Canvas", altElement.name);
-        
+        [Test]
+        public void TestWaitForObjectWhichContains()
+        {
+            var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
+            Assert.AreEqual("Canvas", altElement.name);
+        }
+  
     .. code-tab:: java
-       
+    
         String name = "Dir";
         long timeStart = System.currentTimeMillis();
         AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(AltUnityDriver.By.NAME, name);
