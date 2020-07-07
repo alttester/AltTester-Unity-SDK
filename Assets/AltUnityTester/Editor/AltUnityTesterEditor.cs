@@ -278,6 +278,34 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             selected = UnityEditor.EditorGUILayout.Popup("Build Target", selected, options.ToList().ConvertAll(x => x.ToString()).ToArray());
             EditorConfiguration.standaloneTarget = options[selected];
         }
+
+        if (EditorConfiguration.platform == AltUnityPlatform.Android)
+        {
+            UnityEditor.EditorGUILayout.Separator();
+            UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+
+            if (UnityEngine.GUILayout.Button("Android player settings"))
+            {
+                UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+                UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.Android;
+            }
+        }
+
+#if UNITY_EDITOR_OSX
+        if (EditorConfiguration.platform == AltUnityPlatform.iOS)
+        {
+            UnityEditor.EditorGUILayout.Separator();
+            UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+
+            if (UnityEngine.GUILayout.Button("iOS player settings"))
+            {
+                UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+                UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.iOS;
+            }
+        }
+#endif
+
+
         UnityEditor.EditorGUILayout.Separator();
         UnityEditor.EditorGUILayout.Separator();
         UnityEditor.EditorGUILayout.Separator();
@@ -1301,7 +1329,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         string folderPath = GetPathForSelectedItem();
         string newFilePath = System.IO.Path.Combine(folderPath, "NewAltUnityTest.cs");
 #if UNITY_2019_1_OR_NEWER
-        UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath,newFilePath);
+        UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath, newFilePath);
 #else
         System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
         if (method == null)
