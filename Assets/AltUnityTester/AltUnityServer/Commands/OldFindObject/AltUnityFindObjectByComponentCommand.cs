@@ -18,7 +18,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             string componentTypeName = pieces[1];
             AltUnityRunner._altUnityRunner.LogMessage("find object by component " + componentTypeName);
             string cameraName = pieces[2];
-            bool enabled = System.Convert.ToBoolean(pieces[3]);
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
             UnityEngine.Camera camera = null;
             if (cameraName != null)

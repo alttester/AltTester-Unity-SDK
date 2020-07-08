@@ -6,7 +6,7 @@ public class AltUnityInputsVisualiser : UnityEngine.MonoBehaviour
 {
     public float VisibleTime = 1;
     [UnityEngine.Space]
-    [UnityEngine.SerializeField] private AltUnityInputMark Template;
+    [UnityEngine.SerializeField] private AltUnityInputMark Template=null;
 
     private readonly List<AltUnityInputMark> _pool = new List<AltUnityInputMark>();
     private readonly Dictionary<int, AltUnityInputMark> _continuously = new Dictionary<int, AltUnityInputMark>();

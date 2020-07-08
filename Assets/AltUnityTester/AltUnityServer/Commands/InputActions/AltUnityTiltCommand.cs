@@ -17,8 +17,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             AltUnityRunner._altUnityRunner.LogMessage("Tilt device with: " + acceleration);
             Input.Acceleration(acceleration, duration);
             return "OK";
-#endif
+#else
             return null;
+#endif
         }
     }
 }

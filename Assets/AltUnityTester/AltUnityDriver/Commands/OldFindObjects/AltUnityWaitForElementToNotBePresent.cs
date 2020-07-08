@@ -17,7 +17,7 @@ public class AltUnityWaitForElementToNotBePresent : AltBaseCommand
     {
         double time = 0;
         bool found = false;
-        AltUnityObject altElement = null;
+        AltUnityObject altElement;
         while (time <= timeout)
         {
             found = false;

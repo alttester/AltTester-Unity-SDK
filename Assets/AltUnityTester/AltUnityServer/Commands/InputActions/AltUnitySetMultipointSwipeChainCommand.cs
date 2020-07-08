@@ -20,8 +20,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             
             Input.SetMultipointSwipe(positions, float.Parse(duration));
             return "OK";
-#endif
+#else
             return null;
+#endif
         }
     }
 }

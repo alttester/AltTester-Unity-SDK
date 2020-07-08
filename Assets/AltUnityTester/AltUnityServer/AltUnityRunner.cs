@@ -45,13 +45,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public Newtonsoft.Json.JsonSerializerSettings _jsonSettings;
 
     [UnityEngine.Space] 
-    [UnityEngine.SerializeField] private bool _showInputs;
-    [UnityEngine.SerializeField] private AltUnityInputsVisualiser _inputsVisualiser;
+    [UnityEngine.SerializeField] private bool _showInputs=false;
+    [UnityEngine.SerializeField] private AltUnityInputsVisualiser _inputsVisualiser=null;
 
     [UnityEngine.Space]
 
     public bool showPopUp;
-    [UnityEngine.SerializeField] private UnityEngine.GameObject AltUnityPopUpCanvas;
+    [UnityEngine.SerializeField] private UnityEngine.GameObject AltUnityPopUpCanvas=null;
     public bool destroyHightlight = false; 
     public int SocketPortNumber = 13000;
     public bool DebugBuildNeeded = true;
