@@ -30,7 +30,6 @@ public class myFirstTest {
     @AfterClass
     public static void tearDown() throws Exception {
         altdriver.stop();
-        Thread.sleep(1000);
     }
 
 }

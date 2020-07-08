@@ -1,4 +1,4 @@
-# AltUnity Tester GUI
+# AltUnity Tester Editor
 
 The GUI refers to the "AltUnityTesterEditor" window that is displayed when adding the altUnity Tester package in Unity.
 
