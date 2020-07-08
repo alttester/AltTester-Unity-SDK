@@ -282,6 +282,34 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             selected = UnityEditor.EditorGUILayout.Popup("Build Target", selected, options.ToList().ConvertAll(x => x.ToString()).ToArray());
             EditorConfiguration.standaloneTarget = options[selected];
         }
+
+        if (EditorConfiguration.platform == AltUnityPlatform.Android)
+        {
+            UnityEditor.EditorGUILayout.Separator();
+            UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+
+            if (UnityEngine.GUILayout.Button("Android player settings"))
+            {
+                UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+                UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.Android;
+            }
+        }
+
+#if UNITY_EDITOR_OSX
+        if (EditorConfiguration.platform == AltUnityPlatform.iOS)
+        {
+            UnityEditor.EditorGUILayout.Separator();
+            UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+
+            if (UnityEngine.GUILayout.Button("iOS player settings"))
+            {
+                UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+                UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.iOS;
+            }
+        }
+#endif
+
+
         UnityEditor.EditorGUILayout.Separator();
         UnityEditor.EditorGUILayout.Separator();
         UnityEditor.EditorGUILayout.Separator();
