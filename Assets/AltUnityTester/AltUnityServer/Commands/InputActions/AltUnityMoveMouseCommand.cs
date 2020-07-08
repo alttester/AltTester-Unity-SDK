@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -19,8 +19,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 AltUnityRunner._altUnityRunner.LogMessage("moveMouse to: " + location);
                 Input.MoveMouse(location, duration);
                 return "Ok";
-#endif
+#else
             return null; ;
+#endif
         }
     }
 }

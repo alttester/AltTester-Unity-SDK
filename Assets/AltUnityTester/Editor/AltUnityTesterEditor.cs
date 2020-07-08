@@ -274,7 +274,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         {
             UnityEditor.BuildTarget[] options = new UnityEditor.BuildTarget[]
             {
-                UnityEditor.BuildTarget.StandaloneWindows, UnityEditor.BuildTarget.StandaloneWindows64,UnityEditor.BuildTarget.StandaloneOSX,UnityEditor.BuildTarget.StandaloneLinux,UnityEditor.BuildTarget.StandaloneLinux64,UnityEditor.BuildTarget.StandaloneLinuxUniversal
+                UnityEditor.BuildTarget.StandaloneWindows, UnityEditor.BuildTarget.StandaloneWindows64,UnityEditor.BuildTarget.StandaloneOSX,UnityEditor.BuildTarget.StandaloneLinux64
             };
 
             int selected = System.Array.IndexOf(options, EditorConfiguration.standaloneTarget);

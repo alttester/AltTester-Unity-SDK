@@ -1,4 +1,4 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnitySetMultipointSwipeCommand :AltUnityCommand
     {
@@ -24,8 +24,9 @@
             response = "Ok";
             
             return response;
-#endif
+#else
             return null;
+#endif
         }
     }
 }

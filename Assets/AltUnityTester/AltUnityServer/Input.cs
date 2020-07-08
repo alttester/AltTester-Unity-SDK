@@ -12,7 +12,7 @@ public class Input : UnityEngine.MonoBehaviour
     {
        
         instance = this;
-        mockUpPointerInputModule = new AltUnityMockUpPointerInputModule();
+        mockUpPointerInputModule = gameObject.AddComponent<AltUnityMockUpPointerInputModule>();
         string filePath = "AltUnityTester/AltUnityTesterInputAxisData";
 
         UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
@@ -291,6 +291,7 @@ public class Input : UnityEngine.MonoBehaviour
     }
 
     //NotImplementedForAltUnityTester
+    [System.Obsolete]
     public static bool isGyroAvailable
     {
         get

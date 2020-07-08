@@ -2,11 +2,11 @@ using System.Linq;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityFindActiveObjectsByNameCommand :AltUnityCommand
+    class AltUnityFindActiveObjectsByNameCommand : AltUnityCommand
     {
         string methodParameters;
 
-        public AltUnityFindActiveObjectsByNameCommand (string stringSent)
+        public AltUnityFindActiveObjectsByNameCommand(string stringSent)
         {
             this.methodParameters = stringSent;
         }
@@ -17,10 +17,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             string objectName = pieces[0];
             AltUnityRunner._altUnityRunner.LogMessage("findActiveObjectByName for: " + objectName);
             string cameraName = pieces[1];
-            bool enabled = System.Convert.ToBoolean(pieces[2]);
-            
+
             string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
-               
+
             var foundGameObject = UnityEngine.GameObject.Find(objectName);
             if (foundGameObject != null)
             {
@@ -33,7 +32,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 }
             }
             return response;
-                
+
         }
     }
 }

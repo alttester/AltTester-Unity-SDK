@@ -20,7 +20,7 @@ public class AltUnityWaitForObjectNotBePresent : AltUnityBaseFindObjects
         double time = 0;
         bool found = false;
         string path = SetPath(by, value);
-        AltUnityObject altElement = null;
+        AltUnityObject altElement;
         while (time <= timeout)
         {
             found = false;
