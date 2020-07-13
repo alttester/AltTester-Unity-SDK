@@ -70,22 +70,43 @@ public class AltUnityDriver
     {
         new AltUnityLoadScene(socketSettings, scene).Execute();
     }
-    public System.Collections.Generic.List<AltUnityObject> FindObjects(By by, string value, string cameraName = "", bool enabled = true)
+    [System.Obsolete()]
+    public System.Collections.Generic.List<AltUnityObject> FindObjects(By by, string value, string cameraName, bool enabled = true)
     {
-        return new AltUnityFindObjects (socketSettings, by, value, cameraName, enabled).Execute();
+        return new AltUnityFindObjects(socketSettings, by, value,By.NAME,cameraName, enabled).Execute();
     }
-    public System.Collections.Generic.List<AltUnityObject> FindObjectsWhichContain(By by, string value, string cameraName = "", bool enabled = true)
+    public System.Collections.Generic.List<AltUnityObject> FindObjects(By by, string value,By cameraBy=By.NAME,string cameraPath="", bool enabled = true)
     {
-        return new AltUnityFindObjectsWhichContain(socketSettings, by, value, cameraName, enabled).Execute();
+        return new AltUnityFindObjects(socketSettings, by, value,cameraBy,cameraPath, enabled).Execute();
     }
-    public AltUnityObject FindObject(By by, string value, string cameraName = "", bool enabled = true)
+    [System.Obsolete()]
+    public System.Collections.Generic.List<AltUnityObject> FindObjectsWhichContain(By by, string value,string cameraName, bool enabled = true)
     {
-        return new AltUnityFindObject(socketSettings, by, value, cameraName, enabled).Execute();
+        return new AltUnityFindObjectsWhichContain(socketSettings, by, value, By.NAME, cameraName, enabled).Execute();
     }
-    public AltUnityObject FindObjectWhichContains(By by, string value, string cameraName = "", bool enabled = true)
+    public System.Collections.Generic.List<AltUnityObject> FindObjectsWhichContain(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
     {
-        return new AltUnityFindObjectWhichContains(socketSettings, by, value, cameraName, enabled).Execute();
+        return new AltUnityFindObjectsWhichContain(socketSettings, by, value, cameraBy,cameraPath, enabled).Execute();
     }
+    [System.Obsolete()]
+    public AltUnityObject FindObject(By by, string value, string cameraName , bool enabled = true)
+    {
+        return new AltUnityFindObject(socketSettings, by, value, By.NAME, cameraName, enabled).Execute();
+    }
+    public AltUnityObject FindObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
+    {
+        return new AltUnityFindObject(socketSettings, by, value, cameraBy, cameraValue, enabled).Execute();
+    }
+    [System.Obsolete()]
+    public AltUnityObject FindObjectWhichContains(By by, string value, string cameraName , bool enabled = true)
+    {
+        return new AltUnityFindObjectWhichContains(socketSettings, by, value, By.NAME, cameraName, enabled).Execute();
+    }
+    public AltUnityObject FindObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
+    {
+        return new AltUnityFindObjectWhichContains(socketSettings, by, value, cameraBy, cameraValue, enabled).Execute();
+    }
+
     public void SetTimeScale(float timeScale)
     {
         new AltUnitySetTimeScale(socketSettings, timeScale).Execute();
@@ -206,9 +227,14 @@ public class AltUnityDriver
     {
         return new AltUnityFindElementWhereNameContains(socketSettings, name, cameraName, enabled).Execute();
     }
-    public System.Collections.Generic.List<AltUnityObject> GetAllElements(string cameraName = "", bool enabled = true)
+    [System.Obsolete()]
+    public System.Collections.Generic.List<AltUnityObject> GetAllElements(string cameraName, bool enabled = true)
     {
-        return new AltUnityGetAllElements(socketSettings, cameraName, enabled).Execute();
+        return new AltUnityGetAllElements(socketSettings, By.NAME, cameraName, enabled).Execute();
+    }
+    public System.Collections.Generic.List<AltUnityObject> GetAllElements(By cameraBy=By.NAME,string cameraPath = "", bool enabled = true)
+    {
+        return new AltUnityGetAllElements(socketSettings, cameraBy, cameraPath, enabled).Execute();
     }
     [System.ObsoleteAttribute("Use instead FindObject")]
     public AltUnityObject FindElement(string name, string cameraName = "", bool enabled = true)
@@ -236,18 +262,31 @@ public class AltUnityDriver
     {
         return new AltUnityWaitForElementWhereNameContains(socketSettings, name, cameraName, enabled, timeout, interval).Execute();
     }
-    public AltUnityObject WaitForObject(By by, string value, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+    [System.Obsolete()]
+    public AltUnityObject WaitForObject(By by, string value, string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
     {
-        return new AltUnityWaitForObject(socketSettings, by, value, cameraName, enabled, timeout, interval).Execute();
+        return new AltUnityWaitForObject(socketSettings, by, value, By.NAME, cameraName, enabled, timeout, interval).Execute();
     }
-
-    public void WaitForObjectNotBePresent(By by, string value, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+    public AltUnityObject WaitForObject(By by, string value,By cameraBy=By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
-        new AltUnityWaitForObjectNotBePresent(socketSettings, by, value, cameraName, enabled, timeout, interval).Execute();
+        return new AltUnityWaitForObject(socketSettings, by, value, cameraBy,cameraPath, enabled, timeout, interval).Execute();
     }
-
-    public AltUnityObject WaitForObjectWhichContains(By by, string value, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5){
-        return new AltUnityWaitForObjectWhichContains (socketSettings,by,value,cameraName,enabled,timeout,interval).Execute();
+    [System.Obsolete()]
+    public void WaitForObjectNotBePresent(By by, string value, string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
+    {
+        new AltUnityWaitForObjectNotBePresent(socketSettings, by, value, By.NAME, cameraName, enabled, timeout, interval).Execute();
+    }
+    public void WaitForObjectNotBePresent(By by, string value,By cameraBy=By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+    {
+        new AltUnityWaitForObjectNotBePresent(socketSettings, by, value, cameraBy,cameraPath, enabled, timeout, interval).Execute();
+    }
+    [System.Obsolete()]
+    public AltUnityObject WaitForObjectWhichContains(By by, string value, string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
+    {
+        return new AltUnityWaitForObjectWhichContains(socketSettings, by, value, By.NAME, cameraName, enabled, timeout, interval).Execute();
+    }
+    public AltUnityObject WaitForObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5){
+        return new AltUnityWaitForObjectWhichContains (socketSettings,by,value, cameraBy, cameraPath, enabled,timeout,interval).Execute();
     }
 
 
@@ -267,9 +306,14 @@ public class AltUnityDriver
     {
         return new AltUnityWaitForElementWithText(socketSettings, name, text, cameraName, enabled, timeout, interval).Execute();
     }
-    public AltUnityObject WaitForObjectWithText(By by, string value, string text, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+    [System.Obsolete()]
+    public AltUnityObject WaitForObjectWithText(By by, string value, string text,  string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
     {
-        return new AltUnityWaitForObjectWithText(socketSettings, by, value, text, cameraName, enabled, timeout, interval).Execute();
+        return new AltUnityWaitForObjectWithText(socketSettings, by, value, text, By.NAME, cameraName, enabled, timeout, interval).Execute();
+    }
+    public AltUnityObject WaitForObjectWithText(By by, string value, string text, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+    {
+        return new AltUnityWaitForObjectWithText(socketSettings, by, value, text, cameraBy, cameraPath, enabled, timeout, interval).Execute();
     }
     [System.ObsoleteAttribute("Use instead FindObject")]
     public AltUnityObject FindElementByComponent(string componentName, string assemblyName = "", string cameraName = "", bool enabled = true)

@@ -9,15 +9,21 @@ import ro.altom.altunitytester.AltUnityObject;
  */
 public class AltGetAllElements extends AltBaseFindObject {
     /**
-     * @param altGetAllElementsParameters the properties parameter for finding the objects in a scene.
+     * @param altGetAllElementsParameters the properties parameter for finding the
+     *                                    objects in a scene.
      */
     private AltGetAllElementsParameters altGetAllElementsParameters;
+
     public AltGetAllElements(AltBaseSettings altBaseSettings, AltGetAllElementsParameters altGetAllElementsParameters) {
         super(altBaseSettings);
         this.altGetAllElementsParameters = altGetAllElementsParameters;
     }
-    public AltUnityObject[] Execute(){
-        send(CreateCommand("findObjects", "//*",altGetAllElementsParameters.getCameraName(), String.valueOf(altGetAllElementsParameters.isEnabled())));
+
+    public AltUnityObject[] Execute() {
+        String cameraPath = SetPath(altGetAllElementsParameters.getCameraBy(),
+                altGetAllElementsParameters.getCameraPath());
+        send(CreateCommand("findObjects", "//*", altGetAllElementsParameters.getCameraBy().toString(), cameraPath,
+                String.valueOf(altGetAllElementsParameters.isEnabled())));
         return ReceiveListOfAltUnityObjects();
     }
 }

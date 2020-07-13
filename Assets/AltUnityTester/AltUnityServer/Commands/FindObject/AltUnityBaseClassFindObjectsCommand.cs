@@ -380,6 +380,25 @@ namespace Assets.AltUnityTester.AltUnityServer
         {
             throw new System.NotImplementedException();
         }
+        protected UnityEngine.Camera GetCamera(By cameraBy,string cameraPath)
+        {
+           
+            if (cameraBy == By.NAME)
+            {
+                var cameraPathSplited = cameraPath.Split('/');
+                var cameraName = cameraPathSplited[cameraPathSplited.Length - 1];
+                return UnityEngine.Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
+
+            }
+            else
+            {
+                var cameraPathProcessed = ProcessPath(cameraPath);
+                var isDirectChildCamera = IsNextElementDirectChild(cameraPathProcessed[0]);
+                var gameObjectsCameraFound = FindObjects(null, cameraPathProcessed, 1, false, isDirectChildCamera, true);
+                return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetInstanceID() == d.GetInstanceID()));
+            }
+            
+        }
     }
 
 }
