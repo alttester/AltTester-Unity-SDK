@@ -6,7 +6,9 @@ To run the first test for your Unity game you need to:
 3. [Run the build in Unity Editor or on desired platform](#run-your-game-in-unity-or-on-desired-platform)
 4. [Write and execute first test](#write-and-execute-first-test-for-your-game)
 
-
+```eval_rst note::
+    If you don't have access to source code of the game you need to ask a person with access to give you an instrumented version of the game. 
+```
 
 ## Import AltUnity Tester package
 
@@ -14,20 +16,23 @@ To instrument your game with AltUnity Server you first need to import the AltUni
 
 ```eval_rst
 .. tabs::
+
     .. tab:: From Unity Asset Store
 
         1. Download from Unity `Asset Store - link <https://assetstore.unity.com/packages/tools/utilities/altunitytester-112101>`_.
         2. Go to your Asset Store Downloads Manager from Unity Editor.
         3. Import the package into your Unity project.
 
+
     .. tab:: UnityPackage from Gitlab pages
 
         1. Download from `Gitlab pages (deployed using CI) - link <https://altom.gitlab.io/altunity/altunitytester/master/AltUnityPackage/AltUnityTester.unitypackage>`_.
         2. Import it by drag and drop inside your Unity project.
+
 ```
 
 
-``` important:: To make sure the import was correct, check if you can open AltUnity Tester Editor Window from Unity -> Window -> AltUnityTester.
+``` important:: To make sure the import was correct, check if you can open AltUnity Tester Editor Window from Unity Editor -> Window -> AltUnityTester.
 ```
  
 ![window menu with altUnity Tester](../_static/images/DownloadingImportingAltUnityTesterWindow.png)
@@ -35,15 +40,20 @@ To instrument your game with AltUnity Server you first need to import the AltUni
 
 ## Instrument your game with AltUnity Server
 
-In order for the tests to have access to Unity objects via AltUnity Driver you need to instrument the game with AltUnity Server.
+In order for the tests to have access to Unity objects via AltUnity Client you need to instrument the game with AltUnity Server.
 
 Steps:
 
-1. Open AltUnity Tester Editor Window from Unity -> Window -> AltUnityTester.
-2. Select on what platform do you want to build the game.
-3. Press "Build Only" to build the game.
+1. Open AltUnity Tester Window from Unity Editor -> Window -> AltUnityTester.
+2. Select on what platform you want to build the game.
+3. Press "Build Only" to instrument the game.
 4. Check the console to see if the build was successful.
 
+
+
+``` note::
+        Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
+```
 
 ``` note::
     If you have a custom build, check how you can build from the command line using the instructions in the `Advanced Usage section <advanced-usage.html#Build-games-from-the-command-line>`_.
@@ -54,28 +64,24 @@ Steps:
     A rebuild is needed only if changes are made inside the Unity project.
 ```
 
-``` note::
-        Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
-```
 
 
 ## Run your game in Unity or on desired platform
 
-Before running your tests you need to start the game built with AltUnity Tester. Upon startup, your game should display a popup with the message: "waiting for connection on port 13000". Now the game is waiting for your tests to connect.
-
+Before running your tests you need to start the game instrumented with AltUnity Server. Upon startup, your game should display a popup with the message: "waiting for connection on port 13000". 
 
 ```eval_rst
 .. tabs::
 
     .. tab:: Unity Editor
 
-        1. Open AltUnityTester window from Unity -> Window -> AltUnityTester
+        1. Open AltUnity Tester Window
         2. In platform section select Editor
         3. Click Play in Editor
 
     .. tab:: PC
 
-        1. Open AltUnityTester window from Unity -> Window -> AltUnityTester
+        1. Open AltUnity Tester Window
         2. In platform section select Standalone
         3. Choose your build target
         4. Click Build & Run
@@ -85,11 +91,11 @@ Before running your tests you need to start the game built with AltUnity Tester.
 
         Prerequisites:
 
-        * Have ADB installed -- for more information check this `article <https://www.xda-developers.com/install-adb-windows-macos-linux/>`_.
+        * Use the Unity Hub to install Android Build Support and the required dependencies: Android SDK & NDK tools, and OpenJDK
 
         Steps:
 
-        1. Open AltUnityTester window from Unity -> Window -> AltUnityTester
+        1. Open AltUnity Tester Window
         2. In platform section select Android
         3. Click Build & Run
 
@@ -102,7 +108,7 @@ Before running your tests you need to start the game built with AltUnity Tester.
         
         Steps:
 
-        1. Open AltUnityTester window from Unity -> Window -> AltUnityTester
+        1. Open AltUnity Tester Window
         2. In platform section select iOS
         3. Click Build & Run
 
@@ -110,16 +116,17 @@ Before running your tests you need to start the game built with AltUnity Tester.
             Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
         
 
+        .. note:: 
+            For more details read about `port forwarding at this link <advanced-usage.html#Setup-Port-Forwarding>`_.
+
 ```
 
 
 ## Write and execute first test for your game
 
-To write tests with AltUnityTester you can use any testing framework. All you need to do is to import the driver for the specific language to your test file.
+To write tests with AltUnity Tester you need to import the AltUnity Client in your tests project. 
 
-After that in your setup method you create an instance of the driver and in you tear-down method you have to invoke the stop method of the driver.
-
-With the instance of the driver you can access all the commands that AltUnity Tester offers to test your game. 
+AltUnity Tester package contains AltUnityDriver class used to connect to the instrumented game. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the game.
 
 
 ``` note:: 
@@ -133,65 +140,60 @@ With the instance of the driver you can access all the commands that AltUnity Te
 .. tabs::
 
     .. tab:: C#
-
-        1. If you are writing tests in C# then you can create your tests directly from Unity.
-                
-                1.  Create a folder named Editor in your Unity Project.
-                2.  Right-click and select to create a new AltUnityTest file. This will create a template file in which you could start to write your test. 
-                3.  Name the file MyFirstTest.
-                4.  Open AltUnityTester window.
-                5.  You should be able to see your test in the left column.
-                6.  Run it by pressing one of the 3 options on the right column (under "Run tests" section).               
-
-        2. Using the driver:
         
-                ``altUnityDriver = new AltUnityDriver ("deviceIp", 13000);``
+        AltUnity C# Client is already included in AltUnity Tester package. If you are writing tests in C# then you can create your tests directly from Unity.
+        
+        1.  Create a folder named Editor in your Unity Project.
+        2.  Right-click on Editor folder and select `Create -> AltUnityTest`. This will create a template file in which you could start to write your test.
+        3.  Name the file MyFirstTest.
+        4.  Open AltUnity Tester Window.
+        5.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console 
 
-        3. Example test file:
 
-                .. include:: other/test-files/cSharp-test.cs
-                        :code: c#
+        Example test file:
+
+              .. include:: other/test-files/cSharp-test.cs
+                      :code: c#
 
     .. tab:: Java
 
-       To be able to use altUnity Tester from your Java code, you need to import it in your project.         
-
-       1. There are two methods of importing the Java library:
+        AltUnity Java Client is available as a maven package or as a standalone jar. Use one of the following methods to import the client in your tests project.
 
            Method 1: 
 
-                * Import it into your project by adding it as a dependency in your pom.xml file:
-                        
-                        | <dependency>
-                        |   <groupId>com.altom</groupId>
-                        |   <artifactId>altunitytester-java-client</artifactId>
-                        |   <version>1.5.4</version>
-                        | </dependency>
+                * Add AltUnity Java Client as a dependency in your pom.xml file:
 
-           Method 2: Using the .jar file from GIT (**without building it from source**)
+                .. code-block:: xml
+                
+                    <dependency>
+                      <groupId>com.altom</groupId>
+                      <artifactId>altunitytester-java-client</artifactId>
+                      <version>1.5.6</version>
+                    </dependency>
 
-                * Download from Git -- `JAR Dependency link <https://altom.gitlab.io/altunity/altunitytester/master/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
+
+           Method 2: Use the .jar file from GIT (**without building it from source**)
+
+                * Download `AltUnity Java Client <https://altom.gitlab.io/altunity/altunitytester/master/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
 
                 * Install the .jar file:
 
-                        ``mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.6 -Dpackaging=jar`` 
+                .. code-block:: sh
 
-       2. Using the driver:
-        
-                ``altUnityDriver = new AltUnityDriver ("deviceIp", 13000, ";", "&", true);``  
+                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.6 -Dpackaging=jar`` 
 
-       3. Example test file:
+        Example test file:
 
                 .. include:: other/test-files/java-test.java
                         :code: java
 
-       4. Run your test file by using the following command (in the test project folder):
+        Run your tests by using the following command (in the test project folder):
 
                 ``mvn test``
 
     .. tab:: Python
 
-        1. There are two methods of installing the pip package:
+        There are two methods of installing the AltUnity Python Client pip package:
 
             Method 1 - Installing using Pip:
         
@@ -203,20 +205,21 @@ With the instance of the driver you can access all the commands that AltUnity Te
 
                 ``python setup.py install``
         
-        2. Using the driver:
 
-                ``cls.altdriver = AltrunUnityDriver (None, 'platform', 'deviceIp', 13000)``
-
-        3. Example test file:
+        Example test file:  
 
                 .. include:: other/test-files/python-test.py
                         :code: py
 
-        4. Run your test file by using the following command:
+        Run your test file by using the following command:
 
                 ``python <nameOfYourTestFile.py>``
 ```
 
 
-Now your project can use all the AltUnityDriver methods. 
- 
+Now your project can use all the [AltUnity Client Commands](./commands.md).
+
+
+``` note:: 
+        Before running your tests, start the instrumented game and wait for popup with the message: "waiting for connection on port 13000".
+```

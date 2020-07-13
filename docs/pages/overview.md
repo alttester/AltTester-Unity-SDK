@@ -19,6 +19,18 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 
 ## How it works 
 
-AltUnity Tester package provides build capabilities for your unity project. A Unity project instrumented with AltUnity Tester exposes access to all the objects in the Unity hierarchy. Tests can access the Unity objects via the AltUnityDriver module with bindings available in C#, Java and Python. 
 
-The AltUnity Tester build opens up a TCP socket connection on the device running the Unity application and waits for a client to connect before starting the application. In the tests, AltUnityDriver connects to the TCP socket and sends commands to interact with the Unity App.
+AltUnity Tester framework contains the following modules:
+
+* AltUnity Server
+* AltUnity Client
+* AltUnity Tester Editor Window
+
+AltUnity Server module is used to instrument your game to expose access to all the objects in the Unity hierarchy. The instrumented game opens up a TCP socket connection on the device running the Unity application and waits for an AltUnity Client to connect after starting the application.
+
+AltUnity Client module is used to connect to the AltUnity Server, access all the Unity objects and interact with them through tests written in C#, Java or Python.
+
+AltUnity Tester Editor Window is the GUI used for instrumenting a Unity game and running C# tests directly from Unity Editor.
+
+
+![Architecture](../_static/images/architecture.png)
