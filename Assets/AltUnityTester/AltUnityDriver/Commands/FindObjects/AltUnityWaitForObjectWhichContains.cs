@@ -2,16 +2,18 @@ public class AltUnityWaitForObjectWhichContains : AltUnityBaseFindObjects
 {
     By by;
     string value;
-    string cameraName;
+    By cameraBy;
+    string cameraPath;
     bool enabled;
     double timeout;
     double interval;
 
-    public AltUnityWaitForObjectWhichContains (SocketSettings socketSettings, By by, string value, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
+    public AltUnityWaitForObjectWhichContains (SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
-        this.cameraName = cameraName;
+        this.cameraBy = cameraBy;
+        this.cameraPath = cameraPath;
         this.enabled = enabled;
         this.timeout = timeout;
         this.interval = interval;
@@ -24,7 +26,7 @@ public class AltUnityWaitForObjectWhichContains : AltUnityBaseFindObjects
         {
             try
             {
-                altElement = new AltUnityFindObjectWhichContains(SocketSettings, by, value, cameraName, enabled).Execute();
+                altElement = new AltUnityFindObjectWhichContains(SocketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
                 break;
             }
             catch (System.Exception)

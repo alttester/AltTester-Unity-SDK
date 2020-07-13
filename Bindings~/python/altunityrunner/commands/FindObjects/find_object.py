@@ -1,20 +1,28 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 from altunityrunner.by import By
+
+
 class FindObject(CommandReturningAltElements):
-    def __init__(self, socket,request_separator,request_end,appium_driver,by,value,camera_name,enabled):
-        super(FindObject, self).__init__(socket,request_separator,request_end,appium_driver)
-        self.by=by
-        self.value=value
-        self.camera_name=camera_name
-        self.enabled=enabled
-    
+    def __init__(self, socket, request_separator, request_end, appium_driver, by, value, camera_by, camera_path, enabled):
+        super(FindObject, self).__init__(
+            socket, request_separator, request_end, appium_driver)
+        self.by = by
+        self.value = value
+        self.camera_by = camera_by
+        self.camera_path = camera_path
+        self.enabled = enabled
+
     def execute(self):
-        path=self.set_path(self.by,self.value)
-        if self.enabled==True:
-            if self.by==By.NAME:
-                data= self.send_data(self.create_command('findActiveObjectByName', self.value , self.camera_name ,'true'))
+        path = self.set_path(self.by, self.value)
+        camera_path = self.set_path(self.camera_by, self.camera_path)
+        if self.enabled == True:
+            if self.by == By.NAME:
+                data = self.send_data(self.create_command(
+                    'findActiveObjectByName', self.value, By.return_enum_string(self.camera_by), camera_path, 'true'))
             else:
-                data = self.send_data(self.create_command('findObject', path , self.camera_name ,'true'))
+                data = self.send_data(self.create_command(
+                    'findObject', path, By.return_enum_string(self.camera_by), camera_path, 'true'))
         else:
-            data = self.send_data(self.create_command('findObject', path , self.camera_name ,'false'))
+            data = self.send_data(self.create_command(
+                'findObject', path, By.return_enum_string(self.camera_by), camera_path, 'false'))
         return self.get_alt_element(data)

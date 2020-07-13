@@ -429,12 +429,12 @@ class PythonTests(unittest.TestCase):
     def test_creating_stars(self):
         self.altdriver.load_scene("Scene 5 Keyboard Input")
         stars = self.altdriver.find_objects_which_contains(
-            By.NAME, "Star", "Player2")
+            By.NAME, "Star", By.NAME, "Player2")
         self.assertEqual(1, len(stars))
         player = self.altdriver.find_objects_which_contains(
-            By.NAME, "Player", "Player2")
+            By.NAME, "Player", By.NAME, "Player2")
         pressing_point_1 = self.altdriver.find_object(
-            By.NAME, "PressingPoint1", "Player2")
+            By.NAME, "PressingPoint1", By.NAME, "Player2")
 
         self.altdriver.move_mouse(
             int(pressing_point_1.x), int(pressing_point_1.y), 1)
@@ -442,7 +442,7 @@ class PythonTests(unittest.TestCase):
 
         self.altdriver.press_key('Mouse0', 1, 0)
         pressing_point_2 = self.altdriver.find_object(
-            By.NAME, "PressingPoint2", "Player2")
+            By.NAME, "PressingPoint2", By.NAME, "Player2")
         self.altdriver.move_mouse_and_wait(
             int(pressing_point_1.x), int(pressing_point_2.y), 1)
         self.altdriver.press_key('Mouse0', 1, 0)
@@ -883,6 +883,243 @@ class PythonTests(unittest.TestCase):
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
         self.assertNotEqual(initial_position, final_position)
+
+    def test_find_object_with_camera_id(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        camera = self.altdriver.find_object(By.PATH, "//Camera")
+        altElement = self.altdriver.find_object(
+            By.COMPONENT, "CapsuleCollider", By.ID, str(camera.id))
+        self.assertTrue(altElement.name == "Capsule")
+        camera2 = self.altdriver.find_object(By.PATH, "//Main Camera")
+        altElement2 = self.altdriver.find_object(
+            By.COMPONENT, "CapsuleCollider", By.ID, str(camera2.id))
+        self.assertNotEquals(altElement.x, altElement2.x)
+        self.assertNotEquals(altElement.y, altElement2.y)
+
+    def test_wait_for_object_with_camera_id(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        camera = self.altdriver.find_object(By.PATH, "//Camera")
+        altElement = self.altdriver.wait_for_object(
+            By.COMPONENT, "CapsuleCollider", By.ID, str(camera.id))
+        self.assertTrue(altElement.name == "Capsule")
+        camera2 = self.altdriver.find_object(By.PATH, "//Main Camera")
+        altElement2 = self.altdriver.wait_for_object(
+            By.COMPONENT, "CapsuleCollider", By.ID, str(camera2.id))
+        self.assertNotEquals(altElement.x, altElement2.x)
+        self.assertNotEquals(altElement.y, altElement2.y)
+
+    def test_find_objects_with_camera_id(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        camera = self.altdriver.find_object(By.PATH, "//Camera")
+        altElement = self.altdriver.find_objects(
+            By.NAME, "Plane", By.ID, str(camera.id))
+        self.assertTrue(altElement[0].name == "Plane")
+        camera2 = self.altdriver.find_object(By.PATH, "//Main Camera")
+        altElement2 = self.altdriver.find_objects(
+            By.NAME, "Plane", By.ID, str(camera2.id))
+        self.assertNotEquals(altElement[0].x, altElement2[0].x)
+        self.assertNotEquals(altElement[0].y, altElement2[0].y)
+
+    def test_wait_for_object_not_be_present_with_camera_id(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        camera2 = self.altdriver.find_object(By.PATH, "//Main Camera")
+        self.altdriver.wait_for_object_to_not_be_present(
+            By.NAME, "ObjectDestroyedIn5Secs", By.ID, str(camera2.id))
+
+        allObjectsInTheScene = self.altdriver.get_all_elements()
+        objectSearched = None
+        for obj in allObjectsInTheScene:
+            if obj.name == "ObjectDestroyedIn5Secs":
+                objectSearched = obj
+                break
+        self.assertFalse(objectSearched == True)
+
+    def test_wait_for_element_with_text_with_camera_id(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        name = "CapsuleInfo"
+        text = self.altdriver.find_object(By.NAME, name).get_text()
+        camera = self.altdriver.find_object(By.PATH, "//Main Camera")
+        altElement = self.altdriver.wait_for_object_with_text(
+            By.NAME, name, text, By.ID, str(camera.id))
+        self.assertIsNotNone(altElement)
+        self.assertEquals(altElement.get_text(), text)
+
+    def test_wait_for_object_which_contains_with_camera_id(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        camera = self.altdriver.find_object(By.PATH, "//Main Camera")
+        altElement = self.altdriver.wait_for_object_which_contains(
+            By.NAME, "Canva", By.ID, str(camera.id))
+        self.assertEquals("Canvas", altElement.name)
+
+    def test_find_object_with_tag(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        altElement = self.altdriver.find_object(
+            By.COMPONENT, "CapsuleCollider",  By.TAG, "MainCamera")
+        self.assertTrue(altElement.name == "Capsule")
+        altElement2 = self.altdriver.find_object(
+            By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged")
+        self.assertNotEquals(altElement.x, altElement2.x)
+        self.assertNotEquals(altElement.y, altElement2.y)
+
+    def test_wait_for_object_with_tag(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        altElement = self.altdriver.wait_for_object(
+            By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera")
+        self.assertTrue(altElement.name == "Capsule")
+        altElement2 = self.altdriver.wait_for_object(
+            By.COMPONENT, "CapsuleCollider",  By.TAG, "Untagged")
+        self.assertNotEquals(altElement.x, altElement2.x)
+        self.assertNotEquals(altElement.y, altElement2.y)
+
+    def test_find_objects_with_tag(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        altElement = self.altdriver.find_objects(
+            By.NAME, "Plane", By.TAG, "MainCamera")
+        self.assertTrue(altElement[0].name == "Plane")
+        altElement2 = self.altdriver.find_objects(
+            By.NAME, "Plane", By.TAG, "Untagged")
+        self.assertNotEquals(altElement[0].x, altElement2[0].x)
+        self.assertNotEquals(altElement[0].y, altElement2[0].y)
+
+    def test_wait_for_object_not_be_present_with_tag(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        self.altdriver.wait_for_object_to_not_be_present(
+            By.NAME, "ObjectDestroyedIn5Secs", By.TAG, "MainCamera")
+
+        allObjectsInTheScene = self.altdriver.get_all_elements()
+        objectSearched = None
+        for obj in allObjectsInTheScene:
+            if obj.name == "ObjectDestroyedIn5Secs":
+                objectSearched = obj
+                break
+        self.assertFalse(objectSearched == True)
+
+    def test_wait_for_element_with_text_with_tag(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        name = "CapsuleInfo"
+        text = self.altdriver.find_object(By.NAME, name).get_text()
+        print(text)
+        altElement = self.altdriver.wait_for_object_with_text(
+            By.NAME, name, text, By.TAG, "MainCamera")
+        self.assertIsNotNone(altElement)
+        self.assertEquals(altElement.get_text(), text)
+
+    def test_wait_for_object_which_contains_with_tag(self):
+        altElement = self.altdriver.wait_for_object_which_contains(
+            By.NAME, "Canva", By.TAG, "MainCamera")
+        self.assertEquals("Canvas", altElement.name)
+
+    def test_click_event(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        self.altdriver.find_object(By.NAME, 'UIButton').click_event()
+        capsule_info = self.altdriver.wait_for_element_with_text(
+            'CapsuleInfo', 'UIButton clicked to jump capsule!', '', 1)
+        self.assertEqual('UIButton clicked to jump capsule!',
+                         capsule_info.get_text())
+
+    def test_acceleration(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        self.altdriver.tilt(1, 1, 1, 1)
+        time.sleep(1)
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        self.assertNotEqual(initial_position, final_position)
+
+    def test_acceleration_and_wait(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        self.altdriver.tilt_and_wait(1, 1, 1, 1)
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        self.assertNotEqual(initial_position, final_position)
+
+    def test_find_object_with_obsolete_camera_method(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        altElement = self.altdriver.find_object(
+            By.COMPONENT, "CapsuleCollider", "Camera")
+        self.assertTrue(altElement.name == "Capsule")
+        altElement2 = self.altdriver.find_object(
+            By.COMPONENT, "CapsuleCollider", "Main Camera")
+        self.assertNotEquals(altElement.x, altElement2.x)
+        self.assertNotEquals(altElement.y, altElement2.y)
+
+    def test_wait_for_object_with_obsolete_camera_method(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        altElement = self.altdriver.wait_for_object(
+            By.COMPONENT, "CapsuleCollider", "Camera")
+        self.assertTrue(altElement.name == "Capsule")
+        altElement2 = self.altdriver.wait_for_object(
+            By.COMPONENT, "CapsuleCollider", "Main Camera")
+        self.assertNotEquals(altElement.x, altElement2.x)
+        self.assertNotEquals(altElement.y, altElement2.y)
+
+    def test_find_objects_with_obsolete_camera_method(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altButton = self.altdriver.find_object(By.PATH, "//Button")
+        altButton.tap()
+        altButton.tap()
+        altElement = self.altdriver.find_objects(
+            By.NAME, "Plane", "Camera")
+        self.assertTrue(altElement[0].name == "Plane")
+        altElement2 = self.altdriver.find_objects(
+            By.NAME, "Plane", "Main Camera")
+        self.assertNotEquals(altElement[0].x, altElement2[0].x)
+        self.assertNotEquals(altElement[0].y, altElement2[0].y)
+
+    def test_wait_for_object_not_be_present_with_obsolete_camera_method(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        self.altdriver.wait_for_object_to_not_be_present(
+            By.NAME, "ObjectDestroyedIn5Secs", "Main Camera")
+
+        allObjectsInTheScene = self.altdriver.get_all_elements()
+        objectSearched = None
+        for obj in allObjectsInTheScene:
+            if obj.name == "ObjectDestroyedIn5Secs":
+                objectSearched = obj
+                break
+        self.assertFalse(objectSearched == True)
+
+    def test_wait_for_element_with_obsolete_camera_method(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        name = "CapsuleInfo"
+        text = self.altdriver.find_object(By.NAME, name).get_text()
+        altElement = self.altdriver.wait_for_object_with_text(
+            By.NAME, name, text, "Main Camera")
+        self.assertIsNotNone(altElement)
+        self.assertEquals(altElement.get_text(), text)
+
+    def test_wait_for_object_which_contains_with_obsolete_camera_method(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        altElement = self.altdriver.wait_for_object_which_contains(
+            By.NAME, "Canva", "Main Camera")
+        self.assertEquals("Canvas", altElement.name)
 
 
 if __name__ == '__main__':

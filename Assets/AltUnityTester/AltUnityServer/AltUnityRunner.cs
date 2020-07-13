@@ -41,6 +41,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public readonly string errorNullRefferenceMessage = "error:nullReferenceException";
     public readonly string errorUnknownError = "error:unknownError";
     public readonly string errorFormatException = "error:formatException";
+    public readonly string errorCameraNotFound = "error:cameraNotFound";
 
     public Newtonsoft.Json.JsonSerializerSettings _jsonSettings;
 
@@ -464,15 +465,15 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new AltUnityScrollMouseCommand (scrollValue, duration);
                     break;
                 case "findObject":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                     command = new AltUnityFindObjectCommand (methodParameters);
                     break;
                 case "findObjects":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                     command = new AltUnityFindObjectsCommand (methodParameters);
                     break;
                 case "findActiveObjectByName":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                     command = new AltUnityFindActiveObjectsByNameCommand (methodParameters);
                     break;
                 case "enableLogging":

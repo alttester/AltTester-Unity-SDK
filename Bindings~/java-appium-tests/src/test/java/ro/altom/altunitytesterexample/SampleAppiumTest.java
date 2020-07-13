@@ -12,6 +12,8 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityObject;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectWithTextParameters;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,12 +57,17 @@ public class SampleAppiumTest {
     @Test
     public void testTapOnButton() throws Exception {
         assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
-        AltUnityObject jumpButton = altUnityDriver.findObject(AltUnityDriver.By.NAME, "UIButton");
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                "UIButton").build();
+        AltUnityObject jumpButton = altUnityDriver.findObject(altFindObjectsParameters);
         TouchAction tapButton = new TouchAction(appiumDriver);
         tapButton.tap(new PointOption().withCoordinates(jumpButton.x, jumpButton.mobileY)).perform();
-        String text = altUnityDriver
-                .waitForObjectWithText(AltUnityDriver.By.NAME, "CapsuleInfo", "UIButton clicked to jump capsule!")
-                .getText();
+
+        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "CapsuleInfo").build();
+        AltWaitForObjectWithTextParameters altWaitForObjectsParameters = new AltWaitForObjectWithTextParameters.Builder(
+                altFindObjectsParameters2, "UIButton clicked to jump capsule!").build();
+        String text = altUnityDriver.waitForObjectWithText(altWaitForObjectsParameters).getText();
         assertEquals("UIButton clicked to jump capsule!", text);
     }
 }

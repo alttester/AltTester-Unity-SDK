@@ -69,15 +69,15 @@ public class TestForScene5KeyboardAndMouseInput
     {
        AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-       var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-       var pressingpoint1=  AltUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", "Player2");
+       var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star",cameraPath:"Player2");
+       var pressingpoint1=  AltUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
         Assert.AreEqual(1, stars.Count);
 
        AltUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1);
        Thread.Sleep(1500);
 
        AltUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0);
-       var pressingpoint2=  AltUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", "Player2");
+       var pressingpoint2=  AltUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue:"Player2");
        AltUnityDriver.MoveMouseAndWait(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
        AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 1);
 

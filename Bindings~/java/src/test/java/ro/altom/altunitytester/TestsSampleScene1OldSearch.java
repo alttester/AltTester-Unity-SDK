@@ -5,6 +5,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.IOException;
@@ -390,15 +392,18 @@ public class TestsSampleScene1OldSearch {
 
     @Test
     public void TestFindObjectWhichContains() {
-        AltUnityObject altElement = altUnityDriver.findObjectWhichContains(AltUnityDriver.By.NAME, "Event");
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "Event").build();
+        AltUnityObject altElement = altUnityDriver.findObjectWhichContains(altFindObjectsParameters1);
         assertEquals("EventSystem", altElement.name);
     }
 
     @Test
     public void TestFindWithFindObjectWhichContainsNotExistingObject() {
         try {
-            AltUnityObject altElement = altUnityDriver.findObjectWhichContains(AltUnityDriver.By.NAME,
-                    "EventNonExisting");
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "EventNonExisting").build();
+            AltUnityObject altElement = altUnityDriver.findObjectWhichContains(altFindObjectsParameters1);
             assertFalse("Error should have been thrown", true);
         } catch (NotFoundException exception) {
             assertEquals(exception.getMessage(), "error:notFound");
