@@ -1,3 +1,53 @@
+# Changes in version 1.5.6
+
+## Bug fixes and improvements
+
+"Make AltUnityDriver interface consistent acrross all language clients" !257
+"Add option to specific camera other than name in find objects commands" !207
+"Python - iOS - exception still thrown if we try to connect but server is not yet running" !255  
+"click_element() not working in python" !254  
+"Multiple warning messages displayed when using the editor" !252  
+"Update documentation for overview and get started" !251  
+"Test List doesn't appear when configuration page is created" !250  
+"Double clicking on a test in AltUnity Tester window doesn't open the test file in IDE" !249  
+"Make the Android / iOS options under Platform more clear" !248  
+"Tilt command not working" !247  
+Exposing the AltBaseSettings to support users to write custom commands. !253  
+"AltElement in Python doesn't have parentId property" !238  
+"Class name is checked although not all tests under it are checked (in the Tests list)" !237  
+"Scroll command not functioning" !246  
+"No relevant error message and build is not made when having empty "Output path"" !244  
+"General Method to run c# test in command line" !242  
+"Examples are missing from unitypackage that is in documentation" !239  
+"Continuous error triggered when making changes to the test file while the game is running" !245  
+""NullReferenceException" displayed as info message after running tests" !243  
+"Finding parent by path gives "failedToParseMethodArguments"" !228  
+"Finding object by component should accept component name just like other methods" !241  
+"Handle null exception in case object has null components(invalid scripts)" !208  
+Added get_all_fields_of() for Python along with Typing help !232  
+Test List Improvements !240  
+Added get_all_components() for Python along with Typing help !231  
+"AltUnityTesterEditorSettings should not appear in the project files" !236  
+"Update example tests in order to avoid possible naming conflicts" !233  
+"Rename some of the server commands all to respect the same pattern" !235  
+"Move "Run tests" section below "Build" and "Run" sections" !234  
+"Add example in documentation for function that are missing" !209  
+Changed all the is to the ==, where python complained !230
+
+## Contributors
+
+- Robert Poienar @robert_poienar
+- Dorin Oltean @dorinaltom
+- Ru Cindrea @ru.cindrea
+- pusoktimea @pusoktimea
+- Alexandru Rotaru @alex.rotaru
+- Dorel @doreln 
+- Bogdan Birnicu @bogdan.birnicu
+- Raluca Vaida @raluca.vaida 
+- Mike Talalaevskiy @Day0Dreamer
+- Miguel Ibero @miguel.ibero
+- dcole-gsn @dcole-gsn 
+
 # Changes in version 1.5.5
 
 ## Bug fixes and improvements
