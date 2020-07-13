@@ -1,26 +1,34 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
 import ro.altom.altunitytester.AltUnityDriver;
+import ro.altom.altunitytester.AltUnityDriver.By;
 
 public class AltGetAllElementsParameters {
 
-    public static class Builder{
-        private String cameraName="";
-        private boolean enabled=true;
-        public Builder(){
+    public static class Builder {
+        private By cameraBy = By.NAME;
+        private String cameraPath = "";
+        private boolean enabled = true;
+
+        public Builder() {
         }
-        public AltGetAllElementsParameters.Builder isEnabled(boolean enabled){
-            this.enabled= enabled;
+
+        public AltGetAllElementsParameters.Builder isEnabled(boolean enabled) {
+            this.enabled = enabled;
             return this;
         }
-        public AltGetAllElementsParameters.Builder withCamera(String cameraName){
-            this.cameraName= cameraName;
+
+        public AltGetAllElementsParameters.Builder withCamera(By cameraBy, String cameraPath) {
+            this.cameraPath = cameraPath;
+            this.cameraBy = cameraBy;
             return this;
         }
-        public AltGetAllElementsParameters build(){
-            AltGetAllElementsParameters altGetAllElementsParameters =new AltGetAllElementsParameters();
-            altGetAllElementsParameters.cameraName=this.cameraName;
-            altGetAllElementsParameters.enabled=this.enabled;
+
+        public AltGetAllElementsParameters build() {
+            AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters();
+            altGetAllElementsParameters.cameraBy = this.cameraBy;
+            altGetAllElementsParameters.cameraPath = this.cameraPath;
+            altGetAllElementsParameters.enabled = this.enabled;
             return altGetAllElementsParameters;
         }
     }
@@ -28,15 +36,24 @@ public class AltGetAllElementsParameters {
     private AltGetAllElementsParameters() {
     }
 
-    private String cameraName;
+    private By cameraBy;
+    private String cameraPath;
     private boolean enabled;
 
-    public String getCameraName() {
-        return cameraName;
+    public By getCameraBy() {
+        return cameraBy;
     }
 
-    public void setCameraName(String cameraName) {
-        this.cameraName = cameraName;
+    public void setCameraBy(By cameraBy) {
+        this.cameraBy = cameraBy;
+    }
+
+    public String getCameraPath() {
+        return cameraPath;
+    }
+
+    public void setCameraPath(String cameraPath) {
+        this.cameraPath = cameraPath;
     }
 
     public boolean isEnabled() {

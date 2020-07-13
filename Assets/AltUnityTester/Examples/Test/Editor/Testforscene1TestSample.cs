@@ -395,18 +395,14 @@ public class TestForScene1TestSample
 
     }
 
-
-
-
-
     [Test]
     public void TestDifferentCamera()
     {
-        var altButton = altUnityDriver.FindObject(By.NAME, "Button", "Main Camera");
+        var altButton = altUnityDriver.FindObject(By.NAME, "Button", By.NAME, "Main Camera");
         altButton.ClickEvent();
         altButton.ClickEvent();
-        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule", "Main Camera");
-        var altElement2 = altUnityDriver.FindObject(By.NAME, "Capsule", "Camera");
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule", By.NAME, "Main Camera");
+        var altElement2 = altUnityDriver.FindObject(By.NAME, "Capsule", By.NAME, "Camera");
         AltUnityVector2 pozOnScreenFromMainCamera = new AltUnityVector2(altElement.x, altElement.y);
         AltUnityVector2 pozOnScreenFromSecondaryCamera = new AltUnityVector2(altElement2.x, altElement2.y);
 
@@ -672,16 +668,16 @@ public class TestForScene1TestSample
 
 
     }
-    [Test]
-    public void TestFindObjectWithDifferentCameras()
-    {
-        var changeCameraButton = altUnityDriver.FindObject(By.NAME, "Button");
-        changeCameraButton.Tap().Tap();
-        var altElement1 = altUnityDriver.FindObject(By.NAME, "Capsule", cameraName: "Main Camera", enabled: false);
-        var altElement2 = altUnityDriver.FindObject(By.NAME, "Capsule", cameraName: "Camera", enabled: false);
-        Assert.AreNotEqual(altElement1.y, altElement2.y);
-        Assert.AreNotEqual(altElement1.x, altElement2.x);
-    }
+    //[Test]
+    //public void TestFindObjectWithDifferentCameras()
+    //{
+    //    var changeCameraButton = altUnityDriver.FindObject(By.NAME, "Button");
+    //    changeCameraButton.Tap().Tap();
+    //    var altElement1 = altUnityDriver.FindObject(By.NAME, "Capsule", cameraName: "Main Camera", enabled: false);
+    //    var altElement2 = altUnityDriver.FindObject(By.NAME, "Capsule", cameraName: "Camera", enabled: false);
+    //    Assert.AreNotEqual(altElement1.y, altElement2.y);
+    //    Assert.AreNotEqual(altElement1.x, altElement2.x);
+    //}
 
     [Test]
     public void TestFindObjectsByTag()
@@ -888,12 +884,155 @@ public class TestForScene1TestSample
         Assert.AreEqual("Canvas", parent.name);
     }
 
+    public void TestFindObjectWithCameraId()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var camera = altUnityDriver.FindObject(By.PATH, "//Camera");
+        var altElement = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.ID, camera.id.ToString());
+        Assert.True(altElement.name.Equals("Capsule"));
+        var camera2 = altUnityDriver.FindObject(By.PATH, "//Main Camera");
+        var altElement2 = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.ID, camera2.id.ToString());
+        Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+    }
+
     [Test]
+    public void TestWaitForObjectWithCameraId()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var camera = altUnityDriver.FindObject(By.PATH, "//Camera");
+        var altElement = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.ID, camera.id.ToString());
+        Assert.True(altElement.name.Equals("Capsule"));
+        var camera2 = altUnityDriver.FindObject(By.PATH, "//Main Camera");
+        var altElement2 = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.ID, camera2.id.ToString());
+        Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+    }
+
+    [Test]
+    public void TestFindObjectsWithCameraId()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var camera = altUnityDriver.FindObject(By.PATH, "//Camera");
+        var altElement = altUnityDriver.FindObjects(By.NAME, "Plane", By.ID, camera.id.ToString());
+        Assert.True(altElement[0].name.Equals("Plane"));
+        var camera2 = altUnityDriver.FindObject(By.PATH, "//Main Camera");
+        var altElement2 = altUnityDriver.FindObjects(By.NAME, "Plane", By.ID, camera2.id.ToString());
+        Assert.AreNotEqual(altElement[0].getScreenPosition(), altElement2[0].getScreenPosition());
+    }
+
+    [Test]
+    public void TestWaitForObjectNotBePresentWithCameraId()
+    {
+        var camera2 = altUnityDriver.FindObject(By.PATH, "//Main Camera");
+        altUnityDriver.WaitForObjectNotBePresent(By.NAME, "ObjectDestroyedIn5Secs", By.ID, camera2.id.ToString());
+
+        var allObjectsInTheScene = altUnityDriver.GetAllElements();
+        Assert.IsTrue(!allObjectsInTheScene.Any(obj => obj.name.Equals("ObjectDestroyedIn5Secs")));
+    }
+
+    [Test]
+    public void TestWaitForElementWithTextWithCameraId()
+    {
+        const string name = "CapsuleInfo";
+        string text = altUnityDriver.FindObject(By.NAME, name).GetText();
+        var timeStart = DateTime.Now;
+        var camera2 = altUnityDriver.FindObject(By.PATH, "//Main Camera");
+        var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text, By.ID, camera2.id.ToString());
+        var timeEnd = DateTime.Now;
+        var time = timeEnd - timeStart;
+        Assert.Less(time.TotalSeconds, 20);
+        Assert.NotNull(altElement);
+        Assert.AreEqual(altElement.GetText(), text);
+    }
+
+    [Test]
+    public void TestWaitForObjectWhichContainsWithCameraId()
+    {
+        var camera2 = altUnityDriver.FindObject(By.PATH, "//Main Camera");
+        var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva", By.ID, camera2.id.ToString());
+        Assert.AreEqual("Canvas", altElement.name);
+
+    }
+
+
+    [Test]
+    public void TestFindObjectWithTag()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var altElement = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera");
+        Assert.True(altElement.name.Equals("Capsule"));
+        var altElement2 = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged");
+        Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+    }
+
+    [Test]
+    public void TestWaitForObjectWithTag()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var altElement = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera");
+        Assert.True(altElement.name.Equals("Capsule"));
+        var altElement2 = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged");
+        Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+    }
+
+    [Test]
+    public void TestFindObjectsWithTag()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var altElement = altUnityDriver.FindObjects(By.NAME, "Capsule", By.TAG, "MainCamera");
+        Assert.True(altElement[0].name.Equals("Capsule"));
+        var altElement2 = altUnityDriver.FindObjects(By.NAME, "Capsule", By.TAG, "Untagged");
+        Assert.AreNotEqual(altElement[0].getScreenPosition(), altElement2[0].getScreenPosition());
+    }
+
+    [Test]
+    public void TestWaitForObjectNotBePresentWithTag()
+    {
+        var camera2 = altUnityDriver.FindObject(By.PATH, "//Main Camera");
+        altUnityDriver.WaitForObjectNotBePresent(By.NAME, "ObjectDestroyedIn5Secs", By.TAG, "MainCamera");
+
+        var allObjectsInTheScene = altUnityDriver.GetAllElements();
+        Assert.IsTrue(!allObjectsInTheScene.Any(obj => obj.name.Equals("ObjectDestroyedIn5Secs")));
+    }
+
+    [Test]
+    public void TestWaitForElementWithTextWithTag()
+    {
+        const string name = "CapsuleInfo";
+        string text = altUnityDriver.FindObject(By.NAME, name).GetText();
+        var timeStart = DateTime.Now;
+        var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text, By.TAG, "MainCamera");
+        var timeEnd = DateTime.Now;
+        var time = timeEnd - timeStart;
+        Assert.Less(time.TotalSeconds, 20);
+        Assert.NotNull(altElement);
+        Assert.AreEqual(altElement.GetText(), text);
+    }
+
+    [Test]
+    public void TestWaitForObjectWhichContainsWithTag()
+    {
+        var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva", By.TAG, "MainCamera");
+        Assert.AreEqual("Canvas", altElement.name);
+
+    }
+
     public void TestAcceleration()
     {
-        var capsule= altUnityDriver.FindObject(By.NAME, "Capsule");
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var initialWorldCoordinates = capsule.getWorldPosition();
-        altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1),1);
+        altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1), 1);
         Thread.Sleep(1000);
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var afterTiltCoordinates = capsule.getWorldPosition();
@@ -910,5 +1049,73 @@ public class TestForScene1TestSample
         var afterTiltCoordinates = capsule.getWorldPosition();
         Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
     }
+
+    [Test]
+    public void TestFindObjectWithObsoleteCameraMethod()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var altElement = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", "Camera");
+        Assert.True(altElement.name.Equals("Capsule"));
+        var altElement2 = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", "Main Camera");
+        Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+    }
+
+    [Test]
+    public void TestWaitForObjectWithObsoleteCameraMethod()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var altElement = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", "Camera");
+        Assert.True(altElement.name.Equals("Capsule"));
+        var altElement2 = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", "Main Camera");
+        Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+    }
+
+    [Test]
+    public void TestFindObjectsWithObsoleteCameraMethod()
+    {
+        var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
+        altButton.ClickEvent();
+        altButton.ClickEvent();
+        var altElement = altUnityDriver.FindObjects(By.NAME, "Plane", "Camera");
+        Assert.True(altElement[0].name.Equals("Plane"));
+        var altElement2 = altUnityDriver.FindObjects(By.NAME, "Plane", "Main Camera");
+        Assert.AreNotEqual(altElement[0].getScreenPosition(), altElement2[0].getScreenPosition());
+    }
+
+    [Test]
+    public void TestWaitForObjectNotBePresentWithObsoleteCameraMethod()
+    {
+        altUnityDriver.WaitForObjectNotBePresent(By.NAME, "ObjectDestroyedIn5Secs", "Main Camera");
+
+        var allObjectsInTheScene = altUnityDriver.GetAllElements();
+        Assert.IsTrue(!allObjectsInTheScene.Any(obj => obj.name.Equals("ObjectDestroyedIn5Secs")));
+    }
+
+    [Test]
+    public void TestWaitForElementWithTextWithObsoleteCameraMethod()
+    {
+        const string name = "CapsuleInfo";
+        string text = altUnityDriver.FindObject(By.NAME, name).GetText();
+        var timeStart = DateTime.Now;
+        var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text, "Main Camera");
+        var timeEnd = DateTime.Now;
+        var time = timeEnd - timeStart;
+        Assert.Less(time.TotalSeconds, 20);
+        Assert.NotNull(altElement);
+        Assert.AreEqual(altElement.GetText(), text);
+    }
+
+    [Test]
+    public void TestWaitForObjectWhichContainsWithObsoleteCameraMethod()
+    {
+        var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva", "Main Camera");
+        Assert.AreEqual("Canvas", altElement.name);
+
+    }
+
 
 }

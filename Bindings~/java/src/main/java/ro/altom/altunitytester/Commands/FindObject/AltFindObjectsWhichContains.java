@@ -9,16 +9,22 @@ import ro.altom.altunitytester.AltUnityObject;
  */
 public class AltFindObjectsWhichContains extends AltBaseFindObject {
     /**
-     * @param altFindObjectsParameters the properties parameter for finding the objects in a scene.
+     * @param altFindObjectsParameters the properties parameter for finding the
+     *                                 objects in a scene.
      */
     private AltFindObjectsParameters altFindObjectsParameters;
-    public AltFindObjectsWhichContains(AltBaseSettings altBaseSettings, AltFindObjectsParameters altFindObjectsParameters) {
+
+    public AltFindObjectsWhichContains(AltBaseSettings altBaseSettings,
+            AltFindObjectsParameters altFindObjectsParameters) {
         super(altBaseSettings);
         this.altFindObjectsParameters = altFindObjectsParameters;
     }
-    public AltUnityObject[] Execute(){
-        String path=SetPathContains(altFindObjectsParameters.getBy(),altFindObjectsParameters.getValue());
-        send(CreateCommand("findObjects", path, altFindObjectsParameters.getCameraName(), String.valueOf(altFindObjectsParameters.isEnabled())));
+
+    public AltUnityObject[] Execute() {
+        String path = SetPathContains(altFindObjectsParameters.getBy(), altFindObjectsParameters.getValue());
+        String cameraPath = SetPath(altFindObjectsParameters.getCameraBy(), altFindObjectsParameters.getCameraPath());
+        send(CreateCommand("findObjects", path, altFindObjectsParameters.getCameraBy().toString(), cameraPath,
+                String.valueOf(altFindObjectsParameters.isEnabled())));
         return ReceiveListOfAltUnityObjects();
     }
 }

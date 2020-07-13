@@ -3,15 +3,17 @@ public class AltUnityWaitForObjectWithText : AltUnityBaseFindObjects
     By by;
     string value;
     string text;
-    string cameraName;
+    By cameraBy;
+    string cameraPath;
     bool enabled;
     double timeout;
     double interval;
-    public AltUnityWaitForObjectWithText(SocketSettings socketSettings, By by, string value, string text, string cameraName, bool enabled, double timeout, double interval) : base(socketSettings)
+    public AltUnityWaitForObjectWithText(SocketSettings socketSettings, By by, string value, string text, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
-        this.cameraName = cameraName;
+        this.cameraBy = cameraBy;
+        this.cameraPath = cameraPath;
         this.enabled = enabled;
         this.timeout = timeout;
         this.interval = interval;
@@ -26,7 +28,7 @@ public class AltUnityWaitForObjectWithText : AltUnityBaseFindObjects
         {
             try
             {
-                altElement = new AltUnityFindObject(SocketSettings, by, value, cameraName, enabled).Execute();
+                altElement = new AltUnityFindObject(SocketSettings, by, value, cameraBy,cameraPath, enabled).Execute();
                 if (altElement.GetText().Equals(text))
                     break;
                 throw new System.Exception("Not the wanted text");

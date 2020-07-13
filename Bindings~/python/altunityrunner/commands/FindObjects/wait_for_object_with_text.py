@@ -6,13 +6,14 @@ import time
 
 
 class WaitForObjectWithText(CommandReturningAltElements):
-    def __init__(self, socket, request_separator, request_end, appium_driver, by, value, text, camera_name, timeout, interval, enabled):
+    def __init__(self, socket, request_separator, request_end, appium_driver, by, value, text, camera_by, camera_path, timeout, interval, enabled):
         super(WaitForObjectWithText, self).__init__(
             socket, request_separator, request_end, appium_driver)
         self.by = by
         self.value = value
         self.text = text
-        self.camera_name = camera_name
+        self.camera_by = camera_by
+        self.camera_path = camera_path
         self.timeout = timeout
         self.interval = interval
         self.enabled = enabled
@@ -23,16 +24,16 @@ class WaitForObjectWithText(CommandReturningAltElements):
         while (t <= self.timeout):
             try:
                 alt_element = FindObject(self.socket, self.request_separator, self.request_end,
-                                         self.appium_driver, self.by, self.value, self.camera_name, self.enabled).execute()
+                                         self.appium_driver, self.by, self.value, self.camera_by, self.camera_path, self.enabled).execute()
                 if alt_element.get_text() == self.text:
                     break
                 raise Exception('Not the wanted text')
             except Exception as e:
                 logger.debug('Waiting for element ' +
-                             self.value + ' to have text ' + self.text)
+                             str(self.value) + ' to have text ' + str(self.text))
                 time.sleep(self.interval)
                 t += self.interval
         if t >= self.timeout:
-            raise WaitTimeOutException('Element ' + self.value + ' should have text `' + self.text +
+            raise WaitTimeOutException('Element ' + str(self.value) + ' should have text `' + str(self.text) +
                                        '` but has `' + alt_element.get_text() + '` after ' + str(self.timeout) + ' seconds')
         return alt_element
