@@ -7,8 +7,11 @@
 
 .pre {
     white-space: pre-wrap;
+    word-wrap: break-word;
 }
-
+.wy-side-nav-search{
+    background-color: #343131 !important;
+}
 
 /* override table width restrictions */
 

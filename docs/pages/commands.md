@@ -11,7 +11,8 @@ Find the first object in the scene that respects the given criteria. Check [By](
 | --------------- | ------------- | -------- | ----------- |
 | by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
 ***Returns***
@@ -39,7 +40,7 @@ Find the first object in the scene that respects the given criteria. Check [By](
         {
             String name = "Capsule";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
-                    name).isEnabled(true).withCamera("Main Camera").build();
+                    name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
             AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotNull(altElement);
             assertEquals(name, altElement.name);
@@ -65,7 +66,8 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
 | --------------- | ------------- | -------- | ----------- |
 | by      |     [By](#by)    |   Yes  | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
 ***Returns***
@@ -95,7 +97,7 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
             {
                 String name = "Plane";
                 AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
-                    name).isEnabled(true).withCamera("Main Camera").build();
+                    name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
                 AltUnityObject[] altElements = altUnityDriver.findObjects(altFindObjectsParameters);
                 assertNotNull(altElements);
                 assertEquals(altElements[0].name, name);
@@ -120,7 +122,8 @@ Find the first object in the scene that respects the given criteria. Check [By](
 | --------------- | ------------- | -------- | ----------- |
 | by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
 ***Returns***
@@ -131,6 +134,7 @@ Find the first object in the scene that respects the given criteria. Check [By](
 .. tabs::
 
     .. code-tab:: c#
+
        [Test]
         public void TestFindObjectWhichContains()
         {
@@ -140,17 +144,19 @@ Find the first object in the scene that respects the given criteria. Check [By](
 
 
     .. code-tab:: java
+
         @Test
         public void TestFindObjectWhichContains()
         {
             String name = "Event";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
-                   name).isEnabled(true).withCamera("Main Camera").build();
+                   name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
             AltUnityObject altElement = altUnityDriver.findObjectWhichContains(altFindObjectsParameters);
             assertEquals("EventSystem", altElement.name);
         }
 
     .. code-tab:: py
+
        def test_find_object_which_contains(self):
         altElement = self.altdriver.find_object_which_contains(By.NAME, "Event");
         self.assertEqual("EventSystem", altElement.name)
@@ -168,7 +174,8 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
 | --------------- | ------------- | -------- | ----------- |
 | by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
 ***Returns***
@@ -179,6 +186,7 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
         {
            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
@@ -201,6 +209,7 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
         }
 
     .. code-tab:: java
+
         @Test
         public void testFindElementsWhereNameContains() throws Exception
         {
@@ -213,6 +222,7 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
         }
 
     .. code-tab:: py
+
         def test_creating_stars(self):
                 self.altdriver.load_scene("Scene 5 Keyboard Input")
         
@@ -239,7 +249,8 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| cameraName      |     string    |   No  | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No  | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
 ***Returns***
@@ -275,10 +286,11 @@ Returns information about every objects loaded in the currently loaded scenes. T
             Assert.IsNotNull(altElements.Where(p => p.name == "Text"));
         }
 
-    .. code-tab:: java        
+    .. code-tab:: java 
+
         @Test
         public void testGetAllElements() throws Exception {
-            AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters.Builder().withCamera("Main Camera").isEnabled(true).build();
+            AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters.Builder().withCamera(AltUnityDriver.By.NAME,"Main Camera").isEnabled(true).build();
             AltUnityObject[] altElements = altUnityDriver.getAllElements(altGetAllElementsParameters);
             assertNotNull(altElements);
             String altElementsString = new Gson().toJson(altElements);
@@ -331,7 +343,8 @@ Wait until there is no longer any objects that respect the given criteria or tim
 | --------------- | ------------- | -------- | ----------- |
 | by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 | timeout         | double        |   No   | number of seconds that it will wait for object|
 | interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
@@ -361,9 +374,36 @@ Wait until there is no longer any objects that respect the given criteria or tim
 
     .. code-tab:: java
 
-        //TODO
+        @Test
+        public void TestWaitForObjectWithCameraId() {
+            AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.PATH, "//Button").build();
+            AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
+            altButton.clickEvent();
+            altButton.clickEvent();
+            AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//Camera").build();
+            AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
+            AltFindObjectsParameters altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.COMPONENT,
+                    "CapsuleCollider").withCamera(By.ID, String.valueOf(camera.id)).build();
+            AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+                    altFindObjectsParametersCapsule).build();
+            AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+
+            assertTrue("True", altElement.name.equals("Capsule"));
+
+            altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH, "//Main Camera").build();
+            AltUnityObject camera2 = altUnityDriver.findObject(altFindObjectsParametersCamera);
+            altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.COMPONENT, "CapsuleCollider")
+                    .withCamera(By.ID, String.valueOf(camera2.id)).build();
+            altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(altFindObjectsParametersCapsule).build();
+            AltUnityObject altElement2 = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+
+            assertNotEquals(altElement.getScreenPosition(), altElement2.getScreenPosition());
+        }
 
     .. code-tab:: py
+
         def test_wait_for_object(self):
             altElement=self.altdriver.wait_for_object(By.NAME,"Capsule")
             self.assertEqual(altElement.name,"Capsule")
@@ -379,7 +419,8 @@ Wait until it finds an object that respect the given criteria or times run out a
 | --------------- | ------------- | -------- | ----------- |
 | by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 | timeout         | double        |   No  | number of seconds that it will wait for object|
 | interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
@@ -392,6 +433,7 @@ Wait until it finds an object that respect the given criteria or times run out a
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
         public void TestWaitForObjectWhichContains()
         {
@@ -401,16 +443,24 @@ Wait until it finds an object that respect the given criteria or times run out a
   
     .. code-tab:: java
     
-        String name = "Dir";
-        long timeStart = System.currentTimeMillis();
-        AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(AltUnityDriver.By.NAME, name);
-        long timeEnd = System.currentTimeMillis();
-        long time = timeEnd - timeStart;
-        assertTrue(time / 1000 < 20);
-        assertNotNull(altElement);
-        assertEquals(altElement.name, "Directional Light");
+         @Test
+
+        public void TestWaitForObjectWhichContainsWithCameraId() {
+            AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//Main Camera").build();
+            AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
+
+            AltFindObjectsParameters altFindObjectsParametersObject = new AltFindObjectsParameters.Builder(By.NAME, "Canva")
+                    .withCamera(By.ID, String.valueOf(camera.id)).build();
+            AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+                    altFindObjectsParametersObject).build();
+            AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParameters);
+            assertEquals("Canvas", altElement.name);
+
+        }
 
     .. code-tab:: py
+
         def test_wait_for_object_which_contains(self):
             altElement=self.altdriver.wait_for_object_which_contains(By.NAME,"Main")
             self.assertEqual(altElement.name,"Main Camera")
@@ -426,7 +476,8 @@ Wait until it finds an object that respect the given criteria and it has the tex
 | by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
 | text    |   string  | Yes  | Text that the intented object should have|
-| cameraName      |     string    |   No  | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 | timeout         | double        |   No   | number of seconds that it will wait for object|
 | interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
@@ -455,10 +506,11 @@ Wait until it finds an object that respect the given criteria and it has the tex
         }
 
     .. code-tab:: java
+    
         @Test
         public void testWaitForElementWithText() throws Exception {
                 String name = "CapsuleInfo";
-                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
                 String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
                 long timeStart = System.currentTimeMillis();
                 AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters,text).withInterval(0).withTimeout(0).build();
@@ -487,7 +539,8 @@ Wait until the object in the scene that respect the given criteria is no longer 
 | --------------- | ------------- | -------- | ----------- |
 | by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
-| cameraName      |     string    |   No   | the name of the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
+| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No  | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 | timeout         | double        |   No   | number of seconds that it will wait for object|
 | interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
@@ -1629,10 +1682,11 @@ Simulates device rotation action in your game.
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| acceleration      |     Vector3(C#)    |   Yes  | Linear acceleration of a device in three-dimensional space|
-| x      |     float(python/java)    |   Yes  |  Linear acceleration of a device on x|
-| y      |     float(python/java)    |   Yes  |  Linear acceleration of a device on y|
-| z      |     float(python/java)    |   Yes  |  Linear acceleration of a device on z|
+| acceleration      |     Vector3(C#)    |   Yes  | Linear acceleration of a device in three-dimensional space |
+| x      |     float(python/java)    |   Yes  |  Linear acceleration of a device on x |
+| y      |     float(python/java)    |   Yes  |  Linear acceleration of a device on y |
+| z      |     float(python/java)    |   Yes  |  Linear acceleration of a device on z |
+| duration |   float                 |   Yes  |  How long the rotation will take in seconds |
 
 ***Returns***
 - Nothing
@@ -1642,14 +1696,114 @@ Simulates device rotation action in your game.
 .. tabs::
 
     .. code-tab:: c#
-        //TODO
+        
+        [Test]
+        public void TestAcceleration()
+        {
+            var capsule= altUnityDriver.FindObject(By.NAME, "Capsule");
+            var initialWorldCoordinates = capsule.getWorldPosition();
+            altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1),1);
+            Thread.Sleep(1000);
+            capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var afterTiltCoordinates = capsule.getWorldPosition();
+            Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
+        }
 
     .. code-tab:: java
-        //TODO
+        
+        
+        @Test
+        public void TestAcceleration() throws InterruptedException {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Capsule").build();
+            AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+            Vector3 initialWorldCoordinates = capsule.getWorldPosition();
+            AltTiltParameters altTiltParameters = new AltTiltParameters.Builder(1, 1, 1).withDuration(1).build();
+            altUnityDriver.tilt(altTiltParameters);
+            Thread.sleep(1000);
+            capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+            Vector3 afterTiltCoordinates = capsule.getWorldPosition();
+            assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
+        }
 
 
     .. code-tab:: py
-        //TODO
+        
+        def test_acceleration(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            self.altdriver.tilt(1, 1, 1, 1)
+            time.sleep(1)
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            self.assertNotEqual(initial_position, final_position)
+
+```
+
+
+###  TiltAndWait
+
+Simulates device rotation action in your game. This command waits for the action to finish. If you don’t want to wait until the action to finish use [Tilt](#tilt)
+
+***Parameters***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+| acceleration      |     Vector3(C#)    |   Yes  | Linear acceleration of a device in three-dimensional space |
+| x      |     float(python/java)    |   Yes  |  Linear acceleration of a device on x |
+| y      |     float(python/java)    |   Yes  |  Linear acceleration of a device on y |
+| z      |     float(python/java)    |   Yes  |  Linear acceleration of a device on z |
+| duration |   float                 |   Yes  |  How long the rotation will take in seconds |
+
+***Returns***
+- Nothing
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+        
+        [Test]
+        public void TestAccelerationAndWait()
+        {
+            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var initialWorldCoordinates = capsule.getWorldPosition();
+            altUnityDriver.TiltAndWait(new AltUnityVector3(1, 1, 1), 1);
+            Thread.Sleep(1000);
+            capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var afterTiltCoordinates = capsule.getWorldPosition();
+            Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
+        }
+
+    .. code-tab:: java
+        
+        
+        @Test
+        public void TestAccelerationAndWait() throws InterruptedException {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Capsule").build();
+            AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+            Vector3 initialWorldCoordinates = capsule.getWorldPosition();
+            AltTiltParameters altTiltParameters = new AltTiltParameters.Builder(1, 1, 1).withDuration(1).build();
+            altUnityDriver.tiltAndWait(altTiltParameters);
+            capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+            Vector3 afterTiltCoordinates = capsule.getWorldPosition();
+            assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
+        }
+
+
+    .. code-tab:: py
+       
+       def test_acceleration_and_wait(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            self.altdriver.tilt_and_wait(1, 1, 1, 1)
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            self.assertNotEqual(initial_position, final_position)
 
 ```
 ## ObjectCommands
@@ -2191,14 +2345,14 @@ None
 
 ###  PointerDownFromObject
 
-Get text value from a Button, Text, InputField. This also works with TextMeshPro elements.
+Simulates pointer down action on the object.
 
 ***Parameters***
 
 None
 
 ***Returns***
-- Nothing
+- AltUnityObject
 
 ***Examples***
 ```eval_rst
@@ -2242,14 +2396,14 @@ None
 
 ###  PointerUpFromObject
 
-Simulates pointer up action on the object
+Simulates pointer up action on the object.
 
 ***Parameters***
 
 None
 
 ***Returns***
-- Nothing
+- AltUnityObject
 
 ***Examples***
 ```eval_rst
@@ -2490,7 +2644,8 @@ None
 
     .. code-tab:: py
 
-       //TODO
+       def test_get_current_scene(self):
+        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
 ```
 
 ## Screenshot
