@@ -31,13 +31,63 @@ public class AltUnityBuilder
             UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
         }
         AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
-        if(buildTargetGroup==UnityEditor.BuildTargetGroup.Standalone)
+        if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
             CreateJsonFileForInputMappingOfAxis();
+    }
+
+    private static string GetOutputPath(UnityEditor.BuildTarget target)
+    {
+        var outputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+
+        if (string.IsNullOrWhiteSpace(outputPath))
+            outputPath = UnityEditor.PlayerSettings.productName;
+
+        if (outputPath.EndsWith("/") || outputPath.EndsWith("\\"))
+            outputPath = outputPath + UnityEditor.PlayerSettings.productName;
+
+        if (outputPath.Split('/').Length == 1 || outputPath.Split('\\').Length == 1)
+            outputPath += System.IO.Path.DirectorySeparatorChar.ToString() + outputPath;
+
+        switch (target)
+        {
+            case UnityEditor.BuildTarget.Android:
+                if (!outputPath.EndsWith(".apk"))
+                {
+                    outputPath = outputPath + ".apk";
+                }
+
+                break;
+            case UnityEditor.BuildTarget.StandaloneOSX:
+                if (!outputPath.EndsWith(".app"))
+                {
+                    outputPath = outputPath + ".app";
+                }
+                break;
+            case UnityEditor.BuildTarget.StandaloneWindows:
+            case UnityEditor.BuildTarget.StandaloneWindows64:
+                if (!outputPath.EndsWith(".exe"))
+                {
+                    outputPath = outputPath + ".exe";
+                }
+                break;
+            case UnityEditor.BuildTarget.StandaloneLinux64:
+                if (!outputPath.EndsWith(".x86_64"))
+                {
+                    outputPath = outputPath + ".x86_64";
+                }
+                break;
+
+            case UnityEditor.BuildTarget.iOS:
+            default:
+                break;
+
+        }
+
+        return outputPath;
     }
 
     private static void ResetBuildSetup(UnityEditor.BuildTargetGroup buildTargetGroup)
     {
-
         if (AltUnityTesterEditor.EditorConfiguration.appendToName)
         {
             UnityEditor.PlayerSettings.productName = UnityEditor.PlayerSettings.productName.Remove(UnityEditor.PlayerSettings.productName.Length - 5);
@@ -55,15 +105,12 @@ public class AltUnityBuilder
             AltUnityTesterEditor.InitEditorConfiguration();
             InitBuildSetup(UnityEditor.BuildTargetGroup.Android);
             UnityEngine.Debug.Log("Starting Android build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
+
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-            if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 2)
-                buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
-            else
-                buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName + ".apk";
-
+            buildPlayerOptions.locationPathName = GetOutputPath(UnityEditor.BuildTarget.Android);
             buildPlayerOptions.scenes = GetScenesForBuild();
-
             buildPlayerOptions.target = UnityEditor.BuildTarget.Android;
+
             BuildGame(autoRun, buildPlayerOptions);
         }
         catch (System.Exception e)
@@ -84,40 +131,12 @@ public class AltUnityBuilder
             AltUnityTesterEditor.InitEditorConfiguration();
             InitBuildSetup(UnityEditor.BuildTargetGroup.Standalone);
             UnityEngine.Debug.Log("Starting Standalone build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
+
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-
-            string ouputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
-            switch (buildTarget)
-            {
-                case UnityEditor.BuildTarget.StandaloneOSX:
-                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
-                        ouputPath += ".app";
-                    break;
-                case UnityEditor.BuildTarget.StandaloneWindows:
-                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
-                        ouputPath += "/" + ouputPath;
-                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
-                        ouputPath += ".exe";
-                    break;
-                case UnityEditor.BuildTarget.StandaloneWindows64:
-                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
-                        ouputPath += "/" + ouputPath;
-                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
-                        ouputPath += ".exe";
-                    break;
-                case UnityEditor.BuildTarget.StandaloneLinux64:
-                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('/').Length == 1)
-                        ouputPath += "/" + ouputPath;
-                    if (AltUnityTesterEditor.EditorConfiguration.OutputPathName.Split('.').Length == 1)
-                        ouputPath += ".x86_64";
-                    break;
-            }
-            buildPlayerOptions.locationPathName = ouputPath;
-
-
+            buildPlayerOptions.locationPathName = GetOutputPath(buildTarget);
             buildPlayerOptions.scenes = GetScenesForBuild();
-
             buildPlayerOptions.target = buildTarget;
+
             BuildGame(autoRun, buildPlayerOptions);
         }
         catch (System.Exception e)
@@ -236,13 +255,13 @@ public class AltUnityBuilder
 
         string dataAsJson = Newtonsoft.Json.JsonConvert.SerializeObject(axisList);
         string filePath = UnityEngine.Application.dataPath + gameDataProjectFilePath;
-        if(!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources/AltUnityTester"))
+        if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources/AltUnityTester"))
         {
-            UnityEditor.AssetDatabase.CreateFolder("Assets","Resources");
-            UnityEditor.AssetDatabase.CreateFolder("Assets/Resources","AltUnityTester");
+            UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
+            UnityEditor.AssetDatabase.CreateFolder("Assets/Resources", "AltUnityTester");
         }
         System.IO.File.WriteAllText(filePath, dataAsJson);
-        
+
 
     }
 
@@ -254,8 +273,10 @@ public class AltUnityBuilder
             AltUnityTesterEditor.SelectAllScenes();
         }
         System.Collections.Generic.List<string> sceneList = new System.Collections.Generic.List<string>();
-        foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes) {
-            if (scene.ToBeBuilt) {
+        foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes)
+        {
+            if (scene.ToBeBuilt)
+            {
                 sceneList.Add(scene.Path);
             }
         }
@@ -266,11 +287,11 @@ public class AltUnityBuilder
         return sceneList.ToArray();
     }
 
-    public static void InsertAltUnityInScene(string scene,int port=13000)
+    public static void InsertAltUnityInScene(string scene, int port = 13000)
     {
         UnityEngine.Debug.Log("Adding AltUnityRunnerPrefab into the [" + scene + "] scene.");
         var altUnityRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
-        
+
         SceneWithAltUnityRunner = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scene);
         AltUnityRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altUnityRunner);
         var component = ((UnityEngine.GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();

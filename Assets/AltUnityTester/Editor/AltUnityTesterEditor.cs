@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using System.Linq;
 public class AltUnityTesterEditor : UnityEditor.EditorWindow
 {
@@ -165,6 +166,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
             altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
             EditorConfiguration = UnityEngine.ScriptableObject.CreateInstance<AltUnityEditorConfiguration>();
+            EditorConfiguration.MyTests=null;
             UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltUnityTesterEditorSettings.asset");
             UnityEditor.AssetDatabase.SaveAssets();
 
@@ -227,8 +229,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.BeginHorizontal();
         var leftSide = (screenWidth / 3) * 2;
         _scrollPosition = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPosition, false, false, UnityEngine.GUILayout.MinWidth(leftSide));
-
-        DisplayTestGui(EditorConfiguration.MyTests);
+        if (EditorConfiguration.MyTests != null)
+        {
+            DisplayTestGui(EditorConfiguration.MyTests);
+        }
 
         UnityEditor.EditorGUILayout.Separator();
 
@@ -270,7 +274,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         {
             UnityEditor.BuildTarget[] options = new UnityEditor.BuildTarget[]
             {
-                UnityEditor.BuildTarget.StandaloneWindows, UnityEditor.BuildTarget.StandaloneWindows64,UnityEditor.BuildTarget.StandaloneOSX,UnityEditor.BuildTarget.StandaloneLinux,UnityEditor.BuildTarget.StandaloneLinux64,UnityEditor.BuildTarget.StandaloneLinuxUniversal
+                UnityEditor.BuildTarget.StandaloneWindows, UnityEditor.BuildTarget.StandaloneWindows64,UnityEditor.BuildTarget.StandaloneOSX,UnityEditor.BuildTarget.StandaloneLinux64
             };
 
             int selected = System.Array.IndexOf(options, EditorConfiguration.standaloneTarget);
@@ -278,55 +282,39 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             selected = UnityEditor.EditorGUILayout.Popup("Build Target", selected, options.ToList().ConvertAll(x => x.ToString()).ToArray());
             EditorConfiguration.standaloneTarget = options[selected];
         }
-        UnityEditor.EditorGUILayout.Separator();
-        UnityEditor.EditorGUILayout.Separator();
-        UnityEditor.EditorGUILayout.Separator();
 
-        UnityEditor.EditorGUILayout.LabelField("Run tests", UnityEditor.EditorStyles.boldLabel);
-
-        if (UnityEngine.GUILayout.Button("Run All Tests"))
+        if (EditorConfiguration.platform == AltUnityPlatform.Android)
         {
-            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
-            {
-                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest));
-                testThread.Start();
-            }
-            else
-            {
+            UnityEditor.EditorGUILayout.Separator();
+            UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
 
-                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest);
-            }
-        }
-        if (UnityEngine.GUILayout.Button("Run Selected Tests"))
-        {
-            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            if (UnityEngine.GUILayout.Button("Android player settings"))
             {
-                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest));
-                testThread.Start();
-            }
-            else
-            {
-
-                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest);
-            }
-        }
-        if (UnityEngine.GUILayout.Button("Run Failed Tests"))
-        {
-            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
-            {
-                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest));
-                testThread.Start();
-            }
-            else
-            {
-
-                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest);
+                UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+                UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.Android;
             }
         }
 
+#if UNITY_EDITOR_OSX
+        if (EditorConfiguration.platform == AltUnityPlatform.iOS)
+        {
+            UnityEditor.EditorGUILayout.Separator();
+            UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+
+            if (UnityEngine.GUILayout.Button("iOS player settings"))
+            {
+                UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+                UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.iOS;
+            }
+        }
+#endif
+
+
         UnityEditor.EditorGUILayout.Separator();
         UnityEditor.EditorGUILayout.Separator();
         UnityEditor.EditorGUILayout.Separator();
+
+        
         if (AltUnityBuilder.built)
         {
             var found = false;
@@ -426,6 +414,52 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             UnityEngine.GUILayout.Button("Build & Run", UnityEngine.GUILayout.MinWidth(50));
             UnityEditor.EditorGUI.EndDisabledGroup();
         }
+        UnityEditor.EditorGUILayout.Separator();
+        UnityEditor.EditorGUILayout.Separator();
+        UnityEditor.EditorGUILayout.Separator();
+        UnityEditor.EditorGUILayout.LabelField("Run tests", UnityEditor.EditorStyles.boldLabel);
+
+        if (UnityEngine.GUILayout.Button("Run All Tests"))
+        {
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            {
+                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest);
+            }
+        }
+        if (UnityEngine.GUILayout.Button("Run Selected Tests"))
+        {
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            {
+                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest);
+            }
+        }
+        if (UnityEngine.GUILayout.Button("Run Failed Tests"))
+        {
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            {
+                System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest));
+                testThread.Start();
+            }
+            else
+            {
+
+                AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest);
+            }
+        }
+
+        
 
         //Status test
 
@@ -560,7 +594,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 #if UNITY_EDITOR_OSX
                             else
                             {
-                                
+
                                 AltUnityPortHandler.KillIProxy(device.Pid);
 
                             }
@@ -598,7 +632,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                                 }else{
                                     UnityEngine.Debug.LogError(response);
                                 }
-                                
+
                             }
 
 #endif
@@ -711,6 +745,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         _foldOutBuildSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutBuildSettings, "Build Settings");
         if (_foldOutBuildSettings)
         {
+
             LabelAndInputFieldHorizontalLayout("Output path", ref EditorConfiguration.OutputPathName);
             var companyName = UnityEditor.PlayerSettings.companyName;
             LabelAndInputFieldHorizontalLayout("Company Name", ref companyName);
@@ -767,7 +802,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         LabelAndInputFieldHorizontalLayout("Iproxy Path: ", ref EditorConfiguration.IProxyPath);
                         LabelAndInputFieldHorizontalLayout("Xcrun Path: ", ref EditorConfiguration.XcrunPath);
                     }
-                    
+
                     break;
 #endif
             }
@@ -1036,44 +1071,48 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
         int foldOutCounter = 0;
         int testCounter = 0;
+        var parentNames = new List<string>();
         foreach (var test in tests)
         {
-            testCounter++;
-            if (foldOutCounter > 0)
+            if(test.TestCaseCount == 0)
+            {
+                continue;
+            }
+            if(foldOutCounter > 0 && test.Type == typeof(NUnit.Framework.Internal.TestMethod))
             {
                 foldOutCounter--;
                 continue;
             }
+            if(foldOutCounter > 0)
+            {
+                continue;
+            }
+            testCounter++;
+            var idx = parentNames.IndexOf(test.ParentName) + 1;
+            parentNames.RemoveRange(idx, parentNames.Count - idx);
 
             if (tests.IndexOf(test) == selectedTest)
             {
-                UnityEngine.GUIStyle gsAlterQuest = new UnityEngine.GUIStyle();
-                gsAlterQuest.normal.background = selectedTestTexture;
-                UnityEditor.EditorGUILayout.BeginHorizontal(gsAlterQuest);
+                UnityEngine.GUIStyle selectedTestStyle = new UnityEngine.GUIStyle();
+                selectedTestStyle.normal.background = selectedTestTexture;
+                UnityEditor.EditorGUILayout.BeginHorizontal(selectedTestStyle);
             }
             else
             {
                 if (testCounter % 2 == 0)
                 {
-                    UnityEngine.GUIStyle gsAlterQuest = new UnityEngine.GUIStyle();
-                    gsAlterQuest.normal.background = evenNumberTestTexture;
-                    UnityEditor.EditorGUILayout.BeginHorizontal(gsAlterQuest);
+                    UnityEngine.GUIStyle evenNumberStyle = new UnityEngine.GUIStyle();
+                    evenNumberStyle.normal.background = evenNumberTestTexture;
+                    UnityEditor.EditorGUILayout.BeginHorizontal(evenNumberStyle);
                 }
                 else
                 {
-                    UnityEngine.GUIStyle gsAlterQuest = new UnityEngine.GUIStyle();
-                    gsAlterQuest.normal.background = oddNumberTestTexture;
-                    UnityEditor.EditorGUILayout.BeginHorizontal(gsAlterQuest);
+                    UnityEngine.GUIStyle oddNumberStyle = new UnityEngine.GUIStyle();
+                    oddNumberStyle.normal.background = oddNumberTestTexture;
+                    UnityEditor.EditorGUILayout.BeginHorizontal(oddNumberStyle);
                 }
             }
-            if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
-            {
-                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(30));
-            }
-            else if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
-            {
-                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(60));
-            }
+            UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(30 * parentNames.Count));
             UnityEngine.GUIStyle gUIStyle = new UnityEngine.GUIStyle();
             gUIStyle.alignment = UnityEngine.TextAnchor.MiddleLeft;
             var valueChanged = UnityEditor.EditorGUILayout.Toggle(test.Selected, UnityEngine.GUILayout.Width(15));
@@ -1116,20 +1155,18 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                 SelectTest(tests, test, testName, guiStyle);
             }
             UnityEngine.GUILayout.FlexibleSpace();
-            if (test.Type != typeof(NUnit.Framework.Internal.TestMethod))
+            if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
+            {
+                test.FoldOut = true;
+            }
+            else
             {
                 test.FoldOut = UnityEditor.EditorGUILayout.Foldout(test.FoldOut, "");
                 if (!test.FoldOut)
                 {
-                    if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
-                    {
-                        foldOutCounter = tests.Count - 1;
-                    }
-                    else
-                    {
-                        foldOutCounter = test.TestCaseCount;
-                    }
+                    foldOutCounter = test.TestCaseCount;
                 }
+                parentNames.Add(test.TestName);
             }
             UnityEditor.EditorGUILayout.EndHorizontal();
 
@@ -1148,7 +1185,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     var actualTime = System.DateTime.Now.Ticks;
                     if (actualTime - timeSinceLastClick < 5000000)
                     {
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1,0);
                     }
                 }
                 else
@@ -1167,56 +1204,42 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void ChangeSelectionChildsAndParent(AltUnityMyTest test)
     {
-        if (test.Selected)
+        if (test.Type.ToString().Equals("NUnit.Framework.Internal.TestAssembly"))
         {
-            if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
+            var index = EditorConfiguration.MyTests.IndexOf(test);
+            for(int i= index + 1; i < EditorConfiguration.MyTests.Count; i++)
             {
-                foreach (var test2 in EditorConfiguration.MyTests)
-                {
-                    test2.Selected = true;
+                if (EditorConfiguration.MyTests[i].Type.ToString().Equals("NUnit.Framework.Internal.TestAssembly")){
+                    break;
                 }
-            }
-            else
-            {
-                if (test.IsSuite)
+                else
                 {
-                    var index = EditorConfiguration.MyTests.IndexOf(test);
-                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
-                    {
-                        EditorConfiguration.MyTests[i].Selected = true;
-                    }
+                    EditorConfiguration.MyTests[i].Selected = test.Selected;
                 }
             }
         }
         else
         {
-            if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
-            {
-                foreach (var test2 in EditorConfiguration.MyTests)
-                {
-                    test2.Selected = false;
-                }
-            }
-            else
-            {
-                var dummy = test;
-                if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
+                if (test.IsSuite)
                 {
                     var index = EditorConfiguration.MyTests.IndexOf(test);
                     for (int i = index + 1; i <= index + test.TestCaseCount; i++)
                     {
-                        EditorConfiguration.MyTests[i].Selected = false;
+                        EditorConfiguration.MyTests[i].Selected = test.Selected;
                     }
                 }
-                while (dummy.ParentName != null)
+            if (test.Selected == false)
+            {
+                while (test.ParentName != null)
                 {
-                    dummy = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(dummy.ParentName));
-                    if (dummy != null)
-                        dummy.Selected = false;
+                    test = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
+                    if (test != null)
+                        test.Selected = false;
                     else
                         return;
                 }
             }
+                
         }
 
     }
@@ -1301,7 +1324,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         string folderPath = GetPathForSelectedItem();
         string newFilePath = System.IO.Path.Combine(folderPath, "NewAltUnityTest.cs");
 #if UNITY_2019_1_OR_NEWER
-        UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath,newFilePath);
+        UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath, newFilePath);
 #else
         System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
         if (method == null)
@@ -1334,7 +1357,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     private static string GetPathForSelectedItem()
     {
         string path = UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.Selection.activeObject);
-        if (System.IO.Path.GetExtension(path) != "") //checks if current item is a folder or a file 
+        if (System.IO.Path.GetExtension(path) != "") //checks if current item is a folder or a file
         {
             path = path.Replace(System.IO.Path.GetFileName(UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.Selection.activeObject)), "");
         }

@@ -17,8 +17,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             AltUnityRunner._altUnityRunner.LogMessage("scrollMouse with: " + scrollValue);
             Input.Scroll(scrollValue, duration);
             return "Ok";
-#endif
+#else
             return null;
+#endif
         }
     }
 }

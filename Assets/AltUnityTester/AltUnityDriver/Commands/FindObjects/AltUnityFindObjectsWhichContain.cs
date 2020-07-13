@@ -2,20 +2,23 @@ public class AltUnityFindObjectsWhichContain : AltUnityBaseFindObjects
 {
     By by;
     string value;
-    string cameraName;
+    By cameraBy;
+    string cameraPath;
     bool enabled;
 
-    public AltUnityFindObjectsWhichContain(SocketSettings socketSettings, By by, string value, string cameraName, bool enabled) : base(socketSettings)
+    public AltUnityFindObjectsWhichContain(SocketSettings socketSettings, By by, string value,By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
-        this.cameraName = cameraName;
+        this.cameraBy = cameraBy;
+        this.cameraPath = cameraPath;
         this.enabled = enabled;
     }
     public System.Collections.Generic.List<AltUnityObject> Execute()
     {
         string path = SetPathContains(by, value);
-        Socket.Client.Send(toBytes(CreateCommand("findObjects", path, cameraName, enabled.ToString())));
+        cameraPath = SetPath(cameraBy, cameraPath);
+        Socket.Client.Send(toBytes(CreateCommand("findObjects", path,cameraBy.ToString(), cameraPath, enabled.ToString())));
         return ReceiveListOfAltUnityObjects();
     }
 }

@@ -96,7 +96,6 @@ public class AltSocketServer {
         {
             UnityEngine.Debug.Log("calling stop on thread " + holder.Thread.ManagedThreadId);
             holder.Handler.Cleanup();
-            UnityEngine.Debug.Log("Calling thread abort on thread: " + holder.Thread.ManagedThreadId);
         }
 
         ClientHandlerThreads = System.Collections.ArrayList.Synchronized(new System.Collections.ArrayList()); 

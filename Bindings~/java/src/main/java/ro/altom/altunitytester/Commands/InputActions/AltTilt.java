@@ -7,27 +7,17 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  * Simulates device rotation action in your game.
  */
 public class AltTilt extends AltBaseCommand {
-    /**
-     * @param x Linear acceleration of a device on x
-     */
-    private int x;
-    /**
-     * @param y Linear acceleration of a device on y
-     */
-    private int y;
-    /**
-     * @param z Linear acceleration of a device on z
-     */
-    private int z;
-    public AltTilt(AltBaseSettings altBaseSettings, int x, int y, int z) {
+    private AltTiltParameters altTiltParameters;
+
+    public AltTilt(AltBaseSettings altBaseSettings, AltTiltParameters altTiltParameters) {
         super(altBaseSettings);
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.altTiltParameters = altTiltParameters;
     }
-    public void Execute(){
-        String accelerationString = vectorToJsonString(x, y, z);
-        send(CreateCommand("tilt", accelerationString));
+
+    public void Execute() {
+        String accelerationString = vectorToJsonString(altTiltParameters.getX(), altTiltParameters.getY(),
+                altTiltParameters.getZ());
+        send(CreateCommand("tilt", accelerationString, String.valueOf(altTiltParameters.getDuration())));
         String data = recvall();
         if (data.equals("OK")) {
             return;

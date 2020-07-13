@@ -229,7 +229,7 @@ class AltUnityDriver(object):
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_PORT))
-                self.socket.settimeout(5)
+                # self.socket.settimeout(5)
                 logger.debug("Get server Version")
                 version = GetServerVersion(
                     self.socket, self.request_separator, self.request_end).execute()
@@ -258,20 +258,31 @@ class AltUnityDriver(object):
     def call_static_methods(self, type_name, method_name, parameters, type_of_parameters='', assembly=''):
         return CallStaticMethods(self.socket, self.request_separator, self.request_end, type_name, method_name, parameters, type_of_parameters, assembly).execute()
 
-    def get_all_elements(self, camera_name='', enabled=True):
-        return GetAllElements(self.socket, self.request_separator, self.request_end, self.appium_driver, camera_name, enabled).execute()
+    def get_all_elements(self,  camera_by=By.NAME, camera_path="", enabled=True):
+        return GetAllElements(self.socket, self.request_separator, self.request_end, self.appium_driver, camera_by, camera_path, enabled).execute()
 
-    def find_object(self, by, value, camera_name='', enabled=True):
-        return FindObject(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_name, enabled).execute()
+    def find_object(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
 
-    def find_object_which_contains(self, by, value, camera_name='', enabled=True):
-        return FindObjectWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_name, enabled).execute()
+        return FindObject(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
 
-    def find_objects(self, by, value, camera_name='', enabled=True):
-        return FindObjects(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_name, enabled).execute()
+    def find_object_which_contains(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
+        return FindObjectWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
 
-    def find_objects_which_contains(self, by, value, camera_name='', enabled=True):
-        return FindObjectsWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_name, enabled).execute()
+    def find_objects(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
+        return FindObjects(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
+
+    @deprecated()
+    def find_objects_which_contains(self, by, value, camera_path, enabled=True):
+        return FindObjectsWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, By.NAME, camera_path, enabled).execute()
+
+    def find_objects_which_contains(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
+        return FindObjectsWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
 
     @deprecated(version='1.4.0', reason="Use find_object instead")
     def find_element(self, name, camera_name='', enabled=True):
@@ -304,8 +315,11 @@ class AltUnityDriver(object):
     def multipoint_swipe_and_wait(self, positions, duration_in_secs):
         return MultipointSwipeAndWait(self.socket, self.request_separator, self.request_end, positions, duration_in_secs).execute()
 
-    def tilt(self, x, y, z):
-        return Tilt(self.socket, self.request_separator, self.request_end, x, y, z).execute()
+    def tilt(self, x, y, z, duration=0):
+        return Tilt(self.socket, self.request_separator, self.request_end, x, y, z, duration).execute()
+
+    def tilt_and_wait(self, x, y, z, duration=0):
+        return TiltAndWait(self.socket, self.request_separator, self.request_end, x, y, z, duration).execute()
 
     def hold_button(self, x_position, y_position, duration_in_secs):
         return Swipe(self.socket, self.request_separator, self.request_end, x_position, y_position, x_position, y_position, duration_in_secs).execute()
@@ -371,17 +385,25 @@ class AltUnityDriver(object):
     def wait_for_element_with_text(self, name, text, camera_name='', timeout=20, interval=0.5, enabled=True):
         return WaitForElementWithText(self.socket, self.request_separator, self.request_end, self.appium_driver, name, text, camera_name, timeout, interval, enabled).execute()
 
-    def wait_for_object(self, by, value, camera_name='', timeout=20, interval=0.5, enabled=True):
-        return WaitForObject(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_name, timeout, interval, enabled).execute()
+    def wait_for_object(self, by, value,  camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
+        return WaitForObject(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, timeout, interval, enabled).execute()
 
-    def wait_for_object_which_contains(self, by, value, camera_name='', timeout=20, interval=0.5, enabled=True):
-        return WaitForObjectWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_name, timeout, interval, enabled).execute()
+    def wait_for_object_which_contains(self, by, value,  camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
+        return WaitForObjectWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, timeout, interval, enabled).execute()
 
-    def wait_for_object_to_not_be_present(self, by, value, camera_name='', timeout=20, interval=0.5, enabled=True):
-        return WaitForObjectToNotBePresent(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_name, timeout, interval, enabled).execute()
+    def wait_for_object_to_not_be_present(self, by, value,  camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
+        return WaitForObjectToNotBePresent(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, timeout, interval, enabled).execute()
 
-    def wait_for_object_with_text(self, by, value, text, camera_name='', timeout=20, interval=0.5, enabled=True):
-        return WaitForObjectWithText(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, text, camera_name, timeout, interval, enabled).execute()
+    def wait_for_object_with_text(self, by, value, text,  camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
+        return WaitForObjectWithText(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, text, camera_by, camera_path, timeout, interval, enabled).execute()
 
     def tap_at_coordinates(self, x, y):
         return TapAtCoordinates(self.socket, self.request_separator, self.request_end, self.appium_driver, x, y).execute()
@@ -400,3 +422,9 @@ class AltUnityDriver(object):
     def get_png_screenshot(self, path):
         GetPNGScreenshot(self.socket, self.request_separator,
                          self.request_end, path).execute()
+
+    def is_camera_by_string(self, camera_by, camera_path):
+        if isinstance(camera_by, str):
+            return By.NAME, camera_by
+        else:
+            return camera_by, camera_path

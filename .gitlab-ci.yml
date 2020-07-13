@@ -76,19 +76,19 @@ build-apk:
 #         - buildIos.log
 
 run-csharp-android-tests:
-  stage: test
-  tags:
-    - android
-  script:
-    - ls
-    - *reinstall_and_start_android_app
-    - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsAndroid -logFile csharpAndroidTests.log -quit
-  artifacts:
-    when: always
-    expire_in: 10 days
-    paths:
-      - csharpAndroidTests.log
-  needs: ["build-apk"]
+    stage: test
+    tags:
+        - android
+    script:
+        - ls
+        - *reinstall_and_start_android_app
+        - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit 
+    artifacts:
+      when: always
+      expire_in: 10 days
+      paths:
+        - csharpAndroidTests.log
+    needs: ["build-apk"]
 
 run-python-android-tests:
   stage: test
@@ -127,22 +127,22 @@ run-python-appium-android-tests:
   needs: ["build-apk"]
 
 run-java-appium-android-tests:
-  stage: test
-  tags:
-    - android
-  script:
-    - whoami
-    - cd "Bindings~/java"
-    - mvn clean compile assembly:single
-    - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.5 -Dpackaging=jar
-    - cd ../java-appium-tests
-    - mvn test
-  artifacts:
-    when: always
-    expire_in: 10 days
-    paths:
-      - "./Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
-  needs: ["build-apk"]
+    stage: test
+    tags:
+        - android
+    script:
+        - whoami
+        - cd "Bindings~/java"
+        - mvn clean compile assembly:single
+        - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.6 -Dpackaging=jar
+        - cd ../java-appium-tests
+        - mvn test
+    artifacts:
+        when: always
+        expire_in: 10 days
+        paths:
+            - "./Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
+    needs: ["build-apk"]
 
 # run-csharp-ios-tests:
 #     stage: test
@@ -153,9 +153,9 @@ run-java-appium-android-tests:
 #         - iproxy 13000 13000 &
 #         - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone -allowProvisioningUpdates &
 #         - sleep 60
-#         - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunAllTestsIOS -logFile csharpIosTests.log -quit
-#         - killall iproxy || true
-#         - killall xcodebuild || true
+#         - /Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -logFile csharpIosTests.log -quit    
+#         - killall iproxy || true 
+#         - killall xcodebuild || true   
 #     artifacts:
 #       when: always
 #       expire_in: 10 days

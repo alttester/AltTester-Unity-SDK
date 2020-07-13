@@ -33,11 +33,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     if (!response.Contains("error:"))
                         break;
                 }
-                catch(Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException e)
+                catch(Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException)
                 {
                     response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException e)
+                catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException)
                 {
                     response = AltUnityRunner._altUnityRunner.errorComponentNotFoundMessage;
                 }

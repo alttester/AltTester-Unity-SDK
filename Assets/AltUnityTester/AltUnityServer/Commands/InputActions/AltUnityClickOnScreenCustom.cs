@@ -27,8 +27,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             Input.SetCustomClick(position, pCount, pInterval);
             response = "Ok";
             return response;
-#endif
+#else
             return null;
+#endif
         }
     }
 }

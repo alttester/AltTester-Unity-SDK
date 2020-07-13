@@ -1,6 +1,8 @@
+using System.Linq;
+
 namespace Assets.AltUnityTester.AltUnityServer
 {
-    class AltUnityBaseClassFindObjectsCommand :AltUnityCommand
+    class AltUnityBaseClassFindObjectsCommand : AltUnityCommand
     {
         protected System.Collections.Generic.List<System.Collections.Generic.List<string>> ProcessPath(string path)
         {
@@ -126,6 +128,10 @@ namespace Assets.AltUnityTester.AltUnityServer
 
             if (CheckConditionIfParent(conditions[step]))
             {
+                if (step == conditions.Count - 1)//if last condition is .. then it will return the parent
+                {
+                    return new System.Collections.Generic.List<UnityEngine.GameObject>(){ gameObject.transform.parent.gameObject };
+                }
                 if (IsNextElementDirectChild(conditions[step + 1]))
                 {
                     return FindObjects(gameObject.transform.parent.gameObject, conditions, step + 2, singleObject, true, enabled);
@@ -155,7 +161,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                             }
                             else
                             {
-                                objectsFound.AddRange( FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled));
+                                objectsFound.AddRange(FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled));
                                 continue;
 
                             }
@@ -168,7 +174,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                             }
                             else
                             {
-                                objectsFound.AddRange( FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled));
+                                objectsFound.AddRange(FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled));
                                 continue;
 
                             }
@@ -223,6 +229,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                         break;
                     case 4://component
                         var componentName = condition.Substring(11, condition.Length - 11);
+                        componentName = componentName.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
                         var list = objectToCheck.GetComponents(typeof(UnityEngine.Component));
                         valid = false;
 
@@ -373,6 +380,25 @@ namespace Assets.AltUnityTester.AltUnityServer
         {
             throw new System.NotImplementedException();
         }
+        protected UnityEngine.Camera GetCamera(By cameraBy,string cameraPath)
+        {
+           
+            if (cameraBy == By.NAME)
+            {
+                var cameraPathSplited = cameraPath.Split('/');
+                var cameraName = cameraPathSplited[cameraPathSplited.Length - 1];
+                return UnityEngine.Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
+
+            }
+            else
+            {
+                var cameraPathProcessed = ProcessPath(cameraPath);
+                var isDirectChildCamera = IsNextElementDirectChild(cameraPathProcessed[0]);
+                var gameObjectsCameraFound = FindObjects(null, cameraPathProcessed, 1, false, isDirectChildCamera, true);
+                return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetInstanceID() == d.GetInstanceID()));
+            }
+            
+        }
     }
-   
+
 }

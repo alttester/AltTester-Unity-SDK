@@ -1,14 +1,22 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.by import By
+
+
 class GetAllElements(CommandReturningAltElements):
-    def __init__(self, socket,request_separator,request_end,appium_driver,camera_name,enabled):
-        super(GetAllElements, self).__init__(socket,request_separator,request_end,appium_driver)
-        self.camera_name=camera_name
-        self.enabled=enabled
-    
+    def __init__(self, socket, request_separator, request_end, appium_driver, camera_by, camera_path, enabled):
+        super(GetAllElements, self).__init__(
+            socket, request_separator, request_end, appium_driver)
+        self.camera_by = camera_by
+        self.camera_path = camera_path
+        self.enabled = enabled
+
     def execute(self):
-        if self.enabled==True:
-            data = self.send_data(self.create_command('findObjects','//*', self.camera_name ,'true'))
+        camera_path = self.set_path(self.camera_by, self.camera_path)
+        if self.enabled == True:
+            data = self.send_data(self.create_command(
+                'findObjects', '//*', By.return_enum_string(self.camera_by), camera_path, 'true'))
         else:
-            data = self.send_data(self.create_command('findObjects','//*', self.camera_name ,'false'))
+            data = self.send_data(self.create_command(
+                'findObjects', '//*', By.return_enum_string(self.camera_by), camera_path, 'false'))
 
         return self.get_alt_elements(data)

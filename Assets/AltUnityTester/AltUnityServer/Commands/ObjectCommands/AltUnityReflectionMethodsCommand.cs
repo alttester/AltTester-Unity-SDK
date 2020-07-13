@@ -51,8 +51,7 @@ namespace Assets.AltUnityTester.AltUnityServer
         }
         protected System.Reflection.MemberInfo GetMemberForObjectComponent(AltUnityObject altUnityObject, AltUnityObjectProperty altUnityObjectProperty)
         {
-            System.Reflection.MemberInfo memberInfo = null;
-            System.Type componentType = null;
+            System.Type componentType;
             componentType = GetType(altUnityObjectProperty.Component, altUnityObjectProperty.Assembly);
             System.Reflection.PropertyInfo propertyInfo = componentType.GetProperty(altUnityObjectProperty.Property);
             System.Reflection.FieldInfo fieldInfo = componentType.GetField(altUnityObjectProperty.Property);

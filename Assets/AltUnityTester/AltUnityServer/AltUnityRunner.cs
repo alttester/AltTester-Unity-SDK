@@ -26,7 +26,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public static System.IO.StreamWriter FileWriter;
     
 
-    public static readonly string VERSION="1.5.5";
+    public static readonly string VERSION="1.5.6";
 
     public readonly string errorNotFoundMessage = "error:notFound";
     public readonly string errorPropertyNotFoundMessage = "error:propertyNotFound";
@@ -41,17 +41,18 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public readonly string errorNullRefferenceMessage = "error:nullReferenceException";
     public readonly string errorUnknownError = "error:unknownError";
     public readonly string errorFormatException = "error:formatException";
+    public readonly string errorCameraNotFound = "error:cameraNotFound";
 
     public Newtonsoft.Json.JsonSerializerSettings _jsonSettings;
 
     [UnityEngine.Space] 
-    [UnityEngine.SerializeField] private bool _showInputs;
-    [UnityEngine.SerializeField] private AltUnityInputsVisualiser _inputsVisualiser;
+    [UnityEngine.SerializeField] private bool _showInputs=false;
+    [UnityEngine.SerializeField] private AltUnityInputsVisualiser _inputsVisualiser=null;
 
     [UnityEngine.Space]
 
     public bool showPopUp;
-    [UnityEngine.SerializeField] private UnityEngine.GameObject AltUnityPopUpCanvas;
+    [UnityEngine.SerializeField] private UnityEngine.GameObject AltUnityPopUpCanvas=null;
     public bool destroyHightlight = false; 
     public int SocketPortNumber = 13000;
     public bool DebugBuildNeeded = true;
@@ -122,6 +123,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     
     void Update()
     {
+#if UNITY_EDITOR
+        if (_socketServer == null)
+        {
+            UnityEditor.EditorApplication.isPlaying=false;
+            return;
+        }
+#endif
         if (!AltUnityIconPressed)
         {
             if (_socketServer.ClientCount != 0)
@@ -147,14 +155,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
      void OnApplicationQuit()
     {
         CleanUp();
-        FileWriter.Close();
+        if(FileWriter!=null)
+            FileWriter.Close();
     }
     
     #endregion
     public void CleanUp()
     {
         UnityEngine.Debug.Log("Cleaning up socket server");
-        _socketServer.Cleanup();
+        if(_socketServer!=null)
+            _socketServer.Cleanup();
     }
     
     public void StartSocketServer()
@@ -363,14 +373,15 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "tilt":
                     UnityEngine.Vector3 vector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector3>(pieces[1]);
-                    command = new AltUnityTiltCommand (vector3);
+                    float duration = float.Parse(pieces[2]);
+                    command = new AltUnityTiltCommand (vector3,duration);
                     break;
-                case "MultipointSwipe":
+                case "multipointSwipe":
                     UnityEngine.Vector2 start2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     UnityEngine.Vector2 end2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[2]);
                     command = new AltUnitySetMultipointSwipeCommand (start2, end2, pieces[3]);
                     break;
-                case "MultipointSwipeChain":
+                case "multipointSwipeChain":
                     var length = pieces.Length - 3;
                     var positions = new UnityEngine.Vector2[length];
                     for (var i = 0; i < length; i++)
@@ -440,7 +451,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     var piece = pieces[1];
                     UnityEngine.KeyCode keycode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), piece);
                     float power = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
-                    float duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[3]);
+                    duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[3]);
                     command = new AltUnityHoldButtonCommand (keycode, power, duration);
                     break;
                 case "moveMouse":
@@ -454,15 +465,15 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new AltUnityScrollMouseCommand (scrollValue, duration);
                     break;
                 case "findObject":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                     command = new AltUnityFindObjectCommand (methodParameters);
                     break;
                 case "findObjects":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                     command = new AltUnityFindObjectsCommand (methodParameters);
                     break;
                 case "findActiveObjectByName":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
+                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
                     command = new AltUnityFindActiveObjectsByNameCommand (methodParameters);
                     break;
                 case "enableLogging":

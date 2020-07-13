@@ -2,12 +2,12 @@ using System.Linq;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetAllMethodsCommand :AltUnityReflectionMethodsCommand 
+    class AltUnityGetAllMethodsCommand : AltUnityReflectionMethodsCommand
     {
         AltUnityComponent component;
         AltUnityMethodSelection methodSelection;
 
-        public AltUnityGetAllMethodsCommand (AltUnityComponent component,AltUnityMethodSelection methodSelection)
+        public AltUnityGetAllMethodsCommand(AltUnityComponent component, AltUnityMethodSelection methodSelection)
         {
             this.component = component;
             this.methodSelection = methodSelection;
@@ -17,15 +17,14 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         {
             AltUnityRunner._altUnityRunner.LogMessage("getAllMethods");
             System.Type type = GetType(component.componentName, component.assemblyName);
-            //var methodInfos = type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            System.Reflection.MethodInfo[] methodInfos=new System.Reflection.MethodInfo[1];
+            System.Reflection.MethodInfo[] methodInfos = new System.Reflection.MethodInfo[1];
             switch (methodSelection)
             {
                 case AltUnityMethodSelection.CLASSMETHODS:
                     methodInfos = type.GetMethods(System.Reflection.BindingFlags.DeclaredOnly | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
                     break;
                 case AltUnityMethodSelection.INHERITEDMETHODS:
-                    var allMethods= type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static); 
+                    var allMethods = type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
                     var classMethods = type.GetMethods(System.Reflection.BindingFlags.DeclaredOnly | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
                     methodInfos = allMethods.Except(classMethods).ToArray();
                     break;

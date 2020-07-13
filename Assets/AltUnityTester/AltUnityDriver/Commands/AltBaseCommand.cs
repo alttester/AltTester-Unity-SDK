@@ -9,7 +9,7 @@ public class AltBaseCommand
     public AltBaseCommand(SocketSettings socketSettings)
     {
         this.SocketSettings = socketSettings;
-        Socket=SocketSettings.socket;
+        Socket = SocketSettings.socket;
     }
     public string Recvall()
     {
@@ -110,7 +110,7 @@ public class AltBaseCommand
     {
         return PositionToJson(new AltUnityVector2(x, y));
     }
-    
+
     public static void HandleErrors(string data)
     {
         var typeOfException = data.Split(';')[0];
@@ -146,7 +146,7 @@ public class AltBaseCommand
     }
     public AltUnityTextureInformation ReceiveImage()
     {
-        
+
         var data = Recvall();
         if (data == "Ok")
         {
@@ -169,7 +169,6 @@ public class AltBaseCommand
         var scaleDifference = screenshotInfo[0];
 
         var length = screenshotInfo[1];
-        var LongLength = Newtonsoft.Json.JsonConvert.DeserializeObject<long>(length);
         var textureFormatString = screenshotInfo[2];
         var textureFormat = (Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat)System.Enum.Parse(typeof(Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat), textureFormatString);
         var textSizeString = screenshotInfo[3];

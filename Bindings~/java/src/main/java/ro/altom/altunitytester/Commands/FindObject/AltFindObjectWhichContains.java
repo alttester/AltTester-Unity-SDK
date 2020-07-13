@@ -9,13 +9,18 @@ import ro.altom.altunitytester.AltUnityObject;
  */
 public class AltFindObjectWhichContains extends AltBaseFindObject {
     private AltFindObjectsParameters altFindObjectsParameters;
-    public AltFindObjectWhichContains(AltBaseSettings altBaseSettings, AltFindObjectsParameters altFindObjectsParameters) {
+
+    public AltFindObjectWhichContains(AltBaseSettings altBaseSettings,
+            AltFindObjectsParameters altFindObjectsParameters) {
         super(altBaseSettings);
         this.altFindObjectsParameters = altFindObjectsParameters;
     }
-    public AltUnityObject Execute(){
-        String path= SetPathContains(altFindObjectsParameters.getBy(),altFindObjectsParameters.getValue());
-        send(CreateCommand("findObject", path, altFindObjectsParameters.getCameraName(), String.valueOf(altFindObjectsParameters.isEnabled())));
+
+    public AltUnityObject Execute() {
+        String path = SetPathContains(altFindObjectsParameters.getBy(), altFindObjectsParameters.getValue());
+        String cameraPath = SetPath(altFindObjectsParameters.getCameraBy(), altFindObjectsParameters.getCameraPath());
+        send(CreateCommand("findObject", path, altFindObjectsParameters.getCameraBy().toString(), cameraPath,
+                String.valueOf(altFindObjectsParameters.isEnabled())));
         return ReceiveAltUnityObject();
     }
 }

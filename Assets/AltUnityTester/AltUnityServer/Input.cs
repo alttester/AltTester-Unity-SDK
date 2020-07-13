@@ -12,7 +12,7 @@ public class Input : UnityEngine.MonoBehaviour
     {
        
         instance = this;
-        mockUpPointerInputModule = new AltUnityMockUpPointerInputModule();
+        mockUpPointerInputModule = gameObject.AddComponent<AltUnityMockUpPointerInputModule>();
         string filePath = "AltUnityTester/AltUnityTesterInputAxisData";
 
         UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
@@ -21,7 +21,7 @@ public class Input : UnityEngine.MonoBehaviour
     }
     private void Update()
     {
-        UseCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey;
+        UseCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta==UnityEngine.Vector2.zero;
     }
     
     public static Input instance;
@@ -291,6 +291,7 @@ public class Input : UnityEngine.MonoBehaviour
     }
 
     //NotImplementedForAltUnityTester
+    [System.Obsolete]
     public static bool isGyroAvailable
     {
         get
@@ -809,10 +810,32 @@ public class Input : UnityEngine.MonoBehaviour
         float timeSpent = 0;
         while (timeSpent < duration)
         {
+            UnityEngine.Debug.Log("Scrolling");
             _mouseScrollDelta = new UnityEngine.Vector2(0, scrollValue);//x value is not taken in consideration
             yield return null;
             timeSpent += UnityEngine.Time.deltaTime;
         }
+        _mouseScrollDelta=UnityEngine.Vector2.zero;//reset the value after scroll ended
+        Finished = true;
+
+    }
+
+    public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration)
+    {
+        Finished = false;
+        instance.StartCoroutine(AccelerationLifeCycle(accelarationValue, duration));
+    }
+    private static System.Collections.IEnumerator AccelerationLifeCycle(UnityEngine.Vector3 accelarationValue, float duration)
+    {
+        float timeSpent = 0;
+        while (timeSpent < duration)
+        {
+            UnityEngine.Debug.Log("Acceleration");
+            _acceleration =accelarationValue;
+            yield return null;
+            timeSpent += UnityEngine.Time.deltaTime;
+        }
+        _acceleration = UnityEngine.Vector3.zero;//reset the value after acceleration ended
         Finished = true;
 
     }

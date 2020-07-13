@@ -1,5 +1,7 @@
 package ro.altom.altunitytester;
 
+import org.apache.log4j.BasicConfigurator;
+import org.slf4j.LoggerFactory;
 import ro.altom.altunitytester.Commands.*;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
@@ -12,9 +14,12 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+
 public class AltUnityDriver {
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AltUnityDriver.class);
+    private static final Logger log = LogManager.getLogger(AltUnityDriver.class);
 
     public static class PlayerPrefsKeyType {
         public static int IntType = 1;
@@ -22,7 +27,7 @@ public class AltUnityDriver {
         public static int FloatType = 3;
     }
 
-    public static final String VERSION = "1.5.5";
+    public static final String VERSION = "1.5.6";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private Socket socket = null;
@@ -36,34 +41,41 @@ public class AltUnityDriver {
     }
 
     public AltUnityDriver(String ip, int port) {
+
         this(ip, port, ";", "&", false);
+        BasicConfigurator.configure();
     }
 
     public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd) {
         this(ip, port, requestSeparator, requestEnd, false);
+        BasicConfigurator.configure();
     }
 
     public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logEnabled) {
+        BasicConfigurator.configure();
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
         int timeout = 60;
         while (timeout > 0) {
             try {
-                try{
-                    log.info("Initializing connection to {}:{}", ip, port);
+                try {
+                    log.info(String.format("Initializing connection to %s:%d", ip, port));
                     socket = new Socket(ip, port);
                     socket.setSoTimeout(READ_TIMEOUT);
                     out = new PrintWriter(socket.getOutputStream(), true);
                     in = new DataInputStream(socket.getInputStream());
-                }catch(IOException e){
-                    throw new ConnectionException("AltUnityServer not running on port "+port + ",retrying (timing out in " +timeout+" secs)...", e);
+                } catch (IOException e) {
+                    throw new ConnectionException("AltUnityServer not running on port " + port
+                            + ",retrying (timing out in " + timeout + " secs)...", e);
                 }
                 altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
                 GetServerVersion();
                 EnableLogging();
                 break;
             } catch (Exception e) {
+                if (socket != null)
+                    stop();
                 System.out.println(e.getMessage());
                 System.out.println("AltUnityServer not running on port " + port + ", retrying (timing out in " + timeout
                         + " secs)...");
@@ -238,13 +250,17 @@ public class AltUnityDriver {
 
     /**
      * Simulates device rotation action in your game.
-     * 
-     * @param x Linear acceleration of a device on x
-     * @param y Linear acceleration of a device on y
-     * @param z Linear acceleration of a device on z
      */
-    public void tilt(int x, int y, int z) {
-        new AltTilt(altBaseSettings, x, y, z).Execute();
+    public void tilt(AltTiltParameters altTiltParameter) {
+        new AltTilt(altBaseSettings, altTiltParameter).Execute();
+    }
+
+    /**
+     * Simulates device rotation action in your game and waits for the action to
+     * finish.
+     */
+    public void tiltAndWait(AltTiltParameters altTiltParameters) {
+        new AltTiltAndWait(altBaseSettings, altTiltParameters).Execute();
     }
 
     /**
@@ -339,20 +355,24 @@ public class AltUnityDriver {
         return new AltFindObject(altBaseSettings, altFindObjectsParameters).Execute();
     }
 
-    public AltUnityObject findObject(By by, String value, String cameraName, boolean enabled) {
-        return findObject(BuildFindObjectsParameters(by, value, cameraName, enabled));
+    @Deprecated
+    public AltUnityObject findObject(By by, String value, By cameraBy, String cameraPath, boolean enabled) {
+        return findObject(BuildFindObjectsParameters(by, value, cameraBy, cameraPath, enabled));
     }
 
+    @Deprecated
     public AltUnityObject findObject(By by, String value, boolean enabled) {
-        return findObject(by, value, "", enabled);
+        return findObject(by, value, By.NAME, "", enabled);
     }
 
+    @Deprecated
     public AltUnityObject findObject(By by, String value, String cameraName) {
-        return findObject(by, value, cameraName, true);
+        return findObject(by, value, By.NAME, cameraName, true);
     }
 
+    @Deprecated
     public AltUnityObject findObject(By by, String value) {
-        return findObject(by, value, "", true);
+        return findObject(by, value, By.NAME, "", true);
     }
 
     /**
@@ -364,20 +384,24 @@ public class AltUnityDriver {
         return new AltFindObjectWhichContains(altBaseSettings, altFindObjectsParameters).Execute();
     }
 
-    public AltUnityObject findObjectWhichContains(By by, String value, String cameraName, boolean enabled) {
-        return findObjectWhichContains(BuildFindObjectsParameters(by, value, cameraName, enabled));
+    public AltUnityObject findObjectWhichContains(By by, String value, By cameraBy, String cameraPath,
+            boolean enabled) {
+        return findObjectWhichContains(BuildFindObjectsParameters(by, value, cameraBy, cameraPath, enabled));
     }
 
+    @Deprecated
     public AltUnityObject findObjectWhichContains(By by, String value, boolean enabled) {
-        return findObjectWhichContains(by, value, "", enabled);
+        return findObjectWhichContains(by, value, By.NAME, "", enabled);
     }
 
+    @Deprecated
     public AltUnityObject findObjectWhichContains(By by, String value, String cameraName) {
-        return findObjectWhichContains(by, value, cameraName, true);
+        return findObjectWhichContains(by, value, By.NAME, cameraName, true);
     }
 
+    @Deprecated
     public AltUnityObject findObjectWhichContains(By by, String value) {
-        return findObjectWhichContains(by, value, "", true);
+        return findObjectWhichContains(by, value, By.NAME, "", true);
     }
 
     /**
@@ -389,20 +413,23 @@ public class AltUnityDriver {
         return new AltFindObjects(altBaseSettings, altFindObjectsParameters).Execute();
     }
 
-    public AltUnityObject[] findObjects(By by, String value, String cameraName, boolean enabled) {
-        return findObjects(BuildFindObjectsParameters(by, value, cameraName, enabled));
+    public AltUnityObject[] findObjects(By by, String value, By cameraBy, String cameraPath, boolean enabled) {
+        return findObjects(BuildFindObjectsParameters(by, value, cameraBy, cameraPath, enabled));
     }
 
+    @Deprecated
     public AltUnityObject[] findObjects(By by, String value, String cameraName) {
-        return findObjects(by, value, cameraName, true);
+        return findObjects(by, value, By.NAME, cameraName, true);
     }
 
+    @Deprecated
     public AltUnityObject[] findObjects(By by, String value, boolean enabled) {
-        return findObjects(by, value, "", enabled);
+        return findObjects(by, value, By.NAME, "", enabled);
     }
 
+    @Deprecated
     public AltUnityObject[] findObjects(By by, String value) {
-        return findObjects(by, value, "", true);
+        return findObjects(by, value, By.NAME, "", true);
     }
 
     /**
@@ -414,20 +441,24 @@ public class AltUnityDriver {
         return new AltFindObjectsWhichContains(altBaseSettings, altFindObjectsParameters).Execute();
     }
 
-    public AltUnityObject[] findObjectsWhichContains(By by, String value, String cameraName, boolean enabled) {
-        return findObjectsWhichContains(BuildFindObjectsParameters(by, value, cameraName, enabled));
+    public AltUnityObject[] findObjectsWhichContains(By by, String value, By cameraBy, String cameraPath,
+            boolean enabled) {
+        return findObjectsWhichContains(BuildFindObjectsParameters(by, value, cameraBy, cameraPath, enabled));
     }
 
+    @Deprecated
     public AltUnityObject[] findObjectsWhichContains(By by, String value, String cameraName) {
-        return findObjectsWhichContains(by, value, cameraName, true);
+        return findObjectsWhichContains(by, value, By.NAME, cameraName, true);
     }
 
+    @Deprecated
     public AltUnityObject[] findObjectsWhichContains(By by, String value, boolean enabled) {
-        return findObjectsWhichContains(by, value, "", enabled);
+        return findObjectsWhichContains(by, value, By.NAME, "", enabled);
     }
 
+    @Deprecated
     public AltUnityObject[] findObjectsWhichContains(By by, String value) {
-        return findObjectsWhichContains(by, value, "", true);
+        return findObjectsWhichContains(by, value, By.NAME, "", true);
     }
 
     @Deprecated
@@ -466,22 +497,26 @@ public class AltUnityDriver {
         return new AltGetAllElements(altBaseSettings, altGetAllElementsParameters).Execute();
     }
 
-    public AltUnityObject[] getAllElements(String cameraName, boolean enabled) {
+    @Deprecated
+    public AltUnityObject[] getAllElements(By cameraBy, String cameraName, boolean enabled) {
         AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters.Builder()
-                .withCamera(cameraName).isEnabled(enabled).build();
+                .withCamera(cameraBy, cameraName).isEnabled(enabled).build();
         return getAllElements(altGetAllElementsParameters);
     }
 
+    @Deprecated
     public AltUnityObject[] getAllElements(String cameraName) {
-        return getAllElements(cameraName, true);
+        return getAllElements(By.NAME, cameraName, true);
     }
 
+    @Deprecated
     public AltUnityObject[] getAllElements(boolean enabled) {
-        return getAllElements("", enabled);
+        return getAllElements(By.NAME, "", enabled);
     }
 
+    @Deprecated
     public AltUnityObject[] getAllElements() throws Exception {
-        return getAllElements("", true);
+        return getAllElements(By.NAME, "", true);
     }
 
     @Deprecated
@@ -511,6 +546,7 @@ public class AltUnityDriver {
         return findElement(name, "", true);
     }
 
+    @Deprecated
     public AltUnityObject[] findElements(AltFindElementsParameters altFindElementsParameters) {
         return new AltFindElements(altBaseSettings, altFindElementsParameters).Execute();
     }
@@ -586,6 +622,7 @@ public class AltUnityDriver {
         return new AltWaitForCurrentSceneToBe(altBaseSettings, altWaitForCurrentSceneToBeParameters).Execute();
     }
 
+    @Deprecated
     public String waitForCurrentSceneToBe(String sceneName, double timeout, double interval) {
         AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters = new AltWaitForCurrentSceneToBeParameters.Builder(
                 sceneName).withInterval(interval).withTimeout(timeout).build();
@@ -662,29 +699,35 @@ public class AltUnityDriver {
         return new AltWaitForObject(altBaseSettings, altWaitForObjectsParameters).Execute();
     }
 
-    public AltUnityObject waitForObject(By by, String value, String cameraName, boolean enabled, double timeout,
-            double interval) {
-        return waitForObject(BuildWaitForObjectsParameters(by, value, cameraName, enabled, timeout, interval));
+    @Deprecated
+    public AltUnityObject waitForObject(By by, String value, By cameraBy, String cameraPath, boolean enabled,
+            double timeout, double interval) {
+        return waitForObject(
+                BuildWaitForObjectsParameters(by, value, cameraBy, cameraPath, enabled, timeout, interval));
     }
 
+    @Deprecated
     public AltUnityObject waitForObject(By by, String value) {
-        return waitForObject(by, value, "", true, 2, 0.5);
+        return waitForObject(by, value, By.NAME, "", true, 2, 0.5);
     }
 
     public AltUnityObject waitForObjectWithText(AltWaitForObjectWithTextParameters altWaitForObjectWithTextParameters) {
         return new AltWaitForObjectWithText(altBaseSettings, altWaitForObjectWithTextParameters).Execute();
     }
 
-    public AltUnityObject waitForObjectWithText(By by, String value, String text, String cameraName, boolean enabled,
-            double timeout, double interval) {
-        AltFindObjectsParameters altFindElementsParameters = BuildFindObjectsParameters(by, value, cameraName, enabled);
+    @Deprecated
+    public AltUnityObject waitForObjectWithText(By by, String value, String text, By cameraBy, String cameraPath,
+            boolean enabled, double timeout, double interval) {
+        AltFindObjectsParameters altFindElementsParameters = BuildFindObjectsParameters(by, value, cameraBy, cameraPath,
+                enabled);
         AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(
                 altFindElementsParameters, text).withInterval(interval).withTimeout(timeout).build();
         return waitForObjectWithText(altWaitForElementWithTextParameters);
     }
 
+    @Deprecated
     public AltUnityObject waitForObjectWithText(By by, String value, String text) {
-        return waitForObjectWithText(by, value, text, "", true, 2, 0.5);
+        return waitForObjectWithText(by, value, text, By.NAME, "", true, 2, 0.5);
     }
 
     /**
@@ -698,30 +741,35 @@ public class AltUnityDriver {
         new AltWaitForObjectToNotBePresent(altBaseSettings, altWaitForObjectsParameters).Execute();
     }
 
-    public void waitForObjectToNotBePresent(By by, String value, String cameraName, boolean enabled, double timeout,
-            double interval) {
-        AltFindObjectsParameters altFindObjectsParameters = BuildFindObjectsParameters(by, value, cameraName, enabled);
+    @Deprecated
+    public void waitForObjectToNotBePresent(By by, String value, By cameraBy, String cameraPath, boolean enabled,
+            double timeout, double interval) {
+        AltFindObjectsParameters altFindObjectsParameters = BuildFindObjectsParameters(by, value, cameraBy, cameraPath,
+                enabled);
         AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
                 altFindObjectsParameters).withTimeout(timeout).withInterval(interval).build();
         waitForObjectToNotBePresent(altWaitForObjectsParameters);
     }
 
+    @Deprecated
     public void waitForObjectToNotBePresent(By by, String value) {
-        waitForObjectToNotBePresent(by, value, "", true, 20, 0.5);
+        waitForObjectToNotBePresent(by, value, By.NAME, "", true, 20, 0.5);
     }
 
     public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParameters altWaitForObjectsParameters) {
         return new AltWaitForObjectWhichContains(altBaseSettings, altWaitForObjectsParameters).Execute();
     }
 
-    public AltUnityObject waitForObjectWhichContains(By by, String value, String cameraName, boolean enabled,
-            double timeout, double interval) {
+    @Deprecated
+    public AltUnityObject waitForObjectWhichContains(By by, String value, By cameraBy, String cameraName,
+            boolean enabled, double timeout, double interval) {
         return waitForObjectWhichContains(
-                BuildWaitForObjectsParameters(by, value, cameraName, enabled, timeout, interval));
+                BuildWaitForObjectsParameters(by, value, cameraBy, cameraName, enabled, timeout, interval));
     }
 
+    @Deprecated
     public AltUnityObject waitForObjectWhichContains(By by, String value) {
-        return waitForObjectWhichContains(by, value, "", true, 30, 0.5);
+        return waitForObjectWhichContains(by, value, By.NAME, "", true, 30, 0.5);
     }
 
     private AltPressKeyParameters BuildPressKeyParameters(String keyName, float power, float duration) {
@@ -736,15 +784,17 @@ public class AltUnityDriver {
         return new AltScrollMouseParameters.Builder().withDuration(duration).withSpeed(speed).build();
     }
 
-    private AltFindObjectsParameters BuildFindObjectsParameters(By by, String value, String cameraName,
+    private AltFindObjectsParameters BuildFindObjectsParameters(By by, String value, By cameraBy, String cameraName,
             boolean enabled) {
-        return new AltFindObjectsParameters.Builder(by, value).isEnabled(enabled).withCamera(cameraName).build();
+        return new AltFindObjectsParameters.Builder(by, value).isEnabled(enabled).withCamera(cameraBy, cameraName)
+                .build();
     }
 
-    private AltWaitForObjectsParameters BuildWaitForObjectsParameters(By by, String value, String cameraName,
-            boolean enabled, double timeout, double interval) {
-        return new AltWaitForObjectsParameters.Builder(BuildFindObjectsParameters(by, value, cameraName, enabled))
-                .withInterval(interval).withTimeout(timeout).build();
+    private AltWaitForObjectsParameters BuildWaitForObjectsParameters(By by, String value, By cameraBy,
+            String cameraName, boolean enabled, double timeout, double interval) {
+        return new AltWaitForObjectsParameters.Builder(
+                BuildFindObjectsParameters(by, value, cameraBy, cameraName, enabled)).withInterval(interval)
+                        .withTimeout(timeout).build();
     }
 
     @Deprecated
