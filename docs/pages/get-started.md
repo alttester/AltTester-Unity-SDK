@@ -174,7 +174,7 @@ With the instance of the driver you can access all the commands that AltUnity Te
 
                 * Install the .jar file:
 
-                        ``mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.5 -Dpackaging=jar`` 
+                        ``mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.5.6 -Dpackaging=jar`` 
 
        2. Using the driver:
         
