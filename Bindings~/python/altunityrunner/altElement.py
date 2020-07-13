@@ -1,4 +1,5 @@
 from typing import List
+from deprecated import deprecated
 import json
 from altunityrunner.commands.ObjectCommands.get_text import GetText
 from altunityrunner.commands.ObjectCommands.set_component_property import SetComponentProperty
@@ -111,12 +112,14 @@ class AltElement(object):
         self.appium_driver.swipe(self.x, self.mobileY, other_element.x,
                                  other_element.mobileY, durationIndSeconds * 1000)
 
+    @deprecated(version='1.5.6', reason="Use swipe method from AltUnityDriver instead")
     def drag(self, x, y):
         alt_object = self.toJSON()
         data = Drag(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator,
                     self.alt_unity_driver.request_end, x, y, alt_object).execute()
         return AltElement(self.alt_unity_driver, self.appium_driver, data)
 
+    @deprecated(version='1.5.6', reason="Use swipe method from AltUnityDriver instead")
     def drop(self, x, y):
         alt_object = self.toJSON()
         data = Drop(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator,
