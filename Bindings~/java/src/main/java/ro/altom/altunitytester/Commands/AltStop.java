@@ -17,7 +17,7 @@ public class AltStop extends AltBaseCommand {
             altBaseSettings.out.close();
             altBaseSettings.socket.close();
         } catch (IOException e) {
-            throw new ConnectionException("Could not close the socket.", e);
+             System.out.println("Could not close the socket.");
         }
     }
 }

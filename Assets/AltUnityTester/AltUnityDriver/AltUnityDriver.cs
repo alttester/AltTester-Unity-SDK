@@ -29,7 +29,9 @@ public class AltUnityDriver
     {
         
         int timeout=60;
-        while(timeout>0){
+        int retryPeriod = 5;
+        while (timeout > 0)
+        {
             try
             {
                 Socket = new System.Net.Sockets.TcpClient();
@@ -42,15 +44,22 @@ public class AltUnityDriver
                 EnableLogging();
                 break;
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
                 if (Socket != null)
                     Stop();
-                System.Console.WriteLine(e.Message);
-                timeout -= 5;
-                System.Threading.Thread.Sleep(5000);
+                string errorMessage = "Trying to reach AltUnity Server at port" + tcp_port + ",retrying in "+ retryPeriod +" (timing out in " + timeout + " secs)...";
+                System.Console.WriteLine(errorMessage);
+                timeout -= retryPeriod;
+                System.Threading.Thread.Sleep(retryPeriod*1000);
+#if UNITY_EDITOR
+                UnityEngine.Debug.Log(errorMessage);
+#endif
             }
-            
+            if (timeout <= 0)
+            {
+                throw new System.Exception("Could not create connection to " + tcp_ip + ":" + tcp_port);
+            }
         }
         
     }
