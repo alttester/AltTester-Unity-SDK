@@ -290,7 +290,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
             if (UnityEngine.GUILayout.Button("Android player settings"))
             {
+#if UNITY_2019_1_OR_NEWER
                 UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+#else
+                UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+#endif
                 UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.Android;
             }
         }
@@ -1185,7 +1189,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     var actualTime = System.DateTime.Now.Ticks;
                     if (actualTime - timeSinceLastClick < 5000000)
                     {
+#if UNITY_2019_1_OR_NEWER
                         UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1,0);
+#else
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+#endif
                     }
                 }
                 else
