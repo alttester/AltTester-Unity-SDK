@@ -70,6 +70,8 @@ public class AltUnityDriver {
                 EnableLogging();
                 break;
             } catch (Exception e) {
+                if (socket != null)
+                    stop();
                 System.out.println(e.getMessage());
                 System.out.println("AltUnityServer not running on port " + port + ", retrying (timing out in " + timeout
                         + " secs)...");

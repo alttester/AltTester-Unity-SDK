@@ -1,6 +1,7 @@
 import subprocess
 
 from ppadb.client import Client as AdbClient
+import time
 
 
 class AltUnityAndroidPortForwarding(object):
@@ -42,7 +43,7 @@ class AltUnityiOSPortForwarding(object):
 
     @staticmethod
     def kill_iproxy_process(pid):
-        subprocess.Popen(['killall', pid]).wait()
+        subprocess.Popen(['kill', str(pid)]).wait()
 
     @staticmethod
     def kill_all_iproxy_process():
