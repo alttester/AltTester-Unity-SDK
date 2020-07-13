@@ -184,10 +184,12 @@ public class AltUnityObject {
         return sendActionAndEvaluateResult("clickEvent");
     }
 
+    @Deprecated
     public AltUnityObject drag(int x, int y) {
         return sendActionWithCoordinateAndEvaluate(x, y, "dragObject");
     }
 
+    @Deprecated
     public AltUnityObject drop(int x, int y) {
         return sendActionWithCoordinateAndEvaluate(x, y, "dropObject");
     }

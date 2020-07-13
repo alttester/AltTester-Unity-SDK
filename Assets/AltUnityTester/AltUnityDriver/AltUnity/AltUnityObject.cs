@@ -69,10 +69,12 @@ public class AltUnityObject
     {
         return new AltUnityClickEvent(socketSettings,this).Execute();
     }
+    [System.ObsoleteAttribute("This method has been deprecated. Use AltUnityDriver.Swipe instead.",false)]
     public AltUnityObject DragObject(AltUnityVector2 position)
     {
         return new AltUnityDragObject(socketSettings,position,this).Execute();
     }
+    [System.ObsoleteAttribute("This method has been deprecated. Use Swipe method from AltUnityDriver instead.", false)]
     public AltUnityObject DropObject(AltUnityVector2 position)
     {
         return new AltUnityDropObject(socketSettings,position,this).Execute();   
