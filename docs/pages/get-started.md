@@ -1,7 +1,6 @@
 # Get Started  
 
 To run the first test for your Unity game you need to:
-- [Get Started](#get-started)
   - [Import AltUnity Tester package](#import-altunity-tester-package)
   - [Instrument your game with AltUnity Server](#instrument-your-game-with-altunity-server)
   - [Run your game in Unity or on desired platform](#run-your-game-in-unity-or-on-desired-platform)
