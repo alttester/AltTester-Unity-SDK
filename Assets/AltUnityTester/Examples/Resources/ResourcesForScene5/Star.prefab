@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4209538840206634}
   - component: {fileID: 33226856824416228}
   - component: {fileID: 23501760235078744}
-  - component: {fileID: 114927286709782638}
+  - component: {fileID: 114056703099436994}
   m_Layer: 0
   m_Name: Star
   m_TagString: Untagged
@@ -37,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1768235295843564}
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -2.39, y: -0.18, z: -0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -84,7 +84,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1768235295843564}
   m_Mesh: {fileID: 4300000, guid: cfecc298235aa6e44b7fc60d0ad69593, type: 3}
---- !u!114 &114927286709782638
+--- !u!114 &114056703099436994
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768235295843564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5993bee904a8d544919c74378e40e17, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e82c250af918344f9402324452fee56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   starCounter: {fileID: 0}
