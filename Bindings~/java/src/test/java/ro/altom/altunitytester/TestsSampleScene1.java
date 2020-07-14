@@ -534,7 +534,7 @@ public class TestsSampleScene1 {
     @Test
     public void testTapScreen() throws Exception {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "Capsule").build();
+                AltUnityDriver.By.NAME, "UIButton").build();
         AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "CapsuleInfo").build();
         AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
@@ -542,7 +542,7 @@ public class TestsSampleScene1 {
         altUnityDriver.tapScreen(capsule.x, capsule.y);
         Thread.sleep(2);
         String text = capsuleInfo.getText();
-        assertEquals(text, "Capsule was clicked to jump!");
+        assertEquals(text, "UIButton clicked to jump capsule!");
     }
 
     @Test

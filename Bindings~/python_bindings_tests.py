@@ -44,12 +44,13 @@ class PythonTests(unittest.TestCase):
 
     def test_tap_at_coordinates(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        capsule_element = self.altdriver.find_element('Capsule')
-        self.altdriver.tap_at_coordinates(capsule_element.x, capsule_element.y)
+        ui_button = self.altdriver.find_element('UIButton')
+        self.altdriver.tap_at_coordinates(ui_button.x, ui_button.y)
         capsule_info = self.altdriver.wait_for_element_with_text(
-            'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
-        self.assertEqual('Capsule was clicked to jump!',
+            'CapsuleInfo', 'UIButton clicked to jump capsule!', '', 1)
+        self.assertEqual('UIButton clicked to jump capsule!',
                          capsule_info.get_text())
+
 
     def test_load_and_wait_for_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')

@@ -363,12 +363,12 @@ public class TestsSampleScene1OldSearch {
 
     @Test
     public void testTapScreen() throws Exception {
-        AltUnityObject capsule = altUnityDriver.findElement("Capsule");
+        AltUnityObject capsule = altUnityDriver.findElement("UIButton");
         AltUnityObject capsuleInfo = altUnityDriver.findElement("CapsuleInfo");
         altUnityDriver.tapScreen(capsule.x, capsule.y);
         Thread.sleep(2);
         String text = capsuleInfo.getText();
-        assertEquals(text, "Capsule was clicked to jump!");
+        assertEquals(text, "UIButton clicked to jump capsule!");
     }
 
     @Test
