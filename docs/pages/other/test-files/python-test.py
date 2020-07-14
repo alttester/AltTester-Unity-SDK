@@ -8,9 +8,11 @@ import time
 from os import path
 from altunityrunner import *
 
+
 def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
+
 
 class MyFirstTest(unittest.TestCase):
 
@@ -18,7 +20,7 @@ class MyFirstTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltrunUnityDriver(None, '', log_flag=False)
+        cls.altdriver = AltUnityDriver()
 
     @classmethod
     def tearDownClass(cls):
@@ -27,11 +29,12 @@ class MyFirstTest(unittest.TestCase):
     def test_open_close_panel(self):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
 
-        closePanelButton = self.altdriver.find_object(By.NAME, "Close Button").tap()
-        togglePanelButton = self.altdriver.find_object(By.NAME, "Button").tap()
+        self.altdriver.find_object(By.NAME, "Close Button").tap()
+        self.altdriver.find_object(By.NAME, "Button").tap()
+
         panelElement = self.altdriver.wait_for_object(By.NAME, "Panel")
-        
-        self.assertTrue(panelElement)
+        self.assertTrue(panelElement.enabled)
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(MyFirstTest)

@@ -1,10 +1,11 @@
 # Get Started  
 
 To run the first test for your Unity game you need to:
-1. [Import AltUnity Tester package in Unity Editor](#import-altunity-tester-package)
-2. [Instrument your game with AltUnity Server](#instrument-your-game-with-altunity-server)
-3. [Run the build in Unity Editor or on desired platform](#run-your-game-in-unity-or-on-desired-platform)
-4. [Write and execute first test](#write-and-execute-first-test-for-your-game)
+- [Get Started](#get-started)
+  - [Import AltUnity Tester package](#import-altunity-tester-package)
+  - [Instrument your game with AltUnity Server](#instrument-your-game-with-altunity-server)
+  - [Run your game in Unity or on desired platform](#run-your-game-in-unity-or-on-desired-platform)
+  - [Write and execute first test for your game](#write-and-execute-first-test-for-your-game)
 
 ```eval_rst note::
     If you don't have access to source code of the game you need to ask a person with access to give you an instrumented version of the game. 
@@ -53,10 +54,6 @@ Steps:
 
 ``` note::
         Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
-```
-
-``` note::
-    If you have a custom build, check how you can build from the command line using the instructions in the `Advanced Usage section <advanced-usage.html#Build-games-from-the-command-line>`_.
 ```
 
 ``` note::

@@ -7,24 +7,12 @@ import ro.altom.altunitytester.AltUnityObject;
 
 import java.io.IOException;
 
-public class myFirstTest {
-
+public class MyFirstTest {
     private static AltUnityDriver altdriver;
 
     @BeforeClass
     public static void setUp() throws IOException {
-        altdriver = new AltUnityDriver("127.0.0.1", 13000, ";", "&", true);
-    }
-
-    @Test
-    public void openClosePanelTest() {
-        altdriver.loadScene("Scene 2 Draggable Panel");
-
-        AltUnityObject closePanelButton = altdriver.findObject(AltUnityDriver.By.NAME, "Close Button").tap();
-        AltUnityObject togglePanelButton = altdriver.findObject(AltUnityDriver.By.NAME, "Button").tap();
-        AltUnityObject panelElement = altdriver.findObject(AltUnityDriver.By.NAME, "Panel");
-        
-        Assert.assertTrue(altdriver.waitForObject(AltUnityDriver.By.NAME, "Panel").isEnabled());
+        altdriver = new AltUnityDriver();
     }
 
     @AfterClass
@@ -32,4 +20,14 @@ public class myFirstTest {
         altdriver.stop();
     }
 
+    @Test
+    public void openClosePanelTest() {
+        altdriver.loadScene("Scene 2 Draggable Panel");
+
+        altdriver.findObject(AltUnityDriver.By.NAME, "Close Button").tap();
+        altdriver.findObject(AltUnityDriver.By.NAME, "Button").tap();
+
+        AltUnityObject panelElement = altdriver.waitForObject(AltUnityDriver.By.NAME, "Panel");
+        Assert.assertTrue(panelElement.isEnabled());
+    }
 }
