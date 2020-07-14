@@ -34,3 +34,7 @@ AltUnity Tester Editor Window is the GUI used for instrumenting a Unity game and
 
 
 ![Architecture](../_static/images/architecture.png)
+
+``` note::
+ You need to make sure AltUnity Tester is removed from the final product, to prevent having an open socket after release.
+ ```
