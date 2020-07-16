@@ -290,7 +290,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
             if (UnityEngine.GUILayout.Button("Android player settings"))
             {
-#if UNITY_2019_1_OR_NEWER
+#if UNITY_2018_3_OR_NEWER
                 UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
 #else
                 UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
@@ -307,7 +307,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
             if (UnityEngine.GUILayout.Button("iOS player settings"))
             {
+#if UNITY_2018_3_OR_NEWER
                 UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+#else
+                UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+#endif
                 UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.iOS;
             }
         }
