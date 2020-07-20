@@ -131,6 +131,15 @@ public class AltUnityDriver {
     public void loadScene(String scene) {
         new AltLoadScene(altBaseSettings, scene).Execute();
     }
+	
+	/**
+	 * Ability to access altBaseSettings.
+	 * @return Returns the AltBaseSettings used by the driver.
+     */
+	public AltBaseSettings GetAltBaseSettings()
+	{
+		return altBaseSettings;
+	}
 
     /**
      * Delete entire player pref of the game
