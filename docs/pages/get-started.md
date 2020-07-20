@@ -148,7 +148,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:
 
-              .. include:: other/test-files/cSharp-test.cs
+              .. include:: other~/test-files/cSharp-test.cs
                       :code: c#
 
     .. tab:: Java
@@ -180,7 +180,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:
 
-                .. include:: other/test-files/java-test.java
+                .. include:: other~/test-files/java-test.java
                         :code: java
 
         Run your tests by using the following command (in the test project folder):
@@ -204,7 +204,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:  
 
-                .. include:: other/test-files/python-test.py
+                .. include:: other~/test-files/python-test.py
                         :code: py
 
         Run your test file by using the following command:
