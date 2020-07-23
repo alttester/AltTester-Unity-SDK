@@ -19,7 +19,7 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltrunUnityDriver(None, 'android', log_flag=False)
+        cls.altdriver = AltUnityDriver(log_flag=False)
 
     @classmethod
     def tearDownClass(cls):
@@ -50,7 +50,6 @@ class PythonTests(unittest.TestCase):
             'CapsuleInfo', 'UIButton clicked to jump capsule!', '', 1)
         self.assertEqual('UIButton clicked to jump capsule!',
                          capsule_info.get_text())
-
 
     def test_load_and_wait_for_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')

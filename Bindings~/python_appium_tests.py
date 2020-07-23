@@ -2,7 +2,7 @@ import os
 import unittest
 import sys
 from appium import webdriver
-from altunityrunner import AltrunUnityDriver
+from altunityrunner import AltUnityDriver
 from altunityrunner.by import By
 import time
 from altunityrunner import AltUnityAndroidPortForwarding
@@ -33,7 +33,7 @@ class SampleAppiumTest(unittest.TestCase):
 
         cls.driver = webdriver.Remote(
             'http://localhost:4723/wd/hub', cls.desired_caps)
-        cls.altdriver = AltrunUnityDriver(
+        cls.altdriver = AltUnityDriver(
             cls.driver, cls.platform, log_flag=True)
 
     @classmethod
