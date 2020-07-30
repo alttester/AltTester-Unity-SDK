@@ -15,6 +15,10 @@ from loguru import logger
 BUFFER_SIZE = 1024
 
 
+warnings.filterwarnings("default", category=DeprecationWarning,
+                        module=__name__)
+
+
 @deprecated(version="1.5.6", reason="Use AltUnityDriver")
 class AltrunUnityDriver(object):
 
@@ -241,11 +245,11 @@ class AltUnityDriver(object):
 
         if appium_driver:
             warnings.warn(
-                "appium_driver is deprecated and will be removed soon", warnings.DeprecationWarning)
+                "appium_driver is deprecated and will be removed soon", DeprecationWarning)
 
         if platform:
             warnings.warn(
-                "platform is deprecated and will be removed soon", warnings.DeprecationWarning)
+                "platform is deprecated and will be removed soon", DeprecationWarning)
 
         self.appium_driver = None
         if (appium_driver != None):
