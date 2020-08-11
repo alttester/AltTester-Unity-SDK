@@ -76,9 +76,13 @@ public class AltUnityDriver
     {
         new AltUnityStopCommand(socketSettings).Execute();
     }
-    public void LoadScene(string scene)
+    public void LoadScene(string scene,bool loadSingle=true)
     {
-        new AltUnityLoadScene(socketSettings, scene).Execute();
+        new AltUnityLoadScene(socketSettings, scene,loadSingle).Execute();
+    }
+    public System.Collections.Generic.List<string> GetAllLoadedScenes()
+    {
+        return new AltUnityGetAllLoadedScenes(socketSettings).Execute();
     }
     [System.Obsolete()]
     public System.Collections.Generic.List<AltUnityObject> FindObjects(By by, string value, string cameraName, bool enabled = true)

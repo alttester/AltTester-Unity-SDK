@@ -390,7 +390,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new AltUnitySetMultipointSwipeChainCommand(positions, pieces[1]);
                     break;
                 case "loadScene":
-                    command = new AltUnityLoadSceneCommand(pieces[1], handler);
+                    var loadSingle = bool.Parse(pieces[2]);
+                    command = new AltUnityLoadSceneCommand(pieces[1], loadSingle, handler);
                     break;
                 case "setTimeScale":
                     float timeScale = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);
@@ -433,6 +434,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "getAllCameras":
                     command = new AltUnityGetAllCamerasCommand();
+                    break;
+                case "getAllLoadedScenes":
+                    command = new AltUnityGetAllLoadedScenesCommand();
                     break;
                 case "getScreenshot":
                     size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);

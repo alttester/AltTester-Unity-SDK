@@ -27,7 +27,7 @@ public class TestForScene1TestSample
     [SetUp]
     public void LoadLevel()
     {
-        altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+        altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene", true);
     }
     [Test]
     public void TestGetCurrentScene()
@@ -700,11 +700,13 @@ public class TestForScene1TestSample
     public void TestFindObjectsByContainName()
     {
         var altElements = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Ca)]");
-        Assert.AreEqual(9, altElements.Count);
         foreach (var altElement in altElements)
         {
+            UnityEngine.Debug.Log(altElement.name);
             Assert.True(altElement.name.Contains("Ca"));
         }
+        Assert.AreEqual(9, altElements.Count);
+
     }
 
 
@@ -726,7 +728,8 @@ public class TestForScene1TestSample
     [Test]
     public void TestTapScreenWhereThereIsNoObjects()
     {
-        AltUnityObject altObject = altUnityDriver.TapScreen(1, 1);
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        AltUnityObject altObject = altUnityDriver.TapScreen(1, counterButton.y + 100);
         Assert.AreEqual(null, altObject);
     }
 
@@ -1115,6 +1118,17 @@ public class TestForScene1TestSample
         var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva", "Main Camera");
         Assert.AreEqual("Canvas", altElement.name);
 
+    }
+    [Test]
+    public void TestLoadAdditiveScenes()
+    {
+        var initialNumberOfElements = altUnityDriver.GetAllElements();
+        altUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
+        var finalNumberOfElements = altUnityDriver.GetAllElements();
+        Assert.IsTrue(initialNumberOfElements.Count < finalNumberOfElements.Count);
+        var scenes = altUnityDriver.GetAllLoadedScenes();
+        Assert.IsTrue(scenes.Count == 2);
+        altUnityDriver.LoadScene("Scene 2 Draggable Panel", true);
     }
 
 
