@@ -37,7 +37,7 @@ For more details about the content of this file please see the BitBar documentat
 You can download our example BitBar project [here](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python-bitbar).
 It contains a pre-built ***ipa*** and ***apk*** file, so you can try out running tests on both Android and iOS
 
-**Steps to run the tests:**
+**Steps to run the tests on BitBar:**
 1. From the cloned repository, run the *`create-bitbar-package.sh <ios|android>`* script, choosing your desired os as a parameter. This will create a **.zip** file, containing all the files required to execute the tests;
 
 2. On BitBar, create a new project, and Select a target OS type (Android in our example) and a framework (Appium Server Side); 
@@ -58,6 +58,35 @@ It contains a pre-built ***ipa*** and ***apk*** file, so you can try out running
 Going back to the projects tab will allow you to monitor the progress of your tests and also show an overall status once the tests are done. Selecting an individual device will show you specific results for that device, as well as providing video recording of your test run.
 
 
+
 ## AWS Device Farm
 
-We're currently working on setting up an example project for AWS Device Farm as well. We'll update this page as soon as it will be ready.
+Amazon offers another great alternative to cloud mobile testing, in the form of [**AWS Device Farm**](https://docs.aws.amazon.com/devicefarm/index.html). You can register for free and get a 1000 device minutes trial period (a credit card will be required for registration).
+
+``` note::
+    We encountered some problems forwarding the port on iOS devices. This why we only talk about running tests on Android devices. We will update this page and the sample project once we have a solution for iOS.
+```
+
+
+Just like with BitBar, you will need two files in order to run your tests:
+
+* **.apk** file, with a build of your app containing the AltUnity driver; 
+* A **.zip** file containing your tests.
+
+### AWS Device Farm project example
+
+You can download our example project [here](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python-aws).
+It contains a pre-built ***apk*** file, so you can try out running tests on Android
+
+**Steps to run the tests on AWS:**
+1. From the cloned repository, create a **.zip** file containing the `requirements.txt` file, the `tests` folder and the `pages` folder;
+2. On AWS, create a new project, make sure you are on the *"Automated tests"* tab and then select *"Create a new run"*;
+3. At the next step, choose the *"Test a native application on Android devices."*. Then upload your **.apk** file;
+4. At the configuration step, choose *"Appium Python"* for the purpose of this example, then upload the **.zip** file containing the tests;
+5. The demo project contains an example **.yml** configuration file. Use is at the next step, by selecting *"Run your test in a custom environment"*. This will define how your test environment is set up and how the tests run;
+6. The next step will allow you to select on which devices the tests will be executed. You can create your own device pool, or use the recommended top devices;
+7. For this example, no changes need to be done to the Device state configuration;
+8. At the last step, you can set the execution timeout for your devices, then start the tests.
+
+
+Again, the project screen will show an overall status of the tests execution progress and results. Selecting individual runs and devices will give detailed logs about the tests, together with a video recording of the run itself.
