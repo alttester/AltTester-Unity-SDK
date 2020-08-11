@@ -127,10 +127,28 @@ public class AltUnityDriver {
     public String callStaticMethods(String typeName, String methodName, String parameters) {
         return callStaticMethods("", typeName, methodName, parameters, "");
     }
-
+    @Deprecated
     public void loadScene(String scene) {
-        new AltLoadScene(altBaseSettings, scene).Execute();
+        AltLoadSceneParameters altLoadSceneParameters=new AltLoadSceneParameters.Builder(scene).build();
+        loadScene(altLoadSceneParameters);
+        
     }
+    
+    public void loadScene(AltLoadSceneParameters altLoadSceneParameters){
+        new AltLoadScene(altBaseSettings,altLoadSceneParameters).Execute();
+    }
+    public String[] getAllLoadedScenes(){
+        return new AltGetAllLoadedScenes(altBaseSettings).Execute();
+    }
+	
+	/**
+	 * Ability to access altBaseSettings.
+	 * @return Returns the AltBaseSettings used by the driver.
+     */
+	public AltBaseSettings GetAltBaseSettings()
+	{
+		return altBaseSettings;
+	}
 
     /**
      * Delete entire player pref of the game

@@ -41,6 +41,10 @@ cache:
 
 build-apk:
   stage: build
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - when: always
   tags:
     - android
   script:
@@ -60,6 +64,10 @@ build-apk:
 
 # build-ipa:
 #     stage: build
+#     rules:
+#       - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+#         when: never
+#       - when: always
 #     tags:
 #       - iPhone
 #     script:
@@ -77,6 +85,10 @@ build-apk:
 
 run-csharp-android-tests:
     stage: test
+    rules:
+      - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+        when: never
+      - when: always
     tags:
         - android
     script:
@@ -103,6 +115,10 @@ run-python-android-tests:
 
 run-java-android-tests:
   stage: test
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - when: always
   tags:
     - android
   script:
@@ -113,6 +129,10 @@ run-java-android-tests:
 
 run-python-appium-android-tests:
   stage: test
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - when: always
   tags:
     - android
   script:
@@ -128,6 +148,10 @@ run-python-appium-android-tests:
 
 run-java-appium-android-tests:
     stage: test
+    rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - when: always
     tags:
         - android
     script:
@@ -146,6 +170,10 @@ run-java-appium-android-tests:
 
 # run-csharp-ios-tests:
 #     stage: test
+#     rules:
+#         - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+#           when: never
+#         - when: always
 #     tags:
 #         - iPhone
 #     script:
@@ -166,9 +194,12 @@ run-java-appium-android-tests:
 
 create-unity-package:
   stage: docs
-  only:
-    refs:
-      - master
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: always
+    - when: never
   tags:
     - unity
     - mac
@@ -186,9 +217,12 @@ create-unity-package:
 
 create-jar-archive:
   stage: docs
-  only:
-    refs:
-      - master
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: always
+    - when: never
   tags:
     - unity
     - mac
@@ -208,10 +242,12 @@ create-jar-archive:
 
 deploy-altunitytester-python:
   stage: deploy
-  only:
-    refs:
-      - master
-  when: manual
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - when: never
   tags:
     - unity
     - mac
@@ -259,10 +295,12 @@ pages:
 
 maven-snapshot-repo:
   stage: deploy
-  only:
-    refs:
-      - master
-  when: manual
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - when: never
   script:
     - cd "Bindings~/java"
     - mvn deploy -DskipTests
@@ -272,10 +310,12 @@ maven-snapshot-repo:
 
 maven-repo:
   stage: deploy
-  only:
-    refs:
-      - master
-  when: manual
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - when: never
   script:
     - cd "Bindings~/java"
     - mvn deploy -f pom-release.xml -DskipTests

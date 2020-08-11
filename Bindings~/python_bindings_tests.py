@@ -19,7 +19,7 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltrunUnityDriver(None, 'android', log_flag=False)
+        cls.altdriver = AltUnityDriver(log_flag=False)
 
     @classmethod
     def tearDownClass(cls):
@@ -50,7 +50,6 @@ class PythonTests(unittest.TestCase):
             'CapsuleInfo', 'UIButton clicked to jump capsule!', '', 1)
         self.assertEqual('UIButton clicked to jump capsule!',
                          capsule_info.get_text())
-
 
     def test_load_and_wait_for_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -390,7 +389,9 @@ class PythonTests(unittest.TestCase):
 
     def test_tap_on_screen_where_there_are_no_objects(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        alt_element = self.altdriver.tap_at_coordinates(1, 1)
+        counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter")
+        alt_element = self.altdriver.tap_at_coordinates(
+            1, float(counterButton.y)+100)
         self.assertIsNone(alt_element)
 
     def test_set_and_get_time_scale(self):
@@ -1121,6 +1122,16 @@ class PythonTests(unittest.TestCase):
         altElement = self.altdriver.wait_for_object_which_contains(
             By.NAME, "Canva", "Main Camera")
         self.assertEquals("Canvas", altElement.name)
+
+    def test_load_additive_scenes(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        initial_number_of_elements = self.altdriver.get_all_elements()
+        self.altdriver.load_scene('Scene 2 Draggable Panel', False)
+        final_number_of_elements = self.altdriver.get_all_elements()
+        self.assertGreater(len(final_number_of_elements),
+                           len(initial_number_of_elements))
+        scenes = self.altdriver.get_all_loaded_scenes()
+        self.assertEqual(len(scenes), 2)
 
 
 if __name__ == '__main__':

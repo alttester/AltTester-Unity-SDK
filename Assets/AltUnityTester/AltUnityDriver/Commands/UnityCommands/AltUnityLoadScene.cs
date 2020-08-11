@@ -1,13 +1,15 @@
 public class AltUnityLoadScene : AltBaseCommand
 {
     string sceneName;
-    public AltUnityLoadScene(SocketSettings socketSettings,string sceneName) : base(socketSettings)
+    bool loadSingle;
+    public AltUnityLoadScene(SocketSettings socketSettings,string sceneName,bool loadSingle) : base(socketSettings)
     {
         this.sceneName=sceneName;
+        this.loadSingle = loadSingle;
     }
     public void Execute()
     {
-        Socket.Client.Send(toBytes(CreateCommand("loadScene", sceneName)));
+        Socket.Client.Send(toBytes(CreateCommand("loadScene", sceneName,loadSingle.ToString())));
         var data = Recvall();
         if (data.Equals("Ok"))
         {
