@@ -21,9 +21,9 @@ public class AltUnityCheckServerVersion : AltBaseCommand
         if (!AltUnityDriver.VERSION.Equals(serverVersion))
         {
             WriteWarning(false, serverVersion);
-            return "Version mismatch";
+            return "Version mismatch! Server version was:" + serverVersion;
         }
-        return "Ok";
+        return serverVersion;
 
     }
     public void WriteWarning(bool isEarlier, string serverVersion = "")

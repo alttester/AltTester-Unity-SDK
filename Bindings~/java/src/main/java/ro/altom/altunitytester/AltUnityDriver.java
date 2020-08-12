@@ -96,13 +96,7 @@ public class AltUnityDriver {
     }
 
     private String GetServerVersion() {
-        try {
-            new GetServerVersionCommand(altBaseSettings).Execute();
-            return "Ok";
-        } catch (Exception e) {
-            log.warn(e.getMessage());
-            return "Version mismatch";
-        }
+        return new GetServerVersionCommand(altBaseSettings).Execute();
     }
 
     private void EnableLogging() {
