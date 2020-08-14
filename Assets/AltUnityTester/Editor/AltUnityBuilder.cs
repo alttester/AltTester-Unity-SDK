@@ -39,7 +39,7 @@ public class AltUnityBuilder
     {
         var outputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
 
-        if (string.IsNullOrWhiteSpace(outputPath))
+        if (string.IsNullOrEmpty(outputPath))
             outputPath = UnityEditor.PlayerSettings.productName;
 
         if (outputPath.EndsWith("/") || outputPath.EndsWith("\\"))
