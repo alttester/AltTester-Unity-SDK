@@ -2,7 +2,7 @@
 
 When it comes to mobile automation testing, there are many different choices for a test tool. One popular option is [Appium](http://appium.io), an open source project which enables running automated tests on both **Android** and **iOS** devices.
 
-No registration is needed and you can either download the latest version of then standalone app [here](https://github.com/appium/appium-desktop/releases/), or you can install the cli version by running:
+No registration is needed and you can either download the latest version of the standalone app [here](https://github.com/appium/appium-desktop/releases/), or you can install the cli version by running:
 
 ```
 > brew install node      # get node.js
@@ -40,7 +40,7 @@ After you cloned our example project, there are a couple of things you need to c
 The script will install any requirements that are missing from your machine (except Android SDK and XCode CLT), then run a basic test scenario:
 1. The app will be started by Appium;
 2. AltUnity Tester will ensure it's initially loaded;
-3. Appium will put the app in background for a couple of seconds, then resume it;
+3. Appium will put the app in the background for a couple of seconds, then resume it;
 4. AltUnity Tester will check if the app was resumed successfully.
 
 ```eval_rst

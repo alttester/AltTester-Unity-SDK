@@ -17,6 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
+
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
 project = 'AltUnity Tester'
@@ -24,7 +25,10 @@ copyright = '2020, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
-version = 'v.1.5.6'   # displays version under project title
+# displays version under project title
+
+
+version = 'v.1.5.6'
 release = 'v.1.5.6'
 
 
@@ -64,6 +68,6 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_logo = '_static/images/altUnity-512x512.png'
 html_css_files = [
-    'css/pre.css'
+    'css/custom.css',
 ]
 html_favicon = '_static/images/altUnity-512x512.png'

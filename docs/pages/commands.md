@@ -1,17 +1,34 @@
-# Commands
-## FindObjects
+# API Documentation
+## AltUnityDriver
 
-###  FindObject
-
-Find the first object in the scene that respects the given criteria. Check [By](#by) for more information about criterias.
+The **AltUnityDriver** class represents the main game driver component. When you instantiate an AltUnityDriver in your tests, you can use it to "drive" your game like one of your users would, by interacting with all the game objects, their properties and methods. 
+An AltUnityDriver instance will connect to the AltUnity Server that is running inside the game. In the constructor, we need to tell the driver where (on what IP and on what port) the server is running. We can also set some more advanced parameters, as shown in the table below:
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| tcp_ip      |     string    |   No   | The default value for this is "127.0.0.1"|
+| tcp_port         | int       |   No  | The default value for this is 13000|
+| requestSeparator      |   string     | No    |  The default value for this is ";"|
+| requestEnding      |     string    |   No   | The default value for this is "&"|
+| logFlag         | boolean       |   No   | The default value for this is false|
+
+Once you have an instance of the *AltUnityDriver*, you can use all the available commands to interact with the game. The available methods are the following:
+
+### Find Objects
+
+####  FindObject
+
+Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criterias.
+
+***Parameters***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+| by      |     [By](#by-selector)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
@@ -56,17 +73,17 @@ Find the first object in the scene that respects the given criteria. Check [By](
         self.assertEquals("Plane", altElement.name)
 ```
 
-###  FindObjects
+####  FindObjects
 
-Find all objects in the scene that respects the given criteria. Check [By](#by) for more information about criterias.
+Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criterias.
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](#by)    |   Yes  | Set what criteria to use in order to find the object|
+| by      |     [By](#by-selector)    |   Yes  | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
@@ -112,22 +129,22 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
 
 ```
 
-###  FindObjectWhichContains
+####  FindObjectWhichContains
 
-Find the first object in the scene that respects the given criteria. Check [By](#by) for more information about criterias.
+Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criterias.
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| by      |     [By](#by-selector)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
 ***Returns***
-- List of AltUnityObjects/ empty list if no objects were found
+- AltUnityObjects
 
 ***Examples***
 ```eval_rst
@@ -164,17 +181,17 @@ Find the first object in the scene that respects the given criteria. Check [By](
 ```
 
 
-###  FindObjectsWhichContains
+####  FindObjectsWhichContain
 
-Find all objects in the scene that respects the given criteria. Check [By](#by) for more information about criterias.
+Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criterias.
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| by      |     [By](#by-selector)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
@@ -188,24 +205,10 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
     .. code-tab:: c#
 
         [Test]
+        public void TestFindObjectWhichContains()
         {
-           AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
-    
-           var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-           var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
-            Assert.AreEqual(1, stars.Count);
-    
-           AltUnityDriver.MoveMouse(new UnityEngine.Vector2(player[0].x, player[0].y+500), 1);
-           UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-           Thread.Sleep(1500);
-    
-           AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
-           AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
-           Thread.Sleep(1500);
-           AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
-    
-           stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
-           Assert.AreEqual(3, stars.Count);
+          var altelement = altUnityDriver.FindObjectWhichContain(By.NAME, "Event");
+          Assert.AreEqual("EventSystem", altElement.name);
         }
 
     .. code-tab:: java
@@ -216,7 +219,7 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
             String name = "Pla";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                 name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertNotNull(altElements);
             assertTrue(altElements[0].name.contains(name));
         }
@@ -226,9 +229,9 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
         def test_creating_stars(self):
                 self.altdriver.load_scene("Scene 5 Keyboard Input")
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star","Player2")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contains(By.NAME,"Player","Player2")
+                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
         
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
@@ -237,11 +240,11 @@ Find all objects in the scene that respects the given criteria. Check [By](#by) 
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
                 self.altdriver.press_key('Mouse0', 1,0)
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 ```
 
-###  GetAllElements
+####  GetAllElements
 
 Returns information about every objects loaded in the currently loaded scenes. This also means objects that are set as DontDestroyOnLoad.
 
@@ -249,7 +252,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No  | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 
@@ -333,17 +336,17 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 ```
 
-###  WaitForObject
+####  WaitForObject
 
-Wait until there is no longer any objects that respect the given criteria or times run out and will throw an error. Check [By](#by) for more information about criterias.
+Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criterias.
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| by      |     [By](#by-selector)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 | timeout         | double        |   No   | number of seconds that it will wait for object|
@@ -409,17 +412,17 @@ Wait until there is no longer any objects that respect the given criteria or tim
             self.assertEqual(altElement.name,"Capsule")
 
 ```
-###  WaitForObjectWhichContains
+####  WaitForObjectWhichContains
 
-Wait until it finds an object that respect the given criteria or times run out and will throw an error. Check [By](#by) for more information about criterias.
+Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](#by-selector) for more information about criterias.
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| by      |     [By](#by-selector)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 | timeout         | double        |   No  | number of seconds that it will wait for object|
@@ -440,11 +443,9 @@ Wait until it finds an object that respect the given criteria or times run out a
             var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
             Assert.AreEqual("Canvas", altElement.name);
         }
-  
     .. code-tab:: java
     
-         @Test
-
+        @Test
         public void TestWaitForObjectWhichContainsWithCameraId() {
             AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
                     "//Main Camera").build();
@@ -465,18 +466,18 @@ Wait until it finds an object that respect the given criteria or times run out a
             altElement=self.altdriver.wait_for_object_which_contains(By.NAME,"Main")
             self.assertEqual(altElement.name,"Main Camera")
 ```
-###  WaitForObjectWithText
+####  WaitForObjectWithText
 
-Wait until it finds an object that respect the given criteria and it has the text you are looking for or times run out and will throw an error. Check [By](#by) for more information about criterias.
+Waits until it finds an object that respect the given criteria and it has the text you are looking for or times run out and will throw an error. Check [By](#by-selector) for more information about criterias.
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| by      |     [By](#by-selector)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
 | text    |   string  | Yes  | Text that the intented object should have|
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 | timeout         | double        |   No   | number of seconds that it will wait for object|
@@ -529,17 +530,17 @@ Wait until it finds an object that respect the given criteria and it has the tex
             self.assertEqual(altElement.name,"CapsuleInfo")
 
 ```
-###  WaitForObjectNotBePresent
+####  WaitForObjectNotBePresent
 
-Wait until the object in the scene that respect the given criteria is no longer in the scene or times run out and will throw an error. Check [By](#by) for more information about criterias.
+Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout limit is reached. Check [By](#by-selector) for more information about criterias.
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| by      |     [By](#by)    |   Yes   | Set what criteria to use in order to find the object|
+| by      |     [By](#by-selector)    |   Yes   | Set what criteria to use in order to find the object|
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
-| cameraBy      |   [By](#by)     | No    |  Set what criteria to use in order to find the camera|
+| cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
 | enabled         | boolean       |   No  | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
 | timeout         | double        |   No   | number of seconds that it will wait for object|
@@ -577,52 +578,12 @@ Wait until the object in the scene that respect the given criteria is no longer 
 
 
 ```
-### By
-
-It is used in find objects methods to set the criteria of which the objects are searched.  
-Currenty there are 6 type implemented:
-  * *Tag* - search for objects that have a specific tag
-  * *Layer* - search for objects that are set on a specific layer
-  * *Name* - search for objects that are named in a certain way
-  * *Component* - search for objects that have certain component
-  * *Id* - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects)
-  * *Path* - search for objects that respect a certain path
-
-
-**Searching object by path**
-
-The following selecting nodes, attributes and attributes are implemented:
-  * *object* -	Selects all object with the name "object"
-  * */* - 	Selects from the root node
-  * *//* - Selects nodes in the document from the current node that match the selection no matter where they are
-  * *..* - Selects the parent of the current node
-  * *\** - 	Matches any element node
-  * *@tag* - 
-  * *@layer* -
-  * *@name* -
-  * *@component* -
-  * *@id* -
-  * *contains* -
-  
-
-
-How a correct path should look like:  
-  ```//Canvas/Panel/*[@tag="UI"]```
-  
-**Examples**
- ```
-//Button - Returns every object named button in the scene 
-//*[@tag=UI] -Returns every object that is tagged as UI
-/Canvas//Button[@component=ButtonLogic] - Return every button who are in an canvas that is a root object and has a component name ButtonLogic
-//*[contains(@name,Ca)] - Returns every object in the scene that contains in the name "Ca"
-```
-
  
-## InputActions 
+### Input Actions 
 
-###  MoveMouseAndWait
+####  MoveMouseAndWait
 
-Simulate mouse movement in your game. This command will wait for the movement to finish. If you don't want to wait until the mouse movement stops use [MoveMouse](#movemouse)
+Simulates mouse movement in your game. This command will wait for the movement to finish. If you don't want to wait until the mouse movement stops use [MoveMouse](#movemouse)
 
 ***Parameters***
 
@@ -639,6 +600,7 @@ Simulate mouse movement in your game. This command will wait for the movement to
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
         public void TestCreatingStars()
         {
@@ -662,12 +624,13 @@ Simulate mouse movement in your game. This command will wait for the movement to
         }
 
     .. code-tab:: java
+
         @Test
         public void TestCreatingStars() throws InterruptedException 
         {
             String name = "Star";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertEquals(1, stars.length);
 
             AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
@@ -682,17 +645,18 @@ Simulate mouse movement in your game. This command will wait for the movement to
             altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
             altUnityDriver.pressKeyAndWait(altPressKeyParameters);
 
-            stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertEquals(3, stars.length);
         }
 
     .. code-tab:: py
+
         def test_creating_stars(self):
                 self.altdriver.load_scene("Scene 5 Keyboard Input")
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star","Player2")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contains(By.NAME,"Player","Player2")
+                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
         
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
@@ -701,13 +665,13 @@ Simulate mouse movement in your game. This command will wait for the movement to
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
                 self.altdriver.press_key('Mouse0', 1,0)
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 
 ```
-###  MoveMouse
+####  MoveMouse
 
-Simulate mouse movement in your game. This command does not wait for the movement to finish. To also wait for the movement to finish use [MoveMouseAndWait](#movemouseandwait)
+Simulates mouse movement in your game. This command does not wait for the movement to finish. To also wait for the movement to finish use [MoveMouseAndWait](#movemouseandwait)
 
 ***Parameters***
 
@@ -724,6 +688,7 @@ Simulate mouse movement in your game. This command does not wait for the movemen
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
         public void TestCreatingStars()
         {
@@ -747,12 +712,13 @@ Simulate mouse movement in your game. This command does not wait for the movemen
         }
 
     .. code-tab:: java
+
         @Test
         public void TestCreatingStars() throws InterruptedException 
         {
             String name = "Star";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertEquals(1, stars.length);
 
             AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
@@ -767,17 +733,18 @@ Simulate mouse movement in your game. This command does not wait for the movemen
             altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
             altUnityDriver.pressKeyAndWait(altPressKeyParameters);
 
-            stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertEquals(3, stars.length);
         }
 
     .. code-tab:: py
+
         def test_creating_stars(self):
                 self.altdriver.load_scene("Scene 5 Keyboard Input")
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star","Player2")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contains(By.NAME,"Player","Player2")
+                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
         
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
@@ -786,13 +753,13 @@ Simulate mouse movement in your game. This command does not wait for the movemen
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
                 self.altdriver.press_key('Mouse0', 1,0)
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 
 ```
-###  PressKeyAndWait
+####  PressKeyAndWait
 
-Simulate key press action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [PressKey](#presskey)
+Simulates key press action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [PressKey](#presskey)
 
 ***Parameters***
 
@@ -810,6 +777,7 @@ Simulate key press action in your game. This command waist for the action to fin
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
         public void TestCreatingStars()
         {
@@ -833,12 +801,13 @@ Simulate key press action in your game. This command waist for the action to fin
         }
 
     .. code-tab:: java
+
         @Test
         public void TestCreatingStars() throws InterruptedException 
         {
             String name = "Star";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertEquals(1, stars.length);
 
             AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
@@ -853,17 +822,18 @@ Simulate key press action in your game. This command waist for the action to fin
             altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
             altUnityDriver.pressKeyAndWait(altPressKeyParameters);
 
-            stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertEquals(3, stars.length);
         }
 
     .. code-tab:: py
+
         def test_creating_stars(self):
                 self.altdriver.load_scene("Scene 5 Keyboard Input")
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star","Player2")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contains(By.NAME,"Player","Player2")
+                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
         
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
@@ -872,13 +842,13 @@ Simulate key press action in your game. This command waist for the action to fin
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
                 self.altdriver.press_key('Mouse0', 1,0)
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 
 ```
-###  PressKey
+####  PressKey
 
-Simulate key press action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [PressKeyAndWait](#presskeyandwait)
+Simulates key press action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [PressKeyAndWait](#presskeyandwait)
 
 ***Parameters***
 
@@ -896,6 +866,7 @@ Simulate key press action in your game. This command does not wait for the actio
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
         public void TestCreatingStars()
         {
@@ -919,12 +890,13 @@ Simulate key press action in your game. This command does not wait for the actio
         }
 
     .. code-tab:: java
+
         @Test
         public void TestCreatingStars() throws InterruptedException 
         {
             String name = "Star";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertEquals(1, stars.length);
 
             AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
@@ -939,17 +911,18 @@ Simulate key press action in your game. This command does not wait for the actio
             altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
             altUnityDriver.pressKeyAndWait(altPressKeyParameters);
 
-            stars = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+            stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
             assertEquals(3, stars.length);
         }
 
     .. code-tab:: py
+
         def test_creating_stars(self):
                 self.altdriver.load_scene("Scene 5 Keyboard Input")
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star","Player2")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contains(By.NAME,"Player","Player2")
+                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
         
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
@@ -958,13 +931,13 @@ Simulate key press action in your game. This command does not wait for the actio
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
                 self.altdriver.press_key('Mouse0', 1,0)
         
-                stars = self.altdriver.find_objects_which_contains(By.NAME,"Star")
+                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 
 ```
-###  ScrollMouseAndWait
+####  ScrollMouseAndWait
 
-Simulate scroll mouse action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [ScrollMouse](#scrollmouse)
+Simulates scroll mouse action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [ScrollMouse](#scrollmouse)
 
 ***Parameters***
 
@@ -1027,9 +1000,9 @@ Simulate scroll mouse action in your game. This command waist for the action to 
             self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
 
 ```
-###  ScrollMouse
+####  ScrollMouse
 
-Simulate scroll mouse action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [ScrollMouseAndWait](#scrollmouseandwait)
+Simulates scroll mouse action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [ScrollMouseAndWait](#scrollmouseandwait)
 
 ***Parameters***
 
@@ -1092,9 +1065,9 @@ Simulate scroll mouse action in your game. This command does not wait for the ac
 
 ```
 
-###  SwipeAndWait
+####  SwipeAndWait
 
-Simulate a swipe action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [Swipe](#swipe)
+Simulates a swipe action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [Swipe](#swipe)
 
 
 ***Parameters***
@@ -1117,6 +1090,7 @@ Simulate a swipe action in your game. This command waist for the action to finis
 .. tabs::
 
     .. code-tab:: c#
+
             [Test]
             public void MultipleDragAndDropWait()
             {
@@ -1147,6 +1121,7 @@ Simulate a swipe action in your game. This command waist for the action to finis
             }
 
     .. code-tab:: java
+
             @Test
             public void testMultipleDragAndDropWait() throws Exception
             {
@@ -1203,6 +1178,7 @@ Simulate a swipe action in your game. This command waist for the action to finis
             }
 
     .. code-tab:: py
+
             def test_multiple_swipe_and_waits(self):
                 self.altdriver.load_scene('Scene 3 Drag And Drop')
         
@@ -1231,9 +1207,9 @@ Simulate a swipe action in your game. This command waist for the action to finis
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
 ```
-###  Swipe
+####  Swipe
 
-Simulate a swipe action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [SwipeAndWait](#swipeandwait)
+Simulates a swipe action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [SwipeAndWait](#swipeandwait)
 
 ***Parameters***
 
@@ -1255,6 +1231,7 @@ Simulate a swipe action in your game. This command does not wait for the action 
 .. tabs::
 
     .. code-tab:: c#
+
             [Test]
             public void MultipleDragAndDrop()
             {
@@ -1288,6 +1265,7 @@ Simulate a swipe action in your game. This command does not wait for the action 
             }
 
     .. code-tab:: java
+
             @Test
             public void testMultipleDragAndDropWait() throws Exception
             {
@@ -1344,6 +1322,7 @@ Simulate a swipe action in your game. This command does not wait for the action 
             }
 
     .. code-tab:: py
+
             def test_multiple_swipes(self):
                 self.altdriver.load_scene('Scene 3 Drag And Drop')
          
@@ -1375,7 +1354,7 @@ Simulate a swipe action in your game. This command does not wait for the action 
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
 ```
-###  MultiPointSwipe
+####  MultiPointSwipe
 
 Similar command like swipe but instead of swipe from point A to point B you are able to give list a points. 
 
@@ -1394,6 +1373,7 @@ Similar command like swipe but instead of swipe from point A to point B you are 
 .. tabs::
 
     .. code-tab:: c#
+
             [Test]
             public void ResizePanelWithMultipointSwipe()
             {
@@ -1417,6 +1397,7 @@ Similar command like swipe but instead of swipe from point A to point B you are 
             }
 
     .. code-tab:: java
+
         @Test
         public void testResizePanelWithMultipointSwipe() throws Exception
         {
@@ -1438,6 +1419,7 @@ Similar command like swipe but instead of swipe from point A to point B you are 
         }   
 
     .. code-tab:: py
+
         def test_resize_panel_with_multipoinit_swipe(self):
             self.altdriver.load_scene('Scene 2 Draggable Panel')
             altElement = self.altdriver.find_element('Resize Zone')
@@ -1463,7 +1445,7 @@ Similar command like swipe but instead of swipe from point A to point B you are 
                 
 ```
 
-###  MultiPointSwipeAndWait
+####  MultiPointSwipeAndWait
 
 Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from point A to point B you are able to give list a points. 
 
@@ -1482,6 +1464,7 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
 .. tabs::
 
     .. code-tab:: c#
+
             [Test]
             public void MultipleDragAndDropWaitWithMultipointSwipe()
             {
@@ -1511,6 +1494,7 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
             }
 
     .. code-tab:: java
+
         @Test
         public void testResizePanelWithMultipointSwipe() throws Exception
         {
@@ -1533,6 +1517,7 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
 
 
     .. code-tab:: py
+
         def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
             altElement1 = self.altdriver.find_element('Drag Image1')
             altElement2 = self.altdriver.find_element('Drop Box1')
@@ -1564,9 +1549,9 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
                 
 ```
 
-###  TapScreen(c#) / TapAtCoordinates(python/java)
+####  TapScreen(C#) / TapAtCoordinates(python/java)
 
-Simulate a tap action on the screen at the given coordinates.
+Simulates a tap action on the screen at the given coordinates.
 
 ***Parameters***
 
@@ -1583,6 +1568,7 @@ Simulate a tap action on the screen at the given coordinates.
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
         public void TestClickScreen()
         {
@@ -1594,6 +1580,7 @@ Simulate a tap action on the screen at the given coordinates.
         }
 
     .. code-tab:: java
+
         @Test
             public void testTapScreen() throws Exception {
                 String capsuleName = "Capsule";
@@ -1609,6 +1596,7 @@ Simulate a tap action on the screen at the given coordinates.
             }
 
     .. code-tab:: py
+
         def test_tap_at_coordinates(self):
                 self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
                 capsule_element = self.altdriver.find_element('Capsule')
@@ -1618,9 +1606,9 @@ Simulate a tap action on the screen at the given coordinates.
 
 ```
 
-###  TapCustom
+####  TapCustom
 
-Simulate n number of tap actions on the screen at the given coordinates .
+Simulates n number of tap actions on the screen at the given coordinates .
 
 ***Parameters***
 
@@ -1639,18 +1627,20 @@ Simulate n number of tap actions on the screen at the given coordinates .
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
-            public void TestCustomTap()
-            {
-                var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-                var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-                altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
-                Thread.Sleep(1000);
-                Assert.AreEqual("4", counterButtonText.GetText());
-            }
+        public void TestCustomTap()
+        {
+            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+            altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
+            Thread.Sleep(1000);
+            Assert.AreEqual("4", counterButtonText.GetText());
+        }
 
 
     .. code-tab:: java
+
         @Test
         public void TestCustomTap() throws InterruptedException
         {
@@ -1664,6 +1654,7 @@ Simulate n number of tap actions on the screen at the given coordinates .
         }
 
     .. code-tab:: py
+
         def test_custom_tap(self):
             counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
             counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
@@ -1674,7 +1665,7 @@ Simulate n number of tap actions on the screen at the given coordinates .
 
 ```
 
-###  Tilt
+####  Tilt
 
 Simulates device rotation action in your game.
 
@@ -1742,7 +1733,7 @@ Simulates device rotation action in your game.
 ```
 
 
-###  TiltAndWait
+####  TiltAndWait
 
 Simulates device rotation action in your game. This command waits for the action to finish. If you don’t want to wait until the action to finish use [Tilt](#tilt)
 
@@ -1806,21 +1797,17 @@ Simulates device rotation action in your game. This command waits for the action
             self.assertNotEqual(initial_position, final_position)
 
 ```
-## ObjectCommands
+### Screenshot
 
-###  CallComponentMethod
+####  GetPNGScreenshot
 
-Invoke a method from an existing component of the object.
+Creates a screenshot of the current scene in png format.
 
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| componentName      |     string    |   Yes   | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
-| methodName      |     string    |   Yes  |   The name of the public method that we want to call |
-| parameters      |     string    |   Yes  |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
-| typeOfParamaters      |     string    |   Yes   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
-| assemblyName  | string | No | name of the assembly where the component is |
+|path| string | Yes| location where the image is created|
 
 ***Returns***
 - Nothing
@@ -1830,48 +1817,483 @@ Invoke a method from an existing component of the object.
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
-        public void TestCallMethodWithAssembly(){
-            AltUnityObject capsule = altUnityDriver.FindObject(By.NAME,"Capsule");
-            var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
-            capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
-            AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME,"Capsule");
-            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
-            Assert.AreNotEqual(initialRotation, finalRotation);
+        public void TestGetScreenshot()
+        {
+            var path="testC.png";
+            altUnityDriver.GetPNGScreenshot(path);
+            FileAssert.Exists(path);
+        }
+    .. code-tab:: java
+
+        @Test
+        public void testScreenshot()
+        {
+            String path="testJava2.png";
+            altUnityDriver.getPNGScreeshot(path);
+            assertTrue(new File(path).isFile());
+        }
+
+
+    .. code-tab:: py
+
+       def test_screenshot(self):
+        png_path="testPython.png"
+        self.altdriver.get_png_screenshot(png_path)
+        self.assertTrue(path.exists(png_path))
+```
+
+### Unity Commands
+
+#### PlayerPrefKeyType
+
+This is an enum type used for the **option** parameter in the [set_player_pref_key](#settingplayerprefs) command listed below and has the following values:
+
+|      Type       | Assigned Value| 
+| --------------- | ------------- |
+| Int     |     1    |
+| String    |     2    |
+| Float     |     3    | 
+
+#### GettingPlayerPrefs
+
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        **GetIntKeyPlayerPref**
+
+            Returns the value for a given key from PlayerPrefs.
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retreived |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - int
+
+            .. literalinclude:: other~/test-files/csharp-delete-player-pref-int-test.cs
+                :language: C#
+                :emphasize-lines: 6,11
+
+        **GetFloatKeyPlayerPref**
+
+            Returns the value for a given key from PlayerPrefs.
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retreived |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - float
+
+            .. literalinclude:: other~/test-files/csharp-delete-player-pref-float-test.cs
+                :language: C#
+                :emphasize-lines: 6,11
+
+        **GetStringKeyPlayerPref**
+
+            Returns the value for a given key from PlayerPrefs.
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retreived |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - string
+
+            .. literalinclude:: other~/test-files/csharp-delete-player-pref-string-test.cs
+                :language: C#
+                :emphasize-lines: 6,11
+
+    .. tab:: Java
+
+        **getFloatKeyPlayerPref**
+
+            Returns the value for a given key from PlayerPrefs.
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retreived |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - float
+
+            .. literalinclude:: other~/test-files/java-delete-key-player-pref-float-test.java
+                :language: java
+                :emphasize-lines: 6,11
+
+        **getIntKeyPlayerPref**
+
+        Returns the value for a given key from PlayerPrefs.
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retreived |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - int
+
+            .. literalinclude:: other~/test-files/java-delete-key-player-pref-int-test.java
+                :language: java
+                :emphasize-lines: 6,11
+
+        **getStringKeyPlayerPref**
+
+        Returns the value for a given key from PlayerPrefs.
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retreived |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - string
+
+            .. literalinclude:: other~/test-files/java-delete-key-player-pref-string-test.java
+                :language: java
+                :emphasize-lines: 6,11
+
+    .. tab:: Python
+
+        **get_player_pref_key**
+
+            Returns the value for a given key from PlayerPrefs.
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retreived |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - string/float/int
+
+            .. literalinclude:: other~/test-files/python_delete_player_prefs_string.py
+                :language: py
+                :emphasize-lines: 6,10
+```
+
+#####  SettingPlayerPrefs  
+
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        **SetKeyPlayerPref**
+
+            Sets the value for a given key in PlayerPrefs.
+
+            *Parameters*
+
+            +------------+-----------------------+-----------+----------------------------------+
+            |    Name    |          Type         |  Required |           Description            |
+            +============+=======================+===========+==================================+
+            |   keyname  |         string        |     Yes   |        Key to be set             |
+            +------------+-----------------------+-----------+----------------------------------+
+            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            +------------+-----------------------+-----------+----------------------------------+
+
+            *Returns*
+
+            - Nothing
+
+            *Examples*
+
+            .. literalinclude:: other~/test-files/csharp-delete-player-pref-string-test.cs
+                :language: C#
+                :emphasize-lines: 5
+       
+    .. tab:: Java
+
+        **setKeyPlayerPref**
+
+            Sets the value for a given key in PlayerPrefs.
+
+            *Parameters*
+            
+            +------------+-----------------------+-----------+----------------------------------+
+            |    Name    |          Type         |  Required |           Description            |
+            +============+=======================+===========+==================================+
+            |   keyname  |         string        |     Yes   |        Key to be set             |
+            +------------+-----------------------+-----------+----------------------------------+
+            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            +------------+-----------------------+-----------+----------------------------------+
+
+            *Returns*
+
+            - Nothing
+
+            *Examples*
+
+            .. literalinclude:: other~/test-files/java-delete-key-player-pref-string-test.java
+                :language: java
+                :emphasize-lines: 5
+
+    .. tab:: Python
+
+        **set_player_pref_key**
+
+            Sets the value for a given key in PlayerPrefs.
+
+            *Parameters*
+
+            
+            +------------+-----------------------+-----------+----------------------------------+
+            |    Name    |          Type         |  Required |           Description            |
+            +============+=======================+===========+==================================+
+            |   keyname  |         string        |     Yes   |        Key to be set             |
+            +------------+-----------------------+-----------+----------------------------------+
+            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            +------------+-----------------------+-----------+----------------------------------+
+            |   option   |    PlayerPrefKeyType  |    Yes    |         Type of keyname          |
+            +------------+-----------------------+-----------+----------------------------------+
+
+            *Returns*
+
+            - Nothing
+
+            *Examples*
+
+            .. literalinclude:: other~/test-files/python_delete_player_prefs_string.py
+                :language: py
+                :emphasize-lines: 4,5
+```
+
+
+####  DeleteKeyPlayerPref  
+
+Removes key and its corresponding value from PlayerPrefs.
+
+***Parameters***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+| keyname      |     sting    |   Yes   | Key to be deleted|
+
+***Returns***
+- Nothing
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestDeleteKey()
+        {
+            altUnityDriver.DeletePlayerPref();
+            altUnityDriver.SetKeyPlayerPref("test", 1);
+            var val = altUnityDriver.GetIntKeyPlayerPref("test");
+            Assert.AreEqual(1, val);
+            altUnityDriver.DeleteKeyPlayerPref("test");
+            try
+            {
+                altUnityDriver.GetIntKeyPlayerPref("test");
+                Assert.Fail();
+            }
+            catch (NotFoundException exception)
+            {
+                Assert.AreEqual("error:notFound", exception.Message);
+            }
+    
         }
 
     .. code-tab:: java
+
         @Test
-        public void TestCallMethodWithMultipleDefinitions() throws Exception
+        public void testDeleteKey() throws Exception
         {
+            altUnityDriver.deletePlayerPref();
+            altUnityDriver.setKeyPlayerPref("test", 1);
+            int val = altUnityDriver.getIntKeyPlayerPref("test");
+            assertEquals(1, val);
+            altUnityDriver.deleteKeyPlayerPref("test");
+            try
+            {
+                altUnityDriver.getIntKeyPlayerPref("test");
+                fail();
+            }
+            catch (NotFoundException e)
+            {
+                assertEquals(e.getMessage(), "error:notFound");
+            }
+        }
 
-            String capsuleName = "Capsule";
-            String capsuleInfo = "CapsuleInfo";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject capsule=altUnityDriver.findObject(altFindObjectsParameters);
+    .. tab:: Python
 
-            AltCallComponentMethodParameters altCallComponentMethodParameters=new AltCallComponentMethodParameters.Builder("Capsule","Test","2").withTypeOfParameters("System.Int32").withAssembly("").build();
-            capsule.callComponentMethod(altCallComponentMethodParameters);
+        .. literalinclude:: other~/test-files/python_delete_player_prefs_string.py
+            :language: py
+            :emphasize-lines: 8
+```
 
-            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject capsuleInfo=altUnityDriver.findObject(altFindObjectsParameters);
+####  DeletePlayerPref
 
-            assertEquals("6",capsuleInfo.getText());
+Removes all keys and values from PlayerPref.
+
+***Parameters***
+
+None
+
+***Returns***
+- Nothing
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestSetKeyInt()
+        {
+            altUnityDriver.DeletePlayerPref();
+            altUnityDriver.SetKeyPlayerPref("test", 1);
+            var val = altUnityDriver.GetIntKeyPlayerPref("test");
+            Assert.AreEqual(1, val);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testSetKeyFloat() throws Exception
+        {
+            altUnityDriver.deletePlayerPref();
+            altUnityDriver.setKeyPlayerPref("test", 1f);
+            float val = altUnityDriver.getFloatKeyPlayerPref("test");
+            assertEquals(1f, val, 0.01);
         }
 
     .. code-tab:: py
-        def test_call_component_method(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-            self.assertEqual(result,"null")
-            self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
 
+        def test_delete_key_player_pref(self):
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altdriver.delete_player_prefs()
+            self.altdriver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
+            val = self.altdriver.get_player_pref_key("test", player_pref_key_type)
+            self.assertEqual("1", str(val))
 ```
 
-###  CallStaticMethod
+#### GetCurrentScene
 
-Invoke static methods from your game.
+Returns the current active scene.
+
+***Parameters***
+
+None
+
+***Returns***
+- String
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetCurrentScene()
+        {
+            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
+        }
+    .. code-tab:: java
+
+        @Test
+        public void testGetCurrentScene() throws Exception
+        {
+            altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
+            assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
+        }
+
+    .. code-tab:: py
+
+       def test_get_current_scene(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
+```
+
+#### LoadScene
+
+Loads the scene mentioned by its name.
+
+
+***Parameters***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+| scene      |     string    |   Yes   | Name of the scene to be loaded|
+
+***Returns***
+- Nothing
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetCurrentScene()
+        {
+            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
+        }
+    .. code-tab:: java
+
+        @Test
+        public void testGetCurrentScene() throws Exception
+        {
+            altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
+            assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
+        }
+
+    .. code-tab:: py
+
+       def test_get_current_scene(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
+```
+
+####  CallStaticMethod
+
+Invokes static methods from your game.
 
 ***Parameters***
 
@@ -1891,6 +2313,7 @@ Invoke static methods from your game.
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
         public void TestCallStaticMethod()
         {
@@ -1902,6 +2325,7 @@ Invoke static methods from your game.
         }
 
     .. code-tab:: java
+
         @Test
         public void TestCallStaticMethod() throws Exception
         {
@@ -1914,6 +2338,7 @@ Invoke static methods from your game.
         }
 
     .. code-tab:: py
+
         def test_call_static_method(self):
             self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1",assembly="UnityEngine.CoreModule")
             a=int(self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2",assembly="UnityEngine.CoreModule"))
@@ -1921,9 +2346,337 @@ Invoke static methods from your game.
 
 ```
 
-###  ClickEvent
+## AltUnityObject
 
-Simulate a click on the object. It will click the object even if the object is not visible something that you could not do on a real device.
+The **AltUnityObject** class represents the objects present in the game and it allows you through the methods listed below to interact with them. It is the return type of the methods in the  [FindObjects](#findobjects) category.
+
+***Fields***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+| name      |     string    |   Yes   | The name of the object|
+| id         | int       |   Yes   | The objects's id|
+| x      |   int     | Yes    |  The value for x axis coordinate on screen|
+| y     |     int    |   Yes   | The value for y axis coordinate on screen|
+| mobileY         | int       |   Yes   | The value for y axis for appium|
+| type         | string       |   Yes   | Object's type, for objects from the game is gameObject|
+| enabled         | bool       |   Yes   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| worldX         | float       |   Yes   | The value for x axis coordinate in the game's world|
+| worldY   | float    |   Yes   | The value for y axis coordinate in the game's world|
+| worldZ         | float       |   Yes   | The value for z axis coordinate in the game's world|
+| idCamera         | int       |   Yes   | The camera's id|
+| transformId         | int       |   Yes   | The transform's component id|
+| parentId       | int       |   Yes   | The parent's id from the object hierarchy|
+
+
+The available methods are the following:
+
+### Object Commands
+
+####  CallComponentMethod
+
+Invokes a method from an existing component of the object.
+
+***Parameters***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+| componentName      |     string    |   Yes   | name of the Unity component. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
+| methodName      |     string    |   Yes  |   The name of the public method that will be called|
+| parameters      |     string    |   Yes  |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
+| typeOfParamaters      |     string    |   Yes   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
+| assemblyName  | string | No | name of the assembly containing the component |
+
+***Returns***
+- Nothing
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestCallMethodWithAssembly(){
+            AltUnityObject capsule = altUnityDriver.FindObject(By.NAME,"Capsule");
+            var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
+            capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
+            AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME,"Capsule");
+            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
+            Assert.AreNotEqual(initialRotation, finalRotation);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestCallMethodWithMultipleDefinitions() throws Exception
+        {
+
+            String capsuleName = "Capsule";
+            String capsuleInfo = "CapsuleInfo";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject capsule=altUnityDriver.findObject(altFindObjectsParameters);
+
+            AltCallComponentMethodParameters altCallComponentMethodParameters=new AltCallComponentMethodParameters.Builder("Capsule","Test","2").withTypeOfParameters("System.Int32").withAssembly("").build();
+            capsule.callComponentMethod(altCallComponentMethodParameters);
+
+            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject capsuleInfo=altUnityDriver.findObject(altFindObjectsParameters);
+
+            assertEquals("6",capsuleInfo.getText());
+        }
+
+    .. code-tab:: py
+
+        def test_call_component_method(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
+            self.assertEqual(result,"null")
+            self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
+            self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
+
+```
+
+####  GetComponentProperty
+
+Returns the value of the given component property.
+
+***Parameters***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+| componentName      |     string    |   Yes   | name of the Unity component. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
+| propertyName      |     string    |   Yes   |  name of the property of which value you want |
+| assemblyName  | string | No | name of the assembly containing the component |
+
+***Returns***
+- String
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetComponentProperty()
+        {
+            const string componentName = "AltUnityRunner";
+            const string propertyName = "SocketPortNumber";
+            var altElement = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
+            Assert.NotNull(altElement);
+            var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+            Assert.AreEqual(propertyValue, "13000");
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testGetComponentProperty() throws Exception
+        {
+            String componentName = "AltUnityRunner";
+            String propertyName = "SocketPortNumber";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "AltUnityRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+            assertNotNull(altElement);
+            AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters.Builder(componentName,propertyName).withAssembly("").build();
+            String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParameters);
+            assertEquals(propertyValue, "13000");
+        }
+
+    .. code-tab:: py
+
+        def test_get_component_property(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altdriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
+            self.assertEqual(result,"[1,2,3]")
+
+```
+
+####  SetComponentProperty
+
+Sets value of the given component property.
+
+***Parameters***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+| componentName      |     string    |   Yes   | name of the Unity component. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
+| propertyName      |     string    |   Yes   |  name of the property of which value you want to set|
+| value      |     string    |   Yes   | the value to be set for the chosen component's property|
+| assemblyName  | string | No | name of the assembly containing the component. It is NULL by default |
+
+***Returns***
+- String
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestSetComponentProperty()
+        {
+            const string componentName = "Capsule";
+            const string propertyName = "stringToSetFromTests";
+            var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            var propertyValue = altElement.SetComponentProperty(componentName, propertyName, "2");
+            Assert.AreEqual("valueSet", propertyValue);
+            propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+            Assert.AreEqual("2", propertyValue);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testSetComponentProperty()
+        {
+            String componentName = "Capsule";
+            String propertyName = "stringToSetFromTests";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altdriver.findObject(altFindObjectsParameters);
+            assertNotNull(altElement);
+            String propertyValue = altElement.setComponentProperty(componentName, propertyName, "2");
+            assertEquals("valueSet", propertyValue);
+            propertyValue = altElement.getComponentProperty(componentName, propertyName);
+            assertEquals("2", propertyValue);
+        }
+
+    .. code-tab:: py
+
+        def test_set_component_property(self):
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            componentName = "Capsule"
+            propertyName = "stringToSetFromTests"
+            altElement = self.altdriver.find_object(By.NAME, componentName)
+            self.assertNotEqual(altElement, None)
+            propertyValue = altElement.set_component_property(componentName, propertyName, "2")
+            self.assertEqual("valueSet", propertyValue)
+            propertyValue = altElement.get_component_property(componentName, propertyName)
+            self.assertEqual("2", propertyValue)
+
+```
+
+####  GetText
+
+Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
+
+***Parameters***
+
+None
+
+***Returns***
+- String
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestWaitForElementWithText()
+        {
+            const string name = "CapsuleInfo";
+            string text = altUnityDriver.FindObject(By.NAME,name).GetText();
+            var timeStart = DateTime.Now;
+            var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.Less(time.TotalSeconds, 20);
+            Assert.NotNull(altElement);
+            Assert.AreEqual(altElement.GetText(), text);
+
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testWaitForElementWithText() throws Exception
+        {
+            String name = "CapsuleInfo";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
+            long timeStart = System.currentTimeMillis();
+            AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters,text).withInterval(0).withTimeout(0).build();
+            AltUnityObject altElement = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParameters);
+            long timeEnd = System.currentTimeMillis();
+            long time = timeEnd - timeStart;
+            assertTrue(time / 1000 < 20);
+            assertNotNull(altElement);
+            assertEquals(altElement.getText(), text);
+        }
+
+    .. code-tab:: py
+
+        def test_call_component_method(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
+            self.assertEqual(result,"null")
+            self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
+            self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
+
+```
+
+####  SetText
+
+Sets text value for a Button, Text, InputField. This also works with TextMeshPro elements.
+
+***Parameters***
+
+|      Name       |     Type      | Required | Description |
+| --------------- | ------------- | -------- | ----------- |
+|      text       |     string    |    Yes   | text to be set|
+
+***Returns***
+- AltUnityObject
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestSetTextForElement()
+        {
+            const string name = "InputField";
+            const string text = "InputFieldTest";
+            var input = altUnityDriver.FindObject(By.NAME, name).SetText(text);
+            Assert.NotNull(input);
+            Assert.AreEqual(input.GetText(), text);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testSetTextForElement()
+        {
+            String name = "InputField";
+            String text = "InputFieldTest";
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject input = altdriver.findObject(altFindObjectsParameters).setText(text);
+            assertNotNull(input);
+            assertEquals(input.getText(), text);
+        }
+
+    .. code-tab:: py
+
+        def test_set_text_for_element(self):
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            name = "InputField"
+            text = "InputFieldTest"
+            input = self.altdriver.find_object(By.NAME, name).set_text(text)
+            self.assertNotEqual(input, None)
+            self.assertEqual(input.get_text(), text)
+
+```
+
+####  ClickEvent
+
+Simulates a click on the object. It will click the object even if the object is not visible something that you could not do on a real device.
 
 ***Parameters***
 
@@ -1933,7 +2686,6 @@ None
 - Nothing
 
 ***Examples***
-
 ```eval_rst
 .. tabs::
 
@@ -1974,323 +2726,74 @@ None
         }
 
     .. code-tab:: py
-     //TODO
+
+        def test_click_event(self):
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            altElement = self.altdriver.find_object(By.NAME, "UIButton")
+            try:
+                altElement.click_event()
+            except Exception as exception:
+                print("An error occured on click_event: ".format(exception))
+            capsuleInfo = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+            text = capsuleInfo.get_text()
+            self.assertEqual(text, "UIButton clicked to jump capsule!")
 
 ```
 
-###  DragObject
+####  Tap
 
-Drag an object to a certain position on the screen
-
-***Parameters***
-
-|      Name       |     Type      | Required | Description |
-| --------------- | ------------- | -------- | ----------- |
-| position      |     Vecto2(C#)    |   Yes   | coordinates of the screen where the object will be dragged|
-| x      |     int(python/java)    |   Yes  |   x coordinate of the screen where the object will be dragged |
-| y      |     int(python/java)    |   Yes   |   y coordinate of the screen where the object will be dragged|
-
-***Returns***
-- Nothing
-
-***Examples***
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-        public void TestDragObject()
-        {
-            var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-            UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-            panel.DragObject( new AltUnityVector2(200, 200));
-            Thread.Sleep(2000); 
-            panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-            UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-            Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
-        }
-
-    .. code-tab:: java
-        @Test
-        public void testDragObject() throws InterruptedException {
-            AltUnityObject dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
-            Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
-            dragPanel.drag(200,200);
-            Thread.sleep(1000);
-            dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
-            Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
-            assertTrue(initPosition != finalPosition);
-        }
-
-    .. code-tab:: py
-        def test_drag_object(self):
-          self.altdriver.load_scene('Scene 2 Draggable Panel')
-          time.sleep(1)
-          d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
-          p_initial = (d_panel.x, d_panel.y, d_panel.z)
-          d_panel.drag(200,200)
-          time.sleep(1)
-          d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
-          p_final = (d_panel.x, d_panel.y, d_panel.z)
-          self.assertNotEqual(p_initial, p_final)
-
-```
-###  DropObject
-
-Drop an object to a certain position on the screen
-
-***Parameters***
-
-|      Name       |     Type      | Required | Description |
-| --------------- | ------------- | -------- | ----------- |
-| position      |     Vecto2(C#)    |   Yes   | coordinates of the screen where the object will be dragged|
-| x      |     int(python/java)    |   Yes  |   x coordinate of the screen where the object will be dragged |
-| y      |     int(python/java)    |   Yes   |   y coordinate of the screen where the object will be dragged|
-
-***Returns***
-- Nothing
-
-***Examples***
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-        public void TestDropObject()
-        {
-            var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-            UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-            panel.DropObject(new AltUnityVector2(100, 200));
-            Thread.Sleep(2000); 
-            panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-            UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-            Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
-        }
-
-    .. code-tab:: java
-        @Test
-        public void testDropObject() throws InterruptedException {
-            AltUnityObject dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
-            Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
-            dragPanel.drop(200,200);
-            Thread.sleep(1000);
-            dragPanel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Drag Zone");
-            Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
-            assertTrue(initPosition != finalPosition);
-        }
-
-    .. code-tab:: py
-        def test_drop_object(self):
-            self.altdriver.load_scene('Scene 2 Draggable Panel')
-            time.sleep(1)
-            d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
-            p_initial = (d_panel.x, d_panel.y, d_panel.z)
-            d_panel.drag(100,200)
-            time.sleep(1)
-            d_panel.drop(100,200)
-            time.sleep(1)
-            d_panel = self.altdriver.find_object(By.NAME, 'Drag Zone')
-            p_final = (d_panel.x, d_panel.y, d_panel.z)
-            self.assertNotEqual(p_initial, p_final)
-
-```
-
-###  GetAllComponents(C#)
-
-Get all components attached to an object
+Simulates a tap action on the object.
 
 ***Parameters***
 
 None
 
 ***Returns***
-- Nothing
-
-***Examples***
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-        [Test]
-        public void TestGetAllComponents()
-        {
-            List<AltUnityComponent> components = altUnityDriver.FindObject(By.NAME,"Canvas").GetAllComponents();
-            Assert.AreEqual(4, components.Count);
-            Assert.AreEqual("UnityEngine.RectTransform", components[0].componentName);
-            Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
-        }
-```
-
-###  GetAllMethods(C#)
-
-Get all methods from a component attached to an object
-
-***Parameters***
-
-None
-
-***Returns***
-- Nothing
-
-***Examples***
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-        [Test]
-        public void TestGetAllMethods()
-        {
-            var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
-            List<String> methods = altElement.GetAllMethods(altElement.GetAllComponents().First(component => component.componentName.Equals("Capsule")));
-            Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
-        }
-```
-
-###  GetAllProperties(C#)
-
-Get all properties from a component attached to an object. This method is implement only in C#.
-
-***Parameters***
-
-None
-
-***Returns***
-- Nothing
+- AltUnityObject
 
 ***Examples***
 ```eval_rst
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
-        public void TestGetAllFields()
+        public void TestPressNextSceneButtton()
         {
-            var altElement = altUnityDriver.FindObject(By.NAME,"Capsule");
-            var componentList = altElement.GetAllComponents();
-            var component = componentList.First(componenta =>
-                componenta.componentName.Equals("Capsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
-            List<AltUnityProperty> properties = altElement.GetAllProperties(component);
-            AltUnityProperty field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
-            Assert.NotNull(field);
-            Assert.AreEqual(field.value, "intialValue");
-        }
-```
-
-###  GetComponentProperty
-
-Get the value of a property from one of the component of the object.
-
-***Parameters***
-
-|      Name       |     Type      | Required | Description |
-| --------------- | ------------- | -------- | ----------- |
-| componentName      |     string    |   Yes   | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
-| propertyName      |     string    |   Yes   |  name of the property of which value you want |
-| assemblyName  | string | No | name of the assembly where the component is |
-
-***Returns***
-- Nothing
-
-***Examples***
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-        [Test]
-        public void TestGetComponentProperty()
-        {
-            const string componentName = "AltUnityRunner";
-            const string propertyName = "SocketPortNumber";
-            var altElement = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
-            Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-            Assert.AreEqual(propertyValue, "13000");
+            var initialScene= altUnityDriver.GetCurrentScene();
+            altUnityDriver.FindObject(By.NAME, "NextScene").Tap();
+            var currentScene= altUnityDriver.GetCurrentScene();
+            Assert.AreNotEqual(initialScene, currentScene);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testGetComponentProperty() throws Exception
+        public void testTapCommand()
         {
-            String componentName = "AltUnityRunner";
-            String propertyName = "SocketPortNumber";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "AltUnityRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotNull(altElement);
-            AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters.Builder(componentName,propertyName).withAssembly("").build();
-            String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParameters);
-            assertEquals(propertyValue, "13000");
+            String initialScene= altdriver.getCurrentScene();
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "NextScene").isEnabled(true).withCamera("Main Camera").build();
+            altdriver.findObject(altFindObjectsParameters).tap();
+            String currentScene= altdriver.getCurrentScene();
+            assertNotEquals(initialScene, currentScene); 
         }
 
     .. code-tab:: py
-        def test_get_component_property(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altdriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
-            self.assertEqual(result,"[1,2,3]")
+
+        def test_tap_command(self):
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            altElement = self.altdriver.find_object(By.NAME, "UIButton")
+            altElement.tap()
+            capsuleInfo = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+            time.sleep(1.4)
+            text = capsuleInfo.get_text()
+            self.assertEqual(text, "UIButton clicked to jump capsule!")
 
 ```
 
-###  GetText
+####  DoubleTap
 
-Get text value from a Button, Text, InputField. This also works with TextMeshPro elements.
-
-***Parameters***
-
-None
-
-***Returns***
-- Nothing
-
-***Examples***
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-        [Test]
-        public void TestWaitForElementWithText()
-        {
-            const string name = "CapsuleInfo";
-            string text = altUnityDriver.FindObject(By.NAME,name).GetText();
-            var timeStart = DateTime.Now;
-            var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
-            var timeEnd = DateTime.Now;
-            var time = timeEnd - timeStart;
-            Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(altElement.GetText(), text);
-
-        }
-
-    .. code-tab:: java
-        @Test
-        public void testWaitForElementWithText() throws Exception
-        {
-            String name = "CapsuleInfo";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
-            long timeStart = System.currentTimeMillis();
-            AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters,text).withInterval(0).withTimeout(0).build();
-            AltUnityObject altElement = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParameters);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(altElement);
-            assertEquals(altElement.getText(), text);
-        }
-
-    .. code-tab:: py
-        def test_call_component_method(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-            self.assertEqual(result,"null")
-            self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
-
-```
-
-###  DoubleTap
-
-Simulates a double tap on the object that trigger multiple events similar to a real double tap but they happens in one frame.
+Simulates a double tap on the object. The double tap happens in a single frame.
 
 ***Parameters***
 
@@ -2305,18 +2808,20 @@ None
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
-            public void TestDoubleTap()
-            {
-                var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-                var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-                counterButton.DoubleTap();
-                Thread.Sleep(500);
-                Assert.AreEqual("2", counterButtonText.GetText());
-            }
+        public void TestDoubleTap()
+        {
+            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+            counterButton.DoubleTap();
+            Thread.Sleep(500);
+            Assert.AreEqual("2", counterButtonText.GetText());
+        }
 
 
     .. code-tab:: java
+
         @Test
         public void TestDoubleTap() throws InterruptedException
         {
@@ -2333,6 +2838,7 @@ None
 
 
     .. code-tab:: py
+
         def test_double_tap(self):  
             counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
             counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
@@ -2343,7 +2849,7 @@ None
 
 ```
 
-###  PointerDownFromObject
+####  PointerDown
 
 Simulates pointer down action on the object.
 
@@ -2359,42 +2865,46 @@ None
 .. tabs::
 
     .. code-tab:: c#
+
         [Test]
-            public void TestPointerDownFromObject(){
-                var panel = altUnityDriver.FindObject(By.NAME, "Panel");
-                var color1 = panel.GetComponentProperty("PanelScript","normalColor");
-                panel.PointerDownFromObject();
-                Thread.Sleep(1000);
-                var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
-                Assert.AreNotEqual(color1, color2);
-            }
+        public void TestPointerDownCommand()
+        {
+            var panel = altUnityDriver.FindObject(By.NAME, "Panel");
+            var color1 = panel.GetComponentProperty("PanelScript","normalColor");
+            panel.PointerDownFromObject();
+            Thread.Sleep(1000);
+            var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
+            Assert.AreNotEqual(color1, color2);
+        }
 
     .. code-tab:: java
+
         @Test
-        public void testPointerDownFromObject() throws InterruptedException {
+        public void testPointerDownCommand() throws InterruptedException
+        {
             AltUnityObject panel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Panel");
             String color1 = panel.getComponentProperty("PanelScript", "normalColor");
-            panel.pointerDown();
+            panel.pointerDownFromObject();
             Thread.sleep(1000);
             String color2 = panel.getComponentProperty("PanelScript", "highlightColor");
             assertTrue(color1 != color2);
         }
 
-
     .. code-tab:: py
-        def test_pointer_down_from_object(self):
+
+        def test_pointer_down_command():
             self.altdriver.load_scene('Scene 2 Draggable Panel')
             time.sleep(1)
             p_panel = self.altdriver.find_object(By.NAME, 'Panel')
             color1 = p_panel.get_component_property('PanelScript', 'normalColor')
-            p_panel.pointer_down()
+            p_panel.pointer_down_from_object()
             time.sleep(1)
             color2 = p_panel.get_component_property('PanelScript', 'highlightColor')
             self.assertNotEquals(color1, color2)
 
 ```
 
-###  PointerUpFromObject
+####  PointerUp
 
 Simulates pointer up action on the object.
 
@@ -2410,57 +2920,59 @@ None
 .. tabs::
 
     .. code-tab:: c#
-        [Test] 
-            public void TestPointerUpFromObject(){
-                var panel = altUnityDriver.FindObject(By.NAME, "Panel");
-                var color1 = panel.GetComponentProperty("PanelScript","normalColor");
-                panel.PointerDownFromObject();
-                Thread.Sleep(1000);
-                panel.PointerUpFromObject();
-                var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
-                Assert.AreEqual(color1, color2);
-            }
+
+        [Test]
+        public void TestPointerUpCommand()
+        {
+            var panel = altUnityDriver.FindObject(By.NAME, "Panel");
+            var color1 = panel.GetComponentProperty("PanelScript","normalColor");
+            panel.PointerDownFromObject();
+            Thread.Sleep(1000);
+            panel.PointerUpFromObject();
+            var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
+            Assert.AreEqual(color1, color2);
+        }
 
     .. code-tab:: java
+
         @Test
-        public void testPointerUpFromObject() throws InterruptedException {
+        public void testPointerUpCommand() throws InterruptedException
+        {
             AltUnityObject panel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Panel");
             String color1 = panel.getComponentProperty("PanelScript", "normalColor");
-            panel.pointerDown();
+            panel.pointerDownFromObject();
             Thread.sleep(1000);
-            panel.pointerUp();
+            panel.pointerUpFromObject();
             String color2 = panel.getComponentProperty("PanelScript", "highlightColor");
             assertEquals(color1, color2);
         }
 
+
     .. code-tab:: py
-        def test_pointer_up_from_object(self):
+
+        def test_pointer_up_command():
             self.altdriver.load_scene('Scene 2 Draggable Panel')
             time.sleep(1)
             p_panel = self.altdriver.find_object(By.NAME, 'Panel')
             color1 = p_panel.get_component_property('PanelScript', 'normalColor')
-            p_panel.pointer_down()
+            p_panel.pointer_down_from_object()
             time.sleep(1)
-            p_panel.pointer_up()
+            p_panel.pointer_up_from_object()
             color2 = p_panel.get_component_property('PanelScript', 'highlightColor')
             self.assertEquals(color1, color2)
 
 ```
 
-## UnityCommands 
+####  PointerEnter
 
-###  DeleteKeyPlayerPref  
-
-Delete from games player pref a key
+Simulates pointer enter action on the object.
 
 ***Parameters***
 
-|      Name       |     Type      | Required | Description |
-| --------------- | ------------- | -------- | ----------- |
-| keyname      |     sting    |   Yes   | Key to be deleted|
+None
 
 ***Returns***
-- Nothing
+- AltUnityObject
 
 ***Examples***
 ```eval_rst
@@ -2469,58 +2981,62 @@ Delete from games player pref a key
     .. code-tab:: c#
 
         [Test]
-        public void TestDeleteKey()
+        public void TestPointerEnterAndExit()
         {
-            altUnityDriver.DeletePlayerPref();
-            altUnityDriver.SetKeyPlayerPref("test", 1);
-            var val = altUnityDriver.GetIntKeyPlayerPref("test");
-            Assert.AreEqual(1, val);
-            altUnityDriver.DeleteKeyPlayerPref("test");
-            try
-            {
-                altUnityDriver.GetIntKeyPlayerPref("test");
-                Assert.Fail();
-            }
-            catch (NotFoundException exception)
-            {
-                Assert.AreEqual("error:notFound", exception.Message);
-            }
-    
+            var altElement = altUnityDriver.FindObject(By.NAME,"Drop Image");
+            var color1 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            altUnityDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
+            var color2 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            Assert.AreNotEqual(color1,color2);
+            altUnityDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
+            var color3 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            Assert.AreNotEqual(color3, color2);
+            Assert.AreEqual(color1,color3);
         }
+
     .. code-tab:: java
 
         @Test
-            public void testDeleteKey() throws Exception
-            {
-                altUnityDriver.deletePlayerPref();
-                altUnityDriver.setKeyPlayerPref("test", 1);
-                int val = altUnityDriver.getIntKeyPlayerPref("test");
-                assertEquals(1, val);
-                altUnityDriver.deleteKeyPlayerPref("test");
-                try {
-                    altUnityDriver.getIntKeyPlayerPref("test");
-                    fail();
-                } catch (NotFoundException e) {
-                    assertEquals(e.getMessage(), "error:notFound");
-                }
-            }
-
+        public void testPointerEnterAndExit()
+        {
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altdriver.findObject(altFindObjectsParameters);
+            String color1 = altElement.getComponentProperty("DropMe", "highlightColor");
+            altdriver.findObject(altFindObjectsParameters).pointerEnter();
+            String color2 = altElement.getComponentProperty("DropMe", "highlightColor");
+            assertNotEquals(color1,color2);
+            altdriver.findObject(altFindObjectsParameters).pointerExit();
+            String color3 = altElement.getComponentProperty("DropMe", "highlightColor");
+            assertNotEquals(color3, color2);
+            assertEquals(color1,color3);
+        }
 
     .. code-tab:: py
 
-       //TODO
+        def test_pointer_enter_and_exit(self):
+            self.altdriver.load_scene("Scene 3 Drag And Drop")
+            alt_element = self.altdriver.find_object(By.NAME,"Drop Image")
+            color1 = alt_element.get_component_property("DropMe", "highlightColor")
+            self.altdriver.find_object(By.NAME,"Drop Image").pointer_enter()
+            color2 = alt_element.get_component_property("DropMe", "highlightColor")
+            self.assertNotEqual(color1, color2)
+            self.altdriver.find_object(By.NAME,"Drop Image").pointer_exit()
+            color3 = alt_element.get_component_property("DropMe", "highlightColor")
+            self.assertNotEqual(color3, color2)
+            self.assertEqual(color1, color3)
+
 ```
 
-###  DeletePlayerPref
+####  PointerExit
 
-Delete entire player pref of the game
+Simulates pointer exit action on the object.
 
 ***Parameters***
 
 None
 
 ***Returns***
-- Nothing
+- AltUnityObject
 
 ***Examples***
 ```eval_rst
@@ -2529,166 +3045,87 @@ None
     .. code-tab:: c#
 
         [Test]
-            public void TestSetKeyInt()
-            {
-                altUnityDriver.DeletePlayerPref();
-                altUnityDriver.SetKeyPlayerPref("test", 1);
-                var val = altUnityDriver.GetIntKeyPlayerPref("test");
-                Assert.AreEqual(1, val);
-            }
-    .. code-tab:: java
-
-         @Test
-        public void testSetKeyFloat() throws Exception
+        public void TestPointerEnterAndExit()
         {
-            altUnityDriver.deletePlayerPref();
-            altUnityDriver.setKeyPlayerPref("test", 1f);
-            float val = altUnityDriver.getFloatKeyPlayerPref("test");
-            assertEquals(1f, val, 0.01);
+            var altElement = altUnityDriver.FindObject(By.NAME,"Drop Image");
+            var color1 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            altUnityDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
+            var color2 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            Assert.AreNotEqual(color1,color2);
+            altUnityDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
+            var color3 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            Assert.AreNotEqual(color3, color2);
+            Assert.AreEqual(color1,color3);
         }
 
-
-    .. code-tab:: py
-
-       def test_set_player_pref_keys_int(self):
-              self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-              self.altdriver.delete_player_prefs()
-              self.altdriver.set_player_pref_key('test', 1, PlayerPrefKeyType.Int)
-              value = self.altdriver.get_player_pref_key('test', PlayerPrefKeyType.Int)
-              self.assertEqual(int(value), 1)
-```
-
-###  GetAllCameras(C#)
-
-Return all cameras that are in the scene. This method is only implemented in C#
-
-***Parameters***
-
-None
-
-***Returns***
-- List of AltUnityObjects
-
-***Examples***
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestGetAllCameras()
-        {
-            var cameras = altUnityDriver.GetAllCameras();
-            Assert.AreEqual(2,cameras.Count);
-        }
-    
-```
-###  GetAllScenes
-
-Return list of scene in the game
-
-***Parameters***
-
-None
-
-***Returns***
-
-- List of string
-
-***Examples***
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestGetAllScenes()
-        {
-            var scenes = altUnityDriver.GetAllScenes();
-            Assert.AreEqual(5, scenes.Count);
-            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
-        }
-```
-
-###  GetCurrentScene
-
-Get the current active scene.
-
-
-***Parameters***
-
-None
-
-***Returns***
-- String
-
-***Examples***
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestGetCurrentScene()
-        {
-            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
-        }
     .. code-tab:: java
 
         @Test
-        public void testGetCurrentScene() throws Exception
+        public void testPointerEnterAndExit()
         {
-            assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
+            AltUnityObject altElement = altdriver.findObject(altFindObjectsParameters);
+            String color1 = altElement.getComponentProperty("DropMe", "highlightColor");
+            altdriver.findObject(altFindObjectsParameters).pointerEnter();
+            String color2 = altElement.getComponentProperty("DropMe", "highlightColor");
+            assertNotEquals(color1,color2);
+            altdriver.findObject(altFindObjectsParameters).pointerExit();
+            String color3 = altElement.getComponentProperty("DropMe", "highlightColor");
+            assertNotEquals(color3, color2);
+            assertEquals(color1,color3);
         }
 
     .. code-tab:: py
 
-       def test_get_current_scene(self):
-        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
+        def test_pointer_enter_and_exit(self):
+            self.altdriver.load_scene("Scene 3 Drag And Drop")
+            alt_element = self.altdriver.find_object(By.NAME,"Drop Image")
+            color1 = alt_element.get_component_property("DropMe", "highlightColor")
+            self.altdriver.find_object(By.NAME,"Drop Image").pointer_enter()
+            color2 = alt_element.get_component_property("DropMe", "highlightColor")
+            self.assertNotEqual(color1, color2)
+            self.altdriver.find_object(By.NAME,"Drop Image").pointer_exit()
+            color3 = alt_element.get_component_property("DropMe", "highlightColor")
+            self.assertNotEqual(color3, color2)
+            self.assertEqual(color1, color3)
 ```
 
-## Screenshot
+## BY-Selector
 
-###  GetPNGScreenshot
-
-Create a screenshot of the current scene in png format.
-
-***Parameters***
-
-|      Name       |     Type      | Required | Description |
-| --------------- | ------------- | -------- | ----------- |
-|path| string | Yes| location where the image is created|
-
-***Returns***
-- Nothing
-
-***Examples***
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        public void TestGetScreenshot(){
-        var path="testC.png";
-        altUnityDriver.GetPNGScreenshot(path);
-        FileAssert.Exists(path);
-        }
-    .. code-tab:: java
-
-        @Test
-        public void testScreenshot()
-        {
-            String path="testJava2.png";
-            altUnityDriver.getPNGScreeshot(path);
-            assertTrue(new File(path).isFile());
-        }
+It is used in find objects methods to set the criteria of which the objects are searched.  
+Currenty there are 6 type implemented:
+  * *Tag* - search for objects that have a specific tag
+  * *Layer* - search for objects that are set on a specific layer
+  * *Name* - search for objects that are named in a certain way
+  * *Component* - search for objects that have certain component
+  * *Id* - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects)
+  * *Path* - search for objects that respect a certain path
 
 
-    .. code-tab:: py
+**Searching object by path**
 
-       def test_screenshot(self):
-        png_path="testPython.png"
-        self.altdriver.get_png_screenshot(png_path)
-        self.assertTrue(path.exists(png_path))
+The following selecting nodes, attributes and attributes are implemented:
+  * *object* -  Selects all object with the name "object"
+  * */* -   Selects from the root node
+  * *//* - Selects nodes in the document from the current node that match the selection no matter where they are
+  * *..* - Selects the parent of the current node
+  * *\** -  Matches any element node
+  * *@tag* - 
+  * *@layer* -
+  * *@name* -
+  * *@component* -
+  * *@id* -
+  * *contains* -
+  
+
+
+How a correct path should look like:  
+  ```//Canvas/Panel/*[@tag="UI"]```
+  
+**Examples**
+ ```
+//Button - Returns every object named button in the scene 
+//*[@tag=UI] -Returns every object that is tagged as UI
+/Canvas//Button[@component=ButtonLogic] - Return every button who are in an canvas that is a root object and has a component name ButtonLogic
+//*[contains(@name,Ca)] - Returns every object in the scene that contains in the name "Ca"
 ```

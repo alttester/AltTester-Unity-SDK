@@ -13,19 +13,17 @@ static void BuildFromCommandLine () {
 
         buildPlayerOptions.locationPathName = "sampleGame.apk";
         buildPlayerOptions.target = BuildTarget.Android;
-        // It's important to set options to Develoment otherwise AltUnity doesn't work
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer; 
 
         // Setup for AltUnity
         AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup (BuildTargetGroup.Android);
         AltUnityBuilder.InsertAltUnityInScene (buildPlayerOptions.scenes[0]);
         
-        var results = BuildPipeline.BuildPlayer (buildPlayerOptions); //Building the game
-        AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols (BuildTargetGroup.Android); //Removing AltunityTester
+        var results = BuildPipeline.BuildPlayer (buildPlayerOptions);
+        AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols (BuildTargetGroup.Android);
 
     } catch (Exception exception) {
         Debug.LogException (exception);
-        // EditorApplication.Exit(1);
     }
 
 }
