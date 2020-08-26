@@ -55,7 +55,7 @@ public class AltBaseCommand {
         String[] data = receivedData.split("::altLog::");
         receivedData = data[0];
         log.debug("Data received: " + receivedData);
-        if (altBaseSettings.logEnabled) {
+        if (altBaseSettings.logEnabled && data.length==2) {
             WriteInLogFile(data[1]);
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");

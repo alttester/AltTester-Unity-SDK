@@ -5,7 +5,7 @@
     <groupId>com.altom</groupId>
     <artifactId>altunitytester-java-client</artifactId>
     <packaging>jar</packaging>
-    <version>1.5.6-SNAPSHOT</version>
+    <version>1.5.7-SNAPSHOT</version>
 
     <distributionManagement>
         <snapshotRepository>

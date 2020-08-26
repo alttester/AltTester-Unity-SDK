@@ -3,13 +3,14 @@ from loguru import logger
 
 
 class LoadScene(BaseCommand):
-    def __init__(self, socket, request_separator, request_end, scene_name):
+    def __init__(self, socket, request_separator, request_end, scene_name, load_single):
         super(LoadScene, self).__init__(socket, request_separator, request_end)
         self.scene_name = scene_name
+        self.load_single = load_single
 
     def execute(self):
         data = self.send_data(self.create_command(
-            'loadScene', self.scene_name))
+            'loadScene', self.scene_name, self.load_single))
         if (data == 'Ok'):
             data = self.recvall()
             if (data == "Scene Loaded"):

@@ -39,13 +39,13 @@ public class AltUnityBuilder
     {
         var outputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
 
-        if (string.IsNullOrWhiteSpace(outputPath))
+        if (string.IsNullOrEmpty(outputPath))
             outputPath = UnityEditor.PlayerSettings.productName;
 
         if (outputPath.EndsWith("/") || outputPath.EndsWith("\\"))
             outputPath = outputPath + UnityEditor.PlayerSettings.productName;
 
-        if (outputPath.Split('/').Length == 1 || outputPath.Split('\\').Length == 1)
+        if (outputPath.Split('/').Length == 1 && outputPath.Split('\\').Length == 1)
             outputPath += System.IO.Path.DirectorySeparatorChar.ToString() + outputPath;
 
         switch (target)

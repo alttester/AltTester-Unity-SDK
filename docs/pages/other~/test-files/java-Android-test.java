@@ -4,57 +4,36 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityObject;
-import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
-import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
 
 import java.io.IOException;
 
+
 public class myFirstTest {
 
-  private static AltUnityDriver altdriver;
+    private static AltUnityDriver altdriver;
 
-  @BeforeClass
-  public static void setUp() throws IOException {
-    AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
-    altdriver = new AltUnityDriver();
-  }
+    @BeforeClass
+    public static void setUp() throws IOException {
+        AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
+        altdriver = new AltUnityDriver("127.0.0.1", 13000, ";", "&", true);
+    }
 
-  @AfterClass
-  public static void tearDown() throws Exception {
-    altdriver.stop();
-    AltUnityDriver.removePortForwarding();
-  }
+    @Test
+    public void openClosePanelTest() {
+        altdriver.loadScene("Scene 2 Draggable Panel");
 
-  @Test
-  public void openClosePanelTest() {
+        AltUnityObject closePanelButton = altdriver.findObject(AltUnityDriver.By.NAME, "Close Button").tap();
+        AltUnityObject togglePanelButton = altdriver.findObject(AltUnityDriver.By.NAME, "Button").tap();
+        AltUnityObject panelElement = altdriver.findObject(AltUnityDriver.By.NAME, "Panel");
+        
+        Assert.assertTrue(altdriver.waitForObject(AltUnityDriver.By.NAME, "Panel").isEnabled());
+    }
 
-      altdriver.loadScene("Scene 2 Draggable Panel");
-      
-      AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters
-              .Builder(AltUnityDriver.By.PATH, "//Main Camera")
-              .build();
-      AltUnityObject camera = altdriver.findObject(altFindObjectsParametersCamera);
+    @AfterClass
+    public static void tearDown() throws Exception {
+        AltUnityDriver.removePortForwarding();
+        altdriver.stop();
+        Thread.sleep(1000);
+    }
 
-      AltFindObjectsParameters closeButtonObjectsParameters = new AltFindObjectsParameters
-              .Builder(AltUnityDriver.By.NAME, "Close Button")
-              .withCamera(AltUnityDriver.By.ID, String.valueOf(camera.id))
-              .build();
-      altdriver.findObject(closeButtonObjectsParameters).tap();
-
-      AltFindObjectsParameters buttonObjectsParameters = new AltFindObjectsParameters
-              .Builder(AltUnityDriver.By.NAME, "Button")
-              .withCamera(AltUnityDriver.By.ID, String.valueOf(camera.id))
-              .build();
-      altdriver.findObject(buttonObjectsParameters).tap();
-
-      AltFindObjectsParameters panelObjectsParameters = new AltFindObjectsParameters
-              .Builder(AltUnityDriver.By.NAME, "Panel")
-              .withCamera(AltUnityDriver.By.ID, String.valueOf(camera.id))
-              .build();
-      AltWaitForObjectsParameters panelWaitForObjectsParameters = new AltWaitForObjectsParameters
-              .Builder(panelObjectsParameters).build();
-      AltUnityObject panelElement = altdriver.waitForObject(panelWaitForObjectsParameters);
-
-      Assert.assertTrue(panelElement.isEnabled());
-  }
 }

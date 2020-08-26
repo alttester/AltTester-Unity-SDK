@@ -1,9 +1,32 @@
+# Changes in version 1.5.7
+
+## Bug fixes and improvements
+
+
+- "Remove null checker to make compatible with .net 3.x" !268
+- "GetVersion should return server version when there is a mismatch" !266  
+- "Load scene additive" !265
+- Resolve "AltUnityDriver python does not display warnings by default" !263
+- Update documentation
+
+## Contributors 
+- Dorin Oltean @dorinaltom
+- Ru Cindrea @ru.cindrea
+- pusoktimea @pusoktimea
+- Alexandru Rotaru @alex.rotaru
+- Dorel @doreln 
+- Bogdan Birnicu @bogdan.birnicu
+- Raluca Vaida @raluca.vaida 
+- Gombos Kriszta @GombosKriszta 
+- Andra Cardas @andra.cardas 
+- Robert Poienar @robert_poienar
+
 # Changes in version 1.5.6
 
 ## Bug fixes and improvements
 
 - "Make "Drag" and "Drop" command deprecated" !259
-- "Make AltUnityDriver interface consistent acrross all language clients" !257
+- "Make AltUnityDriver interface consistent across all language clients" !257
 - "Add option to specific camera other than name in find objects commands" !207
 - "Python - iOS - exception still thrown if we try to connect but server is not yet running" !255  
 - "click_element() not working in python" !254  
@@ -19,7 +42,7 @@
 - "Scroll command not functioning" !246  
 - "No relevant error message and build is not made when having empty "Output path"" !244  
 - "General Method to run c# test in command line" !242  
-- "Examples are missing from unitypackage that is in documentation" !239  
+- "Examples are missing from unity package that is in documentation" !239  
 - "Continuous error triggered when making changes to the test file while the game is running" !245  
 - ""NullReferenceException" displayed as info message after running tests" !243  
 - "Finding parent by path gives "failedToParseMethodArguments"" !228  

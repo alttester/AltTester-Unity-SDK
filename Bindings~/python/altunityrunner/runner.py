@@ -162,8 +162,8 @@ class AltrunUnityDriver(object):
     def delete_player_prefs(self):
         return DeletePlayerPref(self.socket, self.request_separator, self.request_end).execute()
 
-    def load_scene(self, scene_name):
-        return LoadScene(self.socket, self.request_separator, self.request_end, scene_name).execute()
+    def load_scene(self, scene_name, load_single=True):
+        return LoadScene(self.socket, self.request_separator, self.request_end, scene_name, load_single).execute()
 
     def set_time_scale(self, time_scale):
         return SetTimeScale(self.socket, self.request_separator, self.request_end, time_scale).execute()
@@ -233,6 +233,9 @@ class AltrunUnityDriver(object):
             return By.NAME, camera_by
         else:
             return camera_by, camera_path
+
+    def get_all_loaded_scenes(self):
+        return GetAllLoadedScenes(self.socket, self.request_separator, self.request_end, self.appium_driver).execute()
 
 
 class AltUnityDriver(object):
@@ -385,8 +388,8 @@ class AltUnityDriver(object):
     def delete_player_prefs(self):
         return DeletePlayerPref(self.socket, self.request_separator, self.request_end).execute()
 
-    def load_scene(self, scene_name):
-        return LoadScene(self.socket, self.request_separator, self.request_end, scene_name).execute()
+    def load_scene(self, scene_name, load_single=True):
+        return LoadScene(self.socket, self.request_separator, self.request_end, scene_name, load_single).execute()
 
     def set_time_scale(self, time_scale):
         return SetTimeScale(self.socket, self.request_separator, self.request_end, time_scale).execute()
@@ -456,3 +459,6 @@ class AltUnityDriver(object):
             return By.NAME, camera_by
         else:
             return camera_by, camera_path
+
+    def get_all_loaded_scenes(self):
+        return GetAllLoadedScenes(self.socket, self.request_separator, self.request_end, self.appium_driver).execute()
