@@ -21,7 +21,7 @@ public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
     public SocketSettings socketSettings;
-    public static readonly string VERSION = "1.5.7-ALPHA";
+    public static readonly string VERSION = "1.5.7";
     public static string requestSeparatorString;
     public static string requestEndingString;
 
@@ -76,9 +76,9 @@ public class AltUnityDriver
     {
         new AltUnityStopCommand(socketSettings).Execute();
     }
-    public void LoadScene(string scene,bool loadSingle=true)
+    public void LoadScene(string scene, bool loadSingle = true)
     {
-        new AltUnityLoadScene(socketSettings, scene,loadSingle).Execute();
+        new AltUnityLoadScene(socketSettings, scene, loadSingle).Execute();
     }
     public System.Collections.Generic.List<string> GetAllLoadedScenes()
     {
