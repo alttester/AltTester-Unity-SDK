@@ -23,6 +23,7 @@ Join our Gitter chat room `here <https://gitter.im/AltUnityTester>`__ to chat wi
    pages/tester-with-cloud
    pages/examples   
    pages/commands      
+   pages/advanced-usage
    pages/license
    pages/contributing
 

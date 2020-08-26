@@ -1,10 +1,10 @@
 # Get Started  
 
 To run the first test for your Unity game you need to:
-  - [Import AltUnity Tester package](#import-altunity-tester-package)
-  - [Instrument your game with AltUnity Server](#instrument-your-game-with-altunity-server)
-  - [Run your game in Unity or on desired platform](#run-your-game-in-unity-or-on-desired-platform)
-  - [Write and execute first test for your game](#write-and-execute-first-test-for-your-game)
+1. [Import AltUnity Tester package in Unity Editor](#import-altunity-tester-package)
+2. [Instrument your game with AltUnity Server](#instrument-your-game-with-altunity-server)
+3. [Run the build in Unity Editor or on desired platform](#run-your-game-in-unity-or-on-desired-platform)
+4. [Write and execute first test](#write-and-execute-first-test-for-your-game)
 
 ```eval_rst note::
     If you don't have access to source code of the game you need to ask a person with access to give you an instrumented version of the game. 
@@ -49,10 +49,18 @@ Steps:
 3. Press "Build Only" to instrument the game.
 4. Check the console to see if the build was successful.
 
+``` important::
+        Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity when building using the Standalone option.  
 
+        This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.   
+```
 
 ``` note::
         Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
+```
+
+``` note::
+    If you have a custom build, check how you can build from the command line using the instructions in the `Advanced Usage section <advanced-usage.html#Build-games-from-the-command-line>`_.
 ```
 
 ``` note::
@@ -81,7 +89,12 @@ Before running your tests you need to start the game instrumented with AltUnity 
         2. In platform section select Standalone
         3. Choose your build target
         4. Click Build & Run
-         
+
+        .. important::
+
+            Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity when building using the Standalone option.  
+
+            This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.         
 
     .. tab:: Android
 
@@ -113,7 +126,7 @@ Before running your tests you need to start the game instrumented with AltUnity 
         
 
         .. note:: 
-            For more details read about `port forwarding at this link <advanced-usage.html#Setup-Port-Forwarding>`_.
+            For more details read about `port forwarding at this link <advanced-usage.html#what-is-port-forwarding-and-when-to-use-it>`_.
 
 ```
 
@@ -148,8 +161,30 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:
 
-              .. include:: other~/test-files/cSharp-test.cs
-                      :code: c#
+        .. tabs::
+
+            .. tab:: Unity Editor & PC
+
+                .. literalinclude:: other~/test-files/cSharp-test.cs
+                    :language: c#
+
+            .. tab:: Android
+
+                .. literalinclude:: other~/test-files/cSharp-Android-test.cs
+                    :language: c#
+                    :emphasize-lines: 12,20
+
+            .. tab:: iOS
+
+                .. literalinclude:: other~/test-files/cSharp-iOS-test.cs
+                    :language: c#
+                    :emphasize-lines: 12,20
+
+        Run your test file from the command line by using the following command:
+
+                .. code-block:: bash
+
+                    <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -logFile logFile.log -batchmode -quit
 
     .. tab:: Java
 
@@ -180,8 +215,24 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:
 
-                .. include:: other~/test-files/java-test.java
-                        :code: java
+        .. tabs::
+
+            .. tab:: Unity Editor & PC
+
+                .. literalinclude:: other~/test-files/java-test.java
+                    :language: java
+
+            .. tab:: Android
+
+                .. literalinclude:: other~/test-files/java-Android-test.java
+                    :language: java
+                    :emphasize-lines: 18,25
+
+            .. tab:: iOS
+
+                .. literalinclude:: other~/test-files/java-iOS-test.java
+                    :language: java
+                    :emphasize-lines: 18,25
 
         Run your tests by using the following command (in the test project folder):
 
@@ -204,8 +255,24 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:  
 
-                .. include:: other~/test-files/python-test.py
-                        :code: py
+        .. tabs::
+
+            .. tab:: Unity Editor & PC
+
+                .. literalinclude:: other~/test-files/python-test.py
+                    :language: py
+
+            .. tab:: Android
+
+                .. literalinclude:: other~/test-files/python-Android-test.py
+                    :language: py
+                    :emphasize-lines: 16,17,25,26
+
+            .. tab:: iOS
+
+                .. literalinclude:: other~/test-files/python-iOS-test.py
+                    :language: py
+                    :emphasize-lines: 13,17,18,26,27
 
         Run your test file by using the following command:
 

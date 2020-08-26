@@ -5,13 +5,7 @@ import unittest
 import sys
 import json
 import time
-from os import path
 from altunityrunner import *
-
-
-def PATH(p): return os.path.abspath(
-    os.path.join(os.path.dirname(__file__), p)
-)
 
 
 class MyFirstTest(unittest.TestCase):

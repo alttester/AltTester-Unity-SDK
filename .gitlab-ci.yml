@@ -225,7 +225,7 @@ create-jar-archive:
     - when: never
   tags:
     - unity
-    - mac
+    - mac 
   script:
     - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityJAR || true
     - cd "Bindings~/java"
