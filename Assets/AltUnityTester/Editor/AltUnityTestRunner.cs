@@ -401,7 +401,7 @@ public class AltUnityTestRunner
             }
         }
         var parentName = string.Empty;
-        if(testSuite.Parent.FullName!=null)
+        if(testSuite.Parent!=null)
             parentName= testSuite.Parent.FullName;
         AltUnityMyTest index = null;
         if (AltUnityTesterEditor.EditorConfiguration.MyTests!=null)
