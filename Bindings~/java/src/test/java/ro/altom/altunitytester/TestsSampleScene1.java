@@ -13,6 +13,7 @@ import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectWithTextParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltTiltParameters;
+import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import ro.altom.altunitytester.position.Vector3;
 
@@ -580,7 +581,10 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestTapScreenWhereThereIsNoObjects() {
-        AltUnityObject altObject = altUnityDriver.tapScreen(1, 1);
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "ButtonCounter").build();
+        AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
+        AltUnityObject altObject = altUnityDriver.tapScreen(1, counterButton.y+100);
         assertEquals(null, altObject);
     }
 
@@ -978,6 +982,21 @@ public class TestsSampleScene1 {
         AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParameters);
         assertEquals("Canvas", altElement.name);
 
+    }
+    
+    @Test
+    public void TestLoadAdditiveScenes() throws Exception {
+        AltGetAllElementsParameters altGetAllElementsParameters=new AltGetAllElementsParameters.Builder().build();
+        AltUnityObject[] initialNumberOfElements=altUnityDriver.getAllElements(altGetAllElementsParameters);
+
+        AltLoadSceneParameters altLoadSceneParameters=new AltLoadSceneParameters.Builder("Scene 2 Draggable Panel").loadMode(false).build();
+        altUnityDriver.loadScene(altLoadSceneParameters);
+        AltUnityObject[] finalNumberOfElements=altUnityDriver.getAllElements(altGetAllElementsParameters);
+        
+        assertNotEquals(initialNumberOfElements,finalNumberOfElements);
+        
+        String[] scenes=altUnityDriver.getAllLoadedScenes();
+        assertEquals(2,scenes.length);   
     }
 
 }

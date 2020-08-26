@@ -25,11 +25,8 @@ copyright = '2020, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
-# displays version under project title
-
-
-version = 'v.1.5.6'
-release = 'v.1.5.6'
+version = 'v.1.5.7'   # displays version under project title
+release = 'v.1.5.7'
 
 
 # -- General configuration ---------------------------------------------------

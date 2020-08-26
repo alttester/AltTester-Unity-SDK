@@ -27,7 +27,7 @@ public class AltUnityDriver {
         public static int FloatType = 3;
     }
 
-    public static final String VERSION = "1.5.6";
+    public static final String VERSION = "1.5.7";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private Socket socket = null;
@@ -96,13 +96,7 @@ public class AltUnityDriver {
     }
 
     private String GetServerVersion() {
-        try {
-            new GetServerVersionCommand(altBaseSettings).Execute();
-            return "Ok";
-        } catch (Exception e) {
-            log.warn(e.getMessage());
-            return "Version mismatch";
-        }
+        return new GetServerVersionCommand(altBaseSettings).Execute();
     }
 
     private void EnableLogging() {
@@ -127,9 +121,18 @@ public class AltUnityDriver {
     public String callStaticMethods(String typeName, String methodName, String parameters) {
         return callStaticMethods("", typeName, methodName, parameters, "");
     }
-
+    @Deprecated
     public void loadScene(String scene) {
-        new AltLoadScene(altBaseSettings, scene).Execute();
+        AltLoadSceneParameters altLoadSceneParameters=new AltLoadSceneParameters.Builder(scene).build();
+        loadScene(altLoadSceneParameters);
+        
+    }
+    
+    public void loadScene(AltLoadSceneParameters altLoadSceneParameters){
+        new AltLoadScene(altBaseSettings,altLoadSceneParameters).Execute();
+    }
+    public String[] getAllLoadedScenes(){
+        return new AltGetAllLoadedScenes(altBaseSettings).Execute();
     }
 	
 	/**

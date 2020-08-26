@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public class AltUnityExampleScriptDragPanel : MonoBehaviour, IPointerDownHandler, IDragHandler {
+public class AltUnityExampleScriptDragPanel : MonoBehaviour, IPointerDownHandler, IDragHandler,IDropHandler {
 	
 	private Vector2 originalLocalPointerPosition;
 	private Vector3 originalPanelLocalPosition;
@@ -32,6 +32,20 @@ public class AltUnityExampleScriptDragPanel : MonoBehaviour, IPointerDownHandler
 		
 		ClampToWindow ();
 	}
+    public void OnDrop(PointerEventData data)
+    {
+        if (panelRectTransform == null || parentRectTransform == null)
+            return;
+
+        Vector2 localPointerPosition;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, data.position, data.pressEventCamera, out localPointerPosition))
+        {
+            Vector3 offsetToOriginal = localPointerPosition - originalLocalPointerPosition;
+            panelRectTransform.localPosition = originalPanelLocalPosition + offsetToOriginal;
+        }
+
+        ClampToWindow();
+    }
 	
 	// Clamp panel to area of parent
 	void ClampToWindow () {
