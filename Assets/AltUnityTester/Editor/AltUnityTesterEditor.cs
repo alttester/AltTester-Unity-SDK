@@ -166,7 +166,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
             altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
             EditorConfiguration = UnityEngine.ScriptableObject.CreateInstance<AltUnityEditorConfiguration>();
-            EditorConfiguration.MyTests=null;
+            EditorConfiguration.MyTests = null;
             UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltUnityTesterEditorSettings.asset");
             UnityEditor.AssetDatabase.SaveAssets();
 
@@ -184,6 +184,16 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     void OnInspectorUpdate()
     {
         Repaint();
+        if (isTestRunResultAvailable)
+        {
+            isTestRunResultAvailable = !UnityEditor.EditorUtility.DisplayDialog("Test Report",
+                  " Total tests:" + (reportTestFailed + reportTestPassed) + System.Environment.NewLine + " Tests passed:" +
+                  reportTestPassed + System.Environment.NewLine + " Tests failed:" + reportTestFailed + System.Environment.NewLine +
+                  " Duration:" + timeTestRan + " seconds", "Ok");
+            reportTestFailed = 0;
+            reportTestPassed = 0;
+            timeTestRan = 0;
+        }
     }
 
     private void OnGUI()
@@ -195,16 +205,6 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             Repaint();
         }
 
-        if (isTestRunResultAvailable)
-        {
-            isTestRunResultAvailable = !UnityEditor.EditorUtility.DisplayDialog("Test Report",
-                  " Total tests:" + (reportTestFailed + reportTestPassed) + System.Environment.NewLine + " Tests passed:" +
-                  reportTestPassed + System.Environment.NewLine + " Tests failed:" + reportTestFailed + System.Environment.NewLine +
-                  " Duration:" + timeTestRan + " seconds", "Ok");
-            reportTestFailed = 0;
-            reportTestPassed = 0;
-            timeTestRan = 0;
-        }
         if (UnityEngine.Application.isPlaying && !EditorConfiguration.ranInEditor)
         {
             EditorConfiguration.ranInEditor = true;
@@ -322,7 +322,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.Separator();
         UnityEditor.EditorGUILayout.Separator();
 
-        
+
         if (AltUnityBuilder.built)
         {
             var found = false;
@@ -467,7 +467,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
             }
         }
 
-        
+
 
         //Status test
 
@@ -1082,16 +1082,16 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         var parentNames = new List<string>();
         foreach (var test in tests)
         {
-            if(test.TestCaseCount == 0)
+            if (test.TestCaseCount == 0)
             {
                 continue;
             }
-            if(foldOutCounter > 0 && test.Type == typeof(NUnit.Framework.Internal.TestMethod))
+            if (foldOutCounter > 0 && test.Type == typeof(NUnit.Framework.Internal.TestMethod))
             {
                 foldOutCounter--;
                 continue;
             }
-            if(foldOutCounter > 0)
+            if (foldOutCounter > 0)
             {
                 continue;
             }
@@ -1194,7 +1194,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                     if (actualTime - timeSinceLastClick < 5000000)
                     {
 #if UNITY_2019_1_OR_NEWER
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1,0);
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1, 0);
 #else
                         UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
 #endif
@@ -1219,9 +1219,10 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         if (test.Type.ToString().Equals("NUnit.Framework.Internal.TestAssembly"))
         {
             var index = EditorConfiguration.MyTests.IndexOf(test);
-            for(int i= index + 1; i < EditorConfiguration.MyTests.Count; i++)
+            for (int i = index + 1; i < EditorConfiguration.MyTests.Count; i++)
             {
-                if (EditorConfiguration.MyTests[i].Type.ToString().Equals("NUnit.Framework.Internal.TestAssembly")){
+                if (EditorConfiguration.MyTests[i].Type.ToString().Equals("NUnit.Framework.Internal.TestAssembly"))
+                {
                     break;
                 }
                 else
@@ -1232,14 +1233,14 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         }
         else
         {
-                if (test.IsSuite)
+            if (test.IsSuite)
+            {
+                var index = EditorConfiguration.MyTests.IndexOf(test);
+                for (int i = index + 1; i <= index + test.TestCaseCount; i++)
                 {
-                    var index = EditorConfiguration.MyTests.IndexOf(test);
-                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
-                    {
-                        EditorConfiguration.MyTests[i].Selected = test.Selected;
-                    }
+                    EditorConfiguration.MyTests[i].Selected = test.Selected;
                 }
+            }
             if (test.Selected == false)
             {
                 while (test.ParentName != null)
@@ -1251,7 +1252,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
                         return;
                 }
             }
-                
+
         }
 
     }
