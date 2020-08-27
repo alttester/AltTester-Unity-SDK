@@ -14,6 +14,8 @@ An AltUnityDriver instance will connect to the AltUnity Server that is running i
 | requestEnding      |     string    |   No   | The default value for this is "&"|
 | logFlag         | boolean       |   No   | The default value for this is false|
 
+For more information about the AltUnityDriver parameters you can read the [Server Settings page](altunity-tester-editor.html#server-settings).
+
 Once you have an instance of the *AltUnityDriver*, you can use all the available commands to interact with the game. The available methods are the following:
 
 ### Find Objects
@@ -2259,6 +2261,7 @@ Loads the scene mentioned by its name.
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
 | scene      |     string    |   Yes   | Name of the scene to be loaded|
+| loadSingle |     bool      |   No    | Flag to set the mode how to load the scene. Default value is true. If set to false the scene will be loaded together with the current loaded scenes. |
 
 ***Returns***
 - Nothing
@@ -2272,7 +2275,7 @@ Loads the scene mentioned by its name.
         [Test]
         public void TestGetCurrentScene()
         {
-            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene",true);
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
         }
     .. code-tab:: java
@@ -2280,14 +2283,14 @@ Loads the scene mentioned by its name.
         @Test
         public void testGetCurrentScene() throws Exception
         {
-            altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
+            altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene",true);
             assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
         }
 
     .. code-tab:: py
 
        def test_get_current_scene(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene",True)
         self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
 ```
 
