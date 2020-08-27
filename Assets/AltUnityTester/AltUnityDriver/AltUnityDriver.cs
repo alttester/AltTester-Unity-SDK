@@ -44,17 +44,19 @@ public class AltUnityDriver
                 EnableLogging();
                 break;
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 if (Socket != null)
                     Stop();
+
                 string errorMessage = "Trying to reach AltUnity Server at port" + tcp_port + ",retrying in " + retryPeriod + " (timing out in " + timeout + " secs)...";
                 System.Console.WriteLine(errorMessage);
-                timeout -= retryPeriod;
-                System.Threading.Thread.Sleep(retryPeriod * 1000);
 #if UNITY_EDITOR
                 UnityEngine.Debug.Log(errorMessage);
 #endif
+
+                timeout -= retryPeriod;
+                System.Threading.Thread.Sleep(retryPeriod * 1000);
             }
             if (timeout <= 0)
             {
