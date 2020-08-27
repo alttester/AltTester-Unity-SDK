@@ -20,7 +20,12 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ![Build Settings](../_static/images/altUnityTesterWindow/BuildSettings.png)
 
-* Output Path: file name or path of the game for a game build
+* Output Path
+
+    Your build files are available in the configured Output Path.  
+    By default, the Output Path is a folder with the same name as your game.  
+    The file extension will be set automatically based on Platform, if game name in Output Path has no extension.
+
 * Company Name: company name used for the game build (same with Unity's Player Settings)
 * Product Name: the company name (same with Unity's Player Settings)
 * Input visualizer
@@ -77,35 +82,84 @@ You can also activate this option from within the test using the following code:
 
 ![Server Settings](../_static/images/altUnityTesterWindow/ServerSettings.png)
 
-* Request separator: character used for separating altUnityDriver requests
-* Request ending: character used for ending altUnityDriver requests
+* Request separator & Request ending
+
+    When sending a request to the AltUnity Server, each command is separated by the Request Separator and finishes with the Request ending character.  
+        For example, in Java, you'll see something like this in the log: `Sending rpc message [loadScene;Scene 2 Draggable Panel;&]`.
+
+    These characters should be changed (when making a game build) if a UI element in your game has one of them as element identifier.  
+    For example, if you have an element named as `item1; item2` and you want to find that element by using its name.
+
 * Server port
-* Port Forwarding 
 
-## Platform Settings
+    Refers to the port used by the AltUnity Server running inside the game.  
+    You can change this value and make a new game build if you want to use another port.
 
-``` sidebar:: screenshot
+* Port Forwarding
+    
+    In this section you can setup [Port Forwarding](advanced-usage.html#what-is-port-forwarding-and-when-to-use-it) on your device.  
+    Your device needs to be connected to the computer through USB and you need to click the Refresh button in the section to view it in the list.
 
-    .. image:: ../_static/images/altUnityTesterWindow/PlatformSettings.png
-        :scale: 60 %
-        :alt: platform settings image
-        :align: center
-        :target: `Platform Settings`_
+## Build & Run Settings
+
+*Platform Settings*
+
+```eval_rst
+.. tabs::
+
+    .. tab:: Platform
+
+        .. tabs::
+
+            .. tab:: Android
+
+                .. image:: ../_static/images/platformSettings/AltUnityWindowAndroid.png
+
+                The **Android Bundle Identifier** field: fill in a valid bundle ID.
+
+                The **Adb Path** field: provide the path to adb.
+
+            .. tab:: iOS
+
+                .. image:: ../_static/images/platformSettings/AltUnityWindowiOS.png
+
+                The **iOS Bundle Identifier** field: fill in a valid bundle ID.
+
+                The **Signing Team ID** field:  fill in with the team's ID.
+
+                The **Automatically Signed** field: check this for default signing.
+
+                The **Iproxy path** field: provide the path to iproxy.
+
+                The **Xcrun Path** field: provide the path to xcrun.
+
+            .. tab:: Editor
+
+                .. image:: ../_static/images/platformSettings/AltUnityWindowEditor.png
+
+            .. tab:: Standalone
+
+                .. image:: ../_static/images/platformSettings/AltUnityWindowStandalone.png
+
+                The **Build Target** filed: choose build mode according to platform.
+
 ```
 
-* Platform 
-    * Android / iOS / Editor / Standalone
+*Build Settings*
 
-* Build
     * Build Only
 
-* Run
+*Run Settings*
+
     * Play in Editor
     * Build & Run 
 
-* Run Tests
-    * All / Selected / Failed Tests from Test List 
-    
+*Run Tests Settings*
+
+    * Run All Tests
+    * Run Selected Tests
+    * Run Failed Tests 
+
 ```eval_rst
 .. note::
     Run Tests does not use the options set in the Platform section.

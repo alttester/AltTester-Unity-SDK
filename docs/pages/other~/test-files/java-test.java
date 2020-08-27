@@ -4,10 +4,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityObject;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
 
 import java.io.IOException;
 
-public class MyFirstTest {
+public class myFirstTest {
+        
     private static AltUnityDriver altdriver;
 
     @BeforeClass
@@ -22,12 +25,34 @@ public class MyFirstTest {
 
     @Test
     public void openClosePanelTest() {
+
         altdriver.loadScene("Scene 2 Draggable Panel");
 
-        altdriver.findObject(AltUnityDriver.By.NAME, "Close Button").tap();
-        altdriver.findObject(AltUnityDriver.By.NAME, "Button").tap();
+        AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters
+                .Builder(AltUnityDriver.By.PATH, "//Main Camera")
+                .build();
+        AltUnityObject camera = altdriver.findObject(altFindObjectsParametersCamera);
 
-        AltUnityObject panelElement = altdriver.waitForObject(AltUnityDriver.By.NAME, "Panel");
+        AltFindObjectsParameters closeButtonObjectsParameters = new AltFindObjectsParameters
+                .Builder(AltUnityDriver.By.NAME, "Close Button")
+                .withCamera(AltUnityDriver.By.ID, String.valueOf(camera.id))
+                .build();
+        altdriver.findObject(closeButtonObjectsParameters).tap();
+
+        AltFindObjectsParameters buttonObjectsParameters = new AltFindObjectsParameters
+                .Builder(AltUnityDriver.By.NAME, "Button")
+                .withCamera(AltUnityDriver.By.ID, String.valueOf(camera.id))
+                .build();
+        altdriver.findObject(buttonObjectsParameters).tap();
+
+        AltFindObjectsParameters panelObjectsParameters = new AltFindObjectsParameters
+                .Builder(AltUnityDriver.By.NAME, "Panel")
+                .withCamera(AltUnityDriver.By.ID, String.valueOf(camera.id))
+                .build();
+        AltWaitForObjectsParameters panelWaitForObjectsParameters = new AltWaitForObjectsParameters
+                .Builder(panelObjectsParameters).build();
+        AltUnityObject panelElement = altdriver.waitForObject(panelWaitForObjectsParameters);
+
         Assert.assertTrue(panelElement.isEnabled());
     }
 }

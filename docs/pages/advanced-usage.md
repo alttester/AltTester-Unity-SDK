@@ -109,7 +109,8 @@ Port forwarding can be set up in two ways:
 
             .. tab:: Android
 
-                - Have ADB installed and added in PATH (check `this article <https://www.xda-developers.com/install-adb-windows-macos-linux/>`_ for more information on how to install it).
+                - Have ADB installed and added in PATH Environment Variables (check `this article <https://developer.android.com/studio/command-line/adb>`_ for more information on ADB)
+                - Click on the refresh button in the Port Forwarding section in the Editor
                 - Forward the port using the following command: 
 
                     ``adb [-s UDID] forward tcp:local_port tcp:device_port``
@@ -117,6 +118,7 @@ Port forwarding can be set up in two ways:
             .. tab:: iOS
 
                 - Install IProxy: ``brew install libimobiledevice``
+                - Click on the refresh button in the Port Forwarding section in the Editor
                 - Forward the port using the following command: 
 
                     ``iproxy LOCAL_TCP_PORT DEVICE_TCP_PORT [UDID]``
@@ -127,6 +129,7 @@ Port forwarding can be set up in two ways:
 
             .. tab:: Android
 
+                Set up the path to ADB in AltUnity Editor window by writting it in the `Adb Path <altunity-tester-editor.html#build-run-settings>`_ input field.
                 Use the following static methods (from the AltUnityPortHandler class) in your test file:
         
                     - ForwardAndroid (string deviceId = "", int localPort = 13000, int remotePort = 13000)
@@ -139,6 +142,7 @@ Port forwarding can be set up in two ways:
 
             .. tab:: iOS
 
+                Set up IProxy path in AltUnity Editor window.
                 Use the following static methods (from the AltUnityPortHandler class) in your test file:
 
                     - ForwardIos (string id = "", int localPort = 13000, int remotePort = 13000)
@@ -150,6 +154,8 @@ Port forwarding can be set up in two ways:
                         :code: c#
 
     .. tab:: Java
+
+        Have ADB installed and added in PATH Environment Variables (check `this article <https://developer.android.com/studio/command-line/adb>`_ for more information on ADB) for Android and IProxy for iOS.
 
         Use the following static methods (from the AltUnityDriver class) in your test file:
 
@@ -171,6 +177,8 @@ Port forwarding can be set up in two ways:
                         :code: java
 
     .. tab:: Python
+
+        Have ADB installed and added in PATH Environment Variables (check `this article <https://developer.android.com/studio/command-line/adb>`_ for more information on ADB) for Android and IProxy for iOS.
 
         .. tabs:: 
             
@@ -255,7 +263,7 @@ The following command can be used to connect to the altUnity server inside the g
 
     .. code-tab:: py
 
-            cls.altdriver = AltrunUnityDriver (None, 'android', 'deviceIp', 13000)
+            cls.altdriver = AltUnityDriver(TCP_IP='deviceIp', TCP_PORT=13000)
 ```
 
 ### Connect to multiple devices running the game
