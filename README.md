@@ -11,8 +11,10 @@ Our documentation is available here:
 
 ## Support
 
+* Join our Discord Server: https://discord.gg/Ag9RSuS
+ 
 * Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/forum/#!forum/altunityforum
 
-* Join our Gitter room here to chat with others in the community: https://gitter.im/AltUnityTester
+
 
  
