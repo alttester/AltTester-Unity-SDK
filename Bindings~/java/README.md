@@ -6,7 +6,7 @@ Using this socket connection and the actions available in the AltUnity driver, w
 
 Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/forum/#!forum/altunityforum
 
-Join our Gitter room here to chat with others in the community: https://gitter.im/AltUnityTester
+Join our Discord Server to chat with other members of the community: https://discord.gg/Ag9RSuS
 
 Read the documentation on https://altom.gitlab.io/altunity/altunitytester 
 
