@@ -294,17 +294,17 @@ public class AltUnityTestRunner
     public static void SetUpListTest()
     {
         var reload = AltUnityTesterEditor.EditorConfiguration.MyTests == null;
-        if(!reload)
+        if (!reload)
         {
-            foreach(var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+            foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
             {
-                if(test.Type == null)
+                if (test.Type == null)
                 {
                     reload = true;
                 }
             }
         }
-        if(reload == false)
+        if (reload == false)
         {
             return;
         }
@@ -347,7 +347,7 @@ public class AltUnityTestRunner
     {
         bool classCheck = true;
         bool assemblyCheck = true;
-        for(int i = myTests.Count - 1; i >= 0; i--)
+        for (int i = myTests.Count - 1; i >= 0; i--)
         {
             AltUnityMyTest test = myTests[i];
             System.Type testType = test.Type;
@@ -401,12 +401,12 @@ public class AltUnityTestRunner
             }
         }
         var parentName = string.Empty;
-        if(testSuite.Parent.FullName!=null)
-            parentName= testSuite.Parent.FullName;
+        if (testSuite.Parent != null)
+            parentName = testSuite.Parent.FullName;
         AltUnityMyTest index = null;
-        if (AltUnityTesterEditor.EditorConfiguration.MyTests!=null)
-           index = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName) && a.ParentName.Equals(parentName));
-        if(index == null)
+        if (AltUnityTesterEditor.EditorConfiguration.MyTests != null)
+            index = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName) && a.ParentName.Equals(parentName));
+        if (index == null)
         {
             newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
                 parentName, testSuite.TestCaseCount, false, null, null, 0, path));
@@ -418,7 +418,7 @@ public class AltUnityTestRunner
         }
 
 
-        foreach(var test in testSuite.Tests)
+        foreach (var test in testSuite.Tests)
         {
             addTestSuiteToMyTest(test, newMyTests);
         }
@@ -428,7 +428,7 @@ public class AltUnityTestRunner
     {
 
         var arguments = System.Environment.GetCommandLineArgs();
-        
+
         bool runAllTests = true;
         var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
         NUnit.Framework.Internal.TestSuite testSuite = null;
