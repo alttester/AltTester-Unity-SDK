@@ -10,7 +10,7 @@ AltUnity Tester is an open-source UI driven test automation tool that helps you 
 
 Join our Google Group `here <https://groups.google.com/a/altom.com/forum/#!forum/altunityforum>`__ for questions and discussions.
 
-Join our Gitter chat room `here <https://gitter.im/AltUnityTester>`__ to chat with us or with other members of the community.
+Join our Discord Server `here <https://discord.gg/Ag9RSuS>`__ to chat with us or with other members of the community.
 
 .. toctree::
    :caption: Table of contents:
@@ -31,4 +31,4 @@ Join our Gitter chat room `here <https://gitter.im/AltUnityTester>`__ to chat wi
     :caption: Community:
 
     Google Group <https://groups.google.com/a/altom.com/forum/#!forum/altunityforum>
-    Gitter <https://gitter.im/AltUnityTester>
+    Discord <https://discord.gg/Ag9RSuS>
