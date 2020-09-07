@@ -2255,13 +2255,12 @@ None
 
 Loads the scene mentioned by its name.
 
-
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
 | scene      |     string    |   Yes   | Name of the scene to be loaded|
-| loadSingle |     bool      |   No    | Flag to set the mode how to load the scene. Default value is true. If set to false the scene will be loaded together with the current loaded scenes. |
+| loadSingle |     bool      |   No    | Flag to set the mode how to load the scene. Default value is true. If set to false the scene will be loaded additive, together with the current loaded scenes. |
 
 ***Returns***
 - Nothing
@@ -2292,6 +2291,67 @@ Loads the scene mentioned by its name.
        def test_get_current_scene(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene",True)
         self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
+```
+
+#### GetAllLoadedScenes
+
+Returns all the scenes that have been loaded.
+
+***Parameters***
+- None
+
+***Returns***
+- List of strings
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+       [Test]
+        public void TestGetAllLoadedScenes()
+        {
+            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+            System.Collections.Generic.List<string> loadedSceneNames = AltUnityDriver.GetAllLoadedScenes();
+            Assert.AreEqual(loadedSceneNames.Count, 1);
+            AltUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
+            AltUnityDriver.LoadScene("Scene 3 Drag And Drop", false);
+            AltUnityDriver.LoadScene("Scene 4 No Cameras", false);
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input", false);
+            loadedSceneNames = AltUnityDriver.GetAllLoadedScenes();
+            Assert.AreEqual(loadedSceneNames.Count, 5);
+        } 
+
+    .. code-tab:: java
+
+        @Test
+        public void TestGetAllLoadedScenes()
+        {
+            altdriver.loadScene("Scene 1 AltUnityDriverTestScene");
+            List<String> loadedSceneNames = altdriver.getAllLoadedScenes();
+            assertEquals(loadedSceneNames.size(), 1);
+            altdriver.loadScene("Scene 2 Draggable Panel", false);
+            altdriver.loadScene("Scene 3 Drag And Drop", false);
+            altdriver.loadScene("Scene 4 No Cameras", false);
+            altdriver.loadScene("Scene 5 Keyboard Input", false);
+            loadedSceneNames = altdriver.getAllLoadedScenes();
+            assertEquals(loadedSceneNames.size(), 5);
+        }
+
+    .. code-tab:: py
+
+        def test_get_all_loaded_scenes(self):
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            scenes_loaded = self.altdriver.get_all_loaded_scenes()
+            self.assertEqual(len(scenes_loaded),1)
+            self.altdriver.load_scene("Scene 2 Draggable Panel", False)
+            self.altdriver.load_scene("Scene 3 Drag And Drop",False)
+            self.altdriver.load_scene("Scene 4 No Cameras",False)
+            self.altdriver.load_scene("Scene 5 Keyboard Input",False)
+            scenes_loaded = self.altdriver.get_all_loaded_scenes()
+            self.assertEqual(len(scenes_loaded),5) 
+
 ```
 
 ####  CallStaticMethod
