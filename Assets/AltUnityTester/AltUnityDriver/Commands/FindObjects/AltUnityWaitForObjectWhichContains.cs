@@ -8,7 +8,7 @@ public class AltUnityWaitForObjectWhichContains : AltUnityBaseFindObjects
     double timeout;
     double interval;
 
-    public AltUnityWaitForObjectWhichContains (SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
+    public AltUnityWaitForObjectWhichContains(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
@@ -40,6 +40,6 @@ public class AltUnityWaitForObjectWhichContains : AltUnityBaseFindObjects
             return altElement;
         throw new Assets.AltUnityTester.AltUnityDriver.WaitTimeOutException("Element " + value + " not loaded after " + timeout + " seconds");
     }
-    
+
 }
 

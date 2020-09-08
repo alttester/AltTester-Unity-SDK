@@ -7,14 +7,14 @@ import ro.altom.altunitytester.AltUnityObject;
 /**
  * Find all the objects in the scene which respect the given criteria.
  */
-public class AltFindObjectsWhichContains extends AltBaseFindObject {
+public class AltFindObjectsWhichContain extends AltBaseFindObject {
     /**
      * @param altFindObjectsParameters the properties parameter for finding the
      *                                 objects in a scene.
      */
     private AltFindObjectsParameters altFindObjectsParameters;
 
-    public AltFindObjectsWhichContains(AltBaseSettings altBaseSettings,
+    public AltFindObjectsWhichContain(AltBaseSettings altBaseSettings,
             AltFindObjectsParameters altFindObjectsParameters) {
         super(altBaseSettings);
         this.altFindObjectsParameters = altFindObjectsParameters;
