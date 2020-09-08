@@ -296,7 +296,7 @@ public class AltUnityDriver
     {
         new AltUnityWaitForObjectNotBePresent(socketSettings, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
     }
-    [System.Obsolete()]
+    [System.Obsolete("Use instead WaitForObjectWhichContains")]
     public AltUnityObject WaitForObjectWhichContains(By by, string value, string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         return new AltUnityWaitForObjectWhichContains(socketSettings, by, value, By.NAME, cameraName, enabled, timeout, interval).Execute();

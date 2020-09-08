@@ -84,10 +84,16 @@ class AltrunUnityDriver(object):
             camera_by, camera_path)
         return FindObjects(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
 
+    def find_objects_which_contain(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
+        return FindObjectsWhichContain(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
+
+    @deprecated(version='1.5.7', reason="Use find_objects_which_contain instead")
     def find_objects_which_contains(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
-        return FindObjectsWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
+        return FindObjectsWhichContain(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
 
     @deprecated(version='1.4.0', reason="Use find_object instead")
     def find_element(self, name, camera_name='', enabled=True):
@@ -101,7 +107,7 @@ class AltrunUnityDriver(object):
     def find_elements(self, name, camera_name='', enabled=True):
         return FindElements(self.socket, self.request_separator, self.request_end, self.appium_driver, name, camera_name, enabled).execute()
 
-    @deprecated(version='1.4.0', reason="Use find_objects_which_contains instead")
+    @deprecated(version='1.4.0', reason="Use find_objects_which_contain instead")
     def find_elements_where_name_contains(self, name, camera_name='', enabled=True):
         return FindElementsWhereNameContains(self.socket, self.request_separator, self.request_end, self.appium_driver, name, camera_name, enabled).execute()
 
@@ -310,10 +316,16 @@ class AltUnityDriver(object):
             camera_by, camera_path)
         return FindObjects(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
 
+    def find_objects_which_contain(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
+        camera_by, camera_path = self.is_camera_by_string(
+            camera_by, camera_path)
+        return FindObjectsWhichContain(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
+
+    @deprecated(version='1.5.7', reason="Use find_objects_which_contain instead")
     def find_objects_which_contains(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
-        return FindObjectsWhichContains(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
+        return FindObjectsWhichContain(self.socket, self.request_separator, self.request_end, self.appium_driver, by, value, camera_by, camera_path, enabled).execute()
 
     @deprecated(version='1.4.0', reason="Use find_object instead")
     def find_element(self, name, camera_name='', enabled=True):
@@ -327,7 +339,7 @@ class AltUnityDriver(object):
     def find_elements(self, name, camera_name='', enabled=True):
         return FindElements(self.socket, self.request_separator, self.request_end, self.appium_driver, name, camera_name, enabled).execute()
 
-    @deprecated(version='1.4.0', reason="Use find_objects_which_contains instead")
+    @deprecated(version='1.4.0', reason="Use find_objects_which_contain instead")
     def find_elements_where_name_contains(self, name, camera_name='', enabled=True):
         return FindElementsWhereNameContains(self.socket, self.request_separator, self.request_end, self.appium_driver, name, camera_name, enabled).execute()
 

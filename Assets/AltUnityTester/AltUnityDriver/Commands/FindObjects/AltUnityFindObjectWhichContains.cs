@@ -1,4 +1,4 @@
-public class AltUnityFindObjectWhichContains : AltUnityBaseFindObjects
+﻿public class AltUnityFindObjectWhichContains : AltUnityBaseFindObjects
 {
     By by;
     string value;

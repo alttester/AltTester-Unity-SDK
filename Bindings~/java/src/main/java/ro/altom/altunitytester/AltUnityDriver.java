@@ -449,13 +449,19 @@ public class AltUnityDriver {
      * @param altFindObjectsParameters
      * @return all objects containing the given criteria
      */
-    public AltUnityObject[] findObjectsWhichContains(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObjectsWhichContains(altBaseSettings, altFindObjectsParameters).Execute();
+    public AltUnityObject[] findObjectsWhichContain(AltFindObjectsParameters altFindObjectsParameters) {
+        return new AltFindObjectsWhichContain(altBaseSettings, altFindObjectsParameters).Execute();
     }
 
+    @Deprecated
+    public AltUnityObject[] findObjectsWhichContains(AltFindObjectsParameters altFindObjectsParameters) {
+        return new AltFindObjectsWhichContain(altBaseSettings, altFindObjectsParameters).Execute();
+    }
+    
+    @Deprecated
     public AltUnityObject[] findObjectsWhichContains(By by, String value, By cameraBy, String cameraPath,
             boolean enabled) {
-        return findObjectsWhichContains(BuildFindObjectsParameters(by, value, cameraBy, cameraPath, enabled));
+        return findObjectsWhichContain(BuildFindObjectsParameters(by, value, cameraBy, cameraPath, enabled));
     }
 
     @Deprecated
