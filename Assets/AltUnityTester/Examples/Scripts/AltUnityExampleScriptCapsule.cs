@@ -9,6 +9,10 @@ public class AltUnityExampleScriptCapsule : MonoBehaviour {
     public int[] arrayOfInts = {1, 2, 3};
     public bool TestBool = true;
     public string stringToSetFromTests = "intialValue";
+    public static int PublicStaticVariable = 0;
+    
+    private int privateVariable = 0;
+    private static int privateStaticVariable = 0;
 
     private void Update()
     {

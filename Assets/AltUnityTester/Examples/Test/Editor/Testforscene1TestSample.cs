@@ -236,6 +236,38 @@ public class TestForScene1TestSample
         Assert.AreEqual("[1,2,3]", propertyValue);
     }
 
+    [Test]
+    public void TestGetComponentPropertyPrivate()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "privateVariable";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("0", propertyValue);
+    }
+
+    [Test]
+    public void TestGetComponentPropertyStatic()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "privateStaticVariable";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("0", propertyValue);
+    }
+    [Test]
+    public void TestGetComponentPropertyStaticPublic()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "PublicStaticVariable";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("0", propertyValue);
+    }
+
 #if !UNITY_IOS
     [Test]
     public void TestGetComponentPropertyUnityEngine()
