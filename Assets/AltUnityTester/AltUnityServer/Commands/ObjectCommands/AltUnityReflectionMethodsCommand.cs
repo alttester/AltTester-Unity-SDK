@@ -53,8 +53,8 @@ namespace Assets.AltUnityTester.AltUnityServer
         {
             System.Type componentType;
             componentType = GetType(altUnityObjectProperty.Component, altUnityObjectProperty.Assembly);
-            System.Reflection.PropertyInfo propertyInfo = componentType.GetProperty(altUnityObjectProperty.Property);
-            System.Reflection.FieldInfo fieldInfo = componentType.GetField(altUnityObjectProperty.Property);
+            System.Reflection.PropertyInfo propertyInfo = componentType.GetProperty(altUnityObjectProperty.Property, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
+            System.Reflection.FieldInfo fieldInfo = componentType.GetField(altUnityObjectProperty.Property, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
             if (AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType) != null)
             {
                 if (propertyInfo != null)
