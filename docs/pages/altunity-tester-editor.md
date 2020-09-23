@@ -36,7 +36,9 @@ In the following sections you can see a breakdown of all the sections in the GUI
 ```
 To activate this option before build check the "Input visualizer" checkbox.
 
-![inputvisualizer](../_static/images/inpv.gif)
+|     Input Visualizer Disabled     |     Input Visualizer Enabled    |
+| ---------------------------------- | ----------------------------- | 
+|   ![noinputvisualizer](../_static/images/noinpv.gif)   |   ![inputvisualizer](../_static/images/inpv.gif)  |
 
 You can also activate this option from within the test using the following code:
 
