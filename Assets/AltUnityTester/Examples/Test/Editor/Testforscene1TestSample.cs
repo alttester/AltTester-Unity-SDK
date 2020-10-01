@@ -1162,6 +1162,12 @@ public class TestForScene1TestSample
         Assert.IsTrue(scenes.Count == 2);
         altUnityDriver.LoadScene("Scene 2 Draggable Panel", true);
     }
+    [Test]
+    public void TestGetAltUnityObjectWithCanvasParentButOnlyTransform()
+    {
+        var altUnityObject = altUnityDriver.FindObject(By.NAME, "UIWithWorldSpace/Plane");
+        Assert.NotNull(altUnityObject);
+    }
 
 
 }

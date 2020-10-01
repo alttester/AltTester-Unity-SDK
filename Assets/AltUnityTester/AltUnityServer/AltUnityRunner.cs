@@ -198,12 +198,15 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                         return canvas.worldCamera.WorldToScreenPoint(gameObject.transform.position);
                     }
                 }
-                UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
-                gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
-                var center = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
-                if (canvas.worldCamera != null)
+                else
                 {
-                    return canvas.worldCamera.WorldToScreenPoint(center);
+                    UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
+                    gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
+                    var center = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
+                    if (canvas.worldCamera != null)
+                    {
+                        return canvas.worldCamera.WorldToScreenPoint(center);
+                    }
                 }
             }
             if (gameObject.GetComponent<UnityEngine.RectTransform>() != null)
@@ -226,9 +229,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         int cameraId = -1;
         //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
         //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
+        try { 
         if (camera == null)
         {
-            _position = new UnityEngine.Vector3(-1, -1, -1);
+            _position = UnityEngine.Vector3.one * -1;
             foreach (var camera1 in UnityEngine.Camera.allCameras)
             {
                 _position = getObjectScreePosition(altGameObject, camera1);
@@ -245,6 +249,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             cameraId = camera.GetInstanceID();
 
         }
+        }
+        catch (Exception)
+        {
+            _position = UnityEngine.Vector3.one * -1;
+            cameraId = -1;
+        }
+
         int parentId = 0;
         if (altGameObject.transform.parent != null)
         {
