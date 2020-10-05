@@ -171,6 +171,30 @@ class PythonTests(unittest.TestCase):
         self.assertEqual('setFromMethod', self.altdriver.find_element(
             'CapsuleInfo').get_text())
 
+    def test_call_component_method_invalid_parameter_type(self):
+        try:
+            result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
+                "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters", "1?stringparam?0.5?[1,2,3]", "", "System.Stringgg")
+            self.fail()
+        except InvalidParameterTypeException as e:
+            self.assertEqual("error:invalidParameterType", str(e))
+
+    def test_call_component_method_assembly_not_found(self):
+        try:
+            result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
+                "RandomComponent", "TestMethodWithManyParameters", "1?stringparam?0.5?[1,2,3]", "RandomAssembly", "")
+            self.fail()
+        except AssemblyNotFoundException as e:
+            self.assertEqual("error:assemblyNotFound", str(e))
+
+    def test_call_component_method_incorrect_number_of_parameters(self):
+        try:
+            result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
+                "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters", "stringparam?0.5?[1,2,3]", "", "")
+            self.fail()
+        except MethodWithGivenParametersNotFoundException as e:
+            self.assertEqual("error:methodWithGivenParametersNotFound", str(e))
+
     def test_pointer_enter_and_exit(self):
         self.altdriver.load_scene('Scene 3 Drag And Drop')
 

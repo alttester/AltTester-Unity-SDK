@@ -60,12 +60,16 @@ class BaseCommand(object):
                 raise MethodNotFoundException(data)
             elif ('error:componentNotFound' in data):
                 raise ComponentNotFoundException(data)
+            elif ('error:assemblyNotFound' in data):
+                raise AssemblyNotFoundException(data)
             elif ('error:couldNotPerformOperation' in data):
                 raise CouldNotPerformOperationException(data)
             elif ('error:couldNotParseJsonString' in data):
                 raise CouldNotParseJsonStringException(data)
-            elif ('error:incorrectNumberOfParameters' in data):
-                raise IncorrectNumberOfParametersException(data)
+            elif ('error:methodWithGivenParametersNotFound' in data):
+                raise MethodWithGivenParametersNotFoundException(data)
+            elif ('error:invalidParameterType' in data):
+                raise InvalidParameterTypeException(data)
             elif ('error:failedToParseMethodArguments' in data):
                 raise FailedToParseArgumentsException(data)
             elif ('error:objectNotFound' in data):

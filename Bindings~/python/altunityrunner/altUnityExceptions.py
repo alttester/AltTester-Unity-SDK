@@ -17,14 +17,22 @@ class MethodNotFoundException(AltUnityException):
 class ComponentNotFoundException(AltUnityException):
     def __init__(self,message):
         super(ComponentNotFoundException,self).__init__(message)
+        
+class AssemblyNotFoundException(AltUnityException):
+    def __init__(self,message):
+        super(AssemblyNotFoundException, self).__init__(message)
 
 class CouldNotPerformOperationException(AltUnityException):
     def __init__(self,message):
         super(CouldNotPerformOperationException,self).__init__(message)
 
-class IncorrectNumberOfParametersException(AltUnityException):
+class MethodWithGivenParametersNotFoundException(AltUnityException):
     def __init__(self,message):
-        super(IncorrectNumberOfParametersException,self).__init__(message)
+        super(MethodWithGivenParametersNotFoundException,self).__init__(message)
+
+class InvalidParameterTypeException(AltUnityException):
+    def __init__(self,message):
+        super(InvalidParameterTypeException,self).__init__(message)
 
 class CouldNotParseJsonStringException(AltUnityException):
     def __init__(self,message):

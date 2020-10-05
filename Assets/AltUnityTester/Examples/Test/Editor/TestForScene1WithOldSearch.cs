@@ -30,7 +30,7 @@ public class TestForScene1WithOldSearch
     {
         altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
     }
-    
+
 
     [Test]
     public void TestFindElement()
@@ -73,7 +73,7 @@ public class TestForScene1WithOldSearch
         Assert.IsNotEmpty(altElements);
         Assert.True(altElements[0].name.Contains(name));
     }
-    
+
 
     [Test]
     public void TestWaitForExistingElement()
@@ -212,7 +212,7 @@ public class TestForScene1WithOldSearch
         Assert.AreEqual("[1,2,3]", propertyValue);
     }
 
-    #if !UNITY_IOS
+#if !UNITY_IOS
     [Test]
     public void TestGetComponentPropertyUnityEngine()
     {
@@ -223,7 +223,7 @@ public class TestForScene1WithOldSearch
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual("false", propertyValue);
     }
-    #endif 
+#endif
 
     [Test]
     public void TestSetComponentProperty()
@@ -300,9 +300,9 @@ public class TestForScene1WithOldSearch
             altElement.CallComponentMethod(componentName, methodName, parameters);
             Assert.Fail();
         }
-        catch (IncorrectNumberOfParametersException exception)
+        catch (MethodWithGivenParametersNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:incorrectNumberOfParameters");
+            Assert.AreEqual(exception.Message, "error:methodWithGivenParametersNotFound");
         }
 
     }
@@ -319,13 +319,13 @@ public class TestForScene1WithOldSearch
             altElement.CallComponentMethod(componentName, methodName, parameters);
             Assert.Fail();
         }
-        catch (IncorrectNumberOfParametersException exception)
+        catch (MethodWithGivenParametersNotFoundException exception)
         {
-            Assert.AreEqual("error:incorrectNumberOfParameters", exception.Message);
+            Assert.AreEqual("error:methodWithGivenParametersNotFound", exception.Message);
         }
     }
 
-    
+
     [Test]
     public void TestDifferentCamera()
     {
