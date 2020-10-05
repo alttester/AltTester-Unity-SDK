@@ -9,19 +9,25 @@ public abstract class AltUnityCommand
             {
                 response = Execute();
             }
-            catch (System.NullReferenceException exception)
+            catch (System.NullReferenceException e)
             {
-                UnityEngine.Debug.Log(exception);
+                UnityEngine.Debug.Log(e);
                 response = AltUnityRunner._altUnityRunner.errorNullRefferenceMessage;
             }
-            catch (System.ArgumentException exception)
+            catch (Assets.AltUnityTester.AltUnityDriver.FailedToParseArgumentsException e)
             {
-                UnityEngine.Debug.Log(exception);
+                UnityEngine.Debug.Log(e);
                 response = AltUnityRunner._altUnityRunner.errorFailedToParseArguments;
             }
-            catch (System.Reflection.TargetParameterCountException)
+            catch (Assets.AltUnityTester.AltUnityDriver.MethodWithGivenParametersNotFoundException e)
             {
-                response = AltUnityRunner._altUnityRunner.errorIncorrectNumberOfParameters;
+                UnityEngine.Debug.Log(e);
+                response = AltUnityRunner._altUnityRunner.errorMethodWithGivenParametersNotFound;
+            }
+            catch (Assets.AltUnityTester.AltUnityDriver.InvalidParameterTypeException e)
+            {
+                UnityEngine.Debug.Log(e);
+                response = AltUnityRunner._altUnityRunner.errorInvalidParameterType;
             }
             catch (Newtonsoft.Json.JsonException e)
             {
@@ -33,10 +39,21 @@ public abstract class AltUnityCommand
                 UnityEngine.Debug.Log(e);
                 response = AltUnityRunner._altUnityRunner.errorComponentNotFoundMessage;
             }
+            catch (Assets.AltUnityTester.AltUnityDriver.MethodNotFoundException e)
+            {
+                AltUnityRunner._altUnityRunner.LogMessage(e.ToString());
+                UnityEngine.Debug.Log(e);
+                response = AltUnityRunner._altUnityRunner.errorMethodNotFoundMessage;
+            }
             catch (Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException e)
             {
                 UnityEngine.Debug.Log(e);
                 response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
+            }
+            catch (Assets.AltUnityTester.AltUnityDriver.AssemblyNotFoundException e)
+            {
+                UnityEngine.Debug.Log(e);
+                response = AltUnityRunner._altUnityRunner.errorAssemblyNotFoundMessage;
             }
             catch (System.Exception exception)
             {
@@ -51,5 +68,5 @@ public abstract class AltUnityCommand
         });
     }
     public abstract string Execute();
-    
+
 }

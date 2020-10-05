@@ -87,7 +87,6 @@ public class AltBaseCommand {
             command += argument + altBaseSettings.RequestSeparator;
         }
         return command + altBaseSettings.RequestEnd;
-
     }
 
     protected void handleErrors(String data) {
@@ -100,12 +99,16 @@ public class AltBaseCommand {
             throw new MethodNotFoundException(data);
         } else if ("error:componentNotFound".equals(typeOfException)) {
             throw new ComponentNotFoundException(data);
+        } else if ("error:invalidParameterType".equals(typeOfException)) {
+            throw new InvalidParameterTypeException(data);
+        } else if ("error:assemblyNotFound".equals(typeOfException)) {
+            throw new AssemblyNotFoundException(data);
         } else if ("error:couldNotPerformOperation".equals(typeOfException)) {
             throw new CouldNotPerformOperationException(data);
         } else if ("error:couldNotParseJsonString".equals(typeOfException)) {
             throw new CouldNotParseJsonStringException(data);
-        } else if ("error:incorrectNumberOfParameters".equals(typeOfException)) {
-            throw new IncorrectNumberOfParametersException(data);
+        } else if ("error:methodWithGivenParametersNotFound".equals(typeOfException)) {
+            throw new MethodWithGivenParametersNotFoundException(data);
         } else if ("error:failedToParseMethodArguments".equals(typeOfException)) {
             throw new FailedToParseArgumentsException(data);
         } else if ("error:objectNotFound".equals(typeOfException)) {

@@ -207,6 +207,25 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestGetComponentPropertyNotFoundWithAssembly()
+    {
+        Thread.Sleep(1000);
+        const string componentName = "AltUnityRunner";
+        const string propertyName = "InvalidProperty";
+        var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
+        Assert.NotNull(altElement);
+        try
+        {
+            var propertyValue = altElement.GetComponentProperty(componentName, propertyName, "Assembly-CSharp");
+            Assert.Fail();
+        }
+        catch (PropertyNotFoundException e)
+        {
+            Assert.AreEqual(e.Message, "error:propertyNotFound");
+        }
+    }
+
+    [Test]
     public void TestGetNonExistingComponentProperty()
     {
         Thread.Sleep(1000);
@@ -356,15 +375,14 @@ public class TestForScene1TestSample
             altElement.CallComponentMethod(componentName, methodName, parameters);
             Assert.Fail();
         }
-        catch (IncorrectNumberOfParametersException exception)
+        catch (MethodWithGivenParametersNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:incorrectNumberOfParameters");
+            Assert.AreEqual(exception.Message, "error:methodWithGivenParametersNotFound");
         }
-
     }
 
     [Test]
-    public void TestCallMethodWithIncorrectTypeOfParameters()
+    public void TestCallMethodWithIncorrectNumberOfParameters2()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
@@ -375,11 +393,65 @@ public class TestForScene1TestSample
             altElement.CallComponentMethod(componentName, methodName, parameters);
             Assert.Fail();
         }
-        catch (IncorrectNumberOfParametersException exception)
+        catch (MethodWithGivenParametersNotFoundException exception)
         {
-            Assert.AreEqual("error:incorrectNumberOfParameters", exception.Message);
+            Assert.AreEqual("error:methodWithGivenParametersNotFound", exception.Message);
         }
     }
+
+    [Test]
+    public void TestCallMethodAssmeblyNotFound()
+    {
+        const string componentName = "RandomComponent";
+        const string methodName = "TestMethodWithManyParameters";
+        const string parameters = "a?stringparam?0.5?[1,2,3]";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        try
+        {
+            altElement.CallComponentMethod(componentName, methodName, parameters, "", "RandomAssembly");
+            Assert.Fail();
+        }
+        catch (AssemblyNotFoundException exception)
+        {
+            Assert.AreEqual("error:assemblyNotFound", exception.Message);
+        }
+    }
+
+    [Test]
+    public void TestCallMethodInvalidMethodArgumentTypes()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithManyParameters";
+        const string parameters = "stringnotint?stringparam?0.5?[1,2,3]";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        try
+        {
+            altElement.CallComponentMethod(componentName, methodName, parameters);
+            Assert.Fail();
+        }
+        catch (FailedToParseArgumentsException exception)
+        {
+            Assert.AreEqual("error:failedToParseMethodArguments", exception.Message);
+        }
+    }
+    [Test]
+    public void TestCallMethodInvalidParameterType()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithManyParameters";
+        const string parameters = "1?stringparam?0.5?[1,2,3]";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        try
+        {
+            altElement.CallComponentMethod(componentName, methodName, parameters, "System.Stringggggg");
+            Assert.Fail();
+        }
+        catch (InvalidParameterTypeException exception)
+        {
+            Assert.AreEqual("error:invalidParameterType", exception.Message);
+        }
+    }
+
 
     [Test]
     public void TestSetKeyInt()
@@ -581,13 +653,11 @@ public class TestForScene1TestSample
         {
             Assert.AreEqual("Element //*[contains(@name,xyz)] not loaded after 1 seconds", exception.Message);
         }
-
     }
 
     [Test]
     public void TestCallStaticMethod()
     {
-
         altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
         int a = Int32.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
         Assert.AreEqual(1, a);

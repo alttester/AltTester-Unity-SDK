@@ -274,8 +274,8 @@ public class TestsSampleScene1OldSearch {
         try {
             altElement.callComponentMethod(componentName, methodName, parameters);
             fail();
-        } catch (IncorrectNumberOfParametersException e) {
-            assertEquals(e.getMessage(), "error:incorrectNumberOfParameters");
+        } catch (MethodWithGivenParametersNotFoundException e) {
+            assertEquals(e.getMessage(), "error:methodWithGivenParametersNotFound");
         }
     }
 
@@ -288,8 +288,8 @@ public class TestsSampleScene1OldSearch {
         try {
             altElement.callComponentMethod(componentName, methodName, parameters);
             fail();
-        } catch (IncorrectNumberOfParametersException e) {
-            assertEquals(e.getMessage(), "error:incorrectNumberOfParameters");
+        } catch (MethodWithGivenParametersNotFoundException e) {
+            assertEquals(e.getMessage(), "error:methodWithGivenParametersNotFound");
         }
     }
 

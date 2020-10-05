@@ -382,8 +382,8 @@ public class TestsSampleScene1 {
         try {
             altElement.callComponentMethod(componentName, methodName, parameters);
             fail();
-        } catch (IncorrectNumberOfParametersException e) {
-            assertEquals(e.getMessage(), "error:incorrectNumberOfParameters");
+        } catch (MethodWithGivenParametersNotFoundException e) {
+            assertEquals(e.getMessage(), "error:methodWithGivenParametersNotFound");
         }
     }
 
@@ -398,10 +398,73 @@ public class TestsSampleScene1 {
         try {
             altElement.callComponentMethod(componentName, methodName, parameters);
             fail();
-        } catch (IncorrectNumberOfParametersException e) {
-            assertEquals(e.getMessage(), "error:incorrectNumberOfParameters");
+        } catch (MethodWithGivenParametersNotFoundException e) {
+            assertEquals(e.getMessage(), "error:methodWithGivenParametersNotFound");
         }
     }
+
+    @Test
+    public void testCallMethodInvalidParameterType()
+    {
+        String componentName = "AltUnityExampleScriptCapsule";
+        String methodName = "TestMethodWithManyParameters";
+        String parameters = "1?stringparam?0.5?[1,2,3]";
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                "Capsule").build();
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        try
+        {
+            altElement.callComponentMethod("", componentName, methodName, parameters, "System.Stringggggg");
+            fail();
+        }
+        catch (InvalidParameterTypeException e)
+        {
+            assertEquals(e.getMessage(), "error:invalidParameterType");
+        }
+    }
+
+    @Test
+    public void testCallMethodAssmeblyNotFound()
+    {
+        String componentName = "RandomComponent";
+        String methodName = "TestMethodWithManyParameters";
+        String parameters = "a?stringparam?0.5?[1,2,3]";
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                "Capsule").build();
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        try
+        {
+            altElement.callComponentMethod("RandomAssembly", componentName, methodName, parameters, "");
+            fail();
+        }
+        catch (AssemblyNotFoundException e)
+        {
+            assertEquals(e.getMessage(), "error:assemblyNotFound");
+        }
+    }
+
+
+    @Test
+    public void testCallMethodWithIncorrectNumberOfParameters2()
+    {
+        String componentName = "AltUnityExampleScriptCapsule";
+        String methodName = "TestMethodWithManyParameters";
+        String parameters = "a?stringparam?[1,2,3]";
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        "Capsule").build();
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        
+        try
+        {
+            altElement.callComponentMethod("", componentName, methodName, parameters, "");
+            fail();
+        }
+        catch (MethodWithGivenParametersNotFoundException e)
+        {
+            assertEquals(e.getMessage(), "error:methodWithGivenParametersNotFound");
+        }
+    }
+
 
     @Test
     public void testSetKeyInt() throws Exception {

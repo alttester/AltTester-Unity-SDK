@@ -124,14 +124,18 @@ public class AltBaseCommand
                 throw new Assets.AltUnityTester.AltUnityDriver.MethodNotFoundException(data);
             case "error:componentNotFound":
                 throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException(data);
+            case "error:assemblyNotFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.AssemblyNotFoundException(data);
             case "error:couldNotPerformOperation":
                 throw new Assets.AltUnityTester.AltUnityDriver.CouldNotPerformOperationException(data);
             case "error:couldNotParseJsonString":
                 throw new Assets.AltUnityTester.AltUnityDriver.CouldNotParseJsonStringException(data);
-            case "error:incorrectNumberOfParameters":
-                throw new Assets.AltUnityTester.AltUnityDriver.IncorrectNumberOfParametersException(data);
+            case "error:methodWithGivenParametersNotFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.MethodWithGivenParametersNotFoundException(data);
             case "error:failedToParseMethodArguments":
                 throw new Assets.AltUnityTester.AltUnityDriver.FailedToParseArgumentsException(data);
+            case "error:invalidParameterType":
+                throw new Assets.AltUnityTester.AltUnityDriver.InvalidParameterTypeException(data);
             case "error:objectNotFound":
                 throw new Assets.AltUnityTester.AltUnityDriver.ObjectWasNotFoundException(data);
             case "error:propertyCannotBeSet":

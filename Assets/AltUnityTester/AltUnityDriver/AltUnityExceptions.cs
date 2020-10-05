@@ -1,7 +1,7 @@
 ﻿
 namespace Assets.AltUnityTester.AltUnityDriver
 {
-   public class AltUnityException: System.Exception
+    public class AltUnityException : System.Exception
     {
         public AltUnityException()
         {
@@ -58,6 +58,17 @@ namespace Assets.AltUnityTester.AltUnityDriver
         }
     }
 
+    public class AssemblyNotFoundException : AltUnityException
+    {
+        public AssemblyNotFoundException()
+        {
+        }
+
+        public AssemblyNotFoundException(string message) : base(message)
+        {
+        }
+    }
+
     public class CouldNotPerformOperationException : AltUnityException
     {
         public CouldNotPerformOperationException()
@@ -68,14 +79,23 @@ namespace Assets.AltUnityTester.AltUnityDriver
         {
         }
     }
-
-    public class IncorrectNumberOfParametersException : AltUnityException
+    public class InvalidParameterTypeException : AltUnityException
     {
-        public IncorrectNumberOfParametersException()
+        public InvalidParameterTypeException()
         {
         }
 
-        public IncorrectNumberOfParametersException(string message) : base(message)
+        public InvalidParameterTypeException(string message) : base(message)
+        {
+        }
+    }
+    public class MethodWithGivenParametersNotFoundException : AltUnityException
+    {
+        public MethodWithGivenParametersNotFoundException()
+        {
+        }
+
+        public MethodWithGivenParametersNotFoundException(string message) : base(message)
         {
         }
     }

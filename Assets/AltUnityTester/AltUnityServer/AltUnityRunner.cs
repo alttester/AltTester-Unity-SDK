@@ -32,9 +32,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public readonly string errorPropertyNotFoundMessage = "error:propertyNotFound";
     public readonly string errorMethodNotFoundMessage = "error:methodNotFound";
     public readonly string errorComponentNotFoundMessage = "error:componentNotFound";
+    public readonly string errorAssemblyNotFoundMessage = "error:assemblyNotFound";
     public readonly string errorCouldNotPerformOperationMessage = "error:couldNotPerformOperation";
     public readonly string errorCouldNotParseJsonString = "error:couldNotParseJsonString";
-    public readonly string errorIncorrectNumberOfParameters = "error:incorrectNumberOfParameters";
+    public readonly string errorMethodWithGivenParametersNotFound = "error:methodWithGivenParametersNotFound";
+    public readonly string errorInvalidParameterType = "error:invalidParameterType";
     public readonly string errorFailedToParseArguments = "error:failedToParseMethodArguments";
     public readonly string errorObjectWasNotFound = "error:objectNotFound";
     public readonly string errorPropertyNotSet = "error:propertyCannotBeSet";
