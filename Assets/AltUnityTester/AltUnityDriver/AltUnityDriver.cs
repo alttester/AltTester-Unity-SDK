@@ -252,6 +252,10 @@ public class AltUnityDriver
     {
         return new AltUnityGetAllElements(socketSettings, cameraBy, cameraPath, enabled).Execute();
     }
+    public System.Collections.Generic.List<AltUnityObjectLight> GetAllElementsLight(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+    {
+        return new AltUnityGetAllElementsLight(socketSettings, cameraBy, cameraPath, enabled).Execute();
+    }
     [System.ObsoleteAttribute("Use instead FindObject")]
     public AltUnityObject FindElement(string name, string cameraName = "", bool enabled = true)
     {
