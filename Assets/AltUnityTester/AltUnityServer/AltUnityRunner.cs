@@ -16,7 +16,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public UnityEngine.UI.Text AltUnityPopUpText;
     public bool AltUnityIconPressed = false;
 
-    private UnityEngine.Vector3 _position;
     private AltSocketServer _socketServer;
 
     public static String logMessage = "";
@@ -186,99 +185,83 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
     }
 
-    private UnityEngine.Vector3 getObjectScreePosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
-    {
-        UnityEngine.Canvas canvas = gameObject.GetComponentInParent<UnityEngine.Canvas>();
-        if (canvas != null)
-        {
-            if (canvas.renderMode != UnityEngine.RenderMode.ScreenSpaceOverlay)
-            {
-                if (gameObject.GetComponent<UnityEngine.RectTransform>() == null)
-                {
-                    if (canvas.worldCamera != null)
-                    {
-                        return canvas.worldCamera.WorldToScreenPoint(gameObject.transform.position);
-                    }
-                }
-                else
-                {
-                    UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
-                    gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
-                    var center = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
-                    if (canvas.worldCamera != null)
-                    {
-                        return canvas.worldCamera.WorldToScreenPoint(center);
-                    }
-                }
-            }
-            if (gameObject.GetComponent<UnityEngine.RectTransform>() != null)
-            {
-                return gameObject.GetComponent<UnityEngine.RectTransform>().position;
-            }
-            return camera.WorldToScreenPoint(gameObject.transform.position);
-        }
-
-        if (gameObject.GetComponent<UnityEngine.Collider>() != null)
-        {
-            return camera.WorldToScreenPoint(gameObject.GetComponent<UnityEngine.Collider>().bounds.center);
-        }
-
-        return camera.WorldToScreenPoint(gameObject.transform.position);
-    }
 
     public AltUnityObject GameObjectToAltUnityObject(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
+    {
+        UnityEngine.Vector3 position;
+
+        int cameraId = -1;
+        //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
+        //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
+        try
+        {
+            if (camera == null)
+            {
+                cameraId = findCameraThatSeesObject(altGameObject, out position);
+            }
+            else
+            {
+                position = getObjectScreenPosition(altGameObject, camera);
+                cameraId = camera.GetInstanceID();
+            }
+        }
+        catch (Exception)
+        {
+            position = UnityEngine.Vector3.one * -1;
+            cameraId = -1;
+        }
+
+        int parentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
+
+        AltUnityObject altObject = new AltUnityObject(
+            name: altGameObject.name,
+            id: altGameObject.GetInstanceID(),
+            x: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.x)),
+            y: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.y)),
+            z: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.z)),//if z is negative object is behind the camera
+            mobileY: System.Convert.ToInt32(UnityEngine.Mathf.Round(UnityEngine.Screen.height - position.y)),
+            type: "",
+            enabled: altGameObject.activeSelf,
+            worldX: altGameObject.transform.position.x,
+            worldY: altGameObject.transform.position.y,
+            worldZ: altGameObject.transform.position.z,
+            idCamera: cameraId,
+            transformId: altGameObject.transform.GetInstanceID(),
+            parentId: parentId);
+        return altObject;
+    }
+
+    public AltUnityObjectLight GameObjectToAltUnityObjectLight(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
     {
         int cameraId = -1;
         //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
         //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
-        try { 
-        if (camera == null)
+        try
         {
-            _position = UnityEngine.Vector3.one * -1;
-            foreach (var camera1 in UnityEngine.Camera.allCameras)
+            if (camera == null)
             {
-                _position = getObjectScreePosition(altGameObject, camera1);
-                cameraId = camera1.GetInstanceID();
-                if (_position.x > 0 && _position.y > 0 && _position.x < UnityEngine.Screen.width && _position.y < UnityEngine.Screen.height && _position.z >= 0)//Check if camera sees the object
-                {
-                    break;
-                }
+                cameraId = findCameraThatSeesObject(altGameObject, out UnityEngine.Vector3 position);
             }
-        }
-        else
-        {
-            _position = getObjectScreePosition(altGameObject, camera);
-            cameraId = camera.GetInstanceID();
-
-        }
+            else
+            {
+                cameraId = camera.GetInstanceID();
+            }
         }
         catch (Exception)
         {
-            _position = UnityEngine.Vector3.one * -1;
             cameraId = -1;
         }
 
-        int parentId = 0;
-        if (altGameObject.transform.parent != null)
-        {
-            parentId = altGameObject.transform.parent.GetInstanceID();
-        }
+        int parentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
 
+        AltUnityObjectLight altObject = new AltUnityObjectLight(
+            name: altGameObject.name,
+            id: altGameObject.GetInstanceID(),
+            enabled: altGameObject.activeSelf,
+            idCamera: cameraId,
+            transformId: altGameObject.transform.GetInstanceID(),
+            parentId: parentId);
 
-        AltUnityObject altObject = new AltUnityObject(name: altGameObject.name,
-                                                      id: altGameObject.GetInstanceID(),
-                                                      x: System.Convert.ToInt32(UnityEngine.Mathf.Round(_position.x)),
-                                                      y: System.Convert.ToInt32(UnityEngine.Mathf.Round(_position.y)),
-                                                      z: System.Convert.ToInt32(UnityEngine.Mathf.Round(_position.z)),//if z is negative object is behind the camera
-                                                      mobileY: System.Convert.ToInt32(UnityEngine.Mathf.Round(UnityEngine.Screen.height - _position.y)),
-                                                      type: "",
-                                                      enabled: altGameObject.activeSelf,
-                                                      worldX: altGameObject.transform.position.x,
-                                                      worldY: altGameObject.transform.position.y,
-                                                      worldZ: altGameObject.transform.position.z,
-                                                      idCamera: cameraId,
-                                                      transformId: altGameObject.transform.GetInstanceID(),
-                                                      parentId: parentId);
         return altObject;
     }
 
@@ -483,16 +466,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new AltUnityScrollMouseCommand(scrollValue, duration);
                     break;
                 case "findObject":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
-                    command = new AltUnityFindObjectCommand(methodParameters);
+                    command = new AltUnityFindObjectCommand(pieces[1], pieces[2], pieces[3], pieces[4]);
                     break;
                 case "findObjects":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
-                    command = new AltUnityFindObjectsCommand(methodParameters);
+                    command = new AltUnityFindObjectsCommand(pieces[1], pieces[2], pieces[3], pieces[4]);
+                    break;
+                case "findObjectsLight":
+                    command = new AltUnityFindObjectsLightCommand(pieces[1], pieces[2], pieces[3], pieces[4]);
                     break;
                 case "findActiveObjectByName":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
-                    command = new AltUnityFindActiveObjectsByNameCommand(methodParameters);
+                    command = new AltUnityFindActiveObjectsByNameCommand(pieces[1], pieces[2], pieces[3], pieces[4]);
                     break;
                 case "enableLogging":
                     var enableLogging = bool.Parse(pieces[1]);
@@ -719,4 +702,69 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
         return true;
     }
+
+    #region private methods
+    private UnityEngine.Vector3 getObjectScreenPosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
+    {
+        UnityEngine.Canvas canvas = gameObject.GetComponentInParent<UnityEngine.Canvas>();
+        if (canvas != null)
+        {
+            if (canvas.renderMode != UnityEngine.RenderMode.ScreenSpaceOverlay)
+            {
+                if (gameObject.GetComponent<UnityEngine.RectTransform>() == null)
+                {
+                    if (canvas.worldCamera != null)
+                    {
+                        return canvas.worldCamera.WorldToScreenPoint(gameObject.transform.position);
+                    }
+                }
+                else
+                {
+                    UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
+                    gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
+                    var center = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
+                    if (canvas.worldCamera != null)
+                    {
+                        return canvas.worldCamera.WorldToScreenPoint(center);
+                    }
+                }
+            }
+            if (gameObject.GetComponent<UnityEngine.RectTransform>() != null)
+            {
+                return gameObject.GetComponent<UnityEngine.RectTransform>().position;
+            }
+            return camera.WorldToScreenPoint(gameObject.transform.position);
+        }
+
+        if (gameObject.GetComponent<UnityEngine.Collider>() != null)
+        {
+            return camera.WorldToScreenPoint(gameObject.GetComponent<UnityEngine.Collider>().bounds.center);
+        }
+
+        return camera.WorldToScreenPoint(gameObject.transform.position);
+    }
+    ///<summary>
+    /// Iterate through all cameras until finds one that sees the object.
+    /// If no camera sees the object return the position from the last camera
+    ///</summary>
+    private int findCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
+    {
+        position = UnityEngine.Vector3.one * -1;
+        int cameraId = -1;
+        foreach (var camera1 in UnityEngine.Camera.allCameras)
+        {
+            position = getObjectScreenPosition(gameObject, camera1);
+            cameraId = camera1.GetInstanceID();
+            if (position.x > 0 &&
+                position.y > 0 &&
+                position.x < UnityEngine.Screen.width &&
+                position.y < UnityEngine.Screen.height &&
+                position.z >= 0)//Check if camera sees the object
+            {
+                break;
+            }
+        }
+        return cameraId;
+    }
+    #endregion
 }

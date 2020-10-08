@@ -770,16 +770,6 @@ public class TestForScene1TestSample
 
 
     }
-    //[Test]
-    //public void TestFindObjectWithDifferentCameras()
-    //{
-    //    var changeCameraButton = altUnityDriver.FindObject(By.NAME, "Button");
-    //    changeCameraButton.Tap().Tap();
-    //    var altElement1 = altUnityDriver.FindObject(By.NAME, "Capsule", cameraName: "Main Camera", enabled: false);
-    //    var altElement2 = altUnityDriver.FindObject(By.NAME, "Capsule", cameraName: "Camera", enabled: false);
-    //    Assert.AreNotEqual(altElement1.y, altElement2.y);
-    //    Assert.AreNotEqual(altElement1.x, altElement2.x);
-    //}
 
     [Test]
     public void TestFindObjectsByTag()
@@ -804,7 +794,6 @@ public class TestForScene1TestSample
         var altElements = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Ca)]");
         foreach (var altElement in altElements)
         {
-            UnityEngine.Debug.Log(altElement.name);
             Assert.True(altElement.name.Contains("Ca"));
         }
         Assert.AreEqual(9, altElements.Count);
@@ -878,6 +867,18 @@ public class TestForScene1TestSample
         Assert.AreEqual(2, cameras.Count);
     }
 
+    [Test]
+    public void TestGetAllElementsLight()
+    {
+        var altElements = altUnityDriver.GetAllElementsLight();
+
+        Assert.IsTrue(altElements.Count > 0);
+        foreach (var altElementLight in altElements)
+        {
+            Assert.IsTrue(altElementLight.enabled);
+            Assert.IsTrue(altElementLight.id != 0);
+        }
+    }
     [Test]
     public void TestFindObjectScene1()
     {
