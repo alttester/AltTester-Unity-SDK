@@ -7,17 +7,19 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         int id;
         string ColorAndWidth;
         UnityEngine.Vector2 size;
+        int quality;
         AltClientSocketHandler handler;
 
 
 
 
-        public AltUnityHighlightSelectedObjectCommand (int id, string colorAndWidth, Vector2 size, AltClientSocketHandler handler)
+        public AltUnityHighlightSelectedObjectCommand (int id, string colorAndWidth, Vector2 size, int quality, AltClientSocketHandler handler)
         {
             this.id = id;
             ColorAndWidth = colorAndWidth;
             this.size = size;
             this.handler = handler;
+            this.quality = quality;
         }
 
         public override string Execute()
@@ -36,10 +38,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
                 if (gameObject != null)
                 {
-                    AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.HighLightSelectedObjectCorutine(gameObject, color, width, size, handler));
+                    AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.HighLightSelectedObjectCorutine(gameObject, color, width, size, quality, handler));
                 }
                 else
-                    new AltUnityGetScreenshotCommand (size, handler).Execute();
+                    new AltUnityGetScreenshotCommand (size,quality, handler).Execute();
             return "Ok";
         }
     }

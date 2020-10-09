@@ -354,21 +354,22 @@ public class AltUnityDriver
     {
         return new AltUnityGetAllCameras(socketSettings).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2))
+    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2),int screenShotQuality=100)
     {
-        return new AltUnityGetScreenshot(socketSettings, size).Execute();
+        return new AltUnityGetScreenshot(socketSettings, size,screenShotQuality).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(int id, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2))
+    public AltUnityTextureInformation GetScreenshot(int id, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
     {
-        return new AltUnityGetScreenshot(socketSettings, id, color, width, size).Execute();
+        return new AltUnityGetScreenshot(socketSettings, id, color, width, size,screenShotQuality).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2))
+    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
     {
-        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size).Execute(out selectedObject);
+        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size,screenShotQuality).Execute(out selectedObject);
 
     }
     public void GetPNGScreenshot(string path)
     {
         new AltUnityGetPNGScreenshot(socketSettings, path).Execute();
     }
+
 }

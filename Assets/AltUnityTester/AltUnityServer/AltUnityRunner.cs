@@ -236,11 +236,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         int cameraId = -1;
         //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
         //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
+        UnityEngine.Vector3 position;
         try
         {
             if (camera == null)
             {
-                cameraId = findCameraThatSeesObject(altGameObject, out UnityEngine.Vector3 position);
+                cameraId = findCameraThatSeesObject(altGameObject, out position);
             }
             else
             {
@@ -436,17 +437,20 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "getScreenshot":
                     size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
-                    command = new AltUnityGetScreenshotCommand(size, handler);
+                    int quality = Int32.Parse(pieces[2]);
+                    command = new AltUnityGetScreenshotCommand(size,quality, handler);
                     break;
                 case "hightlightObjectScreenshot":
                     var id = System.Convert.ToInt32(pieces[1]);
                     size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
-                    command = new AltUnityHighlightSelectedObjectCommand(id, pieces[2], size, handler);
+                    quality = Int32.Parse(pieces[4]);
+                    command = new AltUnityHighlightSelectedObjectCommand(id, pieces[2], size,quality, handler);
                     break;
                 case "hightlightObjectFromCoordinatesScreenshot":
                     var coordinates = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
-                    command = new AltUnityHightlightObjectFromCoordinatesCommand(coordinates, pieces[2], size, handler);
+                    quality = Int32.Parse(pieces[4]);
+                    command = new AltUnityHightlightObjectFromCoordinatesCommand(coordinates, pieces[2], size,quality, handler);
                     break;
                 case "pressKeyboardKey":
                     var piece = pieces[1];
@@ -589,7 +593,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         return null;
     }
 
-    public System.Collections.IEnumerator HighLightSelectedObjectCorutine(UnityEngine.GameObject gameObject, UnityEngine.Color color, float width, UnityEngine.Vector2 size, AltClientSocketHandler handler)
+    public System.Collections.IEnumerator HighLightSelectedObjectCorutine(UnityEngine.GameObject gameObject, UnityEngine.Color color, float width, UnityEngine.Vector2 size,int quality, AltClientSocketHandler handler)
     {
         destroyHightlight = false;
         UnityEngine.Renderer renderer = gameObject.GetComponent<UnityEngine.Renderer>();
@@ -604,7 +608,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 material.SetFloat("_OutlineWidth", width);
             }
             yield return null;
-            new AltUnityGetScreenshotCommand(size, handler).Execute();
+            new AltUnityGetScreenshotCommand(size,quality, handler).Execute();
             yield return null;
             for (var i = 0; i < renderer.materials.Length; i++)
             {
@@ -619,7 +623,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 var panelHighlight = Instantiate(panelHightlightPrefab, rectTransform);
                 panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
                 yield return null;
-                new AltUnityGetScreenshotCommand(size, handler).Execute();
+                new AltUnityGetScreenshotCommand(size,quality, handler).Execute();
                 while (!destroyHightlight)
                     yield return null;
                 Destroy(panelHighlight);
@@ -627,18 +631,18 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             }
             else
             {
-                new AltUnityGetScreenshotCommand(size, handler).Execute();
+                new AltUnityGetScreenshotCommand(size, quality, handler).Execute();
             }
         }
     }
 
-    public System.Collections.IEnumerator TakeTexturedScreenshot(UnityEngine.Vector2 size, AltClientSocketHandler handler)
+    public System.Collections.IEnumerator TakeTexturedScreenshot(UnityEngine.Vector2 size, int quality, AltClientSocketHandler handler)
     {
         yield return new UnityEngine.WaitForEndOfFrame();
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
 
-        var response = new AltUnityScreenshotReadyCommand(screenshot, size).Execute();
-        handler.SendResponse(response);
+        var response = new AltUnityScreenshotReadyCommand(screenshot,quality, size).Execute();
+        handler.SendScreenshotResponse(response);
     }
     public System.Collections.IEnumerator TakeScreenshot(AltClientSocketHandler handler)
     {
@@ -647,7 +651,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
         var pngAsString = Convert.ToBase64String(bytesPNG);
 
-        handler.SendResponse(pngAsString);
+        handler.SendScreenshotResponse(pngAsString);
     }
 
     public void ShowClick(UnityEngine.Vector2 position)

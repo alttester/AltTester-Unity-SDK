@@ -806,9 +806,7 @@ public class TestForScene1TestSample
     {
         AltUnityObject cube = altUnityDriver.FindObject(By.NAME, "Cube", enabled: false);
         Assert.AreEqual(false, cube.enabled);
-
     }
-
     [Test]
     public void TestGetAllScenes()
     {
@@ -823,7 +821,6 @@ public class TestForScene1TestSample
         AltUnityObject altObject = altUnityDriver.TapScreen(1, counterButton.y + 100);
         Assert.AreEqual(null, altObject);
     }
-
     [Test]
     public void TestSetTimeScale()
     {
@@ -833,7 +830,6 @@ public class TestForScene1TestSample
         Assert.AreEqual(0.1f, timeScaleFromGame);
         altUnityDriver.SetTimeScale(1);
     }
-
     [Test]
     public void TestWaitForObjectWhichContains()
     {
@@ -1240,5 +1236,27 @@ public class TestForScene1TestSample
         Assert.NotNull(altUnityObject);
     }
 
+    [Test]
+    public void TestGetScreensizeScreenshot()
+    {
+        var screenWidth = Int16.Parse(altUnityDriver.CallStaticMethods("UnityEngine.Screen", "get_width", "", "", "UnityEngine.CoreModule"));
+        var screenHeight = Int16.Parse(altUnityDriver.CallStaticMethods("UnityEngine.Screen", "get_height", "", "", "UnityEngine.CoreModule"));
+        var screenshot = altUnityDriver.GetScreenshot();
+        Assert.True(screenshot.textureSize.x == screenWidth);
+        Assert.True(screenshot.textureSize.y == screenHeight);
 
+        screenshot = altUnityDriver.GetScreenshot(screenShotQuality: 50);
+        Assert.True(screenshot.textureSize.x == screenWidth / 2);
+        Assert.True(screenshot.textureSize.y == screenHeight / 2);
+
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        screenshot = altUnityDriver.GetScreenshot(capsule.id, new AltUnityColor(1, 0, 0), 1.5f);
+        Assert.True(screenshot.textureSize.x == screenWidth);
+        Assert.True(screenshot.textureSize.y == screenHeight);
+
+        screenshot = altUnityDriver.GetScreenshot(capsule.id, new AltUnityColor(1, 0, 0), 1.5f, screenShotQuality: 50);
+        Assert.True(screenshot.textureSize.x == screenWidth / 2);
+        Assert.True(screenshot.textureSize.y == screenHeight / 2);
+
+    }
 }
