@@ -50,11 +50,12 @@ public class AltClientSocketHandler
         AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now+": sending response: " + response);
         Client.Client.Send(Encoding.GetBytes(response));
     }
-    public void SendResponse(byte[] response)
+    public void SendScreenshotResponse(string response)
     {
-        response = Encoding.GetBytes("altstart::").Concat(response).Concat(Encoding.GetBytes("::altLog::")).Concat(Encoding.GetBytes(AltUnityRunner.logMessage)).Concat(Encoding.GetBytes("::altend")).ToArray();
-        UnityEngine.Debug.Log("sending response: " + System.Text.Encoding.ASCII.GetString(response));
-        Client.Client.Send(response);
+        var logMessage = "Send Screenshot that has " + response.Length + " length";
+        response = "altstart::" + response + "::altLog::" + logMessage + "::altend";
+        AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now + ": "+ logMessage);
+        Client.Client.Send(Encoding.GetBytes(response));
     }
 
     public void Run()
