@@ -45,16 +45,16 @@ public class AltClientSocketHandler
     public void SendResponse(string response)
     {
         AltUnityRunner.logMessage = System.Text.RegularExpressions.Regex.Replace(AltUnityRunner.logMessage, @"\r\n|\n|\r$", "");//Removes the last new line
-        response = "altstart::" + response+"::altLog::"+AltUnityRunner.logMessage + "::altend";
+        response = "altstart::" + response + "::altLog::" + AltUnityRunner.logMessage + "::altend";
         AltUnityRunner.logMessage = "";
-        AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now+": sending response: " + response);
+        AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now + ": sending response: " + response);
         Client.Client.Send(Encoding.GetBytes(response));
     }
     public void SendScreenshotResponse(string response)
     {
         var logMessage = "Send Screenshot that has " + response.Length + " length";
         response = "altstart::" + response + "::altLog::" + logMessage + "::altend";
-        AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now + ": "+ logMessage);
+        AltUnityRunner.FileWriter.WriteLine(System.DateTime.Now + ": " + logMessage);
         Client.Client.Send(Encoding.GetBytes(response));
     }
 
@@ -66,6 +66,7 @@ public class AltClientSocketHandler
 
             while (true)
             {
+
                 byte[] readBuffer = new byte[256];
                 int readLength = Client.Client.Receive(readBuffer);
 
