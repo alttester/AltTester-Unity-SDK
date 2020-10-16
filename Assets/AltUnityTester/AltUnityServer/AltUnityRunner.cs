@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net.Sockets;
 using altunitytester.Assets.AltUnityTester.AltUnityServer;
 using Assets.AltUnityTester.AltUnityServer.Commands;
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
@@ -178,11 +179,26 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         _socketServer = new AltSocketServer(
             clientSocketHandlerDelegate, SocketPortNumber, maxClients, requestEndingString, encoding);
 
-        _socketServer.StartListeningForConnections();
-        AltUnityPopUpText.text = "Waiting for connection" + System.Environment.NewLine + "on port " + _socketServer.PortNumber + "...";
-        UnityEngine.Debug.Log(string.Format(
-            "AltUnity Server at {0} on port {1}",
-            _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
+        try
+        {
+            _socketServer.StartListeningForConnections();
+            AltUnityPopUpText.text = "Waiting for connection" + System.Environment.NewLine + "on port " + _socketServer.PortNumber + "...";
+            UnityEngine.Debug.Log(string.Format(
+                "AltUnity Server at {0} on port {1}",
+                _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
+        }
+        catch (SocketException ex)
+        {
+            if (ex.Message.Contains("Only one usage of each socket address"))
+            {
+                AltUnityPopUpText.text = "Cannot start AltUnity Server. Another process is listening on port " + SocketPortNumber;
+            }
+            else
+            {
+                UnityEngine.Debug.LogError(ex);
+                AltUnityPopUpText.text = "An error occured while starting AltUnity Server.";
+            }
+        }
     }
 
 
@@ -438,19 +454,19 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 case "getScreenshot":
                     size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     int quality = Int32.Parse(pieces[2]);
-                    command = new AltUnityGetScreenshotCommand(size,quality, handler);
+                    command = new AltUnityGetScreenshotCommand(size, quality, handler);
                     break;
                 case "hightlightObjectScreenshot":
                     var id = System.Convert.ToInt32(pieces[1]);
                     size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
                     quality = Int32.Parse(pieces[4]);
-                    command = new AltUnityHighlightSelectedObjectCommand(id, pieces[2], size,quality, handler);
+                    command = new AltUnityHighlightSelectedObjectCommand(id, pieces[2], size, quality, handler);
                     break;
                 case "hightlightObjectFromCoordinatesScreenshot":
                     var coordinates = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
                     size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
                     quality = Int32.Parse(pieces[4]);
-                    command = new AltUnityHightlightObjectFromCoordinatesCommand(coordinates, pieces[2], size,quality, handler);
+                    command = new AltUnityHightlightObjectFromCoordinatesCommand(coordinates, pieces[2], size, quality, handler);
                     break;
                 case "pressKeyboardKey":
                     var piece = pieces[1];
@@ -593,7 +609,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         return null;
     }
 
-    public System.Collections.IEnumerator HighLightSelectedObjectCorutine(UnityEngine.GameObject gameObject, UnityEngine.Color color, float width, UnityEngine.Vector2 size,int quality, AltClientSocketHandler handler)
+    public System.Collections.IEnumerator HighLightSelectedObjectCorutine(UnityEngine.GameObject gameObject, UnityEngine.Color color, float width, UnityEngine.Vector2 size, int quality, AltClientSocketHandler handler)
     {
         destroyHightlight = false;
         UnityEngine.Renderer renderer = gameObject.GetComponent<UnityEngine.Renderer>();
@@ -608,7 +624,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 material.SetFloat("_OutlineWidth", width);
             }
             yield return null;
-            new AltUnityGetScreenshotCommand(size,quality, handler).Execute();
+            new AltUnityGetScreenshotCommand(size, quality, handler).Execute();
             yield return null;
             for (var i = 0; i < renderer.materials.Length; i++)
             {
@@ -623,7 +639,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 var panelHighlight = Instantiate(panelHightlightPrefab, rectTransform);
                 panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
                 yield return null;
-                new AltUnityGetScreenshotCommand(size,quality, handler).Execute();
+                new AltUnityGetScreenshotCommand(size, quality, handler).Execute();
                 while (!destroyHightlight)
                     yield return null;
                 Destroy(panelHighlight);
@@ -641,7 +657,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         yield return new UnityEngine.WaitForEndOfFrame();
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
 
-        var response = new AltUnityScreenshotReadyCommand(screenshot,quality, size).Execute();
+        var response = new AltUnityScreenshotReadyCommand(screenshot, quality, size).Execute();
         handler.SendScreenshotResponse(response);
     }
     public System.Collections.IEnumerator TakeScreenshot(AltClientSocketHandler handler)
