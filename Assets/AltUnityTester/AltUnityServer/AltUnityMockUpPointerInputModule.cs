@@ -1,8 +1,10 @@
 
 public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.StandaloneInputModule
 {
+    public UnityEngine.GameObject gameObjectHit;
     public UnityEngine.EventSystems.PointerEventData ExecuteTouchEvent(UnityEngine.Touch touch, UnityEngine.EventSystems.PointerEventData previousData = null)
     {
+        UnityEngine.RaycastHit hit;
         if (UnityEngine.EventSystems.EventSystem.current != null)
         {
             UnityEngine.EventSystems.RaycastResult raycastResult;
@@ -19,6 +21,13 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
                             pointerId = touch.fingerId
                         };
                     raycastResults = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
+
+                    UnityEngine.Ray ray = UnityEngine.Camera.current.ScreenPointToRay(touch.position);
+                    if (UnityEngine.Physics.Raycast(ray, out hit))
+                    {
+                        gameObjectHit = hit.transform.gameObject;
+                    }
+
                     UnityEngine.EventSystems.EventSystem.current.RaycastAll(pointerEventData, raycastResults);
                     raycastResult = UnityEngine.EventSystems.BaseInputModule.FindFirstRaycast(raycastResults);
                     pointerEventData.pointerCurrentRaycast = raycastResult;
@@ -49,6 +58,11 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
                             previousData.pointerDrag = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData, 
                                 UnityEngine.EventSystems.ExecuteEvents.dragHandler);
                             previousData.dragging = true;
+                        }
+                        ray = UnityEngine.Camera.current.ScreenPointToRay(touch.position);
+                        if (UnityEngine.Physics.Raycast(ray, out hit))
+                        {
+                            gameObjectHit = hit.transform.gameObject;
                         }
 
                         raycastResults = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
@@ -84,6 +98,11 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
                 case UnityEngine.TouchPhase.Ended:
                     if (previousData != null)
                     {
+                        ray = UnityEngine.Camera.current.ScreenPointToRay(touch.position);
+                        if (UnityEngine.Physics.Raycast(ray, out hit))
+                        {
+                            gameObjectHit = hit.transform.gameObject;
+                        }
                         raycastResults = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
                         UnityEngine.EventSystems.EventSystem.current.RaycastAll(previousData, raycastResults);
                         raycastResult = UnityEngine.EventSystems.BaseInputModule.FindFirstRaycast(raycastResults);
