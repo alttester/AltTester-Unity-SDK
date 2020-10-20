@@ -1259,4 +1259,18 @@ public class TestForScene1TestSample
         Assert.True(screenshot.textureSize.y == screenHeight / 2);
 
     }
+    [Test]
+    public void TestClickWithMouseCapsule()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var UIButton = altUnityDriver.FindObject(By.NAME, "UIButton");
+        var initialCapsulePosition = capsule.getWorldPosition();
+        altUnityDriver.MoveMouse(capsule.getScreenPosition(),0.1f);
+        Thread.Sleep(400);
+        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 1, 0.2f);
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var finalCapsulePosition = capsule.getWorldPosition();
+        Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
+
+    }
 }
