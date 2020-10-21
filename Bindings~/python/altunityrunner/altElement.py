@@ -70,9 +70,9 @@ class AltElement(object):
     def get_all_components(self) -> List[dict]:
         return GetAllComponents(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end, self).execute()
 
-    def get_component_property(self, component_name, property_name, assembly_name=''):
+    def get_component_property(self, component_name, property_name, assembly_name='', max_depth=2):
         alt_object = self.toJSON()
-        return GetComponentProperty(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end, component_name, property_name, assembly_name, alt_object).execute()
+        return GetComponentProperty(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end, component_name, property_name, assembly_name, max_depth, alt_object).execute()
 
     def set_component_property(self, component_name, property_name, value, assembly_name=''):
         alt_object = self.toJSON()

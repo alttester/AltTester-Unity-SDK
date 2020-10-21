@@ -44,6 +44,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public readonly string errorUnknownError = "error:unknownError";
     public readonly string errorFormatException = "error:formatException";
     public readonly string errorCameraNotFound = "error:cameraNotFound";
+    public readonly string errorIndexOutOfRange = "error:indexOutOfRange";
 
     public Newtonsoft.Json.JsonSerializerSettings _jsonSettings;
 
@@ -110,7 +111,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
         myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
         UnityEngine.Debug.Log(myPathFile);
-        FileWriter = new System.IO.StreamWriter(myPathFile, true);
+        FileWriter = new System.IO.StreamWriter(myPathFile, false);//To not create a massive logfile the logfile will have only the last run.
         if (showPopUp == false)
         {
             AltUnityPopUpCanvas.SetActive(false);
@@ -336,7 +337,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new AltUnityFindObjectsByComponentCommand(methodParameters);
                     break;
                 case "getObjectComponentProperty":
-                    command = new AltUnityGetComponentPropertyCommand(pieces[1], pieces[2]);
+                    int maxDepth = int.Parse(pieces[3]);
+                    command = new AltUnityGetComponentPropertyCommand(pieces[1], pieces[2],maxDepth);
                     break;
                 case "setObjectComponentProperty":
                     command = new AltUnitySetObjectComponentPropertyCommand(pieces[1], pieces[2], pieces[3]);
@@ -435,7 +437,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "getAllFields":
                     altComponent = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityComponent>(pieces[2]);
-                    command = new AltUnityGetAllFieldsCommand(pieces[1], altComponent);
+                    var fieldSelection = (AltUnityFieldsSelections)Enum.Parse(typeof(AltUnityFieldsSelections), pieces[3], true);
+                    command = new AltUnityGetAllFieldsCommand(pieces[1], altComponent, fieldSelection);
+                    break;
+                case "getAllProperties":
+                    altComponent = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityComponent>(pieces[2]);
+                    var propertiesSelection = (AltUnityPropertiesSelections)Enum.Parse(typeof(AltUnityPropertiesSelections), pieces[3], true);
+                    command = new AltUnityGetAllPropertiesCommand(pieces[1], altComponent, propertiesSelection);
                     break;
                 case "getAllMethods":
                     altComponent = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityComponent>(pieces[1]);

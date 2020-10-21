@@ -99,6 +99,7 @@ Bindings~/python/Pipfile
 Bindings~/python/Pipfile.lock
 Bindings~/python/altunityrunner.egg-info
 Assets/AltUnityTester/Editor/AltUnityTesterEditorSettings.asset
+Assets/AltUnityTester/Editor/AltUnityTesterEditorSettings.asset.meta
 
 docs/**/*.meta
 ./*.meta

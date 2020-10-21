@@ -45,9 +45,9 @@ public class AltUnityObject
     {
         return new AltUnityVector3(worldX, worldY, worldZ);
     }
-    public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null)
+    public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null,int maxDepth=2)
     {
-        return new AltUnityGetComponentProperty(socketSettings,componentName,propertyName,assemblyName,this).Execute();
+        return new AltUnityGetComponentProperty(socketSettings,componentName,propertyName,assemblyName,maxDepth,this).Execute();
     }
     public string SetComponentProperty(string componentName, string propertyName, string value, string assemblyName = null)
     {
@@ -107,9 +107,13 @@ public class AltUnityObject
     {
         return new AltUnityGetAllComponents(socketSettings,this).Execute();
     }
-    public System.Collections.Generic.List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent)
+    public System.Collections.Generic.List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent,AltUnityPropertiesSelections altUnityPropertiesSelections=AltUnityPropertiesSelections.ALLPROPERTIES)
     {
-       return new AltUnityGetAllProperties(socketSettings,altUnityComponent,this).Execute();
+       return new AltUnityGetAllProperties(socketSettings,altUnityComponent,this, altUnityPropertiesSelections).Execute();
+    }
+    public System.Collections.Generic.List<AltUnityField> GetAllFields(AltUnityComponent altUnityComponent,AltUnityFieldsSelections altUnityFieldsSelections=AltUnityFieldsSelections.ALLFIELDS)
+    {
+        return new AltUnityGetAllFields(socketSettings, altUnityComponent, this, altUnityFieldsSelections).Execute();
     }
     public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent,AltUnityMethodSelection methodSelection=AltUnityMethodSelection.ALLMETHODS)
     {

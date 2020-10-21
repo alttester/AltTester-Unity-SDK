@@ -4,8 +4,6 @@ using NUnit.Framework;
 using System.Linq;
 using System.Threading;
 using Assets.AltUnityTester.AltUnityDriver;
-using NUnit.Framework.Constraints;
-using System.Diagnostics;
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 [Timeout(5000)]
@@ -720,17 +718,92 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestGetAllProperties()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var componentList = altElement.GetAllComponents();
+        var component = componentList.First(componenta =>
+            componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+        List<AltUnityProperty> properties = altElement.GetAllProperties(component, AltUnityPropertiesSelections.ALLPROPERTIES);
+        if (properties.Exists(prop => prop.name.Equals("runInEditMode")))
+        {
+            Assert.AreEqual(11, properties.Count);
+        }
+        else
+        {
+            Assert.AreEqual(10, properties.Count);// if runned from editor then there are 11 properties, runInEditMode is only available in Editor
+        }
+        AltUnityProperty property = properties.First(prop => prop.name.Equals("TestProperty"));
+        Assert.NotNull(property);
+        Assert.AreEqual("False", property.value);
+    }
+    [Test]
+    public void TestGetAllClassProperties()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var componentList = altElement.GetAllComponents();
+        var component = componentList.First(componenta =>
+            componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+        List<AltUnityProperty> properties = altElement.GetAllProperties(component, AltUnityPropertiesSelections.CLASSPROPERTIES);
+        Assert.AreEqual(2, properties.Count);
+        AltUnityProperty property = properties.First(prop => prop.name.Equals("TestProperty"));
+        Assert.NotNull(property);
+        Assert.AreEqual("False", property.value);
+    }
+    [Test]
+    public void TestGetAllInheritedProperties()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var componentList = altElement.GetAllComponents();
+        var component = componentList.First(componenta =>
+            componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+        List<AltUnityProperty> properties = altElement.GetAllProperties(component, AltUnityPropertiesSelections.INHERITEDPROPERTIES);
+        if (properties.Exists(prop => prop.name.Equals("runInEditMode")))
+        {
+            Assert.AreEqual(9, properties.Count);
+        }
+        else
+        {
+            Assert.AreEqual(8, properties.Count);// if runned from editor then there are 9 properties, runInEditMode is only available in Editor
+        }
+    }
+
+    [Test]
+    public void TestGetAllClassFields()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var componentList = altElement.GetAllComponents();
+        var component = componentList.First(componenta =>
+            componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+
+        List<AltUnityField> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
+        Assert.AreEqual(10, fields.Count);
+    }
+
+    [Test]
+    public void TestGetAllInheritedFields()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var componentList = altElement.GetAllComponents();
+        var component = componentList.First(componenta =>
+            componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+        List<AltUnityField> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.INHERITEDFIELDS);
+        AltUnityField field = fields.First(fld => fld.name.Equals("inheritedField"));
+        Assert.AreEqual("False", field.value);
+        Assert.AreEqual(1, fields.Count);
+    }
+
+    [Test]
     public void TestGetAllFields()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var componentList = altElement.GetAllComponents();
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
-        List<AltUnityProperty> properties = altElement.GetAllProperties(component);
-        AltUnityProperty field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
-        Assert.NotNull(field);
-        Assert.AreEqual(field.value, "intialValue");
+        List<AltUnityField> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
+        Assert.AreEqual(11, fields.Count);
     }
+
     [Test]
     public void TestFindObjectByTag()
     {
@@ -791,12 +864,12 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindObjectsByContainName()
     {
-        var altElements = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Ca)]");
+        var altElements = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Ro)]");
         foreach (var altElement in altElements)
         {
-            Assert.True(altElement.name.Contains("Ca"));
+            Assert.True(altElement.name.Contains("Ro"));
         }
-        Assert.AreEqual(9, altElements.Count);
+        Assert.AreEqual(2, altElements.Count);
 
     }
 
@@ -818,7 +891,7 @@ public class TestForScene1TestSample
     public void TestTapScreenWhereThereIsNoObjects()
     {
         var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-        AltUnityObject altObject = altUnityDriver.TapScreen(1, counterButton.y + 100);
+        AltUnityObject altObject = altUnityDriver.TapScreen(counterButton.x+50, counterButton.y + 50);
         Assert.AreEqual(null, altObject);
     }
     [Test]
@@ -1260,12 +1333,54 @@ public class TestForScene1TestSample
 
     }
     [Test]
+    public void TestGetComponentPropertyComplexClass()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "AltUnitySampleClass.testInt";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("1", propertyValue);
+    }
+    [Test]
+    public void TestGetComponentPropertyComplexClass2()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "listOfSampleClass[1].testString";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("test2", propertyValue);
+    }
+
+    [Test]
+    public void TestSetComponentPropertyComplexClass()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "AltUnitySampleClass.testInt";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        altElement.SetComponentProperty(componentName, propertyName, "2");
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("2", propertyValue);
+    }
+    [Test]
+    public void TestSetComponentPropertyComplexClass2()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "listOfSampleClass[1].testString";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        altElement.SetComponentProperty(componentName, propertyName, "test3");
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("test3", propertyValue);
+    }
     public void TestClickWithMouseCapsule()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var UIButton = altUnityDriver.FindObject(By.NAME, "UIButton");
         var initialCapsulePosition = capsule.getWorldPosition();
-        altUnityDriver.MoveMouse(capsule.getScreenPosition(),0.1f);
+        altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
         Thread.Sleep(400);
         altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 1, 0.2f);
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -1274,3 +1389,4 @@ public class TestForScene1TestSample
 
     }
 }
+

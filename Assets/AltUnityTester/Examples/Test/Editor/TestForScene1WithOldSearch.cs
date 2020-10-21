@@ -503,19 +503,6 @@ public class TestForScene1WithOldSearch
         Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
     }
 
-    [Test]
-    public void TestGetAllFields()
-    {
-        var altElement = altUnityDriver.FindElement("Capsule");
-        var componentList = altElement.GetAllComponents();
-        var component = componentList.First(componenta =>
-            componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
-        List<AltUnityProperty> properties = altElement.GetAllProperties(component);
-        AltUnityProperty field = properties.First(prop => prop.name.Equals("stringToSetFromTests"));
-        Assert.NotNull(field);
-        Assert.AreEqual(field.value, "intialValue");
-    }
-
 
 
     [Test]
