@@ -30,8 +30,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 try
                 {
-                    var memberInfo = GetMemberForObjectComponent(altUnityObject, property);
-                    response = SetValueForMember(memberInfo, inputText, targetObject, property);
+                    System.Type type = GetType(property.Component, property.Assembly);
+                    response = SetValueForMember(altUnityObject,property.Property.Split('.'),type,inputText);
                     if (!response.Contains("error:"))
                         return Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject));
                 }
@@ -42,6 +42,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException)
                 {
                     response = AltUnityRunner._altUnityRunner.errorComponentNotFoundMessage;
+                }
+                catch (Assets.AltUnityTester.AltUnityDriver.AssemblyNotFoundException)
+                {
+                    response = AltUnityRunner._altUnityRunner.errorAssemblyNotFoundMessage;
                 }
             }
 

@@ -20,9 +20,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             AltUnityObjectProperty altProperty =
                 Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObjectProperty>(propertyString);
             AltUnityObject altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
-            UnityEngine.GameObject testableObject = AltUnityRunner.GetGameObject(altUnityObject);
-            System.Reflection.MemberInfo memberInfo = GetMemberForObjectComponent(altUnityObject, altProperty);
-            response = SetValueForMember(memberInfo, valueString, testableObject, altProperty);
+            System.Type type = GetType(altProperty.Component, altProperty.Assembly);
+            response = SetValueForMember(altUnityObject, altProperty.Property.Split('.'), type, valueString);
             return response;
         }
     }

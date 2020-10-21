@@ -22,14 +22,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             AltUnityRunner._altUnityRunner.LogMessage("Get text from object by name " + this.altUnityObject.name);
             var response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
 
-            var targetObject = AltUnityRunner.GetGameObject(altUnityObject);
-
             foreach (var property in TextProperties)
             {
                 try
                 {
-                    var memberInfo = GetMemberForObjectComponent(altUnityObject, property);
-                    response = GetValueForMember(memberInfo, targetObject, property);
+                    System.Type type = GetType(property.Component, property.Assembly);
+                    response = GetValueForMember(altUnityObject, property.Property.Split('.'), type,2);
                     if (!response.Contains("error:"))
                         break;
                 }

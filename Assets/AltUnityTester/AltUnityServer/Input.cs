@@ -766,7 +766,6 @@ public class Input : UnityEngine.MonoBehaviour
                 position = _mousePosition,
             };
 
-            UnityEngine.Debug.Log("mouse Position: " + touch.position);
             var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
             if (mockUpPointerInputModule.gameObjectHit != null)
             {

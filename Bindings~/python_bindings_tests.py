@@ -1157,6 +1157,48 @@ class PythonTests(unittest.TestCase):
         scenes = self.altdriver.get_all_loaded_scenes()
         self.assertEqual(len(scenes), 2)
 
+    def test_get_component_property_complex_class(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        componentName = "AltUnityExampleScriptCapsule"
+        propertyName = "AltUnitySampleClass.testInt"
+        altElement = self.altdriver.find_object(By.NAME, "Capsule")
+        self.assertIsNotNone(altElement)
+        propertyValue = altElement.get_component_property(
+            componentName, propertyName, max_depth=1)
+        self.assertEqual("1", propertyValue)
+
+    def test_get_component_property_complex_class2(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        componentName = "AltUnityExampleScriptCapsule"
+        propertyName = "listOfSampleClass[1].testString"
+        altElement = self.altdriver.find_object(By.NAME, "Capsule")
+        self.assertIsNotNone(altElement)
+        propertyValue = altElement.get_component_property(
+            componentName, propertyName, max_depth=1)
+        self.assertEqual("test2", propertyValue)
+
+    def test_set_component_property_complex_class(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        componentName = "AltUnityExampleScriptCapsule"
+        propertyName = "AltUnitySampleClass.testInt"
+        altElement = self.altdriver.find_object(By.NAME, "Capsule")
+        self.assertIsNotNone(altElement)
+        altElement.set_component_property(componentName, propertyName, "2")
+        propertyValue = altElement.get_component_property(
+            componentName, propertyName, max_depth=1)
+        self.assertEqual("2", propertyValue)
+
+    def test_set_component_property_complex_class2(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        componentName = "AltUnityExampleScriptCapsule"
+        propertyName = "listOfSampleClass[1].testString"
+        altElement = self.altdriver.find_object(By.NAME, "Capsule")
+        self.assertIsNotNone(altElement)
+        altElement.set_component_property(componentName, propertyName, "test3")
+        propertyValue = altElement.get_component_property(
+            componentName, propertyName, max_depth=1)
+        self.assertEqual("test3", propertyValue)
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

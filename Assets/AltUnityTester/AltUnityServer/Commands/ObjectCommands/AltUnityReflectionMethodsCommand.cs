@@ -1,6 +1,9 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Assets.AltUnityTester.AltUnityServer.Commands;
+using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace Assets.AltUnityTester.AltUnityServer
 {
@@ -11,7 +14,6 @@ namespace Assets.AltUnityTester.AltUnityServer
             var type = System.Type.GetType(typeName);
             if (type != null)
                 return type;
-
             if (string.IsNullOrEmpty(assemblyName))
             {
                 if (typeName.Contains("."))
@@ -28,7 +30,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                     return type;
                 }
 
-                throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
+                throw new AltUnityDriver.ComponentNotFoundException("Component not found");
             }
             else
             {
@@ -36,7 +38,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                 {
                     var assembly = System.Reflection.Assembly.Load(assemblyName);
                     if (assembly.GetType(typeName) == null)
-                        throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
+                        throw new AltUnityDriver.ComponentNotFoundException("Component not found");
                     return assembly.GetType(typeName);
                 }
                 catch (System.IO.FileNotFoundException)
@@ -45,27 +47,18 @@ namespace Assets.AltUnityTester.AltUnityServer
                 }
             }
         }
-        protected System.Reflection.MemberInfo GetMemberForObjectComponent(AltUnityObject altUnityObject, AltUnityObjectProperty altUnityObjectProperty)
+        protected System.Reflection.MemberInfo GetMemberForObjectComponent(System.Type Type, string propertyName)
         {
-            System.Type componentType;
-            componentType = GetType(altUnityObjectProperty.Component, altUnityObjectProperty.Assembly);
-            System.Reflection.PropertyInfo propertyInfo = componentType.GetProperty(
-                altUnityObjectProperty.Property,
+            System.Reflection.PropertyInfo propertyInfo = Type.GetProperty(propertyName,
                 System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
 
-            System.Reflection.FieldInfo fieldInfo = componentType.GetField(
-                altUnityObjectProperty.Property,
+            System.Reflection.FieldInfo fieldInfo = Type.GetField(propertyName,
                  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
-            if (AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType) != null)
-            {
-                if (propertyInfo != null)
-                    return propertyInfo;
-                if (fieldInfo != null)
-                    return fieldInfo;
-                throw new Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException("Property not found");
-
-            }
-            throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
+            if (propertyInfo != null)
+                return propertyInfo;
+            if (fieldInfo != null)
+                return fieldInfo;
+            throw new AltUnityDriver.PropertyNotFoundException("Property " + propertyName + " not found");
         }
 
         protected System.Reflection.MethodInfo[] GetMethodInfoWithSpecificName(System.Type componentType, string altActionMethod)
@@ -143,74 +136,125 @@ namespace Assets.AltUnityTester.AltUnityServer
             return Newtonsoft.Json.JsonConvert.SerializeObject(methodInfo.Invoke(component, parameters));
         }
 
-        protected string GetValueForMember(System.Reflection.MemberInfo memberInfo, UnityEngine.GameObject testableObject, AltUnityObjectProperty altProperty)
+        protected string GetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, int maxDepth)
         {
-            string response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
-            if (memberInfo != null)
+            string propertyName;
+            int index = GetArrayIndex(fieldArray[0], out propertyName);
+            System.Reflection.MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
+            var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
+            if (instance == null)
             {
-                if (memberInfo.MemberType == System.Reflection.MemberTypes.Property)
-                {
-                    System.Reflection.PropertyInfo propertyInfo = (System.Reflection.PropertyInfo)memberInfo;
-                    object value = propertyInfo.GetValue(testableObject.GetComponent(GetType(altProperty.Component, altProperty.Assembly)), null);
-                    response = SerializeMemberValue(value, propertyInfo.PropertyType);
-                }
-                if (memberInfo.MemberType == System.Reflection.MemberTypes.Field)
-                {
-                    System.Reflection.FieldInfo fieldInfo = (System.Reflection.FieldInfo)memberInfo;
-                    object value = fieldInfo.GetValue(testableObject.GetComponent(GetType(altProperty.Component, altProperty.Assembly)));
-                    response = SerializeMemberValue(value, fieldInfo.FieldType);
-                }
+                throw new AltUnityDriver.ComponentNotFoundException("Component " + componentType.Name + " not found");
             }
-            return response;
+            object value = GetValue(instance, memberInfo, index);
+
+            for (int i = 1; i < fieldArray.Length; i++)
+            {
+                index = GetArrayIndex(fieldArray[i], out propertyName);
+                memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
+                value = GetValue(value, memberInfo, index);
+            }
+            return SerializeMemberValue(value, value.GetType(), maxDepth);
+        }
+        private object GetValue(object instance, System.Reflection.MemberInfo memberInfo, int index)
+        {
+            object value = null;
+            if (memberInfo.MemberType == System.Reflection.MemberTypes.Property)
+            {
+                value = ((System.Reflection.PropertyInfo)memberInfo).GetValue(instance, null);
+            }
+            else if (memberInfo.MemberType == System.Reflection.MemberTypes.Field)
+            {
+                value = ((System.Reflection.FieldInfo)memberInfo).GetValue(instance);
+            }
+            if (index == -1)
+            {
+                return value;
+            }
+            else
+            {
+                System.Collections.IEnumerable enumerable = value as System.Collections.IEnumerable;
+                if (enumerable != null)
+                {
+                    int i = 0;
+                    foreach (object element in enumerable)
+                    {
+                        if (i == index)
+                        {
+                            return element;
+                        }
+                        i++;
+                    }
+                }
+                throw new AltUnityDriver.AltUnityException(AltUnityRunner._altUnityRunner.errorIndexOutOfRange);
+
+            }
+        }
+        private int GetArrayIndex(string arrayProperty, out string propertyName)
+        {
+            if (Regex.IsMatch(arrayProperty, @".*\[[0-9]\]*"))
+            {
+                var arrayPropertySplited = arrayProperty.Split('[');
+                propertyName = arrayPropertySplited[0];
+                return int.Parse(arrayPropertySplited[1].Split(']')[0]);
+            }
+            else
+            {
+                propertyName = arrayProperty;
+                return -1;
+            }
         }
 
-        protected string SetValueForMember(System.Reflection.MemberInfo memberInfo, string valueString, UnityEngine.GameObject testableObject, AltUnityObjectProperty altProperty)
+        protected string SetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, string valueString)
         {
-            string response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
-            if (memberInfo != null)
+
+            string propertyName;
+            int index = GetArrayIndex(fieldArray[0], out propertyName);
+            System.Reflection.MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
+            var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
+            if (instance == null)
             {
-                if (memberInfo.MemberType == System.Reflection.MemberTypes.Property)
-                {
-                    System.Reflection.PropertyInfo propertyInfo = (System.Reflection.PropertyInfo)memberInfo;
-                    try
-                    {
-                        object value = DeserializeMemberValue(valueString, propertyInfo.PropertyType);
-                        if (value != null)
-                        {
-                            propertyInfo.SetValue(testableObject.GetComponent(altProperty.Component), value, null);
-                            response = "valueSet";
-                        }
-                        else
-                            response = AltUnityRunner._altUnityRunner.errorPropertyNotSet;
-                    }
-                    catch (System.Exception e)
-                    {
-                        UnityEngine.Debug.Log(e);
-                        response = AltUnityRunner._altUnityRunner.errorPropertyNotSet;
-                    }
-                }
-                if (memberInfo.MemberType == System.Reflection.MemberTypes.Field)
-                {
-                    System.Reflection.FieldInfo fieldInfo = (System.Reflection.FieldInfo)memberInfo;
-                    try
-                    {
-                        object value = DeserializeMemberValue(valueString, fieldInfo.FieldType);
-                        if (value != null)
-                        {
-                            fieldInfo.SetValue(testableObject.GetComponent(altProperty.Component), value);
-                            response = "valueSet";
-                        }
-                        else
-                            response = AltUnityRunner._altUnityRunner.errorPropertyNotSet;
-                    }
-                    catch (System.Exception e)
-                    {
-                        UnityEngine.Debug.Log(e);
-                        response = AltUnityRunner._altUnityRunner.errorPropertyNotSet;
-                    }
-                }
+                throw new AltUnityDriver.ComponentNotFoundException("Component " + componentType.Name + " not found");
             }
-            return response;
+            if (fieldArray.Length > 1)
+            {
+                object value = GetValue(instance, memberInfo, index);
+
+                for (int i = 1; i < fieldArray.Length - 1; i++)
+                {
+                    index = GetArrayIndex(fieldArray[i], out propertyName);
+                    memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
+                    value = GetValue(value, memberInfo, index);
+
+                }
+
+                index = GetArrayIndex(fieldArray[fieldArray.Length - 1], out propertyName);
+                memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
+                SetValue(value, memberInfo, index, valueString);
+
+            }
+            else
+            {
+                SetValue(instance, memberInfo, index, valueString);
+            }
+            return "valueSet";
+
+        }
+
+        private void SetValue(object instance, MemberInfo memberInfo, int index, string valueString)
+        {
+            if (memberInfo.MemberType == System.Reflection.MemberTypes.Property)
+            {
+                PropertyInfo propertyInfo = (PropertyInfo)memberInfo;
+                object value = DeserializeMemberValue(valueString, propertyInfo.PropertyType);
+                propertyInfo.SetValue(instance, value);
+            }
+            else if (memberInfo.MemberType == System.Reflection.MemberTypes.Field)
+            {
+                FieldInfo fieldInfo = (FieldInfo)memberInfo;
+                object value = DeserializeMemberValue(valueString, fieldInfo.FieldType);
+                fieldInfo.SetValue(instance, value);
+            }
         }
 
         private Type[] getParameterTypes(AltUnityObjectAction altUnityObjectAction)
@@ -229,21 +273,34 @@ namespace Assets.AltUnityTester.AltUnityServer
             return types;
         }
 
-        private string SerializeMemberValue(object value, System.Type type)
+        private string SerializeMemberValue(object value, System.Type type, int maxDepth)
         {
             string response;
             if (type == typeof(string))
                 return value.ToString();
             try
             {
-                response = Newtonsoft.Json.JsonConvert.SerializeObject(value, type, AltUnityRunner._altUnityRunner._jsonSettings);
+                using (var strWriter = new System.IO.StringWriter())
+                {
+                    using (var jsonWriter = new CustomJsonTextWriter(strWriter))
+                    {
+                        Func<bool> include = () => jsonWriter.CurrentDepth <= maxDepth;
+                        var resolver = new AltUnityContractResolver(include);
+                        var serializer = new Newtonsoft.Json.JsonSerializer { ContractResolver = resolver, ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore };
+                        serializer.Serialize(jsonWriter, value);
+                    }
+                    return strWriter.ToString();
+                }
             }
-            catch (Newtonsoft.Json.JsonException)
+            catch (System.Exception e)
             {
+                AltUnityRunner._altUnityRunner.LogMessage(e.Message);
+                UnityEngine.Debug.LogError(e);
                 response = value.ToString();
             }
             return response;
         }
+
 
         private object DeserializeMemberValue(string valueString, System.Type type)
         {
@@ -254,8 +311,9 @@ namespace Assets.AltUnityTester.AltUnityServer
             {
                 value = Newtonsoft.Json.JsonConvert.DeserializeObject(valueString, type);
             }
-            catch (Newtonsoft.Json.JsonException)
+            catch (Newtonsoft.Json.JsonException e)
             {
+                AltUnityRunner._altUnityRunner.LogMessage(e.Message);
                 value = null;
             }
             return value;
