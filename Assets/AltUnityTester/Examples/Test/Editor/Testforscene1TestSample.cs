@@ -776,7 +776,7 @@ public class TestForScene1TestSample
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
-        List<AltUnityField> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
+        List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
         Assert.AreEqual(10, fields.Count);
     }
 
@@ -787,10 +787,11 @@ public class TestForScene1TestSample
         var componentList = altElement.GetAllComponents();
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
-        List<AltUnityField> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.INHERITEDFIELDS);
-        AltUnityField field = fields.First(fld => fld.name.Equals("inheritedField"));
+        List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.INHERITEDFIELDS);
+        AltUnityProperty field = fields.First(fld => fld.name.Equals("inheritedField"));
         Assert.AreEqual("False", field.value);
         Assert.AreEqual(1, fields.Count);
+        Assert.AreEqual(AltUnityType.PRIMITIVE, field.type);
     }
 
     [Test]
@@ -800,7 +801,7 @@ public class TestForScene1TestSample
         var componentList = altElement.GetAllComponents();
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
-        List<AltUnityField> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
+        List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
         Assert.AreEqual(11, fields.Count);
     }
 

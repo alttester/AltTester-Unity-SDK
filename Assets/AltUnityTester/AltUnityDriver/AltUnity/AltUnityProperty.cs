@@ -2,12 +2,12 @@ public struct AltUnityProperty
 {
     public string name;
     public string value;
-    public bool isPrimitive;
+    public AltUnityType type;
 
-    public AltUnityProperty(string name, string value,bool isPrimitive)
+    public AltUnityProperty(string name, string value, AltUnityType type)
     {
         this.name = name;
         this.value = value;
-        this.isPrimitive = isPrimitive;
+        this.type = type;
     }
 }
