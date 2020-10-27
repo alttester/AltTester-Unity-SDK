@@ -47,8 +47,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 try
                 {
                     var value = propertyInfo.GetValue(altObjectComponent,null);
+                    AltUnityType altUnityType = AltUnityType.OBJECT;
+                    if (propertyInfo.PropertyType.IsPrimitive)
+                    {
+                        altUnityType = AltUnityType.PRIMITIVE;
+                    }
+                    else if (propertyInfo.PropertyType.IsArray)
+                    {
+                        altUnityType = AltUnityType.ARRAY;
+                    }
                     listProperties.Add(new AltUnityProperty(propertyInfo.Name,
-                        value == null ? "null" :value.ToString(),propertyInfo.PropertyType.IsPrimitive));
+                        value == null ? "null" :value.ToString(), altUnityType));
                 }
                 catch (Exception e)
                 {

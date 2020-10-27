@@ -39,15 +39,24 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     break;
             }
 
-            System.Collections.Generic.List<AltUnityField> listFields = new System.Collections.Generic.List<AltUnityField>();
+            System.Collections.Generic.List<AltUnityProperty> listFields = new System.Collections.Generic.List<AltUnityProperty>();
 
             foreach (var fieldInfo in fieldInfos)
             {
                 try
                 {
                     var value = fieldInfo.GetValue(altObjectComponent);
-                    listFields.Add(new AltUnityField(fieldInfo.Name,
-                        value == null ? "null" : value.ToString(),fieldInfo.FieldType.IsPrimitive));
+                    AltUnityType altUnityType = AltUnityType.OBJECT;
+                    if (fieldInfo.FieldType.IsPrimitive)
+                    {
+                        altUnityType = AltUnityType.PRIMITIVE;
+                    }
+                    else if (fieldInfo.FieldType.IsArray)
+                    {
+                        altUnityType = AltUnityType.ARRAY;
+                    }
+                    listFields.Add(new AltUnityProperty(fieldInfo.Name,
+                        value == null ? "null" : value.ToString(), altUnityType));
 
                 }
                 catch (System.Exception e)

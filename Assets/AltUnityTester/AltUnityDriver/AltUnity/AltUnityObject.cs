@@ -111,7 +111,7 @@ public class AltUnityObject
     {
        return new AltUnityGetAllProperties(socketSettings,altUnityComponent,this, altUnityPropertiesSelections).Execute();
     }
-    public System.Collections.Generic.List<AltUnityField> GetAllFields(AltUnityComponent altUnityComponent,AltUnityFieldsSelections altUnityFieldsSelections=AltUnityFieldsSelections.ALLFIELDS)
+    public System.Collections.Generic.List<AltUnityProperty> GetAllFields(AltUnityComponent altUnityComponent,AltUnityFieldsSelections altUnityFieldsSelections=AltUnityFieldsSelections.ALLFIELDS)
     {
         return new AltUnityGetAllFields(socketSettings, altUnityComponent, this, altUnityFieldsSelections).Execute();
     }
