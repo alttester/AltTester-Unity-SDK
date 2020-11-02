@@ -50,8 +50,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 {
                     try
                     {
-                        UnityEngine.Debug.Log(member.Name + ":   " + member.DeclaringType);
-
                         FieldInfo field = (FieldInfo)member;
                         field.GetValue(instance);
                         if (_includeProperty())
@@ -60,15 +58,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     catch (Exception e)
                     {
                         AltUnityRunner._altUnityRunner.LogMessage(e.Message);
-                        UnityEngine.Debug.LogError(e);
                     }
                 }
                 if (member.MemberType == MemberTypes.Property)
                 {
                     try
                     {
-                        UnityEngine.Debug.Log(member.Name + ":   " + member.DeclaringType);
-
                         PropertyInfo prop = (PropertyInfo)member;
                         prop.GetValue(instance,null);
                         if (_includeProperty())
@@ -77,7 +72,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     catch (Exception e)
                     {
                         AltUnityRunner._altUnityRunner.LogMessage(e.Message);
-                        UnityEngine.Debug.LogError(e);
                     }
                 }
                 return false;
