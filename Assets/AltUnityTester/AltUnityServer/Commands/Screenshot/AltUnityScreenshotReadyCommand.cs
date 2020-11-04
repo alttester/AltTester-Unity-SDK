@@ -26,21 +26,38 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 width = screenshot.width;
                 height = screenshot.height;
             }
+            else
+            {
+                var heightDifference = screenshot.height - height;
+                var widthDifference = screenshot.width - width;
+                if (heightDifference >= 0 || widthDifference >= 0)
+                {
+                    if (heightDifference > widthDifference)
+                    {
+                        width = height * screenshot.width / screenshot.height;
+                    }
+                    else
+                    {
+                        height = width * screenshot.height / screenshot.width;
+                    }
+                }
 
-            width = width * quality / 100;
-            height = height * quality / 100;
-            AltUnityTextureScale.Bilinear(screenshot, width, height);
-            screenshot.Apply(true);
-                
-            screenshot.Compress(false);
-            screenshot.Apply(false);
-
+            }
             string[] fullResponse = new string[5];
 
             fullResponse[0] = Newtonsoft.Json.JsonConvert.SerializeObject(new UnityEngine.Vector2(screenshot.width, screenshot.height), new Newtonsoft.Json.JsonSerializerSettings
             {
                 ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             });
+
+            width = width * quality / 100;
+            height = height * quality / 100;
+            AltUnityTextureScale.Bilinear(screenshot, width, height);
+            screenshot.Apply(true);
+            screenshot.Compress(false);
+            screenshot.Apply(false);
+
+
             var screenshotSerialized = screenshot.GetRawTextureData();
             AltUnityRunner._altUnityRunner.LogMessage(screenshotSerialized.LongLength + " size after Unity Compression");
             AltUnityRunner._altUnityRunner.LogMessage(System.DateTime.Now + " Start Compression");
