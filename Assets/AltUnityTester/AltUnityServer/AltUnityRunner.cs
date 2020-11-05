@@ -26,7 +26,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public static System.IO.StreamWriter FileWriter;
 
 
-    public static readonly string VERSION = "1.5.7";
+    public static readonly string VERSION = "1.6.0-alpha";
 
     public readonly string errorNotFoundMessage = "error:notFound";
     public readonly string errorPropertyNotFoundMessage = "error:propertyNotFound";
@@ -338,7 +338,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "getObjectComponentProperty":
                     int maxDepth = int.Parse(pieces[3]);
-                    command = new AltUnityGetComponentPropertyCommand(pieces[1], pieces[2],maxDepth);
+                    command = new AltUnityGetComponentPropertyCommand(pieces[1], pieces[2], maxDepth);
                     break;
                 case "setObjectComponentProperty":
                     command = new AltUnitySetObjectComponentPropertyCommand(pieces[1], pieces[2], pieces[3]);

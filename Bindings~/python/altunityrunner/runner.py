@@ -268,12 +268,9 @@ class AltUnityDriver(object):
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((TCP_IP, TCP_PORT))
-                # self.socket.settimeout(5)
-                logger.debug("Get server Version")
-                version = GetServerVersion(
-                    self.socket, self.request_separator, self.request_end).execute()
-                logger.info(
-                    f"Connection established with AltUnity Server. Version: {version}")
+
+                self._check_server_version()
+
                 break
             except Exception as e:
                 if not self.socket == None:
@@ -290,9 +287,34 @@ class AltUnityDriver(object):
         EnableLogging(self.socket, self.request_separator,
                       self.request_end, self.log_flag).execute()
 
+    def _split_version(self, version):
+        parts = version.split(".")
+        return (parts[0], parts[1] if len(parts) > 1 else "")
+
+    def _check_server_version(self):
+        serverVersion = ""
+        try:
+            serverVersion = GetServerVersion(
+                self.socket, self.request_separator, self.request_end).execute()
+            logger.info(
+                f"Connection established with AltUnity Server. Version: {serverVersion}")
+
+        except UnknownErrorException:
+            serverVersion = "<=1.5.3"
+
+        majorServer, minorServer = self._split_version(serverVersion)
+        majorDriver, minorDriver = self._split_version(VERSION)
+
+        if majorServer != majorDriver or minorServer != minorDriver:
+            message = "Version mismatch. AltUnity Driver version is " + \
+                VERSION + ". AltUnity Server version is " + serverVersion + "."
+
+            logger.warning(message)
+
     def stop(self):
         CloseConnection(self.socket, self.request_separator,
                         self.request_end).execute()
+        self.socket.close()
 
     def call_static_methods(self, type_name, method_name, parameters, type_of_parameters='', assembly=''):
         return CallStaticMethods(self.socket, self.request_separator, self.request_end, type_name, method_name, parameters, type_of_parameters, assembly).execute()

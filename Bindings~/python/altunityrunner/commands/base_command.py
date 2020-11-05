@@ -20,6 +20,7 @@ class BaseCommand(object):
         receive_zero_bytes_counter_limit = 2
         while True:
             part = self.socket.recv(BUFFER_SIZE)
+            print(part)
             if not part:  # If received message is empty
                 if receive_zero_bytes_counter < receive_zero_bytes_counter_limit:
                     receive_zero_bytes_counter += 1
@@ -31,11 +32,13 @@ class BaseCommand(object):
             if '::altend' in partToSeeAltEnd:
                 break
             previousPart = str(part)
+
         try:
             data = data.split('altstart::')[1].split('::altend')[0]
             splitted_string = data.split('::altLog::')
             self.write_to_log_file(splitted_string[1])
             data = splitted_string[0]
+
             self.write_to_log_file(datetime.now().strftime(
                 "%m/%d/%Y %H:%M:%S")+": response received: "+data)
         except Exception as e:

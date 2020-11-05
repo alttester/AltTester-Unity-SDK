@@ -1199,6 +1199,11 @@ class PythonTests(unittest.TestCase):
             componentName, propertyName, max_depth=1)
         self.assertEqual("test3", propertyValue)
 
+    def test_get_version(self):
+        serverVersion = GetServerVersion(self.altdriver.socket,
+                         self.altdriver.request_separator, self.altdriver.request_end).execute()
+        self.assertEqual(serverVersion, VERSION)
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

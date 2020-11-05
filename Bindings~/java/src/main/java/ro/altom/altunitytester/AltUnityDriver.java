@@ -1,7 +1,6 @@
 package ro.altom.altunitytester;
 
 import org.apache.log4j.BasicConfigurator;
-import org.slf4j.LoggerFactory;
 import ro.altom.altunitytester.Commands.*;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
@@ -27,7 +26,7 @@ public class AltUnityDriver {
         public static int FloatType = 3;
     }
 
-    public static final String VERSION = "1.5.7";
+    public static final String VERSION = "1.6.0-alpha";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private Socket socket = null;
@@ -70,7 +69,7 @@ public class AltUnityDriver {
                             + ",retrying (timing out in " + timeout + " secs)...", e);
                 }
                 altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
-                GetServerVersion();
+                checkServerVersion();
                 EnableLogging();
                 break;
             } catch (Exception e) {
@@ -92,11 +91,33 @@ public class AltUnityDriver {
             throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port),
                     new Throwable());
         }
-
     }
 
-    private String GetServerVersion() {
-        return new GetServerVersionCommand(altBaseSettings).Execute();
+    private String[] splitVersion(String version)
+    {
+        return version.split( "\\." );
+    }
+
+    private void checkServerVersion() {
+        String serverVersion;
+        try {
+            serverVersion = new GetServerVersionCommand(altBaseSettings).Execute();
+        } catch (UnknownErrorException ex) {
+            serverVersion = "<=1.5.3";
+        }
+        String[] parts = splitVersion(serverVersion);
+        String majorServer = parts[0];
+        String minorServer = (parts.length > 1) ? parts[1] : "";
+        parts = splitVersion(AltUnityDriver.VERSION);
+        String majorDriver = parts[0];
+        String minorDriver = (parts.length > 1) ? parts[1] : "";
+
+        if (majorServer != majorDriver || minorServer != minorDriver) {
+            String message = "Version mismatch. AltUnity Driver version is " + AltUnityDriver.VERSION + ". AltUnity Server version is " + serverVersion + ".";
+
+            log.warn(message);
+            System.out.println(message);
+        }
     }
 
     private void EnableLogging() {
@@ -105,6 +126,13 @@ public class AltUnityDriver {
 
     public void stop() {
         new AltStop(altBaseSettings).Execute();
+        try {
+            socket.close();
+        }
+        catch(IOException ex)
+        {
+            log.warn(ex);
+        }
     }
 
     public String callStaticMethods(AltCallStaticMethodsParameters altCallStaticMethodsParameters) {
@@ -121,28 +149,30 @@ public class AltUnityDriver {
     public String callStaticMethods(String typeName, String methodName, String parameters) {
         return callStaticMethods("", typeName, methodName, parameters, "");
     }
+
     @Deprecated
     public void loadScene(String scene) {
-        AltLoadSceneParameters altLoadSceneParameters=new AltLoadSceneParameters.Builder(scene).build();
+        AltLoadSceneParameters altLoadSceneParameters = new AltLoadSceneParameters.Builder(scene).build();
         loadScene(altLoadSceneParameters);
-        
+
     }
-    
-    public void loadScene(AltLoadSceneParameters altLoadSceneParameters){
-        new AltLoadScene(altBaseSettings,altLoadSceneParameters).Execute();
+
+    public void loadScene(AltLoadSceneParameters altLoadSceneParameters) {
+        new AltLoadScene(altBaseSettings, altLoadSceneParameters).Execute();
     }
-    public String[] getAllLoadedScenes(){
+
+    public String[] getAllLoadedScenes() {
         return new AltGetAllLoadedScenes(altBaseSettings).Execute();
     }
-	
-	/**
-	 * Ability to access altBaseSettings.
-	 * @return Returns the AltBaseSettings used by the driver.
+
+    /**
+     * Ability to access altBaseSettings.
+     * 
+     * @return Returns the AltBaseSettings used by the driver.
      */
-	public AltBaseSettings GetAltBaseSettings()
-	{
-		return altBaseSettings;
-	}
+    public AltBaseSettings GetAltBaseSettings() {
+        return altBaseSettings;
+    }
 
     /**
      * Delete entire player pref of the game
@@ -457,7 +487,7 @@ public class AltUnityDriver {
     public AltUnityObject[] findObjectsWhichContains(AltFindObjectsParameters altFindObjectsParameters) {
         return new AltFindObjectsWhichContain(altBaseSettings, altFindObjectsParameters).Execute();
     }
-    
+
     @Deprecated
     public AltUnityObject[] findObjectsWhichContains(By by, String value, By cameraBy, String cameraPath,
             boolean enabled) {

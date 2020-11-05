@@ -1,3 +1,4 @@
+using System.Linq;
 using Assets.AltUnityTester.AltUnityDriver.Commands.InputActions;
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
@@ -21,7 +22,7 @@ public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
     public SocketSettings socketSettings;
-    public static readonly string VERSION = "1.5.7";
+    public static readonly string VERSION = "1.6.0-alpha";
     public static string requestSeparatorString;
     public static string requestEndingString;
 
@@ -40,7 +41,7 @@ public class AltUnityDriver
                 Socket.ReceiveTimeout = 5000;
 
                 socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding, logFlag);
-                CheckServerVersion();
+                checkServerVersion();
                 EnableLogging();
                 break;
             }
@@ -65,9 +66,39 @@ public class AltUnityDriver
         }
 
     }
-    public string CheckServerVersion()
+    private void splitVersion(string version, out string major, out string minor)
     {
-        return new AltUnityCheckServerVersion(socketSettings).Execute();
+        var parts = version.Split(new[] { "." }, System.StringSplitOptions.None);
+        major = parts[0];
+        minor = parts.Length > 1 ? parts[1] : string.Empty;
+    }
+    private void checkServerVersion()
+    {
+        string serverVersion;
+        try
+        {
+            serverVersion = new AltUnityGetServerVersion(socketSettings).Execute();
+        }
+        catch (Assets.AltUnityTester.AltUnityDriver.UnknownErrorException)
+        {
+            serverVersion = "<=1.5.3";
+        }
+
+        string majorServer, minorServer,
+        majorDriver, minorDriver;
+
+        splitVersion(serverVersion, out majorServer, out minorServer);
+        splitVersion(AltUnityDriver.VERSION, out majorDriver, out minorDriver);
+
+        if (majorServer != majorDriver || minorServer != minorDriver)
+        {
+            string message = "Version mismatch. AltUnity Driver version is " + AltUnityDriver.VERSION + ". AltUnity Server version is " + serverVersion + ".";
+
+#if UNITY_EDITOR
+            UnityEngine.Debug.LogWarning(message);
+#endif
+            System.Console.WriteLine(message);
+        }
     }
     private void EnableLogging()
     {
@@ -77,6 +108,7 @@ public class AltUnityDriver
     public void Stop()
     {
         new AltUnityStopCommand(socketSettings).Execute();
+        Socket.Close();
     }
     public void LoadScene(string scene, bool loadSingle = true)
     {
@@ -354,17 +386,17 @@ public class AltUnityDriver
     {
         return new AltUnityGetAllCameras(socketSettings).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2),int screenShotQuality=100)
+    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
     {
-        return new AltUnityGetScreenshot(socketSettings, size,screenShotQuality).Execute();
+        return new AltUnityGetScreenshot(socketSettings, size, screenShotQuality).Execute();
     }
     public AltUnityTextureInformation GetScreenshot(int id, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
     {
-        return new AltUnityGetScreenshot(socketSettings, id, color, width, size,screenShotQuality).Execute();
+        return new AltUnityGetScreenshot(socketSettings, id, color, width, size, screenShotQuality).Execute();
     }
     public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
     {
-        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size,screenShotQuality).Execute(out selectedObject);
+        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size, screenShotQuality).Execute(out selectedObject);
 
     }
     public void GetPNGScreenshot(string path)

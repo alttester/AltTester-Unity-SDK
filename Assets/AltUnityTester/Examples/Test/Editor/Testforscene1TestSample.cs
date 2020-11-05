@@ -892,7 +892,7 @@ public class TestForScene1TestSample
     public void TestTapScreenWhereThereIsNoObjects()
     {
         var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-        AltUnityObject altObject = altUnityDriver.TapScreen(counterButton.x+50, counterButton.y + 50);
+        AltUnityObject altObject = altUnityDriver.TapScreen(counterButton.x + 50, counterButton.y + 50);
         Assert.AreEqual(null, altObject);
     }
     [Test]
@@ -1376,6 +1376,7 @@ public class TestForScene1TestSample
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual("test3", propertyValue);
     }
+    [Test]
     public void TestClickWithMouseCapsule()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -1387,7 +1388,12 @@ public class TestForScene1TestSample
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalCapsulePosition = capsule.getWorldPosition();
         Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
+    }
 
+    [Test]
+    public void TestGetVersion()
+    {
+        Assert.AreEqual(AltUnityDriver.VERSION, new AltUnityGetServerVersion(altUnityDriver.socketSettings).Execute());
     }
 }
 
