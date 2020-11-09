@@ -2,11 +2,12 @@ package ro.altom.altunitytester;
 
 import org.junit.*;
 
+import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
+import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.position.Vector2;
-import ro.altom.altunitytester.position.Vector3;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class TestsSampleScene2 {
 
     @Before
     public void loadLevel() throws Exception {
-        altUnityDriver.loadScene("Scene 2 Draggable Panel");
+        AltLoadSceneParameters params = new AltLoadSceneParameters.Builder("Scene 2 Draggable Panel").build();
+        altUnityDriver.loadScene(params);
     }
 
     @Test
@@ -78,9 +80,18 @@ public class TestsSampleScene2 {
 
     @Test
     public void testClosePanel() throws Exception {
-        altUnityDriver.waitForElement("Panel Drag Area", "", true, 2, 0.5);
-        assertTrue(altUnityDriver.findElement("Panel").enabled);
-        AltUnityObject altElement = altUnityDriver.findElement("Close Button");
+
+        AltFindObjectsParameters findObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME,
+                "Panel Drag Area").build();
+        AltWaitForObjectsParameters params = new AltWaitForObjectsParameters.Builder(findObjectsParameters)
+                .withInterval(2).build();
+        altUnityDriver.waitForObject(params);
+
+        AltFindObjectsParameters findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Panel").build();
+        assertTrue(altUnityDriver.findObject(findObjectParams).enabled);
+
+        findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Close Button").build();
+        AltUnityObject altElement = altUnityDriver.findObject(findObjectParams);
         altElement.clickEvent();
 
         AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
@@ -92,31 +103,35 @@ public class TestsSampleScene2 {
         assertTrue(altUnityDriver.findObject(altFindObjectsParameters1).enabled);
     }
 
-    @Test
-    public void testDragObject() throws InterruptedException {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "Drag Zone").build();
-        AltUnityObject dragPanel = altUnityDriver.findObject(altFindObjectsParameters1);
-        Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
-        dragPanel.drag(200, 200);
-        Thread.sleep(1000);
-        dragPanel = altUnityDriver.findObject(altFindObjectsParameters1);
-        Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
-        assertTrue(initPosition != finalPosition);
-    }
+    // @Test
+    // public void testDragObject() throws InterruptedException {
+    // AltFindObjectsParameters altFindObjectsParameters1 = new
+    // AltFindObjectsParameters.Builder(
+    // AltUnityDriver.By.NAME, "Drag Zone").build();
+    // AltUnityObject dragPanel =
+    // altUnityDriver.findObject(altFindObjectsParameters1);
+    // Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+    // dragPanel.drag(200, 200);
+    // Thread.sleep(1000);
+    // dragPanel = altUnityDriver.findObject(altFindObjectsParameters1);
+    // Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+    // assertTrue(initPosition != finalPosition);
+    // }
 
-    @Test
-    public void testDropObject() throws InterruptedException {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "Drag Zone").build();
-        AltUnityObject dragPanel = altUnityDriver.findObject(altFindObjectsParameters1);
-        Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
-        dragPanel.drop(200, 200);
-        Thread.sleep(1000);
-        dragPanel = altUnityDriver.findObject(altFindObjectsParameters1);
-        Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
-        assertTrue(initPosition != finalPosition);
-    }
+    // @Test
+    // public void testDropObject() throws InterruptedException {
+    // AltFindObjectsParameters altFindObjectsParameters1 = new
+    // AltFindObjectsParameters.Builder(
+    // AltUnityDriver.By.NAME, "Drag Zone").build();
+    // AltUnityObject dragPanel =
+    // altUnityDriver.findObject(altFindObjectsParameters1);
+    // Vector3 initPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+    // dragPanel.drop(200, 200);
+    // Thread.sleep(1000);
+    // dragPanel = altUnityDriver.findObject(altFindObjectsParameters1);
+    // Vector3 finalPosition = new Vector3(dragPanel.x, dragPanel.y, dragPanel.z);
+    // assertTrue(initPosition != finalPosition);
+    // }
 
     @Test
     public void testPointerDownFromObject() throws InterruptedException {

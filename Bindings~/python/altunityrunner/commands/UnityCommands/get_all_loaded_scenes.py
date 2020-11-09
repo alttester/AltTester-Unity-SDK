@@ -4,7 +4,7 @@ import json
 
 
 class GetAllLoadedScenes(BaseCommand):
-    def __init__(self, socket, request_separator, request_end, appium_driver):
+    def __init__(self, socket, request_separator, request_end):
         super(GetAllLoadedScenes, self).__init__(
             socket, request_separator, request_end)
 

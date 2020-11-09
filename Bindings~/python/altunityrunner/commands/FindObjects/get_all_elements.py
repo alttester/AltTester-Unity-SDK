@@ -3,9 +3,9 @@ from altunityrunner.by import By
 
 
 class GetAllElements(CommandReturningAltElements):
-    def __init__(self, socket, request_separator, request_end, appium_driver, camera_by, camera_path, enabled):
+    def __init__(self, socket, request_separator, request_end, camera_by, camera_path, enabled):
         super(GetAllElements, self).__init__(
-            socket, request_separator, request_end, appium_driver)
+            socket, request_separator, request_end)
         self.camera_by = camera_by
         self.camera_path = camera_path
         self.enabled = enabled

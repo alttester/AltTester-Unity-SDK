@@ -55,7 +55,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: java
     
         @Test
-        public void testfindElement() throws Exception
+        public void testfindObject() throws Exception
         {
             String name = "Capsule";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
@@ -67,12 +67,9 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
     .. code-tab:: py
 
-       def test_find_objects_by_tag(self):
-        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        altElements = self.altdriver.find_objects(By.TAG,"plane")
-        self.assertEquals(2, len(altElements))
-        for altElement in altElements: 
-        self.assertEquals("Plane", altElement.name)
+        def test_find_object(self):
+            altElement = self.altdriver.find_object(By.NAME,"Capsule")
+            self.assertEqual(altElement.name, "Capsule")
 ```
 
 ####  FindObjects

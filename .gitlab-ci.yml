@@ -117,7 +117,7 @@ run-python-android-tests:
     - *reinstall_and_start_android_app
     - *initialize_venv
     - *pip_install_dependencies
-    - python3 "Bindings~/python_bindings_tests.py"
+    - pytest Bindings~/python/tests/python_bindings_tests.py
     - pytest Bindings~/python/tests/unit
   needs: ["build-apk"]
 
@@ -146,7 +146,7 @@ run-python-appium-android-tests:
   script:
     - *initialize_venv
     - *pip_install_dependencies
-    - python "Bindings~/python_appium_tests.py"
+    - python "Bindings~/python/tests/python_appium_tests.py"
   artifacts:
     when: always
     expire_in: 10 days

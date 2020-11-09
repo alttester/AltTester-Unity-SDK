@@ -184,16 +184,6 @@ public class AltUnityObject {
         return sendActionAndEvaluateResult("clickEvent");
     }
 
-    @Deprecated
-    public AltUnityObject drag(int x, int y) {
-        return sendActionWithCoordinateAndEvaluate(x, y, "dragObject");
-    }
-
-    @Deprecated
-    public AltUnityObject drop(int x, int y) {
-        return sendActionWithCoordinateAndEvaluate(x, y, "dropObject");
-    }
-
     public AltUnityObject pointerUp() {
         return sendActionAndEvaluateResult("pointerUpFromObject");
     }
@@ -224,9 +214,5 @@ public class AltUnityObject {
 
     private AltUnityObject sendActionAndEvaluateResult(String command, String parameter) {
         return new AltSendActionAndEvaluateResult(altBaseSettings, this, command, parameter).Execute();
-    }
-
-    private AltUnityObject sendActionWithCoordinateAndEvaluate(int x, int y, String s) {
-        return new AltSendActionWithCoordinateAndEvaluate(altBaseSettings, this, x, y, s).Execute();
     }
 }

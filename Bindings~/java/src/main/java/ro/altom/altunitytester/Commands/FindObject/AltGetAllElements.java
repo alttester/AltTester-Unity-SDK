@@ -1,6 +1,5 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import com.google.gson.Gson;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityObject;
 

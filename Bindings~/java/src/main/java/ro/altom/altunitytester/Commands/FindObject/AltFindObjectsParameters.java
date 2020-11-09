@@ -2,7 +2,6 @@ package ro.altom.altunitytester.Commands.FindObject;
 
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityDriver.By;
-import ro.altom.altunitytester.Commands.InputActions.AltScrollMouseParameters;
 
 public class AltFindObjectsParameters {
 

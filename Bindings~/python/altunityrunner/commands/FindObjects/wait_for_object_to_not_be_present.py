@@ -6,9 +6,9 @@ import time
 
 
 class WaitForObjectToNotBePresent(CommandReturningAltElements):
-    def __init__(self, socket, request_separator, request_end, appium_driver, by, value, camera_by, camera_path, timeout, interval, enabled):
+    def __init__(self, socket, request_separator, request_end, by, value, camera_by, camera_path, timeout, interval, enabled):
         super(WaitForObjectToNotBePresent, self).__init__(
-            socket, request_separator, request_end, appium_driver)
+            socket, request_separator, request_end)
         self.by = by
         self.value = value
         self.camera_by = camera_by
@@ -23,7 +23,7 @@ class WaitForObjectToNotBePresent(CommandReturningAltElements):
             try:
                 logger.debug('Waiting for element ' +
                              self.value + ' to not be present...')
-                FindObject(self.socket, self.request_separator, self.request_end, self.appium_driver,
+                FindObject(self.socket, self.request_separator, self.request_end,
                            self.by, self.value, self.camera_by, self.camera_path, self.enabled).execute()
                 time.sleep(self.interval)
                 t += self.interval

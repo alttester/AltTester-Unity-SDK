@@ -1,34 +1,36 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-import ro.altom.altunitytester.Commands.AltCallStaticMethodsParameters;
-
 public class AltCallComponentMethodParameters {
-    public static class Builder{
+    public static class Builder {
         private String componentName;
         private String methodName;
         private String parameters;
         private String typeOfParameters;
         private String assembly;
-        public Builder(String componentName,String methodName,String parameters){
-            this.componentName=componentName;
-            this.methodName=methodName;
-            this.parameters=parameters;
+
+        public Builder(String componentName, String methodName, String parameters) {
+            this.componentName = componentName;
+            this.methodName = methodName;
+            this.parameters = parameters;
         }
-        public AltCallComponentMethodParameters.Builder withAssembly(String assembly){
-            this.assembly=assembly;
+
+        public AltCallComponentMethodParameters.Builder withAssembly(String assembly) {
+            this.assembly = assembly;
             return this;
         }
-        public AltCallComponentMethodParameters.Builder withTypeOfParameters(String typeOfParameters){
-            this.typeOfParameters=typeOfParameters;
+
+        public AltCallComponentMethodParameters.Builder withTypeOfParameters(String typeOfParameters) {
+            this.typeOfParameters = typeOfParameters;
             return this;
         }
-        public AltCallComponentMethodParameters build(){
-            AltCallComponentMethodParameters altCallStaticMethodsParameters=new AltCallComponentMethodParameters();
-            altCallStaticMethodsParameters.assembly=this.assembly;
-            altCallStaticMethodsParameters.methodName=this.methodName;
-            altCallStaticMethodsParameters.parameters=this.parameters;
-            altCallStaticMethodsParameters.componentName=this.componentName;
-            altCallStaticMethodsParameters.typeOfParameters=this.typeOfParameters;
+
+        public AltCallComponentMethodParameters build() {
+            AltCallComponentMethodParameters altCallStaticMethodsParameters = new AltCallComponentMethodParameters();
+            altCallStaticMethodsParameters.assembly = this.assembly;
+            altCallStaticMethodsParameters.methodName = this.methodName;
+            altCallStaticMethodsParameters.parameters = this.parameters;
+            altCallStaticMethodsParameters.componentName = this.componentName;
+            altCallStaticMethodsParameters.typeOfParameters = this.typeOfParameters;
             return altCallStaticMethodsParameters;
         }
     }
