@@ -34,7 +34,7 @@ class GetAllFields(BaseCommand):
             alt_component_name = self.component
         else:
             logger.error(
-                f'Component supplied: {component} \nis missing something.')
+                f'Component supplied: {self.component} \nis missing something.')
             raise ValueError(f'Component supplied is missing something')
 
         alt_component_json_serialized = f'"componentName": "{alt_component_name}"'
@@ -47,5 +47,4 @@ class GetAllFields(BaseCommand):
             return self.simplify(parsed_data)
         except json.JSONDecodeError:
             logger.error(f'Cannot parse the {data}, this is not JSON.')
-            raise json.JSONDecodeError(
-                f'Cannot parse the {data}, this is not JSON.')
+            raise

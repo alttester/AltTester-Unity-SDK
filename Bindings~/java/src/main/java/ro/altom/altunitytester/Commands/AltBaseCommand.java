@@ -1,13 +1,11 @@
 package ro.altom.altunitytester.Commands;
 
 import ro.altom.altunitytester.AltBaseSettings;
-import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,7 +53,7 @@ public class AltBaseCommand {
         String[] data = receivedData.split("::altLog::");
         receivedData = data[0];
         log.debug("Data received: " + receivedData);
-        if (altBaseSettings.logEnabled && data.length==2) {
+        if (altBaseSettings.logEnabled && data.length == 2) {
             WriteInLogFile(data[1]);
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");

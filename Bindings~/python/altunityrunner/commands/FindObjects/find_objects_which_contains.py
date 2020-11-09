@@ -3,9 +3,9 @@ from altunityrunner.by import By
 
 
 class FindObjectsWhichContain(CommandReturningAltElements):
-    def __init__(self, socket, request_separator, request_end, appium_driver, by, value, camera_by, camera_path, enabled):
+    def __init__(self, socket, request_separator, request_end, by, value, camera_by, camera_path, enabled):
         super(FindObjectsWhichContain, self).__init__(
-            socket, request_separator, request_end, appium_driver)
+            socket, request_separator, request_end)
         self.by = by
         self.value = value
         self.camera_by = camera_by

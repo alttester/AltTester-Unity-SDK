@@ -6,6 +6,7 @@ class By(object):
     ID = 5
     PATH = 6
 
+    @staticmethod
     def return_enum_string(value):
         if value == 1:
             return "NAME"

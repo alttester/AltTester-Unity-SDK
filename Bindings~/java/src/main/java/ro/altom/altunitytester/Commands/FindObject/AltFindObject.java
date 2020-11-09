@@ -1,10 +1,8 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import com.google.gson.Gson;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityObject;
-import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
  * Builder for finding the first object in the scene that respects the given

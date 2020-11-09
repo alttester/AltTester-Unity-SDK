@@ -4,9 +4,9 @@ import time
 
 
 class TapCustom(CommandReturningAltElements):
-    def __init__(self, socket, request_separator, request_end, appium_driver, x, y, count, interval):
+    def __init__(self, socket, request_separator, request_end, x, y, count, interval):
         super(TapCustom, self).__init__(
-            socket, request_separator, request_end, appium_driver)
+            socket, request_separator, request_end)
         self.x = x
         self.y = y
         self.count = count

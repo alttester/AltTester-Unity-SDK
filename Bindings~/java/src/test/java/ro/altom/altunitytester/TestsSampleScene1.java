@@ -16,6 +16,7 @@ import ro.altom.altunitytester.Commands.InputActions.AltTiltParameters;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParameters;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltSetComponentPropertyParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
+import ro.altom.altunitytester.Commands.UnityCommand.AltWaitForCurrentSceneToBeParameters;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import ro.altom.altunitytester.position.Vector3;
 
@@ -39,7 +40,7 @@ public class TestsSampleScene1 {
 
     @Before
     public void loadLevel() throws Exception {
-        altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
+        altUnityDriver.loadScene(new AltLoadSceneParameters.Builder("Scene 1 AltUnityDriverTestScene").build());
     }
 
     @Test
@@ -83,7 +84,7 @@ public class TestsSampleScene1 {
         String name = "Pla";
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                 name).build();
-        AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContains(altFindObjectsParameters);
+        AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
         assertNotNull(altElements);
         assertTrue(altElements[0].name.contains(name));
     }
@@ -127,7 +128,12 @@ public class TestsSampleScene1 {
     public void testWaitForExistingDisabledElement() throws Exception {
         String name = "Cube";
         long timeStart = System.currentTimeMillis();
-        AltUnityObject altElement = altUnityDriver.waitForElement(name, false);
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                name).build();
+        altFindObjectsParameters.setEnabled(false);
+        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+                altFindObjectsParameters).build();
+        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParameters);
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
         assertTrue(time / 1000 < 20);
@@ -139,10 +145,15 @@ public class TestsSampleScene1 {
     public void testWaitForNonExistingElement() {
         String name = "Capsulee";
         try {
-            altUnityDriver.waitForElement(name, "", true, 1, 0.5);
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, name).build();
+
+            AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+                    altFindObjectsParameters).withTimeout(1).build();
+            altUnityDriver.waitForObject(altWaitForObjectsParameters);
             fail();
         } catch (Exception e) {
-            assertEquals("Element Capsulee not loaded after 1.0 seconds", e.getMessage());
+            assertEquals("Element Capsulee still not found after 1.0 seconds", e.getMessage());
         }
     }
 
@@ -150,7 +161,8 @@ public class TestsSampleScene1 {
     public void testWaitForCurrentSceneToBe() throws Exception {
         String name = "Scene 1 AltUnityDriverTestScene";
         long timeStart = System.currentTimeMillis();
-        String currentScene = altUnityDriver.waitForCurrentSceneToBe(name);
+        AltWaitForCurrentSceneToBeParameters params = new AltWaitForCurrentSceneToBeParameters.Builder(name).build();
+        String currentScene = altUnityDriver.waitForCurrentSceneToBe(params);
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
         assertTrue(time / 1000 < 20);
@@ -163,7 +175,9 @@ public class TestsSampleScene1 {
 
         String name = "NonExistentScene";
         try {
-            altUnityDriver.waitForCurrentSceneToBe(name, 1, 0.5);
+            AltWaitForCurrentSceneToBeParameters params = new AltWaitForCurrentSceneToBeParameters.Builder(name)
+                    .withTimeout(1).build();
+            altUnityDriver.waitForCurrentSceneToBe(params);
             fail();
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Scene [NonExistentScene] not loaded after 1.0 seconds");
@@ -190,7 +204,12 @@ public class TestsSampleScene1 {
     public void testWaitForNonExistingElementWhereNameContains() {
         String name = "xyz";
         try {
-            altUnityDriver.waitForElementWhereNameContains(name, "", true, 1, 0.5);
+
+            AltFindObjectsParameters findObjectsParams = new AltFindObjectsParameters.Builder(By.NAME, name).build();
+            AltWaitForObjectsParameters params = new AltWaitForObjectsParameters.Builder(findObjectsParams)
+                    .withTimeout(1).build();
+
+            altUnityDriver.waitForObjectWhichContains(params);
             fail();
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Element xyz still not found after 1.0 seconds");
@@ -223,7 +242,12 @@ public class TestsSampleScene1 {
                 name).build();
         String text = altUnityDriver.findObject(altFindObjectsParameters).getText() + "WrongText";
         try {
-            altUnityDriver.waitForElementWithText(name, text, "", true, 1, 0.5);
+            AltFindObjectsParameters findObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, name)
+                    .build();
+            AltWaitForObjectWithTextParameters params = new AltWaitForObjectWithTextParameters.Builder(
+                    findObjectsParameters, text).withTimeout(1).build();
+            altUnityDriver.waitForObjectWithText(params);
+
             fail();
         } catch (WaitTimeOutException e) {
             assertEquals(e.getMessage(), "Element with text: Capsule InfoWrongText not loaded after 1.0 seconds");
@@ -552,7 +576,7 @@ public class TestsSampleScene1 {
                 AltUnityDriver.By.NAME, "UIButton").build();
         AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "CapsuleInfo").build();
-        AltUnityObject button = altUnityDriver.findObject(altFindObjectsParameters1).clickEvent();
+        altUnityDriver.findObject(altFindObjectsParameters1).clickEvent();
         AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
         Thread.sleep(2);
         String text = capsuleInfo.getText();
@@ -561,8 +585,12 @@ public class TestsSampleScene1 {
 
     @Test
     public void testButtonTap() throws Exception {
-        altUnityDriver.findElement("UIButton").tap();
-        AltUnityObject capsuleInfo = altUnityDriver.findElement("CapsuleInfo");
+        AltFindObjectsParameters params = new AltFindObjectsParameters.Builder(By.NAME, "UIButton").build();
+        altUnityDriver.findObject(params).tap();
+
+        params = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo").build();
+        AltUnityObject capsuleInfo = altUnityDriver.findObject(params);
+
         Thread.sleep(2);
         String text = capsuleInfo.getText();
         assertEquals(text, "UIButton clicked to jump capsule!");
@@ -598,7 +626,13 @@ public class TestsSampleScene1 {
     @Test
     public void testWaitForObjectWithTextWrongText() throws Exception {
         try {
-            AltUnityObject altElement = altUnityDriver.waitForElementWithText("CapsuleInfo", "aaaaa", "", true, 1, 0.5);
+            AltFindObjectsParameters findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo")
+                    .build();
+            AltWaitForObjectWithTextParameters params = new AltWaitForObjectWithTextParameters.Builder(findObjectParams,
+                    "aaaaa").build();
+            params.setTimeout(1);
+            altUnityDriver.waitForObjectWithText(params);
+
             assertEquals(false, true);
         } catch (WaitTimeOutException exception) {
             assertEquals("Element with text: aaaaa not loaded after 1.0 seconds", exception.getMessage());

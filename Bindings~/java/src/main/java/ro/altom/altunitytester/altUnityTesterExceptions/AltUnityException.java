@@ -1,6 +1,11 @@
 package ro.altom.altunitytester.altUnityTesterExceptions;
 
 public class AltUnityException extends RuntimeException {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4049659159406476777L;
+
     public AltUnityException() {
     }
 
@@ -16,4 +21,3 @@ public class AltUnityException extends RuntimeException {
         super(message, exception);
     }
 }
-

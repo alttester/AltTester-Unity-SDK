@@ -8,7 +8,7 @@ using System.Diagnostics;
 public class TestForScene2DraggablePanel
 {
     private AltUnityDriver altUnityDriver;
-    
+
     [OneTimeSetUp]
     public void SetUp()
     {
@@ -26,26 +26,26 @@ public class TestForScene2DraggablePanel
     {
         altUnityDriver.LoadScene("Scene 2 Draggable Panel");
     }
-    
+
     [Test]
     public void TestResizePanel()
     {
-       var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-       var position = new AltUnityVector2(altElement.x, altElement.y);
-       altUnityDriver.SwipeAndWait(altElement.getScreenPosition(), new AltUnityVector2(altElement.x - 200, altElement.y - 200), 2);
+        var altElement = altUnityDriver.FindObject(By.NAME, "Resize Zone");
+        var position = new AltUnityVector2(altElement.x, altElement.y);
+        altUnityDriver.SwipeAndWait(altElement.getScreenPosition(), new AltUnityVector2(altElement.x - 200, altElement.y - 200), 2);
 
         Thread.Sleep(2000);
         altElement = altUnityDriver.FindObject(By.NAME, "Resize Zone");
         var position2 = new AltUnityVector2(altElement.x, altElement.y);
         Assert.AreNotEqual(position, position2);
     }
-    
+
     [Test]
     public void TestResizePanelWithMultipointSwipe()
     {
-        var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+        var altElement = altUnityDriver.FindObject(By.NAME, "Resize Zone");
         var position = new AltUnityVector2(altElement.x, altElement.y);
-        var pos = new []
+        var pos = new[]
         {
             altElement.getScreenPosition(),
             new AltUnityVector2(altElement.x - 200, altElement.y - 200),
@@ -57,15 +57,15 @@ public class TestForScene2DraggablePanel
 
         Thread.Sleep(4000);
 
-        altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+        altElement = altUnityDriver.FindObject(By.NAME, "Resize Zone");
         var position2 = new AltUnityVector2(altElement.x, altElement.y);
         Assert.AreNotEqual(position, position2);
     }
-    
+
     [Test]
     public void TestMovePanel()
     {
-        var altElement = altUnityDriver.FindObject(By.NAME,"Drag Zone");
+        var altElement = altUnityDriver.FindObject(By.NAME, "Drag Zone");
         var position = new AltUnityVector2(altElement.x, altElement.y);
         altUnityDriver.Swipe(new AltUnityVector2(altElement.x, altElement.y), new AltUnityVector2(altElement.x + 200, altElement.y + 200), 2);
         Thread.Sleep(2000);
@@ -85,7 +85,7 @@ public class TestForScene2DraggablePanel
 
         altElement = altUnityDriver.FindObject(By.NAME, "Button");
         altElement.ClickEvent();
-        Assert.IsTrue(altUnityDriver.FindObject(By.NAME,"Panel").enabled);
+        Assert.IsTrue(altUnityDriver.FindObject(By.NAME, "Panel").enabled);
     }
 
     [Test]
@@ -156,50 +156,50 @@ public class TestForScene2DraggablePanel
         Assert.IsNotNull(altElements.Where(p => p.name == "PopUp"));
     }
 
-    
+    // [Test]
+    // public void TestDragObject()
+    // {
+    //     var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+    //     UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+    //     panel.DragObject( new AltUnityVector2(200, 200));
+    //     Thread.Sleep(2000); 
+    //     panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+    //     UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+    //     Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
+    // }
+
+    // [Test]
+    // public void TestDropObject()
+    // {
+    //     var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+    //     UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+    //     panel.DropObject(new AltUnityVector2(100, 200));
+    //     Thread.Sleep(2000); 
+    //     panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+    //     UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
+    //     Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
+    // }
 
     [Test]
-    public void TestDragObject()
+    public void TestPointerDownFromObject()
     {
-        var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-        UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-        panel.DragObject( new AltUnityVector2(200, 200));
-        Thread.Sleep(2000); 
-        panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-        UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-        Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
-    }
-
-    [Test]
-    public void TestDropObject()
-    {
-        var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-        UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-        panel.DropObject(new AltUnityVector2(100, 200));
-        Thread.Sleep(2000); 
-        panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-        UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-        Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
-    }
-
-    [Test]
-    public void TestPointerDownFromObject(){
         var panel = altUnityDriver.FindObject(By.NAME, "Panel");
-        var color1 = panel.GetComponentProperty("AltUnityExampleScriptPanel","normalColor");
+        var color1 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "normalColor");
         panel.PointerDownFromObject();
         Thread.Sleep(1000);
-        var color2 = panel.GetComponentProperty("AltUnityExampleScriptPanel","highlightColor");
+        var color2 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "highlightColor");
         Assert.AreNotEqual(color1, color2);
     }
 
-    [Test] 
-    public void TestPointerUpFromObject(){
+    [Test]
+    public void TestPointerUpFromObject()
+    {
         var panel = altUnityDriver.FindObject(By.NAME, "Panel");
-        var color1 = panel.GetComponentProperty("AltUnityExampleScriptPanel","normalColor");
+        var color1 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "normalColor");
         panel.PointerDownFromObject();
         Thread.Sleep(1000);
         panel.PointerUpFromObject();
-        var color2 = panel.GetComponentProperty("AltUnityExampleScriptPanel","highlightColor");
+        var color2 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "highlightColor");
         Assert.AreEqual(color1, color2);
     }
 }
