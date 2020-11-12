@@ -641,10 +641,10 @@ public class Input : UnityEngine.MonoBehaviour
             {
                 float deltaX;
                 float deltaY;
-                if (time + UnityEngine.Time.deltaTime < oneInputDuration)
+                if (time + UnityEngine.Time.fixedUnscaledDeltaTime < oneInputDuration)
                 {
-                    deltaX = xDistance * UnityEngine.Time.deltaTime / oneInputDuration;
-                    deltaY = yDistance * UnityEngine.Time.deltaTime / oneInputDuration;
+                    deltaX = xDistance * UnityEngine.Time.fixedUnscaledDeltaTime / oneInputDuration;
+                    deltaY = yDistance * UnityEngine.Time.fixedUnscaledDeltaTime / oneInputDuration;
                 }
                 else
                 {
@@ -653,7 +653,7 @@ public class Input : UnityEngine.MonoBehaviour
                 }
 
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
-                time += UnityEngine.Time.deltaTime;
+                time += UnityEngine.Time.fixedUnscaledDeltaTime;
                 touch.position = new UnityEngine.Vector2(touch.position.x + deltaX, touch.position.y + deltaY);
                 touch.deltaPosition = new UnityEngine.Vector2(deltaX, deltaY);
 
@@ -783,7 +783,7 @@ public class Input : UnityEngine.MonoBehaviour
                 touch.deltaPosition = new UnityEngine.Vector2(_mousePosition.x, _mousePosition.y)- touch.position;
                 touch.position = _mousePosition;
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
-                time += UnityEngine.Time.deltaTime;
+                time += UnityEngine.Time.fixedUnscaledDeltaTime;
                 pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
                 AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
                 yield return null;
@@ -829,10 +829,10 @@ public class Input : UnityEngine.MonoBehaviour
         {
             float deltaX;
             float deltaY;
-            if (time + UnityEngine.Time.deltaTime < duration)
+            if (time + UnityEngine.Time.fixedUnscaledDeltaTime < duration)
             {
-                deltaX = distance.x * UnityEngine.Time.deltaTime / duration;
-                deltaY = distance.y * UnityEngine.Time.deltaTime / duration;
+                deltaX = distance.x * UnityEngine.Time.fixedUnscaledDeltaTime / duration;
+                deltaY = distance.y * UnityEngine.Time.fixedUnscaledDeltaTime / duration;
             }
             else
             {
@@ -842,7 +842,7 @@ public class Input : UnityEngine.MonoBehaviour
             }
             mousePosition = new UnityEngine.Vector3(mousePosition.x + deltaX, mousePosition.y + deltaY, 0);
             yield return null;
-            time += UnityEngine.Time.deltaTime;
+            time += UnityEngine.Time.fixedUnscaledDeltaTime;
         } while (time <= duration);
         Finished = true;
     }
@@ -858,7 +858,7 @@ public class Input : UnityEngine.MonoBehaviour
         {
             _mouseScrollDelta = new UnityEngine.Vector2(0, scrollValue);//x value is not taken in consideration
             yield return null;
-            timeSpent += UnityEngine.Time.deltaTime;
+            timeSpent += UnityEngine.Time.fixedUnscaledDeltaTime;
         }
         _mouseScrollDelta=UnityEngine.Vector2.zero;//reset the value after scroll ended
         Finished = true;
@@ -877,7 +877,7 @@ public class Input : UnityEngine.MonoBehaviour
         {
             _acceleration =accelarationValue;
             yield return null;
-            timeSpent += UnityEngine.Time.deltaTime;
+            timeSpent += UnityEngine.Time.fixedUnscaledDeltaTime;
         }
         _acceleration = UnityEngine.Vector3.zero;//reset the value after acceleration ended
         Finished = true;
