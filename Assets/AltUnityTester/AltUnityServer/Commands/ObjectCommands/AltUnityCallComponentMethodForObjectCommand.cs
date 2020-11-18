@@ -6,15 +6,15 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         string altObjectString;
         string actionString;
 
-        public AltUnityCallComponentMethodForObjectCommand(string altObjectString, string actionString)
+        public AltUnityCallComponentMethodForObjectCommand(params string[] parameters) : base(parameters, 4)
         {
-            this.altObjectString = altObjectString;
-            this.actionString = actionString;
+            this.altObjectString = Parameters[2];
+            this.actionString = Parameters[3];
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("call action " + actionString + " for object " + altObjectString);
+            LogMessage("call action " + actionString + " for object " + altObjectString);
 
             System.Reflection.MethodInfo methodInfoToBeInvoked;
             AltUnityObjectAction altAction = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObjectAction>(actionString);

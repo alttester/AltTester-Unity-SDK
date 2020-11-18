@@ -25,15 +25,15 @@ public class AltFindObject extends AltBaseFindObject {
         if (altFindObjectsParameters.isEnabled() && altFindObjectsParameters.getBy() == AltUnityDriver.By.NAME) {
             String cameraPath = SetPath(altFindObjectsParameters.getCameraBy(),
                     altFindObjectsParameters.getCameraPath());
-            send(CreateCommand("findActiveObjectByName", altFindObjectsParameters.getValue(),
+            SendCommand("findActiveObjectByName", altFindObjectsParameters.getValue(),
                     altFindObjectsParameters.getCameraBy().toString(), cameraPath,
-                    String.valueOf(altFindObjectsParameters.isEnabled())));
+                    String.valueOf(altFindObjectsParameters.isEnabled()));
         } else {
             String path = SetPath(altFindObjectsParameters.getBy(), altFindObjectsParameters.getValue());
             String cameraPath = SetPath(altFindObjectsParameters.getCameraBy(),
                     altFindObjectsParameters.getCameraPath());
-            send(CreateCommand("findObject", path, altFindObjectsParameters.getCameraBy().toString(), cameraPath,
-                    String.valueOf(altFindObjectsParameters.isEnabled())));
+            SendCommand("findObject", path, altFindObjectsParameters.getCameraBy().toString(), cameraPath,
+                    String.valueOf(altFindObjectsParameters.isEnabled()));
         }
         return ReceiveAltUnityObject();
     }

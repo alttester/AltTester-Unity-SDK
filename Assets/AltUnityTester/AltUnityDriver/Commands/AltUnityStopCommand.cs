@@ -7,9 +7,9 @@ public class AltUnityStopCommand : AltBaseCommand
     {
         try
         {
-            Socket.Client.Send(toBytes(CreateCommand("closeConnection")));
+            SendCommand("closeConnection");
             System.Threading.Thread.Sleep(1000);
-            Socket.Close();
+            SocketSettings.Socket.Close();
         }
         catch (System.Exception exception)
         {

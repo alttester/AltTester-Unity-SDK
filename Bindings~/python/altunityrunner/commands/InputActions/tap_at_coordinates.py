@@ -9,7 +9,7 @@ class TapAtCoordinates(CommandReturningAltElements):
         self.y = y
 
     def execute(self):
-        data = self.send_data(self.create_command('tapScreen', self.x, self.y))
+        data = self.send_command('tapScreen', self.x, self.y)
         if 'error:notFound' in data:
             return None
         return self.get_alt_element(data)

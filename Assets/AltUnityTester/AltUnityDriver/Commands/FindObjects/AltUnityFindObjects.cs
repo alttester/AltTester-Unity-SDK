@@ -1,12 +1,12 @@
-public class AltUnityFindObjects :AltUnityBaseFindObjects
+public class AltUnityFindObjects : AltUnityBaseFindObjects
 {
-    By  by;
+    By by;
     string value;
     By cameraBy;
     string cameraPath;
     bool enabled;
 
-    public AltUnityFindObjects (SocketSettings socketSettings, By by, string value,By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
+    public AltUnityFindObjects(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
@@ -14,10 +14,11 @@ public class AltUnityFindObjects :AltUnityBaseFindObjects
         this.cameraPath = cameraPath;
         this.enabled = enabled;
     }
-    public System.Collections.Generic.List<AltUnityObject> Execute(){
+    public System.Collections.Generic.List<AltUnityObject> Execute()
+    {
         string path = SetPath(by, value);
         cameraPath = SetPath(cameraBy, cameraPath);
-        Socket.Client.Send(toBytes(CreateCommand("findObjects", path, cameraBy.ToString(), cameraPath, enabled.ToString())));
+        SendCommand("findObjects", path, cameraBy.ToString(), cameraPath, enabled.ToString());
         return ReceiveListOfAltUnityObjects();
     }
 }

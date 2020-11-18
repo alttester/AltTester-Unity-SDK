@@ -6,8 +6,9 @@ public class EnableLogging extends AltBaseCommand {
     public EnableLogging(AltBaseSettings altBaseSettings) {
         super(altBaseSettings);
     }
-    public String Execute(){
-        send(CreateCommand("enableLogging", altBaseSettings.logEnabled.toString()));
+
+    public String Execute() {
+        SendCommand("enableLogging", altBaseSettings.logEnabled.toString());
         String data = recvall();
         if (data.equals("OK")) {
             return data;
@@ -16,4 +17,3 @@ public class EnableLogging extends AltBaseCommand {
         return "";
     }
 }
-

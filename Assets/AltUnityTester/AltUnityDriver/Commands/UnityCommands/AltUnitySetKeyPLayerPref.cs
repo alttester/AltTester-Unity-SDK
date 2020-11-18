@@ -40,7 +40,7 @@ public class AltUnitySetKeyPLayerPref : AltBaseCommand
     }
     private void SetStringKey()
     {
-        Socket.Client.Send(toBytes(CreateCommand("setKeyPlayerPref", keyName, stringValue.ToString(), PLayerPrefKeyType.String.ToString())));
+        SendCommand("setKeyPlayerPref", keyName, stringValue.ToString(), PLayerPrefKeyType.String.ToString());
         var data = Recvall();
         if (data.Equals("Ok"))
             return;
@@ -48,7 +48,7 @@ public class AltUnitySetKeyPLayerPref : AltBaseCommand
     }
     private void SetIntKey()
     {
-        Socket.Client.Send(toBytes(CreateCommand("setKeyPlayerPref", keyName, intValue.ToString(), PLayerPrefKeyType.Int.ToString())));
+        SendCommand("setKeyPlayerPref", keyName, intValue.ToString(), PLayerPrefKeyType.Int.ToString());
         var data = Recvall();
         if (data.Equals("Ok"))
             return;
@@ -57,7 +57,7 @@ public class AltUnitySetKeyPLayerPref : AltBaseCommand
     }
     private void SetFloatKey()
     {
-        Socket.Client.Send(toBytes(CreateCommand("setKeyPlayerPref", keyName, floatValue.ToString(), PLayerPrefKeyType.Float.ToString())));
+        SendCommand("setKeyPlayerPref", keyName, floatValue.ToString(), PLayerPrefKeyType.Float.ToString());
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

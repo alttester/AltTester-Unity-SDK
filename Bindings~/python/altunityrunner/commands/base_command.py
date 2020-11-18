@@ -3,8 +3,11 @@ from altunityrunner.altUnityExceptions import *
 from altunityrunner.by import By
 from loguru import logger
 from datetime import datetime
+import re
 import json
 BUFFER_SIZE = 1024
+
+EPOCH = datetime.utcfromtimestamp(0)
 
 
 class BaseCommand(object):
@@ -12,6 +15,7 @@ class BaseCommand(object):
         self.request_separator = request_separator
         self.request_end = request_end
         self.socket = socket
+        self.messageId = ""
 
     def recvall(self):
         data = ''
@@ -20,33 +24,37 @@ class BaseCommand(object):
         receive_zero_bytes_counter_limit = 2
         while True:
             part = self.socket.recv(BUFFER_SIZE)
-            print(part)
+
             if not part:  # If received message is empty
                 if receive_zero_bytes_counter < receive_zero_bytes_counter_limit:
                     receive_zero_bytes_counter += 1
                     continue
                 else:
-                    raise SystemError('Server is not yet reachable')
+                    raise Exception('Server is not yet reachable')
             data += str(part.decode('utf-8'))
-            partToSeeAltEnd = previousPart+str(part)
+            partToSeeAltEnd = previousPart+str(part.decode('utf-8'))
             if '::altend' in partToSeeAltEnd:
                 break
-            previousPart = str(part)
+            previousPart = str(part.decode('utf-8'))
 
-        try:
-            data = data.split('altstart::')[1].split('::altend')[0]
-            splitted_string = data.split('::altLog::')
-            self.write_to_log_file(splitted_string[1])
-            data = splitted_string[0]
+        parts = re.split("altstart::|::response::|::altLog::|::altend", data)
 
-            self.write_to_log_file(datetime.now().strftime(
-                "%m/%d/%Y %H:%M:%S")+": response received: "+data)
-        except Exception as e:
-            logger.error(
-                f'Data received from socket does not have correct start and end control strings.'
-                f'{e}')
-            return ''
-        logger.debug(f'Received data was: {data}')
+        if len(parts) != 5 or parts[0] or parts[4]:
+            raise AltUnityRecvallMessageFormatException(
+                "Data received from socket doesn't have correct start and end control strings")
+        if parts[1] != self.messageId:
+            raise AltUnityRecvallMessageIdException(
+                "Response received does not match command send. Expected message id: " + self.messageId + ". Got " + parts[1])
+
+        data = parts[2]
+        log = parts[3]
+
+        logger.debug(f'Received data was: {self._trim_log_data(data)}')
+
+        self.write_to_log_file(datetime.now().strftime(
+            "%m/%d/%Y %H:%M:%S")+": response received: "+self._trim_log_data(data))
+        self.write_to_log_file(log)
+
         return data
 
     def write_to_log_file(self, message):
@@ -99,19 +107,21 @@ class BaseCommand(object):
             p[0], p[1]) for p in positions]
         return self.request_separator.join(json_positions)
 
-    def send_data(self, data):
-        self.socket.send(data.encode('utf-8'))
-        if ('closeConnection' in data):
+    def send_command(self, *arguments):
+        self._send_data(self._create_command(arguments))
+        if (arguments[0] == 'closeConnection'):
             return ''
         else:
             return self.recvall()
 
-    def create_command(self, *arguments):
-        command = ''
-        for argument in arguments:
-            command += str(argument)+self.request_separator
-        command += self.request_end
-        return command
+    def _send_data(self, data):
+        self.socket.send(data.encode('utf-8'))
+
+    def _create_command(self, arguments):
+        parts = [str(arg) for arg in arguments]
+        self.messageId = str((datetime.utcnow() - EPOCH).total_seconds())
+        parts.insert(0, self.messageId)
+        return self.request_separator.join(parts) + self.request_end
 
     def set_path(self, by, value):
         if by == By.TAG:
@@ -140,3 +150,8 @@ class BaseCommand(object):
             return "//*[contains(@id,"+str(value)+")]"
         if by == By.PATH:
             return value
+
+    def _trim_log_data(self, data, maxSize=10 * 1024):
+        if len(data) < maxSize:
+            return data
+        return data[:maxSize] + "[...]"

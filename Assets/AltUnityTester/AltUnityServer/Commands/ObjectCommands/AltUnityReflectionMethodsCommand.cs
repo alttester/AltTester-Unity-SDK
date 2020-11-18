@@ -9,7 +9,8 @@ namespace Assets.AltUnityTester.AltUnityServer
 {
     class AltUnityReflectionMethodsCommand : AltUnityCommand
     {
-        public static System.Type GetType(string typeName, string assemblyName)
+        protected AltUnityReflectionMethodsCommand(string[] parameters, int expectedParametersCount) : base(parameters, expectedParametersCount) { }
+        public System.Type GetType(string typeName, string assemblyName)
         {
             var type = System.Type.GetType(typeName);
             if (type != null)
@@ -19,7 +20,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                 if (typeName.Contains("."))
                 {
                     assemblyName = typeName.Substring(0, typeName.LastIndexOf('.'));
-                    AltUnityRunner._altUnityRunner.LogMessage("assembly name " + assemblyName);
+                    LogMessage("assembly name: " + assemblyName);
 
                     var assembly = System.Reflection.Assembly.Load(assemblyName);
                     if (assembly == null)
@@ -186,7 +187,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                         i++;
                     }
                 }
-                throw new AltUnityDriver.AltUnityException(AltUnityRunner._altUnityRunner.errorIndexOutOfRange);
+                throw new AltUnityDriver.AltUnityException(AltUnityErrors.errorIndexOutOfRange);
 
             }
         }
@@ -267,7 +268,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             {
                 var type = Type.GetType(parameterTypes[i]);
                 if (type == null)
-                    throw new Assets.AltUnityTester.AltUnityDriver.InvalidParameterTypeException($"Parameter type {parameterTypes[i]} not found.");
+                    throw new Assets.AltUnityTester.AltUnityDriver.InvalidParameterTypeException("Parameter type " + parameterTypes[i] + " not found.");
                 types[i] = type;
             }
             return types;
@@ -294,7 +295,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
             catch (System.Exception e)
             {
-                AltUnityRunner._altUnityRunner.LogMessage(e.Message);
+                LogMessage(e.Message);
                 UnityEngine.Debug.LogError(e);
                 response = value.ToString();
             }
@@ -313,7 +314,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
             catch (Newtonsoft.Json.JsonException e)
             {
-                AltUnityRunner._altUnityRunner.LogMessage(e.Message);
+                LogMessage(e.Message);
                 value = null;
             }
             return value;

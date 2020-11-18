@@ -1,8 +1,10 @@
-using UnityEngine;
+using System;
+using Newtonsoft.Json;
+using Assets.AltUnityTester.AltUnityServer.AltSocket;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityHighlightSelectedObjectCommand :AltUnityCommand
+    class AltUnityHighlightSelectedObjectCommand : AltUnityCommand
     {
         int id;
         string ColorAndWidth;
@@ -10,38 +12,37 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         int quality;
         AltClientSocketHandler handler;
 
-
-
-
-        public AltUnityHighlightSelectedObjectCommand (int id, string colorAndWidth, Vector2 size, int quality, AltClientSocketHandler handler)
+        public AltUnityHighlightSelectedObjectCommand(AltClientSocketHandler handler, params string[] parameters) : base(parameters, 6)
         {
-            this.id = id;
-            ColorAndWidth = colorAndWidth;
-            this.size = size;
             this.handler = handler;
-            this.quality = quality;
+            this.id = System.Convert.ToInt32(parameters[2]);
+            ColorAndWidth = parameters[3];
+            this.size = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[4]);
+            this.quality = Int32.Parse(parameters[5]);
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("HightlightObject wiht id: " + id);
+            LogMessage("HightlightObject wiht id: " + id);
             var pieces = ColorAndWidth.Split(new[] { "!-!" }, System.StringSplitOptions.None);
-                var piecesColor = pieces[0].Split(new[] { "!!" }, System.StringSplitOptions.None);
-                float red = float.Parse(piecesColor[0]);
-                float green = float.Parse(piecesColor[1]);
-                float blue = float.Parse(piecesColor[2]);
-                float alpha = float.Parse(piecesColor[3]);
+            var piecesColor = pieces[0].Split(new[] { "!!" }, System.StringSplitOptions.None);
+            float red = float.Parse(piecesColor[0]);
+            float green = float.Parse(piecesColor[1]);
+            float blue = float.Parse(piecesColor[2]);
+            float alpha = float.Parse(piecesColor[3]);
 
-                UnityEngine.Color color = new UnityEngine.Color(red, green, blue, alpha);
-                float width = float.Parse(pieces[1]);
-                var gameObject = AltUnityRunner.GetGameObject(id);
+            UnityEngine.Color color = new UnityEngine.Color(red, green, blue, alpha);
+            float width = float.Parse(pieces[1]);
+            var gameObject = AltUnityRunner.GetGameObject(id);
 
-                if (gameObject != null)
-                {
-                    AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.HighLightSelectedObjectCorutine(gameObject, color, width, size, quality, handler));
-                }
-                else
-                    new AltUnityGetScreenshotCommand (size,quality, handler).Execute();
+            var getScreenshotCommand = new AltUnityGetScreenshotCommand(handler, Parameters[0], Parameters[1], Parameters[4], Parameters[5]);
+            if (gameObject != null)
+            {
+                AltUnityRunner._altUnityRunner.StartCoroutine(
+                    AltUnityRunner._altUnityRunner.HighLightSelectedObjectCorutine(gameObject, color, width, getScreenshotCommand));
+            }
+            else
+                getScreenshotCommand.Execute();
             return "Ok";
         }
     }

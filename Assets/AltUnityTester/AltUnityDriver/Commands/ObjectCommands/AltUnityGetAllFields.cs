@@ -13,7 +13,7 @@ public class AltUnityGetAllFields : AltBaseCommand
     public System.Collections.Generic.List<AltUnityProperty> Execute()
     {
         var altComponent = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityComponent);
-        Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("getAllFields", altUnityObject.id.ToString(), altComponent, altUnityFieldsSelections.ToString())));
+        SendCommand("getAllFields", altUnityObject.id.ToString(), altComponent, altUnityFieldsSelections.ToString());
         string data = Recvall();
         if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityProperty>>(data);
         HandleErrors(data);

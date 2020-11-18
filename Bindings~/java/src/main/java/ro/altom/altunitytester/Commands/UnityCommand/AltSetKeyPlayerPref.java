@@ -11,35 +11,41 @@ public class AltSetKeyPlayerPref extends AltBaseCommand {
     float floatValue;
     String stringValue;
     int option;
-    public AltSetKeyPlayerPref(AltBaseSettings altBaseSettings,String keyName,int intValue) {
+
+    public AltSetKeyPlayerPref(AltBaseSettings altBaseSettings, String keyName, int intValue) {
         super(altBaseSettings);
-        this.keyName=keyName;
-        this.intValue=intValue;
-        option=1;
-    }
-    public AltSetKeyPlayerPref(AltBaseSettings altBaseSettings,String keyName,float floatValue) {
-        super(altBaseSettings);
-        this.keyName=keyName;
-        this.floatValue=floatValue;
-        option=2;
-    }
-    public AltSetKeyPlayerPref(AltBaseSettings altBaseSettings,String keyName,String stringValue) {
-        super(altBaseSettings);
-        this.keyName=keyName;
-        this.stringValue=stringValue;
-        option=3;
+        this.keyName = keyName;
+        this.intValue = intValue;
+        option = 1;
     }
 
-    public void Execute(){
-        switch (option){
+    public AltSetKeyPlayerPref(AltBaseSettings altBaseSettings, String keyName, float floatValue) {
+        super(altBaseSettings);
+        this.keyName = keyName;
+        this.floatValue = floatValue;
+        option = 2;
+    }
+
+    public AltSetKeyPlayerPref(AltBaseSettings altBaseSettings, String keyName, String stringValue) {
+        super(altBaseSettings);
+        this.keyName = keyName;
+        this.stringValue = stringValue;
+        option = 3;
+    }
+
+    public void Execute() {
+        switch (option) {
             case 1:
-                send(CreateCommand("setKeyPlayerPref", keyName, String.valueOf(intValue), String.valueOf(AltUnityDriver.PlayerPrefsKeyType.IntType)));
+                SendCommand("setKeyPlayerPref", keyName, String.valueOf(intValue),
+                        String.valueOf(AltUnityDriver.PlayerPrefsKeyType.IntType));
                 break;
             case 2:
-                send(CreateCommand("setKeyPlayerPref", keyName, String.valueOf(floatValue), String.valueOf(AltUnityDriver.PlayerPrefsKeyType.FloatType)));
+                SendCommand("setKeyPlayerPref", keyName, String.valueOf(floatValue),
+                        String.valueOf(AltUnityDriver.PlayerPrefsKeyType.FloatType));
                 break;
             case 3:
-                send(CreateCommand("setKeyPlayerPref", keyName, String.valueOf(stringValue), String.valueOf(AltUnityDriver.PlayerPrefsKeyType.StringType)));
+                SendCommand("setKeyPlayerPref", keyName, String.valueOf(stringValue),
+                        String.valueOf(AltUnityDriver.PlayerPrefsKeyType.StringType));
                 break;
         }
         String data = recvall();

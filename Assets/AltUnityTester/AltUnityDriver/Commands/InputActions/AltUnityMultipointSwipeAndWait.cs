@@ -6,7 +6,7 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
     {
         AltUnityVector2[] positions;
         float duration;
-        
+
         public AltUnityMultipointSwipeAndWait(SocketSettings socketSettings, AltUnityVector2[] positions, float duration) : base(socketSettings)
         {
             this.positions = positions;
@@ -20,7 +20,7 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
             string data;
             do
             {
-                Socket.Client.Send(toBytes(CreateCommand("actionFinished")));
+                SendCommand("actionFinished");
                 data = Recvall();
             } while (data == "No");
             if (data.Equals("Yes"))

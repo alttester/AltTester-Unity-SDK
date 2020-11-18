@@ -10,8 +10,9 @@ public class AltDeletePlayerPref extends AltBaseCommand {
     public AltDeletePlayerPref(AltBaseSettings altBaseSettings) {
         super(altBaseSettings);
     }
-    public void Execute(){
-        send(CreateCommand("deletePlayerPref"));
+
+    public void Execute() {
+        SendCommand("deletePlayerPref");
         String data = recvall();
         if (data.equals("Ok")) {
             return;

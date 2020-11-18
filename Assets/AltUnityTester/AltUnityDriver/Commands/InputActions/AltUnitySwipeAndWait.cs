@@ -18,7 +18,7 @@ public class AltUnitySwipeAndWait : AltBaseCommand
         string data;
         do
         {
-            Socket.Client.Send(toBytes(CreateCommand("actionFinished")));
+            SendCommand("actionFinished");
             data = Recvall();
         } while (data == "No");
         if (data.Equals("Yes"))

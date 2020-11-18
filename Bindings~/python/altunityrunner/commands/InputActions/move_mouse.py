@@ -12,6 +12,5 @@ class MoveMouse(BaseCommand):
     def execute(self):
         location = self.vector_to_json_string(self.x, self.y)
         logger.debug('Move mouse to: ' + location)
-        data = self.send_data(self.create_command(
-            'moveMouse', location, self.duration))
+        data = self.send_command('moveMouse', location, self.duration)
         return self.handle_errors(data)

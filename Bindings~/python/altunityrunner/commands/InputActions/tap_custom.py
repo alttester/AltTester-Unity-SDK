@@ -14,15 +14,14 @@ class TapCustom(CommandReturningAltElements):
 
     def execute(self):
         position = self.vector_to_json_string(self.x, self.y)
-        data = self.send_data(self.create_command(
-            'tapCustom', position, self.count, self.interval))
+        data = self.send_command(
+            'tapCustom', position, self.count, self.interval)
         self.handle_errors(data)
         logger.debug('Wait for custom tap is finished')
         time.sleep(self.interval * self.count)
         action_in_progress = True
         while action_in_progress:
-            action_finished = self.send_data(
-                self.create_command('actionFinished'))
+            action_finished = self.send_command('actionFinished')
             self.handle_errors(action_finished)
             if action_finished == 'Yes':
                 break

@@ -1,19 +1,21 @@
 using System.Linq;
 
-namespace Assets.AltUnityTester.AltUnityServer
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityBaseClassFindObjectsCommand : AltUnityCommand
     {
-        protected string[] pieces;
-        protected AltUnityBaseClassFindObjectsCommand(params string[] pieces)
-        {
-            this.pieces = pieces;
-        }
+        protected string ObjectName;
+        protected By CameraBy;
+        protected string CameraPath;
+        protected bool Enabled;
 
-        protected string ObjectName { get { return pieces[0]; } }
-        protected By CameraBy { get { return (By)System.Enum.Parse(typeof(By), pieces[1]); } }
-        protected string CameraPath { get { return pieces[2]; } }
-        protected bool Enabled { get { return System.Convert.ToBoolean(pieces[3]); } }
+        protected AltUnityBaseClassFindObjectsCommand(params string[] parameters) : base(parameters, 6)
+        {
+            ObjectName = parameters[2];
+            CameraBy = (By)System.Enum.Parse(typeof(By), parameters[3]);
+            CameraPath = parameters[4];
+            Enabled = System.Convert.ToBoolean(parameters[5]);
+        }
 
         protected System.Collections.Generic.List<System.Collections.Generic.List<string>> ProcessPath(string path)
         {
@@ -411,5 +413,4 @@ namespace Assets.AltUnityTester.AltUnityServer
 
         }
     }
-
 }

@@ -7,7 +7,7 @@ public class AltUnityDeleteKeyPlayerPref : AltBaseCommand
     }
     public void Execute()
     {
-        Socket.Client.Send(toBytes(CreateCommand("deleteKeyPlayerPref", keyName)));
+        SendCommand("deleteKeyPlayerPref", keyName);
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

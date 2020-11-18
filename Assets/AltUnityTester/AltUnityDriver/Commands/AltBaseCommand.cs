@@ -1,3 +1,4 @@
+using Assets.AltUnityTester.AltUnityDriver;
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 using System.Linq;
 
@@ -5,11 +6,10 @@ public class AltBaseCommand
 {
     private static int BUFFER_SIZE = 1024;
     protected SocketSettings SocketSettings;
-    protected System.Net.Sockets.TcpClient Socket;
+    private string messageId;
     public AltBaseCommand(SocketSettings socketSettings)
     {
         this.SocketSettings = socketSettings;
-        Socket = SocketSettings.socket;
     }
     public string Recvall()
     {
@@ -22,7 +22,7 @@ public class AltBaseCommand
         do
         {
             var bytesReceived = new byte[BUFFER_SIZE];
-            received = SocketSettings.socket.Client.Receive(bytesReceived);
+            received = SocketSettings.Socket.Receive(bytesReceived);
             if (received == 0)
             {
                 if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit)
@@ -50,54 +50,76 @@ public class AltBaseCommand
         } while (true);
         data = fromBytes(byteArray.SelectMany(x => x).ToArray());
 
-        try
-        {
-            string[] start = new string[] { "altstart::" };
-            string[] end = new string[] { "::altend" };
-            string[] startLogMessage = new string[] { "::altLog::" };
-            data = data.Split(start, System.StringSplitOptions.None)[1].Split(end, System.StringSplitOptions.None)[0];
-            var splittedString = data.Split(startLogMessage, System.StringSplitOptions.None);
-            var response = splittedString[0];
-            data = response;
-            var logMessage = splittedString[1];
-            if (SocketSettings.logFlag)
-            {
-                WriteInLogFile(logMessage);
-                WriteInLogFile(System.DateTime.Now + ": response received: " + response);
-            }
 
-        }
-        catch (System.Exception)
+
+        var parts = data.Split(new[] { "altstart::", "::response::", "::altLog::", "::altend" }, System.StringSplitOptions.None);
+        if (parts.Length != 5 || !string.IsNullOrEmpty(parts[0]) || !string.IsNullOrEmpty(parts[4]))
+            throw new AltUnityRecvallMessageFormatException("Data received from socket doesn't have correct start and end control strings");
+
+        if (parts[1] != messageId)
         {
-            System.Diagnostics.Debug.WriteLine("Data received from socket doesn't have correct start and end control strings");
+            throw new AltUnityRecvallMessageIdException("Response received does not match command send. Expected message id: " + messageId + ". Got " + parts[1]);
+        }
+
+        data = parts[2];
+        string log = parts[3];
+        if (SocketSettings.LogFlag)
+        {
+            writeInLogFile(System.DateTime.Now + ": response received: " + trimLogData(data));
+            writeInLogFile(log);
         }
 
         return data;
     }
-    protected void WriteInLogFile(string logMessage)
+
+    public AltUnityTextureInformation ReceiveImage()
     {
-        var FileWriter = new System.IO.StreamWriter(@"AltUnityTesterLog.txt", true);
-        FileWriter.WriteLine(logMessage);
-        FileWriter.Close();
+        var data = Recvall();
+        if (data == "Ok")
+        {
+            data = Recvall();
+        }
+        else
+        {
+            throw new AltUnityRecvallException("Out of order operations");
+        }
+        string[] screenshotInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(data);
+
+        // Some workaround this: https://stackoverflow.com/questions/710853/base64-string-throwing-invalid-character-error
+        var screenshotParts = screenshotInfo[4].Split('\0');
+        screenshotInfo[4] = "";
+        for (int i = 0; i < screenshotParts.Length; i++)
+        {
+            screenshotInfo[4] += screenshotParts[i];
+        }
+
+        var scaleDifference = screenshotInfo[0];
+
+        var length = screenshotInfo[1];
+        var textureFormatString = screenshotInfo[2];
+        var textureFormat = (Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat)System.Enum.Parse(typeof(Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat), textureFormatString);
+        var textSizeString = screenshotInfo[3];
+        var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector3>(textSizeString);
+
+        System.Byte[] imageCompressed = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Byte[]>(screenshotInfo[4], new Newtonsoft.Json.JsonSerializerSettings
+        {
+            StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii
+        });
+
+        System.Byte[] imageDecompressed = DeCompressScreenshot(imageCompressed);
+
+        return new AltUnityTextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector2>(scaleDifference), textSizeVector3, textureFormat);
     }
 
-    public string CreateCommand(params string[] arguments)
+    protected void SendCommand(params string[] arguments)
     {
-        string command = "";
-        foreach (var argument in arguments)
-        {
-            command += argument + SocketSettings.requestSeparator;
-        }
-        command += SocketSettings.requestEnding;
-        return command;
+        var command = createCommand(arguments);
+        var bytes = toBytes(command);
+        SocketSettings.Socket.Send(bytes);
     }
-    protected byte[] toBytes(string text)
+    protected string PositionToJson(float x, float y)
     {
-        return System.Text.Encoding.UTF8.GetBytes(text);
-    }
-    protected string fromBytes(byte[] text)
-    {
-        return System.Text.Encoding.UTF8.GetString(text);
+        return PositionToJson(new AltUnityVector2(x, y));
     }
     protected string PositionToJson(AltUnityVector2 position)
     {
@@ -106,9 +128,37 @@ public class AltBaseCommand
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         });
     }
-    protected string PositionToJson(float x, float y)
+
+    private string createCommand(string[] arguments)
     {
-        return PositionToJson(new AltUnityVector2(x, y));
+        messageId = System.DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+        var args = arguments.ToList();
+        args.Insert(0, messageId);
+
+
+        return string.Join(SocketSettings.RequestSeparator, args) + SocketSettings.RequestEnding;
+    }
+
+    private byte[] toBytes(string text)
+    {
+        return System.Text.Encoding.UTF8.GetBytes(text);
+    }
+    private string fromBytes(byte[] bytes)
+    {
+        return System.Text.Encoding.UTF8.GetString(bytes);
+    }
+
+    private void writeInLogFile(string logMessage)
+    {
+        var FileWriter = new System.IO.StreamWriter(@"AltUnityTesterLog.txt", true);
+        FileWriter.WriteLine(logMessage);
+        FileWriter.Close();
+    }
+    private string trimLogData(string data, int maxSize = 10 * 1024)
+    {
+        if (data.Length > maxSize)
+            return data.Substring(0, maxSize) + "[...]";
+        return data;
     }
 
     public static void HandleErrors(string data)
@@ -148,45 +198,7 @@ public class AltBaseCommand
                 throw new Assets.AltUnityTester.AltUnityDriver.FormatException(data);
         }
     }
-    public AltUnityTextureInformation ReceiveImage()
-    {
 
-        var data = Recvall();
-        if (data == "Ok")
-        {
-            data = Recvall();
-        }
-        else
-        {
-            throw new System.Exception("Out of order operations");
-        }
-        string[] screenshotInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(data);
-
-        // Some workaround this: https://stackoverflow.com/questions/710853/base64-string-throwing-invalid-character-error
-        var screenshotParts = screenshotInfo[4].Split('\0');
-        screenshotInfo[4] = "";
-        for (int i = 0; i < screenshotParts.Length; i++)
-        {
-            screenshotInfo[4] += screenshotParts[i];
-        }
-
-        var scaleDifference = screenshotInfo[0];
-
-        var length = screenshotInfo[1];
-        var textureFormatString = screenshotInfo[2];
-        var textureFormat = (Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat)System.Enum.Parse(typeof(Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityTextureFormat), textureFormatString);
-        var textSizeString = screenshotInfo[3];
-        var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector3>(textSizeString);
-
-        System.Byte[] imageCompressed = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Byte[]>(screenshotInfo[4], new Newtonsoft.Json.JsonSerializerSettings
-        {
-            StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii
-        });
-
-        System.Byte[] imageDecompressed = DeCompressScreenshot(imageCompressed);
-
-        return new AltUnityTextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector2>(scaleDifference), textSizeVector3, textureFormat);
-    }
     public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
     {
 
@@ -218,4 +230,5 @@ public class AltBaseCommand
             dest.Write(bytes, 0, cnt);
         }
     }
+
 }

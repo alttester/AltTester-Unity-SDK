@@ -17,8 +17,7 @@ public class AltUnityGetComponentProperty : AltBaseCommand
     {
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
         string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName, assemblyName));
-        Socket.Client.Send(
-             System.Text.Encoding.ASCII.GetBytes(CreateCommand("getObjectComponentProperty", altObject, propertyInfo,maxDepth.ToString())));
+        SendCommand("getObjectComponentProperty", altObject, propertyInfo, maxDepth.ToString());
         string data = Recvall();
         if (!data.Contains("error:")) return data;
         HandleErrors(data);

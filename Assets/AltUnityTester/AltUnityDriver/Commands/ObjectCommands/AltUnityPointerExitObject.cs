@@ -9,7 +9,7 @@ public class AltUnityPointerExitObject : AltUnityCommandReturningAltElement
     public AltUnityObject Execute()
     {
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-        Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("pointerExitObject", altObject)));
+        SendCommand("pointerExitObject", altObject);
         return ReceiveAltUnityObject();
     }
 }

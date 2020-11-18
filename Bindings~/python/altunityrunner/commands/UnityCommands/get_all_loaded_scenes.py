@@ -9,7 +9,7 @@ class GetAllLoadedScenes(BaseCommand):
             socket, request_separator, request_end)
 
     def execute(self):
-        data = self.send_data(self.create_command('getAllLoadedScenes'))
+        data = self.send_command('getAllLoadedScenes')
         if (data != '' and 'error:' not in data):
             return json.loads(data)
         return self.handle_errors(data)

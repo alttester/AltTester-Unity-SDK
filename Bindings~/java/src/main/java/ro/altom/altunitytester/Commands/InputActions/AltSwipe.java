@@ -43,7 +43,7 @@ public class AltSwipe extends AltBaseCommand {
     public void Execute() {
         String vectorStartJson = vectorToJsonString(xStart, yStart);
         String vectorEndJson = vectorToJsonString(xEnd, yEnd);
-        send(CreateCommand("multipointSwipe", vectorStartJson, vectorEndJson, String.valueOf(durationInSeconds)));
+        SendCommand("multipointSwipe", vectorStartJson, vectorEndJson, String.valueOf(durationInSeconds));
         String data = recvall();
         if (data.equals("Ok")) {
             return;

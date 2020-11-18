@@ -8,7 +8,7 @@ public class AltUnityPointerDownFromObject : AltUnityCommandReturningAltElement
     public AltUnityObject Execute()
     {
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-        Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("pointerDownFromObject", altObject)));
+        SendCommand("pointerDownFromObject", altObject);
         return ReceiveAltUnityObject();
     }
 }

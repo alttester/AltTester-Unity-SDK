@@ -6,7 +6,7 @@ public class AltUnityFindObject : AltUnityBaseFindObjects
     string cameraPath;
     bool enabled;
 
-    public AltUnityFindObject(SocketSettings socketSettings, By by, string value,  By cameraBy,string cameraPath, bool enabled) : base(socketSettings)
+    public AltUnityFindObject(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
     {
         this.by = by;
         this.value = value;
@@ -14,16 +14,17 @@ public class AltUnityFindObject : AltUnityBaseFindObjects
         this.cameraPath = cameraPath;
         this.enabled = enabled;
     }
-    public AltUnityObject Execute(){
+    public AltUnityObject Execute()
+    {
         cameraPath = SetPath(cameraBy, cameraPath);
         if (enabled && by == By.NAME)
         {
-            Socket.Client.Send(toBytes(CreateCommand("findActiveObjectByName", value, cameraBy.ToString(),cameraPath, enabled.ToString())));
+            SendCommand("findActiveObjectByName", value, cameraBy.ToString(), cameraPath, enabled.ToString());
         }
         else
         {
             string path = SetPath(by, value);
-            Socket.Client.Send(toBytes(CreateCommand("findObject", path, cameraBy.ToString(), cameraPath, enabled.ToString())));
+            SendCommand("findObject", path, cameraBy.ToString(), cameraPath, enabled.ToString());
         }
         return ReceiveAltUnityObject();
     }

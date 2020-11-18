@@ -6,13 +6,16 @@ from altunityrunner.commands.get_server_version import GetServerVersion
 class CommandsTests(TestCase):
     def test_GetServerVersion(self):
         socket = MagicMock()
+        command = GetServerVersion(socket, ';', '&')
 
         def send(message):
-            self.assertEqual(b"getServerVersion;&", message)
+
+            self.assertTrue(message.decode(
+                "utf-8").endswith(";getServerVersion&"), message.decode("utf-8"))
 
         def recv(buffer_size):
-            return b"altstart::1.6.0::altLog::::altend"
+            return ("altstart::"+command.messageId+"::response::1.6.0::altLog::::altend").encode('utf-8')
         socket.send.side_effect = send
         socket.recv.side_effect = recv
-        version = GetServerVersion(socket, ';', '&').execute()
+        version = command.execute()
         self.assertEqual("1.6.0", version)

@@ -66,14 +66,14 @@ public class AltUnityGetScreenshot : AltUnityCommandReturningAltElement
     private AltUnityTextureInformation GetSimpleScreenshot()
     {
         var sizeSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(size);
-        Socket.Client.Send(toBytes(CreateCommand("getScreenshot", sizeSerialized, screenShotQuality.ToString())));
+        SendCommand("getScreenshot", sizeSerialized, screenShotQuality.ToString());
         return ReceiveImage();
     }
     private AltUnityTextureInformation GetHighlightObjectScreenshot()
     {
         var sizeSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(size);
         var colorAndWidth = color.r + "!!" + color.g + "!!" + color.b + "!!" + color.a + "!-!" + width;
-        Socket.Client.Send(toBytes(CreateCommand("hightlightObjectScreenshot", id.ToString(), colorAndWidth, sizeSerialized, screenShotQuality.ToString())));
+        SendCommand("hightlightObjectScreenshot", id.ToString(), colorAndWidth, sizeSerialized, screenShotQuality.ToString());
         return ReceiveImage();
     }
     private AltUnityTextureInformation GetHighlightObjectFromCoordinatesScreenshot(out AltUnityObject selectedObject)
@@ -81,9 +81,9 @@ public class AltUnityGetScreenshot : AltUnityCommandReturningAltElement
         var coordinatesSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(coordinates);
         var sizeSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(size);
         var colorAndWidth = color.r + "!!" + color.g + "!!" + color.b + "!!" + color.a + "!-!" + width;
-        Socket.Client.Send(toBytes(CreateCommand("hightlightObjectFromCoordinatesScreenshot", coordinatesSerialized, colorAndWidth, sizeSerialized, screenShotQuality.ToString())));
+        SendCommand("hightlightObjectFromCoordinatesScreenshot", coordinatesSerialized, colorAndWidth, sizeSerialized, screenShotQuality.ToString());
         selectedObject = ReceiveAltUnityObject();
-        if(selectedObject.name.Equals("Null") && selectedObject.id == 0)
+        if (selectedObject.name.Equals("Null") && selectedObject.id == 0)
         {
             selectedObject = null;
         }

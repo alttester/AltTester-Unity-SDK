@@ -9,7 +9,7 @@ public class AltUnityScrollMouse : AltBaseCommand
     }
     public void Execute()
     {
-        Socket.Client.Send(toBytes(CreateCommand("scrollMouse", speed.ToString(), duration.ToString())));
+        SendCommand("scrollMouse", speed.ToString(), duration.ToString());
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

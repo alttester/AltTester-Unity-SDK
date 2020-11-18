@@ -11,7 +11,6 @@ from altunityrunner.commands import *
 from altunityrunner.altElement import AltElement
 from altunityrunner.player_pref_key_type import PlayerPrefKeyType
 from loguru import logger
-BUFFER_SIZE = 1024
 
 
 warnings.filterwarnings("default", category=DeprecationWarning,
@@ -38,6 +37,7 @@ class AltUnityDriver(object):
                 if not self.socket == None:
                     self.stop()
                 logger.error(e)
+
                 logger.warning(f'Trying to reach AltUnity Server at port {self.TCP_PORT},'
                                f' retrying (timing out in {timeout} secs)...')
                 timeout -= 1
@@ -63,6 +63,8 @@ class AltUnityDriver(object):
 
         except UnknownErrorException:
             serverVersion = "<=1.5.3"
+        except AltUnityRecvallMessageFormatException:
+            serverVersion = "<=1.5.7"
 
         majorServer, minorServer = self._split_version(serverVersion)
         majorDriver, minorDriver = self._split_version(VERSION)

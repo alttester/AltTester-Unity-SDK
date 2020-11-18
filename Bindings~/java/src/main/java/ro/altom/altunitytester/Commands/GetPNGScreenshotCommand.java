@@ -22,7 +22,7 @@ public class GetPNGScreenshotCommand extends AltBaseCommand {
     }
 
     public String Execute() {
-        send(CreateCommand("getPNGScreenshot"));
+        SendCommand("getPNGScreenshot");
         String data = recvall();
         if (data.equals("Ok")) {
             String screenshotData = recvall();

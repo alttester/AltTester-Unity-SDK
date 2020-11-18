@@ -9,7 +9,7 @@ public class AltUnityTapScreen : AltBaseCommand
     }
     public AltUnityObject Execute()
     {
-        Socket.Client.Send(toBytes(CreateCommand("tapScreen", x.ToString(), y.ToString())));
+        SendCommand("tapScreen", x.ToString(), y.ToString());
         string data = Recvall();
         if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
         if (data.Contains("error:notFound")) return null;

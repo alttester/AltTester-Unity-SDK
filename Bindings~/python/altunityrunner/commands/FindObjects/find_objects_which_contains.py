@@ -16,9 +16,9 @@ class FindObjectsWhichContain(CommandReturningAltElements):
         path = self.set_path_contains(self.by, self.value)
         camera_path = self.set_path(self.camera_by, self.camera_path)
         if self.enabled == True:
-            data = self.send_data(self.create_command(
-                'findObjects', path, By.return_enum_string(self.camera_by), camera_path, 'true'))
+            data = self.send_command(
+                'findObjects', path, By.return_enum_string(self.camera_by), camera_path, 'true')
         else:
-            data = self.send_data(self.create_command(
-                'findObjects', path, By.return_enum_string(self.camera_by), camera_path, 'false'))
+            data = self.send_command(
+                'findObjects', path, By.return_enum_string(self.camera_by), camera_path, 'false')
         return self.get_alt_elements(data)

@@ -12,7 +12,7 @@ public class AltUnityGetAllElementsLight : AltUnityBaseFindObjects
     public System.Collections.Generic.List<AltUnityObjectLight> Execute()
     {
         cameraPath = SetPath(cameraBy, cameraPath);
-        Socket.Client.Send(toBytes(CreateCommand("findObjectsLight", "//*", cameraBy.ToString(), cameraPath, enabled.ToString())));
+        SendCommand("findObjectsLight", "//*", cameraBy.ToString(), cameraPath, enabled.ToString());
         string data = Recvall();
         if (!data.Contains("error:"))
         {

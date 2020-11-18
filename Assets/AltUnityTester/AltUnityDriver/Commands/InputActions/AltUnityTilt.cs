@@ -4,7 +4,7 @@ public class AltUnityTilt : AltBaseCommand
 {
     AltUnityVector3 acceleration;
     float duration;
-    public AltUnityTilt(SocketSettings socketSettings, AltUnityVector3 acceleration,float duration) : base(socketSettings)
+    public AltUnityTilt(SocketSettings socketSettings, AltUnityVector3 acceleration, float duration) : base(socketSettings)
     {
         this.acceleration = acceleration;
         this.duration = duration;
@@ -15,7 +15,7 @@ public class AltUnityTilt : AltBaseCommand
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         });
-        Socket.Client.Send(toBytes(CreateCommand("tilt", accelerationString,duration.ToString())));
+        SendCommand("tilt", accelerationString, duration.ToString());
         string data = Recvall();
         if (data.Equals("OK")) return;
         HandleErrors(data);
