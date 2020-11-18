@@ -20,8 +20,7 @@ public class AltUnityCallComponentMethod : AltBaseCommand
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
         string actionInfo =
             Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters, typeOfParameters, assemblyName));
-        Socket.Client.Send(
-             System.Text.Encoding.ASCII.GetBytes(CreateCommand("callComponentMethodForObject", altObject, actionInfo)));
+        SendCommand("callComponentMethodForObject", altObject, actionInfo);
         string data = Recvall();
         if (!data.Contains("error:")) return data;
         HandleErrors(data);

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -9,16 +10,16 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         AltUnityComponent component;
         AltUnityPropertiesSelections altUnityPropertiesSelections;
 
-        public AltUnityGetAllPropertiesCommand(string id, AltUnityComponent component, AltUnityPropertiesSelections altUnityPropertiesSelections)
+        public AltUnityGetAllPropertiesCommand(params string[] parameters) : base(parameters, 5)
         {
-            this.id = id;
-            this.component = component;
-            this.altUnityPropertiesSelections = altUnityPropertiesSelections;
+            this.id = parameters[2];
+            this.component = JsonConvert.DeserializeObject<AltUnityComponent>(parameters[3]);
+            this.altUnityPropertiesSelections = (AltUnityPropertiesSelections)Enum.Parse(typeof(AltUnityPropertiesSelections), parameters[4], true);
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("getAllProperties");
+            LogMessage("getAllProperties");
             UnityEngine.GameObject altObject;
             altObject = id.Equals("null") ? null : AltUnityRunner.GetGameObject(System.Convert.ToInt32(id));
             System.Type type = GetType(component.componentName, component.assemblyName);
@@ -46,7 +47,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 try
                 {
-                    var value = propertyInfo.GetValue(altObjectComponent,null);
+                    var value = propertyInfo.GetValue(altObjectComponent, null);
                     AltUnityType altUnityType = AltUnityType.OBJECT;
                     if (propertyInfo.PropertyType.IsPrimitive)
                     {
@@ -57,13 +58,13 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         altUnityType = AltUnityType.ARRAY;
                     }
                     listProperties.Add(new AltUnityProperty(propertyInfo.Name,
-                        value == null ? "null" :value.ToString(), altUnityType));
+                        value == null ? "null" : value.ToString(), altUnityType));
                 }
                 catch (Exception e)
                 {
-                    AltUnityRunner._altUnityRunner.LogMessage(e.Message);
+                    LogMessage(e.Message);
                 }
-                
+
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(listProperties);
         }

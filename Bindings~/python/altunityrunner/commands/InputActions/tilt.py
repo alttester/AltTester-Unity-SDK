@@ -13,6 +13,6 @@ class Tilt(BaseCommand):
     def execute(self):
         acceleration = self.vector_to_json_string(self.x, self.y, self.z)
         logger.debug('Tilt with acceleration: ' + acceleration)
-        data = self.send_data(self.create_command(
-            'tilt', acceleration, str(self.duration_in_seconds)))
+        data = self.send_command('tilt', acceleration,
+                                 str(self.duration_in_seconds))
         return self.handle_errors(data)

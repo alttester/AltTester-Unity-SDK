@@ -12,6 +12,6 @@ class PressKey(BaseCommand):
 
     def execute(self):
         logger.debug('Press key: ' + self.keyName)
-        data = self.send_data(self.create_command(
-            'pressKeyboardKey', self.keyName, self.power, self.duration))
+        data = self.send_command(
+            'pressKeyboardKey', self.keyName, self.power, self.duration)
         return self.handle_errors(data)

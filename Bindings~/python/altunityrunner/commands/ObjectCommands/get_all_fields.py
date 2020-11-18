@@ -38,8 +38,8 @@ class GetAllFields(BaseCommand):
             raise ValueError(f'Component supplied is missing something')
 
         alt_component_json_serialized = f'"componentName": "{alt_component_name}"'
-        data = self.send_data(
-            self.create_command('getAllFields', f'{self.alt_object.id}', f'{{{alt_component_json_serialized}}}', "ALLFIELDS"))
+        data = self.send_command(
+            'getAllFields', f'{self.alt_object.id}', f'{{{alt_component_json_serialized}}}', "ALLFIELDS")
 
         self.handle_errors(data)  # Check if server is all right
         try:

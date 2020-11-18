@@ -18,7 +18,7 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltUnityDriver(log_flag=False)
+        cls.altdriver = AltUnityDriver(log_flag=False, timeout=3)
 
     @classmethod
     def tearDownClass(cls):
@@ -984,7 +984,7 @@ class PythonTests(unittest.TestCase):
             By.COMPONENT, "CapsuleCollider", "Camera")
         self.assertTrue(altElement.name == "Capsule")
         altElement2 = self.altdriver.find_object(
-            By.COMPONENT, "CapsuleCollider", "Main Camera")
+            By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera")
         self.assertNotEqual(altElement.x, altElement2.x)
         self.assertNotEqual(altElement.y, altElement2.y)
 
@@ -997,7 +997,7 @@ class PythonTests(unittest.TestCase):
             By.COMPONENT, "CapsuleCollider", "Camera")
         self.assertTrue(altElement.name == "Capsule")
         altElement2 = self.altdriver.wait_for_object(
-            By.COMPONENT, "CapsuleCollider", "Main Camera")
+            By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera")
         self.assertNotEqual(altElement.x, altElement2.x)
         self.assertNotEqual(altElement.y, altElement2.y)
 
@@ -1007,17 +1007,17 @@ class PythonTests(unittest.TestCase):
         altButton.tap()
         altButton.tap()
         altElement = self.altdriver.find_objects(
-            By.NAME, "Plane", "Camera")
+            By.NAME, "Plane", By.NAME, "Camera")
         self.assertTrue(altElement[0].name == "Plane")
         altElement2 = self.altdriver.find_objects(
-            By.NAME, "Plane", "Main Camera")
+            By.NAME, "Plane", By.NAME, "Main Camera")
         self.assertNotEqual(altElement[0].x, altElement2[0].x)
         self.assertNotEqual(altElement[0].y, altElement2[0].y)
 
     def test_wait_for_object_not_be_present_by_camera(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.wait_for_object_to_not_be_present(
-            By.NAME, "ObjectDestroyedIn5Secs", "Main Camera")
+            By.NAME, "ObjectDestroyedIn5Secs", By.NAME, "Main Camera")
 
         allObjectsInTheScene = self.altdriver.get_all_elements()
         objectSearched = None
@@ -1032,14 +1032,14 @@ class PythonTests(unittest.TestCase):
         name = "CapsuleInfo"
         text = self.altdriver.find_object(By.NAME, name).get_text()
         altElement = self.altdriver.wait_for_object_with_text(
-            By.NAME, name, text, "Main Camera")
+            By.NAME, name, text, By.NAME, "Main Camera")
         self.assertIsNotNone(altElement)
         self.assertEqual(altElement.get_text(), text)
 
     def test_wait_for_object_which_contains_by_camera(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement = self.altdriver.wait_for_object_which_contains(
-            By.NAME, "Canva", "Main Camera")
+            By.NAME, "Canva", By.NAME, "Main Camera")
         self.assertEqual("Canvas", altElement.name)
 
     def test_load_additive_scenes(self):

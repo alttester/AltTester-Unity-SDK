@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -8,17 +9,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         float power;
         float duration;
 
-        public AltUnityHoldButtonCommand (KeyCode keyCode, float power, float duration)
+        public AltUnityHoldButtonCommand(params string[] parameters) : base(parameters, 5)
         {
-            this.keyCode = keyCode;
-            this.power = power;
-            this.duration = duration;
+            this.keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), parameters[2]);
+            this.power = JsonConvert.DeserializeObject<float>(parameters[3]);
+            this.duration = JsonConvert.DeserializeObject<float>(parameters[4]);
         }
 
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            AltUnityRunner._altUnityRunner.LogMessage("pressKeyboardKey: " + keyCode);
+            LogMessage("pressKeyboardKey: " + keyCode);
             var powerClamped = UnityEngine.Mathf.Clamp01(power);
             Input.SetKeyDown(keyCode, power, duration);
 #endif      

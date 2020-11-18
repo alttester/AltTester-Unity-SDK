@@ -11,7 +11,7 @@ public class AltStop extends AltBaseCommand {
 
     public void Execute() {
         log.info("Closing connection with server.");
-        send(CreateCommand("closeConnection"));
+        SendCommand("closeConnection");
         try {
             altBaseSettings.in.close();
             altBaseSettings.out.close();

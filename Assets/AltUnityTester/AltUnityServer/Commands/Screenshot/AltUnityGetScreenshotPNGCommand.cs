@@ -1,23 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Assets.AltUnityTester.AltUnityServer.AltSocket;
+
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetScreenshotPNGCommand :AltUnityCommand
+    class AltUnityGetScreenshotPNGCommand : AltUnityCommand
     {
         AltClientSocketHandler handler;
 
-        public AltUnityGetScreenshotPNGCommand (AltClientSocketHandler handler)
+        public AltUnityGetScreenshotPNGCommand(AltClientSocketHandler handler, params string[] parameters) : base(parameters, 2)
         {
             this.handler = handler;
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("getScreenshotPNG");
-            AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.TakeScreenshot(handler));
+            LogMessage("getScreenshotPNG");
+            AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.TakeScreenshot(this, handler));
             return "Ok";
         }
     }

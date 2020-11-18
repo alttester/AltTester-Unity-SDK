@@ -1,18 +1,20 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+﻿using Newtonsoft.Json;
+
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnitySetTimeScaleCommand :AltUnityCommand
+    class AltUnitySetTimeScaleCommand : AltUnityCommand
     {
         float timeScale;
 
-        public AltUnitySetTimeScaleCommand (float timeScale)
+        public AltUnitySetTimeScaleCommand(params string[] parameters) : base(parameters, 3)
         {
-            this.timeScale = timeScale;
+            this.timeScale = JsonConvert.DeserializeObject<float>(parameters[2]);
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("SetTimeScale to: " + timeScale);
-            string response = AltUnityRunner._altUnityRunner.errorCouldNotPerformOperationMessage;
+            LogMessage("SetTimeScale to: " + timeScale);
+            string response = AltUnityErrors.errorCouldNotPerformOperationMessage;
             UnityEngine.Time.timeScale = timeScale;
             response = "Ok";
             return response;

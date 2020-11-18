@@ -15,18 +15,25 @@ public class AltGetComponentProperty extends AltBaseCommand {
      */
     private AltUnityObject altUnityObject;
     /**
-     * @param altGetComponentPropertyParameters builder for getting components' property
+     * @param altGetComponentPropertyParameters builder for getting components'
+     *                                          property
      */
     private AltGetComponentPropertyParameters altGetComponentPropertyParameters;
-    public AltGetComponentProperty(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject, AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
+
+    public AltGetComponentProperty(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject,
+            AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
         super(altBaseSettings);
         this.altUnityObject = altUnityObject;
         this.altGetComponentPropertyParameters = altGetComponentPropertyParameters;
     }
-    public String Execute(){
+
+    public String Execute() {
         String altObject = new Gson().toJson(altUnityObject);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(altGetComponentPropertyParameters.getAssembly(), altGetComponentPropertyParameters.getComponentName(), altGetComponentPropertyParameters.getPropertyName()));
-        send(CreateCommand("getObjectComponentProperty", altObject,propertyInfo,Integer.toString(altGetComponentPropertyParameters.getMaxDepth())));
+        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(
+                altGetComponentPropertyParameters.getAssembly(), altGetComponentPropertyParameters.getComponentName(),
+                altGetComponentPropertyParameters.getPropertyName()));
+        SendCommand("getObjectComponentProperty", altObject, propertyInfo,
+                Integer.toString(altGetComponentPropertyParameters.getMaxDepth()));
         String data = recvall();
         if (!data.contains("error:")) {
             return data;

@@ -12,7 +12,7 @@ public class AltUnityMoveMouse : AltBaseCommand
     public void Execute()
     {
         var locationJson = PositionToJson(location);
-        Socket.Client.Send(toBytes(CreateCommand("moveMouse", locationJson, duration.ToString())));
+        SendCommand("moveMouse", locationJson, duration.ToString());
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

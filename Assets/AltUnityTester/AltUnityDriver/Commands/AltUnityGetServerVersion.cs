@@ -6,7 +6,7 @@ public class AltUnityGetServerVersion : AltBaseCommand
     public string Execute()
     {
         string serverVersion;
-        Socket.Client.Send(toBytes(CreateCommand("getServerVersion")));
+        SendCommand("getServerVersion");
         serverVersion = Recvall();
         HandleErrors(serverVersion);
         return serverVersion;

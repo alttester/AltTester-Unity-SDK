@@ -4,9 +4,10 @@ import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
- * Simulate scroll mouse action in your game. This command does not wait for the action to finish.
+ * Simulate scroll mouse action in your game. This command does not wait for the
+ * action to finish.
  */
-public class  AltSwipeAndWait extends AltBaseCommand {
+public class AltSwipeAndWait extends AltBaseCommand {
     /**
      * @param xStart x coordinate of the screen where the swipe begins.
      */
@@ -24,11 +25,13 @@ public class  AltSwipeAndWait extends AltBaseCommand {
      */
     private int yEnd;
     /**
-     * @param durationInSeconds The time measured in seconds to move the mouse from current position to the set location.
+     * @param durationInSeconds The time measured in seconds to move the mouse from
+     *                          current position to the set location.
      */
     private float durationInSeconds;
 
-    public AltSwipeAndWait(AltBaseSettings altBaseSettings, int xStart, int yStart, int xEnd, int yEnd, float durationInSeconds) {
+    public AltSwipeAndWait(AltBaseSettings altBaseSettings, int xStart, int yStart, int xEnd, int yEnd,
+            float durationInSeconds) {
         super(altBaseSettings);
         this.xStart = xStart;
         this.yStart = yStart;
@@ -36,12 +39,13 @@ public class  AltSwipeAndWait extends AltBaseCommand {
         this.yEnd = yEnd;
         this.durationInSeconds = durationInSeconds;
     }
-    public void Execute(){
-        new AltSwipe(altBaseSettings,xStart, yStart, xEnd, yEnd, durationInSeconds).Execute();
-        sleepFor(durationInSeconds );
+
+    public void Execute() {
+        new AltSwipe(altBaseSettings, xStart, yStart, xEnd, yEnd, durationInSeconds).Execute();
+        sleepFor(durationInSeconds);
         String data;
         do {
-            send(CreateCommand("actionFinished"));
+            SendCommand("actionFinished");
             data = recvall();
         } while (data.equals("No"));
 

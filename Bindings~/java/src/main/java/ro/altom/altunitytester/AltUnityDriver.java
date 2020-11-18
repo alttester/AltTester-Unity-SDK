@@ -69,7 +69,6 @@ public class AltUnityDriver {
                 }
                 altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
                 checkServerVersion();
-                EnableLogging();
                 break;
             } catch (Exception e) {
                 if (socket != null)
@@ -83,12 +82,20 @@ public class AltUnityDriver {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-
+            }
+            if (timeout <= 0) {
+                throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port),
+                        new Throwable());
             }
         }
-        if (timeout <= 0) {
-            throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port),
-                    new Throwable());
+
+        try
+        {
+            EnableLogging();
+        }
+        catch (AltUnityRecvallMessageFormatException ex)
+        {
+            System.out.println("Cannot set logging flag because of version incompatibility.");
         }
     }
 
@@ -100,8 +107,14 @@ public class AltUnityDriver {
         String serverVersion;
         try {
             serverVersion = new GetServerVersionCommand(altBaseSettings).Execute();
-        } catch (UnknownErrorException ex) {
+        }
+        catch (UnknownErrorException ex)
+        {
             serverVersion = "<=1.5.3";
+        }
+        catch (AltUnityRecvallMessageFormatException ex)
+        {
+            serverVersion = "<=1.5.7";
         }
         String[] parts = splitVersion(serverVersion);
         String majorServer = parts[0];

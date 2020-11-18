@@ -1,24 +1,28 @@
-using UnityEngine;
+using System;
+using Newtonsoft.Json;
+using Assets.AltUnityTester.AltUnityServer.AltSocket;
+
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetScreenshotCommand : AltUnityCommand
+    public class AltUnityGetScreenshotCommand : AltUnityCommand
     {
-        UnityEngine.Vector2 size;
         AltClientSocketHandler handler;
+        UnityEngine.Vector2 size;
         int quality;
 
-        public AltUnityGetScreenshotCommand (Vector2 size, int quality, AltClientSocketHandler handler)
+        public AltUnityGetScreenshotCommand(AltClientSocketHandler handler, params string[] parameters) : base(parameters, 4)
         {
-            this.size = size;
             this.handler = handler;
-            this.quality = quality;
+            this.size = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[2]);
+            this.quality = Int32.Parse(parameters[3]);
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("getScreenshot" + size);
-            AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.TakeTexturedScreenshot(size,quality, handler));
+            LogMessage("getScreenshot" + size);
+            var getScreenshotCommand = new AltUnityScreenshotReadyCommand(Parameters);
+            AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.TakeTexturedScreenshot(handler, getScreenshotCommand));
             return "Ok";
         }
     }

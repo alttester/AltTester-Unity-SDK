@@ -8,7 +8,7 @@ public class AltUnitySetTimeScale : AltBaseCommand
     }
     public void Execute()
     {
-        Socket.Client.Send(toBytes(CreateCommand("setTimeScale", Newtonsoft.Json.JsonConvert.SerializeObject(timeScale))));
+        SendCommand("setTimeScale", Newtonsoft.Json.JsonConvert.SerializeObject(timeScale));
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

@@ -10,7 +10,7 @@ class CloseConnection(BaseCommand):
 
     def execute(self):
         try:
-            data = self.send_data(self.create_command('closeConnection'))
+            data = self.send_command('closeConnection')
             logger.debug('Sent close connection command...')
             time.sleep(1)
             self.socket.close()

@@ -14,6 +14,6 @@ class MultipointSwipe(BaseCommand):
 
         logger.debug('Moving touch by positions ' + moving_position +
                      ' with duration: ' + self.duration_in_secs + ' secs')
-        data = self.send_data(self.create_command(
-            'multipointSwipeChain', self.duration_in_secs, moving_position))
+        data = self.send_command(
+            'multipointSwipeChain', self.duration_in_secs, moving_position)
         return self.handle_errors(data)

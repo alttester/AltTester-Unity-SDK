@@ -33,7 +33,7 @@ public class AltCallComponentMethod extends AltBaseCommand {
                 altCallComponentMethodParameters.getParameters(),
                 altCallComponentMethodParameters.getTypeOfParameters(),
                 altCallComponentMethodParameters.getAssembly()));
-        send(CreateCommand("callComponentMethodForObject", altObject, actionInfo));
+        SendCommand("callComponentMethodForObject", altObject, actionInfo);
         String data = recvall();
         if (!data.contains("error:"))
             return data;

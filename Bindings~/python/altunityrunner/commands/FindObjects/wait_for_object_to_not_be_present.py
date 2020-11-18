@@ -25,10 +25,14 @@ class WaitForObjectToNotBePresent(CommandReturningAltElements):
                              self.value + ' to not be present...')
                 FindObject(self.socket, self.request_separator, self.request_end,
                            self.by, self.value, self.camera_by, self.camera_path, self.enabled).execute()
+                logger.debug("object found")
                 time.sleep(self.interval)
                 t += self.interval
-            except Exception:
+            except Exception as ex:
+                logger.debug(ex)
                 break
-        if t >= self.timeout:
+        if t > self.timeout:
+            logger.debug("WaitTimeOutException")
             raise WaitTimeOutException(
                 'Element ' + self.value + ' still found after ' + str(self.timeout) + ' seconds')
+        logger.debug("succcess")

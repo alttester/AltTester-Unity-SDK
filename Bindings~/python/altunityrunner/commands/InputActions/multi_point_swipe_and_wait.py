@@ -19,8 +19,7 @@ class MultipointSwipeAndWait(BaseCommand):
         time.sleep(self.duration_in_secs)
         swipe_in_progress = True
         while swipe_in_progress:
-            swipe_finished = self.send_data(
-                self.create_command('actionFinished'))
+            swipe_finished = self.send_command('actionFinished')
             self.handle_errors(swipe_finished)
             if swipe_finished == 'Yes':
                 break

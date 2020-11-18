@@ -3,17 +3,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityFindObjectsCommand : AltUnityBaseClassFindObjectsCommand
     {
-        public AltUnityFindObjectsCommand(params string[] pieces) : base(pieces) { }
+        public AltUnityFindObjectsCommand(params string[] paramters) : base(paramters) { }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("findObjects for: " + ObjectName);
+            LogMessage("findObjects for: " + ObjectName);
             UnityEngine.Camera camera = null;
             if (!CameraPath.Equals("//"))
             {
                 camera = GetCamera(CameraBy, CameraPath);
                 if (camera == null)
-                    return AltUnityRunner._altUnityRunner.errorCameraNotFound;
+                    return AltUnityErrors.errorCameraNotFound;
             }
             var path = ProcessPath(ObjectName);
             var isDirectChild = IsNextElementDirectChild(path[0]);

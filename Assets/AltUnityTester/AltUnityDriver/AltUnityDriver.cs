@@ -1,20 +1,22 @@
+using Assets.AltUnityTester.AltUnityDriver.AltSocket;
 using Assets.AltUnityTester.AltUnityDriver.Commands.InputActions;
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 public enum PLayerPrefKeyType { Int = 1, String, Float }
-public struct SocketSettings
-{
-    public System.Net.Sockets.TcpClient socket;
-    public string requestSeparator;
-    public string requestEnding;
-    public bool logFlag;
 
-    public SocketSettings(System.Net.Sockets.TcpClient socket, string requestSeparator, string requestEnding, bool logFlag)
+public class SocketSettings
+{
+    public ISocket Socket { get; private set; }
+    public string RequestSeparator { get; private set; }
+    public string RequestEnding { get; private set; }
+    public bool LogFlag { get; private set; }
+
+    public SocketSettings(ISocket socket, string requestSeparator, string requestEnding, bool logFlag)
     {
-        this.socket = socket;
-        this.requestSeparator = requestSeparator;
-        this.requestEnding = requestEnding;
-        this.logFlag = logFlag;
+        this.Socket = socket;
+        this.RequestSeparator = requestSeparator;
+        this.RequestEnding = requestEnding;
+        this.LogFlag = logFlag;
     }
 }
 public class AltUnityDriver
@@ -27,7 +29,6 @@ public class AltUnityDriver
 
     public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false)
     {
-
         int timeout = 60;
         int retryPeriod = 5;
         while (timeout > 0)
@@ -38,10 +39,9 @@ public class AltUnityDriver
                 Socket.Connect(tcp_ip, tcp_port);
                 Socket.SendTimeout = 5000;
                 Socket.ReceiveTimeout = 5000;
-
-                socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding, logFlag);
+                var altSocket = new Socket(Socket.Client);
+                socketSettings = new SocketSettings(altSocket, requestSeparator, requestEnding, logFlag);
                 checkServerVersion();
-                EnableLogging();
                 break;
             }
             catch (System.Exception)
@@ -63,6 +63,14 @@ public class AltUnityDriver
                 throw new System.Exception("Could not create connection to " + tcp_ip + ":" + tcp_port);
             }
         }
+        try
+        {
+            EnableLogging();
+        }
+        catch (Assets.AltUnityTester.AltUnityDriver.AltUnityRecvallMessageFormatException)
+        {
+            UnityEngine.Debug.LogError("Cannot set logging flag because of version incompatibility.");
+        }
 
     }
     private void splitVersion(string version, out string major, out string minor)
@@ -82,7 +90,10 @@ public class AltUnityDriver
         {
             serverVersion = "<=1.5.3";
         }
-
+        catch (Assets.AltUnityTester.AltUnityDriver.AltUnityRecvallMessageFormatException)
+        {
+            serverVersion = "<=1.5.7";
+        }
         string majorServer, minorServer,
         majorDriver, minorDriver;
 

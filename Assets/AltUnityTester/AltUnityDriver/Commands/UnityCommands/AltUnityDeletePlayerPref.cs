@@ -5,7 +5,7 @@ public class AltUnityDeletePlayerPref : AltBaseCommand
     }
     public void Execute()
     {
-        Socket.Client.Send(toBytes(CreateCommand("deletePlayerPref")));
+        SendCommand("deletePlayerPref");
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

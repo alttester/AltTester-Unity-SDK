@@ -1,18 +1,18 @@
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityDeleteKeyPlayerPrefCommand :  AltUnityCommand
+    class AltUnityDeleteKeyPlayerPrefCommand : AltUnityCommand
     {
         string keyName;
 
-        public AltUnityDeleteKeyPlayerPrefCommand(string keyName)
+        public AltUnityDeleteKeyPlayerPrefCommand(params string[] parameters) : base(parameters, 3)
         {
-            this.keyName = keyName;
+            this.keyName = parameters[2];
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("deleteKeyPlayerPref for: " + keyName);
-            string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
+            LogMessage("deleteKeyPlayerPref for: " + keyName);
+            string response = AltUnityErrors.errorNotFoundMessage;
             UnityEngine.PlayerPrefs.DeleteKey(keyName);
             response = "Ok";
             return response;

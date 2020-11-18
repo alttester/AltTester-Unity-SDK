@@ -23,8 +23,8 @@ public class AltFindObjects extends AltBaseFindObject {
     public AltUnityObject[] Execute() {
         String path = SetPath(altFindObjectsParameters.getBy(), altFindObjectsParameters.getValue());
         String cameraPath = SetPath(altFindObjectsParameters.getCameraBy(), altFindObjectsParameters.getCameraPath());
-        send(CreateCommand("findObjects", path, altFindObjectsParameters.getCameraBy().toString(), cameraPath,
-                String.valueOf(altFindObjectsParameters.isEnabled())));
+        SendCommand("findObjects", path, altFindObjectsParameters.getCameraBy().toString(), cameraPath,
+                String.valueOf(altFindObjectsParameters.isEnabled()));
         return ReceiveListOfAltUnityObjects();
     }
 }

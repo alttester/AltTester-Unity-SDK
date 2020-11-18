@@ -11,8 +11,8 @@ class GetAllComponents(BaseCommand):
         self.alt_object = alt_object
 
     def execute(self) -> List[dict]:
-        data = self.send_data(self.create_command(
-            'getAllComponents', str(self.alt_object.id)))
+        data = self.send_command(
+            'getAllComponents', str(self.alt_object.id))
         self.handle_errors(data)
         try:
             return json.loads(data)

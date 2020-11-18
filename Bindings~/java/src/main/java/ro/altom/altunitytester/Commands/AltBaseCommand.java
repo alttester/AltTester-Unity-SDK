@@ -15,6 +15,7 @@ public class AltBaseCommand {
     protected static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AltBaseCommand.class);
 
     private final static int BUFFER_SIZE = 1024;
+    private String messageId;
     public AltBaseSettings altBaseSettings;
 
     public AltBaseCommand(AltBaseSettings altBaseSettings) {
@@ -49,20 +50,33 @@ public class AltBaseCommand {
             }
         }
 
-        receivedData = receivedData.split("altstart::")[1].split("::altend")[0];
-        String[] data = receivedData.split("::altLog::");
-        receivedData = data[0];
-        log.debug("Data received: " + receivedData);
-        if (altBaseSettings.logEnabled && data.length == 2) {
-            WriteInLogFile(data[1]);
-            Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-            WriteInLogFile(formatter.format(date) + " : response received : " + receivedData);
+        String[] parts = receivedData.split("altstart::|::response::|::altLog::|::altend", -1);// -1 limit to include
+                                                                                               // Trailing empty strings
+        if (parts.length != 5 || !parts[0].equals("") || !parts[4].equals("")) {
+
+            throw new AltUnityRecvallMessageFormatException(
+                    "Data received from socket doesn't have correct start and end control strings");
         }
+
+        if (!parts[1].equals(messageId)) {
+            throw new AltUnityRecvallMessageIdException(
+                    "Response received does not match command send. Expected message id: " + messageId + ". Got "
+                            + parts[1]);
+        }
+        receivedData = parts[2];
+        String logData = parts[3];
+
+        log.debug(trimLogData(receivedData));
+        if (altBaseSettings.logEnabled) {
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+            writeInLogFile(formatter.format(new Date()) + " : response received : " + trimLogData(receivedData));
+            writeInLogFile(logData);
+        }
+
         return receivedData;
     }
 
-    protected void WriteInLogFile(String logMessages) {
+    private void writeInLogFile(String logMessages) {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter("AltUnityTesterLog.txt", true));
@@ -73,18 +87,33 @@ public class AltBaseCommand {
         }
     }
 
-    protected void send(String message) {
+    protected void SendCommand(String... arguments) {
+        send(createCommand(arguments));
+    }
+
+    private void send(String message) {
         log.info("Sending rpc message [{}]", message);
         altBaseSettings.out.print(message);
         altBaseSettings.out.flush();
     }
 
-    protected String CreateCommand(String... arguments) {
-        String command = "";
-        for (String argument : arguments) {
-            command += argument + altBaseSettings.RequestSeparator;
+    private String createCommand(String[] arguments) {
+        String command = String.join(altBaseSettings.RequestSeparator, arguments);
+        messageId = Long.toString(System.currentTimeMillis());
+
+        command = String.join(altBaseSettings.RequestSeparator, messageId, command) + altBaseSettings.RequestEnd;
+        return command;
+    }
+
+    private String trimLogData(String data) {
+        return trimLogData(data, 1024 * 10);
+    }
+
+    private String trimLogData(String data, int maxSize) {
+        if (data.length() > maxSize) {
+            return data.substring(0, 10 * 1024) + "[...]";
         }
-        return command + altBaseSettings.RequestEnd;
+        return data;
     }
 
     protected void handleErrors(String data) {

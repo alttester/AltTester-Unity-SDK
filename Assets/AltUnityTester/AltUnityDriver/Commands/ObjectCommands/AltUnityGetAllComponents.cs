@@ -8,7 +8,7 @@ public class AltUnityGetAllComponents : AltBaseCommand
     }
     public System.Collections.Generic.List<AltUnityComponent> Execute()
     {
-        Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("getAllComponents", AltUnityObject.id.ToString())));
+        SendCommand("getAllComponents", AltUnityObject.id.ToString());
         string data = Recvall();
         if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityComponent>>(data);
         HandleErrors(data);

@@ -1,22 +1,22 @@
-using UnityEngine;
+using System;
+using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityScreenshotReadyCommand : AltUnityCommand
+    public class AltUnityScreenshotReadyCommand : AltUnityCommand
     {
-        UnityEngine.Texture2D screenshot;
         UnityEngine.Vector2 size;
         int quality;
 
-        public AltUnityScreenshotReadyCommand(Texture2D screenshot, int quality, Vector2 size)
+        public AltUnityScreenshotReadyCommand(params string[] parameters) : base(parameters, 4)
         {
-            this.screenshot = screenshot;
-            this.size = size;
-            this.quality = quality;
+            this.size = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[2]);
+            this.quality = Int32.Parse(parameters[3]);
         }
 
         public override string Execute()
         {
+            var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
             int width = (int)size.x;
             int height = (int)size.y;
 
@@ -59,8 +59,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
 
             var screenshotSerialized = screenshot.GetRawTextureData();
-            AltUnityRunner._altUnityRunner.LogMessage(screenshotSerialized.LongLength + " size after Unity Compression");
-            AltUnityRunner._altUnityRunner.LogMessage(System.DateTime.Now + " Start Compression");
+            LogMessage(screenshotSerialized.LongLength + " size after Unity Compression");
+            LogMessage(System.DateTime.Now + " Start Compression");
             var screenshotCompressed = AltUnityRunner.CompressScreenshot(screenshotSerialized);
             UnityEngine.Debug.Log(System.DateTime.Now + " Finished Compression");
             var length = screenshotCompressed.LongLength;
@@ -80,8 +80,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii
             });
 
-            AltUnityRunner._altUnityRunner.LogMessage(System.DateTime.Now + " Finished Serialize Screenshot Start serialize response");
-            AltUnityRunner._altUnityRunner.LogMessage(System.DateTime.Now + " Finished send Response");
+            LogMessage(System.DateTime.Now + " Finished Serialize Screenshot Start serialize response");
+            LogMessage(System.DateTime.Now + " Finished send Response");
             UnityEngine.GameObject.Destroy(screenshot);
             AltUnityRunner._altUnityRunner.destroyHightlight = true;
             return Newtonsoft.Json.JsonConvert.SerializeObject(fullResponse);

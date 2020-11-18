@@ -27,47 +27,38 @@ public class TestForScene1TestSample
     {
         altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene", true);
     }
+
     [Test]
     public void TestGetCurrentScene()
     {
-
-
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
-
     }
 
     [Test]
     public void TestFindElement()
     {
-
         const string name = "Capsule";
         var altElement = altUnityDriver.FindObject(By.NAME, name);
         Assert.NotNull(altElement);
         Assert.AreEqual(name, altElement.name);
-
     }
-
 
     [Test]
     public void TestFindElements()
     {
-
         const string name = "Plane";
         var altElements = altUnityDriver.FindObjects(By.NAME, name);
         Assert.IsNotEmpty(altElements);
         Assert.AreEqual(altElements[0].name, name);
-
     }
 
     [Test]
     public void TestFindElementWhereNameContains()
     {
-
         const string name = "Cap";
         var altElement = altUnityDriver.FindObject(By.PATH, "//*[contains(@name," + name + ")]");
         Assert.NotNull(altElement);
         Assert.True(altElement.name.Contains(name));
-
     }
     [Test]
     public void TestFindElementsWhereNameContains()
@@ -77,7 +68,6 @@ public class TestForScene1TestSample
         Assert.IsNotEmpty(altElements);
         Assert.True(altElements[0].name.Contains(name));
     }
-
 
     [Test]
     public void TestWaitForExistingElement()
@@ -91,6 +81,7 @@ public class TestForScene1TestSample
         Assert.NotNull(altElement);
         Assert.AreEqual(altElement.name, name);
     }
+
     [Test]
     public void TestWaitForExistingDisabledElement()
     {

@@ -12,7 +12,7 @@ public class AltUnityGetAllElements : AltUnityBaseFindObjects
     public System.Collections.Generic.List<AltUnityObject> Execute()
     {
         cameraPath = SetPath(cameraBy, cameraPath);
-        Socket.Client.Send(toBytes(CreateCommand("findObjects", "//*", cameraBy.ToString(), cameraPath, enabled.ToString())));
+        SendCommand("findObjects", "//*", cameraBy.ToString(), cameraPath, enabled.ToString());
         return ReceiveListOfAltUnityObjects();
     }
 }

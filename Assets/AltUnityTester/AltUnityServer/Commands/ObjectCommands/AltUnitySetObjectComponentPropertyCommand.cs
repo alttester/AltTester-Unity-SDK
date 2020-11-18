@@ -1,22 +1,22 @@
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnitySetObjectComponentPropertyCommand :AltUnityReflectionMethodsCommand 
+    class AltUnitySetObjectComponentPropertyCommand : AltUnityReflectionMethodsCommand
     {
         string altObjectString;
         string propertyString;
         string valueString;
 
-        public AltUnitySetObjectComponentPropertyCommand (string altObjectString, string propertyString, string valueString)
+        public AltUnitySetObjectComponentPropertyCommand(params string[] parameters) : base(parameters, 5)
         {
-            this.altObjectString = altObjectString;
-            this.propertyString = propertyString;
-            this.valueString = valueString;
+            this.altObjectString = parameters[2];
+            this.propertyString = parameters[3];
+            this.valueString = parameters[4];
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("set property " + propertyString + " to value: " + valueString + " for object " + altObjectString);
-            string response = AltUnityRunner._altUnityRunner.errorPropertyNotFoundMessage;
+            LogMessage("set property " + propertyString + " to value: " + valueString + " for object " + altObjectString);
+            string response = AltUnityErrors.errorPropertyNotFoundMessage;
             AltUnityObjectProperty altProperty =
                 Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObjectProperty>(propertyString);
             AltUnityObject altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);

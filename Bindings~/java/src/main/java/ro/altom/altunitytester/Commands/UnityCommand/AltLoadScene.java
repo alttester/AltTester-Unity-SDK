@@ -5,16 +5,19 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltLoadScene extends AltBaseCommand {
     private AltLoadSceneParameters altLoadSceneParameters;
-    public AltLoadScene(AltBaseSettings altBaseSettings,AltLoadSceneParameters altLoadSceneParameters) {
+
+    public AltLoadScene(AltBaseSettings altBaseSettings, AltLoadSceneParameters altLoadSceneParameters) {
         super(altBaseSettings);
-        this.altLoadSceneParameters=altLoadSceneParameters;
+        this.altLoadSceneParameters = altLoadSceneParameters;
     }
-    public void Execute(){
-        send(CreateCommand("loadScene",altLoadSceneParameters.getSceneName(),Boolean.toString(altLoadSceneParameters.getLoadSingle() )));
+
+    public void Execute() {
+        SendCommand("loadScene", altLoadSceneParameters.getSceneName(),
+                Boolean.toString(altLoadSceneParameters.getLoadSingle()));
         String data = recvall();
         if (data.equals("Ok")) {
-            data=recvall();
-            if(data.equals("Scene Loaded"))
+            data = recvall();
+            if (data.equals("Scene Loaded"))
                 return;
         }
         handleErrors(data);

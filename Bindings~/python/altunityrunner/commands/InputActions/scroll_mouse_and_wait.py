@@ -19,8 +19,7 @@ class ScrollMouseAndWait(BaseCommand):
         time.sleep(self.duration)
         action_in_progress = True
         while action_in_progress:
-            action_finished = self.send_data(
-                self.create_command('actionFinished'))
+            action_finished = self.send_command('actionFinished')
             self.handle_errors(action_finished)
             if action_finished == 'Yes':
                 break

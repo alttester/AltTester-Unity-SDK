@@ -188,4 +188,53 @@ namespace Assets.AltUnityTester.AltUnityDriver
         }
     }
 
+    public class InvalidParametersOnDriverCommandException : AltUnityException
+    {
+        public InvalidParametersOnDriverCommandException()
+        {
+        }
+
+        public InvalidParametersOnDriverCommandException(string message) : base(message)
+        {
+        }
+    }
+    public class AltUnityRecvallException : AltUnityException
+    {
+        public AltUnityRecvallException()
+        {
+
+        }
+
+        public AltUnityRecvallException(string message) : base(message)
+        {
+
+        }
+    }
+    public class AltUnityRecvallMessageIdException : AltUnityRecvallException
+    {
+        public AltUnityRecvallMessageIdException()
+        {
+
+        }
+
+        public AltUnityRecvallMessageIdException(string message) : base(message)
+        {
+
+        }
+
+    }
+    public class AltUnityRecvallMessageFormatException : AltUnityRecvallException
+    {
+        public AltUnityRecvallMessageFormatException()
+        {
+
+        }
+
+        public AltUnityRecvallMessageFormatException(string message) : base(message)
+        {
+
+        }
+
+    }
+
 }

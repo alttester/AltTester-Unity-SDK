@@ -7,7 +7,7 @@ public class AltUnityGetIntKeyPLayerPref : AltBaseCommand
     }
     public int Execute()
     {
-        Socket.Client.Send(toBytes(CreateCommand("getKeyPlayerPref", keyName, PLayerPrefKeyType.Int.ToString())));
+        SendCommand("getKeyPlayerPref", keyName, PLayerPrefKeyType.Int.ToString());
         var data = Recvall();
         if (!data.Contains("error:")) return System.Int32.Parse(data);
         HandleErrors(data);

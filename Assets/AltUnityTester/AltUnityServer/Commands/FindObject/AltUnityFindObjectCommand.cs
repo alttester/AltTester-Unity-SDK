@@ -3,13 +3,13 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityFindObjectCommand : AltUnityBaseClassFindObjectsCommand
     {
-        public AltUnityFindObjectCommand(params string[] pieces) : base(pieces) { }
+        public AltUnityFindObjectCommand(params string[] parameters) : base(parameters) { }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("findObject for: " + ObjectName);
+            LogMessage("findObject for: " + ObjectName);
 
-            string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
+            string response = AltUnityErrors.errorNotFoundMessage;
             var path = ProcessPath(ObjectName);
             var isDirectChild = IsNextElementDirectChild(path[0]);
             var foundGameObject = FindObjects(null, path, 1, true, isDirectChild, Enabled);
@@ -18,7 +18,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 camera = GetCamera(CameraBy, CameraPath);
                 if (camera == null)
-                    return AltUnityRunner._altUnityRunner.errorCameraNotFound;
+                    return AltUnityErrors.errorCameraNotFound;
             }
             if (foundGameObject.Count() == 1)
             {

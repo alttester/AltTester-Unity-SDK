@@ -15,6 +15,6 @@ class GetServerVersion(BaseCommand):
             socket, request_separator, request_end)
 
     def execute(self):
-        serverVersion = self.send_data(self.create_command('getServerVersion'))
+        serverVersion = self.send_command('getServerVersion')
         self.handle_errors(serverVersion)
         return serverVersion
