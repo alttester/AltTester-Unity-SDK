@@ -42,14 +42,13 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
 
             System.Collections.Generic.List<AltUnityProperty> listFields = new System.Collections.Generic.List<AltUnityProperty>();
-
             foreach (var fieldInfo in fieldInfos)
             {
                 try
                 {
                     var value = fieldInfo.GetValue(altObjectComponent);
                     AltUnityType altUnityType = AltUnityType.OBJECT;
-                    if (fieldInfo.FieldType.IsPrimitive)
+                    if (fieldInfo.FieldType.IsPrimitive || fieldInfo.FieldType.Equals(typeof(System.String)))
                     {
                         altUnityType = AltUnityType.PRIMITIVE;
                     }

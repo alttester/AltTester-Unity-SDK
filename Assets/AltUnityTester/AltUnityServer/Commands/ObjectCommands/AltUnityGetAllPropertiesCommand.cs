@@ -49,7 +49,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 {
                     var value = propertyInfo.GetValue(altObjectComponent, null);
                     AltUnityType altUnityType = AltUnityType.OBJECT;
-                    if (propertyInfo.PropertyType.IsPrimitive)
+                    if (propertyInfo.PropertyType.IsPrimitive || propertyInfo.PropertyType.Equals(typeof(System.String)))
                     {
                         altUnityType = AltUnityType.PRIMITIVE;
                     }
