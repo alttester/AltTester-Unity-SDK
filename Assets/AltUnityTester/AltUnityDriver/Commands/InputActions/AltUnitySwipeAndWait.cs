@@ -14,7 +14,7 @@ public class AltUnitySwipeAndWait : AltBaseCommand
     public void Execute()
     {
         new AltUnitySwipe(SocketSettings, start, end, duration).Execute();
-        System.Threading.Thread.Sleep((int)duration * 1000);
+        System.Threading.Thread.Sleep((int)(duration * 1000));
         string data;
         do
         {
