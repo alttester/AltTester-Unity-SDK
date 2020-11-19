@@ -27,7 +27,7 @@
 
 workflow:
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME != "master"'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME != "master" && $CI_COMMIT_REF_NAME != "development"'
       when: never
     - when: always
 
