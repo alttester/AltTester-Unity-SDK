@@ -1386,5 +1386,18 @@ public class TestForScene1TestSample
     {
         Assert.AreEqual(AltUnityDriver.VERSION, new AltUnityGetServerVersion(altUnityDriver.socketSettings).Execute());
     }
+    [Test]
+    public void TestStringIsMarkedAsPrimitive()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "ChineseLetters");
+        var componentList = altElement.GetAllComponents();
+        var component = componentList.First(componenta =>
+            componenta.componentName.Equals("UnityEngine.UI.Text"));
+        List<AltUnityProperty> properties = altElement.GetAllProperties(component, AltUnityPropertiesSelections.ALLPROPERTIES);
+
+        AltUnityProperty property = properties.First(prop => prop.name.Equals("text"));
+        Assert.NotNull(property);
+        Assert.AreEqual(AltUnityType.PRIMITIVE, property.type);
+    }
 }
 
