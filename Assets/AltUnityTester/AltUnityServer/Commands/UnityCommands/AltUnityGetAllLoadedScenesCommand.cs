@@ -11,7 +11,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             LogMessage("getAllLoadedScenes");
             for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
             {
-                var sceneName = System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i));
+                var sceneName = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).name;
                 sceneNames.Add(sceneName);
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(sceneNames);
