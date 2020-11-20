@@ -9,8 +9,8 @@ class LoadScene(BaseCommand):
         self.load_single = load_single
 
     def execute(self):
-        data = self.send_data(self.create_command(
-            'loadScene', self.scene_name, self.load_single))
+        data = self.send_command(
+            'loadScene', self.scene_name, self.load_single)
         if (data == 'Ok'):
             data = self.recvall()
             if (data == "Scene Loaded"):

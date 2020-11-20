@@ -17,7 +17,7 @@ public class AltTilt extends AltBaseCommand {
     public void Execute() {
         String accelerationString = vectorToJsonString(altTiltParameters.getX(), altTiltParameters.getY(),
                 altTiltParameters.getZ());
-        send(CreateCommand("tilt", accelerationString, String.valueOf(altTiltParameters.getDuration())));
+        SendCommand("tilt", accelerationString, String.valueOf(altTiltParameters.getDuration()));
         String data = recvall();
         if (data.equals("OK")) {
             return;

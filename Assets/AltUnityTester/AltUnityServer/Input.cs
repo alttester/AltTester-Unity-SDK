@@ -623,7 +623,6 @@ public class Input : UnityEngine.MonoBehaviour
         System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
         touchListCopy[touchCount - 1] = touch;
         touches = touchListCopy;
-        
         mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
         var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
         var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
@@ -641,19 +640,28 @@ public class Input : UnityEngine.MonoBehaviour
             {
                 float deltaX;
                 float deltaY;
-                if (time + UnityEngine.Time.deltaTime < oneInputDuration)
+                if (time + UnityEngine.Time.fixedUnscaledDeltaTime < oneInputDuration)
                 {
-                    deltaX = xDistance * UnityEngine.Time.deltaTime / oneInputDuration;
-                    deltaY = yDistance * UnityEngine.Time.deltaTime / oneInputDuration;
+                    deltaX = xDistance * UnityEngine.Time.fixedUnscaledDeltaTime / oneInputDuration;
+                    deltaY = yDistance * UnityEngine.Time.fixedUnscaledDeltaTime / oneInputDuration;
                 }
                 else
                 {
-                    deltaX = xDistance * (oneInputDuration - time) / oneInputDuration;
-                    deltaY = yDistance * (oneInputDuration - time) / oneInputDuration;
+                    if (oneInputDuration != 0)
+                    {
+                        deltaX = xDistance * (oneInputDuration - time) / oneInputDuration;
+                        deltaY = yDistance * (oneInputDuration - time) / oneInputDuration;
+                    }
+                    else
+                    {
+                        deltaX = xDistance;
+                        deltaY = yDistance;
+                    }
+                   
                 }
 
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
-                time += UnityEngine.Time.deltaTime;
+                time += UnityEngine.Time.fixedUnscaledDeltaTime;
                 touch.position = new UnityEngine.Vector2(touch.position.x + deltaX, touch.position.y + deltaY);
                 touch.deltaPosition = new UnityEngine.Vector2(deltaX, deltaY);
 
@@ -664,7 +672,6 @@ public class Input : UnityEngine.MonoBehaviour
                         touches[t] = touch;
                     }
                 }
-
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
                 pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
 
@@ -687,7 +694,6 @@ public class Input : UnityEngine.MonoBehaviour
 
         mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
         yield return null;
-        
         var newTouches = new UnityEngine.Touch[touchCount - 1];
         int contor = 0;
         foreach (var t in touches)
@@ -752,15 +758,61 @@ public class Input : UnityEngine.MonoBehaviour
     private static System.Collections.IEnumerator KeyDownLifeCycle(UnityEngine.KeyCode keyCode,float power, float duration)
     {
 
-        float time = UnityEngine.Time.time;
+        float time = 0;
         var keyStructure = new KeyStructure(keyCode, power);
         keyCodesPressedDown.Add(keyStructure);
         yield return null;
         keyCodesPressedDown.Remove(keyStructure);
         keyCodesPressed.Add(keyStructure);
-        if (duration != 0)
+        if(keyCode== UnityEngine.KeyCode.Mouse0)
         {
-            yield return new UnityEngine.WaitForSeconds(duration);
+            var touch = new UnityEngine.Touch
+            {
+                phase = UnityEngine.TouchPhase.Began,
+                position = _mousePosition,
+            };
+
+            var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
+            if (mockUpPointerInputModule.gameObjectHit != null)
+            {
+                UnityEngine.GameObject targetGameObject = mockUpPointerInputModule.gameObjectHit;
+                targetGameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                targetGameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                targetGameObject.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
+          
+            var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
+
+            yield return null;
+            while (time <= duration)
+            {
+                touch.deltaPosition = new UnityEngine.Vector2(_mousePosition.x, _mousePosition.y)- touch.position;
+                touch.position = _mousePosition;
+                touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
+                time += UnityEngine.Time.fixedUnscaledDeltaTime;
+                pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+                AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
+                yield return null;
+            }
+            if (mockUpPointerInputModule.gameObjectHit != null)
+            {
+                UnityEngine.GameObject targetGameObject = mockUpPointerInputModule.gameObjectHit;
+                UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+                targetGameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                targetGameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                targetGameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
+            
+            touch.phase = UnityEngine.TouchPhase.Ended;
+            mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+        }
+        else
+        {
+            if (duration != 0)
+            {
+                yield return new UnityEngine.WaitForSeconds(duration);
+            }
         }
         keyCodesPressed.Remove(keyStructure);
         keyCodesPressedUp.Add(keyStructure);
@@ -777,16 +829,15 @@ public class Input : UnityEngine.MonoBehaviour
     public static System.Collections.IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
     {
         float time = 0;
-        var debugPurpose = mousePosition;
         var distance = location - new UnityEngine.Vector2(mousePosition.x,mousePosition.y);
         do
         {
             float deltaX;
             float deltaY;
-            if (time + UnityEngine.Time.deltaTime < duration)
+            if (time + UnityEngine.Time.fixedUnscaledDeltaTime < duration)
             {
-                deltaX = distance.x * UnityEngine.Time.deltaTime / duration;
-                deltaY = distance.y * UnityEngine.Time.deltaTime / duration;
+                deltaX = distance.x * UnityEngine.Time.fixedUnscaledDeltaTime / duration;
+                deltaY = distance.y * UnityEngine.Time.fixedUnscaledDeltaTime / duration;
             }
             else
             {
@@ -796,7 +847,7 @@ public class Input : UnityEngine.MonoBehaviour
             }
             mousePosition = new UnityEngine.Vector3(mousePosition.x + deltaX, mousePosition.y + deltaY, 0);
             yield return null;
-            time += UnityEngine.Time.deltaTime;
+            time += UnityEngine.Time.fixedUnscaledDeltaTime;
         } while (time <= duration);
         Finished = true;
     }
@@ -810,10 +861,9 @@ public class Input : UnityEngine.MonoBehaviour
         float timeSpent = 0;
         while (timeSpent < duration)
         {
-            UnityEngine.Debug.Log("Scrolling");
             _mouseScrollDelta = new UnityEngine.Vector2(0, scrollValue);//x value is not taken in consideration
             yield return null;
-            timeSpent += UnityEngine.Time.deltaTime;
+            timeSpent += UnityEngine.Time.fixedUnscaledDeltaTime;
         }
         _mouseScrollDelta=UnityEngine.Vector2.zero;//reset the value after scroll ended
         Finished = true;
@@ -830,10 +880,9 @@ public class Input : UnityEngine.MonoBehaviour
         float timeSpent = 0;
         while (timeSpent < duration)
         {
-            UnityEngine.Debug.Log("Acceleration");
             _acceleration =accelarationValue;
             yield return null;
-            timeSpent += UnityEngine.Time.deltaTime;
+            timeSpent += UnityEngine.Time.fixedUnscaledDeltaTime;
         }
         _acceleration = UnityEngine.Vector3.zero;//reset the value after acceleration ended
         Finished = true;

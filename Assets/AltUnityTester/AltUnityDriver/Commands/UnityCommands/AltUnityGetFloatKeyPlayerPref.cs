@@ -5,8 +5,9 @@ public class AltUnityGetFloatKeyPlayerPref : AltBaseCommand
     {
         this.keyName = keyName;
     }
-    public float Execute(){
-        Socket.Client.Send(toBytes(CreateCommand("getKeyPlayerPref", keyName, PLayerPrefKeyType.Float.ToString())));
+    public float Execute()
+    {
+        SendCommand("getKeyPlayerPref", keyName, PLayerPrefKeyType.Float.ToString());
         var data = Recvall();
         if (!data.Contains("error:")) return float.Parse(data);
         HandleErrors(data);

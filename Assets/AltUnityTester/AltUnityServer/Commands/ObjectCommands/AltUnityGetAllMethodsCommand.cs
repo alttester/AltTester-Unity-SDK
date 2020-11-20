@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -7,15 +9,15 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         AltUnityComponent component;
         AltUnityMethodSelection methodSelection;
 
-        public AltUnityGetAllMethodsCommand(AltUnityComponent component, AltUnityMethodSelection methodSelection)
+        public AltUnityGetAllMethodsCommand(params string[] parameters) : base(parameters, 4)
         {
-            this.component = component;
-            this.methodSelection = methodSelection;
+            this.component = JsonConvert.DeserializeObject<AltUnityComponent>(parameters[2]);
+            this.methodSelection = (AltUnityMethodSelection)Enum.Parse(typeof(AltUnityMethodSelection), parameters[3], true);
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("getAllMethods");
+            LogMessage("getAllMethods");
             System.Type type = GetType(component.componentName, component.assemblyName);
             System.Reflection.MethodInfo[] methodInfos = new System.Reflection.MethodInfo[1];
             switch (methodSelection)

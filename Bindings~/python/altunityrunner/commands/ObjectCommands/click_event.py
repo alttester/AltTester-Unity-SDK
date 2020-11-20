@@ -8,6 +8,6 @@ class ClickEvent(BaseCommand):
         self.alt_object = alt_object
 
     def execute(self):
-        data = self.send_data(self.create_command(
-            'clickEvent', self.alt_object))
+        data = self.send_command(
+            'clickEvent', self.alt_object)
         return self.handle_errors(data)

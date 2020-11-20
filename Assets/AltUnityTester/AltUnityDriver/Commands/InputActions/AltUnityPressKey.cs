@@ -9,8 +9,9 @@ public class AltUnityPressKey : AltBaseCommand
         this.power = power;
         this.duration = duration;
     }
-    public void Execute(){
-        Socket.Client.Send(toBytes(CreateCommand("pressKeyboardKey", keyCode.ToString(), power.ToString(), duration.ToString())));
+    public void Execute()
+    {
+        SendCommand("pressKeyboardKey", keyCode.ToString(), power.ToString(), duration.ToString());
         var data = Recvall();
         if (data.Equals("Ok"))
             return;

@@ -9,13 +9,14 @@ public class AltUnityPressKeyAndWait : AltBaseCommand
         this.power = power;
         this.duration = duration;
     }
-    public void Execute(){
-        new AltUnityPressKey(SocketSettings,keyCode, power, duration).Execute();
+    public void Execute()
+    {
+        new AltUnityPressKey(SocketSettings, keyCode, power, duration).Execute();
         System.Threading.Thread.Sleep((int)duration * 1000);
         string data;
         do
         {
-            Socket.Client.Send(toBytes(CreateCommand("actionFinished")));
+            SendCommand("actionFinished");
             data = Recvall();
         } while (data == "No");
         if (data.Equals("Yes"))

@@ -9,8 +9,9 @@ public class AltGetTimeScale extends AltBaseCommand {
     public AltGetTimeScale(AltBaseSettings altBaseSettings) {
         super(altBaseSettings);
     }
-    public float Execute(){
-        send(CreateCommand("getTimeScale"));
+
+    public float Execute() {
+        SendCommand("getTimeScale");
         String data = recvall();
         if (!data.contains("error:")) {
             return (new Gson().fromJson(data, float.class));

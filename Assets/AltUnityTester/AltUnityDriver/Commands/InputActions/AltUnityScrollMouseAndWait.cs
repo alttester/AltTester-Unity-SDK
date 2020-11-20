@@ -9,12 +9,12 @@ public class AltUnityScrollMouseAndWait : AltBaseCommand
     }
     public void Execute()
     {
-        new AltUnityScrollMouse(SocketSettings,speed, duration).Execute();
+        new AltUnityScrollMouse(SocketSettings, speed, duration).Execute();
         System.Threading.Thread.Sleep((int)duration * 1000);
         string data;
         do
         {
-            Socket.Client.Send(toBytes(CreateCommand("actionFinished")));
+            SendCommand("actionFinished");
             data = Recvall();
         } while (data == "No");
         if (data.Equals("Yes"))

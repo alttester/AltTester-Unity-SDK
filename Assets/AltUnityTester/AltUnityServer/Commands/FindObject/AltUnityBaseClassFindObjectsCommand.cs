@@ -1,9 +1,22 @@
 using System.Linq;
 
-namespace Assets.AltUnityTester.AltUnityServer
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityBaseClassFindObjectsCommand : AltUnityCommand
     {
+        protected string ObjectName;
+        protected By CameraBy;
+        protected string CameraPath;
+        protected bool Enabled;
+
+        protected AltUnityBaseClassFindObjectsCommand(params string[] parameters) : base(parameters, 6)
+        {
+            ObjectName = parameters[2];
+            CameraBy = (By)System.Enum.Parse(typeof(By), parameters[3]);
+            CameraPath = parameters[4];
+            Enabled = System.Convert.ToBoolean(parameters[5]);
+        }
+
         protected System.Collections.Generic.List<System.Collections.Generic.List<string>> ProcessPath(string path)
         {
             System.Collections.Generic.List<char> escapeCharacters;
@@ -130,7 +143,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             {
                 if (step == conditions.Count - 1)//if last condition is .. then it will return the parent
                 {
-                    return new System.Collections.Generic.List<UnityEngine.GameObject>(){ gameObject.transform.parent.gameObject };
+                    return new System.Collections.Generic.List<UnityEngine.GameObject>() { gameObject.transform.parent.gameObject };
                 }
                 if (IsNextElementDirectChild(conditions[step + 1]))
                 {
@@ -380,9 +393,9 @@ namespace Assets.AltUnityTester.AltUnityServer
         {
             throw new System.NotImplementedException();
         }
-        protected UnityEngine.Camera GetCamera(By cameraBy,string cameraPath)
+        protected UnityEngine.Camera GetCamera(By cameraBy, string cameraPath)
         {
-           
+
             if (cameraBy == By.NAME)
             {
                 var cameraPathSplited = cameraPath.Split('/');
@@ -397,8 +410,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                 var gameObjectsCameraFound = FindObjects(null, cameraPathProcessed, 1, false, isDirectChildCamera, true);
                 return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetInstanceID() == d.GetInstanceID()));
             }
-            
+
         }
     }
-
 }

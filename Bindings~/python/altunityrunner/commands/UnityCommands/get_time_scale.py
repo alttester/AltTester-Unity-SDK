@@ -9,7 +9,7 @@ class GetTimeScale(BaseCommand):
 
     def execute(self):
         logger.debug('Get time scale')
-        data = self.send_data(self.create_command('getTimeScale'))
+        data = self.send_command('getTimeScale')
         if (data != '' and 'error:' not in data):
             logger.debug('Got time scale: ' + data)
             return float(data)

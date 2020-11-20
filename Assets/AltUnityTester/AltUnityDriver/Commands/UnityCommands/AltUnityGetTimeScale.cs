@@ -5,7 +5,7 @@ public class AltUnityGetTimeScale : AltBaseCommand
     }
     public float Execute()
     {
-        Socket.Client.Send(toBytes(CreateCommand("getTimeScale")));
+        SendCommand("getTimeScale");
         var data = Recvall();
         if (!data.Contains("error"))
             return Newtonsoft.Json.JsonConvert.DeserializeObject<float>(data);

@@ -4,19 +4,20 @@ public class AltUnityGetComponentProperty : AltBaseCommand
     string propertyName;
     string assemblyName;
     AltUnityObject altUnityObject;
-    public AltUnityGetComponentProperty(SocketSettings socketSettings, string componentName, string propertyName, string assemblyName, AltUnityObject altUnityObject) : base(socketSettings)
+    int maxDepth;
+    public AltUnityGetComponentProperty(SocketSettings socketSettings, string componentName, string propertyName, string assemblyName, int maxDepth, AltUnityObject altUnityObject) : base(socketSettings)
     {
         this.componentName = componentName;
         this.propertyName = propertyName;
         this.assemblyName = assemblyName;
         this.altUnityObject = altUnityObject;
+        this.maxDepth = maxDepth;
     }
     public string Execute()
     {
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
         string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName, assemblyName));
-        Socket.Client.Send(
-             System.Text.Encoding.ASCII.GetBytes(CreateCommand("getObjectComponentProperty", altObject, propertyInfo)));
+        SendCommand("getObjectComponentProperty", altObject, propertyInfo, maxDepth.ToString());
         string data = Recvall();
         if (!data.Contains("error:")) return data;
         HandleErrors(data);

@@ -31,10 +31,12 @@ public class AltSendActionAndEvaluateResult extends AltBaseCommand {
 
     public AltUnityObject Execute() {
         String altObject = new Gson().toJson(altUnityObject);
-        String strCommand = parameter == null ? CreateCommand(command, altObject)
-                : CreateCommand(command, altObject, parameter);
+        if (parameter == null) {
+            SendCommand(command, altObject);
+        } else {
+            SendCommand(command, altObject, parameter);
+        }
 
-        send(strCommand);
         String data = recvall();
         if (!data.contains("error:")) {
             AltUnityObject obj = new Gson().fromJson(data, AltUnityObject.class);

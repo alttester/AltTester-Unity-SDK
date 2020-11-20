@@ -6,9 +6,9 @@ import time
 
 
 class WaitForObjectWhichContains(CommandReturningAltElements):
-    def __init__(self, socket, request_separator, request_end, appium_driver, by, value, camera_by, camera_path, timeout, interval, enabled):
+    def __init__(self, socket, request_separator, request_end, by, value, camera_by, camera_path, timeout, interval, enabled):
         super(WaitForObjectWhichContains, self).__init__(
-            socket, request_separator, request_end, appium_driver)
+            socket, request_separator, request_end)
         self.by = by
         self.value = value
         self.camera_by = camera_by
@@ -23,7 +23,7 @@ class WaitForObjectWhichContains(CommandReturningAltElements):
         while (t <= self.timeout):
             try:
                 alt_element = FindObjectWhichContains(self.socket, self.request_separator, self.request_end,
-                                                      self.appium_driver, self.by, self.value, self.camera_by, self.camera_path, self.enabled).execute()
+                                                      self.by, self.value, self.camera_by, self.camera_path, self.enabled).execute()
                 break
             except Exception:
                 logger.debug(

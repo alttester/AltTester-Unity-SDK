@@ -153,6 +153,10 @@ public class AltUnityBuilder
 
     private static void BuildGame(bool autoRun, UnityEditor.BuildPlayerOptions buildPlayerOptions)
     {
+        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Log, UnityEngine.StackTraceLogType.None);
+        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Warning, UnityEngine.StackTraceLogType.None);
+        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Assert, UnityEngine.StackTraceLogType.None);
+
         if (autoRun)
         {
             buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.AutoRunPlayer;

@@ -1,6 +1,5 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import com.google.gson.Gson;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityObject;
 
@@ -22,8 +21,8 @@ public class AltGetAllElements extends AltBaseFindObject {
     public AltUnityObject[] Execute() {
         String cameraPath = SetPath(altGetAllElementsParameters.getCameraBy(),
                 altGetAllElementsParameters.getCameraPath());
-        send(CreateCommand("findObjects", "//*", altGetAllElementsParameters.getCameraBy().toString(), cameraPath,
-                String.valueOf(altGetAllElementsParameters.isEnabled())));
+        SendCommand("findObjects", "//*", altGetAllElementsParameters.getCameraBy().toString(), cameraPath,
+                String.valueOf(altGetAllElementsParameters.isEnabled()));
         return ReceiveListOfAltUnityObjects();
     }
 }

@@ -9,9 +9,10 @@ public class AltGetCurrentScene extends AltBaseCommand {
     public AltGetCurrentScene(AltBaseSettings altBaseSettings) {
         super(altBaseSettings);
     }
-    public String Execute(){
+
+    public String Execute() {
         log.debug("Get current scene...");
-        send(CreateCommand("getCurrentScene"));
+        SendCommand("getCurrentScene");
         String data = recvall();
         if (!data.contains("error:")) {
             return (new Gson().fromJson(data, AltUnityObject.class)).name;

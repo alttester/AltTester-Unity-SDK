@@ -1,34 +1,24 @@
 using System.Linq;
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityFindObjectsCommand : AltUnityBaseClassFindObjectsCommand 
+    class AltUnityFindObjectsCommand : AltUnityBaseClassFindObjectsCommand
     {
-        string stringSent;
-
-        public AltUnityFindObjectsCommand (string stringSent)
-        {
-            this.stringSent = stringSent;
-        }
+        public AltUnityFindObjectsCommand(params string[] paramters) : base(paramters) { }
 
         public override string Execute()
         {
-            var pieces = stringSent.Split(new string[] { AltUnityRunner._altUnityRunner.requestSeparatorString }, System.StringSplitOptions.None);
-            string objectName = pieces[0];
-            AltUnityRunner._altUnityRunner.LogMessage("findObjects for: " + objectName);
-            By cameraBy = (By)System.Enum.Parse(typeof(By), pieces[1]);
-            string cameraPath = pieces[2];
-            bool enabled = System.Convert.ToBoolean(pieces[3]);
+            LogMessage("findObjects for: " + ObjectName);
             UnityEngine.Camera camera = null;
-            if (!cameraPath.Equals("//"))
-            { 
-                camera = GetCamera(cameraBy, cameraPath);
+            if (!CameraPath.Equals("//"))
+            {
+                camera = GetCamera(CameraBy, CameraPath);
                 if (camera == null)
-                    return AltUnityRunner._altUnityRunner.errorCameraNotFound;
+                    return AltUnityErrors.errorCameraNotFound;
             }
-            var path = ProcessPath(objectName);
+            var path = ProcessPath(ObjectName);
             var isDirectChild = IsNextElementDirectChild(path[0]);
             System.Collections.Generic.List<AltUnityObject> foundObjects = new System.Collections.Generic.List<AltUnityObject>();
-            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path, 1, false, isDirectChild, enabled))
+            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path, 1, false, isDirectChild, Enabled))
             {
                 foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(testableObject, camera));
             }

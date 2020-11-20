@@ -1,22 +1,23 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class AltLoadSceneParameters {
-    public static class Builder{
+    public static class Builder {
         private String sceneName;
-        private boolean loadSingle=true; 
-        public Builder(String sceneName){
-            this.sceneName=sceneName;
+        private boolean loadSingle = true;
+
+        public Builder(String sceneName) {
+            this.sceneName = sceneName;
         }
-        public AltLoadSceneParameters.Builder loadMode(boolean loadSingle){
-            this.loadSingle= loadSingle;
+
+        public AltLoadSceneParameters.Builder loadMode(boolean loadSingle) {
+            this.loadSingle = loadSingle;
             return this;
         }
-        public AltLoadSceneParameters build(){
-            AltLoadSceneParameters altLoadSceneParameters =new AltLoadSceneParameters();
-            altLoadSceneParameters.loadSingle=this.loadSingle;
-            altLoadSceneParameters.sceneName =this.sceneName;
+
+        public AltLoadSceneParameters build() {
+            AltLoadSceneParameters altLoadSceneParameters = new AltLoadSceneParameters();
+            altLoadSceneParameters.loadSingle = this.loadSingle;
+            altLoadSceneParameters.sceneName = this.sceneName;
             return altLoadSceneParameters;
         }
     }
@@ -24,7 +25,7 @@ public class AltLoadSceneParameters {
     private AltLoadSceneParameters() {
     }
 
-    private boolean loadSingle=true;
+    private boolean loadSingle = true;
 
     public String getSceneName() {
         return sceneName;
@@ -36,14 +37,11 @@ public class AltLoadSceneParameters {
 
     private String sceneName;
 
-
-
     public boolean getLoadSingle() {
         return loadSingle;
     }
 
-    public void setLoadSingle(boolean interval) {
+    public void setLoadSingle(boolean loadSingle) {
         this.loadSingle = loadSingle;
     }
-
 }

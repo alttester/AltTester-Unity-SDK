@@ -10,7 +10,7 @@ class ClickAtCoordinates(BaseCommand):
         self.y = y
 
     def execute(self):
-        data = self.send_data(self.create_command(
-            "clickScreenOnXY", self.x, self.y))
+        data = self.send_command(
+            "clickScreenOnXY", self.x, self.y)
         logger.debug('Clicked at ' + str(self.x) + ', ' + str(self.y))
         return data

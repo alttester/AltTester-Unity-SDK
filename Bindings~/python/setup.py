@@ -15,7 +15,6 @@ setup(name='altunityrunner',
                 'altunityrunner.commands.FindObjects',
                 'altunityrunner.commands.InputActions',
                 'altunityrunner.commands.ObjectCommands',
-                'altunityrunner.commands.OldFindObjects',
                 'altunityrunner.commands.UnityCommands'],
       zip_safe=False,
       install_requires=[

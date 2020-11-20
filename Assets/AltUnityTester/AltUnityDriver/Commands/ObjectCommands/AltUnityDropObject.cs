@@ -13,8 +13,8 @@ public class AltUnityDropObject : AltUnityCommandReturningAltElement
     {
         var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
         var positionString = PositionToJson(position);
-        
-        Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("dropObject", positionString, altObject)));
+
+        SendCommand("dropObject", positionString, altObject);
         return ReceiveAltUnityObject();
     }
 }

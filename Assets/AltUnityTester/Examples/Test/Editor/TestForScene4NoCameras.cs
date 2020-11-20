@@ -32,5 +32,17 @@ public class TestForScene4NoCameras
         Assert.AreEqual(-1, altObject.idCamera);
     }
 
+    [Test]
+    public void TestFindUIElementInASceneWithNoCameras() 
+    {
+        Assert.AreEqual(0, AltUnityDriver.GetAllCameras().Count);
+        var altObjects = AltUnityDriver.FindObjects(By.PATH,"//*[contains(@name,Button)]",enabled:false);
 
+        foreach (var button in altObjects)
+        {
+            Assert.AreNotEqual(-1, button.x);
+            Assert.AreNotEqual(-1, button.y);
+        }
+        Assert.AreEqual(1, altObjects.Count);
+    }
 }

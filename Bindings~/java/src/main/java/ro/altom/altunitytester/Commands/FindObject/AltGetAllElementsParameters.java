@@ -1,6 +1,5 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityDriver.By;
 
 public class AltGetAllElementsParameters {

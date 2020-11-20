@@ -1,16 +1,19 @@
+
 public class AltUnityGetAllProperties : AltBaseCommand
 {
     AltUnityComponent altUnityComponent;
     AltUnityObject altUnityObject;
-    public AltUnityGetAllProperties(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject) : base(socketSettings)
+    AltUnityPropertiesSelections altUnityPropertiesSelections;
+    public AltUnityGetAllProperties(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject, AltUnityPropertiesSelections altUnityPropertiesSelections = AltUnityPropertiesSelections.ALLPROPERTIES) : base(socketSettings)
     {
         this.altUnityComponent = altUnityComponent;
         this.altUnityObject = altUnityObject;
+        this.altUnityPropertiesSelections = altUnityPropertiesSelections;
     }
     public System.Collections.Generic.List<AltUnityProperty> Execute()
     {
         var altComponent = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityComponent);
-        Socket.Client.Send(System.Text.Encoding.ASCII.GetBytes(CreateCommand("getAllFields", altUnityObject.id.ToString(), altComponent)));
+        SendCommand("getAllProperties", altUnityObject.id.ToString(), altComponent, altUnityPropertiesSelections.ToString());
         string data = Recvall();
         if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityProperty>>(data);
         HandleErrors(data);
