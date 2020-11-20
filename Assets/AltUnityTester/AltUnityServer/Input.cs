@@ -623,7 +623,6 @@ public class Input : UnityEngine.MonoBehaviour
         System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
         touchListCopy[touchCount - 1] = touch;
         touches = touchListCopy;
-        
         mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
         var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
         var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
@@ -648,8 +647,17 @@ public class Input : UnityEngine.MonoBehaviour
                 }
                 else
                 {
-                    deltaX = xDistance * (oneInputDuration - time) / oneInputDuration;
-                    deltaY = yDistance * (oneInputDuration - time) / oneInputDuration;
+                    if (oneInputDuration != 0)
+                    {
+                        deltaX = xDistance * (oneInputDuration - time) / oneInputDuration;
+                        deltaY = yDistance * (oneInputDuration - time) / oneInputDuration;
+                    }
+                    else
+                    {
+                        deltaX = xDistance;
+                        deltaY = yDistance;
+                    }
+                   
                 }
 
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
@@ -664,7 +672,6 @@ public class Input : UnityEngine.MonoBehaviour
                         touches[t] = touch;
                     }
                 }
-
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
                 pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
 
@@ -687,7 +694,6 @@ public class Input : UnityEngine.MonoBehaviour
 
         mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
         yield return null;
-        
         var newTouches = new UnityEngine.Touch[touchCount - 1];
         int contor = 0;
         foreach (var t in touches)
@@ -808,7 +814,6 @@ public class Input : UnityEngine.MonoBehaviour
                 yield return new UnityEngine.WaitForSeconds(duration);
             }
         }
-
         keyCodesPressed.Remove(keyStructure);
         keyCodesPressedUp.Add(keyStructure);
         yield return null;

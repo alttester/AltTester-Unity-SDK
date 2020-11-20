@@ -993,6 +993,17 @@ public class TestForScene1TestSample
         Thread.Sleep(500);
         Assert.AreEqual("2", counterButtonText.GetText());
     }
+
+    [Test]
+    public void TestSwipeWithDuration0()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        altUnityDriver.Swipe(counterButtonText.getScreenPosition(), counterButtonText.getScreenPosition(), 0);
+        Thread.Sleep(500);
+        Assert.AreEqual("1", counterButtonText.GetText());
+    }
+
     [Test]
     public void TestCustomTap()
     {
