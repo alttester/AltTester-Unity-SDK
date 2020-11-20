@@ -8,7 +8,6 @@ public class AltUnitySyncCommand : AltBaseCommand
     public void Execute()
     {
         SendCommand("getServerVersion");
-        int retry = 0;
         while (true)
         {
             try
@@ -18,11 +17,6 @@ public class AltUnitySyncCommand : AltBaseCommand
             }
             catch (AltUnityRecvallMessageIdException)
             {
-                if (retry == 5)
-                {
-                    throw;
-                }
-                retry++;
             }
         }
     }
