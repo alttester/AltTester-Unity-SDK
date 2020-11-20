@@ -4,9 +4,11 @@ from loguru import logger
 from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.tools import proofread_json
 
+
 class GetAllFields(BaseCommand):
     def __init__(self, socket, request_separator, request_end, alt_object, component: Union[Dict[str, str], str]):
-        super(GetAllFields, self).__init__(socket, request_separator, request_end)
+        super(GetAllFields, self).__init__(
+            socket, request_separator, request_end)
         self.alt_object = alt_object
         self.component = component
 
@@ -25,17 +27,19 @@ class GetAllFields(BaseCommand):
     def execute(self):
         if isinstance(self.component, dict):
             if bool(self.component.get('assemblyName', None)) & bool(self.component.get('componentName', None)):
-                alt_assembly_name = self.component.get('assemblyName')  # I actually can't find where to put this. Docu isn't helping.
+                # I actually can't find where to put this. Docu isn't helping.
+                alt_assembly_name = self.component.get('assemblyName')
                 alt_component_name = self.component.get('componentName')
         elif isinstance(self.component, str):
             alt_component_name = self.component
         else:
-            logger.error(f'Component supplied: {component} \nis missing something.')
+            logger.error(
+                f'Component supplied: {self.component} \nis missing something.')
             raise ValueError(f'Component supplied is missing something')
 
         alt_component_json_serialized = f'"componentName": "{alt_component_name}"'
-        data = self.send_data(
-            self.create_command('getAllFields', f'{self.alt_object.id}', f'{{{alt_component_json_serialized}}}'))
+        data = self.send_command(
+            'getAllFields', f'{self.alt_object.id}', f'{{{alt_component_json_serialized}}}', "ALLFIELDS")
 
         self.handle_errors(data)  # Check if server is all right
         try:
@@ -43,4 +47,4 @@ class GetAllFields(BaseCommand):
             return self.simplify(parsed_data)
         except json.JSONDecodeError:
             logger.error(f'Cannot parse the {data}, this is not JSON.')
-            raise json.JSONDecodeError(f'Cannot parse the {data}, this is not JSON.')
+            raise

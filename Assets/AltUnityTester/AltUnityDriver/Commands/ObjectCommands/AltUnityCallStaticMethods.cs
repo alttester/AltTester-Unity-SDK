@@ -13,10 +13,11 @@ public class AltUnityCallStaticMethods : AltBaseCommand
         this.typeOfParameters = typeOfParameters;
         this.assemblyName = assemblyName;
     }
-    public string Execute(){
+    public string Execute()
+    {
         string actionInfo =
             Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectAction(typeName, methodName, parameters, typeOfParameters, assemblyName));
-        Socket.Client.Send(toBytes(CreateCommand("callComponentMethodForObject", "", actionInfo)));
+        SendCommand("callComponentMethodForObject", "", actionInfo);
         var data = Recvall();
         if (!data.Contains("error:")) return data;
         HandleErrors(data);

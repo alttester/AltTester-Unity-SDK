@@ -6,9 +6,10 @@ public class AltUnityPointerUpFromObject : AltUnityCommandReturningAltElement
     {
         this.altUnityObject = altUnityObject;
     }
-    public AltUnityObject Execute(){
+    public AltUnityObject Execute()
+    {
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-        Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(CreateCommand("pointerUpFromObject", altObject )));
+        SendCommand("pointerUpFromObject", altObject);
         return ReceiveAltUnityObject();
     }
 }

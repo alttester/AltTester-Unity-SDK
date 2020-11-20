@@ -1,3 +1,4 @@
+using Assets.AltUnityTester.AltUnityDriver;
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 using System.Linq;
 
@@ -5,11 +6,10 @@ public class AltBaseCommand
 {
     private static int BUFFER_SIZE = 1024;
     protected SocketSettings SocketSettings;
-    protected System.Net.Sockets.TcpClient Socket;
+    private string messageId;
     public AltBaseCommand(SocketSettings socketSettings)
     {
         this.SocketSettings = socketSettings;
-        Socket = SocketSettings.socket;
     }
     public string Recvall()
     {
@@ -22,7 +22,7 @@ public class AltBaseCommand
         do
         {
             var bytesReceived = new byte[BUFFER_SIZE];
-            received = SocketSettings.socket.Client.Receive(bytesReceived);
+            received = SocketSettings.Socket.Receive(bytesReceived);
             if (received == 0)
             {
                 if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit)
@@ -50,103 +50,30 @@ public class AltBaseCommand
         } while (true);
         data = fromBytes(byteArray.SelectMany(x => x).ToArray());
 
-        try
-        {
-            string[] start = new string[] { "altstart::" };
-            string[] end = new string[] { "::altend" };
-            string[] startLogMessage = new string[] { "::altLog::" };
-            data = data.Split(start, System.StringSplitOptions.None)[1].Split(end, System.StringSplitOptions.None)[0];
-            var splittedString = data.Split(startLogMessage, System.StringSplitOptions.None);
-            var response = splittedString[0];
-            data = response;
-            var logMessage = splittedString[1];
-            if (SocketSettings.logFlag)
-            {
-                WriteInLogFile(logMessage);
-                WriteInLogFile(System.DateTime.Now + ": response received: " + response);
-            }
 
-        }
-        catch (System.Exception)
+
+        var parts = data.Split(new[] { "altstart::", "::response::", "::altLog::", "::altend" }, System.StringSplitOptions.None);
+        if (parts.Length != 5 || !string.IsNullOrEmpty(parts[0]) || !string.IsNullOrEmpty(parts[4]))
+            throw new AltUnityRecvallMessageFormatException("Data received from socket doesn't have correct start and end control strings");
+
+        if (parts[1] != messageId)
         {
-            System.Diagnostics.Debug.WriteLine("Data received from socket doesn't have correct start and end control strings");
+            throw new AltUnityRecvallMessageIdException("Response received does not match command send. Expected message id: " + messageId + ". Got " + parts[1]);
+        }
+
+        data = parts[2];
+        string log = parts[3];
+        if (SocketSettings.LogFlag)
+        {
+            writeInLogFile(System.DateTime.Now + ": response received: " + trimLogData(data));
+            writeInLogFile(log);
         }
 
         return data;
     }
-    protected void WriteInLogFile(string logMessage)
-    {
-        var FileWriter = new System.IO.StreamWriter(@"AltUnityTesterLog.txt", true);
-        FileWriter.WriteLine(logMessage);
-        FileWriter.Close();
-    }
 
-    public string CreateCommand(params string[] arguments)
-    {
-        string command = "";
-        foreach (var argument in arguments)
-        {
-            command += argument + SocketSettings.requestSeparator;
-        }
-        command += SocketSettings.requestEnding;
-        return command;
-    }
-    protected byte[] toBytes(string text)
-    {
-        return System.Text.Encoding.UTF8.GetBytes(text);
-    }
-    protected string fromBytes(byte[] text)
-    {
-        return System.Text.Encoding.UTF8.GetString(text);
-    }
-    protected string PositionToJson(AltUnityVector2 position)
-    {
-        return Newtonsoft.Json.JsonConvert.SerializeObject(position, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
-        {
-            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        });
-    }
-    protected string PositionToJson(float x, float y)
-    {
-        return PositionToJson(new AltUnityVector2(x, y));
-    }
-
-    public static void HandleErrors(string data)
-    {
-        var typeOfException = data.Split(';')[0];
-        switch (typeOfException)
-        {
-            case "error:notFound":
-                throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException(data);
-            case "error:propertyNotFound":
-                throw new Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException(data);
-            case "error:methodNotFound":
-                throw new Assets.AltUnityTester.AltUnityDriver.MethodNotFoundException(data);
-            case "error:componentNotFound":
-                throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException(data);
-            case "error:couldNotPerformOperation":
-                throw new Assets.AltUnityTester.AltUnityDriver.CouldNotPerformOperationException(data);
-            case "error:couldNotParseJsonString":
-                throw new Assets.AltUnityTester.AltUnityDriver.CouldNotParseJsonStringException(data);
-            case "error:incorrectNumberOfParameters":
-                throw new Assets.AltUnityTester.AltUnityDriver.IncorrectNumberOfParametersException(data);
-            case "error:failedToParseMethodArguments":
-                throw new Assets.AltUnityTester.AltUnityDriver.FailedToParseArgumentsException(data);
-            case "error:objectNotFound":
-                throw new Assets.AltUnityTester.AltUnityDriver.ObjectWasNotFoundException(data);
-            case "error:propertyCannotBeSet":
-                throw new Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException(data);
-            case "error:nullReferenceException":
-                throw new Assets.AltUnityTester.AltUnityDriver.NullReferenceException(data);
-            case "error:unknownError":
-                throw new Assets.AltUnityTester.AltUnityDriver.UnknownErrorException(data);
-            case "error:formatException":
-                throw new Assets.AltUnityTester.AltUnityDriver.FormatException(data);
-        }
-    }
     public AltUnityTextureInformation ReceiveImage()
     {
-
         var data = Recvall();
         if (data == "Ok")
         {
@@ -154,7 +81,7 @@ public class AltBaseCommand
         }
         else
         {
-            throw new System.Exception("Out of order operations");
+            throw new AltUnityRecvallException("Out of order operations");
         }
         string[] screenshotInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(data);
 
@@ -183,6 +110,95 @@ public class AltBaseCommand
 
         return new AltUnityTextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector2>(scaleDifference), textSizeVector3, textureFormat);
     }
+
+    protected void SendCommand(params string[] arguments)
+    {
+        var command = createCommand(arguments);
+        var bytes = toBytes(command);
+        SocketSettings.Socket.Send(bytes);
+    }
+    protected string PositionToJson(float x, float y)
+    {
+        return PositionToJson(new AltUnityVector2(x, y));
+    }
+    protected string PositionToJson(AltUnityVector2 position)
+    {
+        return Newtonsoft.Json.JsonConvert.SerializeObject(position, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
+        {
+            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        });
+    }
+
+    private string createCommand(string[] arguments)
+    {
+        messageId = System.DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+        var args = arguments.ToList();
+        args.Insert(0, messageId);
+
+
+        return string.Join(SocketSettings.RequestSeparator, args) + SocketSettings.RequestEnding;
+    }
+
+    private byte[] toBytes(string text)
+    {
+        return System.Text.Encoding.UTF8.GetBytes(text);
+    }
+    private string fromBytes(byte[] bytes)
+    {
+        return System.Text.Encoding.UTF8.GetString(bytes);
+    }
+
+    private void writeInLogFile(string logMessage)
+    {
+        var FileWriter = new System.IO.StreamWriter(@"AltUnityTesterLog.txt", true);
+        FileWriter.WriteLine(logMessage);
+        FileWriter.Close();
+    }
+    private string trimLogData(string data, int maxSize = 10 * 1024)
+    {
+        if (data.Length > maxSize)
+            return data.Substring(0, maxSize) + "[...]";
+        return data;
+    }
+
+    public static void HandleErrors(string data)
+    {
+        var typeOfException = data.Split(';')[0];
+        switch (typeOfException)
+        {
+            case "error:notFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException(data);
+            case "error:propertyNotFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException(data);
+            case "error:methodNotFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.MethodNotFoundException(data);
+            case "error:componentNotFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException(data);
+            case "error:assemblyNotFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.AssemblyNotFoundException(data);
+            case "error:couldNotPerformOperation":
+                throw new Assets.AltUnityTester.AltUnityDriver.CouldNotPerformOperationException(data);
+            case "error:couldNotParseJsonString":
+                throw new Assets.AltUnityTester.AltUnityDriver.CouldNotParseJsonStringException(data);
+            case "error:methodWithGivenParametersNotFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.MethodWithGivenParametersNotFoundException(data);
+            case "error:failedToParseMethodArguments":
+                throw new Assets.AltUnityTester.AltUnityDriver.FailedToParseArgumentsException(data);
+            case "error:invalidParameterType":
+                throw new Assets.AltUnityTester.AltUnityDriver.InvalidParameterTypeException(data);
+            case "error:objectNotFound":
+                throw new Assets.AltUnityTester.AltUnityDriver.ObjectWasNotFoundException(data);
+            case "error:propertyCannotBeSet":
+                throw new Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException(data);
+            case "error:nullReferenceException":
+                throw new Assets.AltUnityTester.AltUnityDriver.NullReferenceException(data);
+            case "error:unknownError":
+                throw new Assets.AltUnityTester.AltUnityDriver.UnknownErrorException(data);
+            case "error:formatException":
+                throw new Assets.AltUnityTester.AltUnityDriver.FormatException(data);
+        }
+    }
+
     public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
     {
 
@@ -214,4 +230,5 @@ public class AltBaseCommand
             dest.Write(bytes, 0, cnt);
         }
     }
+
 }

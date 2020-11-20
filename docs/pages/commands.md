@@ -14,6 +14,8 @@ An AltUnityDriver instance will connect to the AltUnity Server that is running i
 | requestEnding      |     string    |   No   | The default value for this is "&"|
 | logFlag         | boolean       |   No   | The default value for this is false|
 
+For more information about the AltUnityDriver parameters you can read the [Server Settings page](altunity-tester-editor.html#server-settings).
+
 Once you have an instance of the *AltUnityDriver*, you can use all the available commands to interact with the game. The available methods are the following:
 
 ### Find Objects
@@ -53,7 +55,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: java
     
         @Test
-        public void testfindElement() throws Exception
+        public void testfindObject() throws Exception
         {
             String name = "Capsule";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
@@ -65,12 +67,9 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
     .. code-tab:: py
 
-       def test_find_objects_by_tag(self):
-        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        altElements = self.altdriver.find_objects(By.TAG,"plane")
-        self.assertEquals(2, len(altElements))
-        for altElement in altElements: 
-        self.assertEquals("Plane", altElement.name)
+        def test_find_object(self):
+            altElement = self.altdriver.find_object(By.NAME,"Capsule")
+            self.assertEqual(altElement.name, "Capsule")
 ```
 
 ####  FindObjects
@@ -2253,12 +2252,12 @@ None
 
 Loads the scene mentioned by its name.
 
-
 ***Parameters***
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
 | scene      |     string    |   Yes   | Name of the scene to be loaded|
+| loadSingle |     bool      |   No    | Flag to set the mode how to load the scene. Default value is true. If set to false the scene will be loaded additive, together with the current loaded scenes. |
 
 ***Returns***
 - Nothing
@@ -2272,7 +2271,7 @@ Loads the scene mentioned by its name.
         [Test]
         public void TestGetCurrentScene()
         {
-            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene",true);
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
         }
     .. code-tab:: java
@@ -2280,15 +2279,76 @@ Loads the scene mentioned by its name.
         @Test
         public void testGetCurrentScene() throws Exception
         {
-            altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
+            altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene",true);
             assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
         }
 
     .. code-tab:: py
 
        def test_get_current_scene(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene",True)
         self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
+```
+
+#### GetAllLoadedScenes
+
+Returns all the scenes that have been loaded.
+
+***Parameters***
+- None
+
+***Returns***
+- List of strings
+
+***Examples***
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+       [Test]
+        public void TestGetAllLoadedScenes()
+        {
+            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+            System.Collections.Generic.List<string> loadedSceneNames = AltUnityDriver.GetAllLoadedScenes();
+            Assert.AreEqual(loadedSceneNames.Count, 1);
+            AltUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
+            AltUnityDriver.LoadScene("Scene 3 Drag And Drop", false);
+            AltUnityDriver.LoadScene("Scene 4 No Cameras", false);
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input", false);
+            loadedSceneNames = AltUnityDriver.GetAllLoadedScenes();
+            Assert.AreEqual(loadedSceneNames.Count, 5);
+        } 
+
+    .. code-tab:: java
+
+        @Test
+        public void TestGetAllLoadedScenes()
+        {
+            altdriver.loadScene("Scene 1 AltUnityDriverTestScene");
+            List<String> loadedSceneNames = altdriver.getAllLoadedScenes();
+            assertEquals(loadedSceneNames.size(), 1);
+            altdriver.loadScene("Scene 2 Draggable Panel", false);
+            altdriver.loadScene("Scene 3 Drag And Drop", false);
+            altdriver.loadScene("Scene 4 No Cameras", false);
+            altdriver.loadScene("Scene 5 Keyboard Input", false);
+            loadedSceneNames = altdriver.getAllLoadedScenes();
+            assertEquals(loadedSceneNames.size(), 5);
+        }
+
+    .. code-tab:: py
+
+        def test_get_all_loaded_scenes(self):
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            scenes_loaded = self.altdriver.get_all_loaded_scenes()
+            self.assertEqual(len(scenes_loaded),1)
+            self.altdriver.load_scene("Scene 2 Draggable Panel", False)
+            self.altdriver.load_scene("Scene 3 Drag And Drop",False)
+            self.altdriver.load_scene("Scene 4 No Cameras",False)
+            self.altdriver.load_scene("Scene 5 Keyboard Input",False)
+            scenes_loaded = self.altdriver.get_all_loaded_scenes()
+            self.assertEqual(len(scenes_loaded),5) 
+
 ```
 
 ####  CallStaticMethod
@@ -2446,8 +2506,9 @@ Returns the value of the given component property.
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
 | componentName      |     string    |   Yes   | name of the Unity component. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
-| propertyName      |     string    |   Yes   |  name of the property of which value you want |
+| propertyName      |     string    |   Yes   |  Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.|
 | assemblyName  | string | No | name of the assembly containing the component |
+| maxDepth      | int    | No | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0,"sqrMagnitude":1.0,"x":0.871575534,"y":0.490261227,"z":0.0},"magnitude":1101.45361,"sqrMagnitude":1213200.0,"x":960.0,"y":540.0,"z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361,"sqrMagnitude":1213200.0,"x":960.0,"y":540.0,"z":0.0}|
 
 ***Returns***
 - String

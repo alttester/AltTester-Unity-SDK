@@ -1,18 +1,18 @@
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityEnableLoggingCommand : AltUnityCommand
+    public class AltUnityEnableLoggingCommand : AltUnityCommand
     {
         bool activateDebug;
 
-        public AltUnityEnableLoggingCommand(bool activateDebug)
+        public AltUnityEnableLoggingCommand(params string[] parameters) : base(parameters, 3)
         {
-            this.activateDebug = activateDebug;
+            this.activateDebug = bool.Parse(parameters[2]);
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.logEnabled = activateDebug;
-            AltUnityRunner._altUnityRunner.LogMessage("Logging is set to "+activateDebug);
+            LogEnabled = activateDebug;
+            LogMessage("Logging is set to " + activateDebug);
             return "Ok";
         }
     }

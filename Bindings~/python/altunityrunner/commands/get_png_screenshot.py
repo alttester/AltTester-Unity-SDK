@@ -11,7 +11,7 @@ class GetPNGScreenshot(BaseCommand):
         self.path = path
 
     def execute(self):
-        response = self.send_data(self.create_command('getPNGScreenshot'))
+        response = self.send_command('getPNGScreenshot')
         screenshot_data = ""
         if(response == "Ok"):
             screenshot_data = self.recvall()

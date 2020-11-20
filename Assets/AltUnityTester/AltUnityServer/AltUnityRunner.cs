@@ -1,7 +1,11 @@
 using System;
 using System.Linq;
-using altunitytester.Assets.AltUnityTester.AltUnityServer;
+using System.Net.Sockets;
+using Assets.AltUnityTester.AltUnityServer;
+using Assets.AltUnityTester.AltUnityServer.AltSocket;
 using Assets.AltUnityTester.AltUnityServer.Commands;
+using Newtonsoft.Json;
+
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
     enum FindOption
@@ -16,34 +20,14 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public UnityEngine.UI.Text AltUnityPopUpText;
     public bool AltUnityIconPressed = false;
 
-    private UnityEngine.Vector3 _position;
     private AltSocketServer _socketServer;
 
-    public static String logMessage = "";
-    public bool logEnabled;
-
     private string myPathFile;
-    public static System.IO.StreamWriter FileWriter;
+    public static System.IO.StreamWriter ServerLogger;
 
+    public static readonly string VERSION = "1.6.0";
 
-    public static readonly string VERSION = "1.5.7";
-
-    public readonly string errorNotFoundMessage = "error:notFound";
-    public readonly string errorPropertyNotFoundMessage = "error:propertyNotFound";
-    public readonly string errorMethodNotFoundMessage = "error:methodNotFound";
-    public readonly string errorComponentNotFoundMessage = "error:componentNotFound";
-    public readonly string errorCouldNotPerformOperationMessage = "error:couldNotPerformOperation";
-    public readonly string errorCouldNotParseJsonString = "error:couldNotParseJsonString";
-    public readonly string errorIncorrectNumberOfParameters = "error:incorrectNumberOfParameters";
-    public readonly string errorFailedToParseArguments = "error:failedToParseMethodArguments";
-    public readonly string errorObjectWasNotFound = "error:objectNotFound";
-    public readonly string errorPropertyNotSet = "error:propertyCannotBeSet";
-    public readonly string errorNullRefferenceMessage = "error:nullReferenceException";
-    public readonly string errorUnknownError = "error:unknownError";
-    public readonly string errorFormatException = "error:formatException";
-    public readonly string errorCameraNotFound = "error:cameraNotFound";
-
-    public Newtonsoft.Json.JsonSerializerSettings _jsonSettings;
+    public JsonSerializerSettings _jsonSettings;
 
     [UnityEngine.Space]
     [UnityEngine.SerializeField] private bool _showInputs = false;
@@ -99,8 +83,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     }
     void Start()
     {
-        _jsonSettings = new Newtonsoft.Json.JsonSerializerSettings();
-        _jsonSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+        _jsonSettings = new JsonSerializerSettings();
+        _jsonSettings.NullValueHandling = NullValueHandling.Ignore;
         StartSocketServer();
         UnityEngine.Debug.Log("AltUnity Driver started");
         _responseQueue = new AltResponseQueue();
@@ -108,7 +92,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
         myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
         UnityEngine.Debug.Log(myPathFile);
-        FileWriter = new System.IO.StreamWriter(myPathFile, true);
+        ServerLogger = new System.IO.StreamWriter(myPathFile, false);//To not create a massive logfile the logfile will have only the last run.
         if (showPopUp == false)
         {
             AltUnityPopUpCanvas.SetActive(false);
@@ -117,9 +101,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         {
             AltUnityPopUpCanvas.SetActive(true);
         }
-
     }
-
 
     void Update()
     {
@@ -155,8 +137,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     void OnApplicationQuit()
     {
         CleanUp();
-        if (FileWriter != null)
-            FileWriter.Close();
+        if (ServerLogger != null)
+            ServerLogger.Close();
     }
 
     #endregion
@@ -177,340 +159,288 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         _socketServer = new AltSocketServer(
             clientSocketHandlerDelegate, SocketPortNumber, maxClients, requestEndingString, encoding);
 
-        _socketServer.StartListeningForConnections();
-        AltUnityPopUpText.text = "Waiting for connection" + System.Environment.NewLine + "on port " + _socketServer.PortNumber + "...";
-        UnityEngine.Debug.Log(string.Format(
-            "AltUnity Server at {0} on port {1}",
-            _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
+        try
+        {
+            _socketServer.StartListeningForConnections();
+            AltUnityPopUpText.text = "Waiting for connection" + System.Environment.NewLine + "on port " + _socketServer.PortNumber + "...";
+            UnityEngine.Debug.Log(string.Format(
+                "AltUnity Server at {0} on port {1}",
+                _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
+        }
+        catch (SocketException ex)
+        {
+            if (ex.Message.Contains("Only one usage of each socket address"))
+            {
+                AltUnityPopUpText.text = "Cannot start AltUnity Server. Another process is listening on port " + SocketPortNumber;
+            }
+            else
+            {
+                UnityEngine.Debug.LogError(ex);
+                AltUnityPopUpText.text = "An error occured while starting AltUnity Server.";
+            }
+        }
     }
 
-    private UnityEngine.Vector3 getObjectScreePosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
-    {
-        UnityEngine.Canvas canvas = gameObject.GetComponentInParent<UnityEngine.Canvas>();
-        if (canvas != null)
-        {
-            if (canvas.renderMode != UnityEngine.RenderMode.ScreenSpaceOverlay)
-            {
-                if (gameObject.GetComponent<UnityEngine.RectTransform>() == null)
-                {
-                    if (canvas.worldCamera != null)
-                    {
-                        return canvas.worldCamera.WorldToScreenPoint(gameObject.transform.position);
-                    }
-                }
-                UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
-                gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
-                var center = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
-                if (canvas.worldCamera != null)
-                {
-                    return canvas.worldCamera.WorldToScreenPoint(center);
-                }
-            }
-            if (gameObject.GetComponent<UnityEngine.RectTransform>() != null)
-            {
-                return gameObject.GetComponent<UnityEngine.RectTransform>().position;
-            }
-            return camera.WorldToScreenPoint(gameObject.transform.position);
-        }
-
-        if (gameObject.GetComponent<UnityEngine.Collider>() != null)
-        {
-            return camera.WorldToScreenPoint(gameObject.GetComponent<UnityEngine.Collider>().bounds.center);
-        }
-
-        return camera.WorldToScreenPoint(gameObject.transform.position);
-    }
 
     public AltUnityObject GameObjectToAltUnityObject(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
     {
+        UnityEngine.Vector3 position;
+
         int cameraId = -1;
         //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
         //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
-        if (camera == null)
+        try
         {
-            _position = new UnityEngine.Vector3(-1, -1, -1);
-            foreach (var camera1 in UnityEngine.Camera.allCameras)
+            if (camera == null)
             {
-                _position = getObjectScreePosition(altGameObject, camera1);
-                cameraId = camera1.GetInstanceID();
-                if (_position.x > 0 && _position.y > 0 && _position.x < UnityEngine.Screen.width && _position.y < UnityEngine.Screen.height && _position.z >= 0)//Check if camera sees the object
-                {
-                    break;
-                }
+                cameraId = findCameraThatSeesObject(altGameObject, out position);
+            }
+            else
+            {
+                position = getObjectScreenPosition(altGameObject, camera);
+                cameraId = camera.GetInstanceID();
             }
         }
-        else
+        catch (Exception)
         {
-            _position = getObjectScreePosition(altGameObject, camera);
-            cameraId = camera.GetInstanceID();
-
-        }
-        int parentId = 0;
-        if (altGameObject.transform.parent != null)
-        {
-            parentId = altGameObject.transform.parent.GetInstanceID();
+            position = UnityEngine.Vector3.one * -1;
+            cameraId = -1;
         }
 
+        int parentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
 
-        AltUnityObject altObject = new AltUnityObject(name: altGameObject.name,
-                                                      id: altGameObject.GetInstanceID(),
-                                                      x: System.Convert.ToInt32(UnityEngine.Mathf.Round(_position.x)),
-                                                      y: System.Convert.ToInt32(UnityEngine.Mathf.Round(_position.y)),
-                                                      z: System.Convert.ToInt32(UnityEngine.Mathf.Round(_position.z)),//if z is negative object is behind the camera
-                                                      mobileY: System.Convert.ToInt32(UnityEngine.Mathf.Round(UnityEngine.Screen.height - _position.y)),
-                                                      type: "",
-                                                      enabled: altGameObject.activeSelf,
-                                                      worldX: altGameObject.transform.position.x,
-                                                      worldY: altGameObject.transform.position.y,
-                                                      worldZ: altGameObject.transform.position.z,
-                                                      idCamera: cameraId,
-                                                      transformId: altGameObject.transform.GetInstanceID(),
-                                                      parentId: parentId);
+        AltUnityObject altObject = new AltUnityObject(
+            name: altGameObject.name,
+            id: altGameObject.GetInstanceID(),
+            x: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.x)),
+            y: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.y)),
+            z: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.z)),//if z is negative object is behind the camera
+            mobileY: System.Convert.ToInt32(UnityEngine.Mathf.Round(UnityEngine.Screen.height - position.y)),
+            type: "",
+            enabled: altGameObject.activeSelf,
+            worldX: altGameObject.transform.position.x,
+            worldY: altGameObject.transform.position.y,
+            worldZ: altGameObject.transform.position.z,
+            idCamera: cameraId,
+            transformId: altGameObject.transform.GetInstanceID(),
+            parentId: parentId);
+        return altObject;
+    }
+
+    public AltUnityObjectLight GameObjectToAltUnityObjectLight(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
+    {
+        int cameraId = -1;
+        UnityEngine.Vector3 position;
+        //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
+        //if there is no camera end this is Unity UI element, it return position by root Canvas and cameraId=-1
+        //if there is no camera in the scene it will return as screen position x:-1 y=-1, z=-1 and cameraId=-1
+        try
+        {
+            if (camera == null)
+            {
+                cameraId = findCameraThatSeesObject(altGameObject, out position);
+            }
+            else
+            {
+                position = getObjectScreenPosition(altGameObject, camera);
+                cameraId = camera.GetInstanceID();
+            }
+        }
+        catch (Exception)
+        {
+            position = UnityEngine.Vector3.one * -1;
+            cameraId = -1;
+        }
+
+        int parentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
+
+        AltUnityObjectLight altObject = new AltUnityObjectLight(
+            name: altGameObject.name,
+            id: altGameObject.GetInstanceID(),
+            enabled: altGameObject.activeSelf,
+            idCamera: cameraId,
+            transformId: altGameObject.transform.GetInstanceID(),
+            parentId: parentId);
+
         return altObject;
     }
 
     public void ClientSocketHandlerDidReadMessage(AltClientSocketHandler handler, string message)
     {
-        string[] separator = new string[] { requestSeparatorString };
-        string[] pieces = message.Split(separator, System.StringSplitOptions.None);
-        AltUnityComponent altComponent;
-        AltUnityObject altUnityObject;
-        string methodParameters;
-        UnityEngine.Vector2 size;
-        PLayerPrefKeyType option;
-        AltUnityCommand command = null;
+        string[] parameters = message.Split(new string[] { requestSeparatorString }, System.StringSplitOptions.None);
 
+        AltUnityCommand command = null;
         try
         {
-            switch (pieces[0])
+            if (parameters[0] == "getServerVersion")
             {
-                case "findAllObjects":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2];
-                    command = new AltUnityFindAllObjectsCommand(methodParameters);
-                    break;
-                case "findObjectByName":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
-                    command = new AltUnityFindObjectByNameCommand(methodParameters);
-                    break;
-                case "findObjectWhereNameContains":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
-                    command = new AltUnityFindObjectWhereNameContainsCommand(methodParameters);
-                    break;
+                var versionCommand = new AltUnityGetServerVersionCommandBackwardsCompatible();
+                versionCommand.SendResponse(handler);
+                return;
+            }
+            switch (parameters[1])
+            {
                 case "tapObject":
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    var tapCount = 1;
-                    if (pieces.Length > 1 && !string.IsNullOrEmpty(pieces[2]))
-                        tapCount = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(pieces[2]);
-                    command = new AltUnityTapCommand(altUnityObject, tapCount < 1 ? 1 : tapCount);
-                    break;
-                case "findObjectsByName":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
-                    command = new AltUnityFindObjectsByNameCommand(methodParameters);
-                    break;
-                case "findObjectsWhereNameContains":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3];
-                    command = new AltUnityFindObjectsWhereNameContainsCommand(methodParameters);
+                    command = new AltUnityTapCommand(parameters);
                     break;
                 case "getCurrentScene":
-                    command = new AltUnityGetCurrentSceneCommand();
-                    break;
-                case "findObjectByComponent":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
-                    command = new AltUnityFindObjectByComponentCommand(methodParameters);
-                    break;
-                case "findObjectsByComponent":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
-                    command = new AltUnityFindObjectsByComponentCommand(methodParameters);
+                    command = new AltUnityGetCurrentSceneCommand(parameters);
                     break;
                 case "getObjectComponentProperty":
-                    command = new AltUnityGetComponentPropertyCommand(pieces[1], pieces[2]);
+                    command = new AltUnityGetComponentPropertyCommand(parameters);
                     break;
                 case "setObjectComponentProperty":
-                    command = new AltUnitySetObjectComponentPropertyCommand(pieces[1], pieces[2], pieces[3]);
+                    command = new AltUnitySetObjectComponentPropertyCommand(parameters);
                     break;
                 case "callComponentMethodForObject":
-                    command = new AltUnityCallComponentMethodForObjectCommand(pieces[1], pieces[2]);
+                    command = new AltUnityCallComponentMethodForObjectCommand(parameters);
                     break;
                 case "closeConnection":
                     UnityEngine.Debug.Log("Socket connection closed!");
                     _socketServer.StartListeningForConnections();
                     break;
                 case "clickEvent":
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityClickEventCommand(altUnityObject);
+                    command = new AltUnityClickEventCommand(parameters);
                     break;
                 case "tapScreen":
-                    command = new AltUnityClickOnScreenAtXyCommand(pieces[1], pieces[2]);
+                    command = new AltUnityClickOnScreenAtXyCommand(parameters);
                     break;
                 case "tapCustom":
-                    UnityEngine.Vector2 clickPos = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
-                    command = new AltUnityClickOnScreenCustom(clickPos, pieces[2], pieces[3]);
+                    command = new AltUnityClickOnScreenCustom(parameters);
                     break;
                 case "dragObject":
-                    UnityEngine.Vector2 positionVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[2]);
-                    command = new AltUnityDragObjectCommand(positionVector2, altUnityObject);
+                    command = new AltUnityDragObjectCommand(parameters);
                     break;
                 case "dropObject":
-                    UnityEngine.Vector2 positionDropVector2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[2]);
-                    command = new AltUnityDropObjectCommand(positionDropVector2, altUnityObject);
+                    command = new AltUnityDropObjectCommand(parameters);
                     break;
                 case "pointerUpFromObject":
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityPointerUpFromObjectCommand(altUnityObject);
+                    command = new AltUnityPointerUpFromObjectCommand(parameters);
                     break;
                 case "pointerDownFromObject":
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityPointerDownFromObjectCommand(altUnityObject);
+                    command = new AltUnityPointerDownFromObjectCommand(parameters);
                     break;
                 case "pointerEnterObject":
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityPointerEnterObjectCommand(altUnityObject);
+                    command = new AltUnityPointerEnterObjectCommand(parameters);
                     break;
                 case "pointerExitObject":
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityPointerExitObjectCommand(altUnityObject);
+                    command = new AltUnityPointerExitObjectCommand(parameters);
                     break;
                 case "tilt":
-                    UnityEngine.Vector3 vector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector3>(pieces[1]);
-                    float duration = float.Parse(pieces[2]);
-                    command = new AltUnityTiltCommand(vector3, duration);
+                    command = new AltUnityTiltCommand(parameters);
                     break;
                 case "multipointSwipe":
-                    UnityEngine.Vector2 start2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
-                    UnityEngine.Vector2 end2 = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[2]);
-                    command = new AltUnitySetMultipointSwipeCommand(start2, end2, pieces[3]);
+                    command = new AltUnitySetMultipointSwipeCommand(parameters);
                     break;
                 case "multipointSwipeChain":
-                    var length = pieces.Length - 3;
-                    var positions = new UnityEngine.Vector2[length];
-                    for (var i = 0; i < length; i++)
-                        positions[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[i + 2]);
-                    command = new AltUnitySetMultipointSwipeChainCommand(positions, pieces[1]);
+                    command = new AltUnitySetMultipointSwipeChainCommand(parameters);
                     break;
                 case "loadScene":
-                    var loadSingle = bool.Parse(pieces[2]);
-                    command = new AltUnityLoadSceneCommand(pieces[1], loadSingle, handler);
+                    command = new AltUnityLoadSceneCommand(handler, parameters);
                     break;
                 case "setTimeScale":
-                    float timeScale = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);
-                    command = new AltUnitySetTimeScaleCommand(timeScale);
+                    command = new AltUnitySetTimeScaleCommand(parameters);
                     break;
                 case "getTimeScale":
-                    command = new AltUnityGetTimeScaleCommand();
+                    command = new AltUnityGetTimeScaleCommand(parameters);
                     break;
                 case "deletePlayerPref":
-                    command = new AltUnityDeletePlayerPrefCommand();
+                    command = new AltUnityDeletePlayerPrefCommand(parameters);
                     break;
                 case "deleteKeyPlayerPref":
-                    command = new AltUnityDeleteKeyPlayerPrefCommand(pieces[1]);
+                    command = new AltUnityDeleteKeyPlayerPrefCommand(parameters);
                     break;
                 case "setKeyPlayerPref":
-                    option = (PLayerPrefKeyType)System.Enum.Parse(typeof(PLayerPrefKeyType), pieces[3]);
-                    command = new AltUnitySetKeyPlayerPrefCommand(option, pieces[1], pieces[2]);
+                    command = new AltUnitySetKeyPlayerPrefCommand(parameters);
                     break;
                 case "getKeyPlayerPref":
-                    option = (PLayerPrefKeyType)System.Enum.Parse(typeof(PLayerPrefKeyType), pieces[2]);
-                    command = new AltUnityGetKeyPlayerPrefCommand(option, pieces[1]);
+                    command = new AltUnityGetKeyPlayerPrefCommand(parameters);
                     break;
                 case "actionFinished":
-                    command = new AltUnityActionFinishedCommand();
+                    command = new AltUnityActionFinishedCommand(parameters);
                     break;
                 case "getAllComponents":
-                    command = new AltUnityGetAllComponentsCommand(pieces[1]);
+                    command = new AltUnityGetAllComponentsCommand(parameters);
                     break;
                 case "getAllFields":
-                    altComponent = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityComponent>(pieces[2]);
-                    command = new AltUnityGetAllFieldsCommand(pieces[1], altComponent);
+                    command = new AltUnityGetAllFieldsCommand(parameters);
+                    break;
+                case "getAllProperties":
+                    command = new AltUnityGetAllPropertiesCommand(parameters);
                     break;
                 case "getAllMethods":
-                    altComponent = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityComponent>(pieces[1]);
-                    var methodSelection = (AltUnityMethodSelection)Enum.Parse(typeof(AltUnityMethodSelection), pieces[2], true);
-                    command = new AltUnityGetAllMethodsCommand(altComponent, methodSelection);
+                    command = new AltUnityGetAllMethodsCommand(parameters);
                     break;
                 case "getAllScenes":
-                    command = new AltUnityGetAllScenesCommand();
+                    command = new AltUnityGetAllScenesCommand(parameters);
                     break;
                 case "getAllCameras":
-                    command = new AltUnityGetAllCamerasCommand();
+                    command = new AltUnityGetAllCamerasCommand(parameters);
                     break;
                 case "getAllLoadedScenes":
-                    command = new AltUnityGetAllLoadedScenesCommand();
+                    command = new AltUnityGetAllLoadedScenesCommand(parameters);
                     break;
                 case "getScreenshot":
-                    size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
-                    command = new AltUnityGetScreenshotCommand(size, handler);
+                    command = new AltUnityGetScreenshotCommand(handler, parameters);
                     break;
+
                 case "hightlightObjectScreenshot":
-                    var id = System.Convert.ToInt32(pieces[1]);
-                    size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
-                    command = new AltUnityHighlightSelectedObjectCommand(id, pieces[2], size, handler);
+                    command = new AltUnityHighlightSelectedObjectCommand(handler, parameters);
                     break;
                 case "hightlightObjectFromCoordinatesScreenshot":
-                    var coordinates = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
-                    size = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[3]);
-                    command = new AltUnityHightlightObjectFromCoordinatesCommand(coordinates, pieces[2], size, handler);
+                    command = new AltUnityHightlightObjectFromCoordinatesCommand(handler, parameters);
                     break;
                 case "pressKeyboardKey":
-                    var piece = pieces[1];
-                    UnityEngine.KeyCode keycode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), piece);
-                    float power = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
-                    duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[3]);
-                    command = new AltUnityHoldButtonCommand(keycode, power, duration);
+                    command = new AltUnityHoldButtonCommand(parameters);
                     break;
                 case "moveMouse":
-                    UnityEngine.Vector2 location = Newtonsoft.Json.JsonConvert.DeserializeObject<UnityEngine.Vector2>(pieces[1]);
-                    duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
-                    command = new AltUnityMoveMouseCommand(location, duration);
+                    command = new AltUnityMoveMouseCommand(parameters);
                     break;
                 case "scrollMouse":
-                    var scrollValue = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[1]);
-                    duration = Newtonsoft.Json.JsonConvert.DeserializeObject<float>(pieces[2]);
-                    command = new AltUnityScrollMouseCommand(scrollValue, duration);
+                    command = new AltUnityScrollMouseCommand(parameters);
+
                     break;
                 case "findObject":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
-                    command = new AltUnityFindObjectCommand(methodParameters);
+                    command = new AltUnityFindObjectCommand(parameters);
                     break;
                 case "findObjects":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
-                    command = new AltUnityFindObjectsCommand(methodParameters);
+                    command = new AltUnityFindObjectsCommand(parameters);
+                    break;
+                case "findObjectsLight":
+                    command = new AltUnityFindObjectsLightCommand(parameters);
                     break;
                 case "findActiveObjectByName":
-                    methodParameters = pieces[1] + requestSeparatorString + pieces[2] + requestSeparatorString + pieces[3] + requestSeparatorString + pieces[4];
-                    command = new AltUnityFindActiveObjectsByNameCommand(methodParameters);
+                    command = new AltUnityFindActiveObjectsByNameCommand(parameters);
                     break;
                 case "enableLogging":
-                    var enableLogging = bool.Parse(pieces[1]);
-                    command = new AltUnityEnableLoggingCommand(enableLogging);
+                    command = new AltUnityEnableLoggingCommand(parameters);
                     break;
-
                 case "getText":
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnityGetTextCommand(altUnityObject);
+                    command = new AltUnityGetTextCommand(parameters);
                     break;
                 case "setText":
-                    altUnityObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(pieces[1]);
-                    command = new AltUnitySetTextCommand(altUnityObject, pieces[2]);
+                    command = new AltUnitySetTextCommand(parameters);
                     break;
                 case "getPNGScreenshot":
-                    command = new AltUnityGetScreenshotPNGCommand(handler);
+                    command = new AltUnityGetScreenshotPNGCommand(handler, parameters);
                     break;
                 case "getServerVersion":
-                    command = new AltUnityGetServerVersionCommand();
+                    command = new AltUnityGetServerVersionCommand(parameters);
                     break;
-
-
                 default:
-                    command = new AltUnityUnknowStringCommand();
+                    command = new AltUnityUnknowStringCommand(parameters);
                     break;
             }
         }
-        catch (Newtonsoft.Json.JsonException exception)
+        catch (JsonException ex)
         {
-            UnityEngine.Debug.Log(exception);
-            handler.SendResponse(errorCouldNotParseJsonString);
+            command = new AltUnityCouldNotParseJsonStringCommand(parameters);
+            ((AltUnityCouldNotParseJsonStringCommand)command).LogMessage(ex.Message);
+        }
+        catch (Assets.AltUnityTester.AltUnityDriver.InvalidParametersOnDriverCommandException ex)
+        {
+            command = new AltUnityInvalidParametersOnDriverCommandCommand(parameters);
+            ((AltUnityInvalidParametersOnDriverCommandCommand)command).LogMessage(ex.Message);
         }
         if (command != null)
         {
@@ -518,15 +448,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
     }
 
-    public void LogMessage(string logMessage)
-    {
-        if (logEnabled)
-        {
-            AltUnityRunner.logMessage += System.DateTime.Now + ":" + logMessage + System.Environment.NewLine;
-            FileWriter.WriteLine(System.DateTime.Now + ":" + logMessage);
-            UnityEngine.Debug.Log(logMessage);
-        }
-    }
 
     public static UnityEngine.GameObject[] GetDontDestroyOnLoadObjects()
     {
@@ -593,7 +514,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         return null;
     }
 
-    public System.Collections.IEnumerator HighLightSelectedObjectCorutine(UnityEngine.GameObject gameObject, UnityEngine.Color color, float width, UnityEngine.Vector2 size, AltClientSocketHandler handler)
+    public System.Collections.IEnumerator HighLightSelectedObjectCorutine(UnityEngine.GameObject gameObject, UnityEngine.Color color, float width, AltUnityGetScreenshotCommand getScreenshotCommand)
     {
         destroyHightlight = false;
         UnityEngine.Renderer renderer = gameObject.GetComponent<UnityEngine.Renderer>();
@@ -608,7 +529,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 material.SetFloat("_OutlineWidth", width);
             }
             yield return null;
-            new AltUnityGetScreenshotCommand(size, handler).Execute();
+            getScreenshotCommand.Execute();
             yield return null;
             for (var i = 0; i < renderer.materials.Length; i++)
             {
@@ -623,7 +544,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 var panelHighlight = Instantiate(panelHightlightPrefab, rectTransform);
                 panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
                 yield return null;
-                new AltUnityGetScreenshotCommand(size, handler).Execute();
+                getScreenshotCommand.Execute();
                 while (!destroyHightlight)
                     yield return null;
                 Destroy(panelHighlight);
@@ -631,27 +552,28 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             }
             else
             {
-                new AltUnityGetScreenshotCommand(size, handler).Execute();
+                getScreenshotCommand.Execute();
             }
         }
     }
 
-    public System.Collections.IEnumerator TakeTexturedScreenshot(UnityEngine.Vector2 size, AltClientSocketHandler handler)
+    public System.Collections.IEnumerator TakeTexturedScreenshot(AltClientSocketHandler handler, AltUnityScreenshotReadyCommand screenshotReadyCommand)
     {
         yield return new UnityEngine.WaitForEndOfFrame();
-        var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
 
-        var response = new AltUnityScreenshotReadyCommand(screenshot, size).Execute();
-        handler.SendResponse(response);
+
+        var response = screenshotReadyCommand.Execute();
+
+        handler.SendScreenshotResponse(screenshotReadyCommand, response);
     }
-    public System.Collections.IEnumerator TakeScreenshot(AltClientSocketHandler handler)
+    public System.Collections.IEnumerator TakeScreenshot(AltUnityCommand command, AltClientSocketHandler handler)
     {
         yield return new UnityEngine.WaitForEndOfFrame();
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
         var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
         var pngAsString = Convert.ToBase64String(bytesPNG);
 
-        handler.SendResponse(pngAsString);
+        handler.SendScreenshotResponse(command, pngAsString);
     }
 
     public void ShowClick(UnityEngine.Vector2 position)
@@ -706,4 +628,80 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
         return true;
     }
+
+    #region private methods
+    private UnityEngine.Vector3 getObjectScreenPosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
+    {
+        UnityEngine.Canvas canvas = gameObject.GetComponentInParent<UnityEngine.Canvas>();
+        if (canvas != null)
+        {
+            if (canvas.renderMode != UnityEngine.RenderMode.ScreenSpaceOverlay)
+            {
+                if (gameObject.GetComponent<UnityEngine.RectTransform>() == null)
+                {
+                    if (canvas.worldCamera != null)
+                    {
+                        return canvas.worldCamera.WorldToScreenPoint(gameObject.transform.position);
+                    }
+                }
+                else
+                {
+                    UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
+                    gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
+                    var center = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
+                    if (canvas.worldCamera != null)
+                    {
+                        return canvas.worldCamera.WorldToScreenPoint(center);
+                    }
+                }
+            }
+            if (gameObject.GetComponent<UnityEngine.RectTransform>() != null)
+            {
+                return gameObject.GetComponent<UnityEngine.RectTransform>().position;
+            }
+            return camera.WorldToScreenPoint(gameObject.transform.position);
+        }
+
+        if (gameObject.GetComponent<UnityEngine.Collider>() != null)
+        {
+            return camera.WorldToScreenPoint(gameObject.GetComponent<UnityEngine.Collider>().bounds.center);
+        }
+
+        return camera.WorldToScreenPoint(gameObject.transform.position);
+    }
+    ///<summary>
+    /// Iterate through all cameras until finds one that sees the object.
+    /// If no camera sees the object return the position from the last camera
+    ///</summary>
+    private int findCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
+    {
+        position = UnityEngine.Vector3.one * -1;
+        int cameraId = -1;
+        if (UnityEngine.Camera.allCamerasCount == 0)
+        {
+            var rectTransform = gameObject.GetComponent<UnityEngine.RectTransform>();
+            if (rectTransform != null)
+            {
+                var canvas = rectTransform.GetComponentInParent<UnityEngine.Canvas>();
+                if (canvas != null)
+                    position = UnityEngine.RectTransformUtility.PixelAdjustPoint(rectTransform.position, rectTransform, canvas.rootCanvas);
+            }
+            return cameraId;
+        }
+        foreach (var camera1 in UnityEngine.Camera.allCameras)
+        {
+            position = getObjectScreenPosition(gameObject, camera1);
+            cameraId = camera1.GetInstanceID();
+            if (position.x > 0 &&
+                position.y > 0 &&
+                position.x < UnityEngine.Screen.width &&
+                position.y < UnityEngine.Screen.height &&
+                position.z >= 0)//Check if camera sees the object
+            {
+                break;
+            }
+        }
+        return cameraId;
+    }
+    #endregion
 }

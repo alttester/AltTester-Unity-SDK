@@ -13,8 +13,8 @@ public class AltUnityDragObject : AltUnityCommandReturningAltElement
     {
         var positionJson = PositionToJson(position);
         var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-        
-        Socket.Client.Send( System.Text.Encoding.ASCII.GetBytes(CreateCommand("dragObject", positionJson, altObject)));
+
+        SendCommand("dragObject", positionJson, altObject);
         return ReceiveAltUnityObject();
     }
 }

@@ -14,6 +14,7 @@ import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectWithTextParameters;
+import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +52,8 @@ public class SampleAppiumTest {
 
     @Before
     public void loadLevel() throws Exception {
-        altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
+        AltLoadSceneParameters params = new AltLoadSceneParameters.Builder("Scene 1 AltUnityDriverTestScene").build();
+        altUnityDriver.loadScene(params);
     }
 
     @Test

@@ -1,10 +1,11 @@
 ﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityUnknowStringCommand :  AltUnityCommand
+    class AltUnityUnknowStringCommand : AltUnityCommand
     {
+        public AltUnityUnknowStringCommand(params string[] parameters) : base(parameters, 2) { }
         public override string Execute()
         {
-            return AltUnityRunner._altUnityRunner.errorUnknownError;
+            return AltUnityErrors.errorUnknownError;
         }
     }
 }

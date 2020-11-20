@@ -79,7 +79,7 @@ You can download our example project [here](https://gitlab.com/altom/altunity/ex
 It contains a pre-built ***apk*** file, so you can try out running tests on Android
 
 **Steps to run the tests on AWS:**
-1. From the cloned repository, create a **.zip** file containing the `requirements.txt` file, the `tests` folder and the `pages` folder;
+1. From the cloned repository, create a **.zip** file containing the `requirements.txt` file, the `tests` folder and the `pages` folder. Make sure to place all of them in the root directory;
 2. On AWS, create a new project, make sure you are on the *"Automated tests"* tab and then select *"Create a new run"*;
 3. At the next step, choose the *"Test a native application on Android devices."*. Then upload your **.apk** file;
 4. At the configuration step, choose *"Appium Python"* for the purpose of this example, then upload the **.zip** file containing the tests;

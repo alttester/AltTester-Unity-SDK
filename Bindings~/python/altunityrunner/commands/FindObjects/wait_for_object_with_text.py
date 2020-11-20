@@ -6,9 +6,9 @@ import time
 
 
 class WaitForObjectWithText(CommandReturningAltElements):
-    def __init__(self, socket, request_separator, request_end, appium_driver, by, value, text, camera_by, camera_path, timeout, interval, enabled):
+    def __init__(self, socket, request_separator, request_end, by, value, text, camera_by, camera_path, timeout, interval, enabled):
         super(WaitForObjectWithText, self).__init__(
-            socket, request_separator, request_end, appium_driver)
+            socket, request_separator, request_end)
         self.by = by
         self.value = value
         self.text = text
@@ -24,7 +24,7 @@ class WaitForObjectWithText(CommandReturningAltElements):
         while (t <= self.timeout):
             try:
                 alt_element = FindObject(self.socket, self.request_separator, self.request_end,
-                                         self.appium_driver, self.by, self.value, self.camera_by, self.camera_path, self.enabled).execute()
+                                         self.by, self.value, self.camera_by, self.camera_path, self.enabled).execute()
                 if alt_element.get_text() == self.text:
                     break
                 raise Exception('Not the wanted text')

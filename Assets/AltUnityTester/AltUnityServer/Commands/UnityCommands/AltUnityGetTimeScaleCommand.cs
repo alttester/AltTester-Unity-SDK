@@ -1,11 +1,13 @@
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetTimeScaleCommand :  AltUnityCommand
+    class AltUnityGetTimeScaleCommand : AltUnityCommand
     {
+        public AltUnityGetTimeScaleCommand(params string[] parameters) : base(parameters, 2)
+        { }
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("GetTimeScale");
-            string response = AltUnityRunner._altUnityRunner.errorCouldNotPerformOperationMessage;
+            LogMessage("GetTimeScale");
+            string response = AltUnityErrors.errorCouldNotPerformOperationMessage;
             response = Newtonsoft.Json.JsonConvert.SerializeObject(UnityEngine.Time.timeScale);
             return response;
         }

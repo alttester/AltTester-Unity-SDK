@@ -7,16 +7,18 @@ import ro.altom.altunitytester.Commands.InputActions.AltScrollMouseParameters;
 
 public class AltScrollMouseAndWait extends AltBaseCommand {
     private AltScrollMouseParameters altScrollMouseParameters;
+
     public AltScrollMouseAndWait(AltBaseSettings altBaseSettings, AltScrollMouseParameters altScrollMouseParameters) {
         super(altBaseSettings);
         this.altScrollMouseParameters = altScrollMouseParameters;
     }
-    public void Execute(){
-        new AltScrollMouse(altBaseSettings,altScrollMouseParameters).Execute();
+
+    public void Execute() {
+        new AltScrollMouse(altBaseSettings, altScrollMouseParameters).Execute();
         sleepFor(altScrollMouseParameters.getDuration());
         String data;
         do {
-            send(CreateCommand("actionFinished"));
+            SendCommand("actionFinished");
             data = recvall();
         } while (data.equals("No"));
 

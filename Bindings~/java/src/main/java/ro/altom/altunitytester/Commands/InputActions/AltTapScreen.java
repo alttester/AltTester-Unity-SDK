@@ -17,18 +17,20 @@ public class AltTapScreen extends AltBaseCommand {
      * @param y y coordinate of the screen
      */
     private int y;
+
     public AltTapScreen(AltBaseSettings altBaseSettings, int x, int y) {
         super(altBaseSettings);
         this.x = x;
         this.y = y;
     }
-    public AltUnityObject Execute(){
-        send(CreateCommand("tapScreen", String.valueOf(x), String.valueOf(y)));
+
+    public AltUnityObject Execute() {
+        SendCommand("tapScreen", String.valueOf(x), String.valueOf(y));
         String data = recvall();
         if (!data.contains("error:")) {
             return new Gson().fromJson(data, AltUnityObject.class);
         }
-        if(data.contains("error:notFound"))
+        if (data.contains("error:notFound"))
             return null;
         handleErrors(data);
         return null;

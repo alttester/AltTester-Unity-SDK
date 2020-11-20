@@ -21,8 +21,7 @@ class TiltAndWait(BaseCommand):
         time.sleep(self.duration_in_secs)
         tilt_in_progress = True
         while tilt_in_progress:
-            tilt_finished = self.send_data(
-                self.create_command('actionFinished'))
+            tilt_finished = self.send_command('actionFinished')
             self.handle_errors(tilt_finished)
             if tilt_finished == 'Yes':
                 break

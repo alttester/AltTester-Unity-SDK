@@ -8,6 +8,7 @@ public class AltTapCustom extends AltBaseCommand {
     private int y;
     private int count;
     private float interval;
+
     public AltTapCustom(AltBaseSettings altBaseSettings, int x, int y, int count, float interval) {
         super(altBaseSettings);
         this.x = x;
@@ -15,9 +16,10 @@ public class AltTapCustom extends AltBaseCommand {
         this.count = count;
         this.interval = interval;
     }
+
     public void Execute() {
         String position = vectorToJsonString(x, y);
-        send(CreateCommand("tapCustom", position, String.valueOf(count), String.valueOf(interval)));
+        SendCommand("tapCustom", position, String.valueOf(count), String.valueOf(interval));
         String data = recvall();
         if (!data.contains("error:")) {
             return;

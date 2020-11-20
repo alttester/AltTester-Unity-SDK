@@ -3,12 +3,12 @@ from loguru import logger
 
 
 class GetCurrentScene(CommandReturningAltElements):
-    def __init__(self, socket, request_separator, request_end, appium_driver):
+    def __init__(self, socket, request_separator, request_end):
         super(GetCurrentScene, self).__init__(
-            socket, request_separator, request_end, appium_driver)
+            socket, request_separator, request_end)
 
     def execute(self):
-        data = self.send_data(self.create_command('getCurrentScene'))
+        data = self.send_command('getCurrentScene')
         if (data != '' and 'error:' not in data):
             alt_el = self.get_alt_element(data)
             logger.debug('Current scene is ' + alt_el.name)

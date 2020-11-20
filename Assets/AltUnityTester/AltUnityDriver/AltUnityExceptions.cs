@@ -1,7 +1,7 @@
 ﻿
 namespace Assets.AltUnityTester.AltUnityDriver
 {
-   public class AltUnityException: System.Exception
+    public class AltUnityException : System.Exception
     {
         public AltUnityException()
         {
@@ -58,6 +58,17 @@ namespace Assets.AltUnityTester.AltUnityDriver
         }
     }
 
+    public class AssemblyNotFoundException : AltUnityException
+    {
+        public AssemblyNotFoundException()
+        {
+        }
+
+        public AssemblyNotFoundException(string message) : base(message)
+        {
+        }
+    }
+
     public class CouldNotPerformOperationException : AltUnityException
     {
         public CouldNotPerformOperationException()
@@ -68,14 +79,23 @@ namespace Assets.AltUnityTester.AltUnityDriver
         {
         }
     }
-
-    public class IncorrectNumberOfParametersException : AltUnityException
+    public class InvalidParameterTypeException : AltUnityException
     {
-        public IncorrectNumberOfParametersException()
+        public InvalidParameterTypeException()
         {
         }
 
-        public IncorrectNumberOfParametersException(string message) : base(message)
+        public InvalidParameterTypeException(string message) : base(message)
+        {
+        }
+    }
+    public class MethodWithGivenParametersNotFoundException : AltUnityException
+    {
+        public MethodWithGivenParametersNotFoundException()
+        {
+        }
+
+        public MethodWithGivenParametersNotFoundException(string message) : base(message)
         {
         }
     }
@@ -166,6 +186,55 @@ namespace Assets.AltUnityTester.AltUnityDriver
         public WaitTimeOutException(string message) : base(message)
         {
         }
+    }
+
+    public class InvalidParametersOnDriverCommandException : AltUnityException
+    {
+        public InvalidParametersOnDriverCommandException()
+        {
+        }
+
+        public InvalidParametersOnDriverCommandException(string message) : base(message)
+        {
+        }
+    }
+    public class AltUnityRecvallException : AltUnityException
+    {
+        public AltUnityRecvallException()
+        {
+
+        }
+
+        public AltUnityRecvallException(string message) : base(message)
+        {
+
+        }
+    }
+    public class AltUnityRecvallMessageIdException : AltUnityRecvallException
+    {
+        public AltUnityRecvallMessageIdException()
+        {
+
+        }
+
+        public AltUnityRecvallMessageIdException(string message) : base(message)
+        {
+
+        }
+
+    }
+    public class AltUnityRecvallMessageFormatException : AltUnityRecvallException
+    {
+        public AltUnityRecvallMessageFormatException()
+        {
+
+        }
+
+        public AltUnityRecvallMessageFormatException(string message) : base(message)
+        {
+
+        }
+
     }
 
 }

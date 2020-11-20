@@ -1,33 +1,34 @@
+using Assets.AltUnityTester.AltUnityDriver.AltSocket;
 using Assets.AltUnityTester.AltUnityDriver.Commands.InputActions;
 using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 
 public enum PLayerPrefKeyType { Int = 1, String, Float }
-public struct SocketSettings
-{
-    public System.Net.Sockets.TcpClient socket;
-    public string requestSeparator;
-    public string requestEnding;
-    public bool logFlag;
 
-    public SocketSettings(System.Net.Sockets.TcpClient socket, string requestSeparator, string requestEnding, bool logFlag)
+public class SocketSettings
+{
+    public ISocket Socket { get; private set; }
+    public string RequestSeparator { get; private set; }
+    public string RequestEnding { get; private set; }
+    public bool LogFlag { get; private set; }
+
+    public SocketSettings(ISocket socket, string requestSeparator, string requestEnding, bool logFlag)
     {
-        this.socket = socket;
-        this.requestSeparator = requestSeparator;
-        this.requestEnding = requestEnding;
-        this.logFlag = logFlag;
+        this.Socket = socket;
+        this.RequestSeparator = requestSeparator;
+        this.RequestEnding = requestEnding;
+        this.LogFlag = logFlag;
     }
 }
 public class AltUnityDriver
 {
     public System.Net.Sockets.TcpClient Socket;
     public SocketSettings socketSettings;
-    public static readonly string VERSION = "1.5.7";
+    public static readonly string VERSION = "1.6.0";
     public static string requestSeparatorString;
     public static string requestEndingString;
 
     public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false)
     {
-
         int timeout = 60;
         int retryPeriod = 5;
         while (timeout > 0)
@@ -38,34 +39,76 @@ public class AltUnityDriver
                 Socket.Connect(tcp_ip, tcp_port);
                 Socket.SendTimeout = 5000;
                 Socket.ReceiveTimeout = 5000;
-
-                socketSettings = new SocketSettings(Socket, requestSeparator, requestEnding, logFlag);
-                CheckServerVersion();
-                EnableLogging();
+                var altSocket = new Socket(Socket.Client);
+                socketSettings = new SocketSettings(altSocket, requestSeparator, requestEnding, logFlag);
+                checkServerVersion();
                 break;
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 if (Socket != null)
                     Stop();
+
                 string errorMessage = "Trying to reach AltUnity Server at port" + tcp_port + ",retrying in " + retryPeriod + " (timing out in " + timeout + " secs)...";
                 System.Console.WriteLine(errorMessage);
-                timeout -= retryPeriod;
-                System.Threading.Thread.Sleep(retryPeriod * 1000);
 #if UNITY_EDITOR
                 UnityEngine.Debug.Log(errorMessage);
 #endif
+
+                timeout -= retryPeriod;
+                System.Threading.Thread.Sleep(retryPeriod * 1000);
             }
             if (timeout <= 0)
             {
                 throw new System.Exception("Could not create connection to " + tcp_ip + ":" + tcp_port);
             }
         }
+        try
+        {
+            EnableLogging();
+        }
+        catch (Assets.AltUnityTester.AltUnityDriver.AltUnityRecvallMessageFormatException)
+        {
+            UnityEngine.Debug.LogError("Cannot set logging flag because of version incompatibility.");
+        }
 
     }
-    public string CheckServerVersion()
+    private void splitVersion(string version, out string major, out string minor)
     {
-        return new AltUnityCheckServerVersion(socketSettings).Execute();
+        var parts = version.Split(new[] { "." }, System.StringSplitOptions.None);
+        major = parts[0];
+        minor = parts.Length > 1 ? parts[1] : string.Empty;
+    }
+    private void checkServerVersion()
+    {
+        string serverVersion;
+        try
+        {
+            serverVersion = new AltUnityGetServerVersion(socketSettings).Execute();
+        }
+        catch (Assets.AltUnityTester.AltUnityDriver.UnknownErrorException)
+        {
+            serverVersion = "<=1.5.3";
+        }
+        catch (Assets.AltUnityTester.AltUnityDriver.AltUnityRecvallMessageFormatException)
+        {
+            serverVersion = "<=1.5.7";
+        }
+        string majorServer, minorServer,
+        majorDriver, minorDriver;
+
+        splitVersion(serverVersion, out majorServer, out minorServer);
+        splitVersion(AltUnityDriver.VERSION, out majorDriver, out minorDriver);
+
+        if (majorServer != majorDriver || minorServer != minorDriver)
+        {
+            string message = "Version mismatch. AltUnity Driver version is " + AltUnityDriver.VERSION + ". AltUnity Server version is " + serverVersion + ".";
+
+#if UNITY_EDITOR
+            UnityEngine.Debug.LogWarning(message);
+#endif
+            System.Console.WriteLine(message);
+        }
     }
     private void EnableLogging()
     {
@@ -75,6 +118,7 @@ public class AltUnityDriver
     public void Stop()
     {
         new AltUnityStopCommand(socketSettings).Execute();
+        Socket.Close();
     }
     public void LoadScene(string scene, bool loadSingle = true)
     {
@@ -84,38 +128,22 @@ public class AltUnityDriver
     {
         return new AltUnityGetAllLoadedScenes(socketSettings).Execute();
     }
-    [System.Obsolete()]
-    public System.Collections.Generic.List<AltUnityObject> FindObjects(By by, string value, string cameraName, bool enabled = true)
-    {
-        return new AltUnityFindObjects(socketSettings, by, value, By.NAME, cameraName, enabled).Execute();
-    }
+
     public System.Collections.Generic.List<AltUnityObject> FindObjects(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
     {
         return new AltUnityFindObjects(socketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
     }
-    [System.Obsolete()]
-    public System.Collections.Generic.List<AltUnityObject> FindObjectsWhichContain(By by, string value, string cameraName, bool enabled = true)
-    {
-        return new AltUnityFindObjectsWhichContain(socketSettings, by, value, By.NAME, cameraName, enabled).Execute();
-    }
+
     public System.Collections.Generic.List<AltUnityObject> FindObjectsWhichContain(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
     {
         return new AltUnityFindObjectsWhichContain(socketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
     }
-    [System.Obsolete()]
-    public AltUnityObject FindObject(By by, string value, string cameraName, bool enabled = true)
-    {
-        return new AltUnityFindObject(socketSettings, by, value, By.NAME, cameraName, enabled).Execute();
-    }
+
     public AltUnityObject FindObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
     {
         return new AltUnityFindObject(socketSettings, by, value, cameraBy, cameraValue, enabled).Execute();
     }
-    [System.Obsolete()]
-    public AltUnityObject FindObjectWhichContains(By by, string value, string cameraName, bool enabled = true)
-    {
-        return new AltUnityFindObjectWhichContains(socketSettings, by, value, By.NAME, cameraName, enabled).Execute();
-    }
+
     public AltUnityObject FindObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
     {
         return new AltUnityFindObjectWhichContains(socketSettings, by, value, cameraBy, cameraValue, enabled).Execute();
@@ -132,7 +160,7 @@ public class AltUnityDriver
     public string CallStaticMethods(string typeName, string methodName,
         string parameters, string typeOfParameters = "", string assemblyName = "")
     {
-        return new AltUnityCallStaticMethods(socketSettings, typeName, methodName, parameters, typeName, assemblyName).Execute();
+        return new AltUnityCallStaticMethods(socketSettings, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
     }
     public void DeletePlayerPref()
     {
@@ -236,110 +264,41 @@ public class AltUnityDriver
     {
         new AltUnityTiltAndWait(socketSettings, acceleration, duration).Execute();
     }
-    [System.ObsoleteAttribute("Use instead FindObjectWhichContains")]
-    public AltUnityObject FindElementWhereNameContains(string name, string cameraName = "", bool enabled = true)
-    {
-        return new AltUnityFindElementWhereNameContains(socketSettings, name, cameraName, enabled).Execute();
-    }
-    [System.Obsolete()]
-    public System.Collections.Generic.List<AltUnityObject> GetAllElements(string cameraName, bool enabled = true)
-    {
-        return new AltUnityGetAllElements(socketSettings, By.NAME, cameraName, enabled).Execute();
-    }
+
     public System.Collections.Generic.List<AltUnityObject> GetAllElements(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
     {
         return new AltUnityGetAllElements(socketSettings, cameraBy, cameraPath, enabled).Execute();
     }
-    [System.ObsoleteAttribute("Use instead FindObject")]
-    public AltUnityObject FindElement(string name, string cameraName = "", bool enabled = true)
+    public System.Collections.Generic.List<AltUnityObjectLight> GetAllElementsLight(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
     {
-        return new AltUnityFindElement(socketSettings, name, cameraName, enabled).Execute();
-    }
-    [System.ObsoleteAttribute("Use instead WaitForObject")]
-    public System.Collections.Generic.List<AltUnityObject> FindElements(string name, string cameraName = "", bool enabled = true)
-    {
-        return new AltUnityFindElements(socketSettings, name, cameraName, enabled).Execute();
+        return new AltUnityGetAllElementsLight(socketSettings, cameraBy, cameraPath, enabled).Execute();
     }
 
-    [System.ObsoleteAttribute("Use instead WaitForObjectWhichContains")]
-    public System.Collections.Generic.List<AltUnityObject> FindElementsWhereNameContains(string name, string cameraName = "", bool enabled = true)
-    {
-        return new AltUnityFindElementsWhereNameContains(socketSettings, name, cameraName, enabled).Execute();
-    }
     public string WaitForCurrentSceneToBe(string sceneName, double timeout = 10, double interval = 1)
     {
         return new AltUnityWaitForCurrentSceneToBe(socketSettings, sceneName, timeout, interval).Execute();
     }
 
-    [System.ObsoleteAttribute("Use instead WaitForObject")]
-    public AltUnityObject WaitForElementWhereNameContains(string name, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
-    {
-        return new AltUnityWaitForElementWhereNameContains(socketSettings, name, cameraName, enabled, timeout, interval).Execute();
-    }
-    [System.Obsolete()]
-    public AltUnityObject WaitForObject(By by, string value, string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
-    {
-        return new AltUnityWaitForObject(socketSettings, by, value, By.NAME, cameraName, enabled, timeout, interval).Execute();
-    }
     public AltUnityObject WaitForObject(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         return new AltUnityWaitForObject(socketSettings, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
     }
-    [System.Obsolete()]
-    public void WaitForObjectNotBePresent(By by, string value, string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
-    {
-        new AltUnityWaitForObjectNotBePresent(socketSettings, by, value, By.NAME, cameraName, enabled, timeout, interval).Execute();
-    }
+
     public void WaitForObjectNotBePresent(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         new AltUnityWaitForObjectNotBePresent(socketSettings, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
     }
-    [System.Obsolete()]
-    public AltUnityObject WaitForObjectWhichContains(By by, string value, string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
-    {
-        return new AltUnityWaitForObjectWhichContains(socketSettings, by, value, By.NAME, cameraName, enabled, timeout, interval).Execute();
-    }
+
     public AltUnityObject WaitForObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         return new AltUnityWaitForObjectWhichContains(socketSettings, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
     }
 
-
-    [System.ObsoleteAttribute("Use instead WaitForObjectNotBePresent")]
-    public void WaitForElementToNotBePresent(string name, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
-    {
-        new AltUnityWaitForElementToNotBePresent(socketSettings, name, cameraName, enabled, timeout, interval).Execute();
-    }
-    [System.ObsoleteAttribute("Use instead WaitForObject")]
-    public AltUnityObject WaitForElement(string name, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
-    {
-        return new AltUnityWaitForElement(socketSettings, name, cameraName, enabled, timeout, interval).Execute();
-    }
-
-    [System.ObsoleteAttribute("Use instead WaitForObjectWithText")]
-    public AltUnityObject WaitForElementWithText(string name, string text, string cameraName = "", bool enabled = true, double timeout = 20, double interval = 0.5)
-    {
-        return new AltUnityWaitForElementWithText(socketSettings, name, text, cameraName, enabled, timeout, interval).Execute();
-    }
-    [System.Obsolete()]
-    public AltUnityObject WaitForObjectWithText(By by, string value, string text, string cameraName, bool enabled = true, double timeout = 20, double interval = 0.5)
-    {
-        return new AltUnityWaitForObjectWithText(socketSettings, by, value, text, By.NAME, cameraName, enabled, timeout, interval).Execute();
-    }
     public AltUnityObject WaitForObjectWithText(By by, string value, string text, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
     {
         return new AltUnityWaitForObjectWithText(socketSettings, by, value, text, cameraBy, cameraPath, enabled, timeout, interval).Execute();
     }
-    [System.ObsoleteAttribute("Use instead FindObject")]
-    public AltUnityObject FindElementByComponent(string componentName, string assemblyName = "", string cameraName = "", bool enabled = true)
-    {
-        return new AltUnityFindElementByComponent(socketSettings, componentName, assemblyName, cameraName, enabled).Execute();
-    }
-    [System.ObsoleteAttribute("Use instead FindObjects")]
-    public System.Collections.Generic.List<AltUnityObject> FindElementsByComponent(string componentName, string assemblyName = "", string cameraName = "", bool enabled = true)
-    {
-        return new AltUnityFindElementsByComponent(socketSettings, componentName, assemblyName, cameraName, enabled).Execute();
-    }
+
     public System.Collections.Generic.List<string> GetAllScenes()
     {
         return new AltUnityGetAllScenes(socketSettings).Execute();
@@ -348,21 +307,22 @@ public class AltUnityDriver
     {
         return new AltUnityGetAllCameras(socketSettings).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2))
+    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
     {
-        return new AltUnityGetScreenshot(socketSettings, size).Execute();
+        return new AltUnityGetScreenshot(socketSettings, size, screenShotQuality).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(int id, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2))
+    public AltUnityTextureInformation GetScreenshot(int id, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
     {
-        return new AltUnityGetScreenshot(socketSettings, id, color, width, size).Execute();
+        return new AltUnityGetScreenshot(socketSettings, id, color, width, size, screenShotQuality).Execute();
     }
-    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2))
+    public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
     {
-        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size).Execute(out selectedObject);
+        return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size, screenShotQuality).Execute(out selectedObject);
 
     }
     public void GetPNGScreenshot(string path)
     {
         new AltUnityGetPNGScreenshot(socketSettings, path).Execute();
     }
+
 }

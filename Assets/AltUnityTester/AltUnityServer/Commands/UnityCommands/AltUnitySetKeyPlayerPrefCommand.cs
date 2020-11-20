@@ -6,33 +6,33 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         string keyName;
         string value;
 
-        public AltUnitySetKeyPlayerPrefCommand (PLayerPrefKeyType type, string keyName, string value)
+        public AltUnitySetKeyPlayerPrefCommand(params string[] parameters) : base(parameters, 5)
         {
-            this.type = type;
-            this.keyName = keyName;
-            this.value = value;
+            this.keyName = parameters[2];
+            this.value = parameters[3];
+            this.type = (PLayerPrefKeyType)System.Enum.Parse(typeof(PLayerPrefKeyType), parameters[4]);
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("setKeyPlayerPref for: " + keyName);
-            string response = AltUnityRunner._altUnityRunner.errorNotFoundMessage;
-                switch (type)
-                {
-                    case PLayerPrefKeyType.String:
-                    AltUnityRunner._altUnityRunner.LogMessage("Set Option string ");
-                        UnityEngine.PlayerPrefs.SetString(keyName, value);
-                        break;
-                    case PLayerPrefKeyType.Float:
-                    AltUnityRunner._altUnityRunner.LogMessage("Set Option Float ");
-                        UnityEngine.PlayerPrefs.SetFloat(keyName, float.Parse(value));
-                        break;
-                    case PLayerPrefKeyType.Int:
-                    AltUnityRunner._altUnityRunner.LogMessage("Set Option Int ");
-                        UnityEngine.PlayerPrefs.SetInt(keyName, int.Parse(value));
-                        break;
-                }
-                response = "Ok";
+            LogMessage("setKeyPlayerPref for: " + keyName);
+            string response = AltUnityErrors.errorNotFoundMessage;
+            switch (type)
+            {
+                case PLayerPrefKeyType.String:
+                    LogMessage("Set Option string ");
+                    UnityEngine.PlayerPrefs.SetString(keyName, value);
+                    break;
+                case PLayerPrefKeyType.Float:
+                    LogMessage("Set Option Float ");
+                    UnityEngine.PlayerPrefs.SetFloat(keyName, float.Parse(value));
+                    break;
+                case PLayerPrefKeyType.Int:
+                    LogMessage("Set Option Int ");
+                    UnityEngine.PlayerPrefs.SetInt(keyName, int.Parse(value));
+                    break;
+            }
+            response = "Ok";
             return response;
         }
     }

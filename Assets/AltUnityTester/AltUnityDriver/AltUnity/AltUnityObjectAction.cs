@@ -1,13 +1,13 @@
 ﻿
-public struct AltUnityObjectAction {
+public struct AltUnityObjectAction
+{
 
-	public string Component;
-	public string Method;
-	// public Dictionary<string, string> parameters;
-	public string Parameters;
+    public string Component;
+    public string Method;
+    public string Parameters;
     public string TypeOfParameters;
 
-    public AltUnityObjectAction(string component="", string method="", string parameters="", string typeOfParameters="",string assembly="")
+    public AltUnityObjectAction(string component = "", string method = "", string parameters = "", string typeOfParameters = "", string assembly = "")
     {
         Component = component;
         Method = method;

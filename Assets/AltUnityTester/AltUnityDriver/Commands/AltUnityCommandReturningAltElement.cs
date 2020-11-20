@@ -21,8 +21,8 @@ public class AltUnityCommandReturningAltElement : AltBaseCommand
         string data = Recvall();
         if (!data.Contains("error:"))
         {
-            var altElements= Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityObject>>(data);
-            foreach(var altElement in altElements)
+            var altElements = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityObject>>(data);
+            foreach (var altElement in altElements)
             {
                 altElement.socketSettings = SocketSettings;
             }
@@ -31,5 +31,4 @@ public class AltUnityCommandReturningAltElement : AltBaseCommand
         HandleErrors(data);
         return null;
     }
-
 }

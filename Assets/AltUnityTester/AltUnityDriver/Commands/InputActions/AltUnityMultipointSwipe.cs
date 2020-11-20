@@ -6,7 +6,7 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
     {
         AltUnityVector2[] positions;
         float duration;
-        
+
         public AltUnityMultipointSwipe(SocketSettings socketSettings, AltUnityVector2[] positions, float duration) : base(socketSettings)
         {
             this.positions = positions;
@@ -15,14 +15,14 @@ namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
 
         public void Execute()
         {
-            var args = new System.Collections.Generic.List<string>{"multipointSwipeChain", duration.ToString()};
+            var args = new System.Collections.Generic.List<string> { "multipointSwipeChain", duration.ToString() };
             foreach (var pos in positions)
             {
                 var posJson = PositionToJson(pos);
                 args.Add(posJson);
             }
 
-            Socket.Client.Send(toBytes(CreateCommand(args.ToArray())));
+            SendCommand(args.ToArray());
             var data = Recvall();
             if (data.Equals("Ok"))
                 return;

@@ -1,56 +1,42 @@
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityCallComponentMethodForObjectCommand : AltUnityReflectionMethodsCommand 
+    class AltUnityCallComponentMethodForObjectCommand : AltUnityReflectionMethodsCommand
     {
         string altObjectString;
         string actionString;
 
-        public AltUnityCallComponentMethodForObjectCommand (string altObjectString, string actionString)
+        public AltUnityCallComponentMethodForObjectCommand(params string[] parameters) : base(parameters, 4)
         {
-            this.altObjectString = altObjectString;
-            this.actionString = actionString;
+            this.altObjectString = Parameters[2];
+            this.actionString = Parameters[3];
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.LogMessage("call action " + actionString + " for object " + altObjectString);
-            string response = AltUnityRunner._altUnityRunner.errorMethodNotFoundMessage;
+            LogMessage("call action " + actionString + " for object " + altObjectString);
+
             System.Reflection.MethodInfo methodInfoToBeInvoked;
             AltUnityObjectAction altAction = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObjectAction>(actionString);
             var componentType = GetType(altAction.Component, altAction.Assembly);
 
             System.Reflection.MethodInfo[] methodInfos = GetMethodInfoWithSpecificName(componentType, altAction.Method);
-            if (methodInfos.Length == 1)
-                methodInfoToBeInvoked = methodInfos[0];
-            else
-            {
-                methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altAction);
-            }
-
-
+            methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altAction);
 
             if (string.IsNullOrEmpty(altObjectString))
+                return InvokeMethod(methodInfoToBeInvoked, altAction, null);
+
+            AltUnityObject altObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
+            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altObject);
+            if (componentType == typeof(UnityEngine.GameObject))
             {
-                response = InvokeMethod(methodInfoToBeInvoked, altAction, null, response);
+                return InvokeMethod(methodInfoToBeInvoked, altAction, gameObject);
             }
-            else
-            {
-                AltUnityObject altObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
-                UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altObject);
-                if (componentType == typeof(UnityEngine.GameObject))
-                {
-                    response = InvokeMethod(methodInfoToBeInvoked, altAction, gameObject, response);
-                }
-                else
-                if (gameObject.GetComponent(componentType) != null)
-                {
-                    UnityEngine.Component component = gameObject.GetComponent(componentType);
-                    response = InvokeMethod(methodInfoToBeInvoked, altAction, component, response);
-                }
-            }
-            return response;
-                
+            UnityEngine.Component component = gameObject.GetComponent(componentType);
+            if (component == null)
+                throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException();
+
+            return InvokeMethod(methodInfoToBeInvoked, altAction, component);
         }
     }
 }

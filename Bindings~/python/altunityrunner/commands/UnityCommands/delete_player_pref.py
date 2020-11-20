@@ -9,5 +9,5 @@ class DeletePlayerPref(BaseCommand):
 
     def execute(self):
         logger.debug('Delete all Player Prefs')
-        data = self.send_data(self.create_command('deletePlayerPref'))
+        data = self.send_command('deletePlayerPref')
         return self.handle_errors(data)

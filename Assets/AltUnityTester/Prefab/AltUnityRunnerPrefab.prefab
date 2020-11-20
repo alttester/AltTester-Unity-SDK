@@ -126,7 +126,6 @@ GameObject:
   - component: {fileID: 222534247593446126}
   - component: {fileID: 114444481275187822}
   - component: {fileID: 114307704731609008}
-  - component: {fileID: 114221433974574080}
   m_Layer: 0
   m_Name: Icon
   m_TagString: Untagged
@@ -217,7 +216,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: AltUnityTester v.1.5.7
+  m_Text: AltUnityTester v.1.6.0-alpha
 --- !u!114 &114163630103521212
 MonoBehaviour:
   m_ObjectHideFlags: 1

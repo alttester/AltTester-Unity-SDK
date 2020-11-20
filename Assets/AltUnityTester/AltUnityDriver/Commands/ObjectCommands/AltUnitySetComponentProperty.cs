@@ -14,11 +14,11 @@ public class AltUnitySetComponentProperty : AltBaseCommand
         this.assemblyName = assemblyName;
         this.altUnityObject = altUnityObject;
     }
-    public string Execute(){
+    public string Execute()
+    {
         string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-        string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName,assemblyName));
-        Socket.Client.Send(
-            System.Text.Encoding.ASCII.GetBytes(CreateCommand("setObjectComponentProperty",altObject , propertyInfo , value )));
+        string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName, assemblyName));
+        SendCommand("setObjectComponentProperty", altObject, propertyInfo, value);
         string data = Recvall();
         if (!data.Contains("error:")) return data;
         HandleErrors(data);

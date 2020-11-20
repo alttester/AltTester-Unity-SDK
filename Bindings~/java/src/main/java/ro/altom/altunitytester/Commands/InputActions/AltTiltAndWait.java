@@ -20,7 +20,7 @@ public class AltTiltAndWait extends AltBaseCommand {
         sleepFor(altTiltParameters.getDuration());
         String data;
         do {
-            send(CreateCommand("actionFinished"));
+            SendCommand("actionFinished");
             data = recvall();
         } while (data.equals("No"));
 

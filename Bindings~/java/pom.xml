@@ -5,7 +5,7 @@
     <groupId>com.altom</groupId>
     <artifactId>altunitytester-java-client</artifactId>
     <packaging>jar</packaging>
-    <version>1.5.7.1-SNAPSHOT</version>
+    <version>1.6.0</version>
 
     <distributionManagement>
         <snapshotRepository>
@@ -73,6 +73,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
 

@@ -3,8 +3,9 @@ public class AltUnityGetCurrentScene : AltBaseCommand
     public AltUnityGetCurrentScene(SocketSettings socketSettings) : base(socketSettings)
     {
     }
-    public string Execute(){
-        Socket.Client.Send(toBytes(CreateCommand("getCurrentScene")));
+    public string Execute()
+    {
+        SendCommand("getCurrentScene");
         string data = Recvall();
         if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data).name;
         HandleErrors(data);
