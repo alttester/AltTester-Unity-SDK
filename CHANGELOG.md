@@ -1,3 +1,43 @@
+# Changes in version 1.6.0
+
+## Bug fixes and improvements
+
+- "Remove deprecated methods" !301 
+- "Fix AltUnitySyncCommand to receive until message id matches" !311 
+- AltUnityTapCommand. Add clickTime !288 
+- "GetAllLoadedScenesCommand return scene by build index and not by loaded scenes" !309 
+- Fix bug in GetAllLoadedScene !291 
+- "String is not considerate a primitive" !307 
+- "swipe and wait does not wait the expected duration because of float conversion" !306 
+- "add message id to driver server communication" !303 
+- "Input actions are not finished when timeScale is 0" !302 
+- "Wrong scale difference/original size of screenshot is sent" !300  
+- "Change AltUnityProperty and AltUnityField to be the same and add type field" !297 
+- "Add more control what fields should return get_all_fields" !267 
+- "Pressing mouse button doesn't click on buttons" !296 
+- "Display an error message If the port AltUnityServer listens to is used by another process" !295 
+- "If no size value is given for screenshot command then it should return full size screenshot" !294 
+- "Method to GetAllElements with minimal information" !293  
+- "GetComponentProperty sends errorNullRefferenceMessage instead of errorComponentNotFoundMessage" !292 
+- "Add try catch when transforming game object to altunityobject" !287 
+- "GetMemberForObjectComponent doesn't recognize all properties or fields" !286 
+- "Change command name from FindObjectWhichContains to FindObjectWhichContain" !264   
+- "Update retry logging in unity in AltUnityDriver" !275 
+- "Update gitignore to ignore more files that do not need to be in the repo" !284    
+- Update documentation
+
+## Contributors 
+- Dorin Oltean @dorinaltom
+- Ru Cindrea @ru.cindrea
+- pusoktimea @pusoktimea
+- Alexandru Rotaru @alex.rotaru
+- Raluca Vaida @raluca.vaida 
+- Gombos Kriszta @GombosKriszta 
+- Andra Cardas @andra.cardas 
+- Robert Poienar @robert_poienar
+- SivanYakir @SivanYakir 
+- Ka3u6y6a @ka3u6y6a 
+
 # Changes in version 1.5.7
 
 ## Bug fixes and improvements

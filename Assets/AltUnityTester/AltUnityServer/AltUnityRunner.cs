@@ -25,7 +25,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     private string myPathFile;
     public static System.IO.StreamWriter ServerLogger;
 
-    public static readonly string VERSION = "1.6.0-alpha";
+    public static readonly string VERSION = "1.6.0";
 
     public JsonSerializerSettings _jsonSettings;
 

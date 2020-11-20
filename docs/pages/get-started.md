@@ -199,7 +199,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
                     <dependency>
                       <groupId>com.altom</groupId>
                       <artifactId>altunitytester-java-client</artifactId>
-                      <version>1.6.0-alpha</version>
+                      <version>1.6.0</version>
                     </dependency>
 
 
