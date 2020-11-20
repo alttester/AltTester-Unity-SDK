@@ -230,9 +230,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public AltUnityObjectLight GameObjectToAltUnityObjectLight(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
     {
         int cameraId = -1;
-        //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
-        //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
         UnityEngine.Vector3 position;
+        //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
+        //if there is no camera end this is Unity UI element, it return position by root Canvas and cameraId=-1
+        //if there is no camera in the scene it will return as screen position x:-1 y=-1, z=-1 and cameraId=-1
         try
         {
             if (camera == null)
@@ -241,11 +242,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             }
             else
             {
+                position = getObjectScreenPosition(altGameObject, camera);
                 cameraId = camera.GetInstanceID();
             }
         }
         catch (Exception)
         {
+            position = UnityEngine.Vector3.one * -1;
             cameraId = -1;
         }
 
@@ -674,6 +677,17 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     {
         position = UnityEngine.Vector3.one * -1;
         int cameraId = -1;
+        if (UnityEngine.Camera.allCamerasCount == 0)
+        {
+            var rectTransform = gameObject.GetComponent<UnityEngine.RectTransform>();
+            if (rectTransform != null)
+            {
+                var canvas = rectTransform.GetComponentInParent<UnityEngine.Canvas>();
+                if (canvas != null)
+                    position = UnityEngine.RectTransformUtility.PixelAdjustPoint(rectTransform.position, rectTransform, canvas.rootCanvas);
+            }
+            return cameraId;
+        }
         foreach (var camera1 in UnityEngine.Camera.allCameras)
         {
             position = getObjectScreenPosition(gameObject, camera1);
