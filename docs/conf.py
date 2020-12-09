@@ -20,12 +20,12 @@
 
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
-project = 'AltUnity Tester'
+project = 'AltUnity Tools'
 copyright = '2020, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
-version = 'v.1.6.0'   # displays version under project title
+version = 'AltUnity Tester v.1.6.0'   # displays version under project title
 release = 'v.1.6.0'
 
 
@@ -67,4 +67,11 @@ html_logo = '_static/images/altUnity-512x512.png'
 html_css_files = [
     'css/custom.css',
 ]
+html_js_files = [
+    'js/custom.js'
+]
 html_favicon = '_static/images/altUnity-512x512.png'
+
+html_theme_options = {
+    "collapse_navigation": False,
+}
