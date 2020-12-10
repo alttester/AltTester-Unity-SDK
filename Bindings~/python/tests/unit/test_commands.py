@@ -14,8 +14,8 @@ class CommandsTests(TestCase):
                 "utf-8").endswith(";getServerVersion&"), message.decode("utf-8"))
 
         def recv(buffer_size):
-            return ("altstart::"+command.messageId+"::response::1.6.0::altLog::::altend").encode('utf-8')
+            return ("altstart::"+command.messageId+"::response::1.6.1::altLog::::altend").encode('utf-8')
         socket.send.side_effect = send
         socket.recv.side_effect = recv
         version = command.execute()
-        self.assertEqual("1.6.0", version)
+        self.assertEqual("1.6.1", version)
