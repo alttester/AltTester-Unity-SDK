@@ -101,11 +101,15 @@ run-csharp-android-tests:
     - ls
     - *reinstall_and_start_android_app
     - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
+  after_script:
+    - adb forward --remove-all
+    - cat csharpAndroidTests.log
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - csharpAndroidTests.log
+      - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
 run-python-android-tests:
@@ -118,6 +122,13 @@ run-python-android-tests:
     - *pip_install_dependencies
     - python Bindings~/python/tests/python_bindings_tests.py
     - pytest Bindings~/python/tests/unit
+  after_script:
+    - adb forward --remove-all
+  artifacts:
+    when: always
+    expire_in: 10 days
+    paths:
+      - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
 run-java-android-tests:
@@ -132,6 +143,13 @@ run-java-android-tests:
     - *reinstall_and_start_android_app
     - cd "Bindings~/java"
     - mvn -Dtest=ro.altom.altunitytester.Tests* test
+  after_script:
+    - adb forward --remove-all
+  artifacts:
+    when: always
+    expire_in: 10 days
+    paths:
+      - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
 run-python-appium-android-tests:
@@ -146,11 +164,14 @@ run-python-appium-android-tests:
     - *initialize_venv
     - *pip_install_dependencies
     - python "Bindings~/python/tests/python_appium_tests.py"
+  after_script:
+    - adb forward --remove-all
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - appium.log
+      - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
 run-java-appium-android-tests:
@@ -168,10 +189,13 @@ run-java-appium-android-tests:
     - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.6.0 -Dpackaging=jar
     - cd ../java-appium-tests
     - mvn test
+  after_script:
+    - adb forward --remove-all
   artifacts:
     when: always
     expire_in: 10 days
     paths:
+      - AltUnityTesterLog.txt
       - "./Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
   needs: ["build-apk"]
 

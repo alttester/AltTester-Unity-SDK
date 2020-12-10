@@ -27,6 +27,14 @@ public class AltUnityDriver
     public static string requestSeparatorString;
     public static string requestEndingString;
 
+    /// <summary>
+    /// Initiates AltUnity Driver and begins connection to AltUnity Server
+    /// </summary>
+    /// <param name="tcp_ip">The ip or hostname  AltUnity Server is listening on.</param>
+    /// <param name="tcp_port">The port AltUnity Server is listening on.</param>
+    /// <param name="requestSeparator">The separator of command parameters. Must match requestSeparatorString in AltUnity Server </param>
+    /// <param name="requestEnding">The ending of the command. Must match requestEnding in AltUnity Server </param>
+    /// <param name="logFlag">If true it enables extended logs in AltUnity Server and writes commands response to log file.</param>
     public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false)
     {
         int timeout = 60;
@@ -44,7 +52,7 @@ public class AltUnityDriver
                 checkServerVersion();
                 break;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 if (Socket != null)
                     Stop();
@@ -56,11 +64,11 @@ public class AltUnityDriver
 #endif
 
                 timeout -= retryPeriod;
+                if (timeout <= 0)
+                {
+                    throw new System.Exception("Could not create connection to " + tcp_ip + ":" + tcp_port, ex);
+                }
                 System.Threading.Thread.Sleep(retryPeriod * 1000);
-            }
-            if (timeout <= 0)
-            {
-                throw new System.Exception("Could not create connection to " + tcp_ip + ":" + tcp_port);
             }
         }
         try
@@ -71,7 +79,6 @@ public class AltUnityDriver
         {
             UnityEngine.Debug.LogError("Cannot set logging flag because of version incompatibility.");
         }
-
     }
     private void splitVersion(string version, out string major, out string minor)
     {

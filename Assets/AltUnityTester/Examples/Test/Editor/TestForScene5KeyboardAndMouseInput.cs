@@ -95,10 +95,13 @@ public class TestForScene5KeyboardAndMouseInput
         var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
         foreach (AltUnityKeyCode kcode in Enum.GetValues(typeof(AltUnityKeyCode)))
         {
-            AltUnityDriver.PressKeyAndWait(kcode, duration: 0.2f);
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+            if (kcode != AltUnityKeyCode.None)
+            {
+                AltUnityDriver.PressKeyAndWait(kcode, duration: 0.2f);
+                Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
+                Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
+                Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+            }
         }
     }
 
