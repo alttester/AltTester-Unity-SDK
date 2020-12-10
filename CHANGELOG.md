@@ -1,3 +1,15 @@
+# Changes in version 1.6.1
+
+## Bug fixes and improvements
+- Solved memory problems cause by Get/SetPixels !320
+- Removed annoying Debug.LogError() !317
+- Fixed logging exceptions !316
+- Added link to AltUnityInspector !321
+
+## Contributors 
+- Dorin Oltean @dorinaltom
+- Robert Poienar @robert_poienar
+
 # Changes in version 1.6.0
 
 ## Bug fixes and improvements
