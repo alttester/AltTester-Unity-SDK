@@ -11,8 +11,8 @@ public class AltUnityTextureScale
         }
     }
 
-    private static UnityEngine.Color[] texColors;
-    private static UnityEngine.Color[] newColors;
+    private static UnityEngine.Color32[] texColors;
+    private static UnityEngine.Color32[] newColors;
     private static int w;
     private static float ratioX;
     private static float ratioY;
@@ -32,8 +32,8 @@ public class AltUnityTextureScale
 
     private static void ThreadedScale(UnityEngine.Texture2D tex, int newWidth, int newHeight, bool useBilinear)
     {
-        texColors = tex.GetPixels();
-        newColors = new UnityEngine.Color[newWidth * newHeight];
+        texColors = tex.GetPixels32();
+        newColors = new UnityEngine.Color32[newWidth * newHeight];
         if (useBilinear)
         {
             ratioX = 1.0f / ((float)newWidth / (tex.width - 1));
@@ -93,7 +93,7 @@ public class AltUnityTextureScale
         }
 
         tex.Resize(newWidth, newHeight);
-        tex.SetPixels(newColors);
+        tex.SetPixels32(newColors);
         tex.Apply();
 
         texColors = null;
@@ -143,11 +143,12 @@ public class AltUnityTextureScale
         mutex.ReleaseMutex();
     }
 
-    private static UnityEngine.Color ColorLerpUnclamped(UnityEngine.Color c1, UnityEngine.Color c2, float value)
+    private static UnityEngine.Color32 ColorLerpUnclamped(UnityEngine.Color32 c1, UnityEngine.Color32 c2, float value)
     {
-        return new UnityEngine.Color(c1.r + (c2.r - c1.r) * value,
-            c1.g + (c2.g - c1.g) * value,
-            c1.b + (c2.b - c1.b) * value,
-            c1.a + (c2.a - c1.a) * value);
+        byte r = (byte)UnityEngine.Mathf.Lerp(c1.r, c2.r, value);
+        byte g = (byte)UnityEngine.Mathf.Lerp(c1.g, c2.g, value);
+        byte b = (byte)UnityEngine.Mathf.Lerp(c1.b, c2.b, value);
+        byte a = (byte)UnityEngine.Mathf.Lerp(c1.a, c2.a, value);
+        return new UnityEngine.Color32(r, g, b, a);
     }
 }
