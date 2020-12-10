@@ -16,16 +16,9 @@ Join our Discord Server `here <https://discord.gg/Ag9RSuS>`__ to chat with us or
    :caption: Table of contents:
    :maxdepth: 3
    
-   pages/overview
-   pages/get-started
-   pages/altunity-tester-editor
-   pages/tester-with-appium
-   pages/tester-with-cloud
-   pages/examples   
-   pages/commands      
-   pages/advanced-usage
-   pages/license
-   pages/contributing
+   pages/tester
+   AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector/>
+   
 
 .. toctree::
     :caption: Community:

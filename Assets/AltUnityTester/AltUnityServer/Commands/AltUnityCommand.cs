@@ -4,7 +4,6 @@ using Assets.AltUnityTester.AltUnityServer.AltSocket;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-
     public abstract class AltUnityCommand
     {
         protected string[] Parameters;
@@ -14,7 +13,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         protected static bool LogEnabled = false;
         private string logMessage;
-
 
         protected AltUnityCommand(string[] parameters, int expectedParametersCount)
         {
@@ -36,8 +34,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 UnityEngine.Debug.Log(logMessage);
             }
 
-            AltUnityRunner.ServerLogger.WriteLine("response sent: " + message);
-            UnityEngine.Debug.Log(message);
+            AltUnityRunner.ServerLogger.Write("response sent: " + MessageId + ";" + CommandName + ";" + message + System.Environment.NewLine);
+            UnityEngine.Debug.Log("response sent: " + MessageId + ";" + CommandName + ";" + message);
 
             logMessage = string.Empty;
         }
@@ -130,7 +128,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             logMessage = string.Empty;
             var message = "command received: " + string.Join(";", Parameters);
 
-            AltUnityRunner.ServerLogger.WriteLine(message);
+            AltUnityRunner.ServerLogger.Write(message + System.Environment.NewLine);
             UnityEngine.Debug.Log(message);
         }
     }

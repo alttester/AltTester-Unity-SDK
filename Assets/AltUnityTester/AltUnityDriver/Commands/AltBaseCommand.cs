@@ -135,7 +135,6 @@ public class AltBaseCommand
         var args = arguments.ToList();
         args.Insert(0, messageId);
 
-
         return string.Join(SocketSettings.RequestSeparator, args) + SocketSettings.RequestEnding;
     }
 
