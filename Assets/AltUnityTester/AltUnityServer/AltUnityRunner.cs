@@ -571,7 +571,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
         var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
         var pngAsString = Convert.ToBase64String(bytesPNG);
-
+        UnityEngine.GameObject.DestroyImmediate(screenshot);
         handler.SendScreenshotResponse(command, pngAsString);
     }
 

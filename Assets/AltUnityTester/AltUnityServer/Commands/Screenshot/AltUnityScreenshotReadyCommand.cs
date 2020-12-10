@@ -53,7 +53,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             width = width * quality / 100;
             height = height * quality / 100;
             AltUnityTextureScale.Bilinear(screenshot, width, height);
-            screenshot.Apply(true);
             screenshot.Compress(false);
             screenshot.Apply(false);
 
@@ -82,7 +81,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
             LogMessage(System.DateTime.Now + " Finished Serialize Screenshot Start serialize response");
             LogMessage(System.DateTime.Now + " Finished send Response");
-            UnityEngine.GameObject.Destroy(screenshot);
+            screenshot.Apply(false, true);
+            UnityEngine.GameObject.DestroyImmediate(screenshot);
             AltUnityRunner._altUnityRunner.destroyHightlight = true;
             return Newtonsoft.Json.JsonConvert.SerializeObject(fullResponse);
         }
