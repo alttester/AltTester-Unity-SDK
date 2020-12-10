@@ -296,7 +296,6 @@ namespace Assets.AltUnityTester.AltUnityServer
             catch (System.Exception e)
             {
                 LogMessage(e.Message);
-                UnityEngine.Debug.LogError(e);
                 response = value.ToString();
             }
             return response;

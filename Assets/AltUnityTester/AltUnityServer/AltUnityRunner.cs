@@ -25,7 +25,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     private string myPathFile;
     public static System.IO.StreamWriter ServerLogger;
 
-    public static readonly string VERSION = "1.6.0";
+    public static readonly string VERSION = "1.6.1";
 
     public JsonSerializerSettings _jsonSettings;
 
@@ -89,9 +89,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         UnityEngine.Debug.Log("AltUnity Driver started");
         _responseQueue = new AltResponseQueue();
 
-
-        myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
-        UnityEngine.Debug.Log(myPathFile);
+        myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityServerLog.txt";
+        UnityEngine.Debug.Log("AltUnity Server logs path: " + myPathFile);
         ServerLogger = new System.IO.StreamWriter(myPathFile, false);//To not create a massive logfile the logfile will have only the last run.
         if (showPopUp == false)
         {
@@ -572,7 +571,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
         var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
         var pngAsString = Convert.ToBase64String(bytesPNG);
-
+        UnityEngine.GameObject.DestroyImmediate(screenshot);
         handler.SendScreenshotResponse(command, pngAsString);
     }
 

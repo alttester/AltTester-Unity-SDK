@@ -90,7 +90,7 @@ namespace unit.AltUnityServer
             var logs = GetLogs();
             Assert.True(logs.Contains("command received: messageid;enableLoggingCommand;true"), logs);
             Assert.True(logs.Contains("Logging is set to True"), logs);
-            Assert.True(logs.Contains("response sent: altstart::messageid::response::Ok::altLog::"));
+            Assert.True(logs.Contains("response sent: messageid;enableLoggingCommand;Ok"), logs);
         }
     }
 }

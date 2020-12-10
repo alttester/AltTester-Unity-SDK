@@ -49,8 +49,8 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
         public void SendResponse(AltUnityCommand command, string response)
         {
             var logMessage = Regex.Replace(command.GetLogMessage(), @"\r\n|\n|\r$", "");//Removes the last new line
-            response = "altstart::" + command.MessageId + "::response::" + response + "::altLog::" + logMessage + "::altend";
-            Socket.Send(Encoding.GetBytes(response));
+
+            Socket.Send(Encoding.GetBytes("altstart::" + command.MessageId + "::response::" + response + "::altLog::" + logMessage + "::altend"));
             command.EndLog(response);
         }
         public void SendScreenshotResponse(AltUnityCommand command, string response)
@@ -113,25 +113,25 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
             }
             catch (System.Threading.ThreadAbortException exception)
             {
-                AltUnityRunner.ServerLogger.WriteLine("Thread aborted(" + exception + ")");
+                AltUnityRunner.ServerLogger.Write("Thread aborted(" + exception + ")" + System.Environment.NewLine);
                 UnityEngine.Debug.Log("Thread aborted(" + exception + ")");
             }
             catch (System.Net.Sockets.SocketException exception)
             {
-                AltUnityRunner.ServerLogger.WriteLine("Socket exception(" + exception + ")");
+                AltUnityRunner.ServerLogger.Write("Socket exception(" + exception + ")" + System.Environment.NewLine);
                 UnityEngine.Debug.Log("Socket exception(" + exception + ")");
             }
             catch (System.Exception exception)
 
             {
-                AltUnityRunner.ServerLogger.WriteLine("Exception(" + exception + ")");
+                AltUnityRunner.ServerLogger.Write("Exception(" + exception + ")" + System.Environment.NewLine);
                 UnityEngine.Debug.Log("Exception(" + exception + ")");
             }
             finally
             {
                 Socket.Close();
                 ToBeKilled = true;
-                AltUnityRunner.ServerLogger.WriteLine("AltClientSocketHandler - Client closed");
+                AltUnityRunner.ServerLogger.Write("AltClientSocketHandler - Client closed" + System.Environment.NewLine);
                 UnityEngine.Debug.Log("AltClientSocketHandler - Client closed");
 
             }

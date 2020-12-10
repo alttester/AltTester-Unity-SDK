@@ -59,17 +59,18 @@ public class SampleAppiumTest {
     @Test
     public void testTapOnButton() throws Exception {
         assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
-                "UIButton").build();
-        AltUnityObject jumpButton = altUnityDriver.findObject(altFindObjectsParameters);
-        TouchAction tapButton = new TouchAction(appiumDriver);
-        tapButton.tap(new PointOption().withCoordinates(jumpButton.x, jumpButton.mobileY)).perform();
 
-        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "CapsuleInfo").build();
-        AltWaitForObjectWithTextParameters altWaitForObjectsParameters = new AltWaitForObjectWithTextParameters.Builder(
-                altFindObjectsParameters2, "UIButton clicked to jump capsule!").build();
+        AltFindObjectsParameters altFindObjectsParameters = 
+            new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Capsule").build();
+        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters);
+        TouchAction tapButton = new TouchAction(appiumDriver);
+        tapButton.tap(new PointOption().withCoordinates(capsule.x, capsule.mobileY)).perform();
+
+        AltFindObjectsParameters altFindObjectsParameters2 = 
+            new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "CapsuleInfo").build();
+        AltWaitForObjectWithTextParameters altWaitForObjectsParameters = 
+            new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters2, "Capsule was clicked to jump!").build();
         String text = altUnityDriver.waitForObjectWithText(altWaitForObjectsParameters).getText();
-        assertEquals("UIButton clicked to jump capsule!", text);
+        assertEquals("Capsule was clicked to jump!", text);
     }
 }
