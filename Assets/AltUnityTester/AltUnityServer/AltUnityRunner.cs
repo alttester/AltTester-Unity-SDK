@@ -89,9 +89,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         UnityEngine.Debug.Log("AltUnity Driver started");
         _responseQueue = new AltResponseQueue();
 
-
-        myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityTesterLogFile.txt";
-        UnityEngine.Debug.Log(myPathFile);
+        myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityServerLog.txt";
+        UnityEngine.Debug.Log("AltUnity Server logs path: " + myPathFile);
         ServerLogger = new System.IO.StreamWriter(myPathFile, false);//To not create a massive logfile the logfile will have only the last run.
         if (showPopUp == false)
         {
