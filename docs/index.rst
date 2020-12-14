@@ -37,7 +37,7 @@ Documentation
    :hidden:
 
    tester
-   AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector/>
+   AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector/inspector.html>
    
 
 .. toctree::
