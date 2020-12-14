@@ -74,6 +74,8 @@ You can also activate this option from within the test using the following code:
 
 ![Scene Manager](../_static/images/altUnityTesterWindow/SceneManager.png)
 
+* The Scene Manager pane displays a list of the Scenes from your Project. Checked scenes are included in the build.
+* Unity uses the list of Scenes to determine the order that it loads the Scenes in. To adjust the order of the Scenes use the action buttons associated to each scene to move them up or down the list.
 * Display scene full path: displays the full path where the scenes are located
 * Add Scene: displays all the scenes in the project. User can add scenes to the "Scene Manager" from the "Add Scene" popup
 * Action buttons (add / select / remove scenes)

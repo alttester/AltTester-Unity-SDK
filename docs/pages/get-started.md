@@ -45,9 +45,10 @@ In order for the tests to have access to Unity objects via AltUnity Client you n
 Steps:
 
 1. Open AltUnity Tester Window from Unity Editor -> Window -> AltUnityTester.
-2. Select on what platform you want to build the game.
-3. Press "Build Only" to instrument the game.
-4. Check the console to see if the build was successful.
+2. Select Scenes in Build
+3. Select on what platform you want to build the game.
+4. Press "Build Only" to instrument the game.
+5. Check the console to see if the build was successful.
 
 ``` important::
         Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity when building using the Standalone option.  
