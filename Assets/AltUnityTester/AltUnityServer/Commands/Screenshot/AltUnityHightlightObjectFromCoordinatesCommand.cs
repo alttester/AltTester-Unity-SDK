@@ -36,35 +36,38 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             UnityEngine.Color color = new UnityEngine.Color(red, green, blue, alpha);
             float width = float.Parse(pieces[1]);
 
-            UnityEngine.Ray ray = UnityEngine.Camera.main.ScreenPointToRay(screenCoordinates);
-            UnityEngine.RaycastHit[] hits;
-            var raycasters = UnityEngine.GameObject.FindObjectsOfType<UnityEngine.UI.GraphicRaycaster>();
-            UnityEngine.EventSystems.PointerEventData pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-            pointerEventData.position = screenCoordinates;
-
             var getScreenshotCommand = new AltUnityGetScreenshotCommand(handler, Parameters[0], Parameters[1], Parameters[4], Parameters[5]);
-            foreach (var raycaster in raycasters)
+
+            foreach (var camera in UnityEngine.Camera.allCameras)
             {
-                System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult> hitUI = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
-                raycaster.Raycast(pointerEventData, hitUI);
-                foreach (var hit in hitUI)
+                UnityEngine.Ray ray = camera.ScreenPointToRay(screenCoordinates);
+                UnityEngine.RaycastHit[] hits;
+                var raycasters = UnityEngine.GameObject.FindObjectsOfType<UnityEngine.UI.GraphicRaycaster>();
+                UnityEngine.EventSystems.PointerEventData pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+                pointerEventData.position = screenCoordinates;
+
+                foreach (var raycaster in raycasters)
                 {
-                    handler.SendResponse(this, Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(hit.gameObject)));
-                    AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.HighLightSelectedObjectCorutine(hit.gameObject, color, width, getScreenshotCommand));
+                    System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult> hitUI = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
+                    raycaster.Raycast(pointerEventData, hitUI);
+                    foreach (var hit in hitUI)
+                    {
+                        handler.SendResponse(this, Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(hit.gameObject)));
+                        AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.HighLightSelectedObjectCorutine(hit.gameObject, color, width, getScreenshotCommand));
+                        return "Ok";
+                    }
+                }
+                hits = UnityEngine.Physics.RaycastAll(ray);
+                if (hits.Length > 0)
+                {
+                    handler.SendResponse(this, Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(hits[hits.Length - 1].transform.gameObject)));
+                    AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.HighLightSelectedObjectCorutine(hits[hits.Length - 1].transform.gameObject, color, width, getScreenshotCommand));
                     return "Ok";
                 }
             }
-            hits = UnityEngine.Physics.RaycastAll(ray);
-            if (hits.Length > 0)
-            {
-                handler.SendResponse(this, Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(hits[hits.Length - 1].transform.gameObject)));
-                AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.HighLightSelectedObjectCorutine(hits[hits.Length - 1].transform.gameObject, color, width, getScreenshotCommand));
-            }
-            else
-            {
-                handler.SendResponse(this, Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObject("Null")));
-                getScreenshotCommand.Execute();
-            }
+
+            handler.SendResponse(this, Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObject("Null")));
+            getScreenshotCommand.Execute();
             return "Ok";
         }
     }
