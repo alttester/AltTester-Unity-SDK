@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net.Sockets;
+using Altom.AltUnityDriver;
 using Assets.AltUnityTester.AltUnityServer;
 using Assets.AltUnityTester.AltUnityServer.AltSocket;
 using Assets.AltUnityTester.AltUnityServer.Commands;
@@ -436,7 +437,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             command = new AltUnityCouldNotParseJsonStringCommand(parameters);
             ((AltUnityCouldNotParseJsonStringCommand)command).LogMessage(ex.Message);
         }
-        catch (Assets.AltUnityTester.AltUnityDriver.InvalidParametersOnDriverCommandException ex)
+        catch (InvalidParametersOnDriverCommandException ex)
         {
             command = new AltUnityInvalidParametersOnDriverCommandCommand(parameters);
             ((AltUnityInvalidParametersOnDriverCommandCommand)command).LogMessage(ex.Message);
@@ -489,7 +490,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             if (gameObject.GetInstanceID() == altUnityObject.id)
                 return gameObject;
         }
-        throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Object not found");
+        throw new NotFoundException("Object not found");
     }
 
     public static UnityEngine.GameObject GetGameObject(int objectId)
@@ -499,7 +500,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             if (gameObject.GetInstanceID() == objectId)
                 return gameObject;
         }
-        throw new Assets.AltUnityTester.AltUnityDriver.NotFoundException("Object not found");
+        throw new NotFoundException("Object not found");
     }
 
     public UnityEngine.Camera FoundCameraById(int id)

@@ -1,7 +1,9 @@
 using NUnit.Framework;
 using Moq;
 
-using Assets.AltUnityTester.AltUnityDriver.AltSocket;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.AltSocket;
+using Altom.AltUnityDriver.Commands;
 
 
 namespace unit.AltUnityDriver
@@ -34,8 +36,6 @@ namespace unit.AltUnityDriver
                 buffer[i] = returnMessageBytes[i + position];
             }
             position += i;
-            UnityEngine.Debug.Log(this.position);
-            UnityEngine.Debug.Log(i);
             return i;
         }
 
@@ -46,8 +46,6 @@ namespace unit.AltUnityDriver
 
             returnMessageBytes = System.Text.Encoding.UTF8.GetBytes("altstart::" + messageId + "::response::" + returnMessage + "::altLog::" + log + "::altend");
             position = 0;
-            UnityEngine.Debug.Log(this.message);
-            UnityEngine.Debug.Log(this.returnMessageBytes.Length);
         }
 
         public string MessageSent { get { return this.message; } }

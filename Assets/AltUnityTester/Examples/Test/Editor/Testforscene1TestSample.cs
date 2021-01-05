@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
-using Assets.AltUnityTester.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
-[Timeout(5000)]
+[Timeout(10000)]
 public class TestForScene1TestSample
 {
     private AltUnityDriver altUnityDriver;
@@ -314,7 +314,7 @@ public class TestForScene1TestSample
             altElement.SetComponentProperty(componentName, propertyName, "2");
             Assert.Fail();
         }
-        catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException exception)
+        catch (ComponentNotFoundException exception)
         {
             Assert.AreEqual(exception.Message, "error:componentNotFound");
         }

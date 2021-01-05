@@ -1,26 +1,27 @@
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
-
-public class AltUnityMoveMouseAndWait : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    AltUnityVector2 location;
-    float duration;
-    public AltUnityMoveMouseAndWait(SocketSettings socketSettings, AltUnityVector2 location, float duration) : base(socketSettings)
+    public class AltUnityMoveMouseAndWait : AltBaseCommand
     {
-        this.location = location;
-        this.duration = duration;
-    }
-    public void Execute()
-    {
-        new AltUnityMoveMouse(SocketSettings, location, duration).Execute();
-        System.Threading.Thread.Sleep((int)duration * 1000);
-        string data;
-        do
+        AltUnityVector2 location;
+        float duration;
+        public AltUnityMoveMouseAndWait(SocketSettings socketSettings, AltUnityVector2 location, float duration) : base(socketSettings)
         {
-            SendCommand("actionFinished");
-            data = Recvall();
-        } while (data == "No");
-        if (data.Equals("Yes"))
-            return;
-        HandleErrors(data);
+            this.location = location;
+            this.duration = duration;
+        }
+        public void Execute()
+        {
+            new AltUnityMoveMouse(SocketSettings, location, duration).Execute();
+            System.Threading.Thread.Sleep((int)duration * 1000);
+            string data;
+            do
+            {
+                SendCommand("actionFinished");
+                data = Recvall();
+            } while (data == "No");
+            if (data.Equals("Yes"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

@@ -1,24 +1,25 @@
-public class AltUnityGetAllMethods : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    AltUnityComponent altUnityComponent;
-    AltUnityObject altUnityObject;
-    AltUnityMethodSelection methodSelection;
-
-    public AltUnityGetAllMethods(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject, AltUnityMethodSelection methodSelection = AltUnityMethodSelection.ALLMETHODS) : base(socketSettings)
+    public class AltUnityGetAllMethods : AltBaseCommand
     {
-        this.altUnityComponent = altUnityComponent;
-        this.altUnityObject = altUnityObject;
-        this.methodSelection = methodSelection;
-    }
-    public System.Collections.Generic.List<string> Execute()
-    {
-        var altComponent = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityComponent);
-        SendCommand("getAllMethods", altComponent, methodSelection.ToString());
-        string data = Recvall();
-        if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<string>>(data);
-        HandleErrors(data);
-        return null;
-    }
+        AltUnityComponent altUnityComponent;
+        AltUnityObject altUnityObject;
+        AltUnityMethodSelection methodSelection;
 
-
+        public AltUnityGetAllMethods(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject, AltUnityMethodSelection methodSelection = AltUnityMethodSelection.ALLMETHODS) : base(socketSettings)
+        {
+            this.altUnityComponent = altUnityComponent;
+            this.altUnityObject = altUnityObject;
+            this.methodSelection = methodSelection;
+        }
+        public System.Collections.Generic.List<string> Execute()
+        {
+            var altComponent = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityComponent);
+            SendCommand("getAllMethods", altComponent, methodSelection.ToString());
+            string data = Recvall();
+            if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<string>>(data);
+            HandleErrors(data);
+            return null;
+        }
+    }
 }

@@ -1,14 +1,17 @@
-public class AltUnityGetServerVersion : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    public AltUnityGetServerVersion(SocketSettings socketSettings) : base(socketSettings)
+    public class AltUnityGetServerVersion : AltBaseCommand
     {
-    }
-    public string Execute()
-    {
-        string serverVersion;
-        SendCommand("getServerVersion");
-        serverVersion = Recvall();
-        HandleErrors(serverVersion);
-        return serverVersion;
+        public AltUnityGetServerVersion(SocketSettings socketSettings) : base(socketSettings)
+        {
+        }
+        public string Execute()
+        {
+            string serverVersion;
+            SendCommand("getServerVersion");
+            serverVersion = Recvall();
+            HandleErrors(serverVersion);
+            return serverVersion;
+        }
     }
 }

@@ -1,20 +1,21 @@
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
-
-public class AltUnityDragObject : AltUnityCommandReturningAltElement
+namespace Altom.AltUnityDriver.Commands
 {
-    AltUnityVector2 position;
-    AltUnityObject altUnityObject;
-    public AltUnityDragObject(SocketSettings socketSettings, AltUnityVector2 position, AltUnityObject altUnityObject) : base(socketSettings)
+    public class AltUnityDragObject : AltUnityCommandReturningAltElement
     {
-        this.position = position;
-        this.altUnityObject = altUnityObject;
-    }
-    public AltUnityObject Execute()
-    {
-        var positionJson = PositionToJson(position);
-        var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
+        AltUnityVector2 position;
+        AltUnityObject altUnityObject;
+        public AltUnityDragObject(SocketSettings socketSettings, AltUnityVector2 position, AltUnityObject altUnityObject) : base(socketSettings)
+        {
+            this.position = position;
+            this.altUnityObject = altUnityObject;
+        }
+        public AltUnityObject Execute()
+        {
+            var positionJson = PositionToJson(position);
+            var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
 
-        SendCommand("dragObject", positionJson, altObject);
-        return ReceiveAltUnityObject();
+            SendCommand("dragObject", positionJson, altObject);
+            return ReceiveAltUnityObject();
+        }
     }
 }

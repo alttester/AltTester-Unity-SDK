@@ -1,3 +1,4 @@
+using Altom.AltUnityDriver;
 using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands

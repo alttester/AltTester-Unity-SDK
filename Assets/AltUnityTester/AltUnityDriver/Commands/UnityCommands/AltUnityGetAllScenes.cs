@@ -1,14 +1,17 @@
-public class AltUnityGetAllScenes : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    public AltUnityGetAllScenes(SocketSettings socketSettings) : base(socketSettings)
+    public class AltUnityGetAllScenes : AltBaseCommand
     {
-    }
-    public System.Collections.Generic.List<string> Execute()
-    {
-        SendCommand("getAllScenes");
-        string data = Recvall();
-        if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<string>>(data);
-        HandleErrors(data);
-        return null;
+        public AltUnityGetAllScenes(SocketSettings socketSettings) : base(socketSettings)
+        {
+        }
+        public System.Collections.Generic.List<string> Execute()
+        {
+            SendCommand("getAllScenes");
+            string data = Recvall();
+            if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<string>>(data);
+            HandleErrors(data);
+            return null;
+        }
     }
 }

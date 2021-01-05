@@ -1,7 +1,6 @@
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
-
-namespace Assets.AltUnityTester.AltUnityDriver.Commands.InputActions
+namespace Altom.AltUnityDriver.Commands
 {
+
     public class AltUnityMultipointSwipe : AltBaseCommand
     {
         AltUnityVector2[] positions;

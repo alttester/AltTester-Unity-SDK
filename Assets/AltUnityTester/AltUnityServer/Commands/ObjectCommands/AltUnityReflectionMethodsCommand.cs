@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using Assets.AltUnityTester.AltUnityServer.Commands;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer
 {
@@ -24,14 +25,14 @@ namespace Assets.AltUnityTester.AltUnityServer
 
                     var assembly = System.Reflection.Assembly.Load(assemblyName);
                     if (assembly == null)
-                        throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
+                        throw new ComponentNotFoundException("Component not found");
                     type = assembly.GetType(typeName);
                     if (type == null)
-                        throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException("Component not found");
+                        throw new ComponentNotFoundException("Component not found");
                     return type;
                 }
 
-                throw new AltUnityDriver.ComponentNotFoundException("Component not found");
+                throw new ComponentNotFoundException("Component not found");
             }
             else
             {
@@ -39,12 +40,12 @@ namespace Assets.AltUnityTester.AltUnityServer
                 {
                     var assembly = System.Reflection.Assembly.Load(assemblyName);
                     if (assembly.GetType(typeName) == null)
-                        throw new AltUnityDriver.ComponentNotFoundException("Component not found");
+                        throw new ComponentNotFoundException("Component not found");
                     return assembly.GetType(typeName);
                 }
                 catch (System.IO.FileNotFoundException)
                 {
-                    throw new Assets.AltUnityTester.AltUnityDriver.AssemblyNotFoundException("Assembly not found");
+                    throw new AssemblyNotFoundException("Assembly not found");
                 }
             }
         }
@@ -59,7 +60,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                 return propertyInfo;
             if (fieldInfo != null)
                 return fieldInfo;
-            throw new AltUnityDriver.PropertyNotFoundException("Property " + propertyName + " not found");
+            throw new PropertyNotFoundException("Property " + propertyName + " not found");
         }
 
         protected System.Reflection.MethodInfo[] GetMethodInfoWithSpecificName(System.Type componentType, string altActionMethod)
@@ -68,7 +69,7 @@ namespace Assets.AltUnityTester.AltUnityServer
 
             if (methodInfos.Length == 0)
             {
-                throw new Assets.AltUnityTester.AltUnityDriver.MethodNotFoundException("Method not found");
+                throw new MethodNotFoundException("Method not found");
             }
             return methodInfos;
         }
@@ -95,7 +96,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             var errorMessage = "No method found with " + parameters.Length + " parameters matching signature: " +
                 altUnityObjectAction.Method + "(" + altUnityObjectAction.TypeOfParameters + ")";
 
-            throw new Assets.AltUnityTester.AltUnityDriver.MethodWithGivenParametersNotFoundException(errorMessage);
+            throw new MethodWithGivenParametersNotFoundException(errorMessage);
         }
         protected string InvokeMethod(System.Reflection.MethodInfo methodInfo, AltUnityObjectAction altAction, object component)
         {
@@ -130,7 +131,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                 }
                 catch (Newtonsoft.Json.JsonException)
                 {
-                    throw new Assets.AltUnityTester.AltUnityDriver.FailedToParseArgumentsException();
+                    throw new FailedToParseArgumentsException();
                 }
             }
 
@@ -145,7 +146,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
             {
-                throw new AltUnityDriver.ComponentNotFoundException("Component " + componentType.Name + " not found");
+                throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
             }
             object value = GetValue(instance, memberInfo, index);
 
@@ -187,7 +188,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                         i++;
                     }
                 }
-                throw new AltUnityDriver.AltUnityException(AltUnityErrors.errorIndexOutOfRange);
+                throw new AltUnityException(AltUnityErrors.errorIndexOutOfRange);
 
             }
         }
@@ -215,7 +216,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
             {
-                throw new AltUnityDriver.ComponentNotFoundException("Component " + componentType.Name + " not found");
+                throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
             }
             if (fieldArray.Length > 1)
             {
@@ -268,7 +269,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             {
                 var type = Type.GetType(parameterTypes[i]);
                 if (type == null)
-                    throw new Assets.AltUnityTester.AltUnityDriver.InvalidParameterTypeException("Parameter type " + parameterTypes[i] + " not found.");
+                    throw new InvalidParameterTypeException("Parameter type " + parameterTypes[i] + " not found.");
                 types[i] = type;
             }
             return types;

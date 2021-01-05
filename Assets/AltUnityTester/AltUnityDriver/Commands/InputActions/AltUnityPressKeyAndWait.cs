@@ -1,26 +1,29 @@
-public class AltUnityPressKeyAndWait : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityKeyCode keyCode;
-    float power;
-    float duration;
-    public AltUnityPressKeyAndWait(SocketSettings socketSettings, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityKeyCode keyCode, float power, float duration) : base(socketSettings)
+    public class AltUnityPressKeyAndWait : AltBaseCommand
     {
-        this.keyCode = keyCode;
-        this.power = power;
-        this.duration = duration;
-    }
-    public void Execute()
-    {
-        new AltUnityPressKey(SocketSettings, keyCode, power, duration).Execute();
-        System.Threading.Thread.Sleep((int)duration * 1000);
-        string data;
-        do
+        AltUnityKeyCode keyCode;
+        float power;
+        float duration;
+        public AltUnityPressKeyAndWait(SocketSettings socketSettings, AltUnityKeyCode keyCode, float power, float duration) : base(socketSettings)
         {
-            SendCommand("actionFinished");
-            data = Recvall();
-        } while (data == "No");
-        if (data.Equals("Yes"))
-            return;
-        HandleErrors(data);
+            this.keyCode = keyCode;
+            this.power = power;
+            this.duration = duration;
+        }
+        public void Execute()
+        {
+            new AltUnityPressKey(SocketSettings, keyCode, power, duration).Execute();
+            System.Threading.Thread.Sleep((int)duration * 1000);
+            string data;
+            do
+            {
+                SendCommand("actionFinished");
+                data = Recvall();
+            } while (data == "No");
+            if (data.Equals("Yes"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

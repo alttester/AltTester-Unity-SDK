@@ -1,4 +1,4 @@
-using Assets.AltUnityTester.AltUnityDriver.AltSocket;
+using Altom.AltUnityDriver.AltSocket;
 
 namespace Assets.AltUnityTester.AltUnityServer.AltSocket
 {

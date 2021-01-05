@@ -1,11 +1,14 @@
-﻿public struct AltUnityComponent
+﻿namespace Altom.AltUnityDriver
 {
-    public string componentName;
-    public string assemblyName;
-
-    public AltUnityComponent(string componentName, string assemblyName)
+    public struct AltUnityComponent
     {
-        this.componentName = componentName;
-        this.assemblyName = assemblyName;
+        public string componentName;
+        public string assemblyName;
+
+        public AltUnityComponent(string componentName, string assemblyName)
+        {
+            this.componentName = componentName;
+            this.assemblyName = assemblyName;
+        }
     }
 }

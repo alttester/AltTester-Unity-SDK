@@ -1,19 +1,22 @@
-public class AltUnityTapScreen : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    float x;
-    float y;
-    public AltUnityTapScreen(SocketSettings socketSettings, float x, float y) : base(socketSettings)
+    public class AltUnityTapScreen : AltBaseCommand
     {
-        this.x = x;
-        this.y = y;
-    }
-    public AltUnityObject Execute()
-    {
-        SendCommand("tapScreen", x.ToString(), y.ToString());
-        string data = Recvall();
-        if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-        if (data.Contains("error:notFound")) return null;
-        HandleErrors(data);
-        return null;
+        float x;
+        float y;
+        public AltUnityTapScreen(SocketSettings socketSettings, float x, float y) : base(socketSettings)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public AltUnityObject Execute()
+        {
+            SendCommand("tapScreen", x.ToString(), y.ToString());
+            string data = Recvall();
+            if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
+            if (data.Contains("error:notFound")) return null;
+            HandleErrors(data);
+            return null;
+        }
     }
 }

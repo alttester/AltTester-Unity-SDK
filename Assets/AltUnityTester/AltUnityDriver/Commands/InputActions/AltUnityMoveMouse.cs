@@ -1,21 +1,22 @@
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
-
-public class AltUnityMoveMouse : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    AltUnityVector2 location;
-    float duration;
-    public AltUnityMoveMouse(SocketSettings socketSettings, AltUnityVector2 location, float duration) : base(socketSettings)
+    public class AltUnityMoveMouse : AltBaseCommand
     {
-        this.location = location;
-        this.duration = duration;
-    }
-    public void Execute()
-    {
-        var locationJson = PositionToJson(location);
-        SendCommand("moveMouse", locationJson, duration.ToString());
-        var data = Recvall();
-        if (data.Equals("Ok"))
-            return;
-        HandleErrors(data);
+        AltUnityVector2 location;
+        float duration;
+        public AltUnityMoveMouse(SocketSettings socketSettings, AltUnityVector2 location, float duration) : base(socketSettings)
+        {
+            this.location = location;
+            this.duration = duration;
+        }
+        public void Execute()
+        {
+            var locationJson = PositionToJson(location);
+            SendCommand("moveMouse", locationJson, duration.ToString());
+            var data = Recvall();
+            if (data.Equals("Ok"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

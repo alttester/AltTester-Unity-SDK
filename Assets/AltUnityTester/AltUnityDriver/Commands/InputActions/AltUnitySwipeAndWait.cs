@@ -1,28 +1,29 @@
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
-
-public class AltUnitySwipeAndWait : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    AltUnityVector2 start;
-    AltUnityVector2 end;
-    float duration;
-    public AltUnitySwipeAndWait(SocketSettings socketSettings, AltUnityVector2 start, AltUnityVector2 end, float duration) : base(socketSettings)
+    public class AltUnitySwipeAndWait : AltBaseCommand
     {
-        this.start = start;
-        this.end = end;
-        this.duration = duration;
-    }
-    public void Execute()
-    {
-        new AltUnitySwipe(SocketSettings, start, end, duration).Execute();
-        System.Threading.Thread.Sleep((int)(duration * 1000));
-        string data;
-        do
+        AltUnityVector2 start;
+        AltUnityVector2 end;
+        float duration;
+        public AltUnitySwipeAndWait(SocketSettings socketSettings, AltUnityVector2 start, AltUnityVector2 end, float duration) : base(socketSettings)
         {
-            SendCommand("actionFinished");
-            data = Recvall();
-        } while (data == "No");
-        if (data.Equals("Yes"))
-            return;
-        HandleErrors(data);
+            this.start = start;
+            this.end = end;
+            this.duration = duration;
+        }
+        public void Execute()
+        {
+            new AltUnitySwipe(SocketSettings, start, end, duration).Execute();
+            System.Threading.Thread.Sleep((int)(duration * 1000));
+            string data;
+            do
+            {
+                SendCommand("actionFinished");
+                data = Recvall();
+            } while (data == "No");
+            if (data.Equals("Yes"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

@@ -1,18 +1,21 @@
-public class AltUnityTap : AltUnityCommandReturningAltElement
+namespace Altom.AltUnityDriver.Commands
 {
-    AltUnityObject altUnityObject;
-    int count;
-
-    public AltUnityTap(SocketSettings socketSettings, AltUnityObject altUnityObject, int count) : base(socketSettings)
+    public class AltUnityTap : AltUnityCommandReturningAltElement
     {
-        this.altUnityObject = altUnityObject;
-        this.count = count;
-    }
+        AltUnityObject altUnityObject;
+        int count;
 
-    public AltUnityObject Execute()
-    {
-        var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-        SendCommand("tapObject", altObject, count.ToString());
-        return ReceiveAltUnityObject();
+        public AltUnityTap(SocketSettings socketSettings, AltUnityObject altUnityObject, int count) : base(socketSettings)
+        {
+            this.altUnityObject = altUnityObject;
+            this.count = count;
+        }
+
+        public AltUnityObject Execute()
+        {
+            var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
+            SendCommand("tapObject", altObject, count.ToString());
+            return ReceiveAltUnityObject();
+        }
     }
 }

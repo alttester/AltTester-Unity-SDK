@@ -1,14 +1,17 @@
-public class AltUnityEnableLogging : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    public AltUnityEnableLogging(SocketSettings socketSettings) : base(socketSettings)
+    public class AltUnityEnableLogging : AltBaseCommand
     {
-    }
-    public void Execute()
-    {
-        SendCommand("enableLogging", SocketSettings.LogFlag.ToString());
-        var data = Recvall();
-        if (data.Equals("Ok"))
-            return;
-        HandleErrors(data);
+        public AltUnityEnableLogging(SocketSettings socketSettings) : base(socketSettings)
+        {
+        }
+        public void Execute()
+        {
+            SendCommand("enableLogging", SocketSettings.LogFlag.ToString());
+            var data = Recvall();
+            if (data.Equals("Ok"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

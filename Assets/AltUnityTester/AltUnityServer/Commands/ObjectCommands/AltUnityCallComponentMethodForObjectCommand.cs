@@ -1,4 +1,7 @@
 
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
+
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityCallComponentMethodForObjectCommand : AltUnityReflectionMethodsCommand
@@ -34,7 +37,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             UnityEngine.Component component = gameObject.GetComponent(componentType);
             if (component == null)
-                throw new Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException();
+                throw new ComponentNotFoundException();
 
             return InvokeMethod(methodInfoToBeInvoked, altAction, component);
         }

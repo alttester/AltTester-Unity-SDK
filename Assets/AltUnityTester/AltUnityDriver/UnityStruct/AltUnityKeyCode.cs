@@ -1,5 +1,4 @@
-
-namespace Assets.AltUnityTester.AltUnityDriver.UnityStruct
+namespace Altom.AltUnityDriver
 {
     public enum AltUnityKeyCode
     {

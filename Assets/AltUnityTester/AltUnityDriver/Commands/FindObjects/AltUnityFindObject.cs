@@ -1,31 +1,34 @@
-public class AltUnityFindObject : AltUnityBaseFindObjects
+namespace Altom.AltUnityDriver.Commands
 {
-    By by;
-    string value;
-    By cameraBy;
-    string cameraPath;
-    bool enabled;
+    public class AltUnityFindObject : AltUnityBaseFindObjects
+    {
+        By by;
+        string value;
+        By cameraBy;
+        string cameraPath;
+        bool enabled;
 
-    public AltUnityFindObject(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
-    {
-        this.by = by;
-        this.value = value;
-        this.cameraBy = cameraBy;
-        this.cameraPath = cameraPath;
-        this.enabled = enabled;
-    }
-    public AltUnityObject Execute()
-    {
-        cameraPath = SetPath(cameraBy, cameraPath);
-        if (enabled && by == By.NAME)
+        public AltUnityFindObject(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
         {
-            SendCommand("findActiveObjectByName", value, cameraBy.ToString(), cameraPath, enabled.ToString());
+            this.by = by;
+            this.value = value;
+            this.cameraBy = cameraBy;
+            this.cameraPath = cameraPath;
+            this.enabled = enabled;
         }
-        else
+        public AltUnityObject Execute()
         {
-            string path = SetPath(by, value);
-            SendCommand("findObject", path, cameraBy.ToString(), cameraPath, enabled.ToString());
+            cameraPath = SetPath(cameraBy, cameraPath);
+            if (enabled && by == By.NAME)
+            {
+                SendCommand("findActiveObjectByName", value, cameraBy.ToString(), cameraPath, enabled.ToString());
+            }
+            else
+            {
+                string path = SetPath(by, value);
+                SendCommand("findObject", path, cameraBy.ToString(), cameraPath, enabled.ToString());
+            }
+            return ReceiveAltUnityObject();
         }
-        return ReceiveAltUnityObject();
     }
 }

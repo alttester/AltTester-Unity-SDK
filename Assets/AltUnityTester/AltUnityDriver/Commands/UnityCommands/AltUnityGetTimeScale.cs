@@ -1,15 +1,18 @@
-public class AltUnityGetTimeScale : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    public AltUnityGetTimeScale(SocketSettings socketSettings) : base(socketSettings)
+    public class AltUnityGetTimeScale : AltBaseCommand
     {
-    }
-    public float Execute()
-    {
-        SendCommand("getTimeScale");
-        var data = Recvall();
-        if (!data.Contains("error"))
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<float>(data);
-        HandleErrors(data);
-        return -1f;
+        public AltUnityGetTimeScale(SocketSettings socketSettings) : base(socketSettings)
+        {
+        }
+        public float Execute()
+        {
+            SendCommand("getTimeScale");
+            var data = Recvall();
+            if (!data.Contains("error"))
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<float>(data);
+            HandleErrors(data);
+            return -1f;
+        }
     }
 }

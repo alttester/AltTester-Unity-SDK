@@ -1,7 +1,9 @@
-public enum AltUnityPropertiesSelections
+namespace Altom.AltUnityDriver
 {
-    CLASSPROPERTIES,
-    INHERITEDPROPERTIES,
-    ALLPROPERTIES
+    public enum AltUnityPropertiesSelections
+    {
+        CLASSPROPERTIES,
+        INHERITEDPROPERTIES,
+        ALLPROPERTIES
+    }
 }
-

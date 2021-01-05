@@ -1,20 +1,22 @@
-
-public class AltUnityGetPNGScreenshot : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    string path;
-    public AltUnityGetPNGScreenshot(SocketSettings socketSettings, string path) : base(socketSettings)
+    public class AltUnityGetPNGScreenshot : AltBaseCommand
     {
-        this.path = path;
-    }
-    public void Execute()
-    {
-        SendCommand("getPNGScreenshot");
-        var message = Recvall();
-        string screenshotData = "";
-        if (message == "Ok")
+        string path;
+        public AltUnityGetPNGScreenshot(SocketSettings socketSettings, string path) : base(socketSettings)
         {
-            screenshotData = Recvall();
+            this.path = path;
         }
-        System.IO.File.WriteAllBytes(path, System.Convert.FromBase64String(screenshotData));
+        public void Execute()
+        {
+            SendCommand("getPNGScreenshot");
+            var message = Recvall();
+            string screenshotData = "";
+            if (message == "Ok")
+            {
+                screenshotData = Recvall();
+            }
+            System.IO.File.WriteAllBytes(path, System.Convert.FromBase64String(screenshotData));
+        }
     }
 }

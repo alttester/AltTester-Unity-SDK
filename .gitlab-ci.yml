@@ -89,7 +89,7 @@ build-apk:
 #         - sampleGame/
 #         - buildIos.log
 
-run-csharp-android-tests:
+run-csharp-unity-android-tests:
   stage: test
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
@@ -109,6 +109,26 @@ run-csharp-android-tests:
     expire_in: 10 days
     paths:
       - csharpAndroidTests.log
+      - AltUnityTesterLog.txt
+  needs: ["build-apk"]
+
+run-csharp-dotnet-android-tests:
+  stage: test
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - when: always
+  tags:
+    - android
+  script:
+    - *reinstall_and_start_android_app
+    - dotnet test Bindings~/dotnet/AltUnityDriver.Tests/AltUnityDriver.Tests.csproj
+  after_script:
+    - adb forward --remove-all
+  artifacts:
+    when: always
+    expire_in: 10 days
+    paths:
       - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
@@ -286,6 +306,23 @@ deploy-altunitytester-python:
   script:
     - cd "Bindings~/python"
     - python setup.py sdist upload -r pypi
+
+deploy-altunitydriver-dotnet:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - when: never
+  tags:
+    - unity
+    - mac
+    - android
+  script:
+    - cd "Bindings~/dotnet"
+    - dotnet pack AltUnityDriver/AltUnityDriver.csproj -c release
+    - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.6.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
 docs:
   stage: docs

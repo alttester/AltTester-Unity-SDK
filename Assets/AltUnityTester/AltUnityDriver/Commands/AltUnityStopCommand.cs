@@ -1,19 +1,22 @@
-public class AltUnityStopCommand : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    public AltUnityStopCommand(SocketSettings socketSettings) : base(socketSettings)
+    public class AltUnityStopCommand : AltBaseCommand
     {
-    }
-    public void Execute()
-    {
-        try
+        public AltUnityStopCommand(SocketSettings socketSettings) : base(socketSettings)
         {
-            SendCommand("closeConnection");
-            System.Threading.Thread.Sleep(1000);
-            SocketSettings.Socket.Close();
         }
-        catch (System.Exception exception)
+        public void Execute()
         {
-            System.Console.WriteLine(exception.Message);
+            try
+            {
+                SendCommand("closeConnection");
+                System.Threading.Thread.Sleep(1000);
+                SocketSettings.Socket.Close();
+            }
+            catch (System.Exception exception)
+            {
+                System.Console.WriteLine(exception.Message);
+            }
         }
     }
 }

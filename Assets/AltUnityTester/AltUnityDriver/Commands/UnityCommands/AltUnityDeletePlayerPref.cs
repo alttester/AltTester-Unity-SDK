@@ -1,14 +1,17 @@
-public class AltUnityDeletePlayerPref : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    public AltUnityDeletePlayerPref(SocketSettings socketSettings) : base(socketSettings)
+    public class AltUnityDeletePlayerPref : AltBaseCommand
     {
-    }
-    public void Execute()
-    {
-        SendCommand("deletePlayerPref");
-        var data = Recvall();
-        if (data.Equals("Ok"))
-            return;
-        HandleErrors(data);
+        public AltUnityDeletePlayerPref(SocketSettings socketSettings) : base(socketSettings)
+        {
+        }
+        public void Execute()
+        {
+            SendCommand("deletePlayerPref");
+            var data = Recvall();
+            if (data.Equals("Ok"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

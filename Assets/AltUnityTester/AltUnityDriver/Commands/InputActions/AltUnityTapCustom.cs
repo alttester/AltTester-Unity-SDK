@@ -1,22 +1,25 @@
-public class AltUnityTapCustom : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    float x;
-    float y;
-    int count;
-    float interval;
-    public AltUnityTapCustom(SocketSettings socketSettings, float x, float y, int count, float interval) : base(socketSettings)
+    public class AltUnityTapCustom : AltBaseCommand
     {
-        this.x = x;
-        this.y = y;
-        this.count = count;
-        this.interval = interval;
-    }
-    public void Execute()
-    {
-        var posJson = PositionToJson(x, y);
-        SendCommand("tapCustom", posJson, count.ToString(), interval.ToString());
-        string data = Recvall();
-        if (data.Equals("OK")) return;
-        HandleErrors(data);
+        float x;
+        float y;
+        int count;
+        float interval;
+        public AltUnityTapCustom(SocketSettings socketSettings, float x, float y, int count, float interval) : base(socketSettings)
+        {
+            this.x = x;
+            this.y = y;
+            this.count = count;
+            this.interval = interval;
+        }
+        public void Execute()
+        {
+            var posJson = PositionToJson(x, y);
+            SendCommand("tapCustom", posJson, count.ToString(), interval.ToString());
+            string data = Recvall();
+            if (data.Equals("OK")) return;
+            HandleErrors(data);
+        }
     }
 }

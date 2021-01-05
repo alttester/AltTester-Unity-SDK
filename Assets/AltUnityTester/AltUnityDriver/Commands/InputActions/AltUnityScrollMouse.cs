@@ -1,18 +1,21 @@
-public class AltUnityScrollMouse : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    float speed;
-    float duration;
-    public AltUnityScrollMouse(SocketSettings socketSettings, float speed, float duration) : base(socketSettings)
+    public class AltUnityScrollMouse : AltBaseCommand
     {
-        this.speed = speed;
-        this.duration = duration;
-    }
-    public void Execute()
-    {
-        SendCommand("scrollMouse", speed.ToString(), duration.ToString());
-        var data = Recvall();
-        if (data.Equals("Ok"))
-            return;
-        HandleErrors(data);
+        float speed;
+        float duration;
+        public AltUnityScrollMouse(SocketSettings socketSettings, float speed, float duration) : base(socketSettings)
+        {
+            this.speed = speed;
+            this.duration = duration;
+        }
+        public void Execute()
+        {
+            SendCommand("scrollMouse", speed.ToString(), duration.ToString());
+            var data = Recvall();
+            if (data.Equals("Ok"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

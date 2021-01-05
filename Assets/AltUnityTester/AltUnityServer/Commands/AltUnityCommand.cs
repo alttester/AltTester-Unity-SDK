@@ -1,4 +1,4 @@
-using Assets.AltUnityTester.AltUnityDriver;
+using Altom.AltUnityDriver;
 using Assets.AltUnityTester.AltUnityServer.AltSocket;
 
 
@@ -54,17 +54,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorNullRefferenceMessage;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.FailedToParseArgumentsException e)
+                catch (FailedToParseArgumentsException e)
                 {
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorFailedToParseArguments;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.MethodWithGivenParametersNotFoundException e)
+                catch (MethodWithGivenParametersNotFoundException e)
                 {
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorMethodWithGivenParametersNotFound;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.InvalidParameterTypeException e)
+                catch (InvalidParameterTypeException e)
                 {
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorInvalidParameterType;
@@ -74,22 +74,22 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorCouldNotParseJsonString;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException e)
+                catch (ComponentNotFoundException e)
                 {
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorComponentNotFoundMessage;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.MethodNotFoundException e)
+                catch (MethodNotFoundException e)
                 {
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorMethodNotFoundMessage;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException e)
+                catch (PropertyNotFoundException e)
                 {
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorPropertyNotFoundMessage;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.AssemblyNotFoundException e)
+                catch (AssemblyNotFoundException e)
                 {
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorAssemblyNotFoundMessage;
