@@ -1,5 +1,5 @@
 ﻿
-namespace Assets.AltUnityTester.AltUnityDriver
+namespace Altom.AltUnityDriver
 {
     public class AltUnityException : System.Exception
     {

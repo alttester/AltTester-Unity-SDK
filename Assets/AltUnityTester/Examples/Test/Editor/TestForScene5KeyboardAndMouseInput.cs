@@ -1,4 +1,4 @@
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+using Altom.AltUnityDriver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -31,13 +31,13 @@ public class TestForScene5KeyboardAndMouseInput
 
 
         var cube = AltUnityDriver.FindObject(By.NAME, "Player1");
-        UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
+        AltUnityVector3 cubeInitialPostion = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
         AltUnityDriver.PressKey(AltUnityKeyCode.K, 1, 2);
         Thread.Sleep(2000);
         AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.O, 1, 1);
 
         cube = AltUnityDriver.FindObject(By.NAME, "Player1");
-        UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
+        AltUnityVector3 cubeFinalPosition = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
 
         Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
 
@@ -52,12 +52,12 @@ public class TestForScene5KeyboardAndMouseInput
 
 
         var cube = AltUnityDriver.FindObject(By.NAME, "Player1");
-        UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
+        AltUnityVector3 cubeInitialPostion = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
 
         AltUnityDriver.PressKey(AltUnityKeyCode.W, 1, 2);
         Thread.Sleep(2000);
         cube = AltUnityDriver.FindObject(By.NAME, "Player1");
-        UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(cube.worldX, cube.worldY, cube.worldY);
+        AltUnityVector3 cubeFinalPosition = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
 
         Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
 
@@ -157,11 +157,12 @@ public class TestForScene5KeyboardAndMouseInput
 
         AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
         var player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
-        UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(player2.worldX, player2.worldY, player2.worldY);
+
+        AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
         AltUnityDriver.ScrollMouse(4, 2);
         Thread.Sleep(2000);
         player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
-        UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(player2.worldX, player2.worldY, player2.worldY);
+        AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
 
         Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
     }
@@ -171,10 +172,10 @@ public class TestForScene5KeyboardAndMouseInput
 
         AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
         var player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
-        UnityEngine.Vector3 cubeInitialPostion = new UnityEngine.Vector3(player2.worldX, player2.worldY, player2.worldY);
+        AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
         AltUnityDriver.ScrollMouseAndWait(4, 2);
         player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
-        UnityEngine.Vector3 cubeFinalPosition = new UnityEngine.Vector3(player2.worldX, player2.worldY, player2.worldY);
+        AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
 
         Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
     }

@@ -1,3 +1,4 @@
+using Altom.AltUnityDriver;
 using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
@@ -33,11 +34,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     if (!response.Contains("error:"))
                         break;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.PropertyNotFoundException)
+                catch (PropertyNotFoundException)
                 {
                     response = AltUnityErrors.errorPropertyNotFoundMessage;
                 }
-                catch (Assets.AltUnityTester.AltUnityDriver.ComponentNotFoundException)
+                catch (ComponentNotFoundException)
                 {
                     response = AltUnityErrors.errorComponentNotFoundMessage;
                 }

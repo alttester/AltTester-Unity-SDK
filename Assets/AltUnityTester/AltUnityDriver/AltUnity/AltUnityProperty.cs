@@ -1,13 +1,16 @@
-public struct AltUnityProperty
+namespace Altom.AltUnityDriver
 {
-    public string name;
-    public string value;
-    public AltUnityType type;
-
-    public AltUnityProperty(string name, string value, AltUnityType type)
+    public struct AltUnityProperty
     {
-        this.name = name;
-        this.value = value;
-        this.type = type;
+        public string name;
+        public string value;
+        public AltUnityType type;
+
+        public AltUnityProperty(string name, string value, AltUnityType type)
+        {
+            this.name = name;
+            this.value = value;
+            this.type = type;
+        }
     }
 }

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Altom.AltUnityDriver;
+
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityFindObjectsLightCommand : AltUnityBaseClassFindObjectsCommand

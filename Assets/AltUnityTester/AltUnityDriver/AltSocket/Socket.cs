@@ -1,4 +1,4 @@
-namespace Assets.AltUnityTester.AltUnityDriver.AltSocket
+namespace Altom.AltUnityDriver.AltSocket
 {
     public class Socket : ISocket
     {

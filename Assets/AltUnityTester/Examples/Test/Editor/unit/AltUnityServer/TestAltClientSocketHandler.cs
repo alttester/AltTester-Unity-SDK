@@ -1,9 +1,9 @@
 using NUnit.Framework;
 using Moq;
 
-using Assets.AltUnityTester.AltUnityServer.Commands;
 using Assets.AltUnityTester.AltUnityServer.AltSocket;
-using Assets.AltUnityTester.AltUnityDriver.AltSocket;
+using Altom.AltUnityDriver.AltSocket;
+using Assets.AltUnityTester.AltUnityServer.Commands;
 
 namespace unit.AltUnityServer
 {

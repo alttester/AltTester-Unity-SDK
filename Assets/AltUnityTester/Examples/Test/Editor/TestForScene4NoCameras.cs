@@ -1,3 +1,4 @@
+using Altom.AltUnityDriver;
 using NUnit.Framework;
 
 public class TestForScene4NoCameras
@@ -7,7 +8,7 @@ public class TestForScene4NoCameras
     [OneTimeSetUp]
     public void SetUp()
     {
-        AltUnityDriver =new AltUnityDriver(logFlag:true);
+        AltUnityDriver = new AltUnityDriver(logFlag: true);
         AltUnityDriver.LoadScene("Scene 4 No Cameras");
     }
 
@@ -19,11 +20,11 @@ public class TestForScene4NoCameras
     }
 
     [Test]
-    public void TestFindElementInASceneWithNoCameras() 
+    public void TestFindElementInASceneWithNoCameras()
     {
         Assert.AreEqual(0, AltUnityDriver.GetAllCameras().Count);
-        var altObject = AltUnityDriver.FindObject(By.NAME,"Plane");
-        Assert.AreEqual(0, altObject.worldX,"WorldX was: "+ altObject.worldX+" when it should have been 0");
+        var altObject = AltUnityDriver.FindObject(By.NAME, "Plane");
+        Assert.AreEqual(0, altObject.worldX, "WorldX was: " + altObject.worldX + " when it should have been 0");
         Assert.AreEqual(0, altObject.worldY, "WorldY was: " + altObject.worldY + " when it should have been 0");
         Assert.AreEqual(0, altObject.worldZ, "WorldZ was: " + altObject.worldZ + " when it should have been 0");
         Assert.AreEqual(-1, altObject.x);
@@ -33,10 +34,10 @@ public class TestForScene4NoCameras
     }
 
     [Test]
-    public void TestFindUIElementInASceneWithNoCameras() 
+    public void TestFindUIElementInASceneWithNoCameras()
     {
         Assert.AreEqual(0, AltUnityDriver.GetAllCameras().Count);
-        var altObjects = AltUnityDriver.FindObjects(By.PATH,"//*[contains(@name,Button)]",enabled:false);
+        var altObjects = AltUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Button)]", enabled: false);
 
         foreach (var button in altObjects)
         {

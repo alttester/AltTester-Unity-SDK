@@ -1,5 +1,4 @@
-
-namespace Assets.AltUnityTester.AltUnityDriver.UnityStruct
+namespace Altom.AltUnityDriver
 {
     public struct AltUnityVector2
     {
@@ -18,13 +17,13 @@ namespace Assets.AltUnityTester.AltUnityDriver.UnityStruct
         public float y;
         public float z;
 
-        public AltUnityVector3(float x, float y,float z)
+        public AltUnityVector3(float x, float y, float z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
         }
-        
+
         public AltUnityVector3(float x, float y) : this(x, y, 0)
         {
         }

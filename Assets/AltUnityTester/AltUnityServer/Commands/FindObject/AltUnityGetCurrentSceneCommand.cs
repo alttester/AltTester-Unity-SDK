@@ -1,3 +1,5 @@
+using Altom.AltUnityDriver;
+
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     public class AltUnityGetCurrentSceneCommand : AltUnityCommand

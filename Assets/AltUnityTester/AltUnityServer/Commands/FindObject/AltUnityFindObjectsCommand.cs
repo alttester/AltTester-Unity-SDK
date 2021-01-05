@@ -1,4 +1,6 @@
 using System.Linq;
+using Altom.AltUnityDriver;
+
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityFindObjectsCommand : AltUnityBaseClassFindObjectsCommand

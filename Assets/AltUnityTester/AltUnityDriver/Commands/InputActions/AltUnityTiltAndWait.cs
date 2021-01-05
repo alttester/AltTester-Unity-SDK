@@ -1,26 +1,27 @@
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
-
-public class AltUnityTiltAndWait : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    AltUnityVector3 acceleration;
-    float duration;
-    public AltUnityTiltAndWait(SocketSettings socketSettings, AltUnityVector3 acceleration, float duration) : base(socketSettings)
+    public class AltUnityTiltAndWait : AltBaseCommand
     {
-        this.acceleration = acceleration;
-        this.duration = duration;
-    }
-    public void Execute()
-    {
-        new AltUnityTilt(SocketSettings, acceleration, duration).Execute();
-        System.Threading.Thread.Sleep((int)duration * 1000);
-        string data;
-        do
+        AltUnityVector3 acceleration;
+        float duration;
+        public AltUnityTiltAndWait(SocketSettings socketSettings, AltUnityVector3 acceleration, float duration) : base(socketSettings)
         {
-            SendCommand("actionFinished");
-            data = Recvall();
-        } while (data == "No");
-        if (data.Equals("Yes"))
-            return;
-        HandleErrors(data);
+            this.acceleration = acceleration;
+            this.duration = duration;
+        }
+        public void Execute()
+        {
+            new AltUnityTilt(SocketSettings, acceleration, duration).Execute();
+            System.Threading.Thread.Sleep((int)duration * 1000);
+            string data;
+            do
+            {
+                SendCommand("actionFinished");
+                data = Recvall();
+            } while (data == "No");
+            if (data.Equals("Yes"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

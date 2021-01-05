@@ -1,11 +1,9 @@
-
-public enum AltUnityMethodSelection
+namespace Altom.AltUnityDriver
 {
-    CLASSMETHODS,
-    INHERITEDMETHODS,
-    ALLMETHODS
-
+    public enum AltUnityMethodSelection
+    {
+        CLASSMETHODS,
+        INHERITEDMETHODS,
+        ALLMETHODS
+    }
 }
-
-
-

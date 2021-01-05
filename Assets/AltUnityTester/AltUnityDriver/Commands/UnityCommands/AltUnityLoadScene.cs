@@ -1,22 +1,25 @@
-public class AltUnityLoadScene : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    string sceneName;
-    bool loadSingle;
-    public AltUnityLoadScene(SocketSettings socketSettings, string sceneName, bool loadSingle) : base(socketSettings)
+    public class AltUnityLoadScene : AltBaseCommand
     {
-        this.sceneName = sceneName;
-        this.loadSingle = loadSingle;
-    }
-    public void Execute()
-    {
-        SendCommand("loadScene", sceneName, loadSingle.ToString());
-        var data = Recvall();
-        if (data.Equals("Ok"))
+        string sceneName;
+        bool loadSingle;
+        public AltUnityLoadScene(SocketSettings socketSettings, string sceneName, bool loadSingle) : base(socketSettings)
         {
-            data = Recvall();
-            if (data.Equals("Scene Loaded"))
-                return;
+            this.sceneName = sceneName;
+            this.loadSingle = loadSingle;
         }
-        HandleErrors(data);
+        public void Execute()
+        {
+            SendCommand("loadScene", sceneName, loadSingle.ToString());
+            var data = Recvall();
+            if (data.Equals("Ok"))
+            {
+                data = Recvall();
+                if (data.Equals("Scene Loaded"))
+                    return;
+            }
+            HandleErrors(data);
+        }
     }
 }

@@ -1,10 +1,10 @@
 using NUnit.Framework;
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
 using System.Threading;
 using System.Linq;
 using System.Diagnostics;
+using Altom.AltUnityDriver;
 
-[Timeout(5000)]
+[Timeout(10000)]
 public class TestForScene2DraggablePanel
 {
     private AltUnityDriver altUnityDriver;

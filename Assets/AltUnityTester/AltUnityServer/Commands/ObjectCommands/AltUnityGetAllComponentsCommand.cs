@@ -1,4 +1,6 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+﻿using Altom.AltUnityDriver;
+
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityGetAllComponentsCommand : AltUnityCommand
     {

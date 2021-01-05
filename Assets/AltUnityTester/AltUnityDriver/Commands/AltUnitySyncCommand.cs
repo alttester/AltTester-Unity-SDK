@@ -1,22 +1,23 @@
-using Assets.AltUnityTester.AltUnityDriver;
-
-public class AltUnitySyncCommand : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    public AltUnitySyncCommand(SocketSettings socketSettings) : base(socketSettings)
+    public class AltUnitySyncCommand : AltBaseCommand
     {
-    }
-    public void Execute()
-    {
-        SendCommand("getServerVersion");
-        while (true)
+        public AltUnitySyncCommand(SocketSettings socketSettings) : base(socketSettings)
         {
-            try
+        }
+        public void Execute()
+        {
+            SendCommand("getServerVersion");
+            while (true)
             {
-                Recvall();
-                break;
-            }
-            catch (AltUnityRecvallMessageIdException)
-            {
+                try
+                {
+                    Recvall();
+                    break;
+                }
+                catch (AltUnityRecvallMessageIdException)
+                {
+                }
             }
         }
     }

@@ -1,20 +1,23 @@
-public class AltUnityPressKey : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityKeyCode keyCode;
-    float power;
-    float duration;
-    public AltUnityPressKey(SocketSettings socketSettings, Assets.AltUnityTester.AltUnityDriver.UnityStruct.AltUnityKeyCode keyCode, float power, float duration) : base(socketSettings)
+    public class AltUnityPressKey : AltBaseCommand
     {
-        this.keyCode = keyCode;
-        this.power = power;
-        this.duration = duration;
-    }
-    public void Execute()
-    {
-        SendCommand("pressKeyboardKey", keyCode.ToString(), power.ToString(), duration.ToString());
-        var data = Recvall();
-        if (data.Equals("Ok"))
-            return;
-        HandleErrors(data);
+        AltUnityKeyCode keyCode;
+        float power;
+        float duration;
+        public AltUnityPressKey(SocketSettings socketSettings, AltUnityKeyCode keyCode, float power, float duration) : base(socketSettings)
+        {
+            this.keyCode = keyCode;
+            this.power = power;
+            this.duration = duration;
+        }
+        public void Execute()
+        {
+            SendCommand("pressKeyboardKey", keyCode.ToString(), power.ToString(), duration.ToString());
+            var data = Recvall();
+            if (data.Equals("Ok"))
+                return;
+            HandleErrors(data);
+        }
     }
 }

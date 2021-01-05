@@ -1,6 +1,9 @@
-﻿public enum AltUnityType
+﻿namespace Altom.AltUnityDriver
 {
-    PRIMITIVE,
-    OBJECT,
-    ARRAY
+    public enum AltUnityType
+    {
+        PRIMITIVE,
+        OBJECT,
+        ARRAY
+    }
 }

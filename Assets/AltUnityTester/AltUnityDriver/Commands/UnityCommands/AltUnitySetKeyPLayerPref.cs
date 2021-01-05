@@ -1,67 +1,69 @@
-public class AltUnitySetKeyPLayerPref : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    string keyName;
-    int intValue;
-    float floatValue;
-    string stringValue;
-    int option = 0;
-    public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, int intValue) : base(socketSettings)
+    public class AltUnitySetKeyPLayerPref : AltBaseCommand
     {
-        this.keyName = keyName;
-        this.intValue = intValue;
-        option = 1;
-    }
-    public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, float floatValue) : base(socketSettings)
-    {
-        this.keyName = keyName;
-        this.floatValue = floatValue;
-        option = 2;
-    }
-    public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, string stringValue) : base(socketSettings)
-    {
-        this.keyName = keyName;
-        this.stringValue = stringValue;
-        option = 3;
-    }
-    public void Execute()
-    {
-        switch (option)
+        string keyName;
+        int intValue;
+        float floatValue;
+        string stringValue;
+        int option = 0;
+        public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, int intValue) : base(socketSettings)
         {
-            case 1:
-                SetIntKey();
-                break;
-            case 2:
-                SetFloatKey();
-                break;
-            case 3:
-                SetStringKey();
-                break;
+            this.keyName = keyName;
+            this.intValue = intValue;
+            option = 1;
+        }
+        public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, float floatValue) : base(socketSettings)
+        {
+            this.keyName = keyName;
+            this.floatValue = floatValue;
+            option = 2;
+        }
+        public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, string stringValue) : base(socketSettings)
+        {
+            this.keyName = keyName;
+            this.stringValue = stringValue;
+            option = 3;
+        }
+        public void Execute()
+        {
+            switch (option)
+            {
+                case 1:
+                    SetIntKey();
+                    break;
+                case 2:
+                    SetFloatKey();
+                    break;
+                case 3:
+                    SetStringKey();
+                    break;
+            }
+        }
+        private void SetStringKey()
+        {
+            SendCommand("setKeyPlayerPref", keyName, stringValue.ToString(), PLayerPrefKeyType.String.ToString());
+            var data = Recvall();
+            if (data.Equals("Ok"))
+                return;
+            HandleErrors(data);
+        }
+        private void SetIntKey()
+        {
+            SendCommand("setKeyPlayerPref", keyName, intValue.ToString(), PLayerPrefKeyType.Int.ToString());
+            var data = Recvall();
+            if (data.Equals("Ok"))
+                return;
+
+            HandleErrors(data);
+        }
+        private void SetFloatKey()
+        {
+            SendCommand("setKeyPlayerPref", keyName, floatValue.ToString(), PLayerPrefKeyType.Float.ToString());
+            var data = Recvall();
+            if (data.Equals("Ok"))
+                return;
+            HandleErrors(data);
         }
     }
-    private void SetStringKey()
-    {
-        SendCommand("setKeyPlayerPref", keyName, stringValue.ToString(), PLayerPrefKeyType.String.ToString());
-        var data = Recvall();
-        if (data.Equals("Ok"))
-            return;
-        HandleErrors(data);
-    }
-    private void SetIntKey()
-    {
-        SendCommand("setKeyPlayerPref", keyName, intValue.ToString(), PLayerPrefKeyType.Int.ToString());
-        var data = Recvall();
-        if (data.Equals("Ok"))
-            return;
-
-        HandleErrors(data);
-    }
-    private void SetFloatKey()
-    {
-        SendCommand("setKeyPlayerPref", keyName, floatValue.ToString(), PLayerPrefKeyType.Float.ToString());
-        var data = Recvall();
-        if (data.Equals("Ok"))
-            return;
-        HandleErrors(data);
-    }
-
 }

@@ -1,26 +1,29 @@
-public class AltUnityGetComponentProperty : AltBaseCommand
+namespace Altom.AltUnityDriver.Commands
 {
-    string componentName;
-    string propertyName;
-    string assemblyName;
-    AltUnityObject altUnityObject;
-    int maxDepth;
-    public AltUnityGetComponentProperty(SocketSettings socketSettings, string componentName, string propertyName, string assemblyName, int maxDepth, AltUnityObject altUnityObject) : base(socketSettings)
+    public class AltUnityGetComponentProperty : AltBaseCommand
     {
-        this.componentName = componentName;
-        this.propertyName = propertyName;
-        this.assemblyName = assemblyName;
-        this.altUnityObject = altUnityObject;
-        this.maxDepth = maxDepth;
-    }
-    public string Execute()
-    {
-        string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-        string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName, assemblyName));
-        SendCommand("getObjectComponentProperty", altObject, propertyInfo, maxDepth.ToString());
-        string data = Recvall();
-        if (!data.Contains("error:")) return data;
-        HandleErrors(data);
-        return null;
+        string componentName;
+        string propertyName;
+        string assemblyName;
+        AltUnityObject altUnityObject;
+        int maxDepth;
+        public AltUnityGetComponentProperty(SocketSettings socketSettings, string componentName, string propertyName, string assemblyName, int maxDepth, AltUnityObject altUnityObject) : base(socketSettings)
+        {
+            this.componentName = componentName;
+            this.propertyName = propertyName;
+            this.assemblyName = assemblyName;
+            this.altUnityObject = altUnityObject;
+            this.maxDepth = maxDepth;
+        }
+        public string Execute()
+        {
+            string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
+            string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName, assemblyName));
+            SendCommand("getObjectComponentProperty", altObject, propertyInfo, maxDepth.ToString());
+            string data = Recvall();
+            if (!data.Contains("error:")) return data;
+            HandleErrors(data);
+            return null;
+        }
     }
 }

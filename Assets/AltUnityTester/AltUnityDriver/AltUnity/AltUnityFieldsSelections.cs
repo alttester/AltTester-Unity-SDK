@@ -1,7 +1,9 @@
-﻿public enum AltUnityFieldsSelections
+﻿namespace Altom.AltUnityDriver
 {
-    CLASSFIELDS,
-    INHERITEDFIELDS,
-    ALLFIELDS
+    public enum AltUnityFieldsSelections
+    {
+        CLASSFIELDS,
+        INHERITEDFIELDS,
+        ALLFIELDS
+    }
 }
-
