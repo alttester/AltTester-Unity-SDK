@@ -549,16 +549,11 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     private void DisplayPortForwarding(float widthColumn)
     {
         _foldOutScenes = UnityEditor.EditorGUILayout.Foldout(_foldOutScenes, "Port Forwading");
-        var guiStyleBolded = new UnityEngine.GUIStyle();
-        guiStyleBolded.alignment = UnityEngine.TextAnchor.MiddleLeft;
-        guiStyleBolded.stretchHeight = true;
+        var guiStyleBolded = SetTextGuiStyle();
         guiStyleBolded.fontStyle = UnityEngine.FontStyle.Bold;
-        guiStyleBolded.wordWrap = true;
 
-        var guiStyleNormal = new UnityEngine.GUIStyle();
-        guiStyleNormal.alignment = UnityEngine.TextAnchor.MiddleLeft;
-        guiStyleNormal.stretchHeight = true;
-        guiStyleNormal.wordWrap = true;
+        var guiStyleNormal = SetTextGuiStyle();
+
         UnityEditor.EditorGUILayout.BeginHorizontal();
         UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
         UnityEditor.EditorGUILayout.BeginVertical();
@@ -853,10 +848,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.BeginHorizontal();
         UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
         UnityEditor.EditorGUILayout.BeginVertical();
-        var guiStyle = new UnityEngine.GUIStyle();
-        guiStyle.alignment = UnityEngine.TextAnchor.MiddleLeft;
-        guiStyle.normal.textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black;
-        guiStyle.wordWrap = true;
+        UnityEngine.GUIStyle guiStyle = SetTextGuiStyle();
         if (_foldOutScenes)
         {
             if (EditorConfiguration.Scenes.Count != 0)
@@ -1033,6 +1025,16 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
         UnityEditor.EditorGUILayout.EndVertical();
         UnityEditor.EditorGUILayout.EndHorizontal();
 
+    }
+
+    private static UnityEngine.GUIStyle SetTextGuiStyle()
+    {
+        var guiStyle = new UnityEngine.GUIStyle();
+        guiStyle.alignment = UnityEngine.TextAnchor.MiddleLeft;
+        guiStyle.stretchHeight = true;
+        guiStyle.normal.textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black;
+        guiStyle.wordWrap = true;
+        return guiStyle;
     }
 
     private void RemoveNotSelectedScenes()
