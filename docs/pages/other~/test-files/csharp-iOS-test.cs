@@ -1,6 +1,5 @@
 using NUnit.Framework;
-using Assets.AltUnityTester.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityDriver.UnityStruct;
+using Altom.AltUnityDriver;
 
 public class MyFirstTest
 {
