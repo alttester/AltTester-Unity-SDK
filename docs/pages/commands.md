@@ -32,7 +32,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No   | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 
 ***Returns***
 - AltUnityObject
@@ -84,7 +84,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No   | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 
 ***Returns***
 - List of AltUnityObjects/ empty list if no objects were found
@@ -140,7 +140,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No   | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 
 ***Returns***
 - AltUnityObjects
@@ -192,7 +192,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No   | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 
 ***Returns***
 - List of AltUnityObjects/ empty list if no objects were found
@@ -253,7 +253,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 | --------------- | ------------- | -------- | ----------- |
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No  | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No  | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 
 ***Returns***
 - List of AltUnityObjects/ empty list if no objects were found
@@ -347,7 +347,7 @@ Waits until it finds an object that respects the given criteria or until timeout
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No   | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 | timeout         | double        |   No   | number of seconds that it will wait for object|
 | interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
 
@@ -423,7 +423,7 @@ Waits until it finds an object that respects the given criteria or time runs out
 | value         | string       |   Yes   | The value to which object will be compared to see if they respect the criteria or not|
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No   | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 | timeout         | double        |   No  | number of seconds that it will wait for object|
 | interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
 
@@ -478,7 +478,7 @@ Waits until it finds an object that respect the given criteria and it has the te
 | text    |   string  | Yes  | Text that the intented object should have|
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No   | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 | timeout         | double        |   No   | number of seconds that it will wait for object|
 | interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
 
@@ -541,7 +541,7 @@ Waits until the object in the scene that respects the given criteria is no longe
 | value         | string       |   Yes  | The value to which object will be compared to see if they respect the criteria or not|
 | cameraBy      |   [By](#by-selector)     | No    |  Set what criteria to use in order to find the camera|
 | cameraName      |     string    |   No   | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object  calculated to the last camera in the scene.|
-| enabled         | boolean       |   No  | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
+| enabled         | boolean       |   No  | If `true` will match only objects that are active in hierarchy. If `false` will match all objects. |
 | timeout         | double        |   No   | number of seconds that it will wait for object|
 | interval        | double        |   No   | number of seconds after which it will try to find the object again. interval should be smaller than timeout |
 
@@ -2412,21 +2412,21 @@ The **AltUnityObject** class represents the objects present in the game and it a
 
 ***Fields***
 
-|      Name       |     Type      | Required | Description |
-| --------------- | ------------- | -------- | ----------- |
-| name      |     string    |   Yes   | The name of the object|
-| id         | int       |   Yes   | The objects's id|
-| x      |   int     | Yes    |  The value for x axis coordinate on screen|
-| y     |     int    |   Yes   | The value for y axis coordinate on screen|
-| mobileY         | int       |   Yes   | The value for y axis for appium|
-| type         | string       |   Yes   | Object's type, for objects from the game is gameObject|
-| enabled         | bool       |   Yes   | true => will return only if the object is active in hierarchy and false will return if the object is in hierarchy and doesn't matter if it is active or not|
-| worldX         | float       |   Yes   | The value for x axis coordinate in the game's world|
-| worldY   | float    |   Yes   | The value for y axis coordinate in the game's world|
-| worldZ         | float       |   Yes   | The value for z axis coordinate in the game's world|
-| idCamera         | int       |   Yes   | The camera's id|
-| transformId         | int       |   Yes   | The transform's component id|
-| parentId       | int       |   Yes   | The parent's id from the object hierarchy|
+|     Name    |     Type      |  Description |
+| ----------- | ------------- | ------------------ |
+| name        | string        |   The name of the object |
+| id          | int           |   The objects's id |
+| x           | int           |  The value for x axis coordinate on screen |
+| y           | int           |  The value for y axis coordinate on screen |
+| mobileY     | int           | The value for y axis for appium |
+| type        | string        | Object's type, for objects from the game is gameObject |
+| enabled     | bool          | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
+| worldX      | float         | The value for x axis coordinate in the game's world |
+| worldY      | float         | The value for y axis coordinate in the game's world |
+| worldZ      | float         | The value for z axis coordinate in the game's world |
+| idCamera    | int           | The camera's id |
+| transformId | int           | The transform's component id |
+| parentId    | int           | The parent's id from the object hierarchy |
 
 
 The available methods are the following:
