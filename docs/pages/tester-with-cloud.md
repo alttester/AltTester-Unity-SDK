@@ -83,7 +83,7 @@ It contains a pre-built ***apk*** file, so you can try out running tests on Andr
 2. On AWS, create a new project, make sure you are on the *"Automated tests"* tab and then select *"Create a new run"*;
 3. At the next step, choose the *"Test a native application on Android devices."*. Then upload your **.apk** file;
 4. At the configuration step, choose *"Appium Python"* for the purpose of this example, then upload the **.zip** file containing the tests;
-5. The demo project contains an example **.yml** configuration file. Use is at the next step, by selecting *"Run your test in a custom environment"*. This will define how your test environment is set up and how the tests run;
+5. The demo project contains an example **.yml** configuration file. Use it at the next step, by selecting *"Run your test in a custom environment"*. This will define how your test environment is set up and how the tests run;
 6. The next step will allow you to select on which devices the tests will be executed. You can create your own device pool, or use the recommended top devices;
 7. For this example, no changes need to be done to the Device state configuration;
 8. At the last step, you can set the execution timeout for your devices, then start the tests.
