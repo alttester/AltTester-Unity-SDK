@@ -1,54 +1,42 @@
 using System;
-using System.Linq;
 using System.Net.Sockets;
 using Altom.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityServer;
 using Assets.AltUnityTester.AltUnityServer.AltSocket;
 using Assets.AltUnityTester.AltUnityServer.Commands;
 using Newtonsoft.Json;
 
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
-    enum FindOption
-    {
-        Name, ContainName, Component
-    }
 
+    public static readonly string VERSION = "1.6.2-alpha";
     public static AltUnityRunner _altUnityRunner;
+    public static System.IO.StreamWriter ServerLogger;
+    public static AltResponseQueue _responseQueue;
 
     public UnityEngine.GameObject AltUnityPopUp;
     public UnityEngine.UI.Image AltUnityIcon;
     public UnityEngine.UI.Text AltUnityPopUpText;
     public bool AltUnityIconPressed = false;
-
-    private AltSocketServer _socketServer;
-
-    private string myPathFile;
-    public static System.IO.StreamWriter ServerLogger;
-
-    public static readonly string VERSION = "1.6.1";
-
     public JsonSerializerSettings _jsonSettings;
-
     [UnityEngine.Space]
-    [UnityEngine.SerializeField] private bool _showInputs = false;
-    [UnityEngine.SerializeField] private AltUnityInputsVisualiser _inputsVisualiser = null;
-
-    [UnityEngine.Space]
-
     public bool showPopUp;
-    [UnityEngine.SerializeField] private UnityEngine.GameObject AltUnityPopUpCanvas = null;
     public bool destroyHightlight = false;
     public int SocketPortNumber = 13000;
-    public bool DebugBuildNeeded = true;
+    public bool RunOnlyInDebugMode = true;
     public UnityEngine.Shader outlineShader;
     public UnityEngine.GameObject panelHightlightPrefab;
-
     public string requestSeparatorString = ";";
     public string requestEndingString = "&";
 
-
-    public static AltResponseQueue _responseQueue;
+    [UnityEngine.SerializeField]
+    private UnityEngine.GameObject AltUnityPopUpCanvas = null;
+    private AltSocketServer _socketServer;
+    private string myPathFile;
+    [UnityEngine.Space]
+    [UnityEngine.SerializeField]
+    private bool _showInputs = false;
+    [UnityEngine.SerializeField]
+    private AltUnityInputsVisualiser _inputsVisualiser = null;
 
     public bool ShowInputs
     {
@@ -67,20 +55,21 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     void Awake()
     {
-        if (_altUnityRunner == null)
-            _altUnityRunner = this;
-        else
+        if (_altUnityRunner != null)
         {
             Destroy(this.gameObject);
+            return;
         }
-        if (DebugBuildNeeded && !UnityEngine.Debug.isDebugBuild)
+
+        if (RunOnlyInDebugMode && !UnityEngine.Debug.isDebugBuild)
         {
-            UnityEngine.Debug.Log("AltUnityTester will not run if this is not a Debug/Development build");
+            UnityEngine.Debug.LogWarning("AltUnityTester runs only on Debug build");
+            Destroy(this.gameObject);
+            return;
         }
-        else
-        {
-            DontDestroyOnLoad(this);
-        }
+
+        _altUnityRunner = this;
+        DontDestroyOnLoad(this);
     }
     void Start()
     {

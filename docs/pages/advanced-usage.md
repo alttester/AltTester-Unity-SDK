@@ -6,6 +6,12 @@ To instrument your game with AltUnity Server, your build method must define AltU
 
 Depending on your project's setup, there are two ways in which games can be built from the command line:
 
+```eval_rst
+.. note::
+
+    AltUnity Tester does not work by default in release mode. If you instrument your game in release mode, AltUnity Prefab self removes from the scenes and the socket server does not start. Best case practice is to customize your build script to insert AltUnity Prefab only in Debug mode. If you do want to use AltUnity Tester in release mode see `Using AltUnity Server in Release mode section <#using-altunity-server-in-release-mode>`_.
+```
+
 **1. If you already have a custom build method for your game**  
 
 If you already have a custom build method for your game, you can add the following two lines to your build method:
@@ -307,3 +313,8 @@ You can change the port for your game build from the AltUnityTesterEditor window
 .. note::
     After you have done the Server Port forwarding or connected to the AltUnity driver directly, you can use it in your tests to send commands to the server and receive information from the game.
 ```
+
+
+## Using AltUnity Server in Release mode
+
+By default AltUnity Server does not run in release mode. We recommended that you do not build your game in release mode with AltUnity Tester. That being said, if you do want to instrument your game with AltUnity Tester in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltUnityRunnerPrefab inside AltUnity Tester asset folder  `AltUnityTester/Prefab/AltUnityRunnerPrefab.prefab`
