@@ -56,6 +56,10 @@ Steps:
         This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.   
 ```
 
+``` important::
+        AltUnity Server is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltUnity Server.  
+```
+
 ``` note::
         Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
 ```
@@ -68,7 +72,6 @@ Steps:
     If changes are made inside a test, rebuilding the application is not necessary. 
     A rebuild is needed only if changes are made inside the Unity project.
 ```
-
 
 
 ## Run your game in Unity or on desired platform
