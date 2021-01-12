@@ -25,8 +25,9 @@ copyright = '2020, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
-version = 'AltUnity Tester v.1.6.1'   # displays version under project title
-release = 'v.1.6.1'
+# displays version under project title
+version = 'AltUnity Tester v.1.6.2-alpha'
+release = 'v.1.6.2-alpha'
 
 
 # -- General configuration ---------------------------------------------------

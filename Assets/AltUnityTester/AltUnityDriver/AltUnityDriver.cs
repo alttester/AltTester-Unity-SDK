@@ -12,7 +12,7 @@ namespace Altom.AltUnityDriver
     {
         public System.Net.Sockets.TcpClient Socket;
         public SocketSettings socketSettings;
-        public static readonly string VERSION = "1.6.1";
+        public static readonly string VERSION = "1.6.2-alpha";
         public static string requestSeparatorString;
         public static string requestEndingString;
 
