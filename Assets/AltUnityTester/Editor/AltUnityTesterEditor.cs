@@ -548,7 +548,7 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
 
     private void DisplayPortForwarding(float widthColumn)
     {
-        _foldOutScenes = UnityEditor.EditorGUILayout.Foldout(_foldOutScenes, "Port Forwading");
+        _foldOutScenes = UnityEditor.EditorGUILayout.Foldout(_foldOutScenes, "Port Forwarding");
         var guiStyleBolded = SetTextGuiStyle();
         guiStyleBolded.fontStyle = UnityEngine.FontStyle.Bold;
 
