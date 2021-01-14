@@ -38,7 +38,13 @@ class AltElement(object):
         self.tranformId = str(data.get('tranformId', 0))
 
     def __repr__(self):
-        return f'AltElement called: {self.name}'
+        return 'altunityrunner.{0}(driver, {1})'.format(
+            type(self).__name__,
+            json.dumps(json.dumps(json.loads(self.toJSON())))
+        )
+
+    def __str__(self):
+        return self.toJSON()
 
     def toJSON(self):
         return '{"name":"' + self.name + '", \
