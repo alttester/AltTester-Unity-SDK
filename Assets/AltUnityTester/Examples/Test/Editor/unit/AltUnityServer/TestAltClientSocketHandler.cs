@@ -1,25 +1,54 @@
 using NUnit.Framework;
-using Moq;
 
 using Assets.AltUnityTester.AltUnityServer.AltSocket;
 using Altom.AltUnityDriver.AltSocket;
 using Assets.AltUnityTester.AltUnityServer.Commands;
+using System;
 
 namespace unit.AltUnityServer
 {
+    public class TestAltIClientSocketHandlerDelegate : AltIClientSocketHandlerDelegate
+    {
+        public void ClientSocketHandlerDidReadMessage(AltClientSocketHandler handler, string message)
+        {
+        }
+    }
+    public class TestSocket : ISocket
+    {
+        Action<byte[]> sendCallback;
+        public void Close()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int Receive(byte[] buffer)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Send(byte[] buffer)
+        {
+            if (sendCallback != null) sendCallback(buffer);
+        }
+
+        public void SetupSendCallback(Action<byte[]> callback)
+        {
+            sendCallback = callback;
+        }
+    }
+
     public class TestAltClientSocketHandler
     {
         private System.IO.MemoryStream memoryStream;
         private AltClientSocketHandler socketHandler;
-        private Mock<ISocket> socketMock;
+        private TestSocket socket;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            socketMock = new Mock<ISocket>();
-
-            var socketHandlerDelegate = new Mock<AltIClientSocketHandlerDelegate>();
-            socketHandler = new AltClientSocketHandler(socketMock.Object, socketHandlerDelegate.Object, "&", System.Text.Encoding.UTF8);
+            var socketHandlerDelegate = new TestAltIClientSocketHandlerDelegate();
+            socket = new TestSocket();
+            socketHandler = new AltClientSocketHandler(socket, socketHandlerDelegate, "&", System.Text.Encoding.UTF8);
         }
 
         [OneTimeTearDown]
@@ -33,7 +62,6 @@ namespace unit.AltUnityServer
         {
             memoryStream = new System.IO.MemoryStream();
             AltUnityRunner.ServerLogger = new System.IO.StreamWriter(memoryStream);
-            socketMock.Reset();
         }
 
         [TearDown]
@@ -59,10 +87,12 @@ namespace unit.AltUnityServer
         [Test]
         public void TestSendResponse()
         {
-            socketMock.Setup(c => c.Send(It.IsAny<byte[]>())).Callback<byte[]>(buffer =>
+            socket.SetupSendCallback(buffer =>
             {
                 Assert.AreEqual("altstart::messageid::response::error:couldNotParseJsonString::altLog::::altend", System.Text.Encoding.UTF8.GetString(buffer));
             });
+
+
             AltUnityCouldNotParseJsonStringCommand command = new AltUnityCouldNotParseJsonStringCommand("messageid", "commandname", "param1", "param2");
 
             var response = command.Execute();
@@ -77,7 +107,7 @@ namespace unit.AltUnityServer
         [Test]
         public void TestEnableLogging()
         {
-            socketMock.Setup(c => c.Send(It.IsAny<byte[]>())).Callback<byte[]>(buffer =>
+            socket.SetupSendCallback(buffer =>
             {
                 string message = System.Text.Encoding.UTF8.GetString(buffer);
                 Assert.IsTrue(message.StartsWith("altstart::messageid::response::Ok::altLog::"), message);
