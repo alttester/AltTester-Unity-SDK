@@ -474,12 +474,13 @@ class PythonTests(unittest.TestCase):
             int(pressing_point_1.x), int(pressing_point_1.y), 1)
         time.sleep(1.5)
 
-        self.altdriver.press_key('Mouse0', 1, 0)
+        self.altdriver.press_key('Mouse0', 1, 1)
         pressing_point_2 = self.altdriver.find_object(
             By.NAME, "PressingPoint2", By.NAME, "Player2")
         self.altdriver.move_mouse_and_wait(
             int(pressing_point_1.x), int(pressing_point_2.y), 1)
-        self.altdriver.press_key('Mouse0', 1, 0)
+        self.altdriver.press_key('Mouse0', 1, 1)
+        time.sleep(2)
 
         stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
         self.assertEqual(3, len(stars))
