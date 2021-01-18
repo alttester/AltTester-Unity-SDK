@@ -6,8 +6,15 @@ using System.Linq;
 public class Input : UnityEngine.MonoBehaviour
 {
 
+
     private static bool UseCustomInput;
     private static System.Collections.Generic.List<AltUnityAxis> AxisList;
+    private static AltUnityMockUpPointerInputModule mockUpPointerInputModule;
+
+    public static Input instance;
+    public static System.Collections.Generic.List<KeyStructure> keyCodesPressed = new System.Collections.Generic.List<KeyStructure>();
+    public static System.Collections.Generic.List<KeyStructure> keyCodesPressedDown = new System.Collections.Generic.List<KeyStructure>();
+    public static System.Collections.Generic.List<KeyStructure> keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
     public void Start()
     {
 
@@ -23,12 +30,6 @@ public class Input : UnityEngine.MonoBehaviour
     {
         UseCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta == UnityEngine.Vector2.zero;
     }
-
-    public static Input instance;
-    public static System.Collections.Generic.List<KeyStructure> keyCodesPressed = new System.Collections.Generic.List<KeyStructure>();
-    public static System.Collections.Generic.List<KeyStructure> keyCodesPressedDown = new System.Collections.Generic.List<KeyStructure>();
-    public static System.Collections.Generic.List<KeyStructure> keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
-    private static AltUnityMockUpPointerInputModule mockUpPointerInputModule;
 
     public static bool simulateMouseWithTouches
     {
@@ -769,10 +770,11 @@ public class Input : UnityEngine.MonoBehaviour
 
         float time = 0;
         var keyStructure = new KeyStructure(keyCode, power);
+        yield return null;
         keyCodesPressedDown.Add(keyStructure);
+        keyCodesPressed.Add(keyStructure);
         yield return null;
         keyCodesPressedDown.Remove(keyStructure);
-        keyCodesPressed.Add(keyStructure);
         if (keyCode == UnityEngine.KeyCode.Mouse0)
         {
             var touch = new UnityEngine.Touch

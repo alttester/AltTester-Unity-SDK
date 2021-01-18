@@ -1410,5 +1410,17 @@ public class TestForScene1TestSample
         Assert.NotNull(property);
         Assert.AreEqual(AltUnityType.PRIMITIVE, property.type);
     }
+    [Test]
+    public void TestKeyPressNumberOfReads()
+    {
+        var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.LeftArrow);
+
+        var pressDownCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "keyPressDownCounter"));
+        var pressUpCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "keyPressUpCounter"));
+        Assert.AreEqual(1, pressDownCounter);
+        Assert.AreEqual(1, pressUpCounter);
+
+    }
 }
 
