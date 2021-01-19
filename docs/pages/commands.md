@@ -2362,7 +2362,7 @@ Invokes static methods from your game.
 | typeName      |     string    |   Yes  | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
 | methodName      |     string    |   Yes   |   The name of the public method that we want to call |
 | parameters      |     string    |   Yes   |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
-| typeOfParamaters      |     string    |   Yes |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
+| typeOfParameters      |     string    |   Yes |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
 | assemblyName  | string | No | name of the assembly where the component is |
 
 ***Returns***
@@ -2418,7 +2418,7 @@ The **AltUnityObject** class represents the objects present in the game and it a
 | id          | int           |   The objects's id |
 | x           | int           |  The value for x axis coordinate on screen |
 | y           | int           |  The value for y axis coordinate on screen |
-| mobileY     | int           | The value for y axis for appium |
+| mobileY     | int           | The value for y axis for Appium |
 | type        | string        | Object's type, for objects from the game is gameObject |
 | enabled     | bool          | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
 | worldX      | float         | The value for x axis coordinate in the game's world |
@@ -2443,12 +2443,12 @@ Invokes a method from an existing component of the object.
 | --------------- | ------------- | -------- | ----------- |
 | componentName      |     string    |   Yes   | name of the Unity component. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
 | methodName      |     string    |   Yes  |   The name of the public method that will be called|
-| parameters      |     string    |   Yes  |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
-| typeOfParamaters      |     string    |   Yes   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
+| parameters      |     string    |   Yes  |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc.|
+| typeOfParameters      |     string    |   No   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers |
 | assemblyName  | string | No | name of the assembly containing the component |
 
 ***Returns***
-- Nothing
+- String. The value returned by the method serialized as a string.
 
 ***Examples***
 ```eval_rst
