@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands;
 
-public class AltCallStaticMethodsParameters{
+public class AltCallStaticMethodParameters{
     public static class Builder{
         private String typeName;
         private String methodName;
@@ -20,18 +20,18 @@ public class AltCallStaticMethodsParameters{
             this.typeOfParameters=typeOfParameters;
             return this;
         }
-        public AltCallStaticMethodsParameters build(){
-            AltCallStaticMethodsParameters altCallStaticMethodsParameters=new AltCallStaticMethodsParameters();
-            altCallStaticMethodsParameters.assembly=this.assembly;
-            altCallStaticMethodsParameters.methodName=this.methodName;
-            altCallStaticMethodsParameters.parameters=this.parameters;
-            altCallStaticMethodsParameters.typeName=this.typeName;
-            altCallStaticMethodsParameters.typeOfParameters=this.typeOfParameters;
-            return altCallStaticMethodsParameters;
+        public AltCallStaticMethodParameters build(){
+            AltCallStaticMethodParameters altCallStaticMethodParameters=new AltCallStaticMethodParameters();
+            altCallStaticMethodParameters.assembly=this.assembly;
+            altCallStaticMethodParameters.methodName=this.methodName;
+            altCallStaticMethodParameters.parameters=this.parameters;
+            altCallStaticMethodParameters.typeName=this.typeName;
+            altCallStaticMethodParameters.typeOfParameters=this.typeOfParameters;
+            return altCallStaticMethodParameters;
         }
     }
 
-    private AltCallStaticMethodsParameters() {
+    private AltCallStaticMethodParameters() {
     }
 
     public String getTypeName() {

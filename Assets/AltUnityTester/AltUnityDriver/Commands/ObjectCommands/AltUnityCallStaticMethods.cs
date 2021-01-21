@@ -1,13 +1,13 @@
 namespace Altom.AltUnityDriver.Commands
 {
-    public class AltUnityCallStaticMethods : AltBaseCommand
+    public class AltUnityCallStaticMethod : AltBaseCommand
     {
         string typeName;
         string methodName;
         string parameters;
         string typeOfParameters;
         string assemblyName;
-        public AltUnityCallStaticMethods(SocketSettings socketSettings, string typeName, string methodName, string parameters, string typeOfParameters, string assemblyName) : base(socketSettings)
+        public AltUnityCallStaticMethod(SocketSettings socketSettings, string typeName, string methodName, string parameters, string typeOfParameters, string assemblyName) : base(socketSettings)
         {
             this.typeName = typeName;
             this.methodName = methodName;

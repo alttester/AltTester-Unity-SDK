@@ -5,6 +5,7 @@ import subprocess
 import time
 import multiprocessing
 import warnings
+from deprecated import deprecated
 
 from altunityrunner.altUnityExceptions import *
 from altunityrunner.commands import *
@@ -80,8 +81,12 @@ class AltUnityDriver(object):
                         self.request_end).execute()
         self.socket.close()
 
+    @deprecated(version="1.6.2", reason="use call_static_method")
     def call_static_methods(self, type_name, method_name, parameters, type_of_parameters='', assembly=''):
-        return CallStaticMethods(self.socket, self.request_separator, self.request_end, type_name, method_name, parameters, type_of_parameters, assembly).execute()
+        return CallStaticMethod(self.socket, self.request_separator, self.request_end, type_name, method_name, parameters, type_of_parameters, assembly).execute()
+
+    def call_static_method(self, type_name, method_name, parameters, type_of_parameters='', assembly=''):
+        return CallStaticMethod(self.socket, self.request_separator, self.request_end, type_name, method_name, parameters, type_of_parameters, assembly).execute()
 
     def get_all_elements(self, camera_by=By.NAME, camera_path="", enabled=True):
         return GetAllElements(self.socket, self.request_separator, self.request_end, camera_by, camera_path, enabled).execute()

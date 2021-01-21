@@ -405,9 +405,9 @@ class PythonTests(unittest.TestCase):
         self.assertEqual('true', text)
 
     def test_call_static_method(self):
-        self.altdriver.call_static_methods(
+        self.altdriver.call_static_method(
             "UnityEngine.PlayerPrefs", "SetInt", "Test?1", assembly="UnityEngine.CoreModule")
-        a = int(self.altdriver.call_static_methods(
+        a = int(self.altdriver.call_static_method(
             "UnityEngine.PlayerPrefs", "GetInt", "Test?2", assembly="UnityEngine.CoreModule"))
         self.assertEqual(1, a)
 

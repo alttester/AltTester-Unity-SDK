@@ -1,4 +1,4 @@
-from altunityrunner.commands.ObjectCommands.call_static_methods import *
+from altunityrunner.commands.ObjectCommands.call_static_method import *
 from altunityrunner.commands.ObjectCommands.get_component_property import *
 from altunityrunner.commands.ObjectCommands.call_component_method import *
 from altunityrunner.commands.ObjectCommands.click_event import *

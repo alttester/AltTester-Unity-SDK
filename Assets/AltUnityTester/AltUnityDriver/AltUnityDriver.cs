@@ -156,10 +156,16 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnityGetTimeScale(socketSettings).Execute();
         }
+        [System.ObsoleteAttribute("Use instead CallStaticMethod")]
         public string CallStaticMethods(string typeName, string methodName,
             string parameters, string typeOfParameters = "", string assemblyName = "")
         {
-            return new AltUnityCallStaticMethods(socketSettings, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
+            return new AltUnityCallStaticMethod(socketSettings, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
+        }
+        public string CallStaticMethod(string typeName, string methodName,
+            string parameters, string typeOfParameters = "", string assemblyName = "")
+        {
+            return new AltUnityCallStaticMethod(socketSettings, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
         }
         public void DeletePlayerPref()
         {
