@@ -2361,12 +2361,12 @@ Invokes static methods from your game.
 | --------------- | ------------- | -------- | ----------- |
 | typeName      |     string    |   Yes  | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
 | methodName      |     string    |   Yes   |   The name of the public method that we want to call |
-| parameters      |     string    |   Yes   |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of ints, '1' will be an integer etc.|
-| typeOfParameters      |     string    |   Yes |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two ints |
+| parameters      |     string    |   Yes   |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc.|
+| typeOfParameters      |     string    |   No |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers |
 | assemblyName  | string | No | name of the assembly where the component is |
 
 ***Returns***
-- Nothing
+- String. The value returned by the method is serialized to a JSON object and parsed as string.
 
 ***Examples***
 ```eval_rst
@@ -2390,10 +2390,10 @@ Invokes static methods from your game.
         public void TestCallStaticMethod() throws Exception
         {
 
-            AltCallStaticMethodsParameters altCallStaticMethodsParameters = new AltCallStaticMethodsParameters.Builder("UnityEngine.PlayerPrefs","SetInt","Test?1").withAssembly("").withTypeOfParameters("").build();
-            altUnityDriver.callStaticMethods(altCallStaticMethodsParameters);
-            altCallStaticMethodsParameters = new AltCallStaticMethodsParameters.Builder("UnityEngine.PlayerPrefs","GetInt","Test?2").withAssembly("").withTypeOfParameters("").build();
-            int a=Integer.parseInt(altUnityDriver.callStaticMethods(altCallStaticMethodsParameters);
+            altCallStaticMethodParameters altCallStaticMethodParameters = new altCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs","SetInt","Test?1").withAssembly("").withTypeOfParameters("").build();
+            altUnityDriver.callStaticMethods(altCallStaticMethodParameters);
+            altCallStaticMethodParameters = new altCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs","GetInt","Test?2").withAssembly("").withTypeOfParameters("").build();
+            int a=Integer.parseInt(altUnityDriver.callStaticMethods(altCallStaticMethodParameters);
             assertEquals(1,a);
         }
 
@@ -2448,7 +2448,7 @@ Invokes a method from an existing component of the object.
 | assemblyName  | string | No | name of the assembly containing the component |
 
 ***Returns***
-- String. The value returned by the method serialized as a string.
+- String. The value returned by the method is serialized to a JSON object and parsed as string.
 
 ***Examples***
 ```eval_rst

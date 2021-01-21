@@ -145,17 +145,24 @@ public class AltUnityDriver {
         }
     }
 
-    public String callStaticMethods(AltCallStaticMethodsParameters altCallStaticMethodsParameters) {
-        return new AltCallStaticMethods(altBaseSettings, altCallStaticMethodsParameters).Execute();
+    public String callStaticMethod(AltCallStaticMethodParameters altCallStaticMethodParameters) {
+        return new AltCallStaticMethod(altBaseSettings, altCallStaticMethodParameters).Execute();
     }
 
+    @Deprecated
+    public String callStaticMethods(AltCallStaticMethodParameters altCallStaticMethodParameters) {
+        return new AltCallStaticMethod(altBaseSettings, altCallStaticMethodParameters).Execute();
+    }
+
+    @Deprecated
     public String callStaticMethods(String assembly, String typeName, String methodName, String parameters,
             String typeOfParameters) {
-        AltCallStaticMethodsParameters altCallStaticMethodsParameters = new AltCallStaticMethodsParameters.Builder(
+        AltCallStaticMethodParameters altCallStaticMethodParameters = new AltCallStaticMethodParameters.Builder(
                 typeName, methodName, parameters).withAssembly(assembly).withTypeOfParameters(typeOfParameters).build();
-        return callStaticMethods(altCallStaticMethodsParameters);
+        return callStaticMethods(altCallStaticMethodParameters);
     }
 
+    @Deprecated
     public String callStaticMethods(String typeName, String methodName, String parameters) {
         return callStaticMethods("", typeName, methodName, parameters, "");
     }

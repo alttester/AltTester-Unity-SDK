@@ -25,13 +25,13 @@ public class AltCallComponentMethodParameters {
         }
 
         public AltCallComponentMethodParameters build() {
-            AltCallComponentMethodParameters altCallStaticMethodsParameters = new AltCallComponentMethodParameters();
-            altCallStaticMethodsParameters.assembly = this.assembly;
-            altCallStaticMethodsParameters.methodName = this.methodName;
-            altCallStaticMethodsParameters.parameters = this.parameters;
-            altCallStaticMethodsParameters.componentName = this.componentName;
-            altCallStaticMethodsParameters.typeOfParameters = this.typeOfParameters;
-            return altCallStaticMethodsParameters;
+            AltCallComponentMethodParameters altCallStaticMethodParameters = new AltCallComponentMethodParameters();
+            altCallStaticMethodParameters.assembly = this.assembly;
+            altCallStaticMethodParameters.methodName = this.methodName;
+            altCallStaticMethodParameters.parameters = this.parameters;
+            altCallStaticMethodParameters.componentName = this.componentName;
+            altCallStaticMethodParameters.typeOfParameters = this.typeOfParameters;
+            return altCallStaticMethodParameters;
         }
     }
 
