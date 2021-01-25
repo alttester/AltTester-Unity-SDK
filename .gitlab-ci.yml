@@ -35,6 +35,7 @@ stages:
   - build
   - test
   - docs
+  - alphadocs
   - deploy
 
 cache:
@@ -324,42 +325,39 @@ deploy-altunitydriver-dotnet:
     - dotnet pack AltUnityDriver/AltUnityDriver.csproj -c release
     - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.6.2-alpha.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
-docs:
+alphadocs:
   stage: docs
-  only:
-    refs:
-      - master
-  artifacts:
-    paths:
-      - documentation
-  tags:
-    - unity
-    - mac
-  script:
-    - cd docs
-    - *initialize_venv
-    - python3 -m pip install -r requirements.txt
-    - make html
-    - cp -r _build/html ../documentation
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: always
+    - when: never
+  trigger: altom/altunity/altunitytester-alpha
 
 pages:
   stage: deploy
-  only:
-    refs:
-      - master
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - when: never
   tags:
     - unity
     - mac
   dependencies:
-    - docs
     - create-unity-package
     - create-jar-archive
   artifacts:
     paths:
       - public
   script:
-    - cp -r documentation/ public/
-    - ls public/
+    - cd docs
+    - *initialize_venv
+    - python3 -m pip install -r requirements.txt
+    - make html
+    - cp -r _build/html ../public
 
 maven-snapshot-repo:
   stage: deploy
