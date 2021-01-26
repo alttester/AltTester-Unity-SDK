@@ -1,6 +1,3 @@
-
-
-
 using Altom.AltUnityDriver;
 
 public static class PlatformName
@@ -13,10 +10,14 @@ public static class PlatformName
 
 public class AltUnityBuilder
 {
+    public enum InputType
+    {
+        KeyOrMouseButton,
+        MouseMovement,
+        JoystickAxis,
+    };
 
     public static bool built = false;
-
-
     public static string PreviousScenePath;
     public static UnityEngine.SceneManagement.Scene SceneWithAltUnityRunner;
     public static string SceneWithAltUnityRunnerPath;
@@ -37,69 +38,6 @@ public class AltUnityBuilder
             CreateJsonFileForInputMappingOfAxis();
     }
 
-    private static string GetOutputPath(UnityEditor.BuildTarget target)
-    {
-        var outputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
-
-        if (string.IsNullOrEmpty(outputPath))
-            outputPath = UnityEditor.PlayerSettings.productName;
-
-        if (outputPath.EndsWith("/") || outputPath.EndsWith("\\"))
-            outputPath = outputPath + UnityEditor.PlayerSettings.productName;
-
-        if (outputPath.Split('/').Length == 1 && outputPath.Split('\\').Length == 1)
-            outputPath += System.IO.Path.DirectorySeparatorChar.ToString() + outputPath;
-
-        switch (target)
-        {
-            case UnityEditor.BuildTarget.Android:
-                if (!outputPath.EndsWith(".apk"))
-                {
-                    outputPath = outputPath + ".apk";
-                }
-
-                break;
-            case UnityEditor.BuildTarget.StandaloneOSX:
-                if (!outputPath.EndsWith(".app"))
-                {
-                    outputPath = outputPath + ".app";
-                }
-                break;
-            case UnityEditor.BuildTarget.StandaloneWindows:
-            case UnityEditor.BuildTarget.StandaloneWindows64:
-                if (!outputPath.EndsWith(".exe"))
-                {
-                    outputPath = outputPath + ".exe";
-                }
-                break;
-            case UnityEditor.BuildTarget.StandaloneLinux64:
-                if (!outputPath.EndsWith(".x86_64"))
-                {
-                    outputPath = outputPath + ".x86_64";
-                }
-                break;
-
-            case UnityEditor.BuildTarget.iOS:
-            default:
-                break;
-
-        }
-
-        return outputPath;
-    }
-
-    private static void ResetBuildSetup(UnityEditor.BuildTargetGroup buildTargetGroup)
-    {
-        if (AltUnityTesterEditor.EditorConfiguration.appendToName)
-        {
-            UnityEditor.PlayerSettings.productName = UnityEditor.PlayerSettings.productName.Remove(UnityEditor.PlayerSettings.productName.Length - 5);
-            string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
-            UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
-        }
-
-        RemoveAltUnityTesterFromScriptingDefineSymbols(buildTargetGroup);
-    }
-
     public static void BuildAndroidFromUI(bool autoRun = false)
     {
         try
@@ -109,11 +47,11 @@ public class AltUnityBuilder
             UnityEngine.Debug.Log("Starting Android build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
 
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-            buildPlayerOptions.locationPathName = GetOutputPath(UnityEditor.BuildTarget.Android);
-            buildPlayerOptions.scenes = GetScenesForBuild();
+            buildPlayerOptions.locationPathName = getOutputPath(UnityEditor.BuildTarget.Android);
+            buildPlayerOptions.scenes = getScenesForBuild();
             buildPlayerOptions.target = UnityEditor.BuildTarget.Android;
 
-            BuildGame(autoRun, buildPlayerOptions);
+            buildGame(autoRun, buildPlayerOptions);
         }
         catch (System.Exception e)
         {
@@ -122,10 +60,11 @@ public class AltUnityBuilder
         finally
         {
             built = true;
-            ResetBuildSetup(UnityEditor.BuildTargetGroup.Android);
+            resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
         }
 
     }
+
     public static void BuildStandaloneFromUI(UnityEditor.BuildTarget buildTarget, bool autoRun = false)
     {
         try
@@ -135,11 +74,11 @@ public class AltUnityBuilder
             UnityEngine.Debug.Log("Starting Standalone build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
 
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-            buildPlayerOptions.locationPathName = GetOutputPath(buildTarget);
-            buildPlayerOptions.scenes = GetScenesForBuild();
+            buildPlayerOptions.locationPathName = getOutputPath(buildTarget);
+            buildPlayerOptions.scenes = getScenesForBuild();
             buildPlayerOptions.target = buildTarget;
 
-            BuildGame(autoRun, buildPlayerOptions);
+            buildGame(autoRun, buildPlayerOptions);
         }
         catch (System.Exception e)
         {
@@ -148,51 +87,9 @@ public class AltUnityBuilder
         finally
         {
             built = true;
-            ResetBuildSetup(UnityEditor.BuildTargetGroup.Standalone);
+            resetBuildSetup(UnityEditor.BuildTargetGroup.Standalone);
         }
 
-    }
-
-    private static void BuildGame(bool autoRun, UnityEditor.BuildPlayerOptions buildPlayerOptions)
-    {
-        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Log, UnityEngine.StackTraceLogType.None);
-        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Warning, UnityEngine.StackTraceLogType.None);
-        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Assert, UnityEngine.StackTraceLogType.None);
-
-        if (autoRun)
-        {
-            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.AutoRunPlayer;
-        }
-        else
-        {
-            buildPlayerOptions.options = UnityEditor.BuildOptions.Development;
-        }
-        var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
-
-
-
-#if UNITY_2017
-            if (results.Equals(""))
-            {
-                UnityEngine.Debug.Log("No Build Errors");
-
-            }
-            else
-                UnityEngine.Debug.LogError("Build Error!");
-
-#else
-        if (results.summary.totalErrors == 0)
-        {
-            UnityEngine.Debug.Log("No Build Errors");
-
-        }
-        else
-            UnityEngine.Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result +
-                           "\n Stripping info: " + results.strippingInfo);
-
-#endif
-
-        UnityEngine.Debug.Log("Finished. " + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
     }
 
     public static void RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
@@ -225,7 +122,6 @@ public class AltUnityBuilder
             UnityEngine.Debug.LogError("Stack trace " + e.StackTrace);
         }
     }
-
 
     public static void AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
     {
@@ -271,28 +167,6 @@ public class AltUnityBuilder
 
     }
 
-    private static string[] GetScenesForBuild()
-    {
-        if (AltUnityTesterEditor.EditorConfiguration.Scenes.Count == 0)
-        {
-            AltUnityTesterEditor.AddAllScenes();
-            AltUnityTesterEditor.SelectAllScenes();
-        }
-        System.Collections.Generic.List<string> sceneList = new System.Collections.Generic.List<string>();
-        foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes)
-        {
-            if (scene.ToBeBuilt)
-            {
-                sceneList.Add(scene.Path);
-            }
-        }
-
-        InsertAltUnityInTheFirstScene();
-
-
-        return sceneList.ToArray();
-    }
-
     public static void InsertAltUnityInScene(string scene, int port = 13000)
     {
         UnityEngine.Debug.Log("Adding AltUnityRunnerPrefab into the [" + scene + "] scene.");
@@ -318,6 +192,7 @@ public class AltUnityBuilder
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
         UnityEngine.Debug.Log("Scene successfully modified.");
     }
+
     public static void InsertAltUnityInTheActiveScene()
     {
         var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
@@ -370,33 +245,155 @@ public class AltUnityBuilder
 #if UNITY_EDITOR_OSX
 
 
-    public static void BuildiOSFromUI(bool autoRun) {
-        try {
+    public static void BuildiOSFromUI(bool autoRun)
+    {
+        try
+        {
             UnityEngine.Debug.Log("Starting IOS build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
             InitBuildSetup(UnityEditor.BuildTargetGroup.iOS);
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
             buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
-            buildPlayerOptions.scenes = GetScenesForBuild();
+            buildPlayerOptions.scenes = getScenesForBuild();
 
             buildPlayerOptions.target = UnityEditor.BuildTarget.iOS;
-            BuildGame(autoRun, buildPlayerOptions);
+            buildGame(autoRun, buildPlayerOptions);
 
-        } catch (System.Exception e) {
+        }
+        catch (System.Exception e)
+        {
             UnityEngine.Debug.LogError(e);
-        } finally {
+        }
+        finally
+        {
             built = true;
-            ResetBuildSetup(UnityEditor.BuildTargetGroup.iOS);
+            resetBuildSetup(UnityEditor.BuildTargetGroup.iOS);
         }
 
     }
 #endif
 
-
-    public enum InputType
+    private static string getOutputPath(UnityEditor.BuildTarget target)
     {
-        KeyOrMouseButton,
-        MouseMovement,
-        JoystickAxis,
-    };
+        var outputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
 
+        if (string.IsNullOrEmpty(outputPath))
+            outputPath = UnityEditor.PlayerSettings.productName;
+
+        if (outputPath.EndsWith("/") || outputPath.EndsWith("\\"))
+            outputPath = outputPath + UnityEditor.PlayerSettings.productName;
+
+        if (outputPath.Split('/').Length == 1 && outputPath.Split('\\').Length == 1)
+            outputPath += System.IO.Path.DirectorySeparatorChar.ToString() + outputPath;
+
+        switch (target)
+        {
+            case UnityEditor.BuildTarget.Android:
+                if (!outputPath.EndsWith(".apk"))
+                {
+                    outputPath = outputPath + ".apk";
+                }
+
+                break;
+            case UnityEditor.BuildTarget.StandaloneOSX:
+                if (!outputPath.EndsWith(".app"))
+                {
+                    outputPath = outputPath + ".app";
+                }
+                break;
+            case UnityEditor.BuildTarget.StandaloneWindows:
+            case UnityEditor.BuildTarget.StandaloneWindows64:
+                if (!outputPath.EndsWith(".exe"))
+                {
+                    outputPath = outputPath + ".exe";
+                }
+                break;
+            case UnityEditor.BuildTarget.StandaloneLinux64:
+                if (!outputPath.EndsWith(".x86_64"))
+                {
+                    outputPath = outputPath + ".x86_64";
+                }
+                break;
+
+            case UnityEditor.BuildTarget.iOS:
+            default:
+                break;
+
+        }
+
+        return outputPath;
+    }
+
+    private static void resetBuildSetup(UnityEditor.BuildTargetGroup buildTargetGroup)
+    {
+        if (AltUnityTesterEditor.EditorConfiguration.appendToName)
+        {
+            UnityEditor.PlayerSettings.productName = UnityEditor.PlayerSettings.productName.Remove(UnityEditor.PlayerSettings.productName.Length - 5);
+            string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
+            UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
+        }
+
+        RemoveAltUnityTesterFromScriptingDefineSymbols(buildTargetGroup);
+    }
+
+    private static void buildGame(bool autoRun, UnityEditor.BuildPlayerOptions buildPlayerOptions)
+    {
+        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Log, UnityEngine.StackTraceLogType.None);
+        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Warning, UnityEngine.StackTraceLogType.None);
+        UnityEditor.PlayerSettings.SetStackTraceLogType(UnityEngine.LogType.Assert, UnityEngine.StackTraceLogType.None);
+
+        if (autoRun)
+        {
+            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.AutoRunPlayer;
+        }
+        else
+        {
+            buildPlayerOptions.options = UnityEditor.BuildOptions.Development;
+        }
+        var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                UnityEngine.Debug.Log("No Build Errors");
+
+            }
+            else
+                UnityEngine.Debug.LogError("Build Error!");
+
+#else
+        if (results.summary.totalErrors == 0)
+        {
+            UnityEngine.Debug.Log("No Build Errors");
+
+        }
+        else
+            UnityEngine.Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result +
+                           "\n Stripping info: " + results.strippingInfo);
+
+#endif
+
+        UnityEngine.Debug.Log("Finished. " + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
+    }
+
+    private static string[] getScenesForBuild()
+    {
+        if (AltUnityTesterEditor.EditorConfiguration.Scenes.Count == 0)
+        {
+            AltUnityTesterEditor.AddAllScenes();
+            AltUnityTesterEditor.SelectAllScenes();
+        }
+        System.Collections.Generic.List<string> sceneList = new System.Collections.Generic.List<string>();
+        foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes)
+        {
+            if (scene.ToBeBuilt)
+            {
+                sceneList.Add(scene.Path);
+            }
+        }
+
+        InsertAltUnityInTheFirstScene();
+
+
+        return sceneList.ToArray();
+    }
 }
