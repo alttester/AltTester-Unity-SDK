@@ -16,14 +16,17 @@ Depending on your project's setup, there are two ways in which games can be buil
 
 If you already have a custom build method for your game, you can add the following two lines to your build method:
 ```
-AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+var buildTargetGroup = BuildTargetGroup.Android;
+AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
+if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
+    AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
 AltUnityBuilder.InsertAltUnityInScene(FirstSceneOfTheGame);
 ```
 
 ```eval_rst
 .. note::
 
-    Change `BuildTargetGroup` above to the target group for which you are building.
+    Change `buildTargetGroup` above to the target group for which you are building.
 ```
 
 **2. If you create a new custom build method for your game** 

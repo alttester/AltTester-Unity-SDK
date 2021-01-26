@@ -16,7 +16,10 @@ static void BuildFromCommandLine () {
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer; 
 
         // Setup for AltUnity
-        AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup (BuildTargetGroup.Android);
+        var buildTargetGroup = BuildTargetGroup.Android;
+        AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup (buildTargetGroup);
+        if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
+            AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
         AltUnityBuilder.InsertAltUnityInScene (buildPlayerOptions.scenes[0]);
         
         var results = BuildPipeline.BuildPlayer (buildPlayerOptions);
