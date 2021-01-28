@@ -1422,5 +1422,14 @@ public class TestForScene1TestSample
         Assert.AreEqual(1, pressUpCounter);
 
     }
+    [Test]
+    public void TestSwipeClickWhenMovedButRemainsOnTheSameObject()
+    {
+        var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        altUnityDriver.SwipeAndWait(new AltUnityVector2(counterElement.x+1, counterElement.y+1), new AltUnityVector2(counterElement.x + 2, counterElement.y+1), 1);
+        Thread.Sleep(500);
+        Assert.AreEqual("1", counterButtonText.GetText());
+    }
 }
 
