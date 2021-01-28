@@ -522,7 +522,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             yield return null;
             for (var i = 0; i < renderer.materials.Length; i++)
             {
-                renderer.materials[i].shader = originalShaders[0];
+                renderer.materials[i].shader = originalShaders[i];
             }
         }
         else

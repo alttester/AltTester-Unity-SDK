@@ -180,5 +180,27 @@ public class TestForScene5KeyboardAndMouseInput
         Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
     }
 
+    [Test]
+    public void TestCheckShadersSetCorrectlyAfterHighlight()
+    {
+        var cube = AltUnityDriver.FindObject(By.NAME, "2MaterialCube");
+        var count = int.Parse(cube.GetComponentProperty("UnityEngine.Renderer", "materials.Length", "UnityEngine.CoreModule"));
+        var shadersName = new List<string>();
+        for (int i= 0; i < count; i++)
+        {
+            shadersName.Add(cube.GetComponentProperty("UnityEngine.Renderer", "materials["+i+"].shader.name", "UnityEngine.CoreModule"));
+        }
+
+        AltUnityDriver.GetScreenshot(cube.id,new AltUnityColor(1,1,1),1.1f);
+        Thread.Sleep(1000);
+        var newShadersName = new List<string>();
+        for (int i = 0; i < count; i++)
+        {
+            newShadersName.Add(cube.GetComponentProperty("UnityEngine.Renderer", "materials[" + i + "].shader.name", "UnityEngine.CoreModule"));
+        }
+        Assert.AreEqual(newShadersName, shadersName);
+
+    }
+
 #pragma warning restore CS0618
 }
