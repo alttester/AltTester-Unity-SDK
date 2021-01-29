@@ -2412,21 +2412,22 @@ The **AltUnityObject** class represents the objects present in the game and it a
 
 ***Fields***
 
-|     Name    |     Type      |  Description |
-| ----------- | ------------- | ------------------ |
-| name        | string        |   The name of the object |
-| id          | int           |   The objects's id |
-| x           | int           |  The value for x axis coordinate on screen |
-| y           | int           |  The value for y axis coordinate on screen |
-| mobileY     | int           | The value for y axis for Appium |
-| type        | string        | Object's type, for objects from the game is gameObject |
-| enabled     | bool          | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
-| worldX      | float         | The value for x axis coordinate in the game's world |
-| worldY      | float         | The value for y axis coordinate in the game's world |
-| worldZ      | float         | The value for z axis coordinate in the game's world |
-| idCamera    | int           | The camera's id |
-| transformId | int           | The transform's component id |
-| parentId    | int           | The parent's id from the object hierarchy |
+|     Name          |     Type      |  Description |
+| ----------------- | ------------- | ------------------ |
+| name              | string        |   The name of the object |
+| id                | int           |   The objects's id |
+| x                 | int           |  The value for x axis coordinate on screen |
+| y                 | int           |  The value for y axis coordinate on screen |
+| mobileY           | int           | The value for y axis for appium |
+| type              | string        | Object's type, for objects from the game is gameObject |
+| enabled           | bool          | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
+| worldX            | float         | The value for x axis coordinate in the game's world |
+| worldY            | float         | The value for y axis coordinate in the game's world |
+| worldZ            | float         | The value for z axis coordinate in the game's world |
+| idCamera          | int           | The camera's id |
+| transformId       | int           | The transform's component id |
+| parentId          | int           | The transform parent's id. It's obsolete. Use transformParentId instead |
+| transformParentId | int           | The transform parent's id. |
 
 
 The available methods are the following:

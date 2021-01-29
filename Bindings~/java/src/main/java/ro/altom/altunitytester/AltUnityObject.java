@@ -4,6 +4,9 @@ import lombok.Getter;
 import ro.altom.altunitytester.Commands.ObjectCommand.*;
 import ro.altom.altunitytester.position.Vector2;
 import ro.altom.altunitytester.position.Vector3;
+import ro.altom.altunitytester.AltUnityDriver.By;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObject;
 
 @Getter
 public class AltUnityObject {
@@ -89,7 +92,9 @@ public class AltUnityObject {
      * As of version 1.3.0 use getter getIdCamera()
      */
     public int idCamera;
+    @Deprecated
     public int parentId;
+    public int transformParentId;
     public int tranformId;
 
     public AltBaseSettings getAltBaseSettings() {
@@ -118,6 +123,19 @@ public class AltUnityObject {
         this.idCamera = idCamera;
         this.tranformId = transformId;
         this.parentId = parentId;
+        this.transformParentId = parentId;
+    }
+
+    public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled,
+            float worldX, float worldY, float worldZ, int idCamera, int parentId, int transformParentId, int transformId) {
+        this(name, id, x, y, z, mobileY, type, enabled, worldX, worldY, worldZ, idCamera, transformParentId, transformId);
+        this.transformParentId = transformParentId;
+    }
+
+    public AltUnityObject getParent()
+    {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH, "//*[@id=" + this.id + "]/..").build();
+        return new AltFindObject(altBaseSettings, altFindObjectsParameters).Execute();
     }
 
     public Vector2 getScreenPosition() {

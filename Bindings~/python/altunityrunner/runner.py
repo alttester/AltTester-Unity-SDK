@@ -12,12 +12,16 @@ from altunityrunner.commands import *
 from altunityrunner.altElement import AltElement
 from altunityrunner.player_pref_key_type import PlayerPrefKeyType
 from loguru import logger
-
+from altunityrunner.by import By
+from altunityrunner.commands.FindObjects.find_object import FindObject
 
 warnings.filterwarnings("default", category=DeprecationWarning,
                         module=__name__)
 
+def get_parent(self):
+    return FindObject(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end, By.PATH, "//*[@id=" + self.id + "]/..", By.NAME, "", True).execute()
 
+AltElement.get_parent = get_parent
 class AltUnityDriver(object):
 
     def __init__(self, TCP_IP='127.0.0.1', TCP_PORT=13000, timeout=60, request_separator=';', request_end='&', device_id="", log_flag=False):

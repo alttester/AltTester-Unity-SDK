@@ -1152,4 +1152,22 @@ public class TestsSampleScene1 {
         assertEquals(serverVersion, AltUnityDriver.VERSION);
     }
 
+    @Test
+    public void TestParentId()
+    {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                .build();
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        assertEquals(altElement.parentId, altElement.transformParentId);
+    }
+
+    @Test
+    public void TestGetParent()
+    {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo")
+                .build();
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElementParent = altElement.getParent();
+        assertEquals("Canvas", altElementParent.name);
+    }
 }

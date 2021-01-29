@@ -196,7 +196,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             cameraId = -1;
         }
 
-        int parentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
+        int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
 
         AltUnityObject altObject = new AltUnityObject(
             name: altGameObject.name,
@@ -212,7 +212,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             worldZ: altGameObject.transform.position.z,
             idCamera: cameraId,
             transformId: altGameObject.transform.GetInstanceID(),
-            parentId: parentId);
+            transformParentId: transformParentId,
+            parentId: transformParentId);
         return altObject;
     }
 
@@ -241,7 +242,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             cameraId = -1;
         }
 
-        int parentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
+        int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
 
         AltUnityObjectLight altObject = new AltUnityObjectLight(
             name: altGameObject.name,
@@ -249,7 +250,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             enabled: altGameObject.activeSelf,
             idCamera: cameraId,
             transformId: altGameObject.transform.GetInstanceID(),
-            parentId: parentId);
+            transformParentId: transformParentId,
+            parentId: transformParentId);
 
         return altObject;
     }

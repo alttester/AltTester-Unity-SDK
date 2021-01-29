@@ -3,7 +3,6 @@ from unittest import TestCase
 from altunityrunner import AltElement
 import altunityrunner
 
-
 class CommandsTests(TestCase):
     def test_altElement_repr(self):
         element = AltElement(
