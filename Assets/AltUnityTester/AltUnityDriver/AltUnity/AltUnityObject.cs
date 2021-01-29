@@ -1,5 +1,5 @@
-using Altom.AltUnityDriver.AltSocket;
 using Altom.AltUnityDriver.Commands;
+using System;
 
 namespace Altom.AltUnityDriver
 {
@@ -17,11 +17,13 @@ namespace Altom.AltUnityDriver
         public float worldY;
         public float worldZ;
         public int idCamera;
+        [Obsolete("Use transformParentId instead.")]
         public int parentId;
+        public int transformParentId;
         public int transformId;
         [Newtonsoft.Json.JsonIgnore]
         public SocketSettings socketSettings;
-        public AltUnityObject(string name, int id = 0, int x = 0, int y = 0, int z = 0, int mobileY = 0, string type = "", bool enabled = true, float worldX = 0, float worldY = 0, float worldZ = 0, int idCamera = 0, int parentId = 0, int transformId = 0)
+        public AltUnityObject(string name, int id = 0, int x = 0, int y = 0, int z = 0, int mobileY = 0, string type = "", bool enabled = true, float worldX = 0, float worldY = 0, float worldZ = 0, int idCamera = 0, int parentId = 0, int transformParentId = 0, int transformId = 0)
         {
             this.name = name;
             this.id = id;
@@ -36,7 +38,13 @@ namespace Altom.AltUnityDriver
             this.worldZ = worldZ;
             this.idCamera = idCamera;
             this.parentId = parentId;
+            this.transformParentId = (transformParentId != 0) ? transformParentId : this.parentId;
             this.transformId = transformId;
+        }
+
+        public AltUnityObject getParent()
+        {
+            return new AltUnityFindObject(socketSettings, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
         }
         public AltUnityVector2 getScreenPosition()
         {

@@ -1423,6 +1423,12 @@ public class TestForScene1TestSample
 
     }
     [Test]
+    public void TestParentId()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule", By.NAME, "Main Camera");
+        Assert.AreEqual(altElement.transformParentId, altElement.parentId);
+    }
+    [Test]
     public void TestSwipeClickWhenMovedButRemainsOnTheSameObject()
     {
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");

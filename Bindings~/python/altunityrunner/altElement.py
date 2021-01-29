@@ -1,5 +1,6 @@
 from typing import List
 import json
+from deprecated import deprecated
 
 from altunityrunner.commands.ObjectCommands.get_text import GetText
 from altunityrunner.commands.ObjectCommands.set_component_property import SetComponentProperty
@@ -19,6 +20,16 @@ from altunityrunner.commands.ObjectCommands.pointer_up import PointerUp
 
 
 class AltElement(object):
+    @property
+    @deprecated(version="1.6.2", reason="Use transformParentId instead.")
+    def parentId(self):
+        return self._parentId
+
+    @parentId.setter
+    @deprecated(version="1.6.2", reason="Use transformParentId instead.")
+    def parentId(self, value):
+        self._parentId = value 
+
     def __init__(self, alt_unity_driver, json_data):
         self.alt_unity_driver = alt_unity_driver
         data = json.loads(json_data)
@@ -34,7 +45,8 @@ class AltElement(object):
         self.worldY = str(data.get('worldY', 0))
         self.worldZ = str(data.get('worldZ', 0))
         self.idCamera = str(data.get('idCamera', 0))
-        self.parentId = str(data.get('parentId', 0))
+        self._parentId = str(data.get('parentId', 0))
+        self.transformParentId = str(data.get('transformParentId', self._parentId))
         self.tranformId = str(data.get('tranformId', 0))
 
     def __repr__(self):
@@ -59,6 +71,7 @@ class AltElement(object):
                  "worldY":"' + self.worldY + '", \
                  "worldZ":"' + self.worldZ + '",\
                  "parentId":"' + self.parentId + '",\
+                 "transformParentId":"' + self.transformParentId + '",\
                  "tranformId":"' + self.tranformId + '",\
                  "idCamera":"'+self.idCamera+'"}'
 

@@ -1102,6 +1102,16 @@ class PythonTests(unittest.TestCase):
             self.altdriver.request_end).execute()
         self.assertEqual(serverVersion, VERSION)
 
+    def test_altElement_parentId(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        element = self.altdriver.find_object(By.NAME, 'Capsule')
+        self.assertEqual(element.parentId, element.transformParentId)
+
+    def test_get_parent(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        element = self.altdriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
+        elementParent = element.get_parent()
+        self.assertEqual('Canvas', elementParent.name)
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

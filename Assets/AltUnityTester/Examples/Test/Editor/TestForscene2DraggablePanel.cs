@@ -202,4 +202,11 @@ public class TestForScene2DraggablePanel
         var color2 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "highlightColor");
         Assert.AreEqual(color1, color2);
     }
+    [Test]
+    public void TestGetParent()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
+        var altElementParent = altElement.getParent();
+        Assert.AreEqual("Panel Drag Area", altElementParent.name);
+    }
 }
