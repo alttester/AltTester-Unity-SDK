@@ -20,11 +20,11 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
                             position = touch.position,
                             delta = touch.deltaPosition,
                             button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
-                            pointerId = touch.fingerId
+                            pointerId = touch.fingerId,
+                            eligibleForClick = true
                         };
 
                     gameObjectHit = GetGameObjectHit(touch);
-
                     GetFirstRaycastResult(pointerEventData, out raycastResult, out raycastResults);
                     pointerEventData.pointerCurrentRaycast = raycastResult;
                     pointerEventData.pointerEnter = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
@@ -91,10 +91,15 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
                         previousData.pointerCurrentRaycast = raycastResult;
                         UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
                             UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+                        var currentOverGo = previousData.pointerCurrentRaycast.gameObject;
+                        var pointerUpHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
 
-                        if (previousData.delta == UnityEngine.Vector2.zero)
+                        if (previousData.pointerPress == pointerUpHandler && previousData.eligibleForClick)
+                        {
                             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+                                  UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+                            previousData.eligibleForClick = false;
+                        }
 
                         if (previousData.pointerDrag != null)
                         {
