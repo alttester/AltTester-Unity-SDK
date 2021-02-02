@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using NUnit.Framework;
-using System.Linq;
-using System.Threading;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 [Timeout(10000)]
 public class TestForScene1TestSample
@@ -648,7 +648,7 @@ public class TestForScene1TestSample
     public void TestCallStaticMethod()
     {
         altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
-        int a = Int32.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+        int a = int.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
         Assert.AreEqual(1, a);
 
     }
@@ -685,7 +685,7 @@ public class TestForScene1TestSample
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("AltUnityExampleScriptCapsule"));
-        List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.CLASSMETHODS);
+        List<string> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.CLASSMETHODS);
         Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
         Assert.IsFalse(methods.Contains("Void CancelInvoke(System.String)"));
     }
@@ -694,7 +694,7 @@ public class TestForScene1TestSample
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("AltUnityExampleScriptCapsule"));
-        List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.INHERITEDMETHODS);
+        List<string> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.INHERITEDMETHODS);
         Assert.IsTrue(methods.Contains("Void CancelInvoke(System.String)"));
         Assert.IsFalse(methods.Contains("Void UIButtonClicked()"));
     }
@@ -703,7 +703,7 @@ public class TestForScene1TestSample
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var component2 = altElement.GetAllComponents().First(component => component.componentName.Equals("AltUnityExampleScriptCapsule"));
-        List<String> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.ALLMETHODS);
+        List<string> methods = altElement.GetAllMethods(component2, AltUnityMethodSelection.ALLMETHODS);
         Assert.IsTrue(methods.Contains("Void CancelInvoke(System.String)"));
         Assert.IsTrue(methods.Contains("Void UIButtonClicked()"));
     }
@@ -768,7 +768,7 @@ public class TestForScene1TestSample
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
-        Assert.AreEqual(10, fields.Count);
+        Assert.AreEqual(11, fields.Count);
     }
 
     [Test]
@@ -793,7 +793,7 @@ public class TestForScene1TestSample
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
-        Assert.AreEqual(11, fields.Count);
+        Assert.AreEqual(12, fields.Count);
     }
 
     [Test]
@@ -1315,8 +1315,8 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetScreensizeScreenshot()
     {
-        var screenWidth = Int16.Parse(altUnityDriver.CallStaticMethods("UnityEngine.Screen", "get_width", "", "", "UnityEngine.CoreModule"));
-        var screenHeight = Int16.Parse(altUnityDriver.CallStaticMethods("UnityEngine.Screen", "get_height", "", "", "UnityEngine.CoreModule"));
+        var screenWidth = short.Parse(altUnityDriver.CallStaticMethods("UnityEngine.Screen", "get_width", "", "", "UnityEngine.CoreModule"));
+        var screenHeight = short.Parse(altUnityDriver.CallStaticMethods("UnityEngine.Screen", "get_height", "", "", "UnityEngine.CoreModule"));
         var screenshot = altUnityDriver.GetScreenshot();
         Assert.True(screenshot.textureSize.x == screenWidth);
         Assert.True(screenshot.textureSize.y == screenHeight);
@@ -1433,9 +1433,51 @@ public class TestForScene1TestSample
     {
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-        altUnityDriver.SwipeAndWait(new AltUnityVector2(counterElement.x+1, counterElement.y+1), new AltUnityVector2(counterElement.x + 2, counterElement.y+1), 1);
+        altUnityDriver.SwipeAndWait(new AltUnityVector2(counterElement.x + 1, counterElement.y + 1), new AltUnityVector2(counterElement.x + 2, counterElement.y + 1), 1);
         Thread.Sleep(500);
         Assert.AreEqual("1", counterButtonText.GetText());
+    }
+    [Test]
+    public void TestCallMethodInsideASubObject()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "AltUnitySampleClass.TestMethod";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod(componentName, methodName, "");
+        Assert.AreEqual("\"Test\"", data);
+    }
+
+
+    [Test]
+    public void TestCallMethodInsideAListOfSubObject()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "listOfSampleClass[0].TestMethod";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod(componentName, methodName, "");
+        Assert.AreEqual("\"Test\"", data);
+    }
+    [Test]
+    public void TestCallStaticMethodInsideASubObject()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "StaticSampleClass.TestMethod";
+        var data = altUnityDriver.CallStaticMethod(componentName, methodName, "");
+        Assert.AreEqual("\"Test\"", data);
+    }
+    [Test]
+    public void TestCallGameObjectMethod()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod("UnityEngine.GameObject", "CompareTag", "Untagged", "System.String", "UnityEngine.CoreModule");
+        Assert.AreEqual("true", data);
+    }
+    [Test]
+    public void TestCallMethodInsideSubObjectOfGameObject()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod("UnityEngine.GameObject", "scene.IsValid", "", "", "UnityEngine.CoreModule");
+        Assert.AreEqual("true", data);
     }
 }
 
