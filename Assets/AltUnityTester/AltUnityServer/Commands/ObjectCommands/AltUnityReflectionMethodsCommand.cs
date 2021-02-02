@@ -1,10 +1,10 @@
-using System;
-using System.Linq;
-using Assets.AltUnityTester.AltUnityServer.Commands;
-using System.Text.RegularExpressions;
-using System.Reflection;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
+using Assets.AltUnityTester.AltUnityServer.Commands;
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Assets.AltUnityTester.AltUnityServer
 {
@@ -49,7 +49,7 @@ namespace Assets.AltUnityTester.AltUnityServer
                 }
             }
         }
-        protected System.Reflection.MemberInfo GetMemberForObjectComponent(System.Type Type, string propertyName)
+        protected System.Reflection.MemberInfo getMemberForObjectComponent(System.Type Type, string propertyName)
         {
             System.Reflection.PropertyInfo propertyInfo = Type.GetProperty(propertyName,
                 System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
@@ -141,24 +141,24 @@ namespace Assets.AltUnityTester.AltUnityServer
         protected string GetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, int maxDepth)
         {
             string propertyName;
-            int index = GetArrayIndex(fieldArray[0], out propertyName);
-            System.Reflection.MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
+            int index = getArrayIndex(fieldArray[0], out propertyName);
+            System.Reflection.MemberInfo memberInfo = getMemberForObjectComponent(componentType, propertyName);
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
             {
                 throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
             }
-            object value = GetValue(instance, memberInfo, index);
+            object value = getValue(instance, memberInfo, index);
 
             for (int i = 1; i < fieldArray.Length; i++)
             {
-                index = GetArrayIndex(fieldArray[i], out propertyName);
-                memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
-                value = GetValue(value, memberInfo, index);
+                index = getArrayIndex(fieldArray[i], out propertyName);
+                memberInfo = getMemberForObjectComponent(value.GetType(), propertyName);
+                value = getValue(value, memberInfo, index);
             }
             return SerializeMemberValue(value, value.GetType(), maxDepth);
         }
-        private object GetValue(object instance, System.Reflection.MemberInfo memberInfo, int index)
+        private object getValue(object instance, System.Reflection.MemberInfo memberInfo, int index)
         {
             object value = null;
             if (memberInfo.MemberType == System.Reflection.MemberTypes.Property)
@@ -192,7 +192,7 @@ namespace Assets.AltUnityTester.AltUnityServer
 
             }
         }
-        private int GetArrayIndex(string arrayProperty, out string propertyName)
+        private int getArrayIndex(string arrayProperty, out string propertyName)
         {
             if (Regex.IsMatch(arrayProperty, @".*\[[0-9]\]*"))
             {
@@ -211,8 +211,8 @@ namespace Assets.AltUnityTester.AltUnityServer
         {
 
             string propertyName;
-            int index = GetArrayIndex(fieldArray[0], out propertyName);
-            System.Reflection.MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
+            int index = getArrayIndex(fieldArray[0], out propertyName);
+            System.Reflection.MemberInfo memberInfo = getMemberForObjectComponent(componentType, propertyName);
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
             {
@@ -220,18 +220,18 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
             if (fieldArray.Length > 1)
             {
-                object value = GetValue(instance, memberInfo, index);
+                object value = getValue(instance, memberInfo, index);
 
                 for (int i = 1; i < fieldArray.Length - 1; i++)
                 {
-                    index = GetArrayIndex(fieldArray[i], out propertyName);
-                    memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
-                    value = GetValue(value, memberInfo, index);
+                    index = getArrayIndex(fieldArray[i], out propertyName);
+                    memberInfo = getMemberForObjectComponent(value.GetType(), propertyName);
+                    value = getValue(value, memberInfo, index);
 
                 }
 
-                index = GetArrayIndex(fieldArray[fieldArray.Length - 1], out propertyName);
-                memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
+                index = getArrayIndex(fieldArray[fieldArray.Length - 1], out propertyName);
+                memberInfo = getMemberForObjectComponent(value.GetType(), propertyName);
                 SetValue(value, memberInfo, index, valueString);
 
             }
@@ -318,6 +318,34 @@ namespace Assets.AltUnityTester.AltUnityServer
                 value = null;
             }
             return value;
+        }
+        protected object getInstance(object instance, string[] methodPathSplited, Type componentType = null)
+        {
+            return getInstance(instance, methodPathSplited, 0, componentType);
+        }
+
+        private object getInstance(object instance, string[] methodPathSplited, int index, Type componentType = null)
+        {
+            if (methodPathSplited.Length - 1 <= index)
+                return instance;
+            string propertyName;
+            int indexValue = getArrayIndex(methodPathSplited[index], out propertyName);
+
+            Type type = instance == null ? componentType : instance.GetType();//Checking for static fields
+
+            MemberInfo memberInfo = getMemberForObjectComponent(type, propertyName);
+            instance = getValue(instance, memberInfo, indexValue);
+            if (instance == null)
+            {
+                string path = "";
+                for (int i = 0; i < index; i++)
+                {
+                    path += methodPathSplited[i] + ".";
+                }
+                throw new Altom.AltUnityDriver.NullReferenceException(path + propertyName + "is not assigned");
+            }
+            index++;
+            return getInstance(instance, methodPathSplited, index);
         }
 
         public override string Execute()

@@ -2359,11 +2359,11 @@ Invokes static methods from your game.
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| typeName      |     string    |   Yes  | name of the Unity component that has the public property we want to call a method for. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
-| methodName      |     string    |   Yes   |   The name of the public method that we want to call |
+| typeName      |     string    |   Yes  | name of the script. If the script has a namespace the format should look like this: "namespace.typeName" )|
+| methodName      |     string    |   Yes   |   The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName" |
 | parameters      |     string    |   Yes   |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc.|
 | typeOfParameters      |     string    |   No |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers |
-| assemblyName  | string | No | name of the assembly where the component is |
+| assemblyName  | string | No | name of the assembly containing the script |
 
 ***Returns***
 - String. The value returned by the method is serialized to a JSON object and parsed as string.
@@ -2442,8 +2442,8 @@ Invokes a method from an existing component of the object.
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| componentName      |     string    |   Yes   | name of the Unity component. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
-| methodName      |     string    |   Yes  |   The name of the public method that will be called|
+| componentName      |     string    |   Yes   | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )|
+| methodName      |     string    |   Yes  |   The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"|
 | parameters      |     string    |   Yes  |   a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc.|
 | typeOfParameters      |     string    |   No   |  a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers |
 | assemblyName  | string | No | name of the assembly containing the component |
@@ -2506,7 +2506,7 @@ Returns the value of the given component property.
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| componentName      |     string    |   Yes   | name of the Unity component. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
+| componentName      |     string    |   Yes   | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )|
 | propertyName      |     string    |   Yes   |  Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.|
 | assemblyName  | string | No | name of the assembly containing the component |
 | maxDepth      | int    | No | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0,"sqrMagnitude":1.0,"x":0.871575534,"y":0.490261227,"z":0.0},"magnitude":1101.45361,"sqrMagnitude":1213200.0,"x":960.0,"y":540.0,"z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361,"sqrMagnitude":1213200.0,"x":960.0,"y":540.0,"z":0.0}|
@@ -2563,7 +2563,7 @@ Sets value of the given component property.
 
 |      Name       |     Type      | Required | Description |
 | --------------- | ------------- | -------- | ----------- |
-| componentName      |     string    |   Yes   | name of the Unity component. This should be the assembly-qualified name of the type to get. If the type is in the currently executing assembly or in Mscorlib.dll, it is sufficient to supply the type name qualified by its namespace. [For more info](https://msdn.microsoft.com/en-us/library/w3f99sx1(v=vs.110).aspx )|
+| componentName      |     string    |   Yes   | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )|
 | propertyName      |     string    |   Yes   |  name of the property of which value you want to set|
 | value      |     string    |   Yes   | the value to be set for the chosen component's property|
 | assemblyName  | string | No | name of the assembly containing the component. It is NULL by default |

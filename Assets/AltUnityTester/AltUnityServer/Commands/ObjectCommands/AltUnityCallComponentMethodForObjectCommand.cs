@@ -1,4 +1,3 @@
-
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 
@@ -22,24 +21,59 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             System.Reflection.MethodInfo methodInfoToBeInvoked;
             AltUnityObjectAction altAction = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObjectAction>(actionString);
             var componentType = GetType(altAction.Component, altAction.Assembly);
+            var methodPathSplited = altAction.Method.Split('.');
+            string methodName;
+            object instance = null;
+            if (!string.IsNullOrEmpty(altObjectString))
+            {
+                AltUnityObject altObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
+                UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altObject);
+                if (componentType == typeof(UnityEngine.GameObject))
+                {
+                    instance = gameObject;
+                    if (instance == null)
+                    {
+                        throw new ObjectWasNotFoundException("Object with name=" + altObject.name + " and id=" + altObject.id + " was not found");
+                    }
+                }
+                else
+                {
+                    instance = gameObject.GetComponent(componentType);
+                    if (instance == null)
+                        throw new ComponentNotFoundException();
+                }
+                instance = getInstance(instance, methodPathSplited);
 
-            System.Reflection.MethodInfo[] methodInfos = GetMethodInfoWithSpecificName(componentType, altAction.Method);
+            }
+            else
+            {
+                instance = getInstance(null, methodPathSplited, componentType);
+            }
+
+            if (methodPathSplited.Length > 1)
+            {
+                methodName = methodPathSplited[methodPathSplited.Length - 1];
+            }
+            else
+            {
+                methodName = altAction.Method;
+
+            }
+            System.Reflection.MethodInfo[] methodInfos;
+
+            if (instance == null)
+            {
+                methodInfos = GetMethodInfoWithSpecificName(componentType, methodName);
+            }
+            else
+            {
+                methodInfos = GetMethodInfoWithSpecificName(instance.GetType(), methodName);
+            }
             methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altAction);
 
-            if (string.IsNullOrEmpty(altObjectString))
-                return InvokeMethod(methodInfoToBeInvoked, altAction, null);
-
-            AltUnityObject altObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
-            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altObject);
-            if (componentType == typeof(UnityEngine.GameObject))
-            {
-                return InvokeMethod(methodInfoToBeInvoked, altAction, gameObject);
-            }
-            UnityEngine.Component component = gameObject.GetComponent(componentType);
-            if (component == null)
-                throw new ComponentNotFoundException();
-
-            return InvokeMethod(methodInfoToBeInvoked, altAction, component);
+            return InvokeMethod(methodInfoToBeInvoked, altAction, instance);
         }
+
+
     }
 }

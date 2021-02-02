@@ -1,17 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AltUnitySampleClass{
+public class AltUnitySampleClass
+{
 
     private string testString;
     private int testInt;
-    private static bool testBool=false;
+    private static bool testBool = false;
     [SerializeField]
     private List<float> listFloatTest;
     [SerializeField]
     private Dictionary<string, double> testDictionaryStringDouble;
-    public  int[] arrayIntTest=new int[1] { 1 };
+    public int[] arrayIntTest = new int[1] { 1 };
 
     public AltUnitySampleClass(string testString, int testInt, List<float> listFloatTest, Dictionary<string, double> testDictionaryStringDouble)
     {
@@ -84,5 +84,9 @@ public class AltUnitySampleClass{
         {
             testDictionaryStringDouble = value;
         }
+    }
+    public string TestMethod()
+    {
+        return "Test";
     }
 }
