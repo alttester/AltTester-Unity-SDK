@@ -1,3 +1,34 @@
+# Changes in version 1.6.2
+## New
+- "Publish altUnity on nuget" !328  
+## Bug fixes and improvements
+
+- "3D object disappears when highlighted for screenshot" !349  
+- "Add possibility to call a method from an object inside an gameObject" !348  
+- "parentId is wrong for canvas objects" !341  
+- "Click event is not triggered when swipe is moving but remains on the same object" !347  
+- "Wrong shaders are assigned to materials after object is highlighted" !346  
+- "call CreateJsonFileForInputMappingOfAxis during build from commandline" !343  
+- "Return value for CallStaticMethod is wrong in documentation" !342  
+- "Handle case when there is no camera selecting object from screenshot" !318  
+- "Keypress moves the character 2 positions instead of 1" !337  
+- "Remove tests requiring moq.dll from unitypackage" !340  
+- "AltElement repr does not conform to the standard in python" !339  
+- "Add flag to make sure AltUnity Tester can be added only to dev builds" !335  
+- "Add a note to documentation regarding that only dev builds should have AltUnity Tester" !334  
+- "Spelling mistake in AltUnityTester UI and documentation." !333  
+- "Add an overview to License section, so users are not confused what restrictions they have" !332  
+- "Port forwarding text has different color in dark theme than other text" !329  
+- "Iterate enabled cameras on HightlightObjectFromCoordinatesCommand" !330  
+- "Fix inspector documentation link" !326  
+- "Add documentation for selecting scenes when building the game"!325  
+- "Update AltUnity Tester documentation structure" !324  
+
+## Contributors 
+- Dorin Oltean @dorinaltom
+- Gombos Kriszta @GombosKriszta 
+- Robert Poienar @robert_poienar
+
 # Changes in version 1.6.1
 
 ## Bug fixes and improvements
