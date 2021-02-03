@@ -9,7 +9,7 @@ using System.Net.Sockets;
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
 
-    public static readonly string VERSION = "1.6.2-alpha";
+    public static readonly string VERSION = "1.6.2";
     public static AltUnityRunner _altUnityRunner;
     public static System.IO.StreamWriter ServerLogger;
     public static AltResponseQueue _responseQueue;
