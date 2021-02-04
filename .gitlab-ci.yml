@@ -346,9 +346,6 @@ pages:
   tags:
     - unity
     - mac
-  dependencies:
-    - create-unity-package
-    - create-jar-archive
   artifacts:
     paths:
       - public
@@ -357,7 +354,7 @@ pages:
     - *initialize_venv
     - python3 -m pip install -r requirements.txt
     - make html
-    - cp -r _build/html ../public
+    - cp -r _build/html/. ../public/
 
 maven-snapshot-repo:
   stage: deploy
