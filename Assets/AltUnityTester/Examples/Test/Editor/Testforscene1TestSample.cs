@@ -929,6 +929,13 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestGetAllActiveCameras()
+    {
+        var cameras = altUnityDriver.GetAllActiveCameras();
+        Assert.AreEqual(1, cameras.Count);
+    }
+
+    [Test]
     public void TestGetAllElementsLight()
     {
         var altElements = altUnityDriver.GetAllElementsLight();
