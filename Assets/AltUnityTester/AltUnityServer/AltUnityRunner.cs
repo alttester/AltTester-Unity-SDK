@@ -367,7 +367,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new AltUnityGetAllScenesCommand(parameters);
                     break;
                 case "getAllCameras":
-                    command = new AltUnityGetAllCamerasCommand(parameters);
+                    command = new AltUnityGetAllCamerasCommand(false, parameters);
+                    break;
+                case "getAllActiveCameras":
+                    command = new AltUnityGetAllCamerasCommand(true, parameters);
                     break;
                 case "getAllLoadedScenes":
                     command = new AltUnityGetAllLoadedScenesCommand(parameters);

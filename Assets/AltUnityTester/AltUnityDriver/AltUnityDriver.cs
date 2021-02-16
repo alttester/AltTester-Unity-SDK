@@ -312,6 +312,11 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnityGetAllCameras(socketSettings).Execute();
         }
+
+        public System.Collections.Generic.List<AltUnityObject> GetAllActiveCameras()
+        {
+            return new AltUnityGetAllActiveCameras(socketSettings).Execute();
+        }
         public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
         {
             return new AltUnityGetScreenshot(socketSettings, size, screenShotQuality).Execute();
