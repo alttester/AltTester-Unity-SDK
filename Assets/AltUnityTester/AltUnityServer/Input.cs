@@ -1,12 +1,8 @@
 #if ALTUNITYTESTER
-
 using Altom.AltUnityDriver;
 using System.Linq;
-
 public class Input : UnityEngine.MonoBehaviour
 {
-
-
     private static bool UseCustomInput;
     private static System.Collections.Generic.List<AltUnityAxis> AxisList;
     private static AltUnityMockUpPointerInputModule mockUpPointerInputModule;
@@ -1068,5 +1064,14 @@ public class KeyStructure
     public float Power { get; set; }
 
 }
+#else
+using UnityEngine;
 
+namespace Altom.Server.Input
+{
+    public class Input : MonoBehaviour
+    {
+
+    }
+}
 #endif
