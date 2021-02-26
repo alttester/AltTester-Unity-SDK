@@ -1,18 +1,19 @@
-# Get Started  
+# Get Started
 
 To run the first test for your Unity game you need to:
+
 1. [Import AltUnity Tester package in Unity Editor](#import-altunity-tester-package)
 2. [Instrument your game with AltUnity Server](#instrument-your-game-with-altunity-server)
 3. [Run the build in Unity Editor or on desired platform](#run-your-game-in-unity-or-on-desired-platform)
 4. [Write and execute first test](#write-and-execute-first-test-for-your-game)
 
 ```eval_rst note::
-    If you don't have access to source code of the game you need to ask a person with access to give you an instrumented version of the game. 
+    If you don't have access to source code of the game you need to ask a person with access to give you an instrumented version of the game.
 ```
 
 ## Import AltUnity Tester package
 
-To instrument your game with AltUnity Server you first need to import the AltUnity Tester package into Unity.
+To instrument your game with AltUnity Server you first need to import the AltUnity Tester package into Unity. This can be done either by downloading from the Unity Asset Store or from the Gitlab pages.
 
 ```eval_rst
 .. tabs::
@@ -31,12 +32,11 @@ To instrument your game with AltUnity Server you first need to import the AltUni
 
 ```
 
+```important:: To make sure the import was correct, check if you can open AltUnity Tester Editor Window from Unity Editor -> Window -> AltUnityTester.
 
-``` important:: To make sure the import was correct, check if you can open AltUnity Tester Editor Window from Unity Editor -> Window -> AltUnityTester.
 ```
- 
-![window menu with altUnity Tester](../_static/images/DownloadingImportingAltUnityTesterWindow.png)
 
+![window menu with altUnity Tester](../_static/images/DownloadingImportingAltUnityTesterWindow.png)
 
 ## Instrument your game with AltUnity Server
 
@@ -50,33 +50,32 @@ Steps:
 4. Press "Build Only" to instrument the game.
 5. Check the console to see if the build was successful.
 
-``` important::
-        Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity when building using the Standalone option.  
+```important::
+        Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity when building using the Standalone option.
 
-        This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.   
+        This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.
 ```
 
-``` important::
-        AltUnity Server is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltUnity Server.  
+```important::
+        AltUnity Server is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltUnity Server.
 ```
 
-``` note::
+```note::
         Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
 ```
 
-``` note::
+```note::
     If you have a custom build, check how you can build from the command line using the instructions in the `Advanced Usage section <advanced-usage.html#Build-games-from-the-command-line>`_.
 ```
 
-``` note::
-    If changes are made inside a test, rebuilding the application is not necessary. 
+```note::
+    If changes are made inside a test, rebuilding the application is not necessary.
     A rebuild is needed only if changes are made inside the Unity project.
 ```
 
-
 ## Run your game in Unity or on desired platform
 
-Before running your tests you need to start the game instrumented with AltUnity Server. Upon startup, your game should display a popup with the message: "waiting for connection on port 13000". 
+Before running your tests you need to start the game instrumented with AltUnity Server. Upon startup, your game should display a popup with the message: "waiting for connection on port 13000".
 
 ```eval_rst
 .. tabs::
@@ -96,9 +95,9 @@ Before running your tests you need to start the game instrumented with AltUnity 
 
         .. important::
 
-            Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity when building using the Standalone option.  
+            Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity when building using the Standalone option.
 
-            This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.         
+            This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.
 
     .. tab:: Android
 
@@ -112,55 +111,52 @@ Before running your tests you need to start the game instrumented with AltUnity 
         2. In platform section select Android
         3. Click Build & Run
 
-            
+
     .. tab:: iOS
 
         Prerequisites:
 
         * Have IProxy installed: ``brew install libimobiledevice``
-        
+
         Steps:
 
         1. Open AltUnity Tester Window
         2. In platform section select iOS
         3. Click Build & Run
 
-        .. note:: 
+        .. note::
             Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
-        
 
-        .. note:: 
+
+        .. note::
             For more details read about `port forwarding at this link <advanced-usage.html#what-is-port-forwarding-and-when-to-use-it>`_.
 
 ```
 
-
 ## Write and execute first test for your game
 
-To write tests with AltUnity Tester you need to import the AltUnity Client in your tests project. 
+To write tests with AltUnity Tester you need to import the AltUnity Client in your tests project.
 
 AltUnity Tester package contains AltUnityDriver class used to connect to the instrumented game. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the game.
 
+```note::
+        Example tests below are setup to run on Scene 2 and Scene 3 from the Example folder under the AltUnity Tester package.
 
-``` note:: 
-        Example tests below are setup to run on Scene 2 and Scene 3 from the Example folder under the AltUnity Tester package.  
-        
         If you want to use these examples for other scenes / games, make sure to update the test accordingly.
 ```
-
 
 ```eval_rst
 .. tabs::
 
     .. tab:: C#
-        
+
         AltUnity C# Client is already included in AltUnity Tester package. If you are writing tests in C# then you can create your tests directly from Unity.
-        
+
         1.  Create a folder named Editor in your Unity Project.
         2.  Right-click on Editor folder and select `Create -> AltUnityTest`. This will create a template file in which you could start to write your test.
         3.  Name the file MyFirstTest.
         4.  Open AltUnity Tester Window.
-        5.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console 
+        5.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
 
 
         Example test file:
@@ -194,12 +190,12 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         AltUnity Java Client is available as a maven package or as a standalone jar. Use one of the following methods to import the client in your tests project.
 
-           Method 1: 
+           Method 1:
 
                 * Add AltUnity Java Client as a dependency in your pom.xml file:
 
                 .. code-block:: xml
-                
+
                     <dependency>
                       <groupId>com.altom</groupId>
                       <artifactId>altunitytester-java-client</artifactId>
@@ -215,7 +211,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
                 .. code-block:: sh
 
-                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.6.2 -Dpackaging=jar`` 
+                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.6.2 -Dpackaging=jar``
 
         Example test file:
 
@@ -247,17 +243,17 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
         There are two methods of installing the AltUnity Python Client pip package:
 
             Method 1 - Installing using Pip:
-        
+
                 ``pip install altunityrunner``
 
             Method 2 - Install from the source code in the repository:
-           
-                ``cd <project-dir>/Bindings~/python``                
+
+                ``cd <project-dir>/Bindings~/python``
 
                 ``python setup.py install``
-        
 
-        Example test file:  
+
+        Example test file:
 
         .. tabs::
 
@@ -283,10 +279,8 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
                 ``python <nameOfYourTestFile.py>``
 ```
 
-
 Now your project can use all the [AltUnity Client Commands](./commands.md).
 
-
-``` note:: 
+```note::
         Before running your tests, start the instrumented game and wait for popup with the message: "waiting for connection on port 13000".
 ```
