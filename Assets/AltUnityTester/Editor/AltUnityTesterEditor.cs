@@ -1363,7 +1363,8 @@ public class AltUnityTesterEditor : UnityEditor.EditorWindow
     public static void CreateAltUnityTesterPackage()
     {
         UnityEngine.Debug.Log("AltUnityTester - Unity Package creation started...");
-        string packageName = "AltUnityTester.unitypackage";
+        var version = AltUnityRunner.VERSION.Replace('.', '_');
+        string packageName = "AltUnityTester_" + version + ".unitypackage";
         string assetPathNames = "Assets/AltUnityTester";
         UnityEditor.AssetDatabase.ExportPackage(assetPathNames, packageName, UnityEditor.ExportPackageOptions.Recurse);
         UnityEngine.Debug.Log("AltUnityTester - Unity Package done.");
