@@ -46,13 +46,18 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
             Socket.Send(Encoding.GetBytes(response));
         }
 
-        public void SendResponse(AltUnityCommand command, string response)
+        public void SendResponse(AltUnityCommand command, string response, int maxLengthLogMsg = 100)
         {
             var logMessage = Regex.Replace(command.GetLogMessage(), @"\r\n|\n|\r$", "");//Removes the last new line
 
             Socket.Send(Encoding.GetBytes("altstart::" + command.MessageId + "::response::" + response + "::altLog::" + logMessage + "::altend"));
-            command.EndLog(response);
+            if (response != null && response.Length > maxLengthLogMsg) {
+              command.EndLog( "response longer then max length'" + maxLengthLogMsg + "'. Response length = '" + response.Length.ToString() + "'");
+            } else {
+              command.EndLog(response);
+            }
         }
+        
         public void SendScreenshotResponse(AltUnityCommand command, string response)
         {
             var logMessage = "Screenshot length " + response.Length;
