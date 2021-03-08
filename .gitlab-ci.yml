@@ -257,7 +257,7 @@ create-unity-package:
     - mac
   script:
     - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityPackage || true
-    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
+    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.Editor.AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
     - mv AltUnityTester.unitypackage public/${CI_COMMIT_REF_NAME}/AltUnityPackage/AltUnityTester.unitypackage
     - cd public/${CI_COMMIT_REF_NAME}/AltUnityPackage
     - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityPackage/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
