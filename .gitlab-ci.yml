@@ -101,7 +101,7 @@ run-csharp-unity-android-tests:
   script:
     - ls
     - *reinstall_and_start_android_app
-    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
+    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.Editor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
   after_script:
     - adb forward --remove-all
     - cat csharpAndroidTests.log

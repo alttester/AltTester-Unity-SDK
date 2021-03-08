@@ -1,192 +1,195 @@
 ﻿
 using System;
 
-[System.Serializable]
-public class AltUnityMyTest
+namespace Altom.Editor
 {
-
-    public bool _selected;
-    public string _testName;
-    public int _status;
-    public bool _isSuite;
-    public System.Type _type;
-    public string _parentName;
-    public int _testCaseCount;
-    public bool _foldOut;
-    public string _testResultMessage;
-    public string _testStackTrace;
-    public Double _testDuration;
-    public string path;
-
-    public AltUnityMyTest(bool selected, string testName, int status, bool isSuite, Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage, string testStackTrace, Double testDuration, string path)
+    [System.Serializable]
+    public class AltUnityMyTest
     {
-        _selected = selected;
-        _testName = testName;
-        _status = status;
-        _isSuite = isSuite;
-        _type = type;
-        _parentName = parentName;
-        _testCaseCount = testCaseCount;
-        _foldOut = foldOut;
-        _testResultMessage = testResultMessage;
-        _testStackTrace = testStackTrace;
-        _testDuration = testDuration;
-        this.path = path;
-    }
 
-    public bool Selected
-    {
-        get
+        public bool _selected;
+        public string _testName;
+        public int _status;
+        public bool _isSuite;
+        public System.Type _type;
+        public string _parentName;
+        public int _testCaseCount;
+        public bool _foldOut;
+        public string _testResultMessage;
+        public string _testStackTrace;
+        public Double _testDuration;
+        public string path;
+
+        public AltUnityMyTest(bool selected, string testName, int status, bool isSuite, Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage, string testStackTrace, Double testDuration, string path)
         {
-            return _selected;
+            _selected = selected;
+            _testName = testName;
+            _status = status;
+            _isSuite = isSuite;
+            _type = type;
+            _parentName = parentName;
+            _testCaseCount = testCaseCount;
+            _foldOut = foldOut;
+            _testResultMessage = testResultMessage;
+            _testStackTrace = testStackTrace;
+            _testDuration = testDuration;
+            this.path = path;
         }
 
-        set
+        public bool Selected
         {
-            _selected = value;
-        }
-    }
+            get
+            {
+                return _selected;
+            }
 
-    public string TestName
-    {
-        get
-        {
-            return _testName;
-        }
-
-        set
-        {
-            _testName = value;
-        }
-    }
-
-    public int Status
-    {
-        get
-        {
-            return _status;
+            set
+            {
+                _selected = value;
+            }
         }
 
-        set
+        public string TestName
         {
-            _status = value;
-        }
-    }
+            get
+            {
+                return _testName;
+            }
 
-    public bool IsSuite
-    {
-        get
-        {
-            return _isSuite;
-        }
-
-        set
-        {
-            _isSuite = value;
-        }
-    }
-
-    public Type Type
-    {
-        get
-        {
-            return _type;
+            set
+            {
+                _testName = value;
+            }
         }
 
-        set
+        public int Status
         {
-            _type = value;
-        }
-    }
+            get
+            {
+                return _status;
+            }
 
-    public string ParentName
-    {
-        get
-        {
-            return _parentName;
-        }
-
-        set
-        {
-            _parentName = value;
-        }
-    }
-
-    public int TestCaseCount
-    {
-        get
-        {
-            return _testCaseCount;
+            set
+            {
+                _status = value;
+            }
         }
 
-        set
+        public bool IsSuite
         {
-            _testCaseCount = value;
-        }
-    }
+            get
+            {
+                return _isSuite;
+            }
 
-    public bool FoldOut
-    {
-        get
-        {
-            return _foldOut;
-        }
-
-        set
-        {
-            _foldOut = value;
-        }
-    }
-
-    public string TestResultMessage
-    {
-        get
-        {
-            return _testResultMessage;
+            set
+            {
+                _isSuite = value;
+            }
         }
 
-        set
+        public Type Type
         {
-            _testResultMessage = value;
-        }
-    }
+            get
+            {
+                return _type;
+            }
 
-    public string TestStackTrace
-    {
-        get
-        {
-            return _testStackTrace;
-        }
-
-        set
-        {
-            _testStackTrace = value;
-        }
-    }
-
-    public Double TestDuration
-    {
-        get
-        {
-            return _testDuration;
+            set
+            {
+                _type = value;
+            }
         }
 
-        set
+        public string ParentName
         {
-            _testDuration = value;
-        }
-    }
+            get
+            {
+                return _parentName;
+            }
 
-    public string Path
-    {
-        get
-        {
-            return path;
+            set
+            {
+                _parentName = value;
+            }
         }
 
-        set
+        public int TestCaseCount
         {
-            path = value;
+            get
+            {
+                return _testCaseCount;
+            }
+
+            set
+            {
+                _testCaseCount = value;
+            }
+        }
+
+        public bool FoldOut
+        {
+            get
+            {
+                return _foldOut;
+            }
+
+            set
+            {
+                _foldOut = value;
+            }
+        }
+
+        public string TestResultMessage
+        {
+            get
+            {
+                return _testResultMessage;
+            }
+
+            set
+            {
+                _testResultMessage = value;
+            }
+        }
+
+        public string TestStackTrace
+        {
+            get
+            {
+                return _testStackTrace;
+            }
+
+            set
+            {
+                _testStackTrace = value;
+            }
+        }
+
+        public Double TestDuration
+        {
+            get
+            {
+                return _testDuration;
+            }
+
+            set
+            {
+                _testDuration = value;
+            }
+        }
+
+        public string Path
+        {
+            get
+            {
+                return path;
+            }
+
+            set
+            {
+                path = value;
+            }
         }
     }
 }
