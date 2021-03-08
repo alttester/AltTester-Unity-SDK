@@ -391,6 +391,7 @@ namespace Altom.Editor
                 {
                     RunInEditor();
                 }
+                UnityEngine.GUIUtility.ExitGUI();
             }
             else
             {
@@ -416,6 +417,7 @@ namespace Altom.Editor
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.standaloneTarget, autoRun: true);
                     }
+                    UnityEngine.GUIUtility.ExitGUI();
                 }
 
             }
@@ -1362,16 +1364,16 @@ namespace Altom.Editor
             return (GetPathForSelectedItem() + "/").Contains("/Editor/");
         }
 
-    [UnityEditor.MenuItem("Window/CreateAltUnityTesterPackage")]
-    public static void CreateAltUnityTesterPackage()
-    {
-        UnityEngine.Debug.Log("AltUnityTester - Unity Package creation started...");
-        var version = AltUnityRunner.VERSION.Replace('.', '_');
-        string packageName = "AltUnityTester_" + version + ".unitypackage";
-        string assetPathNames = "Assets/AltUnityTester";
-        UnityEditor.AssetDatabase.ExportPackage(assetPathNames, packageName, UnityEditor.ExportPackageOptions.Recurse);
-        UnityEngine.Debug.Log("AltUnityTester - Unity Package done.");
-    }
+        [UnityEditor.MenuItem("Window/CreateAltUnityTesterPackage")]
+        public static void CreateAltUnityTesterPackage()
+        {
+            UnityEngine.Debug.Log("AltUnityTester - Unity Package creation started...");
+            var version = AltUnityRunner.VERSION.Replace('.', '_');
+            string packageName = "AltUnityTester_" + version + ".unitypackage";
+            string assetPathNames = "Assets/AltUnityTester";
+            UnityEditor.AssetDatabase.ExportPackage(assetPathNames, packageName, UnityEditor.ExportPackageOptions.Recurse);
+            UnityEngine.Debug.Log("AltUnityTester - Unity Package done.");
+        }
 
         private static string GetPathForSelectedItem()
         {
