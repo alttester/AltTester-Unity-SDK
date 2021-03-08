@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Runtime.InteropServices;
 using Altom.AltUnityDriver;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
@@ -78,7 +79,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         private System.Collections.Generic.List<string> ParseSelector(string selector)
         {
             System.Collections.Generic.List<string> conditions = new System.Collections.Generic.List<string>();
-            if (System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[@.+=.+\\]$") || System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[.+(@.+,.+)\\]$"))
+            if (System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[@.+=.+\\]\\[([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)\\]$") ||
+            System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[.+(@.+,.+)\\]\\[([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)\\]$"))
+            {
+                var substrings = selector.Split('[');
+                conditions.Add(substrings[0]);
+                conditions.Add(substrings[1].Substring(0, substrings[1].Length - 1));
+                conditions.Add(substrings[2].Substring(0, substrings[2].Length - 1));
+                return conditions;
+            }
+            if (System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[@.+=.+\\]$") || System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[.+(@.+,.+)\\]$")
+            || System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)\\]$"))
             {
                 var substrings = selector.Split('[');
                 conditions.Add(substrings[0]);
@@ -146,56 +157,33 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 {
                     return new System.Collections.Generic.List<UnityEngine.GameObject>() { gameObject.transform.parent.gameObject };
                 }
-                if (IsNextElementDirectChild(conditions[step + 1]))
-                {
-                    return FindObjects(gameObject.transform.parent.gameObject, conditions, step + 2, singleObject, true, enabled);
-                }
-                else
-                {
-                    return FindObjects(gameObject.transform.parent.gameObject, conditions, step + 2, singleObject, false, enabled);
-                }
+                var directChild = IsNextElementDirectChild(conditions[step + 1]);
+                return FindObjects(gameObject.transform.parent.gameObject, conditions, step + 2, singleObject, directChild, enabled);
 
             }
             System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = GetGameObjectsToCheck(gameObject);
             System.Collections.Generic.List<UnityEngine.GameObject> objectsFound = new System.Collections.Generic.List<UnityEngine.GameObject>();
             foreach (var objectToCheck in objectsToCheck)
             {
-
-                if ((!enabled || (enabled && objectToCheck.activeInHierarchy)) && CheckCondition(objectToCheck, conditions[step]))
+                int childNumber = -1;
+                if ((!enabled || (enabled && objectToCheck.activeInHierarchy)) && CheckCondition(objectToCheck, conditions[step], ref childNumber))
                 {
-
                     //Pass the condition
+                    UnityEngine.GameObject nextObjectToCheck = childNumber != -1 ? objectToCheck.transform.GetChild(childNumber).gameObject : objectToCheck;
                     if (step != conditions.Count - 1)
                     {
-                        if (IsNextElementDirectChild(conditions[step + 1]))
+                        var directChild = IsNextElementDirectChild(conditions[step + 1]);
+                        if (singleObject)
                         {
-                            if (singleObject)
-                            {
-                                return FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled);
-                            }
-                            else
-                            {
-                                objectsFound.AddRange(FindObjects(objectToCheck, conditions, step + 2, singleObject, true, enabled));
-                                continue;
-
-                            }
+                            return FindObjects(nextObjectToCheck, conditions, step + 2, singleObject, directChild, enabled);
                         }
                         else
                         {
-                            if (singleObject)
-                            {
-                                return FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled);
-                            }
-                            else
-                            {
-                                objectsFound.AddRange(FindObjects(objectToCheck, conditions, step + 2, singleObject, false, enabled));
-                                continue;
-
-                            }
+                            objectsFound.AddRange(FindObjects(nextObjectToCheck, conditions, step + 2, singleObject, directChild, enabled));
+                            continue;
                         }
-
                     }
-                    objectsFound.Add(objectToCheck);
+                    objectsFound.Add(nextObjectToCheck);
                     if (singleObject)
                     {
                         return objectsFound;
@@ -220,7 +208,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         }
 
-        private bool CheckCondition(UnityEngine.GameObject objectToCheck, System.Collections.Generic.List<string> listOfConditions)
+        private bool CheckCondition(UnityEngine.GameObject objectToCheck, System.Collections.Generic.List<string> listOfConditions, ref int childNumber)
         {
             bool valid = true;
             foreach (var condition in listOfConditions)
@@ -296,11 +284,21 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                             case 8:
                                 valid = objectToCheck.name.Contains(value);
                                 break;
+
+
                             default:
                                 throw new System.Exception("No such selector is implemented");
 
 
                         }
+                        break;
+                    case 9:
+                        childNumber = int.Parse(condition);
+                        if (childNumber < 0)
+                        {
+                            childNumber = objectToCheck.transform.childCount + childNumber;
+                        }
+                        valid = childNumber >= 0 && childNumber <= objectToCheck.transform.childCount;
                         break;
                 }
                 if (!valid)
@@ -330,6 +328,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 option = 7;
             else if (condition.Equals("@name"))
                 option = 8;
+            else if (System.Text.RegularExpressions.Regex.Match(condition, "([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)").Success)
+                option = 9;
             return option;
         }
 

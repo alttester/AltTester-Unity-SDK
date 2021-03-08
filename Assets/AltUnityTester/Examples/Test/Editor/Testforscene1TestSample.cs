@@ -1486,5 +1486,25 @@ public class TestForScene1TestSample
         var data = altElement.CallComponentMethod("UnityEngine.GameObject", "scene.IsValid", "", "", "UnityEngine.CoreModule");
         Assert.AreEqual("true", data);
     }
+
+    [Test]
+    public void TestFindNthChild()
+    {
+        var CapsuleInfo = altUnityDriver.FindObject(By.PATH, "/Canvas[0]");
+        Assert.AreEqual("CapsuleInfo", CapsuleInfo.name);
+        var UIButton = altUnityDriver.FindObject(By.PATH, "/Canvas[1]");
+        Assert.AreEqual("UIButton", UIButton.name);
+        var NextScene = altUnityDriver.FindObject(By.PATH, "/Canvas[-1]");
+        Assert.AreEqual("NextScene", NextScene.name);
+        var ButtonCounter = altUnityDriver.FindObject(By.PATH, "/Canvas[-2]");
+        Assert.AreEqual("ButtonCounter", ButtonCounter.name);
+        var InputField = altUnityDriver.FindObject(By.PATH, "/Canvas[@layer=UI][5]");
+        Assert.AreEqual("InputField", InputField.name);
+        var Text = altUnityDriver.FindObject(By.PATH, "/Canvas[1]/Text");
+        Assert.AreEqual("Text", Text.name);
+
+    }
+
+
 }
 
