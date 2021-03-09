@@ -2343,7 +2343,7 @@ Loads the scene mentioned by its name.
         @Test
         public void testGetCurrentScene() throws Exception
         {
-            altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene",true);
+            altUnityDriver.loadScene(new AltLoadSceneParameters.Builder("Scene 1 AltUnityDriverTestScene").loadMode(true).build());
             assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
         }
 
