@@ -349,7 +349,7 @@ namespace Altom.Editor
             }
             else
             {
-                buildPlayerOptions.options = UnityEditor.BuildOptions.Development;
+                buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.ShowBuiltPlayer;
             }
             var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
 
