@@ -371,6 +371,8 @@ namespace Altom.Editor
                     {
                         RunInEditor();
                     }
+                    UnityEngine.GUIUtility.ExitGUI();
+
                 }
             }
             else
@@ -391,7 +393,6 @@ namespace Altom.Editor
                 {
                     RunInEditor();
                 }
-                UnityEngine.GUIUtility.ExitGUI();
             }
             else
             {
