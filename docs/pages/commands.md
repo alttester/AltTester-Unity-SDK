@@ -3252,7 +3252,7 @@ Currenty there are 6 type implemented:
 -   _Layer_ - search for objects that are set on a specific layer
 -   _Name_ - search for objects that are named in a certain way
 -   _Component_ - search for objects that have certain component
--   _Id_ - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects)
+-   _Id_ - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#AltId)
 -   _Path_ - search for objects that respect a certain path
 
 **Searching object by path**
@@ -3285,3 +3285,11 @@ How a correct path should look like:
 //StartButton[1] - Returns second child of every object that has the name "StartButton"
 //*[@id=500][-1] - Return the last child of the object that has the id=500
 ```
+
+### AltId
+
+Is a solution offered by AltUnity Tester in order to find object easier. This is an unique identifier stored in an component and added to every object.  
+**A limitation of this is that only the object already in the scene before building the game will have an AltId. Object instantiated during run time will not have an AltId**
+
+To add AltId to every object simply just click AddAltIdToEveryObject from AltUnityTester menu.  
+![addAltId](../_static/images/addAltId.png)

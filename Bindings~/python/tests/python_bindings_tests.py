@@ -766,7 +766,7 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         components = self.altdriver.find_object(
             By.NAME, "Canvas").get_all_components()
-        self.assertEqual(4, len(components))
+        self.assertEqual(5, len(components))
         self.assertEqual("UnityEngine.RectTransform",
                          components[0]["componentName"])
         self.assertEqual("UnityEngine.CoreModule",
@@ -1112,6 +1112,7 @@ class PythonTests(unittest.TestCase):
         element = self.altdriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
         elementParent = element.get_parent()
         self.assertEqual('Canvas', elementParent.name)
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

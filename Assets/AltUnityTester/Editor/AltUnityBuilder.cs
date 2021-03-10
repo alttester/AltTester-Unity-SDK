@@ -1,4 +1,9 @@
+using System.Collections.Generic;
+using System.Diagnostics;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 
 namespace Altom.Editor
 {
