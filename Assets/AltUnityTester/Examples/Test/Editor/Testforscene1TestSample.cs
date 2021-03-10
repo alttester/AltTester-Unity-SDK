@@ -676,7 +676,7 @@ public class TestForScene1TestSample
     public void TestGetAllComponents()
     {
         List<AltUnityComponent> components = altUnityDriver.FindObject(By.NAME, "Canvas").GetAllComponents();
-        Assert.AreEqual(4, components.Count);
+        Assert.AreEqual(5, components.Count);
         Assert.AreEqual("UnityEngine.RectTransform", components[0].componentName);
         Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
     }
@@ -1478,6 +1478,18 @@ public class TestForScene1TestSample
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod("UnityEngine.GameObject", "CompareTag", "Untagged", "System.String", "UnityEngine.CoreModule");
         Assert.AreEqual("true", data);
+    }
+
+    [Test]
+    public void TestFindObjectByAltId()
+    {
+        var capsule = altUnityDriver.FindObject(By.ID, "2b78431c-2251-4489-8d50-7634304a5630");
+        Assert.AreEqual("Capsule", capsule.name);
+        var plane = altUnityDriver.FindObject(By.PATH, "//*[@id=eff13b53-66de-4f98-82f3-a140b8949484]");
+        Assert.AreEqual("Plane", plane.name);
+        var mainCamera = altUnityDriver.FindObject(By.NAME, "Main Camera");
+        mainCamera = altUnityDriver.FindObject(By.ID, mainCamera.id.ToString());
+        Assert.AreEqual("Main Camera", mainCamera.name);
     }
     [Test]
     public void TestCallMethodInsideSubObjectOfGameObject()

@@ -245,8 +245,20 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         }
                         break;
                     case 5://id
-                        var id = System.Convert.ToInt32(condition.Substring(4, condition.Length - 4));
-                        valid = (objectToCheck.GetInstanceID() == id);
+                        string idAsString = condition.Substring(4, condition.Length - 4);
+                        if (System.Text.RegularExpressions.Regex.Match(idAsString, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
+                        {
+                            var id = System.Convert.ToInt32(condition.Substring(4, condition.Length - 4));
+                            valid = objectToCheck.GetInstanceID() == id;
+                            break;
+                        }
+                        var component = objectToCheck.GetComponent<AltUnityId>();
+                        if (component != null)
+                        {
+                            valid = component.altID.Equals(idAsString);
+                            break;
+                        }
+                        valid = false;
                         break;
                     case 6://contains
                         var substring = condition.Substring(9, condition.Length - 10);

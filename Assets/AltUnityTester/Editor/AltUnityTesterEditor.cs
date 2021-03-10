@@ -1394,5 +1394,101 @@ namespace Altom.Editor
             UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
             UnityEditor.SceneManagement.EditorSceneManager.OpenScene(AltUnityBuilder.PreviousScenePath);
         }
+
+        [UnityEditor.MenuItem("AltUnityTester/AddAltIdToEveryObject", false, 80)]
+        public static void AddIdComponentToEveryObjectInTheProject()
+        {
+            var scenes = AltUnityGetAllScenes();
+            foreach (var scene in scenes)
+            {
+                UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scene);
+                AddComponentToEveryObjectInTheScene();
+            }
+        }
+
+        private static void AddComponentToEveryObjectInTheScene()
+        {
+            System.Collections.Generic.List<UnityEngine.GameObject> rootObjects = new List<UnityEngine.GameObject>();
+            UnityEngine.SceneManagement.Scene scene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();
+            scene.GetRootGameObjects(rootObjects);
+
+            // iterate root objects and do something
+            for (int i = 0; i < rootObjects.Count; ++i)
+            {
+                AddComponentToObjectAndHisChildren(rootObjects[i]);
+            }
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
+            UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
+        }
+
+        private static void AddComponentToObjectAndHisChildren(UnityEngine.GameObject gameObject)
+        {
+            var component = gameObject.GetComponent<AltUnityId>();
+            if (component == null)
+            {
+                gameObject.AddComponent(typeof(AltUnityId));
+
+            }
+            int childCount = gameObject.transform.childCount;
+            for (int j = 0; j < childCount; j++)
+            {
+                AddComponentToObjectAndHisChildren(gameObject.transform.GetChild(j).gameObject);
+            }
+        }
+
+        [UnityEditor.MenuItem("AltUnityTester/RemoveAltIdFromEveryObject", false, 80)]
+        public static void RemoveIdComponentFromEveryObjectInTheProject()
+        {
+            var scenes = AltUnityGetAllScenes();
+            foreach (var scene in scenes)
+            {
+                UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scene);
+                RemoveComponentFromEveryObjectInTheScene();
+            }
+        }
+
+
+        private static void RemoveComponentFromEveryObjectInTheScene()
+        {
+            System.Collections.Generic.List<UnityEngine.GameObject> rootObjects = new List<UnityEngine.GameObject>();
+            UnityEngine.SceneManagement.Scene scene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();
+            scene.GetRootGameObjects(rootObjects);
+
+            // iterate root objects and do something
+            for (int i = 0; i < rootObjects.Count; ++i)
+            {
+                RemoveComponentFromObjectAndHisChildren(rootObjects[i]);
+            }
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
+            UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
+        }
+
+        private static void RemoveComponentFromObjectAndHisChildren(UnityEngine.GameObject gameObject)
+        {
+            var component = gameObject.GetComponent<AltUnityId>();
+            if (component != null)
+            {
+                UnityEngine.GameObject.DestroyImmediate(component);
+            }
+            int childCount = gameObject.transform.childCount;
+            for (int j = 0; j < childCount; j++)
+            {
+                RemoveComponentFromObjectAndHisChildren(gameObject.transform.GetChild(j).gameObject);
+            }
+        }
+
+
+        private static string[] AltUnityGetAllScenes()
+        {
+            string[] temp = UnityEditor.AssetDatabase.GetAllAssetPaths();
+            System.Collections.Generic.List<string> result = new System.Collections.Generic.List<string>();
+            foreach (string s in temp)
+            {
+                if (s.EndsWith(".unity")) result.Add(s);
+            }
+            return result.ToArray();
+        }
     }
+
+
 }
