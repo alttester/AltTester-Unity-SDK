@@ -89,12 +89,9 @@ public class AltUnityDriver {
             }
         }
 
-        try
-        {
+        try {
             EnableLogging();
-        }
-        catch (AltUnityRecvallMessageFormatException ex)
-        {
+        } catch (AltUnityRecvallMessageFormatException ex) {
             System.out.println("Cannot set logging flag because of version incompatibility.");
         }
     }
@@ -107,13 +104,9 @@ public class AltUnityDriver {
         String serverVersion;
         try {
             serverVersion = new GetServerVersionCommand(altBaseSettings).Execute();
-        }
-        catch (UnknownErrorException ex)
-        {
+        } catch (UnknownErrorException ex) {
             serverVersion = "<=1.5.3";
-        }
-        catch (AltUnityRecvallMessageFormatException ex)
-        {
+        } catch (AltUnityRecvallMessageFormatException ex) {
             serverVersion = "<=1.5.7";
         }
         String[] parts = splitVersion(serverVersion);
@@ -169,6 +162,10 @@ public class AltUnityDriver {
 
     public void loadScene(AltLoadSceneParameters altLoadSceneParameters) {
         new AltLoadScene(altBaseSettings, altLoadSceneParameters).Execute();
+    }
+
+    public void unloadScene(String sceneName) {
+        new AltUnloadScene(altBaseSettings, sceneName).Execute();
     }
 
     public String[] getAllLoadedScenes() {

@@ -94,6 +94,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     UnityEngine.Debug.Log(e);
                     response = AltUnityErrors.errorAssemblyNotFoundMessage;
                 }
+                catch (CouldNotPerformOperationException e)
+                {
+                    UnityEngine.Debug.Log(e);
+                    response = AltUnityErrors.errorCouldNotPerformOperationMessage;
+                }
                 catch (System.Exception exception)
                 {
                     UnityEngine.Debug.Log(exception);

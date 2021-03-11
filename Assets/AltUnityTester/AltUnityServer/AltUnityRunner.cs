@@ -1,10 +1,10 @@
+using System;
+using System.Linq;
+using System.Net.Sockets;
 using Altom.AltUnityDriver;
 using Assets.AltUnityTester.AltUnityServer.AltSocket;
 using Assets.AltUnityTester.AltUnityServer.Commands;
 using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Net.Sockets;
 
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
@@ -329,6 +329,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "loadScene":
                     command = new AltUnityLoadSceneCommand(handler, parameters);
+                    break;
+                case "unloadScene":
+                    command = new AltUnityUnloadSceneCommand(handler, parameters);
                     break;
                 case "setTimeScale":
                     command = new AltUnitySetTimeScaleCommand(parameters);

@@ -123,6 +123,10 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityLoadScene(socketSettings, scene, loadSingle).Execute();
         }
+        public void UnloadScene(string scene)
+        {
+            new AltUnityUnloadScene(socketSettings, scene).Execute();
+        }
         public System.Collections.Generic.List<string> GetAllLoadedScenes()
         {
             return new AltUnityGetAllLoadedScenes(socketSettings).Execute();
