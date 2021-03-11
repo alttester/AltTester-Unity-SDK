@@ -16,4 +16,4 @@ class LoadScene(BaseCommand):
             if (data == "Scene Loaded"):
                 logger.debug('Scene loaded: ' + self.scene_name)
                 return data
-        return None
+        return self.handle_errors(data)

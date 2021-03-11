@@ -1,10 +1,10 @@
-using Altom.AltUnityDriver;
-using Altom.AltUnityDriver.Commands;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
+using NUnit.Framework;
 
 [Timeout(10000)]
 public class TestForScene1TestSample
@@ -1515,6 +1515,21 @@ public class TestForScene1TestSample
         var Text = altUnityDriver.FindObject(By.PATH, "/Canvas[1]/Text");
         Assert.AreEqual("Text", Text.name);
 
+    }
+    [Test]
+    public void TestUnloadScene()
+    {
+        altUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
+        Assert.AreEqual(2, altUnityDriver.GetAllLoadedScenes().Count);
+        altUnityDriver.UnloadScene("Scene 2 Draggable Panel");
+        Assert.AreEqual(1, altUnityDriver.GetAllLoadedScenes().Count);
+        Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetAllLoadedScenes()[0]);
+    }
+    [Test]
+    public void TestUnloadOnlyScene()
+    {
+        Assert.Throws<CouldNotPerformOperationException>(() => altUnityDriver.UnloadScene("Scene 1 AltUnityDriverTestScene"));
+        Assert.Throws<CouldNotPerformOperationException>(() => altUnityDriver.UnloadScene("Scene 2 Draggable Panel"));
     }
 
 

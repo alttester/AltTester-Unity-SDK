@@ -8,3 +8,4 @@ from altunityrunner.commands.UnityCommands.set_player_pref_key import SetPlayerP
 from altunityrunner.commands.UnityCommands.set_time_scale import SetTimeScale
 from altunityrunner.commands.UnityCommands.wait_for_current_scene_to_be import *
 from altunityrunner.commands.UnityCommands.get_all_loaded_scenes import GetAllLoadedScenes
+from altunityrunner.commands.UnityCommands.unload_scene import UnloadScene

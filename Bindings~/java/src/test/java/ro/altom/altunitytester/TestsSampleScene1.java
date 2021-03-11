@@ -1153,8 +1153,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void TestParentId()
-    {
+    public void TestParentId() {
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
                 .build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
@@ -1162,12 +1161,27 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void TestGetParent()
-    {
+    public void TestGetParent() {
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo")
                 .build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
         AltUnityObject altElementParent = altElement.getParent();
         assertEquals("Canvas", altElementParent.name);
+    }
+
+    @Test
+    public void TestUnloadScene() {
+        AltLoadSceneParameters altLoadSceneParameters = new AltLoadSceneParameters.Builder("Scene 2 Draggable Panel")
+                .loadMode(false).build();
+        altUnityDriver.loadScene(altLoadSceneParameters);
+        assertEquals(2, altUnityDriver.getAllLoadedScenes().length);
+        altUnityDriver.unloadScene("Scene 2 Draggable Panel");
+        assertEquals(1, altUnityDriver.getAllLoadedScenes().length);
+        assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getAllLoadedScenes()[0]);
+    }
+
+    @Test(expected = CouldNotPerformOperationException.class)
+    public void TestUnloadOnlyScene() {
+        altUnityDriver.unloadScene("Scene 1 AltUnityDriverTestScene");
     }
 }

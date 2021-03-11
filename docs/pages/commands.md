@@ -2354,6 +2354,61 @@ Loads the scene mentioned by its name.
         self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
 ```
 
+#### UnloadScene
+
+Unloads the scene mentioned by its name.
+
+**_Parameters_**
+
+| Name  | Type   | Required | Description                      |
+| ----- | ------ | -------- | -------------------------------- |
+| scene | string | Yes      | Name of the scene to be unloaded |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestUnloadScene()
+        {
+            altUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
+            Assert.AreEqual(2, altUnityDriver.GetAllLoadedScenes().Count);
+            altUnityDriver.UnloadScene("Scene 2 Draggable Panel");
+            Assert.AreEqual(1, altUnityDriver.GetAllLoadedScenes().Count);
+            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetAllLoadedScenes()[0]);
+        }
+    .. code-tab:: java
+
+        @Test
+        public void TestUnloadScene() {
+            AltLoadSceneParameters altLoadSceneParameters = new AltLoadSceneParameters.Builder("Scene 2 Draggable Panel")
+                    .loadMode(false).build();
+            altUnityDriver.loadScene(altLoadSceneParameters);
+            assertEquals(2, altUnityDriver.getAllLoadedScenes().length);
+            altUnityDriver.unloadScene("Scene 2 Draggable Panel");
+            assertEquals(1, altUnityDriver.getAllLoadedScenes().length);
+            assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getAllLoadedScenes()[0]);
+        }
+
+    .. code-tab:: py
+
+       def test_unload_scene(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        self.altdriver.load_scene('Scene 2 Draggable Panel', False)
+        self.assertEqual(2, len(self.altdriver.get_all_loaded_scenes()))
+        self.altdriver.unload_scene('Scene 2 Draggable Panel')
+        self.assertEqual(1, len(self.altdriver.get_all_loaded_scenes()))
+        self.assertEqual("Scene 1 AltUnityDriverTestScene",
+                         self.altdriver.get_all_loaded_scenes()[0])
+```
+
 #### GetAllLoadedScenes
 
 Returns all the scenes that have been loaded.
