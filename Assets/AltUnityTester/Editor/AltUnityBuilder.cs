@@ -192,9 +192,9 @@ namespace Altom.Editor
             }
             else
             {
-                component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
-                component.showPopUp = AltUnityTesterEditor.EditorConfiguration.showPopUp;
-                component.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.serverPort;
+                component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.InputVisualizer;
+                component.showPopUp = AltUnityTesterEditor.EditorConfiguration.ShowPopUp;
+                component.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.ServerPort;
             }
 
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
@@ -213,18 +213,18 @@ namespace Altom.Editor
             var altUnityRunner =
                 UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(
                     UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
-            altUnityRunner.GetComponent<AltUnityRunner>().ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
+            altUnityRunner.GetComponent<AltUnityRunner>().ShowInputs = AltUnityTesterEditor.EditorConfiguration.InputVisualizer;
 
             PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             SceneWithAltUnityRunner = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
 
             AltUnityRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altUnityRunner);
             AltUnityRunner altUnityRunnerComponent = ((UnityEngine.GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
-            altUnityRunnerComponent.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.serverPort;
-            altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.requestEnding;
-            altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.requestSeparator;
-            altUnityRunnerComponent.ShowInputs = AltUnityTesterEditor.EditorConfiguration.inputVisualizer;
-            altUnityRunnerComponent.showPopUp = AltUnityTesterEditor.EditorConfiguration.showPopUp;
+            altUnityRunnerComponent.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.ServerPort;
+            altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.RequestEnding;
+            altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.RequestSeparator;
+            altUnityRunnerComponent.ShowInputs = AltUnityTesterEditor.EditorConfiguration.InputVisualizer;
+            altUnityRunnerComponent.showPopUp = AltUnityTesterEditor.EditorConfiguration.ShowPopUp;
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
 
@@ -261,7 +261,7 @@ namespace Altom.Editor
             UnityEngine.Debug.Log("Starting IOS build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
             InitBuildSetup(UnityEditor.BuildTargetGroup.iOS);
             UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-            buildPlayerOptions.locationPathName = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+            buildPlayerOptions.locationPathName = getOutputPath(UnityEditor.BuildTarget.iOS);
             buildPlayerOptions.scenes = getScenesForBuild();
 
             buildPlayerOptions.target = UnityEditor.BuildTarget.iOS;
@@ -283,16 +283,9 @@ namespace Altom.Editor
 
         private static string getOutputPath(UnityEditor.BuildTarget target)
         {
-            var outputPath = AltUnityTesterEditor.EditorConfiguration.OutputPathName;
+            var outputPath = AltUnityTesterEditor.EditorConfiguration.BuildLocationPath;
 
-            if (string.IsNullOrEmpty(outputPath))
-                outputPath = UnityEditor.PlayerSettings.productName;
-
-            if (outputPath.EndsWith("/") || outputPath.EndsWith("\\"))
-                outputPath = outputPath + UnityEditor.PlayerSettings.productName;
-
-            if (outputPath.Split('/').Length == 1 && outputPath.Split('\\').Length == 1)
-                outputPath += System.IO.Path.DirectorySeparatorChar.ToString() + outputPath;
+            outputPath = string.IsNullOrEmpty(outputPath) ? UnityEditor.PlayerSettings.productName : outputPath + System.IO.Path.DirectorySeparatorChar.ToString() + UnityEditor.PlayerSettings.productName;
 
             switch (target)
             {
