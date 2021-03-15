@@ -5,9 +5,9 @@ namespace Altom.Editor
 {
     public class AltUnityEditorConfiguration : ScriptableObject
     {
-
         public bool appendToName;
         public string OutputPathName = "";
+        public string MaxLogLength = "100";
         public string AdbPath = "/usr/local/bin/adb";
         public string IProxyPath = "/usr/local/bin/iproxy";
         public string XcrunPath = "/usr/bin/xcrun";

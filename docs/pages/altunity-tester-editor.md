@@ -70,6 +70,15 @@ You can also activate this option from within the test using the following code:
 
 * Append "Test" to product: will add "Test" to the product name
 
+## Log Settings
+
+* Max Length
+
+    Through this parameter one can specify the maximum length of the logs. The default value of this
+    parameter is 100, values lower than 100 are not allowed.
+    It is optional to specify a value to Max Length. In case this field remains empty, no restrictions
+    to the length of the logs are applied.
+
 ## Scene Settings
 
 ![Scene Manager](../_static/images/altUnityTesterWindow/SceneManager.png)
