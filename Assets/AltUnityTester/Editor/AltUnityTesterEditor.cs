@@ -210,12 +210,12 @@ namespace Altom.Editor
                 Repaint();
             }
 
-            if (UnityEngine.Application.isPlaying && !EditorConfiguration.ranInEditor)
+            if (UnityEngine.Application.isPlaying && !EditorConfiguration.RanInEditor)
             {
-                EditorConfiguration.ranInEditor = true;
+                EditorConfiguration.RanInEditor = true;
             }
 
-            if (!UnityEngine.Application.isPlaying && EditorConfiguration.ranInEditor)
+            if (!UnityEngine.Application.isPlaying && EditorConfiguration.RanInEditor)
             {
                 AfterExitPlayMode();
 
@@ -284,14 +284,16 @@ namespace Altom.Editor
                 UnityEditor.BuildTarget.StandaloneWindows, UnityEditor.BuildTarget.StandaloneWindows64,UnityEditor.BuildTarget.StandaloneOSX,UnityEditor.BuildTarget.StandaloneLinux64
                 };
 
-                int selected = System.Array.IndexOf(options, EditorConfiguration.standaloneTarget);
+                int selected = System.Array.IndexOf(options, EditorConfiguration.StandaloneTarget);
 
                 selected = UnityEditor.EditorGUILayout.Popup("Build Target", selected, options.ToList().ConvertAll(x => x.ToString()).ToArray());
-                EditorConfiguration.standaloneTarget = options[selected];
+                EditorConfiguration.StandaloneTarget = options[selected];
+                browseBuildLocation();
             }
 
             if (EditorConfiguration.platform == AltUnityPlatform.Android)
             {
+                browseBuildLocation();
                 UnityEditor.EditorGUILayout.Separator();
                 UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
 
@@ -309,6 +311,7 @@ namespace Altom.Editor
 #if UNITY_EDITOR_OSX
         if (EditorConfiguration.platform == AltUnityPlatform.iOS)
         {
+            browseBuildLocation();
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
 
@@ -369,7 +372,7 @@ namespace Altom.Editor
 #endif
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
-                        AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.standaloneTarget, autoRun: false);
+                        AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
                     }
                     else
                     {
@@ -420,7 +423,7 @@ namespace Altom.Editor
 #endif
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
-                        AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.standaloneTarget, autoRun: true);
+                        AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
                     }
                     UnityEngine.GUIUtility.ExitGUI();
                 }
@@ -554,6 +557,19 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndHorizontal();
 
 
+        }
+
+        private static void browseBuildLocation()
+        {
+            UnityEngine.GUILayout.BeginHorizontal();
+            EditorConfiguration.BuildLocationPath = UnityEditor.EditorGUILayout.TextField("Build Location", EditorConfiguration.BuildLocationPath, UnityEngine.GUILayout.MaxWidth(300));
+            UnityEngine.GUI.SetNextControlName("Browse");
+            if (UnityEngine.GUILayout.Button("Browse", UnityEngine.GUILayout.MaxHeight(15)))
+            {
+                EditorConfiguration.BuildLocationPath = UnityEditor.EditorUtility.OpenFolderPanel("Select Build Location", "", "");
+                UnityEngine.GUI.FocusControl("Browse");
+            }
+            UnityEngine.GUILayout.EndHorizontal();
         }
 
         private void DisplayPortForwarding(float widthColumn)
@@ -712,9 +728,9 @@ namespace Altom.Editor
             _foldOutAltUnityServerSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutAltUnityServerSettings, "AltUnityServer Settings");
             if (_foldOutAltUnityServerSettings)
             {
-                LabelAndInputFieldHorizontalLayout("Request separator", ref EditorConfiguration.requestSeparator);
-                LabelAndInputFieldHorizontalLayout("Request ending", ref EditorConfiguration.requestEnding);
-                LabelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.serverPort);
+                LabelAndInputFieldHorizontalLayout("Request separator", ref EditorConfiguration.RequestSeparator);
+                LabelAndInputFieldHorizontalLayout("Request ending", ref EditorConfiguration.RequestEnding);
+                LabelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
             }
         }
 
@@ -722,7 +738,7 @@ namespace Altom.Editor
         {
             RemoveAltUnityRunnerPrefab();
             AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
-            EditorConfiguration.ranInEditor = false;
+            EditorConfiguration.RanInEditor = false;
         }
 
         private static void RemoveAltUnityRunnerPrefab()
@@ -759,7 +775,6 @@ namespace Altom.Editor
             if (_foldOutBuildSettings)
             {
 
-                LabelAndInputFieldHorizontalLayout("Output path", ref EditorConfiguration.OutputPathName);
                 var companyName = UnityEditor.PlayerSettings.companyName;
                 LabelAndInputFieldHorizontalLayout("Company Name", ref companyName);
                 UnityEditor.PlayerSettings.companyName = companyName;
@@ -768,8 +783,8 @@ namespace Altom.Editor
                 LabelAndInputFieldHorizontalLayout("Product Name", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
-                LabelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.inputVisualizer);
-                LabelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.showPopUp);
+                LabelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
+                LabelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
                 LabelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
 
 
@@ -894,7 +909,7 @@ namespace Altom.Editor
                 {
                     UnityEditor.EditorGUILayout.BeginHorizontal();
                     UnityEditor.EditorGUILayout.LabelField("Display scene full path:", UnityEngine.GUILayout.Width(140), UnityEngine.GUILayout.ExpandWidth(false));
-                    EditorConfiguration.scenePathDisplayed = UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.scenePathDisplayed, UnityEngine.GUILayout.ExpandWidth(false), UnityEngine.GUILayout.Width(15));
+                    EditorConfiguration.ScenePathDisplayed = UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.ScenePathDisplayed, UnityEngine.GUILayout.ExpandWidth(false), UnityEngine.GUILayout.Width(15));
                     UnityEngine.GUILayout.FlexibleSpace();
 
 
@@ -913,7 +928,7 @@ namespace Altom.Editor
                             UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
                         }
                         var sceneName = scene.Path;
-                        if (!EditorConfiguration.scenePathDisplayed)
+                        if (!EditorConfiguration.ScenePathDisplayed)
                         {
                             var splitedPath = sceneName.Split('/');
                             sceneName = splitedPath[splitedPath.Length - 1];
