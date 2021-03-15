@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Assets.AltUnityTester.AltUnityServer.AltSocket;
 
 namespace Altom.Editor
 {
@@ -51,6 +52,7 @@ namespace Altom.Editor
 
         private bool _foldOutScenes = true;
         private bool _foldOutBuildSettings = true;
+        private bool _foldOutLogSettings = true;
         private bool _foldOutIosSettings = true;
         private bool _foldOutAltUnityServerSettings = true;
 
@@ -240,11 +242,13 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.Separator();
 
             DisplayBuildSettings();
+            UnityEditor.EditorGUILayout.Separator();
+
+            DisplayLogSettings();
 
             UnityEditor.EditorGUILayout.Separator();
 
             DisplayAltUnityServerSettings();
-
             UnityEditor.EditorGUILayout.Separator();
 
             DisplayPortForwarding(leftSide);
@@ -818,6 +822,35 @@ namespace Altom.Editor
 
 
                 DisplayScenes();
+            }
+        }
+
+        private void DisplayLogSettings()
+        {
+            _foldOutLogSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutLogSettings, "Log Settings");
+            if (_foldOutLogSettings)
+            {
+                LabelAndInputFieldHorizontalLayout("Max Length (Optional)", ref EditorConfiguration.MaxLogLength);
+                if (string.IsNullOrEmpty(EditorConfiguration.MaxLogLength))
+                {
+                    EditorConfiguration.MaxLogLength = "";
+                }
+                else
+                {
+                    try
+                    {
+                        var maxLogLength = int.Parse(EditorConfiguration.MaxLogLength);
+                        if (maxLogLength < 100)
+                        {
+                            EditorConfiguration.MaxLogLength = "100";
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        EditorConfiguration.MaxLogLength = "100";
+                    }
+
+                }
             }
         }
 

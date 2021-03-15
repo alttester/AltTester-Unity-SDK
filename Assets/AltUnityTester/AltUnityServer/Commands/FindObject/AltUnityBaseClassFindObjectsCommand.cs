@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 using Altom.AltUnityDriver;
+using Assets.AltUnityTester.AltUnityServer;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
