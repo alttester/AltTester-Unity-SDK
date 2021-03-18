@@ -1548,5 +1548,15 @@ public class TestForScene1TestSample
         Assert.Throws<CouldNotPerformOperationException>(() => altUnityDriver.UnloadScene("Scene 2 Draggable Panel"));
     }
 
+    [Test]
+    public void TestClickButtonInWolrdSpaceCanvas()
+    {
+        altUnityDriver.LoadScene("Scene6");
+        var screenPosition = altUnityDriver.FindObject(By.NAME, "WorldSpaceButton").getScreenPosition();
+        altUnityDriver.TapCustom(screenPosition.x, screenPosition.y, 1);
+        var worldSpaceButton = altUnityDriver.FindObject(By.NAME, "WorldSpaceButton", enabled: false);
+        Assert.IsFalse(worldSpaceButton.enabled);
+    }
+
 
 }
