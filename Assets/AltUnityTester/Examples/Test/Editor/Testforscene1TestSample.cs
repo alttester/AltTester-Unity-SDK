@@ -44,6 +44,22 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestFindElementWithText()
+    {
+        const string text = "Change Camera Mode";
+        var altElement = altUnityDriver.FindObject(By.PATH, "//*[@text=" + text + "]");
+        Assert.NotNull(altElement);
+    }
+
+    [Test]
+    public void TestFindElementThatContainsText()
+    {
+        const string text = "Change Camera";
+        var altElement = altUnityDriver.FindObject(By.PATH, "//*[contains(@text," + text + ")]");
+        Assert.NotNull(altElement);
+    }
+
+    [Test]
     public void TestFindElements()
     {
         const string name = "Plane";
@@ -1534,4 +1550,3 @@ public class TestForScene1TestSample
 
 
 }
-

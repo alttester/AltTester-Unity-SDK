@@ -56,6 +56,30 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             return pathSetCorrectly;
         }
 
+        private string GetText(UnityEngine.GameObject objectToCheck) {
+            var textComponent = objectToCheck.GetComponent<UnityEngine.UI.Text>();
+            if (textComponent != null) {
+                return textComponent.text;
+            }
+
+            var inputFieldComponent = objectToCheck.GetComponent<UnityEngine.UI.InputField>();
+            if (inputFieldComponent != null) {
+                return inputFieldComponent.text;
+            }
+
+            var tmpTextComponent = objectToCheck.GetComponent<TMPro.TMP_Text>();
+            if (tmpTextComponent != null) {
+                return tmpTextComponent.text;
+            }
+
+            var tmpInputFieldComponent = objectToCheck.GetComponent<TMPro.TMP_InputField>();
+            if (tmpInputFieldComponent != null) {
+               return tmpInputFieldComponent.text;
+            }
+
+            return "";
+        }
+
         private System.Collections.Generic.List<System.Collections.Generic.List<string>> SetCondition(System.Collections.Generic.List<string> list)
         {
             System.Collections.Generic.List<System.Collections.Generic.List<string>> conditions = new System.Collections.Generic.List<System.Collections.Generic.List<string>>();
@@ -199,7 +223,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 }
 
                 objectsFound.AddRange(FindObjects(objectToCheck, conditions, step, singleObject, false, enabled));
-                if (objectsFound.Count != 0 && singleObject)//Don't search further if you already found an object 
+                if (objectsFound.Count != 0 && singleObject)//Don't search further if you already found an object
                 {
                     return objectsFound;
                 }
@@ -297,7 +321,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                             case 8:
                                 valid = objectToCheck.name.Contains(value);
                                 break;
-
+                            case 10:
+                                valid = GetText(objectToCheck).Contains(value);
+                                break;
 
                             default:
                                 throw new System.Exception("No such selector is implemented");
@@ -313,6 +339,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         }
                         valid = childNumber >= 0 && childNumber <= objectToCheck.transform.childCount;
                         break;
+
+                    case 10:
+                        var text = condition.Substring(6, condition.Length - 6);
+                        valid = GetText(objectToCheck).Equals(text);
+
+                        break;
                 }
                 if (!valid)
                     break;
@@ -324,25 +356,23 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             int option = 1;
             if (condition.StartsWith("@tag"))
                 option = 2;
-            else
-                if (condition.StartsWith("@layer"))
+            else if (condition.StartsWith("@layer"))
                 option = 3;
-            else
-                if (condition.StartsWith("@component"))
+            else if (condition.StartsWith("@component"))
                 option = 4;
-            else
-                if (condition.StartsWith("@id"))
+            else if (condition.StartsWith("@id"))
                 option = 5;
-            else
-                if (condition.StartsWith("contains"))
+            else if (condition.StartsWith("contains"))
                 option = 6;
-            else
-                if (condition.Equals("*"))
+            else if (condition.Equals("*"))
                 option = 7;
             else if (condition.Equals("@name"))
                 option = 8;
             else if (System.Text.RegularExpressions.Regex.Match(condition, "([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)").Success)
                 option = 9;
+            else if (condition.StartsWith("@text"))
+                option = 10;
+
             return option;
         }
 

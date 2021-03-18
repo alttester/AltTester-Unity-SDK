@@ -3300,14 +3300,15 @@ None
 
 ## BY-Selector
 
-It is used in find objects methods to set the criteria of which the objects are searched.  
+It is used in find objects methods to set the criteria of which the objects are searched.
 Currenty there are 6 type implemented:
 
 -   _Tag_ - search for objects that have a specific tag
 -   _Layer_ - search for objects that are set on a specific layer
 -   _Name_ - search for objects that are named in a certain way
 -   _Component_ - search for objects that have certain component
--   _Id_ - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#AltId)
+-   _Id_ -  search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#AltId)
+-   _Text_ - search for objects that have a certain text
 -   _Path_ - search for objects that respect a certain path
 
 **Searching object by path**
@@ -3324,17 +3325,19 @@ The following selecting nodes, attributes and attributes are implemented:
 -   _@name_ -
 -   _@component_ -
 -   _@id_ -
+-   _@text_ -
 -   _contains_ -
 -   _[n-th]_ - Selects n-th child of the current node. 0 - represents the first child, 1 - is the second child and so on. -1 -represents the last child
 
-How a correct path should look like:  
+How a correct path should look like:
  `//Canvas/Panel/*[@tag="UI"]`
 
 **Examples**
 
 ```
 //Button - Returns every object named button in the scene
-//*[@tag=UI] -Returns every object that is tagged as UI
+//*[@tag=UI] - Returns every object that is tagged as UI
+//*[@text=Start] - Return every object that has the text "Start"
 /Canvas//Button[@component=ButtonLogic] - Return every button who are in an canvas that is a root object and has a component name ButtonLogic
 //*[contains(@name,Ca)] - Returns every object in the scene that contains in the name "Ca"
 //StartButton[1] - Returns second child of every object that has the name "StartButton"
@@ -3343,8 +3346,8 @@ How a correct path should look like:
 
 ### AltId
 
-Is a solution offered by AltUnity Tester in order to find object easier. This is an unique identifier stored in an component and added to every object.  
+Is a solution offered by AltUnity Tester in order to find object easier. This is an unique identifier stored in an component and added to every object.
 **A limitation of this is that only the object already in the scene before building the game will have an AltId. Object instantiated during run time will not have an AltId**
 
-To add AltId to every object simply just click AddAltIdToEveryObject from AltUnityTester menu.  
+To add AltId to every object simply just click AddAltIdToEveryObject from AltUnityTester menu.
 ![addAltId](../_static/images/addAltId.png)
