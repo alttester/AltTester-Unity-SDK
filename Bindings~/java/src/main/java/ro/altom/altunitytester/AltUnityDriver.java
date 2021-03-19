@@ -41,21 +41,29 @@ public class AltUnityDriver {
     public AltUnityDriver(String ip, int port) {
 
         this(ip, port, ";", "&", false);
-        BasicConfigurator.configure();
     }
 
     public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd) {
         this(ip, port, requestSeparator, requestEnd, false);
-        BasicConfigurator.configure();
     }
 
     public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logEnabled) {
+        this(ip, port, requestSeparator, requestEnd, logEnabled, 60);
+    }
+
+    public AltUnityDriver(AltUnityDriverParams params) {
+        this(params.ip, params.port, params.requestSeparator, params.requestEnd, params.logEnabled,
+                params.connectTimeout);
+    }
+
+    public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logEnabled,
+            int connectTimeout) {
         BasicConfigurator.configure();
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
-        int timeout = 60;
-        while (timeout > 0) {
+
+        while (connectTimeout > 0) {
             try {
                 try {
                     log.info(String.format("Initializing connection to %s:%d", ip, port));
@@ -65,25 +73,26 @@ public class AltUnityDriver {
                     in = new DataInputStream(socket.getInputStream());
                 } catch (IOException e) {
                     throw new ConnectionException("AltUnityServer not running on port " + port
-                            + ",retrying (timing out in " + timeout + " secs)...", e);
+                            + ",retrying (timing out in " + connectTimeout + " secs)...", e);
                 }
+
                 altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
                 checkServerVersion();
                 break;
             } catch (Exception e) {
+                System.out.println(e.getMessage());
+
                 if (socket != null)
                     stop();
-                System.out.println(e.getMessage());
-                System.out.println("AltUnityServer not running on port " + port + ", retrying (timing out in " + timeout
-                        + " secs)...");
-                timeout -= 5;
+
+                connectTimeout -= 5;
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
             }
-            if (timeout <= 0) {
+            if (connectTimeout <= 0) {
                 throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port),
                         new Throwable());
             }
@@ -109,6 +118,7 @@ public class AltUnityDriver {
         } catch (AltUnityRecvallMessageFormatException ex) {
             serverVersion = "<=1.5.7";
         }
+
         String[] parts = splitVersion(serverVersion);
         String majorServer = parts[0];
         String minorServer = (parts.length > 1) ? parts[1] : "";
@@ -523,7 +533,12 @@ public class AltUnityDriver {
         new GetPNGScreenshotCommand(altBaseSettings, path).Execute();
     }
 
-    // TODO: move those two out of this type and make them compulsory
+    /**
+     * @ Deprecated port forwarding methods are moved to AltUnityPortForwarding
+     * class. This is going to be removed in the future.
+     */
+
+    @Deprecated
     public static void setupPortForwarding(String platform, String deviceID, int local_tcp_port, int remote_tcp_port) {
         log.info("Setting up port forward for " + platform + " on port " + remote_tcp_port);
         removePortForwarding();
@@ -557,6 +572,12 @@ public class AltUnityDriver {
         }
     }
 
+    /**
+     * @ Deprecated port forwarding methods are moved to AltUnityPortForwarding
+     * class. This is going to be removed in the future.
+     */
+
+    @Deprecated
     public static void removePortForwarding() {
         try {
             String commandToExecute = "killall iproxy";

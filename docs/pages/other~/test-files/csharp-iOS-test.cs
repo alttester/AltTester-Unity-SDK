@@ -16,7 +16,7 @@ public class MyFirstTest
   public void TearDown()
   {
     altUnityDriver.Stop();
-    AltUnityPortHandler.KillIProxy();
+    AltUnityPortHandler.KillAllIproxyProcess();
   }
 
   [Test]

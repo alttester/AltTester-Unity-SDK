@@ -105,9 +105,18 @@ The following are some cases when Port Forwarded is needed:
 
 ### How to setup port forwarding
 
-Port forwarding can be set up in two ways:
+Port forwarding can be set up in three ways:
 * through a command line command (using adb / IProxy) or 
 * in the test code by using the methods available in AltUnity classes.
+* from AltUnity Tester Editor - Port Forwarding Section
+
+
+All methods listed above require that you have ADB or iProxy installed. 
+
+For installing ABD, check `this article <https://developer.android.com/studio/command-line/adb>`_ for more information on ADB. 
+
+For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
+
 
 ```eval_rst
 .. tabs::
@@ -118,19 +127,24 @@ Port forwarding can be set up in two ways:
 
             .. tab:: Android
 
-                - Have ADB installed and added in PATH Environment Variables (check `this article <https://developer.android.com/studio/command-line/adb>`_ for more information on ADB)
-                - Click on the refresh button in the Port Forwarding section in the Editor
                 - Forward the port using the following command: 
 
                     ``adb [-s UDID] forward tcp:local_port tcp:device_port``
 
+                - Forward using AltUnity Tester Editor
+                    
+                    click on the refresh button in the Port Forwarding section in the Editor to see connected devices and then select the device to forward
+
             .. tab:: iOS
 
-                - Install IProxy: ``brew install libimobiledevice``
-                - Click on the refresh button in the Port Forwarding section in the Editor
                 - Forward the port using the following command: 
 
-                    ``iproxy LOCAL_TCP_PORT DEVICE_TCP_PORT [UDID]``
+                    ``iproxy LOCAL_TCP_PORT DEVICE_TCP_PORT -u [UDID]``
+
+                - Forward using AltUnity Tester Editor
+                    
+                    click on the refresh button in the Port Forwarding section in the Editor to see connected devices and then select the device to forward
+
 
     .. tab:: C#
 
@@ -138,11 +152,10 @@ Port forwarding can be set up in two ways:
 
             .. tab:: Android
 
-                Set up the path to ADB in AltUnity Editor window by writting it in the `Adb Path <altunity-tester-editor.html#build-run-settings>`_ input field.
                 Use the following static methods (from the AltUnityPortHandler class) in your test file:
         
-                    - ForwardAndroid (string deviceId = "", int localPort = 13000, int remotePort = 13000)
-                    - RemoveForwardAndroid (int localPort = -1, string deviceId = "")
+                    - ForwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
+                    - RemoveForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
             
                 Example test file:
 
@@ -151,11 +164,10 @@ Port forwarding can be set up in two ways:
 
             .. tab:: iOS
 
-                Set up IProxy path in AltUnity Editor window.
                 Use the following static methods (from the AltUnityPortHandler class) in your test file:
-
-                    - ForwardIos (string id = "", int localPort = 13000, int remotePort = 13000)
-                    - KillIProxy (int id)
+        
+                    - ForwardIos (int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
+                    - KillAllIproxyProcess ()
 
                 Example test file:
             
@@ -164,41 +176,43 @@ Port forwarding can be set up in two ways:
 
     .. tab:: Java
 
-        Have ADB installed and added in PATH Environment Variables (check `this article <https://developer.android.com/studio/command-line/adb>`_ for more information on ADB) for Android and IProxy for iOS.
-
-        Use the following static methods (from the AltUnityDriver class) in your test file:
-
-            - SetupPortForwarding (String platform, String deviceId, int local_port, int remote_port)
-            - RemovePortForwarding ()
-
-        Example test file:
-
         .. tabs::
 
             .. tab:: Android
             
+                Use the following static methods (from the AltUnityPortHandler class) in your test file:
+        
+                    - forwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
+                    - removeForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
+            
+                Example test file:
+
                     .. include:: other~/test-files/java-Android-test.java
                         :code: java
 
             .. tab:: iOS
-            
+
+                Use the following static methods (from the AltUnityPortHandler class) in your test file:
+        
+                    - forwardIos (int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
+                    - killAllIproxyProcess ()
+
+                Example test file:
+
                     .. include:: other~/test-files/java-iOS-test.java
                         :code: java
 
     .. tab:: Python
 
-        Have ADB installed and added in PATH Environment Variables (check `this article <https://developer.android.com/studio/command-line/adb>`_ for more information on ADB) for Android and IProxy for iOS.
-
         .. tabs:: 
             
             .. tab:: Android
 
-                Use the following static methods (from the AltUnityAndroidPortForwarding class) in your test file:
-
-                    - forward_port_device (self, local_port = 13000, device_port = 13000, device_id = "")
-                    - remove_forward_port_device (self, port = 13000, device_id = "")
-                    - remove_all_forwards (self):
-
+                Use the following static methods (from the AltUnityPortHandler class) in your test file:
+        
+                    - forward_android (localPort = 13000, remotePort = 13000, deviceId = "")
+                    - remove_forward_android (localPort = 13000, deviceId = "")
+            
                 Example test file:
             
                     .. include:: other~/test-files/python-Android-test.py
@@ -208,8 +222,7 @@ Port forwarding can be set up in two ways:
 
                 Use the following static methods (from the AltUnityiOSPortForwarding class) in your test file:
                 
-                    - forward_port_device (local_port = 13000, device_port = 13000, device_id = "")
-                    - kill_iproxy_process (pid)  // pid is returned by forward_port_device
+                    - forward_ios (local_port = 13000, device_port = 13000, device_id = "")
                     - kill_all_iproxy_process()
 
                 Example test file:

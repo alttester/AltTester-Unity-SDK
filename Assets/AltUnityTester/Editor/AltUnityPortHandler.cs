@@ -1,36 +1,37 @@
+using System;
 using System.Linq;
 namespace Altom.Editor
 {
     public class AltUnityPortHandler
     {
-
-
         public static int idIproxyProcess = 0;
 
 #if UNITY_EDITOR_OSX
+    [Obsolete("Use Altom.AltUnityDriver.AltUnityPortForwarding.ForwardIos")]
     public static string ForwardIos(string id="",int localPort=13000,int remotePort=13000) {
         var argument=localPort+" "+remotePort+" "+id;
         try{
-        System.Diagnostics.Process process = new System.Diagnostics.Process();
-        System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
-        {
-            WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError=true,
-            FileName = AltUnityTesterEditor.EditorConfiguration.IProxyPath,
-            Arguments = argument
-        };
-        process.StartInfo = startInfo;
-        process.Start();
-        idIproxyProcess = process.Id;
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError=true,
+                FileName = AltUnityTesterEditor.EditorConfiguration.IProxyPath,
+                Arguments = argument
+            };
+            process.StartInfo = startInfo;
+            process.Start();
+            idIproxyProcess = process.Id;
 
-        System.Threading.Thread.Sleep(1000);
-        if(process.HasExited){
-            return process.StandardError.ReadToEnd();
+            System.Threading.Thread.Sleep(1000);
+            if(process.HasExited){
+                return process.StandardError.ReadToEnd();
+            }
+            return "Ok "+process.Id;
         }
-        return "Ok "+process.Id;
-        }catch(System.ComponentModel.Win32Exception){
+        catch(System.ComponentModel.Win32Exception){
             return "The path to Iproxy is not correct or Iproxy is not installed";
         }
     }
@@ -44,6 +45,7 @@ namespace Altom.Editor
     }
 #endif
 
+        [Obsolete("Use Altom.AltUnityDriver.AltUnityPortForwarding.ForwardAndroid")]
         public static string ForwardAndroid(string deviceId = "", int localPort = 13000, int remotePort = 13000)
         {
             string adbFileName;
@@ -52,14 +54,12 @@ namespace Altom.Editor
                 argument = "forward tcp:" + localPort + " tcp:" + remotePort;
             else
             {
-
                 argument = "-s " + deviceId + " forward" + " tcp:" + localPort + " tcp:" + remotePort;
             }
 
-
             adbFileName = AltUnityTesterEditor.EditorConfiguration.AdbPath;
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+            var process = new System.Diagnostics.Process();
+            var startInfo = new System.Diagnostics.ProcessStartInfo
             {
                 WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
                 UseShellExecute = false,
@@ -80,6 +80,7 @@ namespace Altom.Editor
 
         }
 
+        [Obsolete("Use Altom.AltUnityDriver.AltUnityPortForwarding.RemoveForwardAndroid")]
         public static void RemoveForwardAndroid(int localPort = -1, string deviceId = "")
         {
             string argument;
@@ -109,9 +110,10 @@ namespace Altom.Editor
         }
 
 
+        [Obsolete("Use Altom.AltUnityDriver.AltUnityPortForwarding.GetDevicesAndroid")]
         public static System.Collections.Generic.List<AltUnityMyDevices> GetDevicesAndroid()
         {
-            System.Collections.Generic.List<AltUnityMyDevices> devices = new System.Collections.Generic.List<AltUnityMyDevices>();
+            var devices = new System.Collections.Generic.List<AltUnityMyDevices>();
             try
             {
                 string adbFileName;
@@ -148,9 +150,10 @@ namespace Altom.Editor
             }
             return devices;
         }
+        [Obsolete("Use Altom.AltUnityDriver.AltUnityPortForwarding.GetForwardedDevicesAndroid")]
         public static System.Collections.Generic.List<AltUnityMyDevices> GetForwardedDevicesAndroid()
         {
-            System.Collections.Generic.List<AltUnityMyDevices> devices = new System.Collections.Generic.List<AltUnityMyDevices>();
+            var devices = new System.Collections.Generic.List<AltUnityMyDevices>();
             try
             {
 
@@ -197,7 +200,8 @@ namespace Altom.Editor
             return devices;
         }
 #if UNITY_EDITOR_OSX
-     public static System.Collections.Generic.List<AltUnityMyDevices> GetConnectediOSDevices()
+    [Obsolete("Use Altom.AltUnityDriver.AltUnityPortForwarding.GetConnectediOSDevices")]
+     static System.Collections.Generic.List<AltUnityMyDevices> GetConnectediOSDevices()
     {
     
         System.Collections.Generic.List<AltUnityMyDevices> devices = new System.Collections.Generic.List<AltUnityMyDevices>();
@@ -235,6 +239,8 @@ namespace Altom.Editor
         }
         return devices;
     }
+
+    [Obsolete("Use Altom.AltUnityDriver.AltUnityPortForwarding.GetForwardediOSDevices")]
     public static System.Collections.Generic.List<AltUnityMyDevices> GetForwardediOSDevices(){
         var process = new System.Diagnostics.Process();
         var startInfo = new System.Diagnostics.ProcessStartInfo

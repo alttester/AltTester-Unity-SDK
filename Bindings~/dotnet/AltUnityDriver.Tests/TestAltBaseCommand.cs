@@ -6,7 +6,7 @@ using Altom.AltUnityDriver.AltSocket;
 using Altom.AltUnityDriver.Commands;
 
 
-namespace unit.AltUnityDriver
+namespace unit.AltUnityDriverTests
 {
     public class TestSocket : ISocket
     {
@@ -62,6 +62,9 @@ namespace unit.AltUnityDriver
             return Recvall();
         }
     }
+
+    [Timeout(1000)]
+
     public class TestAltBaseCommand
     {
         [OneTimeSetUp]

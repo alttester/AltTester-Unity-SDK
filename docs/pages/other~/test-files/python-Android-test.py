@@ -13,17 +13,13 @@ class MyFirstTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        androidPortForwarding = AltUnityAndroidPortForwarding()
-        androidPortForwarding.forward_port_device()
-
+        AltUnityPortForwarding.forward_android()
         cls.altdriver = AltUnityDriver()
 
     @classmethod
     def tearDownClass(cls):
         cls.altdriver.stop()
-
-        androidPortForwarding = AltUnityAndroidPortForwarding()
-        androidPortForwarding.remove_forward_port_device()
+        AltUnityPortForwarding.remove_forward_android()
 
     def test_open_close_panel(self):
         self.altdriver.load_scene('Scene 2 Draggable Panel')

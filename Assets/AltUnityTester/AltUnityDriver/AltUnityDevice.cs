@@ -1,17 +1,14 @@
-using System;
-
-namespace Altom.Editor
+namespace Altom.AltUnityDriver
 {
-    [Obsolete("Use Altom.AltUnityDriver.AltUnityDevice")]
-    public class AltUnityMyDevices
+    public class AltUnityDevice
     {
         public string DeviceId { get; set; }
         public int LocalPort { get; set; }
         public int RemotePort { get; set; }
         public bool Active { get; set; }
-        public AltUnityPlatform Platform { get; set; }
+        public string Platform { get; set; }
         public int Pid { get; set; }
-        public AltUnityMyDevices(string deviceId, int localPort = 13000, int remotePort = 13000, bool active = false, AltUnityPlatform platform = AltUnityPlatform.Android, int pid = 0)
+        public AltUnityDevice(string deviceId, string platform, int localPort = 13000, int remotePort = 13000, bool active = false, int pid = 0)
         {
             DeviceId = deviceId;
             LocalPort = localPort;
@@ -22,3 +19,4 @@ namespace Altom.Editor
         }
     }
 }
+

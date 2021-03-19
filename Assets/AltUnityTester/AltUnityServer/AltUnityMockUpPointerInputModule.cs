@@ -1,25 +1,24 @@
 
 using UnityEngine.EventSystems;
 
-public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.StandaloneInputModule
+public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 {
     public UnityEngine.GameObject gameObjectHit;
-    public UnityEngine.EventSystems.PointerEventData ExecuteTouchEvent(UnityEngine.Touch touch, UnityEngine.EventSystems.PointerEventData previousData = null)
+    public PointerEventData ExecuteTouchEvent(UnityEngine.Touch touch, PointerEventData previousData = null)
     {
-        UnityEngine.RaycastHit hit;
-        if (UnityEngine.EventSystems.EventSystem.current != null)
+        if (EventSystem.current != null)
         {
-            UnityEngine.EventSystems.RaycastResult raycastResult;
-            System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult> raycastResults;
+            RaycastResult raycastResult;
+            System.Collections.Generic.List<RaycastResult> raycastResults;
             switch (touch.phase)
             {
                 case UnityEngine.TouchPhase.Began:
-                    UnityEngine.EventSystems.PointerEventData pointerEventData =
-                        new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+                    var pointerEventData =
+                        new PointerEventData(EventSystem.current)
                         {
                             position = touch.position,
                             delta = touch.deltaPosition,
-                            button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
+                            button = PointerEventData.InputButton.Left,
                             pointerId = touch.fingerId,
                             eligibleForClick = true
                         };
@@ -27,15 +26,15 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
                     gameObjectHit = GetGameObjectHit(touch);
                     GetFirstRaycastResult(pointerEventData, out raycastResult, out raycastResults);
                     pointerEventData.pointerCurrentRaycast = raycastResult;
-                    pointerEventData.pointerEnter = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                        UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
-                    pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                        UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
+                    pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                        ExecuteEvents.pointerEnterHandler);
+                    pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                        ExecuteEvents.pointerDownHandler);
 
                     if (pointerEventData.pointerPress == null)
                     {
-                        pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+                        pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                            ExecuteEvents.pointerClickHandler);
                     }
 
                     return pointerEventData;
@@ -45,38 +44,38 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
                     {
                         if (previousData.pointerDrag == null)
                         {
-                            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
-                            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.beginDragHandler);
-                            previousData.pointerDrag = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.dragHandler);
+                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                ExecuteEvents.initializePotentialDrag);
+                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                ExecuteEvents.beginDragHandler);
+                            previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                ExecuteEvents.dragHandler);
                             previousData.dragging = true;
                         }
                         gameObjectHit = GetGameObjectHit(touch);
 
-                        GetFirstRaycastResult(previousData, out raycastResult, out raycastResults);
+                        GetFirstRaycastResult(previousData, out raycastResult, out _);
                         previousData.pointerCurrentRaycast = raycastResult;
                         previousData.delta = touch.deltaPosition;
                         previousData.position = touch.position;
-                        raycastResults = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
-                        UnityEngine.EventSystems.EventSystem.current.RaycastAll(previousData, raycastResults);
-                        raycastResult = UnityEngine.EventSystems.BaseInputModule.FindFirstRaycast(raycastResults);
+                        raycastResults = new System.Collections.Generic.List<RaycastResult>();
+                        EventSystem.current.RaycastAll(previousData, raycastResults);
+                        raycastResult = FindFirstRaycast(raycastResults);
                         previousData.pointerCurrentRaycast = raycastResult;
 
                         if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
                         {
-                            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-                            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
+                            ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
+                                ExecuteEvents.pointerExitHandler);
+                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                ExecuteEvents.pointerEnterHandler);
                             previousData.pointerEnter = previousData.pointerCurrentRaycast.gameObject;
                         }
 
                         if (previousData.delta != UnityEngine.Vector2.zero)
                         {
-                            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.dragHandler);
+                            ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                                ExecuteEvents.dragHandler);
                         }
 
                         return previousData;
@@ -89,29 +88,29 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
                         gameObjectHit = GetGameObjectHit(touch);
                         GetFirstRaycastResult(previousData, out raycastResult, out raycastResults);
                         previousData.pointerCurrentRaycast = raycastResult;
-                        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                            UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+                        ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                            ExecuteEvents.pointerUpHandler);
                         var currentOverGo = previousData.pointerCurrentRaycast.gameObject;
                         var pointerUpHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
 
                         if (previousData.pointerPress == pointerUpHandler && previousData.eligibleForClick)
                         {
-                            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                                  UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+                            ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                                  ExecuteEvents.pointerClickHandler);
                             previousData.eligibleForClick = false;
                         }
 
                         if (previousData.pointerDrag != null)
                         {
-                            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.endDragHandler);
-                            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                UnityEngine.EventSystems.ExecuteEvents.dropHandler);
+                            ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                                ExecuteEvents.endDragHandler);
+                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                ExecuteEvents.dropHandler);
                             previousData.dragging = false;
                         }
 
-                        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                            UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                        ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                            ExecuteEvents.pointerExitHandler);
                         return previousData;
                     }
                     break;
@@ -124,14 +123,14 @@ public class AltUnityMockUpPointerInputModule : UnityEngine.EventSystems.Standal
         return null;
     }
 
-    public void GetFirstRaycastResult(UnityEngine.EventSystems.PointerEventData pointerEventData, out UnityEngine.EventSystems.RaycastResult raycastResult, out System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult> raycastResults)
+    public void GetFirstRaycastResult(PointerEventData pointerEventData, out RaycastResult raycastResult, out System.Collections.Generic.List<RaycastResult> raycastResults)
     {
-        raycastResults = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
-        if (UnityEngine.EventSystems.EventSystem.current != null)
+        raycastResults = new System.Collections.Generic.List<RaycastResult>();
+        if (EventSystem.current != null)
         {
-            UnityEngine.EventSystems.EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+            EventSystem.current.RaycastAll(pointerEventData, raycastResults);
         }
-        raycastResult = UnityEngine.EventSystems.BaseInputModule.FindFirstRaycast(raycastResults);
+        raycastResult = FindFirstRaycast(raycastResults);
     }
 
     private UnityEngine.GameObject GetGameObjectHit(UnityEngine.Touch touch)

@@ -38,7 +38,7 @@ namespace Altom.AltUnityDriver
             this.worldZ = worldZ;
             this.idCamera = idCamera;
             this.parentId = parentId;
-            this.transformParentId = (transformParentId != 0) ? transformParentId : this.parentId;
+            this.transformParentId = (transformParentId != 0) ? transformParentId : parentId;
             this.transformId = transformId;
         }
 
