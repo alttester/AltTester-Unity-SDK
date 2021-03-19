@@ -1,7 +1,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
+using System.Threading;
+using Altom.AltUnityDriver;
 
 namespace Altom.Editor
 {
@@ -62,7 +63,7 @@ namespace Altom.Editor
         public static int reportTestFailed;
         public static double timeTestRan;
 
-        public static System.Collections.Generic.List<AltUnityMyDevices> devices = new System.Collections.Generic.List<AltUnityMyDevices>();
+        public static List<AltUnityDevice> devices = new List<AltUnityDevice>();
         // public static System.Collections.Generic.Dictionary<string, int> iosForwards = new System.Collections.Generic.Dictionary<string, int>();
 
         // Add menu item named "My Window" to the Window menu
@@ -154,7 +155,7 @@ namespace Altom.Editor
 
         private void GetListOfSceneFromEditor()
         {
-            System.Collections.Generic.List<AltUnityMyScenes> newSceneses = new System.Collections.Generic.List<AltUnityMyScenes>();
+            var newSceneses = new List<AltUnityMyScenes>();
             foreach (var scene in UnityEditor.EditorBuildSettings.scenes)
             {
                 newSceneses.Add(new AltUnityMyScenes(scene.enabled, scene.path, 0));
@@ -302,31 +303,37 @@ namespace Altom.Editor
 #if UNITY_2018_3_OR_NEWER
                     UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
 #else
-                UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+                    UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
 #endif
                     UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.Android;
                 }
             }
 
+
 #if UNITY_EDITOR_OSX
-        if (EditorConfiguration.platform == AltUnityPlatform.iOS)
-        {
-            browseBuildLocation();
-            UnityEditor.EditorGUILayout.Separator();
-            UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
-
-            if (UnityEngine.GUILayout.Button("iOS player settings"))
+            if (EditorConfiguration.platform == AltUnityPlatform.iOS)
             {
-#if UNITY_2018_3_OR_NEWER
-                UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
-#else
-                UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
-#endif
-                UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.iOS;
-            }
-        }
-#endif
+                browseBuildLocation();
+                UnityEditor.EditorGUILayout.Separator();
+                UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
 
+                if (UnityEngine.GUILayout.Button("iOS player settings"))
+                {
+                    UnityEditor.EditorGUILayout.Separator();
+                    UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+
+                    if (UnityEngine.GUILayout.Button("iOS player settings"))
+                    {
+#if UNITY_2018_3_OR_NEWER
+                        UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+#else
+                    UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+#endif
+                        UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.iOS;
+                    }
+                }
+            }
+#endif
 
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
@@ -366,9 +373,10 @@ namespace Altom.Editor
                         AltUnityBuilder.BuildAndroidFromUI(autoRun: false);
                     }
 #if UNITY_EDITOR_OSX
-                else if (EditorConfiguration.platform == AltUnityPlatform.iOS) {
-                    AltUnityBuilder.BuildiOSFromUI(autoRun: false);
-                }
+                    else if (EditorConfiguration.platform == AltUnityPlatform.iOS)
+                    {
+                        AltUnityBuilder.BuildiOSFromUI(autoRun: false);
+                    }
 #endif
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
@@ -417,9 +425,10 @@ namespace Altom.Editor
                         AltUnityBuilder.BuildAndroidFromUI(autoRun: true);
                     }
 #if UNITY_EDITOR_OSX
-                else if (EditorConfiguration.platform == AltUnityPlatform.iOS) {
-                    AltUnityBuilder.BuildiOSFromUI(autoRun: true);
-                }
+                    else if (EditorConfiguration.platform == AltUnityPlatform.iOS)
+                    {
+                        AltUnityBuilder.BuildiOSFromUI(autoRun: true);
+                    }
 #endif
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
@@ -444,7 +453,7 @@ namespace Altom.Editor
             {
                 if (EditorConfiguration.platform == AltUnityPlatform.Editor)
                 {
-                    System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest));
+                    var testThread = new Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest));
                     testThread.Start();
                 }
                 else
@@ -457,7 +466,7 @@ namespace Altom.Editor
             {
                 if (EditorConfiguration.platform == AltUnityPlatform.Editor)
                 {
-                    System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest));
+                    var testThread = new Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest));
                     testThread.Start();
                 }
                 else
@@ -470,7 +479,7 @@ namespace Altom.Editor
             {
                 if (EditorConfiguration.platform == AltUnityPlatform.Editor)
                 {
-                    System.Threading.Thread testThread = new System.Threading.Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest));
+                    var testThread = new Thread(() => AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest));
                     testThread.Start();
                 }
                 else
@@ -487,11 +496,13 @@ namespace Altom.Editor
             _scrollPositonTestResult = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPositonTestResult, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.ExpandHeight(true));
             if (selectedTest != -1)
             {
-                UnityEngine.GUIStyle gUIStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label);
-                gUIStyle.wordWrap = true;
-                gUIStyle.richText = true;
-                gUIStyle.alignment = UnityEngine.TextAnchor.MiddleCenter;
-                UnityEngine.GUIStyle gUIStyle2 = new UnityEngine.GUIStyle();
+                var gUIStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleCenter
+                };
+                var gUIStyle2 = new UnityEngine.GUIStyle();
                 UnityEditor.EditorGUILayout.LabelField("<b>" + EditorConfiguration.MyTests[selectedTest].TestName + "</b>", gUIStyle);
 
 
@@ -504,9 +515,11 @@ namespace Altom.Editor
                 }
                 else
                 {
-                    gUIStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label);
-                    gUIStyle.wordWrap = true;
-                    gUIStyle.richText = true;
+                    gUIStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
+                    {
+                        wordWrap = true,
+                        richText = true
+                    };
 
                     string status = "";
                     switch (EditorConfiguration.MyTests[selectedTest].Status)
@@ -616,22 +629,18 @@ namespace Altom.Editor
                             UnityEngine.GUILayout.Label(device.RemotePort.ToString(), guiStyleNormal, UnityEngine.GUILayout.Width(widthColumn / 7));
                             if (UnityEngine.GUILayout.Button("Stop", UnityEngine.GUILayout.Width(widthColumn / 10), UnityEngine.GUILayout.Height(15)))
                             {
-                                if (device.Platform == AltUnityPlatform.Android)
+                                if (device.Platform == "Android")
                                 {
-                                    AltUnityPortHandler.RemoveForwardAndroid(device.LocalPort, device.DeviceId);
+                                    AltUnityPortForwarding.RemoveForwardAndroid(device.LocalPort, device.DeviceId, EditorConfiguration.AdbPath);
                                 }
 #if UNITY_EDITOR_OSX
-                            else
-                            {
-
-                                AltUnityPortHandler.KillIProxy(device.Pid);
-
-                            }
+                                else
+                                {
+                                    AltUnityPortForwarding.KillIProxy(device.Pid);
+                                }
 #endif
-
                                 device.Active = false;
                                 RefreshDeviceList();
-
                             }
                         }
                         else
@@ -642,27 +651,30 @@ namespace Altom.Editor
                             device.RemotePort = UnityEditor.EditorGUILayout.IntField(device.RemotePort, UnityEngine.GUILayout.Width(widthColumn / 7));
                             if (UnityEngine.GUILayout.Button("Start", UnityEngine.GUILayout.Width(widthColumn / 10), UnityEngine.GUILayout.MaxHeight(15)))
                             {
-                                if (device.Platform == AltUnityPlatform.Android)
+                                if (device.Platform == "Android")
                                 {
-                                    var response = AltUnityPortHandler.ForwardAndroid(device.DeviceId, device.LocalPort, device.RemotePort);
+                                    var response = AltUnityPortForwarding.ForwardAndroid(device.LocalPort, device.RemotePort, device.DeviceId, EditorConfiguration.AdbPath);
                                     if (!response.Equals("Ok"))
                                     {
                                         UnityEngine.Debug.LogError(response);
                                     }
                                 }
 #if UNITY_EDITOR_OSX
-                            else
-                            {
-                                var response=AltUnityPortHandler.ForwardIos(device.DeviceId,device.LocalPort,device.RemotePort);
-                                if(response.StartsWith("Ok")){
-                                    var processID=int.Parse(response.Split(' ')[1]);
-                                    device.Active=true;
-                                    device.Pid=processID;
-                                }else{
-                                    UnityEngine.Debug.LogError(response);
-                                }
+                                else
+                                {
+                                    var response = AltUnityPortForwarding.ForwardIos(device.LocalPort, device.RemotePort, device.DeviceId, EditorConfiguration.IProxyPath);
+                                    if (response.StartsWith("Ok"))
+                                    {
+                                        var processID = int.Parse(response.Split(' ')[1]);
+                                        device.Active = true;
+                                        device.Pid = processID;
+                                    }
+                                    else
+                                    {
+                                        UnityEngine.Debug.LogError(response);
+                                    }
 
-                            }
+                                }
 
 #endif
                                 RefreshDeviceList();
@@ -689,8 +701,8 @@ namespace Altom.Editor
 
         private void RefreshDeviceList()
         {
-            System.Collections.Generic.List<AltUnityMyDevices> adbDevices = AltUnityPortHandler.GetDevicesAndroid();
-            System.Collections.Generic.List<AltUnityMyDevices> androidForwardedDevices = AltUnityPortHandler.GetForwardedDevicesAndroid();
+            List<AltUnityDevice> adbDevices = AltUnityPortForwarding.GetDevicesAndroid(EditorConfiguration.AdbPath);
+            List<AltUnityDevice> androidForwardedDevices = AltUnityPortForwarding.GetForwardedDevicesAndroid(EditorConfiguration.AdbPath);
             foreach (var adbDevice in adbDevices)
             {
                 var deviceForwarded = androidForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(adbDevice.DeviceId));
@@ -702,24 +714,25 @@ namespace Altom.Editor
                 }
             }
 #if UNITY_EDITOR_OSX
-        System.Collections.Generic.List<AltUnityMyDevices> iOSDEvices=AltUnityPortHandler.GetConnectediOSDevices();
-        System.Collections.Generic.List<AltUnityMyDevices> iOSForwardedDevices=AltUnityPortHandler.GetForwardediOSDevices();
-        foreach(var iOSDEvice in iOSDEvices){
-            var deviceForwarded = iOSForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(iOSDEvice.DeviceId));
-            if (deviceForwarded != null)
+            var iOSDEvices = AltUnityPortForwarding.GetConnectediOSDevices(EditorConfiguration.XcrunPath);
+            var iOSForwardedDevices = AltUnityPortForwarding.GetForwardediOSDevices();
+            foreach (var iOSDEvice in iOSDEvices)
             {
-                iOSDEvice.LocalPort = deviceForwarded.LocalPort;
-                iOSDEvice.RemotePort = deviceForwarded.RemotePort;
-                iOSDEvice.Active = deviceForwarded.Active;
-                iOSDEvice.Pid=deviceForwarded.Pid;
+                var deviceForwarded = iOSForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(iOSDEvice.DeviceId));
+                if (deviceForwarded != null)
+                {
+                    iOSDEvice.LocalPort = deviceForwarded.LocalPort;
+                    iOSDEvice.RemotePort = deviceForwarded.RemotePort;
+                    iOSDEvice.Active = deviceForwarded.Active;
+                    iOSDEvice.Pid = deviceForwarded.Pid;
+                }
             }
-        }
 #endif
 
 
             devices = adbDevices;
 #if UNITY_EDITOR_OSX
-        devices.AddRange(iOSDEvices);
+            devices.AddRange(iOSDEvices);
 #endif
         }
 
@@ -808,30 +821,30 @@ namespace Altom.Editor
                     case AltUnityPlatform.Standalone:
                         break;
 #if UNITY_EDITOR_OSX
-                case AltUnityPlatform.iOS:
-                    _foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutIosSettings, "iOS Settings");
-                    if (_foldOutIosSettings)
-                    {
-                        string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
-                        LabelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
-                        if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS))
+                    case AltUnityPlatform.iOS:
+                        _foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutIosSettings, "iOS Settings");
+                        if (_foldOutIosSettings)
                         {
-                            UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
+                            string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
+                            LabelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
+                            if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS))
+                            {
+                                UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
+                            }
+
+                            var appleDevoleperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
+                            LabelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDevoleperTeamID);
+                            UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDevoleperTeamID;
+
+                            var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
+                            LabelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
+                            UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning = appleEnableAutomaticsSigning;
+
+                            LabelAndInputFieldHorizontalLayout("Iproxy Path: ", ref EditorConfiguration.IProxyPath);
+                            LabelAndInputFieldHorizontalLayout("Xcrun Path: ", ref EditorConfiguration.XcrunPath);
                         }
 
-                        var appleDevoleperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
-                        LabelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDevoleperTeamID);
-                        UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDevoleperTeamID;
-
-                        var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
-                        LabelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
-                        UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning = appleEnableAutomaticsSigning;
-
-                        LabelAndInputFieldHorizontalLayout("Iproxy Path: ", ref EditorConfiguration.IProxyPath);
-                        LabelAndInputFieldHorizontalLayout("Xcrun Path: ", ref EditorConfiguration.XcrunPath);
-                    }
-
-                    break;
+                        break;
 #endif
                 }
 
@@ -860,7 +873,7 @@ namespace Altom.Editor
                             EditorConfiguration.MaxLogLength = "100";
                         }
                     }
-                    catch (System.Exception e)
+                    catch
                     {
                         EditorConfiguration.MaxLogLength = "100";
                     }

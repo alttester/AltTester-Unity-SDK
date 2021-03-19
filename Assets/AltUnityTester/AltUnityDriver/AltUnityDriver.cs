@@ -24,11 +24,11 @@ namespace Altom.AltUnityDriver
         /// <param name="requestSeparator">The separator of command parameters. Must match requestSeparatorString in AltUnity Server </param>
         /// <param name="requestEnding">The ending of the command. Must match requestEnding in AltUnity Server </param>
         /// <param name="logFlag">If true it enables extended logs in AltUnity Server and writes commands response to log file.</param>
-        public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false)
+        /// <param name="connectTimeout">The connect timeout.</param>
+        public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false, int connectTimeout = 60)
         {
-            int timeout = 60;
             int retryPeriod = 5;
-            while (timeout > 0)
+            while (connectTimeout > 0)
             {
                 try
                 {
@@ -46,14 +46,14 @@ namespace Altom.AltUnityDriver
                     if (Socket != null)
                         Stop();
 
-                    string errorMessage = "Trying to reach AltUnity Server at port" + tcp_port + ",retrying in " + retryPeriod + " (timing out in " + timeout + " secs)...";
+                    string errorMessage = "Trying to reach AltUnity Server at port" + tcp_port + ",retrying in " + retryPeriod + " (timing out in " + connectTimeout + " secs)...";
                     System.Console.WriteLine(errorMessage);
 #if UNITY_EDITOR
                     UnityEngine.Debug.Log(errorMessage);
 #endif
 
-                    timeout -= retryPeriod;
-                    if (timeout <= 0)
+                    connectTimeout -= retryPeriod;
+                    if (connectTimeout <= 0)
                     {
                         throw new System.Exception("Could not create connection to " + tcp_ip + ":" + tcp_port, ex);
                     }

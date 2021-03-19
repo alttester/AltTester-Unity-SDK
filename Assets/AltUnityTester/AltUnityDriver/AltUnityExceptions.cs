@@ -1,7 +1,9 @@
 ﻿
+using System;
+
 namespace Altom.AltUnityDriver
 {
-    public class AltUnityException : System.Exception
+    public class AltUnityException : Exception
     {
         public AltUnityException()
         {
@@ -9,6 +11,10 @@ namespace Altom.AltUnityDriver
         }
 
         public AltUnityException(string message) : base(message)
+        {
+
+        }
+        public AltUnityException(string message, Exception inner) : base(message, inner)
         {
 
         }
@@ -235,6 +241,21 @@ namespace Altom.AltUnityDriver
 
         }
 
+    }
+
+    public class PortForwardingException : AltUnityException
+    {
+        public PortForwardingException()
+        {
+        }
+
+        public PortForwardingException(string message) : base(message)
+        {
+        }
+
+        public PortForwardingException(string message, Exception inner) : base(message, inner)
+        {
+        }
     }
 
 }

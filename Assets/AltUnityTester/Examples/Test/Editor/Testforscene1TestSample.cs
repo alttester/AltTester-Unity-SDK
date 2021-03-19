@@ -663,8 +663,8 @@ public class TestForScene1TestSample
     [Test]
     public void TestCallStaticMethod()
     {
-        altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
-        int a = int.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+        altUnityDriver.CallStaticMethod("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
+        int a = int.Parse(altUnityDriver.CallStaticMethod("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
         Assert.AreEqual(1, a);
 
     }
@@ -1338,8 +1338,8 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetScreensizeScreenshot()
     {
-        var screenWidth = short.Parse(altUnityDriver.CallStaticMethods("UnityEngine.Screen", "get_width", "", "", "UnityEngine.CoreModule"));
-        var screenHeight = short.Parse(altUnityDriver.CallStaticMethods("UnityEngine.Screen", "get_height", "", "", "UnityEngine.CoreModule"));
+        var screenWidth = short.Parse(altUnityDriver.CallStaticMethod("UnityEngine.Screen", "get_width", "", "", "UnityEngine.CoreModule"));
+        var screenHeight = short.Parse(altUnityDriver.CallStaticMethod("UnityEngine.Screen", "get_height", "", "", "UnityEngine.CoreModule"));
         var screenshot = altUnityDriver.GetScreenshot();
         Assert.True(screenshot.textureSize.x == screenWidth);
         Assert.True(screenshot.textureSize.y == screenHeight);
@@ -1446,6 +1446,7 @@ public class TestForScene1TestSample
 
     }
     [Test]
+    [Obsolete]
     public void TestParentId()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule", By.NAME, "Main Camera");

@@ -10,21 +10,16 @@ from altunityrunner import *
 
 class MyFirstTest(unittest.TestCase):
     altdriver = None
-    iProxyProcessID = -1
 
     @classmethod
     def setUpClass(cls):
-        iOSPortForwarding = AltUnityiOSPortForwarding()
-        cls.iProxyProcessID = iOSPortForwarding.forward_port_device()
-
+        AltUnityPortForwarding.forward_ios()
         cls.altdriver = AltUnityDriver()
 
     @classmethod
     def tearDownClass(cls):
         cls.altdriver.stop()
-
-        iOSPortForwarding = AltUnityiOSPortForwarding()
-        iOSPortForwarding.kill_iproxy_process(cls.iProxyProcessID)
+        AltUnityPortForwarding.kill_all_iproxy_process()
 
     def test_open_close_panel(self):
         self.altdriver.load_scene('Scene 2 Draggable Panel')
