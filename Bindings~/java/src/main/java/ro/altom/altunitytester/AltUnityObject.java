@@ -95,7 +95,7 @@ public class AltUnityObject {
     @Deprecated
     public int parentId;
     public int transformParentId;
-    public int tranformId;
+    public int transformId;
 
     public AltBaseSettings getAltBaseSettings() {
         return altBaseSettings;
@@ -121,7 +121,7 @@ public class AltUnityObject {
         this.worldY = worldY;
         this.worldZ = worldZ;
         this.idCamera = idCamera;
-        this.tranformId = transformId;
+        this.transformId = transformId;
         this.parentId = parentId;
         this.transformParentId = parentId;
     }
