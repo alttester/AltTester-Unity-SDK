@@ -23,7 +23,13 @@ namespace Altom.AltUnityDriver
         public static string ForwardIos(int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
         {
             iproxyPath = GetIProxyPath(iproxyPath);
-            var arguments = localPort + " " + remotePort + " -u " + deviceId;
+            string arguments;
+            if (deviceId.Equals(""))
+                arguments = localPort + " " + remotePort;
+            else
+            {
+                arguments = localPort + " " + remotePort + " -u " + deviceId;
+            }
             try
             {
                 var process = StartProcess(iproxyPath, arguments);
