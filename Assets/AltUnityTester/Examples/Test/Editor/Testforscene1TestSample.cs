@@ -1558,6 +1558,16 @@ public class TestForScene1TestSample
         var worldSpaceButton = altUnityDriver.FindObject(By.NAME, "WorldSpaceButton", enabled: false);
         Assert.IsFalse(worldSpaceButton.enabled);
     }
+    [Test]
+    public void TestFindObjectWithMultipleSelector()
+    {
+        var capsule = altUnityDriver.FindObject(By.PATH, "//*[@tag=Untagged][@layer=Water]");
+        Assert.AreEqual("Capsule", capsule.name);
+        var capsuleInfo = altUnityDriver.FindObject(By.PATH, "//*[contains(@name,Capsule)][@layer=UI]");
+        Assert.AreEqual("CapsuleInfo", capsuleInfo.name);
+        var rotateMainCamera = altUnityDriver.FindObject(By.PATH, "//*[@component=Button][@tag=Untagged][@layer=UI]");
+        Assert.AreEqual("UIButton", rotateMainCamera.name);
+    }
 
 
 }
