@@ -1,7 +1,5 @@
 using System.Linq;
-using System.Runtime.InteropServices;
 using Altom.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityServer;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -56,25 +54,30 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             return pathSetCorrectly;
         }
 
-        private string GetText(UnityEngine.GameObject objectToCheck) {
+        private string GetText(UnityEngine.GameObject objectToCheck)
+        {
             var textComponent = objectToCheck.GetComponent<UnityEngine.UI.Text>();
-            if (textComponent != null) {
+            if (textComponent != null)
+            {
                 return textComponent.text;
             }
 
             var inputFieldComponent = objectToCheck.GetComponent<UnityEngine.UI.InputField>();
-            if (inputFieldComponent != null) {
+            if (inputFieldComponent != null)
+            {
                 return inputFieldComponent.text;
             }
 
             var tmpTextComponent = objectToCheck.GetComponent<TMPro.TMP_Text>();
-            if (tmpTextComponent != null) {
+            if (tmpTextComponent != null)
+            {
                 return tmpTextComponent.text;
             }
 
             var tmpInputFieldComponent = objectToCheck.GetComponent<TMPro.TMP_InputField>();
-            if (tmpInputFieldComponent != null) {
-               return tmpInputFieldComponent.text;
+            if (tmpInputFieldComponent != null)
+            {
+                return tmpInputFieldComponent.text;
             }
 
             return "";
@@ -104,24 +107,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         private System.Collections.Generic.List<string> ParseSelector(string selector)
         {
             System.Collections.Generic.List<string> conditions = new System.Collections.Generic.List<string>();
-            if (System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[@.+=.+\\]\\[([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)\\]$") ||
-            System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[.+(@.+,.+)\\]\\[([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)\\]$"))
+            foreach (var substring in selector.Split('['))
             {
-                var substrings = selector.Split('[');
-                conditions.Add(substrings[0]);
-                conditions.Add(substrings[1].Substring(0, substrings[1].Length - 1));
-                conditions.Add(substrings[2].Substring(0, substrings[2].Length - 1));
-                return conditions;
+                if (substring.EndsWith("]"))
+                {
+                    conditions.Add(substring.Substring(0, substring.Length - 1));
+                }
+                else
+                {
+                    conditions.Add(substring);
+                }
             }
-            if (System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[@.+=.+\\]$") || System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[.+(@.+,.+)\\]$")
-            || System.Text.RegularExpressions.Regex.IsMatch(selector, "^.+\\[([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)\\]$"))
-            {
-                var substrings = selector.Split('[');
-                conditions.Add(substrings[0]);
-                conditions.Add(substrings[1].Substring(0, substrings[1].Length - 1));
-                return conditions;
-            }
-            conditions.Add(selector);
             return conditions;
         }
 
