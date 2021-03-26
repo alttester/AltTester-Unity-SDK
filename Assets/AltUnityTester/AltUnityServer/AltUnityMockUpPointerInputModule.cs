@@ -9,7 +9,6 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
         if (EventSystem.current != null)
         {
             RaycastResult raycastResult;
-            System.Collections.Generic.List<RaycastResult> raycastResults;
             switch (touch.phase)
             {
                 case UnityEngine.TouchPhase.Began:
@@ -24,7 +23,7 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                         };
 
                     gameObjectHit = GetGameObjectHit(touch);
-                    GetFirstRaycastResult(pointerEventData, out raycastResult, out raycastResults);
+                    GetFirstRaycastResult(pointerEventData, out raycastResult);
                     pointerEventData.pointerCurrentRaycast = raycastResult;
                     pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerEnterHandler);
@@ -54,13 +53,11 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                         }
                         gameObjectHit = GetGameObjectHit(touch);
 
-                        GetFirstRaycastResult(previousData, out raycastResult, out _);
+                        GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
                         previousData.delta = touch.deltaPosition;
                         previousData.position = touch.position;
-                        raycastResults = new System.Collections.Generic.List<RaycastResult>();
-                        EventSystem.current.RaycastAll(previousData, raycastResults);
-                        raycastResult = FindFirstRaycast(raycastResults);
+                        GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
 
                         if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
@@ -86,7 +83,7 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                     if (previousData != null)
                     {
                         gameObjectHit = GetGameObjectHit(touch);
-                        GetFirstRaycastResult(previousData, out raycastResult, out raycastResults);
+                        GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
                             ExecuteEvents.pointerUpHandler);
@@ -123,14 +120,23 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
         return null;
     }
 
-    public void GetFirstRaycastResult(PointerEventData pointerEventData, out RaycastResult raycastResult, out System.Collections.Generic.List<RaycastResult> raycastResults)
+    public void GetFirstRaycastResult(PointerEventData pointerEventData, out RaycastResult raycastResult)
     {
+        System.Collections.Generic.List<RaycastResult> raycastResults;
         raycastResults = new System.Collections.Generic.List<RaycastResult>();
         if (EventSystem.current != null)
         {
             EventSystem.current.RaycastAll(pointerEventData, raycastResults);
         }
         raycastResult = FindFirstRaycast(raycastResults);
+    }
+    public void GetAllRaycastResults(PointerEventData pointerEventData, out System.Collections.Generic.List<RaycastResult> raycastResults)
+    {
+        raycastResults = new System.Collections.Generic.List<RaycastResult>();
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+        }
     }
 
     private UnityEngine.GameObject GetGameObjectHit(UnityEngine.Touch touch)

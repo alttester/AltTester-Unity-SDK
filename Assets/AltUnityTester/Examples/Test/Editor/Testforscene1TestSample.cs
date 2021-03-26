@@ -1559,6 +1559,16 @@ public class TestForScene1TestSample
         Assert.IsFalse(worldSpaceButton.enabled);
     }
     [Test]
+    public void TestDifferentObjectSelectedClickingOnScreenshot()
+    {
+        var uiButton = altUnityDriver.FindObject(By.NAME, "UIButton");
+        AltUnityObject selectedObject;
+        altUnityDriver.GetScreenshot(uiButton.getScreenPosition(), new AltUnityColor(1, 1, 1, 1), 1, out selectedObject);
+        Assert.AreEqual("Text", selectedObject.name);
+        altUnityDriver.GetScreenshot(uiButton.getScreenPosition(), new AltUnityColor(1, 1, 1, 1), 1, out selectedObject);
+        Assert.AreEqual("UIButton", selectedObject.name);
+    }
+    [Test]
     public void TestFindObjectWithMultipleSelector()
     {
         var capsule = altUnityDriver.FindObject(By.PATH, "//*[@tag=Untagged][@layer=Water]");
