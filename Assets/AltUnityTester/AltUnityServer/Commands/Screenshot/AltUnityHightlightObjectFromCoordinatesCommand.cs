@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Assets.AltUnityTester.AltUnityServer.AltSocket;
-using Boo.Lang;
 using Newtonsoft.Json;
 using UnityEngine;
 
