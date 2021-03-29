@@ -14,7 +14,7 @@ class CallComponentMethodForObject(BaseCommand):
 
     def execute(self):
         action_info = '{"component":"' + self.component_name + '", "method":"' + self.method_name + '", "parameters":"' + \
-            self.parameters + '"'+',"assembly":"' + self.assembly_name + \
+            self.parameters + '"' + ',"assembly":"' + self.assembly_name + \
             '", "typeofparameters":"' + self.type_of_parameters + '"}'
         data = self.send_command(
             'callComponentMethodForObject', self.alt_object, action_info)

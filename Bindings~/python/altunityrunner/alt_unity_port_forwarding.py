@@ -1,7 +1,6 @@
 import subprocess
 
 from ppadb.client import Client as AdbClient
-import time
 from deprecated import deprecated
 
 

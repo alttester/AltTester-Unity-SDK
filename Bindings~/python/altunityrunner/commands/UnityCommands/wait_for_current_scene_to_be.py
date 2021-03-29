@@ -1,8 +1,10 @@
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
-from altunityrunner.altUnityExceptions import *
-from altunityrunner.commands.UnityCommands.get_current_scene import *
-from loguru import logger
 import time
+
+from loguru import logger
+
+from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.altUnityExceptions import WaitTimeOutException
+from altunityrunner.commands.UnityCommands.get_current_scene import GetCurrentScene
 
 
 class WaitForCurrentSceneToBe(CommandReturningAltElements):

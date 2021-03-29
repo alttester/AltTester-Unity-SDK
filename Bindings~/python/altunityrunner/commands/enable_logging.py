@@ -1,5 +1,4 @@
 from altunityrunner.commands.base_command import BaseCommand
-import time
 
 
 class EnableLogging(BaseCommand):

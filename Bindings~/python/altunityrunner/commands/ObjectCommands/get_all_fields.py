@@ -35,7 +35,7 @@ class GetAllFields(BaseCommand):
         else:
             logger.error(
                 f'Component supplied: {self.component} \nis missing something.')
-            raise ValueError(f'Component supplied is missing something')
+            raise ValueError("Component supplied is missing something")
 
         alt_component_json_serialized = f'"componentName": "{alt_component_name}"'
         data = self.send_command(
