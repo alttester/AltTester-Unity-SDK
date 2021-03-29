@@ -1,6 +1,6 @@
-from altunityrunner.commands.command_returning_alt_elements import BaseCommand
-from loguru import logger
 import json
+
+from altunityrunner.commands.command_returning_alt_elements import BaseCommand
 
 
 class GetAllLoadedScenes(BaseCommand):

@@ -1,6 +1,6 @@
-from altunityrunner.commands.base_command import BaseCommand
 from loguru import logger
-import time
+
+from altunityrunner.commands.base_command import BaseCommand
 
 
 class PressKey(BaseCommand):

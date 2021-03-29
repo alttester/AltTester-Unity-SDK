@@ -1,6 +1,8 @@
-from altunityrunner.commands.base_command import BaseCommand
-from loguru import logger
 import time
+
+from loguru import logger
+
+from altunityrunner.commands.base_command import BaseCommand
 
 
 class CloseConnection(BaseCommand):
@@ -10,7 +12,8 @@ class CloseConnection(BaseCommand):
 
     def execute(self):
         try:
-            data = self.send_command('closeConnection')
+            self.send_command('closeConnection')
+
             logger.debug('Sent close connection command...')
             time.sleep(1)
             self.socket.close()

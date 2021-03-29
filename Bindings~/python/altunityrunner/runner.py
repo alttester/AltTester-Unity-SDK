@@ -1,29 +1,16 @@
-import json
-import re
 import socket
-import subprocess
 import time
-import multiprocessing
 import warnings
-from deprecated import deprecated
 
+from deprecated import deprecated
+from loguru import logger
+
+from altunityrunner.__version__ import VERSION
 from altunityrunner.altUnityExceptions import *
 from altunityrunner.commands import *
-from altunityrunner.altElement import AltElement
-from altunityrunner.player_pref_key_type import PlayerPrefKeyType
-from loguru import logger
-from altunityrunner.by import By
-from altunityrunner.commands.FindObjects.find_object import FindObject
-
-warnings.filterwarnings("default", category=DeprecationWarning,
-                        module=__name__)
 
 
-def get_parent(self):
-    return FindObject(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end, By.PATH, "//*[@id=" + self.id + "]/..", By.NAME, "", True).execute()
-
-
-AltElement.get_parent = get_parent
+warnings.filterwarnings("default", category=DeprecationWarning, module=__name__)
 
 
 class AltUnityDriver(object):
@@ -43,7 +30,7 @@ class AltUnityDriver(object):
 
                 break
             except Exception as e:
-                if not self.socket == None:
+                if self.socket is not None:
                     self.stop()
                 logger.error(e)
 
@@ -105,17 +92,17 @@ class AltUnityDriver(object):
 
         return FindObject(self.socket, self.request_separator, self.request_end, by, value, camera_by, camera_path, enabled).execute()
 
-    def find_object_which_contains(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
+    def find_object_which_contains(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
         return FindObjectWhichContains(self.socket, self.request_separator, self.request_end, by, value, camera_by, camera_path, enabled).execute()
 
-    def find_objects(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
+    def find_objects(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
         return FindObjects(self.socket, self.request_separator, self.request_end, by, value, camera_by, camera_path, enabled).execute()
 
-    def find_objects_which_contain(self, by, value,  camera_by=By.NAME, camera_path="", enabled=True):
+    def find_objects_which_contain(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
         return FindObjectsWhichContain(self.socket, self.request_separator, self.request_end, by, value, camera_by, camera_path, enabled).execute()
@@ -192,22 +179,22 @@ class AltUnityDriver(object):
     def wait_for_current_scene_to_be(self, scene_name, timeout=30, interval=1):
         return WaitForCurrentSceneToBe(self.socket, self.request_separator, self.request_end, scene_name, timeout, interval).execute()
 
-    def wait_for_object(self, by, value,  camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
+    def wait_for_object(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
         return WaitForObject(self.socket, self.request_separator, self.request_end, by, value, camera_by, camera_path, timeout, interval, enabled).execute()
 
-    def wait_for_object_which_contains(self, by, value,  camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
+    def wait_for_object_which_contains(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
         return WaitForObjectWhichContains(self.socket, self.request_separator, self.request_end, by, value, camera_by, camera_path, timeout, interval, enabled).execute()
 
-    def wait_for_object_to_not_be_present(self, by, value,  camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
+    def wait_for_object_to_not_be_present(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
         return WaitForObjectToNotBePresent(self.socket, self.request_separator, self.request_end, by, value, camera_by, camera_path, timeout, interval, enabled).execute()
 
-    def wait_for_object_with_text(self, by, value, text,  camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
+    def wait_for_object_with_text(self, by, value, text, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)
         return WaitForObjectWithText(self.socket, self.request_separator, self.request_end, by, value, text, camera_by, camera_path, timeout, interval, enabled).execute()

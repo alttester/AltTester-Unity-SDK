@@ -14,7 +14,8 @@ class CallStaticMethod(BaseCommand):
     def execute(self):
         action_info = '{"component":"' + self.type_name + '", "method":"' + self.method_name + '", "parameters":"' + \
             self.parameters + '", "typeofparameters":"' + \
-            self.type_of_parameters + '", "assembly":"'+self.assembly+'"}'
+            self.type_of_parameters + '", "assembly":"' + self.assembly + '"}'
+
         data = self.send_command(
             "callComponentMethodForObject", "", action_info)
         return self.handle_errors(data)

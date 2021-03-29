@@ -13,7 +13,7 @@ class GetComponentProperty(BaseCommand):
 
     def execute(self):
         property_info = '{"component":"' + self.component_name + '", "property":"' + \
-            self.property_name + '"'+',"assembly":"' + self.assembly_name + '"}'
+            self.property_name + '"' + ',"assembly":"' + self.assembly_name + '"}'
         data = self.send_command(
             'getObjectComponentProperty', self.alt_object, property_info, self.max_depth)
         return self.handle_errors(data)

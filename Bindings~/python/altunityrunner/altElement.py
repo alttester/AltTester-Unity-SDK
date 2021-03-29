@@ -1,7 +1,8 @@
-from typing import List
 import json
+
 from deprecated import deprecated
 
+from altunityrunner.by import By
 from altunityrunner.commands.ObjectCommands.get_text import GetText
 from altunityrunner.commands.ObjectCommands.set_component_property import SetComponentProperty
 from altunityrunner.commands.ObjectCommands.get_component_property import GetComponentProperty
@@ -20,19 +21,12 @@ from altunityrunner.commands.ObjectCommands.pointer_up import PointerUp
 
 
 class AltElement(object):
-    @property
-    @deprecated(version="1.6.2", reason="Use transformParentId instead.")
-    def parentId(self):
-        return self._parentId
-
-    @parentId.setter
-    @deprecated(version="1.6.2", reason="Use transformParentId instead.")
-    def parentId(self, value):
-        self._parentId = value
 
     def __init__(self, alt_unity_driver, json_data):
         self.alt_unity_driver = alt_unity_driver
+
         data = json.loads(json_data)
+
         self.name = str(data.get('name', ""))
         self.id = str(data.get('id', 0))
         self.x = str(data.get('x', 0))
@@ -46,35 +40,50 @@ class AltElement(object):
         self.worldZ = str(data.get('worldZ', 0))
         self.idCamera = str(data.get('idCamera', 0))
         self._parentId = str(data.get('parentId', 0))
-        self.transformParentId = str(
-            data.get('transformParentId', self._parentId))
+        self.transformParentId = str(data.get('transformParentId', self._parentId))
         self.transformId = str(data.get('transformId', 0))
 
     def __repr__(self):
-        return 'altunityrunner.{0}(driver, {1})'.format(
-            type(self).__name__,
-            json.dumps(json.dumps(json.loads(self.toJSON())))
+        return 'altunityrunner.{0}(driver, {1!r})'.format(
+            type(self).__name__, self.toJSON()
         )
 
     def __str__(self):
         return self.toJSON()
 
+    @property
+    @deprecated(version="1.6.2", reason="Use transformParentId instead.")
+    def parentId(self):
+        return self._parentId
+
+    @parentId.setter
+    @deprecated(version="1.6.2", reason="Use transformParentId instead.")
+    def parentId(self, value):
+        self._parentId = value
+
     def toJSON(self):
-        return '{"name":"' + self.name + '", \
-                 "id":"' + self.id + '", \
-                 "x":"' + self.x + '", \
-                 "y":"' + self.y + '", \
-                 "z":"'+self.z+'",\
-                 "mobileY":"' + self.mobileY + '", \
-                 "type":"' + self.type + '", \
-                 "enabled":"' + self.enabled + '", \
-                 "worldX":"' + self.worldX + '", \
-                 "worldY":"' + self.worldY + '", \
-                 "worldZ":"' + self.worldZ + '",\
-                 "parentId":"' + self.parentId + '",\
-                 "transformParentId":"' + self.transformParentId + '",\
-                 "transformId":"' + self.transformId + '",\
-                 "idCamera":"'+self.idCamera+'"}'
+        return json.dumps({
+            "name": self.name,
+            "id": self.id,
+            "x": self.x,
+            "y": self.y,
+            "z": self.z,
+            "mobileY": self.mobileY,
+            "type": self.type,
+            "enabled": self.enabled,
+            "worldX": self.worldX,
+            "worldY": self.worldY,
+            "worldZ": self.worldZ,
+            "parentId": self.parentId,
+            "transformParentId": self.transformParentId,
+            "transformId": self.transformId,
+            "idCamera": self.idCamera
+        })
+
+    def get_parent(self):
+        from altunityrunner.commands.FindObjects.find_object import FindObject
+
+        return FindObject(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end, By.PATH, "//*[@id=" + self.id + "]/..", By.NAME, "", True).execute()
 
     def get_screen_position(self):
         return self.x, self.y
@@ -82,7 +91,7 @@ class AltElement(object):
     def get_world_position(self):
         return self.worldX, self.worldY, self.worldZ
 
-    def get_all_components(self) -> List[dict]:
+    def get_all_components(self):
         return GetAllComponents(self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end, self).execute()
 
     def get_component_property(self, component_name, property_name, assembly_name='', max_depth=2):

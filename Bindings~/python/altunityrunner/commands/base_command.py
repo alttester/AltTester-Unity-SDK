@@ -1,10 +1,12 @@
-from os import getenv
-from altunityrunner.altUnityExceptions import *
-from altunityrunner.by import By
-from loguru import logger
 from datetime import datetime
 import re
-import json
+
+from loguru import logger
+
+from altunityrunner.altUnityExceptions import *
+from altunityrunner.by import By
+
+
 BUFFER_SIZE = 1024
 
 EPOCH = datetime.utcfromtimestamp(0)
@@ -32,7 +34,7 @@ class BaseCommand(object):
                 else:
                     raise Exception('Server is not yet reachable')
             data += str(part.decode('utf-8'))
-            partToSeeAltEnd = previousPart+str(part.decode('utf-8'))
+            partToSeeAltEnd = previousPart + str(part.decode('utf-8'))
             if '::altend' in partToSeeAltEnd:
                 break
             previousPart = str(part.decode('utf-8'))
@@ -52,14 +54,14 @@ class BaseCommand(object):
         logger.debug(f'Received data was: {self._trim_log_data(data)}')
 
         self.write_to_log_file(datetime.now().strftime(
-            "%m/%d/%Y %H:%M:%S")+": response received: "+self._trim_log_data(data))
+            "%m/%d/%Y %H:%M:%S") + ": response received: " + self._trim_log_data(data))
         self.write_to_log_file(log)
 
         return data
 
     def write_to_log_file(self, message):
         with open("AltUnityTesterLog.txt", "a", encoding="utf-8") as f:
-            f.write(message+"\n")
+            f.write(message + "\n")
 
     def handle_errors(self, data):
         if ('error' in data):
@@ -125,29 +127,29 @@ class BaseCommand(object):
 
     def set_path(self, by, value):
         if by == By.TAG:
-            return "//*[@tag="+str(value)+"]"
+            return "//*[@tag={}]".format(value)
         if by == By.COMPONENT:
-            return "//*[@component="+str(value)+"]"
+            return "//*[@component={}]".format(value)
         if by == By.LAYER:
-            return "//*[@layer="+str(value)+"]"
+            return "//*[@layer={}]".format(value)
         if by == By.NAME:
-            return "//"+str(value)
+            return "//{}".format(value)
         if by == By.ID:
-            return "//*[@id="+str(value)+"]"
+            return "//*[@id={}]".format(value)
         if by == By.PATH:
             return value
 
     def set_path_contains(self, by, value):
         if by == By.TAG:
-            return "//*[contains(@tag,"+str(value)+")]"
+            return "//*[contains(@tag,{})]".format(value)
         if by == By.COMPONENT:
-            return "//*[contains(@component,"+str(value)+")]"
+            return "//*[contains(@component,{})]".format(value)
         if by == By.LAYER:
-            return "//*[contains(@layer,"+str(value)+")]"
+            return "//*[contains(@layer,{})]".format(value)
         if by == By.NAME:
-            return "//*[contains(@name,"+str(value)+")]"
+            return "//*[contains(@name,{})]".format(value)
         if by == By.ID:
-            return "//*[contains(@id,"+str(value)+")]"
+            return "//*[contains(@id,{})]".format(value)
         if by == By.PATH:
             return value
 

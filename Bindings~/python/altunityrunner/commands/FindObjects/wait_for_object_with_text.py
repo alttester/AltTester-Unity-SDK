@@ -1,8 +1,10 @@
+import time
+
+from loguru import logger
+
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
 from altunityrunner.altUnityExceptions import WaitTimeOutException
 from altunityrunner.commands.FindObjects.find_object import FindObject
-from loguru import logger
-import time
 
 
 class WaitForObjectWithText(CommandReturningAltElements):
@@ -28,12 +30,16 @@ class WaitForObjectWithText(CommandReturningAltElements):
                 if alt_element.get_text() == self.text:
                     break
                 raise Exception('Not the wanted text')
-            except Exception as e:
-                logger.debug('Waiting for element ' +
-                             str(self.value) + ' to have text ' + str(self.text))
+            except Exception:
+                logger.debug('Waiting for element {} to have text {}'.format(self.value, self.text))
                 time.sleep(self.interval)
                 t += self.interval
         if t >= self.timeout:
-            raise WaitTimeOutException('Element ' + str(self.value) + ' should have text `' + str(self.text) +
-                                       '` but has `' + alt_element.get_text() + '` after ' + str(self.timeout) + ' seconds')
+            raise WaitTimeOutException('Element {} should have text `{}` but has `{}` after {} seconds'.format(
+                self.value,
+                self.text,
+                alt_element.get_text(),
+                self.timeout
+            ))
+
         return alt_element
