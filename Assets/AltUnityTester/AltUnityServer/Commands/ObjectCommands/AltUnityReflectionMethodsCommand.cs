@@ -1,10 +1,10 @@
-using Altom.AltUnityDriver;
-using Altom.AltUnityDriver.Commands;
-using Assets.AltUnityTester.AltUnityServer.Commands;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
+using Assets.AltUnityTester.AltUnityServer.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer
 {
@@ -78,8 +78,15 @@ namespace Assets.AltUnityTester.AltUnityServer
         protected System.Reflection.MethodInfo GetMethodToBeInvoked(System.Reflection.MethodInfo[] methodInfos, AltUnityObjectAction altUnityObjectAction)
         {
             Type[] parameterTypes = getParameterTypes(altUnityObjectAction);
-            var parameters = altUnityObjectAction.Parameters.Split(new char[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
-
+            var parameters = altUnityObjectAction.Parameters.Split(new char[] { '?' });
+            if (parameterTypes.Length != 0 && parameters.Length != parameterTypes.Length)
+            {
+                throw new InvalidParameterTypeException("Different amount of parameter were declared than types of parameters");
+            }
+            if (parameterTypes.Length == 0 && parameters.Length == 1 && parameters[0] == "")
+            {
+                parameters = new string[0];
+            }
             foreach (var methodInfo in methodInfos.Where(method => method.GetParameters().Length == parameters.Length))
             {
                 var methodParameters = methodInfo.GetParameters();

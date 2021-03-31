@@ -75,6 +75,14 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     {
         Debug.Log("test method with many parameters called");
     }
+    public int TestMethodWithOptionalParameters(int param1, int param2 = 0)
+    {
+        return param1 + param2;
+    }
+    public string TestMethodWithOptionalParameters(string param1, string param2 = "Test")
+    {
+        return param1 + param2;
+    }
 
     public void Test(string a)
     {
