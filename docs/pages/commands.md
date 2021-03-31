@@ -2563,13 +2563,13 @@ Invokes a method from an existing component of the object.
 
 **_Parameters_**
 
-| Name             | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                           |
-| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| componentName    | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )                                                                                                                                                                                                                                                                 |
-| methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"                                                                                                                                                                                      |
-| parameters       | string | Yes      | a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc. |
-| typeOfParameters | string | No       | a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers                                                                                                                              |
-| assemblyName     | string | No       | name of the assembly containing the component                                                                                                                                                                                                                                                                                                                                         |
+| Name             | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ---------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| componentName    | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )                                                                                                                                                                                                                                                                                                                                                                          |
+| methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"                                                                                                                                                                                                                                                                                               |
+| parameters       | string | Yes      | a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc. **Optional parameters are required to be set if the method has any in order to find the correct method** |
+| typeOfParameters | string | No       | a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers                                                                                                                                                                                                                                       |
+| assemblyName     | string | No       | name of the assembly containing the component                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 **_Returns_**
 
@@ -3307,7 +3307,7 @@ Currenty there are 6 type implemented:
 -   _Layer_ - search for objects that are set on a specific layer
 -   _Name_ - search for objects that are named in a certain way
 -   _Component_ - search for objects that have certain component
--   _Id_ -  search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#AltId)
+-   _Id_ - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#AltId)
 -   _Text_ - search for objects that have a certain text
 -   _Path_ - search for objects that respect a certain path
 
@@ -3330,7 +3330,7 @@ The following selecting nodes, attributes and attributes are implemented:
 -   _[n-th]_ - Selects n-th child of the current node. 0 - represents the first child, 1 - is the second child and so on. -1 -represents the last child
 
 How a correct path should look like:
- `//Canvas/Panel/*[@tag="UI"]`
+`//Canvas/Panel/*[@tag="UI"]`
 
 **Examples**
 
@@ -3352,11 +3352,9 @@ Is a solution offered by AltUnity Tester in order to find object easier. This is
 To add AltId to every object simply just click AddAltIdToEveryObject from AltUnityTester menu.
 ![addAltId](../_static/images/addAltId.png)
 
-
 ## AltUnityPortForwarding
 
 API to interact with adb and iproxy programatically
-
 
 ### ForwardAndroid
 
@@ -3364,54 +3362,50 @@ Calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
 
 **_Parameters_**
 
-| Name             | Type    | Required | Description                               |
-| ---------------- | ------- | -------- | ----------------------------------------- |
-| localPort        | int     | No       | The local port to forward from            |
-| remotePort       | int     | No       | The device port to forward to             |
-| deviceId         | string  | No       | The id of the device                      |
-| adbPath          | string  | No       | The adb path.  If no adb path is provided, it tries to use adb from  ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
-
-
+| Name       | Type   | Required | Description                                                                                                                                                                                |
+| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| localPort  | int    | No       | The local port to forward from                                                                                                                                                             |
+| remotePort | int    | No       | The device port to forward to                                                                                                                                                              |
+| deviceId   | string | No       | The id of the device                                                                                                                                                                       |
+| adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
 
 ### RemoveForwardAndroid
 
-Calls `adb forward --remove [-s {deviceId}] tcp:{localPort}`  or `adb forward --remove-all` if no localport provided
+Calls `adb forward --remove [-s {deviceId}] tcp:{localPort}` or `adb forward --remove-all` if no localport provided
 
 **_Parameters_**
 
-| Name             | Type    | Required | Description                               |
-| ---------------- | ------- | -------- | ----------------------------------------- |
-| localPort        | int     | No       | The local port to be removed              |
-| deviceId         | string  | No       | The id of the device to be removed        |
-| adbPath          | string  | No       | The adb path.  If no adb path is provided, it tries to use adb from  ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
+| Name      | Type   | Required | Description                                                                                                                                                                                |
+| --------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| localPort | int    | No       | The local port to be removed                                                                                                                                                               |
+| deviceId  | string | No       | The id of the device to be removed                                                                                                                                                         |
+| adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
 
 ### RemoveAllForwardAndroid
 
-Calls `adb forward --remove-all` 
+Calls `adb forward --remove-all`
 
 **_Parameters_**
 
-| Name             | Type    | Required | Description                               |
-| ---------------- | ------- | -------- | ----------------------------------------- |
-| adbPath          | string  | No       | The adb path.  If no adb path is provided, it tries to use adb from  ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
+| Name    | Type   | Required | Description                                                                                                                                                                                |
+| ------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| adbPath | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
 
 ### ForwardIos
 
-Calls `iproxy {localport} {remotePort} -u {deviceId}`.  
+Calls `iproxy {localport} {remotePort} -u {deviceId}`.
 
-_Requires iproxy 2.0.2_. 
+_Requires iproxy 2.0.2_.
 
 **_Parameters_**
 
-| Name             | Type    | Required | Description                               |
-| ---------------- | ------- | -------- | ----------------------------------------- |
-| localPort        | int     | No       | The local port to forward from            |
-| remotePort       | int     | No       | The device port to forward to             |
-| deviceId         | string  | No       | The id of the device                      |
-| iproxyPath       | string  | No       | The path to iProxy. If iproxyPath is not provided, iproxy should be available in PATH    |
-
+| Name       | Type   | Required | Description                                                                           |
+| ---------- | ------ | -------- | ------------------------------------------------------------------------------------- |
+| localPort  | int    | No       | The local port to forward from                                                        |
+| remotePort | int    | No       | The device port to forward to                                                         |
+| deviceId   | string | No       | The id of the device                                                                  |
+| iproxyPath | string | No       | The path to iProxy. If iproxyPath is not provided, iproxy should be available in PATH |
 
 ### KillAllIproxyProcess
 
 Kills iproxy process by name. Calls `killall iproxy`
-

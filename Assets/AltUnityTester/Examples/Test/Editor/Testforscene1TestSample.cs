@@ -369,6 +369,40 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestCallMethodWithOptionalParemeters()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithOptionalParameters";
+        const string parameters = "1?2";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod(componentName, methodName, parameters);
+        Assert.AreEqual("3", data);
+    }
+
+    [Test]
+    public void TestCallMethodWithOptionalParemetersString()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithOptionalParameters";
+        const string parameters = "FirstParameter?SecondParameter";
+        const string typeOfParameters = "System.String?System.String";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod(componentName, methodName, parameters, typeOfParameters);
+        Assert.AreEqual("\"FirstParameterSecondParameter\"", data);
+    }
+    [Test]
+    public void TestCallMethodWithOptionalParemetersString2()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithOptionalParameters";
+        const string parameters = "FirstParameter?";
+        const string typeOfParameters = "System.String?System.String";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod(componentName, methodName, parameters, typeOfParameters);
+        Assert.AreEqual("\"FirstParameter\"", data);
+    }
+
+    [Test]
     public void TestCallMethodWithIncorrectNumberOfParameters()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
