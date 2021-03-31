@@ -67,7 +67,7 @@ namespace Altom.Editor
         // public static System.Collections.Generic.Dictionary<string, int> iosForwards = new System.Collections.Generic.Dictionary<string, int>();
 
         // Add menu item named "My Window" to the Window menu
-        [UnityEditor.MenuItem("Window/AltUnityTester")]
+        [UnityEditor.MenuItem("AltUnity Tools/AltUnityTester", false, 80)]
         public static void ShowWindow()
         {
             //Show existing window instance. If one doesn't exist, make one.
@@ -1382,7 +1382,7 @@ namespace Altom.Editor
 
         }
 
-        private UnityEngine.Texture2D MakeTexture(int width, int height, UnityEngine.Color col)
+        public static UnityEngine.Texture2D MakeTexture(int width, int height, UnityEngine.Color col)
         {
             UnityEngine.Color[] pix = new UnityEngine.Color[width * height];
 
@@ -1426,7 +1426,7 @@ namespace Altom.Editor
             return (GetPathForSelectedItem() + "/").Contains("/Editor/");
         }
 
-        [UnityEditor.MenuItem("Window/CreateAltUnityTesterPackage")]
+        [UnityEditor.MenuItem("AltUnity Tools/CreateAltUnityTesterPackage", false, 800)]
         public static void CreateAltUnityTesterPackage()
         {
             UnityEngine.Debug.Log("AltUnityTester - Unity Package creation started...");
@@ -1456,7 +1456,7 @@ namespace Altom.Editor
             UnityEditor.SceneManagement.EditorSceneManager.OpenScene(AltUnityBuilder.PreviousScenePath);
         }
 
-        [UnityEditor.MenuItem("AltUnityTester/AddAltIdToEveryObject", false, 80)]
+        [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObject", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
             var scenes = AltUnityGetAllScenes();
@@ -1497,7 +1497,7 @@ namespace Altom.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltUnityTester/RemoveAltIdFromEveryObject", false, 80)]
+        [UnityEditor.MenuItem("AltUnity Tools/RemoveAltIdFromEveryObject", false, 800)]
         public static void RemoveIdComponentFromEveryObjectInTheProject()
         {
             var scenes = AltUnityGetAllScenes();
