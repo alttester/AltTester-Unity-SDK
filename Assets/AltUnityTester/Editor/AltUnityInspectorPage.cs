@@ -6,8 +6,13 @@ namespace Altom.Editor
         //TODO change image to gif once we have a final gif
         public static UnityEngine.Texture2D image;
         private readonly string titleOfPage = "<b><size=16>AltUnity Inspector is a desktop app which can help you visualize the game objects hierarchy and get all the properties easily.</size></b>";
-        private readonly string contentText = "<b>Main features: </b> \n    • get object’s components, assemblies, methods, fields and properties without accessing the source code \n    • interact with your game from AltUnity Inspector using keyboard, mouse, touchscreen and joystick actions \n    • load any scene or level\n    • control the speed of the game for debugging and test design purposes\n    • verify if a selector is correct and highlight the matching objects";
+        private readonly string contentText = "<b>Main features </b> \n    • get object’s components, assemblies, methods, fields and properties without accessing the source code \n    • interact with your game from AltUnity Inspector using keyboard, mouse, touchscreen and joystick actions \n    • load any scene or level\n    • control the speed of the game for debugging and test design purposes\n    • verify if a selector is correct and highlight the matching objects";
         private readonly string buttonText = "<b><size=16>Start free trial</size></b>";
+        private UnityEngine.Vector2 scrollPos;
+        private UnityEngine.GUIStyle gUIStyleText;
+        private UnityEngine.GUIStyle gUIStyleButton;
+        private UnityEngine.GUIStyle guiStylePadding;
+        private bool isProfessional;
 
         private float MaximumSizeForOneColumnLayout = 500;
         private float MaximumSizeForTitleToNotBeInFirstColumn = 1000;
@@ -38,11 +43,41 @@ namespace Altom.Editor
         }
         private void OnGUI()
         {
+            if (isProfessional != UnityEditor.EditorGUIUtility.isProSkin)
+            {
+                isProfessional = UnityEditor.EditorGUIUtility.isProSkin;
+                gUIStyleText = null;
+            }
+            if (guiStylePadding == null)
+            {
+                guiStylePadding = new UnityEngine.GUIStyle();
+                guiStylePadding.padding = new UnityEngine.RectOffset(15, 15, 15, 15);
+            }
+            if (gUIStyleButton == null)
+            {
+                gUIStyleButton = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.button)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleCenter,
+                };
+                gUIStyleButton.normal.background = buttonTexture;
+                gUIStyleButton.normal.textColor = UnityEngine.Color.white;
+            }
+            if (gUIStyleText == null)
+            {
+                gUIStyleText = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleLeft
+                };
+            }
 
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
-            var guiStyle = new UnityEngine.GUIStyle();
-            guiStyle.padding = new UnityEngine.RectOffset(15, 15, 15, 15);
-            UnityEditor.EditorGUILayout.BeginVertical(guiStyle);
+
+            UnityEditor.EditorGUILayout.BeginVertical(guiStylePadding);
+            scrollPos = UnityEditor.EditorGUILayout.BeginScrollView(scrollPos, false, false);
 
             if (screenWidth < MaximumSizeForTitleToNotBeInFirstColumn)
             {
@@ -58,6 +93,7 @@ namespace Altom.Editor
             {
                 DisplayContentOnOneColumn();
             }
+            UnityEditor.EditorGUILayout.EndScrollView();
             UnityEditor.EditorGUILayout.EndVertical();
         }
 
@@ -117,12 +153,6 @@ namespace Altom.Editor
 
         private float CalculateFirstColumnHeight()
         {
-            var gUIStyleText = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
-            {
-                wordWrap = true,
-                richText = true,
-                alignment = UnityEngine.TextAnchor.MiddleLeft
-            };
             var width = position.width / 2;
             float textHeight = gUIStyleText.CalcHeight(new UnityEngine.GUIContent(contentText), width);
             float titleHeight = 0;
@@ -135,35 +165,17 @@ namespace Altom.Editor
 
         private void displayTitle()
         {
-            var gUIStyleText = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
-            {
-                wordWrap = true,
-                richText = true,
-                alignment = UnityEngine.TextAnchor.MiddleLeft
-            };
-
             UnityEngine.GUILayout.Label(titleOfPage, gUIStyleText);
         }
         private void displayContentText()
         {
-            var gUIStyleText = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
-            {
-                wordWrap = true,
-                richText = true,
-                alignment = UnityEngine.TextAnchor.MiddleLeft
-            };
             UnityEngine.GUILayout.Label(contentText, gUIStyleText);
         }
         private void displayButton()
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
-            var gUIStyleButton = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.button)
-            {
-                wordWrap = true,
-                richText = true,
-                alignment = UnityEngine.TextAnchor.MiddleCenter,
-            };
-            gUIStyleButton.normal.background = buttonTexture;
+
+
             if (UnityEngine.GUILayout.Button(buttonText, gUIStyleButton, UnityEngine.GUILayout.Width(150), UnityEngine.GUILayout.Height(50)))
             {
                 downloadInspector();
@@ -179,8 +191,8 @@ namespace Altom.Editor
 
         private void CalculateImageSize(out float screenWidth, out float screenHeight)
         {
-            screenWidth = position.width - 30;
-            if (screenWidth > MaximumSizeForOneColumnLayout - 30)
+            screenWidth = position.width - 60;
+            if (screenWidth > MaximumSizeForOneColumnLayout - 60)
             {
                 screenWidth /= 2;
             }
