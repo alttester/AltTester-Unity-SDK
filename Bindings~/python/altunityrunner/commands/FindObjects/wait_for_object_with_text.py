@@ -8,6 +8,7 @@ from altunityrunner.commands.FindObjects.find_object import FindObject
 
 
 class WaitForObjectWithText(CommandReturningAltElements):
+
     def __init__(self, socket, request_separator, request_end, by, value, text, camera_by, camera_path, timeout, interval, enabled):
         super(WaitForObjectWithText, self).__init__(
             socket, request_separator, request_end)

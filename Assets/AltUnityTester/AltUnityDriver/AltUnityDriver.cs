@@ -9,7 +9,7 @@ namespace Altom.AltUnityDriver
 {
     public enum By
     {
-        TAG, LAYER, NAME, COMPONENT, PATH, ID
+        TAG, LAYER, NAME, COMPONENT, PATH, ID, TEXT
     }
 
     public class AltUnityDriver
@@ -305,6 +305,7 @@ namespace Altom.AltUnityDriver
             return new AltUnityWaitForObjectWhichContains(socketSettings, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
         }
 
+        [System.ObsoleteAttribute("Use instead WaitForObject")]
         public AltUnityObject WaitForObjectWithText(By by, string value, string text, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
             return new AltUnityWaitForObjectWithText(socketSettings, by, value, text, cameraBy, cameraPath, enabled, timeout, interval).Execute();

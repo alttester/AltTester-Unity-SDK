@@ -208,6 +208,7 @@ class AltUnityDriver(object):
             camera_by, camera_path)
         return WaitForObjectToNotBePresent(self.socket, self.request_separator, self.request_end, by, value, camera_by, camera_path, timeout, interval, enabled).execute()
 
+    @deprecated(version="1.6.3", reason="Use altunityrunner.runner.AltUnityDriver.wait_for_object")
     def wait_for_object_with_text(self, by, value, text, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
         camera_by, camera_path = self.is_camera_by_string(
             camera_by, camera_path)

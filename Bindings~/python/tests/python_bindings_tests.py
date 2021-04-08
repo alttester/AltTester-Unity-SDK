@@ -108,6 +108,13 @@ class PythonTests(unittest.TestCase):
         self.assertEqual('Plane', plane.name)
         self.assertEqual('Capsule', capsule.name)
 
+    def test_find_object_by_text(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        text = self.altdriver.find_object(By.NAME, 'CapsuleInfo').get_text()
+        element = self.altdriver.find_object(By.TEXT, text)
+
+        self.assertEqual(element.get_text(), text)
+
     def test_wait_for_object_with_text(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         text_to_wait_for = self.altdriver.find_object(By.NAME,

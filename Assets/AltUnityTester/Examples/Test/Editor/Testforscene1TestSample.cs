@@ -47,6 +47,14 @@ public class TestForScene1TestSample
     public void TestFindElementWithText()
     {
         const string text = "Change Camera Mode";
+        var altElement = altUnityDriver.FindObject(By.TEXT, text);
+        Assert.NotNull(altElement);
+    }
+
+    [Test]
+    public void TestFindElementWithTextByPath()
+    {
+        const string text = "Change Camera Mode";
         var altElement = altUnityDriver.FindObject(By.PATH, "//*[@text=" + text + "]");
         Assert.NotNull(altElement);
     }

@@ -50,7 +50,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testfindElement() throws Exception {
+    public void testFindElement() throws Exception {
         String name = "Capsule";
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                 name).build();
@@ -60,7 +60,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testfindElements() throws Exception {
+    public void testFindElements() throws Exception {
         String name = "Plane";
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                 name).build();
@@ -215,6 +215,25 @@ public class TestsSampleScene1 {
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Element xyz still not found after 1.0 seconds");
         }
+    }
+
+    @Test
+    public void testFindElementWithText() throws Exception {
+        String name = "CapsuleInfo";
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                name).build();
+
+        String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
+
+        altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.TEXT,
+                text).build();
+
+        AltWaitForObjectWithTextParameters altWaitForObjectsParameters = new AltWaitForObjectWithTextParameters.Builder(
+                altFindObjectsParameters, text).build();
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+
+        assertNotNull(altElement);
+        assertEquals(altElement.getText(), text);
     }
 
     @Test

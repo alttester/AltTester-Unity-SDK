@@ -10,6 +10,7 @@ namespace Altom.AltUnityDriver.Commands
         bool enabled;
         double timeout;
         double interval;
+
         public AltUnityWaitForObjectWithText(SocketSettings socketSettings, By by, string value, string text, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
         {
             this.by = by;

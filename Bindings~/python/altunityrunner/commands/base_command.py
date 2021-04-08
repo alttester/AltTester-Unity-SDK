@@ -144,6 +144,8 @@ class BaseCommand(object):
             return "//*[@id={}]".format(value)
         if by == By.PATH:
             return value
+        if by == By.TEXT:
+            return "//*[@text={}]".format(value)
 
     def set_path_contains(self, by, value):
         if by == By.TAG:
@@ -158,6 +160,8 @@ class BaseCommand(object):
             return "//*[contains(@id,{})]".format(value)
         if by == By.PATH:
             return value
+        if by == By.TEXT:
+            return "//*[contains(@text,{})]".format(value)
 
     def _trim_log_data(self, data, maxSize=10 * 1024):
         if len(data) < maxSize:

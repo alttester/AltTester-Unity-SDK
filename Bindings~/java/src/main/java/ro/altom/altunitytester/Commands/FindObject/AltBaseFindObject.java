@@ -30,6 +30,9 @@ public class AltBaseFindObject extends AltCommandReturningAltObjects {
             case ID:
                 path = "//*[@id=" + value + "]";
                 break;
+            case TEXT:
+                path = "//*[@text=" + value + "]";
+                break;
         }
         return path;
     }
@@ -54,6 +57,9 @@ public class AltBaseFindObject extends AltCommandReturningAltObjects {
                 break;
             case ID:
                 path = "//*[contains(@id," + value + ")]";
+                break;
+            case TEXT:
+                path = "//*[contains(@text," + value + ")]";
                 break;
         }
         return path;
