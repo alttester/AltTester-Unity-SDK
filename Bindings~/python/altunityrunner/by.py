@@ -5,6 +5,7 @@ class By(object):
     COMPONENT = 4
     ID = 5
     PATH = 6
+    TEXT = 7
 
     @staticmethod
     def return_enum_string(value):
@@ -20,3 +21,5 @@ class By(object):
             return "ID"
         elif value == 6:
             return "PATH"
+        elif value == 7:
+            return "TEXT"

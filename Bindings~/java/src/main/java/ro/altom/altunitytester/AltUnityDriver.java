@@ -190,7 +190,7 @@ public class AltUnityDriver {
 
     /**
      * Ability to access altBaseSettings.
-     * 
+     *
      * @return Returns the AltBaseSettings used by the driver.
      */
     public AltBaseSettings GetAltBaseSettings() {
@@ -250,7 +250,7 @@ public class AltUnityDriver {
     /**
      * Simulate scroll mouse action in your game. This command does not wait for the
      * action to finish.
-     * 
+     *
      * @param xStart         x coordinate of the screen where the swipe begins.
      * @param yStart         y coordinate of the screen where the swipe begins.
      * @param xEnd           x coordinate of the screen where the swipe ends.
@@ -265,7 +265,7 @@ public class AltUnityDriver {
     /**
      * Simulate scroll mouse action in your game. This command waits for the action
      * to finish.
-     * 
+     *
      * @param xStart         x coordinate of the screen where the swipe begins.
      * @param yStart         y coordinate of the screen where the swipe begins.
      * @param xEnd           x coordinate of the screen where the swipe ends.
@@ -280,7 +280,7 @@ public class AltUnityDriver {
     /**
      * Similar command like swipe but instead of swipe from point A to point B you
      * are able to give list a points.
-     * 
+     *
      * @param positions      collection of positions on the screen where the swipe
      *                       be made
      * @param durationInSecs how many seconds the swipe will need to complete
@@ -292,7 +292,7 @@ public class AltUnityDriver {
     /**
      * Similar command like swipe but instead of swipe from point A to point B you
      * are able to give list a points. Waits for the movement to finish
-     * 
+     *
      * @param positions      collection of positions on the screen where the swipe
      *                       be made
      * @param durationInSecs how many seconds the swipe will need to complete
@@ -331,7 +331,7 @@ public class AltUnityDriver {
     /**
      * Similar command like swipe but instead of swipe from point A to point B you
      * are able to give list a points.
-     * 
+     *
      * @param altPressKeyParameters the builder for the press key commands.
      */
     public void pressKey(AltPressKeyParameters altPressKeyParameters) {
@@ -345,7 +345,7 @@ public class AltUnityDriver {
     /**
      * Similar command like swipe but instead of swipe from point A to point B you
      * are able to give list a points.
-     * 
+     *
      * @param altPressKeyParameters the builder for the press key commands.
      */
     public void pressKeyAndWait(AltPressKeyParameters altPressKeyParameters) {
@@ -359,7 +359,7 @@ public class AltUnityDriver {
     /**
      * Simulate mouse movement in your game. This command does not wait for the
      * movement to finish.
-     * 
+     *
      * @param altMoveMouseParameters the builder for the mouse moves command.
      */
     public void moveMouse(AltMoveMouseParameters altMoveMouseParameters) {
@@ -373,7 +373,7 @@ public class AltUnityDriver {
     /**
      * Simulate mouse movement in your game. This command waits for the movement to
      * finish.
-     * 
+     *
      * @param altMoveMouseParameters the builder for the mouse moves command.
      */
     public void moveMouseAndWait(AltMoveMouseParameters altMoveMouseParameters) {
@@ -387,7 +387,7 @@ public class AltUnityDriver {
     /**
      * Simulate scroll mouse action in your game. This command does not wait for the
      * action to finish.
-     * 
+     *
      * @param altScrollMouseParameters the builder for the scroll commands.
      */
     public void scrollMouse(AltScrollMouseParameters altScrollMouseParameters) {
@@ -401,7 +401,7 @@ public class AltUnityDriver {
     /**
      * Simulate scroll mouse action in your game. This command waits for the action
      * to finish.
-     * 
+     *
      * @param altScrollMouseParameters the builder for the scroll commands.
      */
     public void scrollMouseAndWait(AltScrollMouseParameters altScrollMouseParameters) {
@@ -421,7 +421,7 @@ public class AltUnityDriver {
     }
 
     /**
-     * 
+     *
      * @param altFindObjectsParameters
      * @return the first object containing the given criteria
      */
@@ -435,7 +435,7 @@ public class AltUnityDriver {
     }
 
     /**
-     * 
+     *
      * @param altFindObjectsParameters
      * @return all the objects respecting the given criteria
      */
@@ -457,7 +457,7 @@ public class AltUnityDriver {
     }
 
     /**
-     * 
+     *
      * @param altGetAllElementsParameters
      * @return information about every object loaded in the currently loaded scenes.
      */
@@ -467,7 +467,7 @@ public class AltUnityDriver {
 
     /**
      * Simulate a tap action on the screen at the given coordinates.
-     * 
+     *
      * @param x x coordinate of the screen
      * @param y y coordinate of the screen
      */
@@ -490,7 +490,7 @@ public class AltUnityDriver {
     /**
      * Wait until there are no longer any objects that respect the given criteria or
      * times run out and will throw an error.
-     * 
+     *
      * @param altWaitForObjectsParameters the properties parameter for finding the
      *                                    objects in a scene.
      */
@@ -498,6 +498,7 @@ public class AltUnityDriver {
         return new AltWaitForObject(altBaseSettings, altWaitForObjectsParameters).Execute();
     }
 
+    @Deprecated
     public AltUnityObject waitForObjectWithText(AltWaitForObjectWithTextParameters altWaitForObjectWithTextParameters) {
         return new AltWaitForObjectWithText(altBaseSettings, altWaitForObjectWithTextParameters).Execute();
     }
@@ -505,7 +506,7 @@ public class AltUnityDriver {
     /**
      * Wait until the object in the scene that respect the given criteria is no
      * longer in the scene or times run out and will throw an error.
-     * 
+     *
      * @param altWaitForObjectsParameters the properties parameter for finding the
      *                                    objects in a scene.
      */
@@ -609,6 +610,6 @@ public class AltUnityDriver {
     }
 
     public enum By {
-        TAG, LAYER, NAME, COMPONENT, PATH, ID
+        TAG, LAYER, NAME, COMPONENT, PATH, ID, TEXT
     }
 }

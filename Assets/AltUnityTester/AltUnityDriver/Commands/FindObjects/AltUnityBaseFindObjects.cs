@@ -28,6 +28,9 @@ namespace Altom.AltUnityDriver.Commands
                 case By.ID:
                     path = "//*[@id=" + value + "]";
                     break;
+                case By.TEXT:
+                    path = "//*[@text=" + value + "]";
+                    break;
             }
             return path;
         }
@@ -53,6 +56,9 @@ namespace Altom.AltUnityDriver.Commands
                     break;
                 case By.ID:
                     path = "//*[contains(@id," + value + ")]";
+                    break;
+                case By.TEXT:
+                    path = "//*[contains(@text," + value + ")]";
                     break;
             }
             return path;
