@@ -1,8 +1,8 @@
-using NUnit.Framework;
-using System.Threading;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using Altom.AltUnityDriver;
+using NUnit.Framework;
 
 [Timeout(10000)]
 public class TestForScene2DraggablePanel
@@ -156,29 +156,6 @@ public class TestForScene2DraggablePanel
         Assert.IsNotNull(altElements.Where(p => p.name == "PopUp"));
     }
 
-    // [Test]
-    // public void TestDragObject()
-    // {
-    //     var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-    //     UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-    //     panel.DragObject( new AltUnityVector2(200, 200));
-    //     Thread.Sleep(2000); 
-    //     panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-    //     UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-    //     Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
-    // }
-
-    // [Test]
-    // public void TestDropObject()
-    // {
-    //     var panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-    //     UnityEngine.Vector3 panelInitialPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-    //     panel.DropObject(new AltUnityVector2(100, 200));
-    //     Thread.Sleep(2000); 
-    //     panel = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-    //     UnityEngine.Vector3 panelFinalPostion = new UnityEngine.Vector3(panel.worldX, panel.worldY, panel.worldY);
-    //     Assert.AreNotEqual(panelInitialPostion, panelFinalPostion);
-    // }
 
     [Test]
     public void TestPointerDownFromObject()
@@ -208,5 +185,11 @@ public class TestForScene2DraggablePanel
         var altElement = altUnityDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
         var altElementParent = altElement.getParent();
         Assert.AreEqual("Panel Drag Area", altElementParent.name);
+    }
+    [Test]
+    public void TestGetAllScenesAndElements()
+    {
+        var altElements = altUnityDriver.GetAllLoadedScenesAndObjects();
+        Assert.AreEqual(31, altElements.Count);
     }
 }
