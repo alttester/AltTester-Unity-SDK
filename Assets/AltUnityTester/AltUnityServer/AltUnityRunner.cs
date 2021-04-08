@@ -219,38 +219,14 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     public AltUnityObjectLight GameObjectToAltUnityObjectLight(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
     {
-        int cameraId;
-        //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
-        //if there is no camera end this is Unity UI element, it return position by root Canvas and cameraId=-1
-        //if there is no camera in the scene it will return as screen position x:-1 y=-1, z=-1 and cameraId=-1
-        try
-        {
-            UnityEngine.Vector3 position;
-            if (camera == null)
-            {
-                cameraId = findCameraThatSeesObject(altGameObject, out position);
-            }
-            else
-            {
-                position = getObjectScreenPosition(altGameObject, camera);
-                cameraId = camera.GetInstanceID();
-            }
-        }
-        catch (Exception)
-        {
-            cameraId = -1;
-        }
-
         int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
-
         var altObject = new AltUnityObjectLight(
             name: altGameObject.name,
             id: altGameObject.GetInstanceID(),
             enabled: altGameObject.activeSelf,
-            idCamera: cameraId,
             transformId: altGameObject.transform.GetInstanceID(),
-            transformParentId: transformParentId,
-            parentId: transformParentId);
+            transformParentId: transformParentId
+            );
 
         return altObject;
     }
@@ -376,6 +352,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "getAllLoadedScenes":
                     command = new AltUnityGetAllLoadedScenesCommand(parameters);
+                    break;
+                case "getAllLoadedScenesAndObjects":
+                    command = new AltUnityGetAllLoadedScenesAndObjectsCommand(parameters);
                     break;
                 case "getScreenshot":
                     command = new AltUnityGetScreenshotCommand(handler, parameters);
