@@ -20,8 +20,6 @@ public class AltDeleteKeyPlayerPref extends AltBaseCommand {
     public void Execute() {
         SendCommand("deleteKeyPlayerPref", keyName);
         String data = recvall();
-        if (data.equals("Ok"))
-            return;
-        handleErrors(data);
+        validateResponse("Ok", data);
     }
 }

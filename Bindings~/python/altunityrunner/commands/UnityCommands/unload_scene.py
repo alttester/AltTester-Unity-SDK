@@ -1,5 +1,4 @@
 from altunityrunner.commands.base_command import BaseCommand
-from loguru import logger
 
 
 class UnloadScene(BaseCommand):
@@ -11,9 +10,9 @@ class UnloadScene(BaseCommand):
     def execute(self):
         data = self.send_command(
             'unloadScene', self.scene_name)
-        if (data == 'Ok'):
-            data = self.recvall()
-            if (data == "Scene Unloaded"):
-                logger.debug('Scene Unloaded: ' + self.scene_name)
-                return data
-        return self.handle_errors(data)
+        self.validate_response("Ok", data)
+
+        data = self.recvall()
+        self.validate_response("Scene Unloaded", data)
+
+        return data

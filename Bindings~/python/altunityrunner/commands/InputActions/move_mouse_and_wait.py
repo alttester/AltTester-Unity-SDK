@@ -15,15 +15,15 @@ class MoveMouseAndWait(BaseCommand):
     def execute(self):
         data = MoveMouse(self.socket, self.request_separator,
                          self.request_end, self.x, self.y, self.duration).execute()
-        self.handle_errors(data)
+
         logger.debug('Wait for move mouse to finish')
         time.sleep(self.duration)
         action_in_progress = True
         while action_in_progress:
             action_finished = self.send_command('actionFinished')
-            self.handle_errors(action_finished)
             if action_finished == 'Yes':
                 break
             elif action_finished != 'No':
                 action_in_progress = False
-        return self.handle_errors(data)
+
+        return data

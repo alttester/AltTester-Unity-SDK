@@ -14,9 +14,6 @@ public class AltSetTimeScale extends AltBaseCommand {
     public void Execute() {
         SendCommand("setTimeScale", String.valueOf(timeScale));
         String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        validateResponse("Ok", data);
     }
 }

@@ -16,15 +16,16 @@ class TiltAndWait(BaseCommand):
     def execute(self):
         data = Tilt(self.socket, self.request_separator, self.request_end, self.x,
                     self.y, self.z, self.duration_in_secs).execute()
-        self.handle_errors(data)
+
         logger.debug('Wait for tilt to finish')
         time.sleep(self.duration_in_secs)
+
         tilt_in_progress = True
         while tilt_in_progress:
             tilt_finished = self.send_command('actionFinished')
-            self.handle_errors(tilt_finished)
+
             if tilt_finished == 'Yes':
                 break
             elif tilt_finished != 'No':
                 tilt_in_progress = False
-        return self.handle_errors(data)
+        return data

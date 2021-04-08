@@ -34,11 +34,6 @@ public class AltGetComponentProperty extends AltBaseCommand {
                 altGetComponentPropertyParameters.getPropertyName()));
         SendCommand("getObjectComponentProperty", altObject, propertyInfo,
                 Integer.toString(altGetComponentPropertyParameters.getMaxDepth()));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return data;
-        }
-        handleErrors(data);
-        return "";
+        return recvall();
     }
 }

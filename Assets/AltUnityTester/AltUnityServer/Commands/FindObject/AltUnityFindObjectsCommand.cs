@@ -1,4 +1,4 @@
-using System.Linq;
+using System.Collections.Generic;
 using Altom.AltUnityDriver;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
@@ -9,7 +9,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("findObjects for: " + ObjectName);
             UnityEngine.Camera camera = null;
             if (!CameraPath.Equals("//"))
             {
@@ -19,7 +18,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             var path = ProcessPath(ObjectName);
             var isDirectChild = IsNextElementDirectChild(path[0]);
-            System.Collections.Generic.List<AltUnityObject> foundObjects = new System.Collections.Generic.List<AltUnityObject>();
+            var foundObjects = new List<AltUnityObject>();
             foreach (UnityEngine.GameObject testableObject in FindObjects(null, path, 1, false, isDirectChild, Enabled))
             {
                 foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(testableObject, camera));

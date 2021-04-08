@@ -2,11 +2,11 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySetKeyPLayerPref : AltBaseCommand
     {
-        string keyName;
-        int intValue;
-        float floatValue;
-        string stringValue;
-        int option = 0;
+        readonly string keyName;
+        readonly int intValue;
+        readonly float floatValue;
+        readonly string stringValue;
+        readonly int option = 0;
         public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, int intValue) : base(socketSettings)
         {
             this.keyName = keyName;
@@ -30,40 +30,33 @@ namespace Altom.AltUnityDriver.Commands
             switch (option)
             {
                 case 1:
-                    SetIntKey();
+                    setIntKey();
                     break;
                 case 2:
-                    SetFloatKey();
+                    setFloatKey();
                     break;
                 case 3:
-                    SetStringKey();
+                    setStringKey();
                     break;
             }
         }
-        private void SetStringKey()
+        private void setStringKey()
         {
             SendCommand("setKeyPlayerPref", keyName, stringValue.ToString(), PLayerPrefKeyType.String.ToString());
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
-        private void SetIntKey()
+        private void setIntKey()
         {
             SendCommand("setKeyPlayerPref", keyName, intValue.ToString(), PLayerPrefKeyType.Int.ToString());
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
-        private void SetFloatKey()
+        private void setFloatKey()
         {
             SendCommand("setKeyPlayerPref", keyName, floatValue.ToString(), PLayerPrefKeyType.Float.ToString());
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
     }
 }

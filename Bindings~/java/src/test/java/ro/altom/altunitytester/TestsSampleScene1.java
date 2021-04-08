@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ro.altom.altunitytester.AltUnityDriver.By;
+import ro.altom.altunitytester.Commands.AltCallStaticMethodParameters;
 import ro.altom.altunitytester.Commands.GetServerVersionCommand;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParameters;
@@ -302,7 +303,8 @@ public class TestsSampleScene1 {
             altElement.getComponentProperty(componentName, propertyName);
             fail();
         } catch (PropertyNotFoundException e) {
-            assertEquals(e.getMessage(), "error:propertyNotFound");
+            assertTrue("Expected message: 'Property socketPort not found' \nGot:\n" + e.getMessage(),
+                    e.getMessage().startsWith("error:propertyNotFound\nProperty socketPort not found"));
         }
     }
 
@@ -356,7 +358,8 @@ public class TestsSampleScene1 {
             altElement.setComponentProperty(componentName, propertyName, "2");
             fail();
         } catch (ComponentNotFoundException e) {
-            assertEquals(e.getMessage(), "error:componentNotFound");
+            assertTrue("Expected message: 'Component not found' \nGot:\n" + e.getMessage(),
+                    e.getMessage().startsWith("error:componentNotFound\nComponent not found"));
         }
     }
 
@@ -407,7 +410,11 @@ public class TestsSampleScene1 {
             altElement.callComponentMethod(componentName, methodName, parameters);
             fail();
         } catch (MethodWithGivenParametersNotFoundException e) {
-            assertEquals(e.getMessage(), "error:methodWithGivenParametersNotFound");
+            assertTrue(
+                    "Expected message: 'No method found with 3 parameters matching signature: TestMethodWithManyParameters()' \nGot:\n"
+                            + e.getMessage(),
+                    e.getMessage().startsWith(
+                            "error:methodWithGivenParametersNotFound\nNo method found with 3 parameters matching signature: TestMethodWithManyParameters()"));
         }
     }
 
@@ -423,7 +430,11 @@ public class TestsSampleScene1 {
             altElement.callComponentMethod(componentName, methodName, parameters);
             fail();
         } catch (MethodWithGivenParametersNotFoundException e) {
-            assertEquals(e.getMessage(), "error:methodWithGivenParametersNotFound");
+            assertTrue(
+                    "Expected message: 'No method found with 3 parameters matching signature: TestMethodWithManyParameters()' \nGot:\n"
+                            + e.getMessage(),
+                    e.getMessage().startsWith(
+                            "error:methodWithGivenParametersNotFound\nNo method found with 3 parameters matching signature: TestMethodWithManyParameters()"));
         }
     }
 
@@ -439,7 +450,9 @@ public class TestsSampleScene1 {
             altElement.callComponentMethod("", componentName, methodName, parameters, "System.Stringggggg");
             fail();
         } catch (InvalidParameterTypeException e) {
-            assertEquals(e.getMessage(), "error:invalidParameterType");
+            assertTrue("Expected message: 'Parameter type System.Stringggggg not found.' \nGot:\n" + e.getMessage(),
+                    e.getMessage()
+                            .startsWith("error:invalidParameterType\nParameter type System.Stringggggg not found."));
         }
     }
 
@@ -455,7 +468,8 @@ public class TestsSampleScene1 {
             altElement.callComponentMethod("RandomAssembly", componentName, methodName, parameters, "");
             fail();
         } catch (AssemblyNotFoundException e) {
-            assertEquals(e.getMessage(), "error:assemblyNotFound");
+            assertTrue("Expected message: 'Assembly not found' \nGot:\n" + e.getMessage(),
+                    e.getMessage().startsWith("error:assemblyNotFound\nAssembly not found"));
         }
     }
 
@@ -472,7 +486,12 @@ public class TestsSampleScene1 {
             altElement.callComponentMethod("", componentName, methodName, parameters, "");
             fail();
         } catch (MethodWithGivenParametersNotFoundException e) {
-            assertEquals(e.getMessage(), "error:methodWithGivenParametersNotFound");
+            assertTrue(
+                    "Expected message: 'No method found with 3 parameters matching signature: TestMethodWithManyParameters()' \nGot:\n"
+                            + e.getMessage(),
+                    e.getMessage().startsWith(
+                            "error:methodWithGivenParametersNotFound\nNo method found with 3 parameters matching signature: TestMethodWithManyParameters()"));
+
         }
     }
 
@@ -511,7 +530,7 @@ public class TestsSampleScene1 {
             altUnityDriver.getIntKeyPlayerPref("test");
             fail();
         } catch (NotFoundException e) {
-            assertEquals(e.getMessage(), "error:notFound");
+            assertTrue(e.getMessage(), e.getMessage().startsWith("error:notFound"));
         }
     }
 
@@ -540,7 +559,7 @@ public class TestsSampleScene1 {
             altUnityDriver.findObject(altFindObjectsParameters1);
             fail();
         } catch (NotFoundException e) {
-            assertEquals(e.getMessage(), "error:notFound");
+            assertTrue(e.getMessage(), e.getMessage().startsWith("error:notFound"));
         }
     }
 
@@ -552,7 +571,7 @@ public class TestsSampleScene1 {
             altUnityDriver.findObject(altFindObjectsParameters1);
             fail();
         } catch (NotFoundException e) {
-            assertEquals(e.getMessage(), "error:notFound");
+            assertTrue(e.getMessage(), e.getMessage().startsWith("error:notFound"));
         }
     }
 
@@ -642,9 +661,10 @@ public class TestsSampleScene1 {
     @Test
     public void TestCallStaticMethod() throws Exception {
 
-        altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
-        // int a=altUnityDriver.getIntKeyPlayerPref("Test");
-        int a = Integer.parseInt(altUnityDriver.callStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+        altUnityDriver.callStaticMethod(
+                new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs", "SetInt", "Test?1").build());
+        int a = Integer.parseInt(altUnityDriver.callStaticMethod(
+                new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs", "GetInt", "Test?2").build()));
         assertEquals(1, a);
 
     }
@@ -703,7 +723,7 @@ public class TestsSampleScene1 {
             altUnityDriver.findObject(altFindObjectsParameters1);
             assertFalse("Not found exception should be thrown", true);
         } catch (NotFoundException e) {
-            assertTrue(e.getMessage().equals("error:notFound"));
+            assertTrue(e.getMessage(), e.getMessage().startsWith("error:notFound"));
         }
 
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
@@ -715,7 +735,7 @@ public class TestsSampleScene1 {
             altUnityDriver.findObject(altFindObjectsParameters);
             assertFalse("Not found exception should be thrown", true);
         } catch (NotFoundException e) {
-            assertTrue(e.getMessage().equals("error:notFound"));
+            assertTrue(e.getMessage(), e.getMessage().startsWith("error:notFound"));
         }
     }
 

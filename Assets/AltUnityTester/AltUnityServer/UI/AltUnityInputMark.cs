@@ -2,11 +2,19 @@ public class AltUnityInputMark : UnityEngine.MonoBehaviour
 {
     public UnityEngine.CanvasGroup CanvasGroup;
     public UnityEngine.AnimationCurve VisibilityCurve;
-    
+
     public int Id { get; private set; }
-    public UnityEngine.Transform Transform { get { return _transform ?? (_transform = GetComponent<UnityEngine.Transform>()); } }
+    public UnityEngine.Transform Transform
+    {
+        get
+        {
+            if (_transform == null)
+                _transform = GetComponent<UnityEngine.Transform>();
+            return _transform;
+        }
+    }
     private UnityEngine.Transform _transform;
-    
+
     private System.Action<AltUnityInputMark> _onFinished;
     private float _time;
     private float _currentTime;
@@ -14,7 +22,7 @@ public class AltUnityInputMark : UnityEngine.MonoBehaviour
     private void Awake()
     {
         Id = GetInstanceID();
-        
+
         if (CanvasGroup != null)
             CanvasGroup.alpha = 0;
     }
@@ -24,7 +32,7 @@ public class AltUnityInputMark : UnityEngine.MonoBehaviour
         _time = time;
         _onFinished = onFinished;
     }
-    
+
     public void Show(UnityEngine.Vector2 pos)
     {
         Transform.localPosition = pos;
@@ -35,11 +43,11 @@ public class AltUnityInputMark : UnityEngine.MonoBehaviour
     private void Update()
     {
         CanvasGroup.alpha = VisibilityCurve.Evaluate(_currentTime);
-        
+
         _currentTime += UnityEngine.Time.deltaTime / _time;
         if (_currentTime < _time)
             return;
-        
+
         Finish();
     }
 

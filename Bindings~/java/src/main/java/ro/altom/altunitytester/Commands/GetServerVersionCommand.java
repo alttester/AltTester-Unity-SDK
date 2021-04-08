@@ -9,8 +9,6 @@ public class GetServerVersionCommand extends AltBaseCommand {
 
     public String Execute() {
         SendCommand("getServerVersion");
-        String serverVersion = recvall();
-        handleErrors(serverVersion);
-        return serverVersion;
+        return recvall();
     }
 }

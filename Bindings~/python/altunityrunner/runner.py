@@ -1,16 +1,18 @@
 import socket
 import time
 import warnings
+import sys
 
 from deprecated import deprecated
 from loguru import logger
 
 from altunityrunner.__version__ import VERSION
-from altunityrunner.altUnityExceptions import *
+from altunityrunner.altUnityExceptions import UnknownErrorException, AltUnityRecvallMessageFormatException
 from altunityrunner.commands import *
 
 
-warnings.filterwarnings("default", category=DeprecationWarning, module=__name__)
+warnings.filterwarnings(
+    "default", category=DeprecationWarning, module=__name__)
 
 
 class AltUnityDriver(object):
@@ -20,6 +22,20 @@ class AltUnityDriver(object):
         self.request_separator = request_separator
         self.request_end = request_end
         self.log_flag = log_flag
+
+        if log_flag:
+            logger.configure(
+                handlers=[
+                    dict(sink=sys.stdout),
+                    dict(sink="./AltUnityTesterLog.txt",
+                         enqueue=False, serialize=True, mode="w"),
+                ],
+                levels=[dict(name="DEBUG")],
+
+                activation=[("altunityrunner", True)],
+            )
+        else:
+            logger.disable("altunityrunner")
 
         while timeout > 0:
             try:
@@ -42,8 +58,6 @@ class AltUnityDriver(object):
         if timeout <= 0:
             raise Exception(
                 'Could not connect to AltUnityServer on: ' + TCP_IP + ':' + str(self.TCP_PORT))
-        EnableLogging(self.socket, self.request_separator,
-                      self.request_end, self.log_flag).execute()
 
     def _split_version(self, version):
         parts = version.split(".")
@@ -217,3 +231,6 @@ class AltUnityDriver(object):
 
     def get_all_loaded_scenes(self):
         return GetAllLoadedScenes(self.socket, self.request_separator, self.request_end).execute()
+
+    def set_server_logging(self, logger, log_level):
+        return SetServerLogging(self.socket, self.request_separator, self.request_end, logger, log_level).execute()

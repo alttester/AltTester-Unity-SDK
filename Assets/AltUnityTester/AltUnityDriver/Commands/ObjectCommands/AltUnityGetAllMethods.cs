@@ -1,10 +1,13 @@
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetAllMethods : AltBaseCommand
     {
         AltUnityComponent altUnityComponent;
-        AltUnityObject altUnityObject;
-        AltUnityMethodSelection methodSelection;
+        readonly AltUnityObject altUnityObject;
+        readonly AltUnityMethodSelection methodSelection;
 
         public AltUnityGetAllMethods(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject, AltUnityMethodSelection methodSelection = AltUnityMethodSelection.ALLMETHODS) : base(socketSettings)
         {
@@ -12,14 +15,13 @@ namespace Altom.AltUnityDriver.Commands
             this.altUnityObject = altUnityObject;
             this.methodSelection = methodSelection;
         }
-        public System.Collections.Generic.List<string> Execute()
+        public List<string> Execute()
         {
-            var altComponent = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityComponent);
+            var altComponent = JsonConvert.SerializeObject(altUnityComponent);
             SendCommand("getAllMethods", altComponent, methodSelection.ToString());
             string data = Recvall();
-            if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<string>>(data);
-            HandleErrors(data);
-            return null;
+            return JsonConvert.DeserializeObject<List<string>>(data);
+
         }
     }
 }

@@ -1,16 +1,16 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
 using Altom.Editor;
+using NLog;
+using Altom.Editor.Logging;
 
-
-public class BuildAltUnityTester {
-
+public class BuildAltUnityTester
+{
+    private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
     [MenuItem("Build/Android")]
-    static void AndroidBuildFromCommandLine() {
+    protected static void AndroidBuildFromCommandLine()
+    {
         try
         {
             string versionNumber = DateTime.Now.ToString("yyMMddHHss");
@@ -26,22 +26,23 @@ public class BuildAltUnityTester {
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 #endif
 
-            Debug.Log("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-            buildPlayerOptions.scenes = new string[]
+            logger.Debug("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            var buildPlayerOptions = new BuildPlayerOptions
             {
-            "Assets/AltUnityTester/Examples/Scenes/Scene 1 AltUnityDriverTestScene.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene6.unity"
-            
-            };
+                scenes = new string[]
+                {
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 4 No Cameras.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene6.unity"
+                },
 
-            buildPlayerOptions.locationPathName = "sampleGame.apk";
-            buildPlayerOptions.target = BuildTarget.Android;
-            buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+                locationPathName = "sampleGame.apk",
+                target = BuildTarget.Android,
+                options = BuildOptions.Development | BuildOptions.AutoRunPlayer
+            };
 
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
             AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
@@ -53,40 +54,44 @@ public class BuildAltUnityTester {
 #if UNITY_2017
             if (results.Equals(""))
             {
-                Debug.Log("No Build Errors");
+                logger.Info("No Build Errors");
 
             }
             else
-                Debug.LogError("Build Error!");
+                logger.Error("Build Error!");
             // EditorApplication.Exit(1);
 
 #else
             if (results.summary.totalErrors == 0)
             {
-                Debug.Log("No Build Errors");
+                logger.Info("No Build Errors");
 
             }
             else
             {
-                Debug.LogError("Total Errors: " + results.summary.totalErrors);
-                Debug.LogError("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
+                logger.Error("Total Errors: " + results.summary.totalErrors);
+                logger.Error("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
                 // EditorApplication.Exit(1);
             }
 
 #endif
 
-            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             EditorApplication.Exit(0);
-        } catch (Exception exception) {
-            Debug.LogException(exception);
+        }
+        catch (Exception exception)
+        {
+            logger.Error(exception);
             // EditorApplication.Exit(1);
         }
 
     }
-    
+
     [MenuItem("Build/iOS")]
-    private static void IosBuildFromCommandLine() {
-        try {
+    protected static void IosBuildFromCommandLine()
+    {
+        try
+        {
             string versionNumber = DateTime.Now.ToString("yyMMddHHss");
             PlayerSettings.companyName = "Altom";
             PlayerSettings.productName = "sampleGame";
@@ -95,56 +100,61 @@ public class BuildAltUnityTester {
             PlayerSettings.iOS.appleEnableAutomaticSigning = true;
             PlayerSettings.iOS.appleDeveloperTeamID = "59ESG8ELF5";
             PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.iOS, ApiCompatibilityLevel.NET_4_6);
-            Debug.Log("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            logger.Debug("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
 
-            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-            buildPlayerOptions.locationPathName = "sampleGame";
-           buildPlayerOptions.scenes = new string[]
+            var buildPlayerOptions = new BuildPlayerOptions
             {
-            "Assets/AltUnityTester/Examples/Scenes/Scene 1 AltUnityDriverTestScene.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
-            "Assets/AltUnityTester/Examples/Scenes/Scene6.unity"
+                locationPathName = "sampleGame",
+                scenes = new string[]
+                {
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 4 No Cameras.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene6.unity"
+                },
+
+                target = BuildTarget.iOS,
+                options = BuildOptions.Development
             };
 
-            buildPlayerOptions.target = BuildTarget.iOS;
-            buildPlayerOptions.options = BuildOptions.Development;
+            AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
+            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
 
-			AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
-			AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
-            
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
 #if UNITY_2017
             if (results.Equals(""))
             {
-                Debug.Log("No Build Errors");
+                logger.Info("No Build Errors");
 
             }
             else
-            Debug.LogError("Build Error!");
+            logger.Error("Build Error!");
             EditorApplication.Exit(1);
 
 #else
-            if (results.summary.totalErrors == 0) {
-                Debug.Log("No Build Errors");
+            if (results.summary.totalErrors == 0)
+            {
+                logger.Info("No Build Errors");
 
-            } else {
-                Debug.LogError("Build Error!");
+            }
+            else
+            {
+                logger.Error("Build Error!");
                 EditorApplication.Exit(1);
             }
 
 #endif
-            Debug.Log("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
             EditorApplication.Exit(0);
 
-        } catch (Exception exception) {
-            Debug.Log(exception);
+        }
+        catch (Exception exception)
+        {
+            logger.Error(exception);
             EditorApplication.Exit(1);
         }
-
-
     }
 }

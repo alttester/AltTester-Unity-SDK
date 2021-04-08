@@ -12,4 +12,4 @@ class Drag(BaseCommand):
         position_string = self.vector_to_json_string(self.x, self.y)
         data = self.send_command(
             'dragObject', position_string, self.alt_object)
-        return self.handle_errors(data)
+        return data

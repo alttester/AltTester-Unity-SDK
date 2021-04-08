@@ -20,10 +20,6 @@ public class AltTapCustom extends AltBaseCommand {
     public void Execute() {
         String position = vectorToJsonString(x, y);
         SendCommand("tapCustom", position, String.valueOf(count), String.valueOf(interval));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return;
-        }
-        handleErrors(data);
+        recvall();
     }
 }

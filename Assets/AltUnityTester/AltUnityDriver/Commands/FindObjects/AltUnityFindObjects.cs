@@ -2,11 +2,11 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityFindObjects : AltUnityBaseFindObjects
     {
-        By by;
-        string value;
-        By cameraBy;
+        readonly By by;
+        readonly string value;
+        readonly By cameraBy;
         string cameraPath;
-        bool enabled;
+        readonly bool enabled;
 
         public AltUnityFindObjects(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
         {

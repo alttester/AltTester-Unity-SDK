@@ -13,15 +13,12 @@ class GetPlayerPrefKey(BaseCommand):
     def execute(self):
         data = ''
         if self.key_type == 1:
-            logger.debug('Get Int Player Pref for key: ' + self.key_name)
             data = self.send_command(
                 'getKeyPlayerPref', self.key_name, str(PlayerPrefKeyType.Int))
         if self.key_type == 2:
-            logger.debug('Get String Player Pref for key: ' + self.key_name)
             data = self.send_command(
                 'getKeyPlayerPref', self.key_name, str(PlayerPrefKeyType.String))
         if self.key_type == 3:
-            logger.debug('Get Float Player Pref for key: ' + self.key_name)
             data = self.send_command(
                 'getKeyPlayerPref', self.key_name, str(PlayerPrefKeyType.Float))
-        return self.handle_errors(data)
+        return data

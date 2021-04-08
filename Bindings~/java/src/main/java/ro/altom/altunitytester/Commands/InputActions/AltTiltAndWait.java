@@ -24,9 +24,6 @@ public class AltTiltAndWait extends AltBaseCommand {
             data = recvall();
         } while (data.equals("No"));
 
-        if (data.equals("Yes")) {
-            return;
-        }
-        handleErrors(data);
+        validateResponse("Yes", data);
     }
 }

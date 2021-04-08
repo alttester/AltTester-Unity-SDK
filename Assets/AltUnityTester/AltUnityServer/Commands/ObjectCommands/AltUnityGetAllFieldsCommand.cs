@@ -1,29 +1,33 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Altom.AltUnityDriver;
+using Altom.Server.Logging;
 using Newtonsoft.Json;
+using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityGetAllFieldsCommand : AltUnityReflectionMethodsCommand
     {
-        string id;
-        AltUnityComponent component;
-        AltUnityFieldsSelections altUnityFieldsSelections;
+        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+
+        readonly int id;
+        private AltUnityComponent component;
+        readonly AltUnityFieldsSelections altUnityFieldsSelections;
 
         public AltUnityGetAllFieldsCommand(params string[] parameters) : base(parameters, 5)
         {
-            this.id = parameters[2];
+            this.id = JsonConvert.DeserializeObject<int>(parameters[2]);
             this.component = JsonConvert.DeserializeObject<AltUnityComponent>(parameters[3]);
-            this.altUnityFieldsSelections = (AltUnityFieldsSelections)Enum.Parse(typeof(AltUnityFieldsSelections), parameters[4], true);
+            this.altUnityFieldsSelections = (AltUnityFieldsSelections)Enum.Parse(typeof(AltUnityFieldsSelections), parameters[4]);
         }
 
         public override string Execute()
         {
-            LogMessage("getAllFields");
             UnityEngine.GameObject altObject;
-            altObject = id.Equals("null") ? null : AltUnityRunner.GetGameObject(System.Convert.ToInt32(id));
-            System.Type type = GetType(component.componentName, component.assemblyName);
+            altObject = AltUnityRunner.GetGameObject(id);
+            Type type = GetType(component.componentName, component.assemblyName);
             var altObjectComponent = altObject.GetComponent(type);
             System.Reflection.FieldInfo[] fieldInfos = null;
 
@@ -42,14 +46,14 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     break;
             }
 
-            System.Collections.Generic.List<AltUnityProperty> listFields = new System.Collections.Generic.List<AltUnityProperty>();
+            var listFields = new List<AltUnityProperty>();
             foreach (var fieldInfo in fieldInfos)
             {
                 try
                 {
                     var value = fieldInfo.GetValue(altObjectComponent);
                     AltUnityType altUnityType = AltUnityType.OBJECT;
-                    if (fieldInfo.FieldType.IsPrimitive || fieldInfo.FieldType.Equals(typeof(System.String)))
+                    if (fieldInfo.FieldType.IsPrimitive || fieldInfo.FieldType.Equals(typeof(string)))
                     {
                         altUnityType = AltUnityType.PRIMITIVE;
                     }
@@ -61,13 +65,13 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         value == null ? "null" : value.ToString(), altUnityType));
 
                 }
-                catch (System.Exception e)
+                catch (Exception e)
                 {
-                    LogMessage(e.Message);
+                    logger.Error(e);
                 }
 
             }
-            return Newtonsoft.Json.JsonConvert.SerializeObject(listFields);
+            return JsonConvert.SerializeObject(listFields);
         }
     }
 }

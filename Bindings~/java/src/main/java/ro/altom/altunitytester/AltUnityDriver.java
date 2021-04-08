@@ -1,7 +1,21 @@
 package ro.altom.altunitytester;
 
-import org.apache.log4j.BasicConfigurator;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.config.ConfigurationFactory;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
+import org.apache.logging.log4j.core.config.builder.api.LayoutComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.LoggerComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+
 import ro.altom.altunitytester.Commands.*;
+import ro.altom.altunitytester.Commands.AltUnityCommands.AltSetServerLoggingParameters;
+import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnitySetServerLogging;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
@@ -12,10 +26,11 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.LogManager;
-
 public class AltUnityDriver {
+    static {
+        ConfigurationFactory custom = new AltUnityDriverConfigFactory();
+        ConfigurationFactory.setConfigurationFactory(custom);
+    }
 
     private static final Logger log = LogManager.getLogger(AltUnityDriver.class);
 
@@ -47,18 +62,19 @@ public class AltUnityDriver {
         this(ip, port, requestSeparator, requestEnd, false);
     }
 
-    public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logEnabled) {
-        this(ip, port, requestSeparator, requestEnd, logEnabled, 60);
+    public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logFlag) {
+        this(ip, port, requestSeparator, requestEnd, logFlag, 60);
     }
 
     public AltUnityDriver(AltUnityDriverParams params) {
-        this(params.ip, params.port, params.requestSeparator, params.requestEnd, params.logEnabled,
-                params.connectTimeout);
+        this(params.ip, params.port, params.requestSeparator, params.requestEnd, params.logFlag, params.connectTimeout);
     }
 
-    public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logEnabled,
+    public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logFlag,
             int connectTimeout) {
-        BasicConfigurator.configure();
+        if (!logFlag)
+            AltUnityDriverConfigFactory.DisableLogging();
+
         if (ip == null || ip.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
@@ -76,7 +92,7 @@ public class AltUnityDriver {
                             + ",retrying (timing out in " + connectTimeout + " secs)...", e);
                 }
 
-                altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in, logEnabled);
+                altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in);
                 checkServerVersion();
                 break;
             } catch (Exception e) {
@@ -96,12 +112,6 @@ public class AltUnityDriver {
                 throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port),
                         new Throwable());
             }
-        }
-
-        try {
-            EnableLogging();
-        } catch (AltUnityRecvallMessageFormatException ex) {
-            System.out.println("Cannot set logging flag because of version incompatibility.");
         }
     }
 
@@ -133,10 +143,6 @@ public class AltUnityDriver {
             log.warn(message);
             System.out.println(message);
         }
-    }
-
-    private void EnableLogging() {
-        new EnableLogging(altBaseSettings).Execute();
     }
 
     public void stop() {
@@ -531,6 +537,10 @@ public class AltUnityDriver {
 
     public void getPNGScreeshot(String path) {
         new GetPNGScreenshotCommand(altBaseSettings, path).Execute();
+    }
+
+    public void setServerLogging(AltSetServerLoggingParameters parameters) {
+        new AltUnitySetServerLogging(altBaseSettings, parameters).Execute();
     }
 
     /**

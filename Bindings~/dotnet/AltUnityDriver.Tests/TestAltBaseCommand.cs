@@ -5,6 +5,8 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.AltSocket;
 using Altom.AltUnityDriver.Commands;
 
+using Altom.AltUnityDriver.Logging;
+
 
 namespace unit.AltUnityDriverTests
 {
@@ -70,6 +72,7 @@ namespace unit.AltUnityDriverTests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+            DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Debug);
 
         }
         [SetUp]
@@ -81,21 +84,25 @@ namespace unit.AltUnityDriverTests
         public void TestSendCommandAndRecvall()
         {
             TestSocket socket = new TestSocket("error:couldNotParseJsonString", "");
-            AltBaseCommandImpl command = new AltBaseCommandImpl(new SocketSettings(socket, ";", "&", false));
-
-            var response = command.Execute();
-
-            int expectedLength = System.DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString().Length + ";altBaseCommand&".Length;
-            Assert.IsTrue(socket.MessageSent.EndsWith(";altBaseCommand&"), socket.MessageSent);
-            Assert.AreEqual(socket.MessageSent.Length, expectedLength, socket.MessageSent);
-
-            Assert.AreEqual(response, "error:couldNotParseJsonString");
+            bool pass = false;
+            try
+            {
+                AltBaseCommandImpl command = new AltBaseCommandImpl(new SocketSettings(socket, ";", "&"));
+                var response = command.Execute();
+                Assert.Fail();
+            }
+            catch (CouldNotParseJsonStringException)
+            {
+                int expectedLength = System.DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString().Length + ";altBaseCommand&".Length;
+                Assert.IsTrue(socket.MessageSent.EndsWith(";altBaseCommand&"), socket.MessageSent);
+                Assert.AreEqual(socket.MessageSent.Length, expectedLength, socket.MessageSent);
+            }
         }
         [Test]
         public void TestAltUnitySyncCommand()
         {
             TestSocket socket = new TestSocket("0.0.1", "");
-            AltUnitySyncCommand command = new AltUnitySyncCommand(new SocketSettings(socket, ";", "&", false));
+            AltUnitySyncCommand command = new AltUnitySyncCommand(new SocketSettings(socket, ";", "&"));
 
             command.Execute();
 

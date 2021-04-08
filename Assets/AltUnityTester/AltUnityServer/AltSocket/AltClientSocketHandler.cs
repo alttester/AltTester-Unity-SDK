@@ -1,6 +1,7 @@
-using System.Text.RegularExpressions;
 using Altom.AltUnityDriver.AltSocket;
+using Altom.Server.Logging;
 using Assets.AltUnityTester.AltUnityServer.Commands;
+using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.AltSocket
 {
@@ -12,6 +13,8 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
 
     public class AltClientSocketHandler
     {
+        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+
         protected readonly ISocket Socket;
         protected readonly string MessageEndingString;
         protected readonly System.Text.Encoding Encoding;
@@ -45,31 +48,33 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
         {
             response = "altstart::" + response + "::altLog::::altend";
             Socket.Send(Encoding.GetBytes(response));
+            logger.Debug("sent: " + response);
         }
 
         public void SendResponse(AltUnityCommand command, string response)
         {
-            var logMessage = Regex.Replace(command.GetLogMessage(), @"\r\n|\n|\r$", "");//Removes the last new line
+            var logMessage = command.GetLogs();
 
             Socket.Send(Encoding.GetBytes("altstart::" + command.MessageId + "::response::" + response + "::altLog::" + logMessage + "::altend"));
             if (response != null && MaxLengthLogMsg != 0 && response.Length > MaxLengthLogMsg)
-              response = "response longer then max length'" + MaxLengthLogMsg + "'. Response length = '" + response.Length.ToString() + "'";
-            command.EndLog(response);
+                response = "Response longer then max length '" + MaxLengthLogMsg + "'. Response length = '" + response.Length.ToString() + "'";
+
+            logger.Debug("sent: " + command.MessageId + ";" + command.CommandName + ";" + response);
         }
-        
+
         public void SendScreenshotResponse(AltUnityCommand command, string response)
         {
             var logMessage = "Screenshot length " + response.Length;
             response = "altstart::" + command.MessageId + "::response::" + response + "::altLog::" + logMessage + "::altend";
             Socket.Send(Encoding.GetBytes(response));
-            command.EndLog(logMessage);
+            logger.Debug("sent: " + command.MessageId + ";" + command.CommandName + ";" + logMessage);
         }
 
         public void Run()
         {
             try
             {
-                System.Text.StringBuilder dataBuffer = new System.Text.StringBuilder();
+                var dataBuffer = new System.Text.StringBuilder();
 
                 while (true)
                 {
@@ -117,27 +122,21 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
             }
             catch (System.Threading.ThreadAbortException exception)
             {
-                AltUnityRunner.ServerLogger.Write("Thread aborted(" + exception + ")" + System.Environment.NewLine);
-                UnityEngine.Debug.Log("Thread aborted(" + exception + ")");
+                logger.Error(exception);
             }
             catch (System.Net.Sockets.SocketException exception)
             {
-                AltUnityRunner.ServerLogger.Write("Socket exception(" + exception + ")" + System.Environment.NewLine);
-                UnityEngine.Debug.Log("Socket exception(" + exception + ")");
+                logger.Error(exception);
             }
             catch (System.Exception exception)
-
             {
-                AltUnityRunner.ServerLogger.Write("Exception(" + exception + ")" + System.Environment.NewLine);
-                UnityEngine.Debug.Log("Exception(" + exception + ")");
+                logger.Error(exception);
             }
             finally
             {
                 Socket.Close();
                 ToBeKilled = true;
-                AltUnityRunner.ServerLogger.Write("AltClientSocketHandler - Client closed" + System.Environment.NewLine);
-                UnityEngine.Debug.Log("AltClientSocketHandler - Client closed");
-
+                logger.Debug("AltClientSocketHandler - Client closed");
             }
         }
     }

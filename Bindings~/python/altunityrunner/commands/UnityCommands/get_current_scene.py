@@ -9,8 +9,5 @@ class GetCurrentScene(CommandReturningAltElements):
 
     def execute(self):
         data = self.send_command('getCurrentScene')
-        if (data != '' and 'error:' not in data):
-            alt_el = self.get_alt_element(data)
-            logger.debug('Current scene is ' + alt_el.name)
-            return alt_el.name
-        return self.handle_errors(data)
+        alt_el = self.get_alt_element(data)
+        return alt_el.name

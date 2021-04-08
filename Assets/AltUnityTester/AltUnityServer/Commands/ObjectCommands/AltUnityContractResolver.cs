@@ -6,13 +6,13 @@ using System.Reflection;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public class AltUnityContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver
+    public class AltUnityContractResolver : DefaultContractResolver
     {
-        private readonly Func<bool> _includeProperty;
+        private readonly Func<bool> includeProperty;
 
         public AltUnityContractResolver(Func<bool> includeProperty)
         {
-            _includeProperty = includeProperty;
+            this.includeProperty = includeProperty;
         }
 
         protected override System.Collections.Generic.IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
@@ -24,18 +24,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         .ToList();
             foreach (var prop in props)
             {
-                // try
-                // {
                 if (prop.AttributeProvider.GetAttributes(true).OfType<ObsoleteAttribute>().Any())
                 {
                     prop.ShouldSerialize = obj => false;
                 }
                 prop.Writable = true; prop.Readable = true;
-                // }
-                // catch (Exception e)
-                // {
-                //     LogMessage(e.Message);
-                // }
 
             }
             return props;
@@ -47,31 +40,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 if (member.MemberType == MemberTypes.Field)
                 {
-                    // try
-                    // {
                     FieldInfo field = (FieldInfo)member;
                     field.GetValue(instance);
-                    if (_includeProperty())
+                    if (includeProperty())
                         return true;
-                    // }
-                    // catch (Exception e)
-                    // {
-                    //     LogMessage(e.Message);
-                    // }
                 }
                 if (member.MemberType == MemberTypes.Property)
                 {
-                    // try
-                    // {
                     PropertyInfo prop = (PropertyInfo)member;
                     prop.GetValue(instance, null);
-                    if (_includeProperty())
+                    if (includeProperty())
                         return true;
-                    // }
-                    // catch (Exception e)
-                    // {
-                    //     LogMessage(e.Message);
-                    // }
                 }
                 return false;
 

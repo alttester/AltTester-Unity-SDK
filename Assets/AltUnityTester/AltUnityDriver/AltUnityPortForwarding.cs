@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Altom.AltUnityDriver.Logging;
+using NLog;
 
 namespace Altom.AltUnityDriver
 {
@@ -11,7 +13,11 @@ namespace Altom.AltUnityDriver
     /// </summary>
     public class AltUnityPortForwarding
     {
-        public static int idIproxyProcess = 0;
+
+#if UNITY_EDITOR
+        private static readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+#endif
+        public static int IdIproxyProcess = 0;
 
         /// <summary>
         /// Calls `iproxy {localport} {remotePort} -u {deviceId}`
@@ -32,9 +38,9 @@ namespace Altom.AltUnityDriver
             }
             try
             {
-                var process = StartProcess(iproxyPath, arguments);
+                var process = startProcess(iproxyPath, arguments);
 
-                idIproxyProcess = process.Id;
+                IdIproxyProcess = process.Id;
 
                 if (process.HasExited)
                 {
@@ -59,7 +65,7 @@ namespace Altom.AltUnityDriver
             var devices = new List<AltUnityDevice>();
             try
             {
-                var process = StartProcess(xcrunPath, arguments);
+                var process = startProcess(xcrunPath, arguments);
 
                 string line = process.StandardOutput.ReadLine();//Known devices: line
                 line = process.StandardOutput.ReadLine();//mac's id
@@ -87,7 +93,7 @@ namespace Altom.AltUnityDriver
         /// </summary>
         public static List<AltUnityDevice> GetForwardediOSDevices()
         {
-            var process = StartProcess("ps", "aux");
+            var process = startProcess("ps", "aux");
 
             var devices = new List<AltUnityDevice>();
             while (!process.StandardOutput.EndOfStream)
@@ -126,7 +132,7 @@ namespace Altom.AltUnityDriver
         /// </summary>
         public static void KillAllIproxyProcess()
         {
-            var process = StartProcess("killall", "iproxy");
+            var process = startProcess("killall", "iproxy");
             process.WaitForExit();
         }
         /// <summary>
@@ -153,7 +159,7 @@ namespace Altom.AltUnityDriver
             try
             {
 
-                var process = StartProcess(adbPath, arguments);
+                var process = startProcess(adbPath, arguments);
 
                 string stdout = process.StandardError.ReadToEnd();
                 process.WaitForExit();
@@ -184,7 +190,7 @@ namespace Altom.AltUnityDriver
             string arguments = "forward --remove-all";
             try
             {
-                var process = StartProcess(adbPath, arguments);
+                var process = startProcess(adbPath, arguments);
                 process.WaitForExit();
             }
             catch (Exception ex)
@@ -214,7 +220,7 @@ namespace Altom.AltUnityDriver
             }
             try
             {
-                var process = StartProcess(adbPath, arguments);
+                var process = startProcess(adbPath, arguments);
                 process.WaitForExit();
             }
             catch (System.ComponentModel.Win32Exception ex)
@@ -237,7 +243,7 @@ namespace Altom.AltUnityDriver
             var arguments = "devices";
             try
             {
-                var process = StartProcess(adbPath, arguments);
+                var process = startProcess(adbPath, arguments);
                 var devices = new List<AltUnityDevice>();
 
                 while (!process.StandardOutput.EndOfStream)
@@ -265,7 +271,7 @@ namespace Altom.AltUnityDriver
             var arguments = "forward --list";
             try
             {
-                var process = StartProcess(adbPath, arguments);
+                var process = startProcess(adbPath, arguments);
                 var devices = new List<AltUnityDevice>();
 
                 while (!process.StandardOutput.EndOfStream)
@@ -283,7 +289,10 @@ namespace Altom.AltUnityDriver
                         }
                         catch (System.FormatException)
                         {
-                            //TODO: add logging  "adb forward also has: " + line + "; which was not included in the list of devices"
+#if UNITY_EDITOR
+
+                            logger.Warn("adb forward also has: " + line + "; which was not included in the list of devices");
+#endif
                         }
                     }
                 }
@@ -318,7 +327,7 @@ namespace Altom.AltUnityDriver
             return "xcrun";
         }
 
-        private static Process StartProcess(string processPath, string arguments)
+        private static Process startProcess(string processPath, string arguments)
         {
             var process = new Process();
             var startInfo = new ProcessStartInfo

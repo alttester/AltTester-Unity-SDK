@@ -1,10 +1,12 @@
+using System.Threading;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityPressKeyAndWait : AltBaseCommand
     {
-        AltUnityKeyCode keyCode;
-        float power;
-        float duration;
+        readonly AltUnityKeyCode keyCode;
+        readonly float power;
+        readonly float duration;
         public AltUnityPressKeyAndWait(SocketSettings socketSettings, AltUnityKeyCode keyCode, float power, float duration) : base(socketSettings)
         {
             this.keyCode = keyCode;
@@ -14,16 +16,14 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             new AltUnityPressKey(SocketSettings, keyCode, power, duration).Execute();
-            System.Threading.Thread.Sleep((int)duration * 1000);
+            Thread.Sleep((int)duration * 1000);
             string data;
             do
             {
                 SendCommand("actionFinished");
                 data = Recvall();
             } while (data == "No");
-            if (data.Equals("Yes"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Yes", data);
         }
     }
 }

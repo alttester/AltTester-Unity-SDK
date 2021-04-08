@@ -1,3 +1,5 @@
+using System;
+
 namespace Altom.AltUnityDriver.Commands
 {
 
@@ -23,9 +25,7 @@ namespace Altom.AltUnityDriver.Commands
 
             SendCommand(args.ToArray());
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

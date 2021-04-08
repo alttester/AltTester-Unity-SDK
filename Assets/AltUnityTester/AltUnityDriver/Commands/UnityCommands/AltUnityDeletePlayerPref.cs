@@ -9,9 +9,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             SendCommand("deletePlayerPref");
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
     }
 }

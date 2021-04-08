@@ -14,11 +14,9 @@ public class AltUnloadScene extends AltBaseCommand {
     public void Execute() {
         SendCommand("unloadScene", sceneName);
         String data = recvall();
-        if (data.equals("Ok")) {
-            data = recvall();
-            if (data.equals("Scene Unloaded"))
-                return;
-        }
-        handleErrors(data);
+        validateResponse("Ok", data);
+
+        data = recvall();
+        validateResponse("Scene Unloaded", data);
     }
 }

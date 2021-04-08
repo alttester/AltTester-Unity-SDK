@@ -1,39 +1,36 @@
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
+using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityCallComponentMethodForObjectCommand : AltUnityReflectionMethodsCommand
     {
-        string altObjectString;
-        string actionString;
+        private readonly AltUnityObjectAction altUnityObjectAction;
+        private readonly AltUnityObject altUnityObject;
 
         public AltUnityCallComponentMethodForObjectCommand(params string[] parameters) : base(parameters, 4)
         {
-            this.altObjectString = Parameters[2];
-            this.actionString = Parameters[3];
+            this.altUnityObject = string.IsNullOrEmpty(parameters[2]) ? null : JsonConvert.DeserializeObject<AltUnityObject>(Parameters[2]);
+            this.altUnityObjectAction = JsonConvert.DeserializeObject<AltUnityObjectAction>(Parameters[3]);
         }
 
         public override string Execute()
         {
-            LogMessage("call action " + actionString + " for object " + altObjectString);
-
             System.Reflection.MethodInfo methodInfoToBeInvoked;
-            AltUnityObjectAction altAction = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObjectAction>(actionString);
-            var componentType = GetType(altAction.Component, altAction.Assembly);
-            var methodPathSplited = altAction.Method.Split('.');
+            var componentType = GetType(altUnityObjectAction.Component, altUnityObjectAction.Assembly);
+            var methodPathSplited = altUnityObjectAction.Method.Split('.');
             string methodName;
-            object instance = null;
-            if (!string.IsNullOrEmpty(altObjectString))
+            object instance;
+            if (altUnityObject != null)
             {
-                AltUnityObject altObject = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(altObjectString);
-                UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altObject);
+                UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altUnityObject);
                 if (componentType == typeof(UnityEngine.GameObject))
                 {
                     instance = gameObject;
                     if (instance == null)
                     {
-                        throw new ObjectWasNotFoundException("Object with name=" + altObject.name + " and id=" + altObject.id + " was not found");
+                        throw new ObjectWasNotFoundException("Object with name=" + altUnityObject.name + " and id=" + altUnityObject.id + " was not found");
                     }
                 }
                 else
@@ -42,12 +39,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     if (instance == null)
                         throw new ComponentNotFoundException();
                 }
-                instance = getInstance(instance, methodPathSplited);
+                instance = GetInstance(instance, methodPathSplited);
 
             }
             else
             {
-                instance = getInstance(null, methodPathSplited, componentType);
+                instance = GetInstance(null, methodPathSplited, componentType);
             }
 
             if (methodPathSplited.Length > 1)
@@ -56,7 +53,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             else
             {
-                methodName = altAction.Method;
+                methodName = altUnityObjectAction.Method;
 
             }
             System.Reflection.MethodInfo[] methodInfos;
@@ -69,9 +66,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 methodInfos = GetMethodInfoWithSpecificName(instance.GetType(), methodName);
             }
-            methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altAction);
+            methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altUnityObjectAction);
 
-            return InvokeMethod(methodInfoToBeInvoked, altAction, instance);
+            return InvokeMethod(methodInfoToBeInvoked, altUnityObjectAction, instance);
         }
 
 

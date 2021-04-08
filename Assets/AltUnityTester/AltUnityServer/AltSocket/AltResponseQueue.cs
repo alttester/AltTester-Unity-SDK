@@ -1,30 +1,38 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.AltSocket
+﻿using System.Collections.Generic;
+
+namespace Assets.AltUnityTester.AltUnityServer.AltSocket
 {
     public delegate void SendResponse();
 
     public class AltResponseQueue
     {
-
-        private System.Collections.Generic.Queue<SendResponse> _responseQueue = new System.Collections.Generic.Queue<SendResponse>();
-        private readonly object _queueLock = new object();
+        private readonly Queue<SendResponse> responseQueue = new Queue<SendResponse>();
+        private readonly object queueLock = new object();
 
         public void Cycle()
         {
-            lock (_queueLock)
+            if (responseQueue.Count == 0) return;
+            lock (queueLock)
             {
-                if (_responseQueue.Count > 0)
-                    _responseQueue.Dequeue()();
+                if (responseQueue.Count > 0)
+                {
+                    responseQueue.Dequeue()();
+                }
             }
+
         }
 
         public void ScheduleResponse(SendResponse newResponse)
         {
-            lock (_queueLock)
+            lock (queueLock)
             {
-                if (_responseQueue.Count < 100)
-                    _responseQueue.Enqueue(newResponse);
+                if (responseQueue.Count < 100)
+                {
+                    responseQueue.Enqueue(newResponse);
+                }
             }
         }
     }
-
 }
+
+

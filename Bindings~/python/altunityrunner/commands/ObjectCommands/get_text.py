@@ -8,4 +8,4 @@ class GetText(BaseCommand):
 
     def execute(self):
         data = self.send_command('getText', self.alt_object)
-        return self.handle_errors(data)
+        return data

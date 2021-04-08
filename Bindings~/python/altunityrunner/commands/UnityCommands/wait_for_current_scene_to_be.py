@@ -18,7 +18,7 @@ class WaitForCurrentSceneToBe(CommandReturningAltElements):
     def execute(self):
         t = 0
         current_scene = ''
-        while (t <= self.timeout):
+        while t <= self.timeout:
             logger.debug('Waiting for scene to be ' + self.scene_name + '...')
             current_scene = GetCurrentScene(
                 self.socket, self.request_separator, self.request_end).execute()

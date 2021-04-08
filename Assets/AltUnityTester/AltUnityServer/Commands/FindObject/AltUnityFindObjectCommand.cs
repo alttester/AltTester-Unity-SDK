@@ -7,9 +7,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("findObject for: " + ObjectName);
-
-            string response = AltUnityErrors.errorNotFoundMessage;
             var path = ProcessPath(ObjectName);
             var isDirectChild = IsNextElementDirectChild(path[0]);
             var foundGameObject = FindObjects(null, path, 1, true, isDirectChild, Enabled);
@@ -25,7 +22,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 return Newtonsoft.Json.JsonConvert.SerializeObject(
                     AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(foundGameObject[0], camera));
             }
-            return response;
+            return AltUnityErrors.errorNotFoundMessage;
         }
     }
 }

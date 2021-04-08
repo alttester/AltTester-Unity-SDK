@@ -7,7 +7,6 @@
         {
             string response = AltUnityErrors.errorNotFoundMessage;
 #if ALTUNITYTESTER
-            LogMessage("actionFinished");
             if (Input.Finished)
                 response = "Yes";
             else

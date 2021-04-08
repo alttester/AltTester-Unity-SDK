@@ -5,15 +5,14 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityGetTextCommand : AltUnityReflectionMethodsCommand
     {
-        static readonly AltUnityObjectProperty[] TextProperties =
+        static readonly AltUnityObjectProperty[] textProperties =
         {
             new AltUnityObjectProperty("UnityEngine.UI.Text", "text"),
             new AltUnityObjectProperty("UnityEngine.UI.InputField", "text"),
             new AltUnityObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltUnityObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
         };
-
-        AltUnityObject altUnityObject;
+        readonly AltUnityObject altUnityObject;
 
         public AltUnityGetTextCommand(params string[] parameters) : base(parameters, 3)
         {
@@ -22,10 +21,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("Get text from object by name " + this.altUnityObject.name);
             var response = AltUnityErrors.errorPropertyNotFoundMessage;
 
-            foreach (var property in TextProperties)
+            foreach (var property in textProperties)
             {
                 try
                 {

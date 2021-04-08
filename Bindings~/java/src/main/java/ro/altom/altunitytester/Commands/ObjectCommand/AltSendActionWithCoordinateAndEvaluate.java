@@ -25,10 +25,6 @@ public class AltSendActionWithCoordinateAndEvaluate extends AltBaseCommand {
         String altObject = new Gson().toJson(altUnityObject);
         SendCommand(command, positionString, altObject);
         String data = recvall();
-        if (!data.contains("error:")) {
-            return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        handleErrors(data);
-        return null;
+        return new Gson().fromJson(data, AltUnityObject.class);
     }
 }

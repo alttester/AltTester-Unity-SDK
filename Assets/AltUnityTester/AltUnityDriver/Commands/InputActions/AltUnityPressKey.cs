@@ -2,9 +2,9 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityPressKey : AltBaseCommand
     {
-        AltUnityKeyCode keyCode;
-        float power;
-        float duration;
+        readonly AltUnityKeyCode keyCode;
+        readonly float power;
+        readonly float duration;
         public AltUnityPressKey(SocketSettings socketSettings, AltUnityKeyCode keyCode, float power, float duration) : base(socketSettings)
         {
             this.keyCode = keyCode;
@@ -15,9 +15,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             SendCommand("pressKeyboardKey", keyCode.ToString(), power.ToString(), duration.ToString());
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
     }
 }

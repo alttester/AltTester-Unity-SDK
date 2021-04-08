@@ -1,12 +1,12 @@
-using System.Linq;
+
 using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     public class AltUnitySetMultipointSwipeChainCommand : AltUnityCommand
     {
-        UnityEngine.Vector2[] positions;
-        string duration;
+        readonly UnityEngine.Vector2[] positions;
+        readonly string duration;
 
         public AltUnitySetMultipointSwipeChainCommand(params string[] parameters) : base(parameters, parameters.Length)
         {
@@ -21,7 +21,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            LogMessage("Start moving touch chain for: " + string.Join(", ", positions.Select(p => p.ToString()).ToArray()));
 
             Input.SetMultipointSwipe(positions, float.Parse(duration));
             return "OK";

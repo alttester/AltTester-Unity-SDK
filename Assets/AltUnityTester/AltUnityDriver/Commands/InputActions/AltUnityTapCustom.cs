@@ -18,8 +18,7 @@ namespace Altom.AltUnityDriver.Commands
             var posJson = PositionToJson(x, y);
             SendCommand("tapCustom", posJson, count.ToString(), interval.ToString());
             string data = Recvall();
-            if (data.Equals("OK")) return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
     }
 }

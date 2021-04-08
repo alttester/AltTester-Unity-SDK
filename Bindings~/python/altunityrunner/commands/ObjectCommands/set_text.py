@@ -9,4 +9,4 @@ class SetText(BaseCommand):
 
     def execute(self):
         data = self.send_command('setText', self.alt_object, self.text)
-        return self.handle_errors(data)
+        return data

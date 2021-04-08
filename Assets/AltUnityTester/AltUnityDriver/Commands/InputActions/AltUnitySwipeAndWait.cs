@@ -4,7 +4,7 @@ namespace Altom.AltUnityDriver.Commands
     {
         AltUnityVector2 start;
         AltUnityVector2 end;
-        float duration;
+        readonly float duration;
         public AltUnitySwipeAndWait(SocketSettings socketSettings, AltUnityVector2 start, AltUnityVector2 end, float duration) : base(socketSettings)
         {
             this.start = start;
@@ -21,9 +21,7 @@ namespace Altom.AltUnityDriver.Commands
                 SendCommand("actionFinished");
                 data = Recvall();
             } while (data == "No");
-            if (data.Equals("Yes"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Yes", data);
         }
     }
 }

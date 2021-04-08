@@ -8,4 +8,4 @@ class PointerUp(BaseCommand):
 
     def execute(self):
         data = self.send_command('pointerUpFromObject', self.alt_object)
-        return self.handle_errors(data)
+        return data

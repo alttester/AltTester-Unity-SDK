@@ -17,29 +17,27 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("UnloadScene " + scene);
             string response = AltUnityErrors.errorNotFoundMessage;
             try
             {
                 var sceneLoadingOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(scene);
                 if (sceneLoadingOperation == null)
                 {
-                    throw new CouldNotPerformOperationException("Cannot unload" + scene);
+                    throw new CouldNotPerformOperationException("Cannot unload scene: " + scene);
                 }
-                sceneLoadingOperation.completed += SceneUnloaded;
+                sceneLoadingOperation.completed += sceneUnloaded;
             }
             catch (ArgumentException)
             {
-                throw new CouldNotPerformOperationException("Cannot unload" + scene);
+                throw new CouldNotPerformOperationException("Cannot unload scene: " + scene);
             }
 
             response = "Ok";
             return response;
         }
 
-        private void SceneUnloaded(UnityEngine.AsyncOperation obj)
+        private void sceneUnloaded(UnityEngine.AsyncOperation obj)
         {
-            LogMessage("Scene Unloaded");
             handler.SendResponse(this, "Scene Unloaded");
         }
     }

@@ -38,12 +38,9 @@ public class AltSendActionAndEvaluateResult extends AltBaseCommand {
         }
 
         String data = recvall();
-        if (!data.contains("error:")) {
-            AltUnityObject obj = new Gson().fromJson(data, AltUnityObject.class);
-            obj.setAltBaseSettings(altBaseSettings);
-            return obj;
-        }
-        handleErrors(data);
-        return null;
+
+        AltUnityObject obj = new Gson().fromJson(data, AltUnityObject.class);
+        obj.setAltBaseSettings(altBaseSettings);
+        return obj;
     }
 }

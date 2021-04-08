@@ -1,9 +1,11 @@
+using System.Threading;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityMultipointSwipeAndWait : AltBaseCommand
     {
-        AltUnityVector2[] positions;
-        float duration;
+        readonly AltUnityVector2[] positions;
+        readonly float duration;
 
         public AltUnityMultipointSwipeAndWait(SocketSettings socketSettings, AltUnityVector2[] positions, float duration) : base(socketSettings)
         {
@@ -14,16 +16,14 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             new AltUnityMultipointSwipe(SocketSettings, positions, duration).Execute();
-            System.Threading.Thread.Sleep((int)duration * 1000);
+            Thread.Sleep((int)duration * 1000);
             string data;
             do
             {
                 SendCommand("actionFinished");
                 data = Recvall();
             } while (data == "No");
-            if (data.Equals("Yes"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Yes", data);
         }
     }
 }

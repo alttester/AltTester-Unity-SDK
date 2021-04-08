@@ -12,7 +12,6 @@ from altunityrunner.commands.ObjectCommands.tap import Tap
 from altunityrunner.commands.ObjectCommands.call_component_method import CallComponentMethodForObject
 from altunityrunner.commands.ObjectCommands.click_event import ClickEvent
 from altunityrunner.commands.ObjectCommands.get_all_fields import GetAllFields
-from altunityrunner.commands.ObjectCommands.drag import Drag
 from altunityrunner.commands.ObjectCommands.drop import Drop
 from altunityrunner.commands.ObjectCommands.pointer_down import PointerDown
 from altunityrunner.commands.ObjectCommands.pointer_enter import PointerEnter
@@ -40,7 +39,8 @@ class AltElement(object):
         self.worldZ = str(data.get('worldZ', 0))
         self.idCamera = str(data.get('idCamera', 0))
         self._parentId = str(data.get('parentId', 0))
-        self.transformParentId = str(data.get('transformParentId', self._parentId))
+        self.transformParentId = str(
+            data.get('transformParentId', self._parentId))
         self.transformId = str(data.get('transformId', 0))
 
     def __repr__(self):

@@ -2,11 +2,11 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySetComponentProperty : AltBaseCommand
     {
-        string componentName;
-        string propertyName;
-        string value;
-        string assemblyName;
-        AltUnityObject altUnityObject;
+        readonly string componentName;
+        readonly string propertyName;
+        readonly string value;
+        readonly string assemblyName;
+        readonly AltUnityObject altUnityObject;
 
         public AltUnitySetComponentProperty(SocketSettings socketSettings, string componentName, string propertyName, string value, string assemblyName, AltUnityObject altUnityObject) : base(socketSettings)
         {
@@ -22,9 +22,7 @@ namespace Altom.AltUnityDriver.Commands
             string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName, assemblyName));
             SendCommand("setObjectComponentProperty", altObject, propertyInfo, value);
             string data = Recvall();
-            if (!data.Contains("error:")) return data;
-            HandleErrors(data);
-            return null;
+            return data;
         }
     }
 }

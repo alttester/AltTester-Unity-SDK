@@ -2,8 +2,8 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityScrollMouseAndWait : AltBaseCommand
     {
-        float speed;
-        float duration;
+        readonly float speed;
+        readonly float duration;
         public AltUnityScrollMouseAndWait(SocketSettings socketSettings, float speed, float duration) : base(socketSettings)
         {
             this.speed = speed;
@@ -19,9 +19,7 @@ namespace Altom.AltUnityDriver.Commands
                 SendCommand("actionFinished");
                 data = Recvall();
             } while (data == "No");
-            if (data.Equals("Yes"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Yes", data);
         }
     }
 }

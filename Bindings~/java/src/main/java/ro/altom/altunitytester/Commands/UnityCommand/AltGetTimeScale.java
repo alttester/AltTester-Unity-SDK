@@ -13,10 +13,6 @@ public class AltGetTimeScale extends AltBaseCommand {
     public float Execute() {
         SendCommand("getTimeScale");
         String data = recvall();
-        if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, float.class));
-        }
-        handleErrors(data);
-        return 0;
+        return (new Gson().fromJson(data, float.class));
     }
 }

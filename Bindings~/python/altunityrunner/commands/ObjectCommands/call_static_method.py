@@ -18,4 +18,4 @@ class CallStaticMethod(BaseCommand):
 
         data = self.send_command(
             "callComponentMethodForObject", "", action_info)
-        return self.handle_errors(data)
+        return data

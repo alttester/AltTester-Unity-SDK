@@ -96,3 +96,9 @@ class AltUnityRecvallMessageIdException(AltUnityException):
 class AltUnityRecvallMessageFormatException(AltUnityException):
     def __init__(self, message):
         super(AltUnityRecvallMessageFormatException, self).__init__(message)
+
+
+class AltUnityInvalidServerResponse (AltUnityException):
+    def __init__(self, expected, received):
+        super(AltUnityInvalidServerResponse, self).__init__(
+            "Expected to get response {}; Got {}".format(expected, received))

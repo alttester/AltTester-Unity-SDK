@@ -21,10 +21,6 @@ public class AltFloatGetKeyPlayerPref extends AltBaseCommand {
     public float Execute() {
         SendCommand("getKeyPlayerPref", keyName, String.valueOf(AltUnityDriver.PlayerPrefsKeyType.FloatType));
         String data = recvall();
-        if (!data.contains("error:")) {
-            return Float.parseFloat(data);
-        }
-        handleErrors(data);
-        return 0;
+        return Float.parseFloat(data);
     }
 }

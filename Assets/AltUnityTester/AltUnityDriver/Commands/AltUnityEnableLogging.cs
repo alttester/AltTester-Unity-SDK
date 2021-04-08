@@ -1,5 +1,8 @@
+using System;
+
 namespace Altom.AltUnityDriver.Commands
 {
+    [Obsolete]
     public class AltUnityEnableLogging : AltBaseCommand
     {
         public AltUnityEnableLogging(SocketSettings socketSettings) : base(socketSettings)
@@ -9,9 +12,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             SendCommand("enableLogging", SocketSettings.LogFlag.ToString());
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
     }
 }

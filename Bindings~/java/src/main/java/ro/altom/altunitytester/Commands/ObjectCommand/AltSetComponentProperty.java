@@ -24,11 +24,6 @@ public class AltSetComponentProperty extends AltBaseCommand {
                 altSetComponentPropertyParameters.getPropertyName()));
         SendCommand("setObjectComponentProperty", altObject, propertyInfo,
                 altSetComponentPropertyParameters.getValue());
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return data;
-        }
-        handleErrors(data);
-        return "";
+        return recvall();
     }
 }

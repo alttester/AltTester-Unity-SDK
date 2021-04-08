@@ -2,7 +2,7 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetIntKeyPLayerPref : AltBaseCommand
     {
-        string keyName;
+        readonly string keyName;
         public AltUnityGetIntKeyPLayerPref(SocketSettings socketSettings, string keyName) : base(socketSettings)
         {
             this.keyName = keyName;
@@ -11,9 +11,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             SendCommand("getKeyPlayerPref", keyName, PLayerPrefKeyType.Int.ToString());
             var data = Recvall();
-            if (!data.Contains("error:")) return System.Int32.Parse(data);
-            HandleErrors(data);
-            return 0;
+            return int.Parse(data);
         }
     }
 }
