@@ -17,15 +17,15 @@ class SwipeAndWait(BaseCommand):
     def execute(self):
         data = Swipe(self.socket, self.request_separator, self.request_end, self.x_start,
                      self.y_start, self.x_end, self.y_end, self.duration_in_secs).execute()
-        self.handle_errors(data)
+        
         logger.debug('Wait for swipe to finish')
         time.sleep(self.duration_in_secs)
+
         swipe_in_progress = True
         while swipe_in_progress:
             swipe_finished = self.send_command('actionFinished')
-            self.handle_errors(swipe_finished)
             if swipe_finished == 'Yes':
                 break
             elif swipe_finished != 'No':
                 swipe_in_progress = False
-        return self.handle_errors(data)
+        return data

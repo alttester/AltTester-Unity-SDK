@@ -15,12 +15,6 @@ class Swipe(BaseCommand):
         start_position = self.vector_to_json_string(self.x_start, self.y_start)
         end_position = self.vector_to_json_string(self.x_end, self.y_end)
 
-        logger.debug('Swipe from {} to {} with duration: {} secs'.format(
-            start_position,
-            end_position,
-            self.duration_in_secs
-        ))
-
         data = self.send_command(
             'multipointSwipe', start_position, end_position, str(self.duration_in_secs))
-        return self.handle_errors(data)
+        return data

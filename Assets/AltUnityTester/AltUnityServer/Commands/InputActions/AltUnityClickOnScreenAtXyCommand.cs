@@ -1,24 +1,25 @@
+using Newtonsoft.Json;
+
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityClickOnScreenAtXyCommand : AltUnityCommand
     {
-        string x;
-        string y;
+        readonly float x;
+        readonly float y;
 
         public AltUnityClickOnScreenAtXyCommand(params string[] parameters) : base(parameters, 4)
         {
-            this.x = parameters[2];
-            this.y = parameters[3];
+            this.x = JsonConvert.DeserializeObject<float>(parameters[2]);
+            this.y = JsonConvert.DeserializeObject<float>(parameters[3]);
         }
 
         public override string Execute()
         {
-            LogMessage("Screen tapped at X:" + x + " Y:" + y);
-            var clickPosition = new UnityEngine.Vector2(float.Parse(x), float.Parse(y));
+            var clickPosition = new UnityEngine.Vector2(x, y);
             AltUnityRunner._altUnityRunner.ShowClick(clickPosition);
             string response = AltUnityErrors.errorNotFoundMessage;
-            AltUnityMockUpPointerInputModule mockUp = new AltUnityMockUpPointerInputModule();
-            UnityEngine.Touch touch = new UnityEngine.Touch { position = clickPosition, phase = UnityEngine.TouchPhase.Began };
+            var mockUp = new AltUnityMockUpPointerInputModule();
+            var touch = new UnityEngine.Touch { position = clickPosition, phase = UnityEngine.TouchPhase.Began };
             var pointerEventData = mockUp.ExecuteTouchEvent(touch);
             if (pointerEventData.pointerPress == null &&
                 pointerEventData.pointerEnter == null &&
@@ -29,8 +30,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             else
             {
                 UnityEngine.GameObject gameObject = pointerEventData.pointerPress.gameObject;
-
-                LogMessage("GameOBject: " + gameObject);
 
                 gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                 gameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
@@ -43,7 +42,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 touch.phase = UnityEngine.TouchPhase.Ended;
                 mockUp.ExecuteTouchEvent(touch, pointerEventData);
 
-                response = Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, pointerEventData.enterEventCamera));
+                response = JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, pointerEventData.enterEventCamera));
             }
             return response;
         }

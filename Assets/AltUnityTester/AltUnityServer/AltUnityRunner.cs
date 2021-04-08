@@ -1,24 +1,28 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Logging;
+using Altom.Server.Logging;
+using Assets.AltUnityTester.AltUnityServer;
 using Assets.AltUnityTester.AltUnityServer.AltSocket;
 using Assets.AltUnityTester.AltUnityServer.Commands;
 using Newtonsoft.Json;
+using NLog;
 
 public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
 {
+    private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
     public static readonly string VERSION = "1.6.2";
     public static AltUnityRunner _altUnityRunner;
-    public static System.IO.StreamWriter ServerLogger;
     public static AltResponseQueue _responseQueue;
 
     public UnityEngine.GameObject AltUnityPopUp;
     public UnityEngine.UI.Image AltUnityIcon;
     public UnityEngine.UI.Text AltUnityPopUpText;
     public bool AltUnityIconPressed = false;
-    public JsonSerializerSettings _jsonSettings;
     [UnityEngine.Space]
     public bool showPopUp;
     public bool destroyHightlight = false;
@@ -31,8 +35,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     [UnityEngine.SerializeField]
     private UnityEngine.GameObject AltUnityPopUpCanvas = null;
-    private AltSocketServer _socketServer;
-    private string myPathFile;
+    private AltSocketServer socketServer;
     [UnityEngine.Space]
     [UnityEngine.SerializeField]
     private bool _showInputs = false;
@@ -54,7 +57,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     #region MonoBehaviour
 
-    void Awake()
+    protected void Awake()
     {
         if (_altUnityRunner != null)
         {
@@ -64,25 +67,22 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
         if (RunOnlyInDebugMode && !UnityEngine.Debug.isDebugBuild)
         {
-            UnityEngine.Debug.LogWarning("AltUnityTester runs only on Debug build");
+            logger.Warn("AltUnityTester runs only on Debug build");
             Destroy(this.gameObject);
             return;
         }
 
+        ServerLogManager.SetupAltUnityServerLogging(new Dictionary<AltUnityLogger, AltUnityLogLevel> { { AltUnityLogger.File, AltUnityLogLevel.Debug }, { AltUnityLogger.Unity, AltUnityLogLevel.Debug } });
+
         _altUnityRunner = this;
         DontDestroyOnLoad(this);
     }
-    void Start()
+    protected void Start()
     {
-        _jsonSettings = new JsonSerializerSettings();
-        _jsonSettings.NullValueHandling = NullValueHandling.Ignore;
         StartSocketServer();
-        UnityEngine.Debug.Log("AltUnity Driver started");
+        logger.Debug("AltUnity Server started");
         _responseQueue = new AltResponseQueue();
 
-        myPathFile = UnityEngine.Application.persistentDataPath + "/AltUnityServerLog.txt";
-        UnityEngine.Debug.Log("AltUnity Server logs path: " + myPathFile);
-        ServerLogger = new System.IO.StreamWriter(myPathFile, false);//To not create a massive logfile the logfile will have only the last run.
         if (showPopUp == false)
         {
             AltUnityPopUpCanvas.SetActive(false);
@@ -93,10 +93,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
     }
 
-    void Update()
+    protected void Update()
     {
 #if UNITY_EDITOR
-        if (_socketServer == null)
+        if (socketServer == null)
         {
             UnityEditor.EditorApplication.isPlaying = false;
             return;
@@ -104,7 +104,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 #endif
         if (!AltUnityIconPressed)
         {
-            if (_socketServer.ClientCount != 0)
+            if (socketServer.ClientCount != 0)
             {
                 AltUnityPopUp.SetActive(false);
             }
@@ -113,7 +113,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 AltUnityPopUp.SetActive(true);
             }
         }
-        if (!_socketServer.IsServerStopped())
+        if (!socketServer.IsServerStopped())
         {
             AltUnityIcon.color = UnityEngine.Color.white;
         }
@@ -124,19 +124,18 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
         _responseQueue.Cycle();
     }
-    void OnApplicationQuit()
+    protected void OnApplicationQuit()
     {
         CleanUp();
-        if (ServerLogger != null)
-            ServerLogger.Close();
     }
 
     #endregion
+    #region public methods
     public void CleanUp()
     {
-        UnityEngine.Debug.Log("Cleaning up socket server");
-        if (_socketServer != null)
-            _socketServer.Cleanup();
+        logger.Debug("Cleaning up socket server");
+        if (socketServer != null)
+            socketServer.Cleanup();
     }
 
     public void StartSocketServer()
@@ -146,37 +145,37 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
         System.Text.Encoding encoding = System.Text.Encoding.UTF8;
 
-        _socketServer = new AltSocketServer(
+        socketServer = new AltSocketServer(
             clientSocketHandlerDelegate, SocketPortNumber, maxClients, requestEndingString, encoding);
 
         try
         {
-            _socketServer.StartListeningForConnections();
-            AltUnityPopUpText.text = "Waiting for connection" + System.Environment.NewLine + "on port " + _socketServer.PortNumber + "...";
-            UnityEngine.Debug.Log(string.Format(
-                "AltUnity Server at {0} on port {1}",
-                _socketServer.LocalEndPoint.Address, _socketServer.PortNumber));
+            socketServer.StartListeningForConnections();
+            AltUnityPopUpText.text = "Waiting for connection" + System.Environment.NewLine + "on port " + socketServer.PortNumber + "...";
+            logger.Info(string.Format(
+                "AltUnity Server is listening on {0}:{1}",
+                socketServer.LocalEndPoint.Address, socketServer.PortNumber));
         }
         catch (SocketException ex)
         {
             if (ex.Message.Contains("Only one usage of each socket address"))
             {
                 AltUnityPopUpText.text = "Cannot start AltUnity Server. Another process is listening on port " + SocketPortNumber;
+                logger.Info("Cannot start AltUnity Server. Another process is listening on port" + SocketPortNumber);
             }
             else
             {
-                UnityEngine.Debug.LogError(ex);
                 AltUnityPopUpText.text = "An error occured while starting AltUnity Server.";
+                logger.Error(ex);
             }
         }
     }
-
 
     public AltUnityObject GameObjectToAltUnityObject(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
     {
         UnityEngine.Vector3 position;
 
-        int cameraId = -1;
+        int cameraId;
         //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
         //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
         try
@@ -199,13 +198,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
         int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
 
-        AltUnityObject altObject = new AltUnityObject(
+        var altObject = new AltUnityObject(
             name: altGameObject.name,
             id: altGameObject.GetInstanceID(),
-            x: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.x)),
-            y: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.y)),
-            z: System.Convert.ToInt32(UnityEngine.Mathf.Round(position.z)),//if z is negative object is behind the camera
-            mobileY: System.Convert.ToInt32(UnityEngine.Mathf.Round(UnityEngine.Screen.height - position.y)),
+            x: Convert.ToInt32(UnityEngine.Mathf.Round(position.x)),
+            y: Convert.ToInt32(UnityEngine.Mathf.Round(position.y)),
+            z: Convert.ToInt32(UnityEngine.Mathf.Round(position.z)),//if z is negative object is behind the camera
+            mobileY: Convert.ToInt32(UnityEngine.Mathf.Round(UnityEngine.Screen.height - position.y)),
             type: "",
             enabled: altGameObject.activeSelf,
             worldX: altGameObject.transform.position.x,
@@ -220,13 +219,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     public AltUnityObjectLight GameObjectToAltUnityObjectLight(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
     {
-        int cameraId = -1;
-        UnityEngine.Vector3 position;
+        int cameraId;
         //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
         //if there is no camera end this is Unity UI element, it return position by root Canvas and cameraId=-1
         //if there is no camera in the scene it will return as screen position x:-1 y=-1, z=-1 and cameraId=-1
         try
         {
+            UnityEngine.Vector3 position;
             if (camera == null)
             {
                 cameraId = findCameraThatSeesObject(altGameObject, out position);
@@ -239,13 +238,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
         catch (Exception)
         {
-            position = UnityEngine.Vector3.one * -1;
             cameraId = -1;
         }
 
         int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
 
-        AltUnityObjectLight altObject = new AltUnityObjectLight(
+        var altObject = new AltUnityObjectLight(
             name: altGameObject.name,
             id: altGameObject.GetInstanceID(),
             enabled: altGameObject.activeSelf,
@@ -259,7 +257,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     public void ClientSocketHandlerDidReadMessage(AltClientSocketHandler handler, string message)
     {
-        string[] parameters = message.Split(new string[] { requestSeparatorString }, System.StringSplitOptions.None);
+        logger.Debug("command received: " + message);
+        string[] parameters = message.Split(new string[] { requestSeparatorString }, StringSplitOptions.None);
 
         AltUnityCommand command = null;
         try
@@ -288,8 +287,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new AltUnityCallComponentMethodForObjectCommand(parameters);
                     break;
                 case "closeConnection":
-                    UnityEngine.Debug.Log("Socket connection closed!");
-                    _socketServer.StartListeningForConnections();
+                    socketServer.StartListeningForConnections();
+                    logger.Debug("Socket connection closed!");
                     break;
                 case "clickEvent":
                     command = new AltUnityClickEventCommand(parameters);
@@ -381,7 +380,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 case "getScreenshot":
                     command = new AltUnityGetScreenshotCommand(handler, parameters);
                     break;
-
                 case "hightlightObjectScreenshot":
                     command = new AltUnityHighlightSelectedObjectCommand(handler, parameters);
                     break;
@@ -396,7 +394,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "scrollMouse":
                     command = new AltUnityScrollMouseCommand(parameters);
-
                     break;
                 case "findObject":
                     command = new AltUnityFindObjectCommand(parameters);
@@ -425,6 +422,9 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 case "getServerVersion":
                     command = new AltUnityGetServerVersionCommand(parameters);
                     break;
+                case "setServerLogging":
+                    command = new AltUnitySetServerLoggingCommand(parameters);
+                    break;
                 default:
                     command = new AltUnityUnknowStringCommand(parameters);
                     break;
@@ -432,20 +432,17 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
         catch (JsonException ex)
         {
-            command = new AltUnityCouldNotParseJsonStringCommand(parameters);
-            ((AltUnityCouldNotParseJsonStringCommand)command).LogMessage(ex.Message);
+            command = new AltUnityErrorCommand(AltUnityErrors.errorCouldNotParseJsonString, ex, parameters);
         }
         catch (InvalidParametersOnDriverCommandException ex)
         {
-            command = new AltUnityInvalidParametersOnDriverCommandCommand(parameters);
-            ((AltUnityInvalidParametersOnDriverCommandCommand)command).LogMessage(ex.Message);
+            command = new AltUnityErrorCommand(AltUnityErrors.errorInvalidParametersOnDriverCommand, ex, parameters);
         }
         if (command != null)
         {
             command.SendResponse(handler);
         }
     }
-
 
     public static UnityEngine.GameObject[] GetDontDestroyOnLoadObjects()
     {
@@ -470,7 +467,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public void ServerRestartPressed()
     {
         AltUnityIconPressed = false;
-        _socketServer.Cleanup();
+        socketServer.Cleanup();
         StartSocketServer();
         AltUnityPopUp.SetActive(true);
     }
@@ -522,8 +519,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             renderer.materials = new UnityEngine.Material[renderer.materials.Length];
             for (int i = 0; i < renderer.materials.Length; i++)
             {
-                renderer.materials[i] = new UnityEngine.Material(originalMaterials[i]);
-                renderer.materials[i].shader = outlineShader;
+                renderer.materials[i] = new UnityEngine.Material(originalMaterials[i])
+                {
+                    shader = outlineShader
+                };
                 renderer.materials[i].SetColor("_OutlineColor", color);
                 renderer.materials[i].SetFloat("_OutlineWidth", width);
             }
@@ -568,7 +567,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
         var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
         var pngAsString = Convert.ToBase64String(bytesPNG);
-        UnityEngine.GameObject.DestroyImmediate(screenshot);
+        DestroyImmediate(screenshot);
         handler.SendScreenshotResponse(command, pngAsString);
     }
 
@@ -613,18 +612,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             return memoryStreamOutout.ToArray();
         }
     }
-    static bool ByteArrayCompare(byte[] a1, byte[] a2)
-    {
-        if (a1.Length != a2.Length)
-            return false;
-
-        for (int i = 0; i < a1.Length; i++)
-            if (a1[i] != a2[i])
-                return false;
-
-        return true;
-    }
-
+    #endregion
     #region private methods
     private UnityEngine.Vector3 getObjectScreenPosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
     {

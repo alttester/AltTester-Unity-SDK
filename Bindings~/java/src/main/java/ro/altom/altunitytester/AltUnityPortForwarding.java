@@ -1,11 +1,14 @@
 package ro.altom.altunitytester;
 
 import java.nio.file.Paths;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityPortForwardingException;
 
 public class AltUnityPortForwarding {
-    private static final Logger log = Logger.getLogger(AltUnityPortForwarding.class);
+    private static final Logger log = LogManager.getLogger(AltUnityPortForwarding.class);
 
     public static String getAdbPath(String adbPath) {
         if (adbPath != null && !adbPath.isEmpty())
@@ -125,7 +128,7 @@ public class AltUnityPortForwarding {
     public static void forwardIos(int localPort, int devicePort, String deviceId) {
         forwardIos(localPort, devicePort, deviceId, "");
     }
-    
+
     public static void forwardIos(int localPort, int devicePort, String deviceId, String iproxyPath) {
         iproxyPath = getIproxyPath(iproxyPath);
         String arguments;

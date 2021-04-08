@@ -3,8 +3,8 @@ import re
 
 from loguru import logger
 
-from altunityrunner.altUnityExceptions import *
 from altunityrunner.by import By
+from altunityrunner.altUnityExceptions import *
 
 
 BUFFER_SIZE = 1024
@@ -39,64 +39,63 @@ class BaseCommand(object):
                 break
             previousPart = str(part.decode('utf-8'))
 
+        logger.trace(data)
+
         parts = re.split("altstart::|::response::|::altLog::|::altend", data)
 
         if len(parts) != 5 or parts[0] or parts[4]:
             raise AltUnityRecvallMessageFormatException(
-                "Data received from socket doesn't have correct start and end control strings")
+                "Data received from socket doesn't have correct start and end control strings.\nGot:\n{}".format(data))
         if parts[1] != self.messageId:
             raise AltUnityRecvallMessageIdException(
-                "Response received does not match command send. Expected message id: " + self.messageId + ". Got " + parts[1])
+                "Response received does not match command send. Expected message id: {}. Got {}".format(self.messageId, parts[1]))
 
         data = parts[2]
         log = parts[3]
 
-        logger.debug(f'Received data was: {self._trim_log_data(data)}')
+        logger.debug(f'response: {self._trim_log_data(data)}')
+        if log:
+            logger.debug(log)
 
-        self.write_to_log_file(datetime.now().strftime(
-            "%m/%d/%Y %H:%M:%S") + ": response received: " + self._trim_log_data(data))
-        self.write_to_log_file(log)
+        self._handle_errors(data, log)
 
         return data
 
-    def write_to_log_file(self, message):
-        with open("AltUnityTesterLog.txt", "a", encoding="utf-8") as f:
-            f.write(message + "\n")
+    def _handle_errors(self, data, log):
+        if log:
+            data = data + "\n" + log + "\n"
 
-    def handle_errors(self, data):
-        if ('error' in data):
-            if ('error:notFound' in data):
+        if ('error:' in data):
+            if (data.startswith('error:notFound')):
                 raise NotFoundException(data)
-            elif ('error:propertyNotFound' in data):
+            elif (data.startswith('error:propertyNotFound')):
                 raise PropertyNotFoundException(data)
-            elif ('error:methodNotFound' in data):
+            elif (data.startswith('error:methodNotFound')):
                 raise MethodNotFoundException(data)
-            elif ('error:componentNotFound' in data):
+            elif (data.startswith('error:componentNotFound')):
                 raise ComponentNotFoundException(data)
-            elif ('error:assemblyNotFound' in data):
+            elif (data.startswith('error:assemblyNotFound')):
                 raise AssemblyNotFoundException(data)
-            elif ('error:couldNotPerformOperation' in data):
+            elif (data.startswith('error:couldNotPerformOperation')):
                 raise CouldNotPerformOperationException(data)
-            elif ('error:couldNotParseJsonString' in data):
+            elif (data.startswith('error:couldNotParseJsonString')):
                 raise CouldNotParseJsonStringException(data)
-            elif ('error:methodWithGivenParametersNotFound' in data):
+            elif (data.startswith('error:methodWithGivenParametersNotFound')):
                 raise MethodWithGivenParametersNotFoundException(data)
-            elif ('error:invalidParameterType' in data):
+            elif (data.startswith('error:invalidParameterType')):
                 raise InvalidParameterTypeException(data)
-            elif ('error:failedToParseMethodArguments' in data):
+            elif (data.startswith('error:failedToParseMethodArguments')):
                 raise FailedToParseArgumentsException(data)
-            elif ('error:objectNotFound' in data):
+            elif (data.startswith('error:objectNotFound')):
                 raise ObjectWasNotFoundException(data)
-            elif ('error:propertyCannotBeSet' in data):
+            elif (data.startswith('error:propertyCannotBeSet')):
                 raise PropertyNotFoundException(data)
-            elif ('error:nullReferenceException' in data):
+            elif (data.startswith('error:nullReferenceException')):
                 raise NullReferenceException(data)
-            elif ('error:unknownError' in data):
+            elif (data.startswith('error:unknownError')):
                 raise UnknownErrorException(data)
-            elif ('error:formatException' in data):
+            elif (data.startswith('error:formatException')):
                 raise FormatException(data)
-        else:
-            return data
 
     def vector_to_json_string(self, x, y, z=None):
         if z is None:
@@ -110,11 +109,18 @@ class BaseCommand(object):
         return self.request_separator.join(json_positions)
 
     def send_command(self, *arguments):
-        self._send_data(self._create_command(arguments))
+        command = self._create_command(arguments)
+        self._send_data(command)
+        logger.debug("sent: " + command)
+
         if (arguments[0] == 'closeConnection'):
             return ''
         else:
             return self.recvall()
+
+    def validate_response(self, expected, received):
+        if expected != received:
+            raise AltUnityInvalidServerResponse(expected, received)
 
     def _send_data(self, data):
         self.socket.send(data.encode('utf-8'))

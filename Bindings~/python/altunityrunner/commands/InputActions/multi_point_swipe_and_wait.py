@@ -14,15 +14,14 @@ class MultipointSwipeAndWait(BaseCommand):
     def execute(self):
         data = MultipointSwipe(self.socket, self.request_separator,
                                self.request_end, self.positions, self.duration_in_secs).execute()
-        self.handle_errors(data)
+
         logger.debug('Wait for moving touch to finish')
         time.sleep(self.duration_in_secs)
         swipe_in_progress = True
         while swipe_in_progress:
             swipe_finished = self.send_command('actionFinished')
-            self.handle_errors(swipe_finished)
             if swipe_finished == 'Yes':
                 break
             elif swipe_finished != 'No':
                 swipe_in_progress = False
-        return self.handle_errors(data)
+        return data

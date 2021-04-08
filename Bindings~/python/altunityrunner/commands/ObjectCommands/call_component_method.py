@@ -18,4 +18,4 @@ class CallComponentMethodForObject(BaseCommand):
             '", "typeofparameters":"' + self.type_of_parameters + '"}'
         data = self.send_command(
             'callComponentMethodForObject', self.alt_object, action_info)
-        return self.handle_errors(data)
+        return data

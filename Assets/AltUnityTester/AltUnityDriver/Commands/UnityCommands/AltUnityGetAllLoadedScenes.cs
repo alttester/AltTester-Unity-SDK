@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Altom.AltUnityDriver.Commands
 {
     internal class AltUnityGetAllLoadedScenes : AltBaseCommand
@@ -5,11 +7,11 @@ namespace Altom.AltUnityDriver.Commands
         public AltUnityGetAllLoadedScenes(SocketSettings socketSettings) : base(socketSettings)
         {
         }
-        public System.Collections.Generic.List<string> Execute()
+        public List<string> Execute()
         {
             SendCommand("getAllLoadedScenes");
             var response = Recvall();
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<string>>(response);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(response);
 
         }
     }

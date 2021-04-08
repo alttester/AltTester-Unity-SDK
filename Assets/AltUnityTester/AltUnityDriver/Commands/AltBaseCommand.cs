@@ -1,10 +1,18 @@
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Altom.AltUnityDriver.Logging;
+using Newtonsoft.Json;
+using NLog;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltBaseCommand
     {
-        private static int BUFFER_SIZE = 1024;
+        readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+
+        private const int BUFFER_SIZE = 1024;
         protected SocketSettings SocketSettings;
         private string messageId;
         public AltBaseCommand(SocketSettings socketSettings)
@@ -15,7 +23,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             string data = "";
             string previousPart = "";
-            System.Collections.Generic.List<byte[]> byteArray = new System.Collections.Generic.List<byte[]>();
+            List<byte[]> byteArray = new List<byte[]>();
             int received = 0;
             int receivedZeroBytesCounter = 0;
             int receivedZeroBytesCounterLimit = 2;
@@ -32,7 +40,7 @@ namespace Altom.AltUnityDriver.Commands
                     }
                     else
                     {
-                        throw new System.Exception("Socket not connected yet");
+                        throw new Exception("Socket not connected yet");
                     }
                 }
                 var newBytesReceived = new byte[received];
@@ -48,26 +56,29 @@ namespace Altom.AltUnityDriver.Commands
                 previousPart = part;
 
             } while (true);
+
             data = fromBytes(byteArray.SelectMany(x => x).ToArray());
+            logger.Trace(data);
 
+            var parts = data.Split(new[] { "altstart::", "::response::", "::altLog::", "::altend" }, StringSplitOptions.None);
 
-
-            var parts = data.Split(new[] { "altstart::", "::response::", "::altLog::", "::altend" }, System.StringSplitOptions.None);
             if (parts.Length != 5 || !string.IsNullOrEmpty(parts[0]) || !string.IsNullOrEmpty(parts[4]))
-                throw new AltUnityRecvallMessageFormatException("Data received from socket doesn't have correct start and end control strings");
+                throw new AltUnityRecvallMessageFormatException(string.Format("Data received from socket doesn't have correct start and end control strings.\nGot:\n{0}", data));
 
             if (parts[1] != messageId)
             {
-                throw new AltUnityRecvallMessageIdException("Response received does not match command send. Expected message id: " + messageId + ". Got " + parts[1]);
+                throw new AltUnityRecvallMessageIdException(string.Format("Response received does not match command send. Expected message id: {0}. Got {1}", messageId, parts[1]));
             }
 
             data = parts[2];
             string log = parts[3];
-            if (SocketSettings.LogFlag)
-            {
-                writeInLogFile(System.DateTime.Now + ": response received: " + trimLogData(data));
-                writeInLogFile(log);
-            }
+
+            logger.Debug("response: " + trimLogData(data));
+            if (!string.IsNullOrEmpty(log))
+                logger.Debug(log);
+
+
+            handleErrors(data, log);
 
             return data;
         }
@@ -83,7 +94,7 @@ namespace Altom.AltUnityDriver.Commands
             {
                 throw new AltUnityRecvallException("Out of order operations");
             }
-            string[] screenshotInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(data);
+            string[] screenshotInfo = JsonConvert.DeserializeObject<string[]>(data);
 
             // Some workaround this: https://stackoverflow.com/questions/710853/base64-string-throwing-invalid-character-error
             var screenshotParts = screenshotInfo[4].Split('\0');
@@ -94,21 +105,28 @@ namespace Altom.AltUnityDriver.Commands
             }
 
             var scaleDifference = screenshotInfo[0];
-
-            var length = screenshotInfo[1];
+            // screenshotInfo[1] contains the length, but it is not used;
             var textureFormatString = screenshotInfo[2];
-            var textureFormat = (AltUnityTextureFormat)System.Enum.Parse(typeof(AltUnityTextureFormat), textureFormatString);
+            var textureFormat = (AltUnityTextureFormat)Enum.Parse(typeof(AltUnityTextureFormat), textureFormatString);
             var textSizeString = screenshotInfo[3];
-            var textSizeVector3 = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector3>(textSizeString);
+            var textSizeVector3 = JsonConvert.DeserializeObject<AltUnityVector3>(textSizeString);
 
-            System.Byte[] imageCompressed = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Byte[]>(screenshotInfo[4], new Newtonsoft.Json.JsonSerializerSettings
+            byte[] imageCompressed = JsonConvert.DeserializeObject<byte[]>(screenshotInfo[4], new JsonSerializerSettings
             {
-                StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii
+                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
             });
 
-            System.Byte[] imageDecompressed = DeCompressScreenshot(imageCompressed);
+            byte[] imageDecompressed = deCompressScreenshot(imageCompressed);
 
-            return new AltUnityTextureInformation(imageDecompressed, Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityVector2>(scaleDifference), textSizeVector3, textureFormat);
+            return new AltUnityTextureInformation(imageDecompressed, JsonConvert.DeserializeObject<AltUnityVector2>(scaleDifference), textSizeVector3, textureFormat);
+        }
+
+        protected void ValidateResponse(string expected, string received, StringComparison stringComparison = StringComparison.CurrentCulture)
+        {
+            if (!expected.Equals(received, stringComparison))
+            {
+                throw new AltUnityInvalidServerResponse(expected, received);
+            }
         }
 
         protected void SendCommand(params string[] arguments)
@@ -116,6 +134,8 @@ namespace Altom.AltUnityDriver.Commands
             var command = createCommand(arguments);
             var bytes = toBytes(command);
             SocketSettings.Socket.Send(bytes);
+
+            logger.Debug("sent: " + command);
         }
         protected string PositionToJson(float x, float y)
         {
@@ -123,15 +143,41 @@ namespace Altom.AltUnityDriver.Commands
         }
         protected string PositionToJson(AltUnityVector2 position)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(position, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
+            return JsonConvert.SerializeObject(position, Formatting.Indented, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
+        }
+
+        private static byte[] deCompressScreenshot(byte[] screenshotCompressed)
+        {
+            using (var memoryStreamInput = new System.IO.MemoryStream(screenshotCompressed))
+            using (var memoryStreamOutput = new System.IO.MemoryStream())
+            {
+                using (var gs = new System.IO.Compression.GZipStream(memoryStreamInput, System.IO.Compression.CompressionMode.Decompress))
+                {
+                    copyTo(gs, memoryStreamOutput);
+                }
+
+                return memoryStreamOutput.ToArray();
+            }
+        }
+
+        private static void copyTo(System.IO.Stream src, System.IO.Stream dest)
+        {
+            byte[] bytes = new byte[4096];
+
+            int cnt;
+
+            while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+            {
+                dest.Write(bytes, 0, cnt);
+            }
         }
 
         private string createCommand(string[] arguments)
         {
-            messageId = System.DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
             var args = arguments.ToList();
             args.Insert(0, messageId);
 
@@ -147,12 +193,6 @@ namespace Altom.AltUnityDriver.Commands
             return System.Text.Encoding.UTF8.GetString(bytes);
         }
 
-        private void writeInLogFile(string logMessage)
-        {
-            var FileWriter = new System.IO.StreamWriter(@"AltUnityTesterLog.txt", true);
-            FileWriter.WriteLine(logMessage);
-            FileWriter.Close();
-        }
         private string trimLogData(string data, int maxSize = 10 * 1024)
         {
             if (data.Length > maxSize)
@@ -160,9 +200,11 @@ namespace Altom.AltUnityDriver.Commands
             return data;
         }
 
-        public static void HandleErrors(string data)
+        private void handleErrors(string data, string log)
         {
             var typeOfException = data.Split(';')[0];
+            if (!string.IsNullOrEmpty(log))
+                data = data + "\n" + log + "\n";
             switch (typeOfException)
             {
                 case "error:notFound":
@@ -195,38 +237,6 @@ namespace Altom.AltUnityDriver.Commands
                     throw new UnknownErrorException(data);
                 case "error:formatException":
                     throw new FormatException(data);
-            }
-        }
-
-        public static byte[] DeCompressScreenshot(byte[] screenshotCompressed)
-        {
-
-            using (var memoryStreamInput = new System.IO.MemoryStream(screenshotCompressed))
-            using (var memoryStreamOutput = new System.IO.MemoryStream())
-            {
-                using (var gs = new System.IO.Compression.GZipStream(memoryStreamInput, System.IO.Compression.CompressionMode.Decompress))
-                {
-                    CopyTo(gs, memoryStreamOutput);
-                }
-
-                return memoryStreamOutput.ToArray();
-            }
-        }
-        public static T[] SubArray<T>(T[] data, int index, long length)
-        {
-            T[] result = new T[length];
-            System.Array.Copy(data, index, result, 0, length);
-            return result;
-        }
-        public static void CopyTo(System.IO.Stream src, System.IO.Stream dest)
-        {
-            byte[] bytes = new byte[4096];
-
-            int cnt;
-
-            while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
-            {
-                dest.Write(bytes, 0, cnt);
             }
         }
     }

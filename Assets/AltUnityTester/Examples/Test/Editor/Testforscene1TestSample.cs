@@ -224,9 +224,9 @@ public class TestForScene1TestSample
             var propertyValue = altElement.GetComponentProperty(componentName, propertyName, "Assembly-CSharp");
             Assert.Fail();
         }
-        catch (PropertyNotFoundException e)
+        catch (PropertyNotFoundException exception)
         {
-            Assert.AreEqual(e.Message, "error:propertyNotFound");
+            Assert.IsTrue(exception.Message.StartsWith("error:propertyNotFound"), exception.Message);
         }
     }
 
@@ -245,7 +245,7 @@ public class TestForScene1TestSample
         }
         catch (PropertyNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:propertyNotFound");
+            Assert.IsTrue(exception.Message.StartsWith("error:propertyNotFound"), exception.Message);
         }
 
     }
@@ -332,7 +332,7 @@ public class TestForScene1TestSample
         }
         catch (ComponentNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:componentNotFound");
+            Assert.IsTrue(exception.Message.StartsWith("error:componentNotFound"), exception.Message);
         }
     }
 
@@ -416,7 +416,7 @@ public class TestForScene1TestSample
         }
         catch (MethodWithGivenParametersNotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:methodWithGivenParametersNotFound");
+            Assert.IsTrue(exception.Message.StartsWith("error:methodWithGivenParametersNotFound"), exception.Message);
         }
     }
 
@@ -434,7 +434,7 @@ public class TestForScene1TestSample
         }
         catch (MethodWithGivenParametersNotFoundException exception)
         {
-            Assert.AreEqual("error:methodWithGivenParametersNotFound", exception.Message);
+            Assert.IsTrue(exception.Message.StartsWith("error:methodWithGivenParametersNotFound"), exception.Message);
         }
     }
 
@@ -452,7 +452,7 @@ public class TestForScene1TestSample
         }
         catch (AssemblyNotFoundException exception)
         {
-            Assert.AreEqual("error:assemblyNotFound", exception.Message);
+            Assert.IsTrue(exception.Message.StartsWith("error:assemblyNotFound"), exception.Message);
         }
     }
 
@@ -470,7 +470,7 @@ public class TestForScene1TestSample
         }
         catch (FailedToParseArgumentsException exception)
         {
-            Assert.AreEqual("error:failedToParseMethodArguments", exception.Message);
+            Assert.IsTrue(exception.Message.StartsWith("error:failedToParseMethodArguments"), exception.Message);
         }
     }
     [Test]
@@ -487,7 +487,7 @@ public class TestForScene1TestSample
         }
         catch (InvalidParameterTypeException exception)
         {
-            Assert.AreEqual("error:invalidParameterType", exception.Message);
+            Assert.IsTrue(exception.Message.StartsWith("error:invalidParameterType"), exception.Message);
         }
     }
 
@@ -533,7 +533,7 @@ public class TestForScene1TestSample
         }
         catch (NotFoundException exception)
         {
-            Assert.AreEqual("error:notFound", exception.Message);
+            Assert.IsTrue(exception.Message.StartsWith("error:notFound"), exception.Message);
         }
 
     }
@@ -563,7 +563,7 @@ public class TestForScene1TestSample
         }
         catch (NotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:notFound");
+            Assert.IsTrue(exception.Message.StartsWith("error:notFound"), exception.Message);
         }
 
     }
@@ -578,7 +578,7 @@ public class TestForScene1TestSample
         }
         catch (NotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:notFound");
+            Assert.IsTrue(exception.Message.StartsWith("error:notFound"), exception.Message);
         }
 
     }
@@ -968,7 +968,7 @@ public class TestForScene1TestSample
         }
         catch (NotFoundException exception)
         {
-            Assert.AreEqual(exception.Message, "error:notFound");
+            Assert.IsTrue(exception.Message.StartsWith("error:notFound"), exception.Message);
         }
     }
     [Test]
@@ -1439,7 +1439,7 @@ public class TestForScene1TestSample
     public void TestClickWithMouseCapsule()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var UIButton = altUnityDriver.FindObject(By.NAME, "UIButton");
+        altUnityDriver.FindObject(By.NAME, "UIButton");
         var initialCapsulePosition = capsule.getWorldPosition();
         altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
         Thread.Sleep(400);
@@ -1452,8 +1452,9 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetVersion()
     {
-        Assert.AreEqual(AltUnityDriver.VERSION, new AltUnityGetServerVersion(altUnityDriver.socketSettings).Execute());
+        Assert.AreEqual(AltUnityDriver.VERSION, altUnityDriver.GetServerVersion());
     }
+
     [Test]
     public void TestStringIsMarkedAsPrimitive()
     {

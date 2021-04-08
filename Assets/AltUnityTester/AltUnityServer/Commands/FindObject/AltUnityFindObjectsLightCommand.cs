@@ -11,7 +11,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("findObjectsLight for: " + ObjectName);
             UnityEngine.Camera camera = null;
             if (!CameraPath.Equals("//"))
             {
@@ -21,7 +20,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             var path = ProcessPath(ObjectName);
             var isDirectChild = IsNextElementDirectChild(path[0]);
-            List<AltUnityObjectLight> foundObjects = new List<AltUnityObjectLight>();
+            var foundObjects = new List<AltUnityObjectLight>();
             foreach (UnityEngine.GameObject testableObject in FindObjects(null, path, 1, false, isDirectChild, Enabled))
             {
                 foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObjectLight(testableObject, camera));

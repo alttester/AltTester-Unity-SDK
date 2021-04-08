@@ -15,11 +15,9 @@ public class AltLoadScene extends AltBaseCommand {
         SendCommand("loadScene", altLoadSceneParameters.getSceneName(),
                 Boolean.toString(altLoadSceneParameters.getLoadSingle()));
         String data = recvall();
-        if (data.equals("Ok")) {
-            data = recvall();
-            if (data.equals("Scene Loaded"))
-                return;
-        }
-        handleErrors(data);
+        validateResponse("Ok", data);
+
+        data = recvall();
+        validateResponse("Scene Loaded", data);
     }
 }

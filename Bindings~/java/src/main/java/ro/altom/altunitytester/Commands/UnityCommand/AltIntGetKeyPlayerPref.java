@@ -15,10 +15,6 @@ public class AltIntGetKeyPlayerPref extends AltBaseCommand {
     public int Execute() {
         SendCommand("getKeyPlayerPref", keyName, String.valueOf(AltUnityDriver.PlayerPrefsKeyType.IntType));
         String data = recvall();
-        if (!data.contains("error:")) {
-            return Integer.parseInt(data);
-        }
-        handleErrors(data);
-        return 0;
+        return Integer.parseInt(data);
     }
 }

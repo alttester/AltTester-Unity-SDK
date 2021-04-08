@@ -4,8 +4,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityScrollMouseCommand : AltUnityCommand
     {
-        float scrollValue;
-        float duration;
+        readonly float scrollValue;
+        readonly float duration;
 
         public AltUnityScrollMouseCommand(params string[] parameters) : base(parameters, 4)
         {
@@ -16,7 +16,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            LogMessage("scrollMouse with: " + scrollValue);
             Input.Scroll(scrollValue, duration);
             return "Ok";
 #else

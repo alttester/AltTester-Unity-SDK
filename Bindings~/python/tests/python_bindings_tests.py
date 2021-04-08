@@ -4,7 +4,10 @@ import unittest
 import sys
 import time
 from os import path
+import json
+
 from altunityrunner import *
+from altunityrunner.logging import AltUnityLogLevel, AltUnityLogger
 
 
 def PATH(p): return os.path.abspath(
@@ -121,7 +124,7 @@ class PythonTests(unittest.TestCase):
         assert len(self.altdriver.find_objects(
             By.NAME, "something that does not exist")) == 0
 
-    def test_find_object_which_contains(self):
+    def test_find_object_which_contains_2(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         plane = self.altdriver.find_object_which_contains(By.NAME, 'Pla')
         self.assertTrue('Pla' in plane.name)
@@ -136,11 +139,6 @@ class PythonTests(unittest.TestCase):
         capsule_element = self.altdriver.find_object(
             By.NAME, 'Canvas/CapsuleInfo')
         assert capsule_element.name == 'CapsuleInfo'
-
-    def test_find_object_by_component(self):
-        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        self.assertEqual(self.altdriver.find_object(By.COMPONENT,
-                                                    "AltUnityExampleScriptCapsule").name, "Capsule")
 
     def test_find_objects_by_component(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -178,7 +176,8 @@ class PythonTests(unittest.TestCase):
                 "1?stringparam?0.5?[1,2,3]", "", "System.Stringgg")
             self.fail()
         except InvalidParameterTypeException as e:
-            self.assertEqual("error:invalidParameterType", str(e))
+            self.assertTrue(str(e).startswith(
+                "error:invalidParameterType"), str(e))
 
     def test_call_component_method_assembly_not_found(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -188,7 +187,8 @@ class PythonTests(unittest.TestCase):
                 "1?stringparam?0.5?[1,2,3]", "RandomAssembly", "")
             self.fail()
         except AssemblyNotFoundException as e:
-            self.assertEqual("error:assemblyNotFound", str(e))
+            self.assertTrue(str(e).startswith(
+                "error:assemblyNotFound"), str(e))
 
     def test_call_component_method_incorrect_number_of_parameters(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -199,7 +199,8 @@ class PythonTests(unittest.TestCase):
                 "stringparam?0.5?[1,2,3]", "", "")
             self.fail()
         except MethodWithGivenParametersNotFoundException as e:
-            self.assertEqual("error:methodWithGivenParametersNotFound", str(e))
+            self.assertTrue(str(e).startswith(
+                "error:methodWithGivenParametersNotFound"), str(e))
 
     def test_pointer_enter_and_exit(self):
         self.altdriver.load_scene('Scene 3 Drag And Drop')
@@ -653,12 +654,6 @@ class PythonTests(unittest.TestCase):
             By.NAME, "Main")
         self.assertEqual(altElement.name, "Main Camera")
 
-    def test_wait_for_object_with_text(self):
-        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        altElement = self.altdriver.wait_for_object_with_text(
-            By.NAME, "CapsuleInfo", "Capsule Info")
-        self.assertEqual(altElement.name, "CapsuleInfo")
-
     def test_get_chinese_letters(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
@@ -1028,7 +1023,7 @@ class PythonTests(unittest.TestCase):
                 break
         self.assertTrue(objectSearched == None)
 
-    def test_wait_for_object_by_camera(self):
+    def test_wait_for_object_by_camera_2(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         name = "CapsuleInfo"
         text = self.altdriver.find_object(By.NAME, name).get_text()
@@ -1126,6 +1121,23 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
         with self.assertRaises(CouldNotPerformOperationException):
             self.altdriver.unload_scene('Scene 1 AltUnityDriverTestScene')
+
+    def test_set_server_logging(self):
+        result = self.altdriver.call_static_method(
+            "Altom.Server.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", "AltUnityServerFileRule", "", "Assembly-CSharp")
+        rule = json.loads(result)
+
+        # Default level in AltUnity Serveris Debug level
+        self.assertEqual(5, len(rule["Levels"]), rule["Levels"])
+
+        self.altdriver.set_server_logging(
+            AltUnityLogger.File, AltUnityLogLevel.Off)
+        result = self.altdriver.call_static_method("Altom.Server.Logging.ServerLogManager",
+                                                   "Instance.Configuration.FindRuleByName", "AltUnityServerFileRule", "", "Assembly-CSharp")
+        rule = json.loads(result)
+        self.assertEqual(0, len(rule["Levels"]), rule["Levels"])
+        self.altdriver.set_server_logging(
+            AltUnityLogger.File, AltUnityLogLevel.Debug)  # reset logging level
 
 
 if __name__ == '__main__':

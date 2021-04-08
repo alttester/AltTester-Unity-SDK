@@ -1,20 +1,25 @@
-﻿namespace Altom.Editor
+﻿using Altom.Editor.Logging;
+using NLog;
+
+namespace Altom.Editor
 {
     public class AltUnityTestRunListener : NUnit.Framework.Interfaces.ITestListener
     {
-        public readonly TestRunDelegate CallRunDelegate;
+        private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
+
+        private readonly TestRunDelegate callRunDelegate;
 
         public AltUnityTestRunListener(TestRunDelegate callRunDelegate)
         {
-            this.CallRunDelegate = callRunDelegate;
+            this.callRunDelegate = callRunDelegate;
         }
 
         public void TestStarted(NUnit.Framework.Interfaces.ITest test)
         {
             if (!test.IsSuite)
             {
-                if (CallRunDelegate != null)
-                    CallRunDelegate(test.Name);
+                if (callRunDelegate != null)
+                    callRunDelegate(test.Name);
             }
         }
 
@@ -22,13 +27,12 @@
         {
             if (!result.Test.IsSuite)
             {
-                UnityEngine.Debug.Log("==============> TEST " + result.Test.FullName + ": " + result.ResultState.ToString().ToUpper());
+                logger.Info("==============> TEST " + result.Test.FullName + ": " + result.ResultState.ToString().ToUpper());
                 if (result.ResultState != NUnit.Framework.Interfaces.ResultState.Success)
                 {
-                    UnityEngine.Debug.Log("Error Message: " + result.Message);
-                    UnityEngine.Debug.Log(result.StackTrace);
+                    logger.Error(result.Message + System.Environment.NewLine + result.StackTrace);
                 }
-                UnityEngine.Debug.Log("======================================================");
+                logger.Info("======================================================");
             }
         }
 

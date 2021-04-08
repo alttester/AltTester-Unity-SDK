@@ -10,14 +10,14 @@ public class AltStop extends AltBaseCommand {
     }
 
     public void Execute() {
-        log.info("Closing connection with server.");
+        logger.info("Closing connection with server.");
         SendCommand("closeConnection");
         try {
             altBaseSettings.in.close();
             altBaseSettings.out.close();
             altBaseSettings.socket.close();
         } catch (IOException e) {
-            System.out.println("Could not close the socket.");
+            logger.error("Could not close the socket.", e);
         }
     }
 }

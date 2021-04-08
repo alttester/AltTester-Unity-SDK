@@ -1,4 +1,8 @@
 using System.Linq;
+using System.Collections.Generic;
+using NLog;
+using Altom.Editor.Logging;
+using Newtonsoft.Json;
 
 namespace Altom.Editor
 {
@@ -6,36 +10,35 @@ namespace Altom.Editor
 
     public class AltUnityTestRunner
     {
-
+        private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
         public enum TestRunMode { RunAllTest, RunSelectedTest, RunFailedTest }
 
-        private static System.Threading.Thread thread;
         //This are for progressBar when are runned
         private static float progress;
         private static float total;
-        private static string _testName;
+        private static string testName;
 
-        public static TestRunDelegate CallRunDelegate = new TestRunDelegate(ShowProgresBar);
+        public static TestRunDelegate CallRunDelegate = new TestRunDelegate(showProgresBar);
 
 
         public static void RunTests(TestRunMode testMode)
         {
-            UnityEngine.Debug.Log("Started running test");
+            logger.Debug("Started running test");
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
 
-            var filters = AddTestToBeRun(testMode);
+            var filters = addTestToBeRun(testMode);
             NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(CallRunDelegate);
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
 
-            testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
+            testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
             progress = 0;
             total = filters.Filters.Count;
-            System.Threading.Thread runTestThread = new System.Threading.Thread(() =>
+            var runTestThread = new System.Threading.Thread(() =>
             {
                 var result = testAssemblyRunner.Run(listener, filters);
-                SetTestStatus(result);
+                setTestStatus(result);
                 AltUnityTesterEditor.isTestRunResultAvailable = true;
                 AltUnityTesterEditor.selectedTest = -1;
             });
@@ -47,7 +50,7 @@ namespace Altom.Editor
                 while (runTestThread.IsAlive)
                 {
                     if (previousProgres == progress) continue;
-                    UnityEditor.EditorUtility.DisplayProgressBar(progress == total ? "This may take a few seconds" : _testName,
+                    UnityEditor.EditorUtility.DisplayProgressBar(progress == total ? "This may take a few seconds" : testName,
                         progress + "/" + total, progress / total);
                     previousProgres = progress;
                 }
@@ -63,13 +66,13 @@ namespace Altom.Editor
 
 
 
-        private static void ShowProgresBar(string name)
+        private static void showProgresBar(string name)
         {
             progress++;
-            _testName = name;
+            testName = name;
         }
 
-        private void SetTestStatus(System.Collections.Generic.List<NUnit.Framework.Interfaces.ITestResult> results)
+        private void setTestStatus(List<NUnit.Framework.Interfaces.ITestResult> results)
         {
             bool passed = true;
             int numberOfTestPassed = 0;
@@ -188,9 +191,9 @@ namespace Altom.Editor
                 }
             }
             var listOfTests = AltUnityTesterEditor.EditorConfiguration.MyTests;
-            var serializeTests = Newtonsoft.Json.JsonConvert.SerializeObject(listOfTests, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings
+            var serializeTests = JsonConvert.SerializeObject(listOfTests, Formatting.Indented, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
             UnityEditor.EditorPrefs.SetString("tests", serializeTests);
 
@@ -201,15 +204,17 @@ namespace Altom.Editor
             AltUnityTesterEditor.timeTestRan = totalTime;
             if (passed)
             {
-                UnityEngine.Debug.Log("All test passed");
+                logger.Debug("All test passed");
             }
             else
-                UnityEngine.Debug.Log("Test failed");
+            {
+                logger.Debug("Test failed");
+            }
         }
 
-        private static NUnit.Framework.Internal.Filters.OrFilter AddTestToBeRun(TestRunMode testMode)
+        private static NUnit.Framework.Internal.Filters.OrFilter addTestToBeRun(TestRunMode testMode)
         {
-            NUnit.Framework.Internal.Filters.OrFilter filter = new NUnit.Framework.Internal.Filters.OrFilter();
+            var filter = new NUnit.Framework.Internal.Filters.OrFilter();
             switch (testMode)
             {
                 case TestRunMode.RunAllTest:
@@ -232,7 +237,7 @@ namespace Altom.Editor
             return filter;
         }
 
-        static int SetTestStatus(NUnit.Framework.Interfaces.ITestResult test)
+        private static int setTestStatus(NUnit.Framework.Interfaces.ITestResult test)
         {
 
             if (!test.Test.IsSuite)
@@ -262,7 +267,7 @@ namespace Altom.Editor
             var passCount = 0;
             foreach (var testChild in test.Children)
             {
-                var status = SetTestStatus(testChild);
+                var status = setTestStatus(testChild);
                 if (status == 0)
                     notExecutedCount++;
                 else if (status == -1)
@@ -310,25 +315,25 @@ namespace Altom.Editor
                 return;
             }
 
-            var myTests = new System.Collections.Generic.List<AltUnityMyTest>();
+            var myTests = new List<AltUnityMyTest>();
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
 
-            const string engineTestRunnerAssemblyName = "UnityEngine.TestRunner";
-            const string editorTestRunnerAssemblyName = "UnityEditor.TestRunner";
-            const string editorAssemblyName = "Assembly-CSharp-Editor";
+            const string ENGINE_TEST_RUNNER_ASSEMBLYNAME = "UnityEngine.TestRunner";
+            const string EDITOR_TEST_RUNNER_ASSEMBLYNAME = "UnityEditor.TestRunner";
+            const string EDITOR_ASSEMBLYNAME = "Assembly-CSharp-Editor";
             foreach (var assembly in assemblies)
             {
                 /*
                  * Skips test runner assemblies and assemblies that do not contain references to test assemblies
                  */
-                bool isEditorAssembly = assembly.GetName().Name.Equals(editorAssemblyName);
+                bool isEditorAssembly = assembly.GetName().Name.Equals(EDITOR_ASSEMBLYNAME);
                 if (!isEditorAssembly)
                 {
-                    bool isEngineTestRunnerAssembly = assembly.GetName().Name.Contains(engineTestRunnerAssemblyName);
-                    bool isEditorTestRunnerAssembly = assembly.GetName().Name.Contains(editorTestRunnerAssemblyName);
+                    bool isEngineTestRunnerAssembly = assembly.GetName().Name.Contains(ENGINE_TEST_RUNNER_ASSEMBLYNAME);
+                    bool isEditorTestRunnerAssembly = assembly.GetName().Name.Contains(EDITOR_TEST_RUNNER_ASSEMBLYNAME);
                     bool isTestAssembly = assembly.GetReferencedAssemblies().FirstOrDefault(
-                                reference => reference.Name.Contains(engineTestRunnerAssemblyName)
-                                             || reference.Name.Contains(editorTestRunnerAssemblyName)) == null;
+                                reference => reference.Name.Contains(ENGINE_TEST_RUNNER_ASSEMBLYNAME)
+                                             || reference.Name.Contains(EDITOR_TEST_RUNNER_ASSEMBLYNAME)) == null;
                     if (isEngineTestRunnerAssembly ||
                         isEditorTestRunnerAssembly ||
                         isTestAssembly)
@@ -337,14 +342,14 @@ namespace Altom.Editor
                     }
                 }
 
-                var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new System.Collections.Generic.Dictionary<string, object>());
+                var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
                 addTestSuiteToMyTest(testSuite, myTests);
             }
-            SetCorrectCheck(myTests);
+            setCorrectCheck(myTests);
             AltUnityTesterEditor.EditorConfiguration.MyTests = myTests;
         }
 
-        private static void SetCorrectCheck(System.Collections.Generic.List<AltUnityMyTest> myTests)
+        private static void setCorrectCheck(List<AltUnityMyTest> myTests)
         {
             bool classCheck = true;
             bool assemblyCheck = true;
@@ -387,7 +392,7 @@ namespace Altom.Editor
             }
         }
 
-        private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, System.Collections.Generic.List<AltUnityMyTest> newMyTests)
+        private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, List<AltUnityMyTest> newMyTests)
         {
             string path = null;
 
@@ -425,19 +430,18 @@ namespace Altom.Editor
             }
         }
 
-        static void RunTestFromCommandLine()
+        public static void RunTestFromCommandLine()
         {
-
             var arguments = System.Environment.GetCommandLineArgs();
 
             bool runAllTests = true;
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
             NUnit.Framework.Internal.TestSuite testSuite = null;
-            NUnit.Framework.Internal.Filters.OrFilter filter = new NUnit.Framework.Internal.Filters.OrFilter();
+            var filter = new NUnit.Framework.Internal.Filters.OrFilter();
             NUnit.Framework.Interfaces.ITestListener listener = new AltUnityTestRunListener(null);
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
-            testAssemblyRunner.Load(assembly, new System.Collections.Generic.Dictionary<string, object>());
+            testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
 
             foreach (var arg in arguments)
             {
@@ -452,8 +456,8 @@ namespace Altom.Editor
 
             if (!runAllTests)
             {
-                System.Collections.Generic.List<string> ClassToTest = new System.Collections.Generic.List<string>();
-                System.Collections.Generic.List<string> Tests = new System.Collections.Generic.List<string>();
+                var ClassToTest = new List<string>();
+                var Tests = new List<string>();
                 int argumentFound = 0;
                 for (int i = 0; i < arguments.Length; i++)
                 {
@@ -522,11 +526,11 @@ namespace Altom.Editor
             else //NoArgumentsGiven
             {
 
-                testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new System.Collections.Generic.Dictionary<string, object>());
+                testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
                 foreach (var test in testSuite.Tests)
                     foreach (var t in test.Tests)
                     {
-                        UnityEngine.Debug.Log(t.FullName);
+                        logger.Debug(t.FullName);
                         filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
                     }
             }

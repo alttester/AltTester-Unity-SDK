@@ -9,7 +9,6 @@ class DeletePlayerPrefKey(BaseCommand):
         self.key_name = key_name
 
     def execute(self):
-        logger.debug('Delete Player Pref for key: ' + self.key_name)
         data = self.send_command(
             'deleteKeyPlayerPref', self.key_name)
-        return self.handle_errors(data)
+        return data

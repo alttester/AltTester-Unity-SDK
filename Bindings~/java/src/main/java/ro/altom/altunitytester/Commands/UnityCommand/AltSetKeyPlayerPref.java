@@ -35,24 +35,20 @@ public class AltSetKeyPlayerPref extends AltBaseCommand {
 
     public void Execute() {
         switch (option) {
-            case 1:
-                SendCommand("setKeyPlayerPref", keyName, String.valueOf(intValue),
-                        String.valueOf(AltUnityDriver.PlayerPrefsKeyType.IntType));
-                break;
-            case 2:
-                SendCommand("setKeyPlayerPref", keyName, String.valueOf(floatValue),
-                        String.valueOf(AltUnityDriver.PlayerPrefsKeyType.FloatType));
-                break;
-            case 3:
-                SendCommand("setKeyPlayerPref", keyName, String.valueOf(stringValue),
-                        String.valueOf(AltUnityDriver.PlayerPrefsKeyType.StringType));
-                break;
+        case 1:
+            SendCommand("setKeyPlayerPref", keyName, String.valueOf(intValue),
+                    String.valueOf(AltUnityDriver.PlayerPrefsKeyType.IntType));
+            break;
+        case 2:
+            SendCommand("setKeyPlayerPref", keyName, String.valueOf(floatValue),
+                    String.valueOf(AltUnityDriver.PlayerPrefsKeyType.FloatType));
+            break;
+        case 3:
+            SendCommand("setKeyPlayerPref", keyName, String.valueOf(stringValue),
+                    String.valueOf(AltUnityDriver.PlayerPrefsKeyType.StringType));
+            break;
         }
         String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        validateResponse("Ok", data);
     }
-
 }

@@ -45,9 +45,6 @@ public class AltSwipe extends AltBaseCommand {
         String vectorEndJson = vectorToJsonString(xEnd, yEnd);
         SendCommand("multipointSwipe", vectorStartJson, vectorEndJson, String.valueOf(durationInSeconds));
         String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        validateResponse("Ok", data);
     }
 }

@@ -22,10 +22,7 @@ public class AltScrollMouse extends AltBaseCommand {
     public void Execute() {
         SendCommand("scrollMouse", String.valueOf(altScrollMouseParameters.getSpeed()),
                 String.valueOf(altScrollMouseParameters.getDuration()));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return;
-        }
-        handleErrors(data);
+        recvall();
+
     }
 }

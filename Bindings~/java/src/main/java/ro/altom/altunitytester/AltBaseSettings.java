@@ -10,14 +10,26 @@ public class AltBaseSettings {
     public String RequestEnd;
     public PrintWriter out;
     public DataInputStream in;
+    @Deprecated
     public Boolean logEnabled;
 
-    public AltBaseSettings(Socket socket, String requestSeparator, String requestEnd, PrintWriter out, DataInputStream in,Boolean logEnabled) {
+    @Deprecated
+    public AltBaseSettings(Socket socket, String requestSeparator, String requestEnd, PrintWriter out,
+            DataInputStream in, Boolean logEnabled) {
         this.socket = socket;
         RequestSeparator = requestSeparator;
         RequestEnd = requestEnd;
         this.out = out;
         this.in = in;
-        this.logEnabled=logEnabled;
+        this.logEnabled = logEnabled;
+    }
+
+    public AltBaseSettings(Socket socket, String requestSeparator, String requestEnd, PrintWriter out,
+            DataInputStream in) {
+        this.socket = socket;
+        RequestSeparator = requestSeparator;
+        RequestEnd = requestEnd;
+        this.out = out;
+        this.in = in;
     }
 }

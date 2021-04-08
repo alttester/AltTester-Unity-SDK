@@ -9,4 +9,4 @@ class Tap(BaseCommand):
 
     def execute(self):
         data = self.send_command('tapObject', self.alt_object, self.count)
-        return self.handle_errors(data)
+        return data

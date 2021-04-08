@@ -10,4 +10,4 @@ class ClickEvent(BaseCommand):
     def execute(self):
         data = self.send_command(
             'clickEvent', self.alt_object)
-        return self.handle_errors(data)
+        return data

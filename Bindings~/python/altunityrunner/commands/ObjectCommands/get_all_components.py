@@ -13,7 +13,7 @@ class GetAllComponents(BaseCommand):
     def execute(self) -> List[dict]:
         data = self.send_command(
             'getAllComponents', str(self.alt_object.id))
-        self.handle_errors(data)
+
         try:
             return json.loads(data)
         except json.JSONDecodeError:

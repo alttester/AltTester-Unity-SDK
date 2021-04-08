@@ -14,9 +14,7 @@ namespace Altom.AltUnityDriver.Commands
             var locationJson = PositionToJson(location);
             SendCommand("moveMouse", locationJson, duration.ToString());
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
     }
 }

@@ -9,4 +9,4 @@ class PointerExit(BaseCommand):
 
     def execute(self):
         data = self.send_command('pointerExitObject', self.alt_object)
-        return self.handle_errors(data)
+        return data

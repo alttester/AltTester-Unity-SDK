@@ -21,21 +21,19 @@ public class GetPNGScreenshotCommand extends AltBaseCommand {
         this.path = path;
     }
 
-    public String Execute() {
+    public void Execute() {
         SendCommand("getPNGScreenshot");
         String data = recvall();
-        if (data.equals("Ok")) {
-            String screenshotData = recvall();
-            byte[] screenshotDataBytes = Base64.getDecoder().decode(screenshotData);
-            try (FileOutputStream stream = new FileOutputStream(path)) {
-                stream.write(screenshotDataBytes);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        validateResponse("Ok", data);
+
+        String screenshotData = recvall();
+        byte[] screenshotDataBytes = Base64.getDecoder().decode(screenshotData);
+        try (FileOutputStream stream = new FileOutputStream(path)) {
+            stream.write(screenshotDataBytes);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        handleErrors(data);
-        return "";
     }
 }

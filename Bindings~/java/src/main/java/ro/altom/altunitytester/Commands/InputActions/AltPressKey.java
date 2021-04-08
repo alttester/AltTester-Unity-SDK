@@ -21,10 +21,6 @@ public class AltPressKey extends AltBaseCommand {
     public void Execute() {
         SendCommand("pressKeyboardKey", altPressKeyParameters.getKeyName(),
                 String.valueOf(altPressKeyParameters.getPower()), String.valueOf(altPressKeyParameters.getDuration()));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return;
-        }
-        handleErrors(data);
+        recvall();
     }
 }

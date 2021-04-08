@@ -16,4 +16,4 @@ class GetComponentProperty(BaseCommand):
             self.property_name + '"' + ',"assembly":"' + self.assembly_name + '"}'
         data = self.send_command(
             'getObjectComponentProperty', self.alt_object, property_info, self.max_depth)
-        return self.handle_errors(data)
+        return data

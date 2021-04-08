@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetCurrentScene : AltBaseCommand
@@ -9,9 +11,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             SendCommand("getCurrentScene");
             string data = Recvall();
-            if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data).name;
-            HandleErrors(data);
-            return null;
+            return JsonConvert.DeserializeObject<AltUnityObject>(data).name;
         }
     }
 }

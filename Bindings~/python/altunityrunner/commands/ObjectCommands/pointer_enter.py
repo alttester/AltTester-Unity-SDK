@@ -9,4 +9,4 @@ class PointerEnter(BaseCommand):
 
     def execute(self):
         data = self.send_command('pointerEnterObject', self.alt_object)
-        return self.handle_errors(data)
+        return data

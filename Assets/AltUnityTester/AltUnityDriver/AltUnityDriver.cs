@@ -1,5 +1,9 @@
-using Altom.AltUnityDriver.AltSocket;
+using System;
+using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Threading;
 using Altom.AltUnityDriver.Commands;
+using Altom.AltUnityDriver.Logging;
 
 namespace Altom.AltUnityDriver
 {
@@ -10,11 +14,11 @@ namespace Altom.AltUnityDriver
 
     public class AltUnityDriver
     {
-        public System.Net.Sockets.TcpClient Socket;
-        public SocketSettings socketSettings;
+        private readonly TcpClient tcpClient;
+        private readonly SocketSettings socketSettings;
         public static readonly string VERSION = "1.6.2";
-        public static string requestSeparatorString;
-        public static string requestEndingString;
+
+        public TcpClient TcpClient { get { return tcpClient; } }
 
         /// <summary>
         /// Initiates AltUnity Driver and begins connection to AltUnity Server
@@ -23,31 +27,41 @@ namespace Altom.AltUnityDriver
         /// <param name="tcp_port">The port AltUnity Server is listening on.</param>
         /// <param name="requestSeparator">The separator of command parameters. Must match requestSeparatorString in AltUnity Server </param>
         /// <param name="requestEnding">The ending of the command. Must match requestEnding in AltUnity Server </param>
-        /// <param name="logFlag">If true it enables extended logs in AltUnity Server and writes commands response to log file.</param>
+        /// <param name="logFlag">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout.</param>
         public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false, int connectTimeout = 60)
         {
+            if (logFlag)
+            {
+#if UNITY_EDITOR || ALTUNITYTESTER
+                var defaultLevels = new Dictionary<AltUnityLogger, AltUnityLogLevel> { { AltUnityLogger.File, AltUnityLogLevel.Debug }, { AltUnityLogger.Unity, AltUnityLogLevel.Debug } };
+#else
+                var defaultLevels = new Dictionary<AltUnityLogger, AltUnityLogLevel> { { AltUnityLogger.File, AltUnityLogLevel.Debug }, { AltUnityLogger.Console, AltUnityLogLevel.Debug } };
+#endif
+                DriverLogManager.SetupAltUnityDriverLogging(defaultLevels);
+            }
+
             int retryPeriod = 5;
             while (connectTimeout > 0)
             {
                 try
                 {
-                    Socket = new System.Net.Sockets.TcpClient();
-                    Socket.Connect(tcp_ip, tcp_port);
-                    Socket.SendTimeout = 5000;
-                    Socket.ReceiveTimeout = 5000;
-                    var altSocket = new Socket(Socket.Client);
-                    socketSettings = new SocketSettings(altSocket, requestSeparator, requestEnding, logFlag);
+                    tcpClient = new TcpClient();
+                    tcpClient.Connect(tcp_ip, tcp_port);
+                    tcpClient.SendTimeout = 5000;
+                    tcpClient.ReceiveTimeout = 5000;
+                    var altSocket = new AltSocket.Socket(tcpClient.Client);
+                    socketSettings = new SocketSettings(altSocket, requestSeparator, requestEnding);
                     checkServerVersion();
                     break;
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
-                    if (Socket != null)
+                    if (tcpClient != null)
                         Stop();
 
                     string errorMessage = "Trying to reach AltUnity Server at port" + tcp_port + ",retrying in " + retryPeriod + " (timing out in " + connectTimeout + " secs)...";
-                    System.Console.WriteLine(errorMessage);
+                    Console.WriteLine(errorMessage);
 #if UNITY_EDITOR
                     UnityEngine.Debug.Log(errorMessage);
 #endif
@@ -55,26 +69,16 @@ namespace Altom.AltUnityDriver
                     connectTimeout -= retryPeriod;
                     if (connectTimeout <= 0)
                     {
-                        throw new System.Exception("Could not create connection to " + tcp_ip + ":" + tcp_port, ex);
+                        throw new Exception("Could not create connection to " + tcp_ip + ":" + tcp_port, ex);
                     }
-                    System.Threading.Thread.Sleep(retryPeriod * 1000);
+                    Thread.Sleep(retryPeriod * 1000);
                 }
             }
-            try
-            {
-                EnableLogging();
-            }
-            catch (AltUnityRecvallMessageFormatException)
-            {
-                System.Console.WriteLine("Cannot set logging flag because of version incompatibility.");
-#if UNITY_EDITOR
-                UnityEngine.Debug.LogError("Cannot set logging flag because of version incompatibility.");
-#endif
-            }
         }
+
         private void splitVersion(string version, out string major, out string minor)
         {
-            var parts = version.Split(new[] { "." }, System.StringSplitOptions.None);
+            var parts = version.Split(new[] { "." }, StringSplitOptions.None);
             major = parts[0];
             minor = parts.Length > 1 ? parts[1] : string.Empty;
         }
@@ -83,7 +87,7 @@ namespace Altom.AltUnityDriver
             string serverVersion;
             try
             {
-                serverVersion = new AltUnityGetServerVersion(socketSettings).Execute();
+                serverVersion = GetServerVersion();
             }
             catch (UnknownErrorException)
             {
@@ -93,31 +97,30 @@ namespace Altom.AltUnityDriver
             {
                 serverVersion = "<=1.5.7";
             }
-            string majorServer, minorServer,
-            majorDriver, minorDriver;
 
-            splitVersion(serverVersion, out majorServer, out minorServer);
-            splitVersion(AltUnityDriver.VERSION, out majorDriver, out minorDriver);
+            splitVersion(serverVersion, out string majorServer, out string minorServer);
+            splitVersion(VERSION, out string majorDriver, out string minorDriver);
 
             if (majorServer != majorDriver || minorServer != minorDriver)
             {
-                string message = "Version mismatch. AltUnity Driver version is " + AltUnityDriver.VERSION + ". AltUnity Server version is " + serverVersion + ".";
+                string message = "Version mismatch. AltUnity Driver version is " + VERSION + ". AltUnity Server version is " + serverVersion + ".";
 
 #if UNITY_EDITOR
                 UnityEngine.Debug.LogWarning(message);
 #endif
-                System.Console.WriteLine(message);
+                Console.WriteLine(message);
             }
-        }
-        private void EnableLogging()
-        {
-            new AltUnityEnableLogging(socketSettings).Execute();
         }
 
         public void Stop()
         {
             new AltUnityStopCommand(socketSettings).Execute();
-            Socket.Close();
+            tcpClient.Close();
+        }
+
+        public string GetServerVersion()
+        {
+            return new AltUnityGetServerVersion(socketSettings).Execute();
         }
         public void LoadScene(string scene, bool loadSingle = true)
         {
@@ -127,17 +130,17 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityUnloadScene(socketSettings, scene).Execute();
         }
-        public System.Collections.Generic.List<string> GetAllLoadedScenes()
+        public List<string> GetAllLoadedScenes()
         {
             return new AltUnityGetAllLoadedScenes(socketSettings).Execute();
         }
 
-        public System.Collections.Generic.List<AltUnityObject> FindObjects(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+        public List<AltUnityObject> FindObjects(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
         {
             return new AltUnityFindObjects(socketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
         }
 
-        public System.Collections.Generic.List<AltUnityObject> FindObjectsWhichContain(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+        public List<AltUnityObject> FindObjectsWhichContain(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
         {
             return new AltUnityFindObjectsWhichContain(socketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
         }
@@ -160,7 +163,7 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnityGetTimeScale(socketSettings).Execute();
         }
-        [System.ObsoleteAttribute("Use instead CallStaticMethod")]
+        [Obsolete("Use instead CallStaticMethod")]
         public string CallStaticMethods(string typeName, string methodName,
             string parameters, string typeOfParameters = "", string assemblyName = "")
         {
@@ -248,7 +251,6 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityMoveMouseAndWait(socketSettings, location, duration).Execute();
         }
-
         public void ScrollMouse(float speed, float duration = 0)
         {
             new AltUnityScrollMouse(socketSettings, speed, duration).Execute();
@@ -274,11 +276,11 @@ namespace Altom.AltUnityDriver
             new AltUnityTiltAndWait(socketSettings, acceleration, duration).Execute();
         }
 
-        public System.Collections.Generic.List<AltUnityObject> GetAllElements(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+        public List<AltUnityObject> GetAllElements(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
         {
             return new AltUnityGetAllElements(socketSettings, cameraBy, cameraPath, enabled).Execute();
         }
-        public System.Collections.Generic.List<AltUnityObjectLight> GetAllElementsLight(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+        public List<AltUnityObjectLight> GetAllElementsLight(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
         {
             return new AltUnityGetAllElementsLight(socketSettings, cameraBy, cameraPath, enabled).Execute();
         }
@@ -308,35 +310,39 @@ namespace Altom.AltUnityDriver
             return new AltUnityWaitForObjectWithText(socketSettings, by, value, text, cameraBy, cameraPath, enabled, timeout, interval).Execute();
         }
 
-        public System.Collections.Generic.List<string> GetAllScenes()
+        public List<string> GetAllScenes()
         {
             return new AltUnityGetAllScenes(socketSettings).Execute();
         }
-        public System.Collections.Generic.List<AltUnityObject> GetAllCameras()
+        public List<AltUnityObject> GetAllCameras()
         {
             return new AltUnityGetAllCameras(socketSettings).Execute();
         }
 
-        public System.Collections.Generic.List<AltUnityObject> GetAllActiveCameras()
+        public List<AltUnityObject> GetAllActiveCameras()
         {
             return new AltUnityGetAllActiveCameras(socketSettings).Execute();
         }
-        public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
+        public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default, int screenShotQuality = 100)
         {
             return new AltUnityGetScreenshot(socketSettings, size, screenShotQuality).Execute();
         }
-        public AltUnityTextureInformation GetScreenshot(int id, AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
+        public AltUnityTextureInformation GetScreenshot(int id, AltUnityColor color, float width, AltUnityVector2 size = default, int screenShotQuality = 100)
         {
             return new AltUnityGetScreenshot(socketSettings, id, color, width, size, screenShotQuality).Execute();
         }
-        public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
+        public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default, int screenShotQuality = 100)
         {
             return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size, screenShotQuality).Execute(out selectedObject);
-
         }
         public void GetPNGScreenshot(string path)
         {
             new AltUnityGetPNGScreenshot(socketSettings, path).Execute();
+        }
+
+        public void SetServerLogging(AltUnityLogger logger, AltUnityLogLevel logLevel)
+        {
+            new AltUnitySetServerLogging(socketSettings, logger, logLevel).Execute();
         }
     }
 }

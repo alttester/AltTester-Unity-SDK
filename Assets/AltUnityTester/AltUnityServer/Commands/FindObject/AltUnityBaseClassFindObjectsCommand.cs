@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Altom.AltUnityDriver;
+using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -13,23 +16,22 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         protected AltUnityBaseClassFindObjectsCommand(params string[] parameters) : base(parameters, 6)
         {
             ObjectName = parameters[2];
-            CameraBy = (By)System.Enum.Parse(typeof(By), parameters[3]);
+            CameraBy = (By)Enum.Parse(typeof(By), parameters[3]);
             CameraPath = parameters[4];
-            Enabled = System.Convert.ToBoolean(parameters[5]);
+            Enabled = JsonConvert.DeserializeObject<bool>(parameters[5].ToLower());
         }
 
-        protected System.Collections.Generic.List<System.Collections.Generic.List<string>> ProcessPath(string path)
+        protected List<List<string>> ProcessPath(string path)
         {
-            System.Collections.Generic.List<char> escapeCharacters;
-            var text = EliminateEscapedCharacters(path, out escapeCharacters);
-            var list = SeparateAxesAndSelectors(text);
-            var pathSetCorrectly = SetCondition(list);
-            pathSetCorrectly = AddEscapedCharactersBack(pathSetCorrectly, escapeCharacters);
+            var text = eliminateEscapedCharacters(path, out List<char> escapeCharacters);
+            var list = separateAxesAndSelectors(text);
+            var pathSetCorrectly = setCondition(list);
+            pathSetCorrectly = addEscapedCharactersBack(pathSetCorrectly, escapeCharacters);
             return pathSetCorrectly;
         }
 
 
-        private System.Collections.Generic.List<System.Collections.Generic.List<string>> AddEscapedCharactersBack(System.Collections.Generic.List<System.Collections.Generic.List<string>> pathSetCorrectly, System.Collections.Generic.List<char> escapeCharacters)
+        private List<List<string>> addEscapedCharactersBack(List<List<string>> pathSetCorrectly, List<char> escapeCharacters)
         {
             int counter = 0;
             for (int i = 0; i < pathSetCorrectly.Count; i++)
@@ -54,7 +56,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             return pathSetCorrectly;
         }
 
-        private string GetText(UnityEngine.GameObject objectToCheck)
+        private string getText(UnityEngine.GameObject objectToCheck)
         {
             var textComponent = objectToCheck.GetComponent<UnityEngine.UI.Text>();
             if (textComponent != null)
@@ -83,30 +85,30 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             return "";
         }
 
-        private System.Collections.Generic.List<System.Collections.Generic.List<string>> SetCondition(System.Collections.Generic.List<string> list)
+        private List<List<string>> setCondition(List<string> list)
         {
-            System.Collections.Generic.List<System.Collections.Generic.List<string>> conditions = new System.Collections.Generic.List<System.Collections.Generic.List<string>>();
+            List<List<string>> conditions = new List<List<string>>();
             for (int i = 0; i < list.Count; i++)
             {
                 if (i % 2 == 0)
                 {
                     if (!(list[i].Equals("/") || list[i].Equals("//")))
                         throw new System.Exception("Expected / or // instead of " + list[i]);
-                    conditions.Add(new System.Collections.Generic.List<string>() { list[i] });
+                    conditions.Add(new List<string>() { list[i] });
 
                 }
                 else
                 {
-                    conditions.Add(ParseSelector(list[i]));
+                    conditions.Add(parseSelector(list[i]));
                 }
 
             }
             return conditions;
         }
 
-        private System.Collections.Generic.List<string> ParseSelector(string selector)
+        private List<string> parseSelector(string selector)
         {
-            System.Collections.Generic.List<string> conditions = new System.Collections.Generic.List<string>();
+            List<string> conditions = new List<string>();
             foreach (var substring in selector.Split('['))
             {
                 if (substring.EndsWith("]"))
@@ -119,11 +121,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 }
             }
             return conditions;
+
         }
 
-        private string EliminateEscapedCharacters(string text, out System.Collections.Generic.List<char> escapedCharacters)
+        private string eliminateEscapedCharacters(string text, out List<char> escapedCharacters)
         {
-            escapedCharacters = new System.Collections.Generic.List<char>();
+            escapedCharacters = new List<char>();
             var textWithoutEscapeCharacters = "";
             for (int i = 0; i < text.Length; i++)
             {
@@ -145,10 +148,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             return textWithoutEscapeCharacters;
         }
 
-        private System.Collections.Generic.List<string> SeparateAxesAndSelectors(string path)
+        private List<string> separateAxesAndSelectors(string path)
         {
             string[] substrings = System.Text.RegularExpressions.Regex.Split(path, "(/)");
-            System.Collections.Generic.List<string> listOfSubstring = new System.Collections.Generic.List<string>();
+            List<string> listOfSubstring = new List<string>();
             foreach (var str in substrings)
                 if (!str.Equals(""))
                     listOfSubstring.Add(str);
@@ -161,7 +164,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     continue;
                 }
             }
-            System.Collections.Generic.List<string> listOfSubstring2 = new System.Collections.Generic.List<string>();
+            List<string> listOfSubstring2 = new List<string>();
             foreach (var str in listOfSubstring)
                 if (!str.Equals(""))
                     listOfSubstring2.Add(str);
@@ -169,25 +172,25 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         }
 
-        public System.Collections.Generic.List<UnityEngine.GameObject> FindObjects(UnityEngine.GameObject gameObject, System.Collections.Generic.List<System.Collections.Generic.List<string>> conditions, int step, bool singleObject, bool directChildren, bool enabled)
+        public List<UnityEngine.GameObject> FindObjects(UnityEngine.GameObject gameObject, List<List<string>> conditions, int step, bool singleObject, bool directChildren, bool enabled)
         {
 
-            if (CheckConditionIfParent(conditions[step]))
+            if (checkConditionIfParent(conditions[step]))
             {
                 if (step == conditions.Count - 1)//if last condition is .. then it will return the parent
                 {
-                    return new System.Collections.Generic.List<UnityEngine.GameObject>() { gameObject.transform.parent.gameObject };
+                    return new List<UnityEngine.GameObject>() { gameObject.transform.parent.gameObject };
                 }
                 var directChild = IsNextElementDirectChild(conditions[step + 1]);
                 return FindObjects(gameObject.transform.parent.gameObject, conditions, step + 2, singleObject, directChild, enabled);
 
             }
-            System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = GetGameObjectsToCheck(gameObject);
-            System.Collections.Generic.List<UnityEngine.GameObject> objectsFound = new System.Collections.Generic.List<UnityEngine.GameObject>();
+            List<UnityEngine.GameObject> objectsToCheck = getGameObjectsToCheck(gameObject);
+            List<UnityEngine.GameObject> objectsFound = new List<UnityEngine.GameObject>();
             foreach (var objectToCheck in objectsToCheck)
             {
                 int childNumber = -1;
-                if ((!enabled || (enabled && objectToCheck.activeInHierarchy)) && CheckCondition(objectToCheck, conditions[step], ref childNumber))
+                if ((!enabled || (enabled && objectToCheck.activeInHierarchy)) && checkCondition(objectToCheck, conditions[step], ref childNumber))
                 {
                     //Pass the condition
                     UnityEngine.GameObject nextObjectToCheck = childNumber != -1 ? objectToCheck.transform.GetChild(childNumber).gameObject : objectToCheck;
@@ -229,12 +232,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         }
 
-        private bool CheckCondition(UnityEngine.GameObject objectToCheck, System.Collections.Generic.List<string> listOfConditions, ref int childNumber)
+        private bool checkCondition(UnityEngine.GameObject objectToCheck, List<string> listOfConditions, ref int childNumber)
         {
             bool valid = true;
             foreach (var condition in listOfConditions)
             {
-                var option = CheckOption(condition);
+                var option = checkOption(condition);
                 switch (option)
                 {
                     case 1://name
@@ -286,7 +289,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         var splitedValue = substring.Split(',');
                         var selector = splitedValue[0];
                         var value = splitedValue[1];
-                        var optionContains = CheckOption(selector);
+                        var optionContains = checkOption(selector);
                         switch (optionContains)
                         {
                             case 2:
@@ -318,7 +321,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                                 valid = objectToCheck.name.Contains(value);
                                 break;
                             case 10:
-                                valid = GetText(objectToCheck).Contains(value);
+                                valid = getText(objectToCheck).Contains(value);
                                 break;
 
                             default:
@@ -338,7 +341,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
                     case 10:
                         var text = condition.Substring(6, condition.Length - 6);
-                        valid = GetText(objectToCheck).Equals(text);
+                        valid = getText(objectToCheck).Equals(text);
 
                         break;
                 }
@@ -347,7 +350,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             return valid;
         }
-        private static int CheckOption(string condition)
+        private static int checkOption(string condition)
         {
             int option = 1;
             if (condition.StartsWith("@tag"))
@@ -372,12 +375,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             return option;
         }
 
-        private bool CheckConditionIfParent(System.Collections.Generic.List<string> list)
+        private bool checkConditionIfParent(List<string> list)
         {
             return list.Count == 1 && list[0].Equals("..");
         }
 
-        protected bool IsNextElementDirectChild(System.Collections.Generic.List<string> list)
+        protected bool IsNextElementDirectChild(List<string> list)
         {
             if (list.Count == 1 && list[0].Equals("/"))
                 return true;
@@ -387,23 +390,23 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             throw new System.Exception("Invalid path. Expected / or // but got " + list.ToString());
         }
 
-        private System.Collections.Generic.List<UnityEngine.GameObject> GetGameObjectsToCheck(UnityEngine.GameObject gameObject)
+        private List<UnityEngine.GameObject> getGameObjectsToCheck(UnityEngine.GameObject gameObject)
         {
-            System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = new System.Collections.Generic.List<UnityEngine.GameObject>();
+            List<UnityEngine.GameObject> objectsToCheck;
             if (gameObject == null)
             {
-                objectsToCheck = GetAllRootObjects();
+                objectsToCheck = getAllRootObjects();
             }
             else
             {
-                objectsToCheck = GetAllChildren(gameObject);
+                objectsToCheck = getAllChildren(gameObject);
             }
             return objectsToCheck;
         }
 
-        private System.Collections.Generic.List<UnityEngine.GameObject> GetAllChildren(UnityEngine.GameObject gameObject)
+        private List<UnityEngine.GameObject> getAllChildren(UnityEngine.GameObject gameObject)
         {
-            System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = new System.Collections.Generic.List<UnityEngine.GameObject>();
+            List<UnityEngine.GameObject> objectsToCheck = new List<UnityEngine.GameObject>();
             for (int i = 0; i < gameObject.transform.childCount; i++)
             {
                 objectsToCheck.Add(gameObject.transform.GetChild(i).gameObject);
@@ -411,9 +414,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             return objectsToCheck;
         }
 
-        private System.Collections.Generic.List<UnityEngine.GameObject> GetAllRootObjects()
+        private List<UnityEngine.GameObject> getAllRootObjects()
         {
-            System.Collections.Generic.List<UnityEngine.GameObject> objectsToCheck = new System.Collections.Generic.List<UnityEngine.GameObject>();
+            List<UnityEngine.GameObject> objectsToCheck = new List<UnityEngine.GameObject>();
             for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
             {
                 foreach (UnityEngine.GameObject rootGameObject in UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).GetRootGameObjects())

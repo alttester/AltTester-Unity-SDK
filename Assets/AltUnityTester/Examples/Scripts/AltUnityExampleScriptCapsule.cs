@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
 {
-
     public Text capsuleInfo;
     public int[] arrayOfInts = { 1, 2, 3 };
     public bool TestBool = true;
@@ -14,7 +13,7 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
         new AltUnitySampleClass("test2", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } }) };
     private bool testProperty;
     public static AltUnitySampleClass StaticSampleClass = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
-    private void Awake()
+    protected void Awake()
     {
         AltUnitySampleClass1 = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
     }
@@ -49,11 +48,11 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     private int privateVariable = 0;
     private static int privateStaticVariable = 0;
 
-    private void Update()
+    protected void Update()
     {
         transform.Rotate(Input.acceleration);
     }
-    void OnMouseDown()
+    protected void OnMouseDown()
     {
         Jump("Capsule was clicked to jump!");
     }

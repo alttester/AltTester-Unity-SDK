@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetTimeScale : AltBaseCommand
@@ -9,10 +11,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             SendCommand("getTimeScale");
             var data = Recvall();
-            if (!data.Contains("error"))
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<float>(data);
-            HandleErrors(data);
-            return -1f;
+            return JsonConvert.DeserializeObject<float>(data);
         }
     }
 }

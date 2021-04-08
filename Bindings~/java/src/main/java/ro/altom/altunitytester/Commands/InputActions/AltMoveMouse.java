@@ -22,10 +22,6 @@ public class AltMoveMouse extends AltBaseCommand {
     public void Execute() {
         SendCommand("moveMouse", vectorToJsonString(altMoveMouseParameters.getX(), altMoveMouseParameters.getY()),
                 String.valueOf(altMoveMouseParameters.getDuration()));
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return;
-        }
-        handleErrors(data);
+        recvall();
     }
 }

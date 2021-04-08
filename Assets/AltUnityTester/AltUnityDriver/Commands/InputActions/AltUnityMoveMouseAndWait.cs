@@ -3,7 +3,7 @@ namespace Altom.AltUnityDriver.Commands
     public class AltUnityMoveMouseAndWait : AltBaseCommand
     {
         AltUnityVector2 location;
-        float duration;
+        readonly float duration;
         public AltUnityMoveMouseAndWait(SocketSettings socketSettings, AltUnityVector2 location, float duration) : base(socketSettings)
         {
             this.location = location;
@@ -19,9 +19,7 @@ namespace Altom.AltUnityDriver.Commands
                 SendCommand("actionFinished");
                 data = Recvall();
             } while (data == "No");
-            if (data.Equals("Yes"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Yes", data);
         }
     }
 }

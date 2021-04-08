@@ -11,13 +11,8 @@ public class AltGetCurrentScene extends AltBaseCommand {
     }
 
     public String Execute() {
-        log.debug("Get current scene...");
         SendCommand("getCurrentScene");
         String data = recvall();
-        if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, AltUnityObject.class)).name;
-        }
-        handleErrors(data);
-        return "";
+        return (new Gson().fromJson(data, AltUnityObject.class)).name;
     }
 }

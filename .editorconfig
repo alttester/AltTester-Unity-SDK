@@ -20,6 +20,7 @@ dotnet_style_qualification_for_field=false:hint
 dotnet_style_qualification_for_method=false:hint
 dotnet_style_qualification_for_property=false:hint
 dotnet_style_require_accessibility_modifiers=for_non_interface_members:hint
+csharp_style_implicit_object_creation_when_type_is_apparent=false
 
 # ReSharper properties
 resharper_autodetect_indent_settings=true
@@ -55,3 +56,77 @@ tab_width=4
 indent_style=space
 indent_size=4
 tab_width=4
+
+
+[*.{cs,vb}]
+
+# Defining symbols groups
+dotnet_naming_symbols.public_symbols.applicable_kinds            = property,method,field
+dotnet_naming_symbols.public_symbols.applicable_accessibilities  = public
+
+dotnet_naming_symbols.private_symbols.applicable_kinds           = property,method,field
+dotnet_naming_symbols.private_symbols.applicable_accessibilities = private
+
+dotnet_naming_symbols.internal_symbols.applicable_kinds           = property,method,field
+dotnet_naming_symbols.internal_symbols.applicable_accessibilities = internal
+
+dotnet_naming_symbols.protected_symbols.applicable_kinds           = property,method,field
+dotnet_naming_symbols.protected_symbols.applicable_accessibilities = protected
+
+dotnet_naming_symbols.class_symbols.applicable_kinds           = class
+dotnet_naming_symbols.class_symbols.applicable_accessibilities = *
+
+dotnet_naming_symbols.const_symbols.applicable_kinds           = *
+dotnet_naming_symbols.const_symbols.required_modifiers = const
+
+dotnet_naming_symbols.readonly_symbols.applicable_kinds           = *
+dotnet_naming_symbols.readonly_symbols.required_modifiers = readonly
+
+dotnet_naming_symbols.public_internal_protected_readonly_symbols.applicable_kinds           = *
+dotnet_naming_symbols.public_internal_protected_readonly_symbols.applicable_accessibilities = public,internal,protected
+dotnet_naming_symbols.public_internal_protected_readonly_symbols.required_modifiers = readonly
+
+dotnet_naming_symbols.private_readonly_symbols.applicable_kinds           = *
+dotnet_naming_symbols.private_readonly_symbols.applicable_accessibilities = private
+dotnet_naming_symbols.private_readonly_symbols.required_modifiers = readonly
+
+
+#Defining styles
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+dotnet_naming_style.all_upper_style.capitalization = all_upper
+dotnet_naming_style.interface_style.capitalization = pascal_case
+dotnet_naming_style.interface_style.required_prefix = I
+
+#Defining rules
+dotnet_naming_rule.public_members_must_be_capitalized.symbols   = public_symbols
+dotnet_naming_rule.public_members_must_be_capitalized.style    = pascal_case_style
+dotnet_naming_rule.public_members_must_be_capitalized.severity = warning
+
+dotnet_naming_rule.private_members_must_be_camel_case.symbols   = private_symbols
+dotnet_naming_rule.private_members_must_be_camel_case.style    = camel_case_style
+dotnet_naming_rule.private_members_must_be_camel_case.severity = warning
+
+dotnet_naming_rule.protected_members_must_be_pascal_case.symbols   = protected_symbols
+dotnet_naming_rule.protected_members_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.protected_members_must_be_pascal_case.severity = warning
+
+dotnet_naming_rule.internal_members_must_be_pascal_case.symbols   = internal_symbols
+dotnet_naming_rule.internal_members_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.internal_members_must_be_pascal_case.severity = warning
+
+dotnet_naming_rule.class_must_be_pascal_case.symbols   = class_symbols
+dotnet_naming_rule.class_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.class_must_be_pascal_case.severity = warning
+
+dotnet_naming_rule.const_must_be_all_upper.symbols   = const_symbols
+dotnet_naming_rule.const_must_be_all_upper.style    = all_upper_style
+dotnet_naming_rule.const_must_be_all_upper.severity = warning
+
+dotnet_naming_rule.public_internal_protected_readonly_must_be_all_upper.symbols   = public_internal_protected_readonly_symbols
+dotnet_naming_rule.public_internal_protected_readonly_must_be_all_upper.style    = pascal_case_style
+dotnet_naming_rule.public_internal_protected_readonly_must_be_all_upper.severity = warning
+
+dotnet_naming_rule.private_readonly_must_be_all_upper.symbols   = private_readonly_symbols
+dotnet_naming_rule.private_readonly_must_be_all_upper.style    = camel_case_style
+dotnet_naming_rule.private_readonly_must_be_all_upper.severity = warning

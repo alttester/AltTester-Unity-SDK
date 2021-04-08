@@ -18,10 +18,6 @@ public class AltClickScreen extends AltBaseCommand {
     public AltUnityObject Execute() {
         SendCommand("clickScreenOnXY", String.valueOf(x), String.valueOf(y));
         String data = recvall();
-        if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, AltUnityObject.class));
-        }
-        handleErrors(data);
-        return null;
+        return (new Gson().fromJson(data, AltUnityObject.class));
     }
 }

@@ -9,6 +9,5 @@ class ScrollMouse(BaseCommand):
         self.duration = duration
 
     def execute(self):
-        print('Scroll mouse with: ' + str(self.speed))
         data = self.send_command('scrollMouse', self.speed, self.duration)
-        return self.handle_errors(data)
+        return data

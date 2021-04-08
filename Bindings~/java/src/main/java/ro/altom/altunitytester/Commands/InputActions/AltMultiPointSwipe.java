@@ -37,11 +37,9 @@ public class AltMultiPointSwipe extends AltBaseCommand {
         }
         String[] results = new String[args.size()];
         results = args.toArray(results);
+
         SendCommand(results);
         String data = recvall();
-        if (data.equals("Ok")) {
-            return;
-        }
-        handleErrors(data);
+        validateResponse("OK", data);
     }
 }

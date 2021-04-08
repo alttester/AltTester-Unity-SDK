@@ -1,32 +1,29 @@
+using System.Threading;
 using Altom.AltUnityDriver.AltSocket;
+using Altom.Server.Logging;
+using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.AltSocket
 {
     public class AltSocketClientThreadHolder
     {
-        protected readonly System.Threading.Thread thread;
-        protected readonly AltClientSocketHandler handler;
 
-        public System.Threading.Thread Thread
+        public Thread Thread
         {
-            get
-            {
-                return thread;
-            }
+            get;
+            protected set;
         }
 
         public AltClientSocketHandler Handler
         {
-            get
-            {
-                return handler;
-            }
+            get;
+            protected set;
         }
 
-        public AltSocketClientThreadHolder(System.Threading.Thread thread, AltClientSocketHandler handler)
+        public AltSocketClientThreadHolder(Thread thread, AltClientSocketHandler handler)
         {
-            this.thread = thread;
-            this.handler = handler;
+            this.Thread = thread;
+            this.Handler = handler;
         }
     }
 
@@ -48,36 +45,31 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
 
     public class AltSocketServer
     {
+        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+
         protected AltTcpListener Listener;
         protected readonly AltIClientSocketHandlerDelegate ClientSocketHandlerDelegate;
         protected readonly string MessageEndingString;
         protected readonly System.Text.Encoding Encoding;
         protected System.Collections.ArrayList ClientHandlerThreads;
-        protected readonly int portNumber;
-        protected readonly System.Net.IPEndPoint localEndPoint;
-        protected readonly int maxClients;
         public int PortNumber
         {
-            get
-            {
-                return portNumber;
-            }
+            get;
+            protected set;
+
         }
 
         public System.Net.IPEndPoint LocalEndPoint
         {
-            get
-            {
-                return localEndPoint;
-            }
+            get;
+            protected set;
+
         }
 
         public int MaxClients
         {
-            get
-            {
-                return maxClients;
-            }
+            get;
+            protected set;
         }
 
         public int ClientCount
@@ -98,31 +90,31 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
                                  string messageEndingString = "&",
                                  System.Text.Encoding encoding = null)
         {
-            this.portNumber = portNumber;
+            this.PortNumber = portNumber;
             ClientSocketHandlerDelegate = clientSocketHandlerDelegate;
             MessageEndingString = messageEndingString;
-            Encoding = encoding ?? System.Text.Encoding.UTF8;
+            Encoding = encoding != null ? encoding : System.Text.Encoding.UTF8;
             ClientHandlerThreads = System.Collections.ArrayList.Synchronized(new System.Collections.ArrayList());
-            this.maxClients = maxClients;
+            this.MaxClients = maxClients;
 
             System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse("0.0.0.0");
-            localEndPoint = new System.Net.IPEndPoint(ipAddress, this.portNumber);
-            Listener = new AltTcpListener(localEndPoint.Address, this.portNumber);
+            LocalEndPoint = new System.Net.IPEndPoint(ipAddress, this.PortNumber);
+            Listener = new AltTcpListener(LocalEndPoint.Address, this.PortNumber);
 
 
-            UnityEngine.Debug.Log("Created TCP listener.");
+            logger.Debug("Created TCP listener.");
         }
 
         public void StartListeningForConnections()
         {
             foreach (AltSocketClientThreadHolder holder in ClientHandlerThreads)
             {
-                UnityEngine.Debug.Log("calling stop on thread " + holder.Thread.ManagedThreadId);
+                logger.Debug("calling stop on thread " + holder.Thread.ManagedThreadId);
                 holder.Handler.Cleanup();
             }
 
             ClientHandlerThreads = System.Collections.ArrayList.Synchronized(new System.Collections.ArrayList());
-            UnityEngine.Debug.Log("Began listening for TCP clients.");
+            logger.Debug("Began listening for TCP clients.");
             Listener.Start();
             ListenForConnection();
         }
@@ -135,36 +127,34 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
         // NOT on main thread
         protected void AcceptCallback(System.IAsyncResult ar)
         {
-            int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-            UnityEngine.Debug.Log("Accept thread id: " + threadId);
+            int threadId = Thread.CurrentThread.ManagedThreadId;
+            logger.Debug("Accept thread id: " + threadId);
             System.Net.Sockets.TcpListener listener = (System.Net.Sockets.TcpListener)ar.AsyncState;
             System.Net.Sockets.TcpClient client = listener.EndAcceptTcpClient(ar);
 
 
-            UnityEngine.Debug.Log("thread id " + threadId + " accepted client " + client.Client.RemoteEndPoint);
-            UnityEngine.Debug.Log("thread id " + threadId + " beginning read from client " + client.Client.RemoteEndPoint);
+            logger.Debug("thread id " + threadId + " accepted client " + client.Client.RemoteEndPoint);
 
             ISocket altClient = new Socket(client.Client);
 
-            AltClientSocketHandler clientHandler =
-                new AltClientSocketHandler(altClient,
+            var clientHandler = new AltClientSocketHandler(altClient,
                                             ClientSocketHandlerDelegate,
                                             MessageEndingString,
                                             Encoding);
 
-            System.Threading.Thread clientThread = new System.Threading.Thread(clientHandler.Run);
+            var clientThread = new Thread(clientHandler.Run);
             ClientHandlerThreads.Add(new AltSocketClientThreadHolder(clientThread, clientHandler));
             clientThread.Start();
-            UnityEngine.Debug.Log("Client thread started");
+            logger.Debug("Client thread started");
 
-            if (ClientCount < maxClients)
+            if (ClientCount < MaxClients)
             {
-                UnityEngine.Debug.Log("client handler threads less than max clients. Listening again");
+                logger.Debug("client handler threads less than max clients. Listening again");
                 ListenForConnection();
             }
             else
             {
-                UnityEngine.Debug.Log(System.String.Format("Max number of clients reached ({0}), stopping listening", maxClients));
+                logger.Debug(string.Format("Max number of clients reached ({0}), stopping listening", MaxClients));
                 StopListeningForConnections();
             }
         }
@@ -172,7 +162,7 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
         public void StopListeningForConnections()
         {
             Listener.Stop();
-            UnityEngine.Debug.Log("Stopped listening for connections");
+            logger.Debug("Stopped listening for connections");
         }
 
         public void Cleanup()
@@ -180,9 +170,9 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
             StopListeningForConnections();
             foreach (AltSocketClientThreadHolder holder in ClientHandlerThreads)
             {
-                UnityEngine.Debug.Log("calling stop on thread " + holder.Thread.ManagedThreadId);
+                logger.Debug("calling stop on thread " + holder.Thread.ManagedThreadId);
                 holder.Handler.Cleanup();
-                UnityEngine.Debug.Log("Calling thread abort on thread: " + holder.Thread.ManagedThreadId);
+                logger.Debug("Calling thread abort on thread: " + holder.Thread.ManagedThreadId);
                 holder.Handler.ToBeKilled = true;
                 holder.Thread.Abort();
             }

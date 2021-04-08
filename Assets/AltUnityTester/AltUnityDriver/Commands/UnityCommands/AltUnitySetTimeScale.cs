@@ -1,8 +1,10 @@
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySetTimeScale : AltBaseCommand
     {
-        float timeScale;
+        readonly float timeScale;
 
         public AltUnitySetTimeScale(SocketSettings socketSettings, float timescale) : base(socketSettings)
         {
@@ -10,12 +12,9 @@ namespace Altom.AltUnityDriver.Commands
         }
         public void Execute()
         {
-            SendCommand("setTimeScale", Newtonsoft.Json.JsonConvert.SerializeObject(timeScale));
+            SendCommand("setTimeScale", JsonConvert.SerializeObject(timeScale));
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
-
+            ValidateResponse("Ok", data);
         }
     }
 }

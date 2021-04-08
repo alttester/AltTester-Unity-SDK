@@ -1,9 +1,11 @@
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityLoadScene : AltBaseCommand
     {
-        string sceneName;
-        bool loadSingle;
+        readonly string sceneName;
+        readonly bool loadSingle;
         public AltUnityLoadScene(SocketSettings socketSettings, string sceneName, bool loadSingle) : base(socketSettings)
         {
             this.sceneName = sceneName;
@@ -11,15 +13,13 @@ namespace Altom.AltUnityDriver.Commands
         }
         public void Execute()
         {
-            SendCommand("loadScene", sceneName, loadSingle.ToString());
+            SendCommand("loadScene", sceneName, JsonConvert.SerializeObject(loadSingle));
+
             var data = Recvall();
-            if (data.Equals("Ok"))
-            {
-                data = Recvall();
-                if (data.Equals("Scene Loaded"))
-                    return;
-            }
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
+
+            data = Recvall();
+            ValidateResponse("Scene Loaded", data);
         }
     }
 }

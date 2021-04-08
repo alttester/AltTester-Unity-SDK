@@ -5,16 +5,15 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnitySetTextCommand : AltUnityReflectionMethodsCommand
     {
-        static readonly AltUnityObjectProperty[] TextProperties =
+        static readonly AltUnityObjectProperty[] textProperties =
         {
             new AltUnityObjectProperty("UnityEngine.UI.Text", "text"),
             new AltUnityObjectProperty("UnityEngine.UI.InputField", "text"),
             new AltUnityObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltUnityObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
         };
-
-        AltUnityObject altUnityObject;
-        string inputText;
+        readonly AltUnityObject altUnityObject;
+        readonly string inputText;
 
         public AltUnitySetTextCommand(params string[] parameters) : base(parameters, 4)
         {
@@ -24,19 +23,18 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("Set text for object by name " + this.altUnityObject.name);
             var response = AltUnityErrors.errorNotFoundMessage;
 
             var targetObject = AltUnityRunner.GetGameObject(altUnityObject);
 
-            foreach (var property in TextProperties)
+            foreach (var property in textProperties)
             {
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
                     response = SetValueForMember(altUnityObject, property.Property.Split('.'), type, inputText);
                     if (!response.Contains("error:"))
-                        return Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject));
+                        return JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject));
                 }
                 catch (PropertyNotFoundException)
                 {

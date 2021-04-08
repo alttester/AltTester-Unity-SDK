@@ -1,13 +1,15 @@
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityCallComponentMethod : AltBaseCommand
     {
-        string componentName;
-        string methodName;
-        string parameters;
-        string typeOfParameters;
-        string assemblyName;
-        AltUnityObject altUnityObject;
+        readonly string componentName;
+        readonly string methodName;
+        readonly string parameters;
+        readonly string typeOfParameters;
+        readonly string assemblyName;
+        readonly AltUnityObject altUnityObject;
         public AltUnityCallComponentMethod(SocketSettings socketSettings, string componentName, string methodName, string parameters, string typeOfParameters, string assembly, AltUnityObject altUnityObject) : base(socketSettings)
         {
             this.componentName = componentName;
@@ -19,15 +21,12 @@ namespace Altom.AltUnityDriver.Commands
         }
         public string Execute()
         {
-            string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
+            string altObject = JsonConvert.SerializeObject(altUnityObject);
             string actionInfo =
-                Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters, typeOfParameters, assemblyName));
+                JsonConvert.SerializeObject(new AltUnityObjectAction(componentName, methodName, parameters, typeOfParameters, assemblyName));
             SendCommand("callComponentMethodForObject", altObject, actionInfo);
             string data = Recvall();
-            if (!data.Contains("error:")) return data;
-            HandleErrors(data);
-            return null;
-
+            return data;
         }
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
+import ro.altom.altunitytester.altUnityTesterExceptions.NotFoundException;
 
 /**
  * Simulate a tap action on the screen at the given coordinates.
@@ -26,13 +27,11 @@ public class AltTapScreen extends AltBaseCommand {
 
     public AltUnityObject Execute() {
         SendCommand("tapScreen", String.valueOf(x), String.valueOf(y));
-        String data = recvall();
-        if (!data.contains("error:")) {
+        try {
+            String data = recvall();
             return new Gson().fromJson(data, AltUnityObject.class);
-        }
-        if (data.contains("error:notFound"))
+        } catch (NotFoundException notFoundException) {
             return null;
-        handleErrors(data);
-        return null;
+        }
     }
 }

@@ -11,9 +11,7 @@ class LoadScene(BaseCommand):
     def execute(self):
         data = self.send_command(
             'loadScene', self.scene_name, self.load_single)
-        if (data == 'Ok'):
-            data = self.recvall()
-            if (data == "Scene Loaded"):
-                logger.debug('Scene loaded: ' + self.scene_name)
-                return data
-        return self.handle_errors(data)
+        self.validate_response('Ok', data)
+        data = self.recvall()
+        self.validate_response('Scene Loaded', data)
+        return data

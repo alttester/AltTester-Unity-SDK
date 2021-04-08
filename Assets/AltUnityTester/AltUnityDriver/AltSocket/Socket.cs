@@ -2,24 +2,24 @@ namespace Altom.AltUnityDriver.AltSocket
 {
     public class Socket : ISocket
     {
-        private readonly System.Net.Sockets.Socket _socket;
+        private readonly System.Net.Sockets.Socket socket;
         public Socket(System.Net.Sockets.Socket socket)
         {
-            this._socket = socket;
+            this.socket = socket;
         }
 
         public void Send(byte[] buffer)
         {
-            this._socket.Send(buffer);
+            this.socket.Send(buffer);
         }
         public int Receive(byte[] buffer)
         {
-            return this._socket.Receive(buffer);
+            return this.socket.Receive(buffer);
         }
 
         public void Close()
         {
-            this._socket.Close();
+            this.socket.Close();
         }
 
     }

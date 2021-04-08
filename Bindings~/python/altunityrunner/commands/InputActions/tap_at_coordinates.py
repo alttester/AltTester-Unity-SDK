@@ -1,4 +1,5 @@
 from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.altUnityExceptions import NotFoundException
 
 
 class TapAtCoordinates(CommandReturningAltElements):
@@ -9,7 +10,8 @@ class TapAtCoordinates(CommandReturningAltElements):
         self.y = y
 
     def execute(self):
-        data = self.send_command('tapScreen', self.x, self.y)
-        if 'error:notFound' in data:
+        try:
+            data = self.send_command('tapScreen', self.x, self.y)
+            return self.get_alt_element(data)
+        except NotFoundException:
             return None
-        return self.get_alt_element(data)

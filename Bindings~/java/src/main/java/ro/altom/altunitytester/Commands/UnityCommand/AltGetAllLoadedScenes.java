@@ -10,13 +10,8 @@ public class AltGetAllLoadedScenes extends AltBaseCommand {
     }
 
     public String[] Execute() {
-        log.debug("Get all loaded scenese...");
         SendCommand("getAllLoadedScenes");
         String data = recvall();
-        if (!data.contains("error:")) {
-            return (new Gson().fromJson(data, String[].class));
-        }
-        handleErrors(data);
-        return null;
+        return (new Gson().fromJson(data, String[].class));
     }
 }

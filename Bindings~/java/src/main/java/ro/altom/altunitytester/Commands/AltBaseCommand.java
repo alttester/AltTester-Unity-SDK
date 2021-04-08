@@ -1,18 +1,17 @@
 package ro.altom.altunitytester.Commands;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ro.altom.altunitytester.AltBaseSettings;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class AltBaseCommand {
 
-    protected static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AltBaseCommand.class);
+    protected static final Logger logger = LogManager.getLogger(AltBaseCommand.class);
 
     private final static int BUFFER_SIZE = 1024;
     private String messageId;
@@ -50,12 +49,15 @@ public class AltBaseCommand {
             }
         }
 
+        logger.trace(receivedData);
+
         String[] parts = receivedData.split("altstart::|::response::|::altLog::|::altend", -1);// -1 limit to include
                                                                                                // Trailing empty strings
         if (parts.length != 5 || !parts[0].equals("") || !parts[4].equals("")) {
 
-            throw new AltUnityRecvallMessageFormatException(
-                    "Data received from socket doesn't have correct start and end control strings");
+            throw new AltUnityRecvallMessageFormatException(String.format(
+                    "Data received from socket doesn't have correct start and end control strings.\nGot:\n %s",
+                    receivedData));
         }
 
         if (!parts[1].equals(messageId)) {
@@ -66,25 +68,13 @@ public class AltBaseCommand {
         receivedData = parts[2];
         String logData = parts[3];
 
-        log.debug(trimLogData(receivedData));
-        if (altBaseSettings.logEnabled) {
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-            writeInLogFile(formatter.format(new Date()) + " : response received : " + trimLogData(receivedData));
-            writeInLogFile(logData);
-        }
+        logger.debug("response: " + trimLogData(receivedData));
+        if (logData != null && !logData.equals(""))
+            logger.debug(logData);
+
+        handleErrors(receivedData, logData);
 
         return receivedData;
-    }
-
-    private void writeInLogFile(String logMessages) {
-        BufferedWriter writer = null;
-        try {
-            writer = new BufferedWriter(new FileWriter("AltUnityTesterLog.txt", true));
-            writer.append(logMessages + System.lineSeparator());
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     protected void SendCommand(String... arguments) {
@@ -92,9 +82,9 @@ public class AltBaseCommand {
     }
 
     private void send(String message) {
-        log.info("Sending rpc message [{}]", message);
         altBaseSettings.out.print(message);
         altBaseSettings.out.flush();
+        logger.debug("sent: {}", message);
     }
 
     private String createCommand(String[] arguments) {
@@ -116,8 +106,22 @@ public class AltBaseCommand {
         return data;
     }
 
+    protected void validateResponse(String expected, String received) {
+        if (!expected.equals(received)) {
+            throw new AltUnityInvalidServerResponse(expected, received);
+        }
+    }
+
     protected void handleErrors(String data) {
+        handleErrors(data, "");
+    }
+
+    private void handleErrors(String data, String log) {
         String typeOfException = data.split(";")[0];
+        if (!log.equals(""))
+            log = "\n" + log;
+
+        data = data + log;
         if ("error:notFound".equals(typeOfException)) {
             throw new NotFoundException(data);
         } else if ("error:propertyNotFound".equals(typeOfException)) {
@@ -169,7 +173,7 @@ public class AltBaseCommand {
         try {
             Thread.sleep(timeToSleep);
         } catch (InterruptedException e) {
-            log.warn("Could not sleep for " + timeToSleep + " ms");
+            logger.warn("Could not sleep for " + timeToSleep + " ms");
         }
     }
 }

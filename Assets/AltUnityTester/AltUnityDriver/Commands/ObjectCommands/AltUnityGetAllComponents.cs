@@ -1,20 +1,22 @@
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetAllComponents : AltBaseCommand
     {
-        AltUnityObject AltUnityObject;
+        readonly AltUnityObject altUnityObject;
 
         public AltUnityGetAllComponents(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
         {
-            AltUnityObject = altUnityObject;
+            this.altUnityObject = altUnityObject;
         }
-        public System.Collections.Generic.List<AltUnityComponent> Execute()
+        public List<AltUnityComponent> Execute()
         {
-            SendCommand("getAllComponents", AltUnityObject.id.ToString());
+            SendCommand("getAllComponents", altUnityObject.id.ToString());
             string data = Recvall();
-            if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityComponent>>(data);
-            HandleErrors(data);
-            return null;
+            return JsonConvert.DeserializeObject<List<AltUnityComponent>>(data);
+
         }
     }
 }

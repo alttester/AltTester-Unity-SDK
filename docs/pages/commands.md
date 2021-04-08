@@ -2530,6 +2530,47 @@ Invokes static methods from your game.
 
 ```
 
+### AltUnity Commands
+
+
+#### SetServerLogging
+
+Sets the level of logging on AltUnity Server
+
+**_Parameters_**
+
+| Name  | Type   | Required | Description                      |
+| ----- | ------ | -------- | -------------------------------- |
+| logger | AltUnityLogger | Yes      | The type of logger |
+| logLevel | AltUnityLogLevel | Yes      | The logging level |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        driver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        driver.SetServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+
+    .. code-tab:: java
+
+        driver.setServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        driver.setServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+
+    .. code-tab:: py
+
+        driver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        driver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+
+```
+
+
 ## AltUnityObject
 
 The **AltUnityObject** class represents the objects present in the game and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.

@@ -1,37 +1,39 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Altom.AltUnityDriver;
+using UnityEditor.SceneManagement;
+using NLog;
+using NLog.Layouts;
+using Altom.Editor.Logging;
 
 namespace Altom.Editor
 {
     public class AltUnityTesterEditor : UnityEditor.EditorWindow
     {
-        private UnityEngine.UI.Button _android;
-        UnityEngine.Object _obj;
+        private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
         public static bool needsRepaiting = false;
-
         public static AltUnityEditorConfiguration EditorConfiguration;
         public static AltUnityTesterEditor _window;
+        public static int selectedTest = -1;
 
-        public static NUnit.Framework.Internal.TestSuite _testSuite;
+        //TestResult after running a test
+        public static bool isTestRunResultAvailable = false;
+        public static int reportTestPassed;
+        public static int reportTestFailed;
+        public static double timeTestRan;
 
-        // public TestRunDelegate CallRunDelegateCommandline = new TestRunDelegate();
+        public static List<AltUnityDevice> devices = new List<AltUnityDevice>();
 
+        UnityEngine.Object _obj;
         private static UnityEngine.Texture2D passIcon;
         private static UnityEngine.Texture2D failIcon;
         private static UnityEngine.Texture2D downArrowIcon;
         private static UnityEngine.Texture2D upArrowIcon;
-        private static UnityEngine.Texture2D infoIcon;
-        private static UnityEngine.Texture2D openFileIcon;
         private static UnityEngine.Texture2D xIcon;
         private static UnityEngine.Texture2D reloadIcon;
 
-
-        public static int selectedTest = -1;
-        private static UnityEngine.Color defaultColor;
         private static UnityEngine.Color greenColor = new UnityEngine.Color(0.0f, 0.5f, 0.2f, 1f);
         private static UnityEngine.Color redColor = new UnityEngine.Color(0.7f, 0.15f, 0.15f, 1f);
         private static UnityEngine.Color selectedTestColor = new UnityEngine.Color(1f, 1f, 1f, 1f);
@@ -45,11 +47,9 @@ namespace Altom.Editor
         private static UnityEngine.Texture2D evenNumberTestTexture;
         private static UnityEngine.Texture2D portForwardingTexture;
 
-
         private static long timeSinceLastClick;
         UnityEngine.Vector2 _scrollPosition;
         private UnityEngine.Vector2 _scrollPositonTestResult;
-
 
         private bool _foldOutScenes = true;
         private bool _foldOutBuildSettings = true;
@@ -57,15 +57,8 @@ namespace Altom.Editor
         private bool _foldOutIosSettings = true;
         private bool _foldOutAltUnityServerSettings = true;
 
-        //TestResult after running a test
-        public static bool isTestRunResultAvailable = false;
-        public static int reportTestPassed;
-        public static int reportTestFailed;
-        public static double timeTestRan;
 
-        public static List<AltUnityDevice> devices = new List<AltUnityDevice>();
-        // public static System.Collections.Generic.Dictionary<string, int> iosForwards = new System.Collections.Generic.Dictionary<string, int>();
-
+        #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
         [UnityEditor.MenuItem("AltUnity Tools/AltUnityTester", false, 80)]
         public static void ShowWindow()
@@ -74,17 +67,78 @@ namespace Altom.Editor
             _window = (AltUnityTesterEditor)GetWindow(typeof(AltUnityTesterEditor));
             _window.minSize = new UnityEngine.Vector2(600, 100);
             _window.Show();
+        }
 
+        [UnityEditor.MenuItem("Assets/Create/AltUnityTest", true, 80)]
+        public static bool CanCreateAltUnityTest()
+        {
+            return (getPathForSelectedItem() + "/").Contains("/Editor/");
+        }
+
+        [UnityEditor.MenuItem("Assets/Create/AltUnityTest", false, 80)]
+        public static void CreateAltUnityTest()
+        {
+            var templatePath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("DefaultTestExample")[0]);
+            string folderPath = getPathForSelectedItem();
+            string newFilePath = System.IO.Path.Combine(folderPath, "NewAltUnityTest.cs");
+#if UNITY_2019_1_OR_NEWER
+            UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath, newFilePath);
+#else
+            System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            if (method == null)
+                throw new Altom.AltUnityDriver.NotFoundException("Method to create Script file was not found");
+            method.Invoke((object)null, new object[2]
+            {
+                (object) templatePath,
+                (object) newFilePath
+            });
+#endif
+        }
+
+        [UnityEditor.MenuItem("AltUnity Tools/CreateAltUnityTesterPackage", false, 800)]
+        public static void CreateAltUnityTesterPackage()
+        {
+            UnityEngine.Debug.Log("AltUnityTester - Unity Package creation started...");
+            var version = AltUnityRunner.VERSION.Replace('.', '_');
+            string packageName = "AltUnityTester_" + version + ".unitypackage";
+            string assetPathNames = "Assets/AltUnityTester";
+            UnityEditor.AssetDatabase.ExportPackage(assetPathNames, packageName, UnityEditor.ExportPackageOptions.Recurse);
+            UnityEngine.Debug.Log("AltUnityTester - Unity Package done.");
+        }
+
+        [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObject", false, 800)]
+        public static void AddIdComponentToEveryObjectInTheProject()
+        {
+            var rootObjects = new List<UnityEngine.GameObject>();
+            UnityEngine.SceneManagement.Scene scene = EditorSceneManager.GetActiveScene();
+            scene.GetRootGameObjects(rootObjects);
+
+            // iterate root objects and do something
+            for (int i = 0; i < rootObjects.Count; ++i)
+            {
+                addComponentToObjectAndHisChildren(rootObjects[i]);
+            }
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
         }
 
 
-        private void OnFocus()
+        [UnityEditor.MenuItem("AltUnity Tools/RemoveAltIdFromEveryObject", false, 800)]
+        public static void RemoveIdComponentFromEveryObjectInTheProject()
         {
-            var color = UnityEngine.Color.black;
-            if (UnityEditor.EditorGUIUtility.isProSkin)
+            var scenes = altUnityGetAllScenes();
+            foreach (var scene in scenes)
             {
-                color = UnityEngine.Color.white;
+                EditorSceneManager.OpenScene(scene);
+                removeComponentFromEveryObjectInTheScene();
             }
+        }
+
+        #endregion
+
+        #region Unity Events
+        protected void OnFocus()
+        {
             if (EditorConfiguration == null)
             {
                 InitEditorConfiguration();
@@ -102,32 +156,27 @@ namespace Altom.Editor
             {
                 var findIcon = UnityEditor.AssetDatabase.FindAssets("16px-indicator-pass");
                 passIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
-
             }
             if (downArrowIcon == null)
             {
                 var findIcon = UnityEditor.EditorGUIUtility.isProSkin ? UnityEditor.AssetDatabase.FindAssets("downArrowIcon") : UnityEditor.AssetDatabase.FindAssets("downArrowIconDark");
                 downArrowIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
-
             }
             if (upArrowIcon == null)
             {
                 var findIcon = UnityEditor.EditorGUIUtility.isProSkin ? UnityEditor.AssetDatabase.FindAssets("upArrowIcon") : UnityEditor.AssetDatabase.FindAssets("upArrowIconDark");
                 upArrowIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
-
             }
 
             if (xIcon == null)
             {
                 var findIcon = UnityEditor.EditorGUIUtility.isProSkin ? UnityEditor.AssetDatabase.FindAssets("xIcon") : UnityEditor.AssetDatabase.FindAssets("xIconDark");
                 xIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
-
             }
             if (reloadIcon == null)
             {
                 var findIcon = UnityEditor.EditorGUIUtility.isProSkin ? UnityEditor.AssetDatabase.FindAssets("reloadIcon") : UnityEditor.AssetDatabase.FindAssets("reloadIconDark");
                 reloadIcon = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findIcon[0]));
-
             }
 
             if (selectedTestTexture == null)
@@ -147,47 +196,10 @@ namespace Altom.Editor
                 portForwardingTexture = MakeTexture(20, 20, greenColor);
             }
 
-            GetListOfSceneFromEditor();
+            getListOfSceneFromEditor();
             AltUnityTestRunner.SetUpListTest();
-
-
         }
-
-        private void GetListOfSceneFromEditor()
-        {
-            var newSceneses = new List<AltUnityMyScenes>();
-            foreach (var scene in UnityEditor.EditorBuildSettings.scenes)
-            {
-                newSceneses.Add(new AltUnityMyScenes(scene.enabled, scene.path, 0));
-            }
-
-            EditorConfiguration.Scenes = newSceneses;
-        }
-
-
-        public static void InitEditorConfiguration()
-        {
-            if (UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditorSettings").Length == 0)
-            {
-                var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
-                altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
-                EditorConfiguration = UnityEngine.ScriptableObject.CreateInstance<AltUnityEditorConfiguration>();
-                EditorConfiguration.MyTests = null;
-                UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltUnityTesterEditorSettings.asset");
-                UnityEditor.AssetDatabase.SaveAssets();
-
-            }
-            else
-            {
-                EditorConfiguration = UnityEditor.AssetDatabase.LoadAssetAtPath<AltUnityEditorConfiguration>(
-                    UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditorSettings")[0]));
-            }
-            UnityEditor.EditorUtility.SetDirty(EditorConfiguration);
-
-        }
-
-
-        void OnInspectorUpdate()
+        protected void OnInspectorUpdate()
         {
             Repaint();
             if (isTestRunResultAvailable)
@@ -201,8 +213,7 @@ namespace Altom.Editor
                 timeTestRan = 0;
             }
         }
-
-        private void OnGUI()
+        protected void OnGUI()
         {
 
             if (needsRepaiting)
@@ -218,15 +229,14 @@ namespace Altom.Editor
 
             if (!UnityEngine.Application.isPlaying && EditorConfiguration.RanInEditor)
             {
-                AfterExitPlayMode();
+                afterExitPlayMode();
 
             }
 
             DrawGUI();
 
         }
-
-        private void DrawGUI()
+        protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
             //----------------------Left Panel------------
@@ -237,22 +247,22 @@ namespace Altom.Editor
             _scrollPosition = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPosition, false, false, UnityEngine.GUILayout.MinWidth(leftSide));
             if (EditorConfiguration.MyTests != null)
             {
-                DisplayTestGui(EditorConfiguration.MyTests);
+                displayTestGui(EditorConfiguration.MyTests);
             }
 
             UnityEditor.EditorGUILayout.Separator();
 
-            DisplayBuildSettings();
+            displayBuildSettings();
             UnityEditor.EditorGUILayout.Separator();
 
-            DisplayLogSettings();
+            displayLogSettings();
 
             UnityEditor.EditorGUILayout.Separator();
 
-            DisplayAltUnityServerSettings();
+            displayAltUnityServerSettings();
             UnityEditor.EditorGUILayout.Separator();
 
-            DisplayPortForwarding(leftSide);
+            displayPortForwarding(leftSide);
 
 
             UnityEditor.EditorGUILayout.EndScrollView();
@@ -344,7 +354,7 @@ namespace Altom.Editor
             {
                 var found = false;
 
-                UnityEngine.SceneManagement.Scene scene = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(AltUnityBuilder.GetFirstSceneWhichWillBeBuilt());
+                UnityEngine.SceneManagement.Scene scene = EditorSceneManager.OpenScene(AltUnityBuilder.GetFirstSceneWhichWillBeBuilt());
                 if (scene.path.Equals(AltUnityBuilder.GetFirstSceneWhichWillBeBuilt()))
                 {
                     if (scene.GetRootGameObjects()
@@ -353,7 +363,7 @@ namespace Altom.Editor
                         UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
                         var altunityRunner = scene.GetRootGameObjects()
                             .First(a => a.name.Equals("AltUnityRunnerPrefab"));
-                        DestroyAltUnityRunner(altunityRunner);
+                        destroyAltUnityRunner(altunityRunner);
                         found = true;
                     }
 
@@ -384,7 +394,7 @@ namespace Altom.Editor
                     }
                     else
                     {
-                        RunInEditor();
+                        runInEditor();
                     }
                     UnityEngine.GUIUtility.ExitGUI();
 
@@ -406,7 +416,7 @@ namespace Altom.Editor
             {
                 if (UnityEngine.GUILayout.Button("Play in Editor"))
                 {
-                    RunInEditor();
+                    runInEditor();
                 }
             }
             else
@@ -489,8 +499,6 @@ namespace Altom.Editor
                 }
             }
 
-
-
             //Status test
 
             _scrollPositonTestResult = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPositonTestResult, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.ExpandHeight(true));
@@ -556,10 +564,6 @@ namespace Altom.Editor
                         UnityEngine.GUILayout.EndHorizontal();
                     }
                 }
-
-
-
-
             }
             else
             {
@@ -568,10 +572,73 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndScrollView();
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
+        }
+        #endregion
 
-
+        #region public methods
+        public static void InitEditorConfiguration()
+        {
+            if (UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditorSettings").Length == 0)
+            {
+                var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
+                altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
+                EditorConfiguration = CreateInstance<AltUnityEditorConfiguration>();
+                EditorConfiguration.MyTests = null;
+                UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltUnityTesterEditorSettings.asset");
+                UnityEditor.AssetDatabase.SaveAssets();
+            }
+            else
+            {
+                EditorConfiguration = UnityEditor.AssetDatabase.LoadAssetAtPath<AltUnityEditorConfiguration>(
+                    UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditorSettings")[0]));
+            }
+            UnityEditor.EditorUtility.SetDirty(EditorConfiguration);
         }
 
+        public static UnityEngine.Texture2D MakeTexture(int width, int height, UnityEngine.Color col)
+        {
+            UnityEngine.Color[] pix = new UnityEngine.Color[width * height];
+
+            for (int i = 0; i < pix.Length; i++)
+                pix[i] = col;
+
+            var result = new UnityEngine.Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+
+            return result;
+        }
+
+        public static void AddAllScenes()
+        {
+            var scenesToBeAddedGuid = UnityEditor.AssetDatabase.FindAssets("t:SceneAsset");
+            EditorConfiguration.Scenes = new System.Collections.Generic.List<AltUnityMyScenes>();
+            foreach (var sceneGuid in scenesToBeAddedGuid)
+            {
+                var scenePath = UnityEditor.AssetDatabase.GUIDToAssetPath(sceneGuid);
+                EditorConfiguration.Scenes.Add(new AltUnityMyScenes(false, scenePath, 0));
+
+            }
+
+            UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
+        }
+
+        public static void SelectAllScenes()
+        {
+            foreach (var scene in EditorConfiguration.Scenes)
+            {
+                scene.ToBeBuilt = true;
+            }
+            UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
+        }
+
+        #endregion
+        private static void swap(int index1, int index2)
+        {
+            AltUnityMyScenes backUp = EditorConfiguration.Scenes[index1];
+            EditorConfiguration.Scenes[index1] = EditorConfiguration.Scenes[index2];
+            EditorConfiguration.Scenes[index2] = backUp;
+        }
         private static void browseBuildLocation()
         {
             UnityEngine.GUILayout.BeginHorizontal();
@@ -585,18 +652,29 @@ namespace Altom.Editor
             UnityEngine.GUILayout.EndHorizontal();
         }
 
-        private void DisplayPortForwarding(float widthColumn)
+        private void getListOfSceneFromEditor()
+        {
+            var newSceneses = new List<AltUnityMyScenes>();
+            foreach (var scene in UnityEditor.EditorBuildSettings.scenes)
+            {
+                newSceneses.Add(new AltUnityMyScenes(scene.enabled, scene.path, 0));
+            }
+
+            EditorConfiguration.Scenes = newSceneses;
+        }
+
+        private void displayPortForwarding(float widthColumn)
         {
             _foldOutScenes = UnityEditor.EditorGUILayout.Foldout(_foldOutScenes, "Port Forwarding");
-            var guiStyleBolded = SetTextGuiStyle();
+            var guiStyleBolded = setTextGuiStyle();
             guiStyleBolded.fontStyle = UnityEngine.FontStyle.Bold;
 
-            var guiStyleNormal = SetTextGuiStyle();
+            var guiStyleNormal = setTextGuiStyle();
 
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.BeginVertical();
-            widthColumn = widthColumn - 30;
+            widthColumn -= 30;
             if (_foldOutScenes)
             {
                 UnityEngine.GUILayout.BeginVertical(UnityEngine.GUI.skin.textField, UnityEngine.GUILayout.MaxHeight(30));
@@ -609,7 +687,7 @@ namespace Altom.Editor
                 UnityEngine.GUILayout.BeginHorizontal();
                 if (UnityEngine.GUILayout.Button(reloadIcon, UnityEngine.GUILayout.Width(widthColumn / 10)))
                 {
-                    RefreshDeviceList();
+                    refreshDeviceList();
                 }
                 UnityEngine.GUILayout.EndHorizontal();
                 UnityEngine.GUILayout.EndHorizontal();
@@ -640,7 +718,7 @@ namespace Altom.Editor
                                 }
 #endif
                                 device.Active = false;
-                                RefreshDeviceList();
+                                refreshDeviceList();
                             }
                         }
                         else
@@ -656,7 +734,7 @@ namespace Altom.Editor
                                     var response = AltUnityPortForwarding.ForwardAndroid(device.LocalPort, device.RemotePort, device.DeviceId, EditorConfiguration.AdbPath);
                                     if (!response.Equals("Ok"))
                                     {
-                                        UnityEngine.Debug.LogError(response);
+                                        logger.Error(response);
                                     }
                                 }
 #if UNITY_EDITOR_OSX
@@ -671,22 +749,17 @@ namespace Altom.Editor
                                     }
                                     else
                                     {
-                                        UnityEngine.Debug.LogError(response);
+                                        logger.Error(response);
                                     }
 
                                 }
-
 #endif
-                                RefreshDeviceList();
+                                refreshDeviceList();
                             }
-
                         }
 
                         UnityEngine.GUILayout.EndHorizontal();
-
                     }
-
-
                 }
                 else
                 {
@@ -699,7 +772,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 
-        private void RefreshDeviceList()
+        private void refreshDeviceList()
         {
             List<AltUnityDevice> adbDevices = AltUnityPortForwarding.GetDevicesAndroid(EditorConfiguration.AdbPath);
             List<AltUnityDevice> androidForwardedDevices = AltUnityPortForwarding.GetForwardedDevicesAndroid(EditorConfiguration.AdbPath);
@@ -729,34 +802,33 @@ namespace Altom.Editor
             }
 #endif
 
-
             devices = adbDevices;
 #if UNITY_EDITOR_OSX
             devices.AddRange(iOSDEvices);
 #endif
         }
 
-        private void DisplayAltUnityServerSettings()
+        private void displayAltUnityServerSettings()
         {
             _foldOutAltUnityServerSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutAltUnityServerSettings, "AltUnityServer Settings");
             if (_foldOutAltUnityServerSettings)
             {
-                LabelAndInputFieldHorizontalLayout("Request separator", ref EditorConfiguration.RequestSeparator);
-                LabelAndInputFieldHorizontalLayout("Request ending", ref EditorConfiguration.RequestEnding);
-                LabelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
+                labelAndInputFieldHorizontalLayout("Request separator", ref EditorConfiguration.RequestSeparator);
+                labelAndInputFieldHorizontalLayout("Request ending", ref EditorConfiguration.RequestEnding);
+                labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
             }
         }
 
-        private void AfterExitPlayMode()
+        private void afterExitPlayMode()
         {
-            RemoveAltUnityRunnerPrefab();
+            removeAltUnityRunnerPrefab();
             AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             EditorConfiguration.RanInEditor = false;
         }
 
-        private static void RemoveAltUnityRunnerPrefab()
+        private static void removeAltUnityRunnerPrefab()
         {
-            var activeScene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();
+            var activeScene = EditorSceneManager.GetActiveScene();
             var altUnityRunners = activeScene.GetRootGameObjects()
                 .Where(gameObject => gameObject.name.Equals("AltUnityRunnerPrefab")).ToList();
             if (altUnityRunners.Count != 0)
@@ -766,40 +838,35 @@ namespace Altom.Editor
                     DestroyImmediate(altUnityRunner);
 
                 }
-                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
-                UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+                EditorSceneManager.SaveOpenScenes();
             }
-
         }
 
-
-        private void RunInEditor()
+        private void runInEditor()
         {
             AltUnityBuilder.InsertAltUnityInTheActiveScene();
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             UnityEditor.EditorApplication.isPlaying = true;
-
         }
 
-        private void DisplayBuildSettings()
+        private void displayBuildSettings()
         {
             _foldOutBuildSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutBuildSettings, "Build Settings");
             if (_foldOutBuildSettings)
             {
-
                 var companyName = UnityEditor.PlayerSettings.companyName;
-                LabelAndInputFieldHorizontalLayout("Company Name", ref companyName);
+                labelAndInputFieldHorizontalLayout("Company Name", ref companyName);
                 UnityEditor.PlayerSettings.companyName = companyName;
 
                 var productName = UnityEditor.PlayerSettings.productName;
-                LabelAndInputFieldHorizontalLayout("Product Name", ref productName);
+                labelAndInputFieldHorizontalLayout("Product Name", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
-                LabelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
-                LabelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
-                LabelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
-
+                labelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
+                labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
+                labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
 
                 switch (EditorConfiguration.platform)
                 {
@@ -808,12 +875,12 @@ namespace Altom.Editor
                         if (_foldOutIosSettings)
                         {
                             string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
-                            LabelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
+                            labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
                             if (androidBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android))
                             {
                                 UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android, androidBundleIdentifier);
                             }
-                            LabelAndInputFieldHorizontalLayout("Adb Path:", ref EditorConfiguration.AdbPath);
+                            labelAndInputFieldHorizontalLayout("Adb Path:", ref EditorConfiguration.AdbPath);
                         }
                         break;
                     case AltUnityPlatform.Editor:
@@ -826,39 +893,37 @@ namespace Altom.Editor
                         if (_foldOutIosSettings)
                         {
                             string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
-                            LabelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
+                            labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
                             if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS))
                             {
                                 UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
                             }
 
                             var appleDevoleperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
-                            LabelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDevoleperTeamID);
+                            labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDevoleperTeamID);
                             UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDevoleperTeamID;
 
                             var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
-                            LabelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
+                            labelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
                             UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning = appleEnableAutomaticsSigning;
 
-                            LabelAndInputFieldHorizontalLayout("Iproxy Path: ", ref EditorConfiguration.IProxyPath);
-                            LabelAndInputFieldHorizontalLayout("Xcrun Path: ", ref EditorConfiguration.XcrunPath);
+                            labelAndInputFieldHorizontalLayout("Iproxy Path: ", ref EditorConfiguration.IProxyPath);
+                            labelAndInputFieldHorizontalLayout("Xcrun Path: ", ref EditorConfiguration.XcrunPath);
                         }
-
                         break;
 #endif
                 }
 
-
-                DisplayScenes();
+                displayScenes();
             }
         }
 
-        private void DisplayLogSettings()
+        private void displayLogSettings()
         {
             _foldOutLogSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutLogSettings, "Log Settings");
             if (_foldOutLogSettings)
             {
-                LabelAndInputFieldHorizontalLayout("Max Length (Optional)", ref EditorConfiguration.MaxLogLength);
+                labelAndInputFieldHorizontalLayout("Max Length (Optional)", ref EditorConfiguration.MaxLogLength);
                 if (string.IsNullOrEmpty(EditorConfiguration.MaxLogLength))
                 {
                     EditorConfiguration.MaxLogLength = "";
@@ -877,12 +942,11 @@ namespace Altom.Editor
                     {
                         EditorConfiguration.MaxLogLength = "100";
                     }
-
                 }
             }
         }
 
-        private static void LabelAndCheckboxHorizontalLayout(string label, ref bool editorConfigVariable)
+        private static void labelAndCheckboxHorizontalLayout(string label, ref bool editorConfigVariable)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
@@ -893,7 +957,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 
-        private static void LabelAndInputFieldHorizontalLayout(string labelText, ref string editorConfigVariable)
+        private static void labelAndInputFieldHorizontalLayout(string labelText, ref string editorConfigVariable)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
@@ -901,7 +965,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 
-        private static void LabelAndInputFieldHorizontalLayout(string labelText, ref int editorConfigVariable)
+        private static void labelAndInputFieldHorizontalLayout(string labelText, ref int editorConfigVariable)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
@@ -909,13 +973,13 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 
-        private void DisplayScenes()
+        private void displayScenes()
         {
             _foldOutScenes = UnityEditor.EditorGUILayout.Foldout(_foldOutScenes, "SceneManager");
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.BeginVertical();
-            UnityEngine.GUIStyle guiStyle = SetTextGuiStyle();
+            UnityEngine.GUIStyle guiStyle = setTextGuiStyle();
             if (_foldOutScenes)
             {
                 if (EditorConfiguration.Scenes.Count != 0)
@@ -938,7 +1002,7 @@ namespace Altom.Editor
                         if (valToggle != scene.ToBeBuilt)
                         {
                             scene.ToBeBuilt = valToggle;
-                            UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+                            UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
                         }
                         var sceneName = scene.Path;
                         if (!EditorConfiguration.ScenePathDisplayed)
@@ -969,8 +1033,8 @@ namespace Altom.Editor
 
                             if (UnityEngine.GUILayout.Button(upArrowIcon, UnityEngine.GUILayout.MaxWidth(buttonWidth)))
                             {
-                                SceneMove(scene, true);
-                                UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+                                sceneMove(scene, true);
+                                UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
                             }
                         }
                         else
@@ -982,8 +1046,8 @@ namespace Altom.Editor
                         {
                             if (UnityEngine.GUILayout.Button(downArrowIcon, UnityEngine.GUILayout.MaxWidth(buttonWidth)))
                             {
-                                SceneMove(scene, false);
-                                UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+                                sceneMove(scene, false);
+                                UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
                             }
                         }
                         else
@@ -1004,7 +1068,7 @@ namespace Altom.Editor
 
                     if (sceneToBeRemoved != null)
                     {
-                        RemoveScene(sceneToBeRemoved);
+                        removeScene(sceneToBeRemoved);
                     }
 
                     UnityEngine.GUILayout.EndVertical();
@@ -1042,16 +1106,16 @@ namespace Altom.Editor
                     }
                     if (UnityEngine.GUILayout.Button("Deselect all scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
                     {
-                        DeselectAllScenes();
+                        deselectAllScenes();
                     }
                     if (UnityEngine.GUILayout.Button("Remove unselected scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
                     {
-                        RemoveNotSelectedScenes();
+                        removeNotSelectedScenes();
                     }
                     if (UnityEngine.GUILayout.Button("Remove all scenes", UnityEditor.EditorStyles.miniButtonRight, UnityEngine.GUILayout.MinWidth(30)))
                     {
                         EditorConfiguration.Scenes = new System.Collections.Generic.List<AltUnityMyScenes>();
-                        UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+                        UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
                     }
                     UnityEditor.EditorGUILayout.EndHorizontal();
                 }
@@ -1072,16 +1136,16 @@ namespace Altom.Editor
 
                     if (UnityEngine.GUILayout.Button("Deselect all scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
                     {
-                        DeselectAllScenes();
+                        deselectAllScenes();
                     }
                     if (UnityEngine.GUILayout.Button("Remove unselected scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
                     {
-                        RemoveNotSelectedScenes();
+                        removeNotSelectedScenes();
                     }
                     if (UnityEngine.GUILayout.Button("Remove all scenes", UnityEditor.EditorStyles.miniButtonRight, UnityEngine.GUILayout.MinWidth(30)))
                     {
                         EditorConfiguration.Scenes = new System.Collections.Generic.List<AltUnityMyScenes>();
-                        UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+                        UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
                     }
                     UnityEditor.EditorGUILayout.EndHorizontal();
                 }
@@ -1091,22 +1155,23 @@ namespace Altom.Editor
 
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
-
         }
 
-        private static UnityEngine.GUIStyle SetTextGuiStyle()
+        private static UnityEngine.GUIStyle setTextGuiStyle()
         {
-            var guiStyle = new UnityEngine.GUIStyle();
-            guiStyle.alignment = UnityEngine.TextAnchor.MiddleLeft;
-            guiStyle.stretchHeight = true;
+            var guiStyle = new UnityEngine.GUIStyle
+            {
+                alignment = UnityEngine.TextAnchor.MiddleLeft,
+                stretchHeight = true
+            };
             guiStyle.normal.textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black;
             guiStyle.wordWrap = true;
             return guiStyle;
         }
 
-        private void RemoveNotSelectedScenes()
+        private void removeNotSelectedScenes()
         {
-            System.Collections.Generic.List<AltUnityMyScenes> copyMySceneses = new System.Collections.Generic.List<AltUnityMyScenes>();
+            var copyMySceneses = new List<AltUnityMyScenes>();
             foreach (var scene in EditorConfiguration.Scenes)
             {
                 if (scene.ToBeBuilt)
@@ -1116,30 +1181,21 @@ namespace Altom.Editor
             }
 
             EditorConfiguration.Scenes = copyMySceneses;
-            UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+            UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
         }
 
-        private void DeselectAllScenes()
+        private void deselectAllScenes()
         {
             foreach (var scene in EditorConfiguration.Scenes)
             {
                 scene.ToBeBuilt = false;
             }
-            UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
+            UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
 
         }
 
-        public static void SelectAllScenes()
-        {
-            foreach (var scene in EditorConfiguration.Scenes)
-            {
-                scene.ToBeBuilt = true;
-            }
-            UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
-        }
 
-
-        private void DisplayTestGui(System.Collections.Generic.List<AltUnityMyTest> tests)
+        private void displayTestGui(System.Collections.Generic.List<AltUnityMyTest> tests)
         {
             UnityEditor.EditorGUILayout.LabelField("Tests list", UnityEditor.EditorStyles.boldLabel);
             UnityEditor.EditorGUILayout.BeginHorizontal();
@@ -1170,7 +1226,7 @@ namespace Altom.Editor
 
                 if (tests.IndexOf(test) == selectedTest)
                 {
-                    UnityEngine.GUIStyle selectedTestStyle = new UnityEngine.GUIStyle();
+                    var selectedTestStyle = new UnityEngine.GUIStyle();
                     selectedTestStyle.normal.background = selectedTestTexture;
                     UnityEditor.EditorGUILayout.BeginHorizontal(selectedTestStyle);
                 }
@@ -1178,25 +1234,27 @@ namespace Altom.Editor
                 {
                     if (testCounter % 2 == 0)
                     {
-                        UnityEngine.GUIStyle evenNumberStyle = new UnityEngine.GUIStyle();
+                        var evenNumberStyle = new UnityEngine.GUIStyle();
                         evenNumberStyle.normal.background = evenNumberTestTexture;
                         UnityEditor.EditorGUILayout.BeginHorizontal(evenNumberStyle);
                     }
                     else
                     {
-                        UnityEngine.GUIStyle oddNumberStyle = new UnityEngine.GUIStyle();
+                        var oddNumberStyle = new UnityEngine.GUIStyle();
                         oddNumberStyle.normal.background = oddNumberTestTexture;
                         UnityEditor.EditorGUILayout.BeginHorizontal(oddNumberStyle);
                     }
                 }
                 UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(30 * parentNames.Count));
-                UnityEngine.GUIStyle gUIStyle = new UnityEngine.GUIStyle();
-                gUIStyle.alignment = UnityEngine.TextAnchor.MiddleLeft;
+                var gUIStyle = new UnityEngine.GUIStyle
+                {
+                    alignment = UnityEngine.TextAnchor.MiddleLeft
+                };
                 var valueChanged = UnityEditor.EditorGUILayout.Toggle(test.Selected, UnityEngine.GUILayout.Width(15));
                 if (valueChanged != test.Selected)
                 {
                     test.Selected = valueChanged;
-                    ChangeSelectionChildsAndParent(test);
+                    changeSelectionChildsAndParent(test);
                 }
 
                 var testName = test.TestName;
@@ -1215,8 +1273,8 @@ namespace Altom.Editor
 
                 if (test.Status == 0)
                 {
-                    UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black } };
-                    SelectTest(tests, test, testName, guiStyle);
+                    var guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black } };
+                    selectTest(tests, test, testName, guiStyle);
                 }
                 else
                 {
@@ -1228,8 +1286,8 @@ namespace Altom.Editor
                         icon = passIcon;
                     }
                     UnityEngine.GUILayout.Label(icon, gUIStyle, UnityEngine.GUILayout.Width(20));
-                    UnityEngine.GUIStyle guiStyle = new UnityEngine.GUIStyle { normal = { textColor = color } };
-                    SelectTest(tests, test, testName, guiStyle);
+                    var guiStyle = new UnityEngine.GUIStyle { normal = { textColor = color } };
+                    selectTest(tests, test, testName, guiStyle);
                 }
                 UnityEngine.GUILayout.FlexibleSpace();
                 if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
@@ -1251,7 +1309,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndVertical();
         }
 
-        private static void SelectTest(System.Collections.Generic.List<AltUnityMyTest> tests, AltUnityMyTest test, string testName, UnityEngine.GUIStyle guiStyle)
+        private static void selectTest(System.Collections.Generic.List<AltUnityMyTest> tests, AltUnityMyTest test, string testName, UnityEngine.GUIStyle guiStyle)
         {
             if (!test.IsSuite)
             {
@@ -1283,7 +1341,7 @@ namespace Altom.Editor
             }
         }
 
-        private void ChangeSelectionChildsAndParent(AltUnityMyTest test)
+        private void changeSelectionChildsAndParent(AltUnityMyTest test)
         {
             if (test.Type.ToString().Equals("NUnit.Framework.Internal.TestAssembly"))
             {
@@ -1323,49 +1381,24 @@ namespace Altom.Editor
                 }
 
             }
-
         }
 
-        private static void SceneMove(AltUnityMyScenes scene, bool up)
+        private static void sceneMove(AltUnityMyScenes scene, bool up)
         {
             int index = EditorConfiguration.Scenes.IndexOf(scene);
             if (up)
             {
-                Swap(index, index - 1);
+                swap(index, index - 1);
             }
             else
             {
-                Swap(index, index + 1);
+                swap(index, index + 1);
             }
         }
 
-
-        public static void Swap(int index1, int index2)
+        private static UnityEditor.EditorBuildSettingsScene[] pathFromTheSceneInCurrentList()
         {
-            AltUnityMyScenes backUp = EditorConfiguration.Scenes[index1];
-            EditorConfiguration.Scenes[index1] = EditorConfiguration.Scenes[index2];
-            EditorConfiguration.Scenes[index2] = backUp;
-        }
-
-
-        public static void AddAllScenes()
-        {
-            var scenesToBeAddedGuid = UnityEditor.AssetDatabase.FindAssets("t:SceneAsset");
-            EditorConfiguration.Scenes = new System.Collections.Generic.List<AltUnityMyScenes>();
-            foreach (var sceneGuid in scenesToBeAddedGuid)
-            {
-                var scenePath = UnityEditor.AssetDatabase.GUIDToAssetPath(sceneGuid);
-                EditorConfiguration.Scenes.Add(new AltUnityMyScenes(false, scenePath, 0));
-
-            }
-
-            UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
-
-        }
-
-        private static UnityEditor.EditorBuildSettingsScene[] PathFromTheSceneInCurrentList()
-        {
-            System.Collections.Generic.List<UnityEditor.EditorBuildSettingsScene> listofPath = new System.Collections.Generic.List<UnityEditor.EditorBuildSettingsScene>();
+            var listofPath = new List<UnityEditor.EditorBuildSettingsScene>();
             foreach (var scene in EditorConfiguration.Scenes)
             {
                 listofPath.Add(new UnityEditor.EditorBuildSettingsScene(scene.Path, scene.ToBeBuilt));
@@ -1374,70 +1407,13 @@ namespace Altom.Editor
             return listofPath.ToArray();
         }
 
-        private void RemoveScene(AltUnityMyScenes scene)
+        private void removeScene(AltUnityMyScenes scene)
         {
-
             EditorConfiguration.Scenes.Remove(scene);
-            UnityEditor.EditorBuildSettings.scenes = PathFromTheSceneInCurrentList();
-
+            UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
         }
 
-        public static UnityEngine.Texture2D MakeTexture(int width, int height, UnityEngine.Color col)
-        {
-            UnityEngine.Color[] pix = new UnityEngine.Color[width * height];
-
-            for (int i = 0; i < pix.Length; i++)
-                pix[i] = col;
-
-            UnityEngine.Texture2D result = new UnityEngine.Texture2D(width, height);
-            result.SetPixels(pix);
-            result.Apply();
-
-            return result;
-        }
-
-
-
-        [UnityEditor.MenuItem("Assets/Create/AltUnityTest", false, 80)]
-        public static void CreateAltUnityTest()
-        {
-
-            var templatePath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("DefaultTestExample")[0]);
-            string folderPath = GetPathForSelectedItem();
-            string newFilePath = System.IO.Path.Combine(folderPath, "NewAltUnityTest.cs");
-#if UNITY_2019_1_OR_NEWER
-            UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath, newFilePath);
-#else
-        System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
-        if (method == null)
-            throw new Altom.AltUnityDriver.NotFoundException("Method to create Script file was not found");
-        method.Invoke((object)null, new object[2]
-        {
-            (object) templatePath,
-            (object) newFilePath
-        });
-#endif
-
-        }
-
-        [UnityEditor.MenuItem("Assets/Create/AltUnityTest", true, 80)]
-        public static bool CanCreateAltUnityTest()
-        {
-            return (GetPathForSelectedItem() + "/").Contains("/Editor/");
-        }
-
-        [UnityEditor.MenuItem("AltUnity Tools/CreateAltUnityTesterPackage", false, 800)]
-        public static void CreateAltUnityTesterPackage()
-        {
-            UnityEngine.Debug.Log("AltUnityTester - Unity Package creation started...");
-            var version = AltUnityRunner.VERSION.Replace('.', '_');
-            string packageName = "AltUnityTester_" + version + ".unitypackage";
-            string assetPathNames = "Assets/AltUnityTester";
-            UnityEditor.AssetDatabase.ExportPackage(assetPathNames, packageName, UnityEditor.ExportPackageOptions.Recurse);
-            UnityEngine.Debug.Log("AltUnityTester - Unity Package done.");
-        }
-
-        private static string GetPathForSelectedItem()
+        private static string getPathForSelectedItem()
         {
             string path = UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.Selection.activeObject);
             if (System.IO.Path.GetExtension(path) != "") //checks if current item is a folder or a file
@@ -1447,42 +1423,16 @@ namespace Altom.Editor
             return path;
         }
 
-        private static void DestroyAltUnityRunner(UnityEngine.Object altUnityRunner)
+        private static void destroyAltUnityRunner(UnityEngine.Object altUnityRunner)
         {
 
             DestroyImmediate(altUnityRunner);
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
-            UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene(AltUnityBuilder.PreviousScenePath);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveOpenScenes();
+            EditorSceneManager.OpenScene(AltUnityBuilder.PreviousScenePath);
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObject", false, 800)]
-        public static void AddIdComponentToEveryObjectInTheProject()
-        {
-            var scenes = AltUnityGetAllScenes();
-            foreach (var scene in scenes)
-            {
-                UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scene);
-                AddComponentToEveryObjectInTheScene();
-            }
-        }
-
-        private static void AddComponentToEveryObjectInTheScene()
-        {
-            System.Collections.Generic.List<UnityEngine.GameObject> rootObjects = new List<UnityEngine.GameObject>();
-            UnityEngine.SceneManagement.Scene scene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();
-            scene.GetRootGameObjects(rootObjects);
-
-            // iterate root objects and do something
-            for (int i = 0; i < rootObjects.Count; ++i)
-            {
-                AddComponentToObjectAndHisChildren(rootObjects[i]);
-            }
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
-            UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
-        }
-
-        private static void AddComponentToObjectAndHisChildren(UnityEngine.GameObject gameObject)
+        private static void addComponentToObjectAndHisChildren(UnityEngine.GameObject gameObject)
         {
             var component = gameObject.GetComponent<AltUnityId>();
             if (component == null)
@@ -1493,56 +1443,43 @@ namespace Altom.Editor
             int childCount = gameObject.transform.childCount;
             for (int j = 0; j < childCount; j++)
             {
-                AddComponentToObjectAndHisChildren(gameObject.transform.GetChild(j).gameObject);
+                addComponentToObjectAndHisChildren(gameObject.transform.GetChild(j).gameObject);
             }
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/RemoveAltIdFromEveryObject", false, 800)]
-        public static void RemoveIdComponentFromEveryObjectInTheProject()
+        private static void removeComponentFromEveryObjectInTheScene()
         {
-            var scenes = AltUnityGetAllScenes();
-            foreach (var scene in scenes)
-            {
-                UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scene);
-                RemoveComponentFromEveryObjectInTheScene();
-            }
-        }
-
-
-        private static void RemoveComponentFromEveryObjectInTheScene()
-        {
-            System.Collections.Generic.List<UnityEngine.GameObject> rootObjects = new List<UnityEngine.GameObject>();
-            UnityEngine.SceneManagement.Scene scene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();
+            var rootObjects = new List<UnityEngine.GameObject>();
+            UnityEngine.SceneManagement.Scene scene = EditorSceneManager.GetActiveScene();
             scene.GetRootGameObjects(rootObjects);
 
             // iterate root objects and do something
             for (int i = 0; i < rootObjects.Count; ++i)
             {
-                RemoveComponentFromObjectAndHisChildren(rootObjects[i]);
+                removeComponentFromObjectAndHisChildren(rootObjects[i]);
             }
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
-            UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
         }
 
-        private static void RemoveComponentFromObjectAndHisChildren(UnityEngine.GameObject gameObject)
+        private static void removeComponentFromObjectAndHisChildren(UnityEngine.GameObject gameObject)
         {
             var component = gameObject.GetComponent<AltUnityId>();
             if (component != null)
             {
-                UnityEngine.GameObject.DestroyImmediate(component);
+                DestroyImmediate(component);
             }
             int childCount = gameObject.transform.childCount;
             for (int j = 0; j < childCount; j++)
             {
-                RemoveComponentFromObjectAndHisChildren(gameObject.transform.GetChild(j).gameObject);
+                removeComponentFromObjectAndHisChildren(gameObject.transform.GetChild(j).gameObject);
             }
         }
 
-
-        private static string[] AltUnityGetAllScenes()
+        private static string[] altUnityGetAllScenes()
         {
             string[] temp = UnityEditor.AssetDatabase.GetAllAssetPaths();
-            System.Collections.Generic.List<string> result = new System.Collections.Generic.List<string>();
+            var result = new List<string>();
             foreach (string s in temp)
             {
                 if (s.EndsWith(".unity")) result.Add(s);
@@ -1550,6 +1487,4 @@ namespace Altom.Editor
             return result.ToArray();
         }
     }
-
-
 }

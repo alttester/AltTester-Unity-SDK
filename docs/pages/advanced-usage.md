@@ -334,3 +334,110 @@ You can change the port for your game build from the AltUnityTesterEditor window
 ## Using AltUnity Server in Release mode
 
 By default AltUnity Server does not run in release mode. We recommended that you do not build your game in release mode with AltUnity Tester. That being said, if you do want to instrument your game with AltUnity Tester in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltUnityRunnerPrefab inside AltUnity Tester asset folder  `AltUnityTester/Prefab/AltUnityRunnerPrefab.prefab`
+
+
+## Logging
+
+There are two types of logging that can be configured in AltUnityTester. The logs from the driver (from the tests) and the logs from the server (from the instrumented game) 
+
+
+### AltUnity Server logging
+
+Logging is handled using a custom NLog LogFactory.  The Server LogFactory can be accessed here: `Altom.Server.Logging.ServerLogManager.Instance`
+
+
+There are two logger targets that you can configure on the server:
+ * FileLogger
+ * UnityLogger
+
+ Logging on the server side can be configured from the driver using the SetServerLogging command:
+
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        driver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        driver.SetServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+
+    .. code-tab:: java
+
+        driver.setServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        driver.setServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+
+    .. code-tab:: py
+
+        driver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        driver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+
+```
+
+
+
+### AltUnity Driver logging
+
+Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log4j` in Java. By default logging is disabled in the driver (tests). If you want to enable it you can set the logFlag in `AltUnityDriver` constructor.
+
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        Logging is handled using a custom NLog LogFactory.  The Server LogFactory can be accessed here: `Altom.AltUnityDriver.Logging.DriverLogManager.Instance`
+        
+        There are three logger targets that you can configure on the driver:
+
+        * FileLogger
+        * UnityLogger //available only when runnning tests from Unity
+        * ConsoleLogger //available only when runnning tests using the Nuget package
+
+        If you want to configure different level of logging for different targets you can use `Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info)`
+
+        .. code-block:: c#
+
+            var driver = new AltUnityDriver (logFlag=false); //starts altunity driver with logging disabled
+
+            var driver = new AltUnityDriver (logFlag=true); //starts altunity driver with logging enabled for Debug.Level; this is the default behaviour
+
+            Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info); //set logging level to Info for File target
+
+
+    
+    .. tab:: Java
+
+        Logging is handled via log4j. You can use log4j configuration files to customize your logging.
+
+        Setting the `logFlag` in `AltUnityDriver` initializes logger named `ro.altom.altunitytester` configured with two appenders, a file appender `AltUnityFileAppender` and a console appender `AltUnityConsoleAppender`
+            
+        .. code-block:: java
+
+            /* start altunity driver with logging enabled */
+            AltUnityDriverParams params = new AltUnityDriverParams();
+            params.logFlag = true;
+            AltUnityDriver driver = new AltUnityDriver(params);
+            
+            /* disable logging for ro.altom.altunitytester logger */
+            final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+            final Configuration config = ctx.getConfiguration();
+            config.getLoggerConfig("ro.altom.altunitytester").setLevel(Level.OFF);
+
+            ctx.updateLoggers();
+
+
+    .. tab:: Python
+        
+        Logging is handled via loguru.
+
+        Setting the `log_flag` to `False` in AltUnityDriver, all logs from `altunityrunner` package are disabled.
+
+        .. code-block:: python
+
+            # enable logging in driver:
+            loguru.logger.enable("altunityrunner")
+
+            # disable logging in driver:
+            loguru.logger.disable("altunityrunner")
+
+
+```

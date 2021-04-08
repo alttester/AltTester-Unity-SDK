@@ -1,24 +1,25 @@
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetAllProperties : AltBaseCommand
     {
         AltUnityComponent altUnityComponent;
-        AltUnityObject altUnityObject;
-        AltUnityPropertiesSelections altUnityPropertiesSelections;
+        readonly AltUnityObject altUnityObject;
+        readonly AltUnityPropertiesSelections altUnityPropertiesSelections;
         public AltUnityGetAllProperties(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject, AltUnityPropertiesSelections altUnityPropertiesSelections = AltUnityPropertiesSelections.ALLPROPERTIES) : base(socketSettings)
         {
             this.altUnityComponent = altUnityComponent;
             this.altUnityObject = altUnityObject;
             this.altUnityPropertiesSelections = altUnityPropertiesSelections;
         }
-        public System.Collections.Generic.List<AltUnityProperty> Execute()
+        public List<AltUnityProperty> Execute()
         {
-            var altComponent = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityComponent);
+            var altComponent = JsonConvert.SerializeObject(altUnityComponent);
             SendCommand("getAllProperties", altUnityObject.id.ToString(), altComponent, altUnityPropertiesSelections.ToString());
             string data = Recvall();
-            if (!data.Contains("error:")) return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityProperty>>(data);
-            HandleErrors(data);
-            return null;
+            return JsonConvert.DeserializeObject<List<AltUnityProperty>>(data);
         }
     }
 }

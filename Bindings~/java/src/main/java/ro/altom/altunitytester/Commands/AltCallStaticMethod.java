@@ -18,11 +18,6 @@ public class AltCallStaticMethod extends AltBaseCommand {
                 altCallStaticMethodParameters.getMethodName(), altCallStaticMethodParameters.getParameters(),
                 altCallStaticMethodParameters.getTypeOfParameters(), altCallStaticMethodParameters.getAssembly()));
         SendCommand("callComponentMethodForObject", "", actionInfo);
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return data;
-        }
-        handleErrors(data);
-        return "";
+        return recvall();
     }
 }

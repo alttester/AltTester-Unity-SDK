@@ -1,19 +1,27 @@
+
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+
+using NLog;
+
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
+using Altom.Server.Logging;
 using Assets.AltUnityTester.AltUnityServer.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer
 {
     class AltUnityReflectionMethodsCommand : AltUnityCommand
     {
+        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+
         protected AltUnityReflectionMethodsCommand(string[] parameters, int expectedParametersCount) : base(parameters, expectedParametersCount) { }
-        public System.Type GetType(string typeName, string assemblyName)
+
+        public Type GetType(string typeName, string assemblyName)
         {
-            var type = System.Type.GetType(typeName);
+            var type = Type.GetType(typeName);
             if (type != null)
                 return type;
             if (string.IsNullOrEmpty(assemblyName))
@@ -21,9 +29,8 @@ namespace Assets.AltUnityTester.AltUnityServer
                 if (typeName.Contains("."))
                 {
                     assemblyName = typeName.Substring(0, typeName.LastIndexOf('.'));
-                    LogMessage("assembly name: " + assemblyName);
 
-                    var assembly = System.Reflection.Assembly.Load(assemblyName);
+                    var assembly = Assembly.Load(assemblyName);
                     if (assembly == null)
                         throw new ComponentNotFoundException("Component not found");
                     type = assembly.GetType(typeName);
@@ -38,7 +45,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             {
                 try
                 {
-                    var assembly = System.Reflection.Assembly.Load(assemblyName);
+                    var assembly = Assembly.Load(assemblyName);
                     if (assembly.GetType(typeName) == null)
                         throw new ComponentNotFoundException("Component not found");
                     return assembly.GetType(typeName);
@@ -49,13 +56,19 @@ namespace Assets.AltUnityTester.AltUnityServer
                 }
             }
         }
-        protected System.Reflection.MemberInfo getMemberForObjectComponent(System.Type Type, string propertyName)
-        {
-            System.Reflection.PropertyInfo propertyInfo = Type.GetProperty(propertyName,
-                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
 
-            System.Reflection.FieldInfo fieldInfo = Type.GetField(propertyName,
-                 System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static);
+        public override string Execute()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected MemberInfo GetMemberForObjectComponent(Type Type, string propertyName)
+        {
+            PropertyInfo propertyInfo = Type.GetProperty(propertyName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+
+            FieldInfo fieldInfo = Type.GetField(propertyName,
+                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             if (propertyInfo != null)
                 return propertyInfo;
             if (fieldInfo != null)
@@ -63,9 +76,9 @@ namespace Assets.AltUnityTester.AltUnityServer
             throw new PropertyNotFoundException("Property " + propertyName + " not found");
         }
 
-        protected System.Reflection.MethodInfo[] GetMethodInfoWithSpecificName(System.Type componentType, string altActionMethod)
+        protected MethodInfo[] GetMethodInfoWithSpecificName(System.Type componentType, string altActionMethod)
         {
-            System.Reflection.MethodInfo[] methodInfos = componentType.GetMethods().Where(method => method.Name.Equals(altActionMethod)).ToArray();
+            MethodInfo[] methodInfos = componentType.GetMethods().Where(method => method.Name.Equals(altActionMethod)).ToArray();
 
             if (methodInfos.Length == 0)
             {
@@ -74,8 +87,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             return methodInfos;
         }
 
-
-        protected System.Reflection.MethodInfo GetMethodToBeInvoked(System.Reflection.MethodInfo[] methodInfos, AltUnityObjectAction altUnityObjectAction)
+        protected MethodInfo GetMethodToBeInvoked(MethodInfo[] methodInfos, AltUnityObjectAction altUnityObjectAction)
         {
             Type[] parameterTypes = getParameterTypes(altUnityObjectAction);
             var parameters = altUnityObjectAction.Parameters.Split(new char[] { '?' });
@@ -105,18 +117,19 @@ namespace Assets.AltUnityTester.AltUnityServer
 
             throw new MethodWithGivenParametersNotFoundException(errorMessage);
         }
-        protected string InvokeMethod(System.Reflection.MethodInfo methodInfo, AltUnityObjectAction altAction, object component)
+
+        protected string InvokeMethod(MethodInfo methodInfo, AltUnityObjectAction altAction, object component)
         {
             if (altAction.Parameters == string.Empty)
             {
                 return Newtonsoft.Json.JsonConvert.SerializeObject(methodInfo.Invoke(component, null));
             }
 
-            System.Reflection.ParameterInfo[] parameterInfos = methodInfo.GetParameters();
+            ParameterInfo[] parameterInfos = methodInfo.GetParameters();
 
             string[] parameterStrings = altAction.Parameters.Split('?');
             if (parameterInfos.Length != parameterStrings.Length)
-                throw new System.Reflection.TargetParameterCountException();
+                throw new TargetParameterCountException();
 
             object[] parameters = new object[parameterInfos.Length];
             for (int i = 0; i < parameterInfos.Length; i++)
@@ -147,9 +160,8 @@ namespace Assets.AltUnityTester.AltUnityServer
 
         protected string GetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, int maxDepth)
         {
-            string propertyName;
-            int index = getArrayIndex(fieldArray[0], out propertyName);
-            System.Reflection.MemberInfo memberInfo = getMemberForObjectComponent(componentType, propertyName);
+            int index = getArrayIndex(fieldArray[0], out string propertyName);
+            MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
             {
@@ -160,21 +172,61 @@ namespace Assets.AltUnityTester.AltUnityServer
             for (int i = 1; i < fieldArray.Length; i++)
             {
                 index = getArrayIndex(fieldArray[i], out propertyName);
-                memberInfo = getMemberForObjectComponent(value.GetType(), propertyName);
+                memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
                 value = getValue(value, memberInfo, index);
             }
-            return SerializeMemberValue(value, value.GetType(), maxDepth);
+            return serializeMemberValue(value, value.GetType(), maxDepth);
         }
-        private object getValue(object instance, System.Reflection.MemberInfo memberInfo, int index)
+
+
+        protected string SetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, string valueString)
+        {
+
+            int index = getArrayIndex(fieldArray[0], out string propertyName);
+            MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
+            var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
+            if (instance == null)
+            {
+                throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
+            }
+            if (fieldArray.Length > 1)
+            {
+                object value = getValue(instance, memberInfo, index);
+
+                for (int i = 1; i < fieldArray.Length - 1; i++)
+                {
+                    index = getArrayIndex(fieldArray[i], out propertyName);
+                    memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
+                    value = getValue(value, memberInfo, index);
+
+                }
+
+                index = getArrayIndex(fieldArray[fieldArray.Length - 1], out propertyName);
+                memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
+                setValue(value, memberInfo, index, valueString);
+            }
+            else
+            {
+                setValue(instance, memberInfo, index, valueString);
+            }
+            return "valueSet";
+        }
+
+        protected object GetInstance(object instance, string[] methodPathSplited, Type componentType = null)
+        {
+            return getInstance(instance, methodPathSplited, 0, componentType);
+        }
+
+        private object getValue(object instance, MemberInfo memberInfo, int index)
         {
             object value = null;
-            if (memberInfo.MemberType == System.Reflection.MemberTypes.Property)
+            if (memberInfo.MemberType == MemberTypes.Property)
             {
-                value = ((System.Reflection.PropertyInfo)memberInfo).GetValue(instance, null);
+                value = ((PropertyInfo)memberInfo).GetValue(instance, null);
             }
-            else if (memberInfo.MemberType == System.Reflection.MemberTypes.Field)
+            else if (memberInfo.MemberType == MemberTypes.Field)
             {
-                value = ((System.Reflection.FieldInfo)memberInfo).GetValue(instance);
+                value = ((FieldInfo)memberInfo).GetValue(instance);
             }
             if (index == -1)
             {
@@ -182,8 +234,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
             else
             {
-                System.Collections.IEnumerable enumerable = value as System.Collections.IEnumerable;
-                if (enumerable != null)
+                if (value is System.Collections.IEnumerable enumerable)
                 {
                     int i = 0;
                     foreach (object element in enumerable)
@@ -196,9 +247,9 @@ namespace Assets.AltUnityTester.AltUnityServer
                     }
                 }
                 throw new AltUnityException(AltUnityErrors.errorIndexOutOfRange);
-
             }
         }
+
         private int getArrayIndex(string arrayProperty, out string propertyName)
         {
             if (Regex.IsMatch(arrayProperty, @".*\[[0-9]\]*"))
@@ -214,54 +265,18 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
         }
 
-        protected string SetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, string valueString)
+        private void setValue(object instance, MemberInfo memberInfo, int index, string valueString)
         {
-
-            string propertyName;
-            int index = getArrayIndex(fieldArray[0], out propertyName);
-            System.Reflection.MemberInfo memberInfo = getMemberForObjectComponent(componentType, propertyName);
-            var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
-            if (instance == null)
-            {
-                throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
-            }
-            if (fieldArray.Length > 1)
-            {
-                object value = getValue(instance, memberInfo, index);
-
-                for (int i = 1; i < fieldArray.Length - 1; i++)
-                {
-                    index = getArrayIndex(fieldArray[i], out propertyName);
-                    memberInfo = getMemberForObjectComponent(value.GetType(), propertyName);
-                    value = getValue(value, memberInfo, index);
-
-                }
-
-                index = getArrayIndex(fieldArray[fieldArray.Length - 1], out propertyName);
-                memberInfo = getMemberForObjectComponent(value.GetType(), propertyName);
-                SetValue(value, memberInfo, index, valueString);
-
-            }
-            else
-            {
-                SetValue(instance, memberInfo, index, valueString);
-            }
-            return "valueSet";
-
-        }
-
-        private void SetValue(object instance, MemberInfo memberInfo, int index, string valueString)
-        {
-            if (memberInfo.MemberType == System.Reflection.MemberTypes.Property)
+            if (memberInfo.MemberType == MemberTypes.Property)
             {
                 PropertyInfo propertyInfo = (PropertyInfo)memberInfo;
-                object value = DeserializeMemberValue(valueString, propertyInfo.PropertyType);
+                object value = deserializeMemberValue(valueString, propertyInfo.PropertyType);
                 propertyInfo.SetValue(instance, value);
             }
-            else if (memberInfo.MemberType == System.Reflection.MemberTypes.Field)
+            else if (memberInfo.MemberType == MemberTypes.Field)
             {
                 FieldInfo fieldInfo = (FieldInfo)memberInfo;
-                object value = DeserializeMemberValue(valueString, fieldInfo.FieldType);
+                object value = deserializeMemberValue(valueString, fieldInfo.FieldType);
                 fieldInfo.SetValue(instance, value);
             }
         }
@@ -282,7 +297,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             return types;
         }
 
-        private string SerializeMemberValue(object value, System.Type type, int maxDepth)
+        private string serializeMemberValue(object value, System.Type type, int maxDepth)
         {
             string response;
             if (type == typeof(string))
@@ -301,16 +316,15 @@ namespace Assets.AltUnityTester.AltUnityServer
                     return strWriter.ToString();
                 }
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                LogMessage(e.Message);
+                logger.Trace(e);
                 response = value.ToString();
             }
             return response;
         }
 
-
-        private object DeserializeMemberValue(string valueString, System.Type type)
+        private object deserializeMemberValue(string valueString, System.Type type)
         {
             object value;
             if (type == typeof(string))
@@ -321,26 +335,21 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
             catch (Newtonsoft.Json.JsonException e)
             {
-                LogMessage(e.Message);
+                logger.Trace(e);
                 value = null;
             }
             return value;
-        }
-        protected object getInstance(object instance, string[] methodPathSplited, Type componentType = null)
-        {
-            return getInstance(instance, methodPathSplited, 0, componentType);
         }
 
         private object getInstance(object instance, string[] methodPathSplited, int index, Type componentType = null)
         {
             if (methodPathSplited.Length - 1 <= index)
                 return instance;
-            string propertyName;
-            int indexValue = getArrayIndex(methodPathSplited[index], out propertyName);
+            int indexValue = getArrayIndex(methodPathSplited[index], out string propertyName);
 
             Type type = instance == null ? componentType : instance.GetType();//Checking for static fields
 
-            MemberInfo memberInfo = getMemberForObjectComponent(type, propertyName);
+            MemberInfo memberInfo = GetMemberForObjectComponent(type, propertyName);
             instance = getValue(instance, memberInfo, indexValue);
             if (instance == null)
             {
@@ -353,11 +362,6 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
             index++;
             return getInstance(instance, methodPathSplited, index);
-        }
-
-        public override string Execute()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

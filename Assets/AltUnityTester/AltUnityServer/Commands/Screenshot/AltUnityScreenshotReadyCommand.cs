@@ -1,17 +1,19 @@
-using System;
+using Altom.Server.Logging;
 using Newtonsoft.Json;
+using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     public class AltUnityScreenshotReadyCommand : AltUnityCommand
     {
+        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
         UnityEngine.Vector2 size;
         int quality;
 
         public AltUnityScreenshotReadyCommand(params string[] parameters) : base(parameters, 4)
         {
             this.size = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[2]);
-            this.quality = Int32.Parse(parameters[3]);
+            this.quality = JsonConvert.DeserializeObject<int>(parameters[3]);
         }
 
         public override string Execute()
@@ -45,9 +47,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             string[] fullResponse = new string[5];
 
-            fullResponse[0] = Newtonsoft.Json.JsonConvert.SerializeObject(new UnityEngine.Vector2(screenshot.width, screenshot.height), new Newtonsoft.Json.JsonSerializerSettings
+            fullResponse[0] = JsonConvert.SerializeObject(new UnityEngine.Vector2(screenshot.width, screenshot.height), new JsonSerializerSettings
             {
-                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
 
             width = width * quality / 100;
@@ -58,10 +60,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
 
             var screenshotSerialized = screenshot.GetRawTextureData();
-            LogMessage(screenshotSerialized.LongLength + " size after Unity Compression");
-            LogMessage(System.DateTime.Now + " Start Compression");
+
+            logger.Trace("Start Compression");
             var screenshotCompressed = AltUnityRunner.CompressScreenshot(screenshotSerialized);
-            UnityEngine.Debug.Log(System.DateTime.Now + " Finished Compression");
+            logger.Trace("Finished Compression");
+
             var length = screenshotCompressed.LongLength;
             fullResponse[1] = length.ToString();
 
@@ -69,22 +72,22 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             fullResponse[2] = format.ToString();
 
             var newSize = new UnityEngine.Vector3(screenshot.width, screenshot.height);
-            fullResponse[3] = Newtonsoft.Json.JsonConvert.SerializeObject(newSize, new Newtonsoft.Json.JsonSerializerSettings
+            fullResponse[3] = JsonConvert.SerializeObject(newSize, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            });
-            UnityEngine.Debug.Log(System.DateTime.Now + " Serialize screenshot");
-            fullResponse[4] = Newtonsoft.Json.JsonConvert.SerializeObject(screenshotCompressed, new Newtonsoft.Json.JsonSerializerSettings
-            {
-                StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
 
-            LogMessage(System.DateTime.Now + " Finished Serialize Screenshot Start serialize response");
-            LogMessage(System.DateTime.Now + " Finished send Response");
+            logger.Trace("Start serialize screenshot");
+            fullResponse[4] = JsonConvert.SerializeObject(screenshotCompressed, new JsonSerializerSettings
+            {
+                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
+            });
+            logger.Trace("Finished Serialize Screenshot");
+
             screenshot.Apply(false, true);
-            UnityEngine.GameObject.DestroyImmediate(screenshot);
+            UnityEngine.Object.DestroyImmediate(screenshot);
             AltUnityRunner._altUnityRunner.destroyHightlight = true;
-            return Newtonsoft.Json.JsonConvert.SerializeObject(fullResponse);
+            return JsonConvert.SerializeObject(fullResponse);
         }
     }
 }

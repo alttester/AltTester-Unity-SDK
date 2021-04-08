@@ -48,10 +48,6 @@ public class AltSwipeAndWait extends AltBaseCommand {
             SendCommand("actionFinished");
             data = recvall();
         } while (data.equals("No"));
-
-        if (data.equals("Yes")) {
-            return;
-        }
-        handleErrors(data);
+        validateResponse("Yes", data);
     }
 }

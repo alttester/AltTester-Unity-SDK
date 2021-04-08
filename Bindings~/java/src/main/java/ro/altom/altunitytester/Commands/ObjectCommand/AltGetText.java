@@ -23,11 +23,6 @@ public class AltGetText extends AltBaseCommand {
     public String Execute() {
         String altObject = new Gson().toJson(altUnityObject);
         SendCommand("getText", altObject);
-        String data = recvall();
-        if (!data.contains("error:")) {
-            return data;
-        }
-        handleErrors(data);
-        return "";
+        return recvall();
     }
 }

@@ -10,14 +10,12 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             SendCommand("unloadScene", sceneName);
+
             var data = Recvall();
-            if (data.Equals("Ok"))
-            {
-                data = Recvall();
-                if (data.Equals("Scene unloaded"))
-                    return;
-            }
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
+
+            data = Recvall();
+            ValidateResponse("Scene Unloaded", data);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityTapCommand : AltUnityCommand
     {
-        AltUnityObject altUnityObject;
-        int count;
+        readonly AltUnityObject altUnityObject;
+        readonly int count;
 
         public AltUnityTapCommand(params string[] parameters) : base(parameters, 4)
         {
@@ -17,29 +17,27 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("tapped object by name " + altUnityObject.name);
             AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(altUnityObject.getScreenPosition().x, altUnityObject.getScreenPosition().y));
             var response = AltUnityErrors.errorNotFoundMessage;
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
             UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altUnityObject);
-            LogMessage("GameObject: " + gameObject);
 
             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
             gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             for (var i = 0; i < count; i++)
-                InitiateClick(gameObject, pointerEventData);
+                initiateClick(gameObject, pointerEventData);
 
             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
             gameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             var camera = AltUnityRunner._altUnityRunner.FoundCameraById(altUnityObject.idCamera);
-            response = Newtonsoft.Json.JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, camera));
+            response = JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, camera));
 
             return response;
         }
 
-        private void InitiateClick(UnityEngine.GameObject gameObject, UnityEngine.EventSystems.PointerEventData pointerEventData)
+        private void initiateClick(UnityEngine.GameObject gameObject, UnityEngine.EventSystems.PointerEventData pointerEventData)
         {
             pointerEventData.clickTime = UnityEngine.Time.unscaledTime;
 

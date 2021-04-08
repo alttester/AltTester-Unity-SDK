@@ -41,7 +41,6 @@ class GetAllFields(BaseCommand):
         data = self.send_command(
             'getAllFields', f'{self.alt_object.id}', f'{{{alt_component_json_serialized}}}', "ALLFIELDS")
 
-        self.handle_errors(data)  # Check if server is all right
         try:
             parsed_data = json.loads(data)
             return self.simplify(parsed_data)

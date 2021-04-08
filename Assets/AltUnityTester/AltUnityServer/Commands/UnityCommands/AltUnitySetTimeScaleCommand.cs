@@ -4,7 +4,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnitySetTimeScaleCommand : AltUnityCommand
     {
-        float timeScale;
+        readonly float timeScale;
 
         public AltUnitySetTimeScaleCommand(params string[] parameters) : base(parameters, 3)
         {
@@ -13,11 +13,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("SetTimeScale to: " + timeScale);
-            string response = AltUnityErrors.errorCouldNotPerformOperationMessage;
             UnityEngine.Time.timeScale = timeScale;
-            response = "Ok";
-            return response;
+            return "Ok";
         }
     }
 }

@@ -6,7 +6,7 @@ public class AltUnityDriverParams {
     public int port = 13000;
     public String requestSeparator = ";";
     public String requestEnd = "&";
-    public Boolean logEnabled = false;
+    public Boolean logFlag = false;
     public int connectTimeout = 60;
 
 }

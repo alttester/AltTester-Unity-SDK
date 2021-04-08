@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityCommandReturningAltElement : AltBaseCommand
@@ -9,29 +12,22 @@ namespace Altom.AltUnityDriver.Commands
         protected AltUnityObject ReceiveAltUnityObject()
         {
             string data = Recvall();
-            if (!data.Contains("error:"))
-            {
-                AltUnityObject altElement = Newtonsoft.Json.JsonConvert.DeserializeObject<AltUnityObject>(data);
-                altElement.socketSettings = SocketSettings;
-                return altElement;
-            }
-            HandleErrors(data);
-            return null;
+
+            AltUnityObject altElement = JsonConvert.DeserializeObject<AltUnityObject>(data);
+            altElement.socketSettings = SocketSettings;
+            return altElement;
         }
-        protected System.Collections.Generic.List<AltUnityObject> ReceiveListOfAltUnityObjects()
+        protected List<AltUnityObject> ReceiveListOfAltUnityObjects()
         {
             string data = Recvall();
-            if (!data.Contains("error:"))
+
+            var altElements = JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
+            foreach (var altElement in altElements)
             {
-                var altElements = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityObject>>(data);
-                foreach (var altElement in altElements)
-                {
-                    altElement.socketSettings = SocketSettings;
-                }
-                return altElements;
+                altElement.socketSettings = SocketSettings;
             }
-            HandleErrors(data);
-            return null;
+
+            return altElements;
         }
     }
 }

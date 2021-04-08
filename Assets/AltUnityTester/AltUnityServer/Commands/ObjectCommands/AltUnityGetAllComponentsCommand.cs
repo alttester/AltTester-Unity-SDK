@@ -1,21 +1,25 @@
-﻿using Altom.AltUnityDriver;
+﻿using System.Collections.Generic;
+using Altom.AltUnityDriver;
+using Altom.Server.Logging;
+using Newtonsoft.Json;
+using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
     class AltUnityGetAllComponentsCommand : AltUnityCommand
     {
-        string objectID;
+        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        readonly int objectId;
 
         public AltUnityGetAllComponentsCommand(params string[] parameters) : base(parameters, 3)
         {
-            this.objectID = parameters[2];
+            this.objectId = JsonConvert.DeserializeObject<int>(parameters[2]);
         }
 
         public override string Execute()
         {
-            LogMessage("GetAllComponents");
-            UnityEngine.GameObject altObject = AltUnityRunner.GetGameObject(System.Convert.ToInt32(objectID));
-            System.Collections.Generic.List<AltUnityComponent> listComponents = new System.Collections.Generic.List<AltUnityComponent>();
+            UnityEngine.GameObject altObject = AltUnityRunner.GetGameObject(objectId);
+            var listComponents = new List<AltUnityComponent>();
             foreach (var component in altObject.GetComponents<UnityEngine.Component>())
             {
                 try
@@ -27,15 +31,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 }
                 catch (System.NullReferenceException e)
                 {
-                    if (e.Source != null)
-                        UnityEngine.Debug.LogError("NullReferenceException source: " + e.Source);
-                    else
-                        UnityEngine.Debug.LogError("NullReferenceException unknown source");
+                    logger.Error(e);
                 }
-
             }
 
-            var response = Newtonsoft.Json.JsonConvert.SerializeObject(listComponents);
+            var response = JsonConvert.SerializeObject(listComponents);
             return response;
         }
     }

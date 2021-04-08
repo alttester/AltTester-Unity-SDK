@@ -19,9 +19,6 @@ public class AltTilt extends AltBaseCommand {
                 altTiltParameters.getZ());
         SendCommand("tilt", accelerationString, String.valueOf(altTiltParameters.getDuration()));
         String data = recvall();
-        if (data.equals("OK")) {
-            return;
-        }
-        handleErrors(data);
+        validateResponse("OK", data);
     }
 }

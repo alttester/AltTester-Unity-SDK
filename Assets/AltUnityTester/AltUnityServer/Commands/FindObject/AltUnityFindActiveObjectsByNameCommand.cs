@@ -1,4 +1,3 @@
-using System.Linq;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -10,10 +9,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            LogMessage("findActiveObjectByName for: " + ObjectName);
-
-            string response = AltUnityErrors.errorNotFoundMessage;
-
             var foundGameObject = UnityEngine.GameObject.Find(ObjectName);
             if (foundGameObject != null)
             {
@@ -28,7 +23,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(foundGameObject, camera));
 
             }
-            return response;
+            return AltUnityErrors.errorNotFoundMessage;
         }
     }
 }

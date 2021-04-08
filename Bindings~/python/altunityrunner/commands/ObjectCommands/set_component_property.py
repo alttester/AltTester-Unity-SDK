@@ -16,4 +16,4 @@ class SetComponentProperty(BaseCommand):
             self.property_name + '"' + ',"assembly":"' + self.assembly_name + '"}'
         data = self.send_command(
             'setObjectComponentProperty', self.alt_object, property_info, self.value)
-        return self.handle_errors(data)
+        return data

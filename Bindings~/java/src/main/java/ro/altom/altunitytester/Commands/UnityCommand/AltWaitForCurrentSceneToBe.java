@@ -6,15 +6,18 @@ import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
 
 public class AltWaitForCurrentSceneToBe extends AltBaseCommand {
     private AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters;
-    public AltWaitForCurrentSceneToBe(AltBaseSettings altBaseSettings, AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters) {
+
+    public AltWaitForCurrentSceneToBe(AltBaseSettings altBaseSettings,
+            AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters) {
         super(altBaseSettings);
         this.altWaitForCurrentSceneToBeParameters = altWaitForCurrentSceneToBeParameters;
     }
-    public String Execute(){
+
+    public String Execute() {
         double time = 0;
         String currentScene = "";
         while (time < altWaitForCurrentSceneToBeParameters.getTimeout()) {
-            log.debug("Waiting for scene to be " + altWaitForCurrentSceneToBeParameters.getSceneName()+ "...");
+            logger.debug("Waiting for scene to be " + altWaitForCurrentSceneToBeParameters.getSceneName() + "...");
             currentScene = new AltGetCurrentScene(altBaseSettings).Execute();
             if (currentScene != null && currentScene.equals(altWaitForCurrentSceneToBeParameters.getSceneName())) {
                 return currentScene;
@@ -22,6 +25,7 @@ public class AltWaitForCurrentSceneToBe extends AltBaseCommand {
             sleepFor(altWaitForCurrentSceneToBeParameters.getInterval());
             time += altWaitForCurrentSceneToBeParameters.getInterval();
         }
-        throw new WaitTimeOutException("Scene [" + altWaitForCurrentSceneToBeParameters.getSceneName()+ "] not loaded after " + altWaitForCurrentSceneToBeParameters.getTimeout()+ " seconds");
+        throw new WaitTimeOutException("Scene [" + altWaitForCurrentSceneToBeParameters.getSceneName()
+                + "] not loaded after " + altWaitForCurrentSceneToBeParameters.getTimeout() + " seconds");
     }
 }

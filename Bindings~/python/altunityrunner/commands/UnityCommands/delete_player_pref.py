@@ -8,6 +8,5 @@ class DeletePlayerPref(BaseCommand):
             socket, request_separator, request_end)
 
     def execute(self):
-        logger.debug('Delete all Player Prefs')
         data = self.send_command('deletePlayerPref')
-        return self.handle_errors(data)
+        return data

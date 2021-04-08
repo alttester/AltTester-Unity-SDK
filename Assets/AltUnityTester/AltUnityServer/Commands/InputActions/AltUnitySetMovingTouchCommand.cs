@@ -6,7 +6,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
     {
         UnityEngine.Vector2 start;
         UnityEngine.Vector2 destination;
-        string duration;
+        readonly string duration;
 
         public AltUnitySetMultipointSwipeCommand(params string[] parameters) : base(parameters, 5)
         {
@@ -18,14 +18,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            LogMessage("Touch at: " + start);
-            string response = AltUnityErrors.errorNotFoundMessage;
-
             UnityEngine.Vector2[] positions = { start, destination };
             Input.SetMultipointSwipe(positions, float.Parse(duration));
-            response = "Ok";
 
-            return response;
+            return "Ok";
 #else
             return null;
 #endif

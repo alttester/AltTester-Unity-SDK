@@ -7,11 +7,8 @@ namespace Altom.AltUnityDriver.Commands
         }
         public string Execute()
         {
-            string serverVersion;
             SendCommand("getServerVersion");
-            serverVersion = Recvall();
-            HandleErrors(serverVersion);
-            return serverVersion;
+            return Recvall();
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Altom.AltUnityDriver.Commands
     {
         AltUnityVector2 start;
         AltUnityVector2 end;
-        float duration;
+        readonly float duration;
         public AltUnitySwipe(SocketSettings socketSettings, AltUnityVector2 start, AltUnityVector2 end, float duration) : base(socketSettings)
         {
             this.start = start;
@@ -18,9 +18,7 @@ namespace Altom.AltUnityDriver.Commands
 
             SendCommand("multipointSwipe", vectorStartJson, vectorEndJson, duration.ToString());
             var data = Recvall();
-            if (data.Equals("Ok"))
-                return;
-            HandleErrors(data);
+            ValidateResponse("Ok", data);
         }
     }
 }
