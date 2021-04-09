@@ -16,8 +16,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 foundObjects.Add(new AltUnityObjectLight(scene.name));
                 foreach (UnityEngine.GameObject rootGameObject in UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).GetRootGameObjects())
                 {
-                    foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObjectLight(rootGameObject));
-                    foundObjects.AddRange(GetAllChildren(rootGameObject));
+                    if (Enabled == false || rootGameObject.activeSelf)
+                    {
+                        foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObjectLight(rootGameObject));
+                        foundObjects.AddRange(getAllChildren(rootGameObject));
+                    }
+
                 }
             }
             var doNotDestroyOnLoadObjects = AltUnityRunner.GetDontDestroyOnLoadObjects();
@@ -27,20 +31,27 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             foreach (var destroyOnLoadObject in AltUnityRunner.GetDontDestroyOnLoadObjects())
             {
-                foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObjectLight(destroyOnLoadObject));
-                foundObjects.AddRange(GetAllChildren(destroyOnLoadObject));
+                if (Enabled == false || destroyOnLoadObject.activeSelf)
+                {
+                    foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObjectLight(destroyOnLoadObject));
+                    foundObjects.AddRange(getAllChildren(destroyOnLoadObject));
+                }
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(foundObjects);
 
         }
-        private System.Collections.Generic.List<AltUnityObjectLight> GetAllChildren(UnityEngine.GameObject gameObject)
+        private System.Collections.Generic.List<AltUnityObjectLight> getAllChildren(UnityEngine.GameObject gameObject)
         {
             System.Collections.Generic.List<AltUnityObjectLight> children = new System.Collections.Generic.List<AltUnityObjectLight>();
             for (int i = 0; i < gameObject.transform.childCount; i++)
             {
                 var child = gameObject.transform.GetChild(i).gameObject;
-                children.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObjectLight(child));
-                children.AddRange(GetAllChildren(child));
+                if (Enabled == false || child.activeSelf)
+                {
+                    children.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObjectLight(child));
+                    children.AddRange(getAllChildren(child));
+                }
+
             }
             return children;
         }

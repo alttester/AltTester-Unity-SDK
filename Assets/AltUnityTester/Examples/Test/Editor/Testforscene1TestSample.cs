@@ -1621,6 +1621,18 @@ public class TestForScene1TestSample
         var rotateMainCamera = altUnityDriver.FindObject(By.PATH, "//*[@component=Button][@tag=Untagged][@layer=UI]");
         Assert.AreEqual("UIButton", rotateMainCamera.name);
     }
+    [Test]
+    public void TestGetAllScenesAndObjectDisableEnableOption()
+    {
+        var allEnableObjects = altUnityDriver.GetAllLoadedScenesAndObjects(true);
+        foreach (var enabledObject in allEnableObjects)
+        {
+            Assert.IsTrue(enabledObject.enabled);
+        }
+        var allObjects = altUnityDriver.GetAllLoadedScenesAndObjects(false);
+        Assert.IsTrue(allEnableObjects.Count < allObjects.Count);
+        Assert.IsTrue(allObjects.Exists(AltUnityObject => AltUnityObject.name.Equals("Cube") && !AltUnityObject.enabled));
+    }
 
 
 }

@@ -190,6 +190,8 @@ public class TestForScene2DraggablePanel
     public void TestGetAllScenesAndElements()
     {
         var altElements = altUnityDriver.GetAllLoadedScenesAndObjects();
+        Assert.AreEqual(26, altElements.Count);
+        altElements = altUnityDriver.GetAllLoadedScenesAndObjects(false);
         Assert.AreEqual(31, altElements.Count);
     }
 }

@@ -340,9 +340,9 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityGetPNGScreenshot(socketSettings, path).Execute();
         }
-        public System.Collections.Generic.List<AltUnityObjectLight> GetAllLoadedScenesAndObjects()
+        public List<AltUnityObjectLight> GetAllLoadedScenesAndObjects(bool enabled = true)
         {
-            return new AltUnityGetAllLoadedScenesAndObjects(socketSettings).Execute();
+            return new AltUnityGetAllLoadedScenesAndObjects(socketSettings, enabled).Execute();
         }
 
         public void SetServerLogging(AltUnityLogger logger, AltUnityLogLevel logLevel)
