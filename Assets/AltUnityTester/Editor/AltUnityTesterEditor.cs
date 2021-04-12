@@ -1,11 +1,13 @@
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Altom.AltUnityDriver;
-using UnityEditor.SceneManagement;
+using Altom.Editor.Logging;
 using NLog;
 using NLog.Layouts;
-using Altom.Editor.Logging;
+using UnityEditor.SceneManagement;
 
 namespace Altom.Editor
 {
@@ -13,20 +15,20 @@ namespace Altom.Editor
     {
         private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
-        public static bool needsRepaiting = false;
+        public static bool NeedsRepaiting = false;
         public static AltUnityEditorConfiguration EditorConfiguration;
-        public static AltUnityTesterEditor _window;
-        public static int selectedTest = -1;
+        public static AltUnityTesterEditor Window;
+        public static int SelectedTest = -1;
 
         //TestResult after running a test
-        public static bool isTestRunResultAvailable = false;
-        public static int reportTestPassed;
-        public static int reportTestFailed;
-        public static double timeTestRan;
+        public static bool IsTestRunResultAvailable = false;
+        public static int ReportTestPassed;
+        public static int ReportTestFailed;
+        public static double TimeTestRan;
 
-        public static List<AltUnityDevice> devices = new List<AltUnityDevice>();
+        public static List<AltUnityDevice> Devices = new List<AltUnityDevice>();
 
-        UnityEngine.Object _obj;
+        UnityEngine.Object obj;
         private static UnityEngine.Texture2D passIcon;
         private static UnityEngine.Texture2D failIcon;
         private static UnityEngine.Texture2D downArrowIcon;
@@ -45,28 +47,44 @@ namespace Altom.Editor
         private static UnityEngine.Texture2D selectedTestTexture;
         private static UnityEngine.Texture2D oddNumberTestTexture;
         private static UnityEngine.Texture2D evenNumberTestTexture;
-        private static UnityEngine.Texture2D portForwardingTexture;
+        public static UnityEngine.Texture2D PortForwardingTexture;
+
+        private static string downloadURl;
+        private const string RELEASENOTESURL = "https://altom.gitlab.io/altunity/altunityinspector/pages/release-notes.html#release-notes";
+        private static string version;
+        private static UnityEngine.GUIStyle gUIStyleButton;
+        private static UnityEngine.GUIStyle gUIStyleText;
+        private static UnityEngine.GUIStyle gUIStyleHistoryChanges;
 
         private static long timeSinceLastClick;
-        UnityEngine.Vector2 _scrollPosition;
-        private UnityEngine.Vector2 _scrollPositonTestResult;
+        private static UnityEngine.Networking.UnityWebRequest www;
+        UnityEngine.Vector2 scrollPosition;
+        private UnityEngine.Vector2 scrollPositonTestResult;
 
-        private bool _foldOutScenes = true;
-        private bool _foldOutBuildSettings = true;
-        private bool _foldOutLogSettings = true;
-        private bool _foldOutIosSettings = true;
-        private bool _foldOutAltUnityServerSettings = true;
+        private bool foldOutScenes = true;
+        private bool foldOutBuildSettings = true;
+        private bool foldOutLogSettings = true;
+        private bool foldOutIosSettings = true;
+        private bool foldOutAltUnityServerSettings = true;
 
+        private static bool showPopUp = false;
+        UnityEngine.Rect popUpPosition;
+        UnityEngine.Rect popUpBorderPosition;
+        UnityEngine.Rect closeButtonPosition;
+        UnityEngine.Rect downloadButtonPosition;
+        UnityEngine.Rect checkVersionChangesButtonPosition;
 
+        private static UnityEngine.Font font;
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
         [UnityEditor.MenuItem("AltUnity Tools/AltUnityTester", false, 80)]
         public static void ShowWindow()
         {
             //Show existing window instance. If one doesn't exist, make one.
-            _window = (AltUnityTesterEditor)GetWindow(typeof(AltUnityTesterEditor));
-            _window.minSize = new UnityEngine.Vector2(600, 100);
-            _window.Show();
+            Window = (AltUnityTesterEditor)GetWindow(typeof(AltUnityTesterEditor));
+            Window.minSize = new UnityEngine.Vector2(600, 100);
+            Window.titleContent = new UnityEngine.GUIContent("AltUnity Tester Editor");
+            Window.Show();
         }
 
         [UnityEditor.MenuItem("Assets/Create/AltUnityTest", true, 80)]
@@ -106,6 +124,14 @@ namespace Altom.Editor
             UnityEngine.Debug.Log("AltUnityTester - Unity Package done.");
         }
 
+        private void Awake()
+        {
+            if (EditorConfiguration == null)
+            {
+                InitEditorConfiguration();
+            }
+            SendInspectorVersionRequest();
+        }
         [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObject", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
@@ -143,6 +169,7 @@ namespace Altom.Editor
             {
                 InitEditorConfiguration();
             }
+
             if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources/AltUnityTester"))
             {
                 AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
@@ -191,9 +218,9 @@ namespace Altom.Editor
             {
                 oddNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? oddNumberTestColorDark : oddNumberTestColor);
             }
-            if (portForwardingTexture == null)
+            if (PortForwardingTexture == null)
             {
-                portForwardingTexture = MakeTexture(20, 20, greenColor);
+                PortForwardingTexture = MakeTexture(20, 20, greenColor);
             }
 
             getListOfSceneFromEditor();
@@ -202,23 +229,23 @@ namespace Altom.Editor
         protected void OnInspectorUpdate()
         {
             Repaint();
-            if (isTestRunResultAvailable)
+            if (IsTestRunResultAvailable)
             {
-                isTestRunResultAvailable = !UnityEditor.EditorUtility.DisplayDialog("Test Report",
-                      " Total tests:" + (reportTestFailed + reportTestPassed) + System.Environment.NewLine + " Tests passed:" +
-                      reportTestPassed + System.Environment.NewLine + " Tests failed:" + reportTestFailed + System.Environment.NewLine +
-                      " Duration:" + timeTestRan + " seconds", "Ok");
-                reportTestFailed = 0;
-                reportTestPassed = 0;
-                timeTestRan = 0;
+                IsTestRunResultAvailable = !UnityEditor.EditorUtility.DisplayDialog("Test Report",
+                      " Total tests:" + (ReportTestFailed + ReportTestPassed) + System.Environment.NewLine + " Tests passed:" +
+                      ReportTestPassed + System.Environment.NewLine + " Tests failed:" + ReportTestFailed + System.Environment.NewLine +
+                      " Duration:" + TimeTestRan + " seconds", "Ok");
+                ReportTestFailed = 0;
+                ReportTestPassed = 0;
+                TimeTestRan = 0;
             }
         }
         protected void OnGUI()
         {
 
-            if (needsRepaiting)
+            if (NeedsRepaiting)
             {
-                needsRepaiting = false;
+                NeedsRepaiting = false;
                 Repaint();
             }
 
@@ -232,19 +259,42 @@ namespace Altom.Editor
                 afterExitPlayMode();
 
             }
-
             DrawGUI();
-
         }
         protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
+            if (showPopUp)
+            {
+                popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
+                popUpBorderPosition = new UnityEngine.Rect(screenWidth / 2 - 298, 2, 596, 96);
+                closeButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 20, popUpPosition.yMin + 5, 15, 15);
+                downloadButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 200, popUpPosition.yMin + 30, 180, 30);
+                checkVersionChangesButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 200, popUpPosition.yMin + 60, 180, 30);
+
+                if (UnityEngine.Event.current.type == UnityEngine.EventType.MouseDown)
+                {
+                    if (checkVersionChangesButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
+                    {
+                        UnityEngine.Application.OpenURL(RELEASENOTESURL);
+                        UnityEngine.GUIUtility.ExitGUI();
+                    }
+                    if (downloadButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
+                    {
+                        UnityEngine.Application.OpenURL(downloadURl);
+                        UnityEngine.GUIUtility.ExitGUI();
+                    }
+                    if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
+                    {
+                        showPopUp = false;
+                        UnityEngine.GUIUtility.ExitGUI();
+                    }
+                }
+            }
             //----------------------Left Panel------------
-
-
             UnityEditor.EditorGUILayout.BeginHorizontal();
             var leftSide = (screenWidth / 3) * 2;
-            _scrollPosition = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPosition, false, false, UnityEngine.GUILayout.MinWidth(leftSide));
+            scrollPosition = UnityEditor.EditorGUILayout.BeginScrollView(scrollPosition, false, false, UnityEngine.GUILayout.MinWidth(leftSide));
             if (EditorConfiguration.MyTests != null)
             {
                 displayTestGui(EditorConfiguration.MyTests);
@@ -272,6 +322,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.BeginVertical();
 
             UnityEditor.EditorGUILayout.LabelField("Platform", UnityEditor.EditorStyles.boldLabel);
+
             if (rightSide <= 300)
             {
                 UnityEditor.EditorGUILayout.BeginVertical();
@@ -301,6 +352,7 @@ namespace Altom.Editor
                 EditorConfiguration.StandaloneTarget = options[selected];
                 browseBuildLocation();
             }
+
 
             if (EditorConfiguration.platform == AltUnityPlatform.Android)
             {
@@ -498,11 +550,10 @@ namespace Altom.Editor
                     AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunFailedTest);
                 }
             }
-
             //Status test
 
-            _scrollPositonTestResult = UnityEditor.EditorGUILayout.BeginScrollView(_scrollPositonTestResult, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.ExpandHeight(true));
-            if (selectedTest != -1)
+            scrollPositonTestResult = UnityEditor.EditorGUILayout.BeginScrollView(scrollPositonTestResult, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.ExpandHeight(true));
+            if (SelectedTest != -1)
             {
                 var gUIStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
                 {
@@ -511,12 +562,12 @@ namespace Altom.Editor
                     alignment = UnityEngine.TextAnchor.MiddleCenter
                 };
                 var gUIStyle2 = new UnityEngine.GUIStyle();
-                UnityEditor.EditorGUILayout.LabelField("<b>" + EditorConfiguration.MyTests[selectedTest].TestName + "</b>", gUIStyle);
+                UnityEditor.EditorGUILayout.LabelField("<b>" + EditorConfiguration.MyTests[SelectedTest].TestName + "</b>", gUIStyle);
 
 
                 UnityEditor.EditorGUILayout.Separator();
                 string textToDisplayForMessage;
-                if (EditorConfiguration.MyTests[selectedTest].Status == 0)
+                if (EditorConfiguration.MyTests[SelectedTest].Status == 0)
                 {
                     textToDisplayForMessage = "No informartion about this test available.\nPlease rerun the test.";
                     UnityEditor.EditorGUILayout.LabelField(textToDisplayForMessage, gUIStyle, UnityEngine.GUILayout.MinWidth(30));
@@ -530,7 +581,7 @@ namespace Altom.Editor
                     };
 
                     string status = "";
-                    switch (EditorConfiguration.MyTests[selectedTest].Status)
+                    switch (EditorConfiguration.MyTests[SelectedTest].Status)
                     {
                         case 1:
                             status = "<color=green>Passed</color>";
@@ -541,26 +592,25 @@ namespace Altom.Editor
 
                     }
 
-
                     UnityEngine.GUILayout.BeginHorizontal();
                     UnityEditor.EditorGUILayout.LabelField("<b>Time</b>", gUIStyle, UnityEngine.GUILayout.MinWidth(30));
-                    UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[selectedTest].TestDuration.ToString(), gUIStyle, UnityEngine.GUILayout.MinWidth(100));
+                    UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[SelectedTest].TestDuration.ToString(), gUIStyle, UnityEngine.GUILayout.MinWidth(100));
                     UnityEngine.GUILayout.EndHorizontal();
 
                     UnityEngine.GUILayout.BeginHorizontal();
                     UnityEditor.EditorGUILayout.LabelField("<b>Status</b>", gUIStyle, UnityEngine.GUILayout.MinWidth(30));
                     UnityEditor.EditorGUILayout.LabelField(status, gUIStyle, UnityEngine.GUILayout.MinWidth(100));
                     UnityEngine.GUILayout.EndHorizontal();
-                    if (EditorConfiguration.MyTests[selectedTest].Status == -1)
+                    if (EditorConfiguration.MyTests[SelectedTest].Status == -1)
                     {
                         UnityEngine.GUILayout.BeginHorizontal();
                         UnityEditor.EditorGUILayout.LabelField("<b>Message</b>", gUIStyle, UnityEngine.GUILayout.MinWidth(30));
-                        UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[selectedTest].TestResultMessage, gUIStyle, UnityEngine.GUILayout.MinWidth(100));
+                        UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[SelectedTest].TestResultMessage, gUIStyle, UnityEngine.GUILayout.MinWidth(100));
                         UnityEngine.GUILayout.EndHorizontal();
 
                         UnityEngine.GUILayout.BeginHorizontal();
                         UnityEditor.EditorGUILayout.LabelField("<b>StackTrace</b>", gUIStyle, UnityEngine.GUILayout.MinWidth(30));
-                        UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[selectedTest].TestStackTrace, gUIStyle, UnityEngine.GUILayout.MinWidth(100));
+                        UnityEditor.EditorGUILayout.LabelField(EditorConfiguration.MyTests[SelectedTest].TestStackTrace, gUIStyle, UnityEngine.GUILayout.MinWidth(100));
                         UnityEngine.GUILayout.EndHorizontal();
                     }
                 }
@@ -572,6 +622,137 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndScrollView();
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
+            //PopUp
+            if (showPopUp)
+            {
+                ShowAltUnityPopup();
+            }
+        }
+
+        private void ShowAltUnityPopup()
+        {
+            if (font == null)
+            {
+                font = UnityEngine.Font.CreateDynamicFontFromOSFont("Arial", 16);
+            }
+            if (gUIStyleText == null)
+            {
+                gUIStyleText = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleLeft,
+                    font = font
+                };
+            }
+            if (gUIStyleButton == null)
+            {
+                gUIStyleButton = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.button)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleCenter,
+                    font = font
+                };
+                gUIStyleButton.normal.background = AltUnityTesterEditor.PortForwardingTexture;
+                gUIStyleButton.normal.textColor = UnityEngine.Color.white;
+            }
+            if (gUIStyleHistoryChanges == null)
+            {
+                gUIStyleHistoryChanges = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleCenter,
+                    font = font
+                };
+            }
+
+
+            UnityEngine.GUI.DrawTexture(popUpPosition, evenNumberTestTexture);
+            UnityEngine.GUI.DrawTexture(popUpBorderPosition, oddNumberTestTexture);
+
+            UnityEngine.GUI.Button(closeButtonPosition, "<size=10>X</size>", gUIStyleHistoryChanges);
+            UnityEngine.GUI.Button(downloadButtonPosition, "<b><size=16>Download now!</size></b>", gUIStyleButton);
+            UnityEngine.GUI.Button(checkVersionChangesButtonPosition, "<size=13>Check version history</size>", gUIStyleHistoryChanges);
+            UnityEditor.EditorGUI.LabelField(checkVersionChangesButtonPosition, "<size=13>__________________</size>", gUIStyleHistoryChanges);
+
+            UnityEngine.Rect textPosition = new UnityEngine.Rect(popUpPosition.xMin + 20, popUpPosition.yMin + 30, 370, 30);
+            UnityEditor.EditorGUI.LabelField(textPosition, System.String.Format("<b><size=16>AltUnity Inspector {0} has been released!</size></b>", version), gUIStyleText);
+        }
+
+        private static void SendInspectorVersionRequest()
+        {
+            www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/altunity-inspector-versions/?id=unityeditor");
+            var wwwOp = www.SendWebRequest();
+            UnityEditor.EditorApplication.update += CheckInspectorVersionRequest;
+
+        }
+        public static void CheckInspectorVersionRequest()
+        {
+            if (!www.isDone)
+                return;
+
+            if (www.isNetworkError)
+            {
+                UnityEngine.Debug.Log(www.error);
+            }
+            else
+            {
+                if (www.responseCode == 200)
+                {
+                    string textReceived = www.downloadHandler.text;
+                    System.Text.RegularExpressions.Regex regex = null;
+                    if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.Windows)
+                    {
+                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/altunityinspector/AltUnityInspector.*\.exe");
+
+                    }
+                    else if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.MacOSX)
+                    {
+                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/altunityinspector/AltUnityInspector.*\.dmg");
+                    }
+
+                    System.Text.RegularExpressions.Match match = regex.Match(textReceived);
+                    if (match.Success)
+                    {
+
+                        var splitedText = match.Value.Split('_');
+                        var releasedVersion = splitedText[2].Substring(1);
+                        if (String.IsNullOrEmpty(EditorConfiguration.LatestInspectorVersion) || !isCurrentVersionEqualOrNewer(releasedVersion, EditorConfiguration.LatestInspectorVersion))
+                        {
+                            EditorConfiguration.LatestInspectorVersion = releasedVersion;
+                            downloadURl = match.Value;
+                            version = releasedVersion;
+                            showPopUp = true;
+                        }
+                    }
+                }
+
+                UnityEditor.EditorApplication.update -= CheckInspectorVersionRequest;
+            }
+        }
+        private static bool isCurrentVersionEqualOrNewer(string releasedVersion, string version)
+        {
+            var releasedVersionSplited = releasedVersion.Split('.');
+            var currentVersionSplited = version.Split('.');
+            if (Int16.Parse(currentVersionSplited[0]) != Int16.Parse(releasedVersionSplited[0]))//check major number
+            {
+                if (Int16.Parse(currentVersionSplited[0]) < Int16.Parse(releasedVersionSplited[0]))
+                    return false;
+                else
+                    return true;
+            }
+            if (Int16.Parse(currentVersionSplited[1]) != Int16.Parse(releasedVersionSplited[1]))//check minor number
+            {
+                if (Int16.Parse(currentVersionSplited[1]) < Int16.Parse(releasedVersionSplited[1]))
+                    return false;
+                else
+                    return true;
+            }
+            if (Int16.Parse(currentVersionSplited[2]) < Int16.Parse(releasedVersionSplited[2]))//check patch number
+                return false;
+            return true;
         }
         #endregion
 
@@ -665,7 +846,7 @@ namespace Altom.Editor
 
         private void displayPortForwarding(float widthColumn)
         {
-            _foldOutScenes = UnityEditor.EditorGUILayout.Foldout(_foldOutScenes, "Port Forwarding");
+            foldOutScenes = UnityEditor.EditorGUILayout.Foldout(foldOutScenes, "Port Forwarding");
             var guiStyleBolded = setTextGuiStyle();
             guiStyleBolded.fontStyle = UnityEngine.FontStyle.Bold;
 
@@ -675,7 +856,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.BeginVertical();
             widthColumn -= 30;
-            if (_foldOutScenes)
+            if (foldOutScenes)
             {
                 UnityEngine.GUILayout.BeginVertical(UnityEngine.GUI.skin.textField, UnityEngine.GUILayout.MaxHeight(30));
                 UnityEngine.GUILayout.BeginHorizontal();
@@ -692,14 +873,14 @@ namespace Altom.Editor
                 UnityEngine.GUILayout.EndHorizontal();
                 UnityEngine.GUILayout.EndHorizontal();
 
-                if (devices.Count != 0)
+                if (Devices.Count != 0)
                 {
-                    foreach (var device in devices)
+                    foreach (var device in Devices)
                     {
                         if (device.Active)
                         {
                             var styleActive = new UnityEngine.GUIStyle();
-                            styleActive.normal.background = portForwardingTexture;
+                            styleActive.normal.background = PortForwardingTexture;
 
                             UnityEngine.GUILayout.BeginHorizontal(styleActive);
                             UnityEngine.GUILayout.Label(device.DeviceId, guiStyleNormal, UnityEngine.GUILayout.Width(widthColumn / 2), UnityEngine.GUILayout.ExpandWidth(true));
@@ -802,16 +983,16 @@ namespace Altom.Editor
             }
 #endif
 
-            devices = adbDevices;
+            Devices = adbDevices;
 #if UNITY_EDITOR_OSX
-            devices.AddRange(iOSDEvices);
+            Devices.AddRange(iOSDEvices);
 #endif
         }
 
         private void displayAltUnityServerSettings()
         {
-            _foldOutAltUnityServerSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutAltUnityServerSettings, "AltUnityServer Settings");
-            if (_foldOutAltUnityServerSettings)
+            foldOutAltUnityServerSettings = UnityEditor.EditorGUILayout.Foldout(foldOutAltUnityServerSettings, "AltUnityServer Settings");
+            if (foldOutAltUnityServerSettings)
             {
                 labelAndInputFieldHorizontalLayout("Request separator", ref EditorConfiguration.RequestSeparator);
                 labelAndInputFieldHorizontalLayout("Request ending", ref EditorConfiguration.RequestEnding);
@@ -853,8 +1034,8 @@ namespace Altom.Editor
 
         private void displayBuildSettings()
         {
-            _foldOutBuildSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutBuildSettings, "Build Settings");
-            if (_foldOutBuildSettings)
+            foldOutBuildSettings = UnityEditor.EditorGUILayout.Foldout(foldOutBuildSettings, "Build Settings");
+            if (foldOutBuildSettings)
             {
                 var companyName = UnityEditor.PlayerSettings.companyName;
                 labelAndInputFieldHorizontalLayout("Company Name", ref companyName);
@@ -871,8 +1052,8 @@ namespace Altom.Editor
                 switch (EditorConfiguration.platform)
                 {
                     case AltUnityPlatform.Android:
-                        _foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutIosSettings, "Android Settings");
-                        if (_foldOutIosSettings)
+                        foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "Android Settings");
+                        if (foldOutIosSettings)
                         {
                             string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
                             labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
@@ -889,8 +1070,8 @@ namespace Altom.Editor
                         break;
 #if UNITY_EDITOR_OSX
                     case AltUnityPlatform.iOS:
-                        _foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutIosSettings, "iOS Settings");
-                        if (_foldOutIosSettings)
+                        foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "iOS Settings");
+                        if (foldOutIosSettings)
                         {
                             string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
                             labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
@@ -920,8 +1101,8 @@ namespace Altom.Editor
 
         private void displayLogSettings()
         {
-            _foldOutLogSettings = UnityEditor.EditorGUILayout.Foldout(_foldOutLogSettings, "Log Settings");
-            if (_foldOutLogSettings)
+            foldOutLogSettings = UnityEditor.EditorGUILayout.Foldout(foldOutLogSettings, "Log Settings");
+            if (foldOutLogSettings)
             {
                 labelAndInputFieldHorizontalLayout("Max Length (Optional)", ref EditorConfiguration.MaxLogLength);
                 if (string.IsNullOrEmpty(EditorConfiguration.MaxLogLength))
@@ -975,12 +1156,12 @@ namespace Altom.Editor
 
         private void displayScenes()
         {
-            _foldOutScenes = UnityEditor.EditorGUILayout.Foldout(_foldOutScenes, "SceneManager");
+            foldOutScenes = UnityEditor.EditorGUILayout.Foldout(foldOutScenes, "SceneManager");
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.BeginVertical();
             UnityEngine.GUIStyle guiStyle = setTextGuiStyle();
-            if (_foldOutScenes)
+            if (foldOutScenes)
             {
                 if (EditorConfiguration.Scenes.Count != 0)
                 {
@@ -1077,18 +1258,18 @@ namespace Altom.Editor
                 UnityEngine.GUILayout.BeginVertical();
                 UnityEditor.EditorGUILayout.BeginHorizontal();
                 UnityEditor.EditorGUILayout.LabelField("Add scene: ", UnityEngine.GUILayout.MaxWidth(80));
-                _obj = UnityEditor.EditorGUILayout.ObjectField(_obj, typeof(UnityEditor.SceneAsset), true);
+                obj = UnityEditor.EditorGUILayout.ObjectField(obj, typeof(UnityEditor.SceneAsset), true);
 
-                if (_obj != null)
+                if (obj != null)
                 {
-                    var path = UnityEditor.AssetDatabase.GetAssetPath(_obj);
+                    var path = UnityEditor.AssetDatabase.GetAssetPath(obj);
                     if (EditorConfiguration.Scenes.All(n => n.Path != path))
                     {
                         EditorConfiguration.Scenes.Add(new AltUnityMyScenes(false, path, 0));
-                        _obj = new UnityEngine.Object();
+                        obj = new UnityEngine.Object();
                     }
 
-                    _obj = null;
+                    obj = null;
                 }
                 UnityEditor.EditorGUILayout.EndHorizontal();
 
@@ -1224,7 +1405,7 @@ namespace Altom.Editor
                 var idx = parentNames.IndexOf(test.ParentName) + 1;
                 parentNames.RemoveRange(idx, parentNames.Count - idx);
 
-                if (tests.IndexOf(test) == selectedTest)
+                if (tests.IndexOf(test) == SelectedTest)
                 {
                     var selectedTestStyle = new UnityEngine.GUIStyle();
                     selectedTestStyle.normal.background = selectedTestTexture;
@@ -1315,7 +1496,7 @@ namespace Altom.Editor
             {
                 if (UnityEngine.GUILayout.Button(testName, guiStyle))
                 {
-                    if (selectedTest == tests.IndexOf(test))
+                    if (SelectedTest == tests.IndexOf(test))
                     {
                         var actualTime = System.DateTime.Now.Ticks;
                         if (actualTime - timeSinceLastClick < 5000000)
@@ -1329,7 +1510,7 @@ namespace Altom.Editor
                     }
                     else
                     {
-                        selectedTest = tests.IndexOf(test);
+                        SelectedTest = tests.IndexOf(test);
 
                     }
                     timeSinceLastClick = System.DateTime.Now.Ticks;

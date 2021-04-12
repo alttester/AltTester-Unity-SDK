@@ -1,8 +1,8 @@
-using System.Linq;
 using System.Collections.Generic;
-using NLog;
+using System.Linq;
 using Altom.Editor.Logging;
 using Newtonsoft.Json;
+using NLog;
 
 namespace Altom.Editor
 {
@@ -39,8 +39,8 @@ namespace Altom.Editor
             {
                 var result = testAssemblyRunner.Run(listener, filters);
                 setTestStatus(result);
-                AltUnityTesterEditor.isTestRunResultAvailable = true;
-                AltUnityTesterEditor.selectedTest = -1;
+                AltUnityTesterEditor.IsTestRunResultAvailable = true;
+                AltUnityTesterEditor.SelectedTest = -1;
             });
 
             runTestThread.Start();
@@ -59,7 +59,7 @@ namespace Altom.Editor
             runTestThread.Join();
             if (AltUnityTesterEditor.EditorConfiguration.platform != AltUnityPlatform.Editor)
             {
-                AltUnityTesterEditor.needsRepaiting = true;
+                AltUnityTesterEditor.NeedsRepaiting = true;
                 UnityEditor.EditorUtility.ClearProgressBar();
             }
         }
@@ -197,11 +197,11 @@ namespace Altom.Editor
             });
             UnityEditor.EditorPrefs.SetString("tests", serializeTests);
 
-            AltUnityTesterEditor.reportTestPassed = numberOfTestPassed;
-            AltUnityTesterEditor.reportTestFailed = numberOfTestFailed;
-            AltUnityTesterEditor.isTestRunResultAvailable = true;
-            AltUnityTesterEditor.selectedTest = -1;
-            AltUnityTesterEditor.timeTestRan = totalTime;
+            AltUnityTesterEditor.ReportTestPassed = numberOfTestPassed;
+            AltUnityTesterEditor.ReportTestFailed = numberOfTestFailed;
+            AltUnityTesterEditor.IsTestRunResultAvailable = true;
+            AltUnityTesterEditor.SelectedTest = -1;
+            AltUnityTesterEditor.TimeTestRan = totalTime;
             if (passed)
             {
                 logger.Debug("All test passed");
@@ -246,14 +246,14 @@ namespace Altom.Editor
                 if (test.PassCount == 1)
                 {
                     status = 1;
-                    AltUnityTesterEditor.reportTestPassed++;
+                    AltUnityTesterEditor.ReportTestPassed++;
                 }
                 else if (test.FailCount == 1)
                 {
                     status = -1;
-                    AltUnityTesterEditor.reportTestFailed++;
+                    AltUnityTesterEditor.ReportTestFailed++;
                 }
-                AltUnityTesterEditor.timeTestRan += test.Duration;
+                AltUnityTesterEditor.TimeTestRan += test.Duration;
                 int index = AltUnityTesterEditor.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName));
                 AltUnityTesterEditor.EditorConfiguration.MyTests[index].Status = status;
                 AltUnityTesterEditor.EditorConfiguration.MyTests[index].TestDuration = test.Duration;

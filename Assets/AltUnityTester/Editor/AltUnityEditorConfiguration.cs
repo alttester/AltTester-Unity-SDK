@@ -25,5 +25,6 @@ namespace Altom.Editor
         public bool InputVisualizer;
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
+        public string LatestInspectorVersion = "";
     }
 }
