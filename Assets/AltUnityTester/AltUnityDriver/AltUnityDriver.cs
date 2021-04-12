@@ -19,6 +19,7 @@ namespace Altom.AltUnityDriver
         public static readonly string VERSION = "1.6.2";
 
         public TcpClient TcpClient { get { return tcpClient; } }
+        public SocketSettings SocketSettings { get { return socketSettings; } }
 
         /// <summary>
         /// Initiates AltUnity Driver and begins connection to AltUnity Server

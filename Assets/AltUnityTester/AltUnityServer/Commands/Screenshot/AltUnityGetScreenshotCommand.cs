@@ -5,20 +5,20 @@ using Assets.AltUnityTester.AltUnityServer.AltSocket;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public class AltUnityGetScreenshotCommand : AltUnityCommand
+    public class AltUnityGetScreenshotCommand : AltUnityBaseScreenshotCommand
     {
-        readonly AltClientSocketHandler handler;
-        private readonly AltUnityScreenshotReadyCommand getScreenshotCommand;
+        UnityEngine.Vector2 size;
+        readonly int quality;
 
-        public AltUnityGetScreenshotCommand(AltClientSocketHandler handler, params string[] parameters) : base(parameters, 4)
+        public AltUnityGetScreenshotCommand(AltClientSocketHandler handler, params string[] parameters) : base(handler, parameters, 4)
         {
-            this.handler = handler;
-            getScreenshotCommand = new AltUnityScreenshotReadyCommand(Parameters);
+            this.size = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[2]);
+            this.quality = JsonConvert.DeserializeObject<int>(parameters[3]);
         }
 
         public override string Execute()
         {
-            AltUnityRunner._altUnityRunner.StartCoroutine(AltUnityRunner._altUnityRunner.TakeTexturedScreenshot(handler, getScreenshotCommand));
+            AltUnityRunner._altUnityRunner.StartCoroutine(SendTexturedScreenshotCoroutine(size, quality));
             return "Ok";
         }
     }

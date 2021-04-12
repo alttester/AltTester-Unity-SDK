@@ -27,7 +27,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         private void sceneLoaded(UnityEngine.AsyncOperation obj)
         {
-            handler.SendResponse(this, "Scene Loaded");
+            handler.SendResponse(MessageId, CommandName, "Scene Loaded", string.Empty);
         }
     }
 }

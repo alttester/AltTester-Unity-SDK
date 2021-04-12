@@ -51,6 +51,7 @@ TestResults*.xml InitTestScene*
 .cache/
 __pycache__/
 __pycache__.meta
+.pytest_cache/
 Assets/AltUnityTester/Bindings/python/altunityrunner.egg-info/
 Assets/AltUnityTester/Bindings/python/altunityrunner.egg-info.meta
 Assets/AltUnityTester/Bindings/python/dist

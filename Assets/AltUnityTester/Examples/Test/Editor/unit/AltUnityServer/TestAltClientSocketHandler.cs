@@ -79,8 +79,9 @@ namespace unit.AltUnityServer
             });
             var command = new AltUnityErrorCommand(AltUnityErrors.errorCouldNotParseJsonString, new Exception("errormessage"), "messageid", "commandname", "param1", "param2");
 
-            var response = command.Execute();
-            socketHandler.SendResponse(command, response);
+            var cmdResult = command.ExecuteHandleErrors(command.Execute);
+            
+            socketHandler.SendResponse(command.MessageId, command.CommandName, cmdResult.Item1, command.GetLogs());
         }
 
         [Test]
@@ -94,7 +95,7 @@ namespace unit.AltUnityServer
             var command = new AltUnityEnableLoggingCommand("messageid", "enableLoggingCommand", "true");
 
             var response = command.Execute();
-            socketHandler.SendResponse(command, response);
+            socketHandler.SendResponse(command.MessageId, command.CommandName, response, string.Empty);
         }
 
 
