@@ -14,7 +14,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 {
     private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-    public static readonly string VERSION = "1.6.2";
+    public static readonly string VERSION = "1.6.3";
     public static AltUnityRunner _altUnityRunner;
     public static AltResponseQueue _responseQueue;
 
@@ -422,7 +422,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                var result = command.ExecuteHandleErrors(command.Execute);
 
                var logs = command.GetLogs();
-               if ( !string.IsNullOrEmpty(logs)) logs += "\n";
+               if (!string.IsNullOrEmpty(logs)) logs += "\n";
                logs += result.Item2;
                handler.SendResponse(command.MessageId, command.CommandName, result.Item1, logs);
            });
