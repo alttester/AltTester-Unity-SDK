@@ -46,7 +46,9 @@ public class AltUnityTextureScale
         }
         w = tex.width;
         w2 = newWidth;
+
         var cores = UnityEngine.Mathf.Min(UnityEngine.SystemInfo.processorCount, newHeight);
+        cores = UnityEngine.Mathf.Max(1, cores);
         var slice = newHeight / cores;
 
         finishCount = 0;

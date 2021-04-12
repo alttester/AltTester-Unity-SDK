@@ -151,6 +151,7 @@ public class TestForScene1TestSample
 
 
     [Test]
+    [Obsolete]
     public void TestWaitForElementWithText()
     {
         const string name = "CapsuleInfo";
@@ -604,6 +605,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Obsolete]
     public void TestClickElement()
     {
         const string name = "Capsule";
@@ -613,6 +615,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Obsolete]
     public void TestClickScreen()
     {
         const string name = "UIButton";
@@ -657,6 +660,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Obsolete]
     public void TestWaitForObjectWithTextWrongText()
     {
         try
@@ -1062,7 +1066,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestSwipeWithDuration0()
     {
-        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
         altUnityDriver.Swipe(counterButtonText.getScreenPosition(), counterButtonText.getScreenPosition(), 0);
         Thread.Sleep(500);
@@ -1078,6 +1082,7 @@ public class TestForScene1TestSample
         Thread.Sleep(1000);
         Assert.AreEqual("4", counterButtonText.GetText());
     }
+    [Test]
     public void TestGet3DObjectFromScreenshot()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -1179,6 +1184,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Obsolete]
     public void TestWaitForElementWithTextWithCameraId()
     {
         const string name = "CapsuleInfo";
@@ -1250,6 +1256,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Obsolete]
     public void TestWaitForElementWithTextWithTag()
     {
         const string name = "CapsuleInfo";
@@ -1339,6 +1346,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Obsolete]
     public void TestWaitForElementWithTextByCamera()
     {
         const string name = "CapsuleInfo";

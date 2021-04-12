@@ -1,6 +1,6 @@
+using System;
 using Altom.AltUnityDriver.AltSocket;
 using Altom.Server.Logging;
-using Assets.AltUnityTester.AltUnityServer.Commands;
 using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.AltSocket
@@ -51,23 +51,23 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
             logger.Debug("sent: " + response);
         }
 
-        public void SendResponse(AltUnityCommand command, string response)
+        public void SendResponse(string messageId, string commandName, string response, string logs)
         {
-            var logMessage = command.GetLogs();
+            var logMessage = logs;
 
-            Socket.Send(Encoding.GetBytes("altstart::" + command.MessageId + "::response::" + response + "::altLog::" + logMessage + "::altend"));
+            Socket.Send(Encoding.GetBytes("altstart::" + messageId + "::response::" + response + "::altLog::" + logMessage + "::altend"));
             if (response != null && MaxLengthLogMsg != 0 && response.Length > MaxLengthLogMsg)
                 response = "Response longer then max length '" + MaxLengthLogMsg + "'. Response length = '" + response.Length.ToString() + "'";
 
-            logger.Debug("sent: " + command.MessageId + ";" + command.CommandName + ";" + response);
+            logger.Debug("sent: " + string.Join(";", messageId, commandName, response, logs));
         }
 
-        public void SendScreenshotResponse(AltUnityCommand command, string response)
+        public void SendScreenshotResponse(string messageId, string commandName, string response)
         {
             var logMessage = "Screenshot length " + response.Length;
-            response = "altstart::" + command.MessageId + "::response::" + response + "::altLog::" + logMessage + "::altend";
+            response = "altstart::" + messageId + "::response::" + response + "::altLog::" + logMessage + "::altend";
             Socket.Send(Encoding.GetBytes(response));
-            logger.Debug("sent: " + command.MessageId + ";" + command.CommandName + ";" + logMessage);
+            logger.Debug("sent: " + messageId + ";" + commandName + ";" + logMessage);
         }
 
         public void Run()
@@ -128,7 +128,7 @@ namespace Assets.AltUnityTester.AltUnityServer.AltSocket
             {
                 logger.Error(exception);
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
                 logger.Error(exception);
             }

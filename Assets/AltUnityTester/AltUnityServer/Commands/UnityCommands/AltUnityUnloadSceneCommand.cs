@@ -38,7 +38,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         private void sceneUnloaded(UnityEngine.AsyncOperation obj)
         {
-            handler.SendResponse(this, "Scene Unloaded");
+            handler.SendResponse(MessageId, CommandName, "Scene Unloaded", string.Empty);
         }
     }
 }

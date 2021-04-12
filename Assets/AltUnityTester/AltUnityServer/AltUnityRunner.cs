@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Logging;
@@ -25,7 +24,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public bool AltUnityIconPressed = false;
     [UnityEngine.Space]
     public bool showPopUp;
-    public bool destroyHightlight = false;
     public int SocketPortNumber = 13000;
     public bool RunOnlyInDebugMode = true;
     public UnityEngine.Shader outlineShader;
@@ -419,7 +417,15 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
         if (command != null)
         {
-            command.SendResponse(handler);
+            _responseQueue.ScheduleResponse(delegate
+           {
+               var result = command.ExecuteHandleErrors(command.Execute);
+
+               var logs = command.GetLogs();
+               if ( !string.IsNullOrEmpty(logs)) logs += "\n";
+               logs += result.Item2;
+               handler.SendResponse(command.MessageId, command.CommandName, result.Item1, logs);
+           });
         }
     }
 
@@ -488,67 +494,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         return null;
     }
 
-    public System.Collections.IEnumerator HighLightSelectedObjectCorutine(UnityEngine.GameObject gameObject, UnityEngine.Color color, float width, AltUnityGetScreenshotCommand getScreenshotCommand)
-    {
-        destroyHightlight = false;
-        UnityEngine.Renderer renderer = gameObject.GetComponent<UnityEngine.Renderer>();
-        if (renderer != null)
-        {
-            var originalMaterials = renderer.materials.ToArray();
-            renderer.materials = new UnityEngine.Material[renderer.materials.Length];
-            for (int i = 0; i < renderer.materials.Length; i++)
-            {
-                renderer.materials[i] = new UnityEngine.Material(originalMaterials[i])
-                {
-                    shader = outlineShader
-                };
-                renderer.materials[i].SetColor("_OutlineColor", color);
-                renderer.materials[i].SetFloat("_OutlineWidth", width);
-            }
-            yield return null;
-            getScreenshotCommand.Execute();
-            yield return null;
-            renderer.materials = originalMaterials;
-        }
-        else
-        {
-            var rectTransform = gameObject.GetComponent<UnityEngine.RectTransform>();
-            if (rectTransform != null)
-            {
-                var panelHighlight = Instantiate(panelHightlightPrefab, rectTransform);
-                panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
-                yield return null;
-                getScreenshotCommand.Execute();
-                while (!destroyHightlight)
-                    yield return null;
-                Destroy(panelHighlight);
-                destroyHightlight = false;
-            }
-            else
-            {
-                getScreenshotCommand.Execute();
-            }
-        }
-    }
-
-    public System.Collections.IEnumerator TakeTexturedScreenshot(AltClientSocketHandler handler, AltUnityScreenshotReadyCommand screenshotReadyCommand)
+    public System.Collections.IEnumerator RunActionAfterEndOfFrame(Action action)
     {
         yield return new UnityEngine.WaitForEndOfFrame();
-
-
-        var response = screenshotReadyCommand.Execute();
-
-        handler.SendScreenshotResponse(screenshotReadyCommand, response);
+        action();
     }
-    public System.Collections.IEnumerator TakeScreenshot(AltUnityCommand command, AltClientSocketHandler handler)
-    {
-        yield return new UnityEngine.WaitForEndOfFrame();
-        var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
-        var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
-        var pngAsString = Convert.ToBase64String(bytesPNG);
-        DestroyImmediate(screenshot);
-        handler.SendScreenshotResponse(command, pngAsString);
-    }
+
 
     public void ShowClick(UnityEngine.Vector2 position)
     {

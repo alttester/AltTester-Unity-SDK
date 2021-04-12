@@ -84,7 +84,6 @@ namespace unit.AltUnityDriverTests
         public void TestSendCommandAndRecvall()
         {
             TestSocket socket = new TestSocket("error:couldNotParseJsonString", "");
-            bool pass = false;
             try
             {
                 AltBaseCommandImpl command = new AltBaseCommandImpl(new SocketSettings(socket, ";", "&"));
