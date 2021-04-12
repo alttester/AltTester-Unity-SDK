@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Altom.AltUnityDriver;
+using Altom.Editor.Logging;
+using Assets.AltUnityTester.AltUnityServer.AltSocket;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
-using Altom.Editor.Logging;
 
 namespace Altom.Editor
 {
