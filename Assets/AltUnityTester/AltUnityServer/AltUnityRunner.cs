@@ -218,13 +218,14 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public AltUnityObjectLight GameObjectToAltUnityObjectLight(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
     {
         int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
-        var altObject = new AltUnityObjectLight(
+        AltUnityObjectLight altObject = new AltUnityObjectLight(
             name: altGameObject.name,
             id: altGameObject.GetInstanceID(),
             enabled: altGameObject.activeSelf,
+            idCamera: 0,
             transformId: altGameObject.transform.GetInstanceID(),
-            transformParentId: transformParentId
-            );
+            transformParentId: transformParentId,
+            parentId: transformParentId);
 
         return altObject;
     }
