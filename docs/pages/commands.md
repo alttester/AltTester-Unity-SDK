@@ -3346,7 +3346,7 @@ Currenty there are 7 types implemented:
 -   _Layer_ - search for objects that are set on a specific layer
 -   _Name_ - search for objects that are named in a certain way
 -   _Component_ - search for objects that have certain component
--   _Id_ - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#AltId)
+-   _Id_ - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#altid)
 -   _Text_ - search for objects that have a certain text
 -   _Path_ - search for objects that respect a certain path
 
@@ -3375,15 +3375,19 @@ The following selecting nodes, attributes and attributes are implemented:
 
     .. tab:: \*
 
-        **"//NameOfParent/NameOfChild/*"**
+        ``//NameOfParent/NameOfChild/*``
 
-        **"//NameOfParent/NameOfChild//*"**
+        ``//NameOfParent/NameOfChild//*``
 
-        altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*")
+        .. code-block:: c# 
+    
+            altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*")
 
         - Returns all direct children from Panel
 
-        altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel//*")
+        .. code-block:: c#  
+            
+            altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel//*")
 
         - Returns all children from Panel
 
@@ -3393,91 +3397,115 @@ The following selecting nodes, attributes and attributes are implemented:
 
             .. tab:: @tag
 
-                **"//NameOfParent/NameOfChild/*[@tag=tagName]"**
+                ``//NameOfParent/NameOfChild/*[@tag=tagName]``
 
-                altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@tag=UI]")
+                .. code-block:: c#  
 
+                    altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@tag=UI]")
+               
                 - Returns every object that is tagged as UI and is a direct child of Panel
 
             .. tab:: @layer
 
-                **"//NameOfParent/NameOfChild/*[@layer=layerName]"**
+                ``//NameOfParent/NameOfChild/*[@layer=layerName]``
 
-                altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@layer=UI]")
+                .. code-block:: c# 
+
+                    altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@layer=UI]") 
 
                 - Returns every object that is in the UI layer and is a direct child of Panel
 
             .. tab:: @id
+            
+                ``//NameOfParent/NameOfChild/*[@id=idMethod]``
 
-                **"//NameOfParent/NameOfChild/*[@id=idMethod]"**
+                .. code-block:: c# 
 
-                altUnityDriver.FindObject(By.PATH, "//*[@id=8756]")
+                    altUnityDriver.FindObject(By.PATH, "//*[@id=8756]")
 
                 - Returns the object which has the id equal to 8756
 
             .. tab:: @text
 
-                **"//NameOfParent/NameOfChild/*[@text=textName]"**
+                ``//NameOfParent/NameOfChild/*[@text=textName]``
 
-                altUnityDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]")
+                .. code-block:: c# 
+
+                    altUnityDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]")
 
                 - Returns the first object that has the text "Start" and is a child of Panel
 
             .. tab:: contains
 
-                **"//NameOfParent/NameOfChild/*[contains(@name,name)]"**
+                ``//NameOfParent/NameOfChild/*[contains(@name,name)]``
 
-                **"//NameOfParent/NameOfChild/*[contains(@text, text)]"**
+                ``//NameOfParent/NameOfChild/*[contains(@text, text)]``
 
-                altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]")
+                .. code-block:: c# 
+
+                    altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]")
 
                 - Returns every object that contains the string "Cub" in the name
 
             .. tab:: multiple selectors
 
-                **"//NameOfParent/NameOfChild/[@selector1=selectorName1][@selector2=selectorName2][@selector3=selectorName3]"**
+                ``//NameOfParent/NameOfChild/[@selector1=selectorName1][@selector2=selectorName2][@selector3=selectorName3]``
 
-                altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]"
+                .. code-block:: c# 
+
+                    altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]"
 
                 - Returns the first direct child of the Panel that is untagged, is in the UI layer and has a component named Button
+        
+    .. tab:: find object 
+    
+        ``//NameOfParent/NameObject``
 
-    .. tab:: find object
+        .. code-block:: c# 
 
-        **"//NameOfParent/NameObject"**
-
-        altUnityDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]"
+            altUnityDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]"
 
         - Returns every button which is in Canvas that is a root object and has a component named ButtonLogic
 
     .. tab:: find a child of an object
 
-        **"//NameOfParent/NameOfChild"**
+        ``//NameOfParent/NameOfChild`` 
 
-        **"//*[@id=idOfParent]/NameOfChild"**
+        ``//*[@id=idOfParent]/NameOfChild``
 
-        altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel")
+        .. code-block:: c# 
+            
+            altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel")
 
         - Returns all direct children from Canvas that have the name "Panel
 
-        altUnityDriver.FindObjects(By.PATH, "//Canvas/*/text")
+        .. code-block:: c# 
+            
+            altUnityDriver.FindObjects(By.PATH, "//Canvas/*/text")
 
         - Returns all children on the second level from Canvas that are named "text"
 
-        altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/StartButton[1]")
+        .. code-block:: c# 
+            
+            altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/StartButton[1]")
 
         - Returns the second child of the first object that has the name "StartButton" and is a direct child of Panel
 
     .. tab:: indexer
 
-        **"//NameOfParent[n]"**
+        ``//NameOfParent[n]``
 
-        **"//NameOfParent/NameOfChild[n]"**
+        ``//NameOfParent/NameOfChild[n]``
 
-        altUnityDriver.FindObject(By.PATH, "//Canvas[5]")
+        .. code-block:: c# 
+            
+            altUnityDriver.FindObject(By.PATH, "//Canvas[5]")
 
         - Returns the 6th direct child of the root Canvas
 
-        altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]")
+        .. code-block:: c# 
+            
+            altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]")
 
         - Returns the last direct child of Panel that is tagged as Player
 
