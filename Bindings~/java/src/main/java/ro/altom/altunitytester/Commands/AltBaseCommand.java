@@ -152,6 +152,8 @@ public class AltBaseCommand {
             throw new UnknownErrorException(data);
         } else if ("error:formatException".equals(typeOfException)) {
             throw new FormatException(data);
+        } else if ("error:invalidPath".equals(typeOfException)) {
+            throw new AltUnityInvalidPathException(data);
         }
     }
 

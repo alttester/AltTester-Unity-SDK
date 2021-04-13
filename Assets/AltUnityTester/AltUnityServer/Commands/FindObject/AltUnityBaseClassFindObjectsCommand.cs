@@ -93,7 +93,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 if (i % 2 == 0)
                 {
                     if (!(list[i].Equals("/") || list[i].Equals("//")))
-                        throw new System.Exception("Expected / or // instead of " + list[i]);
+                        throw new InvalidPathException("Expected / or // before " + list[i]);
                     conditions.Add(new List<string>() { list[i] });
 
                 }
@@ -109,15 +109,25 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         private List<string> parseSelector(string selector)
         {
             List<string> conditions = new List<string>();
-            foreach (var substring in selector.Split('['))
+            var substrings = selector.Split('[');
+            for (int i = 0; i < substrings.Length; i++)
             {
-                if (substring.EndsWith("]"))
+                if (i == 0)
                 {
-                    conditions.Add(substring.Substring(0, substring.Length - 1));
+                    if (String.IsNullOrEmpty(substrings[i]))
+                    {
+                        throw new InvalidPathException("Expected object name or * for " + selector);
+                    }
+                    conditions.Add(substrings[i]);
                 }
                 else
                 {
-                    conditions.Add(substring);
+                    if (!substrings[i].EndsWith("]"))
+                    {
+                        throw new InvalidPathException("Condition didn't end with ] for " + selector);
+                    }
+                    conditions.Add(substrings[i].Substring(0, substrings[i].Length - 1));
+
                 }
             }
             return conditions;
@@ -237,7 +247,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             bool valid = true;
             foreach (var condition in listOfConditions)
             {
-                var option = checkOption(condition);
+                var option = (condition.Equals(listOfConditions[0]) && !condition.Equals("*")) ? 1 : checkOption(condition);
                 switch (option)
                 {
                     case 1://name

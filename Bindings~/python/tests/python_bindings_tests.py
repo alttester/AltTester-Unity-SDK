@@ -1146,6 +1146,16 @@ class PythonTests(unittest.TestCase):
         self.altdriver.set_server_logging(
             AltUnityLogger.File, AltUnityLogLevel.Debug)  # reset logging level
 
+    def test_invalid_paths(self):
+        with self.assertRaises(AltUnityInvalidPathException):
+            self.altdriver.find_object(By.PATH, "//[1]")
+        with self.assertRaises(AltUnityInvalidPathException):
+            self.altdriver.find_object(By.PATH, "CapsuleInfo[@tag=UI]")
+        with self.assertRaises(AltUnityInvalidPathException):
+            self.altdriver.find_object(By.PATH, "//CapsuleInfo[@tag=UI/Text")
+        with self.assertRaises(AltUnityInvalidPathException):
+            self.altdriver.find_object(By.PATH, "//CapsuleInfo[0/Text")
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

@@ -1641,6 +1641,23 @@ public class TestForScene1TestSample
         Assert.IsTrue(allEnableObjects.Count < allObjects.Count);
         Assert.IsTrue(allObjects.Exists(AltUnityObject => AltUnityObject.name.Equals("Cube") && !AltUnityObject.enabled));
     }
+    [Test]
+    public void TestGetObjectWithNumberAsName()
+    {
+        var numberObject = altUnityDriver.FindObject(By.NAME, "1234", enabled: false);
+        Assert.NotNull(numberObject);
+        numberObject = altUnityDriver.FindObject(By.PATH, "//1234", enabled: false);
+        Assert.NotNull(numberObject);
+    }
+    [Test]
+    public void TestInvalidPaths()
+    {
+        Assert.Throws<InvalidPathException>(() => altUnityDriver.FindObject(By.PATH, "//[1]"));
+        Assert.Throws<InvalidPathException>(() => altUnityDriver.FindObject(By.PATH, "CapsuleInfo[@tag=UI]"));
+        Assert.Throws<InvalidPathException>(() => altUnityDriver.FindObject(By.PATH, "//CapsuleInfo[@tag=UI/Text"));
+        Assert.Throws<InvalidPathException>(() => altUnityDriver.FindObject(By.PATH, "//CapsuleInfo[0/Text"));
+    }
+
 
 
 }

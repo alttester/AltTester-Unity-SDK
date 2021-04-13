@@ -237,6 +237,9 @@ namespace Altom.AltUnityDriver.Commands
                     throw new UnknownErrorException(data);
                 case "error:formatException":
                     throw new FormatException(data);
+                case "error:invalidPath":
+                    throw new InvalidPathException(data);
+
             }
         }
     }

@@ -102,3 +102,8 @@ class AltUnityInvalidServerResponse (AltUnityException):
     def __init__(self, expected, received):
         super(AltUnityInvalidServerResponse, self).__init__(
             "Expected to get response {}; Got {}".format(expected, received))
+
+
+class AltUnityInvalidPathException(AltUnityException):
+    def __init__(self, message):
+        super(AltUnityInvalidPathException, self).__init__(message)

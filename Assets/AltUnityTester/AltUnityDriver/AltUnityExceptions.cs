@@ -264,5 +264,15 @@ namespace Altom.AltUnityDriver
         {
         }
     }
+    public class InvalidPathException : AltUnityException
+    {
+        public InvalidPathException()
+        {
+        }
+
+        public InvalidPathException(string message) : base(message)
+        {
+        }
+    }
 
 }

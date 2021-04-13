@@ -20,5 +20,6 @@ namespace Assets.AltUnityTester.AltUnityServer
         public static readonly string errorCameraNotFound = "error:cameraNotFound";
         public static readonly string errorIndexOutOfRange = "error:indexOutOfRange";
         public static readonly string errorInvalidParametersOnDriverCommand = "error:invalidParametersOnDriverCommand";
+        public static readonly string errorInvalidPath = "error:invalidPath";
     }
 }
