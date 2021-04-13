@@ -2532,17 +2532,16 @@ Invokes static methods from your game.
 
 ### AltUnity Commands
 
-
 #### SetServerLogging
 
 Sets the level of logging on AltUnity Server
 
 **_Parameters_**
 
-| Name  | Type   | Required | Description                      |
-| ----- | ------ | -------- | -------------------------------- |
-| logger | AltUnityLogger | Yes      | The type of logger |
-| logLevel | AltUnityLogLevel | Yes      | The logging level |
+| Name     | Type             | Required | Description        |
+| -------- | ---------------- | -------- | ------------------ |
+| logger   | AltUnityLogger   | Yes      | The type of logger |
+| logLevel | AltUnityLogLevel | Yes      | The logging level  |
 
 **_Returns_**
 
@@ -2569,7 +2568,6 @@ Sets the level of logging on AltUnity Server
         driver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
 
 ```
-
 
 ## AltUnityObject
 
@@ -3363,13 +3361,12 @@ The following selecting nodes, attributes and attributes are implemented:
 -   \* - Matches any element node
 -   _contains_ - Selects objects that contain a certain string in the name
 -   _[n-th]_ - Selects n-th child of the current node. 0 - represents the first child, 1 - is the second child and so on. -1 -represents the last child
--   _@tag_ 
--   _@layer_ 
--   _@name_ 
--   _@component_ 
--   _@id_ 
--   _@text_ 
-
+-   _@tag_
+-   _@layer_
+-   _@name_
+-   _@component_
+-   _@id_
+-   _@text_
 
 **Examples**
 
@@ -3381,7 +3378,7 @@ The following selecting nodes, attributes and attributes are implemented:
         **"//NameOfParent/NameOfChild/*"**
 
         **"//NameOfParent/NameOfChild//*"**
-        
+
         altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*")
 
         - Returns all direct children from Panel
@@ -3402,23 +3399,23 @@ The following selecting nodes, attributes and attributes are implemented:
 
                 - Returns every object that is tagged as UI and is a direct child of Panel
 
-            .. tab:: @layer 
+            .. tab:: @layer
 
                 **"//NameOfParent/NameOfChild/*[@layer=layerName]"**
 
-                altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@layer=UI]") 
+                altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@layer=UI]")
 
                 - Returns every object that is in the UI layer and is a direct child of Panel
 
             .. tab:: @id
-            
+
                 **"//NameOfParent/NameOfChild/*[@id=idMethod]"**
 
                 altUnityDriver.FindObject(By.PATH, "//*[@id=8756]")
 
                 - Returns the object which has the id equal to 8756
 
-            .. tab:: @text 
+            .. tab:: @text
 
                 **"//NameOfParent/NameOfChild/*[@text=textName]"**
 
@@ -3435,7 +3432,7 @@ The following selecting nodes, attributes and attributes are implemented:
                 altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]")
 
                 - Returns every object that contains the string "Cub" in the name
-            
+
             .. tab:: multiple selectors
 
                 **"//NameOfParent/NameOfChild/[@selector1=selectorName1][@selector2=selectorName2][@selector3=selectorName3]"**
@@ -3443,9 +3440,9 @@ The following selecting nodes, attributes and attributes are implemented:
                 altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]"
 
                 - Returns the first direct child of the Panel that is untagged, is in the UI layer and has a component named Button
-        
-    .. tab:: find object 
-    
+
+    .. tab:: find object
+
         **"//NameOfParent/NameObject"**
 
         altUnityDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]"
@@ -3454,9 +3451,9 @@ The following selecting nodes, attributes and attributes are implemented:
 
     .. tab:: find a child of an object
 
-        **"//NameOfParent/NameOfChild"** 
+        **"//NameOfParent/NameOfChild"**
 
-        **"//*[@id=idOfParent]/NameOfChild"** 
+        **"//*[@id=idOfParent]/NameOfChild"**
 
         altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel")
 
@@ -3484,9 +3481,8 @@ The following selecting nodes, attributes and attributes are implemented:
 
         - Returns the last direct child of Panel that is tagged as Player
 
-    
-```
 
+```
 
 ### AltId
 
@@ -3494,7 +3490,7 @@ Is a solution offered by AltUnity Tester in order to find object easier. This is
 **A limitation of this is that only the object already in the scene before building the game will have an AltId. Object instantiated during run time will not have an AltId**
 
 To add AltId to every object simply just click AddAltIdToEveryObject from AltUnityTester menu.
-![addAltId](../_static/images/addAltId.png)
+![addAltId](../_static/images/AddAltId.png)
 
 ## AltUnityPortForwarding
 

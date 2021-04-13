@@ -32,7 +32,7 @@ To instrument your game with AltUnity Server you first need to import the AltUni
 
 ```
 
-```important:: To make sure the import was correct, check if you can open AltUnity Tester Editor Window from Unity Editor -> Window -> AltUnityTester.
+```important:: To make sure the import was correct, check if you can open AltUnity Tester Editor Window from Unity Editor -> AltUnity Tools -> AltUnityTester.
 
 ```
 
@@ -44,7 +44,7 @@ In order for the tests to have access to Unity objects via AltUnity Client you n
 
 Steps:
 
-1. Open AltUnity Tester Window from Unity Editor -> Window -> AltUnityTester.
+1. Open AltUnity Tester Window from Unity Editor -> AltUnity Tools -> AltUnityTester.
 2. Select Scenes in Build
 3. Select on what platform you want to build the game.
 4. Press "Build Only" to instrument the game.
