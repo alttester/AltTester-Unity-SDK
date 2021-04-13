@@ -225,8 +225,7 @@ public class TestsSampleScene1 {
 
         String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
 
-        altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.TEXT,
-                text).build();
+        altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.TEXT, text).build();
 
         AltWaitForObjectWithTextParameters altWaitForObjectsParameters = new AltWaitForObjectWithTextParameters.Builder(
                 altFindObjectsParameters, text).build();
@@ -1222,5 +1221,33 @@ public class TestsSampleScene1 {
     @Test(expected = CouldNotPerformOperationException.class)
     public void TestUnloadOnlyScene() {
         altUnityDriver.unloadScene("Scene 1 AltUnityDriverTestScene");
+    }
+
+    @Test(expected = AltUnityInvalidPathException.class)
+    public void TestInvalidPath() {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH, "//[1]")
+                .build();
+        altUnityDriver.findObject(altFindObjectsParameters);
+    }
+
+    @Test(expected = AltUnityInvalidPathException.class)
+    public void TestInvalidPath2() {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                "CapsuleInfo[@tag=UI]").build();
+        altUnityDriver.findObject(altFindObjectsParameters);
+    }
+
+    @Test(expected = AltUnityInvalidPathException.class)
+    public void TestInvalidPath3() {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                "//CapsuleInfo[@tag=UI/Text").build();
+        altUnityDriver.findObject(altFindObjectsParameters);
+    }
+
+    @Test(expected = AltUnityInvalidPathException.class)
+    public void TestInvalidPath4() {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                "//CapsuleInfo[0/Text").build();
+        altUnityDriver.findObject(altFindObjectsParameters);
     }
 }

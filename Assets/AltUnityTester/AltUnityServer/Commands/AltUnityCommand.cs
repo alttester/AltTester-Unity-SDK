@@ -83,6 +83,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 exception = e;
                 response = AltUnityErrors.errorInvalidParametersOnDriverCommand;
             }
+            catch (InvalidPathException e)
+            {
+                exception = e;
+                response = AltUnityErrors.errorInvalidPath;
+            }
             catch (Exception e)
             {
                 exception = e;

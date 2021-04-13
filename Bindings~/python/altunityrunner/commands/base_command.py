@@ -96,6 +96,8 @@ class BaseCommand(object):
                 raise UnknownErrorException(data)
             elif (data.startswith('error:formatException')):
                 raise FormatException(data)
+            elif (data.startswith('error:invalidPath')):
+                raise AltUnityInvalidPathException(data)
 
     def vector_to_json_string(self, x, y, z=None):
         if z is None:
