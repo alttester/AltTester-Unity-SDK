@@ -98,9 +98,12 @@ namespace Altom.AltUnityDriver
             {
                 serverVersion = "<=1.5.7";
             }
-
-            splitVersion(serverVersion, out string majorServer, out string minorServer);
-            splitVersion(VERSION, out string majorDriver, out string minorDriver);
+            string majorServer;
+            string majorDriver;
+            string minorDriver;
+            string minorServer;
+            splitVersion(serverVersion, out majorServer, out minorServer);
+            splitVersion(VERSION, out majorDriver, out minorDriver);
 
             if (majorServer != majorDriver || minorServer != minorDriver)
             {
@@ -325,15 +328,15 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnityGetAllActiveCameras(socketSettings).Execute();
         }
-        public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default, int screenShotQuality = 100)
+        public AltUnityTextureInformation GetScreenshot(AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
         {
             return new AltUnityGetScreenshot(socketSettings, size, screenShotQuality).Execute();
         }
-        public AltUnityTextureInformation GetScreenshot(int id, AltUnityColor color, float width, AltUnityVector2 size = default, int screenShotQuality = 100)
+        public AltUnityTextureInformation GetScreenshot(int id, AltUnityColor color, float width, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
         {
             return new AltUnityGetScreenshot(socketSettings, id, color, width, size, screenShotQuality).Execute();
         }
-        public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default, int screenShotQuality = 100)
+        public AltUnityTextureInformation GetScreenshot(AltUnityVector2 coordinates, AltUnityColor color, float width, out AltUnityObject selectedObject, AltUnityVector2 size = default(AltUnityVector2), int screenShotQuality = 100)
         {
             return new AltUnityGetScreenshot(socketSettings, coordinates, color, width, size, screenShotQuality).Execute(out selectedObject);
         }

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-
 using NLog;
-using NLog.Layouts;
 using NLog.Config;
+using NLog.Layouts;
 using NLog.Targets;
 
 namespace Altom.AltUnityDriver.Logging
@@ -24,8 +23,8 @@ namespace Altom.AltUnityDriver.Logging
             }
 
             Instance.GetCurrentClassLogger().Info(AltUnityLogLevel.Info.ToNLogLevel());
-
-            if (minLogLevels.TryGetValue(AltUnityLogger.File, out AltUnityLogLevel level) && level != AltUnityLogLevel.Off)
+            AltUnityLogLevel level;
+            if (minLogLevels.TryGetValue(AltUnityLogger.File, out level) && level != AltUnityLogLevel.Off)
                 Instance.GetCurrentClassLogger().Info("AltUnity Server logs are saved at: " + LOGSFILEPATH);
         }
 

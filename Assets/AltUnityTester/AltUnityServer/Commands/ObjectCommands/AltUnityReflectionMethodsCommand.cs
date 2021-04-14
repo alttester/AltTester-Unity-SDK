@@ -3,13 +3,11 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-
-using NLog;
-
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using Altom.Server.Logging;
 using Assets.AltUnityTester.AltUnityServer.Commands;
+using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer
 {
@@ -160,7 +158,8 @@ namespace Assets.AltUnityTester.AltUnityServer
 
         protected string GetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, int maxDepth)
         {
-            int index = getArrayIndex(fieldArray[0], out string propertyName);
+            string propertyName;
+            int index = getArrayIndex(fieldArray[0], out propertyName);
             MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
@@ -182,7 +181,8 @@ namespace Assets.AltUnityTester.AltUnityServer
         protected string SetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, string valueString)
         {
 
-            int index = getArrayIndex(fieldArray[0], out string propertyName);
+            string propertyName;
+            int index = getArrayIndex(fieldArray[0], out propertyName);
             MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
@@ -234,7 +234,8 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
             else
             {
-                if (value is System.Collections.IEnumerable enumerable)
+                System.Collections.IEnumerable enumerable = value as System.Collections.IEnumerable;
+                if (enumerable != null)
                 {
                     int i = 0;
                     foreach (object element in enumerable)
@@ -345,7 +346,8 @@ namespace Assets.AltUnityTester.AltUnityServer
         {
             if (methodPathSplited.Length - 1 <= index)
                 return instance;
-            int indexValue = getArrayIndex(methodPathSplited[index], out string propertyName);
+            string propertyName;
+            int indexValue = getArrayIndex(methodPathSplited[index], out propertyName);
 
             Type type = instance == null ? componentType : instance.GetType();//Checking for static fields
 
