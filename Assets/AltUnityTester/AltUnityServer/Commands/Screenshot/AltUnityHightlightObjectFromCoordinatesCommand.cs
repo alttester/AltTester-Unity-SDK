@@ -64,7 +64,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 position = screenCoordinates
             };
             List<GameObject> currentResults = new List<GameObject>();
-            mockUp.GetAllRaycastResults(pointerEventData, out List<UnityEngine.EventSystems.RaycastResult> hitUI);
+            List<UnityEngine.EventSystems.RaycastResult> hitUI;
+            mockUp.GetAllRaycastResults(pointerEventData, out hitUI);
             for (int i = 0; i < hitUI.Count; i++)
             {
                 currentResults.Add(hitUI[i].gameObject);

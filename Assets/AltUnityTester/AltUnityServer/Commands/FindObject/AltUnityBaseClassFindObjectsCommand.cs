@@ -23,7 +23,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         protected List<List<string>> ProcessPath(string path)
         {
-            var text = eliminateEscapedCharacters(path, out List<char> escapeCharacters);
+            List<char> escapeCharacters;
+            var text = eliminateEscapedCharacters(path, out escapeCharacters);
             var list = separateAxesAndSelectors(text);
             var pathSetCorrectly = setCondition(list);
             pathSetCorrectly = addEscapedCharactersBack(pathSetCorrectly, escapeCharacters);

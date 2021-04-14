@@ -42,10 +42,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 renderer.materials = new UnityEngine.Material[renderer.materials.Length];
                 for (int i = 0; i < renderer.materials.Length; i++)
                 {
-                    renderer.materials[i] = new UnityEngine.Material(originalMaterials[i])
-                    {
-                        shader = AltUnityRunner._altUnityRunner.outlineShader
-                    };
+                    renderer.materials[i] = new UnityEngine.Material(originalMaterials[i]);
+                    renderer.materials[i].shader = AltUnityRunner._altUnityRunner.outlineShader;
                     renderer.materials[i].SetColor("_OutlineColor", color);
                     renderer.materials[i].SetFloat("_OutlineWidth", width);
                 }
