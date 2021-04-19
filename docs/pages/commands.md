@@ -3379,14 +3379,14 @@ The following selecting nodes, attributes and attributes are implemented:
 
         ``//NameOfParent/NameOfChild//*``
 
-        .. code-block:: c# 
-    
+        .. code-block:: c#
+
             altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*")
 
         - Returns all direct children from Panel
 
-        .. code-block:: c#  
-            
+        .. code-block:: c#
+
             altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel//*")
 
         - Returns all children from Panel
@@ -3399,27 +3399,27 @@ The following selecting nodes, attributes and attributes are implemented:
 
                 ``//NameOfParent/NameOfChild/*[@tag=tagName]``
 
-                .. code-block:: c#  
+                .. code-block:: c#
 
                     altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@tag=UI]")
-               
+
                 - Returns every object that is tagged as UI and is a direct child of Panel
 
             .. tab:: @layer
 
                 ``//NameOfParent/NameOfChild/*[@layer=layerName]``
 
-                .. code-block:: c# 
+                .. code-block:: c#
 
-                    altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@layer=UI]") 
+                    altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@layer=UI]")
 
                 - Returns every object that is in the UI layer and is a direct child of Panel
 
             .. tab:: @id
-            
+
                 ``//NameOfParent/NameOfChild/*[@id=idMethod]``
 
-                .. code-block:: c# 
+                .. code-block:: c#
 
                     altUnityDriver.FindObject(By.PATH, "//*[@id=8756]")
 
@@ -3429,7 +3429,7 @@ The following selecting nodes, attributes and attributes are implemented:
 
                 ``//NameOfParent/NameOfChild/*[@text=textName]``
 
-                .. code-block:: c# 
+                .. code-block:: c#
 
                     altUnityDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]")
 
@@ -3441,7 +3441,7 @@ The following selecting nodes, attributes and attributes are implemented:
 
                 ``//NameOfParent/NameOfChild/*[contains(@text, text)]``
 
-                .. code-block:: c# 
+                .. code-block:: c#
 
                     altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]")
 
@@ -3451,17 +3451,17 @@ The following selecting nodes, attributes and attributes are implemented:
 
                 ``//NameOfParent/NameOfChild/[@selector1=selectorName1][@selector2=selectorName2][@selector3=selectorName3]``
 
-                .. code-block:: c# 
+                .. code-block:: c#
 
                     altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]"
 
                 - Returns the first direct child of the Panel that is untagged, is in the UI layer and has a component named Button
-        
-    .. tab:: find object 
-    
+
+    .. tab:: find object
+
         ``//NameOfParent/NameObject``
 
-        .. code-block:: c# 
+        .. code-block:: c#
 
             altUnityDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]"
 
@@ -3469,24 +3469,24 @@ The following selecting nodes, attributes and attributes are implemented:
 
     .. tab:: find a child of an object
 
-        ``//NameOfParent/NameOfChild`` 
+        ``//NameOfParent/NameOfChild``
 
         ``//*[@id=idOfParent]/NameOfChild``
 
-        .. code-block:: c# 
-            
+        .. code-block:: c#
+
             altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel")
 
         - Returns all direct children from Canvas that have the name "Panel
 
-        .. code-block:: c# 
-            
+        .. code-block:: c#
+
             altUnityDriver.FindObjects(By.PATH, "//Canvas/*/text")
 
         - Returns all children on the second level from Canvas that are named "text"
 
-        .. code-block:: c# 
-            
+        .. code-block:: c#
+
             altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/StartButton[1]")
 
         - Returns the second child of the first object that has the name "StartButton" and is a direct child of Panel
@@ -3497,18 +3497,17 @@ The following selecting nodes, attributes and attributes are implemented:
 
         ``//NameOfParent/NameOfChild[n]``
 
-        .. code-block:: c# 
-            
+        .. code-block:: c#
+
             altUnityDriver.FindObject(By.PATH, "//Canvas[5]")
 
         - Returns the 6th direct child of the root Canvas
 
-        .. code-block:: c# 
-            
+        .. code-block:: c#
+
             altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]")
 
         - Returns the last direct child of Panel that is tagged as Player
-
 
 ```
 

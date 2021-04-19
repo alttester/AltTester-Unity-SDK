@@ -6,8 +6,8 @@ AltUnity Tester is an open-source UI driven test automation tool that helps you 
 
 .. toctree::
    :caption: Table of contents:
-   :maxdepth: 3
-   
+   :maxdepth: 4
+
    pages/overview
    pages/get-started
    pages/altunity-tester-editor
@@ -18,3 +18,5 @@ AltUnity Tester is an open-source UI driven test automation tool that helps you 
    pages/advanced-usage
    pages/license
    pages/contributing
+
+```

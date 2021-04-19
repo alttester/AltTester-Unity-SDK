@@ -1,11 +1,14 @@
 # Examples
 
-We used AltUnity Tester to test some sample games to help you understand better how to use it. 
+We used AltUnity Tester to test some sample games to help you understand better how to use it.
 We plan to add more examples in the near future.
 
 ```eval_rst
+
 .. note::
+
     Example test projects below can be run on any platform.
+
 ```
 
 **1.** Example test projects created for different languages and platforms:
