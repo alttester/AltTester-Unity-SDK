@@ -30,3 +30,14 @@
     margin-top: 12px !important;
     margin-bottom: 12px !important;
 }
+
+
+/* Table Of Content */
+
+.custom-table-of-contents ul {
+  list-style-type: decimal !important;
+}
+
+.custom-table-of-contents ul li {
+  list-style-type: decimal !important;
+}

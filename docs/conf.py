@@ -17,9 +17,10 @@
 
 # -- Project information -----------------------------------------------------
 
-
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
+
+
 project = 'AltUnity Tools'
 copyright = '2020, Altom Consulting'
 author = 'Altom'
@@ -35,8 +36,12 @@ release = 'v.1.6.3'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_markdown_tables',
-              'sphinx_tabs.tabs', "sphinx_rtd_theme", 'recommonmark']
+extensions = [
+    'sphinx_markdown_tables',
+    'sphinx_tabs.tabs',
+    'sphinx_rtd_theme',
+    'recommonmark'
+]
 
 source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 
@@ -52,6 +57,8 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 def setup(app):
     app.add_transform(AutoStructify)
+
+
 # -- Options for HTML output -------------------------------------------------
 
 
@@ -64,15 +71,19 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
 html_logo = '_static/images/altUnity-512x512.png'
+html_favicon = '_static/images/altUnity-512x512.png'
+
 html_css_files = [
     'css/custom.css',
 ]
+
 html_js_files = [
     'js/custom.js'
 ]
-html_favicon = '_static/images/altUnity-512x512.png'
 
 html_theme_options = {
-    "collapse_navigation": False,
+    'collapse_navigation': False,
+    'navigation_depth': 5
 }
