@@ -20,8 +20,10 @@ namespace Altom.AltUnityDriver
             this.id = id;
             this.enabled = enabled;
             this.idCamera = idCamera;
+#pragma warning disable CS0618
             this.parentId = parentId;
             this.transformParentId = (transformParentId != 0) ? transformParentId : this.parentId;
+#pragma warning restore CS0618
             this.transformId = transformId;
         }
     }

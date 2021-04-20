@@ -640,26 +640,24 @@ public class Input : UnityEngine.MonoBehaviour
         var oneInputDuration = duration / (positions.Length - 1);
         for (var i = 1; i < positions.Length; i++)
         {
-            var delta = positions[i] - touch.position;
+            var wholeDelta = positions[i] - touch.position;
+            var deltaPerSecond = wholeDelta / oneInputDuration;
             float time = 0;
             do
             {
+                UnityEngine.Vector2 previousPosition = touch.position;
                 if (time + UnityEngine.Time.unscaledDeltaTime < oneInputDuration)
                 {
-                    delta = delta * UnityEngine.Time.unscaledDeltaTime / oneInputDuration;
+                    touch.position += deltaPerSecond * UnityEngine.Time.unscaledDeltaTime;
                 }
                 else
                 {
-                    if (oneInputDuration != 0)
-                    {
-                        delta = delta * (oneInputDuration - time) / oneInputDuration;
-                    }
+                    touch.position = positions[i];
                 }
 
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
                 time += UnityEngine.Time.unscaledDeltaTime;
-                touch.position += delta;
-                touch.deltaPosition = delta;
+                touch.deltaPosition = touch.position - previousPosition;
 
                 for (var t = 0; t < touches.Length; t++)
                 {
