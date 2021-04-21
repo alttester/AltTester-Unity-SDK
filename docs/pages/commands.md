@@ -3346,13 +3346,13 @@ Currenty there are 7 types implemented:
 -   _Layer_ - search for objects that are set on a specific layer
 -   _Name_ - search for objects that are named in a certain way
 -   _Component_ - search for objects that have certain component
--   _Id_ - search for objects that has assigned certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#altid)
+-   _Id_ - search for objects that have assigned a certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#altid)
 -   _Text_ - search for objects that have a certain text
 -   _Path_ - search for objects that respect a certain path
 
 **Searching object by path**
 
-The following selecting nodes, attributes and attributes are implemented:
+The following selecting nodes and attributes are implemented:
 
 -   _object_ - Selects all object with the name "object"
 -   _/_ - Selects from the root node
@@ -3439,7 +3439,7 @@ The following selecting nodes, attributes and attributes are implemented:
 
                 ``//NameOfParent/NameOfChild/*[contains(@name,name)]``
 
-                ``//NameOfParent/NameOfChild/*[contains(@text, text)]``
+                ``//NameOfParent/NameOfChild/*[contains(@text,text)]``
 
                 .. code-block:: c#
 
@@ -3449,7 +3449,7 @@ The following selecting nodes, attributes and attributes are implemented:
 
             .. tab:: multiple selectors
 
-                ``//NameOfParent/NameOfChild/[@selector1=selectorName1][@selector2=selectorName2][@selector3=selectorName3]``
+                ``//NameOfParent/NameOfChild/*[@selector1=selectorName1][@selector2=selectorName2][@selector3=selectorName3]``
 
                 .. code-block:: c#
 
