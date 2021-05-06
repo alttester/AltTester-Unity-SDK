@@ -825,16 +825,24 @@ public class Input : UnityEngine.MonoBehaviour
     {
         float time = 0;
         var distance = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
+
         do
         {
-            var delta = new UnityEngine.Vector3(distance.x, distance.y);
-            delta = time + UnityEngine.Time.unscaledDeltaTime < duration
-                ? delta * UnityEngine.Time.unscaledDeltaTime / duration
-                : delta * (duration - time) / duration;
+            UnityEngine.Vector3 delta;
+
+            if (time + UnityEngine.Time.unscaledDeltaTime < duration)
+            {
+                delta = distance * UnityEngine.Time.unscaledDeltaTime / duration;
+            }
+            else
+            {
+                delta = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
+            }
+
             mousePosition += delta;
             yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
-        } while (time <= duration);
+        } while (time < duration);
         Finished = true;
     }
     public static void Scroll(float scrollValue, float duration)
