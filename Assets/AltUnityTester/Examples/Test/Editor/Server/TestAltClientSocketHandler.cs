@@ -1,12 +1,10 @@
-#if UNITY_EDITOR
-using NUnit.Framework;
-
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
-using Altom.AltUnityDriver.AltSocket;
-using Assets.AltUnityTester.AltUnityServer.Commands;
 using System;
-using Assets.AltUnityTester.AltUnityServer;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.AltSocket;
+using Assets.AltUnityTester.AltUnityServer;
+using Assets.AltUnityTester.AltUnityServer.AltSocket;
+using Assets.AltUnityTester.AltUnityServer.Commands;
+using NUnit.Framework;
 
 namespace unit.AltUnityServer
 {
@@ -80,7 +78,7 @@ namespace unit.AltUnityServer
             var command = new AltUnityErrorCommand(AltUnityErrors.errorCouldNotParseJsonString, new Exception("errormessage"), "messageid", "commandname", "param1", "param2");
 
             var cmdResult = command.ExecuteHandleErrors(command.Execute);
-            
+
             socketHandler.SendResponse(command.MessageId, command.CommandName, cmdResult.Item1, command.GetLogs());
         }
 
@@ -114,4 +112,3 @@ namespace unit.AltUnityServer
         }
     }
 }
-#endif

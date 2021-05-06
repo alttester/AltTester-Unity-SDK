@@ -3511,6 +3511,14 @@ The following selecting nodes and attributes are implemented:
 
 ```
 
+### Escaping characters
+
+There are several characters that you need to escape when you try to find an object. Some examples characters are the symbols for Request separator and Request ending, by default this are `;` and `&` but can be changed in Server settings. If you don't escape this characters the whole request is invalid and might shut down the server. Other characters are `!`, `[`, `]`, `(`, `)`, `/`, `\`, `.` or `,`. This characters are used in searching algorithm and if not escaped might return the wrong object or not found at all. To escape all the characters mentioned before just add `\\` before each character you want to escape.
+
+_Example:_  
+`//Q&A` - not escaped  
+`//Q\\&A` - escaped
+
 ### AltId
 
 Is a solution offered by AltUnity Tester in order to find object easier. This is an unique identifier stored in an component and added to every object.

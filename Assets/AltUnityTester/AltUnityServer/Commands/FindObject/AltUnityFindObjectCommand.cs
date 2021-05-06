@@ -7,9 +7,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            var path = ProcessPath(ObjectName);
-            var isDirectChild = IsNextElementDirectChild(path[0]);
-            var foundGameObject = FindObjects(null, path, 1, true, isDirectChild, Enabled);
+            var path = new PathSelector(ObjectPath);
+            var foundGameObject = FindObjects(null, path.FirstBound, true, Enabled);
             UnityEngine.Camera camera = null;
             if (!CameraPath.Equals("//"))
             {
