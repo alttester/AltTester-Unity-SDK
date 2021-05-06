@@ -1,0 +1,3 @@
+deprecated
+pure-python-adb
+loguru

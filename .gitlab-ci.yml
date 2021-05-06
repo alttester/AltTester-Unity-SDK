@@ -19,9 +19,10 @@
     fi
 
 .pip_install_dependencies: &pip_install_dependencies
-  - pip install Appium-Python-Client
   - pip uninstall --yes altunityrunner || true
-  - pip install -e "Bindings~/python"
+  - pip install -r "Bindings~/python/requirements.txt"
+  - pip install -e "Bindings~/python" --root "Bindings~/python"
+  - pip install Appium-Python-Client
   - pip install Deprecated
   - pip install pytest
 
