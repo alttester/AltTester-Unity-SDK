@@ -104,6 +104,7 @@ public class PathSelectorTests
     [TestCase("//test////name", "Expected object name or *. Got ``")]
     [TestCase("//test///name", "Expected object name or *. Got ``")]
     [TestCase("//name//..", "Expected /, // or /..; got //..")]
+    [TestCase("//name\\", "Final \\ must be escaped. Add another \\ at the end to escape it")]
     public void TestInvalidPathSelectors(string path, string exceptionMessage)
     {
         var invalidPathException = Assert.Throws<InvalidPathException>(() => new PathSelector(path));
@@ -131,6 +132,7 @@ public class PathSelectorTests
         var firstCondition = selector.FirstBound.FirstSelector;
         Assert.True(firstCondition is SelectorCondition);
         Assert.AreEqual(value, firstCondition.Selector);
+        Assert.AreEqual(value, (firstCondition as NameCondition).Name);
         Assert.AreEqual(SelectorType.Name, firstCondition.Type);
     }
 

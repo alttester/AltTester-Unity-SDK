@@ -174,7 +174,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         {
             this.Name = selector;
         }
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         public override GameObject MatchCondition(GameObject gameObjectToCheck, bool enabled)
         {
@@ -434,6 +434,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 if (text[i].Equals('\\'))
                 {
+                    if (i == text.Length - 1)
+                    {
+                        throw new InvalidPathException("Final \\ must be escaped. Add another \\ at the end to escape it");
+                    }
                     escapedCharacters.Add(text[i + 1]);
                     cleanedText.Append('!');
                     i++;
@@ -511,6 +515,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         var propValue = (SelectorCondition as FunctionCondition).PropertyValue;
                         changeEscapedCharacterAndIncreaseCounter(escapedCharacters, counter, ref propValue);
                         (SelectorCondition as FunctionCondition).PropertyValue = propValue;
+                    }
+                    else if (SelectorCondition.Type == SelectorType.Name)
+                    {
+                        var propValue = (SelectorCondition as NameCondition).Name;
+                        changeEscapedCharacterAndIncreaseCounter(escapedCharacters, counter, ref propValue);
+                        (SelectorCondition as NameCondition).Name = propValue;
                     }
 
                     var selector = SelectorCondition.Selector;
