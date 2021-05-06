@@ -250,14 +250,16 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         /// <returns></returns>
         public FunctionCondition(string selector, SelectorCondition previousSelector) : base(selector, SelectorType.Function, previousSelector)
         {
-            var delimiterPos = selector.IndexOf("(");
+            var delimiterPos = selector.IndexOf(")");
+            if (delimiterPos != selector.Length - 1) throw new InvalidPathException("Expected property selector format `function(@propertyName,propertyvalue)` Got " + selector);
+
+            delimiterPos = selector.IndexOf("(");
             if (delimiterPos < 0) throw new InvalidPathException("Expected property selector format `function(@propertyName,propertyvalue)` Got " + selector);
 
             var functionName = selector.Substring(0, delimiterPos);
             this.Function = GetFunctionType(functionName);
 
             string condition = selector.Substring(delimiterPos + 1, selector.Length - delimiterPos - 2);
-
 
             delimiterPos = condition.IndexOf(",");
             if (delimiterPos < 0) throw new InvalidPathException("Expected property selector format `function(@propertyName,propertyvalue)` Got " + selector);
