@@ -105,6 +105,7 @@ public class PathSelectorTests
     [TestCase("//test///name", "Expected object name or *. Got ``")]
     [TestCase("//name//..", "Expected /, // or /..; got //..")]
     [TestCase("//name\\", "Final \\ must be escaped. Add another \\ at the end to escape it")]
+    [TestCase("//*[contains(@name,Pla]", "Expected property selector format `function(@propertyName,propertyvalue)` Got contains(@name,Pla")]
     public void TestInvalidPathSelectors(string path, string exceptionMessage)
     {
         var invalidPathException = Assert.Throws<InvalidPathException>(() => new PathSelector(path));
