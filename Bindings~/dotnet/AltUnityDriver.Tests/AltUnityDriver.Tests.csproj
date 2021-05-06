@@ -16,7 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="../../../Assets/AltUnityTester/Examples/Test/Editor/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+        <Compile Include="../../../Assets/AltUnityTester/Examples/Test/Editor/Driver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 
 

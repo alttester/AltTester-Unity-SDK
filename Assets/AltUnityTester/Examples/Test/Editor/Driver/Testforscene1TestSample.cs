@@ -883,18 +883,14 @@ public class TestForScene1TestSample
         var altElement = altUnityDriver.FindObject(By.PATH, "//UIButton/*");
         Assert.True(altElement.name.Equals("Text"));
     }
-    [Test]
-    public void TestFindingDifferentObjects()
+    [TestCase("//*[contains(@name,Cub)]", "Cube")]
+    [TestCase("//RotateMainCameraButton/../*[contains(@name,Seconda)]/Text", "Text")]
+    [TestCase("//*[@component=BoxCollider]", "Cube")]
+    [TestCase("/Capsule/../Plane", "Plane")]
+    public void TestFindingDifferentObjects(string path, string result)
     {
-        var altElement = altUnityDriver.FindObject(By.PATH, "//*[contains(@name,Cub)]", enabled: false);
-        Assert.True(altElement.name.Equals("Cube"));
-
-        altElement = altUnityDriver.FindObject(By.PATH, "//RotateMainCameraButton/../*[contains(@name,Seconda)]/Text");
-        Assert.True(altElement.name.Equals("Text"));
-
-        altElement = altUnityDriver.FindObject(By.PATH, "//*[@component=BoxCollider]", enabled: false);
-        Assert.True(altElement.name.Equals("Cube"));
-
+        var altElement = altUnityDriver.FindObject(By.PATH, path, enabled: false);
+        Assert.True(altElement.name.Equals(result));
 
     }
 
@@ -1033,6 +1029,9 @@ public class TestForScene1TestSample
         Assert.AreEqual(5, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
         Assert.AreEqual(4, altElements.Count);
+
+        Assert.AreEqual("First", altUnityDriver.FindObject(By.PATH, "/Canvas/First").name);
+        Assert.AreEqual("WorldSpaceButton", altUnityDriver.FindObject(By.PATH, "/Canvas/WorldSpaceButton").name);
     }
     [Test]
     public void TestGetScreenshot()
@@ -1567,22 +1566,20 @@ public class TestForScene1TestSample
         Assert.AreEqual("true", data);
     }
 
-    [Test]
-    public void TestFindNthChild()
+    [TestCase("/Canvas[0]", "CapsuleInfo", true)]
+    [TestCase("/Canvas[1]", "UIButton", true)]
+    [TestCase("/Canvas[-1]", "NextScene", true)]
+    [TestCase("/Canvas[-2]", "ButtonCounter", true)]
+    [TestCase("/Canvas[@layer=UI][5]", "InputField", true)]
+    [TestCase("/Canvas[1]/Text", "Text", true)]
+    [TestCase("//CanvasPopUp[0]", "Icon", true)]
+    [TestCase("//CanvasPopUp[0]", "PopUp", false)]
+    [TestCase("//CanvasPopUp[-1]", "Icon", false)]
+    [TestCase("//CanvasPopUp[-2]", "PopUp", false)]
+    public void TestFindNthChild(string path, string expectedResult, bool enabled)
     {
-        var CapsuleInfo = altUnityDriver.FindObject(By.PATH, "/Canvas[0]");
-        Assert.AreEqual("CapsuleInfo", CapsuleInfo.name);
-        var UIButton = altUnityDriver.FindObject(By.PATH, "/Canvas[1]");
-        Assert.AreEqual("UIButton", UIButton.name);
-        var NextScene = altUnityDriver.FindObject(By.PATH, "/Canvas[-1]");
-        Assert.AreEqual("NextScene", NextScene.name);
-        var ButtonCounter = altUnityDriver.FindObject(By.PATH, "/Canvas[-2]");
-        Assert.AreEqual("ButtonCounter", ButtonCounter.name);
-        var InputField = altUnityDriver.FindObject(By.PATH, "/Canvas[@layer=UI][5]");
-        Assert.AreEqual("InputField", InputField.name);
-        var Text = altUnityDriver.FindObject(By.PATH, "/Canvas[1]/Text");
-        Assert.AreEqual("Text", Text.name);
-
+        var altElement = altUnityDriver.FindObject(By.PATH, path, enabled: enabled);
+        Assert.AreEqual(expectedResult, altElement.name);
     }
     [Test]
     public void TestUnloadScene()

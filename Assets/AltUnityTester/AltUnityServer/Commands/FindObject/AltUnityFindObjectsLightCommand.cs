@@ -18,10 +18,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 if (camera == null)
                     return AltUnityErrors.errorCameraNotFound;
             }
-            var path = ProcessPath(ObjectName);
-            var isDirectChild = IsNextElementDirectChild(path[0]);
+            var path = new PathSelector(ObjectPath);
             var foundObjects = new List<AltUnityObjectLight>();
-            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path, 1, false, isDirectChild, Enabled))
+            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, Enabled))
             {
                 foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObjectLight(testableObject, camera));
             }

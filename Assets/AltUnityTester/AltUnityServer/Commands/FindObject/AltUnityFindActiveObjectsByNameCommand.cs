@@ -9,7 +9,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
-            var foundGameObject = UnityEngine.GameObject.Find(ObjectName);
+            var foundGameObject = UnityEngine.GameObject.Find(ObjectPath);
             if (foundGameObject != null)
             {
                 UnityEngine.Camera camera = null;
