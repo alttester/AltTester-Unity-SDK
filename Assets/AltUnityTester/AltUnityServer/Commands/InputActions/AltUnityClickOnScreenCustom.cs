@@ -25,8 +25,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         {
 #if ALTUNITYTESTER
 
-            if (!int.TryParse(count, out int pCount)) { pCount = 1; }
-            if (!float.TryParse(interval, out float pInterval)) { pInterval = 0f; }
+            int pCount;
+            float pInterval;
+            if (!int.TryParse(count, out pCount)) { pCount = 1; }
+            if (!float.TryParse(interval, out pInterval)) { pInterval = 0f; }
 
             Input.SetCustomClick(position, pCount, pInterval);
             return "Ok";
