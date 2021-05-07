@@ -14,7 +14,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 {
     private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-    public static readonly string VERSION = "1.6.3";
+    public static readonly string VERSION = "1.6.4";
     public static AltUnityRunner _altUnityRunner;
     public static AltResponseQueue _responseQueue;
 

@@ -1,3 +1,23 @@
+# Changes in version 1.6.4
+
+## Bug fixes and improvements
+
+-   "Path selector parsing and error handling" !408
+-   "Fix the python bindings packaging script" !409
+-   "FindObjects indexer does not take into account enabled false flag" !406
+-   "move mouse does not move to the right position" !412
+-   "fix for moving whole delta in last frame" !402
+
+## Contributors
+
+-   Dorin Oltean @dorinaltom
+-   Gombos Kriszta @GombosKriszta
+-   Andra Cardas @andra.cardas
+-   Robert Dezmerean @robert-dezmerean
+-   Iuliana Todoran @iuliana.todoran
+-   Robert Poienar @robert_poienar
+-   Andy @effalumper
+
 # Changes in version 1.6.3
 
 ## New
