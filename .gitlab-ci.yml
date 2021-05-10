@@ -23,7 +23,6 @@
   - pip install -r "Bindings~/python/requirements.txt"
   - pip install -e "Bindings~/python" --root "Bindings~/python"
   - pip install Appium-Python-Client
-  - pip install Deprecated
   - pip install pytest
 
 workflow:
@@ -307,7 +306,10 @@ deploy-altunitytester-python:
     - android
   script:
     - cd "Bindings~/python"
-    - python setup.py sdist upload -r pypi
+    - python3 -m pip install --upgrade pip
+    - python3 -m pip install -r requirements-dev.txt
+    - python3 setup.py sdist
+    - python3 -m twine upload dist/*
 
 deploy-altunitydriver-dotnet:
   stage: deploy
