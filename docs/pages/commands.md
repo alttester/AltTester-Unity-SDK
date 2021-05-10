@@ -636,10 +636,10 @@ Simulates mouse movement in your game. This command will wait for the movement t
             UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
             Thread.Sleep(1500);
 
-            AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+            AltUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
             AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
             Thread.Sleep(1500);
-            AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+            AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
 
             stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
             Assert.AreEqual(3, stars.Count);
@@ -727,10 +727,10 @@ Simulates mouse movement in your game. This command does not wait for the moveme
             UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
             Thread.Sleep(1500);
 
-            AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+            AltUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
             AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
             Thread.Sleep(1500);
-            AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+            AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
 
             stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
             Assert.AreEqual(3, stars.Count);
@@ -785,7 +785,7 @@ Simulates mouse movement in your game. This command does not wait for the moveme
 
 #### PressKeyAndWait
 
-Simulates key press action in your game. This command waist for the action to finish. If you don't want to wait until the action to finish use [PressKey](#presskey)
+Simulates key press action in your game. This command waits for the action to finish. If you don't want to wait the action to finish use [PressKey](#presskey)
 
 **_Parameters_**
 
@@ -819,10 +819,10 @@ Simulates key press action in your game. This command waist for the action to fi
             UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
             Thread.Sleep(1500);
 
-            AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+            AltUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
             AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
             Thread.Sleep(1500);
-            AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+            AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
 
             stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
             Assert.AreEqual(3, stars.Count);
@@ -911,10 +911,10 @@ Simulates key press action in your game. This command does not wait for the acti
             UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
             Thread.Sleep(1500);
 
-            AltUnityDriver.PressKey(UnityEngine.KeyCode.Mouse0, 0);
+            AltUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
             AltUnityDriver.MoveMouseAndWait(new UnityEngine.Vector2(player[0].x, player[0].y-500), 1);
             Thread.Sleep(1500);
-            AltUnityDriver.PressKeyAndWait(UnityEngine.KeyCode.Mouse0, 1);
+            AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
 
             stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
             Assert.AreEqual(3, stars.Count);
