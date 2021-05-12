@@ -3390,6 +3390,16 @@ The following selecting nodes and attributes are implemented:
             altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel//*")
 
         - Returns all children from Panel
+    
+    .. tab:: \..
+
+        ``//CapsuleInfo/..``
+
+        .. code-block:: c#
+
+            altUnityDriver.FindObject(By.PATH, "//CapsuleInfo/..")
+
+        - Returns the parent of the object CapsuleInfo
 
     .. tab:: selectors
 
