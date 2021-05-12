@@ -360,21 +360,6 @@ pages:
     - make html
     - cp -r _build/html/. ../public/
 
-maven-snapshot-repo:
-  stage: deploy
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - if: '$CI_COMMIT_REF_NAME == "master"'
-      when: manual
-    - when: never
-  script:
-    - cd "Bindings~/java"
-    - mvn deploy -DskipTests
-  tags:
-    - unity
-    - mac
-
 maven-repo:
   stage: deploy
   rules:
@@ -385,7 +370,7 @@ maven-repo:
     - when: never
   script:
     - cd "Bindings~/java"
-    - mvn deploy -f pom-release.xml -DskipTests
+    - mvn clean deploy -Dgpg.passphrase=$GPG_PASSWORD -f pom-release.xml -DskipTests
   tags:
     - unity
     - mac

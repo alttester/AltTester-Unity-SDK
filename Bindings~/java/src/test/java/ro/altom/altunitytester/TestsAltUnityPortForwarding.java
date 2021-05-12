@@ -11,7 +11,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static com.github.stefanbirkner.systemlambda.SystemLambda.withEnvironmentVariable;
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 
 public class TestsAltUnityPortForwarding {
 
@@ -43,7 +43,7 @@ public class TestsAltUnityPortForwarding {
     @Test
     public void testGetAdbPathAndroidSdk() throws Exception {
         String androidSdkRoot = Paths.get("path", "to", "adb").toString();
-        withEnvironmentVariable("ANDROID_SDK_ROOT", androidSdkRoot)
+        SystemLambda.withEnvironmentVariable("ANDROID_SDK_ROOT", androidSdkRoot)
                 .execute(() -> assertEquals(Paths.get(androidSdkRoot, "platform-tools", "adb").toString(),
                         AltUnityPortForwarding.getAdbPath("")));
     }

@@ -545,7 +545,7 @@ public class AltUnityDriver {
     }
 
     /**
-     * @ Deprecated port forwarding methods are moved to AltUnityPortForwarding
+     * Deprecated port forwarding methods are moved to AltUnityPortForwarding
      * class. This is going to be removed in the future.
      */
 
@@ -584,7 +584,7 @@ public class AltUnityDriver {
     }
 
     /**
-     * @ Deprecated port forwarding methods are moved to AltUnityPortForwarding
+     * Deprecated port forwarding methods are moved to AltUnityPortForwarding
      * class. This is going to be removed in the future.
      */
 
