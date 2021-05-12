@@ -135,6 +135,17 @@ namespace Altom.Editor
         [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObject", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
+            var scenes = altUnityGetAllScenes();
+            foreach (var scene in scenes)
+            {
+                EditorSceneManager.OpenScene(scene);
+                AddIdComponentToEveryObjectInActiveScene();
+            }
+        }
+
+        [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObjectInActiveScene", false, 800)]
+        public static void AddIdComponentToEveryObjectInActiveScene()
+        {
             var rootObjects = new List<UnityEngine.GameObject>();
             UnityEngine.SceneManagement.Scene scene = EditorSceneManager.GetActiveScene();
             scene.GetRootGameObjects(rootObjects);
@@ -156,9 +167,27 @@ namespace Altom.Editor
             foreach (var scene in scenes)
             {
                 EditorSceneManager.OpenScene(scene);
-                removeComponentFromEveryObjectInTheScene();
+                RemoveComponentFromEveryObjectInTheScene();
             }
         }
+
+        [UnityEditor.MenuItem("AltUnity Tools/RemoveAltIdFromEveryObjectInActiveScene", false, 800)]
+        public static void RemoveComponentFromEveryObjectInTheScene()
+        {
+            var rootObjects = new List<UnityEngine.GameObject>();
+            UnityEngine.SceneManagement.Scene scene = EditorSceneManager.GetActiveScene();
+            scene.GetRootGameObjects(rootObjects);
+
+            // iterate root objects and do something
+            for (int i = 0; i < rootObjects.Count; ++i)
+            {
+                removeComponentFromObjectAndHisChildren(rootObjects[i]);
+            }
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+        }
+
+
 
         #endregion
 
@@ -1626,21 +1655,6 @@ namespace Altom.Editor
             {
                 addComponentToObjectAndHisChildren(gameObject.transform.GetChild(j).gameObject);
             }
-        }
-
-        private static void removeComponentFromEveryObjectInTheScene()
-        {
-            var rootObjects = new List<UnityEngine.GameObject>();
-            UnityEngine.SceneManagement.Scene scene = EditorSceneManager.GetActiveScene();
-            scene.GetRootGameObjects(rootObjects);
-
-            // iterate root objects and do something
-            for (int i = 0; i < rootObjects.Count; ++i)
-            {
-                removeComponentFromObjectAndHisChildren(rootObjects[i]);
-            }
-            EditorSceneManager.MarkSceneDirty(scene);
-            EditorSceneManager.SaveScene(scene);
         }
 
         private static void removeComponentFromObjectAndHisChildren(UnityEngine.GameObject gameObject)
