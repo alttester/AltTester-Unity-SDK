@@ -10,7 +10,7 @@ LICENSE = 'GNU GPLv3'
 
 
 with open("altunityrunner/__version__.py") as f:
-    VERSION = f.readline().replace("VERSION = ", "").replace("\"", "")
+    VERSION = f.readline().replace("VERSION = ", "").replace("\"", "").replace("\n", "")
 
 
 with open('requirements.txt') as f:
@@ -43,6 +43,7 @@ setup(
     setup_requires=REQUIRED,
     install_requires=REQUIRED,
     packages=find_packages(exclude=['tests']),
+    include_package_data=True,
 
     classifiers=[
         "Development Status :: 5 - Production/Stable",

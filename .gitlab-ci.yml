@@ -20,6 +20,7 @@
 
 .pip_install_dependencies: &pip_install_dependencies
   - pip uninstall --yes altunityrunner || true
+  - pip install --upgrade pip
   - pip install -r "Bindings~/python/requirements.txt"
   - pip install -e "Bindings~/python" --root "Bindings~/python"
   - pip install Appium-Python-Client
