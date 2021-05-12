@@ -1102,7 +1102,7 @@ class PythonTests(unittest.TestCase):
             self.altdriver.socket,
             self.altdriver.request_separator,
             self.altdriver.request_end).execute()
-        self.assertEqual(serverVersion, VERSION)
+        self.assertTrue(VERSION.startswith(serverVersion))
 
     def test_altElement_parentId(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
