@@ -1504,7 +1504,7 @@ namespace Altom.Editor
 #if UNITY_2019_1_OR_NEWER
                             UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1, 0);
 #else
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
 #endif
                         }
                     }
@@ -1544,9 +1544,14 @@ namespace Altom.Editor
                 if (test.IsSuite)
                 {
                     var index = EditorConfiguration.MyTests.IndexOf(test);
-                    for (int i = index + 1; i <= index + test.TestCaseCount; i++)
+                    var testCount = test.TestCaseCount;
+                    for (int i = index + 1; i <= index + testCount; i++)
                     {
                         EditorConfiguration.MyTests[i].Selected = test.Selected;
+                        if (EditorConfiguration.MyTests[i].IsSuite)
+                        {
+                            testCount++;
+                        }
                     }
                 }
                 if (test.Selected == false)
