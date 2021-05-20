@@ -693,7 +693,11 @@ namespace Altom.Editor
             if (!www.isDone)
                 return;
 
+#if UNITY_2020_1_OR_NEWER
+            if (www.result == UnityEngine.Networking.UnityWebRequest.Result.ConnectionError)
+#else
             if (www.isNetworkError)
+#endif
             {
                 UnityEngine.Debug.Log(www.error);
             }
