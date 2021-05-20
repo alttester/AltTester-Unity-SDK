@@ -169,7 +169,10 @@ namespace Altom.Editor
             string filePath = Application.dataPath + gameDataProjectFilePath;
             if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources/AltUnityTester"))
             {
-                UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
+                if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources"))
+                {
+                    UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
+                }
                 UnityEditor.AssetDatabase.CreateFolder("Assets/Resources", "AltUnityTester");
             }
             System.IO.File.WriteAllText(filePath, dataAsJson);
