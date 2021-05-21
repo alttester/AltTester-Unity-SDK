@@ -9,6 +9,7 @@ using NLog;
 using NLog.Layouts;
 using UnityEditor.SceneManagement;
 
+
 namespace Altom.Editor
 {
     public class AltUnityTesterEditor : UnityEditor.EditorWindow
@@ -1480,8 +1481,16 @@ namespace Altom.Editor
                 }
                 else
                 {
-                    var splitedPath = testName.Split('.');
-                    testName = splitedPath[splitedPath.Length - 1];
+                    if (testName.Contains('('))
+                    {
+                        var splitedPath = testName.Split(new[] { '.' }, 2);
+                        testName = splitedPath[1];
+                    }
+                    else
+                    {
+                        var splitedPath = testName.Split('.');
+                        testName = splitedPath[splitedPath.Length - 1];
+                    }
                 }
 
 
