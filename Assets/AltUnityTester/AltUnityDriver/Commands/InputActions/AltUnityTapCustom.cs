@@ -2,22 +2,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityTapCustom : AltBaseCommand
     {
-        float x;
-        float y;
-        int count;
-        float interval;
-        public AltUnityTapCustom(SocketSettings socketSettings, float x, float y, int count, float interval) : base(socketSettings)
+        private AltUnityTapCustomParams cmdParams;
+
+        public AltUnityTapCustom(IDriverCommunication commHandler, float x, float y, int count, float interval) : base(commHandler)
         {
-            this.x = x;
-            this.y = y;
-            this.count = count;
-            this.interval = interval;
+            cmdParams = new AltUnityTapCustomParams(x, y, count, interval);
         }
         public void Execute()
         {
-            var posJson = PositionToJson(x, y);
-            SendCommand("tapCustom", posJson, count.ToString(), interval.ToString());
-            string data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

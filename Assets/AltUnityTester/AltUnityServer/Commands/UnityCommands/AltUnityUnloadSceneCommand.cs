@@ -1,18 +1,17 @@
 using System;
 using Altom.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
+using Altom.AltUnityDriver.Commands;
+using Assets.AltUnityTester.AltUnityServer.Communication;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityUnloadSceneCommand : AltUnityCommand
+    class AltUnityUnloadSceneCommand : AltUnityCommand<AltUnityUnloadSceneParams, string>
     {
-        readonly string scene;
-        readonly AltClientSocketHandler handler;
+        readonly ICommandHandler handler;
 
-        public AltUnityUnloadSceneCommand(AltClientSocketHandler handler, params string[] parameters) : base(parameters, 3)
+        public AltUnityUnloadSceneCommand(ICommandHandler handler, AltUnityUnloadSceneParams cmdParams) : base(cmdParams)
         {
             this.handler = handler;
-            scene = parameters[2];
         }
 
         public override string Execute()
@@ -20,16 +19,16 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             string response = AltUnityErrors.errorNotFoundMessage;
             try
             {
-                var sceneLoadingOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(scene);
+                var sceneLoadingOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(CommandParams.sceneName);
                 if (sceneLoadingOperation == null)
                 {
-                    throw new CouldNotPerformOperationException("Cannot unload scene: " + scene);
+                    throw new CouldNotPerformOperationException("Cannot unload scene: " + CommandParams.sceneName);
                 }
                 sceneLoadingOperation.completed += sceneUnloaded;
             }
             catch (ArgumentException)
             {
-                throw new CouldNotPerformOperationException("Cannot unload scene: " + scene);
+                throw new CouldNotPerformOperationException("Cannot unload scene: " + CommandParams.sceneName);
             }
 
             response = "Ok";
@@ -38,7 +37,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         private void sceneUnloaded(UnityEngine.AsyncOperation obj)
         {
-            handler.SendResponse(MessageId, CommandName, "Scene Unloaded", string.Empty);
+            handler.Send(ExecuteAndSerialize(() => "Scene Unloaded"));
         }
     }
 }

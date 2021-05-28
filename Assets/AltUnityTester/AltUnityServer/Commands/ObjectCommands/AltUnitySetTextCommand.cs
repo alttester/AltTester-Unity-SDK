@@ -1,9 +1,10 @@
+using System;
 using Altom.AltUnityDriver;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnitySetTextCommand : AltUnityReflectionMethodsCommand
+    class AltUnitySetTextCommand : AltUnityReflectionMethodsCommand<AltUnitySetTextParams, AltUnityObject>
     {
         static readonly AltUnityObjectProperty[] textProperties =
         {
@@ -12,45 +13,39 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             new AltUnityObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltUnityObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
         };
-        readonly AltUnityObject altUnityObject;
-        readonly string inputText;
 
-        public AltUnitySetTextCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnitySetTextCommand(AltUnitySetTextParams cmdParams) : base(cmdParams)
         {
-            this.altUnityObject = JsonConvert.DeserializeObject<AltUnityObject>(parameters[2]);
-            this.inputText = parameters[3];
         }
 
-        public override string Execute()
+        public override AltUnityObject Execute()
         {
-            var response = AltUnityErrors.errorNotFoundMessage;
-
-            var targetObject = AltUnityRunner.GetGameObject(altUnityObject);
+            var targetObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);
+            Exception exception = null;
 
             foreach (var property in textProperties)
             {
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
-                    response = SetValueForMember(altUnityObject, property.Property.Split('.'), type, inputText);
-                    if (!response.Contains("error:"))
-                        return JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject));
+                    SetValueForMember(CommandParams.altUnityObject, property.Property.Split('.'), type, CommandParams.value);
+                    return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject);
                 }
-                catch (PropertyNotFoundException)
+                catch (PropertyNotFoundException ex)
                 {
-                    response = AltUnityErrors.errorPropertyNotFoundMessage;
+                    exception = ex;
                 }
-                catch (ComponentNotFoundException)
+                catch (ComponentNotFoundException ex)
                 {
-                    response = AltUnityErrors.errorComponentNotFoundMessage;
+                    exception = ex;
                 }
-                catch (AssemblyNotFoundException)
+                catch (AssemblyNotFoundException ex)
                 {
-                    response = AltUnityErrors.errorAssemblyNotFoundMessage;
+                    exception = ex;
                 }
             }
-
-            return response;
+            if (exception != null) throw exception;
+            throw new Exception("Something went wrong"); // should not reach this point
         }
     }
 }

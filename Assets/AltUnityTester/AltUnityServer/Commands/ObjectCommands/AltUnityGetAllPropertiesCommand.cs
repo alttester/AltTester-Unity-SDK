@@ -3,35 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 using Altom.Server.Logging;
 using Newtonsoft.Json;
 using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetAllPropertiesCommand : AltUnityReflectionMethodsCommand
+    class AltUnityGetAllPropertiesCommand : AltUnityReflectionMethodsCommand<AltUnityGetAllPropertiesParams, List<AltUnityProperty>>
     {
         private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
-        readonly int id;
-        AltUnityComponent component;
-        readonly AltUnityPropertiesSelections altUnityPropertiesSelections;
 
-        public AltUnityGetAllPropertiesCommand(params string[] parameters) : base(parameters, 5)
+        public AltUnityGetAllPropertiesCommand(AltUnityGetAllPropertiesParams cmdParams) : base(cmdParams)
         {
-            this.id = JsonConvert.DeserializeObject<int>(parameters[2]);
-            this.component = JsonConvert.DeserializeObject<AltUnityComponent>(parameters[3]);
-            this.altUnityPropertiesSelections = (AltUnityPropertiesSelections)Enum.Parse(typeof(AltUnityPropertiesSelections), parameters[4]);
         }
 
-        public override string Execute()
+        public override List<AltUnityProperty> Execute()
         {
             UnityEngine.GameObject altObject;
-            altObject = AltUnityRunner.GetGameObject(id);
-            Type type = GetType(component.componentName, component.assemblyName);
+            altObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObjectId);
+            Type type = GetType(CommandParams.altUnityComponent.componentName, CommandParams.altUnityComponent.assemblyName);
             var altObjectComponent = altObject.GetComponent(type);
             var propertyInfos = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            switch (altUnityPropertiesSelections)
+            switch (CommandParams.altUnityPropertiesSelections)
             {
                 case AltUnityPropertiesSelections.CLASSPROPERTIES:
                     propertyInfos = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
@@ -71,7 +66,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 }
 
             }
-            return JsonConvert.SerializeObject(listProperties);
+            return listProperties;
         }
     }
 }

@@ -5,26 +5,24 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityCommandReturningAltElement : AltBaseCommand
     {
-        public AltUnityCommandReturningAltElement(SocketSettings socketSettings) : base(socketSettings)
+        public AltUnityCommandReturningAltElement(IDriverCommunication commHandler) : base(commHandler)
         {
         }
 
-        protected AltUnityObject ReceiveAltUnityObject()
+        protected AltUnityObject ReceiveAltUnityObject(CommandParams cmdParams)
         {
-            string data = Recvall();
+            var altElement = CommHandler.Recvall<AltUnityObject>(cmdParams).data;
+            altElement.CommHandler = CommHandler;
 
-            AltUnityObject altElement = JsonConvert.DeserializeObject<AltUnityObject>(data);
-            altElement.socketSettings = SocketSettings;
             return altElement;
         }
-        protected List<AltUnityObject> ReceiveListOfAltUnityObjects()
+        protected List<AltUnityObject> ReceiveListOfAltUnityObjects(CommandParams cmdParams)
         {
-            string data = Recvall();
+            var altElements = CommHandler.Recvall<List<AltUnityObject>>(cmdParams).data;
 
-            var altElements = JsonConvert.DeserializeObject<List<AltUnityObject>>(data);
             foreach (var altElement in altElements)
             {
-                altElement.socketSettings = SocketSettings;
+                altElement.CommHandler = CommHandler;
             }
 
             return altElements;

@@ -1,33 +1,27 @@
 using System;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnitySetKeyPlayerPrefCommand : AltUnityCommand
+    class AltUnitySetKeyPlayerPrefCommand : AltUnityCommand<AltUnitySetKeyPlayerPrefParams, string>
     {
-        readonly PLayerPrefKeyType type;
-        readonly string keyName;
-        readonly string value;
-
-        public AltUnitySetKeyPlayerPrefCommand(params string[] parameters) : base(parameters, 5)
+        public AltUnitySetKeyPlayerPrefCommand(AltUnitySetKeyPlayerPrefParams cmdParams) : base(cmdParams)
         {
-            this.keyName = parameters[2];
-            this.value = parameters[3];
-            type = (PLayerPrefKeyType)Enum.Parse(typeof(PLayerPrefKeyType), parameters[4]);
         }
 
         public override string Execute()
         {
-            switch (type)
+            switch (CommandParams.keyType)
             {
-                case PLayerPrefKeyType.String:
-                    UnityEngine.PlayerPrefs.SetString(keyName, value);
+                case PlayerPrefKeyType.String:
+                    UnityEngine.PlayerPrefs.SetString(CommandParams.keyName, CommandParams.stringValue);
                     break;
-                case PLayerPrefKeyType.Float:
-                    UnityEngine.PlayerPrefs.SetFloat(keyName, float.Parse(value));
+                case PlayerPrefKeyType.Float:
+                    UnityEngine.PlayerPrefs.SetFloat(CommandParams.keyName, CommandParams.floatValue);
                     break;
-                case PLayerPrefKeyType.Int:
-                    UnityEngine.PlayerPrefs.SetInt(keyName, int.Parse(value));
+                case PlayerPrefKeyType.Int:
+                    UnityEngine.PlayerPrefs.SetInt(CommandParams.keyName, CommandParams.intValue);
                     break;
             }
             return "Ok";

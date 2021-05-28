@@ -1,17 +1,16 @@
+using Altom.AltUnityDriver.Commands;
+
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityDeleteKeyPlayerPrefCommand : AltUnityCommand
+    class AltUnityDeleteKeyPlayerPrefCommand : AltUnityCommand<AltUnityDeleteKeyPlayerPrefParams, string>
     {
-        readonly string keyName;
-
-        public AltUnityDeleteKeyPlayerPrefCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnityDeleteKeyPlayerPrefCommand(AltUnityDeleteKeyPlayerPrefParams cmdParams) : base(cmdParams)
         {
-            this.keyName = parameters[2];
         }
 
         public override string Execute()
         {
-            UnityEngine.PlayerPrefs.DeleteKey(keyName);
+            UnityEngine.PlayerPrefs.DeleteKey(CommandParams.keyName);
             return "Ok";
         }
     }

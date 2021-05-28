@@ -22,7 +22,7 @@ namespace Altom.AltUnityDriver
         public int transformParentId;
         public int transformId;
         [Newtonsoft.Json.JsonIgnore]
-        public SocketSettings socketSettings;
+        public IDriverCommunication CommHandler;
         public AltUnityObject(string name, int id = 0, int x = 0, int y = 0, int z = 0, int mobileY = 0, string type = "", bool enabled = true, float worldX = 0, float worldY = 0, float worldZ = 0, int idCamera = 0, int parentId = 0, int transformParentId = 0, int transformId = 0)
         {
             this.name = name;
@@ -46,7 +46,7 @@ namespace Altom.AltUnityDriver
 
         public AltUnityObject getParent()
         {
-            return new AltUnityFindObject(socketSettings, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
+            return new AltUnityFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
         }
         public AltUnityVector2 getScreenPosition()
         {
@@ -58,68 +58,75 @@ namespace Altom.AltUnityDriver
         }
         public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null, int maxDepth = 2)
         {
-            return new AltUnityGetComponentProperty(socketSettings, componentName, propertyName, assemblyName, maxDepth, this).Execute();
+            return new AltUnityGetComponentProperty(CommHandler, componentName, propertyName, assemblyName, maxDepth, this).Execute();
         }
         public string SetComponentProperty(string componentName, string propertyName, string value, string assemblyName = null)
         {
-            return new AltUnitySetComponentProperty(socketSettings, componentName, propertyName, value, assemblyName, this).Execute();
+            return new AltUnitySetComponentProperty(CommHandler, componentName, propertyName, value, assemblyName, this).Execute();
         }
+        [Obsolete("Use CallComponentMethod overload")]
         public string CallComponentMethod(string componentName, string methodName, string parameters, string typeOfParameters = "", string assemblyName = null)
         {
-            return new AltUnityCallComponentMethod(socketSettings, componentName, methodName, parameters, typeOfParameters, assemblyName, this).Execute();
+            var paramterTypes = CommandHelpers.ParseParseMethodCallypeOfParameters(typeOfParameters);
+            return CallComponentMethod<string>(componentName, methodName, CommandHelpers.ParseMethodCallParameters(parameters, paramterTypes), paramterTypes, assemblyName);
+        }
+
+        public T CallComponentMethod<T>(string componentName, string methodName, string[] parameters, string[] typeOfParameters = null, string assemblyName = null)
+        {
+            return new AltUnityCallComponentMethod<T>(CommHandler, componentName, methodName, parameters, typeOfParameters, assemblyName, this).Execute();
         }
         public string GetText()
         {
-            return new AltUnityGetText(socketSettings, this).Execute();
+            return new AltUnityGetText(CommHandler, this).Execute();
         }
         public AltUnityObject SetText(string text)
         {
-            return new AltUnitySetText(socketSettings, this, text).Execute();
+            return new AltUnitySetText(CommHandler, this, text).Execute();
         }
         public AltUnityObject ClickEvent()
         {
-            return new AltUnityClickEvent(socketSettings, this).Execute();
+            return new AltUnityClickEvent(CommHandler, this).Execute();
         }
 
         public AltUnityObject PointerUpFromObject()
         {
-            return new AltUnityPointerUpFromObject(socketSettings, this).Execute();
+            return new AltUnityPointerUpFromObject(CommHandler, this).Execute();
         }
         public AltUnityObject PointerDownFromObject()
         {
-            return new AltUnityPointerDownFromObject(socketSettings, this).Execute();
+            return new AltUnityPointerDownFromObject(CommHandler, this).Execute();
         }
         public AltUnityObject PointerEnterObject()
         {
-            return new AltUnityPointerEnterObject(socketSettings, this).Execute();
+            return new AltUnityPointerEnterObject(CommHandler, this).Execute();
         }
         public AltUnityObject PointerExitObject()
         {
-            return new AltUnityPointerExitObject(socketSettings, this).Execute();
+            return new AltUnityPointerExitObject(CommHandler, this).Execute();
         }
         public AltUnityObject Tap()
         {
-            return new AltUnityTap(socketSettings, this, 1).Execute();
+            return new AltUnityTap(CommHandler, this, 1).Execute();
         }
         public AltUnityObject DoubleTap()
         {
-            return new AltUnityTap(socketSettings, this, 2).Execute();
+            return new AltUnityTap(CommHandler, this, 2).Execute();
         }
         public System.Collections.Generic.List<AltUnityComponent> GetAllComponents()
         {
-            return new AltUnityGetAllComponents(socketSettings, this).Execute();
+            return new AltUnityGetAllComponents(CommHandler, this).Execute();
         }
         public System.Collections.Generic.List<AltUnityProperty> GetAllProperties(AltUnityComponent altUnityComponent, AltUnityPropertiesSelections altUnityPropertiesSelections = AltUnityPropertiesSelections.ALLPROPERTIES)
         {
-            return new AltUnityGetAllProperties(socketSettings, altUnityComponent, this, altUnityPropertiesSelections).Execute();
+            return new AltUnityGetAllProperties(CommHandler, altUnityComponent, this, altUnityPropertiesSelections).Execute();
         }
         public System.Collections.Generic.List<AltUnityProperty> GetAllFields(AltUnityComponent altUnityComponent, AltUnityFieldsSelections altUnityFieldsSelections = AltUnityFieldsSelections.ALLFIELDS)
         {
-            return new AltUnityGetAllFields(socketSettings, altUnityComponent, this, altUnityFieldsSelections).Execute();
+            return new AltUnityGetAllFields(CommHandler, altUnityComponent, this, altUnityFieldsSelections).Execute();
         }
         public System.Collections.Generic.List<string> GetAllMethods(AltUnityComponent altUnityComponent, AltUnityMethodSelection methodSelection = AltUnityMethodSelection.ALLMETHODS)
         {
-            return new AltUnityGetAllMethods(socketSettings, altUnityComponent, this, methodSelection).Execute();
+            return new AltUnityGetAllMethods(CommHandler, altUnityComponent, methodSelection).Execute();
         }
     }
 }

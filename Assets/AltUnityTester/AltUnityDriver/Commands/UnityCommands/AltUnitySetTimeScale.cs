@@ -4,16 +4,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySetTimeScale : AltBaseCommand
     {
-        readonly float timeScale;
+        AltUnitySetTimeScaleParams cmdParams;
 
-        public AltUnitySetTimeScale(SocketSettings socketSettings, float timescale) : base(socketSettings)
+        public AltUnitySetTimeScale(IDriverCommunication commHandler, float timeScale) : base(commHandler)
         {
-            this.timeScale = timescale;
+            cmdParams = new AltUnitySetTimeScaleParams(timeScale);
         }
         public void Execute()
         {
-            SendCommand("setTimeScale", JsonConvert.SerializeObject(timeScale));
-            var data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

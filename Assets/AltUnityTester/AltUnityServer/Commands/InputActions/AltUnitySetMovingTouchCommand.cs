@@ -1,25 +1,19 @@
-using Newtonsoft.Json;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnitySetMultipointSwipeCommand : AltUnityCommand
+    class AltUnitySetMultipointSwipeCommand : AltUnityCommand<AltUnityMultipointSwipeParams, string>
     {
-        UnityEngine.Vector2 start;
-        UnityEngine.Vector2 destination;
-        readonly string duration;
-
-        public AltUnitySetMultipointSwipeCommand(params string[] parameters) : base(parameters, 5)
+        public AltUnitySetMultipointSwipeCommand(AltUnityMultipointSwipeParams cmdParams) : base(cmdParams)
         {
-            this.start = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[2]);
-            this.destination = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[3]);
-            this.duration = parameters[4];
         }
 
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            UnityEngine.Vector2[] positions = { start, destination };
-            Input.SetMultipointSwipe(positions, float.Parse(duration));
+            UnityEngine.Vector2[] positions = { CommandParams.start.ToUnity(), CommandParams.end.ToUnity() };
+            Input.SetMultipointSwipe(positions, CommandParams.duration);
 
             return "Ok";
 #else

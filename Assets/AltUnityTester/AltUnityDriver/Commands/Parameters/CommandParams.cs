@@ -1,0 +1,614 @@
+using System;
+using Altom.AltUnityDriver.Logging;
+using Newtonsoft.Json;
+
+namespace Altom.AltUnityDriver.Commands
+{
+    public class CommandParams
+    {
+        public string messageId;
+        public string commandName;
+        public CommandParams()
+        {
+            CommandAttribute cmdAttribute =
+                (CommandAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(CommandAttribute));
+            if (cmdAttribute == null)
+                throw new Exception("No CommandAttribute found on type " + this.GetType());
+            this.commandName = cmdAttribute.Name;
+        }
+
+        public CommandParams(string commandName)
+        {
+            this.commandName = commandName;
+            this.messageId = null;
+        }
+        [JsonConstructor]
+        public CommandParams(string commandName, string messageId)
+        {
+            this.commandName = commandName;
+            this.messageId = messageId;
+        }
+    }
+
+
+    public class CommandAttribute : Attribute
+    {
+        private string name;
+        public CommandAttribute(string name)
+        {
+            this.name = name;
+        }
+
+        public string Name { get { return name; } }
+    }
+
+    public class CommandResponse<T>
+    {
+        public string logs;
+        public string messageId;
+        public string commandName;
+        public T data;
+        public string error;
+    }
+
+    public class BaseFindObjectsParams : CommandParams
+    {
+        public string path;
+        public By cameraBy { get; protected set; }
+        public string cameraPath { get; protected set; }
+        public bool enabled { get; protected set; }
+        public BaseFindObjectsParams(string path, By cameraBy, string cameraPath, bool enabled) : base()
+        {
+            this.path = path;
+            this.cameraBy = cameraBy;
+            this.cameraPath = cameraPath;
+            this.enabled = enabled;
+        }
+    }
+
+    [Command("findObjects")]
+    public class AltUnityFindObjectsParams : BaseFindObjectsParams
+    {
+        public AltUnityFindObjectsParams(string path, By cameraBy, string cameraPath, bool enabled) : base(path, cameraBy, cameraPath, enabled)
+        {
+
+        }
+    }
+    [Command("findObject")]
+    public class AltUnityFindObjectParams : BaseFindObjectsParams
+    {
+        public AltUnityFindObjectParams(string path, By cameraBy, string cameraPath, bool enabled) : base(path, cameraBy, cameraPath, enabled)
+        {
+
+        }
+    }
+
+    [Command("findObjectsLight")]
+    public class AltUnityFindObjectsLightParams : BaseFindObjectsParams
+    {
+        public AltUnityFindObjectsLightParams(string path, By cameraBy, string cameraPath, bool enabled) : base(path, cameraBy, cameraPath, enabled)
+        {
+
+        }
+    }
+    [Command("getAllLoadedScenesAndObjects")]
+    public class AltUnityGetAllLoadedScenesAndObjectsParams : BaseFindObjectsParams
+    {
+        public AltUnityGetAllLoadedScenesAndObjectsParams(string path, By cameraBy, string cameraPath, bool enabled) : base(path, cameraBy, cameraPath, enabled)
+        {
+
+        }
+    }
+
+    [Command("getServerVersion")]
+    public class AltUnityGetServerVersionParams : CommandParams
+    {
+        public AltUnityGetServerVersionParams() : base()
+        {
+        }
+    }
+    [Command("actionFinished")]
+    public class AltUnityActionFinishedParams : CommandParams
+    {
+        public AltUnityActionFinishedParams() : base()
+        {
+        }
+    }
+
+    [Command("moveMouse")]
+    public class AltUnityMoveMouseParams : CommandParams
+    {
+        public AltUnityVector2 location;
+        public float duration;
+
+        public AltUnityMoveMouseParams(AltUnityVector2 location, float duration) : base()
+        {
+            this.location = location;
+            this.duration = duration;
+        }
+    }
+
+    [Command("multipointSwipeChain")]
+    public class AltUnityMultipointSwipeChainParams : CommandParams
+    {
+        public AltUnityVector2[] positions;
+        public float duration;
+
+        public AltUnityMultipointSwipeChainParams(AltUnityVector2[] positions, float duration) : base()
+        {
+            this.positions = positions;
+            this.duration = duration;
+        }
+    }
+    [Command("pressKeyboardKey")]
+    public class AltUnityPressKeyboardKeyParams : CommandParams
+    {
+        public AltUnityKeyCode keyCode;
+        public float power;
+        public float duration;
+
+        public AltUnityPressKeyboardKeyParams(AltUnityKeyCode keyCode, float power, float duration) : base()
+        {
+            this.keyCode = keyCode;
+            this.power = power;
+            this.duration = duration;
+        }
+    }
+
+    [Command("scrollMouse")]
+    public class AltUnityScrollMouseParams : CommandParams
+    {
+        public float speed;
+        public float duration;
+
+        public AltUnityScrollMouseParams(float speed, float duration) : base()
+        {
+            this.speed = speed;
+            this.duration = duration;
+        }
+    }
+
+    [Command("multipointSwipe")]
+    public class AltUnityMultipointSwipeParams : CommandParams
+    {
+        public AltUnityVector2 start;
+        public AltUnityVector2 end;
+        public float duration;
+
+        public AltUnityMultipointSwipeParams(AltUnityVector2 start, AltUnityVector2 end, float duration) : base()
+        {
+            this.start = start;
+            this.end = end;
+            this.duration = duration;
+        }
+    }
+
+    [Command("tapCustom")]
+    public class AltUnityTapCustomParams : CommandParams
+    {
+        public float x;
+        public float y;
+        public int count;
+        public float interval;
+
+        public AltUnityTapCustomParams(float x, float y, int count, float interval) : base()
+        {
+            this.x = x;
+            this.y = y;
+            this.count = count;
+            this.interval = interval;
+        }
+    }
+    [Command("tapScreen")]
+    public class AltUnityTapScreenParams : CommandParams
+    {
+        public float x;
+        public float y;
+
+
+        public AltUnityTapScreenParams(float x, float y) : base()
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    [Command("tilt")]
+    public class AltUnityTiltParams : CommandParams
+    {
+        public AltUnityVector3 acceleration;
+        public float duration;
+
+
+        public AltUnityTiltParams(AltUnityVector3 acceleration, float duration) : base()
+        {
+            this.acceleration = acceleration;
+            this.duration = duration;
+        }
+    }
+    public class BaseAltUnityObjectParams : CommandParams
+    {
+        public AltUnityObject altUnityObject;
+        public BaseAltUnityObjectParams(AltUnityObject altUnityObject) : base()
+        {
+            this.altUnityObject = altUnityObject;
+        }
+    }
+
+    [Command("callComponentMethodForObject")]
+    public class AltUnityCallComponentMethodForObjectParams : BaseAltUnityObjectParams
+    {
+        public string component;
+        public string method;
+        public string[] parameters;
+        public string[] typeOfParameters;
+        public string assembly;
+
+
+        public AltUnityCallComponentMethodForObjectParams(AltUnityObject altUnityObject, string component, string method, string[] parameters, string[] typeOfParameters, string assembly) : base(altUnityObject)
+        {
+            this.component = component;
+            this.method = method;
+            this.parameters = parameters;
+            this.typeOfParameters = typeOfParameters;
+            this.assembly = assembly;
+        }
+    }
+
+    [Command("getObjectComponentProperty")]
+    public class AltUnityGetObjectComponentPropertyParams : BaseAltUnityObjectParams
+    {
+        public string component;
+        public string property;
+        public string assembly;
+        public int maxDepth;
+
+        public AltUnityGetObjectComponentPropertyParams(AltUnityObject altUnityObject, string component, string property, string assembly, int maxDepth) : base(altUnityObject)
+        {
+            this.component = component;
+            this.property = property;
+            this.assembly = assembly;
+            this.maxDepth = maxDepth;
+        }
+    }
+    [Command("setObjectComponentProperty")]
+    public class AltUnitySetObjectComponentPropertyParams : BaseAltUnityObjectParams
+    {
+        public string component;
+        public string property;
+        public string assembly;
+        public string value;
+
+        public AltUnitySetObjectComponentPropertyParams(AltUnityObject altUnityObject, string component, string property, string assembly, string value) : base(altUnityObject)
+        {
+            this.component = component;
+            this.property = property;
+            this.assembly = assembly;
+            this.value = value;
+        }
+    }
+
+
+    [Command("clickEvent")]
+    public class AltUnityClickEventParams : BaseAltUnityObjectParams
+    {
+        public AltUnityClickEventParams(AltUnityObject altUnityObject) : base(altUnityObject)
+        {
+            this.altUnityObject = altUnityObject;
+        }
+    }
+    [Command("dragObject")]
+    public class AltUnityDragObjectParams : BaseAltUnityObjectParams
+    {
+        public AltUnityVector2 position;
+        public AltUnityDragObjectParams(AltUnityObject altUnityObject, AltUnityVector2 position) : base(altUnityObject)
+        {
+            this.altUnityObject = altUnityObject;
+            this.position = position;
+        }
+    }
+    [Command("getAllComponents")]
+    public class AltUnityGetAllComponentsParams : CommandParams
+    {
+        public int altUnityObjectId;
+        public AltUnityGetAllComponentsParams(int altUnityObjectId) : base()
+        {
+            this.altUnityObjectId = altUnityObjectId;
+        }
+    }
+
+    [Command("getAllFields")]
+    public class AltUnityGetAllFieldsParams : CommandParams
+    {
+        public int altUnityObjectId;
+        public AltUnityComponent altUnityComponent;
+        public AltUnityFieldsSelections altUnityFieldsSelections;
+
+        public AltUnityGetAllFieldsParams(int altUnityObjectId, AltUnityComponent altUnityComponent, AltUnityFieldsSelections altUnityFieldsSelections) : base()
+        {
+            this.altUnityObjectId = altUnityObjectId;
+            this.altUnityComponent = altUnityComponent;
+            this.altUnityFieldsSelections = altUnityFieldsSelections;
+        }
+    }
+    [Command("getAllProperties")]
+    public class AltUnityGetAllPropertiesParams : CommandParams
+    {
+        public int altUnityObjectId;
+        public AltUnityComponent altUnityComponent;
+        public AltUnityPropertiesSelections altUnityPropertiesSelections;
+
+        public AltUnityGetAllPropertiesParams(int altUnityObjectId, AltUnityComponent altUnityComponent, AltUnityPropertiesSelections altUnityPropertiesSelections) : base()
+        {
+            this.altUnityObjectId = altUnityObjectId;
+            this.altUnityComponent = altUnityComponent;
+            this.altUnityPropertiesSelections = altUnityPropertiesSelections;
+        }
+    }
+    [Command("getAllMethods")]
+    public class AltUnityGetAllMethodsParams : CommandParams
+    {
+        public AltUnityComponent altUnityComponent;
+        public AltUnityMethodSelection methodSelection;
+
+        public AltUnityGetAllMethodsParams(AltUnityComponent altUnityComponent, AltUnityMethodSelection methodSelection) : base()
+        {
+            this.altUnityComponent = altUnityComponent;
+            this.methodSelection = methodSelection;
+        }
+    }
+    [Command("getText")]
+    public class AltUnityGetTextParams : BaseAltUnityObjectParams
+    {
+        public AltUnityGetTextParams(AltUnityObject altUnityObject) : base(altUnityObject)
+        {
+        }
+    }
+
+    [Command("setText")]
+    public class AltUnitySetTextParams : BaseAltUnityObjectParams
+    {
+        public string value;
+
+        public AltUnitySetTextParams(AltUnityObject altUnityObject, string value) : base(altUnityObject)
+        {
+            this.value = value;
+        }
+    }
+
+    [Command("pointerDownFromObject")]
+    public class AltUnityPointerDownFromObjectParams : BaseAltUnityObjectParams
+    {
+        public AltUnityPointerDownFromObjectParams(AltUnityObject altUnityObject) : base(altUnityObject)
+        {
+        }
+    }
+
+    [Command("pointerEnterObject")]
+    public class AltUnityPointerEnterObjectParams : BaseAltUnityObjectParams
+    {
+        public AltUnityPointerEnterObjectParams(AltUnityObject altUnityObject) : base(altUnityObject)
+        {
+        }
+    }
+    [Command("pointerExitObject")]
+    public class AltUnityPointerExitObjectParams : BaseAltUnityObjectParams
+    {
+        public AltUnityPointerExitObjectParams(AltUnityObject altUnityObject) : base(altUnityObject)
+        {
+        }
+    }
+    [Command("pointerUpFromObject")]
+    public class AltUnityPointerUpFromObjectParams : BaseAltUnityObjectParams
+    {
+        public AltUnityPointerUpFromObjectParams(AltUnityObject altUnityObject) : base(altUnityObject)
+        {
+        }
+    }
+    [Command("tapObject")]
+    public class AltUnityTapObjectParams : BaseAltUnityObjectParams
+    {
+        public int count;
+        public AltUnityTapObjectParams(AltUnityObject altUnityObject, int count) : base(altUnityObject)
+        {
+            this.count = count;
+        }
+    }
+
+    [Command("getPNGScreenshot")]
+    public class AltUnityGetPNGScreenshotParams : CommandParams
+    {
+        public AltUnityGetPNGScreenshotParams() : base()
+        {
+        }
+    }
+
+    [Command("getScreenshot")]
+    public class AltUnityGetScreenshotParams : CommandParams
+    {
+        public AltUnityVector2 size;
+        public int quality;
+        public AltUnityGetScreenshotParams(AltUnityVector2 size, int quality) : base()
+        {
+            this.size = size;
+            this.quality = quality;
+        }
+    }
+
+    [Command("hightlightObjectScreenshot")]
+    public class AltUnityHightlightObjectScreenshotParams : CommandParams
+    {
+        public int altUnityObjectId;
+        public AltUnityColor color;
+        public float width;
+        public AltUnityVector2 size;
+        public int quality;
+        public AltUnityHightlightObjectScreenshotParams(int altUnityObjectId, AltUnityColor color, float width, AltUnityVector2 size, int quality) : base()
+        {
+            this.altUnityObjectId = altUnityObjectId;
+            this.color = color;
+            this.width = width;
+            this.size = size;
+            this.quality = quality;
+        }
+    }
+
+    [Command("hightlightObjectFromCoordinatesScreenshot")]
+    public class AltUnityHightlightObjectFromCoordinatesScreenshotParams : CommandParams
+    {
+        public AltUnityVector2 coordinates;
+        public AltUnityColor color;
+        public float width;
+        public AltUnityVector2 size;
+        public int quality;
+        public AltUnityHightlightObjectFromCoordinatesScreenshotParams(AltUnityVector2 coordinates, AltUnityColor color, float width, AltUnityVector2 size, int quality) : base()
+        {
+            this.coordinates = coordinates;
+            this.color = color;
+            this.width = width;
+            this.size = size;
+            this.quality = quality;
+        }
+    }
+
+    [Command("deleteKeyPlayerPref")]
+    public class AltUnityDeleteKeyPlayerPrefParams : CommandParams
+    {
+        public string keyName;
+        public AltUnityDeleteKeyPlayerPrefParams(string keyName) : base()
+        {
+            this.keyName = keyName;
+        }
+    }
+    [Command("getKeyPlayerPref")]
+    public class AltUnityGetKeyPlayerPrefParams : CommandParams
+    {
+        public string keyName;
+        public PlayerPrefKeyType keyType;
+        public AltUnityGetKeyPlayerPrefParams() : base() { }
+        public AltUnityGetKeyPlayerPrefParams(string keyName, PlayerPrefKeyType keyType) : base()
+        {
+            this.keyName = keyName;
+            this.keyType = keyType;
+        }
+    }
+
+    [Command("setKeyPlayerPref")]
+    public class AltUnitySetKeyPlayerPrefParams : CommandParams
+    {
+        public string keyName;
+        public PlayerPrefKeyType keyType;
+        public string stringValue;
+        public float floatValue;
+        public int intValue;
+
+        public AltUnitySetKeyPlayerPrefParams() : base() { }
+
+        public AltUnitySetKeyPlayerPrefParams(string keyName, int value) : base()
+        {
+            this.keyName = keyName;
+            this.intValue = value;
+            keyType = PlayerPrefKeyType.Int;
+        }
+        public AltUnitySetKeyPlayerPrefParams(string keyName, float value) : base()
+        {
+            this.keyName = keyName;
+            this.floatValue = value;
+            keyType = PlayerPrefKeyType.Float;
+        }
+        public AltUnitySetKeyPlayerPrefParams(string keyName, string value) : base()
+        {
+            this.keyName = keyName;
+            this.stringValue = value;
+            keyType = PlayerPrefKeyType.String;
+        }
+    }
+
+    [Command("deletePlayerPref")]
+    public class AltUnityDeletePlayerPrefParams : CommandParams
+    {
+        public AltUnityDeletePlayerPrefParams() : base()
+        {
+        }
+    }
+
+    [Command("getAllActiveCameras")]
+    public class AltUnityGetAllActiveCamerasParams : CommandParams
+    {
+        public AltUnityGetAllActiveCamerasParams() : base()
+        {
+        }
+    }
+    [Command("getAllCameras")]
+    public class AltUnityGetAllCamerasParams : CommandParams
+    {
+
+    }
+
+    [Command("getAllLoadedScenes")]
+    public class AltUnityGetAllLoadedScenesParams : CommandParams
+    {
+
+    }
+    [Command("getAllScenes")]
+    public class AltUnityGetAllScenesParams : CommandParams
+    {
+
+    }
+    [Command("getCurrentScene")]
+    public class AltUnityGetCurrentSceneParams : CommandParams
+    {
+
+    }
+    [Command("loadScene")]
+    public class AltUnityLoadSceneParams : CommandParams
+    {
+        public string sceneName;
+        public bool loadSingle;
+
+        public AltUnityLoadSceneParams(string sceneName, bool loadSingle) : base()
+        {
+            this.sceneName = sceneName;
+            this.loadSingle = loadSingle;
+        }
+
+    }
+
+    [Command("unloadScene")]
+    public class AltUnityUnloadSceneParams : CommandParams
+    {
+        public string sceneName;
+
+        public AltUnityUnloadSceneParams(string sceneName) : base()
+        {
+            this.sceneName = sceneName;
+        }
+
+    }
+    [Command("getTimeScale")]
+    public class AltUnityGetTimeScaleParams : CommandParams
+    {
+
+    }
+    [Command("setTimeScale")]
+    public class AltUnitySetTimeScaleParams : CommandParams
+    {
+        public float timeScale;
+        public AltUnitySetTimeScaleParams(float timeScale) : base()
+        {
+            this.timeScale = timeScale;
+        }
+    }
+    [Command("setServerLogging")]
+    public class AltUnitySetServerLoggingParams : CommandParams
+    {
+        public AltUnityLogger logger;
+        public AltUnityLogLevel logLevel;
+
+        public AltUnitySetServerLoggingParams(AltUnityLogger logger, AltUnityLogLevel logLevel) : base()
+        {
+            this.logger = logger;
+            this.logLevel = logLevel;
+        }
+    }
+}

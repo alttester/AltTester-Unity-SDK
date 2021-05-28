@@ -1,11 +1,11 @@
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
-
+using Altom.AltUnityDriver.Commands;
+using Assets.AltUnityTester.AltUnityServer.Communication;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetScreenshotPNGCommand : AltUnityBaseScreenshotCommand
+    class AltUnityGetScreenshotPNGCommand : AltUnityBaseScreenshotCommand<AltUnityGetPNGScreenshotParams, string>
     {
-        public AltUnityGetScreenshotPNGCommand(AltClientSocketHandler handler, params string[] parameters) : base(handler, parameters, 2)
+        public AltUnityGetScreenshotPNGCommand(ICommandHandler handler, AltUnityGetPNGScreenshotParams cmdParams) : base(handler, cmdParams)
         {
         }
 

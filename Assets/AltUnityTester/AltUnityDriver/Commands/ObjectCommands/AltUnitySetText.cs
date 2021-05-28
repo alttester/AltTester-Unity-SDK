@@ -2,20 +2,17 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySetText : AltUnityCommandReturningAltElement
     {
-        AltUnityObject altUnityObject;
-        string newText;
+        AltUnitySetTextParams cmdParams;
 
-        public AltUnitySetText(SocketSettings socketSettings, AltUnityObject altUnityObject, string text) : base(socketSettings)
+        public AltUnitySetText(IDriverCommunication commHandler, AltUnityObject altUnityObject, string text) : base(commHandler)
         {
-            this.altUnityObject = altUnityObject;
-            this.newText = text;
+            cmdParams = new AltUnitySetTextParams(altUnityObject, text);
         }
 
         public AltUnityObject Execute()
         {
-            var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-            SendCommand("setText", altObject, newText);
-            return ReceiveAltUnityObject();
+            CommHandler.Send(cmdParams);
+            return ReceiveAltUnityObject(cmdParams);
         }
     }
 }

@@ -1,24 +1,22 @@
 ﻿using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Altom.Server.Logging;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetAllComponentsCommand : AltUnityCommand
+    class AltUnityGetAllComponentsCommand : AltUnityCommand<AltUnityGetAllComponentsParams, List<AltUnityComponent>>
     {
         private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
-        readonly int objectId;
 
-        public AltUnityGetAllComponentsCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnityGetAllComponentsCommand(AltUnityGetAllComponentsParams cmdParams) : base(cmdParams)
         {
-            this.objectId = JsonConvert.DeserializeObject<int>(parameters[2]);
         }
 
-        public override string Execute()
+        public override List<AltUnityComponent> Execute()
         {
-            UnityEngine.GameObject altObject = AltUnityRunner.GetGameObject(objectId);
+            UnityEngine.GameObject altObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObjectId);
             var listComponents = new List<AltUnityComponent>();
             foreach (var component in altObject.GetComponents<UnityEngine.Component>())
             {
@@ -35,8 +33,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 }
             }
 
-            var response = JsonConvert.SerializeObject(listComponents);
-            return response;
+            return listComponents;
         }
     }
 }

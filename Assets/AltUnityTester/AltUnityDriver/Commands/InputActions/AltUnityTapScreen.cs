@@ -1,23 +1,19 @@
-using Newtonsoft.Json;
-
 namespace Altom.AltUnityDriver.Commands
 {
-    public class AltUnityTapScreen : AltBaseCommand
+    public class AltUnityTapScreen : AltUnityCommandReturningAltElement
     {
-        readonly float x;
-        readonly float y;
-        public AltUnityTapScreen(SocketSettings socketSettings, float x, float y) : base(socketSettings)
+        AltUnityTapScreenParams cmdParams;
+        public AltUnityTapScreen(IDriverCommunication commHandler, float x, float y) : base(commHandler)
         {
-            this.x = x;
-            this.y = y;
+            cmdParams = new AltUnityTapScreenParams(x, y);
         }
         public AltUnityObject Execute()
         {
-            SendCommand("tapScreen", x.ToString(), y.ToString());
+            CommHandler.Send(cmdParams);
+
             try
             {
-                string data = Recvall();
-                return JsonConvert.DeserializeObject<AltUnityObject>(data);
+                return ReceiveAltUnityObject(cmdParams);
             }
             catch (NotFoundException)
             {

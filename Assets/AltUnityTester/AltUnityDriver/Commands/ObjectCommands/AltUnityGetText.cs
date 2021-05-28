@@ -2,19 +2,17 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetText : AltBaseCommand
     {
-        readonly AltUnityObject altUnityObject;
+        readonly AltUnityGetTextParams cmdParams;
 
-        public AltUnityGetText(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+        public AltUnityGetText(IDriverCommunication commHandler, AltUnityObject altUnityObject) : base(commHandler)
         {
-            this.altUnityObject = altUnityObject;
+            cmdParams = new AltUnityGetTextParams(altUnityObject);
         }
 
         public string Execute()
         {
-            string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-            SendCommand("getText", altObject);
-            string data = Recvall();
-            return data;
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<string>(cmdParams).data;
         }
     }
 }

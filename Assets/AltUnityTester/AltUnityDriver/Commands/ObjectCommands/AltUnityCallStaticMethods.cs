@@ -4,24 +4,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityCallStaticMethod : AltBaseCommand
     {
-        readonly string typeName;
-        readonly string methodName;
-        readonly string parameters;
-        readonly string typeOfParameters;
-        readonly string assemblyName;
-        public AltUnityCallStaticMethod(SocketSettings socketSettings, string typeName, string methodName, string parameters, string typeOfParameters, string assemblyName) : base(socketSettings)
+        AltUnityCallComponentMethodForObjectParams cmdParams;
+
+        public AltUnityCallStaticMethod(IDriverCommunication commHandler, string typeName, string methodName, string[] parameters, string[] typeOfParameters, string assemblyName) : base(commHandler)
         {
-            this.typeName = typeName;
-            this.methodName = methodName;
-            this.parameters = parameters;
-            this.typeOfParameters = typeOfParameters;
-            this.assemblyName = assemblyName;
+            cmdParams = new AltUnityCallComponentMethodForObjectParams(null, typeName, methodName, parameters, typeOfParameters, assemblyName);
         }
         public string Execute()
         {
-            string actionInfo = JsonConvert.SerializeObject(new AltUnityObjectAction(typeName, methodName, parameters, typeOfParameters, assemblyName));
-            SendCommand("callComponentMethodForObject", "", actionInfo);
-            var data = Recvall();
+            CommHandler.Send(cmdParams);
+            string data = CommHandler.Recvall<string>(cmdParams).data;
             return data;
         }
     }

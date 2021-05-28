@@ -1,23 +1,19 @@
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 using UnityEngine;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityMoveMouseCommand : AltUnityCommand
+    class AltUnityMoveMouseCommand : AltUnityCommand<AltUnityMoveMouseParams, string>
     {
-        Vector2 location;
-        readonly float duration;
-
-        public AltUnityMoveMouseCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnityMoveMouseCommand(AltUnityMoveMouseParams cmdParams) : base(cmdParams)
         {
-            this.location = JsonConvert.DeserializeObject<Vector2>(parameters[2]);
-            this.duration = JsonConvert.DeserializeObject<float>(parameters[3]);
         }
 
         public override string Execute()
         {
+
 #if ALTUNITYTESTER
-            Input.MoveMouse(location, duration);
+            Input.MoveMouse(new Vector2(CommandParams.location.x, CommandParams.location.y), CommandParams.duration);
             return "Ok";
 #else
             return null; ;

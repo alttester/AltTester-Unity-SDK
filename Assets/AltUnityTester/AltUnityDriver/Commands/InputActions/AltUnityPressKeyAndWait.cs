@@ -4,24 +4,24 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityPressKeyAndWait : AltBaseCommand
     {
-        readonly AltUnityKeyCode keyCode;
-        readonly float power;
+        AltUnityActionFinishedParams actionFinishedParams;
+        AltUnityPressKey pressKey;
         readonly float duration;
-        public AltUnityPressKeyAndWait(SocketSettings socketSettings, AltUnityKeyCode keyCode, float power, float duration) : base(socketSettings)
+        public AltUnityPressKeyAndWait(IDriverCommunication commHandler, AltUnityKeyCode keyCode, float power, float duration) : base(commHandler)
         {
-            this.keyCode = keyCode;
-            this.power = power;
             this.duration = duration;
+            pressKey = new AltUnityPressKey(commHandler, keyCode, power, duration);
+            actionFinishedParams = new AltUnityActionFinishedParams();
         }
         public void Execute()
         {
-            new AltUnityPressKey(SocketSettings, keyCode, power, duration).Execute();
+            pressKey.Execute();
             Thread.Sleep((int)duration * 1000);
             string data;
             do
             {
-                SendCommand("actionFinished");
-                data = Recvall();
+                CommHandler.Send(actionFinishedParams);
+                data = CommHandler.Recvall<string>(actionFinishedParams).data;
             } while (data == "No");
             ValidateResponse("Yes", data);
         }

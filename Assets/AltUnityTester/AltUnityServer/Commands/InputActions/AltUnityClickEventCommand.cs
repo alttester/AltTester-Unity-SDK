@@ -1,27 +1,24 @@
 using Altom.AltUnityDriver;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityClickEventCommand : AltUnityCommand
+    class AltUnityClickEventCommand : AltUnityCommand<AltUnityClickEventParams, AltUnityObject>
     {
-        readonly AltUnityObject altUnityObject;
 
-        public AltUnityClickEventCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnityClickEventCommand(AltUnityClickEventParams cmdParams) : base(cmdParams)
         {
-            this.altUnityObject = JsonConvert.DeserializeObject<AltUnityObject>(parameters[2]);
+
         }
 
-        public override string Execute()
+        public override AltUnityObject Execute()
         {
-            AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(altUnityObject.getScreenPosition().x, altUnityObject.getScreenPosition().y));
+            AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(CommandParams.altUnityObject.getScreenPosition().x, CommandParams.altUnityObject.getScreenPosition().y));
 
-            string response = AltUnityErrors.errorNotFoundMessage;
-            UnityEngine.GameObject foundGameObject = AltUnityRunner.GetGameObject(altUnityObject);
+            UnityEngine.GameObject foundGameObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
             UnityEngine.EventSystems.ExecuteEvents.Execute(foundGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
-            response = JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(foundGameObject));
-            return response;
+            return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(foundGameObject);
         }
     }
 }

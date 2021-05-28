@@ -1,8 +1,32 @@
 ﻿
 using System;
+using Altom.AltUnityDriver.Logging;
 
 namespace Altom.AltUnityDriver
 {
+    public class AltUnityErrors
+    {
+        public const string errorNotFoundMessage = "error:notFound";
+        public const string errorPropertyNotFoundMessage = "error:propertyNotFound";
+        public const string errorMethodNotFoundMessage = "error:methodNotFound";
+        public const string errorComponentNotFoundMessage = "error:componentNotFound";
+        public const string errorAssemblyNotFoundMessage = "error:assemblyNotFound";
+        public const string errorCouldNotPerformOperationMessage = "error:couldNotPerformOperation";
+        public const string errorCouldNotParseJsonString = "error:couldNotParseJsonString";
+        public const string errorMethodWithGivenParametersNotFound = "error:methodWithGivenParametersNotFound";
+        public const string errorInvalidParameterType = "error:invalidParameterType";
+        public const string errorFailedToParseArguments = "error:failedToParseMethodArguments";
+        public const string errorObjectWasNotFound = "error:objectNotFound";
+        public const string errorPropertyNotSet = "error:propertyCannotBeSet";
+        public const string errorNullRefferenceMessage = "error:nullReferenceException";
+        public const string errorUnknownError = "error:unknownError";
+        public const string errorFormatException = "error:formatException";
+        public const string errorCameraNotFound = "error:cameraNotFound";
+        public const string errorIndexOutOfRange = "error:indexOutOfRange";
+        public const string errorInvalidParametersOnDriverCommand = "error:invalidParametersOnDriverCommand";
+        public const string errorInvalidCommand = "error:invalidCommand";
+        public const string errorInvalidPath = "error:invalidPath";
+    }
     public class AltUnityException : Exception
     {
         public AltUnityException()
@@ -27,6 +51,16 @@ namespace Altom.AltUnityDriver
         }
 
         public NotFoundException(string message) : base(message)
+        {
+        }
+    }
+    public class CameraNotFoundException : AltUnityException
+    {
+        public CameraNotFoundException()
+        {
+        }
+
+        public CameraNotFoundException(string message) : base(message)
         {
         }
     }
@@ -106,17 +140,6 @@ namespace Altom.AltUnityDriver
         }
     }
 
-    public class CouldNotParseJsonStringException : AltUnityException
-    {
-        public CouldNotParseJsonStringException()
-        {
-        }
-
-        public CouldNotParseJsonStringException(string message) : base(message)
-        {
-        }
-    }
-
     public class FailedToParseArgumentsException : AltUnityException
     {
         public FailedToParseArgumentsException()
@@ -135,17 +158,6 @@ namespace Altom.AltUnityDriver
         }
 
         public ObjectWasNotFoundException(string message) : base(message)
-        {
-        }
-    }
-
-    public class PropertyCannotBeSetException : AltUnityException
-    {
-        public PropertyCannotBeSetException()
-        {
-        }
-
-        public PropertyCannotBeSetException(string message) : base(message)
         {
         }
     }
@@ -194,16 +206,29 @@ namespace Altom.AltUnityDriver
         }
     }
 
-    public class InvalidParametersOnDriverCommandException : AltUnityException
+    public class CommandNotFoundException : AltUnityException
     {
-        public InvalidParametersOnDriverCommandException()
+        public CommandNotFoundException()
         {
         }
 
-        public InvalidParametersOnDriverCommandException(string message) : base(message)
+        public CommandNotFoundException(string message) : base(message)
         {
         }
     }
+
+    public class InvalidCommandException : AltUnityException
+    {
+        public InvalidCommandException(Exception innerException) : base(AltUnityErrors.errorInvalidCommand, innerException)
+        {
+        }
+
+        public InvalidCommandException(string message) : base(message)
+        {
+        }
+    }
+
+
     public class AltUnityRecvallException : AltUnityException
     {
         public AltUnityRecvallException()
@@ -238,9 +263,7 @@ namespace Altom.AltUnityDriver
 
         public AltUnityRecvallMessageFormatException(string message) : base(message)
         {
-
         }
-
     }
 
     public class PortForwardingException : AltUnityException

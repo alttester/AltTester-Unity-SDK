@@ -1,36 +1,22 @@
 
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
+
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public class AltUnityClickOnScreenCustom : AltUnityCommand
+    public class AltUnityClickOnScreenCustom : AltUnityCommand<AltUnityTapCustomParams, string>
     {
-#if ALTUNITYTESTER
-
-        private UnityEngine.Vector2 position;
-        readonly string count;
-        readonly string interval;
-#endif
-
-        public AltUnityClickOnScreenCustom(params string[] parameters) : base(parameters, 5)
+        public AltUnityClickOnScreenCustom(AltUnityTapCustomParams cmdParams) : base(cmdParams)
         {
-#if ALTUNITYTESTER
-            this.position = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[2]);
-            this.count = Parameters[3];
-            this.interval = Parameters[4];
-#endif
+
         }
 
         public override string Execute()
         {
 #if ALTUNITYTESTER
+            var position = new UnityEngine.Vector2(CommandParams.x, CommandParams.y);
 
-            int pCount;
-            float pInterval;
-            if (!int.TryParse(count, out pCount)) { pCount = 1; }
-            if (!float.TryParse(interval, out pInterval)) { pInterval = 0f; }
-
-            Input.SetCustomClick(position, pCount, pInterval);
+            Input.SetCustomClick(position, CommandParams.count, CommandParams.interval);
             return "Ok";
 #else
             return null;

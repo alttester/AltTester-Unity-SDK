@@ -1,24 +1,26 @@
+using System;
+using System.Threading;
+using Altom.AltUnityDriver.Logging;
+using NLog;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityWaitForObject : AltUnityBaseFindObjects
     {
-        By by;
-        string value;
-        By cameraBy;
-        string cameraPath;
-        bool enabled;
+        readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+        AltUnityFindObject findObject;
+        string path;
         double timeout;
         double interval;
 
-        public AltUnityWaitForObject(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
+        public AltUnityWaitForObject(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(commHandler)
         {
-            this.by = by;
-            this.value = value;
-            this.cameraBy = cameraBy;
-            this.cameraPath = cameraPath;
-            this.enabled = enabled;
+            findObject = new AltUnityFindObject(CommHandler, by, value, cameraBy, cameraPath, enabled);
+            path = SetPath(by, value);
             this.timeout = timeout;
             this.interval = interval;
+            if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
+            if (interval <= 0) throw new ArgumentOutOfRangeException("interval");
         }
         public AltUnityObject Execute()
         {
@@ -28,19 +30,19 @@ namespace Altom.AltUnityDriver.Commands
             {
                 try
                 {
-                    altElement = new AltUnityFindObject(SocketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
+                    altElement = findObject.Execute();
                     break;
                 }
-                catch (System.Exception)
+                catch (NotFoundException)
                 {
-                    System.Diagnostics.Debug.WriteLine("Waiting for element where name contains " + value + "....");
-                    System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                    logger.Debug("Waiting for element " + path + " to be present.");
+                    Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                     time += interval;
                 }
             }
             if (altElement != null)
                 return altElement;
-            throw new WaitTimeOutException("Element " + value + " not loaded after " + timeout + " seconds");
+            throw new WaitTimeOutException("Element " + path + " not loaded after " + timeout + " seconds");
         }
     }
 }

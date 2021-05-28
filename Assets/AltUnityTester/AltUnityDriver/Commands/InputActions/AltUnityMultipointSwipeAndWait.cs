@@ -4,24 +4,26 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityMultipointSwipeAndWait : AltBaseCommand
     {
-        readonly AltUnityVector2[] positions;
-        readonly float duration;
+        AltUnityMultipointSwipe multipointSwipe;
+        AltUnityActionFinishedParams actionFinishedParams;
+        private readonly float duration;
 
-        public AltUnityMultipointSwipeAndWait(SocketSettings socketSettings, AltUnityVector2[] positions, float duration) : base(socketSettings)
+        public AltUnityMultipointSwipeAndWait(IDriverCommunication commHandler, AltUnityVector2[] positions, float duration) : base(commHandler)
         {
-            this.positions = positions;
             this.duration = duration;
+            multipointSwipe = new AltUnityMultipointSwipe(commHandler, positions, duration);
+            actionFinishedParams = new AltUnityActionFinishedParams();
         }
 
         public void Execute()
         {
-            new AltUnityMultipointSwipe(SocketSettings, positions, duration).Execute();
+            multipointSwipe.Execute();
             Thread.Sleep((int)duration * 1000);
             string data;
             do
             {
-                SendCommand("actionFinished");
-                data = Recvall();
+                CommHandler.Send(actionFinishedParams);
+                data = CommHandler.Recvall<string>(actionFinishedParams).data;
             } while (data == "No");
             ValidateResponse("Yes", data);
         }

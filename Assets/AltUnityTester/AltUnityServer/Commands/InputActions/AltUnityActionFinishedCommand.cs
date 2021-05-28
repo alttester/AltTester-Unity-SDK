@@ -1,20 +1,24 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+﻿using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
+
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityActionFinishedCommand : AltUnityCommand
+    class AltUnityActionFinishedCommand : AltUnityCommand<AltUnityActionFinishedParams, string>
     {
-        public AltUnityActionFinishedCommand(params string[] parameters) : base(parameters, 2) { }
+        public AltUnityActionFinishedCommand(AltUnityActionFinishedParams cmdParams) : base(cmdParams) { }
         public override string Execute()
         {
-            string response = AltUnityErrors.errorNotFoundMessage;
 #if ALTUNITYTESTER
+            string response;
             if (Input.Finished)
                 response = "Yes";
             else
             {
                 response = "No";
             }
-#endif
             return response;
+#endif
+            throw new NotFoundException();
         }
     }
 }

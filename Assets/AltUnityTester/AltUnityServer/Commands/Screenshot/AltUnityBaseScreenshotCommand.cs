@@ -1,23 +1,26 @@
 using System;
+using System.Globalization;
 using System.Linq;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 using Altom.Server.Logging;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
+using Assets.AltUnityTester.AltUnityServer.Communication;
 using Newtonsoft.Json;
 using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public abstract class AltUnityBaseScreenshotCommand : AltUnityCommand
+    public abstract class AltUnityBaseScreenshotCommand<TParams, TResult> : AltUnityCommand<TParams, TResult> where TParams : CommandParams
     {
         private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
-        private readonly AltClientSocketHandler handler;
+        protected readonly ICommandHandler Handler;
 
-        protected AltUnityBaseScreenshotCommand(AltClientSocketHandler handler, string[] parameters, int expectedParametersCount) : base(parameters, expectedParametersCount)
+        protected AltUnityBaseScreenshotCommand(ICommandHandler handler, TParams cmdParams) : base(cmdParams)
         {
-            this.handler = handler;
+            this.Handler = handler;
         }
 
-        public abstract override string Execute();
+        public abstract override TResult Execute();
 
 
         protected System.Collections.IEnumerator SendTexturedScreenshotCoroutine(UnityEngine.Vector2 size, int quality)
@@ -29,8 +32,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         protected System.Collections.IEnumerator SendPNGScreenshotCoroutine()
         {
             yield return new UnityEngine.WaitForEndOfFrame();
-            var response = ExecuteHandleErrors(() => getPNGScreenshot());
-            handler.SendResponse(MessageId, CommandName, response.Item1, response.Item2);
+            var response = ExecuteAndSerialize(getPNGScreenshot);
+            Handler.Send(response);
         }
 
         protected System.Collections.IEnumerator SendScreenshotObjectHighlightedCoroutine(UnityEngine.Vector2 size, int quality, UnityEngine.GameObject gameObject, UnityEngine.Color color, float width)
@@ -75,11 +78,20 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         private void sendTexturedScreenshotResponse(UnityEngine.Vector2 size, int quality)
         {
-            var response = ExecuteHandleErrors(() => getTexturedScreenshot(size, quality));
-            handler.SendResponse(this.MessageId, this.CommandName, response.Item1, response.Item2);
+            var result = ExecuteHandleErrors(() => getTexturedScreenshot(size, quality));
+
+            string data = JsonConvert.SerializeObject(result, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Culture = CultureInfo.InvariantCulture,
+                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
+            });
+
+            Handler.Send(data);
+
         }
 
-        private string getTexturedScreenshot(UnityEngine.Vector2 size, int quality)
+        private AltUnityGetScreenshotResponse getTexturedScreenshot(UnityEngine.Vector2 size, int quality)
         {
             var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
             int width = (int)size.x;
@@ -108,12 +120,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 }
             }
 
-            string[] fullResponse = new string[5];
+            AltUnityGetScreenshotResponse response = new AltUnityGetScreenshotResponse();
 
-            fullResponse[0] = JsonConvert.SerializeObject(new UnityEngine.Vector2(screenshot.width, screenshot.height), new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
+            response.scaleDifference = new AltUnityVector2(screenshot.width, screenshot.height);
 
             width = width * quality / 100;
             height = height * quality / 100;
@@ -127,28 +136,13 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             var screenshotCompressed = AltUnityRunner.CompressScreenshot(screenshotSerialized);
             logger.Trace("Finished Compression");
 
-            var length = screenshotCompressed.LongLength;
-            fullResponse[1] = length.ToString();
-
-            var format = screenshot.format;
-            fullResponse[2] = format.ToString();
-
-            var newSize = new UnityEngine.Vector3(screenshot.width, screenshot.height);
-            fullResponse[3] = JsonConvert.SerializeObject(newSize, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-
-            logger.Trace("Start serialize screenshot");
-            fullResponse[4] = JsonConvert.SerializeObject(screenshotCompressed, new JsonSerializerSettings
-            {
-                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
-            });
-            logger.Trace("Finished Serialize Screenshot");
+            response.textureFormat = (AltUnityTextureFormat)screenshot.format;
+            response.textureSize = new AltUnityVector3(screenshot.width, screenshot.height);
+            response.compressedImage = screenshotCompressed; // todo StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
 
             screenshot.Apply(false, true);
             UnityEngine.Object.DestroyImmediate(screenshot);
-            return JsonConvert.SerializeObject(fullResponse);
+            return response;
         }
 
         private string getPNGScreenshot()

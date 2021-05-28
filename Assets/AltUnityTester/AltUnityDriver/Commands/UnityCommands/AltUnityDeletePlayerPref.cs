@@ -2,13 +2,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityDeletePlayerPref : AltBaseCommand
     {
-        public AltUnityDeletePlayerPref(SocketSettings socketSettings) : base(socketSettings)
+        AltUnityDeletePlayerPrefParams cmdParams;
+        public AltUnityDeletePlayerPref(IDriverCommunication commHandler) : base(commHandler)
         {
+            this.cmdParams = new AltUnityDeletePlayerPrefParams();
         }
         public void Execute()
         {
-            SendCommand("deletePlayerPref");
-            var data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

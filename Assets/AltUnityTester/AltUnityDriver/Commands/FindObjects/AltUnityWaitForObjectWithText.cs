@@ -1,53 +1,59 @@
+using System;
+using System.Threading;
+using Altom.AltUnityDriver.Logging;
+using NLog;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityWaitForObjectWithText : AltUnityBaseFindObjects
     {
-        By by;
-        string value;
-        string text;
-        By cameraBy;
-        string cameraPath;
-        bool enabled;
-        double timeout;
-        double interval;
+        readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+        private AltUnityFindObject findObject;
+        private readonly string path;
 
-        public AltUnityWaitForObjectWithText(SocketSettings socketSettings, By by, string value, string text, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
+
+        private readonly string text;
+
+        private readonly double timeout;
+        private readonly double interval;
+
+        public AltUnityWaitForObjectWithText(IDriverCommunication commHandler, By by, string value, string text, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(commHandler)
         {
-            this.by = by;
-            this.value = value;
-            this.cameraBy = cameraBy;
-            this.cameraPath = cameraPath;
-            this.enabled = enabled;
+            this.findObject = new AltUnityFindObject(CommHandler, by, value, cameraBy, cameraPath, enabled);
+
+            path = SetPath(by, value);
+            if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
+            if (interval <= 0) throw new ArgumentOutOfRangeException("interval");
             this.timeout = timeout;
             this.interval = interval;
             this.text = text;
         }
         public AltUnityObject Execute()
         {
-            string path = SetPath(by, value);
             double time = 0;
             AltUnityObject altElement = null;
             while (time < timeout)
             {
                 try
                 {
-                    altElement = new AltUnityFindObject(SocketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
+                    altElement = findObject.Execute();
                     if (altElement.GetText().Equals(text))
                         break;
-                    throw new System.Exception("Not the wanted text");
+
+                    else
+                    {
+                        logger.Debug("Waiting for element " + path + " to have text " + text);
+                        Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                        time += interval;
+                    }
                 }
                 catch (NotFoundException)
                 {
-                    System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                    logger.Debug("Waiting for element " + path + " to be present.");
+                    Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                     time += interval;
-                    System.Diagnostics.Debug.WriteLine("Object " + path + " not found");
                 }
-                catch (System.Exception)
-                {
-                    System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
-                    time += interval;
-                    System.Diagnostics.Debug.WriteLine("Waiting for element " + path + " to have text " + text);
-                }
+
             }
             if (altElement != null && altElement.GetText().Equals(text))
             {

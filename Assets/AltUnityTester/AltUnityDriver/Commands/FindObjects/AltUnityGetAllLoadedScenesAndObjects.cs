@@ -1,18 +1,20 @@
+using System.Collections.Generic;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetAllLoadedScenesAndObjects : AltUnityBaseFindObjects
     {
 
-        private bool enabled;
-        public AltUnityGetAllLoadedScenesAndObjects(SocketSettings socketSettings, bool enabled) : base(socketSettings)
+        private AltUnityGetAllLoadedScenesAndObjectsParams cmdParams;
+        public AltUnityGetAllLoadedScenesAndObjects(IDriverCommunication commHandler, bool enabled) : base(commHandler)
         {
-            this.enabled = enabled;
+            cmdParams = new AltUnityGetAllLoadedScenesAndObjectsParams("//*", By.NAME, "", enabled);
         }
-        public System.Collections.Generic.List<AltUnityObjectLight> Execute()
+        public List<AltUnityObjectLight> Execute()
         {
-            SendCommand("getAllLoadedScenesAndObjects", "//*", "NAME", "", enabled.ToString());
-            string data = Recvall();
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityObjectLight>>(data);
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<List<AltUnityObjectLight>>(cmdParams).data;
+
         }
     }
 }

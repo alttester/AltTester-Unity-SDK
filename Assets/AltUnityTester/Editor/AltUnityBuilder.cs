@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Altom.Editor.Logging;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
+using Assets.AltUnityTester.AltUnityServer.Communication;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -43,7 +43,7 @@ namespace Altom.Editor
             AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
             if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
                 CreateJsonFileForInputMappingOfAxis();
-            AltClientSocketHandler.MaxLengthLogMsg = string.IsNullOrEmpty(AltUnityTesterEditor.EditorConfiguration.MaxLogLength) ? 0 : int.Parse(AltUnityTesterEditor.EditorConfiguration.MaxLogLength);
+            AltWebSocketHandler.MaxLengthLogMsg = string.IsNullOrEmpty(AltUnityTesterEditor.EditorConfiguration.MaxLogLength) ? 0 : int.Parse(AltUnityTesterEditor.EditorConfiguration.MaxLogLength);
         }
 
         public static void BuildAndroidFromUI(bool autoRun = false)

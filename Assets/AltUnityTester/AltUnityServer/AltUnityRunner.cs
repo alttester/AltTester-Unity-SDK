@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Logging;
 using Altom.Server.Logging;
-using Assets.AltUnityTester.AltUnityServer;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
-using Assets.AltUnityTester.AltUnityServer.Commands;
-using Newtonsoft.Json;
+using Assets.AltUnityTester.AltUnityServer.Communication;
 using NLog;
 
-public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandlerDelegate
+public class AltUnityRunner : UnityEngine.MonoBehaviour
 {
     private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
@@ -33,7 +29,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 
     [UnityEngine.SerializeField]
     private UnityEngine.GameObject AltUnityPopUpCanvas = null;
-    private AltSocketServer socketServer;
+
+    private ICommunication communication;
     [UnityEngine.Space]
     [UnityEngine.SerializeField]
     private bool _showInputs = false;
@@ -77,9 +74,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     }
     protected void Start()
     {
-        StartSocketServer();
-        logger.Debug("AltUnity Server started");
         _responseQueue = new AltResponseQueue();
+
+
+        StartCommunicationProtocol();
 
         if (showPopUp == false)
         {
@@ -94,7 +92,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     protected void Update()
     {
 #if UNITY_EDITOR
-        if (socketServer == null)
+        if (communication == null)
         {
             UnityEditor.EditorApplication.isPlaying = false;
             return;
@@ -102,7 +100,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
 #endif
         if (!AltUnityIconPressed)
         {
-            if (socketServer.ClientCount != 0)
+            if (communication.IsConnected)
             {
                 AltUnityPopUp.SetActive(false);
             }
@@ -111,7 +109,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                 AltUnityPopUp.SetActive(true);
             }
         }
-        if (!socketServer.IsServerStopped())
+
+        if (communication.IsListening)
         {
             AltUnityIcon.color = UnityEngine.Color.white;
         }
@@ -132,40 +131,45 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public void CleanUp()
     {
         logger.Debug("Cleaning up socket server");
-        if (socketServer != null)
-            socketServer.Cleanup();
+        if (communication != null)
+            communication.Stop();
     }
 
-    public void StartSocketServer()
+    public void StartCommunicationProtocol()
     {
-        AltIClientSocketHandlerDelegate clientSocketHandlerDelegate = this;
-        int maxClients = 1;
+        /*Communication protocol
+        Client mode: communication protocol connects to a proxy
+         - start client
+            * socket address in use
+         - connect to proxy => 
+            * connected
+            * could not connect
+        
+        Server mode: communcation protocol listens for connections:
+         - start server
+            * socket address in use
+            * cannot start server
+         - listen for connections
+            * client connected
+            * client disconnected
+        */
 
-        System.Text.Encoding encoding = System.Text.Encoding.UTF8;
-
-        socketServer = new AltSocketServer(
-            clientSocketHandlerDelegate, SocketPortNumber, maxClients, requestEndingString, encoding);
+        communication = new WebSocketServerCommunication("0.0.0.0", SocketPortNumber);
 
         try
         {
-            socketServer.StartListeningForConnections();
-            AltUnityPopUpText.text = "Waiting for connection" + System.Environment.NewLine + "on port " + socketServer.PortNumber + "...";
-            logger.Info(string.Format(
-                "AltUnity Server is listening on {0}:{1}",
-                socketServer.LocalEndPoint.Address, socketServer.PortNumber));
+            communication.Start();
+            AltUnityPopUpText.text = "Communication protocol is listening for connections on port " + SocketPortNumber;
         }
-        catch (SocketException ex)
+        catch (AddressInUseCommError)
         {
-            if (ex.Message.Contains("Only one usage of each socket address"))
-            {
-                AltUnityPopUpText.text = "Cannot start AltUnity Server. Another process is listening on port " + SocketPortNumber;
-                logger.Info("Cannot start AltUnity Server. Another process is listening on port" + SocketPortNumber);
-            }
-            else
-            {
-                AltUnityPopUpText.text = "An error occured while starting AltUnity Server.";
-                logger.Error(ex);
-            }
+            AltUnityPopUpText.text = "Cannot start AltUnity Server. Another process is listening on port " + SocketPortNumber;
+            logger.Error("Cannot start AltUnity Server. Another process is listening on port" + SocketPortNumber);
+        }
+        catch (UnhandledStartCommError ex)
+        {
+            AltUnityPopUpText.text = "An error occured while starting the communication protocol.";
+            logger.Error(ex.InnerException, "An error occured while starting the communication protocol.");
         }
     }
 
@@ -230,205 +234,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         return altObject;
     }
 
-    public void ClientSocketHandlerDidReadMessage(AltClientSocketHandler handler, string message)
-    {
-        logger.Debug("command received: " + message);
-        string[] parameters = message.Split(new string[] { requestSeparatorString }, StringSplitOptions.None);
-
-        AltUnityCommand command = null;
-        try
-        {
-            if (parameters[0] == "getServerVersion")
-            {
-                var versionCommand = new AltUnityGetServerVersionCommandBackwardsCompatible();
-                versionCommand.SendResponse(handler);
-                return;
-            }
-            switch (parameters[1])
-            {
-                case "tapObject":
-                    command = new AltUnityTapCommand(parameters);
-                    break;
-                case "getCurrentScene":
-                    command = new AltUnityGetCurrentSceneCommand(parameters);
-                    break;
-                case "getObjectComponentProperty":
-                    command = new AltUnityGetComponentPropertyCommand(parameters);
-                    break;
-                case "setObjectComponentProperty":
-                    command = new AltUnitySetObjectComponentPropertyCommand(parameters);
-                    break;
-                case "callComponentMethodForObject":
-                    command = new AltUnityCallComponentMethodForObjectCommand(parameters);
-                    break;
-                case "closeConnection":
-                    socketServer.StartListeningForConnections();
-                    logger.Debug("Socket connection closed!");
-                    break;
-                case "clickEvent":
-                    command = new AltUnityClickEventCommand(parameters);
-                    break;
-                case "tapScreen":
-                    command = new AltUnityClickOnScreenAtXyCommand(parameters);
-                    break;
-                case "tapCustom":
-                    command = new AltUnityClickOnScreenCustom(parameters);
-                    break;
-                case "dragObject":
-                    command = new AltUnityDragObjectCommand(parameters);
-                    break;
-                case "dropObject":
-                    command = new AltUnityDropObjectCommand(parameters);
-                    break;
-                case "pointerUpFromObject":
-                    command = new AltUnityPointerUpFromObjectCommand(parameters);
-                    break;
-                case "pointerDownFromObject":
-                    command = new AltUnityPointerDownFromObjectCommand(parameters);
-                    break;
-                case "pointerEnterObject":
-                    command = new AltUnityPointerEnterObjectCommand(parameters);
-                    break;
-                case "pointerExitObject":
-                    command = new AltUnityPointerExitObjectCommand(parameters);
-                    break;
-                case "tilt":
-                    command = new AltUnityTiltCommand(parameters);
-                    break;
-                case "multipointSwipe":
-                    command = new AltUnitySetMultipointSwipeCommand(parameters);
-                    break;
-                case "multipointSwipeChain":
-                    command = new AltUnitySetMultipointSwipeChainCommand(parameters);
-                    break;
-                case "loadScene":
-                    command = new AltUnityLoadSceneCommand(handler, parameters);
-                    break;
-                case "unloadScene":
-                    command = new AltUnityUnloadSceneCommand(handler, parameters);
-                    break;
-                case "setTimeScale":
-                    command = new AltUnitySetTimeScaleCommand(parameters);
-                    break;
-                case "getTimeScale":
-                    command = new AltUnityGetTimeScaleCommand(parameters);
-                    break;
-                case "deletePlayerPref":
-                    command = new AltUnityDeletePlayerPrefCommand(parameters);
-                    break;
-                case "deleteKeyPlayerPref":
-                    command = new AltUnityDeleteKeyPlayerPrefCommand(parameters);
-                    break;
-                case "setKeyPlayerPref":
-                    command = new AltUnitySetKeyPlayerPrefCommand(parameters);
-                    break;
-                case "getKeyPlayerPref":
-                    command = new AltUnityGetKeyPlayerPrefCommand(parameters);
-                    break;
-                case "actionFinished":
-                    command = new AltUnityActionFinishedCommand(parameters);
-                    break;
-                case "getAllComponents":
-                    command = new AltUnityGetAllComponentsCommand(parameters);
-                    break;
-                case "getAllFields":
-                    command = new AltUnityGetAllFieldsCommand(parameters);
-                    break;
-                case "getAllProperties":
-                    command = new AltUnityGetAllPropertiesCommand(parameters);
-                    break;
-                case "getAllMethods":
-                    command = new AltUnityGetAllMethodsCommand(parameters);
-                    break;
-                case "getAllScenes":
-                    command = new AltUnityGetAllScenesCommand(parameters);
-                    break;
-                case "getAllCameras":
-                    command = new AltUnityGetAllCamerasCommand(false, parameters);
-                    break;
-                case "getAllActiveCameras":
-                    command = new AltUnityGetAllCamerasCommand(true, parameters);
-                    break;
-                case "getAllLoadedScenes":
-                    command = new AltUnityGetAllLoadedScenesCommand(parameters);
-                    break;
-                case "getAllLoadedScenesAndObjects":
-                    command = new AltUnityGetAllLoadedScenesAndObjectsCommand(parameters);
-                    break;
-                case "getScreenshot":
-                    command = new AltUnityGetScreenshotCommand(handler, parameters);
-                    break;
-                case "hightlightObjectScreenshot":
-                    command = new AltUnityHighlightSelectedObjectCommand(handler, parameters);
-                    break;
-                case "hightlightObjectFromCoordinatesScreenshot":
-                    command = new AltUnityHightlightObjectFromCoordinatesCommand(handler, parameters);
-                    break;
-                case "pressKeyboardKey":
-                    command = new AltUnityHoldButtonCommand(parameters);
-                    break;
-                case "moveMouse":
-                    command = new AltUnityMoveMouseCommand(parameters);
-                    break;
-                case "scrollMouse":
-                    command = new AltUnityScrollMouseCommand(parameters);
-                    break;
-                case "findObject":
-                    command = new AltUnityFindObjectCommand(parameters);
-                    break;
-                case "findObjects":
-                    command = new AltUnityFindObjectsCommand(parameters);
-                    break;
-                case "findObjectsLight":
-                    command = new AltUnityFindObjectsLightCommand(parameters);
-                    break;
-                case "findActiveObjectByName":
-                    command = new AltUnityFindActiveObjectsByNameCommand(parameters);
-                    break;
-                case "enableLogging":
-                    command = new AltUnityEnableLoggingCommand(parameters);
-                    break;
-                case "getText":
-                    command = new AltUnityGetTextCommand(parameters);
-                    break;
-                case "setText":
-                    command = new AltUnitySetTextCommand(parameters);
-                    break;
-                case "getPNGScreenshot":
-                    command = new AltUnityGetScreenshotPNGCommand(handler, parameters);
-                    break;
-                case "getServerVersion":
-                    command = new AltUnityGetServerVersionCommand(parameters);
-                    break;
-                case "setServerLogging":
-                    command = new AltUnitySetServerLoggingCommand(parameters);
-                    break;
-                default:
-                    command = new AltUnityUnknowStringCommand(parameters);
-                    break;
-            }
-        }
-        catch (JsonException ex)
-        {
-            command = new AltUnityErrorCommand(AltUnityErrors.errorCouldNotParseJsonString, ex, parameters);
-        }
-        catch (InvalidParametersOnDriverCommandException ex)
-        {
-            command = new AltUnityErrorCommand(AltUnityErrors.errorInvalidParametersOnDriverCommand, ex, parameters);
-        }
-        if (command != null)
-        {
-            _responseQueue.ScheduleResponse(delegate
-           {
-               var result = command.ExecuteHandleErrors(command.Execute);
-
-               var logs = command.GetLogs();
-               if (!string.IsNullOrEmpty(logs)) logs += "\n";
-               logs += result.Item2;
-               handler.SendResponse(command.MessageId, command.CommandName, result.Item1, logs);
-           });
-        }
-    }
 
     public static UnityEngine.GameObject[] GetDontDestroyOnLoadObjects()
     {
@@ -453,8 +258,8 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public void ServerRestartPressed()
     {
         AltUnityIconPressed = false;
-        socketServer.Cleanup();
-        StartSocketServer();
+        communication.Stop();
+        StartCommunicationProtocol();
         AltUnityPopUp.SetActive(true);
     }
 

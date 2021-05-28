@@ -1,23 +1,19 @@
-using Newtonsoft.Json;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityTiltCommand : AltUnityCommand
+    class AltUnityTiltCommand : AltUnityCommand<AltUnityTiltParams, string>
     {
-        private UnityEngine.Vector3 acceleration;
-        private readonly float duration;
-
-        public AltUnityTiltCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnityTiltCommand(AltUnityTiltParams cmdParams) : base(cmdParams)
         {
-            this.acceleration = JsonConvert.DeserializeObject<UnityEngine.Vector3>(parameters[2]);
-            this.duration = JsonConvert.DeserializeObject<float>(parameters[3]);
         }
 
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            Input.Acceleration(acceleration, duration);
-            return "OK";
+            Input.Acceleration(CommandParams.acceleration.ToUnity(), CommandParams.duration);
+            return "Ok";
 #else
             return null;
 #endif

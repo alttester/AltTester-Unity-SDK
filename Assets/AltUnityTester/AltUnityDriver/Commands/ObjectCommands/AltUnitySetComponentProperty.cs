@@ -2,27 +2,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySetComponentProperty : AltBaseCommand
     {
-        readonly string componentName;
-        readonly string propertyName;
-        readonly string value;
-        readonly string assemblyName;
-        readonly AltUnityObject altUnityObject;
+        AltUnitySetObjectComponentPropertyParams cmdParams;
 
-        public AltUnitySetComponentProperty(SocketSettings socketSettings, string componentName, string propertyName, string value, string assemblyName, AltUnityObject altUnityObject) : base(socketSettings)
+        public AltUnitySetComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, string value, string assemblyName, AltUnityObject altUnityObject) : base(commHandler)
         {
-            this.componentName = componentName;
-            this.propertyName = propertyName;
-            this.value = value;
-            this.assemblyName = assemblyName;
-            this.altUnityObject = altUnityObject;
+            cmdParams = new AltUnitySetObjectComponentPropertyParams(altUnityObject, componentName, propertyName, assemblyName, value);
         }
         public string Execute()
         {
-            string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-            string propertyInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new AltUnityObjectProperty(componentName, propertyName, assemblyName));
-            SendCommand("setObjectComponentProperty", altObject, propertyInfo, value);
-            string data = Recvall();
-            return data;
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<string>(cmdParams).data;
         }
     }
 }

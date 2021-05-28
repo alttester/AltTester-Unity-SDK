@@ -1,40 +1,32 @@
 using Altom.AltUnityDriver;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityTapCommand : AltUnityCommand
+    class AltUnityTapCommand : AltUnityCommand<AltUnityTapObjectParams, AltUnityObject>
     {
-        readonly AltUnityObject altUnityObject;
-        readonly int count;
 
-        public AltUnityTapCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnityTapCommand(AltUnityTapObjectParams cmdParams) : base(cmdParams)
         {
-            altUnityObject = JsonConvert.DeserializeObject<AltUnityObject>(Parameters[2]);
-            count = string.IsNullOrEmpty(Parameters[3]) ? 1 : JsonConvert.DeserializeObject<int>(Parameters[3]);
-            count = count < 1 ? 1 : count;
         }
 
-        public override string Execute()
+        public override AltUnityObject Execute()
         {
-            AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(altUnityObject.getScreenPosition().x, altUnityObject.getScreenPosition().y));
-            var response = AltUnityErrors.errorNotFoundMessage;
+            AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(CommandParams.altUnityObject.getScreenPosition().x, CommandParams.altUnityObject.getScreenPosition().y));
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altUnityObject);
+            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);
 
             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
             gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-            for (var i = 0; i < count; i++)
+            for (var i = 0; i < CommandParams.count; i++)
                 initiateClick(gameObject, pointerEventData);
 
             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
             gameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-            var camera = AltUnityRunner._altUnityRunner.FoundCameraById(altUnityObject.idCamera);
-            response = JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, camera));
-
-            return response;
+            var camera = AltUnityRunner._altUnityRunner.FoundCameraById(CommandParams.altUnityObject.idCamera);
+            return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, camera);
         }
 
         private void initiateClick(UnityEngine.GameObject gameObject, UnityEngine.EventSystems.PointerEventData pointerEventData)

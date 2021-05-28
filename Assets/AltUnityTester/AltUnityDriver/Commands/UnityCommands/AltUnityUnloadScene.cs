@@ -2,19 +2,19 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityUnloadScene : AltBaseCommand
     {
-        readonly string sceneName;
-        public AltUnityUnloadScene(SocketSettings socketSettings, string sceneName) : base(socketSettings)
+        AltUnityUnloadSceneParams cmdParams;
+        public AltUnityUnloadScene(IDriverCommunication commHandler, string sceneName) : base(commHandler)
         {
-            this.sceneName = sceneName;
+            cmdParams = new AltUnityUnloadSceneParams(sceneName);
         }
         public void Execute()
         {
-            SendCommand("unloadScene", sceneName);
+            CommHandler.Send(cmdParams);
 
-            var data = Recvall();
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
 
-            data = Recvall();
+            data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Scene Unloaded", data);
         }
     }

@@ -1,5 +1,8 @@
-﻿namespace Altom.AltUnityDriver.Commands
+﻿using System;
+
+namespace Altom.AltUnityDriver.Commands
 {
+    [Obsolete]
     public struct AltUnityObjectAction
     {
         public string Component;

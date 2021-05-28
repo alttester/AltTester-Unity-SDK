@@ -1,22 +1,20 @@
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityScrollMouseCommand : AltUnityCommand
+    class AltUnityScrollMouseCommand : AltUnityCommand<AltUnityScrollMouseParams, string>
     {
-        readonly float scrollValue;
-        readonly float duration;
 
-        public AltUnityScrollMouseCommand(params string[] parameters) : base(parameters, 4)
+
+        public AltUnityScrollMouseCommand(AltUnityScrollMouseParams cmdParams) : base(cmdParams)
         {
-            this.scrollValue = JsonConvert.DeserializeObject<float>(parameters[2]);
-            this.duration = JsonConvert.DeserializeObject<float>(parameters[3]);
         }
 
         public override string Execute()
         {
+
 #if ALTUNITYTESTER
-            Input.Scroll(scrollValue, duration);
+            Input.Scroll(CommandParams.speed, CommandParams.duration);
             return "Ok";
 #else
             return null;
