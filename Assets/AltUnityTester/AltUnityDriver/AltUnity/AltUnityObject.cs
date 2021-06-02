@@ -68,7 +68,8 @@ namespace Altom.AltUnityDriver
         public string CallComponentMethod(string componentName, string methodName, string parameters, string typeOfParameters = "", string assemblyName = null)
         {
             var paramterTypes = CommandHelpers.ParseParseMethodCallypeOfParameters(typeOfParameters);
-            return CallComponentMethod<string>(componentName, methodName, CommandHelpers.ParseMethodCallParameters(parameters, paramterTypes), paramterTypes, assemblyName);
+            var result = CallComponentMethod<dynamic>(componentName, methodName, CommandHelpers.ParseMethodCallParameters(parameters, paramterTypes), paramterTypes, assemblyName);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(result);
         }
 
         public T CallComponentMethod<T>(string componentName, string methodName, string[] parameters, string[] typeOfParameters = null, string assemblyName = null)

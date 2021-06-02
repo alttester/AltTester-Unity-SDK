@@ -345,39 +345,72 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    public void TestCallMethodWithNoParameters()
+    [Obsolete]
+    public void TestCallMethodWithNoParameters_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "UIButtonClicked";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, "");
+        Assert.AreEqual("null", data);
+    }
+    [Test]
+    public void TestCallMethodWithNoParameters()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "UIButtonClicked";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { });
         Assert.IsNull(data);
     }
 
     [Test]
-    public void TestCallMethodWithParameters()
+    [Obsolete]
+    public void TestCallMethodWithParameters_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "Jump";
         const string parameters = "New Text";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, parameters);
+        Assert.AreEqual("null", data);
+    }
+    [Test]
+    public void TestCallMethodWithParameters()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "Jump";
+        string[] parameters = new[] { "New Text" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters);
         Assert.IsNull(data);
     }
 
     [Test]
-    public void TestCallMethodWithManyParameters()
+    [Obsolete]
+    public void TestCallMethodWithManyParameters_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
         const string parameters = "1?stringparam?0.5?[1,2,3]";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, parameters);
+        Assert.AreEqual("null", data);
+    }
+    [Test]
+    public void TestCallMethodWithManyParameters()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithManyParameters";
+        string[] parameters = new[] { "1", "stringparam", "0.5", "[1,2,3]" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters);
         Assert.IsNull(data);
     }
 
     [Test]
-    public void TestCallMethodWithOptionalParemeters()
+    [Obsolete]
+    public void TestCallMethodWithOptionalParemeters_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithOptionalParameters";
@@ -386,9 +419,20 @@ public class TestForScene1TestSample
         var data = altElement.CallComponentMethod(componentName, methodName, parameters);
         Assert.AreEqual("3", data);
     }
+    [Test]
+    public void TestCallMethodWithOptionalParemeters()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithOptionalParameters";
+        string[] parameters = new[] { "1", "2" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+        Assert.AreEqual("3", data);
+    }
 
     [Test]
-    public void TestCallMethodWithOptionalParemetersString()
+    [Obsolete]
+    public void TestCallMethodWithOptionalParemetersString_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithOptionalParameters";
@@ -396,10 +440,24 @@ public class TestForScene1TestSample
         const string typeOfParameters = "System.String?System.String";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, parameters, typeOfParameters);
+        Assert.AreEqual("\"FirstParameterSecondParameter\"", data);
+    }
+
+    [Test]
+    public void TestCallMethodWithOptionalParemetersString()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithOptionalParameters";
+        string[] parameters = new[] { "FirstParameter", "SecondParameter" };
+        string[] typeOfParameters = new[] { "System.String", "System.String" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters);
         Assert.AreEqual("FirstParameterSecondParameter", data);
     }
+
     [Test]
-    public void TestCallMethodWithOptionalParemetersString2()
+    [Obsolete]
+    public void TestCallMethodWithOptionalParemetersString2_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithOptionalParameters";
@@ -407,11 +465,24 @@ public class TestForScene1TestSample
         const string typeOfParameters = "System.String?System.String";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, parameters, typeOfParameters);
+        Assert.AreEqual("\"FirstParameter\"", data);
+    }
+
+    [Test]
+    public void TestCallMethodWithOptionalParemetersString2()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithOptionalParameters";
+        string[] parameters = new[] { "FirstParameter", "" };
+        string[] typeOfParameters = new[] { "System.String", "System.String" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters);
         Assert.AreEqual("FirstParameter", data);
     }
 
     [Test]
-    public void TestCallMethodWithIncorrectNumberOfParameters()
+    [Obsolete]
+    public void TestCallMethodWithIncorrectNumberOfParameters_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
@@ -427,9 +498,27 @@ public class TestForScene1TestSample
             Assert.IsTrue(exception.Message.StartsWith("No method found with 3 parameters matching signature: TestMethodWithManyParameters()"), exception.Message);
         }
     }
+    [Test]
+    public void TestCallMethodWithIncorrectNumberOfParameters()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithManyParameters";
+        string[] parameters = new[] { "1", "stringparam", "[1,2,3]" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        try
+        {
+            altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+            Assert.Fail();
+        }
+        catch (MethodWithGivenParametersNotFoundException exception)
+        {
+            Assert.IsTrue(exception.Message.StartsWith("No method found with 3 parameters matching signature: TestMethodWithManyParameters()"), exception.Message);
+        }
+    }
 
     [Test]
-    public void TestCallMethodWithIncorrectNumberOfParameters2()
+    [Obsolete]
+    public void TestCallMethodWithIncorrectNumberOfParameters2_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
@@ -445,9 +534,27 @@ public class TestForScene1TestSample
             Assert.IsTrue(exception.Message.StartsWith("No method found with 3 parameters matching signature: TestMethodWithManyParameters()"), exception.Message);
         }
     }
+    [Test]
+    public void TestCallMethodWithIncorrectNumberOfParameters2()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithManyParameters";
+        string[] parameters = new[] { "a", "stringparam", "[1,2,3]" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        try
+        {
+            altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+            Assert.Fail();
+        }
+        catch (MethodWithGivenParametersNotFoundException exception)
+        {
+            Assert.IsTrue(exception.Message.StartsWith("No method found with 3 parameters matching signature: TestMethodWithManyParameters()"), exception.Message);
+        }
+    }
 
     [Test]
-    public void TestCallMethodAssmeblyNotFound()
+    [Obsolete]
+    public void TestCallMethodAssmeblyNotFound_Obsolete()
     {
         const string componentName = "RandomComponent";
         const string methodName = "TestMethodWithManyParameters";
@@ -463,9 +570,27 @@ public class TestForScene1TestSample
             Assert.IsTrue(exception.Message.StartsWith("Assembly not found"), exception.Message);
         }
     }
+    [Test]
+    public void TestCallMethodAssmeblyNotFound()
+    {
+        const string componentName = "RandomComponent";
+        const string methodName = "TestMethodWithManyParameters";
+        string[] parameters = new[] { "a", "stringparam", "0.5", "[1,2,3]" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        try
+        {
+            altElement.CallComponentMethod<string>(componentName, methodName, parameters, null, "RandomAssembly");
+            Assert.Fail();
+        }
+        catch (AssemblyNotFoundException exception)
+        {
+            Assert.IsTrue(exception.Message.StartsWith("Assembly not found"), exception.Message);
+        }
+    }
 
     [Test]
-    public void TestCallMethodInvalidMethodArgumentTypes()
+    [Obsolete]
+    public void TestCallMethodInvalidMethodArgumentTypes_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
@@ -481,8 +606,27 @@ public class TestForScene1TestSample
             Assert.IsTrue(exception.Message.StartsWith("Could not parse parameter 'stringnotint' to type System.Int"), exception.Message);
         }
     }
+
     [Test]
-    public void TestCallMethodInvalidParameterType()
+    public void TestCallMethodInvalidMethodArgumentTypes()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithManyParameters";
+        string[] parameters = new[] { "stringnotint", "stringparam", "0.5", "1,2,3]" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        try
+        {
+            altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+            Assert.Fail();
+        }
+        catch (FailedToParseArgumentsException exception)
+        {
+            Assert.IsTrue(exception.Message.StartsWith("Could not parse parameter 'stringnotint' to type System.Int"), exception.Message);
+        }
+    }
+    [Test]
+    [Obsolete]
+    public void TestCallMethodInvalidParameterType_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
@@ -491,6 +635,24 @@ public class TestForScene1TestSample
         try
         {
             altElement.CallComponentMethod(componentName, methodName, parameters, "System.Stringggggg");
+            Assert.Fail();
+        }
+        catch (InvalidParameterTypeException exception)
+        {
+            Assert.IsTrue(exception.Message.StartsWith("Number of parameters different than number of types of parameters"), exception.Message);
+        }
+    }
+
+    [Test]
+    public void TestCallMethodInvalidParameterType()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "TestMethodWithManyParameters";
+        string[] parameters = new[] { "1", "stringparam", "0.5", "[1,2,3]" };
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        try
+        {
+            altElement.CallComponentMethod<string>(componentName, methodName, parameters, new[] { "System.Stringggggg" });
             Assert.Fail();
         }
         catch (InvalidParameterTypeException exception)
@@ -706,7 +868,8 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    public void TestCallStaticMethod()
+    [Obsolete]
+    public void TestCallStaticMethod_Obsolete()
     {
         altUnityDriver.CallStaticMethod("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
         int a = int.Parse(altUnityDriver.CallStaticMethod("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
@@ -714,7 +877,16 @@ public class TestForScene1TestSample
 
     }
     [Test]
-    public void TestCallMethodWithMultipleDefinitions()
+    public void TestCallStaticMethod()
+    {
+        altUnityDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", new[] { "Test", "1" });
+        int a = altUnityDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", new[] { "Test", "2" });
+        Assert.AreEqual(1, a);
+
+    }
+    [Test]
+    [Obsolete]
+    public void TestCallMethodWithMultipleDefinitions_Obsolete()
     {
 
         AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -723,11 +895,31 @@ public class TestForScene1TestSample
         Assert.AreEqual("6", capsuleInfo.GetText());
     }
     [Test]
-    public void TestCallMethodWithAssembly()
+    public void TestCallMethodWithMultipleDefinitions()
+    {
+
+        AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.CallComponentMethod<string>("AltUnityExampleScriptCapsule", "Test", new[] { "2" }, new[] { "System.Int32" });
+        AltUnityObject capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+        Assert.AreEqual("6", capsuleInfo.GetText());
+    }
+    [Test]
+    [Obsolete]
+    public void TestCallMethodWithAssembly_Obsolete()
     {
         AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
         capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
+        AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
+        Assert.AreNotEqual(initialRotation, finalRotation);
+    }
+    [Test]
+    public void TestCallMethodWithAssembly()
+    {
+        AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
+        capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
         AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
         Assert.AreNotEqual(initialRotation, finalRotation);
@@ -1386,8 +1578,8 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetScreensizeScreenshot()
     {
-        var screenWidth = short.Parse(altUnityDriver.CallStaticMethod("UnityEngine.Screen", "get_width", "", "", "UnityEngine.CoreModule"));
-        var screenHeight = short.Parse(altUnityDriver.CallStaticMethod("UnityEngine.Screen", "get_height", "", "", "UnityEngine.CoreModule"));
+        var screenWidth = altUnityDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", new string[] { }, null, "UnityEngine.CoreModule");
+        var screenHeight = altUnityDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_height", new string[] { }, null, "UnityEngine.CoreModule");
         var screenshot = altUnityDriver.GetScreenshot();
         Assert.True(screenshot.textureSize.x == screenWidth);
         Assert.True(screenshot.textureSize.y == screenHeight);
@@ -1511,39 +1703,93 @@ public class TestForScene1TestSample
         Assert.AreEqual("1", counterButtonText.GetText());
     }
     [Test]
-    public void TestCallMethodInsideASubObject()
+    [Obsolete]
+    public void TestCallMethodInsideASubObject_Obsolete()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "AltUnitySampleClass.TestMethod";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod(componentName, methodName, "");
+        Assert.AreEqual("\"Test\"", data);
+    }
+
+    [Test]
+    public void TestCallMethodInsideASubObject()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "AltUnitySampleClass.TestMethod";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { });
         Assert.AreEqual("Test", data);
     }
 
 
+
+    [Test]
+    [Obsolete]
+    public void TestCallMethodInsideAListOfSubObject_Obsolete()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "listOfSampleClass[0].TestMethod";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod(componentName, methodName, "");
+        Assert.AreEqual("\"Test\"", data);
+    }
     [Test]
     public void TestCallMethodInsideAListOfSubObject()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "listOfSampleClass[0].TestMethod";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var data = altElement.CallComponentMethod(componentName, methodName, "");
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { });
         Assert.AreEqual("Test", data);
+    }
+    [Test]
+    [Obsolete]
+    public void TestCallStaticMethodInsideASubObject_Obsolete()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string methodName = "StaticSampleClass.TestMethod";
+        var data = altUnityDriver.CallStaticMethod(componentName, methodName, "");
+        Assert.AreEqual("\"Test\"", data);
     }
     [Test]
     public void TestCallStaticMethodInsideASubObject()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "StaticSampleClass.TestMethod";
-        var data = altUnityDriver.CallStaticMethod(componentName, methodName, "");
+        var data = altUnityDriver.CallStaticMethod<string>(componentName, methodName, new string[] { });
         Assert.AreEqual("Test", data);
+    }
+    [Test]
+    [Obsolete]
+    public void TestCallGameObjectMethod_Obsolete()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod("UnityEngine.GameObject", "CompareTag", "Untagged", "System.String", "UnityEngine.CoreModule");
+        Assert.AreEqual("true", data);
     }
     [Test]
     public void TestCallGameObjectMethod()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var data = altElement.CallComponentMethod("UnityEngine.GameObject", "CompareTag", "Untagged", "System.String", "UnityEngine.CoreModule");
+        var data = altElement.CallComponentMethod<bool>("UnityEngine.GameObject", "CompareTag", new[] { "Untagged" }, new[] { "System.String" }, "UnityEngine.CoreModule");
+        Assert.IsTrue(data);
+    }
+    [Test]
+    [Obsolete]
+    public void TestCallMethodInsideSubObjectOfGameObject_Obsolete()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod("UnityEngine.GameObject", "scene.IsValid", "", "", "UnityEngine.CoreModule");
         Assert.AreEqual("true", data);
+    }
+    [Test]
+    public void TestCallMethodInsideSubObjectOfGameObject()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var data = altElement.CallComponentMethod<bool>("UnityEngine.GameObject", "scene.IsValid", new string[] { }, null, "UnityEngine.CoreModule");
+        Assert.IsTrue(data);
     }
 
     [Test]
@@ -1557,13 +1803,7 @@ public class TestForScene1TestSample
         mainCamera = altUnityDriver.FindObject(By.ID, mainCamera.id.ToString());
         Assert.AreEqual("Main Camera", mainCamera.name);
     }
-    [Test]
-    public void TestCallMethodInsideSubObjectOfGameObject()
-    {
-        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var data = altElement.CallComponentMethod("UnityEngine.GameObject", "scene.IsValid", "", "", "UnityEngine.CoreModule");
-        Assert.AreEqual("true", data);
-    }
+
 
     [TestCase("/Canvas[0]", "CapsuleInfo", true)]
     [TestCase("/Canvas[1]", "UIButton", true)]

@@ -38,8 +38,7 @@ namespace Altom.AltUnityDriver
 #endif
                 DriverLogManager.SetupAltUnityDriverLogging(defaultLevels);
             }
-
-            communicationHandler = new DriverWebSocketClient(tcp_ip, tcp_port, connectTimeout);
+            communicationHandler = DriverCommunicationWebSocket.Connect(tcp_ip, tcp_port, connectTimeout);
 
             checkServerVersion();
         }
@@ -140,13 +139,15 @@ namespace Altom.AltUnityDriver
 
         {
             var paramterTypes = CommandHelpers.ParseParseMethodCallypeOfParameters(typeOfParameters);
-            return CallStaticMethod(typeName, methodName, CommandHelpers.ParseMethodCallParameters(parameters, paramterTypes), paramterTypes, assemblyName);
+            var result = CallStaticMethod<dynamic>(typeName, methodName, CommandHelpers.ParseMethodCallParameters(parameters, paramterTypes), paramterTypes, assemblyName);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(result);
+
         }
 
-        public string CallStaticMethod(string typeName, string methodName,
+        public T CallStaticMethod<T>(string typeName, string methodName,
                     string[] parameters, string[] typeOfParameters = null, string assemblyName = "")
         {
-            return new AltUnityCallStaticMethod(communicationHandler, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
+            return new AltUnityCallStaticMethod<T>(communicationHandler, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
         }
 
         public void DeletePlayerPref()

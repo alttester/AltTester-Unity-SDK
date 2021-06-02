@@ -1,10 +1,8 @@
 using NUnit.Framework;
-
-using Altom.AltUnityDriver;
 using System;
 using System.IO;
 
-namespace unit.AltUnityDriverTests
+namespace Altom.AltUnityDriver.Tests
 {
     [Timeout(10000)]
     public class TestAltUnityPortForwarding

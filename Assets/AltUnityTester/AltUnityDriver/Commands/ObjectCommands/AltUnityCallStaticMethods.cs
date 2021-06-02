@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Altom.AltUnityDriver.Commands
 {
-    public class AltUnityCallStaticMethod : AltBaseCommand
+    public class AltUnityCallStaticMethod<T> : AltBaseCommand
     {
         AltUnityCallComponentMethodForObjectParams cmdParams;
 
@@ -10,11 +10,10 @@ namespace Altom.AltUnityDriver.Commands
         {
             cmdParams = new AltUnityCallComponentMethodForObjectParams(null, typeName, methodName, parameters, typeOfParameters, assemblyName);
         }
-        public string Execute()
+        public T Execute()
         {
             CommHandler.Send(cmdParams);
-            string data = CommHandler.Recvall<string>(cmdParams).data;
-            return data;
+            return CommHandler.Recvall<T>(cmdParams).data;
         }
     }
 }

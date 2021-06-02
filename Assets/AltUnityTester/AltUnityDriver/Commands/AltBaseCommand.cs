@@ -16,14 +16,13 @@ namespace Altom.AltUnityDriver.Commands
             this.CommHandler = commHandler;
         }
 
-        protected void ValidateResponse(string expected, string received, StringComparison stringComparison = StringComparison.CurrentCulture)
+        protected void ValidateResponse(string expected, string received)
         {
-            if (!expected.Equals(received, stringComparison))
+            if (!expected.Equals(received, StringComparison.InvariantCulture))
             {
                 throw new AltUnityInvalidServerResponse(expected, received);
             }
         }
-
 
         protected static byte[] decompressScreenshot(byte[] screenshotCompressed)
         {
