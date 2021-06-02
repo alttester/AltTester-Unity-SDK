@@ -21,5 +21,6 @@ namespace Assets.AltUnityTester.AltUnityServer
         public static readonly string errorIndexOutOfRange = "error:indexOutOfRange";
         public static readonly string errorInvalidParametersOnDriverCommand = "error:invalidParametersOnDriverCommand";
         public static readonly string errorInvalidPath = "error:invalidPath";
+        public static readonly string errorInputModule = "error:ALTUNITYTESTERNotAddedAsDefineVariable";
     }
 }

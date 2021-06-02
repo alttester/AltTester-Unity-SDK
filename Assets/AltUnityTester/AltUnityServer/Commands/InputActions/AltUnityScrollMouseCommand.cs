@@ -19,7 +19,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             Input.Scroll(scrollValue, duration);
             return "Ok";
 #else
-            return null;
+            return AltUnityErrors.errorInputModule;
 #endif
         }
     }
