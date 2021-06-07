@@ -152,7 +152,7 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
             .. tab:: Android
 
-                Use the following static methods (from the AltUnityPortHandler class) in your test file:
+                Use the following static methods (from the AltUnityPortForwarding class) in your test file:
         
                     - ForwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
                     - RemoveForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
@@ -164,7 +164,7 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
             .. tab:: iOS
 
-                Use the following static methods (from the AltUnityPortHandler class) in your test file:
+                Use the following static methods (from the AltUnityPortForwarding class) in your test file:
         
                     - ForwardIos (int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
                     - KillAllIproxyProcess ()
@@ -180,7 +180,7 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
             .. tab:: Android
             
-                Use the following static methods (from the AltUnityPortHandler class) in your test file:
+                Use the following static methods (from the AltUnityPortForwarding class) in your test file:
         
                     - forwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
                     - removeForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
@@ -192,7 +192,7 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
             .. tab:: iOS
 
-                Use the following static methods (from the AltUnityPortHandler class) in your test file:
+                Use the following static methods (from the AltUnityPortForwarding class) in your test file:
         
                     - forwardIos (int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
                     - killAllIproxyProcess ()
@@ -208,10 +208,10 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
             
             .. tab:: Android
 
-                Use the following static methods (from the AltUnityPortHandler class) in your test file:
+                Use the following static methods (from the AltUnityPortForwarding class) in your test file:
         
-                    - forward_android (localPort = 13000, remotePort = 13000, deviceId = "")
-                    - remove_forward_android (localPort = 13000, deviceId = "")
+                    - forward_android (local_port = 13000, device_port = 13000, device_id = "")
+                    - remove_forward_android (local_port = 13000, device_id = "")
             
                 Example test file:
             
@@ -220,7 +220,7 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
             .. tab:: iOS
 
-                Use the following static methods (from the AltUnityiOSPortForwarding class) in your test file:
+                Use the following static methods (from the AltUnityPortForwarding class) in your test file:
                 
                     - forward_ios (local_port = 13000, device_port = 13000, device_id = "")
                     - kill_all_iproxy_process()
