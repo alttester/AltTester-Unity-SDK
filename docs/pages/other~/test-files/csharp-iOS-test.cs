@@ -8,7 +8,7 @@ public class MyFirstTest
   [OneTimeSetUp]
   public void SetUp()
   {
-    AltUnityPortHandler.ForwardIos();
+    AltUnityPortForwarding.ForwardIos();
     altUnityDriver = new AltUnityDriver();
   }
 
@@ -16,7 +16,7 @@ public class MyFirstTest
   public void TearDown()
   {
     altUnityDriver.Stop();
-    AltUnityPortHandler.KillAllIproxyProcess();
+    AltUnityPortForwarding.KillAllIproxyProcess();
   }
 
   [Test]
