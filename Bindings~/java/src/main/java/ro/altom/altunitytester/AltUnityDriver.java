@@ -19,6 +19,7 @@ import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnitySetServerLoggin
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
+import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import ro.altom.altunitytester.position.Vector2;
 
@@ -338,8 +339,13 @@ public class AltUnityDriver {
         new AltPressKey(altBaseSettings, altPressKeyParameters).Execute();
     }
 
+    @Deprecated
     public void pressKey(String keyName, float power, float duration) {
         pressKey(BuildPressKeyParameters(keyName, power, duration));
+    }
+
+    public void pressKey(AltUnityKeyCode keyCode, float power, float duration) {
+        pressKey(BuildPressKeyParameters(keyCode, power, duration));
     }
 
     /**
@@ -352,8 +358,13 @@ public class AltUnityDriver {
         new AltPressKeyAndWait(altBaseSettings, altPressKeyParameters).Execute();
     }
 
+    @Deprecated
     public void pressKeyAndWait(String keyName, float power, float duration) {
         pressKeyAndWait(BuildPressKeyParameters(keyName, power, duration));
+    }
+
+    public void pressKeyAndWait(AltUnityKeyCode keyCode, float power, float duration) {
+        pressKeyAndWait(BuildPressKeyParameters(keyCode, power, duration));
     }
 
     /**
@@ -518,8 +529,13 @@ public class AltUnityDriver {
         return new AltWaitForObjectWhichContains(altBaseSettings, altWaitForObjectsParameters).Execute();
     }
 
+    @Deprecated
     private AltPressKeyParameters BuildPressKeyParameters(String keyName, float power, float duration) {
         return new AltPressKeyParameters.Builder(keyName).withPower(power).withDuration(duration).build();
+    }
+
+    private AltPressKeyParameters BuildPressKeyParameters(AltUnityKeyCode keyCode, float power, float duration) {
+        return new AltPressKeyParameters.Builder(keyCode).withPower(power).withDuration(duration).build();
     }
 
     private AltMoveMouseParameters BuildMoveMouseParameters(int x, int y, float duration) {

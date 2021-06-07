@@ -8,6 +8,7 @@ import json
 
 from altunityrunner import *
 from altunityrunner.logging import AltUnityLogLevel, AltUnityLogger
+from altunityrunner.alt_unity_key_code import AltUnityKeyCode
 
 
 def PATH(p): return os.path.abspath(
@@ -447,10 +448,10 @@ class PythonTests(unittest.TestCase):
         cube = self.altdriver.find_object(By.NAME, "Player1")
         cubeInitialPostion = (cube.worldX, cube.worldY, cube.worldY)
         self.altdriver.scroll_mouse(30, 1)
-        self.altdriver.press_key('K', 1, 2)
+        self.altdriver.press_key_with_keycode(AltUnityKeyCode.K, 1, 2)
         time.sleep(2)
         cube = self.altdriver.find_object(By.NAME, "Player1")
-        self.altdriver.press_key_and_wait('O', 1, 1)
+        self.altdriver.press_key_with_keycode_and_wait(AltUnityKeyCode.O, 1, 1)
         cubeFinalPosition = (cube.worldX, cube.worldY, cube.worldY)
 
         self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
@@ -461,7 +462,7 @@ class PythonTests(unittest.TestCase):
         cube = self.altdriver.find_object(By.NAME, "Player1")
         cubeInitialPostion = (cube.worldX, cube.worldY, cube.worldY)
 
-        self.altdriver.press_key('W', 1, 2)
+        self.altdriver.press_key_with_keycode(AltUnityKeyCode.W, 1, 2)
         time.sleep(2)
         cube = self.altdriver.find_object(By.NAME, "Player1")
         cubeFinalPosition = (cube.worldX, cube.worldY, cube.worldY)
@@ -482,12 +483,12 @@ class PythonTests(unittest.TestCase):
             int(pressing_point_1.x), int(pressing_point_1.y), 1)
         time.sleep(1.5)
 
-        self.altdriver.press_key('Mouse0', 1, 1)
+        self.altdriver.press_key_with_keycode(AltUnityKeyCode.Mouse0, 1, 1)
         pressing_point_2 = self.altdriver.find_object(
             By.NAME, "PressingPoint2", By.NAME, "Player2")
         self.altdriver.move_mouse_and_wait(
             int(pressing_point_1.x), int(pressing_point_2.y), 1)
-        self.altdriver.press_key('Mouse0', 1, 1)
+        self.altdriver.press_key_with_keycode(AltUnityKeyCode.Mouse0, 1, 1)
         time.sleep(2)
 
         stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
@@ -550,13 +551,13 @@ class PythonTests(unittest.TestCase):
 
     def test_power_joystick(self):
         button_names = ['Horizontal', 'Vertical']
-        keys_to_press = ['D', 'W']
+        keys_to_press = [AltUnityKeyCode.D, AltUnityKeyCode.W]
         self.altdriver.load_scene("Scene 5 Keyboard Input")
         axisName = self.altdriver.find_object(By.NAME, "AxisName")
         axisValue = self.altdriver.find_object(By.NAME, "AxisValue")
         i = 0
         for key in keys_to_press:
-            self.altdriver.press_key_and_wait(key, 0.5, 0.1)
+            self.altdriver.press_key_with_keycode_and_wait(key, 0.5, 0.1)
             self.assertEqual('0.5', axisValue.get_text())
             self.assertEqual(button_names[i], axisName.get_text())
             i = i+1
