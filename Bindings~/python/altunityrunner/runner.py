@@ -9,6 +9,8 @@ from loguru import logger
 from altunityrunner.__version__ import VERSION
 from altunityrunner.altUnityExceptions import UnknownErrorException, AltUnityRecvallMessageFormatException
 from altunityrunner.commands import *
+from altunityrunner.commands.InputActions.press_key_with_keycode import PressKeyWithKeyCode
+from altunityrunner.commands.InputActions.press_key_with_keycode_and_wait import PressKeyWithKeyCodeAndWait
 
 
 warnings.filterwarnings(
@@ -148,11 +150,19 @@ class AltUnityDriver(object):
     def hold_button_and_wait(self, x_position, y_position, duration_in_secs):
         return SwipeAndWait(self.socket, self.request_separator, self.request_end, x_position, y_position, x_position, y_position, duration_in_secs).execute()
 
+    @deprecated(version="1.6.5", reason ="Use press_key_with_keycode(keyCode, power=1, duration=1) instead")
     def press_key(self, keyName, power=1, duration=1):
         return PressKey(self.socket, self.request_separator, self.request_end, keyName, power, duration).execute()
 
+    def press_key_with_keycode(self, keyCode, power=1, duration=1):
+        return PressKeyWithKeyCode(self.socket, self.request_separator, self.request_end, keyCode, power, duration).execute()
+
+    @deprecated(version="1.6.5", reason ="Use press_key_with_keycode_and_wait(keyCode, power=1, duration=1) instead")
     def press_key_and_wait(self, keyName, power=1, duration=1):
         return PressKeyAndWait(self.socket, self.request_separator, self.request_end, keyName, power, duration).execute()
+
+    def press_key_with_keycode_and_wait(self, keyCode, power=1, duration=1):
+        return PressKeyWithKeyCodeAndWait(self.socket, self.request_separator, self.request_end, keyCode, power, duration).execute()
 
     def move_mouse(self, x, y, duration):
         return MoveMouse(self.socket, self.request_separator, self.request_end, x, y, duration).execute()

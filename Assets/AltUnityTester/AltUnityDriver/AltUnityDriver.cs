@@ -238,9 +238,19 @@ namespace Altom.AltUnityDriver
         {
             SwipeAndWait(position, position, duration);
         }
+        [Obsolete("Use PressKey(AltUnityKeyCode, float, float) instead.")]
+        public void PressKey(String keyName, float power = 1, float duration = 1)
+        {
+            new AltUnityPressKey(socketSettings, keyName, power, duration).Execute();
+        }
         public void PressKey(AltUnityKeyCode keyCode, float power = 1, float duration = 1)
         {
             new AltUnityPressKey(socketSettings, keyCode, power, duration).Execute();
+        }
+        [Obsolete("Use PressKeyAndWait(AltUnityKeyCode, float, float) instead.")]
+        public void PressKeyAndWait(String keyName, float power = 1, float duration = 1)
+        {
+            new AltUnityPressKeyAndWait(socketSettings, keyName, power, duration).Execute();
         }
         public void PressKeyAndWait(AltUnityKeyCode keyCode, float power = 1, float duration = 1)
         {

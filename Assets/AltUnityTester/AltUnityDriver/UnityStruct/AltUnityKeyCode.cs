@@ -2,7 +2,7 @@ namespace Altom.AltUnityDriver
 {
     public enum AltUnityKeyCode
     {
-        None = 0,
+        NoKey = 0,
         Backspace = 8,
         Tab = 9,
         Clear = 12,

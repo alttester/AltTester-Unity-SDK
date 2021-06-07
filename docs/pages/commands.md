@@ -243,9 +243,9 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
                 stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
@@ -683,9 +683,9 @@ Simulates mouse movement in your game. This command will wait for the movement t
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
                 stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
@@ -774,9 +774,9 @@ Simulates mouse movement in your game. This command does not wait for the moveme
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
                 stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
@@ -866,9 +866,9 @@ Simulates key press action in your game. This command waits for the action to fi
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
                 stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
@@ -958,9 +958,9 @@ Simulates key press action in your game. This command does not wait for the acti
                 self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
                 self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key('Mouse0', 1,0)
+                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
                 stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
