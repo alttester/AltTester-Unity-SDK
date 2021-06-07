@@ -15,17 +15,18 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
+#if ALTUNITYTESTER
+
             var clickPosition = new UnityEngine.Vector2(x, y);
             AltUnityRunner._altUnityRunner.ShowClick(clickPosition);
-            string response = AltUnityErrors.errorNotFoundMessage;
-            var mockUp = new AltUnityMockUpPointerInputModule();
+            var mockUp = Input.MockUpPointerInputModule;
             var touch = new UnityEngine.Touch { position = clickPosition, phase = UnityEngine.TouchPhase.Began };
             var pointerEventData = mockUp.ExecuteTouchEvent(touch);
             if (pointerEventData.pointerPress == null &&
                 pointerEventData.pointerEnter == null &&
                 pointerEventData.pointerDrag == null)
             {
-                response = AltUnityErrors.errorNotFoundMessage;
+                return AltUnityErrors.errorNotFoundMessage;
             }
             else
             {
@@ -42,9 +43,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 touch.phase = UnityEngine.TouchPhase.Ended;
                 mockUp.ExecuteTouchEvent(touch, pointerEventData);
 
-                response = JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, pointerEventData.enterEventCamera));
+                return JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, pointerEventData.enterEventCamera));
             }
-            return response;
+#else
+            return AltUnityErrors.errorInputModule;
+#endif
         }
     }
 }

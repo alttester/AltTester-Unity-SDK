@@ -275,4 +275,15 @@ namespace Altom.AltUnityDriver
         }
     }
 
+    public class AltUnityInputModuleException : AltUnityException
+    {
+        public AltUnityInputModuleException()
+        {
+        }
+
+        public AltUnityInputModuleException(string message) : base(message)
+        {
+        }
+    }
+
 }

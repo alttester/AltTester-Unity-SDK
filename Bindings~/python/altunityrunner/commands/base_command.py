@@ -98,6 +98,8 @@ class BaseCommand(object):
                 raise FormatException(data)
             elif (data.startswith('error:invalidPath')):
                 raise AltUnityInvalidPathException(data)
+            elif (data.startswith('error:ALTUNITYTESTERNotAddedAsDefineVariable')):
+                raise AltUnityInputModuleException(data)
 
     def vector_to_json_string(self, x, y, z=None):
         if z is None:

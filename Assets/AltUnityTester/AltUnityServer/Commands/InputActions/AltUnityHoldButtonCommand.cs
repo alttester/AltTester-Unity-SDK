@@ -27,8 +27,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 #if ALTUNITYTESTER
             var powerClamped = Mathf.Clamp01(power);
             Input.SetKeyDown(keyCode, power, duration);
-#endif      
             return "Ok";
+#else
+            return AltUnityErrors.errorInputModule;
+#endif
         }
     }
 }

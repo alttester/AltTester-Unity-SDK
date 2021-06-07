@@ -239,6 +239,8 @@ namespace Altom.AltUnityDriver.Commands
                     throw new FormatException(data);
                 case "error:invalidPath":
                     throw new InvalidPathException(data);
+                case "error:ALTUNITYTESTERNotAddedAsDefineVariable":
+                    throw new AltUnityInputModuleException(data);
 
             }
         }

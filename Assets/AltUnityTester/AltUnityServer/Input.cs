@@ -7,7 +7,7 @@ public class Input : UnityEngine.MonoBehaviour
 {
     private static bool UseCustomInput;
     private static System.Collections.Generic.List<AltUnityAxis> AxisList;
-    private static AltUnityMockUpPointerInputModule mockUpPointerInputModule;
+    public static AltUnityMockUpPointerInputModule MockUpPointerInputModule;
 
     public static Input instance;
     public static System.Collections.Generic.List<KeyStructure> keyCodesPressed = new System.Collections.Generic.List<KeyStructure>();
@@ -17,7 +17,7 @@ public class Input : UnityEngine.MonoBehaviour
     {
 
         instance = this;
-        mockUpPointerInputModule = gameObject.AddComponent<AltUnityMockUpPointerInputModule>();
+        MockUpPointerInputModule = gameObject.AddComponent<AltUnityMockUpPointerInputModule>();
         string filePath = "AltUnityTester/AltUnityTesterInputAxisData";
 
         UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
@@ -632,7 +632,7 @@ public class Input : UnityEngine.MonoBehaviour
         touchListCopy[touchCount - 1] = touch;
         touches = touchListCopy;
         mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
-        var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
+        var pointerEventData = MockUpPointerInputModule.ExecuteTouchEvent(touch);
         var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
 
         yield return null;
@@ -667,7 +667,7 @@ public class Input : UnityEngine.MonoBehaviour
                     }
                 }
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
-                pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+                pointerEventData = MockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
 
                 AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
                 yield return null;
@@ -686,7 +686,7 @@ public class Input : UnityEngine.MonoBehaviour
             }
         }
 
-        mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+        MockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
         yield return null;
         var newTouches = new UnityEngine.Touch[touchCount - 1];
         int contor = 0;
@@ -712,7 +712,7 @@ public class Input : UnityEngine.MonoBehaviour
 
     private static System.Collections.IEnumerator CustomClickLifeCycle(UnityEngine.Vector2 position, int count, float interval)
     {
-        var mockUp = new AltUnityMockUpPointerInputModule();
+        var mockUp = MockUpPointerInputModule;
         var touch = new UnityEngine.Touch { position = position };
 
         for (var i = 0; i < count; i++)
@@ -767,10 +767,10 @@ public class Input : UnityEngine.MonoBehaviour
                 position = _mousePosition,
             };
 
-            var pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch);
-            if (mockUpPointerInputModule.gameObjectHit != null)
+            var pointerEventData = MockUpPointerInputModule.ExecuteTouchEvent(touch);
+            if (MockUpPointerInputModule.gameObjectHit != null)
             {
-                UnityEngine.GameObject targetGameObject = mockUpPointerInputModule.gameObjectHit;
+                UnityEngine.GameObject targetGameObject = MockUpPointerInputModule.gameObjectHit;
                 targetGameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                 targetGameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
                 targetGameObject.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
@@ -785,13 +785,13 @@ public class Input : UnityEngine.MonoBehaviour
                 touch.position = _mousePosition;
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
                 time += UnityEngine.Time.unscaledDeltaTime;
-                pointerEventData = mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+                pointerEventData = MockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
                 AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
                 yield return null;
             }
-            if (mockUpPointerInputModule.gameObjectHit != null)
+            if (MockUpPointerInputModule.gameObjectHit != null)
             {
-                UnityEngine.GameObject targetGameObject = mockUpPointerInputModule.gameObjectHit;
+                UnityEngine.GameObject targetGameObject = MockUpPointerInputModule.gameObjectHit;
                 UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
                 targetGameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
                 targetGameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
@@ -800,7 +800,7 @@ public class Input : UnityEngine.MonoBehaviour
             }
 
             touch.phase = UnityEngine.TouchPhase.Ended;
-            mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+            MockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
         }
         else
         {
