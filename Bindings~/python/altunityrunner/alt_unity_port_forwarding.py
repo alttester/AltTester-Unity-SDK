@@ -44,7 +44,7 @@ class AltUnityPortForwarding:
         subprocess.Popen(['killall', 'iproxy']).wait()
 
     @staticmethod
-    def forward_android(self, local_port=13000, device_port=13000, device_id=""):
+    def forward_android(local_port=13000, device_port=13000, device_id=""):
         device = AltUnityPortForwarding._get_device(device_id)
 
         device.forward("tcp:" + str(local_port), "tcp:" + str(device_port))
