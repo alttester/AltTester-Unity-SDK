@@ -3,6 +3,7 @@ from altunityrunner.by import By
 
 
 class GetAllElements(CommandReturningAltElements):
+
     def __init__(self, socket, request_separator, request_end, camera_by, camera_path, enabled):
         super(GetAllElements, self).__init__(
             socket, request_separator, request_end)
@@ -12,11 +13,10 @@ class GetAllElements(CommandReturningAltElements):
 
     def execute(self):
         camera_path = self.set_path(self.camera_by, self.camera_path)
-        if self.enabled == True:
-            data = self.send_command(
-                'findObjects', '//*', By.return_enum_string(self.camera_by), camera_path, 'true')
+
+        if self.enabled:
+            data = self.send_command("findObjects", "//*", By.return_enum_string(self.camera_by), camera_path, "true")
         else:
-            data = self.send_command(
-                'findObjects', '//*', By.return_enum_string(self.camera_by), camera_path, 'false')
+            data = self.send_command("findObjects", "//*", By.return_enum_string(self.camera_by), camera_path, "false")
 
         return self.get_alt_elements(data)

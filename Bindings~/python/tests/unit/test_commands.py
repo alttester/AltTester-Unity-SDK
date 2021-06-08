@@ -1,11 +1,13 @@
 from unittest.mock import MagicMock
 from unittest import TestCase
+
 from altunityrunner.commands import GetServerVersion, SetServerLogging
 from altunityrunner.altUnityExceptions import InvalidParameterTypeException, AltUnityInvalidServerResponse
 from altunityrunner.logging import AltUnityLogLevel, AltUnityLogger
 
 
 class CommandsTests(TestCase):
+
     def test_GetServerVersion(self):
         socket = MagicMock()
         command = GetServerVersion(socket, ';', '&')
@@ -46,7 +48,7 @@ class CommandsTests(TestCase):
         socket.recv.side_effect = recv
         command.execute()
 
-    def test_set_server_logging_invalid_reponse(self):
+    def test_set_server_logging_invalid_response(self):
         socket = MagicMock()
         command = SetServerLogging(
             socket, ';', '&', AltUnityLogger.Console, AltUnityLogLevel.Trace)

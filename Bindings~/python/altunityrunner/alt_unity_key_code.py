@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class AltUnityKeyCode(Enum):
     NoKey = 0,
     Backspace = 8,
