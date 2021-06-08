@@ -47,7 +47,7 @@ To instrument your game with AltUnity Server you first need to import the AltUni
 
 ## Instrument your game with AltUnity Server
 
-In order for the tests to have access to Unity objects via AltUnity Client you need to instrument the game with AltUnity Server.
+In order for the tests to have access to Unity objects via AltUnity Driver you need to instrument the game with AltUnity Server.
 
 Steps:
 
@@ -147,7 +147,7 @@ Before running your tests you need to start the game instrumented with AltUnity 
 
 ## Write and execute first test for your game
 
-To write tests with AltUnity Tester you need to import the AltUnity Client in your tests project.
+To write tests with AltUnity Tester you need to import the AltUnity Driver in your tests project.
 
 AltUnity Tester package contains AltUnityDriver class used to connect to the instrumented game. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the game.
 
@@ -164,7 +164,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
     .. tab:: C#
 
-        AltUnity C# Client is already included in AltUnity Tester package. If you are writing tests in C# then you can create your tests directly from Unity.
+        AltUnity C# Driver is already included in AltUnity Tester package. If you are writing tests in C# then you can create your tests directly from Unity.
 
         1.  Create a folder named Editor in your Unity Project.
         2.  Right-click on Editor folder and select `Create -> AltUnityTest`. This will create a template file in which you could start to write your test.
@@ -202,9 +202,9 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
     .. tab:: Java
 
-        AltUnity Java Client is available as a maven package or as a standalone jar. Use one of the following methods to import the client in your tests project.
+        AltUnity Java Driver is available as a maven package or as a standalone jar. Use one of the following methods to import the driver in your tests project.
 
-            **Method 1**: Add AltUnity Java Client as a dependency in your **pom.xml** file:
+            **Method 1**: Add AltUnity Java Driver as a dependency in your **pom.xml** file:
 
             .. code-block:: xml
 
@@ -217,7 +217,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             **Method 2**: Use the **.jar** file from GIT (**without building it from source**)
 
-                * Download `AltUnity Java Client <https://altom.gitlab.io/altunity/altunitytester/master/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
+                * Download `AltUnity Java Driver <https://altom.gitlab.io/altunity/altunitytester/master/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
 
                 * Install the **.jar** file:
 
@@ -255,7 +255,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
     .. tab:: Python
 
-        There are two methods of installing the AltUnity Python Client pip package:
+        There are two methods of installing the AltUnity Python Driver pip package:
 
             **Method 1**: Installing using Pip:
 
@@ -300,7 +300,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
 ```
 
-Now your project can use all the [AltUnity Client Commands](./commands.md).
+Now your project can use all the [AltUnity Driver Commands](./commands.md).
 
 ```note::
         Before running your tests, start the instrumented game and wait for popup with the message: "waiting for connection on port 13000".

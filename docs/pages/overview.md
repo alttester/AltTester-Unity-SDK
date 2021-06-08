@@ -23,12 +23,12 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 AltUnity Tester framework contains the following modules:
 
 * AltUnity Server
-* AltUnity Client
+* AltUnity Driver
 * AltUnity Tester Editor Window
 
-AltUnity Server module is used to instrument your game to expose access to all the objects in the Unity hierarchy. The instrumented game opens up a TCP socket connection on the device running the Unity application and waits for an AltUnity Client to connect after starting the application.
+AltUnity Server module is used to instrument your game to expose access to all the objects in the Unity hierarchy. The instrumented game opens up a TCP socket connection on the device running the Unity application and waits for an AltUnity Driver to connect after starting the application.
 
-AltUnity Client module is used to connect to the AltUnity Server, access all the Unity objects and interact with them through tests written in C#, Java or Python.
+AltUnity Driver module is used to connect to the AltUnity Server, access all the Unity objects and interact with them through tests written in C#, Java or Python.
 
 AltUnity Tester Editor Window is the GUI used for instrumenting a Unity game and running C# tests directly from Unity Editor.
 
