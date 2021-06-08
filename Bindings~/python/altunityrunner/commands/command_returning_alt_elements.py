@@ -7,6 +7,7 @@ from altunityrunner.commands.base_command import BaseCommand
 
 
 class CommandReturningAltElements(BaseCommand):
+
     def __init__(self, socket, request_separator, request_end):
         self.request_separator = request_separator
         self.request_end = request_end
@@ -16,16 +17,16 @@ class CommandReturningAltElements(BaseCommand):
         if not data:
             return None
 
-        alt_el = AltElement(self, data)
+        alt_element = AltElement(self, data)
 
-        logger.debug('Element {} found at x:{} y:{} mobileY:{}'.format(
-            alt_el.name,
-            alt_el.x,
-            alt_el.y,
-            alt_el.mobileY
+        logger.debug("Element {} found at x:{} y:{} mobileY:{}".format(
+            alt_element.name,
+            alt_element.x,
+            alt_element.y,
+            alt_element.mobileY
         ))
 
-        return alt_el
+        return alt_element
 
     def get_alt_elements(self, data):
         if not data:
@@ -33,21 +34,21 @@ class CommandReturningAltElements(BaseCommand):
 
         alt_elements = []
         elements = []
+
         try:
             elements = json.loads(data)
-        except:
+        except Exception:
             raise Exception("Couldn't parse json data: " + data)
 
-        alt_el = None
-        for i in range(0, len(elements)):
-            alt_el = AltElement(self, json.dumps(elements[i]))
+        for element in elements:
+            alt_element = AltElement(self, json.dumps(element))
+            alt_elements.append(alt_element)
 
-            alt_elements.append(alt_el)
-            logger.debug('Element {} found at x:{} y:{} mobileY:{}'.format(
-                alt_el.name,
-                alt_el.x,
-                alt_el.y,
-                alt_el.mobileY
+            logger.debug("Element {} found at x:{} y:{} mobileY:{}".format(
+                alt_element.name,
+                alt_element.x,
+                alt_element.y,
+                alt_element.mobileY
             ))
 
         return alt_elements

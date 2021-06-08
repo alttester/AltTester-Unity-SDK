@@ -1,8 +1,8 @@
 from altunityrunner.commands.base_command import BaseCommand
-from loguru import logger
 
 
 class Tilt(BaseCommand):
+
     def __init__(self, socket, request_separator, request_end, x, y, z, duration_in_seconds):
         super(Tilt, self).__init__(socket, request_separator, request_end)
         self.x = x
@@ -12,6 +12,4 @@ class Tilt(BaseCommand):
 
     def execute(self):
         acceleration = self.vector_to_json_string(self.x, self.y, self.z)
-        data = self.send_command('tilt', acceleration,
-                                 str(self.duration_in_seconds))
-        return data
+        return self.send_command("tilt", acceleration, str(self.duration_in_seconds))

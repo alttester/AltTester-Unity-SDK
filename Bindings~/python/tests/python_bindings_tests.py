@@ -11,13 +11,12 @@ from altunityrunner.logging import AltUnityLogLevel, AltUnityLogger
 from altunityrunner.alt_unity_key_code import AltUnityKeyCode
 
 
-def PATH(p): return os.path.abspath(
-    os.path.join(os.path.dirname(__file__), p)
-)
+def PATH(p):
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), p))
 
 
 class PythonTests(unittest.TestCase):
-    altdriver: AltUnityDriver = None
+    altdriver = None
     platform = "android"  # set to `ios` or `android` to change platform
 
     @classmethod
