@@ -14,14 +14,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override string Execute()
         {
+#if ALTUNITYTESTER
             AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(altUnityObject.getScreenPosition().x, altUnityObject.getScreenPosition().y));
 
             string response = AltUnityErrors.errorNotFoundMessage;
             UnityEngine.GameObject foundGameObject = AltUnityRunner.GetGameObject(altUnityObject);
-            var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-            UnityEngine.EventSystems.ExecuteEvents.Execute(foundGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+            Input.ClickObject(foundGameObject);
             response = JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(foundGameObject));
             return response;
+#else
+            return AltUnityErrors.errorInputModule;
+#endif
         }
     }
 }

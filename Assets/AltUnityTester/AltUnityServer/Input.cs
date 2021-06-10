@@ -704,13 +704,85 @@ public class Input : UnityEngine.MonoBehaviour
         Finished = true;
     }
 
-    public static void SetCustomClick(UnityEngine.Vector2 position, int count, float interval)
+    public static void TapAtCoordinates(UnityEngine.Vector2 position, int count, float interval)
     {
         Finished = false;
-        instance.StartCoroutine(CustomClickLifeCycle(position, count, interval));
+        instance.StartCoroutine(CustomTapLifeCycle(position, count, interval));
     }
 
-    private static System.Collections.IEnumerator CustomClickLifeCycle(UnityEngine.Vector2 position, int count, float interval)
+    public static void TapAtCoordinates(UnityEngine.Vector2 position, out UnityEngine.GameObject gameObject, out UnityEngine.Camera camera)
+    {
+        AltUnityRunner._altUnityRunner.ShowClick(position);
+        var mockUp = Input.MockUpPointerInputModule;
+        var touch = new UnityEngine.Touch { position = position, phase = UnityEngine.TouchPhase.Began };
+        var pointerEventData = mockUp.ExecuteTouchEvent(touch);
+        if (pointerEventData.pointerPress == null &&
+            pointerEventData.pointerEnter == null &&
+            pointerEventData.pointerDrag == null)
+        {
+            gameObject = null;
+            camera = null;
+            return;
+        }
+        gameObject = pointerEventData.pointerPress.gameObject;
+
+
+        gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        gameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        gameObject.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+        gameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        gameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+        gameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        touch.phase = UnityEngine.TouchPhase.Ended;
+        mockUp.ExecuteTouchEvent(touch, pointerEventData);
+        camera = pointerEventData.enterEventCamera;
+    }
+
+    public static void TapObject(UnityEngine.GameObject targetGameObject, int count)
+    {
+        var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+
+        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
+        targetGameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
+        for (var i = 0; i < count; i++)
+            initiateTap(targetGameObject, pointerEventData);
+
+        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+        targetGameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+    }
+
+    public static void ClickObject(UnityEngine.GameObject targetGameObject)
+    {
+        var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
+        targetGameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
+        targetGameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+        targetGameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+        targetGameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+        targetGameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+    }
+
+    private static void initiateTap(UnityEngine.GameObject targetGameObject, UnityEngine.EventSystems.PointerEventData pointerEventData)
+    {
+        pointerEventData.clickTime = UnityEngine.Time.unscaledTime;
+
+        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
+        targetGameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
+        targetGameObject.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+        targetGameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+        targetGameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+    }
+    private static System.Collections.IEnumerator CustomTapLifeCycle(UnityEngine.Vector2 position, int count, float interval)
     {
         var mockUp = MockUpPointerInputModule;
         var touch = new UnityEngine.Touch { position = position };
@@ -742,6 +814,8 @@ public class Input : UnityEngine.MonoBehaviour
         }
         Finished = true;
     }
+
+
 
     public static void SetKeyDown(UnityEngine.KeyCode keyCode, float power, float duration)
     {
