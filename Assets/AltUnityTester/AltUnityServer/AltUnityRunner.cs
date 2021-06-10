@@ -269,10 +269,10 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     command = new AltUnityClickEventCommand(parameters);
                     break;
                 case "tapScreen":
-                    command = new AltUnityClickOnScreenAtXyCommand(parameters);
+                    command = new AltUnityTapAtCoordinatesCommand(parameters);
                     break;
                 case "tapCustom":
-                    command = new AltUnityClickOnScreenCustom(parameters);
+                    command = new AltUnityTapAtCoordinatesCustomCommand(parameters);
                     break;
                 case "dragObject":
                     command = new AltUnityDragObjectCommand(parameters);

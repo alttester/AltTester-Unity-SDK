@@ -1655,6 +1655,14 @@ public class TestForScene1TestSample
         Assert.Throws<InvalidPathException>(() => altUnityDriver.FindObject(By.PATH, "//CapsuleInfo[0/Text"));
     }
 
+    [Test]
+    public void TestClickEvent()
+    {
+        var uiButton = altUnityDriver.FindObject(By.NAME, "UIButton");
+        uiButton.ClickEvent();
+        AltUnityObject capsuleInfo = altUnityDriver.WaitForObject(By.NAME, "CapsuleInfo");
 
-
+        String text = capsuleInfo.GetText();
+        Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+    }
 }

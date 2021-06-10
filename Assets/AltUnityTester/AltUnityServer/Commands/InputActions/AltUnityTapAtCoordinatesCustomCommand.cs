@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public class AltUnityClickOnScreenCustom : AltUnityCommand
+    public class AltUnityTapAtCoordinatesCustomCommand : AltUnityCommand
     {
 #if ALTUNITYTESTER
 
@@ -12,7 +12,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         readonly string interval;
 #endif
 
-        public AltUnityClickOnScreenCustom(params string[] parameters) : base(parameters, 5)
+        public AltUnityTapAtCoordinatesCustomCommand(params string[] parameters) : base(parameters, 5)
         {
 #if ALTUNITYTESTER
             this.position = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[2]);
@@ -30,7 +30,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             if (!int.TryParse(count, out pCount)) { pCount = 1; }
             if (!float.TryParse(interval, out pInterval)) { pInterval = 0f; }
 
-            Input.SetCustomClick(position, pCount, pInterval);
+            Input.TapAtCoordinates(position, pCount, pInterval);
             return "Ok";
 #else
             return AltUnityErrors.errorInputModule;
