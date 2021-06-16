@@ -12,6 +12,8 @@ namespace Altom.Editor
         private UnityEngine.GUIStyle gUIStyleText;
         private UnityEngine.GUIStyle gUIStyleButton;
         private UnityEngine.GUIStyle guiStylePadding;
+        private static UnityEngine.Font font;
+
         private bool isProfessional;
 
         private float MaximumSizeForOneColumnLayout = 500;
@@ -53,6 +55,10 @@ namespace Altom.Editor
                 guiStylePadding = new UnityEngine.GUIStyle();
                 guiStylePadding.padding = new UnityEngine.RectOffset(15, 15, 15, 15);
             }
+            if (font == null)
+            {
+                font = UnityEngine.Font.CreateDynamicFontFromOSFont("Arial", 18);
+            }
             if (gUIStyleButton == null)
             {
                 gUIStyleButton = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.button)
@@ -60,6 +66,7 @@ namespace Altom.Editor
                     wordWrap = true,
                     richText = true,
                     alignment = UnityEngine.TextAnchor.MiddleCenter,
+                    font = font
                 };
                 gUIStyleButton.normal.background = buttonTexture;
                 gUIStyleButton.normal.textColor = UnityEngine.Color.white;
@@ -70,7 +77,8 @@ namespace Altom.Editor
                 {
                     wordWrap = true,
                     richText = true,
-                    alignment = UnityEngine.TextAnchor.MiddleLeft
+                    alignment = UnityEngine.TextAnchor.MiddleLeft,
+                    font = font
                 };
             }
 
@@ -120,16 +128,13 @@ namespace Altom.Editor
             CalculateImageSize(out imageWidth, out imageHeight);
 
             float firstColumnHeight = CalculateFirstColumnHeight();
-            float firstColumnSpace = 0;
+            float firstColumnSpace = 10f;
             float secondColumnSpace = 0;
             if (firstColumnHeight > imageHeight)
             {
                 secondColumnSpace = (firstColumnHeight - imageHeight) * 0.5f;
             }
-            else
-            {
-                firstColumnSpace = (imageHeight - firstColumnHeight) * 0.5f;
-            }
+
             UnityEditor.EditorGUILayout.BeginHorizontal();
             //first column
             UnityEditor.EditorGUILayout.BeginVertical(UnityEngine.GUILayout.ExpandHeight(true));
@@ -137,8 +142,10 @@ namespace Altom.Editor
             if (position.width > MaximumSizeForTitleToNotBeInFirstColumn)
             {
                 displayTitle();
+                UnityEngine.GUILayout.Space(firstColumnSpace);
+
             }
-            UnityEngine.GUILayout.Space(firstColumnSpace);
+            UnityEngine.GUILayout.Space(secondColumnSpace);
             displayContentText();
             UnityEditor.EditorGUILayout.Separator();
             displayButton();
