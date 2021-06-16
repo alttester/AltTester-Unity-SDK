@@ -39,6 +39,7 @@ namespace Altom.Editor
 
         private static UnityEngine.Color greenColor = new UnityEngine.Color(0.0f, 0.5f, 0.2f, 1f);
         private static UnityEngine.Color redColor = new UnityEngine.Color(0.7f, 0.15f, 0.15f, 1f);
+        private static UnityEngine.Color grayColor = new UnityEngine.Color(0.5f, 0.5f, 0.5f, 1f);
         private static UnityEngine.Color selectedTestColor = new UnityEngine.Color(1f, 1f, 1f, 1f);
         private static UnityEngine.Color selectedTestColorDark = new UnityEngine.Color(0.6f, 0.6f, 0.6f, 1f);
         private static UnityEngine.Color oddNumberTestColor = new UnityEngine.Color(0.75f, 0.75f, 0.75f, 1f);
@@ -49,6 +50,7 @@ namespace Altom.Editor
         private static UnityEngine.Texture2D oddNumberTestTexture;
         private static UnityEngine.Texture2D evenNumberTestTexture;
         public static UnityEngine.Texture2D PortForwardingTexture;
+        public static UnityEngine.Texture2D selectedTestsCountTexture;
 
         private static string downloadURl;
         private const string RELEASENOTESURL = "https://altom.gitlab.io/altunity/altunityinspector/pages/release-notes.html#release-notes";
@@ -66,7 +68,11 @@ namespace Altom.Editor
         private bool foldOutBuildSettings = true;
         private bool foldOutLogSettings = true;
         private bool foldOutIosSettings = true;
+        private bool foldOutTestParent = true;
         private bool foldOutAltUnityServerSettings = true;
+        private bool foldOutPortForwarding = true;
+        public int selectedTestCount = 0;
+
 
         private static bool showPopUp = false;
         UnityEngine.Rect popUpPosition;
@@ -252,6 +258,10 @@ namespace Altom.Editor
             {
                 PortForwardingTexture = MakeTexture(20, 20, greenColor);
             }
+            if (selectedTestsCountTexture == null)
+            {
+                selectedTestsCountTexture = MakeTexture(20, 20, grayColor);
+            }
 
             getListOfSceneFromEditor();
             AltUnityTestRunner.SetUpListTest();
@@ -325,6 +335,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.BeginHorizontal();
             var leftSide = (screenWidth / 3) * 2;
             scrollPosition = UnityEditor.EditorGUILayout.BeginScrollView(scrollPosition, false, false, UnityEngine.GUILayout.MinWidth(leftSide));
+
             if (EditorConfiguration.MyTests != null)
             {
                 displayTestGui(EditorConfiguration.MyTests);
@@ -334,7 +345,8 @@ namespace Altom.Editor
 
             displayBuildSettings();
             UnityEditor.EditorGUILayout.Separator();
-
+            displayScenes();
+            UnityEditor.EditorGUILayout.Separator();
             displayLogSettings();
 
             UnityEditor.EditorGUILayout.Separator();
@@ -539,9 +551,23 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
+            var selectedTests = 0;
+            var totalTests = 0;
+            var failedTests = 0;
+            foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+            {
+                if (!test.IsSuite)
+                    totalTests++;
+                if (test.Selected && !test.IsSuite)
+                {
+                    selectedTests += 1;
+                }
+                if (test.Status != 1 && test.Status != 0)
+                    failedTests++;
+            }
             UnityEditor.EditorGUILayout.LabelField("Run tests", UnityEditor.EditorStyles.boldLabel);
 
-            if (UnityEngine.GUILayout.Button("Run All Tests"))
+            if (UnityEngine.GUILayout.Button("Run All Tests (" + totalTests.ToString() + ")"))
             {
                 if (EditorConfiguration.platform == AltUnityPlatform.Editor)
                 {
@@ -554,7 +580,7 @@ namespace Altom.Editor
                     AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunAllTest);
                 }
             }
-            if (UnityEngine.GUILayout.Button("Run Selected Tests"))
+            if (UnityEngine.GUILayout.Button("Run Selected Tests (" + selectedTests.ToString() + ")"))
             {
                 if (EditorConfiguration.platform == AltUnityPlatform.Editor)
                 {
@@ -567,7 +593,7 @@ namespace Altom.Editor
                     AltUnityTestRunner.RunTests(AltUnityTestRunner.TestRunMode.RunSelectedTest);
                 }
             }
-            if (UnityEngine.GUILayout.Button("Run Failed Tests"))
+            if (UnityEngine.GUILayout.Button("Run Failed Tests (" + failedTests.ToString() + ")"))
             {
                 if (EditorConfiguration.platform == AltUnityPlatform.Editor)
                 {
@@ -824,6 +850,24 @@ namespace Altom.Editor
             return result;
         }
 
+
+        public static UnityEngine.Texture2D SetColor(UnityEngine.Texture2D tex2, UnityEngine.Color32 color)
+        {
+
+            var fillColorArray = tex2.GetPixels32();
+
+            for (var i = 0; i < fillColorArray.Length; ++i)
+            {
+                fillColorArray[i] = color;
+            }
+
+            tex2.SetPixels32(fillColorArray);
+
+            tex2.Apply();
+            return tex2;
+        }
+
+
         public static void AddAllScenes()
         {
             var scenesToBeAddedGuid = UnityEditor.AssetDatabase.FindAssets("t:SceneAsset");
@@ -880,7 +924,7 @@ namespace Altom.Editor
 
         private void displayPortForwarding(float widthColumn)
         {
-            foldOutScenes = UnityEditor.EditorGUILayout.Foldout(foldOutScenes, "Port Forwarding");
+            foldOutPortForwarding = UnityEditor.EditorGUILayout.Foldout(foldOutPortForwarding, "Port Forwarding");
             var guiStyleBolded = setTextGuiStyle();
             guiStyleBolded.fontStyle = UnityEngine.FontStyle.Bold;
 
@@ -890,7 +934,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.BeginVertical();
             widthColumn -= 30;
-            if (foldOutScenes)
+            if (foldOutPortForwarding)
             {
                 UnityEngine.GUILayout.BeginVertical(UnityEngine.GUI.skin.textField, UnityEngine.GUILayout.MaxHeight(30));
                 UnityEngine.GUILayout.BeginHorizontal();
@@ -1129,7 +1173,6 @@ namespace Altom.Editor
 #endif
                 }
 
-                displayScenes();
             }
         }
 
@@ -1438,7 +1481,6 @@ namespace Altom.Editor
                 testCounter++;
                 var idx = parentNames.IndexOf(test.ParentName) + 1;
                 parentNames.RemoveRange(idx, parentNames.Count - idx);
-
                 if (tests.IndexOf(test) == SelectedTest)
                 {
                     var selectedTestStyle = new UnityEngine.GUIStyle();
@@ -1460,17 +1502,38 @@ namespace Altom.Editor
                         UnityEditor.EditorGUILayout.BeginHorizontal(oddNumberStyle);
                     }
                 }
-                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(30 * parentNames.Count));
+
+                if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
+                {
+                    test.FoldOut = true;
+                }
+                else
+                {
+                    if (!test.FoldOut)
+                    {
+                        foldOutCounter = test.TestCaseCount;
+                    }
+                    parentNames.Add(test.TestName);
+                }
+
+                if (!test.IsSuite)
+                {
+                    UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(3 * parentNames.Count));
+                }
+                UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(10 * parentNames.Count));
                 var gUIStyle = new UnityEngine.GUIStyle
                 {
                     alignment = UnityEngine.TextAnchor.MiddleLeft
                 };
+                var guiStylee = new UnityEngine.GUIStyle { };
+
                 var valueChanged = UnityEditor.EditorGUILayout.Toggle(test.Selected, UnityEngine.GUILayout.Width(15));
                 if (valueChanged != test.Selected)
                 {
                     test.Selected = valueChanged;
                     changeSelectionChildsAndParent(test);
                 }
+
 
                 var testName = test.TestName;
 
@@ -1492,8 +1555,6 @@ namespace Altom.Editor
                         testName = splitedPath[splitedPath.Length - 1];
                     }
                 }
-
-
                 if (test.Status == 0)
                 {
                     var guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black } };
@@ -1513,19 +1574,6 @@ namespace Altom.Editor
                     selectTest(tests, test, testName, guiStyle);
                 }
                 UnityEngine.GUILayout.FlexibleSpace();
-                if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
-                {
-                    test.FoldOut = true;
-                }
-                else
-                {
-                    test.FoldOut = UnityEditor.EditorGUILayout.Foldout(test.FoldOut, "");
-                    if (!test.FoldOut)
-                    {
-                        foldOutCounter = test.TestCaseCount;
-                    }
-                    parentNames.Add(test.TestName);
-                }
                 UnityEditor.EditorGUILayout.EndHorizontal();
 
             }
@@ -1538,6 +1586,9 @@ namespace Altom.Editor
             {
                 if (UnityEngine.GUILayout.Button(testName, guiStyle))
                 {
+
+                    SelectedTest = tests.IndexOf(test);
+                    var parentTest = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
                     if (SelectedTest == tests.IndexOf(test))
                     {
                         var actualTime = System.DateTime.Now.Ticks;
@@ -1553,14 +1604,22 @@ namespace Altom.Editor
                     else
                     {
                         SelectedTest = tests.IndexOf(test);
-
+                        var parentTestTwo = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
                     }
                     timeSinceLastClick = System.DateTime.Now.Ticks;
                 }
             }
             else
             {
-                UnityEngine.GUILayout.Label(testName, guiStyle);
+                var selectedTests = test.TestSelectedCount;
+                if (selectedTests == 0)
+                {
+                    test.FoldOut = UnityEditor.EditorGUILayout.Foldout(test.FoldOut, testName);
+                }
+                else
+                {
+                    test.FoldOut = UnityEditor.EditorGUILayout.Foldout(test.FoldOut, testName + "(" + selectedTests.ToString() + ")");
+                }
             }
         }
 
@@ -1578,6 +1637,9 @@ namespace Altom.Editor
                     else
                     {
                         EditorConfiguration.MyTests[i].Selected = test.Selected;
+                        if (!EditorConfiguration.MyTests[i].IsSuite)
+                            setSelectedTestsNumberForParent(EditorConfiguration.MyTests[i], test.Selected);
+
                     }
                 }
             }
@@ -1587,30 +1649,52 @@ namespace Altom.Editor
                 {
                     var index = EditorConfiguration.MyTests.IndexOf(test);
                     var testCount = test.TestCaseCount;
+                    var testName = test.TestName;
+                    var parentTest = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
                     for (int i = index + 1; i <= index + testCount; i++)
                     {
-                        EditorConfiguration.MyTests[i].Selected = test.Selected;
-                        if (EditorConfiguration.MyTests[i].IsSuite)
+                        var selectedTest = EditorConfiguration.MyTests[i];
+                        if (selectedTest.Selected != test.Selected)
+                        {
+                            selectedTest.Selected = test.Selected;
+                            if (!selectedTest.IsSuite)
+                                setSelectedTestsNumberForParent(selectedTest, test.Selected);
+                        }
+                        if (selectedTest.IsSuite)
                         {
                             testCount++;
                         }
-                    }
-                }
-                if (test.Selected == false)
-                {
-                    while (test.ParentName != null)
-                    {
-                        test = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
-                        if (test != null)
-                            test.Selected = false;
-                        else
-                            return;
-                    }
-                }
 
+                    }
+                }
+                if (!test.IsSuite)
+                {
+                    setSelectedTestsNumberForParent(test, test.Selected);
+                }
             }
         }
+        private void setSelectedTestsNumberForParent(AltUnityMyTest test, bool isSelected)
+        {
+            while (test.ParentName != null)
+            {
+                test = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
+                if (test != null)
+                {
+                    if (isSelected)
+                        test.TestSelectedCount++;
+                    else
+                    {
+                        test.TestSelectedCount--;
 
+                        test.Selected = false;
+                    }
+                }
+                else
+                    return;
+
+            }
+
+        }
         private static void sceneMove(AltUnityMyScenes scene, bool up)
         {
             int index = EditorConfiguration.Scenes.IndexOf(scene);
