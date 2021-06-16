@@ -19,8 +19,9 @@ namespace Altom.Editor
         public string _testStackTrace;
         public Double _testDuration;
         public string path;
+        public int _testSelectedCount;
 
-        public AltUnityMyTest(bool selected, string testName, int status, bool isSuite, Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage, string testStackTrace, Double testDuration, string path)
+        public AltUnityMyTest(bool selected, string testName, int status, bool isSuite, Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage, string testStackTrace, Double testDuration, string path, int testSelectedCount)
         {
             _selected = selected;
             _testName = testName;
@@ -33,6 +34,7 @@ namespace Altom.Editor
             _testResultMessage = testResultMessage;
             _testStackTrace = testStackTrace;
             _testDuration = testDuration;
+            _testSelectedCount = testSelectedCount;
             this.path = path;
         }
 
@@ -124,6 +126,17 @@ namespace Altom.Editor
             set
             {
                 _testCaseCount = value;
+            }
+        }
+        public int TestSelectedCount
+        {
+            get
+            {
+                return _testSelectedCount;
+            }
+            set
+            {
+                _testSelectedCount = value;
             }
         }
 
