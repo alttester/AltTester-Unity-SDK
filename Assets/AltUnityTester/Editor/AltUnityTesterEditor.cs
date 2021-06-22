@@ -1243,8 +1243,8 @@ namespace Altom.Editor
                 if (EditorConfiguration.Scenes.Count != 0)
                 {
                     UnityEditor.EditorGUILayout.BeginHorizontal();
-                    UnityEditor.EditorGUILayout.LabelField("Display scene full path:", UnityEngine.GUILayout.Width(140), UnityEngine.GUILayout.ExpandWidth(false));
-                    EditorConfiguration.ScenePathDisplayed = UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.ScenePathDisplayed, UnityEngine.GUILayout.ExpandWidth(false), UnityEngine.GUILayout.Width(15));
+                    UnityEditor.EditorGUILayout.LabelField("Display scene full path:", UnityEngine.GUILayout.Width(145), UnityEngine.GUILayout.ExpandWidth(false));
+                    EditorConfiguration.ScenePathDisplayed = UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.ScenePathDisplayed, UnityEngine.GUILayout.ExpandWidth(false), UnityEngine.GUILayout.Width(30));
                     UnityEngine.GUILayout.FlexibleSpace();
 
 
@@ -1385,14 +1385,14 @@ namespace Altom.Editor
                         AddAllScenes();
                     }
 
-                    if (UnityEngine.GUILayout.Button("Select all scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
+                    if (UnityEngine.GUILayout.Button("Select all scenes", UnityEditor.EditorStyles.miniButtonRight, UnityEngine.GUILayout.MinWidth(30)))
                     {
                         SelectAllScenes();
                     }
                     UnityEditor.EditorGUILayout.EndHorizontal();
                     UnityEditor.EditorGUILayout.BeginHorizontal();
 
-                    if (UnityEngine.GUILayout.Button("Deselect all scenes", UnityEditor.EditorStyles.miniButtonMid, UnityEngine.GUILayout.MinWidth(30)))
+                    if (UnityEngine.GUILayout.Button("Deselect all scenes", UnityEditor.EditorStyles.miniButtonLeft, UnityEngine.GUILayout.MinWidth(30)))
                     {
                         deselectAllScenes();
                     }
