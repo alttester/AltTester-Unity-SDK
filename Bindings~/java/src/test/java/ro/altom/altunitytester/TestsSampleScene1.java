@@ -13,9 +13,11 @@ import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectWithTextParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltTiltParameters;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParameters;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltSetComponentPropertyParameters;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltWaitForCurrentSceneToBeParameters;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
@@ -34,7 +36,7 @@ public class TestsSampleScene1 {
     }
 
     @AfterClass
-    public static void tearDown() throws Exception {  
+    public static void tearDown() throws Exception {
         altUnityDriver.stop();
         Thread.sleep(1000);
     }
@@ -227,8 +229,6 @@ public class TestsSampleScene1 {
 
         altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.TEXT, text).build();
 
-        AltWaitForObjectWithTextParameters altWaitForObjectsParameters = new AltWaitForObjectWithTextParameters.Builder(
-                altFindObjectsParameters, text).build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
 
         assertNotNull(altElement);
@@ -236,6 +236,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void testWaitForElementWithText() throws Exception {
         String name = "CapsuleInfo";
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
@@ -255,6 +256,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void testWaitForElementWithWrongText() throws Exception {
         String name = "CapsuleInfo";
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
@@ -561,8 +563,8 @@ public class TestsSampleScene1 {
         AltFindObjectsParameters altFindObjectsParameters3 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "Capsule").withCamera(By.NAME, "Camera").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParameters1);
-        altButton.clickEvent();
-        altButton.clickEvent();
+        altButton.click(new AltTapClickElementParameters.Builder().build());
+        altButton.click(new AltTapClickElementParameters.Builder().build());
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters2);
         AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters3);
         assertNotSame(altElement.x, altElement2.x);
@@ -608,6 +610,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void testClickEvent() throws Exception {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "UIButton").build();
@@ -647,6 +650,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void testTapScreen() throws Exception {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "UIButton").build();
@@ -661,6 +665,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void testWaitForObjectWithTextWrongText() throws Exception {
         try {
             AltFindObjectsParameters findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo")
@@ -684,7 +689,6 @@ public class TestsSampleScene1 {
         int a = Integer.parseInt(altUnityDriver.callStaticMethod(
                 new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs", "GetInt", "Test?2").build()));
         assertEquals(1, a);
-
     }
 
     @Test
@@ -701,6 +705,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void TestTapScreenWhereThereIsNoObjects() {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "ButtonCounter").build();
@@ -774,6 +779,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void TestDoubleTap() throws InterruptedException {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "ButtonCounter").build();
@@ -787,6 +793,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void TestCustomTap() throws InterruptedException {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "ButtonCounter").build();
@@ -858,8 +865,8 @@ public class TestsSampleScene1 {
         AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.clickEvent();
-        altButton.clickEvent();
+        altButton.click(new AltTapClickElementParameters.Builder().build());
+        altButton.click(new AltTapClickElementParameters.Builder().build());
         AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
                 "//Camera").build();
         AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
@@ -882,8 +889,8 @@ public class TestsSampleScene1 {
         AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.clickEvent();
-        altButton.clickEvent();
+        altButton.click(new AltTapClickElementParameters.Builder().build());
+        altButton.click(new AltTapClickElementParameters.Builder().build());
         AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
                 "//Camera").build();
         AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
@@ -911,8 +918,8 @@ public class TestsSampleScene1 {
         AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.clickEvent();
-        altButton.clickEvent();
+        altButton.click(new AltTapClickElementParameters.Builder().build());
+        altButton.click(new AltTapClickElementParameters.Builder().build());
         AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
                 "//Camera").build();
         AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
@@ -959,7 +966,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
-
+    @Deprecated
     public void TestWaitForElementWithTextWithCameraId() {
         AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
                 "//Main Camera").build();
@@ -996,8 +1003,8 @@ public class TestsSampleScene1 {
         AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.clickEvent();
-        altButton.clickEvent();
+        altButton.click(new AltTapClickElementParameters.Builder().build());
+        altButton.click(new AltTapClickElementParameters.Builder().build());
         AltFindObjectsParameters altFindObjectsParametersCampsule = new AltFindObjectsParameters.Builder(By.COMPONENT,
                 "CapsuleCollider").withCamera(By.TAG, "MainCamera").build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParametersCampsule);
@@ -1015,8 +1022,8 @@ public class TestsSampleScene1 {
         AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.clickEvent();
-        altButton.clickEvent();
+        altButton.click(new AltTapClickElementParameters.Builder().build());
+        altButton.click(new AltTapClickElementParameters.Builder().build());
         AltFindObjectsParameters altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.COMPONENT,
                 "CapsuleCollider").withCamera(By.TAG, "MainCamera").build();
         AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
@@ -1039,8 +1046,8 @@ public class TestsSampleScene1 {
         AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.clickEvent();
-        altButton.clickEvent();
+        altButton.click(new AltTapClickElementParameters.Builder().build());
+        altButton.click(new AltTapClickElementParameters.Builder().build());
         AltFindObjectsParameters altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.NAME,
                 "Plane").withCamera(By.TAG, "MainCamera").build();
 
@@ -1079,7 +1086,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
-
+    @Deprecated
     public void TestWaitForElementWithTextWithTag() {
         String name = "CapsuleInfo";
         AltFindObjectsParameters altFindObjectsParametersObject = new AltFindObjectsParameters.Builder(By.NAME, name)
@@ -1093,7 +1100,6 @@ public class TestsSampleScene1 {
     }
 
     @Test
-
     public void TestWaitForObjectWhichContainsWithTag() {
 
         AltFindObjectsParameters altFindObjectsParametersObject = new AltFindObjectsParameters.Builder(By.NAME, "Canva")
@@ -1191,6 +1197,7 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    @Deprecated
     public void TestParentId() {
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
                 .build();
@@ -1249,5 +1256,69 @@ public class TestsSampleScene1 {
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
                 "//CapsuleInfo[0/Text").build();
         altUnityDriver.findObject(altFindObjectsParameters);
+    }
+
+    @Test()
+    public void TestTapCoordinates() {
+        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                .build();
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+        AltTapClickCoordinatesParameters tapParameters = new AltTapClickCoordinatesParameters.Builder(
+                capsule.getScreenPosition()).build();
+        altUnityDriver.tap(tapParameters);
+
+        AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+        AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                .build();
+        altUnityDriver.waitForObject(waitParams);
+    }
+
+    @Test()
+    public void TestClickCoordinates() {
+        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                .build();
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+        AltTapClickCoordinatesParameters clickParameters = new AltTapClickCoordinatesParameters.Builder(
+                capsule.getScreenPosition()).build();
+        altUnityDriver.click(clickParameters);
+
+        AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+        AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                .build();
+        altUnityDriver.waitForObject(waitParams);
+    }
+
+    @Test()
+    public void TestTapElement() {
+        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                .build();
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+
+        AltTapClickElementParameters tapParameters = new AltTapClickElementParameters.Builder().build();
+        capsule.tap(tapParameters);
+
+        AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+        AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                .build();
+        altUnityDriver.waitForObject(waitParams);
+    }
+
+    @Test()
+    public void TestClickElement() {
+        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                .build();
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+
+        AltTapClickElementParameters tapParameters = new AltTapClickElementParameters.Builder().build();
+        capsule.click(tapParameters);
+
+        AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+        AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                .build();
+        altUnityDriver.waitForObject(waitParams);
     }
 }

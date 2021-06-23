@@ -310,10 +310,6 @@ public class AltUnityDriver {
         swipeAndWait(xPosition, yPosition, xPosition, yPosition, durationInSecs);
     }
 
-    public AltUnityObject clickScreen(float x, float y) {
-        return new AltClickScreen(altBaseSettings, x, y).Execute();
-    }
-
     /**
      * Simulates device rotation action in your game.
      */
@@ -482,14 +478,17 @@ public class AltUnityDriver {
      * @param x x coordinate of the screen
      * @param y y coordinate of the screen
      */
+    @Deprecated
     public AltUnityObject tapScreen(int x, int y) {
         return new AltTapScreen(altBaseSettings, x, y).Execute();
     }
 
+    @Deprecated
     public void tapCustom(int x, int y, int count, float interval) {
         new AltTapCustom(altBaseSettings, x, y, count, interval).Execute();
     }
 
+    @Deprecated
     public void tapCustom(int x, int y, int count) {
         tapCustom(x, y, count, 0.1f);
     }
@@ -561,8 +560,26 @@ public class AltUnityDriver {
     }
 
     /**
-     * Deprecated port forwarding methods are moved to AltUnityPortForwarding
-     * class. This is going to be removed in the future.
+     * Tap at screen coordinates
+     * 
+     * @param parameters Tap parameters
+     */
+    public void tap(AltTapClickCoordinatesParameters parameters) {
+        new AltTapCoordinates(altBaseSettings, parameters).Execute();
+    }
+
+    /**
+     * Click at screen coordinates
+     * 
+     * @param parameters Click parameters
+     */
+    public void click(AltTapClickCoordinatesParameters parameters) {
+        new AltClickCoordinates(altBaseSettings, parameters).Execute();
+    }
+
+    /**
+     * Deprecated port forwarding methods are moved to AltUnityPortForwarding class.
+     * This is going to be removed in the future.
      */
 
     @Deprecated
@@ -600,8 +617,8 @@ public class AltUnityDriver {
     }
 
     /**
-     * Deprecated port forwarding methods are moved to AltUnityPortForwarding
-     * class. This is going to be removed in the future.
+     * Deprecated port forwarding methods are moved to AltUnityPortForwarding class.
+     * This is going to be removed in the future.
      */
 
     @Deprecated

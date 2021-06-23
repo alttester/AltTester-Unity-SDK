@@ -150,7 +150,7 @@ class PythonTests(unittest.TestCase):
     def test_find_objects_by_component(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.assertEqual(
-            len(self.altdriver.find_objects(By.COMPONENT, "UnityEngine.MeshFilter")), 3)
+            len(self.altdriver.find_objects(By.COMPONENT, "UnityEngine.MeshFilter")), 5)
 
     def test_get_component_property(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -1155,6 +1155,30 @@ class PythonTests(unittest.TestCase):
             self.altdriver.find_object(By.PATH, "//CapsuleInfo[@tag=UI/Text")
         with self.assertRaises(AltUnityInvalidPathException):
             self.altdriver.find_object(By.PATH, "//CapsuleInfo[0/Text")
+
+    def test_tapcoordinates(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        self.altdriver.tap(capsule_element.get_screen_position())
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+
+    def test_clickcoordinates(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        self.altdriver.click(capsule_element.get_screen_position())
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+
+    def test_tapelement(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        capsule_element.tap(1)
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+
+    def test_clickelement(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        capsule_element.click()
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 
 if __name__ == '__main__':

@@ -16,6 +16,8 @@ from altunityrunner.commands.ObjectCommands.pointer_down import PointerDown
 from altunityrunner.commands.ObjectCommands.pointer_enter import PointerEnter
 from altunityrunner.commands.ObjectCommands.pointer_exit import PointerExit
 from altunityrunner.commands.ObjectCommands.pointer_up import PointerUp
+from altunityrunner.commands.ObjectCommands.tap_element import TapElement
+from altunityrunner.commands.ObjectCommands.click_element import ClickElement
 
 
 class AltElement(object):
@@ -139,6 +141,7 @@ class AltElement(object):
         ).execute()
         return AltElement(self.alt_unity_driver, data)
 
+    @deprecated(version="1.6.5", reason="Use click")
     def click_event(self):
         alt_object = self.toJSON()
         data = ClickEvent(
@@ -180,18 +183,55 @@ class AltElement(object):
         ).execute()
         return AltElement(self.alt_unity_driver, data)
 
-    def tap(self):
-        alt_object = self.toJSON()
-        data = Tap(
-            self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end,
-            alt_object, 1
-        ).execute()
-        return AltElement(self.alt_unity_driver, data)
+    def tap(self, count=None, interval=0.1, wait=True):
+        '''Tap current object
 
+    Parameters:
+        count -- Number of taps (default 1)
+        interval -- Interval in seconds (default 0.1)
+        wait -- Wait for command to finish
+
+    Returns:
+        The tapped object
+        '''
+        alt_object = self.toJSON()
+        if not count:  # backwards compatibility
+            data = Tap(
+                self.alt_unity_driver.socket,
+                self.alt_unity_driver.request_separator,
+                self.alt_unity_driver.request_end, alt_object, 1
+            ).execute()
+            return AltElement(self.alt_unity_driver, data)
+        else:
+            data = TapElement(self.alt_unity_driver.socket,
+                              self.alt_unity_driver.request_separator,
+                              self.alt_unity_driver.request_end,
+                              alt_object, count, interval, wait).execute()
+            return AltElement(self.alt_unity_driver, data)
+
+    @deprecated(version="1.6.5", reason="Use tap with parameter count=2")
     def double_tap(self):
         alt_object = self.toJSON()
         data = Tap(
             self.alt_unity_driver.socket, self.alt_unity_driver.request_separator, self.alt_unity_driver.request_end,
             alt_object, 2
         ).execute()
+        return AltElement(self.alt_unity_driver, data)
+
+    def click(self, count=1, interval=0.1, wait=True):
+        '''Click current object
+
+    Parameters:
+        count -- Number of clicks (default 1)
+        interval -- Interval between clicks in seconds (default 0.1)
+        wait -- Wait for command to finish
+
+    Returns:
+        The clicked object
+        '''
+        alt_object = self.toJSON()
+        data = ClickElement(self.alt_unity_driver.socket,
+                            self.alt_unity_driver.request_separator,
+                            self.alt_unity_driver.request_end,
+                            alt_object, count, interval, wait).execute()
         return AltElement(self.alt_unity_driver, data)

@@ -332,16 +332,46 @@ class AltUnityDriver(object):
             by, value, text, camera_by, camera_path, timeout, interval, enabled
         ).execute()
 
+    @deprecated(version="1.6.5", reason="Use tap")
     def tap_at_coordinates(self, x, y):
         return commands.TapAtCoordinates(
             self.socket, self.request_separator, self.request_end,
             x, y
         ).execute()
 
+    @deprecated(version="1.6.5", reason="Use tap")
     def tap_custom(self, x, y, count, interval=0.1):
         return commands.TapCustom(
             self.socket, self.request_separator, self.request_end,
             x, y, count, interval
+        ).execute()
+
+    def tap(self, coordinates, count=1, interval=0.1, wait=True):
+        '''Tap at screen coordinates
+
+    Parameters:
+        coordinates -- The screen coordinates
+        count -- Number of taps (default 1)
+        interval -- Interval between taps in seconds (default 0.1)
+        wait -- Wait for command to finish
+        '''
+        return commands.TapCoordinates(
+            self.socket, self.request_separator, self.request_end,
+            coordinates, count, interval, wait
+        ).execute()
+
+    def click(self, coordinates, count=1, interval=0.1, wait=True):
+        '''Click at screen coordinates
+
+    Parameters:
+        coordinates -- The screen coordinates
+        count -- Number of taps (default 1)
+        interval -- Interval between taps in seconds (default 0.1)
+        wait -- Wait for command to finish
+        '''
+        return commands.ClickCoordinates(
+            self.socket, self.request_separator, self.request_end,
+            coordinates, count, interval, wait
         ).execute()
 
     def get_png_screenshot(self, path):

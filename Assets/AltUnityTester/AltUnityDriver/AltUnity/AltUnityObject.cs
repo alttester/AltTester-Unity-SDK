@@ -76,9 +76,22 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnitySetText(socketSettings, this, text).Execute();
         }
+        [Obsolete("Use Click")]
         public AltUnityObject ClickEvent()
         {
             return new AltUnityClickEvent(socketSettings, this).Execute();
+        }
+
+        /// <summary>
+        /// Click current object
+        /// </summary>
+        /// <param name="count">Number of times to click</param>
+        /// <param name="interval">Interval between clicks in seconds</param>
+        /// <param name="wait">Wait for command to finish</param>
+        /// <returns>The clicked object</returns>
+        public AltUnityObject Click(int count = 1, float interval = 0.1f, bool wait = true)
+        {
+            return new AltUnityClickElement(socketSettings, this, count, interval, wait).Execute();
         }
 
         public AltUnityObject PointerUpFromObject()
@@ -97,10 +110,31 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnityPointerExitObject(socketSettings, this).Execute();
         }
+
+        /// <summary>
+        /// Tap current object
+        /// </summary>
+        /// <returns>The tapped object</returns>
         public AltUnityObject Tap()
         {
+            //TODO: replace in 1.7.0 with Tap(int count=1, float interval = 0.1f); 
+            // keeping it for now for backwards compatibility
             return new AltUnityTap(socketSettings, this, 1).Execute();
         }
+
+        /// <summary>
+        /// Tap current object
+        /// </summary>
+        /// <param name="count">Number of taps</param>
+        /// <param name="interval">Interval in seconds</param>
+        /// <param name="wait">Wait for command to finish</param>
+        /// <returns>The tapped object</returns>
+        public AltUnityObject Tap(int count, float interval = 0.1f, bool wait = true)
+        {
+            return new AltUnityTapElement(socketSettings, this, count, interval, wait).Execute();
+        }
+
+        [Obsolete("Use Tap with parameter count=2")]
         public AltUnityObject DoubleTap()
         {
             return new AltUnityTap(socketSettings, this, 2).Execute();

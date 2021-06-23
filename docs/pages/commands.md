@@ -1595,20 +1595,22 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
 
 ```
 
-#### TapScreen(C#) / TapAtCoordinates(python/java)
+#### Click
 
-Simulates a tap action on the screen at the given coordinates.
+Click at screen coordinates
 
 **_Parameters_**
 
-| Name | Type  | Required | Description                |
-| ---- | ----- | -------- | -------------------------- |
-| x    | float | Yes      | x coordinate of the screen |
-| y    | float | Yes      | y coordinate of the screen |
+| Name        | Type            | Required | Default  | Description                        |
+| ----------- | --------------- | -------- | -------- | ---------------------------------- |
+| coordinates | AltUnityVector2 | Yes      |          | The screen coordinates             |
+| count       | int             | No       | 1        | Number of clicks                   |
+| interval    | float           | No       | 0.1      | Interval between clicks in seconds |
+| wait        | boolean         | No       | true     | Wait for command to finish         |
 
 **_Returns_**
 
--   Nothing
+-   void
 
 **_Examples_**
 
@@ -1618,58 +1620,58 @@ Simulates a tap action on the screen at the given coordinates.
     .. code-tab:: c#
 
         [Test]
-        public void TestClickScreen()
+        public void TestClickCoordinates()
         {
             const string name = "UIButton";
-            var altElement2 = altUnityDriver.FindObject(By.NAME,name);
-            var altElement = altUnityDriver.TapScreen(altElement2.x, altElement2.y);
+            var altElement = altUnityDriver.FindObject(By.NAME,name);
+            altUnityDriver.Click(altElement.getScreenPosition());
             Assert.AreEqual(name, altElement.name);
             altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
         }
 
     .. code-tab:: java
 
-        @Test
-            public void testTapScreen() throws Exception {
-                String capsuleName = "Capsule";
-                String capsuleInfo = "CapsuleInfo";
-                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
-                AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters);
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
-                AltUnityObject capsuleInfo = altUnityDriver.findObject(altMoveMouseParameters);
-                altUnityDriver.tapScreen(capsule.x, capsule.y);
-                Thread.sleep(2);
-                String text = capsuleInfo.getText();
-                assertEquals(text, "Capsule was clicked to jump!");
-            }
+         @Test()
+        public void TestTapCoordinates() {
+            AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                    .build();
+            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+            AltTapClickCoordinatesParameters clickParameters = new AltTapClickCoordinatesParameters.Builder(
+                    capsule.getScreenPosition()).build();
+            altUnityDriver.click(clickParameters);
+
+            AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+            AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                    .build();
+            altUnityDriver.waitForObject(waitParams);
+        }
 
     .. code-tab:: py
 
-        def test_tap_at_coordinates(self):
-                self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-                capsule_element = self.altdriver.find_element('Capsule')
-                self.altdriver.tap_at_coordinates(capsule_element.x, capsule_element.y)
-                self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
-
+        def test_tapcoordinates(self):
+            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            self.altdriver.click(capsule_element.get_screen_position())
+            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
-#### TapCustom
+#### Tap
 
-Simulates n number of tap actions on the screen at the given coordinates .
+Tap at screen coordinates
 
 **_Parameters_**
 
-| Name     | Type  | Required | Description                              |
-| -------- | ----- | -------- | ---------------------------------------- |
-| x        | float | Yes      | x coordinate of the screen               |
-| y        | float | Yes      | y coordinate of the screen               |
-| count    | int   | Yes      | number of taps                           |
-| interval | float | No       | how many seconds will be between touches |
+| Name        | Type            | Required | Default  | Description                      |
+| ----------- | --------------- | -------- | -------- | -------------------------------- |
+| coordinates | AltUnityVector2 | Yes      |          | The screen coordinates           |
+| count       | int             | No       | 1        | Number of taps                   |
+| interval    | float           | No       | 0.1      | Interval between taps in seconds |
+| wait        | boolean         | No       | true     | Wait for command to finish       |
 
 **_Returns_**
 
--   Nothing
+-   void
 
 **_Examples_**
 
@@ -1679,39 +1681,39 @@ Simulates n number of tap actions on the screen at the given coordinates .
     .. code-tab:: c#
 
         [Test]
-        public void TestCustomTap()
+        public void TestTapCoordinates()
         {
-            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-            altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
-            Thread.Sleep(1000);
-            Assert.AreEqual("4", counterButtonText.GetText());
+            const string name = "UIButton";
+            var altElement = altUnityDriver.FindObject(By.NAME,name);
+            altUnityDriver.Tap(altElement.getScreenPosition());
+            Assert.AreEqual(name, altElement.name);
+            altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
         }
-
 
     .. code-tab:: java
 
-        @Test
-        public void TestCustomTap() throws InterruptedException
-        {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "ButtonCounter").build();
-            AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
-            AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
-            altUnityDriver.tapCustom(counterButton.x, counterButton.y, 4);
-            Thread.sleep(1000);
-            assertEquals("4", counterButtonText.getText());
+        @Test()
+        public void TestTapCoordinates() {
+            AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                    .build();
+            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+            AltTapClickCoordinatesParameters tapParameters = new AltTapClickCoordinatesParameters.Builder(
+                    capsule.getScreenPosition()).build();
+            altUnityDriver.tap(tapParameters);
+
+            AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+            AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                    .build();
+            altUnityDriver.waitForObject(waitParams);
         }
 
     .. code-tab:: py
 
-        def test_custom_tap(self):
-            counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
-            counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
-            self.altdriver.tap_custom(counterButton.x, counterButton.y, 4);
-            time.sleep(1);
-            self.assertEqual("4", counterButtonText.get_text());
-
+        def test_tapcoordinates(self):
+            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            self.altdriver.tap(capsule_element.get_screen_position())
+            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -2908,85 +2910,22 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 ```
 
-#### ClickEvent
-
-Simulates a click on the object. It will click the object even if the object is not visible something that you could not do on a real device.
-
-**_Parameters_**
-
-None
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestDifferentCamera()
-        {
-            var altButton = altUnityDriver.FindObject(By.NAME,"Button", "Main Camera");
-            altButton.ClickEvent();
-            altButton.ClickEvent();
-            var altElement = altUnityDriver.FindObject(By.NAME,"Capsule", "Main Camera");
-            var altElement2 = altUnityDriver.FindObject(By.NAME,"Capsule", "Camera");
-            AltUnityVector2 pozOnScreenFromMainCamera = new AltUnityVector2(altElement.x, altElement.y);
-            AltUnityVector2 pozOnScreenFromSecondaryCamera = new AltUnityVector2(altElement2.x, altElement2.y);
-
-            Assert.AreNotEqual(pozOnScreenFromSecondaryCamera, pozOnScreenFromMainCamera);
-
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void testDifferentCamera() throws Exception
-        {
-            String name = "Button";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParameters);
-            altButton.clickEvent();
-            altButton.clickEvent();
-            String capsuleName = "Capsule";
-            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Camera").build();
-            AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotSame(altElement.x, altElement2.x);
-            assertNotSame(altElement.y, altElement2.y);
-        }
-
-    .. code-tab:: py
-
-        def test_click_event(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            altElement = self.altdriver.find_object(By.NAME, "UIButton")
-            try:
-                altElement.click_event()
-            except Exception as exception:
-                print("An error occured on click_event: ".format(exception))
-            capsuleInfo = self.altdriver.find_object(By.NAME, "CapsuleInfo")
-            text = capsuleInfo.get_text()
-            self.assertEqual(text, "UIButton clicked to jump capsule!")
-
-```
 
 #### Tap
 
-Simulates a tap action on the object.
+Tap current object
 
 **_Parameters_**
 
-None
+| Name        | Type            | Required | Default  | Description                      |
+| ----------- | --------------- | -------- | -------- | -------------------------------- |
+| count       | int             | No       | 1        | Number of taps                   |
+| interval    | float           | No       | 0.1      | Interval between taps in seconds |
+| wait        | boolean         | No       | true     | Wait for command to finish       |
 
 **_Returns_**
 
--   AltUnityObject
+-   void
 
 **_Examples_**
 
@@ -2996,95 +2935,101 @@ None
     .. code-tab:: c#
 
         [Test]
-        public void TestPressNextSceneButtton()
-        {
-            var initialScene= altUnityDriver.GetCurrentScene();
-            altUnityDriver.FindObject(By.NAME, "NextScene").Tap();
-            var currentScene= altUnityDriver.GetCurrentScene();
-            Assert.AreNotEqual(initialScene, currentScene);
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void testTapCommand()
-        {
-            String initialScene= altdriver.getCurrentScene();
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "NextScene").isEnabled(true).withCamera("Main Camera").build();
-            altdriver.findObject(altFindObjectsParameters).tap();
-            String currentScene= altdriver.getCurrentScene();
-            assertNotEquals(initialScene, currentScene);
-        }
-
-    .. code-tab:: py
-
-        def test_tap_command(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            altElement = self.altdriver.find_object(By.NAME, "UIButton")
-            altElement.tap()
-            capsuleInfo = self.altdriver.find_object(By.NAME, "CapsuleInfo")
-            time.sleep(1.4)
-            text = capsuleInfo.get_text()
-            self.assertEqual(text, "UIButton clicked to jump capsule!")
-
-```
-
-#### DoubleTap
-
-Simulates a double tap on the object. The double tap happens in a single frame.
-
-**_Parameters_**
-
-None
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestDoubleTap()
+        public void TestTap()
         {
             var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
             var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-            counterButton.DoubleTap();
-            Thread.Sleep(500);
-            Assert.AreEqual("2", counterButtonText.GetText());
+            counterButton.Tap();
+            altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
         }
-
 
     .. code-tab:: java
 
-        @Test
-        public void TestDoubleTap() throws InterruptedException
-        {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "ButtonCounter").build();
-            AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
-            AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
-            counterButton.doubleTap();
-            Thread.sleep(500);
-            assertEquals("2", counterButtonText.getText());
-        }
+        @Test()
+        public void TestTapElement() {
+            AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                    .build();
+            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
 
+            AltTapClickElementParameters tapParameters = new AltTapClickElementParameters.Builder().build();
+            capsule.tap(tapParameters);
+
+            AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+            AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                    .build();
+            altUnityDriver.waitForObject(waitParams);
+        }
 
     .. code-tab:: py
 
-        def test_double_tap(self):
-            counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
-            counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
-            counterButton.double_tap();
-            time.sleep(0.5);
-            self.assertEqual("2", counterButtonText.get_text());
+        def test_tapelement(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            capsule_element.tap()
+            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
+```
+
+
+
+#### Click
+
+Click current object
+
+**_Parameters_**
+
+| Name        | Type            | Required | Default  | Description                      |
+| ----------- | --------------- | -------- | -------- | -------------------------------- |
+| count       | int             | No       | 1        | Number of clicks                   |
+| interval    | float           | No       | 0.1      | Interval between clicks in seconds |
+| wait        | boolean         | No       | true     | Wait for command to finish       |
+
+**_Returns_**
+
+-   void
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestClickElement()
+        {
+            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+            counterButton.Click();
+            altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
+        }
+
+    .. code-tab:: java
+
+        @Test()
+        public void TestClickElement() {
+            AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                    .build();
+            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+
+            AltTapClickElementParameters clickParameters = new AltTapClickElementParameters.Builder().build();
+            capsule.Click(clickParameters);
+
+            AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+            AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                    .build();
+            altUnityDriver.waitForObject(waitParams);
+        }
+
+    .. code-tab:: py
+
+        def test_clickelement(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            capsule_element.click()
+            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 

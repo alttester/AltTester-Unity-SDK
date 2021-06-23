@@ -14,3 +14,5 @@ from altunityrunner.commands.InputActions.tap_at_coordinates import *
 from altunityrunner.commands.InputActions.multi_point_swipe import *
 from altunityrunner.commands.InputActions.multi_point_swipe_and_wait import *
 from altunityrunner.commands.InputActions.tap_custom import *
+from altunityrunner.commands.InputActions.click_coordinates import *
+from altunityrunner.commands.InputActions.tap_coordinates import *
