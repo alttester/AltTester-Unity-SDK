@@ -107,3 +107,8 @@ class AltUnityInvalidServerResponse (AltUnityException):
 class AltUnityInvalidPathException(AltUnityException):
     def __init__(self, message):
         super(AltUnityInvalidPathException, self).__init__(message)
+
+
+class AltUnityInputModuleException(AltUnityException):
+    def __init__(self, message):
+        super(AltUnityInputModuleException, self).__init__(message)

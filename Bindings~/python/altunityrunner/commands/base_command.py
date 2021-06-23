@@ -3,16 +3,16 @@ import re
 
 from loguru import logger
 
+import altunityrunner.altUnityExceptions as exceptions
 from altunityrunner.by import By
-from altunityrunner.altUnityExceptions import *
 
 
 BUFFER_SIZE = 1024
-
 EPOCH = datetime.utcfromtimestamp(0)
 
 
 class BaseCommand(object):
+
     def __init__(self, socket, request_separator=';', request_end='&'):
         self.request_separator = request_separator
         self.request_end = request_end
@@ -44,16 +44,20 @@ class BaseCommand(object):
         parts = re.split("altstart::|::response::|::altLog::|::altend", data)
 
         if len(parts) != 5 or parts[0] or parts[4]:
-            raise AltUnityRecvallMessageFormatException(
+            raise exceptions.AltUnityRecvallMessageFormatException(
                 "Data received from socket doesn't have correct start and end control strings.\nGot:\n{}".format(data))
         if parts[1] != self.messageId:
-            raise AltUnityRecvallMessageIdException(
-                "Response received does not match command send. Expected message id: {}. Got {}".format(self.messageId, parts[1]))
+            raise exceptions.AltUnityRecvallMessageIdException(
+                "Response received does not match command send. Expected message id: {}. Got {}".format(
+                    self.messageId,
+                    parts[1]
+                )
+            )
 
         data = parts[2]
         log = parts[3]
 
-        logger.debug(f'response: {self._trim_log_data(data)}')
+        logger.debug("response: {}".format(self._trim_log_data(data)))
         if log:
             logger.debug(log)
 
@@ -63,41 +67,43 @@ class BaseCommand(object):
 
     def _handle_errors(self, data, log):
         if log:
-            data = data + "\n" + log + "\n"
+            data = "{}\n{}\n".format(data, log)
 
         if ('error:' in data):
             if (data.startswith('error:notFound')):
-                raise NotFoundException(data)
+                raise exceptions.NotFoundException(data)
             elif (data.startswith('error:propertyNotFound')):
-                raise PropertyNotFoundException(data)
+                raise exceptions.PropertyNotFoundException(data)
             elif (data.startswith('error:methodNotFound')):
-                raise MethodNotFoundException(data)
+                raise exceptions.MethodNotFoundException(data)
             elif (data.startswith('error:componentNotFound')):
-                raise ComponentNotFoundException(data)
+                raise exceptions.ComponentNotFoundException(data)
             elif (data.startswith('error:assemblyNotFound')):
-                raise AssemblyNotFoundException(data)
+                raise exceptions.AssemblyNotFoundException(data)
             elif (data.startswith('error:couldNotPerformOperation')):
-                raise CouldNotPerformOperationException(data)
+                raise exceptions.CouldNotPerformOperationException(data)
             elif (data.startswith('error:couldNotParseJsonString')):
-                raise CouldNotParseJsonStringException(data)
+                raise exceptions.CouldNotParseJsonStringException(data)
             elif (data.startswith('error:methodWithGivenParametersNotFound')):
-                raise MethodWithGivenParametersNotFoundException(data)
+                raise exceptions.MethodWithGivenParametersNotFoundException(data)
             elif (data.startswith('error:invalidParameterType')):
-                raise InvalidParameterTypeException(data)
+                raise exceptions.InvalidParameterTypeException(data)
             elif (data.startswith('error:failedToParseMethodArguments')):
-                raise FailedToParseArgumentsException(data)
+                raise exceptions.FailedToParseArgumentsException(data)
             elif (data.startswith('error:objectNotFound')):
-                raise ObjectWasNotFoundException(data)
+                raise exceptions.ObjectWasNotFoundException(data)
             elif (data.startswith('error:propertyCannotBeSet')):
-                raise PropertyNotFoundException(data)
+                raise exceptions.PropertyNotFoundException(data)
             elif (data.startswith('error:nullReferenceException')):
-                raise NullReferenceException(data)
+                raise exceptions.NullReferenceException(data)
             elif (data.startswith('error:unknownError')):
-                raise UnknownErrorException(data)
+                raise exceptions.UnknownErrorException(data)
             elif (data.startswith('error:formatException')):
-                raise FormatException(data)
+                raise exceptions.FormatException(data)
             elif (data.startswith('error:invalidPath')):
-                raise AltUnityInvalidPathException(data)
+                raise exceptions.AltUnityInvalidPathException(data)
+            elif (data.startswith('error:ALTUNITYTESTERNotAddedAsDefineVariable')):
+                raise exceptions.AltUnityInputModuleException(data)
 
     def vector_to_json_string(self, x, y, z=None):
         if z is None:
@@ -122,7 +128,7 @@ class BaseCommand(object):
 
     def validate_response(self, expected, received):
         if expected != received:
-            raise AltUnityInvalidServerResponse(expected, received)
+            raise exceptions.AltUnityInvalidServerResponse(expected, received)
 
     def _send_data(self, data):
         self.socket.send(data.encode('utf-8'))

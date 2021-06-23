@@ -5,8 +5,7 @@ import sys
 from appium import webdriver
 from altunityrunner import AltUnityDriver
 from altunityrunner.by import By
-from altunityrunner import AltUnityAndroidPortForwarding
-from altunityrunner import AltUnityiOSPortForwarding
+from altunityrunner import AltUnityPortForwarding
 
 
 def PATH(p): return os.path.abspath(
@@ -24,12 +23,10 @@ class SampleAppiumTest(unittest.TestCase):
         cls.desired_caps = {}
         if cls.platform == "android":
             cls.setup_android()
-            androidPortForwarding = AltUnityAndroidPortForwarding()
-            androidPortForwarding.forward_port_device()
+            AltUnityPortForwarding.forward_android()
         else:
             cls.setup_ios()
-            iOSPortForwarding = AltUnityiOSPortForwarding()
-            cls.iProxyProcessID = iOSPortForwarding.forward_port_device()
+            cls.iProxyProcessID = AltUnityPortForwarding.forward_ios()
 
         cls.driver = webdriver.Remote(
             'http://localhost:4723/wd/hub', cls.desired_caps)
@@ -40,11 +37,9 @@ class SampleAppiumTest(unittest.TestCase):
         cls.altdriver.stop()
         cls.driver.quit()
         if cls.platform == "android":
-            androidPortForwarding = AltUnityAndroidPortForwarding()
-            androidPortForwarding.remove_forward_port_device()
+            AltUnityPortForwarding.remove_forward_android()
         else:
-            iOSPortForwarding = AltUnityiOSPortForwarding()
-            iOSPortForwarding.kill_iproxy_process(cls.iProxyProcessID)
+            AltUnityPortForwarding.kill_iproxy_process(cls.iProxyProcessID)
 
     @classmethod
     def setup_android(cls):

@@ -154,7 +154,10 @@ public class AltBaseCommand {
             throw new FormatException(data);
         } else if ("error:invalidPath".equals(typeOfException)) {
             throw new AltUnityInvalidPathException(data);
+        } else if ("error:ALTUNITYTESTERNotAddedAsDefineVariable".equals(typeOfException)) {
+            throw new AltUnityInputModuleException(data);
         }
+
     }
 
     public String vectorToJsonString(int x, int y) {

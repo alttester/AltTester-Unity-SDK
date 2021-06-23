@@ -107,16 +107,14 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 var heightDifference = screenshot.height - height;
                 var widthDifference = screenshot.width - width;
-                if (heightDifference >= 0 || widthDifference >= 0)
+
+                if (heightDifference > widthDifference)
                 {
-                    if (heightDifference > widthDifference)
-                    {
-                        width = height * screenshot.width / screenshot.height;
-                    }
-                    else
-                    {
-                        height = width * screenshot.height / screenshot.width;
-                    }
+                    width = height * screenshot.width / screenshot.height;
+                }
+                else
+                {
+                    height = width * screenshot.height / screenshot.width;
                 }
             }
 

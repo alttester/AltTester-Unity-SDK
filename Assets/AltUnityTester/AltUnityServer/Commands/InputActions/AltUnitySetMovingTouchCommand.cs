@@ -17,7 +17,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
             return "Ok";
 #else
-            return null;
+            return AltUnityErrors.errorInputModule;
 #endif
         }
     }

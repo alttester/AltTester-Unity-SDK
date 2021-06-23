@@ -210,10 +210,12 @@ namespace Altom.AltUnityDriver
         {
             SwipeAndWait(position, position, duration);
         }
+
         public void PressKey(AltUnityKeyCode keyCode, float power = 1, float duration = 1)
         {
             new AltUnityPressKey(communicationHandler, keyCode, power, duration).Execute();
         }
+
         public void PressKeyAndWait(AltUnityKeyCode keyCode, float power = 1, float duration = 1)
         {
             new AltUnityPressKeyAndWait(communicationHandler, keyCode, power, duration).Execute();

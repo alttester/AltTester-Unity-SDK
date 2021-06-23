@@ -9,6 +9,7 @@ import ro.altom.altunitytester.position.Vector3;
 import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
+import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
 import java.util.ArrayList;
 
@@ -52,10 +53,10 @@ public class TestsSampleScene5 {
         cubeInitWorldZ = cube.worldZ;
 
         altUnityDriver.scrollMouse(30, 20);
-        altUnityDriver.pressKey("K", 1, 2);
+        altUnityDriver.pressKey(AltUnityKeyCode.K, 1, 2);
         Thread.sleep(2000);
 
-        altUnityDriver.pressKeyAndWait("O", 1, 1);
+        altUnityDriver.pressKeyAndWait(AltUnityKeyCode.O, 1, 1);
         cube = altUnityDriver.findObject(altFindObjectsParameters1);
         float cubeFinalWorldX = cube.worldX;
         float cubeFinalWorldZ = cube.worldZ;
@@ -73,7 +74,7 @@ public class TestsSampleScene5 {
         AltUnityObject cube = altUnityDriver.findObject(altFindObjectsParameters2);
         float cubeInitWorldZ = cube.worldZ;
 
-        altUnityDriver.pressKey("W", 1, 2);
+        altUnityDriver.pressKey(AltUnityKeyCode.W, 1, 2);
         Thread.sleep(2000);
         cube = altUnityDriver.findObject(altFindObjectsParameters2);
         float cubeFinalWorldZ = cube.worldZ;
@@ -97,13 +98,13 @@ public class TestsSampleScene5 {
         altUnityDriver.moveMouse(pressingPoint1.x, pressingPoint1.y, 1);
         Thread.sleep(1500);
 
-        altUnityDriver.pressKey("Mouse0", 1, 1);
+        altUnityDriver.pressKey(AltUnityKeyCode.Mouse0, 1, 1);
 
         params = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "PressingPoint2")
                 .withCamera(AltUnityDriver.By.NAME, "Player2").build();
         AltUnityObject pressingPoint2 = altUnityDriver.findObject(params);
         altUnityDriver.moveMouseAndWait(pressingPoint2.x, pressingPoint2.y, 1);
-        altUnityDriver.pressKeyAndWait("Mouse0", 1, 1);
+        altUnityDriver.pressKeyAndWait(AltUnityKeyCode.Mouse0, 1, 1);
 
         stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters1);
         assertEquals(3, stars.length);
@@ -115,9 +116,9 @@ public class TestsSampleScene5 {
         ArrayList<String> ButtonNames = new ArrayList<String>();
         ButtonNames.add("Horizontal");
         ButtonNames.add("Vertical");
-        ArrayList<String> KeyToPressForButtons = new ArrayList<String>();
-        KeyToPressForButtons.add("D");
-        KeyToPressForButtons.add("W");
+        ArrayList<AltUnityKeyCode> KeyToPressForButtons = new ArrayList<AltUnityKeyCode>();
+        KeyToPressForButtons.add(AltUnityKeyCode.D);
+        KeyToPressForButtons.add(AltUnityKeyCode.W);
         AltLoadSceneParameters loadSceneParams = new AltLoadSceneParameters.Builder("Scene 5 Keyboard Input").build();
         altUnityDriver.loadScene(loadSceneParams);
 
@@ -127,7 +128,7 @@ public class TestsSampleScene5 {
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "AxisValue").build();
         AltUnityObject axisValue = altUnityDriver.findObject(findObjectParams);
         int i = 0;
-        for (String key : KeyToPressForButtons) {
+        for (AltUnityKeyCode key : KeyToPressForButtons) {
             altUnityDriver.pressKeyAndWait(key, 0.5f, 0.1f);
             assertEquals("0.5", axisValue.getText());
             assertEquals(ButtonNames.get(i), axisName.getText());

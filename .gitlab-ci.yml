@@ -20,10 +20,10 @@
 
 .pip_install_dependencies: &pip_install_dependencies
   - pip uninstall --yes altunityrunner || true
+  - pip install --upgrade pip
   - pip install -r "Bindings~/python/requirements.txt"
+  - pip install -r "Bindings~/python/requirements-dev.txt"
   - pip install -e "Bindings~/python" --root "Bindings~/python"
-  - pip install Appium-Python-Client
-  - pip install pytest
 
 workflow:
   rules:
@@ -133,22 +133,57 @@ run-csharp-dotnet-android-tests:
       - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
+run-python-lint:
+  stage: test
+  tags:
+    - mac
+  before_script:
+    - *initialize_venv
+    - *pip_install_dependencies
+  script:
+    - cd Bindings~/python/
+    - flake8 altunityrunner
+
 run-python-android-tests:
   stage: test
   tags:
     - android
-  script:
+  before_script:
     - *reinstall_and_start_android_app
     - *initialize_venv
     - *pip_install_dependencies
-    - python Bindings~/python/tests/python_bindings_tests.py
+  script:
     - pytest Bindings~/python/tests/unit
+    - python Bindings~/python/tests/python_bindings_tests.py
   after_script:
     - adb forward --remove-all
   artifacts:
     when: always
     expire_in: 10 days
     paths:
+      - AltUnityTesterLog.txt
+  needs: ["build-apk"]
+
+run-python-appium-android-tests:
+  stage: test
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - when: always
+  tags:
+    - android
+  before_script:
+    - *initialize_venv
+    - *pip_install_dependencies
+  script:
+    - python "Bindings~/python/tests/python_appium_tests.py"
+  after_script:
+    - adb forward --remove-all
+  artifacts:
+    when: always
+    expire_in: 10 days
+    paths:
+      - appium.log
       - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
@@ -170,28 +205,6 @@ run-java-android-tests:
     when: always
     expire_in: 10 days
     paths:
-      - AltUnityTesterLog.txt
-  needs: ["build-apk"]
-
-run-python-appium-android-tests:
-  stage: test
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
-  tags:
-    - android
-  script:
-    - *initialize_venv
-    - *pip_install_dependencies
-    - python "Bindings~/python/tests/python_appium_tests.py"
-  after_script:
-    - adb forward --remove-all
-  artifacts:
-    when: always
-    expire_in: 10 days
-    paths:
-      - appium.log
       - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
@@ -359,21 +372,6 @@ pages:
     - make html
     - cp -r _build/html/. ../public/
 
-maven-snapshot-repo:
-  stage: deploy
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - if: '$CI_COMMIT_REF_NAME == "master"'
-      when: manual
-    - when: never
-  script:
-    - cd "Bindings~/java"
-    - mvn deploy -DskipTests
-  tags:
-    - unity
-    - mac
-
 maven-repo:
   stage: deploy
   rules:
@@ -384,7 +382,7 @@ maven-repo:
     - when: never
   script:
     - cd "Bindings~/java"
-    - mvn deploy -f pom-release.xml -DskipTests
+    - mvn clean deploy -Dgpg.passphrase=$GPG_PASSWORD -f pom-release.xml -DskipTests
   tags:
     - unity
     - mac

@@ -26,6 +26,7 @@ namespace Altom.AltUnityDriver
         public const string errorInvalidParametersOnDriverCommand = "error:invalidParametersOnDriverCommand";
         public const string errorInvalidCommand = "error:invalidCommand";
         public const string errorInvalidPath = "error:invalidPath";
+        public const string errorInputModule = "error:ALTUNITYTESTERNotAddedAsDefineVariable";
     }
     public class AltUnityException : Exception
     {
@@ -294,6 +295,17 @@ namespace Altom.AltUnityDriver
         }
 
         public InvalidPathException(string message) : base(message)
+        {
+        }
+    }
+
+    public class AltUnityInputModuleException : AltUnityException
+    {
+        public AltUnityInputModuleException()
+        {
+        }
+
+        public AltUnityInputModuleException(string message) : base(message)
         {
         }
     }

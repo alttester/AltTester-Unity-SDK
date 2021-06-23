@@ -118,7 +118,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             }
             if (cmdParams is AltUnityTapScreenParams)
             {
-                return new AltUnityClickOnScreenAtXyCommand(cmdParams as AltUnityTapScreenParams).ExecuteAndSerialize;
+                return new AltUnityTapAtCoordinatesCommand(cmdParams as AltUnityTapScreenParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityTapCustomParams)
             {

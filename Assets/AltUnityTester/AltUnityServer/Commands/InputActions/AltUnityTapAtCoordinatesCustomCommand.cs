@@ -1,4 +1,5 @@
 
+using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 
 
@@ -16,10 +17,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 #if ALTUNITYTESTER
             var position = new UnityEngine.Vector2(CommandParams.x, CommandParams.y);
 
-            Input.SetCustomClick(position, CommandParams.count, CommandParams.interval);
+            Input.TapAtCoordinates(position, CommandParams.count, CommandParams.interval);
             return "Ok";
 #else
-            return null;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+
 #endif
         }
     }

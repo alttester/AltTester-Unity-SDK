@@ -1,8 +1,8 @@
 from altunityrunner.commands.base_command import BaseCommand
-from loguru import logger
 
 
 class Swipe(BaseCommand):
+
     def __init__(self, socket, request_separator, request_end, x_start, y_start, x_end, y_end, duration_in_secs):
         super(Swipe, self).__init__(socket, request_separator, request_end)
         self.x_start = x_start
@@ -15,6 +15,4 @@ class Swipe(BaseCommand):
         start_position = self.vector_to_json_string(self.x_start, self.y_start)
         end_position = self.vector_to_json_string(self.x_end, self.y_end)
 
-        data = self.send_command(
-            'multipointSwipe', start_position, end_position, str(self.duration_in_secs))
-        return data
+        return self.send_command("multipointSwipe", start_position, end_position, str(self.duration_in_secs))

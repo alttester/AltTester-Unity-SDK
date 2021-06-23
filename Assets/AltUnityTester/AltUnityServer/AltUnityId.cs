@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class AltUnityId : MonoBehaviour
 {
 

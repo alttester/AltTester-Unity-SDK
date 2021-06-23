@@ -1,3 +1,4 @@
+using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
@@ -17,7 +18,8 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             Input.Scroll(CommandParams.speed, CommandParams.duration);
             return "Ok";
 #else
-            return null;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+
 #endif
         }
     }

@@ -9,16 +9,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            string response;
-            if (Input.Finished)
-                response = "Yes";
-            else
-            {
-                response = "No";
-            }
-            return response;
+            return Input.Finished ? "Yes" : "No";
+#else
+            return AltUnityErrors.errorInputModule;
 #endif
-            throw new NotFoundException();
         }
     }
 }

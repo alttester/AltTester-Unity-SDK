@@ -15,7 +15,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             Input.Acceleration(CommandParams.acceleration.ToUnity(), CommandParams.duration);
             return "Ok";
 #else
-            return null;
+            return AltUnityErrors.errorInputModule;
 #endif
         }
     }
