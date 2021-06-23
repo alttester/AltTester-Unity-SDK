@@ -157,15 +157,14 @@ public class AltBaseCommand {
         } else if ("error:ALTUNITYTESTERNotAddedAsDefineVariable".equals(typeOfException)) {
             throw new AltUnityInputModuleException(data);
         }
-
     }
 
-    public String vectorToJsonString(int x, int y) {
-        return "{\"x\":" + x + ", \"y\":" + y + "}";
+    public String vectorToJsonString(float x, float y) {
+        return "{\"x\":" + String.valueOf(x) + ", \"y\":" + String.valueOf(y) + "}";
     }
 
-    public String vectorToJsonString(int x, int y, int z) {
-        return "{\"x\":" + x + ", \"y\":" + y + ", \"z\":" + z + "}";
+    public String vectorToJsonString(float x, float y, float z) {
+        return "{\"x\":" + String.valueOf(x) + ", \"y\":" + String.valueOf(y) + ", \"z\":" + String.valueOf(z) + "}";
     }
 
     /**

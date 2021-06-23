@@ -5,11 +5,11 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityPressKeyAndWait : AltBaseCommand
     {
-        [Obsolete("Use keyCode instead.")]
-        readonly String keyName;
-        readonly AltUnityKeyCode keyCode;
-        readonly float power;
-        readonly float duration;
+        private readonly String keyName = "";
+        private readonly AltUnityKeyCode keyCode;
+        private readonly float power;
+        private readonly float duration;
+
         [Obsolete("Use AltUnityPressKeyAndWait(SocketSettings, AltUnityKeyCode, float, float) instead.")]
         public AltUnityPressKeyAndWait(SocketSettings socketSettings, String keyName, float power, float duration) : base(socketSettings)
         {
@@ -27,7 +27,7 @@ namespace Altom.AltUnityDriver.Commands
         }
         public void Execute()
         {
-            if(keyName != "")
+            if (keyName != "")
                 new AltUnityPressKey(SocketSettings, keyName, power, duration).Execute();
             else
                 new AltUnityPressKey(SocketSettings, keyCode, power, duration).Execute();

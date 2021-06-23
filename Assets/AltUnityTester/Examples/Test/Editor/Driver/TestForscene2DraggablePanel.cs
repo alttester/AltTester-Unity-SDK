@@ -81,10 +81,10 @@ public class TestForScene2DraggablePanel
         altUnityDriver.WaitForObject(By.NAME, "Panel Drag Area", timeout: 2);
         Assert.IsTrue(altUnityDriver.FindObject(By.NAME, "Panel").enabled);
         var altElement = altUnityDriver.FindObject(By.NAME, "Close Button");
-        altElement.ClickEvent();
+        altElement.Click();
 
         altElement = altUnityDriver.FindObject(By.NAME, "Button");
-        altElement.ClickEvent();
+        altElement.Click();
         Assert.IsTrue(altUnityDriver.FindObject(By.NAME, "Panel").enabled);
     }
 

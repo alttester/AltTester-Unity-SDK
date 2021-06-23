@@ -11,3 +11,5 @@ from altunityrunner.commands.ObjectCommands.pointer_exit import *
 from altunityrunner.commands.ObjectCommands.pointer_up import *
 from altunityrunner.commands.ObjectCommands.set_component_property import *
 from altunityrunner.commands.ObjectCommands.tap import *
+from altunityrunner.commands.ObjectCommands.tap_element import *
+from altunityrunner.commands.ObjectCommands.click_element import *

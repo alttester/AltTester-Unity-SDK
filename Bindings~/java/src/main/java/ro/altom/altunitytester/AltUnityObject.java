@@ -127,14 +127,16 @@ public class AltUnityObject {
     }
 
     public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled,
-            float worldX, float worldY, float worldZ, int idCamera, int parentId, int transformParentId, int transformId) {
-        this(name, id, x, y, z, mobileY, type, enabled, worldX, worldY, worldZ, idCamera, transformParentId, transformId);
+            float worldX, float worldY, float worldZ, int idCamera, int parentId, int transformParentId,
+            int transformId) {
+        this(name, id, x, y, z, mobileY, type, enabled, worldX, worldY, worldZ, idCamera, transformParentId,
+                transformId);
         this.transformParentId = transformParentId;
     }
 
-    public AltUnityObject getParent()
-    {
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH, "//*[@id=" + this.id + "]/..").build();
+    public AltUnityObject getParent() {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                "//*[@id=" + this.id + "]/..").build();
         return new AltFindObject(altBaseSettings, altFindObjectsParameters).Execute();
     }
 
@@ -198,6 +200,7 @@ public class AltUnityObject {
         return new AltSetText(altBaseSettings, this, text).Execute();
     }
 
+    @Deprecated()
     public AltUnityObject clickEvent() {
         return sendActionAndEvaluateResult("clickEvent");
     }
@@ -218,19 +221,41 @@ public class AltUnityObject {
         return sendActionAndEvaluateResult("pointerExitObject");
     }
 
+    /**
+     * Tap current object.
+     * 
+     * @return The clicked object
+     */
     public AltUnityObject tap() {
         return sendActionAndEvaluateResult("tapObject", "1");
     }
 
+    @Deprecated
     public AltUnityObject doubleTap() {
         return sendActionAndEvaluateResult("tapObject", "2");
     }
 
-    private AltUnityObject sendActionAndEvaluateResult(String command) {
-        return new AltSendActionAndEvaluateResult(altBaseSettings, this, command).Execute();
+    /**
+     * Tap current object
+     * 
+     * @param parameters Tap parameters
+     * @return The tapped object
+     */
+    public AltUnityObject tap(AltTapClickElementParameters parameters) {
+        return new AltTapElement(altBaseSettings, this, parameters).Execute();
     }
 
-    private AltUnityObject sendActionAndEvaluateResult(String command, String parameter) {
-        return new AltSendActionAndEvaluateResult(altBaseSettings, this, command, parameter).Execute();
+    /**
+     * Click current object.
+     * 
+     * @param parameters Click parameters
+     * @return The clicked object
+     */
+    public AltUnityObject click(AltTapClickElementParameters parameters) {
+        return new AltClickElement(altBaseSettings, this, parameters).Execute();
+    }
+
+    private AltUnityObject sendActionAndEvaluateResult(String command, String... parameters) {
+        return new AltSendActionAndEvaluateResult(altBaseSettings, this, command, parameters).Execute();
     }
 }

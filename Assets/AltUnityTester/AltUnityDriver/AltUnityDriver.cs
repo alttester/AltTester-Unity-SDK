@@ -247,6 +247,7 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityPressKey(socketSettings, keyCode, power, duration).Execute();
         }
+
         [Obsolete("Use PressKeyAndWait(AltUnityKeyCode, float, float) instead.")]
         public void PressKeyAndWait(String keyName, float power = 1, float duration = 1)
         {
@@ -260,7 +261,6 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityMoveMouse(socketSettings, location, duration).Execute();
         }
-
         public void MoveMouseAndWait(AltUnityVector2 location, float duration = 0)
         {
             new AltUnityMoveMouseAndWait(socketSettings, location, duration).Execute();
@@ -273,13 +273,39 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityScrollMouseAndWait(socketSettings, speed, duration).Execute();
         }
+        [Obsolete("Use Tap")]
         public AltUnityObject TapScreen(float x, float y)
         {
             return new AltUnityTapScreen(socketSettings, x, y).Execute();
         }
+        [Obsolete("Use Tap")]
         public void TapCustom(float x, float y, int count, float interval = 0.1f)
         {
             new AltUnityTapCustom(socketSettings, x, y, count, interval).Execute();
+        }
+
+        /// <summary>
+        /// Tap at screen coordinates
+        /// </summary>
+        /// <param name="coordinates">The screen coordinates</param>
+        /// <param name="count">Number of taps</param>
+        /// <param name="interval">Interval between taps in seconds</param>
+        /// <param name="wait">Wait for command to finish</param>
+        public void Tap(AltUnityVector2 coordinates, int count = 1, float interval = 0.1f, bool wait = true)
+        {
+            new AltUnityTapCoordinates(socketSettings, coordinates, count, interval, wait).Execute();
+        }
+
+        /// <summary>
+        /// Click at screen coordinates
+        /// </summary>
+        /// <param name="coordinates">The screen coordinates</param>
+        /// <param name="count" >Number of clicks.</param>
+        /// <param name="interval">Interval between clicks in seconds</param>
+        /// <param name="wait">Wait for command to finish</param>
+        public void Click(AltUnityVector2 coordinates, int count = 1, float interval = 0.1f, bool wait = true)
+        {
+            new AltUnityClickCoordinates(socketSettings, coordinates, count, interval, wait).Execute();
         }
         public void Tilt(AltUnityVector3 acceleration, float duration = 0)
         {

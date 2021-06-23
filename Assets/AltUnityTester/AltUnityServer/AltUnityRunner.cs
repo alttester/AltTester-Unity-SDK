@@ -25,6 +25,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     [UnityEngine.Space]
     public bool showPopUp;
     public int SocketPortNumber = 13000;
+    public int MaxLogLength = 100;
     public bool RunOnlyInDebugMode = true;
     public UnityEngine.Shader outlineShader;
     public UnityEngine.GameObject panelHightlightPrefab;
@@ -77,6 +78,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     }
     protected void Start()
     {
+        AltClientSocketHandler.MaxLogLength = MaxLogLength;
         StartSocketServer();
         logger.Debug("AltUnity Server started");
         _responseQueue = new AltResponseQueue();
@@ -246,6 +248,20 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             }
             switch (parameters[1])
             {
+                case "tapElement":
+                    command = new AltUnityTapElementCommand(handler, parameters);
+                    break;
+                case "clickElement":
+                    command = new AltUnityClickElementCommand(handler, parameters);
+                    break;
+
+                case "tapCoordinates":
+                    command = new AltUnityTapCoordinatesCommand(handler, parameters);
+                    break;
+                case "clickCoordinates":
+                    command = new AltUnityClickCoordinatesCommand(handler, parameters);
+                    break;
+
                 case "tapObject":
                     command = new AltUnityTapCommand(parameters);
                     break;
@@ -581,14 +597,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
         }
 
         return camera.WorldToScreenPoint(position);
-
-
     }
     ///<summary>
     /// Iterate through all cameras until finds one that sees the object.
     /// If no camera sees the object return the position from the last camera
     ///</summary>
-    private int findCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
+    public int findCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
     {
         position = UnityEngine.Vector3.one * -1;
         int cameraId = -1;
