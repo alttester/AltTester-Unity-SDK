@@ -1451,10 +1451,9 @@ public class TestForScene1TestSample
         Assert.AreEqual("test3", propertyValue);
     }
     [Test]
-    public void TestClickWithMouseCapsule()
+    public void TestClickWithMouse0Capsule()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        altUnityDriver.FindObject(By.NAME, "UIButton");
         var initialCapsulePosition = capsule.getWorldPosition();
         altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
         Thread.Sleep(400);
@@ -1462,6 +1461,35 @@ public class TestForScene1TestSample
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalCapsulePosition = capsule.getWorldPosition();
         Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
+    }
+    [Test]
+    public void TestClickWithMouse1Capsule()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialCapsulePosition = capsule.getWorldPosition();
+        altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+        Thread.Sleep(400);
+        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse1, 1, 0.2f);
+
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var finalCapsulePosition = capsule.getWorldPosition();
+        Assert.True(FastApproximately(initialCapsulePosition.x, finalCapsulePosition.x, 0.01f));
+        Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
+        Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
+    }
+    [Test]
+    public void TestClickWithMouse2Capsule()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialCapsulePosition = capsule.getWorldPosition();
+        altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+        Thread.Sleep(400);
+        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse2, 1, 0.2f);
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var finalCapsulePosition = capsule.getWorldPosition();
+        Assert.True(FastApproximately(initialCapsulePosition.x, finalCapsulePosition.x, 0.01f));
+        Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
+        Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
     }
 
     [Test]
@@ -1808,7 +1836,10 @@ public class TestForScene1TestSample
         Assert.IsFalse(sphereevents.Contains("OnMouseUpAsButton"));
         Assert.IsFalse(sphereevents.Contains("OnMouseExit"));
     }
-
+    public static bool FastApproximately(float a, float b, float threshold)
+    {
+        return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= threshold;
+    }
 
 
 }
