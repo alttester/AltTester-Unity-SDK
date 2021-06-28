@@ -16,7 +16,7 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             var posJson = PositionToJson(coordinates.x, coordinates.y);
-            SendCommand("tapCoordinates", posJson, count.ToString(), interval.ToString());
+            SendCommand("tapCoordinates", posJson, count.ToString(), interval.ToString(), wait.ToString());
             string data = Recvall();
             ValidateResponse("Ok", data);
             if (wait)
