@@ -47,7 +47,7 @@ public class Input : UnityEngine.MonoBehaviour
         _useCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta == UnityEngine.Vector2.zero;
     }
 
-#region UnityEngine.Input.AltUnityTester.NotImplemented
+    #region UnityEngine.Input.AltUnityTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -156,10 +156,10 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-#endregion
+    #endregion
 
 
-#region UnityEngine.Input.AltUnityTester
+    #region UnityEngine.Input.AltUnityTester
 
     public static bool anyKey
     {
@@ -579,7 +579,7 @@ public class Input : UnityEngine.MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-#endregion
+    #endregion
 
     private static UnityEngine.Touch beginTouch(UnityEngine.Vector3 screenPosition)
     {
@@ -1153,15 +1153,26 @@ public class Input : UnityEngine.MonoBehaviour
     private static System.Collections.IEnumerator ScrollLifeCycle(float scrollValue, float duration)
     {
         float timeSpent = 0;
+
         while (timeSpent < duration)
         {
-            _mouseScrollDelta = new UnityEngine.Vector2(0, scrollValue);//x value is not taken in consideration
             yield return null;
             timeSpent += UnityEngine.Time.unscaledDeltaTime;
+            float scrollStep = scrollValue * UnityEngine.Time.unscaledDeltaTime / duration;
+
+            var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+            {
+                position = _mousePosition,
+                button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
+                eligibleForClick = true,
+            };
+            var eventSystemTarget = findEventSystemObject(pointerEventData);
+            _mouseScrollDelta = new UnityEngine.Vector2(0, scrollStep);//x value is not taken in consideration
+            pointerEventData.scrollDelta = _mouseScrollDelta;
+            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
         }
         _mouseScrollDelta = UnityEngine.Vector2.zero;//reset the value after scroll ended
         Finished = true;
-
     }
 
     public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration)

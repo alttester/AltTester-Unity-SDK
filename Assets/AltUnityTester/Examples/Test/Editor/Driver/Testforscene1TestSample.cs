@@ -936,7 +936,9 @@ public class TestForScene1TestSample
         Assert.AreEqual(6, scenes.Count);
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
     }
+
     [Test]
+    [Obsolete("The new tap method does not return the object tapped.")]
     public void TestTapScreenWhereThereIsNoObjects()
     {
         var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1024,7 +1026,7 @@ public class TestForScene1TestSample
         Assert.AreEqual(3, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "/*/Text");
         Assert.AreEqual(1, altElements.Count);
-        altElements = altUnityDriver.FindObjects(By.PATH, "//Text");
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas//Text");
         Assert.AreEqual(5, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
         Assert.AreEqual(4, altElements.Count);
@@ -1077,7 +1079,7 @@ public class TestForScene1TestSample
     {
         var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-        altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
+        altUnityDriver.Tap(counterButton.getScreenPosition(), 4);
         Thread.Sleep(1000);
         Assert.AreEqual("4", counterButtonText.GetText());
     }
@@ -1629,7 +1631,7 @@ public class TestForScene1TestSample
     {
         altUnityDriver.LoadScene("Scene6");
         var screenPosition = altUnityDriver.FindObject(By.NAME, "WorldSpaceButton").getScreenPosition();
-        altUnityDriver.TapCustom(screenPosition.x, screenPosition.y, 1);
+        altUnityDriver.Tap(screenPosition, 1);
         var worldSpaceButton = altUnityDriver.FindObject(By.NAME, "WorldSpaceButton", enabled: false);
         Assert.IsFalse(worldSpaceButton.enabled);
     }
