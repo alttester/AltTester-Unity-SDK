@@ -44,7 +44,7 @@ public class AltUnityInputMark : UnityEngine.MonoBehaviour
     {
         CanvasGroup.alpha = VisibilityCurve.Evaluate(_currentTime);
 
-        _currentTime += UnityEngine.Time.deltaTime / _time;
+        _currentTime += UnityEngine.Time.unscaledDeltaTime / _time;
         if (_currentTime < _time)
             return;
 

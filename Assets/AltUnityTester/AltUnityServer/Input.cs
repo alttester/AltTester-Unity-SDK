@@ -723,7 +723,7 @@ public class Input : UnityEngine.MonoBehaviour
             _keyCodesPressedUp.Remove(keyStructure);
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSeconds(interval - time);
+                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
         }
         // mouse position doesn't change  but we fire on mouse exit
         UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
@@ -793,7 +793,7 @@ public class Input : UnityEngine.MonoBehaviour
             _keyCodesPressedUp.Remove(keyStructure);
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSeconds(interval - time);
+                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
         }
 
         // mouse position doesn't change  but we fire on mouse exit
@@ -1029,7 +1029,7 @@ public class Input : UnityEngine.MonoBehaviour
                 mockUp.ExecuteTouchEvent(touch, pointerEventData);
             }
 
-            yield return new UnityEngine.WaitForSeconds(interval);
+            yield return new UnityEngine.WaitForSecondsRealtime(interval);
         }
         Finished = true;
     }
@@ -1068,7 +1068,7 @@ public class Input : UnityEngine.MonoBehaviour
         {
             if (duration != 0)
             {
-                yield return new UnityEngine.WaitForSeconds(duration);
+                yield return new UnityEngine.WaitForSecondsRealtime(duration);
             }
         }
         _keyCodesPressed.Remove(keyStructure);
@@ -1102,7 +1102,7 @@ public class Input : UnityEngine.MonoBehaviour
         pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
         if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSecondsRealtime(duration);
 
         /* pointer/touch up */
         UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
