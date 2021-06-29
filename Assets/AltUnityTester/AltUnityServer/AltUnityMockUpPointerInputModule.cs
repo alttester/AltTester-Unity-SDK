@@ -20,7 +20,8 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                             delta = touch.deltaPosition,
                             button = PointerEventData.InputButton.Left,
                             pointerId = touch.fingerId,
-                            eligibleForClick = true
+                            eligibleForClick = true,
+                            pressPosition = touch.position
                         };
 
                     GameObjectHit = getGameObjectHit(touch);

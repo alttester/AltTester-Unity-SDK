@@ -32,10 +32,30 @@ public class Input : UnityEngine.MonoBehaviour
     public static string LastButtonPressed { get; set; }
     public static string LastButtonUp { get; set; }
 
+    public static AltUnityMockUpPointerInputModule AltUnityMockUpPointerInputModule
+    {
+        get
+        {
+            if (_mockUpPointerInputModule == null)
+            {
+                if (EventSystem.current != null)
+                {
+                    _mockUpPointerInputModule = EventSystem.current.gameObject.AddComponent<AltUnityMockUpPointerInputModule>();
+                }
+                else
+                {
+                    var newEventSystem = new GameObject("EventSystem");
+                    _mockUpPointerInputModule = newEventSystem.AddComponent<AltUnityMockUpPointerInputModule>();
+                }
+            }
+            return _mockUpPointerInputModule;
+        }
+
+    }
+
     public void Start()
     {
         _instance = this;
-        _mockUpPointerInputModule = gameObject.AddComponent<AltUnityMockUpPointerInputModule>();
         string filePath = "AltUnityTester/AltUnityTesterInputAxisData";
 
         UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
@@ -638,7 +658,7 @@ public class Input : UnityEngine.MonoBehaviour
     private static UnityEngine.GameObject findEventSystemObject(UnityEngine.EventSystems.PointerEventData pointerEventData)
     {
         UnityEngine.EventSystems.RaycastResult firstRaycastResult;
-        _mockUpPointerInputModule.GetFirstRaycastResult(pointerEventData, out firstRaycastResult);
+        AltUnityMockUpPointerInputModule.GetFirstRaycastResult(pointerEventData, out firstRaycastResult);
         pointerEventData.pointerCurrentRaycast = firstRaycastResult;
         pointerEventData.pointerPressRaycast = firstRaycastResult;
         return firstRaycastResult.gameObject;
@@ -651,7 +671,7 @@ public class Input : UnityEngine.MonoBehaviour
     /// <returns>the found gameObject</returns>
     private static UnityEngine.GameObject findMonoBehaviourObject(UnityEngine.Vector2 coordinates)
     {
-        var target = _mockUpPointerInputModule.GetGameObjectHitMonoBehaviour(coordinates);
+        var target = AltUnityMockUpPointerInputModule.GetGameObjectHitMonoBehaviour(coordinates);
         if (target == null)
             return null;
 
@@ -671,6 +691,7 @@ public class Input : UnityEngine.MonoBehaviour
             position = screenPosition,
             button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
             eligibleForClick = true,
+            pressPosition = screenPosition
         };
         var eventSystemTarget = findEventSystemObject(pointerEventData);
         var monoBehaviourTarget = findMonoBehaviourObject(screenPosition);
@@ -744,6 +765,7 @@ public class Input : UnityEngine.MonoBehaviour
             position = screenPosition,
             button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
             eligibleForClick = true,
+            pressPosition = screenPosition
         };
 
         mousePosition = screenPosition;
@@ -852,7 +874,7 @@ public class Input : UnityEngine.MonoBehaviour
         touchListCopy[touchCount - 1] = touch;
         touches = touchListCopy;
         mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
-        var pointerEventData = _mockUpPointerInputModule.ExecuteTouchEvent(touch);
+        var pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch);
         var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
 
         yield return null;
@@ -887,7 +909,7 @@ public class Input : UnityEngine.MonoBehaviour
                     }
                 }
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
-                pointerEventData = _mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+                pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
 
                 AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
                 yield return null;
@@ -906,7 +928,7 @@ public class Input : UnityEngine.MonoBehaviour
             }
         }
 
-        _mockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
         yield return null;
         var newTouches = new UnityEngine.Touch[touchCount - 1];
         int contor = 0;
@@ -933,7 +955,7 @@ public class Input : UnityEngine.MonoBehaviour
     public static void TapAtCoordinates(UnityEngine.Vector2 position, out UnityEngine.GameObject gameObject, out UnityEngine.Camera camera)
     {
         AltUnityRunner._altUnityRunner.ShowClick(position);
-        var mockUp = Input._mockUpPointerInputModule;
+        var mockUp = Input.AltUnityMockUpPointerInputModule;
         var touch = new UnityEngine.Touch { position = position, phase = UnityEngine.TouchPhase.Began };
         var pointerEventData = mockUp.ExecuteTouchEvent(touch);
         if (pointerEventData.pointerPress == null &&
@@ -1007,7 +1029,7 @@ public class Input : UnityEngine.MonoBehaviour
     }
     private static System.Collections.IEnumerator CustomTapLifeCycle(UnityEngine.Vector2 position, int count, float interval)
     {
-        var mockUp = _mockUpPointerInputModule;
+        var mockUp = AltUnityMockUpPointerInputModule;
         var touch = new UnityEngine.Touch { position = position };
 
         for (var i = 0; i < count; i++)
@@ -1082,6 +1104,7 @@ public class Input : UnityEngine.MonoBehaviour
             position = mousePosition,
             button = mouseButton,
             eligibleForClick = true,
+            pressPosition = mousePosition
         };
         var eventSystemTarget = findEventSystemObject(pointerEventData);
         var monoBehaviourTarget = findMonoBehaviourObject(mousePosition);
