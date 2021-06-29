@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerClickHandler
+public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerDownHandler, IPointerClickHandler
 {
     // Start is called before the first frame update
     public Text counterText;
@@ -15,6 +15,9 @@ public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerClic
     private int mouseDownCounter = 0;
     private int mouseUpCounter = 0;
     private int mousePressedCounter = 0;
+
+    private Vector2 pointerPress;
+
     private string eventDataPressRaycastObject = "";
     private HashSet<string> eventsRaised = new HashSet<string>();
 
@@ -23,12 +26,14 @@ public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerClic
         counter = 0;
         counterText.text = counter.ToString();
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             keyPressDownCounter++;
         }
+
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
             keyPressUpCounter++;
@@ -59,10 +64,13 @@ public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerClic
     {
         eventsRaised.Add("OnMouseEnter");
     }
+
     protected void OnMouseDown()
     {
+
         eventsRaised.Add("OnMouseDown");
     }
+
     protected void OnMouseUp()
     {
         eventsRaised.Add("OnMouseUp");
@@ -72,9 +80,15 @@ public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerClic
     {
         eventsRaised.Add("OnMouseUpAsButton");
     }
+
     protected void OnMouseExit()
     {
         eventsRaised.Add("OnMouseExit");
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        pointerPress = eventData.pressPosition;
     }
     public void OnPointerClick(PointerEventData eventData)
     {

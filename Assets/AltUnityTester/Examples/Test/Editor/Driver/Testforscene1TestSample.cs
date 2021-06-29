@@ -1850,5 +1850,14 @@ public class TestForScene1TestSample
         Assert.AreEqual("Text", incrementClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventDataPressRaycastObject", "Assembly-CSharp"));
     }
 
+    [Test]
+    public void TestPointerPressSet()
+    {
+        var incrementalClick = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var swipeCoordinate = new AltUnityVector2(incrementalClick.x + 10, incrementalClick.y + 10);
+        altUnityDriver.SwipeAndWait(swipeCoordinate, swipeCoordinate, 0.2f);
+        Assert.AreEqual("(10.0, 10.0)", incrementalClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp"));
+    }
+
 
 }
