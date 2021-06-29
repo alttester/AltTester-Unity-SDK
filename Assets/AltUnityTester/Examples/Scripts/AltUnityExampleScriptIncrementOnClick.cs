@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour
+public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerClickHandler
 {
     // Start is called before the first frame update
     public Text counterText;
@@ -14,7 +15,7 @@ public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour
     private int mouseDownCounter = 0;
     private int mouseUpCounter = 0;
     private int mousePressedCounter = 0;
-
+    private string eventDataPressRaycastObject = "";
     private HashSet<string> eventsRaised = new HashSet<string>();
 
     void Start()
@@ -74,5 +75,9 @@ public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour
     protected void OnMouseExit()
     {
         eventsRaised.Add("OnMouseExit");
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        eventDataPressRaycastObject = eventData.pointerPressRaycast.gameObject.name;
     }
 }

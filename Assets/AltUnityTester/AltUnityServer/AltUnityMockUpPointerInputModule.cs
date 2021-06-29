@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 {
-    public UnityEngine.GameObject gameObjectHit;
+    public UnityEngine.GameObject GameObjectHit;
     public PointerEventData ExecuteTouchEvent(UnityEngine.Touch touch, PointerEventData previousData = null)
     {
         if (EventSystem.current != null)
@@ -23,9 +23,10 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                             eligibleForClick = true
                         };
 
-                    gameObjectHit = GetGameObjectHit(touch);
+                    GameObjectHit = getGameObjectHit(touch);
                     GetFirstRaycastResult(pointerEventData, out raycastResult);
                     pointerEventData.pointerCurrentRaycast = raycastResult;
+                    pointerEventData.pointerPressRaycast = pointerEventData.pointerCurrentRaycast;
                     pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerEnterHandler);
                     pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
@@ -52,14 +53,14 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                                 ExecuteEvents.dragHandler);
                             previousData.dragging = true;
                         }
-                        gameObjectHit = GetGameObjectHit(touch);
+                        GameObjectHit = getGameObjectHit(touch);
 
                         GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
+                        previousData.pointerPressRaycast = previousData.pointerCurrentRaycast;
                         previousData.delta = touch.deltaPosition;
                         previousData.position = touch.position;
-                        GetFirstRaycastResult(previousData, out raycastResult);
-                        previousData.pointerCurrentRaycast = raycastResult;
+
 
                         if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
                         {
@@ -83,9 +84,10 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                 case UnityEngine.TouchPhase.Ended:
                     if (previousData != null)
                     {
-                        gameObjectHit = GetGameObjectHit(touch);
+                        GameObjectHit = getGameObjectHit(touch);
                         GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
+                        previousData.pointerPressRaycast = previousData.pointerCurrentRaycast;
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
                             ExecuteEvents.pointerUpHandler);
                         var currentOverGo = previousData.pointerCurrentRaycast.gameObject;
@@ -139,13 +141,13 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
         }
     }
 
-    private UnityEngine.GameObject GetGameObjectHit(UnityEngine.Touch touch)
+    private UnityEngine.GameObject getGameObjectHit(UnityEngine.Touch touch)
     {
-        UnityEngine.RaycastHit hit;
 
         foreach (var camera in UnityEngine.Camera.allCameras)
         {
             UnityEngine.Ray ray = camera.ScreenPointToRay(touch.position);
+            UnityEngine.RaycastHit hit;
             if (UnityEngine.Physics.Raycast(ray, out hit))
             {
                 return hit.transform.gameObject;
@@ -175,6 +177,7 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                 hitPosition2d = hit2d.point;
                 gameObject2d = hit2d.transform.gameObject;
             }
+
 
             if (gameObject2d != null && gameObject3d != null)
             {
