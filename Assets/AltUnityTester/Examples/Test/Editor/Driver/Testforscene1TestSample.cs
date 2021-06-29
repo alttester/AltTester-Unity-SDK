@@ -1842,6 +1842,13 @@ public class TestForScene1TestSample
     {
         return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= threshold;
     }
+    [Test]
+    public void TestClickCoordinatesCheckPressRaycastObject()
+    {
+        var incrementClick = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        altUnityDriver.Click(incrementClick.getScreenPosition());
+        Assert.AreEqual("Text", incrementClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventDataPressRaycastObject", "Assembly-CSharp"));
+    }
 
 
 }
