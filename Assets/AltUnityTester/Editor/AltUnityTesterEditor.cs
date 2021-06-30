@@ -822,7 +822,7 @@ namespace Altom.Editor
 
         private static void SendInspectorVersionRequest()
         {
-            www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/altunity-inspector-versions/?id=unityeditor");
+            www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/altunity-inspector-versions/?id=unityeditor&AUTversion=" + AltUnityRunner.VERSION);
             var wwwOp = www.SendWebRequest();
             UnityEditor.EditorApplication.update += CheckInspectorVersionRequest;
 
