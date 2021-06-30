@@ -829,7 +829,7 @@ public class TestForScene1TestSample
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
-        Assert.AreEqual(11, fields.Count);
+        Assert.AreEqual(12, fields.Count);
     }
 
     [Test]
@@ -854,7 +854,7 @@ public class TestForScene1TestSample
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
-        Assert.AreEqual(12, fields.Count);
+        Assert.AreEqual(13, fields.Count);
     }
 
     [Test]
@@ -1754,6 +1754,23 @@ public class TestForScene1TestSample
         Assert.IsTrue(eventsRaisedList.Contains("OnMouseUp"));
         Assert.IsTrue(eventsRaisedList.Contains("OnMouseUpAsButton"));
         Assert.IsTrue(eventsRaisedList.Contains("OnMouseExit"));
+    }
+
+    [Test]
+    public void TestMouseOverElement()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.Click();
+        var mouseOverCounter = int.Parse(capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "mouseOverCounter"));
+        Assert.AreEqual(2, mouseOverCounter);
+    }
+    [Test]
+    public void TestMouseOverCoordinates()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        altUnityDriver.Click(capsule.getScreenPosition());
+        var mouseOverCounter = int.Parse(capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "mouseOverCounter"));
+        Assert.AreEqual(2, mouseOverCounter);
     }
 
     [Test]
