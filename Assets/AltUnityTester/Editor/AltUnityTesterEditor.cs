@@ -91,6 +91,7 @@ namespace Altom.Editor
         bool resize;
         bool resizeHorizontal;
         public UnityEngine.Vector2 scrollPositionVertical;
+        public UnityEngine.Vector2 scrollPositionVerticalSecond;
         public UnityEngine.Vector2 scrollPositionHorizontal;
 
         UnityEngine.Rect availableRect;
@@ -364,7 +365,7 @@ namespace Altom.Editor
         private void ResizeVerticalSplitView()
         {
 
-            resizeHandleRect = new UnityEngine.Rect(availableRect.x, availableRect.height * splitNormalizedPosition + 22f, availableRect.width, 2f);
+            resizeHandleRect = new UnityEngine.Rect(availableRect.x, availableRect.height * splitNormalizedPosition + 25f, availableRect.width, 2f);
             UnityEngine.GUI.DrawTexture(resizeHandleRect, verticalSplitTexture);
             UnityEditor.EditorGUIUtility.AddCursorRect(resizeHandleRect, UnityEditor.MouseCursor.ResizeVertical);
             if (UnityEngine.Event.current.type == UnityEngine.EventType.MouseDown && resizeHandleRect.Contains(UnityEngine.Event.current.mousePosition))
@@ -423,6 +424,7 @@ namespace Altom.Editor
                 displayTestGui(EditorConfiguration.MyTests);
             }
             ResizeVerticalSplitView();
+            scrollPositionVerticalSecond = UnityEngine.GUILayout.BeginScrollView(scrollPositionVerticalSecond, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.ExpandHeight(true));
             UnityEditor.EditorGUILayout.Separator();
 
             displayBuildSettings();
@@ -438,6 +440,7 @@ namespace Altom.Editor
 
             displayPortForwarding(leftSide);
             UnityEditor.EditorGUILayout.EndVertical();
+            UnityEditor.EditorGUILayout.EndScrollView();
             UnityEditor.EditorGUILayout.EndScrollView();
 
             ResizeHorizontalSplitView();
