@@ -67,7 +67,7 @@ public class Input : UnityEngine.MonoBehaviour
         _useCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta == UnityEngine.Vector2.zero;
     }
 
-    #region UnityEngine.Input.AltUnityTester.NotImplemented
+#region UnityEngine.Input.AltUnityTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -176,10 +176,10 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-    #endregion
+#endregion
 
 
-    #region UnityEngine.Input.AltUnityTester
+#region UnityEngine.Input.AltUnityTester
 
     public static bool anyKey
     {
@@ -599,7 +599,7 @@ public class Input : UnityEngine.MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-    #endregion
+#endregion
 
     private static UnityEngine.Touch beginTouch(UnityEngine.Vector3 screenPosition)
     {
@@ -723,6 +723,9 @@ public class Input : UnityEngine.MonoBehaviour
             _keyCodesPressedDown.Add(keyStructure);
             _keyCodesPressed.Add(keyStructure);
 
+            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
+            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
             pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
             if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
             yield return null;
@@ -734,6 +737,8 @@ public class Input : UnityEngine.MonoBehaviour
             _keyCodesPressed.Remove(keyStructure);
             _keyCodesPressedUp.Add(keyStructure);
 
+            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
             if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
@@ -744,9 +749,16 @@ public class Input : UnityEngine.MonoBehaviour
 
             _keyCodesPressedUp.Remove(keyStructure);
 
-            if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
+            while (time < interval && i != count - 1)
+            {
+                time += UnityEngine.Time.unscaledDeltaTime;
+                if(monoBehaviourTarget != null)
+                    monoBehaviourTarget.SendMessage("OnMouseOver",UnityEngine.SendMessageOptions.DontRequireReceiver);
+                yield return null;
+            }
+
         }
+
         // mouse position doesn't change  but we fire on mouse exit
         UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
         if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
@@ -793,6 +805,9 @@ public class Input : UnityEngine.MonoBehaviour
             _keyCodesPressedDown.Add(keyStructure);
             _keyCodesPressed.Add(keyStructure);
 
+            UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
+            if (target != null) target.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
             target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
             pointerEventData.pointerPress = target;
@@ -805,6 +820,8 @@ public class Input : UnityEngine.MonoBehaviour
             _keyCodesPressed.Remove(keyStructure);
             _keyCodesPressedUp.Add(keyStructure);
 
+            if (target != null) target.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
             target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
@@ -812,11 +829,17 @@ public class Input : UnityEngine.MonoBehaviour
             target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             yield return null;
+
             time += UnityEngine.Time.unscaledDeltaTime;
             _keyCodesPressedUp.Remove(keyStructure);
 
-            if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
+            while (time < interval && i != count - 1)
+            {
+                time += UnityEngine.Time.unscaledDeltaTime;
+                if(target != null)
+                    target.SendMessage("OnMouseOver",UnityEngine.SendMessageOptions.DontRequireReceiver);
+                yield return null;
+            }
         }
 
         // mouse position doesn't change  but we fire on mouse exit
