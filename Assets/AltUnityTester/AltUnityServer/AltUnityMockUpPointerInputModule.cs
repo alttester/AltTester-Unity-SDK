@@ -58,7 +58,6 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 
                         GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
-                        previousData.pointerPressRaycast = previousData.pointerCurrentRaycast;
                         previousData.delta = touch.deltaPosition;
                         previousData.position = touch.position;
 
@@ -88,7 +87,6 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                         GameObjectHit = getGameObjectHit(touch);
                         GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
-                        previousData.pointerPressRaycast = previousData.pointerCurrentRaycast;
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
                             ExecuteEvents.pointerUpHandler);
                         var currentOverGo = previousData.pointerCurrentRaycast.gameObject;
