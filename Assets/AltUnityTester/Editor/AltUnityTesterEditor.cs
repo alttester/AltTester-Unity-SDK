@@ -424,7 +424,7 @@ namespace Altom.Editor
                 displayTestGui(EditorConfiguration.MyTests);
             }
             ResizeVerticalSplitView();
-            scrollPositionVerticalSecond = UnityEngine.GUILayout.BeginScrollView(scrollPositionVerticalSecond, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.ExpandHeight(true));
+            scrollPositionVerticalSecond = UnityEngine.GUILayout.BeginScrollView(scrollPositionVerticalSecond, UnityEngine.GUILayout.ExpandHeight(true));
             UnityEditor.EditorGUILayout.Separator();
 
             displayBuildSettings();
@@ -451,17 +451,19 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.BeginVertical();
 
             UnityEditor.EditorGUILayout.LabelField("Platform", UnityEditor.EditorStyles.boldLabel);
+            var guiStyleRadioButton = new UnityEngine.GUIStyle(UnityEditor.EditorStyles.radioButton) { };
+            guiStyleRadioButton.padding = new UnityEngine.RectOffset(20, 0, 1, 0);
             if (rightSide <= 300)
             {
                 UnityEditor.EditorGUILayout.BeginVertical();
-                EditorConfiguration.platform = (AltUnityPlatform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(AltUnityPlatform)), 1, UnityEditor.EditorStyles.radioButton);
+                EditorConfiguration.platform = (AltUnityPlatform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(AltUnityPlatform)), 1, guiStyleRadioButton);
 
                 UnityEditor.EditorGUILayout.EndVertical();
             }
             else
             {
                 UnityEditor.EditorGUILayout.BeginHorizontal();
-                EditorConfiguration.platform = (AltUnityPlatform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(AltUnityPlatform)), System.Enum.GetNames(typeof(AltUnityPlatform)).Length, UnityEditor.EditorStyles.radioButton);
+                EditorConfiguration.platform = (AltUnityPlatform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(AltUnityPlatform)), System.Enum.GetNames(typeof(AltUnityPlatform)).Length, guiStyleRadioButton);
 
                 UnityEditor.EditorGUILayout.EndHorizontal();
             }
@@ -475,7 +477,6 @@ namespace Altom.Editor
                 };
 
                 int selected = System.Array.IndexOf(options, EditorConfiguration.StandaloneTarget);
-
                 selected = UnityEditor.EditorGUILayout.Popup("Build Target", selected, options.ToList().ConvertAll(x => x.ToString()).ToArray());
                 EditorConfiguration.StandaloneTarget = options[selected];
                 browseBuildLocation();
@@ -987,9 +988,19 @@ namespace Altom.Editor
         private static void browseBuildLocation()
         {
             UnityEngine.GUILayout.BeginHorizontal();
-            EditorConfiguration.BuildLocationPath = UnityEditor.EditorGUILayout.TextField("Build Location", EditorConfiguration.BuildLocationPath, UnityEngine.GUILayout.MaxWidth(300));
+            var guiStyleTextField = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.textField)
+            {
+                fixedHeight = 15
+            };
+            guiStyleTextField.margin = new UnityEngine.RectOffset(4, 2, 4, 2);
+            EditorConfiguration.BuildLocationPath = UnityEditor.EditorGUILayout.TextField("Build Location", EditorConfiguration.BuildLocationPath, guiStyleTextField);
             UnityEngine.GUI.SetNextControlName("Browse");
-            if (UnityEngine.GUILayout.Button("Browse", UnityEngine.GUILayout.MaxHeight(15)))
+            var guiStyleButon = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.button)
+            {
+                fixedHeight = 15
+            };
+            guiStyleButon.margin = new UnityEngine.RectOffset(2, 2, 4, 2);
+            if (UnityEngine.GUILayout.Button("Browse", guiStyleButon))
             {
                 EditorConfiguration.BuildLocationPath = UnityEditor.EditorUtility.OpenFolderPanel("Select Build Location", "", "");
                 UnityEngine.GUI.FocusControl("Browse");
@@ -1212,26 +1223,28 @@ namespace Altom.Editor
                 labelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
+            }
+            switch (EditorConfiguration.platform)
+            {
+                case AltUnityPlatform.Android:
+                    UnityEditor.EditorGUILayout.Separator();
 
-                switch (EditorConfiguration.platform)
-                {
-                    case AltUnityPlatform.Android:
-                        foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "Android Settings");
-                        if (foldOutIosSettings)
+                    foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "Android Settings");
+                    if (foldOutIosSettings)
+                    {
+                        string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
+                        labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
+                        if (androidBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android))
                         {
-                            string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
-                            labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
-                            if (androidBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android))
-                            {
-                                UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android, androidBundleIdentifier);
-                            }
-                            labelAndInputFieldHorizontalLayout("Adb Path:", ref EditorConfiguration.AdbPath);
+                            UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android, androidBundleIdentifier);
                         }
-                        break;
-                    case AltUnityPlatform.Editor:
-                        break;
-                    case AltUnityPlatform.Standalone:
-                        break;
+                        labelAndInputFieldHorizontalLayout("Adb Path:", ref EditorConfiguration.AdbPath);
+                    }
+                    break;
+                case AltUnityPlatform.Editor:
+                    break;
+                case AltUnityPlatform.Standalone:
+                    break;
 #if UNITY_EDITOR_OSX
                     case AltUnityPlatform.iOS:
                         foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "iOS Settings");
@@ -1257,9 +1270,8 @@ namespace Altom.Editor
                         }
                         break;
 #endif
-                }
-
             }
+
         }
 
         private void displayLogSettings()
@@ -1294,7 +1306,7 @@ namespace Altom.Editor
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
-            UnityEditor.EditorGUILayout.LabelField(label, UnityEngine.GUILayout.Width(145));
+            UnityEditor.EditorGUILayout.LabelField(label, UnityEngine.GUILayout.Width(150));
             editorConfigVariable =
                 UnityEditor.EditorGUILayout.Toggle(editorConfigVariable, UnityEngine.GUILayout.MaxWidth(30));
             UnityEngine.GUILayout.FlexibleSpace();
@@ -1319,9 +1331,10 @@ namespace Altom.Editor
 
         private void displayScenes()
         {
-            foldOutScenes = UnityEditor.EditorGUILayout.Foldout(foldOutScenes, "SceneManager");
+            foldOutScenes = UnityEditor.EditorGUILayout.Foldout(foldOutScenes, "Scene Manager");
             UnityEditor.EditorGUILayout.BeginHorizontal();
-            UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
+            if (foldOutScenes)
+                UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.BeginVertical();
             UnityEngine.GUIStyle guiStyle = setTextGuiStyle();
             if (foldOutScenes)
@@ -1329,7 +1342,7 @@ namespace Altom.Editor
                 if (EditorConfiguration.Scenes.Count != 0)
                 {
                     UnityEditor.EditorGUILayout.BeginHorizontal();
-                    UnityEditor.EditorGUILayout.LabelField("Display scene full path:", UnityEngine.GUILayout.Width(145), UnityEngine.GUILayout.ExpandWidth(false));
+                    UnityEditor.EditorGUILayout.LabelField("Display scene full path:", UnityEngine.GUILayout.Width(150), UnityEngine.GUILayout.ExpandWidth(false));
                     EditorConfiguration.ScenePathDisplayed = UnityEditor.EditorGUILayout.Toggle(EditorConfiguration.ScenePathDisplayed, UnityEngine.GUILayout.ExpandWidth(false), UnityEngine.GUILayout.Width(30));
                     UnityEngine.GUILayout.FlexibleSpace();
 
@@ -1546,7 +1559,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndHorizontal();
             UnityEditor.EditorGUILayout.BeginVertical();
 
-            scrollPositionVertical = UnityEngine.GUILayout.BeginScrollView(scrollPositionVertical, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.Height(availableRect.height * splitNormalizedPosition));
+            scrollPositionVertical = UnityEngine.GUILayout.BeginScrollView(scrollPositionVertical, UnityEngine.GUILayout.Height(availableRect.height * splitNormalizedPosition));
             int foldOutCounter = 0;
             int testCounter = 0;
             var parentNames = new List<string>();
