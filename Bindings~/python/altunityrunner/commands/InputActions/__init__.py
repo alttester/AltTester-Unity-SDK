@@ -18,3 +18,6 @@ from altunityrunner.commands.InputActions.multi_point_swipe_and_wait import *
 from altunityrunner.commands.InputActions.tap_custom import *
 from altunityrunner.commands.InputActions.click_coordinates import *
 from altunityrunner.commands.InputActions.tap_coordinates import *
+from altunityrunner.commands.InputActions.begin_touch import *
+from altunityrunner.commands.InputActions.move_touch import *
+from altunityrunner.commands.InputActions.end_touch import *

@@ -569,6 +569,18 @@ public class AltUnityDriver {
         new AltUnitySetServerLogging(altBaseSettings, parameters).Execute();
     }
 
+    public int beginTouch(Vector2 screenCoordinates) {
+        return new AltBeginTouch(altBaseSettings, screenCoordinates).Execute();
+    }
+
+    public void moveTouch(int fingerId, Vector2 screenCoordinates) {
+        new AltMoveTouch(altBaseSettings, fingerId, screenCoordinates).Execute();
+    }
+
+    public void endTouch(int fingerId) {
+        new AltEndTouch(altBaseSettings, fingerId).Execute();
+    }
+
     /**
      * Tap at screen coordinates
      * 

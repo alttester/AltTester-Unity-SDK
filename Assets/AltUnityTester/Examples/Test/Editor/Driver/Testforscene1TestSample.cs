@@ -964,7 +964,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindObjectWhichContains()
     {
-        var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
+        var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "EventSys");
         Assert.AreEqual("EventSystem", altElement.name);
     }
     [Test]

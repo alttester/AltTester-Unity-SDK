@@ -607,10 +607,10 @@ Simulates mouse movement in your game. This command will wait for the movement t
 
 **_Parameters_**
 
-| Name     | Type           | Required | Description                                                                               |
-| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
-| location | AltUnityVector2| Yes      | The destination coordinates for mouse to go from the current mouse position               |
-| duration | float          | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type            | Required | Description                                                                               |
+| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
+| location | AltUnityVector2 | Yes      | The destination coordinates for mouse to go from the current mouse position               |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
 
 **_Returns_**
 
@@ -802,10 +802,10 @@ Simulates mouse movement in your game. This command does not wait for the moveme
 
 **_Parameters_**
 
-| Name     | Type           | Required | Description                                                                               |
-| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
-| location | AltUnityVector2| Yes      | The destination coordinates for mouse to go from the current mouse position               |
-| duration | float          | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type            | Required | Description                                                                               |
+| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
+| location | AltUnityVector2 | Yes      | The destination coordinates for mouse to go from the current mouse position               |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
 
 **_Returns_**
 
@@ -1212,15 +1212,15 @@ Simulates a swipe action in your game. This command waits for the action to fini
 
 **_Parameters_**
 
-| Name     | Type               | Required | Description                                                                               |
-| -------- | ------------------ | -------- | ----------------------------------------------------------------------------------------- |
-| start    | AltUnityVector2(C#)| Yes      | Starting location of the swipe                                                            |
-| end      | AltUnityVector2(C#)| Yes      | Ending location of the swipe                                                              |
-| xStart   | float(python/java) | Yes      | x coordinate of the screen where the swipe begins.                                        |
-| yStart   | float(python/java) | Yes      | y coordinate of the screen where the swipe begins                                         |
-| xEnd     | float(python/java) | Yes      | x coordinate of the screen where the swipe ends                                           |
-| yEnd     | float(python/java) | Yes      | x coordinate of the screen where the swipe ends                                           |
-| duration | float              | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type                | Required | Description                                                                               |
+| -------- | ------------------- | -------- | ----------------------------------------------------------------------------------------- |
+| start    | AltUnityVector2(C#) | Yes      | Starting location of the swipe                                                            |
+| end      | AltUnityVector2(C#) | Yes      | Ending location of the swipe                                                              |
+| xStart   | float(python/java)  | Yes      | x coordinate of the screen where the swipe begins.                                        |
+| yStart   | float(python/java)  | Yes      | y coordinate of the screen where the swipe begins                                         |
+| xEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
+| yEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
+| duration | float               | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
 
 **_Returns_**
 
@@ -1356,15 +1356,15 @@ Simulates a swipe action in your game. This command does not wait for the action
 
 **_Parameters_**
 
-| Name     | Type               | Required | Description                                                                               |
-| -------- | ------------------ | -------- | ----------------------------------------------------------------------------------------- |
-| start    | AltUnityVector2(C#)| Yes      | Starting location of the swipe                                                            |
-| end      | AltUnityVector2(C#)| Yes      | Ending location of the swipe                                                              |
-| xStart   | float(python/java) | Yes      | x coordinate of the screen where the swipe begins.                                        |
-| yStart   | float(python/java) | Yes      | y coordinate of the screen where the swipe begins                                         |
-| xEnd     | float(python/java) | Yes      | x coordinate of the screen where the swipe ends                                           |
-| yEnd     | float(python/java) | Yes      | x coordinate of the screen where the swipe ends                                           |
-| duration | float              | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type                | Required | Description                                                                               |
+| -------- | ------------------- | -------- | ----------------------------------------------------------------------------------------- |
+| start    | AltUnityVector2(C#) | Yes      | Starting location of the swipe                                                            |
+| end      | AltUnityVector2(C#) | Yes      | Ending location of the swipe                                                              |
+| xStart   | float(python/java)  | Yes      | x coordinate of the screen where the swipe begins.                                        |
+| yStart   | float(python/java)  | Yes      | y coordinate of the screen where the swipe begins                                         |
+| xEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
+| yEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
+| duration | float               | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
 
 **_Returns_**
 
@@ -1699,18 +1699,220 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
 
 ```
 
+#### BeginTouch
+
+Simulates starting of a touch on the screen. To further interact with the touch use [MoveTouch](#movetouch) and [EndTouch](#endtouch)
+
+**_Parameters_**
+
+| Name        | Type                | Required | Description        |
+| ----------- | ------------------- | -------- | ------------------ |
+| coordinates | AltUnityVector2(C#) | Yes      | Screen coordinates |
+
+**_Returns_**
+
+-   int fingerId
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+            [Test]
+            public void TestNewTouchCommands()
+            {
+                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                var initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.MoveTouch(fingerId, newPosition);
+                altUnityDriver.EndTouch(fingerId);
+                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+
+            }
+
+    .. code-tab:: java
+
+            @Test
+            public void testNewTouchCommands() throws InterruptedException {
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                        AltUnityDriver.By.NAME, "Drag Zone").build();
+                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                Vector2 initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.beginTouch(draggableArea.getScreenPosition());
+                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.moveTouch(fingerId, newPosition);
+                altUnityDriver.endTouch(fingerId);
+                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+            }
+
+    .. code-tab:: py
+
+            def test_new_touch_commands(self):
+                self.altdriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                initial_position = draggable_area.get_screen_position()
+                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
+                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altdriver.end_touch(finger_id)
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.assertNotEqual(initial_position, draggable_area)
+
+
+```
+
+#### MoveTouch
+
+Simulates a touch movement on the screen. Move the touch created with [BeginTouch](#begintouch) from the previous position to the position given as parameters.
+
+**_Parameters_**
+
+| Name        | Type                | Required | Description                                              |
+| ----------- | ------------------- | -------- | -------------------------------------------------------- |
+| fingerId    | int                 | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
+| coordinates | AltUnityVector2(C#) | Yes      | Screen coordinates where the touch will be moved         |
+
+**_Returns_**
+
+-   void
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+            [Test]
+            public void TestNewTouchCommands()
+            {
+                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                var initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.MoveTouch(fingerId, newPosition);
+                altUnityDriver.EndTouch(fingerId);
+                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+
+            }
+
+    .. code-tab:: java
+
+            @Test
+            public void testNewTouchCommands() throws InterruptedException {
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                        AltUnityDriver.By.NAME, "Drag Zone").build();
+                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                Vector2 initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.beginTouch(draggableArea.getScreenPosition());
+                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.moveTouch(fingerId, newPosition);
+                altUnityDriver.endTouch(fingerId);
+                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+            }
+
+    .. code-tab:: py
+
+            def test_new_touch_commands(self):
+                self.altdriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                initial_position = draggable_area.get_screen_position()
+                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
+                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altdriver.end_touch(finger_id)
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.assertNotEqual(initial_position, draggable_area)
+
+
+```
+
+#### EndTouch
+
+Simulates ending of a touch on the screen. This command will destroy the touch making it no longer usable to other movements.
+
+**_Parameters_**
+
+| Name     | Type | Required | Description                                              |
+| -------- | ---- | -------- | -------------------------------------------------------- |
+| fingerId | int  | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
+
+**_Returns_**
+
+-   void
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+            [Test]
+            public void TestNewTouchCommands()
+            {
+                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                var initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.MoveTouch(fingerId, newPosition);
+                altUnityDriver.EndTouch(fingerId);
+                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+
+            }
+
+    .. code-tab:: java
+
+            @Test
+            public void testNewTouchCommands() throws InterruptedException {
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                        AltUnityDriver.By.NAME, "Drag Zone").build();
+                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                Vector2 initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.beginTouch(draggableArea.getScreenPosition());
+                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.moveTouch(fingerId, newPosition);
+                altUnityDriver.endTouch(fingerId);
+                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+            }
+
+    .. code-tab:: py
+
+            def test_new_touch_commands(self):
+                self.altdriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                initial_position = draggable_area.get_screen_position()
+                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
+                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altdriver.end_touch(finger_id)
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.assertNotEqual(initial_position, draggable_area)
+
+
+```
+
 #### Click
 
 Click at screen coordinates
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default  | Description                        |
-| ----------- | --------------- | -------- | -------- | ---------------------------------- |
-| coordinates | AltUnityVector2 | Yes      |          | The screen coordinates             |
-| count       | int             | No       | 1        | Number of clicks                   |
-| interval    | float           | No       | 0.1      | Interval between clicks in seconds |
-| wait        | boolean         | No       | true     | Wait for command to finish         |
+| Name        | Type            | Required | Default | Description                        |
+| ----------- | --------------- | -------- | ------- | ---------------------------------- |
+| coordinates | AltUnityVector2 | Yes      |         | The screen coordinates             |
+| count       | int             | No       | 1       | Number of clicks                   |
+| interval    | float           | No       | 0.1     | Interval between clicks in seconds |
+| wait        | boolean         | No       | true    | Wait for command to finish         |
 
 **_Returns_**
 
@@ -1766,12 +1968,12 @@ Tap at screen coordinates
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default  | Description                      |
-| ----------- | --------------- | -------- | -------- | -------------------------------- |
-| coordinates | AltUnityVector2 | Yes      |          | The screen coordinates           |
-| count       | int             | No       | 1        | Number of taps                   |
-| interval    | float           | No       | 0.1      | Interval between taps in seconds |
-| wait        | boolean         | No       | true     | Wait for command to finish       |
+| Name        | Type            | Required | Default | Description                      |
+| ----------- | --------------- | -------- | ------- | -------------------------------- |
+| coordinates | AltUnityVector2 | Yes      |         | The screen coordinates           |
+| count       | int             | No       | 1       | Number of taps                   |
+| interval    | float           | No       | 0.1     | Interval between taps in seconds |
+| wait        | boolean         | No       | true    | Wait for command to finish       |
 
 **_Returns_**
 
@@ -1827,13 +2029,13 @@ Simulates device rotation action in your game.
 
 **_Parameters_**
 
-| Name         | Type               | Required | Description                                                |
-| ------------ | ------------------ | -------- | ---------------------------------------------------------- |
-| acceleration | AltUnityVector3(C#)| Yes      | Linear acceleration of a device in three-dimensional space |
-| x            | float(python/java) | Yes      | Linear acceleration of a device on x                       |
-| y            | float(python/java) | Yes      | Linear acceleration of a device on y                       |
-| z            | float(python/java) | Yes      | Linear acceleration of a device on z                       |
-| duration     | float              | Yes      | How long the rotation will take in seconds                 |
+| Name         | Type                | Required | Description                                                |
+| ------------ | ------------------- | -------- | ---------------------------------------------------------- |
+| acceleration | AltUnityVector3(C#) | Yes      | Linear acceleration of a device in three-dimensional space |
+| x            | float(python/java)  | Yes      | Linear acceleration of a device on x                       |
+| y            | float(python/java)  | Yes      | Linear acceleration of a device on y                       |
+| z            | float(python/java)  | Yes      | Linear acceleration of a device on z                       |
+| duration     | float               | Yes      | How long the rotation will take in seconds                 |
 
 **_Returns_**
 
@@ -1896,13 +2098,13 @@ Simulates device rotation action in your game. This command waits for the action
 
 **_Parameters_**
 
-| Name         | Type               | Required | Description                                                |
-| ------------ | ------------------ | -------- | ---------------------------------------------------------- |
-| acceleration | AltUnityVector3(C#)| Yes      | Linear acceleration of a device in three-dimensional space |
-| x            | float(python/java) | Yes      | Linear acceleration of a device on x                       |
-| y            | float(python/java) | Yes      | Linear acceleration of a device on y                       |
-| z            | float(python/java) | Yes      | Linear acceleration of a device on z                       |
-| duration     | float              | Yes      | How long the rotation will take in seconds                 |
+| Name         | Type                | Required | Description                                                |
+| ------------ | ------------------- | -------- | ---------------------------------------------------------- |
+| acceleration | AltUnityVector3(C#) | Yes      | Linear acceleration of a device in three-dimensional space |
+| x            | float(python/java)  | Yes      | Linear acceleration of a device on x                       |
+| y            | float(python/java)  | Yes      | Linear acceleration of a device on y                       |
+| z            | float(python/java)  | Yes      | Linear acceleration of a device on z                       |
+| duration     | float               | Yes      | How long the rotation will take in seconds                 |
 
 **_Returns_**
 
@@ -3014,18 +3216,17 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 ```
 
-
 #### Tap
 
 Tap current object
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default  | Description                      |
-| ----------- | --------------- | -------- | -------- | -------------------------------- |
-| count       | int             | No       | 1        | Number of taps                   |
-| interval    | float           | No       | 0.1      | Interval between taps in seconds |
-| wait        | boolean         | No       | true     | Wait for command to finish       |
+| Name     | Type    | Required | Default | Description                      |
+| -------- | ------- | -------- | ------- | -------------------------------- |
+| count    | int     | No       | 1       | Number of taps                   |
+| interval | float   | No       | 0.1     | Interval between taps in seconds |
+| wait     | boolean | No       | true    | Wait for command to finish       |
 
 **_Returns_**
 
@@ -3075,19 +3276,17 @@ Tap current object
 
 ```
 
-
-
 #### Click
 
 Click current object
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default  | Description                      |
-| ----------- | --------------- | -------- | -------- | -------------------------------- |
-| count       | int             | No       | 1        | Number of clicks                   |
-| interval    | float           | No       | 0.1      | Interval between clicks in seconds |
-| wait        | boolean         | No       | true     | Wait for command to finish       |
+| Name     | Type    | Required | Default | Description                        |
+| -------- | ------- | -------- | ------- | ---------------------------------- |
+| count    | int     | No       | 1       | Number of clicks                   |
+| interval | float   | No       | 0.1     | Interval between clicks in seconds |
+| wait     | boolean | No       | true    | Wait for command to finish         |
 
 **_Returns_**
 
@@ -3439,7 +3638,7 @@ The following selecting nodes and attributes are implemented:
             altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel//*")
 
         - Returns all children from Panel
-    
+
     .. tab:: \..
 
         ``//CapsuleInfo/..``

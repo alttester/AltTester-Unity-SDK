@@ -400,3 +400,12 @@ class AltUnityDriver(object):
             self.socket, self.request_separator, self.request_end,
             logger, log_level
         ).execute()
+
+    def begin_touch(self, coordinates):
+        return commands.BeginTouch(self.socket, self.request_separator, self.request_end, coordinates).execute()
+
+    def move_touch(self, finger_id, coordinates):
+        commands.MoveTouch(self.socket, self.request_separator, self.request_end, finger_id, coordinates).execute()
+
+    def end_touch(self, finger_id):
+        commands.EndTouch(self.socket, self.request_separator, self.request_end, finger_id).execute()
