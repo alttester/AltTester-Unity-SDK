@@ -1180,6 +1180,30 @@ class PythonTests(unittest.TestCase):
         capsule_element.click()
         self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
+    def test_key_down_and_key_up(self):
+        self.altdriver.load_scene('Scene 5 Keyboard Input')
+
+        self.altdriver.key_down(AltUnityKeyCode.A)
+        time.sleep(5)
+        lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
+        lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
+        
+        self.assertEqual("A", lastKeyDown.get_text())
+        self.assertEqual("A", lastKeyPress.get_text())
+
+        self.altdriver.key_up(AltUnityKeyCode.A)
+        time.sleep(5)
+        lastKeyUp = self.altdriver.find_object(By.NAME, 'LastKeyUpValue')
+        self.assertEqual("A", lastKeyUp.get_text())
+
+    def test_key_down_and_key_up_mouse0(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        self.altdriver.move_mouse(int(capsule_element.x), int(capsule_element.y), 1)
+        time.sleep(1.5)
+        self.altdriver.key_down(AltUnityKeyCode.Mouse0)
+        self.altdriver.key_up(AltUnityKeyCode.Mouse0)
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

@@ -247,7 +247,14 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityPressKey(socketSettings, keyCode, power, duration).Execute();
         }
-
+        public void KeyDown(AltUnityKeyCode keyCode, float power = 1)
+        {
+            new AltUnityKeyDown(socketSettings, keyCode, power).Execute();
+        }
+        public void KeyUp(AltUnityKeyCode keyCode)
+        {
+            new AltUnityKeyUp(socketSettings, keyCode).Execute();
+        }
         [Obsolete("Use PressKeyAndWait(AltUnityKeyCode, float, float) instead.")]
         public void PressKeyAndWait(String keyName, float power = 1, float duration = 1)
         {

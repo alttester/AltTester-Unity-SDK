@@ -1876,5 +1876,18 @@ public class TestForScene1TestSample
         Assert.AreEqual("(10.0, 10.0)", incrementalClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp"));
     }
 
+    [Test]
+    public void TestKeyDownAndKeyUpMouse0()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialCapsulePosition = capsule.getWorldPosition();
+        altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+        Thread.Sleep(400);
+        altUnityDriver.KeyDown(AltUnityKeyCode.Mouse0);
+        altUnityDriver.KeyUp(AltUnityKeyCode.Mouse0);
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var finalCapsulePosition = capsule.getWorldPosition();
+        Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
+    }
 
 }

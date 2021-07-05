@@ -7,6 +7,7 @@ using System.Linq;
 using Altom.AltUnityDriver;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class Input : UnityEngine.MonoBehaviour
 {
@@ -18,12 +19,18 @@ public class Input : UnityEngine.MonoBehaviour
     private static UnityEngine.Vector2 _mouseScrollDelta = new UnityEngine.Vector2();
     private static UnityEngine.Vector3 _mousePosition = new UnityEngine.Vector3();
     private static System.Collections.Generic.List<AltUnityAxis> AxisList;
+    private static GameObject eventSystemTargetMouseDown;
+    private static GameObject monoBehaviourTargetMouseDown;
 
     private static AltUnityMockUpPointerInputModule _mockUpPointerInputModule;
     private static Input _instance;
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressed = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedDown = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
+    private static KeyCode[] mouseKeyCodes = {KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.Mouse2};
+    private static Dictionary<PointerEventData.InputButton, int> pointerIds = new Dictionary<PointerEventData.InputButton, int>{{PointerEventData.InputButton.Left, -1},
+                                                                                                                                {PointerEventData.InputButton.Right, -2},
+                                                                                                                                {PointerEventData.InputButton.Middle, -3}};
 
     public static bool Finished { get; set; }
     public static float LastAxisValue { get; set; }
@@ -1078,33 +1085,70 @@ public class Input : UnityEngine.MonoBehaviour
 
 
 
-    public static void SetKeyDown(UnityEngine.KeyCode keyCode, float power, float duration)
+    public static void KeyPress(KeyCode keyCode, float power, float duration)
     {
         Finished = false;
-        _instance.StartCoroutine(KeyDownLifeCycle(keyCode, power, duration));
+        _instance.StartCoroutine(keyPressLifeCycle(keyCode, power, duration));
     }
 
-    private static System.Collections.IEnumerator KeyDownLifeCycle(UnityEngine.KeyCode keyCode, float power, float duration)
+    public static void KeyDown(KeyCode keyCode, float power)
     {
+        _instance.StartCoroutine(keyDownLifeCycle(keyCode, power));
+    }
 
-        float time = 0;
+    public static void KeyUp(KeyCode keyCode)
+    {
+        _instance.StartCoroutine(keyUpLifeCycle(keyCode));
+    }
+
+    private static IEnumerator keyDownLifeCycle(KeyCode keyCode, float power)
+    {
+        var keyStructure = new KeyStructure(keyCode, power);
+        _keyCodesPressedDown.Add(keyStructure);
+        _keyCodesPressed.Add(keyStructure);
+        yield return null;
+        _keyCodesPressedDown.Remove(keyStructure);
+        if (mouseKeyCodes.Contains(keyCode))
+        {
+            var inputButton = keyCodeToInputButton(keyCode);
+            mouseTriggerInit(inputButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
+            mouseDownTrigger(inputButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+        }
+    }
+
+    private static PointerEventData.InputButton keyCodeToInputButton(KeyCode keyCode)
+    {
+        PointerEventData.InputButton[] inputButtons = {PointerEventData.InputButton.Left, PointerEventData.InputButton.Right, PointerEventData.InputButton.Middle};
+        return inputButtons[Array.IndexOf(mouseKeyCodes, keyCode)];
+    }
+
+    private static IEnumerator keyUpLifeCycle(KeyCode keyCode)
+    {
+        if (mouseKeyCodes.Contains(keyCode))
+        {
+            var inputButton = keyCodeToInputButton(keyCode);
+            mouseTriggerInit(inputButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
+            mouseUpTrigger(inputButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+        }
+        var keyStructure = new KeyStructure(keyCode, 1);
+        _keyCodesPressed.Remove(keyStructure);
+        _keyCodesPressedUp.Add(keyStructure);
+        yield return null;
+        _keyCodesPressedUp.Remove(keyStructure);
+    }
+
+    private static IEnumerator keyPressLifeCycle(KeyCode keyCode, float power, float duration)
+    {
         var keyStructure = new KeyStructure(keyCode, power);
         yield return null;
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
         yield return null;
         _keyCodesPressedDown.Remove(keyStructure);
-        if (keyCode == UnityEngine.KeyCode.Mouse0)
+        if (mouseKeyCodes.Contains(keyCode))
         {
-            yield return _instance.StartCoroutine(mouseEventTrigger(PointerEventData.InputButton.Left, power, duration));
-        }
-        else if (keyCode == UnityEngine.KeyCode.Mouse1)
-        {
-            yield return _instance.StartCoroutine(mouseEventTrigger(PointerEventData.InputButton.Right, power, duration));
-        }
-        else if (keyCode == UnityEngine.KeyCode.Mouse2)
-        {
-            yield return _instance.StartCoroutine(mouseEventTrigger(PointerEventData.InputButton.Middle, power, duration));
+            var inputButton = keyCodeToInputButton(keyCode);
+            yield return _instance.StartCoroutine(mouseEventTrigger(inputButton, duration));
         }
         else
         {
@@ -1120,44 +1164,68 @@ public class Input : UnityEngine.MonoBehaviour
         Finished = true;
 
     }
-    private static IEnumerator mouseEventTrigger(PointerEventData.InputButton mouseButton, float power, float duration)
+
+    private static void mouseTriggerInit(PointerEventData.InputButton mouseButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget)
     {
-        var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+        pointerEventData = new PointerEventData(EventSystem.current)
         {
             position = mousePosition,
             button = mouseButton,
             eligibleForClick = true,
             pressPosition = mousePosition
         };
-        var eventSystemTarget = findEventSystemObject(pointerEventData);
-        var monoBehaviourTarget = findMonoBehaviourObject(mousePosition);
+        eventSystemTarget = findEventSystemObject(pointerEventData);
+        monoBehaviourTarget = findMonoBehaviourObject(mousePosition);
 
-        pointerEventData.pointerEnter = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
-        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        pointerEventData.pointerEnter = eventSystemTarget;
+    }
+
+    private static void mouseDownTrigger(PointerEventData.InputButton mouseButton, PointerEventData pointerEventData, GameObject eventSystemTarget, GameObject monoBehaviourTarget)
+    {
+        pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerEnterHandler);
+        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseEnter", SendMessageOptions.DontRequireReceiver);
 
         AltUnityRunner._altUnityRunner.ShowClick(mousePosition);
 
         /* pointer/touch down */
-        int pointerId = 0;
-        pointerEventData.pointerId = pointerId;
+        pointerEventData.pointerId = pointerIds[mouseButton];
 
-        pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
+        pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
         if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-        yield return new WaitForSecondsRealtime(duration);
+        if (mouseButton == PointerEventData.InputButton.Left)
+        {
+            eventSystemTargetMouseDown = eventSystemTarget;
+            monoBehaviourTargetMouseDown = monoBehaviourTarget;
+        }
+    }
+
+    private static void mouseUpTrigger(PointerEventData.InputButton mouseButton, PointerEventData pointerEventData, GameObject eventSystemTarget, GameObject monoBehaviourTarget)
+    {
 
         /* pointer/touch up */
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
-        if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        if (eventSystemTarget == eventSystemTargetMouseDown && mouseButton == PointerEventData.InputButton.Left)
+        {
+            ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerClickHandler);
+        }
+        if (monoBehaviourTarget == monoBehaviourTargetMouseDown && mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null)
+        {
+            monoBehaviourTarget.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);
+        }
 
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
-        if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerUpHandler);
+        if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
 
         // mouse position doesn't change  but we fire on mouse exit
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerExitHandler);
+        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
+    }
 
+    private static IEnumerator mouseEventTrigger(PointerEventData.InputButton mouseButton, float duration)
+    {
+        mouseTriggerInit(mouseButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
+        mouseDownTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+        yield return new WaitForSecondsRealtime(duration);
+        mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
     }
     public static void MoveMouse(UnityEngine.Vector2 location, float duration)
     {
@@ -1403,6 +1471,25 @@ public class KeyStructure
     public UnityEngine.KeyCode KeyCode { get; set; }
 
     public float Power { get; set; }
+
+    public override bool Equals(object obj)
+    {
+        if (!(obj is KeyStructure))
+            return false;
+        var other = (KeyStructure)obj;
+        return
+            other.KeyCode == this.KeyCode;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 
 }
 #else

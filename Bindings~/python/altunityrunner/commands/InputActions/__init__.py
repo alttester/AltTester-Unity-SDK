@@ -1,5 +1,7 @@
 from altunityrunner.commands.InputActions.move_mouse_and_wait import *
 from altunityrunner.commands.InputActions.move_mouse import *
+from altunityrunner.commands.InputActions.key_down import *
+from altunityrunner.commands.InputActions.key_up import *
 from altunityrunner.commands.InputActions.press_key import *
 from altunityrunner.commands.InputActions.press_key_and_wait import *
 from altunityrunner.commands.InputActions.press_key_with_keycode import *

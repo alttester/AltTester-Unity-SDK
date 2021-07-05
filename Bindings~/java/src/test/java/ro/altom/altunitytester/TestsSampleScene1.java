@@ -13,6 +13,8 @@ import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectWithTextParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltKeyParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltTiltParameters;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParameters;
@@ -20,7 +22,9 @@ import ro.altom.altunitytester.Commands.ObjectCommand.AltSetComponentPropertyPar
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltWaitForCurrentSceneToBeParameters;
+import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
+import ro.altom.altunitytester.position.Vector2;
 import ro.altom.altunitytester.position.Vector3;
 
 import static junit.framework.TestCase.*;
@@ -1320,5 +1324,23 @@ public class TestsSampleScene1 {
         AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
                 .build();
         altUnityDriver.waitForObject(waitParams);
+    }
+
+    @Test()
+    public void TestKeyDownAndKeyUpMouse0() throws InterruptedException{
+        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                .build();
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+        Vector2 initialCapsPos = capsule.getWorldPosition();
+        AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(
+                (int) capsule.getScreenPosition().x, (int) capsule.getScreenPosition().y).withDuration(0.1f).build();
+        altUnityDriver.moveMouse(altMoveMouseParameters);
+        Thread.sleep(1000);
+        AltKeyParameters altKeyParameters = new AltKeyParameters.Builder(AltUnityKeyCode.Mouse0).build();
+        altUnityDriver.KeyDown(altKeyParameters);
+        altUnityDriver.KeyUp(AltUnityKeyCode.Mouse0);
+        capsule = altUnityDriver.findObject(findCapsuleParameters);
+        Vector2 finalCapsPos = capsule.getWorldPosition();
+        assertNotEquals(initialCapsPos, finalCapsPos);
     }
 }

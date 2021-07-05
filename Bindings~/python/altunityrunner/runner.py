@@ -228,6 +228,18 @@ class AltUnityDriver(object):
             keyCode, power, duration
         ).execute()
 
+    def key_down(self, keyCode, power=1):
+        return commands.KeyDown(
+            self.socket, self.request_separator, self.request_end,
+            keyCode, power
+        ).execute()
+
+    def key_up(self, keyCode, power=1):
+        return commands.KeyUp(
+            self.socket, self.request_separator, self.request_end,
+            keyCode
+        ).execute()
+
     def move_mouse(self, x, y, duration):
         return commands.MoveMouse(
             self.socket, self.request_separator, self.request_end,

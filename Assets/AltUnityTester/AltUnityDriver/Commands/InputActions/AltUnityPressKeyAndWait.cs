@@ -31,7 +31,7 @@ namespace Altom.AltUnityDriver.Commands
                 new AltUnityPressKey(SocketSettings, keyName, power, duration).Execute();
             else
                 new AltUnityPressKey(SocketSettings, keyCode, power, duration).Execute();
-            Thread.Sleep((int)duration * 1000);
+            Thread.Sleep((int)(duration * 1000));
             string data;
             do
             {
