@@ -9,9 +9,7 @@ from altunityrunner.commands.base_command import BaseCommand
 class CommandReturningAltElements(BaseCommand):
 
     def __init__(self, socket, request_separator, request_end):
-        self.request_separator = request_separator
-        self.request_end = request_end
-        self.socket = socket
+        super(CommandReturningAltElements, self).__init__(socket, request_separator, request_end)
 
     def get_alt_element(self, data):
         if not data:

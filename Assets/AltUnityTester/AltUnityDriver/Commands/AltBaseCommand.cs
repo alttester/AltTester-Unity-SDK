@@ -15,6 +15,8 @@ namespace Altom.AltUnityDriver.Commands
         private const int BUFFER_SIZE = 1024;
         protected SocketSettings SocketSettings;
         private string messageId;
+
+        private string _remaining = "";
         public AltBaseCommand(SocketSettings socketSettings)
         {
             this.SocketSettings = socketSettings;
@@ -22,43 +24,58 @@ namespace Altom.AltUnityDriver.Commands
         public string Recvall()
         {
             string data = "";
-            string previousPart = "";
-            List<byte[]> byteArray = new List<byte[]>();
-            int received = 0;
-            int receivedZeroBytesCounter = 0;
-            int receivedZeroBytesCounterLimit = 2;
-            do
+
+            if (_remaining.Contains("::altend"))
             {
-                var bytesReceived = new byte[BUFFER_SIZE];
-                received = SocketSettings.Socket.Receive(bytesReceived);
-                if (received == 0)
+                data = _remaining;
+            }
+            else
+            {
+                string previousPart = _remaining;
+                List<byte[]> byteArray = new List<byte[]>();
+                int received = 0;
+                int receivedZeroBytesCounter = 0;
+                int receivedZeroBytesCounterLimit = 2;
+                do
                 {
-                    if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit)
+                    var bytesReceived = new byte[BUFFER_SIZE];
+                    received = SocketSettings.Socket.Receive(bytesReceived);
+                    if (received == 0)
                     {
-                        receivedZeroBytesCounter++;
-                        continue;
+                        if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit)
+                        {
+                            receivedZeroBytesCounter++;
+                            continue;
+                        }
+                        else
+                        {
+                            throw new Exception("Socket not connected yet");
+                        }
                     }
-                    else
+                    var newBytesReceived = new byte[received];
+                    for (int i = 0; i < received; i++)
                     {
-                        throw new Exception("Socket not connected yet");
+                        newBytesReceived[i] = bytesReceived[i];
                     }
-                }
-                var newBytesReceived = new byte[received];
-                for (int i = 0; i < received; i++)
-                {
-                    newBytesReceived[i] = bytesReceived[i];
-                }
-                byteArray.Add(newBytesReceived);
-                string part = fromBytes(newBytesReceived);
-                string partToSeeAltEnd = previousPart + part;
-                if (partToSeeAltEnd.Contains("::altend"))
-                    break;
-                previousPart = part;
+                    byteArray.Add(newBytesReceived);
+                    string part = fromBytes(newBytesReceived);
+                    string partToSeeAltEnd = previousPart + part;
+                    if (partToSeeAltEnd.Contains("::altend"))
+                        break;
+                    previousPart = part;
 
-            } while (true);
-
-            data = fromBytes(byteArray.SelectMany(x => x).ToArray());
+                } while (true);
+                data = fromBytes(byteArray.SelectMany(x => x).ToArray());
+            }
             logger.Trace(data);
+
+            _remaining = "";
+            int index = data.IndexOf("::altendaltstart::");
+            if (index >= 0)
+            {
+                _remaining = data.Substring(index + 8);
+                data = data.Substring(0, index + 8);
+            }
 
             var parts = data.Split(new[] { "altstart::", "::response::", "::altLog::", "::altend" }, StringSplitOptions.None);
 

@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using Moq;
-
+using System.Linq;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.AltSocket;
 using Altom.AltUnityDriver.Commands;
@@ -10,14 +10,31 @@ using Altom.AltUnityDriver.Logging;
 
 namespace unit.AltUnityDriverTests
 {
+    public static class Extension
+    {
+        public static T[] Concatenate<T>(this T[] first, T[] second)
+        {
+            if (first == null)
+            {
+                return second;
+            }
+            if (second == null)
+            {
+                return first;
+            }
+
+            return first.Concat(second).ToArray();
+        }
+    }
     public class TestSocket : ISocket
     {
         private readonly string returnMessage;
         private readonly string log;
+        string command = null;
         string message = null;
         string messageId = null;
         int position = 0;
-        private byte[] returnMessageBytes;
+        private byte[] returnMessageBytes = null;
 
         public TestSocket(string returnMessage, string log)
         {
@@ -44,9 +61,13 @@ namespace unit.AltUnityDriverTests
         public void Send(byte[] buffer)
         {
             this.message = System.Text.Encoding.UTF8.GetString(buffer);
-            this.messageId = message.Split(new[] { ";" }, System.StringSplitOptions.None)[0];
+            var parts = message.Split(new[] { ";", "&" }, System.StringSplitOptions.None);
+            this.messageId = parts[0];
+            this.command = parts[1];
 
             returnMessageBytes = System.Text.Encoding.UTF8.GetBytes("altstart::" + messageId + "::response::" + returnMessage + "::altLog::" + log + "::altend");
+            if (this.command == "doublemessage")
+                returnMessageBytes = returnMessageBytes.Concatenate(returnMessageBytes);
             position = 0;
         }
 
@@ -62,6 +83,19 @@ namespace unit.AltUnityDriverTests
         {
             SendCommand("altBaseCommand");
             return Recvall();
+        }
+    }
+
+    public class AltDoubleBaseCommandImpl : AltBaseCommand
+    {
+        public AltDoubleBaseCommandImpl(SocketSettings socketSettings) : base(socketSettings)
+        {
+
+        }
+        public string Execute()
+        {
+            SendCommand("doublemessage");
+            return Recvall() + "___" + Recvall();
         }
     }
 
@@ -108,6 +142,17 @@ namespace unit.AltUnityDriverTests
             int expectedLength = System.DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString().Length + ";getServerVersion&".Length;
             Assert.IsTrue(socket.MessageSent.EndsWith(";getServerVersion&"), socket.MessageSent);
             Assert.AreEqual(socket.MessageSent.Length, expectedLength, socket.MessageSent);
+        }
+
+        [Test]
+        public void SendMultipleResponsesInSameChunk()
+        {
+            TestSocket socket = new TestSocket("message", "");
+            var cmd = new AltDoubleBaseCommandImpl(new SocketSettings(socket, ";", "&"));
+            var response = cmd.Execute();
+
+            Assert.AreEqual("message___message", response);
+
         }
     }
 }
