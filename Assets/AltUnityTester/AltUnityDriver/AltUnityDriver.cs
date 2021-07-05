@@ -396,5 +396,18 @@ namespace Altom.AltUnityDriver
         {
             new AltUnitySetServerLogging(socketSettings, logger, logLevel).Execute();
         }
+        public int BeginTouch(AltUnityVector2 screenPosition)
+        {
+            return new AltUnityBeginTouch(socketSettings, screenPosition).Execute();
+        }
+        public void MoveTouch(int fingerId, AltUnityVector2 screenPosition)
+        {
+            new AltUnityMoveTouch(socketSettings, fingerId, screenPosition).Execute();
+        }
+        public void EndTouch(int fingerId)
+        {
+            new AltUnityEndTouch(socketSettings, fingerId).Execute();
+        }
+
     }
 }

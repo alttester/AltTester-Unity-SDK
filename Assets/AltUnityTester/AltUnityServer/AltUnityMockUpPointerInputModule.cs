@@ -30,8 +30,11 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                     pointerEventData.pointerPressRaycast = pointerEventData.pointerCurrentRaycast;
                     pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerEnterHandler);
+                    var monoBehaviourTarget = FindMonoBehaviourObject(pointerEventData.position);
+                    if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                     pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerDownHandler);
+                    if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
                     if (pointerEventData.pointerPress == null)
                     {
@@ -64,10 +67,12 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 
                         if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
                         {
+                            if (previousData.pointerEnter != null) previousData.pointerEnter.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
                             ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
                                 ExecuteEvents.pointerExitHandler);
                             ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                                 ExecuteEvents.pointerEnterHandler);
+                            if (previousData.pointerCurrentRaycast.gameObject != null) previousData.pointerCurrentRaycast.gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                             previousData.pointerEnter = previousData.pointerCurrentRaycast.gameObject;
                         }
 
@@ -98,6 +103,11 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                                   ExecuteEvents.pointerClickHandler);
                             previousData.eligibleForClick = false;
                         }
+                        if (previousData.pointerPress != null)
+                        {
+                            previousData.pointerPress.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                            previousData.pointerPress.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                        }
 
                         if (previousData.pointerDrag != null)
                         {
@@ -110,6 +120,11 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                             ExecuteEvents.pointerExitHandler);
+                        if (previousData.pointerCurrentRaycast.gameObject != null)
+                        {
+                            previousData.pointerCurrentRaycast.gameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
+                        }
                         return previousData;
                     }
                     break;
@@ -189,6 +204,26 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
             if (gameObject3d != null) return gameObject3d;
         }
         return null;
+    }
+
+    /// <summary>
+    /// Finds element(s) at given coordinates for which we raise MonoBehaviour input events
+    /// </summary>
+    /// <param name="coordinates"></param>
+    /// <returns>the found gameObject</returns>
+    public UnityEngine.GameObject FindMonoBehaviourObject(UnityEngine.Vector2 coordinates)
+    {
+        var target = GetGameObjectHitMonoBehaviour(coordinates);
+        if (target == null)
+            return null;
+
+        var rigidBody = target.GetComponentInParent<UnityEngine.Rigidbody>();
+        if (rigidBody != null)
+            return rigidBody.gameObject;
+        var rigidBody2D = target.GetComponentInParent<UnityEngine.Rigidbody2D>();
+        if (rigidBody2D != null)
+            return rigidBody2D.gameObject;
+        return target;
     }
 }
 

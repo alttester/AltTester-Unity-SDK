@@ -8,7 +8,6 @@ import json
 
 from altunityrunner import *
 from altunityrunner.logging import AltUnityLogLevel, AltUnityLogger
-from altunityrunner.alt_unity_key_code import AltUnityKeyCode
 
 
 def PATH(p):
@@ -1180,6 +1179,16 @@ class PythonTests(unittest.TestCase):
         capsule_element.click()
         self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
+    def test_new_touch_commands(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+        initial_position = draggable_area.get_screen_position()
+        finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
+        self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+        self.altdriver.end_touch(finger_id)
+        draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+        self.assertNotEqual(initial_position, draggable_area)
+
     def test_key_down_and_key_up(self):
         self.altdriver.load_scene('Scene 5 Keyboard Input')
 
@@ -1187,7 +1196,7 @@ class PythonTests(unittest.TestCase):
         time.sleep(5)
         lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
         lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
-        
+
         self.assertEqual("A", lastKeyDown.get_text())
         self.assertEqual("A", lastKeyPress.get_text())
 
@@ -1204,6 +1213,7 @@ class PythonTests(unittest.TestCase):
         self.altdriver.key_down(AltUnityKeyCode.Mouse0)
         self.altdriver.key_up(AltUnityKeyCode.Mouse0)
         self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

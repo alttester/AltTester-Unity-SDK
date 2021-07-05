@@ -128,4 +128,20 @@ public class TestsSampleScene2 {
         String color2 = panel.getComponentProperty("AltUnityExampleScriptPanel", "highlightColor");
         assertEquals(color1, color2);
     }
+
+    @Test
+    public void testNewTouchCommands() throws InterruptedException {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "Drag Zone").build();
+        AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+        Vector2 initialPosition = draggableArea.getScreenPosition();
+        int fingerId = altUnityDriver.beginTouch(draggableArea.getScreenPosition());
+        Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+        altUnityDriver.moveTouch(fingerId, newPosition);
+        altUnityDriver.endTouch(fingerId);
+        draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+        assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+        assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+    }
+
 }

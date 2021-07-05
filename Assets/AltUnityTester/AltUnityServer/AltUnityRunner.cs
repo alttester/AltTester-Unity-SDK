@@ -249,6 +249,15 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
             }
             switch (parameters[1])
             {
+                case "beginTouch":
+                    command = new AltUnityBeginTouchCommand(parameters);
+                    break;
+                case "moveTouch":
+                    command = new AltUnityMoveTouchCommand(parameters);
+                    break;
+                case "endTouch":
+                    command = new AltUnityEndTouchCommand(parameters);
+                    break;
                 case "tapElement":
                     command = new AltUnityTapElementCommand(handler, parameters);
                     break;

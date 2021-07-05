@@ -4,10 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq;
 using Altom.AltUnityDriver;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Linq;
 
 public class Input : UnityEngine.MonoBehaviour
 {
@@ -27,8 +27,9 @@ public class Input : UnityEngine.MonoBehaviour
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressed = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedDown = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
-    private static KeyCode[] mouseKeyCodes = {KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.Mouse2};
-    private static Dictionary<PointerEventData.InputButton, int> pointerIds = new Dictionary<PointerEventData.InputButton, int>{{PointerEventData.InputButton.Left, -1},
+    private static System.Collections.Generic.Dictionary<Touch, PointerEventData> _pointerEventsDataDictionary = new System.Collections.Generic.Dictionary<Touch, PointerEventData>();
+    private static readonly KeyCode[] mouseKeyCodes = { KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.Mouse2 };
+    private static readonly Dictionary<PointerEventData.InputButton, int> pointerIds = new Dictionary<PointerEventData.InputButton, int>{{PointerEventData.InputButton.Left, -1},
                                                                                                                                 {PointerEventData.InputButton.Right, -2},
                                                                                                                                 {PointerEventData.InputButton.Middle, -3}};
 
@@ -74,7 +75,7 @@ public class Input : UnityEngine.MonoBehaviour
         _useCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta == UnityEngine.Vector2.zero;
     }
 
-#region UnityEngine.Input.AltUnityTester.NotImplemented
+    #region UnityEngine.Input.AltUnityTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -183,10 +184,10 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-#endregion
+    #endregion
 
 
-#region UnityEngine.Input.AltUnityTester
+    #region UnityEngine.Input.AltUnityTester
 
     public static bool anyKey
     {
@@ -225,12 +226,12 @@ public class Input : UnityEngine.MonoBehaviour
         {
             if (_useCustomInput)
             {
-                string charachtersPressedCurrentFrame = "";
+                string charactersPressedCurrentFrame = "";
                 foreach (var keyCode in _keyCodesPressedDown)
                 {
-                    //need a Parser from keycode to character every characher from keyboard + backspace and enter
+                    //need a Parser from keycode to character every character from keyboard + backspace and enter
                 }
-                return charachtersPressedCurrentFrame;
+                return charactersPressedCurrentFrame;
 
             }
             else
@@ -606,9 +607,9 @@ public class Input : UnityEngine.MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-#endregion
+    #endregion
 
-    private static UnityEngine.Touch beginTouch(UnityEngine.Vector3 screenPosition)
+    private static UnityEngine.Touch createTouch(UnityEngine.Vector3 screenPosition)
     {
         var touch = new UnityEngine.Touch
         {
@@ -636,11 +637,10 @@ public class Input : UnityEngine.MonoBehaviour
         System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
         touchListCopy[touches.Length] = touch;
         touches = touchListCopy;
-
         return touch;
     }
 
-    private static void endTouch(UnityEngine.Touch touch)
+    private static void destroyTouch(UnityEngine.Touch touch)
     {
         var newTouches = new UnityEngine.Touch[touches.Length - 1];
         int contor = 0;
@@ -657,6 +657,70 @@ public class Input : UnityEngine.MonoBehaviour
         touchCount--;
     }
 
+    public static int BeginTouch(UnityEngine.Vector3 screenPosition)
+    {
+        var touch = createTouch(screenPosition);
+        var pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch);
+
+
+        _pointerEventsDataDictionary.Add(touch, pointerEventData);
+        _instance.StartCoroutine(setMouse0KeyCodePressedDown());
+
+        return touch.fingerId;
+    }
+    private static IEnumerator setMouse0KeyCodePressedDown()
+    {
+        var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
+        _keyCodesPressedDown.Add(keyStructure);
+        _keyCodesPressed.Add(keyStructure);
+
+        yield return null;
+        _keyCodesPressedDown.Remove(keyStructure);
+
+    }
+    private static IEnumerator setMouse0KeyCodePressedUp()
+    {
+        var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
+        var pressedKeyStructure = _keyCodesPressed.Find(key => key.KeyCode == keyStructure.KeyCode);
+        _keyCodesPressedUp.Add(keyStructure);
+
+        yield return null;
+        _keyCodesPressed.Remove(pressedKeyStructure);
+        _keyCodesPressedUp.Remove(keyStructure);
+
+    }
+    public static void MoveTouch(int fingerId, Vector3 screenPosition)
+    {
+        var touch = findTouch(fingerId);
+        var previousPointerEventData = _pointerEventsDataDictionary[touch];
+        var previousPosition = touch.position;
+        touch.phase = TouchPhase.Moved;
+        touch.position = screenPosition;
+        touch.rawPosition = screenPosition;
+        touch.deltaPosition = touch.position - previousPosition;
+        if (fingerId == 0)
+        {
+            Input.mousePosition = screenPosition;
+        }
+        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
+
+    }
+    public static void EndTouch(int fingerId)
+    {
+        var touch = findTouch(fingerId);
+        var previousPointerEventData = _pointerEventsDataDictionary[touch];
+
+        touch.phase = TouchPhase.Ended;
+        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
+        _instance.StartCoroutine(setMouse0KeyCodePressedUp());
+        destroyTouch(touch);
+    }
+
+    private static Touch findTouch(int fingerId)
+    {
+        return touches.First(touch => touch.fingerId == fingerId);
+    }
+
     /// <summary>
     /// Finds element at given pointerEventData for which we raise EventSystem input events
     /// </summary>
@@ -671,25 +735,7 @@ public class Input : UnityEngine.MonoBehaviour
         return firstRaycastResult.gameObject;
     }
 
-    /// <summary>
-    /// Finds element(s) at given coordinates for which we raise MonoBehaviour input events
-    /// </summary>
-    /// <param name="coordinates"></param>
-    /// <returns>the found gameObject</returns>
-    private static UnityEngine.GameObject findMonoBehaviourObject(UnityEngine.Vector2 coordinates)
-    {
-        var target = AltUnityMockUpPointerInputModule.GetGameObjectHitMonoBehaviour(coordinates);
-        if (target == null)
-            return null;
 
-        var rigidBody = target.GetComponentInParent<UnityEngine.Rigidbody>();
-        if (rigidBody != null)
-            return rigidBody.gameObject;
-        var rigidBody2D = target.GetComponentInParent<UnityEngine.Rigidbody2D>();
-        if (rigidBody2D != null)
-            return rigidBody2D.gameObject;
-        return target;
-    }
 
     private static IEnumerator tapClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval, bool tap, Action onFinish)
     {
@@ -701,7 +747,7 @@ public class Input : UnityEngine.MonoBehaviour
             pressPosition = screenPosition
         };
         var eventSystemTarget = findEventSystemObject(pointerEventData);
-        var monoBehaviourTarget = findMonoBehaviourObject(screenPosition);
+        var monoBehaviourTarget = AltUnityMockUpPointerInputModule.FindMonoBehaviourObject(screenPosition);
 
 
         yield return null; //new frame
@@ -721,7 +767,7 @@ public class Input : UnityEngine.MonoBehaviour
             int pointerId = 0;
             if (tap)
             {
-                touch = beginTouch(screenPosition);
+                touch = createTouch(screenPosition);
                 pointerId = touch.fingerId;
             }
             pointerEventData.pointerId = pointerId;
@@ -739,7 +785,7 @@ public class Input : UnityEngine.MonoBehaviour
             time += UnityEngine.Time.unscaledDeltaTime;
 
             /* pointer/touch up */
-            if (tap) endTouch(touch);
+            if (tap) destroyTouch(touch);
             _keyCodesPressedDown.Remove(keyStructure);
             _keyCodesPressed.Remove(keyStructure);
             _keyCodesPressedUp.Add(keyStructure);
@@ -759,8 +805,8 @@ public class Input : UnityEngine.MonoBehaviour
             while (time < interval && i != count - 1)
             {
                 time += UnityEngine.Time.unscaledDeltaTime;
-                if(monoBehaviourTarget != null)
-                    monoBehaviourTarget.SendMessage("OnMouseOver",UnityEngine.SendMessageOptions.DontRequireReceiver);
+                if (monoBehaviourTarget != null)
+                    monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
                 yield return null;
             }
 
@@ -803,7 +849,7 @@ public class Input : UnityEngine.MonoBehaviour
             int pointerId = 0;
             if (tap)
             {
-                touch = beginTouch(screenPosition);
+                touch = createTouch(screenPosition);
                 pointerId = touch.fingerId;
             }
             pointerEventData.pointerId = pointerId;
@@ -822,7 +868,7 @@ public class Input : UnityEngine.MonoBehaviour
             time += UnityEngine.Time.unscaledDeltaTime;
 
             /* pointer/touch up */
-            if (tap) endTouch(touch);
+            if (tap) destroyTouch(touch);
             _keyCodesPressedDown.Remove(keyStructure);
             _keyCodesPressed.Remove(keyStructure);
             _keyCodesPressedUp.Add(keyStructure);
@@ -843,8 +889,8 @@ public class Input : UnityEngine.MonoBehaviour
             while (time < interval && i != count - 1)
             {
                 time += UnityEngine.Time.unscaledDeltaTime;
-                if(target != null)
-                    target.SendMessage("OnMouseOver",UnityEngine.SendMessageOptions.DontRequireReceiver);
+                if (target != null)
+                    target.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
                 yield return null;
             }
         }
@@ -1118,7 +1164,7 @@ public class Input : UnityEngine.MonoBehaviour
 
     private static PointerEventData.InputButton keyCodeToInputButton(KeyCode keyCode)
     {
-        PointerEventData.InputButton[] inputButtons = {PointerEventData.InputButton.Left, PointerEventData.InputButton.Right, PointerEventData.InputButton.Middle};
+        PointerEventData.InputButton[] inputButtons = { PointerEventData.InputButton.Left, PointerEventData.InputButton.Right, PointerEventData.InputButton.Middle };
         return inputButtons[Array.IndexOf(mouseKeyCodes, keyCode)];
     }
 
@@ -1175,7 +1221,7 @@ public class Input : UnityEngine.MonoBehaviour
             pressPosition = mousePosition
         };
         eventSystemTarget = findEventSystemObject(pointerEventData);
-        monoBehaviourTarget = findMonoBehaviourObject(mousePosition);
+        monoBehaviourTarget = AltUnityMockUpPointerInputModule.FindMonoBehaviourObject(mousePosition);
 
     }
 
