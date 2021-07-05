@@ -50,6 +50,7 @@ namespace Altom.Editor
         private static UnityEngine.Texture2D oddNumberTestTexture;
         private static UnityEngine.Texture2D evenNumberTestTexture;
         private static UnityEngine.Texture2D verticalSplitTexture;
+        private static UnityEngine.Texture2D horizontalSplitTexture;
         public static UnityEngine.Texture2D PortForwardingTexture;
         public static UnityEngine.Texture2D selectedTestsCountTexture;
 
@@ -69,7 +70,6 @@ namespace Altom.Editor
         private bool foldOutBuildSettings = true;
         private bool foldOutLogSettings = true;
         private bool foldOutIosSettings = true;
-        private bool foldOutTestParent = true;
         private bool foldOutAltUnityServerSettings = true;
         private bool foldOutPortForwarding = true;
         public int selectedTestCount = 0;
@@ -264,21 +264,9 @@ namespace Altom.Editor
             {
                 selectedTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? selectedTestColorDark : selectedTestColor);
             }
-            if (evenNumberTestTexture == null)
-            {
-                evenNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? evenNumberTestColorDark : evenNumberTestColor);
-            }
-            if (oddNumberTestTexture == null)
-            {
-                oddNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? oddNumberTestColorDark : oddNumberTestColor);
-            }
             if (PortForwardingTexture == null)
             {
                 PortForwardingTexture = MakeTexture(20, 20, greenColor);
-            }
-            if (verticalSplitTexture == null)
-            {
-                verticalSplitTexture = MakeTexture(20, 100, UnityEditor.EditorGUIUtility.isProSkin ? oddNumberTestColorDark : oddNumberTestColor);
             }
             if (selectedTestsCountTexture == null)
             {
@@ -347,7 +335,11 @@ namespace Altom.Editor
         private void ResizeHorizontalSplitView()
         {
             resizeHandleRectHorizontal = new UnityEngine.Rect(availableRectHorizontal.width * splitNormalizedPositionHorizontal * 2, availableRectHorizontal.y, 2f, availableRectHorizontal.height);
-            UnityEngine.GUI.DrawTexture(resizeHandleRectHorizontal, verticalSplitTexture);
+            if (horizontalSplitTexture == null)
+            {
+                horizontalSplitTexture = MakeTexture(20, 100, UnityEditor.EditorGUIUtility.isProSkin ? oddNumberTestColorDark : oddNumberTestColor);
+            }
+            UnityEngine.GUI.DrawTexture(resizeHandleRectHorizontal, horizontalSplitTexture);
             UnityEditor.EditorGUIUtility.AddCursorRect(resizeHandleRectHorizontal, UnityEditor.MouseCursor.ResizeHorizontal);
             if (UnityEngine.Event.current.type == UnityEngine.EventType.MouseDown && resizeHandleRectHorizontal.Contains(UnityEngine.Event.current.mousePosition))
             {
@@ -366,6 +358,10 @@ namespace Altom.Editor
         {
 
             resizeHandleRect = new UnityEngine.Rect(availableRect.x, availableRect.height * splitNormalizedPosition + 25f, availableRect.width, 2f);
+            if (verticalSplitTexture == null)
+            {
+                verticalSplitTexture = MakeTexture(20, 100, UnityEditor.EditorGUIUtility.isProSkin ? oddNumberTestColorDark : oddNumberTestColor);
+            }
             UnityEngine.GUI.DrawTexture(resizeHandleRect, verticalSplitTexture);
             UnityEditor.EditorGUIUtility.AddCursorRect(resizeHandleRect, UnityEditor.MouseCursor.ResizeVertical);
             if (UnityEngine.Event.current.type == UnityEngine.EventType.MouseDown && resizeHandleRect.Contains(UnityEngine.Event.current.mousePosition))
@@ -992,7 +988,8 @@ namespace Altom.Editor
             {
                 fixedHeight = 15
             };
-            guiStyleTextField.margin = new UnityEngine.RectOffset(4, 2, 4, 2);
+            guiStyleTextField.margin = new UnityEngine.RectOffset(3, 2, 4, 2);
+            guiStyleTextField.padding = new UnityEngine.RectOffset(2, 0, 0, 0);
             EditorConfiguration.BuildLocationPath = UnityEditor.EditorGUILayout.TextField("Build Location", EditorConfiguration.BuildLocationPath, guiStyleTextField);
             UnityEngine.GUI.SetNextControlName("Browse");
             var guiStyleButon = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.button)
@@ -1592,12 +1589,21 @@ namespace Altom.Editor
                     if (testCounter % 2 == 0)
                     {
                         var evenNumberStyle = new UnityEngine.GUIStyle();
+                        if (evenNumberTestTexture == null)
+                        {
+                            evenNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? evenNumberTestColorDark : evenNumberTestColor);
+                        }
                         evenNumberStyle.normal.background = evenNumberTestTexture;
                         UnityEditor.EditorGUILayout.BeginHorizontal(evenNumberStyle);
                     }
                     else
                     {
                         var oddNumberStyle = new UnityEngine.GUIStyle();
+
+                        if (oddNumberTestTexture == null)
+                        {
+                            oddNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? oddNumberTestColorDark : oddNumberTestColor);
+                        }
                         oddNumberStyle.normal.background = oddNumberTestTexture;
                         UnityEditor.EditorGUILayout.BeginHorizontal(oddNumberStyle);
                     }

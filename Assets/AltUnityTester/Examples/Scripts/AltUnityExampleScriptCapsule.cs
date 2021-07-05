@@ -46,8 +46,10 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     }
     public static int PublicStaticVariable = 0;
 
+#pragma warning disable 0414
     private int privateVariable = 0;
     private static int privateStaticVariable = 0;
+#pragma warning restore 0414
 
     protected void Update()
     {
