@@ -207,4 +207,25 @@ public class TestForScene2DraggablePanel
         Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
 
     }
+    [Test]
+    public void TestCreateTouchTwice()
+    {
+        var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        var initialPosition = draggableArea.getScreenPosition();
+        int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+        AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+        altUnityDriver.MoveTouch(fingerId, newPosition);
+        altUnityDriver.EndTouch(fingerId);
+        draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        var secondPosition = draggableArea.getScreenPosition();
+        Assert.AreNotEqual(initialPosition, secondPosition);
+
+        fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+        newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+        altUnityDriver.MoveTouch(fingerId, newPosition);
+        altUnityDriver.EndTouch(fingerId);
+        draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        Assert.AreNotEqual(secondPosition, draggableArea.getScreenPosition());
+
+    }
 }
