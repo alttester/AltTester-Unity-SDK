@@ -1744,9 +1744,13 @@ namespace Altom.Editor
                     }
                     else
                     {
-                        EditorConfiguration.MyTests[i].Selected = test.Selected;
-                        if (!EditorConfiguration.MyTests[i].IsSuite)
-                            setSelectedTestsNumberForParent(EditorConfiguration.MyTests[i], test.Selected);
+                        if (EditorConfiguration.MyTests[i].Selected != test.Selected)
+                        {
+                            EditorConfiguration.MyTests[i].Selected = test.Selected;
+                            if (!EditorConfiguration.MyTests[i].IsSuite)
+                                setSelectedTestsNumberForParent(EditorConfiguration.MyTests[i], test.Selected);
+
+                        }
 
                     }
                 }
@@ -1792,8 +1796,8 @@ namespace Altom.Editor
                         test.TestSelectedCount++;
                     else
                     {
-                        test.TestSelectedCount--;
-
+                        if (test.TestSelectedCount > 0)
+                            test.TestSelectedCount--;
                         test.Selected = false;
                     }
                 }
