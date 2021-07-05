@@ -363,6 +363,16 @@ public class AltUnityDriver {
         pressKeyAndWait(BuildPressKeyParameters(keyCode, power, duration));
     }
 
+    public void KeyDown(AltKeyParameters altKeyParameters)
+    {
+        new AltKeyDown(altBaseSettings, altKeyParameters).Execute();
+    }
+
+    public void KeyUp(AltUnityKeyCode keyCode)
+    {
+        new AltKeyUp(altBaseSettings, keyCode).Execute();
+    }
+
     /**
      * Simulate mouse movement in your game. This command does not wait for the
      * movement to finish.

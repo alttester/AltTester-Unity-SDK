@@ -12,7 +12,7 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             new AltUnityScrollMouse(SocketSettings, speed, duration).Execute();
-            System.Threading.Thread.Sleep((int)duration * 1000);
+            System.Threading.Thread.Sleep((int)(duration * 1000));
             string data;
             do
             {

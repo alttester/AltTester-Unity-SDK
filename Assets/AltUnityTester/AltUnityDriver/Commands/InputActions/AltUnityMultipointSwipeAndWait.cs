@@ -16,7 +16,7 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             new AltUnityMultipointSwipe(SocketSettings, positions, duration).Execute();
-            Thread.Sleep((int)duration * 1000);
+            Thread.Sleep((int)(duration * 1000));
             string data;
             do
             {

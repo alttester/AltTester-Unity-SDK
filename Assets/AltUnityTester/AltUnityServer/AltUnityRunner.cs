@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 using Altom.AltUnityDriver.Logging;
 using Altom.Server.Logging;
 using Assets.AltUnityTester.AltUnityServer;
@@ -418,6 +419,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
                     break;
                 case "setServerLogging":
                     command = new AltUnitySetServerLoggingCommand(parameters);
+                    break;
+                case "keyDown":
+                    command = new AltUnityKeyDownCommand(parameters);
+                    break;
+                case "keyUp":
+                    command = new AltUnityKeyUpCommand(parameters);
                     break;
                 default:
                     command = new AltUnityUnknowStringCommand(parameters);

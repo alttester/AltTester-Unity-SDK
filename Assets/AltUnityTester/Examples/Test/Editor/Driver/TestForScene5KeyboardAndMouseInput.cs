@@ -84,8 +84,6 @@ public class TestForScene5KeyboardAndMouseInput
 
         stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
         Assert.AreEqual(3, stars.Count);
-
-
     }
     [Test]
     public void TestKeyboardPress()
@@ -94,16 +92,37 @@ public class TestForScene5KeyboardAndMouseInput
         var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
         var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
         var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+        var runner = AltUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         foreach (AltUnityKeyCode kcode in Enum.GetValues(typeof(AltUnityKeyCode)))
         {
             if (kcode != AltUnityKeyCode.NoKey)
             {
                 AltUnityDriver.PressKeyAndWait(kcode, duration: 0.2f);
+
                 Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
                 Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
                 Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
             }
         }
+    }
+
+    [Test]
+    public void TestKeyDownAndKeyUp()
+    {
+        AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        AltUnityKeyCode kcode = AltUnityKeyCode.A;
+
+        AltUnityDriver.KeyDown(kcode, 1);
+        var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+        var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+
+        Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
+        Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+
+        AltUnityDriver.KeyUp(kcode);
+        var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+
+        Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
     }
 
     [Test]

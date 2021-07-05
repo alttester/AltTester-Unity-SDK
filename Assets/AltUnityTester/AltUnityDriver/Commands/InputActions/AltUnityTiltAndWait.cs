@@ -14,7 +14,7 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             new AltUnityTilt(SocketSettings, acceleration, duration).Execute();
-            Thread.Sleep((int)duration * 1000);
+            Thread.Sleep((int)(duration * 1000));
             string data;
             do
             {

@@ -692,6 +692,110 @@ Simulates mouse movement in your game. This command will wait for the movement t
 
 ```
 
+#### KeyDown
+
+Simulates that a specific key was pressed without taking into consideration the duration of the press.
+
+**_Parameters_**
+
+| Name     | Type           | Required | Description                                                                               |
+| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
+| keyCode | AltUnityKeyCode| Yes      | The keyCode of the key simulated to be pressed. |
+| power | int          | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestKeyDownAndKeyUp()
+        {
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+
+            AltUnityDriver.KeyDown(kcode, 1);
+            while (lastKeyDown.GetText() == "");
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+
+            AltUnityDriver.KeyUp(kcode, 1);
+            while (lastKeyUp.GetText() == "");
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
+        }
+
+    .. code-tab:: java
+
+        @Test
+        
+
+    .. code-tab:: py
+
+        
+
+```
+
+#### KeyUp
+
+Simulates that a specific key was released.
+
+**_Parameters_**
+
+| Name     | Type           | Required | Description                                                                               |
+| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
+| keyCode | AltUnityKeyCode| Yes      | The keyCode of the key simulated to be released. |
+| power | int          | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestKeyDownAndKeyUp()
+        {
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+
+            AltUnityDriver.KeyDown(kcode, 1);
+            while (lastKeyDown.GetText() == "");
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+
+            AltUnityDriver.KeyUp(kcode, 1);
+            while (lastKeyUp.GetText() == "");
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
+        }
+
+    .. code-tab:: java
+
+        @Test
+        
+
+    .. code-tab:: py
+
+        
+
+```
+
 #### MoveMouse
 
 Simulates mouse movement in your game. This command does not wait for the movement to finish. To also wait for the movement to finish use [MoveMouseAndWait](#movemouseandwait)
