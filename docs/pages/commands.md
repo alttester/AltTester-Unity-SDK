@@ -718,28 +718,64 @@ Simulates that a specific key was pressed without taking into consideration the 
         public void TestKeyDownAndKeyUp()
         {
             AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
-            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
-            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
             AltUnityKeyCode kcode = AltUnityKeyCode.A;
 
             AltUnityDriver.KeyDown(kcode, 1);
-            while (lastKeyDown.GetText() == "");
+            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
 
-            AltUnityDriver.KeyUp(kcode, 1);
-            while (lastKeyUp.GetText() == "");
+            AltUnityDriver.KeyUp(kcode);
+            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
         }
 
     .. code-tab:: java
 
         @Test
-        
+        public void TestKeyDownAndKeyUp() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyDownValue").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyUpValue").build();
+            AltFindObjectsParameters altFindObjectsParameters3 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyPressedValue").build();
+            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+            AltKeyParameters altKeyParams = new AltKeyParameters.Builder(kcode).build();
+
+            altUnityDriver.KeyDown(altKeyParams);
+            Thread.sleep(2000);
+            AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
+            AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
+
+            altUnityDriver.KeyUp(kcode);
+            Thread.sleep(2000);
+            AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
+        }
 
     .. code-tab:: py
 
+        def test_key_down_and_key_up(self):
+            self.altdriver.load_scene('Scene 5 Keyboard Input')
+
+            self.altdriver.key_down(AltUnityKeyCode.A)
+            time.sleep(5)
+            lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
+
+            self.assertEqual("A", lastKeyDown.get_text())
+            self.assertEqual("A", lastKeyPress.get_text())
+
+            self.altdriver.key_up(AltUnityKeyCode.A)
+            time.sleep(5)
+            lastKeyUp = self.altdriver.find_object(By.NAME, 'LastKeyUpValue')
+            self.assertEqual("A", lastKeyUp.get_text())
         
 
 ```
@@ -770,29 +806,64 @@ Simulates that a specific key was released.
         public void TestKeyDownAndKeyUp()
         {
             AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
-            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
-            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
             AltUnityKeyCode kcode = AltUnityKeyCode.A;
 
             AltUnityDriver.KeyDown(kcode, 1);
-            while (lastKeyDown.GetText() == "");
+            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
 
-            AltUnityDriver.KeyUp(kcode, 1);
-            while (lastKeyUp.GetText() == "");
+            AltUnityDriver.KeyUp(kcode);
+            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
         }
 
     .. code-tab:: java
 
         @Test
-        
+        public void TestKeyDownAndKeyUp() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyDownValue").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyUpValue").build();
+            AltFindObjectsParameters altFindObjectsParameters3 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyPressedValue").build();
+            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+            AltKeyParameters altKeyParams = new AltKeyParameters.Builder(kcode).build();
+
+            altUnityDriver.KeyDown(altKeyParams);
+            Thread.sleep(2000);
+            AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
+            AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
+
+            altUnityDriver.KeyUp(kcode);
+            Thread.sleep(2000);
+            AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
+        }
 
     .. code-tab:: py
 
-        
+        def test_key_down_and_key_up(self):
+            self.altdriver.load_scene('Scene 5 Keyboard Input')
+
+            self.altdriver.key_down(AltUnityKeyCode.A)
+            time.sleep(5)
+            lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
+
+            self.assertEqual("A", lastKeyDown.get_text())
+            self.assertEqual("A", lastKeyPress.get_text())
+
+            self.altdriver.key_up(AltUnityKeyCode.A)
+            time.sleep(5)
+            lastKeyUp = self.altdriver.find_object(By.NAME, 'LastKeyUpValue')
+            self.assertEqual("A", lastKeyUp.get_text())
 
 ```
 
