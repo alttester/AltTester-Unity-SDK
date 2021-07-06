@@ -75,7 +75,7 @@ public class Input : UnityEngine.MonoBehaviour
         _useCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta == UnityEngine.Vector2.zero;
     }
 
-#region UnityEngine.Input.AltUnityTester.NotImplemented
+    #region UnityEngine.Input.AltUnityTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -184,10 +184,10 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-#endregion
+    #endregion
 
 
-#region UnityEngine.Input.AltUnityTester
+    #region UnityEngine.Input.AltUnityTester
 
     public static bool anyKey
     {
@@ -607,7 +607,7 @@ public class Input : UnityEngine.MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-#endregion
+    #endregion
 
     private static UnityEngine.Touch createTouch(UnityEngine.Vector3 screenPosition)
     {
@@ -669,6 +669,7 @@ public class Input : UnityEngine.MonoBehaviour
     private static IEnumerator setMouse0KeyCodePressedDown()
     {
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
+        yield return new WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
 
@@ -1148,6 +1149,7 @@ public class Input : UnityEngine.MonoBehaviour
     private static IEnumerator keyDownLifeCycle(KeyCode keyCode, float power)
     {
         var keyStructure = new KeyStructure(keyCode, power);
+        yield return new WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
         yield return null;
