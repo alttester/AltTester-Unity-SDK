@@ -1,3 +1,53 @@
+# Changes in version 1.6.5
+
+## New
+
+-   "Add new input press key command" #454
+-   "Add new input commands: begintouch, touchmove, endtouch" #564
+-   "simplify click & tap commands" #549
+
+## Bug fixes and improvements
+
+-   "Update API Documentation's examples using changed method signature" #552
+-   "Unity 2021 throws warning there are 2 eventSystems in the scene" #559
+-   "PointerEventData.pointerPressRaycast.gameObject missing when doing tap from tests" #503
+-   "Input action and show input are not finished when timescale is 0" #560
+-   "Scroll/ScrollAndWait method not working" #555
+-   "KeyDownLifeCycle does not raise events for Mouse1" #525
+-   "[Unity Editor - AltUnity Tools menu] UI issues in the AltUnity Inspector window" #511
+-   "Add license file to the Unity Asset Store" #568
+-   "Warnings in console after \"Play in Editor\"" #570
+-   "[AUT Editor] Display issues" #565
+-   "Move test list in a separate container" #539
+-   "[Swipe/SwipeAndWait] Object swiped only for value that exits the window border" #556
+-   "Swipe/SwipeAndWait method results into swiping always the same direction" #505
+-   "Make pressKey command in java and python consistent with c#" #508
+-   "update parameter names for python example in portforwarding" #546
+-   "AltUnityMockUpPointerInputModule monobehaviour instantiated with new" #519
+-   "[TesterEditorPage] Test cases are not selected in the test list when selecting test that uses TestCase" #528
+-   "[TesterEditorPage] Test name is not fully displayed when using test case" #529
+-   "Update python example with the latest port forwarding method" #541
+-   "Add CI job for linting python code" #506
+-   "UI issues on dropdowns in Editor" #543
+-   "Display Number of selected tests in AltUnityTesterEditor Test List" #540
+-   "[Editor] Add menu item to add and remove AltId from current loaded scene" #517
+-   "[Editor] Allow only one AltId per object" #518
+-   "[AltUnity Tester Editor] Misalignment of some UI elements" #548
+-   "Issue with Button.ClickEvent()" #163
+-   "Screenshot aspect ratio is not respected when entering larger size than the screenshot itself" #536
+-   "Check for an existing Assets/Resources directory before creating, to prevent creating an 'Assets/Resources 1' duplicate path." !424
+-   "Resolve deprecation warning on UnityWebRequest.isNetworkError, which was introduced in Unity 2020.2." !423
+
+## Contributors
+
+-   Dorin Oltean @dorinaltom
+-   Gombos Kriszta @GombosKriszta
+-   Andra Cardas @andra.cardas
+-   Robert Dezmerean @robert-dezmerean
+-   Iuliana Todoran @iuliana.todoran
+-   Robert Poienar @robert_poienar
+-   Frank Hickman @fhickman
+
 # Changes in version 1.6.4
 
 ## Bug fixes and improvements
