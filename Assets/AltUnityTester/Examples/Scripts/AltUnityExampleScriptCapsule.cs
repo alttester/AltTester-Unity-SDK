@@ -14,6 +14,8 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     private bool testProperty;
     private int mouseOverCounter = 0;
     public static AltUnitySampleClass StaticSampleClass = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
+
+    public TouchPhase TouchPhase = TouchPhase.Canceled;
     protected void Awake()
     {
         AltUnitySampleClass1 = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
@@ -54,6 +56,10 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     protected void Update()
     {
         transform.Rotate(Input.acceleration);
+        if (Input.touchCount > 0)
+        {
+            TouchPhase = Input.GetTouch(0).phase;
+        }
     }
     protected void OnMouseDown()
     {

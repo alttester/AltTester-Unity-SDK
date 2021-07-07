@@ -92,6 +92,7 @@ public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerDown
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        eventDataPressRaycastObject = eventData.pointerPressRaycast.gameObject.name;
+        if (eventData.pointerPressRaycast.gameObject != null)
+            eventDataPressRaycastObject = eventData.pointerPressRaycast.gameObject.name;
     }
 }

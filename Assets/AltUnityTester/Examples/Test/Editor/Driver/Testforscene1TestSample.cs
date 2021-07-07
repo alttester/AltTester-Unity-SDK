@@ -829,7 +829,7 @@ public class TestForScene1TestSample
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
-        Assert.AreEqual(12, fields.Count);
+        Assert.AreEqual(13, fields.Count);
     }
 
     [Test]
@@ -854,7 +854,7 @@ public class TestForScene1TestSample
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
-        Assert.AreEqual(13, fields.Count);
+        Assert.AreEqual(14, fields.Count);
     }
 
     [Test]
@@ -1888,6 +1888,20 @@ public class TestForScene1TestSample
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalCapsulePosition = capsule.getWorldPosition();
         Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
+    }
+    [Test]
+    public void TestTouchAreUpdatedWhenMoved()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var id = altUnityDriver.BeginTouch(capsule.getScreenPosition());
+        var phase = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "TouchPhase");
+        Assert.AreEqual("0", phase);
+        altUnityDriver.MoveTouch(id, capsule.getScreenPosition());
+        phase = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "TouchPhase");
+        Assert.AreEqual("1", phase);
+        altUnityDriver.EndTouch(id);
+
+
     }
 
 }
