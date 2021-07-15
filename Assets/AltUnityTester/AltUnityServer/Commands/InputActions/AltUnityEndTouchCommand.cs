@@ -1,21 +1,22 @@
-using Assets.AltUnityTester.AltUnityServer.Commands;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public class AltUnityEndTouchCommand : AltUnityCommand
+    public class AltUnityEndTouchCommand : AltUnityCommand<AltUnityEndTouchParams, string>
     {
         int fingerId;
-        public AltUnityEndTouchCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnityEndTouchCommand(AltUnityEndTouchParams cmdParams) : base(cmdParams)
         {
-            if (!int.TryParse(parameters[2], out fingerId)) { fingerId = 0; }
         }
         public override string Execute()
         {
+
 #if ALTUNITYTESTER
-            Input.EndTouch(fingerId);
+            Input.EndTouch(CommandParams.fingerId);
             return "Ok";
 #else
-            return AltUnityErrors.errorInputModule;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
     }

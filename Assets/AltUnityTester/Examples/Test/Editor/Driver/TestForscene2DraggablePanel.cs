@@ -91,8 +91,7 @@ public class TestForScene2DraggablePanel
     [Test]
     public void TestGetAllEnabledElements()
     {
-
-        Thread.Sleep(2000);
+        altUnityDriver.WaitForObject(By.NAME, "EventSystem", timeout: 2);
 
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);
@@ -124,7 +123,7 @@ public class TestForScene2DraggablePanel
     [Test]
     public void TestGetAllElements()
     {
-        Thread.Sleep(2000);
+        altUnityDriver.WaitForObject(By.NAME, "EventSystem", timeout: 2);
 
         var altElements = altUnityDriver.GetAllElements(enabled: false);
         Assert.IsNotEmpty(altElements);
@@ -134,11 +133,8 @@ public class TestForScene2DraggablePanel
         {
             listOfElements += element.name + "; ";
         }
+        Assert.AreEqual(19, altElements.FindIndex(e => e.name == "AltUnityRunnerPrefab"));
 
-        Debug.WriteLine(listOfElements);
-
-
-        Assert.AreEqual(29, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Panel Drag Area"));
@@ -190,9 +186,10 @@ public class TestForScene2DraggablePanel
     public void TestGetAllScenesAndElements()
     {
         var altElements = altUnityDriver.GetAllLoadedScenesAndObjects();
-        Assert.AreEqual(26, altElements.Count);
+
+        Assert.AreEqual(20, altElements.FindIndex(e => e.name == "DontDestroyOnLoad"));
         altElements = altUnityDriver.GetAllLoadedScenesAndObjects(false);
-        Assert.AreEqual(31, altElements.Count);
+        Assert.AreEqual(20, altElements.FindIndex(e => e.name == "DontDestroyOnLoad"));
     }
     [Test]
     public void TestNewTouchCommands()

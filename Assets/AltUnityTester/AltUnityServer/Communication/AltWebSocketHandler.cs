@@ -15,7 +15,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
     public class AltWebSocketHandler : WebSocketBehavior, ICommandHandler
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
-        public static int MaxLengthLogMsg = 100;
 
         public AltWebSocketHandler()
         {
@@ -92,6 +91,48 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             if (cmdParams is AltUnityTapObjectParams)
             {
                 return new AltUnityTapCommand(cmdParams as AltUnityTapObjectParams).ExecuteAndSerialize;
+            }
+
+            if (cmdParams is AltUnityTapElementParams)
+            {
+                return new AltUnityTapElementCommand(this, cmdParams as AltUnityTapElementParams).ExecuteAndSerialize;
+            }
+
+            if (cmdParams is AltUnityClickElementParams)
+            {
+                return new AltUnityClickElementCommand(this, cmdParams as AltUnityClickElementParams).ExecuteAndSerialize;
+            }
+
+            if (cmdParams is AltUnityTapCoordinatesParams)
+            {
+                return new AltUnityTapCoordinatesCommand(this, cmdParams as AltUnityTapCoordinatesParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltUnityClickCoordinatesParams)
+            {
+                return new AltUnityClickCoordinatesCommand(this, cmdParams as AltUnityClickCoordinatesParams).ExecuteAndSerialize;
+            }
+
+            if (cmdParams is AltUnityKeyDownParams)
+            {
+                return new AltUnityKeyDownCommand(cmdParams as AltUnityKeyDownParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltUnityKeyUpParams)
+            {
+                return new AltUnityKeyUpCommand(cmdParams as AltUnityKeyUpParams).ExecuteAndSerialize;
+            }
+
+            if (cmdParams is AltUnityBeginTouchParams)
+            {
+                return new AltUnityBeginTouchCommand(cmdParams as AltUnityBeginTouchParams).ExecuteAndSerialize;
+            }
+
+            if (cmdParams is AltUnityMoveTouchParams)
+            {
+                return new AltUnityMoveTouchCommand(cmdParams as AltUnityMoveTouchParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltUnityEndTouchParams)
+            {
+                return new AltUnityEndTouchCommand(cmdParams as AltUnityEndTouchParams).ExecuteAndSerialize;
             }
 
             if (cmdParams is AltUnityGetCurrentSceneParams)

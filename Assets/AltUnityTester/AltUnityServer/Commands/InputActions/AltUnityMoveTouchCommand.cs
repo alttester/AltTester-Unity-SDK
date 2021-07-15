@@ -1,24 +1,21 @@
-using Assets.AltUnityTester.AltUnityServer.Commands;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public class AltUnityMoveTouchCommand : AltUnityCommand
+    public class AltUnityMoveTouchCommand : AltUnityCommand<AltUnityMoveTouchParams, string>
     {
-        UnityEngine.Vector2 position;
-        int fingerId;
-        public AltUnityMoveTouchCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnityMoveTouchCommand(AltUnityMoveTouchParams cmdParams) : base(cmdParams)
         {
-            if (!int.TryParse(parameters[2], out fingerId)) { fingerId = 0; }
-            this.position = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[3]);
+
         }
         public override string Execute()
         {
 #if ALTUNITYTESTER
-            Input.MoveTouch(fingerId, position);
+            Input.MoveTouch(CommandParams.fingerId, CommandParams.coordinates.ToUnity());
             return "Ok";
 #else
-            return AltUnityErrors.errorInputModule;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
     }

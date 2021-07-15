@@ -1,44 +1,37 @@
 using Altom.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
+using Assets.AltUnityTester.AltUnityServer.Communication;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityClickElementCommand : AltUnityCommand
+    class AltUnityClickElementCommand : AltUnityCommand<AltUnityClickElementParams, AltUnityObject>
     {
-        private readonly AltClientSocketHandler handler;
-        readonly AltUnityObject altUnityObject;
-        readonly int count;
-        readonly float interval;
-        private readonly bool wait;
+        private readonly ICommandHandler handler;
 
-        public AltUnityClickElementCommand(AltClientSocketHandler handler, params string[] parameters) : base(parameters, 6)
+        public AltUnityClickElementCommand(ICommandHandler handler, AltUnityClickElementParams cmdParams) : base(cmdParams)
         {
             this.handler = handler;
-            this.altUnityObject = JsonConvert.DeserializeObject<AltUnityObject>(parameters[2]);
-            if (!int.TryParse(parameters[3], out count)) { count = 1; }
-            if (!float.TryParse(parameters[4], out interval)) { interval = 0.1f; }
-            this.wait = bool.Parse(parameters[5]);
         }
 
-        public override string Execute()
+        public override AltUnityObject Execute()
         {
+            UnityEngine.Debug.Log(CommandParams);
 
 #if ALTUNITYTESTER
-            AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(altUnityObject.getScreenPosition().x, altUnityObject.getScreenPosition().y));
-            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altUnityObject);
+            AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(CommandParams.altUnityObject.getScreenPosition().x, CommandParams.altUnityObject.getScreenPosition().y));
+            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);
 
-            Input.ClickElement(gameObject, count, interval, onFinish);
+            Input.ClickElement(gameObject, CommandParams.count, CommandParams.interval, onFinish);
 
-            return JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject));
+            return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject);
 #else
-            return AltUnityErrors.errorInputModule;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
         private void onFinish(UnityEngine.GameObject gameObject)
         {
-            if (this.wait)
-                handler.SendResponse(this.MessageId, this.CommandName, "Finished", string.Empty);
+            if (CommandParams.wait)
+                handler.Send(ExecuteAndSerialize(() => "Finished"));
         }
     }
 }

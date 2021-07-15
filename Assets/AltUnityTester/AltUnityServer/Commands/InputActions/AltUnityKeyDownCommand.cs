@@ -1,33 +1,25 @@
-using System;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 using UnityEngine;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityKeyDownCommand : AltUnityCommand
+    class AltUnityKeyDownCommand : AltUnityCommand<AltUnityKeyDownParams, string>
     {
-#if ALTUNITYTESTER
-        readonly KeyCode keyCode;
-        readonly float power;
-#endif      
-
-        public AltUnityKeyDownCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnityKeyDownCommand(AltUnityKeyDownParams cmdParams) : base(cmdParams)
         {
-#if ALTUNITYTESTER
-            keyCode = (KeyCode)Enum.Parse(typeof(KeyCode), parameters[2]);
 
-            this.power = JsonConvert.DeserializeObject<float>(parameters[3]);
-#endif
         }
 
         public override string Execute()
         {
+
 #if ALTUNITYTESTER
-            var powerClamped = Mathf.Clamp01(power);
-            Input.KeyDown(keyCode, power);
+            var powerClamped = Mathf.Clamp01(CommandParams.power);
+            Input.KeyDown((UnityEngine.KeyCode)CommandParams.keyCode, powerClamped);
             return "Ok";
 #else
-            return AltUnityErrors.errorInputModule;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
     }

@@ -611,4 +611,120 @@ namespace Altom.AltUnityDriver.Commands
             this.logLevel = logLevel;
         }
     }
+
+    [Command("tapElement")]
+    public class AltUnityTapElementParams : BaseAltUnityObjectParams
+    {
+        public int count;
+        public float interval;
+        public bool wait;
+        public AltUnityTapElementParams(AltUnityObject altUnityObject, int count, float interval, bool wait) : base(altUnityObject)
+        {
+            this.count = count;
+            this.interval = interval;
+            this.wait = wait;
+        }
+    }
+
+    [Command("clickElement")]
+    public class AltUnityClickElementParams : BaseAltUnityObjectParams
+    {
+        public int count;
+        public float interval;
+        public bool wait;
+        public AltUnityClickElementParams(AltUnityObject altUnityObject, int count, float interval, bool wait) : base(altUnityObject)
+        {
+            this.count = count;
+            this.interval = interval;
+            this.wait = wait;
+        }
+    }
+
+    [Command("clickCoordinates")]
+    public class AltUnityClickCoordinatesParams : CommandParams
+    {
+        public AltUnityVector2 coordinates;
+        public int count;
+        public float interval;
+        public bool wait;
+        public AltUnityClickCoordinatesParams(AltUnityVector2 coordinates, int count, float interval, bool wait)
+        {
+            this.coordinates = coordinates;
+            this.count = count;
+            this.interval = interval;
+            this.wait = wait;
+        }
+    }
+    [Command("tapCoordinates")]
+    public class AltUnityTapCoordinatesParams : CommandParams
+    {
+        public AltUnityVector2 coordinates;
+        public int count;
+        public float interval;
+        public bool wait;
+        public AltUnityTapCoordinatesParams(AltUnityVector2 coordinates, int count, float interval, bool wait)
+        {
+            this.coordinates = coordinates;
+            this.count = count;
+            this.interval = interval;
+            this.wait = wait;
+        }
+    }
+
+    [Command("keyUp")]
+    public class AltUnityKeyUpParams : CommandParams
+    {
+        public AltUnityKeyCode keyCode;
+
+        public AltUnityKeyUpParams(AltUnityKeyCode keyCode)
+        {
+            this.keyCode = keyCode;
+        }
+    }
+
+
+    [Command("keyDown")]
+    public class AltUnityKeyDownParams : CommandParams
+    {
+        public AltUnityKeyCode keyCode;
+        public float power;
+
+        public AltUnityKeyDownParams(AltUnityKeyCode keyCode, float power)
+        {
+            this.keyCode = keyCode;
+            this.power = power;
+        }
+    }
+
+    [Command("beginTouch")]
+    public class AltUnityBeginTouchParams : CommandParams
+    {
+        public AltUnityVector2 coordinates;
+        public AltUnityBeginTouchParams(AltUnityVector2 coordinates)
+        {
+            this.coordinates = coordinates;
+        }
+    }
+
+    [Command("moveTouch")]
+    public class AltUnityMoveTouchParams : CommandParams
+    {
+        public int fingerId;
+        public AltUnityVector2 coordinates;
+        public AltUnityMoveTouchParams(int fingerId, AltUnityVector2 coordinates)
+        {
+            this.coordinates = coordinates;
+            this.fingerId = fingerId;
+        }
+    }
+
+    [Command("endTouch")]
+    public class AltUnityEndTouchParams : CommandParams
+    {
+        public int fingerId;
+        public AltUnityEndTouchParams(int fingerId)
+        {
+            this.fingerId = fingerId;
+        }
+    }
 }

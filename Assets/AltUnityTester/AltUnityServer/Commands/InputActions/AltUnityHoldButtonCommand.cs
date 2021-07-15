@@ -1,4 +1,5 @@
-﻿using Altom.AltUnityDriver.Commands;
+﻿using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 using UnityEngine;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands

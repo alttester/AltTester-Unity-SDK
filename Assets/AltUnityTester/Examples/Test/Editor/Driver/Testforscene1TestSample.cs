@@ -1753,8 +1753,6 @@ public class TestForScene1TestSample
         Assert.AreEqual("Test", data);
     }
 
-
-
     [Test]
     [Obsolete]
     public void TestCallMethodInsideAListOfSubObject_Obsolete()
