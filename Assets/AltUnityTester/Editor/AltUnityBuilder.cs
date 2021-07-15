@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Altom.Editor.Logging;
-using Assets.AltUnityTester.AltUnityServer.Communication;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -43,7 +42,7 @@ namespace Altom.Editor
             AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
             if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
                 CreateJsonFileForInputMappingOfAxis();
-            AltWebSocketHandler.MaxLengthLogMsg = string.IsNullOrEmpty(AltUnityTesterEditor.EditorConfiguration.MaxLogLength) ? 0 : int.Parse(AltUnityTesterEditor.EditorConfiguration.MaxLogLength);
+
         }
 
         public static void BuildAndroidFromUI(bool autoRun = false)
@@ -194,9 +193,7 @@ namespace Altom.Editor
             }
             else
             {
-                component.ShowInputs = AltUnityTesterEditor.EditorConfiguration.InputVisualizer;
-                component.showPopUp = AltUnityTesterEditor.EditorConfiguration.ShowPopUp;
-                component.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.ServerPort;
+                initSetings(component);
             }
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
@@ -222,11 +219,9 @@ namespace Altom.Editor
 
             AltUnityRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altUnityRunner);
             AltUnityRunner altUnityRunnerComponent = ((UnityEngine.GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
-            altUnityRunnerComponent.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.ServerPort;
-            altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.RequestEnding;
-            altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.RequestSeparator;
-            altUnityRunnerComponent.ShowInputs = AltUnityTesterEditor.EditorConfiguration.InputVisualizer;
-            altUnityRunnerComponent.showPopUp = AltUnityTesterEditor.EditorConfiguration.ShowPopUp;
+            initSetings(altUnityRunnerComponent);
+
+
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
 
@@ -282,6 +277,16 @@ namespace Altom.Editor
 
         }
 #endif
+
+        private static void initSetings(AltUnityRunner altUnityRunnerComponent)
+        {
+            altUnityRunnerComponent.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.ServerPort;
+            altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.RequestEnding;
+            altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.RequestSeparator;
+            altUnityRunnerComponent.ShowInputs = AltUnityTesterEditor.EditorConfiguration.InputVisualizer;
+            altUnityRunnerComponent.showPopUp = AltUnityTesterEditor.EditorConfiguration.ShowPopUp;
+            altUnityRunnerComponent.MaxLogLength = string.IsNullOrEmpty(AltUnityTesterEditor.EditorConfiguration.MaxLogLength) ? 0 : int.Parse(AltUnityTesterEditor.EditorConfiguration.MaxLogLength);
+        }
 
         private static string getOutputPath(UnityEditor.BuildTarget target)
         {

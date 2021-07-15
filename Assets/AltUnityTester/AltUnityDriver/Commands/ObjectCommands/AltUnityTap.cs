@@ -1,5 +1,6 @@
 namespace Altom.AltUnityDriver.Commands
 {
+    //keeping this for backwards compatibility
     public class AltUnityTap : AltUnityCommandReturningAltElement
     {
         AltUnityTapObjectParams cmdParams;

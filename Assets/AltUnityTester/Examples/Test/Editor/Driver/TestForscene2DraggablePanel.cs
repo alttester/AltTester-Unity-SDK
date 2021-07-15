@@ -81,10 +81,10 @@ public class TestForScene2DraggablePanel
         altUnityDriver.WaitForObject(By.NAME, "Panel Drag Area", timeout: 2);
         Assert.IsTrue(altUnityDriver.FindObject(By.NAME, "Panel").enabled);
         var altElement = altUnityDriver.FindObject(By.NAME, "Close Button");
-        altElement.ClickEvent();
+        altElement.Click();
 
         altElement = altUnityDriver.FindObject(By.NAME, "Button");
-        altElement.ClickEvent();
+        altElement.Click();
         Assert.IsTrue(altUnityDriver.FindObject(By.NAME, "Panel").enabled);
     }
 
@@ -193,5 +193,39 @@ public class TestForScene2DraggablePanel
         Assert.AreEqual(26, altElements.Count);
         altElements = altUnityDriver.GetAllLoadedScenesAndObjects(false);
         Assert.AreEqual(31, altElements.Count);
+    }
+    [Test]
+    public void TestNewTouchCommands()
+    {
+        var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        var initialPosition = draggableArea.getScreenPosition();
+        int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+        AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+        altUnityDriver.MoveTouch(fingerId, newPosition);
+        altUnityDriver.EndTouch(fingerId);
+        draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+
+    }
+    [Test]
+    public void TestCreateTouchTwice()
+    {
+        var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        var initialPosition = draggableArea.getScreenPosition();
+        int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+        AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+        altUnityDriver.MoveTouch(fingerId, newPosition);
+        altUnityDriver.EndTouch(fingerId);
+        draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        var secondPosition = draggableArea.getScreenPosition();
+        Assert.AreNotEqual(initialPosition, secondPosition);
+
+        fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+        newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+        altUnityDriver.MoveTouch(fingerId, newPosition);
+        altUnityDriver.EndTouch(fingerId);
+        draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+        Assert.AreNotEqual(secondPosition, draggableArea.getScreenPosition());
+
     }
 }

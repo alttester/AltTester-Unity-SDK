@@ -12,6 +12,7 @@ EPOCH = datetime.utcfromtimestamp(0)
 
 
 class BaseCommand(object):
+    _remaining = ""
 
     def __init__(self, socket, request_separator=';', request_end='&'):
         self.request_separator = request_separator
@@ -21,25 +22,36 @@ class BaseCommand(object):
 
     def recvall(self):
         data = ''
-        previousPart = ''
-        receive_zero_bytes_counter = 0
-        receive_zero_bytes_counter_limit = 2
-        while True:
-            part = self.socket.recv(BUFFER_SIZE)
 
-            if not part:  # If received message is empty
-                if receive_zero_bytes_counter < receive_zero_bytes_counter_limit:
-                    receive_zero_bytes_counter += 1
-                    continue
-                else:
-                    raise Exception('Server is not yet reachable')
-            data += str(part.decode('utf-8'))
-            partToSeeAltEnd = previousPart + str(part.decode('utf-8'))
-            if '::altend' in partToSeeAltEnd:
-                break
-            previousPart = str(part.decode('utf-8'))
+        if self._remaining.find("::altend") >= 0:
+            data = self._remaining
+        else:
+            previousPart = self._remaining
+            receive_zero_bytes_counter = 0
+            receive_zero_bytes_counter_limit = 2
+            while True:
+                part = self.socket.recv(BUFFER_SIZE)
+
+                if not part:  # If received message is empty
+                    if receive_zero_bytes_counter < receive_zero_bytes_counter_limit:
+                        receive_zero_bytes_counter += 1
+                        continue
+                    else:
+                        raise Exception('Server is not yet reachable')
+                decodedPart = str(part.decode('utf-8'))
+                data += decodedPart
+                partToSeeAltEnd = previousPart + decodedPart
+                if '::altend' in partToSeeAltEnd:
+                    break
+                previousPart = decodedPart
 
         logger.trace(data)
+
+        self._remaining = ""
+        index = data.find("::altendaltstart::")
+        if index >= 0:
+            self._remaining = data[index+8:]
+            data = data[:index+8]
 
         parts = re.split("altstart::|::response::|::altLog::|::altend", data)
 

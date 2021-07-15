@@ -1,9 +1,10 @@
 
+using System.Linq;
 using UnityEngine.EventSystems;
 
 public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 {
-    public UnityEngine.GameObject gameObjectHit;
+    public UnityEngine.GameObject GameObjectHit;
     public PointerEventData ExecuteTouchEvent(UnityEngine.Touch touch, PointerEventData previousData = null)
     {
         if (EventSystem.current != null)
@@ -19,16 +20,21 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                             delta = touch.deltaPosition,
                             button = PointerEventData.InputButton.Left,
                             pointerId = touch.fingerId,
-                            eligibleForClick = true
+                            eligibleForClick = true,
+                            pressPosition = touch.position
                         };
 
-                    gameObjectHit = GetGameObjectHit(touch);
+                    GameObjectHit = getGameObjectHit(touch);
                     GetFirstRaycastResult(pointerEventData, out raycastResult);
                     pointerEventData.pointerCurrentRaycast = raycastResult;
+                    pointerEventData.pointerPressRaycast = pointerEventData.pointerCurrentRaycast;
                     pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerEnterHandler);
+                    var monoBehaviourTarget = FindMonoBehaviourObject(pointerEventData.position);
+                    if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                     pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerDownHandler);
+                    if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
                     if (pointerEventData.pointerPress == null)
                     {
@@ -51,21 +57,22 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                                 ExecuteEvents.dragHandler);
                             previousData.dragging = true;
                         }
-                        gameObjectHit = GetGameObjectHit(touch);
+                        GameObjectHit = getGameObjectHit(touch);
 
                         GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
                         previousData.delta = touch.deltaPosition;
                         previousData.position = touch.position;
-                        GetFirstRaycastResult(previousData, out raycastResult);
-                        previousData.pointerCurrentRaycast = raycastResult;
+
 
                         if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
                         {
+                            if (previousData.pointerEnter != null) previousData.pointerEnter.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
                             ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
                                 ExecuteEvents.pointerExitHandler);
                             ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                                 ExecuteEvents.pointerEnterHandler);
+                            if (previousData.pointerCurrentRaycast.gameObject != null) previousData.pointerCurrentRaycast.gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                             previousData.pointerEnter = previousData.pointerCurrentRaycast.gameObject;
                         }
 
@@ -82,7 +89,7 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                 case UnityEngine.TouchPhase.Ended:
                     if (previousData != null)
                     {
-                        gameObjectHit = GetGameObjectHit(touch);
+                        GameObjectHit = getGameObjectHit(touch);
                         GetFirstRaycastResult(previousData, out raycastResult);
                         previousData.pointerCurrentRaycast = raycastResult;
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
@@ -96,6 +103,11 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                                   ExecuteEvents.pointerClickHandler);
                             previousData.eligibleForClick = false;
                         }
+                        if (previousData.pointerPress != null)
+                        {
+                            previousData.pointerPress.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                            previousData.pointerPress.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                        }
 
                         if (previousData.pointerDrag != null)
                         {
@@ -108,13 +120,17 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                             ExecuteEvents.pointerExitHandler);
+                        if (previousData.pointerCurrentRaycast.gameObject != null)
+                        {
+                            previousData.pointerCurrentRaycast.gameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
+                        }
                         return previousData;
                     }
                     break;
             }
 
             return previousData;
-
         }
 
         return null;
@@ -139,19 +155,75 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
         }
     }
 
-    private UnityEngine.GameObject GetGameObjectHit(UnityEngine.Touch touch)
+    private UnityEngine.GameObject getGameObjectHit(UnityEngine.Touch touch)
     {
-        UnityEngine.RaycastHit hit;
 
         foreach (var camera in UnityEngine.Camera.allCameras)
         {
             UnityEngine.Ray ray = camera.ScreenPointToRay(touch.position);
+            UnityEngine.RaycastHit hit;
             if (UnityEngine.Physics.Raycast(ray, out hit))
             {
                 return hit.transform.gameObject;
             }
         }
         return null;
+    }
+
+    public UnityEngine.GameObject GetGameObjectHitMonoBehaviour(UnityEngine.Vector2 coordinates)
+    {
+        foreach (var camera in UnityEngine.Camera.allCameras.OrderByDescending(c => c.depth))
+        {
+            UnityEngine.RaycastHit hit;
+            UnityEngine.Ray ray = camera.ScreenPointToRay(coordinates);
+            UnityEngine.GameObject gameObject3d = null;
+            UnityEngine.GameObject gameObject2d = null;
+            UnityEngine.Vector3 hitPosition3d = UnityEngine.Vector3.zero;
+            UnityEngine.Vector3 hitPosition2d = UnityEngine.Vector3.zero;
+            if (UnityEngine.Physics.Raycast(ray, out hit))
+            {
+                hitPosition3d = hit.point;
+                gameObject3d = hit.transform.gameObject;
+            }
+            UnityEngine.RaycastHit2D hit2d;
+            if (hit2d = UnityEngine.Physics2D.Raycast(coordinates, UnityEngine.Vector2.zero))
+            {
+                hitPosition2d = hit2d.point;
+                gameObject2d = hit2d.transform.gameObject;
+            }
+
+
+            if (gameObject2d != null && gameObject3d != null)
+            {
+                if (UnityEngine.Vector3.Distance(camera.transform.position, hitPosition2d) < UnityEngine.Vector3.Distance(camera.transform.position, hitPosition3d))
+                    return gameObject2d;
+                else
+                    return gameObject3d;
+            }
+            if (gameObject2d != null) return gameObject2d;
+            if (gameObject3d != null) return gameObject3d;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Finds element(s) at given coordinates for which we raise MonoBehaviour input events
+    /// </summary>
+    /// <param name="coordinates"></param>
+    /// <returns>the found gameObject</returns>
+    public UnityEngine.GameObject FindMonoBehaviourObject(UnityEngine.Vector2 coordinates)
+    {
+        var target = GetGameObjectHitMonoBehaviour(coordinates);
+        if (target == null)
+            return null;
+
+        var rigidBody = target.GetComponentInParent<UnityEngine.Rigidbody>();
+        if (rigidBody != null)
+            return rigidBody.gameObject;
+        var rigidBody2D = target.GetComponentInParent<UnityEngine.Rigidbody2D>();
+        if (rigidBody2D != null)
+            return rigidBody2D.gameObject;
+        return target;
     }
 }
 

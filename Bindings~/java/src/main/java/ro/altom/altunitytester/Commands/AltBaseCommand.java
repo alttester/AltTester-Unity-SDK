@@ -15,6 +15,7 @@ public class AltBaseCommand {
 
     private final static int BUFFER_SIZE = 1024;
     private String messageId;
+    private String remaining = "";
     public AltBaseSettings altBaseSettings;
 
     public AltBaseCommand(AltBaseSettings altBaseSettings) {
@@ -23,33 +24,49 @@ public class AltBaseCommand {
 
     protected String recvall() {
         String receivedData = "";
-        boolean streamIsFinished = false;
-        int receivedZeroBytesCounter = 0;
-        int receivedZeroBytesCounterLimit = 2;
-        while (!streamIsFinished) {
-            byte[] messageByte = new byte[BUFFER_SIZE];
-            int bytesRead = 0;
-            try {
-                bytesRead = altBaseSettings.in.read(messageByte);
-            } catch (IOException e) {
-                throw new ConnectionException(e);
-            }
-            if (bytesRead > 0)
-                receivedData += new String(messageByte, 0, bytesRead, StandardCharsets.UTF_8);
-            else {
-                if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit) {
-                    receivedZeroBytesCounter++;
-                    continue;
-                } else {
-                    throw new ConnectionException(new Throwable("Received empty response"));
+
+        if ( remaining.indexOf("::altend") >=0 )
+        {
+            receivedData = remaining;
+        }
+        else 
+        {
+            boolean streamIsFinished = false;
+            int receivedZeroBytesCounter = 0;
+            int receivedZeroBytesCounterLimit = 2;
+            while (!streamIsFinished) {
+                byte[] messageByte = new byte[BUFFER_SIZE];
+                int bytesRead = 0;
+                try {
+                    bytesRead = altBaseSettings.in.read(messageByte);
+                } catch (IOException e) {
+                    throw new ConnectionException(e);
                 }
-            }
-            if (receivedData.contains("::altend")) {
-                streamIsFinished = true;
+                if (bytesRead > 0)
+                    receivedData += new String(messageByte, 0, bytesRead, StandardCharsets.UTF_8);
+                else {
+                    if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit) {
+                        receivedZeroBytesCounter++;
+                        continue;
+                    } else {
+                        throw new ConnectionException(new Throwable("Received empty response"));
+                    }
+                }
+                if (receivedData.contains("::altend")) {
+                    streamIsFinished = true;
+                }
             }
         }
 
         logger.trace(receivedData);
+
+        remaining = "";
+        int index= receivedData.indexOf("::altendaltstart::");
+        if ( index >= 0)
+        {
+            remaining = receivedData.substring(index+8);
+            receivedData = receivedData.substring(0, index+8);
+        }
 
         String[] parts = receivedData.split("altstart::|::response::|::altLog::|::altend", -1);// -1 limit to include
                                                                                                // Trailing empty strings
@@ -157,15 +174,14 @@ public class AltBaseCommand {
         } else if ("error:ALTUNITYTESTERNotAddedAsDefineVariable".equals(typeOfException)) {
             throw new AltUnityInputModuleException(data);
         }
-
     }
 
-    public String vectorToJsonString(int x, int y) {
-        return "{\"x\":" + x + ", \"y\":" + y + "}";
+    public String vectorToJsonString(float x, float y) {
+        return "{\"x\":" + String.valueOf(x) + ", \"y\":" + String.valueOf(y) + "}";
     }
 
-    public String vectorToJsonString(int x, int y, int z) {
-        return "{\"x\":" + x + ", \"y\":" + y + ", \"z\":" + z + "}";
+    public String vectorToJsonString(float x, float y, float z) {
+        return "{\"x\":" + String.valueOf(x) + ", \"y\":" + String.valueOf(y) + ", \"z\":" + String.valueOf(z) + "}";
     }
 
     /**

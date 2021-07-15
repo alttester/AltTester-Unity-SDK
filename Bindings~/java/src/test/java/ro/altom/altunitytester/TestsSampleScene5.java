@@ -8,6 +8,7 @@ import org.junit.Test;
 import ro.altom.altunitytester.position.Vector3;
 import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltKeyParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
@@ -161,6 +162,30 @@ public class TestsSampleScene5 {
         player2 = altUnityDriver.findObject(altFindObjectsParameters);
         Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
         assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+    }
+
+    @Test
+    public void TestKeyDownAndKeyUp() throws Exception {
+        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "LastKeyDownValue").build();
+        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "LastKeyUpValue").build();
+        AltFindObjectsParameters altFindObjectsParameters3 = new AltFindObjectsParameters.Builder(
+                AltUnityDriver.By.NAME, "LastKeyPressedValue").build();
+        AltUnityKeyCode kcode = AltUnityKeyCode.A;
+        AltKeyParameters altKeyParams = new AltKeyParameters.Builder(kcode).build();
+
+        altUnityDriver.KeyDown(altKeyParams);
+        Thread.sleep(2000);
+        AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
+        AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
+        assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
+        assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
+
+        altUnityDriver.KeyUp(kcode);
+        Thread.sleep(2000);
+        AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
+        assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
     }
 
 }

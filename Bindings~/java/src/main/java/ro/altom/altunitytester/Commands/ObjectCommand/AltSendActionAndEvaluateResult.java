@@ -10,32 +10,31 @@ public class AltSendActionAndEvaluateResult extends AltBaseCommand {
      * @param command The action command
      */
     private String command;
-    private String parameter;
+    private String[] parameters;
     /**
      * @param altUnityObject The game object
      */
     private AltUnityObject altUnityObject;
 
     public AltSendActionAndEvaluateResult(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject,
-            String command) {
-        this(altBaseSettings, altUnityObject, command, null);
-    }
-
-    public AltSendActionAndEvaluateResult(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject,
-            String command, String parameter) {
-        super(altBaseSettings);
+            String command, String... parameters) {
+                super(altBaseSettings);
         this.altUnityObject = altUnityObject;
         this.command = command;
-        this.parameter = parameter;
+        this.parameters = parameters;
     }
 
     public AltUnityObject Execute() {
         String altObject = new Gson().toJson(altUnityObject);
-        if (parameter == null) {
-            SendCommand(command, altObject);
-        } else {
-            SendCommand(command, altObject, parameter);
+        
+        String[] args=  new String[parameters.length+2];
+        args[0] = command;
+        args[1] = altObject;
+        for ( int i =0 ; i< parameters.length; i++ )
+        {
+            args[i+2] = parameters[i];
         }
+        SendCommand(args);
 
         String data = recvall();
 

@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 
 namespace Altom.AltUnityDriver.Commands
@@ -17,7 +16,7 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             pressKey.Execute();
-            Thread.Sleep((int)duration * 1000);
+            Thread.Sleep((int)(duration * 1000));
             string data;
             do
             {

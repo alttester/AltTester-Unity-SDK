@@ -1,8 +1,8 @@
-using Altom.AltUnityDriver;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Altom.AltUnityDriver;
+using NUnit.Framework;
 
 public class TestForScene5KeyboardAndMouseInput
 {
@@ -76,15 +76,14 @@ public class TestForScene5KeyboardAndMouseInput
         AltUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1);
         Thread.Sleep(1500);
 
-        AltUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0);
+        AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 0.1f);
+
         var pressingpoint2 = AltUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
         AltUnityDriver.MoveMouseAndWait(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
-        AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 1);
+        AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 0.1f);
 
         stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
         Assert.AreEqual(3, stars.Count);
-
-
     }
     [Test]
     public void TestKeyboardPress()
@@ -93,16 +92,37 @@ public class TestForScene5KeyboardAndMouseInput
         var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
         var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
         var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+        var runner = AltUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         foreach (AltUnityKeyCode kcode in Enum.GetValues(typeof(AltUnityKeyCode)))
         {
             if (kcode != AltUnityKeyCode.NoKey)
             {
                 AltUnityDriver.PressKeyAndWait(kcode, duration: 0.2f);
+
                 Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
                 Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
                 Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
             }
         }
+    }
+
+    [Test]
+    public void TestKeyDownAndKeyUp()
+    {
+        AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        AltUnityKeyCode kcode = AltUnityKeyCode.A;
+
+        AltUnityDriver.KeyDown(kcode, 1);
+        var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+        var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+
+        Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
+        Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+
+        AltUnityDriver.KeyUp(kcode);
+        var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+
+        Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
     }
 
     [Test]
@@ -186,12 +206,12 @@ public class TestForScene5KeyboardAndMouseInput
         var cube = AltUnityDriver.FindObject(By.NAME, "2MaterialCube");
         var count = int.Parse(cube.GetComponentProperty("UnityEngine.Renderer", "materials.Length", "UnityEngine.CoreModule"));
         var shadersName = new List<string>();
-        for (int i= 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
-            shadersName.Add(cube.GetComponentProperty("UnityEngine.Renderer", "materials["+i+"].shader.name", "UnityEngine.CoreModule"));
+            shadersName.Add(cube.GetComponentProperty("UnityEngine.Renderer", "materials[" + i + "].shader.name", "UnityEngine.CoreModule"));
         }
 
-        AltUnityDriver.GetScreenshot(cube.id,new AltUnityColor(1,1,1),1.1f);
+        AltUnityDriver.GetScreenshot(cube.id, new AltUnityColor(1, 1, 1), 1.1f);
         Thread.Sleep(1000);
         var newShadersName = new List<string>();
         for (int i = 0; i < count; i++)

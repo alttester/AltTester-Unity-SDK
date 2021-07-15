@@ -1,5 +1,3 @@
-using System;
-
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityPressKey : AltBaseCommand

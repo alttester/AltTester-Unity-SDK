@@ -8,7 +8,6 @@ import json
 
 from altunityrunner import *
 from altunityrunner.logging import AltUnityLogLevel, AltUnityLogger
-from altunityrunner.alt_unity_key_code import AltUnityKeyCode
 
 
 def PATH(p):
@@ -150,7 +149,7 @@ class PythonTests(unittest.TestCase):
     def test_find_objects_by_component(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.assertEqual(
-            len(self.altdriver.find_objects(By.COMPONENT, "UnityEngine.MeshFilter")), 3)
+            len(self.altdriver.find_objects(By.COMPONENT, "UnityEngine.MeshFilter")), 5)
 
     def test_get_component_property(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -1155,6 +1154,65 @@ class PythonTests(unittest.TestCase):
             self.altdriver.find_object(By.PATH, "//CapsuleInfo[@tag=UI/Text")
         with self.assertRaises(AltUnityInvalidPathException):
             self.altdriver.find_object(By.PATH, "//CapsuleInfo[0/Text")
+
+    def test_tapcoordinates(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        self.altdriver.tap(capsule_element.get_screen_position())
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+
+    def test_clickcoordinates(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        self.altdriver.click(capsule_element.get_screen_position())
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+
+    def test_tapelement(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        capsule_element.tap(1)
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+
+    def test_clickelement(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        capsule_element.click()
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+
+    def test_new_touch_commands(self):
+        self.altdriver.load_scene('Scene 2 Draggable Panel')
+        draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+        initial_position = draggable_area.get_screen_position()
+        finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
+        self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+        self.altdriver.end_touch(finger_id)
+        draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+        self.assertNotEqual(initial_position, draggable_area)
+
+    def test_key_down_and_key_up(self):
+        self.altdriver.load_scene('Scene 5 Keyboard Input')
+
+        self.altdriver.key_down(AltUnityKeyCode.A)
+        time.sleep(5)
+        lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
+        lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
+
+        self.assertEqual("A", lastKeyDown.get_text())
+        self.assertEqual("A", lastKeyPress.get_text())
+
+        self.altdriver.key_up(AltUnityKeyCode.A)
+        time.sleep(5)
+        lastKeyUp = self.altdriver.find_object(By.NAME, 'LastKeyUpValue')
+        self.assertEqual("A", lastKeyUp.get_text())
+
+    def test_key_down_and_key_up_mouse0(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+        self.altdriver.move_mouse(int(capsule_element.x), int(capsule_element.y), 1)
+        time.sleep(1.5)
+        self.altdriver.key_down(AltUnityKeyCode.Mouse0)
+        self.altdriver.key_up(AltUnityKeyCode.Mouse0)
+        self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 
 if __name__ == '__main__':

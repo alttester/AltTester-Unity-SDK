@@ -14,7 +14,7 @@ namespace Altom.AltUnityDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "1.6.4";
+        public static readonly string VERSION = "1.6.5";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
@@ -215,6 +215,14 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityPressKey(communicationHandler, keyCode, power, duration).Execute();
         }
+        public void KeyDown(AltUnityKeyCode keyCode, float power = 1)
+        {
+            new AltUnityKeyDown(communicationHandler, keyCode, power).Execute();
+        }
+        public void KeyUp(AltUnityKeyCode keyCode)
+        {
+            new AltUnityKeyUp(communicationHandler, keyCode).Execute();
+        }
 
         public void PressKeyAndWait(AltUnityKeyCode keyCode, float power = 1, float duration = 1)
         {
@@ -224,7 +232,6 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityMoveMouse(communicationHandler, location, duration).Execute();
         }
-
         public void MoveMouseAndWait(AltUnityVector2 location, float duration = 0)
         {
             new AltUnityMoveMouseAndWait(communicationHandler, location, duration).Execute();
@@ -237,13 +244,39 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityScrollMouseAndWait(communicationHandler, speed, duration).Execute();
         }
+        [Obsolete("Use Tap")]
         public AltUnityObject TapScreen(float x, float y)
         {
             return new AltUnityTapScreen(communicationHandler, x, y).Execute();
         }
+        [Obsolete("Use Tap")]
         public void TapCustom(float x, float y, int count, float interval = 0.1f)
         {
             new AltUnityTapCustom(communicationHandler, x, y, count, interval).Execute();
+        }
+
+        /// <summary>
+        /// Tap at screen coordinates
+        /// </summary>
+        /// <param name="coordinates">The screen coordinates</param>
+        /// <param name="count">Number of taps</param>
+        /// <param name="interval">Interval between taps in seconds</param>
+        /// <param name="wait">Wait for command to finish</param>
+        public void Tap(AltUnityVector2 coordinates, int count = 1, float interval = 0.1f, bool wait = true)
+        {
+            new AltUnityTapCoordinates(communicationHandler, coordinates, count, interval, wait).Execute();
+        }
+
+        /// <summary>
+        /// Click at screen coordinates
+        /// </summary>
+        /// <param name="coordinates">The screen coordinates</param>
+        /// <param name="count" >Number of clicks.</param>
+        /// <param name="interval">Interval between clicks in seconds</param>
+        /// <param name="wait">Wait for command to finish</param>
+        public void Click(AltUnityVector2 coordinates, int count = 1, float interval = 0.1f, bool wait = true)
+        {
+            new AltUnityClickCoordinates(communicationHandler, coordinates, count, interval, wait).Execute();
         }
         public void Tilt(AltUnityVector3 acceleration, float duration = 0)
         {
@@ -327,5 +360,18 @@ namespace Altom.AltUnityDriver
         {
             new AltUnitySetServerLogging(communicationHandler, logger, logLevel).Execute();
         }
+        public int BeginTouch(AltUnityVector2 screenPosition)
+        {
+            return new AltUnityBeginTouch(communicationHandler, screenPosition).Execute();
+        }
+        public void MoveTouch(int fingerId, AltUnityVector2 screenPosition)
+        {
+            new AltUnityMoveTouch(communicationHandler, fingerId, screenPosition).Execute();
+        }
+        public void EndTouch(int fingerId)
+        {
+            new AltUnityEndTouch(communicationHandler, fingerId).Execute();
+        }
+
     }
 }

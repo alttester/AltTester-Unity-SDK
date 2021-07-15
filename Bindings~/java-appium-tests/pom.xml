@@ -5,7 +5,7 @@
 
     <groupId>ro.altom</groupId>
     <artifactId>altunitytester-java-client</artifactId>
-    <version>1.6.4</version>
+    <version>1.6.5</version>
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>ro.altom</groupId>
             <artifactId>altunitytester</artifactId>
-            <version>1.6.4</version>
+            <version>1.6.5</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

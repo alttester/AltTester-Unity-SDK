@@ -1,4 +1,3 @@
-
 using System;
 using Altom.AltUnityDriver.Logging;
 using NLog;

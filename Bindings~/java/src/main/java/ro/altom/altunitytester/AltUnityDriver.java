@@ -41,7 +41,7 @@ public class AltUnityDriver {
         public static int FloatType = 3;
     }
 
-    public static final String VERSION = "1.6.4";
+    public static final String VERSION = "1.6.5";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private Socket socket = null;
@@ -310,10 +310,6 @@ public class AltUnityDriver {
         swipeAndWait(xPosition, yPosition, xPosition, yPosition, durationInSecs);
     }
 
-    public AltUnityObject clickScreen(float x, float y) {
-        return new AltClickScreen(altBaseSettings, x, y).Execute();
-    }
-
     /**
      * Simulates device rotation action in your game.
      */
@@ -365,6 +361,16 @@ public class AltUnityDriver {
 
     public void pressKeyAndWait(AltUnityKeyCode keyCode, float power, float duration) {
         pressKeyAndWait(BuildPressKeyParameters(keyCode, power, duration));
+    }
+
+    public void KeyDown(AltKeyParameters altKeyParameters)
+    {
+        new AltKeyDown(altBaseSettings, altKeyParameters).Execute();
+    }
+
+    public void KeyUp(AltUnityKeyCode keyCode)
+    {
+        new AltKeyUp(altBaseSettings, keyCode).Execute();
     }
 
     /**
@@ -482,14 +488,17 @@ public class AltUnityDriver {
      * @param x x coordinate of the screen
      * @param y y coordinate of the screen
      */
+    @Deprecated
     public AltUnityObject tapScreen(int x, int y) {
         return new AltTapScreen(altBaseSettings, x, y).Execute();
     }
 
+    @Deprecated
     public void tapCustom(int x, int y, int count, float interval) {
         new AltTapCustom(altBaseSettings, x, y, count, interval).Execute();
     }
 
+    @Deprecated
     public void tapCustom(int x, int y, int count) {
         tapCustom(x, y, count, 0.1f);
     }
@@ -560,9 +569,39 @@ public class AltUnityDriver {
         new AltUnitySetServerLogging(altBaseSettings, parameters).Execute();
     }
 
+    public int beginTouch(Vector2 screenCoordinates) {
+        return new AltBeginTouch(altBaseSettings, screenCoordinates).Execute();
+    }
+
+    public void moveTouch(int fingerId, Vector2 screenCoordinates) {
+        new AltMoveTouch(altBaseSettings, fingerId, screenCoordinates).Execute();
+    }
+
+    public void endTouch(int fingerId) {
+        new AltEndTouch(altBaseSettings, fingerId).Execute();
+    }
+
     /**
-     * Deprecated port forwarding methods are moved to AltUnityPortForwarding
-     * class. This is going to be removed in the future.
+     * Tap at screen coordinates
+     * 
+     * @param parameters Tap parameters
+     */
+    public void tap(AltTapClickCoordinatesParameters parameters) {
+        new AltTapCoordinates(altBaseSettings, parameters).Execute();
+    }
+
+    /**
+     * Click at screen coordinates
+     * 
+     * @param parameters Click parameters
+     */
+    public void click(AltTapClickCoordinatesParameters parameters) {
+        new AltClickCoordinates(altBaseSettings, parameters).Execute();
+    }
+
+    /**
+     * Deprecated port forwarding methods are moved to AltUnityPortForwarding class.
+     * This is going to be removed in the future.
      */
 
     @Deprecated
@@ -600,8 +639,8 @@ public class AltUnityDriver {
     }
 
     /**
-     * Deprecated port forwarding methods are moved to AltUnityPortForwarding
-     * class. This is going to be removed in the future.
+     * Deprecated port forwarding methods are moved to AltUnityPortForwarding class.
+     * This is going to be removed in the future.
      */
 
     @Deprecated

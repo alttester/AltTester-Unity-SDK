@@ -204,7 +204,7 @@ public class TestForScene1TestSample
     public void TestFindObjectsByComponent()
     {
         var a = altUnityDriver.FindObjects(By.COMPONENT, "MeshFilter");
-        Assert.AreEqual(3, a.Count);
+        Assert.AreEqual(5, a.Count);
     }
 
     [Test]
@@ -712,8 +712,8 @@ public class TestForScene1TestSample
     public void TestDifferentCamera()
     {
         var altButton = altUnityDriver.FindObject(By.NAME, "Button", By.NAME, "Main Camera");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule", By.NAME, "Main Camera");
         var altElement2 = altUnityDriver.FindObject(By.NAME, "Capsule", By.NAME, "Camera");
         AltUnityVector2 pozOnScreenFromMainCamera = new AltUnityVector2(altElement.x, altElement.y);
@@ -1021,7 +1021,7 @@ public class TestForScene1TestSample
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
-        Assert.AreEqual(11, fields.Count);
+        Assert.AreEqual(13, fields.Count);
     }
 
     [Test]
@@ -1046,7 +1046,7 @@ public class TestForScene1TestSample
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
-        Assert.AreEqual(12, fields.Count);
+        Assert.AreEqual(14, fields.Count);
     }
 
     [Test]
@@ -1128,7 +1128,9 @@ public class TestForScene1TestSample
         Assert.AreEqual(6, scenes.Count);
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
     }
+
     [Test]
+    [Obsolete("The new tap method does not return the object tapped.")]
     public void TestTapScreenWhereThereIsNoObjects()
     {
         var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1154,7 +1156,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestFindObjectWhichContains()
     {
-        var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
+        var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "EventSys");
         Assert.AreEqual("EventSystem", altElement.name);
     }
     [Test]
@@ -1200,7 +1202,7 @@ public class TestForScene1TestSample
     public void TestFindObjectScene1()
     {
         var altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*/Text");
-        Assert.AreEqual(7, altElements.Count);
+        Assert.AreEqual(8, altElements.Count);
     }
 
     [Test]
@@ -1216,7 +1218,7 @@ public class TestForScene1TestSample
         Assert.AreEqual(3, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "/*/Text");
         Assert.AreEqual(1, altElements.Count);
-        altElements = altUnityDriver.FindObjects(By.PATH, "//Text");
+        altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas//Text");
         Assert.AreEqual(5, altElements.Count);
         altElements = altUnityDriver.FindObjects(By.PATH, "//Canvas/*//Text");
         Assert.AreEqual(4, altElements.Count);
@@ -1244,6 +1246,7 @@ public class TestForScene1TestSample
         Assert.AreEqual("BJÖRN'S PASS", text);
     }
     [Test]
+    [Obsolete]
     public void TestDoubleTap()
     {
         var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1268,7 +1271,7 @@ public class TestForScene1TestSample
     {
         var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-        altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
+        altUnityDriver.Tap(counterButton.getScreenPosition(), 4);
         Thread.Sleep(1000);
         Assert.AreEqual("4", counterButtonText.GetText());
     }
@@ -1325,8 +1328,8 @@ public class TestForScene1TestSample
     public void TestFindObjectWithCameraId()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var camera = altUnityDriver.FindObject(By.PATH, "//Camera");
         var altElement = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.ID, camera.id.ToString());
         Assert.True(altElement.name.Equals("Capsule"));
@@ -1339,8 +1342,8 @@ public class TestForScene1TestSample
     public void TestWaitForObjectWithCameraId()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var camera = altUnityDriver.FindObject(By.PATH, "//Camera");
         var altElement = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.ID, camera.id.ToString());
         Assert.True(altElement.name.Equals("Capsule"));
@@ -1353,8 +1356,8 @@ public class TestForScene1TestSample
     public void TestFindObjectsWithCameraId()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var camera = altUnityDriver.FindObject(By.PATH, "//Camera");
         var altElement = altUnityDriver.FindObjects(By.NAME, "Plane", By.ID, camera.id.ToString());
         Assert.True(altElement[0].name.Equals("Plane"));
@@ -1403,8 +1406,8 @@ public class TestForScene1TestSample
     public void TestFindObjectWithTag()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var altElement = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera");
         Assert.True(altElement.name.Equals("Capsule"));
         var altElement2 = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged");
@@ -1415,8 +1418,8 @@ public class TestForScene1TestSample
     public void TestWaitForObjectWithTag()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var altElement = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera");
         Assert.True(altElement.name.Equals("Capsule"));
         var altElement2 = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged");
@@ -1427,8 +1430,8 @@ public class TestForScene1TestSample
     public void TestFindObjectsWithTag()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var altElement = altUnityDriver.FindObjects(By.NAME, "Capsule", By.TAG, "MainCamera");
         Assert.True(altElement[0].name.Equals("Capsule"));
         var altElement2 = altUnityDriver.FindObjects(By.NAME, "Capsule", By.TAG, "Untagged");
@@ -1494,8 +1497,8 @@ public class TestForScene1TestSample
     public void TestFindObjectByCamera()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var altElement = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Camera");
         Assert.True(altElement.name.Equals("Capsule"));
         var altElement2 = altUnityDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera");
@@ -1506,8 +1509,8 @@ public class TestForScene1TestSample
     public void TestWaitForObjectByCamera()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var altElement = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Camera");
         Assert.True(altElement.name.Equals("Capsule"));
         var altElement2 = altUnityDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera");
@@ -1518,8 +1521,8 @@ public class TestForScene1TestSample
     public void TestFindObjectsByCamera()
     {
         var altButton = altUnityDriver.FindObject(By.PATH, "//Button");
-        altButton.ClickEvent();
-        altButton.ClickEvent();
+        altButton.Click();
+        altButton.Click();
         var altElement = altUnityDriver.FindObjects(By.NAME, "Plane", By.NAME, "Camera");
         Assert.True(altElement[0].name.Equals("Plane"));
         var altElement2 = altUnityDriver.FindObjects(By.NAME, "Plane", By.NAME, "Main Camera");
@@ -1642,10 +1645,9 @@ public class TestForScene1TestSample
         Assert.AreEqual("test3", propertyValue);
     }
     [Test]
-    public void TestClickWithMouseCapsule()
+    public void TestClickWithMouse0Capsule()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        altUnityDriver.FindObject(By.NAME, "UIButton");
         var initialCapsulePosition = capsule.getWorldPosition();
         altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
         Thread.Sleep(400);
@@ -1653,6 +1655,35 @@ public class TestForScene1TestSample
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalCapsulePosition = capsule.getWorldPosition();
         Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
+    }
+    [Test]
+    public void TestClickWithMouse1Capsule()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialCapsulePosition = capsule.getWorldPosition();
+        altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+        Thread.Sleep(400);
+        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse1, 1, 0.2f);
+
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var finalCapsulePosition = capsule.getWorldPosition();
+        Assert.True(FastApproximately(initialCapsulePosition.x, finalCapsulePosition.x, 0.01f));
+        Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
+        Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
+    }
+    [Test]
+    public void TestClickWithMouse2Capsule()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialCapsulePosition = capsule.getWorldPosition();
+        altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+        Thread.Sleep(400);
+        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse2, 1, 0.2f);
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var finalCapsulePosition = capsule.getWorldPosition();
+        Assert.True(FastApproximately(initialCapsulePosition.x, finalCapsulePosition.x, 0.01f));
+        Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
+        Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
     }
 
     [Test]
@@ -1684,7 +1715,6 @@ public class TestForScene1TestSample
         var pressUpCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "keyPressUpCounter"));
         Assert.AreEqual(1, pressDownCounter);
         Assert.AreEqual(1, pressUpCounter);
-
     }
     [Test]
     [Obsolete]
@@ -1807,8 +1837,8 @@ public class TestForScene1TestSample
 
     [TestCase("/Canvas[0]", "CapsuleInfo", true)]
     [TestCase("/Canvas[1]", "UIButton", true)]
-    [TestCase("/Canvas[-1]", "NextScene", true)]
-    [TestCase("/Canvas[-2]", "ButtonCounter", true)]
+    [TestCase("/Canvas[-1]", "TapClickEventsButtonCollider", true)]
+    [TestCase("/Canvas[-2]", "NextScene", true)]
     [TestCase("/Canvas[@layer=UI][5]", "InputField", true)]
     [TestCase("/Canvas[1]/Text", "Text", true)]
     [TestCase("//CanvasPopUp[0]", "Icon", true)]
@@ -1841,7 +1871,7 @@ public class TestForScene1TestSample
     {
         altUnityDriver.LoadScene("Scene6");
         var screenPosition = altUnityDriver.FindObject(By.NAME, "WorldSpaceButton").getScreenPosition();
-        altUnityDriver.TapCustom(screenPosition.x, screenPosition.y, 1);
+        altUnityDriver.Tap(screenPosition, 1);
         var worldSpaceButton = altUnityDriver.FindObject(By.NAME, "WorldSpaceButton", enabled: false);
         Assert.IsFalse(worldSpaceButton.enabled);
     }
@@ -1895,6 +1925,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Obsolete]
     public void TestClickEvent()
     {
         var uiButton = altUnityDriver.FindObject(By.NAME, "UIButton");
@@ -1904,4 +1935,213 @@ public class TestForScene1TestSample
         String text = capsuleInfo.GetText();
         Assert.AreEqual(text, "UIButton clicked to jump capsule!");
     }
+
+    [Test]
+    public void TestTap()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        counterButton.Tap(1);
+        altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
+    }
+
+    [Test]
+    public void TestTap_MultipleTaps()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        counterButton.Tap(2);
+        altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=2]");
+    }
+
+    [Test]
+    public void TestClick()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        counterButton.Click(1);
+        altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
+    }
+
+    [Test]
+    public void TestClick_MultipleClicks()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        counterButton.Click(2);
+        altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=2]");
+    }
+
+
+    [Test]
+    public void TestClick_MouseDownUp()
+    {
+        var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        counterElement.Click();
+
+        var mouseDownCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "mouseDownCounter"));
+        var mouseUpCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "mouseUpCounter"));
+        var mousePressedCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "mousePressedCounter"));
+
+        string eventsRaised = counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+        var eventsRaisedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsRaised);
+        Assert.AreEqual(1, mouseDownCounter);
+        Assert.AreEqual(1, mouseUpCounter);
+        Assert.AreEqual(1, mousePressedCounter);
+
+        Assert.IsTrue(eventsRaisedList.Contains("OnMouseEnter"));
+        Assert.IsTrue(eventsRaisedList.Contains("OnMouseDown"));
+        Assert.IsTrue(eventsRaisedList.Contains("OnMouseUp"));
+        Assert.IsTrue(eventsRaisedList.Contains("OnMouseUpAsButton"));
+        Assert.IsTrue(eventsRaisedList.Contains("OnMouseExit"));
+    }
+
+    [Test]
+    public void TestMouseOverElement()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.Click();
+        var mouseOverCounter = int.Parse(capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "mouseOverCounter"));
+        Assert.AreEqual(2, mouseOverCounter);
+    }
+    [Test]
+    public void TestMouseOverCoordinates()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        altUnityDriver.Click(capsule.getScreenPosition());
+        var mouseOverCounter = int.Parse(capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "mouseOverCounter"));
+        Assert.AreEqual(2, mouseOverCounter);
+    }
+
+    [Test]
+    public void TestClickCoordinates()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        altUnityDriver.Click(new AltUnityVector2(80 + counterButton.x, 15 + counterButton.y));
+        altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
+    }
+
+    [Test]
+    public void TestClickCoordinates_MultipleClicks()
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        altUnityDriver.Click(new AltUnityVector2(80 + counterButton.x, 15 + counterButton.y), 2);
+        altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=2]");
+    }
+
+
+    [Test]
+    public void TestClickCoordinates_MouseDownUp()
+    {
+        var button2dCollider = altUnityDriver.FindObject(By.NAME, "TapClickEventsButtonCollider");
+
+        altUnityDriver.Click(button2dCollider.getScreenPosition());
+
+        string monoBehaviourEventsRaisedString = button2dCollider.GetComponentProperty("AltUnityTapClickEventsScript", "monoBehaviourEventsRaised");
+        var monoBehaviourEventsRaised = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(monoBehaviourEventsRaisedString);
+        // Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseEnter")); does not work on mobile
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseDown"));
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUp"));
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUpAsButton"));
+        // Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseExit")); does not work on mobile
+
+        string eventSystemEventsRaisedString = button2dCollider.GetComponentProperty("AltUnityTapClickEventsScript", "eventSystemEventsRaised");
+        var eventSystemEventsRaised = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventSystemEventsRaisedString);
+        // Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerEnter")); does not work on mobile
+        Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerDown"));
+        Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerUp"));
+        Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerClick"));
+        // Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerExit")); does not work on mobile
+    }
+
+    [Test]
+    public void TestClickCoordinates_ColliderNoParent()
+    {
+        var sphere = altUnityDriver.FindObject(By.PATH, "/Sphere");
+        altUnityDriver.Click(sphere.getScreenPosition());
+
+        string monoBehaviourEventsRaisedString = sphere.GetComponentProperty("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
+        var monoBehaviourEventsRaised = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(monoBehaviourEventsRaisedString);
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseEnter"));
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseDown"));
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUp"));
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUpAsButton"));
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseExit"));
+    }
+
+    [Test]
+    public void TestClickCoordinates_ColliderParentCollider()
+    {
+        var sphere = altUnityDriver.FindObject(By.PATH, "/Sphere");
+        var plane = altUnityDriver.FindObject(By.PATH, "/Sphere/PlaneS");
+        altUnityDriver.Click(plane.getScreenPosition());
+
+
+        string eventsstring = plane.GetComponentProperty("AltUnityPlaneColliderScript", "monoBehaviourEventsRaised");
+        var planeEvents = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsstring);
+        Assert.IsTrue(planeEvents.Contains("OnMouseEnter"));
+        Assert.IsTrue(planeEvents.Contains("OnMouseDown"));
+        Assert.IsTrue(planeEvents.Contains("OnMouseUp"));
+        Assert.IsTrue(planeEvents.Contains("OnMouseUpAsButton"));
+        Assert.IsTrue(planeEvents.Contains("OnMouseExit"));
+
+        eventsstring = sphere.GetComponentProperty("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
+        var sphereevents = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsstring);
+        Assert.IsFalse(sphereevents.Contains("OnMouseEnter"));
+        Assert.IsFalse(sphereevents.Contains("OnMouseDown"));
+        Assert.IsFalse(sphereevents.Contains("OnMouseUp"));
+        Assert.IsFalse(sphereevents.Contains("OnMouseUpAsButton"));
+        Assert.IsFalse(sphereevents.Contains("OnMouseExit"));
+    }
+    public static bool FastApproximately(float a, float b, float threshold)
+    {
+        return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= threshold;
+    }
+    [Test]
+    public void TestClickCoordinatesCheckPressRaycastObject()
+    {
+        var incrementClick = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        altUnityDriver.Click(incrementClick.getScreenPosition());
+        Assert.AreEqual("Text", incrementClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventDataPressRaycastObject", "Assembly-CSharp"));
+    }
+
+    [Test]
+    public void TestPointerPressSet()
+    {
+        var incrementalClick = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var swipeCoordinate = new AltUnityVector2(incrementalClick.x + 10, incrementalClick.y + 10);
+        altUnityDriver.SwipeAndWait(swipeCoordinate, swipeCoordinate, 0.2f);
+        Assert.AreEqual("(10.0, 10.0)", incrementalClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp"));
+    }
+
+    [Test]
+    public void TestKeyDownAndKeyUpMouse0()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialCapsulePosition = capsule.getWorldPosition();
+        altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+        Thread.Sleep(400);
+        altUnityDriver.KeyDown(AltUnityKeyCode.Mouse0);
+        altUnityDriver.KeyUp(AltUnityKeyCode.Mouse0);
+        capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var finalCapsulePosition = capsule.getWorldPosition();
+        Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
+    }
+    [Test]
+    public void TestTouchAreUpdatedWhenMoved()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var id = altUnityDriver.BeginTouch(capsule.getScreenPosition());
+        var phase = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "TouchPhase");
+        Assert.AreEqual("0", phase);
+        altUnityDriver.MoveTouch(id, capsule.getScreenPosition());
+        phase = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "TouchPhase");
+        Assert.AreEqual("1", phase);
+        altUnityDriver.EndTouch(id);
+
+
+    }
+
 }

@@ -607,10 +607,10 @@ Simulates mouse movement in your game. This command will wait for the movement t
 
 **_Parameters_**
 
-| Name     | Type           | Required | Description                                                                               |
-| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
-| location | AltUnityVector2| Yes      | The destination coordinates for mouse to go from the current mouse position               |
-| duration | float          | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type            | Required | Description                                                                               |
+| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
+| location | AltUnityVector2 | Yes      | The destination coordinates for mouse to go from the current mouse position               |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
 
 **_Returns_**
 
@@ -692,16 +692,191 @@ Simulates mouse movement in your game. This command will wait for the movement t
 
 ```
 
+#### KeyDown
+
+Simulates that a specific key was pressed without taking into consideration the duration of the press.
+
+**_Parameters_**
+
+| Name     | Type           | Required | Description                                                                               |
+| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
+| keyCode | AltUnityKeyCode| Yes      | The keyCode of the key simulated to be pressed. |
+| power | int          | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestKeyDownAndKeyUp()
+        {
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+
+            AltUnityDriver.KeyDown(kcode, 1);
+            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+
+            AltUnityDriver.KeyUp(kcode);
+            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestKeyDownAndKeyUp() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyDownValue").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyUpValue").build();
+            AltFindObjectsParameters altFindObjectsParameters3 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyPressedValue").build();
+            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+            AltKeyParameters altKeyParams = new AltKeyParameters.Builder(kcode).build();
+
+            altUnityDriver.KeyDown(altKeyParams);
+            Thread.sleep(2000);
+            AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
+            AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
+
+            altUnityDriver.KeyUp(kcode);
+            Thread.sleep(2000);
+            AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
+        }
+
+    .. code-tab:: py
+
+        def test_key_down_and_key_up(self):
+            self.altdriver.load_scene('Scene 5 Keyboard Input')
+
+            self.altdriver.key_down(AltUnityKeyCode.A)
+            time.sleep(5)
+            lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
+
+            self.assertEqual("A", lastKeyDown.get_text())
+            self.assertEqual("A", lastKeyPress.get_text())
+
+            self.altdriver.key_up(AltUnityKeyCode.A)
+            time.sleep(5)
+            lastKeyUp = self.altdriver.find_object(By.NAME, 'LastKeyUpValue')
+            self.assertEqual("A", lastKeyUp.get_text())
+        
+
+```
+
+#### KeyUp
+
+Simulates that a specific key was released.
+
+**_Parameters_**
+
+| Name     | Type           | Required | Description                                                                               |
+| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
+| keyCode | AltUnityKeyCode| Yes      | The keyCode of the key simulated to be released. |
+| power | int          | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestKeyDownAndKeyUp()
+        {
+            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+
+            AltUnityDriver.KeyDown(kcode, 1);
+            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+
+            AltUnityDriver.KeyUp(kcode);
+            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestKeyDownAndKeyUp() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyDownValue").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyUpValue").build();
+            AltFindObjectsParameters altFindObjectsParameters3 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "LastKeyPressedValue").build();
+            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+            AltKeyParameters altKeyParams = new AltKeyParameters.Builder(kcode).build();
+
+            altUnityDriver.KeyDown(altKeyParams);
+            Thread.sleep(2000);
+            AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
+            AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
+
+            altUnityDriver.KeyUp(kcode);
+            Thread.sleep(2000);
+            AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
+            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
+        }
+
+    .. code-tab:: py
+
+        def test_key_down_and_key_up(self):
+            self.altdriver.load_scene('Scene 5 Keyboard Input')
+
+            self.altdriver.key_down(AltUnityKeyCode.A)
+            time.sleep(5)
+            lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
+
+            self.assertEqual("A", lastKeyDown.get_text())
+            self.assertEqual("A", lastKeyPress.get_text())
+
+            self.altdriver.key_up(AltUnityKeyCode.A)
+            time.sleep(5)
+            lastKeyUp = self.altdriver.find_object(By.NAME, 'LastKeyUpValue')
+            self.assertEqual("A", lastKeyUp.get_text())
+
+```
+
 #### MoveMouse
 
 Simulates mouse movement in your game. This command does not wait for the movement to finish. To also wait for the movement to finish use [MoveMouseAndWait](#movemouseandwait)
 
 **_Parameters_**
 
-| Name     | Type           | Required | Description                                                                               |
-| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
-| location | AltUnityVector2| Yes      | The destination coordinates for mouse to go from the current mouse position               |
-| duration | float          | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type            | Required | Description                                                                               |
+| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
+| location | AltUnityVector2 | Yes      | The destination coordinates for mouse to go from the current mouse position               |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
 
 **_Returns_**
 
@@ -1108,15 +1283,15 @@ Simulates a swipe action in your game. This command waits for the action to fini
 
 **_Parameters_**
 
-| Name     | Type               | Required | Description                                                                               |
-| -------- | ------------------ | -------- | ----------------------------------------------------------------------------------------- |
-| start    | AltUnityVector2(C#)| Yes      | Starting location of the swipe                                                            |
-| end      | AltUnityVector2(C#)| Yes      | Ending location of the swipe                                                              |
-| xStart   | float(python/java) | Yes      | x coordinate of the screen where the swipe begins.                                        |
-| yStart   | float(python/java) | Yes      | y coordinate of the screen where the swipe begins                                         |
-| xEnd     | float(python/java) | Yes      | x coordinate of the screen where the swipe ends                                           |
-| yEnd     | float(python/java) | Yes      | x coordinate of the screen where the swipe ends                                           |
-| duration | float              | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type                | Required | Description                                                                               |
+| -------- | ------------------- | -------- | ----------------------------------------------------------------------------------------- |
+| start    | AltUnityVector2(C#) | Yes      | Starting location of the swipe                                                            |
+| end      | AltUnityVector2(C#) | Yes      | Ending location of the swipe                                                              |
+| xStart   | float(python/java)  | Yes      | x coordinate of the screen where the swipe begins.                                        |
+| yStart   | float(python/java)  | Yes      | y coordinate of the screen where the swipe begins                                         |
+| xEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
+| yEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
+| duration | float               | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
 
 **_Returns_**
 
@@ -1252,15 +1427,15 @@ Simulates a swipe action in your game. This command does not wait for the action
 
 **_Parameters_**
 
-| Name     | Type               | Required | Description                                                                               |
-| -------- | ------------------ | -------- | ----------------------------------------------------------------------------------------- |
-| start    | AltUnityVector2(C#)| Yes      | Starting location of the swipe                                                            |
-| end      | AltUnityVector2(C#)| Yes      | Ending location of the swipe                                                              |
-| xStart   | float(python/java) | Yes      | x coordinate of the screen where the swipe begins.                                        |
-| yStart   | float(python/java) | Yes      | y coordinate of the screen where the swipe begins                                         |
-| xEnd     | float(python/java) | Yes      | x coordinate of the screen where the swipe ends                                           |
-| yEnd     | float(python/java) | Yes      | x coordinate of the screen where the swipe ends                                           |
-| duration | float              | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type                | Required | Description                                                                               |
+| -------- | ------------------- | -------- | ----------------------------------------------------------------------------------------- |
+| start    | AltUnityVector2(C#) | Yes      | Starting location of the swipe                                                            |
+| end      | AltUnityVector2(C#) | Yes      | Ending location of the swipe                                                              |
+| xStart   | float(python/java)  | Yes      | x coordinate of the screen where the swipe begins.                                        |
+| yStart   | float(python/java)  | Yes      | y coordinate of the screen where the swipe begins                                         |
+| xEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
+| yEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
+| duration | float               | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
 
 **_Returns_**
 
@@ -1595,20 +1770,224 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
 
 ```
 
-#### TapScreen(C#) / TapAtCoordinates(python/java)
+#### BeginTouch
 
-Simulates a tap action on the screen at the given coordinates.
+Simulates starting of a touch on the screen. To further interact with the touch use [MoveTouch](#movetouch) and [EndTouch](#endtouch)
 
 **_Parameters_**
 
-| Name | Type  | Required | Description                |
-| ---- | ----- | -------- | -------------------------- |
-| x    | float | Yes      | x coordinate of the screen |
-| y    | float | Yes      | y coordinate of the screen |
+| Name        | Type                | Required | Description        |
+| ----------- | ------------------- | -------- | ------------------ |
+| coordinates | AltUnityVector2(C#) | Yes      | Screen coordinates |
 
 **_Returns_**
 
--   Nothing
+-   int fingerId
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+            [Test]
+            public void TestNewTouchCommands()
+            {
+                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                var initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.MoveTouch(fingerId, newPosition);
+                altUnityDriver.EndTouch(fingerId);
+                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+
+            }
+
+    .. code-tab:: java
+
+            @Test
+            public void testNewTouchCommands() throws InterruptedException {
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                        AltUnityDriver.By.NAME, "Drag Zone").build();
+                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                Vector2 initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.beginTouch(draggableArea.getScreenPosition());
+                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.moveTouch(fingerId, newPosition);
+                altUnityDriver.endTouch(fingerId);
+                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+            }
+
+    .. code-tab:: py
+
+            def test_new_touch_commands(self):
+                self.altdriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                initial_position = draggable_area.get_screen_position()
+                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
+                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altdriver.end_touch(finger_id)
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.assertNotEqual(initial_position, draggable_area)
+
+
+```
+
+#### MoveTouch
+
+Simulates a touch movement on the screen. Move the touch created with [BeginTouch](#begintouch) from the previous position to the position given as parameters.
+
+**_Parameters_**
+
+| Name        | Type                | Required | Description                                              |
+| ----------- | ------------------- | -------- | -------------------------------------------------------- |
+| fingerId    | int                 | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
+| coordinates | AltUnityVector2(C#) | Yes      | Screen coordinates where the touch will be moved         |
+
+**_Returns_**
+
+-   void
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+            [Test]
+            public void TestNewTouchCommands()
+            {
+                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                var initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.MoveTouch(fingerId, newPosition);
+                altUnityDriver.EndTouch(fingerId);
+                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+
+            }
+
+    .. code-tab:: java
+
+            @Test
+            public void testNewTouchCommands() throws InterruptedException {
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                        AltUnityDriver.By.NAME, "Drag Zone").build();
+                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                Vector2 initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.beginTouch(draggableArea.getScreenPosition());
+                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.moveTouch(fingerId, newPosition);
+                altUnityDriver.endTouch(fingerId);
+                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+            }
+
+    .. code-tab:: py
+
+            def test_new_touch_commands(self):
+                self.altdriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                initial_position = draggable_area.get_screen_position()
+                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
+                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altdriver.end_touch(finger_id)
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.assertNotEqual(initial_position, draggable_area)
+
+
+```
+
+#### EndTouch
+
+Simulates ending of a touch on the screen. This command will destroy the touch making it no longer usable to other movements.
+
+**_Parameters_**
+
+| Name     | Type | Required | Description                                              |
+| -------- | ---- | -------- | -------------------------------------------------------- |
+| fingerId | int  | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
+
+**_Returns_**
+
+-   void
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+            [Test]
+            public void TestNewTouchCommands()
+            {
+                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                var initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.MoveTouch(fingerId, newPosition);
+                altUnityDriver.EndTouch(fingerId);
+                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+
+            }
+
+    .. code-tab:: java
+
+            @Test
+            public void testNewTouchCommands() throws InterruptedException {
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                        AltUnityDriver.By.NAME, "Drag Zone").build();
+                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                Vector2 initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altUnityDriver.beginTouch(draggableArea.getScreenPosition());
+                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+                altUnityDriver.moveTouch(fingerId, newPosition);
+                altUnityDriver.endTouch(fingerId);
+                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+            }
+
+    .. code-tab:: py
+
+            def test_new_touch_commands(self):
+                self.altdriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                initial_position = draggable_area.get_screen_position()
+                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
+                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altdriver.end_touch(finger_id)
+                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.assertNotEqual(initial_position, draggable_area)
+
+
+```
+
+#### Click
+
+Click at screen coordinates
+
+**_Parameters_**
+
+| Name        | Type            | Required | Default | Description                        |
+| ----------- | --------------- | -------- | ------- | ---------------------------------- |
+| coordinates | AltUnityVector2 | Yes      |         | The screen coordinates             |
+| count       | int             | No       | 1       | Number of clicks                   |
+| interval    | float           | No       | 0.1     | Interval between clicks in seconds |
+| wait        | boolean         | No       | true    | Wait for command to finish         |
+
+**_Returns_**
+
+-   void
 
 **_Examples_**
 
@@ -1618,58 +1997,58 @@ Simulates a tap action on the screen at the given coordinates.
     .. code-tab:: c#
 
         [Test]
-        public void TestClickScreen()
+        public void TestClickCoordinates()
         {
             const string name = "UIButton";
-            var altElement2 = altUnityDriver.FindObject(By.NAME,name);
-            var altElement = altUnityDriver.TapScreen(altElement2.x, altElement2.y);
+            var altElement = altUnityDriver.FindObject(By.NAME,name);
+            altUnityDriver.Click(altElement.getScreenPosition());
             Assert.AreEqual(name, altElement.name);
             altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
         }
 
     .. code-tab:: java
 
-        @Test
-            public void testTapScreen() throws Exception {
-                String capsuleName = "Capsule";
-                String capsuleInfo = "CapsuleInfo";
-                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
-                AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters);
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
-                AltUnityObject capsuleInfo = altUnityDriver.findObject(altMoveMouseParameters);
-                altUnityDriver.tapScreen(capsule.x, capsule.y);
-                Thread.sleep(2);
-                String text = capsuleInfo.getText();
-                assertEquals(text, "Capsule was clicked to jump!");
-            }
+         @Test()
+        public void TestTapCoordinates() {
+            AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                    .build();
+            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+            AltTapClickCoordinatesParameters clickParameters = new AltTapClickCoordinatesParameters.Builder(
+                    capsule.getScreenPosition()).build();
+            altUnityDriver.click(clickParameters);
+
+            AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+            AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                    .build();
+            altUnityDriver.waitForObject(waitParams);
+        }
 
     .. code-tab:: py
 
-        def test_tap_at_coordinates(self):
-                self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-                capsule_element = self.altdriver.find_element('Capsule')
-                self.altdriver.tap_at_coordinates(capsule_element.x, capsule_element.y)
-                self.altdriver.wait_for_element_with_text('CapsuleInfo', 'Capsule was clicked to jump!','',1)
-
+        def test_tapcoordinates(self):
+            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            self.altdriver.click(capsule_element.get_screen_position())
+            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
-#### TapCustom
+#### Tap
 
-Simulates n number of tap actions on the screen at the given coordinates .
+Tap at screen coordinates
 
 **_Parameters_**
 
-| Name     | Type  | Required | Description                              |
-| -------- | ----- | -------- | ---------------------------------------- |
-| x        | float | Yes      | x coordinate of the screen               |
-| y        | float | Yes      | y coordinate of the screen               |
-| count    | int   | Yes      | number of taps                           |
-| interval | float | No       | how many seconds will be between touches |
+| Name        | Type            | Required | Default | Description                      |
+| ----------- | --------------- | -------- | ------- | -------------------------------- |
+| coordinates | AltUnityVector2 | Yes      |         | The screen coordinates           |
+| count       | int             | No       | 1       | Number of taps                   |
+| interval    | float           | No       | 0.1     | Interval between taps in seconds |
+| wait        | boolean         | No       | true    | Wait for command to finish       |
 
 **_Returns_**
 
--   Nothing
+-   void
 
 **_Examples_**
 
@@ -1679,39 +2058,39 @@ Simulates n number of tap actions on the screen at the given coordinates .
     .. code-tab:: c#
 
         [Test]
-        public void TestCustomTap()
+        public void TestTapCoordinates()
         {
-            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-            altUnityDriver.TapCustom(counterButton.x, counterButton.y, 4);
-            Thread.Sleep(1000);
-            Assert.AreEqual("4", counterButtonText.GetText());
+            const string name = "UIButton";
+            var altElement = altUnityDriver.FindObject(By.NAME,name);
+            altUnityDriver.Tap(altElement.getScreenPosition());
+            Assert.AreEqual(name, altElement.name);
+            altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
         }
-
 
     .. code-tab:: java
 
-        @Test
-        public void TestCustomTap() throws InterruptedException
-        {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "ButtonCounter").build();
-            AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
-            AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
-            altUnityDriver.tapCustom(counterButton.x, counterButton.y, 4);
-            Thread.sleep(1000);
-            assertEquals("4", counterButtonText.getText());
+        @Test()
+        public void TestTapCoordinates() {
+            AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                    .build();
+            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+            AltTapClickCoordinatesParameters tapParameters = new AltTapClickCoordinatesParameters.Builder(
+                    capsule.getScreenPosition()).build();
+            altUnityDriver.tap(tapParameters);
+
+            AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+            AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                    .build();
+            altUnityDriver.waitForObject(waitParams);
         }
 
     .. code-tab:: py
 
-        def test_custom_tap(self):
-            counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
-            counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
-            self.altdriver.tap_custom(counterButton.x, counterButton.y, 4);
-            time.sleep(1);
-            self.assertEqual("4", counterButtonText.get_text());
-
+        def test_tapcoordinates(self):
+            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            self.altdriver.tap(capsule_element.get_screen_position())
+            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -1721,13 +2100,13 @@ Simulates device rotation action in your game.
 
 **_Parameters_**
 
-| Name         | Type               | Required | Description                                                |
-| ------------ | ------------------ | -------- | ---------------------------------------------------------- |
-| acceleration | AltUnityVector3(C#)| Yes      | Linear acceleration of a device in three-dimensional space |
-| x            | float(python/java) | Yes      | Linear acceleration of a device on x                       |
-| y            | float(python/java) | Yes      | Linear acceleration of a device on y                       |
-| z            | float(python/java) | Yes      | Linear acceleration of a device on z                       |
-| duration     | float              | Yes      | How long the rotation will take in seconds                 |
+| Name         | Type                | Required | Description                                                |
+| ------------ | ------------------- | -------- | ---------------------------------------------------------- |
+| acceleration | AltUnityVector3(C#) | Yes      | Linear acceleration of a device in three-dimensional space |
+| x            | float(python/java)  | Yes      | Linear acceleration of a device on x                       |
+| y            | float(python/java)  | Yes      | Linear acceleration of a device on y                       |
+| z            | float(python/java)  | Yes      | Linear acceleration of a device on z                       |
+| duration     | float               | Yes      | How long the rotation will take in seconds                 |
 
 **_Returns_**
 
@@ -1790,13 +2169,13 @@ Simulates device rotation action in your game. This command waits for the action
 
 **_Parameters_**
 
-| Name         | Type               | Required | Description                                                |
-| ------------ | ------------------ | -------- | ---------------------------------------------------------- |
-| acceleration | AltUnityVector3(C#)| Yes      | Linear acceleration of a device in three-dimensional space |
-| x            | float(python/java) | Yes      | Linear acceleration of a device on x                       |
-| y            | float(python/java) | Yes      | Linear acceleration of a device on y                       |
-| z            | float(python/java) | Yes      | Linear acceleration of a device on z                       |
-| duration     | float              | Yes      | How long the rotation will take in seconds                 |
+| Name         | Type                | Required | Description                                                |
+| ------------ | ------------------- | -------- | ---------------------------------------------------------- |
+| acceleration | AltUnityVector3(C#) | Yes      | Linear acceleration of a device in three-dimensional space |
+| x            | float(python/java)  | Yes      | Linear acceleration of a device on x                       |
+| y            | float(python/java)  | Yes      | Linear acceleration of a device on y                       |
+| z            | float(python/java)  | Yes      | Linear acceleration of a device on z                       |
+| duration     | float               | Yes      | How long the rotation will take in seconds                 |
 
 **_Returns_**
 
@@ -2908,85 +3287,21 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 ```
 
-#### ClickEvent
-
-Simulates a click on the object. It will click the object even if the object is not visible something that you could not do on a real device.
-
-**_Parameters_**
-
-None
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestDifferentCamera()
-        {
-            var altButton = altUnityDriver.FindObject(By.NAME,"Button", "Main Camera");
-            altButton.ClickEvent();
-            altButton.ClickEvent();
-            var altElement = altUnityDriver.FindObject(By.NAME,"Capsule", "Main Camera");
-            var altElement2 = altUnityDriver.FindObject(By.NAME,"Capsule", "Camera");
-            AltUnityVector2 pozOnScreenFromMainCamera = new AltUnityVector2(altElement.x, altElement.y);
-            AltUnityVector2 pozOnScreenFromSecondaryCamera = new AltUnityVector2(altElement2.x, altElement2.y);
-
-            Assert.AreNotEqual(pozOnScreenFromSecondaryCamera, pozOnScreenFromMainCamera);
-
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void testDifferentCamera() throws Exception
-        {
-            String name = "Button";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParameters);
-            altButton.clickEvent();
-            altButton.clickEvent();
-            String capsuleName = "Capsule";
-            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Camera").build();
-            AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotSame(altElement.x, altElement2.x);
-            assertNotSame(altElement.y, altElement2.y);
-        }
-
-    .. code-tab:: py
-
-        def test_click_event(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            altElement = self.altdriver.find_object(By.NAME, "UIButton")
-            try:
-                altElement.click_event()
-            except Exception as exception:
-                print("An error occured on click_event: ".format(exception))
-            capsuleInfo = self.altdriver.find_object(By.NAME, "CapsuleInfo")
-            text = capsuleInfo.get_text()
-            self.assertEqual(text, "UIButton clicked to jump capsule!")
-
-```
-
 #### Tap
 
-Simulates a tap action on the object.
+Tap current object
 
 **_Parameters_**
 
-None
+| Name     | Type    | Required | Default | Description                      |
+| -------- | ------- | -------- | ------- | -------------------------------- |
+| count    | int     | No       | 1       | Number of taps                   |
+| interval | float   | No       | 0.1     | Interval between taps in seconds |
+| wait     | boolean | No       | true    | Wait for command to finish       |
 
 **_Returns_**
 
--   AltUnityObject
+-   void
 
 **_Examples_**
 
@@ -2996,95 +3311,99 @@ None
     .. code-tab:: c#
 
         [Test]
-        public void TestPressNextSceneButtton()
-        {
-            var initialScene= altUnityDriver.GetCurrentScene();
-            altUnityDriver.FindObject(By.NAME, "NextScene").Tap();
-            var currentScene= altUnityDriver.GetCurrentScene();
-            Assert.AreNotEqual(initialScene, currentScene);
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void testTapCommand()
-        {
-            String initialScene= altdriver.getCurrentScene();
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "NextScene").isEnabled(true).withCamera("Main Camera").build();
-            altdriver.findObject(altFindObjectsParameters).tap();
-            String currentScene= altdriver.getCurrentScene();
-            assertNotEquals(initialScene, currentScene);
-        }
-
-    .. code-tab:: py
-
-        def test_tap_command(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            altElement = self.altdriver.find_object(By.NAME, "UIButton")
-            altElement.tap()
-            capsuleInfo = self.altdriver.find_object(By.NAME, "CapsuleInfo")
-            time.sleep(1.4)
-            text = capsuleInfo.get_text()
-            self.assertEqual(text, "UIButton clicked to jump capsule!")
-
-```
-
-#### DoubleTap
-
-Simulates a double tap on the object. The double tap happens in a single frame.
-
-**_Parameters_**
-
-None
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestDoubleTap()
+        public void TestTap()
         {
             var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
             var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-            counterButton.DoubleTap();
-            Thread.Sleep(500);
-            Assert.AreEqual("2", counterButtonText.GetText());
+            counterButton.Tap();
+            altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
         }
-
 
     .. code-tab:: java
 
-        @Test
-        public void TestDoubleTap() throws InterruptedException
-        {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "ButtonCounter").build();
-            AltUnityObject counterButton = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "ButtonCounter/Text").build();
-            AltUnityObject counterButtonText = altUnityDriver.findObject(altFindObjectsParameters2);
-            counterButton.doubleTap();
-            Thread.sleep(500);
-            assertEquals("2", counterButtonText.getText());
-        }
+        @Test()
+        public void TestTapElement() {
+            AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                    .build();
+            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
 
+            AltTapClickElementParameters tapParameters = new AltTapClickElementParameters.Builder().build();
+            capsule.tap(tapParameters);
+
+            AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+            AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                    .build();
+            altUnityDriver.waitForObject(waitParams);
+        }
 
     .. code-tab:: py
 
-        def test_double_tap(self):
-            counterButton = self.altdriver.find_object(By.NAME, "ButtonCounter");
-            counterButtonText = self.altdriver.find_object(By.NAME, "ButtonCounter/Text");
-            counterButton.double_tap();
-            time.sleep(0.5);
-            self.assertEqual("2", counterButtonText.get_text());
+        def test_tapelement(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            capsule_element.tap()
+            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
+```
+
+#### Click
+
+Click current object
+
+**_Parameters_**
+
+| Name     | Type    | Required | Default | Description                        |
+| -------- | ------- | -------- | ------- | ---------------------------------- |
+| count    | int     | No       | 1       | Number of clicks                   |
+| interval | float   | No       | 0.1     | Interval between clicks in seconds |
+| wait     | boolean | No       | true    | Wait for command to finish         |
+
+**_Returns_**
+
+-   void
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestClickElement()
+        {
+            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+            counterButton.Click();
+            altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
+        }
+
+    .. code-tab:: java
+
+        @Test()
+        public void TestClickElement() {
+            AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                    .build();
+            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+
+            AltTapClickElementParameters clickParameters = new AltTapClickElementParameters.Builder().build();
+            capsule.Click(clickParameters);
+
+            AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+                    "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+            AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+                    .build();
+            altUnityDriver.waitForObject(waitParams);
+        }
+
+    .. code-tab:: py
+
+        def test_clickelement(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            capsule_element.click()
+            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -3390,7 +3709,7 @@ The following selecting nodes and attributes are implemented:
             altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel//*")
 
         - Returns all children from Panel
-    
+
     .. tab:: \..
 
         ``//CapsuleInfo/..``

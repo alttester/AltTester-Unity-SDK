@@ -12,7 +12,10 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     public List<AltUnitySampleClass> listOfSampleClass = new List<AltUnitySampleClass>() { new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } }),
         new AltUnitySampleClass("test2", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } }) };
     private bool testProperty;
+    private int mouseOverCounter = 0;
     public static AltUnitySampleClass StaticSampleClass = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
+
+    public TouchPhase TouchPhase = TouchPhase.Canceled;
     protected void Awake()
     {
         AltUnitySampleClass1 = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
@@ -45,18 +48,28 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     }
     public static int PublicStaticVariable = 0;
 
+#pragma warning disable 0414
     private int privateVariable = 0;
     private static int privateStaticVariable = 0;
+#pragma warning restore 0414
 
     protected void Update()
     {
         transform.Rotate(Input.acceleration);
+        if (Input.touchCount > 0)
+        {
+            TouchPhase = Input.GetTouch(0).phase;
+        }
     }
     protected void OnMouseDown()
     {
         Jump("Capsule was clicked to jump!");
     }
-
+    public void OnMouseOver()
+    {
+        // Jump("Capsule was hovered to jump!");
+        mouseOverCounter++;
+    }
     public void Jump(string capsuleInfoText)
     {
         GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);

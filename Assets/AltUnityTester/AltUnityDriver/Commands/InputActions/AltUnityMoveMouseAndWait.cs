@@ -17,7 +17,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             moveMouse.Execute();
 
-            Thread.Sleep((int)duration * 1000);
+            Thread.Sleep((int)(duration * 1000));
             string data;
             do
             {

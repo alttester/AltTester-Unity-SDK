@@ -10,7 +10,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
 {
     private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-    public static readonly string VERSION = "1.6.4";
+    public static readonly string VERSION = "1.6.5";
     public static AltUnityRunner _altUnityRunner;
     public static AltResponseQueue _responseQueue;
 
@@ -21,6 +21,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
     [UnityEngine.Space]
     public bool showPopUp;
     public int SocketPortNumber = 13000;
+    public int MaxLogLength = 100;
     public bool RunOnlyInDebugMode = true;
     public UnityEngine.Shader outlineShader;
     public UnityEngine.GameObject panelHightlightPrefab;
@@ -75,7 +76,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
     protected void Start()
     {
         _responseQueue = new AltResponseQueue();
-
 
         StartCommunicationProtocol();
 
@@ -234,7 +234,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
         return altObject;
     }
 
-
     public static UnityEngine.GameObject[] GetDontDestroyOnLoadObjects()
     {
         UnityEngine.GameObject temp = null;
@@ -386,14 +385,12 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
         }
 
         return camera.WorldToScreenPoint(position);
-
-
     }
     ///<summary>
     /// Iterate through all cameras until finds one that sees the object.
     /// If no camera sees the object return the position from the last camera
     ///</summary>
-    private int findCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
+    public int findCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
     {
         position = UnityEngine.Vector3.one * -1;
         int cameraId = -1;

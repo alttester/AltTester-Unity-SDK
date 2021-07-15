@@ -364,6 +364,12 @@ namespace Altom.Editor
                         {
                             classCheck = false;
                         }
+                        else
+                        {
+                            var parentTest = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
+                            parentTest.TestSelectedCount++;
+
+                        }
                         break;
                     case "NUnit.Framework.Internal.TestFixture":
                         if (classCheck)
@@ -411,7 +417,9 @@ namespace Altom.Editor
                 parentName = testSuite.Parent.FullName;
             AltUnityMyTest index = null;
             if (AltUnityTesterEditor.EditorConfiguration.MyTests != null)
+
                 index = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName) && a.ParentName.Equals(parentName));
+
             if (index == null)
             {
                 newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
@@ -422,7 +430,6 @@ namespace Altom.Editor
                 newMyTests.Add(new AltUnityMyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
                    index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, index.TestStackTrace, index.TestDuration, path, index.TestSelectedCount));
             }
-
 
             foreach (var test in testSuite.Tests)
             {

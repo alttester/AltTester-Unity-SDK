@@ -228,6 +228,18 @@ class AltUnityDriver(object):
             keyCode, power, duration
         ).execute()
 
+    def key_down(self, keyCode, power=1):
+        return commands.KeyDown(
+            self.socket, self.request_separator, self.request_end,
+            keyCode, power
+        ).execute()
+
+    def key_up(self, keyCode, power=1):
+        return commands.KeyUp(
+            self.socket, self.request_separator, self.request_end,
+            keyCode
+        ).execute()
+
     def move_mouse(self, x, y, duration):
         return commands.MoveMouse(
             self.socket, self.request_separator, self.request_end,
@@ -332,16 +344,46 @@ class AltUnityDriver(object):
             by, value, text, camera_by, camera_path, timeout, interval, enabled
         ).execute()
 
+    @deprecated(version="1.6.5", reason="Use tap")
     def tap_at_coordinates(self, x, y):
         return commands.TapAtCoordinates(
             self.socket, self.request_separator, self.request_end,
             x, y
         ).execute()
 
+    @deprecated(version="1.6.5", reason="Use tap")
     def tap_custom(self, x, y, count, interval=0.1):
         return commands.TapCustom(
             self.socket, self.request_separator, self.request_end,
             x, y, count, interval
+        ).execute()
+
+    def tap(self, coordinates, count=1, interval=0.1, wait=True):
+        '''Tap at screen coordinates
+
+    Parameters:
+        coordinates -- The screen coordinates
+        count -- Number of taps (default 1)
+        interval -- Interval between taps in seconds (default 0.1)
+        wait -- Wait for command to finish
+        '''
+        return commands.TapCoordinates(
+            self.socket, self.request_separator, self.request_end,
+            coordinates, count, interval, wait
+        ).execute()
+
+    def click(self, coordinates, count=1, interval=0.1, wait=True):
+        '''Click at screen coordinates
+
+    Parameters:
+        coordinates -- The screen coordinates
+        count -- Number of taps (default 1)
+        interval -- Interval between taps in seconds (default 0.1)
+        wait -- Wait for command to finish
+        '''
+        return commands.ClickCoordinates(
+            self.socket, self.request_separator, self.request_end,
+            coordinates, count, interval, wait
         ).execute()
 
     def get_png_screenshot(self, path):
@@ -358,3 +400,12 @@ class AltUnityDriver(object):
             self.socket, self.request_separator, self.request_end,
             logger, log_level
         ).execute()
+
+    def begin_touch(self, coordinates):
+        return commands.BeginTouch(self.socket, self.request_separator, self.request_end, coordinates).execute()
+
+    def move_touch(self, finger_id, coordinates):
+        commands.MoveTouch(self.socket, self.request_separator, self.request_end, finger_id, coordinates).execute()
+
+    def end_touch(self, finger_id):
+        commands.EndTouch(self.socket, self.request_separator, self.request_end, finger_id).execute()

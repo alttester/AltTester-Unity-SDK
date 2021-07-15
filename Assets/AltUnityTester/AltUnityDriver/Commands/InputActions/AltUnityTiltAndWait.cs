@@ -17,8 +17,8 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             tiltCommand.Execute();
+            Thread.Sleep((int)(duration * 1000));
 
-            Thread.Sleep((int)duration * 1000);
             string data;
             do
             {
