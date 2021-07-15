@@ -91,7 +91,7 @@ public class TestForScene2DraggablePanel
     [Test]
     public void TestGetAllEnabledElements()
     {
-        altUnityDriver.WaitForObject(By.NAME, "EventSystem", timeout: 2);
+        Thread.Sleep(2000);
 
         var altElements = altUnityDriver.GetAllElements(enabled: true);
         Assert.IsNotEmpty(altElements);

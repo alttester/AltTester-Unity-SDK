@@ -214,8 +214,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
             worldZ: altGameObject.transform.position.z,
             idCamera: cameraId,
             transformId: altGameObject.transform.GetInstanceID(),
-            transformParentId: transformParentId,
-            parentId: transformParentId);
+            transformParentId: transformParentId);
         return altObject;
     }
 
@@ -228,8 +227,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
             enabled: altGameObject.activeSelf,
             idCamera: 0,
             transformId: altGameObject.transform.GetInstanceID(),
-            transformParentId: transformParentId,
-            parentId: transformParentId);
+            transformParentId: transformParentId);
 
         return altObject;
     }

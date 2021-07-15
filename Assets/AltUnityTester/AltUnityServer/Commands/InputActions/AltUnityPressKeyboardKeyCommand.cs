@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityHoldButtonCommand : AltUnityCommand<AltUnityPressKeyboardKeyParams, string>
+    class AltUnityPressKeyboardKeyCommand : AltUnityCommand<AltUnityPressKeyboardKeyParams, string>
     {
 
-        public AltUnityHoldButtonCommand(AltUnityPressKeyboardKeyParams cmdParams) : base(cmdParams)
+        public AltUnityPressKeyboardKeyCommand(AltUnityPressKeyboardKeyParams cmdParams) : base(cmdParams)
         {
 
         }

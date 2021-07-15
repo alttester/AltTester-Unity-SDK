@@ -301,6 +301,7 @@ namespace Altom.AltUnityDriver
 
     public class AltUnityInputModuleException : AltUnityException
     {
+
         public AltUnityInputModuleException()
         {
         }
@@ -308,6 +309,15 @@ namespace Altom.AltUnityDriver
         public AltUnityInputModuleException(string message) : base(message)
         {
         }
+    }
+
+    public class AltUnityInnerException : AltUnityException
+    {
+
+        public AltUnityInnerException(Exception inner) : base(AltUnityErrors.errorUnknownError, inner)
+        {
+        }
+
     }
 
 }

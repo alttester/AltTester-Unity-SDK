@@ -133,17 +133,6 @@ namespace Altom.AltUnityDriver
             return new AltUnityGetTimeScale(communicationHandler).Execute();
         }
 
-        [Obsolete("Use CallStaticMethod overload")]
-        public string CallStaticMethod(string typeName, string methodName,
-            string parameters, string typeOfParameters = "", string assemblyName = "")
-
-        {
-            var paramterTypes = CommandHelpers.ParseParseMethodCallypeOfParameters(typeOfParameters);
-            var result = CallStaticMethod<dynamic>(typeName, methodName, CommandHelpers.ParseMethodCallParameters(parameters, paramterTypes), paramterTypes, assemblyName);
-            return Newtonsoft.Json.JsonConvert.SerializeObject(result);
-
-        }
-
         public T CallStaticMethod<T>(string typeName, string methodName,
                     string[] parameters, string[] typeOfParameters = null, string assemblyName = "")
         {
@@ -244,16 +233,6 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityScrollMouseAndWait(communicationHandler, speed, duration).Execute();
         }
-        [Obsolete("Use Tap")]
-        public AltUnityObject TapScreen(float x, float y)
-        {
-            return new AltUnityTapScreen(communicationHandler, x, y).Execute();
-        }
-        [Obsolete("Use Tap")]
-        public void TapCustom(float x, float y, int count, float interval = 0.1f)
-        {
-            new AltUnityTapCustom(communicationHandler, x, y, count, interval).Execute();
-        }
 
         /// <summary>
         /// Tap at screen coordinates
@@ -314,12 +293,6 @@ namespace Altom.AltUnityDriver
         public AltUnityObject WaitForObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
             return new AltUnityWaitForObjectWhichContains(communicationHandler, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
-        }
-
-        [System.ObsoleteAttribute("Use instead WaitForObject")]
-        public AltUnityObject WaitForObjectWithText(By by, string value, string text, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
-        {
-            return new AltUnityWaitForObjectWithText(communicationHandler, by, value, text, cameraBy, cameraPath, enabled, timeout, interval).Execute();
         }
 
         public List<string> GetAllScenes()

@@ -1,3 +1,4 @@
+using System;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using Assets.AltUnityTester.AltUnityServer.Communication;
@@ -28,10 +29,17 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 #endif
         }
 
-        private void onFinish(UnityEngine.GameObject gameObject)
+        private void onFinish(Exception err)
         {
             if (CommandParams.wait)
-                handler.Send(ExecuteAndSerialize(() => "Finished"));
+                if (err != null)
+                {
+                    handler.Send(ExecuteAndSerialize<string>(() => throw new AltUnityInnerException(err)));
+                }
+                else
+                {
+                    handler.Send(ExecuteAndSerialize(() => "Finished"));
+                }
         }
     }
 }

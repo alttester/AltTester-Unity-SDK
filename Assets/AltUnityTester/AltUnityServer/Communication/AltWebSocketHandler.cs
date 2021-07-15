@@ -88,11 +88,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
                 return new AltUnityGetServerVersionCommand((AltUnityGetServerVersionParams)cmdParams).ExecuteAndSerialize;
             }
 
-            if (cmdParams is AltUnityTapObjectParams)
-            {
-                return new AltUnityTapCommand(cmdParams as AltUnityTapObjectParams).ExecuteAndSerialize;
-            }
-
             if (cmdParams is AltUnityTapElementParams)
             {
                 return new AltUnityTapElementCommand(this, cmdParams as AltUnityTapElementParams).ExecuteAndSerialize;
@@ -153,18 +148,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             {
                 return new AltUnityCallComponentMethodForObjectCommand(cmdParams as AltUnityCallComponentMethodForObjectParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltUnityClickEventParams)
-            {
-                return new AltUnityClickEventCommand(cmdParams as AltUnityClickEventParams).ExecuteAndSerialize;
-            }
-            if (cmdParams is AltUnityTapScreenParams)
-            {
-                return new AltUnityTapAtCoordinatesCommand(cmdParams as AltUnityTapScreenParams).ExecuteAndSerialize;
-            }
-            if (cmdParams is AltUnityTapCustomParams)
-            {
-                return new AltUnityClickOnScreenCustom(cmdParams as AltUnityTapCustomParams).ExecuteAndSerialize;
-            }
+
             if (cmdParams is AltUnityDragObjectParams)
             {
                 return new AltUnityDragObjectCommand(cmdParams as AltUnityDragObjectParams).ExecuteAndSerialize;
@@ -291,7 +275,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             }
             if (cmdParams is AltUnityPressKeyboardKeyParams)
             {
-                return new AltUnityHoldButtonCommand(cmdParams as AltUnityPressKeyboardKeyParams).ExecuteAndSerialize;
+                return new AltUnityPressKeyboardKeyCommand(cmdParams as AltUnityPressKeyboardKeyParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityMoveMouseParams)
             {

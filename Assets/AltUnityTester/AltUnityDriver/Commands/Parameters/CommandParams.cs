@@ -183,35 +183,6 @@ namespace Altom.AltUnityDriver.Commands
         }
     }
 
-    [Command("tapCustom")]
-    public class AltUnityTapCustomParams : CommandParams
-    {
-        public float x;
-        public float y;
-        public int count;
-        public float interval;
-
-        public AltUnityTapCustomParams(float x, float y, int count, float interval) : base()
-        {
-            this.x = x;
-            this.y = y;
-            this.count = count;
-            this.interval = interval;
-        }
-    }
-    [Command("tapScreen")]
-    public class AltUnityTapScreenParams : CommandParams
-    {
-        public float x;
-        public float y;
-
-
-        public AltUnityTapScreenParams(float x, float y) : base()
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
 
     [Command("tilt")]
     public class AltUnityTiltParams : CommandParams
@@ -289,14 +260,6 @@ namespace Altom.AltUnityDriver.Commands
     }
 
 
-    [Command("clickEvent")]
-    public class AltUnityClickEventParams : BaseAltUnityObjectParams
-    {
-        public AltUnityClickEventParams(AltUnityObject altUnityObject) : base(altUnityObject)
-        {
-            this.altUnityObject = altUnityObject;
-        }
-    }
     [Command("dragObject")]
     public class AltUnityDragObjectParams : BaseAltUnityObjectParams
     {
@@ -405,15 +368,7 @@ namespace Altom.AltUnityDriver.Commands
         {
         }
     }
-    [Command("tapObject")]
-    public class AltUnityTapObjectParams : BaseAltUnityObjectParams
-    {
-        public int count;
-        public AltUnityTapObjectParams(AltUnityObject altUnityObject, int count) : base(altUnityObject)
-        {
-            this.count = count;
-        }
-    }
+
 
     [Command("getPNGScreenshot")]
     public class AltUnityGetPNGScreenshotParams : CommandParams

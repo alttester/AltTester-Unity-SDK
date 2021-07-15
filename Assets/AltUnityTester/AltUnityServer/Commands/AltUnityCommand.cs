@@ -111,6 +111,11 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 exception = e.InnerException;
                 error = AltUnityErrors.errorInvalidCommand;
             }
+            catch (AltUnityInnerException e)
+            {
+                exception = e.InnerException;
+                error = AltUnityErrors.errorUnknownError;
+            }
             catch (Exception e)
             {
                 exception = e;

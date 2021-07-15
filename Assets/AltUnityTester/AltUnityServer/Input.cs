@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq;
 using Altom.AltUnityDriver;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -29,9 +28,11 @@ public class Input : UnityEngine.MonoBehaviour
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.Dictionary<int, PointerEventData> _pointerEventsDataDictionary = new System.Collections.Generic.Dictionary<int, PointerEventData>();
     private static readonly KeyCode[] mouseKeyCodes = { KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.Mouse2 };
-    private static readonly Dictionary<PointerEventData.InputButton, int> pointerIds = new Dictionary<PointerEventData.InputButton, int>{{PointerEventData.InputButton.Left, -1},
-                                                                                                                                {PointerEventData.InputButton.Right, -2},
-                                                                                                                                {PointerEventData.InputButton.Middle, -3}};
+    private static readonly Dictionary<PointerEventData.InputButton, int> pointerIds = new Dictionary<PointerEventData.InputButton, int>{
+            {PointerEventData.InputButton.Left, -1},
+            {PointerEventData.InputButton.Right, -2},
+            {PointerEventData.InputButton.Middle, -3}
+        };
 
     public static bool Finished { get; set; }
     public static float LastAxisValue { get; set; }
@@ -757,7 +758,7 @@ public class Input : UnityEngine.MonoBehaviour
 
 
 
-    private static IEnumerator tapClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval, bool tap, Action onFinish)
+    private static IEnumerator tapClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval, bool tap)
     {
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {
@@ -831,11 +832,9 @@ public class Input : UnityEngine.MonoBehaviour
         // mouse position doesn't change  but we fire on mouse exit
         UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
         if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-
-        onFinish();
     }
 
-    private static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap, Action<UnityEngine.GameObject> onFinish)
+    private static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
     {
         UnityEngine.Vector3 screenPosition;
         AltUnityRunner._altUnityRunner.findCameraThatSeesObject(target, out screenPosition);
@@ -910,26 +909,28 @@ public class Input : UnityEngine.MonoBehaviour
         }
 
         // mouse position doesn't change  but we fire on mouse exit
-        UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-        target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        onFinish(target);
+        if (target != null)
+        {
+            UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+            target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        }
     }
-    public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<UnityEngine.GameObject> onFinish)
+    public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
     {
-        _instance.StartCoroutine(tapClickElementLifeCycle(target, count, interval, true, onFinish));
+        _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, true), onFinish));
     }
-    public static void ClickElement(UnityEngine.GameObject target, int count, float interval, Action<UnityEngine.GameObject> onFinish)
+    public static void ClickElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
     {
-        _instance.StartCoroutine(tapClickElementLifeCycle(target, count, interval, false, onFinish));
+        _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, false), onFinish));
     }
 
-    public static void TapCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action onFinish)
+    public static void TapCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
     {
-        _instance.StartCoroutine(tapClickCoordinatesLifeCycle(coordinates, count, interval, true, onFinish));
+        _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, true), onFinish));
     }
-    public static void ClickCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action onFinish)
+    public static void ClickCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
     {
-        _instance.StartCoroutine(tapClickCoordinatesLifeCycle(coordinates, count, interval, false, onFinish));
+        _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, false), onFinish));
     }
 
     public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration)
@@ -1033,115 +1034,6 @@ public class Input : UnityEngine.MonoBehaviour
             }
         }
     }
-
-    public static void TapAtCoordinates(UnityEngine.Vector2 position, int count, float interval)
-    {
-        Finished = false;
-        _instance.StartCoroutine(CustomTapLifeCycle(position, count, interval));
-    }
-
-    public static void TapAtCoordinates(UnityEngine.Vector2 position, out UnityEngine.GameObject gameObject, out UnityEngine.Camera camera)
-    {
-        AltUnityRunner._altUnityRunner.ShowClick(position);
-        var mockUp = Input.AltUnityMockUpPointerInputModule;
-        var touch = new UnityEngine.Touch { position = position, phase = UnityEngine.TouchPhase.Began };
-        var pointerEventData = mockUp.ExecuteTouchEvent(touch);
-        if (pointerEventData.pointerPress == null &&
-            pointerEventData.pointerEnter == null &&
-            pointerEventData.pointerDrag == null)
-        {
-            gameObject = null;
-            camera = null;
-            return;
-        }
-        gameObject = pointerEventData.pointerPress.gameObject;
-        triggerMonobehaviourEventsForClick(gameObject);
-        touch.phase = UnityEngine.TouchPhase.Ended;
-        mockUp.ExecuteTouchEvent(touch, pointerEventData);
-        camera = pointerEventData.enterEventCamera;
-    }
-
-    private static void triggerMonobehaviourEventsForClick(GameObject gameObject)
-    {
-        gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        gameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        gameObject.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        gameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        gameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        gameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-    }
-
-    public static void TapObject(UnityEngine.GameObject targetGameObject, int count)
-    {
-        var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
-        targetGameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
-
-        for (var i = 0; i < count; i++)
-            initiateTap(targetGameObject, pointerEventData);
-
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-        targetGameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-    }
-
-    public static void ClickObject(UnityEngine.GameObject targetGameObject)
-    {
-        var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
-        targetGameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
-        targetGameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
-        targetGameObject.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
-        targetGameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
-        targetGameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        UnityEngine.EventSystems.ExecuteEvents.Execute(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-        targetGameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-    }
-
-    private static void initiateTap(UnityEngine.GameObject targetGameObject, UnityEngine.EventSystems.PointerEventData pointerEventData)
-    {
-        pointerEventData.clickTime = UnityEngine.Time.unscaledTime;
-
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
-        targetGameObject.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
-        targetGameObject.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
-        targetGameObject.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-        UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(targetGameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
-        targetGameObject.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
-    }
-    private static System.Collections.IEnumerator CustomTapLifeCycle(UnityEngine.Vector2 position, int count, float interval)
-    {
-        var mockUp = AltUnityMockUpPointerInputModule;
-        var touch = new UnityEngine.Touch { position = position };
-
-        for (var i = 0; i < count; i++)
-        {
-            AltUnityRunner._altUnityRunner.ShowClick(position);
-
-            touch.phase = UnityEngine.TouchPhase.Began;
-            var pointerEventData = mockUp.ExecuteTouchEvent(touch);
-
-            if (pointerEventData.pointerPress != null)
-            {
-                UnityEngine.GameObject targetGameObject = pointerEventData.pointerPress.gameObject;
-
-                triggerMonobehaviourEventsForClick(targetGameObject);
-                touch.phase = UnityEngine.TouchPhase.Ended;
-                mockUp.ExecuteTouchEvent(touch, pointerEventData);
-            }
-
-            yield return new UnityEngine.WaitForSecondsRealtime(interval);
-        }
-        Finished = true;
-    }
-
-
 
     public static void KeyPress(KeyCode keyCode, float power, float duration)
     {
@@ -1516,7 +1408,31 @@ public class Input : UnityEngine.MonoBehaviour
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
 
-
+    private static IEnumerator runThrowingIterator(
+        IEnumerator enumerator,
+        Action<Exception> done)
+    {
+        while (true)
+        {
+            object current;
+            try
+            {
+                if (enumerator.MoveNext() == false)
+                {
+                    break;
+                }
+                current = enumerator.Current;
+            }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogError(ex.ToString());
+                done.Invoke(ex);
+                yield break;
+            }
+            yield return current;
+        }
+        done.Invoke(null);
+    }
 }
 
 public class KeyStructure
