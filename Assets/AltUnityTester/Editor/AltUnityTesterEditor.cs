@@ -281,10 +281,14 @@ namespace Altom.Editor
             Repaint();
             if (IsTestRunResultAvailable)
             {
-                IsTestRunResultAvailable = !UnityEditor.EditorUtility.DisplayDialog("Test Report",
+                IsTestRunResultAvailable = UnityEditor.EditorUtility.DisplayDialog("Test Report",
                       " Total tests:" + (ReportTestFailed + ReportTestPassed) + System.Environment.NewLine + " Tests passed:" +
                       ReportTestPassed + System.Environment.NewLine + " Tests failed:" + ReportTestFailed + System.Environment.NewLine +
                       " Duration:" + TimeTestRan + " seconds", "Ok");
+                if (IsTestRunResultAvailable)
+                {
+                    IsTestRunResultAvailable = !IsTestRunResultAvailable;
+                }
                 ReportTestFailed = 0;
                 ReportTestPassed = 0;
                 TimeTestRan = 0;
