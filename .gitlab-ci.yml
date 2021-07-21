@@ -37,6 +37,7 @@ stages:
   - docs
   - alphadocs
   - deploy
+  
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -382,7 +383,8 @@ maven-repo:
     - when: never
   script:
     - cd "Bindings~/java"
-    - mvn clean deploy -Dgpg.passphrase=$GPG_PASSWORD -f pom-release.xml -DskipTests
+    - export GPG_TTY=$(tty)
+    - mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
   tags:
     - unity
     - mac
