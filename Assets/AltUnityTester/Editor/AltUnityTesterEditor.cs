@@ -1001,9 +1001,12 @@ namespace Altom.Editor
                 fixedHeight = 15
             };
             guiStyleButon.margin = new UnityEngine.RectOffset(2, 2, 4, 2);
+            var buildLocationPath = EditorConfiguration.BuildLocationPath;
             if (UnityEngine.GUILayout.Button("Browse", guiStyleButon))
             {
                 EditorConfiguration.BuildLocationPath = UnityEditor.EditorUtility.OpenFolderPanel("Select Build Location", "", "");
+                if (EditorConfiguration.BuildLocationPath.Length == 0)
+                    EditorConfiguration.BuildLocationPath = buildLocationPath;
                 UnityEngine.GUI.FocusControl("Browse");
             }
             UnityEngine.GUILayout.EndHorizontal();
