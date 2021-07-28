@@ -71,7 +71,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: py
 
         def test_find_object(self):
-            altElement = self.altdriver.find_object(By.NAME,"Capsule")
+            altElement = self.altUnityDriver.find_object(By.NAME,"Capsule")
             self.assertEqual(altElement.name, "Capsule")
 ```
 
@@ -127,8 +127,8 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
     .. code-tab:: py
 
         def test_find_objects_by_layer(self):
-                self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-                altElements = self.altdriver.find_objects(By.LAYER,"Default")
+                self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+                altElements = self.altUnityDriver.find_objects(By.LAYER,"Default")
                 self.assertEquals(8, len(altElements))
 
 ```
@@ -181,7 +181,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: py
 
        def test_find_object_which_contains(self):
-        altElement = self.altdriver.find_object_which_contains(By.NAME, "Event");
+        altElement = self.altUnityDriver.find_object_which_contains(By.NAME, "Event");
         self.assertEqual("EventSystem", altElement.name)
 
 ```
@@ -234,20 +234,20 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
     .. code-tab:: py
 
         def test_creating_stars(self):
-                self.altdriver.load_scene("Scene 5 Keyboard Input")
+                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
+                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
 
-                self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 ```
 
@@ -321,7 +321,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
     .. code-tab:: py
 
         def test_get_all_elements(self):
-            alt_elements = self.altdriver.get_all_elements(enabled= False)
+            alt_elements = self.altUnityDriver.get_all_elements(enabled= False)
             self.assertIsNotNone(alt_elements)
 
             list_of_elements=[]
@@ -419,7 +419,7 @@ Waits until it finds an object that respects the given criteria or until timeout
     .. code-tab:: py
 
         def test_wait_for_object(self):
-            altElement=self.altdriver.wait_for_object(By.NAME,"Capsule")
+            altElement=self.altUnityDriver.wait_for_object(By.NAME,"Capsule")
             self.assertEqual(altElement.name,"Capsule")
 
 ```
@@ -477,7 +477,7 @@ Waits until it finds an object that respects the given criteria or time runs out
     .. code-tab:: py
 
         def test_wait_for_object_which_contains(self):
-            altElement=self.altdriver.wait_for_object_which_contains(By.NAME,"Main")
+            altElement=self.altUnityDriver.wait_for_object_which_contains(By.NAME,"Main")
             self.assertEqual(altElement.name,"Main Camera")
 ```
 
@@ -543,7 +543,7 @@ Waits until it finds an object that respect the given criteria and it has the te
     .. code-tab:: py
 
         def test_wait_for_object_with_text(self):
-            altElement=self.altdriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
+            altElement=self.altUnityDriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
             self.assertEqual(altElement.name,"CapsuleInfo")
 
 ```
@@ -594,7 +594,7 @@ Waits until the object in the scene that respects the given criteria is no longe
     .. code-tab:: py
 
         def test_wait_for_object_to_not_be_present(self):
-            self.altdriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
+            self.altUnityDriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
 
 
 ```
@@ -626,22 +626,22 @@ Simulates mouse movement in your game. This command will wait for the movement t
         [Test]
         public void TestCreatingStars()
         {
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-            var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
+            var player = altUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
             Assert.AreEqual(1, stars.Count);
 
-            AltUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
+            altUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
             UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
             Thread.Sleep(1500);
 
-            AltUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
-            AltUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
+            altUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
+            altUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
             Thread.Sleep(1500);
-            AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
+            altUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
 
-            stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            stars = altUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
             Assert.AreEqual(3, stars.Count);
         }
 
@@ -674,20 +674,20 @@ Simulates mouse movement in your game. This command will wait for the movement t
     .. code-tab:: py
 
         def test_creating_stars(self):
-                self.altdriver.load_scene("Scene 5 Keyboard Input")
+                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
+                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
 
-                self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 
 ```
@@ -717,18 +717,18 @@ Simulates that a specific key was pressed without taking into consideration the 
         [Test]
         public void TestKeyDownAndKeyUp()
         {
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
             AltUnityKeyCode kcode = AltUnityKeyCode.A;
 
-            AltUnityDriver.KeyDown(kcode, 1);
-            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
-            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+            altUnityDriver.KeyDown(kcode, 1);
+            var lastKeyDown = altUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyPress = altUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
 
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
 
-            AltUnityDriver.KeyUp(kcode);
-            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+            altUnityDriver.KeyUp(kcode);
+            var lastKeyUp = altUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
 
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
         }
@@ -762,19 +762,19 @@ Simulates that a specific key was pressed without taking into consideration the 
     .. code-tab:: py
 
         def test_key_down_and_key_up(self):
-            self.altdriver.load_scene('Scene 5 Keyboard Input')
+            self.altUnityDriver.load_scene('Scene 5 Keyboard Input')
 
-            self.altdriver.key_down(AltUnityKeyCode.A)
+            self.altUnityDriver.key_down(AltUnityKeyCode.A)
             time.sleep(5)
-            lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
-            lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
+            lastKeyDown = self.altUnityDriver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.altUnityDriver.find_object(By.NAME, 'LastKeyPressedValue')
 
             self.assertEqual("A", lastKeyDown.get_text())
             self.assertEqual("A", lastKeyPress.get_text())
 
-            self.altdriver.key_up(AltUnityKeyCode.A)
+            self.altUnityDriver.key_up(AltUnityKeyCode.A)
             time.sleep(5)
-            lastKeyUp = self.altdriver.find_object(By.NAME, 'LastKeyUpValue')
+            lastKeyUp = self.altUnityDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
         
 
@@ -805,18 +805,18 @@ Simulates that a specific key was released.
         [Test]
         public void TestKeyDownAndKeyUp()
         {
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
             AltUnityKeyCode kcode = AltUnityKeyCode.A;
 
-            AltUnityDriver.KeyDown(kcode, 1);
-            var lastKeyDown = AltUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
-            var lastKeyPress = AltUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+            altUnityDriver.KeyDown(kcode, 1);
+            var lastKeyDown = altUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyPress = altUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
 
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
 
-            AltUnityDriver.KeyUp(kcode);
-            var lastKeyUp = AltUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+            altUnityDriver.KeyUp(kcode);
+            var lastKeyUp = altUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
 
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
         }
@@ -850,19 +850,19 @@ Simulates that a specific key was released.
     .. code-tab:: py
 
         def test_key_down_and_key_up(self):
-            self.altdriver.load_scene('Scene 5 Keyboard Input')
+            self.altUnityDriver.load_scene('Scene 5 Keyboard Input')
 
-            self.altdriver.key_down(AltUnityKeyCode.A)
+            self.altUnityDriver.key_down(AltUnityKeyCode.A)
             time.sleep(5)
-            lastKeyDown = self.altdriver.find_object(By.NAME, 'LastKeyDownValue')
-            lastKeyPress = self.altdriver.find_object(By.NAME, 'LastKeyPressedValue')
+            lastKeyDown = self.altUnityDriver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.altUnityDriver.find_object(By.NAME, 'LastKeyPressedValue')
 
             self.assertEqual("A", lastKeyDown.get_text())
             self.assertEqual("A", lastKeyPress.get_text())
 
-            self.altdriver.key_up(AltUnityKeyCode.A)
+            self.altUnityDriver.key_up(AltUnityKeyCode.A)
             time.sleep(5)
-            lastKeyUp = self.altdriver.find_object(By.NAME, 'LastKeyUpValue')
+            lastKeyUp = self.altUnityDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
 ```
@@ -892,22 +892,22 @@ Simulates mouse movement in your game. This command does not wait for the moveme
         [Test]
         public void TestCreatingStars()
         {
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-            var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
+            var player = altUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
             Assert.AreEqual(1, stars.Count);
 
-            AltUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
+            altUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
             UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
             Thread.Sleep(1500);
 
-            AltUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
-            AltUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
+            altUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
+            altUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
             Thread.Sleep(1500);
-            AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
+            altUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
 
-            stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            stars = altUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
             Assert.AreEqual(3, stars.Count);
         }
 
@@ -940,20 +940,20 @@ Simulates mouse movement in your game. This command does not wait for the moveme
     .. code-tab:: py
 
         def test_creating_stars(self):
-                self.altdriver.load_scene("Scene 5 Keyboard Input")
+                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
+                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
 
-                self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 
 ```
@@ -984,22 +984,22 @@ Simulates key press action in your game. This command waits for the action to fi
         [Test]
         public void TestCreatingStars()
         {
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-            var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
+            var player = altUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
             Assert.AreEqual(1, stars.Count);
 
-            AltUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
+            altUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
             UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
             Thread.Sleep(1500);
 
-            AltUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
-            AltUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
+            altUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
+            altUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
             Thread.Sleep(1500);
-            AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
+            altUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
 
-            stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            stars = altUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
             Assert.AreEqual(3, stars.Count);
         }
 
@@ -1032,20 +1032,20 @@ Simulates key press action in your game. This command waits for the action to fi
     .. code-tab:: py
 
         def test_creating_stars(self):
-                self.altdriver.load_scene("Scene 5 Keyboard Input")
+                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
+                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
 
-                self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 
 ```
@@ -1076,22 +1076,22 @@ Simulates key press action in your game. This command does not wait for the acti
         [Test]
         public void TestCreatingStars()
         {
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-            var player = AltUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
+            var player = altUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
             Assert.AreEqual(1, stars.Count);
 
-            AltUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
+            altUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
             UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
             Thread.Sleep(1500);
 
-            AltUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
-            AltUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
+            altUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
+            altUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
             Thread.Sleep(1500);
-            AltUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
+            altUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
 
-            stars = AltUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            stars = altUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
             Assert.AreEqual(3, stars.Count);
         }
 
@@ -1124,20 +1124,20 @@ Simulates key press action in your game. This command does not wait for the acti
     .. code-tab:: py
 
         def test_creating_stars(self):
-                self.altdriver.load_scene("Scene 5 Keyboard Input")
+                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star","Player2")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
                 self.assertEqual(1, len(stars))
-                player = self.altdriver.find_objects_which_contain(By.NAME,"Player","Player2")
+                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
 
-                self.altdriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
                 time.sleep(1.5)
 
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altdriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
-                stars = self.altdriver.find_objects_which_contain(By.NAME,"Star")
+                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
                 self.assertEqual(3, len(stars))
 
 ```
@@ -1168,11 +1168,11 @@ Simulates scroll mouse action in your game. This command waits for the action to
         public void TestScrollAndWait()
         {
 
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
             AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            AltUnityDriver.ScrollMouseAndWait(4, 2);
-            player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
+            altUnityDriver.ScrollMouseAndWait(4, 2);
+            player2 = altUnityDriver.FindObject(By.NAME, "Player2");
             AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
 
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
@@ -1200,11 +1200,11 @@ Simulates scroll mouse action in your game. This command waits for the action to
     .. code-tab:: py
 
         def test_scroll_and_wait(self):
-            self.altdriver.load_scene("Scene 5 Keyboard Input")
-            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
+            player2 = self.altUnityDriver.find_object(By.NAME, "Player2")
             cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
-            self.altdriver.scroll_mouse_and_wait(4, 2)
-            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            self.altUnityDriver.scroll_mouse_and_wait(4, 2)
+            player2 = self.altUnityDriver.find_object(By.NAME, "Player2")
             cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
             self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
 
@@ -1236,12 +1236,12 @@ Simulates scroll mouse action in your game. This command does not wait for the a
         public void TestScroll()
         {
 
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
             AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            AltUnityDriver.ScrollMouse(4,2);
+            altUnityDriver.ScrollMouse(4,2);
             Thread.Sleep(2000);
-            player2 = AltUnityDriver.FindObject(By.NAME, "Player2");
+            player2 = altUnityDriver.FindObject(By.NAME, "Player2");
             AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         }
@@ -1265,12 +1265,12 @@ Simulates scroll mouse action in your game. This command does not wait for the a
     .. code-tab:: py
 
         def test_scroll(self):
-            self.altdriver.load_scene("Scene 5 Keyboard Input")
-            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
+            player2 = self.altUnityDriver.find_object(By.NAME, "Player2")
             cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
-            self.altdriver.scroll_mouse(4, 2)
+            self.altUnityDriver.scroll_mouse(4, 2)
             time.sleep(2)
-            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            player2 = self.altUnityDriver.find_object(By.NAME, "Player2")
             cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
             self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
 
@@ -1393,30 +1393,30 @@ Simulates a swipe action in your game. This command waits for the action to fini
     .. code-tab:: py
 
             def test_multiple_swipe_and_waits(self):
-                self.altdriver.load_scene('Scene 3 Drag And Drop')
+                self.altUnityDriver.load_scene('Scene 3 Drag And Drop')
 
-                image2 = self.altdriver.find_element('Drag Image2')
-                box2 = self.altdriver.find_element('Drop Box2')
+                image2 = self.altUnityDriver.find_element('Drag Image2')
+                box2 = self.altUnityDriver.find_element('Drop Box2')
 
-                self.altdriver.swipe_and_wait(image2.x, image2.y, box2.x, box2.y, 2)
+                self.altUnityDriver.swipe_and_wait(image2.x, image2.y, box2.x, box2.y, 2)
 
 
-                image3 = self.altdriver.find_element('Drag Image3')
-                box1 = self.altdriver.find_element('Drop Box1')
+                image3 = self.altUnityDriver.find_element('Drag Image3')
+                box1 = self.altUnityDriver.find_element('Drop Box1')
 
-                self.altdriver.swipe_and_wait(image3.x, image3.y, box1.x, box1.y, 1)
+                self.altUnityDriver.swipe_and_wait(image3.x, image3.y, box1.x, box1.y, 1)
 
-                image1 = self.altdriver.find_element('Drag Image1')
-                box1 = self.altdriver.find_element('Drop Box1')
+                image1 = self.altUnityDriver.find_element('Drag Image1')
+                box1 = self.altUnityDriver.find_element('Drop Box1')
 
-                self.altdriver.swipe_and_wait(image1.x, image1.y, box1.x, box1.y, 3)
+                self.altUnityDriver.swipe_and_wait(image1.x, image1.y, box1.x, box1.y, 3)
 
                 image_source = image1.get_component_property('UnityEngine.UI.Image', 'sprite')
-                image_source_drop_zone = self.altdriver.find_element('Drop Image').get_component_property('UnityEngine.UI.Image', 'sprite')
+                image_source_drop_zone = self.altUnityDriver.find_element('Drop Image').get_component_property('UnityEngine.UI.Image', 'sprite')
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
                 image_source = image2.get_component_property('UnityEngine.UI.Image', 'sprite')
-                image_source_drop_zone = self.altdriver.find_element('Drop').get_component_property('UnityEngine.UI.Image', 'sprite')
+                image_source_drop_zone = self.altUnityDriver.find_element('Drop').get_component_property('UnityEngine.UI.Image', 'sprite')
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
 ```
@@ -1540,33 +1540,33 @@ Simulates a swipe action in your game. This command does not wait for the action
     .. code-tab:: py
 
             def test_multiple_swipes(self):
-                self.altdriver.load_scene('Scene 3 Drag And Drop')
+                self.altUnityDriver.load_scene('Scene 3 Drag And Drop')
 
-                image1 = self.altdriver.find_element('Drag Image1')
-                box1 = self.altdriver.find_element('Drop Box1')
+                image1 = self.altUnityDriver.find_element('Drag Image1')
+                box1 = self.altUnityDriver.find_element('Drop Box1')
 
-                self.altdriver.swipe(image1.x, image1.y, box1.x, box1.y, 5)
-
-
-                image2 = self.altdriver.find_element('Drag Image2')
-                box2 = self.altdriver.find_element('Drop Box2')
-
-                self.altdriver.swipe(image2.x, image2.y, box2.x, box2.y, 2)
+                self.altUnityDriver.swipe(image1.x, image1.y, box1.x, box1.y, 5)
 
 
-                image3 = self.altdriver.find_element('Drag Image3')
-                box1 = self.altdriver.find_element('Drop Box1')
+                image2 = self.altUnityDriver.find_element('Drag Image2')
+                box2 = self.altUnityDriver.find_element('Drop Box2')
 
-                self.altdriver.swipe(image3.x, image3.y, box1.x, box1.y, 3)
+                self.altUnityDriver.swipe(image2.x, image2.y, box2.x, box2.y, 2)
+
+
+                image3 = self.altUnityDriver.find_element('Drag Image3')
+                box1 = self.altUnityDriver.find_element('Drop Box1')
+
+                self.altUnityDriver.swipe(image3.x, image3.y, box1.x, box1.y, 3)
 
                 time.sleep(6)
 
                 image_source = image1.get_component_property('UnityEngine.UI.Image', 'sprite')
-                image_source_drop_zone = self.altdriver.find_element('Drop Image').get_component_property('UnityEngine.UI.Image', 'sprite')
+                image_source_drop_zone = self.altUnityDriver.find_element('Drop Image').get_component_property('UnityEngine.UI.Image', 'sprite')
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
                 image_source = image2.get_component_property('UnityEngine.UI.Image', 'sprite')
-                image_source_drop_zone = self.altdriver.find_element('Drop').get_component_property('UnityEngine.UI.Image', 'sprite')
+                image_source_drop_zone = self.altUnityDriver.find_element('Drop').get_component_property('UnityEngine.UI.Image', 'sprite')
                 self.assertNotEqual(image_source, image_source_drop_zone)
 
 ```
@@ -1640,8 +1640,8 @@ Similar command like swipe but instead of swipe from point A to point B you are 
     .. code-tab:: py
 
         def test_resize_panel_with_multipoinit_swipe(self):
-            self.altdriver.load_scene('Scene 2 Draggable Panel')
-            altElement = self.altdriver.find_element('Resize Zone')
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+            altElement = self.altUnityDriver.find_element('Resize Zone')
             positionInitX = altElement.x
             positionInitY = altElement.y
             positions = [
@@ -1651,11 +1651,11 @@ Similar command like swipe but instead of swipe from point A to point B you are 
             [int(altElement.x) - 50, int(altElement.y) - 100],
             [int(altElement.x) - 100, int(altElement.y) - 100]
             ]
-            self.altdriver.multipoint_swipe(positions, 4)
+            self.altUnityDriver.multipoint_swipe(positions, 4)
 
             time.sleep(4)
 
-            altElement = self.altdriver.find_element('Resize Zone')
+            altElement = self.altUnityDriver.find_element('Resize Zone')
             positionFinalX = altElement.x
             positionFinalY = altElement.y
             self.assertNotEqual(positionInitX, positionFinalX)
@@ -1740,17 +1740,17 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
     .. code-tab:: py
 
         def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
-            altElement1 = self.altdriver.find_element('Drag Image1')
-            altElement2 = self.altdriver.find_element('Drop Box1')
+            altElement1 = self.altUnityDriver.find_element('Drag Image1')
+            altElement2 = self.altUnityDriver.find_element('Drop Box1')
 
             multipointPositions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
 
-            self.altdriver.multipoint_swipe_and_wait(multipointPositions, 2)
+            self.altUnityDriver.multipoint_swipe_and_wait(multipointPositions, 2)
             time.sleep(2)
 
-            altElement1 = self.altdriver.find_element('Drag Image1')
-            altElement2 = self.altdriver.find_element('Drop Box1')
-            altElement3 = self.altdriver.find_element('Drop Box2')
+            altElement1 = self.altUnityDriver.find_element('Drag Image1')
+            altElement2 = self.altUnityDriver.find_element('Drop Box1')
+            altElement3 = self.altUnityDriver.find_element('Drop Box2')
 
             positions = [
             [altElement1.x, altElement1.y],
@@ -1758,13 +1758,13 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
             [altElement3.x, altElement3.y]
             ]
 
-            self.altdriver.multipoint_swipe_and_wait(positions, 3)
-            imageSource = self.altdriver.find_element('Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
-            imageSourceDropZone = self.altdriver.find_element('Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
+            self.altUnityDriver.multipoint_swipe_and_wait(positions, 3)
+            imageSource = self.altUnityDriver.find_element('Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
+            imageSourceDropZone = self.altUnityDriver.find_element('Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
             self.assertNotEqual(imageSource, imageSourceDropZone)
 
-            imageSource = self.altdriver.find_element('Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
-            imageSourceDropZone = self.altdriver.find_element('Drop').get_component_property("UnityEngine.UI.Image", "sprite")
+            imageSource = self.altUnityDriver.find_element('Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
+            imageSourceDropZone = self.altUnityDriver.find_element('Drop').get_component_property("UnityEngine.UI.Image", "sprite")
             self.assertNotEqual(imageSource, imageSourceDropZone)
 
 
@@ -1825,13 +1825,13 @@ Simulates starting of a touch on the screen. To further interact with the touch 
     .. code-tab:: py
 
             def test_new_touch_commands(self):
-                self.altdriver.load_scene('Scene 2 Draggable Panel')
-                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
                 initial_position = draggable_area.get_screen_position()
-                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
-                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-                self.altdriver.end_touch(finger_id)
-                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
+                self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altUnityDriver.end_touch(finger_id)
+                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
                 self.assertNotEqual(initial_position, draggable_area)
 
 
@@ -1893,13 +1893,13 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
     .. code-tab:: py
 
             def test_new_touch_commands(self):
-                self.altdriver.load_scene('Scene 2 Draggable Panel')
-                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
                 initial_position = draggable_area.get_screen_position()
-                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
-                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-                self.altdriver.end_touch(finger_id)
-                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
+                self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altUnityDriver.end_touch(finger_id)
+                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
                 self.assertNotEqual(initial_position, draggable_area)
 
 
@@ -1960,13 +1960,13 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
     .. code-tab:: py
 
             def test_new_touch_commands(self):
-                self.altdriver.load_scene('Scene 2 Draggable Panel')
-                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
                 initial_position = draggable_area.get_screen_position()
-                finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
-                self.altdriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-                self.altdriver.end_touch(finger_id)
-                draggable_area = self.altdriver.find_object(By.NAME, 'Drag Zone')
+                finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
+                self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+                self.altUnityDriver.end_touch(finger_id)
+                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
                 self.assertNotEqual(initial_position, draggable_area)
 
 
@@ -2027,9 +2027,9 @@ Click at screen coordinates
     .. code-tab:: py
 
         def test_tapcoordinates(self):
-            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
-            self.altdriver.click(capsule_element.get_screen_position())
-            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+            capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
+            self.altUnityDriver.click(capsule_element.get_screen_position())
+            self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -2088,9 +2088,9 @@ Tap at screen coordinates
     .. code-tab:: py
 
         def test_tapcoordinates(self):
-            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
-            self.altdriver.tap(capsule_element.get_screen_position())
-            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+            capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
+            self.altUnityDriver.tap(capsule_element.get_screen_position())
+            self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -2152,12 +2152,12 @@ Simulates device rotation action in your game.
     .. code-tab:: py
 
         def test_acceleration(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule = self.altUnityDriver.find_object(By.NAME, "Capsule")
             initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-            self.altdriver.tilt(1, 1, 1, 1)
+            self.altUnityDriver.tilt(1, 1, 1, 1)
             time.sleep(1)
-            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            capsule = self.altUnityDriver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             self.assertNotEqual(initial_position, final_position)
 
@@ -2220,11 +2220,11 @@ Simulates device rotation action in your game. This command waits for the action
     .. code-tab:: py
 
        def test_acceleration_and_wait(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule = self.altUnityDriver.find_object(By.NAME, "Capsule")
             initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-            self.altdriver.tilt_and_wait(1, 1, 1, 1)
-            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            self.altUnityDriver.tilt_and_wait(1, 1, 1, 1)
+            capsule = self.altUnityDriver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             self.assertNotEqual(initial_position, final_position)
 
@@ -2275,7 +2275,7 @@ Creates a screenshot of the current scene in png format.
 
        def test_screenshot(self):
         png_path="testPython.png"
-        self.altdriver.get_png_screenshot(png_path)
+        self.altUnityDriver.get_png_screenshot(png_path)
         self.assertTrue(path.exists(png_path))
 ```
 
@@ -2641,10 +2641,10 @@ None
     .. code-tab:: py
 
         def test_delete_key_player_pref(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            self.altdriver.delete_player_prefs()
-            self.altdriver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
-            val = self.altdriver.get_player_pref_key("test", player_pref_key_type)
+            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altUnityDriver.delete_player_prefs()
+            self.altUnityDriver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
+            val = self.altUnityDriver.get_player_pref_key("test", player_pref_key_type)
             self.assertEqual("1", str(val))
 ```
 
@@ -2670,7 +2670,7 @@ None
         [Test]
         public void TestGetCurrentScene()
         {
-            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+            altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
         }
     .. code-tab:: java
@@ -2685,8 +2685,8 @@ None
     .. code-tab:: py
 
        def test_get_current_scene(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
+        self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altUnityDriver.get_current_scene())
 ```
 
 #### LoadScene
@@ -2714,7 +2714,7 @@ Loads the scene mentioned by its name.
         [Test]
         public void TestGetCurrentScene()
         {
-            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene",true);
+            altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene",true);
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
         }
     .. code-tab:: java
@@ -2729,8 +2729,8 @@ Loads the scene mentioned by its name.
     .. code-tab:: py
 
        def test_get_current_scene(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene",True)
-        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altdriver.get_current_scene())
+        self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene",True)
+        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altUnityDriver.get_current_scene())
 ```
 
 #### UnloadScene
@@ -2779,13 +2779,13 @@ Unloads the scene mentioned by its name.
     .. code-tab:: py
 
        def test_unload_scene(self):
-        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
-        self.altdriver.load_scene('Scene 2 Draggable Panel', False)
-        self.assertEqual(2, len(self.altdriver.get_all_loaded_scenes()))
-        self.altdriver.unload_scene('Scene 2 Draggable Panel')
-        self.assertEqual(1, len(self.altdriver.get_all_loaded_scenes()))
+        self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+        self.altUnityDriver.load_scene('Scene 2 Draggable Panel', False)
+        self.assertEqual(2, len(self.altUnityDriver.get_all_loaded_scenes()))
+        self.altUnityDriver.unload_scene('Scene 2 Draggable Panel')
+        self.assertEqual(1, len(self.altUnityDriver.get_all_loaded_scenes()))
         self.assertEqual("Scene 1 AltUnityDriverTestScene",
-                         self.altdriver.get_all_loaded_scenes()[0])
+                         self.altUnityDriver.get_all_loaded_scenes()[0])
 ```
 
 #### GetAllLoadedScenes
@@ -2810,14 +2810,14 @@ Returns all the scenes that have been loaded.
        [Test]
         public void TestGetAllLoadedScenes()
         {
-            AltUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
-            System.Collections.Generic.List<string> loadedSceneNames = AltUnityDriver.GetAllLoadedScenes();
+            altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
+            System.Collections.Generic.List<string> loadedSceneNames = altUnityDriver.GetAllLoadedScenes();
             Assert.AreEqual(loadedSceneNames.Count, 1);
-            AltUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
-            AltUnityDriver.LoadScene("Scene 3 Drag And Drop", false);
-            AltUnityDriver.LoadScene("Scene 4 No Cameras", false);
-            AltUnityDriver.LoadScene("Scene 5 Keyboard Input", false);
-            loadedSceneNames = AltUnityDriver.GetAllLoadedScenes();
+            altUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
+            altUnityDriver.LoadScene("Scene 3 Drag And Drop", false);
+            altUnityDriver.LoadScene("Scene 4 No Cameras", false);
+            altUnityDriver.LoadScene("Scene 5 Keyboard Input", false);
+            loadedSceneNames = altUnityDriver.GetAllLoadedScenes();
             Assert.AreEqual(loadedSceneNames.Count, 5);
         }
 
@@ -2826,28 +2826,28 @@ Returns all the scenes that have been loaded.
         @Test
         public void TestGetAllLoadedScenes()
         {
-            altdriver.loadScene("Scene 1 AltUnityDriverTestScene");
-            List<String> loadedSceneNames = altdriver.getAllLoadedScenes();
+            altUnityDriver.loadScene("Scene 1 AltUnityDriverTestScene");
+            List<String> loadedSceneNames = altUnityDriver.getAllLoadedScenes();
             assertEquals(loadedSceneNames.size(), 1);
-            altdriver.loadScene("Scene 2 Draggable Panel", false);
-            altdriver.loadScene("Scene 3 Drag And Drop", false);
-            altdriver.loadScene("Scene 4 No Cameras", false);
-            altdriver.loadScene("Scene 5 Keyboard Input", false);
-            loadedSceneNames = altdriver.getAllLoadedScenes();
+            altUnityDriver.loadScene("Scene 2 Draggable Panel", false);
+            altUnityDriver.loadScene("Scene 3 Drag And Drop", false);
+            altUnityDriver.loadScene("Scene 4 No Cameras", false);
+            altUnityDriver.loadScene("Scene 5 Keyboard Input", false);
+            loadedSceneNames = altUnityDriver.getAllLoadedScenes();
             assertEquals(loadedSceneNames.size(), 5);
         }
 
     .. code-tab:: py
 
         def test_get_all_loaded_scenes(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            scenes_loaded = self.altdriver.get_all_loaded_scenes()
+            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            scenes_loaded = self.altUnityDriver.get_all_loaded_scenes()
             self.assertEqual(len(scenes_loaded),1)
-            self.altdriver.load_scene("Scene 2 Draggable Panel", False)
-            self.altdriver.load_scene("Scene 3 Drag And Drop",False)
-            self.altdriver.load_scene("Scene 4 No Cameras",False)
-            self.altdriver.load_scene("Scene 5 Keyboard Input",False)
-            scenes_loaded = self.altdriver.get_all_loaded_scenes()
+            self.altUnityDriver.load_scene("Scene 2 Draggable Panel", False)
+            self.altUnityDriver.load_scene("Scene 3 Drag And Drop",False)
+            self.altUnityDriver.load_scene("Scene 4 No Cameras",False)
+            self.altUnityDriver.load_scene("Scene 5 Keyboard Input",False)
+            scenes_loaded = self.altUnityDriver.get_all_loaded_scenes()
             self.assertEqual(len(scenes_loaded),5)
 
 ```
@@ -2903,8 +2903,8 @@ Invokes static methods from your game.
     .. code-tab:: py
 
         def test_call_static_method(self):
-            self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1",assembly="UnityEngine.CoreModule")
-            a=int(self.altdriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2",assembly="UnityEngine.CoreModule"))
+            self.altUnityDriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1",assembly="UnityEngine.CoreModule")
+            a=int(self.altUnityDriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2",assembly="UnityEngine.CoreModule"))
             self.assertEquals(1,a)
 
 ```
@@ -2933,18 +2933,18 @@ Sets the level of logging on AltUnity Server
 
     .. code-tab:: c#
 
-        driver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        driver.SetServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altUnityDriver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        altUnityDriver.SetServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
 
     .. code-tab:: java
 
-        driver.setServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        driver.setServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altUnityDriver.setServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        altUnityDriver.setServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
 
     .. code-tab:: py
 
-        driver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        driver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altUnityDriver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        altUnityDriver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
 
 ```
 
@@ -3033,11 +3033,11 @@ Invokes a method from an existing component of the object.
     .. code-tab:: py
 
         def test_call_component_method(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altUnityDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
             self.assertEqual(result,"null")
-            self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
+            self.altUnityDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
+            self.assertEqual('setFromMethod', self.altUnityDriver.find_element('CapsuleInfo').get_text())
 
 ```
 
@@ -3094,8 +3094,8 @@ Returns the value of the given component property.
     .. code-tab:: py
 
         def test_get_component_property(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altdriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altUnityDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
             self.assertEqual(result,"[1,2,3]")
 
 ```
@@ -3145,7 +3145,7 @@ Sets value of the given component property.
             String componentName = "Capsule";
             String propertyName = "stringToSetFromTests";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altdriver.findObject(altFindObjectsParameters);
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotNull(altElement);
             String propertyValue = altElement.setComponentProperty(componentName, propertyName, "2");
             assertEquals("valueSet", propertyValue);
@@ -3156,10 +3156,10 @@ Sets value of the given component property.
     .. code-tab:: py
 
         def test_set_component_property(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
             componentName = "Capsule"
             propertyName = "stringToSetFromTests"
-            altElement = self.altdriver.find_object(By.NAME, componentName)
+            altElement = self.altUnityDriver.find_object(By.NAME, componentName)
             self.assertNotEqual(altElement, None)
             propertyValue = altElement.set_component_property(componentName, propertyName, "2")
             self.assertEqual("valueSet", propertyValue)
@@ -3223,11 +3223,11 @@ None
     .. code-tab:: py
 
         def test_call_component_method(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altdriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altUnityDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
             self.assertEqual(result,"null")
-            self.altdriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altdriver.find_element('CapsuleInfo').get_text())
+            self.altUnityDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
+            self.assertEqual('setFromMethod', self.altUnityDriver.find_element('CapsuleInfo').get_text())
 
 ```
 
@@ -3270,7 +3270,7 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
             String name = "InputField";
             String text = "InputFieldTest";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject input = altdriver.findObject(altFindObjectsParameters).setText(text);
+            AltUnityObject input = altUnityDriver.findObject(altFindObjectsParameters).setText(text);
             assertNotNull(input);
             assertEquals(input.getText(), text);
         }
@@ -3278,10 +3278,10 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
     .. code-tab:: py
 
         def test_set_text_for_element(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
             name = "InputField"
             text = "InputFieldTest"
-            input = self.altdriver.find_object(By.NAME, name).set_text(text)
+            input = self.altUnityDriver.find_object(By.NAME, name).set_text(text)
             self.assertNotEqual(input, None)
             self.assertEqual(input.get_text(), text)
 
@@ -3340,10 +3340,10 @@ Tap current object
     .. code-tab:: py
 
         def test_tapelement(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
             capsule_element.tap()
-            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+            self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -3400,10 +3400,10 @@ Click current object
     .. code-tab:: py
 
         def test_clickelement(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            capsule_element = self.altdriver.find_object(By.NAME, 'Capsule')
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
             capsule_element.click()
-            self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+            self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -3453,9 +3453,9 @@ None
     .. code-tab:: py
 
         def test_pointer_down_command():
-            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
             time.sleep(1)
-            p_panel = self.altdriver.find_object(By.NAME, 'Panel')
+            p_panel = self.altUnityDriver.find_object(By.NAME, 'Panel')
             color1 = p_panel.get_component_property('PanelScript', 'normalColor')
             p_panel.pointer_down_from_object()
             time.sleep(1)
@@ -3513,9 +3513,9 @@ None
     .. code-tab:: py
 
         def test_pointer_up_command():
-            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
             time.sleep(1)
-            p_panel = self.altdriver.find_object(By.NAME, 'Panel')
+            p_panel = self.altUnityDriver.find_object(By.NAME, 'Panel')
             color1 = p_panel.get_component_property('PanelScript', 'normalColor')
             p_panel.pointer_down_from_object()
             time.sleep(1)
@@ -3564,12 +3564,12 @@ None
         public void testPointerEnterAndExit()
         {
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altdriver.findObject(altFindObjectsParameters);
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
             String color1 = altElement.getComponentProperty("DropMe", "highlightColor");
-            altdriver.findObject(altFindObjectsParameters).pointerEnter();
+            altUnityDriver.findObject(altFindObjectsParameters).pointerEnter();
             String color2 = altElement.getComponentProperty("DropMe", "highlightColor");
             assertNotEquals(color1,color2);
-            altdriver.findObject(altFindObjectsParameters).pointerExit();
+            altUnityDriver.findObject(altFindObjectsParameters).pointerExit();
             String color3 = altElement.getComponentProperty("DropMe", "highlightColor");
             assertNotEquals(color3, color2);
             assertEquals(color1,color3);
@@ -3578,13 +3578,13 @@ None
     .. code-tab:: py
 
         def test_pointer_enter_and_exit(self):
-            self.altdriver.load_scene("Scene 3 Drag And Drop")
-            alt_element = self.altdriver.find_object(By.NAME,"Drop Image")
+            self.altUnityDriver.load_scene("Scene 3 Drag And Drop")
+            alt_element = self.altUnityDriver.find_object(By.NAME,"Drop Image")
             color1 = alt_element.get_component_property("DropMe", "highlightColor")
-            self.altdriver.find_object(By.NAME,"Drop Image").pointer_enter()
+            self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_enter()
             color2 = alt_element.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color1, color2)
-            self.altdriver.find_object(By.NAME,"Drop Image").pointer_exit()
+            self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_exit()
             color3 = alt_element.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
@@ -3630,12 +3630,12 @@ None
         public void testPointerEnterAndExit()
         {
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altdriver.findObject(altFindObjectsParameters);
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
             String color1 = altElement.getComponentProperty("DropMe", "highlightColor");
-            altdriver.findObject(altFindObjectsParameters).pointerEnter();
+            altUnityDriver.findObject(altFindObjectsParameters).pointerEnter();
             String color2 = altElement.getComponentProperty("DropMe", "highlightColor");
             assertNotEquals(color1,color2);
-            altdriver.findObject(altFindObjectsParameters).pointerExit();
+            altUnityDriver.findObject(altFindObjectsParameters).pointerExit();
             String color3 = altElement.getComponentProperty("DropMe", "highlightColor");
             assertNotEquals(color3, color2);
             assertEquals(color1,color3);
@@ -3644,13 +3644,13 @@ None
     .. code-tab:: py
 
         def test_pointer_enter_and_exit(self):
-            self.altdriver.load_scene("Scene 3 Drag And Drop")
-            alt_element = self.altdriver.find_object(By.NAME,"Drop Image")
+            self.altUnityDriver.load_scene("Scene 3 Drag And Drop")
+            alt_element = self.altUnityDriver.find_object(By.NAME,"Drop Image")
             color1 = alt_element.get_component_property("DropMe", "highlightColor")
-            self.altdriver.find_object(By.NAME,"Drop Image").pointer_enter()
+            self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_enter()
             color2 = alt_element.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color1, color2)
-            self.altdriver.find_object(By.NAME,"Drop Image").pointer_exit()
+            self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_exit()
             color3 = alt_element.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
@@ -3669,7 +3669,7 @@ Currenty there are 7 types implemented:
 -   _Text_ - search for objects that have a certain text
 -   _Path_ - search for objects that respect a certain path
 
-**Searching object by path**
+**Searching object by PATH**
 
 The following selecting nodes and attributes are implemented:
 
@@ -3871,7 +3871,7 @@ Calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
 | localPort  | int    | No       | The local port to forward from                                                                                                                                                             |
 | remotePort | int    | No       | The device port to forward to                                                                                                                                                              |
 | deviceId   | string | No       | The id of the device                                                                                                                                                                       |
-| adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
+| adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from PATH. |
 
 ### RemoveForwardAndroid
 
@@ -3883,7 +3883,7 @@ Calls `adb forward --remove [-s {deviceId}] tcp:{localPort}` or `adb forward --r
 | --------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | localPort | int    | No       | The local port to be removed                                                                                                                                                               |
 | deviceId  | string | No       | The id of the device to be removed                                                                                                                                                         |
-| adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
+| adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from PATH. |
 
 ### RemoveAllForwardAndroid
 
@@ -3893,7 +3893,7 @@ Calls `adb forward --remove-all`
 
 | Name    | Type   | Required | Description                                                                                                                                                                                |
 | ------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| adbPath | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from path. |
+| adbPath | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from PATH. |
 
 ### ForwardIos
 

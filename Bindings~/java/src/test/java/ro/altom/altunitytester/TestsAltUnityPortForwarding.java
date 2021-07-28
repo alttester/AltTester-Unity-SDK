@@ -55,8 +55,8 @@ public class TestsAltUnityPortForwarding {
         try {
             AltUnityDriverParams params = new AltUnityDriverParams();
             params.connectTimeout = 2;
-            AltUnityDriver driver = new AltUnityDriver(params);
-            driver.stop();
+            AltUnityDriver altUnityDriver = new AltUnityDriver(params);
+            altUnityDriver.stop();
         } catch (Exception ex) {
             assertEquals("Could not create connection to 127.0.0.1:13000", ex.getMessage());
         }
@@ -69,8 +69,8 @@ public class TestsAltUnityPortForwarding {
         try {
             AltUnityDriverParams params = new AltUnityDriverParams();
             params.connectTimeout = 2;
-            AltUnityDriver driver = new AltUnityDriver(params);
-            driver.stop();
+            AltUnityDriver altUnityDriver = new AltUnityDriver(params);
+            altUnityDriver.stop();
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("ForwardAndroid failed: " + ex.toString());
