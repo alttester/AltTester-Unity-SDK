@@ -829,7 +829,7 @@ public class TestForScene1TestSample
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
-        Assert.AreEqual(13, fields.Count);
+        Assert.AreEqual(14, fields.Count);
     }
 
     [Test]
@@ -854,7 +854,7 @@ public class TestForScene1TestSample
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
-        Assert.AreEqual(14, fields.Count);
+        Assert.AreEqual(15, fields.Count);
     }
 
     [Test]
@@ -1452,6 +1452,18 @@ public class TestForScene1TestSample
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual("test3", propertyValue);
     }
+
+    [Test]
+    public void TestSetComponentPropertyComplexClass3()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "arrayOfInts[0]";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        altElement.SetComponentProperty(componentName, propertyName, "11");
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual("11", propertyValue);
+    }
     [Test]
     public void TestClickWithMouse0Capsule()
     {
@@ -1902,6 +1914,33 @@ public class TestForScene1TestSample
         altUnityDriver.EndTouch(id);
 
 
+    }
+
+    [Test]
+    public void TestSetStructureProperty()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.text", "changed");
+        var value = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.text");
+        Assert.AreEqual("changed", value);
+    }
+
+    [Test]
+    public void TestSetStructureProperty2()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]", "1");
+        var value = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]");
+        Assert.AreEqual("1", value);
+    }
+
+    [Test]
+    public void TestSetStructureProperty3()
+    {
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.List[0]", "1");
+        var value = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]");
+        Assert.AreEqual("1", value);
     }
 
 }
