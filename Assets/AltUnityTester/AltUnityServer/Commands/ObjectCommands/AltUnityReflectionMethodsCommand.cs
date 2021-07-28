@@ -1,5 +1,8 @@
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -181,35 +184,45 @@ namespace Assets.AltUnityTester.AltUnityServer
         protected string SetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, string valueString)
         {
 
-            string propertyName;
-            int index = getArrayIndex(fieldArray[0], out propertyName);
-            MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
             {
                 throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
             }
-            if (fieldArray.Length > 1)
+            setValueRecursive(valueString, fieldArray, instance);
+
+            return "valueSet";
+        }
+        private object setValueRecursive(string valueAsString, string[] fieldArray, object instance, int counter = 0)
+        {
+            string propertyName;
+            int index = getArrayIndex(fieldArray[counter], out propertyName);
+            MemberInfo memberInfo = GetMemberForObjectComponent(instance.GetType(), propertyName);
+            object value = getValue(instance, memberInfo, index);
+            if (counter < fieldArray.Length - 1)
             {
-                object value = getValue(instance, memberInfo, index);
-
-                for (int i = 1; i < fieldArray.Length - 1; i++)
+                counter++;
+                var valueObtained = setValueRecursive(valueAsString, fieldArray, value, counter);
+                if (index == -1)
                 {
-                    index = getArrayIndex(fieldArray[i], out propertyName);
-                    memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
-                    value = getValue(value, memberInfo, index);
+                    if (memberInfo.GetType().Equals(typeof(PropertyInfo)))
+                    {
+                        ((PropertyInfo)memberInfo).SetValue(instance, valueObtained);
+                    }
+                    else
+                    {
+                        ((FieldInfo)memberInfo).SetValue(instance, valueObtained);
 
+                    }
                 }
 
-                index = getArrayIndex(fieldArray[fieldArray.Length - 1], out propertyName);
-                memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
-                setValue(value, memberInfo, index, valueString);
+                return value;
             }
             else
             {
-                setValue(instance, memberInfo, index, valueString);
+                setValue(instance, memberInfo, index, valueAsString);
+                return instance;
             }
-            return "valueSet";
         }
 
         protected object GetInstance(object instance, string[] methodPathSplited, Type componentType = null)
@@ -268,18 +281,75 @@ namespace Assets.AltUnityTester.AltUnityServer
 
         private void setValue(object instance, MemberInfo memberInfo, int index, string valueString)
         {
+            MethodInfo methodDefinition = typeof(AltUnityReflectionMethodsCommand).GetMethod(nameof(SetElementOfListObject), new Type[] { typeof(int), typeof(object), typeof(object), typeof(Type) });
+
             if (memberInfo.MemberType == MemberTypes.Property)
             {
                 PropertyInfo propertyInfo = (PropertyInfo)memberInfo;
-                object value = deserializeMemberValue(valueString, propertyInfo.PropertyType);
-                propertyInfo.SetValue(instance, value);
+
+                if (index != -1)
+                {
+                    var type = propertyInfo.PropertyType.GetElementType() != null ? propertyInfo.PropertyType.GetElementType() : propertyInfo.PropertyType.GetGenericArguments().Single();
+                    MethodInfo method = methodDefinition.MakeGenericMethod(type);
+
+                    object value = deserializeMemberValue(valueString, type);
+                    var listValue = getValue(instance, memberInfo, -1);
+
+                    listValue = method.Invoke(this, new object[] { index, listValue, value, propertyInfo.PropertyType }); ;
+                    propertyInfo.SetValue(instance, listValue);
+
+                }
+                else
+                {
+                    object value = deserializeMemberValue(valueString, propertyInfo.PropertyType);
+                    propertyInfo.SetValue(instance, value);
+
+                }
             }
             else if (memberInfo.MemberType == MemberTypes.Field)
             {
                 FieldInfo fieldInfo = (FieldInfo)memberInfo;
-                object value = deserializeMemberValue(valueString, fieldInfo.FieldType);
-                fieldInfo.SetValue(instance, value);
+
+                if (index != -1)
+                {
+                    var type = fieldInfo.FieldType.GetElementType() != null ? fieldInfo.FieldType.GetElementType() : fieldInfo.FieldType.GetGenericArguments().Single();
+                    object value = deserializeMemberValue(valueString, type);
+                    var listValue = getValue(instance, memberInfo, -1);
+
+                    MethodInfo method = methodDefinition.MakeGenericMethod(type);
+                    listValue = method.Invoke(this, new object[] { index, listValue, value, fieldInfo.FieldType }); ;
+                    fieldInfo.SetValue(instance, listValue);
+                }
+                else
+                {
+                    object value = deserializeMemberValue(valueString, fieldInfo.FieldType);
+                    fieldInfo.SetValue(instance, value);
+
+                }
             }
+        }
+
+        public object SetElementOfListObject<T>(int index, object enumerable, object value, Type type)
+        {
+            if (type.IsArray)
+            {
+                var arrray = enumerable as T[];
+                if (arrray != null)
+                {
+                    arrray[index] = (T)value;
+                    return arrray;
+                }
+
+            }
+            var list = enumerable as IList<T>;
+            if (enumerable != null)
+            {
+                list[index] = (T)value;
+                return list;
+
+            }
+            return null;
+            throw new AltUnityException(AltUnityErrors.errorPropertyNotSet);
         }
 
         private Type[] getParameterTypes(AltUnityObjectAction altUnityObjectAction)

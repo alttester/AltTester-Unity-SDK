@@ -1,4 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Altom.AltUnityDriver;
+using Assets.AltUnityTester.AltUnityServer;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +20,7 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     public static AltUnitySampleClass StaticSampleClass = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
 
     public TouchPhase TouchPhase = TouchPhase.Canceled;
+    private TestStructure testStructure = new TestStructure("test", "test2", new List<int>() { 0, 1 });
     protected void Awake()
     {
         AltUnitySampleClass1 = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
@@ -102,6 +107,22 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     public void Test(int a)
     {
         Jump((a + 4).ToString());
+    }
+    public struct TestStructure
+    {
+        string text;
+        string text2;
+        List<int> list;
+
+        public TestStructure(string text, string text2, List<int> list)
+        {
+            this.text = text;
+            this.text2 = text2;
+            this.list = list;
+        }
+
+        public string Text { get => text; set => text = value; }
+        public List<int> List { get => list; set => list = value; }
     }
 
 }
