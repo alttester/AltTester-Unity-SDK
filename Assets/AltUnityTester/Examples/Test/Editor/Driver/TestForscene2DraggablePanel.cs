@@ -138,7 +138,7 @@ public class TestForScene2DraggablePanel
         Debug.WriteLine(listOfElements);
 
 
-        Assert.AreEqual(29, altElements.Count);
+        Assert.AreEqual(30, altElements.Count);
         Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
         Assert.IsNotNull(altElements.Where(p => p.name == "Panel Drag Area"));
@@ -192,7 +192,7 @@ public class TestForScene2DraggablePanel
         var altElements = altUnityDriver.GetAllLoadedScenesAndObjects();
         Assert.AreEqual(26, altElements.Count);
         altElements = altUnityDriver.GetAllLoadedScenesAndObjects(false);
-        Assert.AreEqual(31, altElements.Count);
+        Assert.AreEqual(32, altElements.Count);
     }
     [Test]
     public void TestNewTouchCommands()
