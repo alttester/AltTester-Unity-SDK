@@ -55,7 +55,7 @@ You can also activate this option from within the test using the following code:
 
     .. code-tab:: py
 
-        self.altdriver.find_object (By.NAME,"AltUnityRunnerPrefab").set_component_property("AltUnityRunner", "ShowInputs", "true")
+        self.altUnityDriver.find_object (By.NAME,"AltUnityRunnerPrefab").set_component_property("AltUnityRunner", "ShowInputs", "true")
 ```
 
 * Show popup

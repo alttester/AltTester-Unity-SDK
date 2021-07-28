@@ -3,19 +3,19 @@ using Altom.AltUnityDriver;
 
 public class #SCRIPTNAME#
 {
-    public AltUnityDriver AltUnityDriver;
+    public AltUnityDriver altUnityDriver;
     //Before any test it connects with the socket
     [OneTimeSetUp]
     public void SetUp()
     {
-        AltUnityDriver =new AltUnityDriver();
+        altUnityDriver =new AltUnityDriver();
     }
 
     //At the end of the test closes the connection with the socket
     [OneTimeTearDown]
     public void TearDown()
     {
-        AltUnityDriver.Stop();
+        altUnityDriver.Stop();
     }
 
     [Test]
