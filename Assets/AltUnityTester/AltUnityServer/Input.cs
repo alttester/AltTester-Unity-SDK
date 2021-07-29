@@ -878,7 +878,7 @@ public class Input : UnityEngine.MonoBehaviour
             if (target != null) target.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
-            target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null) target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
             pointerEventData.pointerPress = target;
 
             yield return null;
@@ -890,10 +890,10 @@ public class Input : UnityEngine.MonoBehaviour
             if (target != null) target.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
-            target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null) target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
-            target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null) target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
@@ -911,7 +911,7 @@ public class Input : UnityEngine.MonoBehaviour
 
         // mouse position doesn't change  but we fire on mouse exit
         UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-        target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        if (target != null) target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
         onFinish(target);
     }
     public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<UnityEngine.GameObject> onFinish)
