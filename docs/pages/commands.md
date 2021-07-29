@@ -3661,13 +3661,13 @@ None
 It is used in find objects methods to set the criteria of which the objects are searched.
 Currenty there are 7 types implemented:
 
--   _Tag_ - search for objects that have a specific tag
--   _Layer_ - search for objects that are set on a specific layer
--   _Name_ - search for objects that are named in a certain way
--   _Component_ - search for objects that have certain component
--   _Id_ - search for objects that have assigned a certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#altid)
--   _Text_ - search for objects that have a certain text
--   _Path_ - search for objects that respect a certain path
+-   _By.TAG_ - search for objects that have a specific tag
+-   _By.LAYER_ - search for objects that are set on a specific layer
+-   _By.NAME_ - search for objects that are named in a certain way
+-   _By.COMPONENT_ - search for objects that have certain component
+-   _By.ID_ - search for objects that have assigned a certain id (every object has an unique id so this criteria always will return 1 or 0 objects). Id checks for InstanceId and [AltId](#altid)
+-   _By.TEXT_ - search for objects that have a certain text
+-   _By.PATH_ - search for objects that respect a certain path
 
 **Searching object by PATH**
 
