@@ -153,13 +153,6 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
 ```eval_rst
 
-.. note::
-
-    Example tests below are setup to run on Scene 2 and Scene 3 from the Example folder under the AltUnity Tester package.
-
-    If you want to use these examples for other scenes / games, make sure to update the test accordingly.
-
-
 .. tabs::
 
     .. tab:: C#
