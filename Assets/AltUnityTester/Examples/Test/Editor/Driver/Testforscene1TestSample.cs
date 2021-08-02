@@ -1942,5 +1942,13 @@ public class TestForScene1TestSample
         var value = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]");
         Assert.AreEqual("1", value);
     }
+    [Test]
+    public void TestClickOnChangingSceneButton()
+    {
+        var initialScene = altUnityDriver.GetCurrentScene();
+        altUnityDriver.FindObject(By.NAME, "NextScene").Click();
+        var currentScene = altUnityDriver.GetCurrentScene();
+        Assert.AreNotEqual(initialScene, currentScene);
+    }
 
 }
