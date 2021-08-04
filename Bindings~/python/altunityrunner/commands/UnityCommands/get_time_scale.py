@@ -5,16 +5,12 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class GetTimeScale(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end):
-        super(GetTimeScale, self).__init__(
-            socket, request_separator, request_end)
+    def __init__(self, connection):
+        super().__init__(connection, "getTimeScale")
 
     def execute(self):
         logger.debug("Get time scale")
-        data = self.send_command("getTimeScale")
+        data = self.send()
 
-        if (data != "" and "error:" not in data):
-            logger.debug("Got time scale: {}".format(data))
-            return float(data)
-
-        return None
+        logger.debug("Got time scale: {}".format(data))
+        return float(data)

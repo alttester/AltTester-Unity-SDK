@@ -3,11 +3,21 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class MultipointSwipe(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end, positions, duration_in_secs):
-        super(MultipointSwipe, self).__init__(socket, request_separator, request_end)
+    def __init__(self, connection, positions, duration):
+        super().__init__(connection, "multipointSwipeChain")
+
         self.positions = positions
-        self.duration_in_secs = str(duration_in_secs)
+        self.duration = duration
+
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
+            "positions": self.positions_to_json(self.positions),
+            "duration": self.duration
+        })
+
+        return parameters
 
     def execute(self):
-        moving_position = self.positions_to_json_string(self.positions)
-        return self.send_command("multipointSwipeChain", self.duration_in_secs, moving_position)
+        return self.send()

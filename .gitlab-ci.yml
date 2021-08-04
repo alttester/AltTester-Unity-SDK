@@ -154,7 +154,7 @@ run-python-android-tests:
     - *pip_install_dependencies
   script:
     - pytest Bindings~/python/tests/unit
-    - python Bindings~/python/tests/python_bindings_tests.py
+    - pytest Bindings~/python/tests/python_bindings_tests.py
   after_script:
     - adb forward --remove-all
   artifacts:
@@ -176,7 +176,7 @@ run-python-appium-android-tests:
     - *initialize_venv
     - *pip_install_dependencies
   script:
-    - python "Bindings~/python/tests/python_appium_tests.py"
+    - pytest "Bindings~/python/tests/python_appium_tests.py"
   after_script:
     - adb forward --remove-all
   artifacts:

@@ -3,15 +3,22 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class UnloadScene(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end, scene_name):
-        super(UnloadScene, self).__init__(socket, request_separator, request_end)
+    def __init__(self, connection, scene_name):
+        super(UnloadScene, self).__init__(connection, "unloadScene")
+
         self.scene_name = scene_name
 
-    def execute(self):
-        data = self.send_command("unloadScene", self.scene_name)
-        self.validate_response("Ok", data)
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
+            "sceneName": self.scene_name,
+        })
 
-        data = self.recvall()
-        self.validate_response("Scene Unloaded", data)
+        return parameters
+
+    def execute(self):
+        data = self.send()
+        self.validate_response("Ok", data)
 
         return data

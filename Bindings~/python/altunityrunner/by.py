@@ -1,4 +1,8 @@
-class By(object):
+from enum import Enum, unique
+
+
+@unique
+class By(Enum):
     NAME = 1
     TAG = 2
     LAYER = 3
@@ -7,19 +11,5 @@ class By(object):
     PATH = 6
     TEXT = 7
 
-    @staticmethod
-    def return_enum_string(value):
-        if value == 1:
-            return "NAME"
-        elif value == 2:
-            return "TAG"
-        elif value == 3:
-            return "LAYER"
-        elif value == 4:
-            return "COMPONENT"
-        elif value == 5:
-            return "ID"
-        elif value == 6:
-            return "PATH"
-        elif value == 7:
-            return "TEXT"
+    def __str__(self):
+        return self.name

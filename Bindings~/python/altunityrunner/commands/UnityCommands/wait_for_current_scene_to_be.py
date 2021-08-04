@@ -2,15 +2,16 @@ import time
 
 from loguru import logger
 
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.commands.base_command import Command
 from altunityrunner.altUnityExceptions import WaitTimeOutException
 from altunityrunner.commands.UnityCommands.get_current_scene import GetCurrentScene
 
 
-class WaitForCurrentSceneToBe(CommandReturningAltElements):
+class WaitForCurrentSceneToBe(Command):
 
-    def __init__(self, socket, request_separator, request_end, scene_name, timeout, interval):
-        super(WaitForCurrentSceneToBe, self).__init__(socket, request_separator, request_end)
+    def __init__(self, connection, scene_name, timeout, interval):
+        self._connection = connection
+
         self.scene_name = scene_name
         self.timeout = timeout
         self.interval = interval
@@ -21,7 +22,7 @@ class WaitForCurrentSceneToBe(CommandReturningAltElements):
 
         while t <= self.timeout:
             logger.debug("Waiting for scene to be {}...".format(self.scene_name))
-            current_scene = GetCurrentScene(self.socket, self.request_separator, self.request_end).execute()
+            current_scene = GetCurrentScene(self._connection).execute()
 
             if current_scene != self.scene_name:
                 time.sleep(self.interval)

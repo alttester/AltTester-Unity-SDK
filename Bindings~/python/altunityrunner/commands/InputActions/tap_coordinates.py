@@ -3,28 +3,39 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class TapCoordinates(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end, coordinates, count, interval, wait):
-        super(TapCoordinates, self).__init__(socket, request_separator, request_end)
-        self.coordinates = coordinates
+    def __init__(self, connection, coordinates, count, interval, wait):
+        super().__init__(connection, "tapCoordinates")
+
+        if isinstance(coordinates, dict):
+            self.coordinates = coordinates
+        else:
+            self.coordinates = {
+                "x": coordinates[0],
+                "y": coordinates[1]
+            }
+
         self.count = count
         self.interval = interval
         self.wait = wait
 
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
+            "coordinates": self.coordinates,
+            "count": self.count,
+            "interval": self.interval,
+            "wait": self.wait
+        })
+
+        return parameters
+
     def execute(self):
-        if isinstance(self.coordinates, dict):
-            x = self.coordinates["x"]
-            y = self.coordinates["y"]
-        else:
-            x = self.coordinates[0]
-            y = self.coordinates[1]
-
-        position = self.vector_to_json_string(x, y)
-        data = self.send_command("tapCoordinates", position, self.count, self.interval, self.wait)
-
-        self.validate_response(data, "Ok")
+        data = self.send()
+        self.validate_response("Ok", data)
 
         if self.wait:
-            data = self.recvall()
-            self.validate_response(data, "Finished")
+            data = self.recv()
+            self.validate_response("Finished", data)
 
         return data
