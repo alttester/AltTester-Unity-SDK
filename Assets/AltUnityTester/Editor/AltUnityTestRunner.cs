@@ -299,21 +299,6 @@ namespace Altom.Editor
 
         public static void SetUpListTest()
         {
-            var reload = AltUnityTesterEditor.EditorConfiguration.MyTests == null;
-            if (!reload)
-            {
-                foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
-                {
-                    if (test.Type == null)
-                    {
-                        reload = true;
-                    }
-                }
-            }
-            if (reload == false)
-            {
-                return;
-            }
 
             var myTests = new List<AltUnityMyTest>();
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
@@ -341,7 +326,6 @@ namespace Altom.Editor
                         continue;
                     }
                 }
-
                 var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
                 addTestSuiteToMyTest(testSuite, myTests);
             }
