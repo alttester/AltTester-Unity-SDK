@@ -112,3 +112,8 @@ class AltUnityInvalidPathException(AltUnityException):
 class AltUnityInputModuleException(AltUnityException):
     def __init__(self, message):
         super(AltUnityInputModuleException, self).__init__(message)
+
+
+class AltUnityCameraNotFound(AltUnityException):
+    def __init__(self, message):
+        super(AltUnityCameraNotFound, self).__init__(message)

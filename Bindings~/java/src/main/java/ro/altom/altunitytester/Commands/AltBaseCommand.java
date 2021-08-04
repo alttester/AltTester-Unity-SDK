@@ -25,12 +25,9 @@ public class AltBaseCommand {
     protected String recvall() {
         String receivedData = "";
 
-        if ( remaining.indexOf("::altend") >=0 )
-        {
+        if (remaining.indexOf("::altend") >= 0) {
             receivedData = remaining;
-        }
-        else 
-        {
+        } else {
             boolean streamIsFinished = false;
             int receivedZeroBytesCounter = 0;
             int receivedZeroBytesCounterLimit = 2;
@@ -61,11 +58,10 @@ public class AltBaseCommand {
         logger.trace(receivedData);
 
         remaining = "";
-        int index= receivedData.indexOf("::altendaltstart::");
-        if ( index >= 0)
-        {
-            remaining = receivedData.substring(index+8);
-            receivedData = receivedData.substring(0, index+8);
+        int index = receivedData.indexOf("::altendaltstart::");
+        if (index >= 0) {
+            remaining = receivedData.substring(index + 8);
+            receivedData = receivedData.substring(0, index + 8);
         }
 
         String[] parts = receivedData.split("altstart::|::response::|::altLog::|::altend", -1);// -1 limit to include
@@ -173,6 +169,8 @@ public class AltBaseCommand {
             throw new AltUnityInvalidPathException(data);
         } else if ("error:ALTUNITYTESTERNotAddedAsDefineVariable".equals(typeOfException)) {
             throw new AltUnityInputModuleException(data);
+        } else if ("error:cameraNotFound".equals(typeOfException)) {
+            throw new AltUnityCameraNotFoundException(data);
         }
     }
 
