@@ -26,4 +26,8 @@ public class AltUnitySphereColliderScript : MonoBehaviour
     {
         monoBehaviourEventsRaised.Add("OnMouseExit");
     }
+    protected void OnMouseOver()
+    {
+        monoBehaviourEventsRaised.Add("OnMouseOver");
+    }
 }

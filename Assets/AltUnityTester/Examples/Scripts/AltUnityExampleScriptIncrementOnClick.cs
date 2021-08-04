@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerDownHandler, IPointerClickHandler
+public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     // Start is called before the first frame update
     public Text counterText;
@@ -95,4 +95,16 @@ public class AltUnityExampleScriptIncrementOnClick : MonoBehaviour, IPointerDown
         if (eventData.pointerPressRaycast.gameObject != null)
             eventDataPressRaycastObject = eventData.pointerPressRaycast.gameObject.name;
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        eventsRaised.Add("OnPointerEnter");
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        eventsRaised.Add("OnPointerExit");
+    }
+
+
 }
