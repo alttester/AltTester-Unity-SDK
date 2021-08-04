@@ -44,6 +44,16 @@ These give you access to a virtual machine or a Docker container that has a clou
 </details>
 <br>
 
+<details>
+<summary><strong>How can I use the Input from AltUnity Tester if my project is using Assembly Definitions? </strong></summary>
+<br>
+<strong>Answer:</strong>In order to fix this issue you have to:
+1. Create .asmdef files in these directories (3rdParty, AltUnityDriver, AltUnityServer)
+2. Reference other asemblies in AltUnityServer assembly
+3. Reference AltUnityServer assembly in Project-Main-Assembly
+</details>
+<br>
+
 
 ## Troubleshooting
 
