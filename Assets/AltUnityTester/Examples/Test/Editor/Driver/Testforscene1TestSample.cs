@@ -1748,6 +1748,7 @@ public class TestForScene1TestSample
     [Test]
     public void TestClick_MouseDownUp()
     {
+        altUnityDriver.MoveMouse(new AltUnityVector2(0, 0));
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         counterElement.Click();
 
@@ -1761,29 +1762,35 @@ public class TestForScene1TestSample
         Assert.AreEqual(1, mouseUpCounter);
         Assert.AreEqual(1, mousePressedCounter);
 
-        Assert.IsTrue(eventsRaisedList.Contains("OnMouseEnter"));
         Assert.IsTrue(eventsRaisedList.Contains("OnMouseDown"));
         Assert.IsTrue(eventsRaisedList.Contains("OnMouseUp"));
         Assert.IsTrue(eventsRaisedList.Contains("OnMouseUpAsButton"));
-        Assert.IsTrue(eventsRaisedList.Contains("OnMouseExit"));
     }
 
     [Test]
-    public void TestMouseOverElement()
+    public void TestPointerEnter_PointerExit()
     {
-        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        capsule.Click();
-        var mouseOverCounter = int.Parse(capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "mouseOverCounter"));
-        Assert.AreEqual(2, mouseOverCounter);
+        altUnityDriver.MoveMouse(new AltUnityVector2(-1, -1));
+
+        var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        altUnityDriver.MoveMouse(counterElement.getScreenPosition());
+
+        string eventsRaised = counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+        var eventsRaisedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsRaised);
+
+        Assert.IsTrue(eventsRaisedList.Contains("OnPointerEnter")); //true because initial mouse position is exactly over ButtonCounter
+        Assert.IsFalse(eventsRaisedList.Contains("OnPointerExit"));
+
+        altUnityDriver.MoveMouse(new AltUnityVector2(200, 200));
+
+        eventsRaised = counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+        eventsRaisedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsRaised);
+
+        Assert.IsTrue(eventsRaisedList.Contains("OnPointerEnter"));
+        Assert.IsTrue(eventsRaisedList.Contains("OnPointerExit"));
+
     }
-    [Test]
-    public void TestMouseOverCoordinates()
-    {
-        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        altUnityDriver.Click(capsule.getScreenPosition());
-        var mouseOverCounter = int.Parse(capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "mouseOverCounter"));
-        Assert.AreEqual(2, mouseOverCounter);
-    }
+
 
     [Test]
     public void TestClickCoordinates()
@@ -1836,16 +1843,19 @@ public class TestForScene1TestSample
 
         string monoBehaviourEventsRaisedString = sphere.GetComponentProperty("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
         var monoBehaviourEventsRaised = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(monoBehaviourEventsRaisedString);
+        Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseOver"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseEnter"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseDown"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUp"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUpAsButton"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseExit"));
+
     }
 
     [Test]
     public void TestClickCoordinates_ColliderParentCollider()
     {
+        altUnityDriver.MoveMouse(new AltUnityVector2(0, 0));
         var sphere = altUnityDriver.FindObject(By.PATH, "/Sphere");
         var plane = altUnityDriver.FindObject(By.PATH, "/Sphere/PlaneS");
         altUnityDriver.Click(plane.getScreenPosition());
@@ -1853,6 +1863,7 @@ public class TestForScene1TestSample
 
         string eventsstring = plane.GetComponentProperty("AltUnityPlaneColliderScript", "monoBehaviourEventsRaised");
         var planeEvents = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsstring);
+        Assert.IsTrue(planeEvents.Contains("OnMouseOver"));
         Assert.IsTrue(planeEvents.Contains("OnMouseEnter"));
         Assert.IsTrue(planeEvents.Contains("OnMouseDown"));
         Assert.IsTrue(planeEvents.Contains("OnMouseUp"));
@@ -1865,7 +1876,6 @@ public class TestForScene1TestSample
         Assert.IsFalse(sphereevents.Contains("OnMouseDown"));
         Assert.IsFalse(sphereevents.Contains("OnMouseUp"));
         Assert.IsFalse(sphereevents.Contains("OnMouseUpAsButton"));
-        Assert.IsFalse(sphereevents.Contains("OnMouseExit"));
     }
     public static bool FastApproximately(float a, float b, float threshold)
     {

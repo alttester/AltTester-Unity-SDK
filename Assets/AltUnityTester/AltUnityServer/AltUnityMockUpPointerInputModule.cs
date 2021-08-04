@@ -31,7 +31,6 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                     pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerEnterHandler);
                     var monoBehaviourTarget = FindMonoBehaviourObject(pointerEventData.position);
-                    if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                     pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerDownHandler);
                     if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
@@ -67,12 +66,10 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 
                         if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
                         {
-                            if (previousData.pointerEnter != null) previousData.pointerEnter.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
                             ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
                                 ExecuteEvents.pointerExitHandler);
                             ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                                 ExecuteEvents.pointerEnterHandler);
-                            if (previousData.pointerCurrentRaycast.gameObject != null) previousData.pointerCurrentRaycast.gameObject.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
                             previousData.pointerEnter = previousData.pointerCurrentRaycast.gameObject;
                         }
 
@@ -120,11 +117,6 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
 
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                             ExecuteEvents.pointerExitHandler);
-                        if (previousData.pointerCurrentRaycast.gameObject != null)
-                        {
-                            previousData.pointerCurrentRaycast.gameObject.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-
-                        }
                         return previousData;
                     }
                     break;
