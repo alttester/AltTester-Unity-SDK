@@ -1,35 +1,45 @@
-import socket
-import time
 import warnings
 import sys
 
-from deprecated import deprecated
 from loguru import logger
 
 import altunityrunner.commands as commands
 from altunityrunner.__version__ import VERSION
+from altunityrunner._websocket import WebsocketConnection
+from altunityrunner.altElement import AltElement
 from altunityrunner.by import By
-from altunityrunner.altUnityExceptions import UnknownErrorException, AltUnityRecvallMessageFormatException
 
 
 warnings.filterwarnings("default", category=DeprecationWarning, module=__name__)
 
 
-class AltUnityDriver(object):
+class AltUnityDriver:
+    """The driver object will help interacting with all the game objects, their properties and methods.
 
-    def __init__(self, TCP_IP="127.0.0.1", TCP_PORT=13000, timeout=60, request_separator=";", request_end="&",
-                 device_id=None, log_flag=False):
-        self.TCP_IP = TCP_IP
-        self.TCP_PORT = TCP_PORT
+    When you instantiate an ``AltUnityDriver`` object in your tests, you can use it to “drive” your game like one of
+    your users would, by interacting with all the game objects, their properties and methods.  An ``AltUnityDriver``
+    instance will connect to the AltUnity Server that is running inside the game.
 
-        self.request_separator = request_separator
-        self.request_end = request_end
-        self.log_flag = log_flag
+    Args:
+        host (:obj:`str`): The server host to connect to.
+        port (:obj:`int`): The server port to connect to.
+        timeout (:obj:`int` or :obj:`float`): The server connection timeout time.
+        tries (:obj:`int`): The maximum number of attempts to connect to the server.
+        enable_logging (:obj:`bool`): If set to ``True`` will turn on logging, by default logging is disabled.
 
-        if device_id:
-            raise DeprecationWarning("The 'device_id' argument is not longer supported.")
+    """
 
-        if log_flag:
+    def __init__(self, host="127.0.0.1", port=13000, timeout=60, tries=5, enable_logging=False):
+        self.host = host
+        self.port = port
+        self.enable_logging = enable_logging
+
+        self._config_logging(self.enable_logging)
+        self._connection = WebsocketConnection(host=host, port=port, timeout=timeout, tries=tries)
+
+    @staticmethod
+    def _config_logging(enable_logging):
+        if enable_logging:
             logger.configure(
                 handlers=[
                     dict(sink=sys.stdout),
@@ -41,57 +51,59 @@ class AltUnityDriver(object):
         else:
             logger.disable("altunityrunner")
 
-        while timeout > 0:
-            try:
-                self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.socket.connect((TCP_IP, TCP_PORT))
-
-                self._check_server_version()
-
-                break
-            except Exception as e:
-                if self.socket is not None:
-                    self.stop()
-
-                logger.error(e)
-                logger.warning(
-                    "Trying to reach AltUnity Server at port {}, retrying (timing out in {} secs)...".format(
-                        self.TCP_PORT,
-                        timeout
-                    )
-                )
-
-                timeout -= 1
-                time.sleep(1)
-
-        if timeout <= 0:
-            raise Exception("Could not connect to AltUnityServer on: {}:{}".format(self.TCP_IP, self.TCP_PORT))
-
     @staticmethod
     def _split_version(version):
         parts = version.split(".")
         return (parts[0], parts[1]) if len(parts) > 1 else ("", "")
 
     def _check_server_version(self):
-        serverVersion = ""
-        try:
-            serverVersion = commands.GetServerVersion(self.socket, self.request_separator, self.request_end).execute()
-            logger.info("Connection established with AltUnity Server. Version: {}".format(serverVersion))
-        except UnknownErrorException:
-            serverVersion = "<=1.5.3"
-        except AltUnityRecvallMessageFormatException:
-            serverVersion = "<=1.5.7"
+        server_version = commands.GetServerVersion.run(self._connection)
+        logger.info("Connection established with AltUnity Server. Version: {}".format(server_version))
 
-        majorServer, minorServer = self._split_version(serverVersion)
-        majorDriver, minorDriver = self._split_version(VERSION)
+        major_server, minor_server = self._split_version(server_version)
+        major_driver, minor_driver = self._split_version(VERSION)
 
-        if majorServer != majorDriver or minorServer != minorDriver:
+        if major_server != major_driver or minor_server != minor_driver:
             message = "Version mismatch. AltUnity Driver version is {}. AltUnity Server version is {}.".format(
                 VERSION,
-                serverVersion
+                server_version
             )
 
             logger.warning(message)
+
+    def _get_alt_element(self, data):
+        if data is None:
+            return None
+
+        alt_element = AltElement(self, data)
+
+        logger.debug("Element {} found at x:{} y:{} mobileY:{}".format(
+            alt_element.name,
+            alt_element.x,
+            alt_element.y,
+            alt_element.mobileY
+        ))
+
+        return alt_element
+
+    def _get_alt_elements(self, data):
+        if data is None:
+            return None
+
+        alt_elements = []
+
+        for element in data:
+            alt_element = AltElement(self, element)
+            alt_elements.append(alt_element)
+
+            logger.debug("Element {} found at x:{} y:{} mobileY:{}".format(
+                alt_element.name,
+                alt_element.x,
+                alt_element.y,
+                alt_element.mobileY
+            ))
+
+        return alt_elements
 
     @staticmethod
     def is_camera_by_string(camera_by, camera_path):
@@ -101,311 +113,256 @@ class AltUnityDriver(object):
             return camera_by, camera_path
 
     def stop(self):
-        commands.CloseConnection(self.socket, self.request_separator, self.request_end).execute()
-        self.socket.close()
+        self._connection.close()
 
-    @deprecated(version="1.6.2", reason="Use call_static_method")
-    def call_static_methods(self, type_name, method_name, parameters, type_of_parameters='', assembly=''):
-        return commands.CallStaticMethod(
-            self.socket, self.request_separator, self.request_end,
+    def call_static_method(self, type_name, method_name, parameters, type_of_parameters="", assembly=""):
+        return commands.CallStaticMethod.run(
+            self._connection,
             type_name, method_name, parameters, type_of_parameters, assembly
-        ).execute()
-
-    def call_static_method(self, type_name, method_name, parameters, type_of_parameters='', assembly=''):
-        return commands.CallStaticMethod(
-            self.socket, self.request_separator, self.request_end,
-            type_name, method_name, parameters, type_of_parameters, assembly
-        ).execute()
+        )
 
     def get_all_elements(self, camera_by=By.NAME, camera_path="", enabled=True):
-        return commands.GetAllElements(
-            self.socket, self.request_separator, self.request_end,
+        data = commands.GetAllElements.run(
+            self._connection,
             camera_by, camera_path, enabled
-        ).execute()
+        )
+
+        return self._get_alt_elements(data)
 
     def find_object(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
-        return commands.FindObject(
-            self.socket, self.request_separator, self.request_end,
+
+        data = commands.FindObject.run(
+            self._connection,
             by, value, camera_by, camera_path, enabled
-        ).execute()
+        )
+
+        return self._get_alt_element(data)
 
     def find_object_which_contains(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
-        return commands.FindObjectWhichContains(
-            self.socket, self.request_separator, self.request_end,
+
+        data = commands.FindObjectWhichContains.run(
+            self._connection,
             by, value, camera_by, camera_path, enabled
-        ).execute()
+        )
+
+        return self._get_alt_element(data)
 
     def find_objects(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
-        return commands.FindObjects(
-            self.socket, self.request_separator, self.request_end,
+
+        data = commands.FindObjects.run(
+            self._connection,
             by, value, camera_by, camera_path, enabled
-        ).execute()
+        )
+
+        return self._get_alt_elements(data)
 
     def find_objects_which_contain(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
         camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
-        return commands.FindObjectsWhichContain(
-            self.socket, self.request_separator, self.request_end,
+
+        data = commands.FindObjectsWhichContain.run(
+            self._connection,
             by, value, camera_by, camera_path, enabled
-        ).execute()
+        )
+
+        return self._get_alt_elements(data)
 
     def get_current_scene(self):
-        return commands.GetCurrentScene(self.socket, self.request_separator, self.request_end).execute()
+        return commands.GetCurrentScene.run(self._connection)
 
     def swipe(self, x_start, y_start, x_end, y_end, duration_in_secs):
-        return commands.Swipe(
-            self.socket, self.request_separator, self.request_end,
+        return commands.Swipe.run(
+            self._connection,
             x_start, y_start, x_end, y_end, duration_in_secs
-        ).execute()
+        )
 
     def swipe_and_wait(self, x_start, y_start, x_end, y_end, duration_in_secs):
-        return commands.SwipeAndWait(
-            self.socket, self.request_separator, self.request_end,
+        return commands.SwipeAndWait.run(
+            self._connection,
             x_start, y_start, x_end, y_end, duration_in_secs
-        ).execute()
+        )
 
     def multipoint_swipe(self, positions, duration_in_secs):
-        return commands.MultipointSwipe(
-            self.socket, self.request_separator, self.request_end,
+        return commands.MultipointSwipe.run(
+            self._connection,
             positions, duration_in_secs
-        ).execute()
+        )
 
     def multipoint_swipe_and_wait(self, positions, duration_in_secs):
-        return commands.MultipointSwipeAndWait(
-            self.socket, self.request_separator, self.request_end,
+        return commands.MultipointSwipeAndWait.run(
+            self._connection,
             positions, duration_in_secs
-        ).execute()
+        )
 
     def tilt(self, x, y, z, duration=0):
-        return commands.Tilt(
-            self.socket, self.request_separator, self.request_end,
+        return commands.Tilt.run(
+            self._connection,
             x, y, z, duration
-        ).execute()
+        )
 
     def tilt_and_wait(self, x, y, z, duration=0):
-        return commands.TiltAndWait(
-            self.socket, self.request_separator, self.request_end,
+        return commands.TiltAndWait.run(
+            self._connection,
             x, y, z, duration
-        ).execute()
+        )
 
     def hold_button(self, x_position, y_position, duration_in_secs):
-        return commands.Swipe(
-            self.socket, self.request_separator, self.request_end,
+        return commands.Swipe.run(
+            self._connection,
             x_position, y_position, x_position, y_position, duration_in_secs
-        ).execute()
+        )
 
     def hold_button_and_wait(self, x_position, y_position, duration_in_secs):
-        return commands.SwipeAndWait(
-            self.socket, self.request_separator, self.request_end,
+        return commands.SwipeAndWait.run(
+            self._connection,
             x_position, y_position, x_position, y_position, duration_in_secs
-        ).execute()
+        )
 
-    @deprecated(version="1.6.5", reason="Use press_key_with_keycode(keyCode, power=1, duration=1) instead")
-    def press_key(self, keyName, power=1, duration=1):
-        return commands.PressKey(
-            self.socket, self.request_separator, self.request_end,
-            keyName, power, duration
-        ).execute()
+    def press_key_with_keycode(self, key_code, power=1, duration=1):
+        return commands.PressKey.run(self._connection, key_code, power, duration)
 
-    def press_key_with_keycode(self, keyCode, power=1, duration=1):
-        return commands.PressKeyWithKeyCode(
-            self.socket, self.request_separator, self.request_end,
-            keyCode, power, duration
-        ).execute()
+    def press_key_with_keycode_and_wait(self, key_code, power=1, duration=1):
+        return commands.PressKeyAndWait.run(
+            self._connection,
+            key_code, power, duration
+        )
 
-    @deprecated(version="1.6.5", reason="Use press_key_with_keycode_and_wait(keyCode, power=1, duration=1) instead")
-    def press_key_and_wait(self, keyName, power=1, duration=1):
-        return commands.PressKeyAndWait(
-            self.socket, self.request_separator, self.request_end,
-            keyName, power, duration
-        ).execute()
+    def key_down(self, key_code, power=1):
+        return commands.KeyDown.run(self._connection, key_code, power)
 
-    def press_key_with_keycode_and_wait(self, keyCode, power=1, duration=1):
-        return commands.PressKeyWithKeyCodeAndWait(
-            self.socket, self.request_separator, self.request_end,
-            keyCode, power, duration
-        ).execute()
-
-    def key_down(self, keyCode, power=1):
-        return commands.KeyDown(
-            self.socket, self.request_separator, self.request_end,
-            keyCode, power
-        ).execute()
-
-    def key_up(self, keyCode, power=1):
-        return commands.KeyUp(
-            self.socket, self.request_separator, self.request_end,
-            keyCode
-        ).execute()
+    def key_up(self, key_code):
+        return commands.KeyUp.run(self._connection, key_code)
 
     def move_mouse(self, x, y, duration):
-        return commands.MoveMouse(
-            self.socket, self.request_separator, self.request_end,
-            x, y, duration
-        ).execute()
+        return commands.MoveMouse.run(self._connection, x, y, duration)
 
     def move_mouse_and_wait(self, x, y, duration):
-        return commands.MoveMouseAndWait(
-            self.socket, self.request_separator, self.request_end,
+        return commands.MoveMouseAndWait.run(
+            self._connection,
             x, y, duration
-        ).execute()
+        )
 
     def scroll_mouse(self, speed, duration):
-        return commands.ScrollMouse(
-            self.socket, self.request_separator, self.request_end,
+        return commands.ScrollMouse.run(
+            self._connection,
             speed, duration
-        ).execute()
+        )
 
     def scroll_mouse_and_wait(self, speed, duration):
-        return commands.ScrollMouseAndWait(
-            self.socket, self.request_separator, self.request_end,
+        return commands.ScrollMouseAndWait.run(
+            self._connection,
             speed, duration
-        ).execute()
+        )
 
     def set_player_pref_key(self, key_name, value, key_type):
-        return commands.SetPlayerPrefKey(
-            self.socket, self.request_separator, self.request_end,
+        return commands.SetPlayerPrefKey.run(
+            self._connection,
             key_name, value, key_type
-        ).execute()
+        )
 
     def get_player_pref_key(self, key_name, key_type):
-        return commands.GetPlayerPrefKey(
-            self.socket, self.request_separator, self.request_end,
+        return commands.GetPlayerPrefKey.run(
+            self._connection,
             key_name, key_type
-        ).execute()
+        )
 
     def delete_player_pref_key(self, key_name):
-        return commands.DeletePlayerPrefKey(
-            self.socket, self.request_separator, self.request_end,
-            key_name
-        ).execute()
+        return commands.DeletePlayerPrefKey.run(self._connection, key_name)
 
     def delete_player_prefs(self):
-        return commands.DeletePlayerPref(self.socket, self.request_separator, self.request_end).execute()
+        return commands.DeletePlayerPref.run(self._connection)
 
     def load_scene(self, scene_name, load_single=True):
-        return commands.LoadScene(
-            self.socket, self.request_separator, self.request_end,
+        return commands.LoadScene.run(
+            self._connection,
             scene_name, load_single
-        ).execute()
+        )
 
     def unload_scene(self, scene_name):
-        return commands.UnloadScene(
-            self.socket, self.request_separator, self.request_end,
-            scene_name
-        ).execute()
+        return commands.UnloadScene.run(self._connection, scene_name)
 
     def set_time_scale(self, time_scale):
-        return commands.SetTimeScale(
-            self.socket, self.request_separator, self.request_end,
-            time_scale
-        ).execute()
+        return commands.SetTimeScale.run(self._connection, time_scale)
 
     def get_time_scale(self):
-        return commands.GetTimeScale(self.socket, self.request_separator, self.request_end).execute()
+        return commands.GetTimeScale.run(self._connection)
 
     def wait_for_current_scene_to_be(self, scene_name, timeout=30, interval=1):
-        return commands.WaitForCurrentSceneToBe(
-            self.socket, self.request_separator, self.request_end,
+        return commands.WaitForCurrentSceneToBe.run(
+            self._connection,
             scene_name, timeout, interval
-        ).execute()
+        )
 
     def wait_for_object(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
         camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
-        return commands.WaitForObject(
-            self.socket, self.request_separator, self.request_end,
+
+        data = commands.WaitForObject.run(
+            self._connection,
             by, value, camera_by, camera_path, timeout, interval, enabled
-        ).execute()
+        )
+
+        return self._get_alt_element(data)
 
     def wait_for_object_which_contains(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5,
                                        enabled=True):
         camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
-        return commands.WaitForObjectWhichContains(
-            self.socket, self.request_separator, self.request_end,
+
+        data = commands.WaitForObjectWhichContains.run(
+            self._connection,
             by, value, camera_by, camera_path, timeout, interval, enabled
-        ).execute()
+        )
+
+        return self._get_alt_element(data)
 
     def wait_for_object_to_not_be_present(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5,
                                           enabled=True):
         camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
-        return commands.WaitForObjectToNotBePresent(
-            self.socket, self.request_separator, self.request_end,
+
+        return commands.WaitForObjectToNotBePresent.run(
+            self._connection,
             by, value, camera_by, camera_path, timeout, interval, enabled
-        ).execute()
-
-    @deprecated(version="1.6.3", reason="Use altunityrunner.runner.AltUnityDriver.wait_for_object")
-    def wait_for_object_with_text(self, by, value, text, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5,
-                                  enabled=True):
-        camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
-        return commands.WaitForObjectWithText(
-            self.socket, self.request_separator, self.request_end,
-            by, value, text, camera_by, camera_path, timeout, interval, enabled
-        ).execute()
-
-    @deprecated(version="1.6.5", reason="Use tap")
-    def tap_at_coordinates(self, x, y):
-        return commands.TapAtCoordinates(
-            self.socket, self.request_separator, self.request_end,
-            x, y
-        ).execute()
-
-    @deprecated(version="1.6.5", reason="Use tap")
-    def tap_custom(self, x, y, count, interval=0.1):
-        return commands.TapCustom(
-            self.socket, self.request_separator, self.request_end,
-            x, y, count, interval
-        ).execute()
+        )
 
     def tap(self, coordinates, count=1, interval=0.1, wait=True):
-        '''Tap at screen coordinates
+        """Tap at screen coordinates.
 
-    Parameters:
-        coordinates -- The screen coordinates
-        count -- Number of taps (default 1)
-        interval -- Interval between taps in seconds (default 0.1)
-        wait -- Wait for command to finish
-        '''
-        return commands.TapCoordinates(
-            self.socket, self.request_separator, self.request_end,
-            coordinates, count, interval, wait
-        ).execute()
+        Args:
+            coordinates: The screen coordinates.
+            count: Number of taps (default 1).
+            interval: Interval between taps in seconds (default 0.1).
+            wait: Wait for command to finish.
+        """
+
+        return commands.TapCoordinates.run(self._connection, coordinates, count, interval, wait)
 
     def click(self, coordinates, count=1, interval=0.1, wait=True):
-        '''Click at screen coordinates
+        """Click at screen coordinates.
 
-    Parameters:
-        coordinates -- The screen coordinates
-        count -- Number of taps (default 1)
-        interval -- Interval between taps in seconds (default 0.1)
-        wait -- Wait for command to finish
-        '''
-        return commands.ClickCoordinates(
-            self.socket, self.request_separator, self.request_end,
-            coordinates, count, interval, wait
-        ).execute()
+        Args:
+            coordinates: The screen coordinates.
+            count: Number of taps (default 1).
+            interval: Interval between taps in seconds (default 0.1).
+            wait: Wait for command to finish.
+        """
+
+        return commands.ClickCoordinates.run(self._connection, coordinates, count, interval, wait)
 
     def get_png_screenshot(self, path):
-        commands.GetPNGScreenshot(
-            self.socket, self.request_separator, self.request_end,
-            path
-        ).execute()
+        commands.GetPNGScreenshot.run(self._connection, path)
 
     def get_all_loaded_scenes(self):
-        return commands.GetAllLoadedScenes(self.socket, self.request_separator, self.request_end).execute()
+        return commands.GetAllLoadedScenes.run(self._connection)
 
     def set_server_logging(self, logger, log_level):
-        return commands.SetServerLogging(
-            self.socket, self.request_separator, self.request_end,
-            logger, log_level
-        ).execute()
+        return commands.SetServerLogging.run(self._connection, logger, log_level)
 
     def begin_touch(self, coordinates):
-        return commands.BeginTouch(self.socket, self.request_separator, self.request_end, coordinates).execute()
+        return commands.BeginTouch.run(self._connection, coordinates)
 
     def move_touch(self, finger_id, coordinates):
-        commands.MoveTouch(self.socket, self.request_separator, self.request_end, finger_id, coordinates).execute()
+        commands.MoveTouch.run(self._connection, finger_id, coordinates)
 
     def end_touch(self, finger_id):
-        commands.EndTouch(self.socket, self.request_separator, self.request_end, finger_id).execute()
+        commands.EndTouch.run(self._connection, finger_id)

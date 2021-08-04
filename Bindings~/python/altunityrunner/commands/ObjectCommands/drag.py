@@ -3,12 +3,23 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class Drag(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end, x, y, alt_object):
-        super(Drag, self).__init__(socket, request_separator, request_end)
-        self.x = x
-        self.y = y
+    def __init__(self, connection, x, y, alt_object):
+        super().__init__(connection, "dragObject")
+
         self.alt_object = alt_object
 
+        self.x = x
+        self.y = y
+
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
+            "altUnityObject": self.alt_object.to_json(),
+            "position": self.vector_to_json(self.x, self.y)
+        })
+
+        return parameters
+
     def execute(self):
-        position_string = self.vector_to_json_string(self.x, self.y)
-        return self.send_command("dragObject", position_string, self.alt_object)
+        return self.send()

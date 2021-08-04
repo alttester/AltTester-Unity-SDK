@@ -6,4 +6,3 @@ from altunityrunner.commands.FindObjects.get_all_elements import *
 from altunityrunner.commands.FindObjects.wait_for_object import *
 from altunityrunner.commands.FindObjects.wait_for_object_to_not_be_present import *
 from altunityrunner.commands.FindObjects.wait_for_object_which_contains import *
-from altunityrunner.commands.FindObjects.wait_for_object_with_text import *

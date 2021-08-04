@@ -1,13 +1,11 @@
-from altunityrunner.commands.command_returning_alt_elements import CommandReturningAltElements
+from altunityrunner.commands.base_command import BaseCommand
 
 
-class GetCurrentScene(CommandReturningAltElements):
+class GetCurrentScene(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end):
-        super(GetCurrentScene, self).__init__(socket, request_separator, request_end)
+    def __init__(self, connection):
+        super().__init__(connection, "getCurrentScene")
 
     def execute(self):
-        data = self.send_command("getCurrentScene")
-        alt_element = self.get_alt_element(data)
-
-        return alt_element.name
+        data = self.send()
+        return data.get("name", "")
