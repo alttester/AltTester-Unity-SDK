@@ -1943,6 +1943,12 @@ public class TestForScene1TestSample
         Assert.AreEqual("1", value);
     }
     [Test]
+    public void TestCameraNotFoundException()
+    {
+        Assert.Throws<AltUnityCameraNotFoundException>(() => altUnityDriver.FindObject(By.NAME, "Capsule", By.NAME, "Camera"));
+    }
+        
+    [Test]
     public void TestClickOnChangingSceneButton()
     {
         var initialScene = altUnityDriver.GetCurrentScene();
