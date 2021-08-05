@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Altom.AltUnity.Instrumentation;
 using Altom.AltUnityDriver;
 using Altom.Editor.Logging;
 using NLog;
@@ -68,9 +69,7 @@ namespace Altom.Editor
 
         private bool foldOutScenes = true;
         private bool foldOutBuildSettings = true;
-        private bool foldOutLogSettings = true;
         private bool foldOutIosSettings = true;
-        private bool foldOutAltUnityServerSettings = true;
         private bool foldOutPortForwarding = true;
         public int selectedTestCount = 0;
 
@@ -426,12 +425,6 @@ namespace Altom.Editor
             displayBuildSettings();
             UnityEditor.EditorGUILayout.Separator();
             displayScenes();
-            UnityEditor.EditorGUILayout.Separator();
-            displayLogSettings();
-
-            UnityEditor.EditorGUILayout.Separator();
-
-            displayAltUnityServerSettings();
             UnityEditor.EditorGUILayout.Separator();
 
             displayPortForwarding(leftSide);
@@ -1161,17 +1154,6 @@ namespace Altom.Editor
 #endif
         }
 
-        private void displayAltUnityServerSettings()
-        {
-            foldOutAltUnityServerSettings = UnityEditor.EditorGUILayout.Foldout(foldOutAltUnityServerSettings, "AltUnityServer Settings");
-            if (foldOutAltUnityServerSettings)
-            {
-                labelAndInputFieldHorizontalLayout("Request separator", ref EditorConfiguration.RequestSeparator);
-                labelAndInputFieldHorizontalLayout("Request ending", ref EditorConfiguration.RequestEnding);
-                labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
-            }
-        }
-
         private void afterExitPlayMode()
         {
             removeAltUnityRunnerPrefab();
@@ -1198,7 +1180,7 @@ namespace Altom.Editor
 
         private void runInEditor()
         {
-            AltUnityBuilder.InsertAltUnityInTheActiveScene();
+            AltUnityBuilder.InsertAltUnityInTheActiveScene(AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings());
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             UnityEditor.EditorApplication.isPlaying = true;
@@ -1217,9 +1199,22 @@ namespace Altom.Editor
                 labelAndInputFieldHorizontalLayout("Product Name", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
-                labelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
+                labelAndCheckboxHorizontalLayout("Input visualizer", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
-                labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
+                labelAndCheckboxHorizontalLayout("Append \"Test\" to build name", ref EditorConfiguration.appendToName);
+
+                int selected = (int)EditorConfiguration.InstrumentationMode;
+                labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
+                EditorConfiguration.InstrumentationMode = (AltUnityInstrumentationMode)selected;
+                if (EditorConfiguration.InstrumentationMode == AltUnityInstrumentationMode.Server)
+                {
+                    labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
+                }
+                else
+                {
+                    labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost);
+                    labelAndInputFieldHorizontalLayout("Proxy port", ref EditorConfiguration.ProxyPort);
+                }
             }
             switch (EditorConfiguration.platform)
             {
@@ -1268,35 +1263,6 @@ namespace Altom.Editor
                         break;
 #endif
             }
-
-        }
-
-        private void displayLogSettings()
-        {
-            foldOutLogSettings = UnityEditor.EditorGUILayout.Foldout(foldOutLogSettings, "Log Settings");
-            if (foldOutLogSettings)
-            {
-                labelAndInputFieldHorizontalLayout("Max Length (Optional)", ref EditorConfiguration.MaxLogLength);
-                if (string.IsNullOrEmpty(EditorConfiguration.MaxLogLength))
-                {
-                    EditorConfiguration.MaxLogLength = "";
-                }
-                else
-                {
-                    try
-                    {
-                        var maxLogLength = int.Parse(EditorConfiguration.MaxLogLength);
-                        if (maxLogLength < 100)
-                        {
-                            EditorConfiguration.MaxLogLength = "100";
-                        }
-                    }
-                    catch
-                    {
-                        EditorConfiguration.MaxLogLength = "100";
-                    }
-                }
-            }
         }
 
         private static void labelAndCheckboxHorizontalLayout(string label, ref bool editorConfigVariable)
@@ -1323,6 +1289,16 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             editorConfigVariable = UnityEditor.EditorGUILayout.IntField(labelText, editorConfigVariable);
+            UnityEditor.EditorGUILayout.EndHorizontal();
+        }
+
+        private static void labelAndDropdownFieldHorizontalLayout(string labelText, string[] options, ref int selected)
+        {
+            UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
+
+            selected = UnityEditor.EditorGUILayout.Popup(labelText, selected, options);
+
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 

@@ -212,7 +212,7 @@ public class TestForScene1TestSample
     {
         Thread.Sleep(1000);
         const string componentName = "AltUnityRunner";
-        const string propertyName = "SocketPortNumber";
+        const string propertyName = "InstrumentationSettings.ServerPort";
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);

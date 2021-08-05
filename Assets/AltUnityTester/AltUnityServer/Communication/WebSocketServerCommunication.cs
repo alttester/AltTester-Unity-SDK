@@ -19,7 +19,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse("0.0.0.0");
 
             wsServer = new WebSocketServer(uri.ToString());
-            wsServer.AddWebSocketService<AltWebSocketHandler>("/altws");
+            wsServer.AddWebSocketService<AltServerWebSocketHandler>("/altws");
         }
         public bool IsConnected { get { return wsServer.WebSocketServices.SessionCount > 0; } }
         public bool IsListening { get { return wsServer.IsListening; } }

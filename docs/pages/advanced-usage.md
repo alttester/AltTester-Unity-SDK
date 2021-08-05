@@ -20,7 +20,8 @@ var buildTargetGroup = BuildTargetGroup.Android;
 AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
 if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
     AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
-AltUnityBuilder.InsertAltUnityInScene(FirstSceneOfTheGame);
+var instrumentationSettings = new AltUnityInstrumentationSettings();
+AltUnityBuilder.InsertAltUnityInScene(FirstSceneOfTheGame, instrumentationSettings);
 ```
 
 ```eval_rst

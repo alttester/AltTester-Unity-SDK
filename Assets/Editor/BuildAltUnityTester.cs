@@ -3,6 +3,7 @@ using UnityEditor;
 using Altom.Editor;
 using NLog;
 using Altom.Editor.Logging;
+using Altom.AltUnity.Instrumentation;
 
 public class BuildAltUnityTester
 {
@@ -45,7 +46,10 @@ public class BuildAltUnityTester
             };
 
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
-            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
+
+
+            var instrumentationSettings = AltUnityTesterEditor.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings();
+            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
             AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
@@ -120,7 +124,8 @@ public class BuildAltUnityTester
             };
 
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
-            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
+            var instrumentationSettings = AltUnityTesterEditor.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings();
+            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
