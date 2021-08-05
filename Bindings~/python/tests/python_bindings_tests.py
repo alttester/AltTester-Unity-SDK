@@ -1214,6 +1214,11 @@ class PythonTests(unittest.TestCase):
         self.altdriver.key_up(AltUnityKeyCode.Mouse0)
         self.altdriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
+    def test_camera_not_found_exception(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        with self.assertRaises(AltUnityCameraNotFound):
+            self.altdriver.find_object(By.NAME, "Capsule", By.NAME, "Camera")
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

@@ -258,6 +258,8 @@ namespace Altom.AltUnityDriver.Commands
                     throw new InvalidPathException(data);
                 case "error:ALTUNITYTESTERNotAddedAsDefineVariable":
                     throw new AltUnityInputModuleException(data);
+                case "error:cameraNotFound":
+                    throw new AltUnityCameraNotFoundException(data);
 
             }
         }
