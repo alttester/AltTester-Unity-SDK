@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Logging;
+using Altom.AltUnity.Instrumentation;
 using Altom.Server.Logging;
 using Assets.AltUnityTester.AltUnityServer.Communication;
 using NLog;
@@ -14,42 +15,28 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
     public static AltUnityRunner _altUnityRunner;
     public static AltResponseQueue _responseQueue;
 
+    public AltUnityInstrumentationSettings InstrumentationSettings = new AltUnityInstrumentationSettings();
+
     public UnityEngine.GameObject AltUnityPopUp;
     public UnityEngine.UI.Image AltUnityIcon;
     public UnityEngine.UI.Text AltUnityPopUpText;
     public bool AltUnityIconPressed = false;
+
+
     [UnityEngine.Space]
-    public bool showPopUp;
-    public int SocketPortNumber = 13000;
-    public int MaxLogLength = 100;
     public bool RunOnlyInDebugMode = true;
     public UnityEngine.Shader outlineShader;
     public UnityEngine.GameObject panelHightlightPrefab;
-    public string requestSeparatorString = ";";
-    public string requestEndingString = "&";
 
     [UnityEngine.SerializeField]
     private UnityEngine.GameObject AltUnityPopUpCanvas = null;
 
-    private ICommunication communication;
     [UnityEngine.Space]
     [UnityEngine.SerializeField]
-    private bool _showInputs = false;
-    [UnityEngine.SerializeField]
     private AltUnityInputsVisualiser _inputsVisualiser = null;
+    private ICommunication communication;
 
-    public bool ShowInputs
-    {
-        get
-        {
-            return _showInputs;
-        }
 
-        set
-        {
-            _showInputs = value;
-        }
-    }
 
     #region MonoBehaviour
 
@@ -79,14 +66,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
 
         StartCommunicationProtocol();
 
-        if (showPopUp == false)
-        {
-            AltUnityPopUpCanvas.SetActive(false);
-        }
-        else
-        {
-            AltUnityPopUpCanvas.SetActive(true);
-        }
+        AltUnityPopUpCanvas.SetActive(InstrumentationSettings.ShowPopUp);
     }
 
     protected void Update()
@@ -154,17 +134,24 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
             * client disconnected
         */
 
-        communication = new WebSocketServerCommunication("0.0.0.0", SocketPortNumber);
+        if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server)
+        {
+            communication = new WebSocketServerCommunication("0.0.0.0", InstrumentationSettings.ServerPort);
+        }
+        else
+        {
+            communication = new WebSocketClientCommunication(InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
+        }
 
         try
         {
             communication.Start();
-            AltUnityPopUpText.text = "Communication protocol is listening for connections on port " + SocketPortNumber;
+            AltUnityPopUpText.text = "Communication protocol is listening for connections on port " + InstrumentationSettings.ServerPort;
         }
         catch (AddressInUseCommError)
         {
-            AltUnityPopUpText.text = "Cannot start AltUnity Server. Another process is listening on port " + SocketPortNumber;
-            logger.Error("Cannot start AltUnity Server. Another process is listening on port" + SocketPortNumber);
+            AltUnityPopUpText.text = "Cannot start AltUnity Server. Another process is listening on port " + InstrumentationSettings.ServerPort;
+            logger.Error("Cannot start AltUnity Server. Another process is listening on port" + InstrumentationSettings.ServerPort);
         }
         catch (UnhandledStartCommError ex)
         {
@@ -306,7 +293,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
 
     public void ShowClick(UnityEngine.Vector2 position)
     {
-        if (!_showInputs || _inputsVisualiser == null)
+        if (!InstrumentationSettings.InputVisualizer || _inputsVisualiser == null)
             return;
 
         _inputsVisualiser.ShowClick(position);
@@ -314,7 +301,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
 
     public int ShowInput(UnityEngine.Vector2 position, int markId = -1)
     {
-        if (!_showInputs || _inputsVisualiser == null)
+        if (!InstrumentationSettings.InputVisualizer || _inputsVisualiser == null)
             return -1;
 
         return _inputsVisualiser.ShowContinuousInput(position, markId);
