@@ -1312,6 +1312,7 @@ public class Input : UnityEngine.MonoBehaviour
                 _mockUpPointerInputModule.ExecuteDragPointerEvents(mouseDownPointerEventData);
                 mouseDownPointerEventData.position = mousePosition;
                 mouseDownPointerEventData.delta = delta;
+                findEventSystemObject(mouseDownPointerEventData);
             }
             yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
