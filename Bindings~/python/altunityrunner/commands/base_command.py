@@ -121,6 +121,7 @@ class BaseCommand(Command):
             "invalidPath": exceptions.AltUnityInvalidPathException,
             "nullReferenceException": exceptions.NotFoundException,
             "unknownError": exceptions.UnknownErrorException,
+            "formatException": exceptions
         }
 
         error_type = error_message.replace("error:", "")

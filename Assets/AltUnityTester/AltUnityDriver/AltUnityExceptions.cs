@@ -317,7 +317,17 @@ namespace Altom.AltUnityDriver
         public AltUnityInnerException(Exception inner) : base(AltUnityErrors.errorUnknownError, inner)
         {
         }
+    }
 
+    public class AltUnityCameraNotFoundException : AltUnityException
+    {
+        public AltUnityCameraNotFoundException()
+        {
+        }
+
+        public AltUnityCameraNotFoundException(string message) : base(message)
+        {
+        }
     }
 
 }

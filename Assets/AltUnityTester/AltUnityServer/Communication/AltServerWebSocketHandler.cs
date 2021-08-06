@@ -1,3 +1,7 @@
+using Altom.Server.Logging;
+using WebSocketSharp;
+using WebSocketSharp.Server;
+
 namespace Assets.AltUnityTester.AltUnityServer.Communication
 {
     public class AltServerWebSocketHandler : WebSocketBehavior

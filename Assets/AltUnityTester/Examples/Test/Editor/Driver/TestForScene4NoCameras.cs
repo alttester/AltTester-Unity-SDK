@@ -3,27 +3,27 @@ using NUnit.Framework;
 
 public class TestForScene4NoCameras
 {
-    public AltUnityDriver AltUnityDriver;
+    public AltUnityDriver altUnityDriver;
     //Before any test it connects with the socket
     [OneTimeSetUp]
     public void SetUp()
     {
-        AltUnityDriver = new AltUnityDriver(logFlag: true);
-        AltUnityDriver.LoadScene("Scene 4 No Cameras");
+        altUnityDriver = new AltUnityDriver(logFlag: true);
+        altUnityDriver.LoadScene("Scene 4 No Cameras");
     }
 
     //At the end of the test closes the connection with the socket
     [OneTimeTearDown]
     public void TearDown()
     {
-        AltUnityDriver.Stop();
+        altUnityDriver.Stop();
     }
 
     [Test]
     public void TestFindElementInASceneWithNoCameras()
     {
-        Assert.AreEqual(0, AltUnityDriver.GetAllCameras().Count);
-        var altObject = AltUnityDriver.FindObject(By.NAME, "Plane");
+        Assert.AreEqual(0, altUnityDriver.GetAllCameras().Count);
+        var altObject = altUnityDriver.FindObject(By.NAME, "Plane");
         Assert.AreEqual(0, altObject.worldX, "WorldX was: " + altObject.worldX + " when it should have been 0");
         Assert.AreEqual(0, altObject.worldY, "WorldY was: " + altObject.worldY + " when it should have been 0");
         Assert.AreEqual(0, altObject.worldZ, "WorldZ was: " + altObject.worldZ + " when it should have been 0");
@@ -36,14 +36,14 @@ public class TestForScene4NoCameras
     [Test]
     public void TestFindUIElementInASceneWithNoCameras()
     {
-        Assert.AreEqual(0, AltUnityDriver.GetAllCameras().Count);
-        var altObjects = AltUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Button)]", enabled: false);
+        Assert.AreEqual(0, altUnityDriver.GetAllCameras().Count);
+        var altObjects = altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Button)]", enabled: false);
 
         foreach (var button in altObjects)
         {
             Assert.AreNotEqual(-1, button.x);
             Assert.AreNotEqual(-1, button.y);
         }
-        Assert.AreEqual(1, altObjects.Count);
+        Assert.AreEqual(2, altObjects.Count);
     }
 }

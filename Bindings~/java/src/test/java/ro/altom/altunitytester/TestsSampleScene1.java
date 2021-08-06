@@ -1327,7 +1327,7 @@ public class TestsSampleScene1 {
     }
 
     @Test()
-    public void TestKeyDownAndKeyUpMouse0() throws InterruptedException{
+    public void TestKeyDownAndKeyUpMouse0() throws InterruptedException {
         AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
                 .build();
         AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
@@ -1342,5 +1342,13 @@ public class TestsSampleScene1 {
         capsule = altUnityDriver.findObject(findCapsuleParameters);
         Vector2 finalCapsPos = capsule.getWorldPosition();
         assertNotEquals(initialCapsPos, finalCapsPos);
+    }
+
+    @Test(expected = AltUnityCameraNotFoundException.class)
+    public void TestCameraNotFoundException() {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+                .withCamera(By.NAME, "Camera").build();
+        altUnityDriver.findObject(altFindObjectsParameters);
+
     }
 }

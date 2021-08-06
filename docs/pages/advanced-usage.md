@@ -286,7 +286,7 @@ The following command can be used to connect to the altUnity server inside the g
 
     .. code-tab:: py
 
-            cls.altdriver = AltUnityDriver(TCP_IP='deviceIp', TCP_PORT=13000)
+            cls.altUnityDriver = AltUnityDriver(TCP_IP='deviceIp', TCP_PORT=13000)
 ```
 
 ### Connect to multiple devices running the game
@@ -359,18 +359,18 @@ There are two logger targets that you can configure on the server:
 
     .. code-tab:: c#
 
-        driver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        driver.SetServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altUnityDriver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        altUnityDriver.SetServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
 
     .. code-tab:: java
 
-        driver.setServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        driver.setServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altUnityDriver.setServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        altUnityDriver.setServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
 
     .. code-tab:: py
 
-        driver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        driver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altUnityDriver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off);
+        altUnityDriver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
 
 ```
 
@@ -397,9 +397,9 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         .. code-block:: c#
 
-            var driver = new AltUnityDriver (logFlag=false); //starts altunity driver with logging disabled
+            var altUnityDriver = new AltUnityDriver (logFlag=false); //starts altunity driver with logging disabled
 
-            var driver = new AltUnityDriver (logFlag=true); //starts altunity driver with logging enabled for Debug.Level; this is the default behaviour
+            var altUnityDriver = new AltUnityDriver (logFlag=true); //starts altunity driver with logging enabled for Debug.Level; this is the default behaviour
 
             Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info); //set logging level to Info for File target
 
@@ -416,7 +416,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             /* start altunity driver with logging enabled */
             AltUnityDriverParams params = new AltUnityDriverParams();
             params.logFlag = true;
-            AltUnityDriver driver = new AltUnityDriver(params);
+            AltUnityDriver altUnityDriver = new AltUnityDriver(params);
             
             /* disable logging for ro.altom.altunitytester logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);

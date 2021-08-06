@@ -394,7 +394,7 @@ class PythonTests(unittest.TestCase):
 
     def test_call_static_method(self):
         self.altdriver.call_static_method(
-            "UnityEngine.PlayerPrefs", "SetInt", ["Test" , "1"], assembly="UnityEngine.CoreModule")
+            "UnityEngine.PlayerPrefs", "SetInt", ["Test", "1"], assembly="UnityEngine.CoreModule")
         a = int(self.altdriver.call_static_method(
             "UnityEngine.PlayerPrefs", "GetInt", ["Test", "2"], assembly="UnityEngine.CoreModule"))
         self.assertEqual(1, a)
@@ -588,7 +588,7 @@ class PythonTests(unittest.TestCase):
         for element in alt_elements:
             list_of_elements.append(element.name)
 
-        self.assertEqual(29, len(list_of_elements))
+        self.assertEqual(30, len(list_of_elements))
         self.assertTrue("EventSystem" in list_of_elements)
         self.assertTrue("Canvas" in list_of_elements)
         self.assertTrue("Panel Drag Area" in list_of_elements)
@@ -1144,3 +1144,14 @@ class PythonTests(unittest.TestCase):
         self.altdriver.key_down(AltUnityKeyCode.Mouse0)
         self.altdriver.key_up(AltUnityKeyCode.Mouse0)
         self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=Capsule was clicked to jump!]', timeout=1)
+
+    def test_camera_not_found_exception(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        with self.assertRaises(AltUnityCameraNotFound):
+            self.altdriver.find_object(By.NAME, "Capsule", By.NAME, "Camera")
+
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
+    run_result = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not run_result.wasSuccessful())

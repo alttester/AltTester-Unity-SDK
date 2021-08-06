@@ -145,6 +145,11 @@ namespace Altom.AltUnityDriver.Commands
                     throw new InvalidPathException(logs);
                 case AltUnityErrors.errorInvalidCommand:
                     throw new InvalidCommandException(logs);
+
+                case AltUnityErrors.errorInputModule:
+                    throw new AltUnityInputModuleException(logs);
+                case AltUnityErrors.errorCameraNotFound:
+                    throw new AltUnityCameraNotFoundException(logs);
             }
             if (error.StartsWith("error:"))
             {
