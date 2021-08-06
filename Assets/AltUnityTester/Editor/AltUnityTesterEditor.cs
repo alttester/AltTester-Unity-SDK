@@ -8,13 +8,13 @@ using Altom.Editor.Logging;
 using NLog;
 using NLog.Layouts;
 using UnityEditor.SceneManagement;
-
+using UnityEngine;
 
 namespace Altom.Editor
 {
     public class AltUnityTesterEditor : UnityEditor.EditorWindow
     {
-        private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
         public static bool NeedsRepaiting = false;
         public static AltUnityEditorConfiguration EditorConfiguration;
@@ -46,8 +46,11 @@ namespace Altom.Editor
         private static UnityEngine.Color evenNumberTestColor = new UnityEngine.Color(0.7f, 0.7f, 0.7f, 1f);
         private static UnityEngine.Color oddNumberTestColorDark = new UnityEngine.Color(0.23f, 0.23f, 0.23f, 1f);
         private static UnityEngine.Color evenNumberTestColorDark = new UnityEngine.Color(0.25f, 0.25f, 0.25f, 1f);
+        private static UnityEngine.Color borderColorDark = new UnityEngine.Color(0.18f, 0.18f, 0.18f, 1f);
+        private static UnityEngine.Color borderColor = new UnityEngine.Color(0.6f, 0.6f, 0.6f, 1f);
         private static UnityEngine.Texture2D selectedTestTexture;
         private static UnityEngine.Texture2D oddNumberTestTexture;
+        private static UnityEngine.Texture2D borderTexture;
         private static UnityEngine.Texture2D evenNumberTestTexture;
         private static UnityEngine.Texture2D verticalSplitTexture;
         private static UnityEngine.Texture2D horizontalSplitTexture;
@@ -75,7 +78,7 @@ namespace Altom.Editor
         public int selectedTestCount = 0;
         private static bool showPopUp = false;
         UnityEngine.Rect popUpPosition;
-        UnityEngine.Rect popUpBorderPosition;
+        UnityEngine.Rect popUpContentPosition;
         UnityEngine.Rect closeButtonPosition;
         UnityEngine.Rect downloadButtonPosition;
         UnityEngine.Rect checkVersionChangesButtonPosition;
@@ -99,7 +102,7 @@ namespace Altom.Editor
         private static UnityEngine.Font font;
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
-        [UnityEditor.MenuItem("AltUnity Tools/AltUnityTester", false, 80)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltUnity Tester Editor", false, 80)]
         public static void ShowWindow()
         {
             //Show existing window instance. If one doesn't exist, make one.
@@ -135,7 +138,7 @@ namespace Altom.Editor
 #endif
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/CreateAltUnityTesterPackage", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/Create AltUnity Tester Package", false, 800)]
         public static void CreateAltUnityTesterPackage()
         {
             UnityEngine.Debug.Log("AltUnityTester - Unity Package creation started...");
@@ -156,7 +159,7 @@ namespace Altom.Editor
             AltUnityTestRunner.SetUpListTest();
             SendInspectorVersionRequest();
         }
-        [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObject", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/Add AltId to every object", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
             var scenes = altUnityGetAllScenes();
@@ -167,7 +170,7 @@ namespace Altom.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObjectInActiveScene", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/Add AltId to every object in active scene", false, 800)]
         public static void AddIdComponentToEveryObjectInActiveScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -183,7 +186,7 @@ namespace Altom.Editor
         }
 
 
-        [UnityEditor.MenuItem("AltUnity Tools/RemoveAltIdFromEveryObject", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/Remove AltId from every object", false, 800)]
         public static void RemoveIdComponentFromEveryObjectInTheProject()
         {
             var scenes = altUnityGetAllScenes();
@@ -194,7 +197,7 @@ namespace Altom.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/RemoveAltIdFromEveryObjectInActiveScene", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/Remove AltId from every object in active scene", false, 800)]
         public static void RemoveComponentFromEveryObjectInTheScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -381,10 +384,10 @@ namespace Altom.Editor
         protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
-            if (showPopUp)
+            if (EditorConfiguration.ShowInsectorPopUpInEditor)
             {
                 popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
-                popUpBorderPosition = new UnityEngine.Rect(screenWidth / 2 - 298, 2, 596, 96);
+                popUpContentPosition = new UnityEngine.Rect(screenWidth / 2 - 296, 4, 592, 92);
                 closeButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 20, popUpPosition.yMin + 5, 15, 15);
                 downloadButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 200, popUpPosition.yMin + 30, 180, 30);
                 checkVersionChangesButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 200, popUpPosition.yMin + 60, 180, 30);
@@ -402,7 +405,7 @@ namespace Altom.Editor
                     }
                     if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
                     {
-                        showPopUp = false;
+                        EditorConfiguration.ShowInsectorPopUpInEditor = false;
                         UnityEngine.GUIUtility.ExitGUI();
                     }
                 }
@@ -764,7 +767,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
             //PopUp
-            if (showPopUp)
+            if (EditorConfiguration.ShowInsectorPopUpInEditor)
             {
                 ShowAltUnityPopup();
             }
@@ -808,10 +811,12 @@ namespace Altom.Editor
                     font = font
                 };
             }
-
-
-            UnityEngine.GUI.DrawTexture(popUpPosition, evenNumberTestTexture);
-            UnityEngine.GUI.DrawTexture(popUpBorderPosition, oddNumberTestTexture);
+            if (borderTexture == null)
+            {
+                borderTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? borderColorDark : borderColor);
+            }
+            UnityEngine.GUI.DrawTexture(popUpPosition, borderTexture);
+            UnityEngine.GUI.DrawTexture(popUpContentPosition, oddNumberTestTexture);
 
             UnityEngine.GUI.Button(closeButtonPosition, "<size=10>X</size>", gUIStyleHistoryChanges);
             UnityEngine.GUI.Button(downloadButtonPosition, "<b><size=16>Download now!</size></b>", gUIStyleButton);
@@ -869,7 +874,7 @@ namespace Altom.Editor
                             EditorConfiguration.LatestInspectorVersion = releasedVersion;
                             downloadURl = match.Value;
                             version = releasedVersion;
-                            showPopUp = true;
+                            EditorConfiguration.ShowInsectorPopUpInEditor = true;
                         }
                     }
                 }
