@@ -33,29 +33,14 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                     var monoBehaviourTarget = FindMonoBehaviourObject(pointerEventData.position);
                     pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                         ExecuteEvents.pointerDownHandler);
+                    pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                        ExecuteEvents.initializePotentialDrag);
                     if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
-
-                    if (pointerEventData.pointerPress == null)
-                    {
-                        pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.pointerClickHandler);
-                    }
-
                     return pointerEventData;
-
                 case UnityEngine.TouchPhase.Moved:
                     if (previousData != null)
                     {
-                        if (previousData.pointerDrag == null)
-                        {
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                ExecuteEvents.initializePotentialDrag);
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                ExecuteEvents.beginDragHandler);
-                            previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                ExecuteEvents.dragHandler);
-                            previousData.dragging = true;
-                        }
+                        ExecuteDragPointerEvents(previousData);
                         GameObjectHit = getGameObjectHit(touch);
 
                         GetFirstRaycastResult(previousData, out raycastResult);
@@ -106,14 +91,7 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
                             previousData.pointerPress.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
                         }
 
-                        if (previousData.pointerDrag != null)
-                        {
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                                ExecuteEvents.endDragHandler);
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                ExecuteEvents.dropHandler);
-                            previousData.dragging = false;
-                        }
+                        ExecuteEndDragPointerEvents(previousData);
 
                         ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                             ExecuteEvents.pointerExitHandler);
@@ -126,6 +104,46 @@ public class AltUnityMockUpPointerInputModule : StandaloneInputModule
         }
 
         return null;
+    }
+
+    public void ExecuteDragPointerEvents(PointerEventData previousData)
+    {
+        if (previousData.pointerDrag == null)
+        {
+            previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                ExecuteEvents.beginDragHandler);
+            previousData.dragging = true;
+            if (previousData.pointerDrag != null)
+            {
+                ExecuteEvents.Execute(previousData.pointerDrag, previousData,
+                    ExecuteEvents.dragHandler);
+            }
+            else
+                previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                    ExecuteEvents.dragHandler);
+        }
+        else
+        {
+            if (!previousData.dragging)
+            {
+                ExecuteEvents.Execute(previousData.pointerDrag, previousData,
+                    ExecuteEvents.beginDragHandler);
+                previousData.dragging = true;
+            }
+            ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
+        }
+    }
+
+    public void ExecuteEndDragPointerEvents(PointerEventData previousData)
+    {
+        if (previousData.pointerDrag != null)
+        {
+            ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                ExecuteEvents.endDragHandler);
+            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                ExecuteEvents.dropHandler);
+            previousData.dragging = false;
+        }
     }
 
     public void GetFirstRaycastResult(PointerEventData pointerEventData, out RaycastResult raycastResult)

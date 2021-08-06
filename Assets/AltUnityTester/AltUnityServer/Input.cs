@@ -35,6 +35,7 @@ public class Input : UnityEngine.MonoBehaviour
     private static readonly Dictionary<PointerEventData.InputButton, int> pointerIds = new Dictionary<PointerEventData.InputButton, int>{{PointerEventData.InputButton.Left, -1},
                                                                                                                                 {PointerEventData.InputButton.Right, -2},
                                                                                                                                 {PointerEventData.InputButton.Middle, -3}};
+    private static PointerEventData mouseDownPointerEventData = null;
 
     public static bool Finished { get; set; }
     public static float LastAxisValue { get; set; }
@@ -106,7 +107,7 @@ public class Input : UnityEngine.MonoBehaviour
 
     }
 
-#region UnityEngine.Input.AltUnityTester.NotImplemented
+    #region UnityEngine.Input.AltUnityTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -215,10 +216,10 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-#endregion
+    #endregion
 
 
-#region UnityEngine.Input.AltUnityTester
+    #region UnityEngine.Input.AltUnityTester
 
     public static bool anyKey
     {
@@ -638,7 +639,7 @@ public class Input : UnityEngine.MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-#endregion
+    #endregion
 
     private static UnityEngine.Touch createTouch(UnityEngine.Vector3 screenPosition)
     {
@@ -823,7 +824,7 @@ public class Input : UnityEngine.MonoBehaviour
             var keyStructure = new KeyStructure(UnityEngine.KeyCode.Mouse0, 1.0f);//power 1
             _keyCodesPressedDown.Add(keyStructure);
             _keyCodesPressed.Add(keyStructure);
-            
+
             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
 
             pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
@@ -1168,6 +1169,7 @@ public class Input : UnityEngine.MonoBehaviour
             var inputButton = keyCodeToInputButton(keyCode);
             mouseTriggerInit(inputButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
             mouseDownTrigger(inputButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+            mouseDownPointerEventData = pointerEventData;
         }
     }
 
@@ -1247,6 +1249,7 @@ public class Input : UnityEngine.MonoBehaviour
 
         if (mouseButton == PointerEventData.InputButton.Left)
         {
+            pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.initializePotentialDrag);
             eventSystemTargetMouseDown = eventSystemTarget;
             monoBehaviourTargetMouseDown = monoBehaviourTarget;
         }
@@ -1267,6 +1270,9 @@ public class Input : UnityEngine.MonoBehaviour
 
         ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerUpHandler);
         if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
+
+        if (mouseButton == PointerEventData.InputButton.Left && mouseDownPointerEventData != null)
+            _mockUpPointerInputModule.ExecuteEndDragPointerEvents(mouseDownPointerEventData);
 
     }
 
@@ -1301,6 +1307,12 @@ public class Input : UnityEngine.MonoBehaviour
             }
 
             mousePosition += delta;
+            if (mouseDownPointerEventData != null)
+            {
+                _mockUpPointerInputModule.ExecuteDragPointerEvents(mouseDownPointerEventData);
+                mouseDownPointerEventData.position = mousePosition;
+                mouseDownPointerEventData.delta = delta;
+            }
             yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
         } while (time < duration);
