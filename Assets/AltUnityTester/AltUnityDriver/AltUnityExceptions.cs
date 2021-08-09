@@ -286,4 +286,15 @@ namespace Altom.AltUnityDriver
         }
     }
 
+    public class AltUnityCameraNotFoundException : AltUnityException
+    {
+        public AltUnityCameraNotFoundException()
+        {
+        }
+
+        public AltUnityCameraNotFoundException(string message) : base(message)
+        {
+        }
+    }
+
 }

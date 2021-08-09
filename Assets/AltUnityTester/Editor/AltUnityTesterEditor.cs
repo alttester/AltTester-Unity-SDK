@@ -73,8 +73,6 @@ namespace Altom.Editor
         private bool foldOutAltUnityServerSettings = true;
         private bool foldOutPortForwarding = true;
         public int selectedTestCount = 0;
-
-
         private static bool showPopUp = false;
         UnityEngine.Rect popUpPosition;
         UnityEngine.Rect popUpBorderPosition;
@@ -154,6 +152,8 @@ namespace Altom.Editor
             {
                 InitEditorConfiguration();
             }
+            EditorConfiguration.MyTests = null;
+            AltUnityTestRunner.SetUpListTest();
             SendInspectorVersionRequest();
         }
         [UnityEditor.MenuItem("AltUnity Tools/AddAltIdToEveryObject", false, 800)]
@@ -174,8 +174,7 @@ namespace Altom.Editor
             UnityEngine.SceneManagement.Scene scene = EditorSceneManager.GetActiveScene();
             scene.GetRootGameObjects(rootObjects);
 
-            // iterate root objects and do something
-            for (int i = 0; i < rootObjects.Count; ++i)
+            for (int i = 0; i < rootObjects.Count; i++)
             {
                 addComponentToObjectAndHisChildren(rootObjects[i]);
             }
@@ -202,8 +201,7 @@ namespace Altom.Editor
             UnityEngine.SceneManagement.Scene scene = EditorSceneManager.GetActiveScene();
             scene.GetRootGameObjects(rootObjects);
 
-            // iterate root objects and do something
-            for (int i = 0; i < rootObjects.Count; ++i)
+            for (int i = 0; i < rootObjects.Count; i++)
             {
                 removeComponentFromObjectAndHisChildren(rootObjects[i]);
             }
@@ -1001,9 +999,12 @@ namespace Altom.Editor
                 fixedHeight = 15
             };
             guiStyleButon.margin = new UnityEngine.RectOffset(2, 2, 4, 2);
+            var buildLocationPath = EditorConfiguration.BuildLocationPath;
             if (UnityEngine.GUILayout.Button("Browse", guiStyleButon))
             {
                 EditorConfiguration.BuildLocationPath = UnityEditor.EditorUtility.OpenFolderPanel("Select Build Location", "", "");
+                if (EditorConfiguration.BuildLocationPath.Length == 0)
+                    EditorConfiguration.BuildLocationPath = buildLocationPath;
                 UnityEngine.GUI.FocusControl("Browse");
             }
             UnityEngine.GUILayout.EndHorizontal();

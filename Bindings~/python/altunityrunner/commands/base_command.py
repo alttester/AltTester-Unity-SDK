@@ -116,6 +116,8 @@ class BaseCommand(object):
                 raise exceptions.AltUnityInvalidPathException(data)
             elif (data.startswith('error:ALTUNITYTESTERNotAddedAsDefineVariable')):
                 raise exceptions.AltUnityInputModuleException(data)
+            elif(data.startswith('error:cameraNotFound')):
+                raise exceptions.AltUnityCameraNotFound(data)
 
     def vector_to_json_string(self, x, y, z=None):
         if z is None:

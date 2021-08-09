@@ -44,7 +44,6 @@ These give you access to a virtual machine or a Docker container that has a clou
 </details>
 <br>
 
-
 <details>
 <summary><strong> I don’t have access to source code, but I do have access to an instrumented build. How can I begin to write tests?</strong></summary>
 <br>
