@@ -125,4 +125,19 @@ public class TestForScene3DragAndDrop
         Assert.AreNotEqual(color3, color2);
         Assert.AreEqual(color1, color3);
     }
+
+    [Test]
+    public void TestDragAndDrop()
+    {
+        var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
+        var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
+        var initDropImage = altUnityDriver.FindObject(By.PATH, "//*/Drop Box1/Drop Image");
+        
+        int fingerId = altUnityDriver.BeginTouch(altElement1.getScreenPosition());
+        altUnityDriver.MoveTouch(fingerId, altElement2.getScreenPosition());
+        altUnityDriver.EndTouch(fingerId);
+        var finalDropImage = altUnityDriver.FindObject(By.PATH, "//*/Drop Box1/Drop Image");
+
+        Assert.AreNotEqual(initDropImage, finalDropImage);
+    }
 }
