@@ -25,7 +25,7 @@
 <details>
 <summary><strong> What versions of Unity does AltUnity Tester work with? </strong></summary>
 <br>
-<strong>Answer:</strong> AltUnity Tester works with Unity 2018.1 or higher. If you encounter any issues we'd like to hear about them. You can [raise an issue](https://altom.gitlab.io/altunity/altunitytester/pages/contributing.html#did-you-find-a-bug) or join our community on [Discord](https://discord.gg/Ag9RSuS) or [Google Groups](https://groups.google.com/a/altom.com/forum/#!forum/altunityforum).
+<strong>Answer:</strong> AltUnity Tester works with Unity 2018.1 or higher. If you encounter any issues we'd like to hear about them. You can <a href="https://altom.gitlab.io/altunity/altunitytester/pages/contributing.html#did-you-find-a-bug">raise an issue</a> or join our community on <a href="https://discord.gg/Ag9RSuS">Discord</a> or <a href="https://groups.google.com/a/altom.com/forum/#!forum/altunityforum">Google Groups</a>.
 </details>
 <br>
 
@@ -40,7 +40,7 @@ These give you access to a virtual machine or a Docker container that has a clou
 <details>
 <summary><strong> Do I need access to the source code of the Unity App to write tests?</strong></summary>
 <br>
-<strong>Answer:</strong> In order to run tests using AltUnity Tester you require an [instrumented build](https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html#instrument-your-game-with-altunity-server) of the Unity App. To create an instrumented build of the Unity App you need to [import](https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html#import-altunity-tester-package-in-unity-editor) the AltUnity Tester package in Unity Editor. 
+<strong>Answer:</strong> In order to run tests using AltUnity Tester you require an <a href="https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html#instrument-your-game-with-altunity-server">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html#import-altunity-tester-package-in-unity-editor">import</a> the AltUnity Tester package in Unity Editor. 
 </details>
 <br>
 
@@ -64,14 +64,14 @@ These give you access to a virtual machine or a Docker container that has a clou
 <details>
 <summary><strong> Why do I get an error when trying to call the port forwarding methods? </strong></summary>
 <br>
-<strong>Answer:</strong> You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our [setup port forwarding guide](https://altom.gitlab.io/altunity/altunitytester/pages/advanced-usage.html#how-to-setup-port-forwarding).
+<strong>Answer:</strong> You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our <a href="https://altom.gitlab.io/altunity/altunitytester/pages/advanced-usage.html#how-to-setup-port-forwarding">setup port forwarding guide</a>.
 </details>
 <br>
 
 <details>
-<summary><strong> I get the error: _Multiple precompiled assemblies with the same name Newtonsoft.Json.dll included or the current platform.), </strong> </summary>
+<summary><strong> I get the error: <em>Multiple precompiled assemblies with the same name Newtonsoft.Json.dll included or the current platform.</em>, </strong> </summary>
 <br>
-<strong>Answer:</strong> You get this error due to multiple imports of Newtonsoft.Json.dll library. You can remove the Newtonsoft.Json version from AltUnity Tester by deleting the **_JsonDotNet_** folder *_Assets/AltUnityTester/ThirdParty/JsonDotNet_**. 
+<strong>Answer:</strong> You get this error due to multiple imports of Newtonsoft.Json.dll library. You can remove the Newtonsoft.Json version from AltUnity Tester by deleting the <em>JsonDotNet</em> folder <em>Assets/AltUnityTester/ThirdParty/JsonDotNet</em>. 
 </details>
 <br>
 
