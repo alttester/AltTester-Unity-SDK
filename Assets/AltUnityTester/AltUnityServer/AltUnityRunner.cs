@@ -34,13 +34,13 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour, AltIClientSocketHandler
     public string requestEndingString = "&";
 
     [UnityEngine.SerializeField]
-    private UnityEngine.GameObject AltUnityPopUpCanvas = null;
+    public UnityEngine.GameObject AltUnityPopUpCanvas = null;
     private AltSocketServer socketServer;
     [UnityEngine.Space]
     [UnityEngine.SerializeField]
     private bool _showInputs = false;
     [UnityEngine.SerializeField]
-    private AltUnityInputsVisualiser _inputsVisualiser = null;
+    public AltUnityInputsVisualiser _inputsVisualiser = null;
 
     public bool ShowInputs
     {
