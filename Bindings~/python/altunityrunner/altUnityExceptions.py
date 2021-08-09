@@ -88,7 +88,3 @@ class AltUnityInvalidPathException(AltUnityException):
 
 class AltUnityInputModuleException(AltUnityException):
     pass
-
-
-class AltUnityCameraNotFound(AltUnityException):
-    pass

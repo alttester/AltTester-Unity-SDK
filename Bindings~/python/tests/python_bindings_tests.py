@@ -1147,7 +1147,7 @@ class PythonTests(unittest.TestCase):
 
     def test_camera_not_found_exception(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        with self.assertRaises(AltUnityCameraNotFound):
+        with self.assertRaises(CameraNotFoundException):
             self.altdriver.find_object(By.NAME, "Capsule", By.NAME, "Camera")
 
 
