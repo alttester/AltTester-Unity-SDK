@@ -18,14 +18,14 @@
 <details>
 <summary><strong> Can AltUnity Tester be integrated with Appium?</strong></summary>
 <br>
-<strong>Answer:</strong> Yes, AltUnity Tester can be used alongside Appium. Appium allows you to access the native objects and AltUnity Tester can be used to access the Unity objects.  For more info regarding how to run tests together with appium check https://altom.gitlab.io/altunity/altunitytester/pages/tester-with-appium.html
+<strong>Answer:</strong> Yes, AltUnity Tester can be used alongside Appium. Appium allows you to access the native objects and AltUnity Tester can be used to access the Unity objects.  For more info regarding how to run tests together with appium check <em><a href="tester-with-appium.html">Running tests together with Appium</a></em>.
 </details>
 <br>
 
 <details>
 <summary><strong> What versions of Unity does AltUnity Tester work with? </strong></summary>
 <br>
-<strong>Answer:</strong> AltUnity Tester works with Unity 2018.1 or higher. If you encounter any issues we'd like to hear about them. You can <a href="https://altom.gitlab.io/altunity/altunitytester/pages/contributing.html#did-you-find-a-bug">raise an issue</a> or join our community on <a href="https://discord.gg/Ag9RSuS">Discord</a> or <a href="https://groups.google.com/a/altom.com/forum/#!forum/altunityforum">Google Groups</a>.
+<strong>Answer:</strong> AltUnity Tester works with Unity 2018.1 or higher. If you encounter any issues we'd like to hear about them. You can <a href="contributing.html#did-you-find-a-bug">raise an issue</a> or join our community on <a href="https://discord.gg/Ag9RSuS">Discord</a> or <a href="https://groups.google.com/a/altom.com/forum/#!forum/altunityforum">Google Groups</a>.
 </details>
 <br>
 
@@ -33,21 +33,21 @@
 <summary><strong> Can I use AltUnity Tester to run tests using device cloud services?</strong> </summary>
 <br>
 <strong>Answer:</strong> It works with some of the cloud services. We tried it with Bitbar Cloud and AWS Device Farm.  
-These give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. More info about this here: https://altom.gitlab.io/altunity/altunitytester/pages/tester-with-cloud.html 
+These give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. More info about this here:<em><a href=" tester-with-cloud.html"> Running tests using device cloud services.</a></em>
 </details>
 <br>
 
 <details>
 <summary><strong> Do I need access to the source code of the Unity App to write tests?</strong></summary>
 <br>
-<strong>Answer:</strong> In order to run tests using AltUnity Tester you require an <a href="https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html#instrument-your-game-with-altunity-server">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html#import-altunity-tester-package-in-unity-editor">import</a> the AltUnity Tester package in Unity Editor. 
+<strong>Answer:</strong> In order to run tests using AltUnity Tester you require an <a href="get-started.html#instrument-your-game-with-altunity-server">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="get-started.html#import-altunity-tester-package-in-unity-editor">import</a> the AltUnity Tester package in Unity Editor. 
 </details>
 <br>
 
 <details>
 <summary><strong> I don’t have access to source code, but I do have access to an instrumented build. How can I begin to write tests?</strong></summary>
 <br>
-<strong>Answer:</strong> We’ve published AltUnity Inspector, which allows you to inspect the game objects outside the unity editor without access to the source code: https://altom.com/everything-you-need-to-know-about-altunity-inspector/
+<strong>Answer:</strong> We’ve published AltUnity Inspector, which allows you to inspect the game objects outside the unity editor without access to the source code. More information about AltUnity Inspector can be found in this <a href="https://altom.com/everything-you-need-to-know-about-altunity-inspector/">article</a>.
 </details>
 <br>
 
@@ -64,7 +64,7 @@ These give you access to a virtual machine or a Docker container that has a clou
 <details>
 <summary><strong> Why do I get an error when trying to call the port forwarding methods? </strong></summary>
 <br>
-<strong>Answer:</strong> You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our <a href="https://altom.gitlab.io/altunity/altunitytester/pages/advanced-usage.html#how-to-setup-port-forwarding">setup port forwarding guide</a>.
+<strong>Answer:</strong> You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our <a href="advanced-usage.html#how-to-setup-port-forwarding">setup port forwarding guide</a>.
 </details>
 <br>
 
