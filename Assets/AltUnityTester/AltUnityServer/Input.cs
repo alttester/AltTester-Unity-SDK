@@ -36,6 +36,7 @@ public class Input : UnityEngine.MonoBehaviour
                                                                                                                                 {PointerEventData.InputButton.Right, -2},
                                                                                                                                 {PointerEventData.InputButton.Middle, -3}};
     private static PointerEventData mouseDownPointerEventData = null;
+    private static PointerEventData.InputButton[] mouseButtons = {PointerEventData.InputButton.Left, PointerEventData.InputButton.Middle, PointerEventData.InputButton.Right};
 
     public static bool Finished { get; set; }
     public static float LastAxisValue { get; set; }
@@ -1247,7 +1248,7 @@ public class Input : UnityEngine.MonoBehaviour
         pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
         if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-        if (mouseButton == PointerEventData.InputButton.Left)
+        if (mouseButtons.Contains(mouseButton))
         {
             pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.initializePotentialDrag);
             eventSystemTargetMouseDown = eventSystemTarget;
@@ -1271,7 +1272,7 @@ public class Input : UnityEngine.MonoBehaviour
         ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerUpHandler);
         if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
 
-        if (mouseButton == PointerEventData.InputButton.Left && mouseDownPointerEventData != null)
+        if (mouseButtons.Contains(mouseButton) && mouseDownPointerEventData != null)
             _mockUpPointerInputModule.ExecuteEndDragPointerEvents(mouseDownPointerEventData);
 
     }
