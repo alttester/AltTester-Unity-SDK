@@ -1570,6 +1570,7 @@ namespace Altom.Editor
             int foldOutCounter = 0;
             int testCounter = 0;
             var parentNames = new List<string>();
+            var selectedTests = new List<int>();
             foreach (var test in tests)
             {
                 if (test.TestCaseCount == 0)
@@ -1630,6 +1631,7 @@ namespace Altom.Editor
                         foldOutCounter = test.TestCaseCount;
                     }
                     parentNames.Add(test.TestName);
+                    selectedTests.Add(test.TestSelectedCount);
                 }
 
                 if (!test.IsSuite)
@@ -1644,12 +1646,15 @@ namespace Altom.Editor
                 var guiStylee = new UnityEngine.GUIStyle { };
 
                 var valueChanged = UnityEditor.EditorGUILayout.Toggle(test.Selected, UnityEngine.GUILayout.Width(15));
-                if (valueChanged != test.Selected)
+                if (valueChanged == test.Selected)
+                {
+                    updateNumberOfSelectedTests(test);
+                }
+                else
                 {
                     test.Selected = valueChanged;
                     changeSelectionChildsAndParent(test);
                 }
-
 
                 var testName = test.TestName;
 
@@ -1754,12 +1759,33 @@ namespace Altom.Editor
                     }
                     else
                     {
+                        var totalTests = 0;
+                        foreach (var selectedTest in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                        {
+                            if (!selectedTest.IsSuite)
+                                totalTests++;
+                        }
+                        if (test.Selected)
+                        {
+                            test.TestSelectedCount = totalTests;
+                            foreach (var selectedTest in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                            {
+                                if (selectedTest.IsSuite)
+                                    selectedTest.TestSelectedCount = selectedTest.TestCaseCount;
+                            }
+                        }
+                        else
+                        {
+                            test.TestSelectedCount = 0;
+                            foreach (var selectedTest in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                            {
+                                if (selectedTest.IsSuite)
+                                    selectedTest.TestSelectedCount = 0;
+                            }
+                        }
                         if (EditorConfiguration.MyTests[i].Selected != test.Selected)
                         {
                             EditorConfiguration.MyTests[i].Selected = test.Selected;
-                            if (!EditorConfiguration.MyTests[i].IsSuite)
-                                setSelectedTestsNumberForParent(EditorConfiguration.MyTests[i], test.Selected);
-
                         }
 
                     }
@@ -1773,27 +1799,58 @@ namespace Altom.Editor
                     var testCount = test.TestCaseCount;
                     var testName = test.TestName;
                     var parentTest = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
+                    setSelectedTestsNumberForSuite(test, test.Selected);
                     for (int i = index + 1; i <= index + testCount; i++)
                     {
                         var selectedTest = EditorConfiguration.MyTests[i];
                         if (selectedTest.Selected != test.Selected)
                         {
                             selectedTest.Selected = test.Selected;
-                            if (!selectedTest.IsSuite)
-                                setSelectedTestsNumberForParent(selectedTest, test.Selected);
+                            if (test.Selected)
+                            {
+                                test.TestSelectedCount = test.TestCaseCount;
+                                if (selectedTest.IsSuite)
+                                    selectedTest.TestSelectedCount = selectedTest.TestCaseCount;
+                            }
+                            else
+                            {
+                                test.TestSelectedCount = 0;
+                                selectedTest.TestSelectedCount = 0;
+                            }
                         }
                         if (selectedTest.IsSuite)
                         {
                             testCount++;
                         }
-
                     }
                 }
+
                 if (!test.IsSuite)
                 {
                     setSelectedTestsNumberForParent(test, test.Selected);
                 }
             }
+        }
+        private void updateNumberOfSelectedTests(AltUnityMyTest test)
+        {
+            if (test != null && test.IsSuite)
+            {
+                test.TestSelectedCount = 0;
+                var index = EditorConfiguration.MyTests.IndexOf(test);
+                var testCount = test.TestCaseCount;
+                for (int i = index + 1; i <= index + testCount; i++)
+                {
+                    var selectedTest = EditorConfiguration.MyTests[i];
+                    if (selectedTest.Selected)
+                    {
+                        if (!selectedTest.IsSuite)
+                            test.TestSelectedCount++;
+                    }
+                    if (selectedTest.IsSuite)
+                        testCount++;
+                }
+            }
+
         }
         private void setSelectedTestsNumberForParent(AltUnityMyTest test, bool isSelected)
         {
@@ -1813,9 +1870,30 @@ namespace Altom.Editor
                 }
                 else
                     return;
-
             }
+        }
+        private void setSelectedTestsNumberForSuite(AltUnityMyTest test, bool isSelected)
+        {
+            var totalTests = test.TestCaseCount;
 
+            while (test.ParentName != null)
+            {
+                test = EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
+                if (test != null)
+                {
+                    if (isSelected)
+                    {
+                        test.TestSelectedCount += totalTests;
+                    }
+                    else
+                    {
+                        test.TestSelectedCount -= totalTests;
+                        test.Selected = false;
+                    }
+                }
+                else
+                    return;
+            }
         }
         private static void sceneMove(AltUnityMyScenes scene, bool up)
         {
