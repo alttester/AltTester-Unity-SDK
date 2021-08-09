@@ -125,7 +125,7 @@ public class CreateAltUnityPrefab : MonoBehaviour
         VersionTextRectTransform.pivot = new Vector2(0.5f, 1f);
 
         var VersionText = VersionTextGameObject.GetComponent<Text>();
-        VersionText.text = "AltUnity Tester v.1.6.5";
+        VersionText.text = "AltUnity Tester v.1.6.6";
         VersionText.fontSize = 30;
         VersionText.color = Color.white;
         VersionText.alignment = TextAnchor.MiddleCenter;
