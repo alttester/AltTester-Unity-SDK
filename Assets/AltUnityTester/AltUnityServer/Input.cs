@@ -36,7 +36,7 @@ public class Input : UnityEngine.MonoBehaviour
                                                                                                                                 {PointerEventData.InputButton.Right, -2},
                                                                                                                                 {PointerEventData.InputButton.Middle, -3}};
     private static PointerEventData mouseDownPointerEventData = null;
-    private static PointerEventData.InputButton[] mouseButtons = {PointerEventData.InputButton.Left, PointerEventData.InputButton.Middle, PointerEventData.InputButton.Right};
+    private static PointerEventData.InputButton[] mouseButtons = { PointerEventData.InputButton.Left, PointerEventData.InputButton.Middle, PointerEventData.InputButton.Right };
 
     public static bool Finished { get; set; }
     public static float LastAxisValue { get; set; }
@@ -1275,6 +1275,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (mouseButtons.Contains(mouseButton) && mouseDownPointerEventData != null)
             _mockUpPointerInputModule.ExecuteEndDragPointerEvents(mouseDownPointerEventData);
 
+        mouseDownPointerEventData = null;
     }
 
     private static IEnumerator mouseEventTrigger(PointerEventData.InputButton mouseButton, float duration)
