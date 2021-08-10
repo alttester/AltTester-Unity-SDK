@@ -1,8 +1,8 @@
 using System;
-using UnityEditor;
 using Altom.Editor;
-using NLog;
 using Altom.Editor.Logging;
+using NLog;
+using UnityEditor;
 
 public class BuildAltUnityTester
 {
@@ -55,11 +55,14 @@ public class BuildAltUnityTester
             if (results.Equals(""))
             {
                 logger.Info("No Build Errors");
+                EditorApplication.Exit(0);
 
             }
             else
-                logger.Error("Build Error!");
-            // EditorApplication.Exit(1);
+                {
+                    logger.Error("Build Error!");
+                    EditorApplication.Exit(1);
+                }
 
 #else
             if (results.summary.totalErrors == 0)
@@ -71,7 +74,7 @@ public class BuildAltUnityTester
             {
                 logger.Error("Total Errors: " + results.summary.totalErrors);
                 logger.Error("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                // EditorApplication.Exit(1);
+                EditorApplication.Exit(1);
             }
 
 #endif
@@ -82,7 +85,7 @@ public class BuildAltUnityTester
         catch (Exception exception)
         {
             logger.Error(exception);
-            // EditorApplication.Exit(1);
+            EditorApplication.Exit(1);
         }
 
     }
