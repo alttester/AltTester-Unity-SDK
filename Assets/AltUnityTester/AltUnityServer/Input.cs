@@ -615,7 +615,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (_useCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return 0 != _keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button && touches[button].phase != UnityEngine.TouchPhase.Began;
+            return 0 != _keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || (touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Began);
         }
         else
         {
@@ -695,8 +695,12 @@ public class Input : UnityEngine.MonoBehaviour
     public static int BeginTouch(UnityEngine.Vector3 screenPosition)
     {
         var touch = createTouch(screenPosition);
+
+        if (touch.fingerId == 0)
+            mousePosition = screenPosition;
         var pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch);
         _pointerEventsDataDictionary.Add(touch.fingerId, pointerEventData);
+
         _instance.StartCoroutine(setMouse0KeyCodePressedDown());
         var inputId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
         _inputIdDictionary.Add(touch.fingerId, inputId);
@@ -715,7 +719,7 @@ public class Input : UnityEngine.MonoBehaviour
         touch.deltaPosition = touch.position - previousPosition;
         if (fingerId == 0)
         {
-            Input.mousePosition = screenPosition;
+            mousePosition = screenPosition;
         }
         updateTouchInTouchList(touch);
         AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
@@ -727,6 +731,7 @@ public class Input : UnityEngine.MonoBehaviour
     {
         _instance.StartCoroutine(endTouch(fingerId));
     }
+
     private static IEnumerator endTouch(int fingerId)
     {
         yield return new WaitForEndOfFrame();
@@ -1147,8 +1152,6 @@ public class Input : UnityEngine.MonoBehaviour
         }
         Finished = true;
     }
-
-
 
     public static void KeyPress(KeyCode keyCode, float power, float duration)
     {
