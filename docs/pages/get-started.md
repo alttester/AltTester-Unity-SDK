@@ -82,6 +82,10 @@ Steps:
     If changes are made inside a test, rebuilding the application is not necessary.
     A rebuild is needed only if changes are made inside the Unity project.
 
+.. note::
+
+    To be able to run your instrumented game in the background, go to File -> Build Settings -> Player Settings -> Project Settings -> Player -> Resolution and presentation and check the box next to Run in background*.
+
 ```
 
 ## Run your game in Unity or on desired platform
