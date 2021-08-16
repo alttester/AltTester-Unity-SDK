@@ -21,4 +21,7 @@ class UnloadScene(BaseCommand):
         data = self.send()
         self.validate_response("Ok", data)
 
+        data = self.recv()
+        self.validate_response("Scene Unloaded", data)
+
         return data

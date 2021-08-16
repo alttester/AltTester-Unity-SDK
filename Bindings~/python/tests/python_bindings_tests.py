@@ -584,8 +584,14 @@ class PythonTests(unittest.TestCase):
         alt_elements = self.altdriver.get_all_elements(enabled=False)
         self.assertIsNotNone(alt_elements)
 
+        input_marks = []
         list_of_elements = []
         for element in alt_elements:
+            if element.name == "InputMark(Clone)":
+                input_marks.append(element.transformId)
+                continue  # skip InputMark and direct children
+            if element.transformParentId in input_marks:
+                continue  # skip InputMark and direct children
             list_of_elements.append(element.name)
 
         self.assertEqual(30, len(list_of_elements))
@@ -608,7 +614,7 @@ class PythonTests(unittest.TestCase):
     def test_find_object_which_contains(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         altElement = self.altdriver.find_object_which_contains(
-            By.NAME, "Event")
+            By.NAME, "EventSy")
         self.assertEqual("EventSystem", altElement.name)
 
     def test_find_with_find_object_which_contains_not_existing_object(self):
