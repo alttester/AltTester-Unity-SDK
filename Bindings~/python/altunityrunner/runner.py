@@ -115,7 +115,9 @@ class AltUnityDriver:
     def stop(self):
         self._connection.close()
 
-    def call_static_method(self, type_name, method_name, parameters, type_of_parameters="", assembly=""):
+    def call_static_method(self, type_name, method_name, parameters=None, type_of_parameters=None, assembly=""):
+        parameters = parameters if parameters is not None else []
+        type_of_parameters = type_of_parameters if type_of_parameters is not None else []
         return commands.CallStaticMethod.run(
             self._connection,
             type_name, method_name, parameters, type_of_parameters, assembly

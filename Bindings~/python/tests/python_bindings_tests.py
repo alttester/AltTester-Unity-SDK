@@ -154,23 +154,12 @@ class PythonTests(unittest.TestCase):
         self.assertEqual('setFromMethod', self.altdriver.find_object(
             By.NAME, 'CapsuleInfo').get_text())
 
-    def test_call_component_method_invalid_parameter_type(self):
-        try:
-            self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
-                "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
-                ["1", "stringparam", "0.5", "[1,2,3]"], "", ["System.Stringgg"])
-
-            self.fail()
-        except InvalidParameterTypeException as e:
-            self.assertTrue(str(e).startswith(
-                "error:invalidParameterType"), str(e))
-
     def test_call_component_method_assembly_not_found(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         try:
             self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
                 "RandomComponent", "TestMethodWithManyParameters",
-                ["1", "stringparam", "0.5", "[1,2,3]"], "RandomAssembly", "")
+                [1, "stringparam", 0.5, [1, 2, 3]], "RandomAssembly", [])
             self.fail()
         except AssemblyNotFoundException as e:
             self.assertTrue(str(e).startswith(
@@ -182,11 +171,35 @@ class PythonTests(unittest.TestCase):
         try:
             alt_element.call_component_method(
                 "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
-                ["stringparam", "0.5", "[1,2,3]"], "", "")
+                ["stringparam", 0.5, [1, 2, 3]], "", [])
             self.fail()
         except MethodWithGivenParametersNotFoundException as e:
             self.assertTrue(str(e).startswith(
                 "error:methodWithGivenParametersNotFound"), str(e))
+
+    def test_call_component_method_invalid_method_argument_types(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        alt_element = self.altdriver.find_object(By.NAME, "Capsule")
+        try:
+            alt_element.call_component_method(
+                "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
+                ["stringnoint", "stringparams", 0.5, [1, 2, 3]], "", [])
+            self.fail()
+        except FailedToParseArgumentsException as e:
+            self.assertTrue(str(e).startswith(
+                "error:failedToParseMethodArguments"), str(e))
+
+    def test_call_component_method_check_parameters(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        alt_element = self.altdriver.find_object(By.NAME, "Capsule")
+        result = alt_element.call_component_method(
+            "AltUnityExampleScriptCapsule", "TestCallComponentMethod",
+            [1, "stringparam", 0.5, [1, 2, 3]], "", [])
+        self.assertEqual(result, '1,stringparam,0.5,[1,2,3]')
+        resultTuple = alt_element.call_component_method(
+            "AltUnityExampleScriptCapsule", "TestCallComponentMethod",
+            (1, "stringparam", 0.5, [1, 2, 3]), "", [])
+        self.assertEqual(resultTuple, '1,stringparam,0.5,[1,2,3]')
 
     def test_pointer_enter_and_exit(self):
         self.altdriver.load_scene('Scene 3 Drag And Drop')

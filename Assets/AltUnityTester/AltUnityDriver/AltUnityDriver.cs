@@ -134,7 +134,7 @@ namespace Altom.AltUnityDriver
         }
 
         public T CallStaticMethod<T>(string typeName, string methodName,
-                    string[] parameters, string[] typeOfParameters = null, string assemblyName = "")
+                    object[] parameters, string[] typeOfParameters = null, string assemblyName = "")
         {
             return new AltUnityCallStaticMethod<T>(communicationHandler, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
         }

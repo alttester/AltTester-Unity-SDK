@@ -93,7 +93,10 @@ class AltElement:
             component_name, property_name, value, assembly_name, self
         )
 
-    def call_component_method(self, component_name, method_name, parameters, assembly_name="", type_of_parameters=""):
+    def call_component_method(self, component_name, method_name, parameters=None, assembly_name="",
+                              type_of_parameters=None):
+        parameters = parameters if parameters is not None else []
+        type_of_parameters = type_of_parameters if type_of_parameters is not None else []
         return CallComponentMethodForObject.run(
             self._connection,
             component_name, method_name, parameters, assembly_name, type_of_parameters, self
