@@ -102,19 +102,14 @@ namespace Assets.AltUnityTester.AltUnityServer
             {
                 try
                 {
-                    if (parameterInfos[i].ParameterType == typeof(string))
-                    {
-                        parameterValues[i] = parameters[i];
-                    }
-                    else
-                    {
-                        parameterValues[i] = JsonConvert.DeserializeObject(parameters[i], parameterInfos[i].ParameterType,
-                           new JsonSerializerSettings
-                           {
-                               Culture = CultureInfo.InvariantCulture
-                           });
-                    }
+
+                    parameterValues[i] = JsonConvert.DeserializeObject(parameters[i], parameterInfos[i].ParameterType,
+                       new JsonSerializerSettings
+                       {
+                           Culture = CultureInfo.InvariantCulture
+                       });
                 }
+
                 catch (Newtonsoft.Json.JsonException)
                 {
                     throw new FailedToParseArgumentsException(string.Format("Could not parse parameter '{0}' to type {1}", parameters[i], parameterInfos[i].ParameterType));

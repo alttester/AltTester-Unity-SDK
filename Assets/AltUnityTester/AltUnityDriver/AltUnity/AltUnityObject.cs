@@ -60,7 +60,7 @@ namespace Altom.AltUnityDriver
             return new AltUnitySetComponentProperty(CommHandler, componentName, propertyName, value, assemblyName, this).Execute();
         }
 
-        public T CallComponentMethod<T>(string componentName, string methodName, string[] parameters, string[] typeOfParameters = null, string assemblyName = null)
+        public T CallComponentMethod<T>(string componentName, string methodName, object[] parameters, string[] typeOfParameters = null, string assemblyName = null)
         {
             return new AltUnityCallComponentMethod<T>(CommHandler, componentName, methodName, parameters, typeOfParameters, assemblyName, this).Execute();
         }

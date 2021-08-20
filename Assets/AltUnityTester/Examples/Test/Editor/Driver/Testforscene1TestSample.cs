@@ -351,7 +351,7 @@ public class TestForScene1TestSample
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "UIButtonClicked";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { });
+        var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { });
         Assert.IsNull(data);
     }
 
@@ -373,7 +373,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
-        string[] parameters = new[] { "1", "stringparam", "0.5", "[1,2,3]" };
+        object[] parameters = new object[4] { 1, "stringparam", 0.5, new[] { 1, 2, 3 } };
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters);
         Assert.IsNull(data);
@@ -396,7 +396,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithOptionalParameters";
-        string[] parameters = new[] { "FirstParameter", "SecondParameter" };
+        object[] parameters = new[] { "FirstParameter", "SecondParameter" };
         string[] typeOfParameters = new[] { "System.String", "System.String" };
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters);
@@ -408,7 +408,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithOptionalParameters";
-        string[] parameters = new[] { "FirstParameter", "" };
+        object[] parameters = new[] { "FirstParameter", "" };
         string[] typeOfParameters = new[] { "System.String", "System.String" };
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters);
@@ -420,7 +420,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
-        string[] parameters = new[] { "1", "stringparam", "[1,2,3]" };
+        object[] parameters = new object[3] { 1, "stringparam", new int[] { 1, 2, 3 } };
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         try
         {
@@ -438,7 +438,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
-        string[] parameters = new[] { "a", "stringparam", "[1,2,3]" };
+        object[] parameters = new object[3] { "a", "stringparam", new[] { 1, 2, 3 } };
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         try
         {
@@ -457,7 +457,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "RandomComponent";
         const string methodName = "TestMethodWithManyParameters";
-        string[] parameters = new[] { "a", "stringparam", "0.5", "[1,2,3]" };
+        object[] parameters = new object[4] { "a", "stringparam", 0.5, new[] { 1, 2, 3 } };
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         try
         {
@@ -476,7 +476,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
-        string[] parameters = new[] { "stringnotint", "stringparam", "0.5", "1,2,3]" };
+        object[] parameters = new object[4] { "stringnoint", "stringparam", 0.5, new[] { 1, 2, 3 } };
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         try
         {
@@ -485,7 +485,7 @@ public class TestForScene1TestSample
         }
         catch (FailedToParseArgumentsException exception)
         {
-            Assert.IsTrue(exception.Message.StartsWith("Could not parse parameter 'stringnotint' to type System.Int"), exception.Message);
+            Assert.IsTrue(exception.Message.StartsWith("Could not parse parameter"), exception.Message);
         }
     }
 
@@ -494,7 +494,7 @@ public class TestForScene1TestSample
     {
         const string componentName = "AltUnityExampleScriptCapsule";
         const string methodName = "TestMethodWithManyParameters";
-        string[] parameters = new[] { "1", "stringparam", "0.5", "[1,2,3]" };
+        object[] parameters = new object[4] { 1, "stringparam", 0.5, new int[] { 1, 2, 3 } };
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         try
         {
@@ -727,7 +727,7 @@ public class TestForScene1TestSample
     {
         AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
-        capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
+        capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new object[3] { 10, 10, 10 }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
         AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
         Assert.AreNotEqual(initialRotation, finalRotation);
@@ -1940,7 +1940,7 @@ public class TestForScene1TestSample
     {
         Assert.Throws<AltUnityCameraNotFoundException>(() => altUnityDriver.FindObject(By.NAME, "Capsule", By.NAME, "Camera"));
     }
-        
+
     [Test]
     public void TestClickOnChangingSceneButton()
     {
