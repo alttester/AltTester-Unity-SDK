@@ -159,7 +159,7 @@ namespace Altom.Editor
             AltUnityTestRunner.SetUpListTest();
             SendInspectorVersionRequest();
         }
-        [UnityEditor.MenuItem("AltUnity Tools/Add AltId to every object", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltId/Add AltId to every object", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
             var scenes = altUnityGetAllScenes();
@@ -170,7 +170,7 @@ namespace Altom.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/Add AltId to every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltId/Add AltId to every object in active scene", false, 800)]
         public static void AddIdComponentToEveryObjectInActiveScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -186,7 +186,7 @@ namespace Altom.Editor
         }
 
 
-        [UnityEditor.MenuItem("AltUnity Tools/Remove AltId from every object", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltId/Remove AltId from every object", false, 800)]
         public static void RemoveIdComponentFromEveryObjectInTheProject()
         {
             var scenes = altUnityGetAllScenes();
@@ -197,7 +197,7 @@ namespace Altom.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/Remove AltId from every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltId/Remove AltId from every object in active scene", false, 800)]
         public static void RemoveComponentFromEveryObjectInTheScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -212,7 +212,17 @@ namespace Altom.Editor
             EditorSceneManager.SaveScene(scene);
         }
 
+        [UnityEditor.MenuItem("AltUnity Tools/Support/Documentation", false, 800)]
+        public static void GoToDocumentation()
+        {
+            Application.OpenURL("https://altom.gitlab.io/altunity/altunitytester/");
+        }
 
+        [UnityEditor.MenuItem("AltUnity Tools/Support/Discord", false, 800)]
+        public static void GoToDiscord()
+        {
+            Application.OpenURL("https://discord.com/channels/744769398023127102/748159679426985984");
+        }
 
         #endregion
 
