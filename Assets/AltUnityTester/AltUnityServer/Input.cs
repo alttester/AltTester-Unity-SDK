@@ -109,7 +109,7 @@ public class Input : UnityEngine.MonoBehaviour
 
     }
 
-    #region UnityEngine.Input.AltUnityTester.NotImplemented
+#region UnityEngine.Input.AltUnityTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -218,10 +218,10 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-    #endregion
+#endregion
 
 
-    #region UnityEngine.Input.AltUnityTester
+#region UnityEngine.Input.AltUnityTester
 
     public static bool anyKey
     {
@@ -641,7 +641,7 @@ public class Input : UnityEngine.MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-    #endregion
+#endregion
 
     private static UnityEngine.Touch createTouch(UnityEngine.Vector3 screenPosition)
     {
