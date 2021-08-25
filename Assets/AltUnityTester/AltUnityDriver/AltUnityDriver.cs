@@ -14,7 +14,7 @@ namespace Altom.AltUnityDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "1.6.5";
+        public static readonly string VERSION = "1.6.6";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
@@ -75,10 +75,7 @@ namespace Altom.AltUnityDriver
             {
                 string message = "Version mismatch. AltUnity Driver version is " + VERSION + ". AltUnity Server version is " + serverVersion + ".";
 
-#if UNITY_EDITOR
-                UnityEngine.Debug.LogWarning(message);
-#endif
-                Console.WriteLine(message);
+                logger.Warn(message);
             }
         }
 

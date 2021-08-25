@@ -1,3 +1,5 @@
+using System;
+
 namespace Altom.AltUnity.Instrumentation
 {
     /// <summary>
@@ -12,6 +14,7 @@ namespace Altom.AltUnity.Instrumentation
     /// <summary>
     /// AltUnity Unity App Instrumentation settings
     /// </summary>
+    [Serializable]
     public class AltUnityInstrumentationSettings
     {
         /// <summary>

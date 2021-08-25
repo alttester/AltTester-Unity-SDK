@@ -39,5 +39,6 @@ namespace Altom.Editor
                 ProxyPort = ProxyPort,
             };
         }
+        public bool ShowInsectorPopUpInEditor = false;
     }
 }

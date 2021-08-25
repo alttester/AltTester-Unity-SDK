@@ -16,8 +16,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         public override AltUnityObject Execute()
         {
-            UnityEngine.Debug.Log(CommandParams);
-
 #if ALTUNITYTESTER
             AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(CommandParams.altUnityObject.getScreenPosition().x, CommandParams.altUnityObject.getScreenPosition().y));
             UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);

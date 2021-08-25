@@ -2,8 +2,14 @@ using System;
 
 namespace Assets.AltUnityTester.AltUnityServer.Communication
 {
+    public delegate void SendMessageHandler(string message);
+    public delegate void CommunicationHandler();
+    public delegate void CommunicationErrorHandler(string message, Exception error);
     public interface ICommunication
     {
+        CommunicationHandler OnConnect { get; set; }
+        CommunicationHandler OnDisconnect { get; set; }
+        CommunicationErrorHandler OnError { get; set; }
         bool IsConnected { get; }
         /// <summary>
         /// Returns weather the server is listening
@@ -17,8 +23,9 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
 
     public interface ICommandHandler
     {
+        SendMessageHandler OnSendMessage { get; set; }
         void Send(string data);
-
+        void OnMessage(string data);
     }
 
 

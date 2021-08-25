@@ -42,8 +42,8 @@ class AltUnityDriver:
         if enable_logging:
             logger.configure(
                 handlers=[
-                    dict(sink=sys.stdout),
-                    dict(sink="./AltUnityTesterLog.txt", enqueue=False, serialize=True, mode="w"),
+                    dict(sink=sys.stdout, diagnose=False),
+                    dict(sink="./AltUnityTesterLog.txt", enqueue=False, serialize=True, mode="w", diagnose=False),
                 ],
                 levels=[dict(name="DEBUG")],
                 activation=[("altunityrunner", True)],

@@ -1,14 +1,18 @@
 using System;
+using Altom.Server.Logging;
 using WebSocketSharp;
+
 namespace Assets.AltUnityTester.AltUnityServer.Communication
 {
     public class WebSocketClientCommunication : ICommunication
     {
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
         private readonly AltClientWebSocketHandler websocketHandler;
         WebSocket wsClient;
         private readonly int port;
         private readonly string host;
-        public WebSocketClientCommunication(string host, int port)
+
+        public WebSocketClientCommunication(ICommandHandler cmdHandler, string host, int port)
         {
             this.port = port;
             this.host = host;
@@ -17,35 +21,50 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             {
                 throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
             }
-            System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse("0.0.0.0");
 
             wsClient = new WebSocket(uri.ToString());
-            websocketHandler = new AltClientWebSocketHandler(wsClient);
+            websocketHandler = new AltClientWebSocketHandler(wsClient, cmdHandler);
+            wsClient.OnOpen += (sender, message) =>
+            {
+                if (this.OnConnect != null) this.OnConnect();
+            };
+            wsClient.OnClose += (sender, args) =>
+            {
+                if (this.OnDisconnect != null) this.OnDisconnect();
+            };
 
-
+            wsClient.OnError += (sender, args) =>
+            {
+                if (this.OnError != null) this.OnError.Invoke(args.Message, args.Exception);
+            };
         }
         public bool IsConnected { get { return wsClient.IsAlive; } }
         public bool IsListening { get { return false; } }
+
+        public CommunicationHandler OnConnect { get; set; }
+        public CommunicationHandler OnDisconnect { get; set; }
+        public CommunicationErrorHandler OnError { get; set; }
+
         public void Start()
+        {
+            connect();
+        }
+
+        public void Stop()
+        {
+            wsClient.Close();
+        }
+
+        private void connect()
         {
             try
             {
-                wsClient.Connect();
+                wsClient.ConnectAsync();
             }
             catch (Exception ex)
             {
                 throw new UnhandledStartCommError("An error occured while starting AltUnity Server", ex);
             }
-        }
-
-        protected void OnMessage()
-        {
-        }
-
-
-        public void Stop()
-        {
-            wsClient.Close();
         }
     }
 }

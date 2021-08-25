@@ -909,7 +909,7 @@ public class TestForScene1TestSample
     public void TestFindObjectsByLayer()
     {
         var altElements = altUnityDriver.FindObjects(By.LAYER, "Default");
-        Assert.AreEqual(12, altElements.Count);
+        Assert.AreEqual(13, altElements.Count);
     }
     [Test]
     public void TestFindObjectsByContainName()
@@ -1607,10 +1607,10 @@ public class TestForScene1TestSample
     [TestCase("/Canvas[-2]", "NextScene", true)]
     [TestCase("/Canvas[@layer=UI][5]", "InputField", true)]
     [TestCase("/Canvas[1]/Text", "Text", true)]
-    [TestCase("//CanvasPopUp[0]", "Icon", true)]
-    [TestCase("//CanvasPopUp[0]", "PopUp", false)]
-    [TestCase("//CanvasPopUp[-1]", "Icon", false)]
-    [TestCase("//CanvasPopUp[-2]", "PopUp", false)]
+    [TestCase("//Dialog[0]", "Title", false)]
+    [TestCase("//Dialog[1]", "Message", false)]
+    [TestCase("//Dialog[-1]", "CloseButton", false)]
+    [TestCase("//Dialog[-2]", "ActionButton", false)]
     public void TestFindNthChild(string path, string expectedResult, bool enabled)
     {
         var altElement = altUnityDriver.FindObject(By.PATH, path, enabled: enabled);
