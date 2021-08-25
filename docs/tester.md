@@ -16,7 +16,8 @@ AltUnity Tester is an open-source UI driven test automation tool that helps you 
    pages/examples
    pages/commands
    pages/advanced-usage
-   pages/license
+   pages/faq-troubleshooting
    pages/contributing
+   pages/license
 
 ```

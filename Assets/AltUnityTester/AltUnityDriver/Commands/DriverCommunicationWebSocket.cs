@@ -53,10 +53,7 @@ namespace Altom.AltUnityDriver.Commands
                 catch (Exception ex)
                 {
                     string errorMessage = "Trying to reach AltUnity Server at port" + tcpPort + ",retrying in " + retryPeriod + " (timing out in " + connectTimeout + " secs)...";
-                    Console.WriteLine(errorMessage);
-#if UNITY_EDITOR
-                    UnityEngine.Debug.Log(errorMessage);
-#endif
+                    logger.Error(errorMessage);
 
                     connectTimeout -= retryPeriod;
                     if (connectTimeout <= 0)

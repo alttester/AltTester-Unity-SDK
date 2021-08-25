@@ -6,21 +6,17 @@ using Altom.AltUnity.Instrumentation;
 using Altom.Server.Logging;
 using Assets.AltUnityTester.AltUnityServer.Communication;
 using NLog;
+using Altom.AltUnityInstrumentation.UI;
 
 public class AltUnityRunner : UnityEngine.MonoBehaviour
 {
     private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-    public static readonly string VERSION = "1.6.5";
+    public static readonly string VERSION = "1.6.6";
     public static AltUnityRunner _altUnityRunner;
     public static AltResponseQueue _responseQueue;
 
-    public AltUnityInstrumentationSettings InstrumentationSettings = new AltUnityInstrumentationSettings();
-
-    public UnityEngine.GameObject AltUnityPopUp;
-    public UnityEngine.UI.Image AltUnityIcon;
-    public UnityEngine.UI.Text AltUnityPopUpText;
-    public bool AltUnityIconPressed = false;
+    public AltUnityInstrumentationSettings InstrumentationSettings = null;
 
 
     [UnityEngine.Space]
@@ -28,13 +24,11 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
     public UnityEngine.Shader outlineShader;
     public UnityEngine.GameObject panelHightlightPrefab;
 
-    [UnityEngine.SerializeField]
-    private UnityEngine.GameObject AltUnityPopUpCanvas = null;
 
     [UnityEngine.Space]
     [UnityEngine.SerializeField]
     private AltUnityInputsVisualiser _inputsVisualiser = null;
-    private ICommunication communication;
+    // private AltUnityDialog _dialog = null;
 
 
 
@@ -63,102 +57,16 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
     protected void Start()
     {
         _responseQueue = new AltResponseQueue();
-
-        StartCommunicationProtocol();
-
-        AltUnityPopUpCanvas.SetActive(InstrumentationSettings.ShowPopUp);
     }
 
     protected void Update()
     {
-#if UNITY_EDITOR
-        if (communication == null)
-        {
-            UnityEditor.EditorApplication.isPlaying = false;
-            return;
-        }
-#endif
-        if (!AltUnityIconPressed)
-        {
-            if (communication.IsConnected)
-            {
-                AltUnityPopUp.SetActive(false);
-            }
-            else
-            {
-                AltUnityPopUp.SetActive(true);
-            }
-        }
-
-        if (communication.IsListening)
-        {
-            AltUnityIcon.color = UnityEngine.Color.white;
-        }
-        else
-        {
-            AltUnityIcon.color = UnityEngine.Color.red;
-            AltUnityPopUpText.text = "Server stopped working." + System.Environment.NewLine + " Please restart the server";
-        }
         _responseQueue.Cycle();
-    }
-    protected void OnApplicationQuit()
-    {
-        CleanUp();
     }
 
     #endregion
     #region public methods
-    public void CleanUp()
-    {
-        logger.Debug("Cleaning up socket server");
-        if (communication != null)
-            communication.Stop();
-    }
 
-    public void StartCommunicationProtocol()
-    {
-        /*Communication protocol
-        Client mode: communication protocol connects to a proxy
-         - start client
-            * socket address in use
-         - connect to proxy => 
-            * connected
-            * could not connect
-        
-        Server mode: communcation protocol listens for connections:
-         - start server
-            * socket address in use
-            * cannot start server
-         - listen for connections
-            * client connected
-            * client disconnected
-        */
-
-        if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server)
-        {
-            communication = new WebSocketServerCommunication("0.0.0.0", InstrumentationSettings.ServerPort);
-        }
-        else
-        {
-            communication = new WebSocketClientCommunication(InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
-        }
-
-        try
-        {
-            communication.Start();
-            AltUnityPopUpText.text = "Communication protocol is listening for connections on port " + InstrumentationSettings.ServerPort;
-        }
-        catch (AddressInUseCommError)
-        {
-            AltUnityPopUpText.text = "Cannot start AltUnity Server. Another process is listening on port " + InstrumentationSettings.ServerPort;
-            logger.Error("Cannot start AltUnity Server. Another process is listening on port" + InstrumentationSettings.ServerPort);
-        }
-        catch (UnhandledStartCommError ex)
-        {
-            AltUnityPopUpText.text = "An error occured while starting the communication protocol.";
-            logger.Error(ex.InnerException, "An error occured while starting the communication protocol.");
-        }
-    }
 
     public AltUnityObject GameObjectToAltUnityObject(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
     {
@@ -237,20 +145,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
             if (temp != null)
                 DestroyImmediate(temp);
         }
-    }
-
-    public void ServerRestartPressed()
-    {
-        AltUnityIconPressed = false;
-        communication.Stop();
-        StartCommunicationProtocol();
-        AltUnityPopUp.SetActive(true);
-    }
-
-    public void IconPressed()
-    {
-        AltUnityPopUp.SetActive(!AltUnityPopUp.activeSelf);
-        AltUnityIconPressed = !AltUnityIconPressed;
     }
 
     public static UnityEngine.GameObject GetGameObject(AltUnityObject altUnityObject)

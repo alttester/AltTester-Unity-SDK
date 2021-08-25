@@ -30,12 +30,14 @@ public class Input : UnityEngine.MonoBehaviour
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedDown = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.Dictionary<int, PointerEventData> _pointerEventsDataDictionary = new System.Collections.Generic.Dictionary<int, PointerEventData>();
+    private static System.Collections.Generic.Dictionary<int, int> _inputIdDictionary = new System.Collections.Generic.Dictionary<int, int>();
+    private static int mouseInputVisualiserId = -1;
     private static readonly KeyCode[] mouseKeyCodes = { KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.Mouse2 };
-    private static readonly Dictionary<PointerEventData.InputButton, int> pointerIds = new Dictionary<PointerEventData.InputButton, int>{
-            {PointerEventData.InputButton.Left, -1},
-            {PointerEventData.InputButton.Right, -2},
-            {PointerEventData.InputButton.Middle, -3}
-        };
+    private static readonly Dictionary<PointerEventData.InputButton, int> pointerIds = new Dictionary<PointerEventData.InputButton, int>{{PointerEventData.InputButton.Left, -1},
+                                                                                                                                {PointerEventData.InputButton.Right, -2},
+                                                                                                                                {PointerEventData.InputButton.Middle, -3}};
+    private static PointerEventData mouseDownPointerEventData = null;
+    private static PointerEventData.InputButton[] mouseButtons = { PointerEventData.InputButton.Left, PointerEventData.InputButton.Middle, PointerEventData.InputButton.Right };
 
     public static bool Finished { get; set; }
     public static float LastAxisValue { get; set; }
@@ -612,7 +614,7 @@ public class Input : UnityEngine.MonoBehaviour
         if (_useCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return 0 != _keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button && touches[button].phase != UnityEngine.TouchPhase.Began;
+            return 0 != _keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || (touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Began);
         }
         else
         {
@@ -692,9 +694,15 @@ public class Input : UnityEngine.MonoBehaviour
     public static int BeginTouch(UnityEngine.Vector3 screenPosition)
     {
         var touch = createTouch(screenPosition);
+
+        if (touch.fingerId == 0)
+            mousePosition = screenPosition;
         var pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch);
         _pointerEventsDataDictionary.Add(touch.fingerId, pointerEventData);
+
         _instance.StartCoroutine(setMouse0KeyCodePressedDown());
+        var inputId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
+        _inputIdDictionary.Add(touch.fingerId, inputId);
 
         return touch.fingerId;
     }
@@ -710,21 +718,27 @@ public class Input : UnityEngine.MonoBehaviour
         touch.deltaPosition = touch.position - previousPosition;
         if (fingerId == 0)
         {
-            Input.mousePosition = screenPosition;
+            mousePosition = screenPosition;
         }
         updateTouchInTouchList(touch);
         AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
+        var inputId = _inputIdDictionary[fingerId];
+        AltUnityRunner._altUnityRunner.ShowInput(touch.position, inputId);
 
     }
     public static void EndTouch(int fingerId)
     {
         _instance.StartCoroutine(endTouch(fingerId));
     }
+
     private static IEnumerator endTouch(int fingerId)
     {
         yield return new WaitForEndOfFrame();
 
         var touch = findTouch(fingerId);
+        var inputId = _inputIdDictionary[fingerId];
+        _inputIdDictionary.Remove(touch.fingerId);
+        AltUnityRunner._altUnityRunner.ShowInput(touch.position, inputId);
         var previousPointerEventData = _pointerEventsDataDictionary[touch.fingerId];
         _pointerEventsDataDictionary.Remove(touch.fingerId);
 
@@ -1072,6 +1086,7 @@ public class Input : UnityEngine.MonoBehaviour
             var inputButton = keyCodeToInputButton(keyCode);
             mouseTriggerInit(inputButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
             mouseDownTrigger(inputButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+            mouseDownPointerEventData = pointerEventData;
         }
     }
 
@@ -1149,8 +1164,9 @@ public class Input : UnityEngine.MonoBehaviour
         pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
         if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-        if (mouseButton == PointerEventData.InputButton.Left)
+        if (mouseButtons.Contains(mouseButton))
         {
+            pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.initializePotentialDrag);
             eventSystemTargetMouseDown = eventSystemTarget;
             monoBehaviourTargetMouseDown = monoBehaviourTarget;
         }
@@ -1172,6 +1188,10 @@ public class Input : UnityEngine.MonoBehaviour
         ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerUpHandler);
         if (mouseButton == PointerEventData.InputButton.Left && monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
 
+        if (mouseButtons.Contains(mouseButton) && mouseDownPointerEventData != null)
+            _mockUpPointerInputModule.ExecuteEndDragPointerEvents(mouseDownPointerEventData);
+
+        mouseDownPointerEventData = null;
     }
 
     private static IEnumerator mouseEventTrigger(PointerEventData.InputButton mouseButton, float duration)
@@ -1190,7 +1210,17 @@ public class Input : UnityEngine.MonoBehaviour
     {
         float time = 0;
         var distance = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
+        var inputId = mouseInputVisualiserId;
+        if (mouseInputVisualiserId == -1)
+        {
+            inputId = AltUnityRunner._altUnityRunner.ShowInput(location);
+            mouseInputVisualiserId = inputId;
 
+        }
+        else
+        {
+            AltUnityRunner._altUnityRunner.ShowInput(location, inputId);
+        }
         do
         {
             UnityEngine.Vector3 delta;
@@ -1205,6 +1235,14 @@ public class Input : UnityEngine.MonoBehaviour
             }
 
             mousePosition += delta;
+            if (mouseDownPointerEventData != null)
+            {
+                _mockUpPointerInputModule.ExecuteDragPointerEvents(mouseDownPointerEventData);
+                mouseDownPointerEventData.position = mousePosition;
+                mouseDownPointerEventData.delta = delta;
+                findEventSystemObject(mouseDownPointerEventData);
+            }
+            AltUnityRunner._altUnityRunner.ShowInput(mousePosition, inputId);
             yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
         } while (time < duration);

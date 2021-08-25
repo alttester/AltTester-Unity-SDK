@@ -44,6 +44,6 @@ public class TestForScene4NoCameras
             Assert.AreNotEqual(-1, button.x);
             Assert.AreNotEqual(-1, button.y);
         }
-        Assert.AreEqual(2, altObjects.Count);
+        Assert.AreEqual(3, altObjects.Count);
     }
 }

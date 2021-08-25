@@ -1,3 +1,36 @@
+# Changes in version 1.6.6
+
+## New
+
+-   Resolve "Input Handle Mouse events every frame" !467
+-   Resolve "Add CameraNotFound error handler" !477
+-   Resolve "Drag/Drop events for KeyUp / KeyDown" !483
+
+## Bug fixes and improvements
+
+-   Resolve "[Tests list] Case when Assembly-CSharp_editor.dll displays an extra number of selected tests and passed test icon" !482
+-   Resolve "[Unity - Game] Large AUT popup and icon for the Asset Store package" !481
+-   Resolve "Make menu item and window name for AUT editor the same" !471
+-   Resolve "Tests list missing for cloned game project from Gitlab" !479
+-   Resolve "Click method is not working" !476
+-   Resolve "Change the Selectors name with name used in syntax" !478
+-   Resolve "Eliminate note from "Write and execute first test" section" !475
+-   Resolve "Preselected build location path deleted after canceling to change it" !473
+-   Resolve "Fix inconsistencies in documentation" !472
+-   Resolve "SetComponentProperty doesn't set value for properties in a struct" !469
+-   Resolve "Add an x button to altunity popup, so it's more intuitive that it can be closed" !470
+-   Resolve "Problems with maven release job" !466
+-   Resolve "Pressing x button on the test report pop-up makes the pop-up reopen" !468
+
+## Contributors
+
+-   Dorin Oltean @dorinaltom
+-   Gombos Kriszta @GombosKriszta
+-   Andra Cardas @andra.cardas
+-   Robert Dezmerean @robert-dezmerean
+-   Iuliana Todoran @iuliana.todoran
+-   Robert Poienar @robert_poienar
+
 # Changes in version 1.6.5
 
 ## New

@@ -2,12 +2,16 @@ using System;
 using WebSocketSharp.Server;
 namespace Assets.AltUnityTester.AltUnityServer.Communication
 {
+
     public class WebSocketServerCommunication : ICommunication
     {
         WebSocketServer wsServer;
         private readonly int port;
         private readonly string host;
-        public WebSocketServerCommunication(string host, int port)
+
+        AltServerWebSocketHandler wsHandler = null;
+
+        public WebSocketServerCommunication(ICommandHandler cmdHandler, string host, int port)
         {
             this.port = port;
             this.host = host;
@@ -16,18 +20,48 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             {
                 throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
             }
-            System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse("0.0.0.0");
 
             wsServer = new WebSocketServer(uri.ToString());
-            wsServer.AddWebSocketService<AltServerWebSocketHandler>("/altws");
+
+            wsServer.AddWebSocketService<AltServerWebSocketHandler>("/altws", () =>
+            {
+                this.wsHandler = new AltServerWebSocketHandler(cmdHandler);
+
+                this.wsHandler.OnErrorHandler += (message, exception) =>
+                {
+                    if (this.OnError != null) this.OnError.Invoke(message, exception);
+                };
+
+                this.wsHandler.OnClientConnected += () =>
+                {
+                    if (this.OnConnect != null) this.OnConnect.Invoke();
+                };
+
+                this.wsHandler.OnClientDisconnected += () =>
+                {
+                    if (this.OnDisconnect != null)
+                    {
+                        if (wsServer.WebSocketServices["/altws"].Sessions.Count == 0)
+                            this.OnDisconnect();
+                    }
+                };
+
+                return this.wsHandler;
+            });
         }
         public bool IsConnected { get { return wsServer.WebSocketServices.SessionCount > 0; } }
         public bool IsListening { get { return wsServer.IsListening; } }
+
+        public CommunicationHandler OnConnect { get; set; }
+        public CommunicationHandler OnDisconnect { get; set; }
+        public CommunicationErrorHandler OnError { get; set; }
+
         public void Start()
         {
             try
             {
-                wsServer.Start();
+                if (!wsServer.IsListening)
+                    wsServer.Start();
             }
             catch (Exception ex)
             {

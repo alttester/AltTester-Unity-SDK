@@ -220,7 +220,7 @@ run-python-appium-android-tests:
     - whoami
     - cd "Bindings~/java"
     - mvn clean compile assembly:single
-    - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.6.5 -Dpackaging=jar
+    - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.6.6 -Dpackaging=jar
     - cd ../java-appium-tests
     - mvn test
   after_script:
@@ -339,7 +339,7 @@ deploy-altunitydriver-dotnet:
   script:
     - cd "Bindings~/dotnet"
     - dotnet pack AltUnityDriver/AltUnityDriver.csproj -c release
-    - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.6.5.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+    - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.6.6.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
 alphadocs:
   stage: docs

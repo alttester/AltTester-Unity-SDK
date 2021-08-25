@@ -529,7 +529,7 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         time.sleep(1)
         altElements = self.altdriver.find_objects(By.LAYER, "Default")
-        self.assertEqual(12, len(altElements))
+        self.assertEqual(13, len(altElements))
 
     def test_find_objects_by_contains_name(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -622,7 +622,7 @@ class PythonTests(unittest.TestCase):
         self.assertTrue("Main Camera" in list_of_elements)
         self.assertTrue("Background" in list_of_elements)
         self.assertTrue("Particle System" in list_of_elements)
-        self.assertTrue("PopUp" in list_of_elements)
+        self.assertTrue("AltUnityDialog" in list_of_elements)
 
     def test_find_object_which_contains(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')

@@ -1,26 +1,19 @@
-using Altom.Server.Logging;
 using WebSocketSharp;
-using WebSocketSharp.Server;
 
 namespace Assets.AltUnityTester.AltUnityServer.Communication
 {
     public class AltClientWebSocketHandler
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
         private readonly WebSocket _webSocket;
-        private readonly CommandHandler _commandHandler;
+        private readonly ICommandHandler _commandHandler;
 
-        public AltClientWebSocketHandler(WebSocket webSocket)
+        public AltClientWebSocketHandler(WebSocket webSocket, ICommandHandler commandHandler)
         {
             this._webSocket = webSocket;
             webSocket.OnMessage += this.OnMessage;
-            webSocket.OnError += (sender, args) =>
-            {
-                logger.Error(args.Message);
-                if (args.Exception != null)
-                    logger.Error(args.Exception);
-            };
-            this._commandHandler = new CommandHandler(webSocket.Send);
+
+            this._commandHandler = commandHandler;
+            this._commandHandler.OnSendMessage += webSocket.Send;
         }
         private void OnMessage(object sender, MessageEventArgs message)
         {

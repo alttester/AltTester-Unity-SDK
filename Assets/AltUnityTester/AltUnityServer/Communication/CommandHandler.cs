@@ -13,19 +13,18 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
     public class CommandHandler : ICommandHandler
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
-        private readonly Action<string> _sendMessage;
 
-        public CommandHandler(Action<string> sendMessage)
+        public CommandHandler()
         {
-            this._sendMessage = (data) =>
-            {
-                sendMessage(data);
-                logger.Debug("response sent: " + data);
-            };
         }
+        public SendMessageHandler OnSendMessage { get; set; }
         public void Send(string data)
         {
-            this._sendMessage(data);
+            if (this.OnSendMessage != null)
+            {
+                this.OnSendMessage.Invoke(data);
+                logger.Debug("response sent: " + data);
+            }
         }
         public void OnMessage(string data)
         {
@@ -59,7 +58,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
                    var response = executeAndSerialize();
 
                    this.Send(response);
-                   logger.Debug("response sent: " + response);
                });
         }
 

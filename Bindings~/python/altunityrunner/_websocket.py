@@ -60,8 +60,9 @@ class WebsocketConnection:
         for x in range(tries):
             try:
                 return self._create_connection(url, timeout=timeout)
-            except Exception:
+            except Exception as ex:
                 logger.exception("Unexpected error on connection try: {}.".format(x))
+                logger.exception(ex)
                 time.sleep(delay)
                 delay = min(delay * 2, 5)
 
