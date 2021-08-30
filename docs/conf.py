@@ -74,6 +74,7 @@ html_static_path = ['_static']
 
 html_logo = '_static/images/altUnity-512x512.png'
 html_favicon = '_static/images/altUnity-512x512.png'
+html_title = 'AltUnity Tester Documentation'
 
 html_css_files = [
     'css/custom.css',
