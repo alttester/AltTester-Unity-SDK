@@ -1,5 +1,6 @@
 Sphinx
 
+docutils==0.16
 recommonmark
 
 sphinx-markdown-tables
