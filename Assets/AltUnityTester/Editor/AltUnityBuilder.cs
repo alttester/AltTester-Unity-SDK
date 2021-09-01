@@ -74,6 +74,34 @@ namespace Altom.Editor
 
         }
 
+        public static void BuildWebGLFromUI(bool autoRun = false)
+        {
+            try
+            {
+                InitBuildSetup(UnityEditor.BuildTargetGroup.WebGL);
+                logger.Debug("Starting WebGL build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
+
+                var buildPlayerOptions = new UnityEditor.BuildPlayerOptions
+                {
+                    locationPathName = getOutputPath(UnityEditor.BuildTarget.WebGL),
+                    scenes = getScenesForBuild(),
+                    target = UnityEditor.BuildTarget.WebGL
+                };
+
+                buildGame(autoRun, buildPlayerOptions);
+            }
+            catch (System.Exception e)
+            {
+                logger.Error(e);
+            }
+            finally
+            {
+                built = true;
+                resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
+            }
+
+        }
+
         public static void BuildStandaloneFromUI(UnityEditor.BuildTarget buildTarget, bool autoRun = false)
         {
             try

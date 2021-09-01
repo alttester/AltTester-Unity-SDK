@@ -11,7 +11,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 #if ALTUNITYTESTER
             return Input.Finished ? "Yes" : "No";
 #else
-            return AltUnityErrors.errorInputModule;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
     }

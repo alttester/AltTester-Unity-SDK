@@ -40,7 +40,7 @@ class WebsocketConnection:
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, timeout=60, tries=5):
+    def __init__(self, host="127.0.0.1", port=13000, timeout=None, tries=5):
         self.host = host
         self.port = port
         self.timeout = timeout
@@ -54,7 +54,7 @@ class WebsocketConnection:
     def __repr__(self):
         return "{}({!r}, {!r}, {!r})".format(self.__class__.__name__, self.host, self.port, self.timeout)
 
-    def _connect(self, url, timeout=60, tries=5, delay=0.1):
+    def _connect(self, url, timeout=None, tries=5, delay=0.1):
         logger.info("Connecting to AltUnityServer on: {}".format(url))
 
         for x in range(tries):
@@ -68,7 +68,7 @@ class WebsocketConnection:
 
         raise ConnectionError("Could not connect to AltUnityServer on host: {} port: {}".format(self.host, self.port))
 
-    def _create_connection(self, url, timeout=60):
+    def _create_connection(self, url, timeout=None):
         ws = websocket.WebSocket()
         ws.connect(url, timeout=timeout)
 

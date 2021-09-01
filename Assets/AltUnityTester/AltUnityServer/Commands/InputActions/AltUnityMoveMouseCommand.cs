@@ -1,3 +1,4 @@
+using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             Input.MoveMouse(new Vector2(CommandParams.location.x, CommandParams.location.y), CommandParams.duration);
             return "Ok";
 #else
-            return null; ;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
     }

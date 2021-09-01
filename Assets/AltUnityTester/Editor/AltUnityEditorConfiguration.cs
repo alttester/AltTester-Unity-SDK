@@ -24,6 +24,8 @@ namespace Altom.Editor
         public string LatestInspectorVersion = "";
 
         public AltUnityInstrumentationMode InstrumentationMode = AltUnityInstrumentationMode.Server;
+
+        public AltUnityInstrumentationMode UserSelectionInstrumentationMode = AltUnityInstrumentationMode.Server;
         public string ProxyHost = "localhost";
         public int ProxyPort = 13000;
 

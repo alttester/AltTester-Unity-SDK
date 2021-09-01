@@ -8,7 +8,7 @@ public class TestInputActions
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver = new AltUnityDriver();
+        altUnityDriver = new AltUnityDriver(enableLogging: true);
     }
 
     //At the end of the test closes the connection with the socket

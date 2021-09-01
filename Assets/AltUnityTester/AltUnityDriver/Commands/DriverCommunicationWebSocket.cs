@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using Altom.AltUnityDriver.Logging;
@@ -29,40 +30,32 @@ namespace Altom.AltUnityDriver.Commands
 
         public static DriverCommunicationWebSocket Connect(string tcpIp, int tcpPort, int connectTimeout)
         {
-            int retryPeriod = 5;
             string url = "ws://" + tcpIp + ":" + tcpPort + "/altws";
             WebSocket wsClient = new WebSocket(url);
+            wsClient.OnError += (sender, args) =>
+            {
+                logger.Error(args.Exception, args.Message);
+            };
             var comm = new DriverCommunicationWebSocket(new AltUnityWebSocketClient(wsClient));
 
-            while (connectTimeout > 0)
+            logger.Debug("Connecting to: " + url);
+
+            Stopwatch watch = Stopwatch.StartNew();
+            int retries = 0;
+
+            while (connectTimeout > watch.Elapsed.TotalSeconds)
             {
-                try
-                {
-                    logger.Debug("Trying to connect to: " + url);
-                    wsClient.Connect();
+                if (retries > 0) logger.Debug(string.Format("Retrying #{0} to {1}", retries, url));
+                wsClient.Connect();
 
-                    if (!wsClient.IsAlive)
-                    {
-                        throw new Exception("Could not connect to: " + url);
-                    }
+                if (wsClient.IsAlive) break;
 
-                    logger.Debug("Connected to: " + url);
-
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    string errorMessage = "Trying to reach AltUnity Server at port" + tcpPort + ",retrying in " + retryPeriod + " (timing out in " + connectTimeout + " secs)...";
-                    logger.Error(errorMessage);
-
-                    connectTimeout -= retryPeriod;
-                    if (connectTimeout <= 0)
-                    {
-                        throw new Exception("Could not create connection to " + tcpIp + ":" + tcpPort, ex);
-                    }
-                    Thread.Sleep(retryPeriod * 1000);
-                }
+                retries++;
             }
+
+            if (!wsClient.IsAlive)
+                throw new Exception("Could not create connection to " + tcpIp + ":" + tcpPort);
+            logger.Debug("Connected to: " + url);
             return comm;
         }
 
