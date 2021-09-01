@@ -368,7 +368,9 @@ pages:
   script:
     - cd docs
     - *initialize_venv
-    - python3 -m pip install -r requirements.txt
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - make clean
     - make html
     - cp -r _build/html/. ../public/
 
