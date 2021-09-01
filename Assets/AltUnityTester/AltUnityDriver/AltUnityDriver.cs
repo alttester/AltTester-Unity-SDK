@@ -23,13 +23,11 @@ namespace Altom.AltUnityDriver
         /// </summary>
         /// <param name="tcp_ip">The ip or hostname  AltUnity Server is listening on.</param>
         /// <param name="tcp_port">The port AltUnity Server is listening on.</param>
-        /// <param name="requestSeparator">The separator of command parameters. Must match requestSeparatorString in AltUnity Server </param>
-        /// <param name="requestEnding">The ending of the command. Must match requestEnding in AltUnity Server </param>
-        /// <param name="logFlag">If true it enables driver commands logging to log file and Unity.</param>
-        /// <param name="connectTimeout">The connect timeout.</param>
-        public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, string requestSeparator = ";", string requestEnding = "&", bool logFlag = false, int connectTimeout = 60)
+        /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
+        /// <param name="connectTimeout">The connect timeout in seconds.</param>
+        public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, bool enableLogging = false, int connectTimeout = 60)
         {
-            if (logFlag)
+            if (enableLogging)
             {
 #if UNITY_EDITOR || ALTUNITYTESTER
                 var defaultLevels = new Dictionary<AltUnityLogger, AltUnityLogLevel> { { AltUnityLogger.File, AltUnityLogLevel.Debug }, { AltUnityLogger.Unity, AltUnityLogLevel.Debug } };

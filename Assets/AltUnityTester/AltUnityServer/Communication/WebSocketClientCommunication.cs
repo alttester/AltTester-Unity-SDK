@@ -23,6 +23,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             }
 
             wsClient = new WebSocket(uri.ToString());
+            wsClient.Log.Level = LogLevel.Fatal;
             websocketHandler = new AltClientWebSocketHandler(wsClient, cmdHandler);
             wsClient.OnOpen += (sender, message) =>
             {
@@ -63,7 +64,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             }
             catch (Exception ex)
             {
-                throw new UnhandledStartCommError("An error occured while starting AltUnity Server", ex);
+                throw new UnhandledStartCommError("An error occured while starting client CommunicationProtocol", ex);
             }
         }
     }

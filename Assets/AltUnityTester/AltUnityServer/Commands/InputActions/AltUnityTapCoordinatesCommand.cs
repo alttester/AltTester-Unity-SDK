@@ -19,7 +19,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             Input.TapCoordinates(CommandParams.coordinates.ToUnity(), CommandParams.count, CommandParams.interval, onFinish);
             return "Ok";
 #else
-            return AltUnityErrors.errorInputModule;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
 

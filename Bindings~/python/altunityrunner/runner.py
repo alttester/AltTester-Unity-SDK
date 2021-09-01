@@ -29,7 +29,7 @@ class AltUnityDriver:
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, timeout=60, tries=5, enable_logging=False):
+    def __init__(self, host="127.0.0.1", port=13000, timeout=None, tries=5, enable_logging=False):
         self.host = host
         self.port = port
         self.enable_logging = enable_logging

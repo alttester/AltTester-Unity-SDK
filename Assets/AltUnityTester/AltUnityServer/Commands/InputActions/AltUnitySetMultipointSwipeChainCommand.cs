@@ -18,7 +18,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             Input.SetMultipointSwipe(CommandParams.positions.Select(p => p.ToUnity()).ToArray(), CommandParams.duration);
             return "Ok";
 #else
-            return null;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
     }

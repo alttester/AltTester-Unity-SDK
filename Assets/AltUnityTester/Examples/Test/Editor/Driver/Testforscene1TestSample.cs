@@ -12,7 +12,7 @@ public class TestForScene1TestSample
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver = new AltUnityDriver(logFlag: true);
+        altUnityDriver = new AltUnityDriver(enableLogging: true);
     }
 
     [OneTimeTearDown]
@@ -909,7 +909,7 @@ public class TestForScene1TestSample
     public void TestFindObjectsByLayer()
     {
         var altElements = altUnityDriver.FindObjects(By.LAYER, "Default");
-        Assert.AreEqual(13, altElements.Count);
+        Assert.AreEqual(12, altElements.Count);
     }
     [Test]
     public void TestFindObjectsByContainName()

@@ -7,6 +7,7 @@ namespace Altom.Editor
     iOS,
 #endif
         Editor,
-        Standalone
+        Standalone,
+        WebGL
     }
 }

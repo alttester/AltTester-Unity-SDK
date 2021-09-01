@@ -74,8 +74,6 @@ namespace Altom.Editor
         private bool foldOutBuildSettings = true;
         private bool foldOutIosSettings = true;
         private bool foldOutPortForwarding = true;
-        public int selectedTestCount = 0;
-        private static bool showPopUp = false;
         UnityEngine.Rect popUpPosition;
         UnityEngine.Rect popUpContentPosition;
         UnityEngine.Rect closeButtonPosition;
@@ -85,7 +83,6 @@ namespace Altom.Editor
         float splitNormalizedPositionHorizontal = 0.33f;
         UnityEngine.Rect resizeHandleRect;
         UnityEngine.Rect resizeHandleRectHorizontal;
-
 
 
         bool resize;
@@ -447,6 +444,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.LabelField("Platform", UnityEditor.EditorStyles.boldLabel);
             var guiStyleRadioButton = new UnityEngine.GUIStyle(UnityEditor.EditorStyles.radioButton) { };
             guiStyleRadioButton.padding = new UnityEngine.RectOffset(20, 0, 1, 0);
+
             if (rightSide <= 300)
             {
                 UnityEditor.EditorGUILayout.BeginVertical();
@@ -519,6 +517,21 @@ namespace Altom.Editor
                 }
             }
 #endif
+            if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+            {
+                browseBuildLocation();
+                UnityEditor.EditorGUILayout.Separator();
+                UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+                if (UnityEngine.GUILayout.Button("WebGL player settings"))
+                {
+#if UNITY_2018_3_OR_NEWER
+                    UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+#else
+                    UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+#endif
+                    UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.WebGL;
+                }
+            }
 
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
@@ -566,6 +579,10 @@ namespace Altom.Editor
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
+                    }
+                    else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                    {
+                        AltUnityBuilder.BuildWebGLFromUI(autoRun: false);
                     }
                     else
                     {
@@ -618,6 +635,10 @@ namespace Altom.Editor
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
+                    }
+                    else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                    {
+                        AltUnityBuilder.BuildWebGLFromUI(autoRun: true);
                     }
                     UnityEngine.GUIUtility.ExitGUI();
                 }
@@ -1213,9 +1234,22 @@ namespace Altom.Editor
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to build name", ref EditorConfiguration.appendToName);
 
-                int selected = (int)EditorConfiguration.InstrumentationMode;
-                labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
-                EditorConfiguration.InstrumentationMode = (AltUnityInstrumentationMode)selected;
+                if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                {
+                    int selected = (int)AltUnityInstrumentationMode.Proxy;
+                    GUI.enabled = false;
+                    labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
+                    GUI.enabled = true;
+                    EditorConfiguration.InstrumentationMode = AltUnityInstrumentationMode.Proxy;
+                }
+                else
+                {
+                    int selected = (int)EditorConfiguration.UserSelectionInstrumentationMode;
+                    labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
+                    EditorConfiguration.UserSelectionInstrumentationMode = (AltUnityInstrumentationMode)selected;
+                    EditorConfiguration.InstrumentationMode = EditorConfiguration.UserSelectionInstrumentationMode;
+                }
+
                 if (EditorConfiguration.InstrumentationMode == AltUnityInstrumentationMode.Server)
                 {
                     labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
@@ -1308,7 +1342,6 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
 
             selected = UnityEditor.EditorGUILayout.Popup(labelText, selected, options);
-
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 

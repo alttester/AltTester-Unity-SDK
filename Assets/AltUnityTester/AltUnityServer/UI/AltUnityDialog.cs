@@ -46,7 +46,6 @@ namespace Altom.AltUnityInstrumentation.UI
             actionButton.onClick.AddListener(OnActionButtonPressed);
             titleText.text = "AltUnity Tester v." + AltUnityRunner.VERSION;
 
-            initCommProtocol();
             startCommProtocol();
         }
         protected void Update()
@@ -68,7 +67,6 @@ namespace Altom.AltUnityInstrumentation.UI
         public void OnActionButtonPressed()
         {
             communication.Stop();
-            initCommProtocol();
             startCommProtocol();
         }
 
@@ -82,7 +80,13 @@ namespace Altom.AltUnityInstrumentation.UI
 
         private void initCommProtocol()
         {
+            if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server && communication != null && communication.IsListening) return;
             var cmdHandler = new CommandHandler();
+
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
+#else
 
             if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server)
             {
@@ -92,6 +96,7 @@ namespace Altom.AltUnityInstrumentation.UI
             {
                 communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
             }
+#endif
             communication.OnConnect += onConnect;
             communication.OnDisconnect += onDisconnect;
             communication.OnError += onError;
@@ -99,11 +104,15 @@ namespace Altom.AltUnityInstrumentation.UI
         }
         private void startCommProtocol()
         {
+            initCommProtocol();
+
             try
             {
+                if (communication == null || !communication.IsListening) // start only if it is not already listening
+                    communication.Start();
 
-                communication.Start();
-                onStart();
+                if (!communication.IsConnected) // display dialog onlyy if not connected 
+                    onStart();
             }
             catch (AddressInUseCommError)
             {
@@ -152,12 +161,13 @@ namespace Altom.AltUnityInstrumentation.UI
         private void onError(string message, Exception ex)
         {
             logger.Error(message);
-            logger.Error(ex);
+            if (ex != null)
+                logger.Error(ex);
         }
 
         private void cleanUp()
         {
-            logger.Debug("Cleaning up socket server");
+            logger.Debug("Stopping communication protocol");
             if (communication != null)
                 communication.Stop();
         }
