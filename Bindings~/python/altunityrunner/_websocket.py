@@ -44,6 +44,7 @@ class WebsocketConnection:
         self.host = host
         self.port = port
         self.timeout = timeout
+        self.tries = tries
 
         self.url = "ws://{}:{}/altws/".format(host, port)
         self._websocket = self._connect(self.url, timeout=timeout, tries=tries)
@@ -52,7 +53,13 @@ class WebsocketConnection:
         self._current_command_name = None
 
     def __repr__(self):
-        return "{}({!r}, {!r}, {!r})".format(self.__class__.__name__, self.host, self.port, self.timeout)
+        return "{}({!r}, {!r}, {!r}, {!r})".format(
+            self.__class__.__name__,
+            self.host,
+            self.port,
+            self.timeout,
+            self.tries
+        )
 
     def _connect(self, url, timeout=None, tries=5, delay=0.1):
         logger.info("Connecting to AltUnityServer on: {}".format(url))
@@ -81,7 +88,8 @@ class WebsocketConnection:
 
         message = json.dumps(data)
         logger.info("Message: {}".format(message))
-        self._websocket.send(json.dumps(data))
+
+        self._websocket.send(message)
 
     def recv(self):
         if self._store.has(self._current_command_name):

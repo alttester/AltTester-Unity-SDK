@@ -89,8 +89,9 @@ class BaseCommand(Command):
 
     def handle_response(self, response):
         error = response.get("error")
+
         if error:
-            logger.error("Response error: {}".format(error))
+            logger.error("Response error: {} - {}".format(error.get("type"), error.get("message")))
             self.handle_errors(error)
 
         logs = response.get("logs")
@@ -101,7 +102,7 @@ class BaseCommand(Command):
         if data:
             logger.debug("Response data: {}".format(data))
 
-    def handle_errors(self, error_message):
+    def handle_errors(self, error):
         error_map = {
             "ALTUNITYTESTERNotAddedAsDefineVariable": exceptions.AltUnityInputModuleException,
             "notFound": exceptions.NotFoundException,
@@ -123,9 +124,8 @@ class BaseCommand(Command):
             "unknownError": exceptions.UnknownErrorException
         }
 
-        error_type = error_message.replace("error:", "")
-        error = error_map.get(error_type, exceptions.UnknownErrorException)
-        raise error(error_message)
+        exception = error_map.get(error.get("type"), exceptions.UnknownErrorException)
+        raise exception(error.get("message"))
 
     def validate_response(self, expected, received):
         if expected != received:

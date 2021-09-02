@@ -39,6 +39,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
                 if (this.OnError != null) this.OnError.Invoke(args.Message, args.Exception);
             };
         }
+
         public bool IsConnected { get { return wsClient.IsAlive; } }
         public bool IsListening { get { return false; } }
 
@@ -64,7 +65,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             }
             catch (Exception ex)
             {
-                throw new UnhandledStartCommError("An error occured while starting client CommunicationProtocol", ex);
+                throw new UnhandledStartCommError("An error occurred while starting the CommunicationProtocol Proxy mode.", ex);
             }
         }
     }

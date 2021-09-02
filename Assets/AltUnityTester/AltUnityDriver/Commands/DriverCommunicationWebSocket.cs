@@ -69,11 +69,12 @@ namespace Altom.AltUnityDriver.Commands
 
             var message = JsonConvert.DeserializeObject<CommandResponse<T>>(messages.Dequeue());
 
-
-            if (message.error != AltUnityErrors.errorInvalidCommand && (message.messageId != param.messageId || message.commandName != param.commandName))
+            if (message.error != null && message.error.type != AltUnityErrors.errorInvalidCommand && (message.messageId != param.messageId || message.commandName != param.commandName))
+            {
                 throw new AltUnityRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
+            }
 
-            handleErrors(message.error, message.logs);
+            handleErrors(message.error);
 
             return message;
         }
@@ -88,64 +89,66 @@ namespace Altom.AltUnityDriver.Commands
             });
             this.wsClient.Send(message);
         }
+
         public void Close()
         {
             this.wsClient.Close();
         }
 
-
         protected void OnMessage(object sender, string data)
         {
             messages.Enqueue(data);
         }
-        private void handleErrors(string error, string logs)
+
+        private void handleErrors(CommandError error)
         {
-            if (string.IsNullOrEmpty(error)) return;
-            switch (error)
+            if (error == null)
+            {
+                return;
+            }
+
+            switch (error.type)
             {
                 case AltUnityErrors.errorNotFoundMessage:
-                    throw new NotFoundException(logs);
+                    throw new NotFoundException(error.message);
                 case AltUnityErrors.errorPropertyNotFoundMessage:
-                    throw new PropertyNotFoundException(logs);
+                    throw new PropertyNotFoundException(error.message);
                 case AltUnityErrors.errorMethodNotFoundMessage:
-                    throw new MethodNotFoundException(logs);
+                    throw new MethodNotFoundException(error.message);
                 case AltUnityErrors.errorComponentNotFoundMessage:
-                    throw new ComponentNotFoundException(logs);
+                    throw new ComponentNotFoundException(error.message);
                 case AltUnityErrors.errorAssemblyNotFoundMessage:
-                    throw new AssemblyNotFoundException(logs);
+                    throw new AssemblyNotFoundException(error.message);
                 case AltUnityErrors.errorCouldNotPerformOperationMessage:
-                    throw new CouldNotPerformOperationException(logs);
+                    throw new CouldNotPerformOperationException(error.message);
                 case AltUnityErrors.errorMethodWithGivenParametersNotFound:
-                    throw new MethodWithGivenParametersNotFoundException(logs);
+                    throw new MethodWithGivenParametersNotFoundException(error.message);
                 case AltUnityErrors.errorFailedToParseArguments:
-                    throw new FailedToParseArgumentsException(logs);
+                    throw new FailedToParseArgumentsException(error.message);
                 case AltUnityErrors.errorInvalidParameterType:
-                    throw new InvalidParameterTypeException(logs);
+                    throw new InvalidParameterTypeException(error.message);
                 case AltUnityErrors.errorObjectWasNotFound:
-                    throw new ObjectWasNotFoundException(logs);
+                    throw new ObjectWasNotFoundException(error.message);
                 case AltUnityErrors.errorPropertyNotSet:
-                    throw new PropertyNotFoundException(logs);
-                case AltUnityErrors.errorNullRefferenceMessage:
-                    throw new NullReferenceException(logs);
+                    throw new PropertyNotFoundException(error.message);
+                case AltUnityErrors.errorNullReferenceMessage:
+                    throw new NullReferenceException(error.message);
                 case AltUnityErrors.errorUnknownError:
-                    throw new UnknownErrorException(logs);
+                    throw new UnknownErrorException(error.message);
                 case AltUnityErrors.errorFormatException:
-                    throw new FormatException(logs);
+                    throw new FormatException(error.message);
                 case AltUnityErrors.errorInvalidPath:
-                    throw new InvalidPathException(logs);
+                    throw new InvalidPathException(error.message);
                 case AltUnityErrors.errorInvalidCommand:
-                    throw new InvalidCommandException(logs);
-
+                    throw new InvalidCommandException(error.message);
                 case AltUnityErrors.errorInputModule:
-                    throw new AltUnityInputModuleException(logs);
+                    throw new AltUnityInputModuleException(error.message);
                 case AltUnityErrors.errorCameraNotFound:
-                    throw new AltUnityCameraNotFoundException(logs);
+                    throw new AltUnityCameraNotFoundException(error.message);
             }
-            if (error.StartsWith("error:"))
-            {
-                logger.Debug(error + " is not handled by driver");
-                throw new UnknownErrorException(logs);
-            }
+
+            logger.Debug(error.type + " is not handled by driver.");
+            throw new UnknownErrorException(error.message);
         }
     }
 }

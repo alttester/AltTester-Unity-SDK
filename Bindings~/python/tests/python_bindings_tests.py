@@ -162,8 +162,7 @@ class PythonTests(unittest.TestCase):
                 [1, "stringparam", 0.5, [1, 2, 3]], "RandomAssembly", [])
             self.fail()
         except AssemblyNotFoundException as e:
-            self.assertTrue(str(e).startswith(
-                "error:assemblyNotFound"), str(e))
+            assert str(e) == "Assembly not found"
 
     def test_call_component_method_incorrect_number_of_parameters(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -174,8 +173,7 @@ class PythonTests(unittest.TestCase):
                 ["stringparam", 0.5, [1, 2, 3]], "", [])
             self.fail()
         except MethodWithGivenParametersNotFoundException as e:
-            self.assertTrue(str(e).startswith(
-                "error:methodWithGivenParametersNotFound"), str(e))
+            assert str(e) == "No method found with 3 parameters matching signature: TestMethodWithManyParameters(System.String[])"
 
     def test_call_component_method_invalid_method_argument_types(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -186,8 +184,7 @@ class PythonTests(unittest.TestCase):
                 ["stringnoint", "stringparams", 0.5, [1, 2, 3]], "", [])
             self.fail()
         except FailedToParseArgumentsException as e:
-            self.assertTrue(str(e).startswith(
-                "error:failedToParseMethodArguments"), str(e))
+            assert str(e) == "Could not parse parameter '\"stringnoint\"' to type System.Int32"
 
     def test_call_component_method_check_parameters(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -637,7 +634,7 @@ class PythonTests(unittest.TestCase):
                 By.NAME, "EventNonExisting")
             self.assertEqual(False, True)
         except NotFoundException as e:
-            self.assertEqual(e.args[0], "error:notFound")
+            assert str(e) == "Object //*[contains(@name,EventNonExisting)] not found"
 
     def test_screenshot(self):
         png_path = "testPython.png"

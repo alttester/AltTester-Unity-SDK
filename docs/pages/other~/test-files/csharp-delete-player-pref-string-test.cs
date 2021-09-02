@@ -13,7 +13,7 @@ public void TestDeleteKey()
     }
     catch (NotFoundException exception)
     {
-        Assert.AreEqual("error:notFound", exception.Message);
+        Assert.AreEqual("notFound", exception.Message);
     }
 
 }

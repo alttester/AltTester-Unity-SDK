@@ -710,7 +710,7 @@ Simulates that a specific key was pressed without taking into consideration the 
             time.sleep(5)
             lastKeyUp = self.altUnityDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
-        
+
 
 ```
 
@@ -2500,7 +2500,7 @@ Removes key and its corresponding value from PlayerPrefs.
             }
             catch (NotFoundException exception)
             {
-                Assert.AreEqual("error:notFound", exception.Message);
+                Assert.AreEqual("notFound", exception.Message);
             }
 
         }
@@ -2522,7 +2522,7 @@ Removes key and its corresponding value from PlayerPrefs.
             }
             catch (NotFoundException e)
             {
-                assertEquals(e.getMessage(), "error:notFound");
+                assertEquals(e.getMessage(), "notFound");
             }
         }
 
@@ -2939,7 +2939,7 @@ Invokes a method from an existing component of the object.
 
         [Test]
         public void TestCallMethodWithAssembly(){
-            
+
             AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
             var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
             capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
@@ -3785,8 +3785,8 @@ The following selecting nodes and attributes are implemented:
 
 There are several characters that you need to escape when you try to find an object. Some examples characters are the symbols for Request separator and Request ending, by default this are `;` and `&` but can be changed in Server settings. If you don't escape this characters the whole request is invalid and might shut down the server. Other characters are `!`, `[`, `]`, `(`, `)`, `/`, `\`, `.` or `,`. This characters are used in searching algorithm and if not escaped might return the wrong object or not found at all. To escape all the characters mentioned before just add `\\` before each character you want to escape.
 
-_Example:_  
-`//Q&A` - not escaped  
+_Example:_
+`//Q&A` - not escaped
 `//Q\\&A` - escaped
 
 ### AltId
