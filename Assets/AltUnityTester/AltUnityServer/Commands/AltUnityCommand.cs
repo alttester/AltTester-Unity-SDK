@@ -26,6 +26,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 Culture = CultureInfo.InvariantCulture
             });
         }
+
         public string ExecuteAndSerialize()
         {
             return ExecuteAndSerialize(Execute);
@@ -33,9 +34,10 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
 
         protected CommandResponse<T> ExecuteHandleErrors<T>(Func<T> action)
         {
-            Exception exception = null;
             T response = default(T);
-            string error = null;
+            Exception exception = null;
+            CommandError error = null;
+            String errorType = null;
 
             try
             {
@@ -44,98 +46,101 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             catch (System.NullReferenceException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorNullRefferenceMessage;
+                errorType = AltUnityErrors.errorNullReferenceMessage;
             }
             catch (FailedToParseArgumentsException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorFailedToParseArguments;
+                errorType = AltUnityErrors.errorFailedToParseArguments;
             }
             catch (MethodWithGivenParametersNotFoundException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorMethodWithGivenParametersNotFound;
+                errorType = AltUnityErrors.errorMethodWithGivenParametersNotFound;
             }
             catch (InvalidParameterTypeException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorInvalidParameterType;
+                errorType = AltUnityErrors.errorInvalidParameterType;
             }
             catch (JsonException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorCouldNotParseJsonString;
+                errorType = AltUnityErrors.errorCouldNotParseJsonString;
             }
             catch (ComponentNotFoundException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorComponentNotFoundMessage;
+                errorType = AltUnityErrors.errorComponentNotFoundMessage;
             }
             catch (MethodNotFoundException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorMethodNotFoundMessage;
+                errorType = AltUnityErrors.errorMethodNotFoundMessage;
             }
             catch (PropertyNotFoundException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorPropertyNotFoundMessage;
+                errorType = AltUnityErrors.errorPropertyNotFoundMessage;
             }
             catch (AssemblyNotFoundException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorAssemblyNotFoundMessage;
+                errorType = AltUnityErrors.errorAssemblyNotFoundMessage;
             }
             catch (CouldNotPerformOperationException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorCouldNotPerformOperationMessage;
+                errorType = AltUnityErrors.errorCouldNotPerformOperationMessage;
             }
             catch (InvalidPathException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorInvalidPath;
+                errorType = AltUnityErrors.errorInvalidPath;
             }
             catch (NotFoundException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorNotFoundMessage;
+                errorType = AltUnityErrors.errorNotFoundMessage;
             }
             catch (CameraNotFoundException e)
             {
                 exception = e;
-                error = AltUnityErrors.errorCameraNotFound;
+                errorType = AltUnityErrors.errorCameraNotFound;
             }
             catch (InvalidCommandException e)
             {
                 exception = e.InnerException;
-                error = AltUnityErrors.errorInvalidCommand;
+                errorType = AltUnityErrors.errorInvalidCommand;
             }
             catch (AltUnityInnerException e)
             {
                 exception = e.InnerException;
-                error = AltUnityErrors.errorUnknownError;
+                errorType = AltUnityErrors.errorUnknownError;
             }
             catch (Exception e)
             {
                 exception = e;
-                error = AltUnityErrors.errorUnknownError;
+                errorType = AltUnityErrors.errorUnknownError;
             }
 
-            string logs = string.Empty;
             if (exception != null)
-                logs = exception.Message + "\n" + exception.StackTrace;
-
+            {
+                error = new CommandError();
+                error.type = errorType;
+                error.message = exception.Message;
+                error.trace = exception.StackTrace;
+            }
 
             var cmdResponse = new CommandResponse<T>();
             cmdResponse.commandName = CommandParams.commandName;
             cmdResponse.messageId = CommandParams.messageId;
             cmdResponse.data = response;
             cmdResponse.error = error;
-            cmdResponse.logs = logs;
 
             return cmdResponse;
         }
+
         public abstract TResult Execute();
     }
 }

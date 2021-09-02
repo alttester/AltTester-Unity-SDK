@@ -30,7 +30,6 @@ namespace Altom.AltUnityDriver.Commands
         }
     }
 
-
     public class CommandAttribute : Attribute
     {
         private string name;
@@ -42,13 +41,19 @@ namespace Altom.AltUnityDriver.Commands
         public string Name { get { return name; } }
     }
 
+    public class CommandError
+    {
+        public string type;
+        public string message;
+        public string trace;
+    }
+
     public class CommandResponse<T>
     {
-        public string logs;
         public string messageId;
         public string commandName;
+        public CommandError error;
         public T data;
-        public string error;
     }
 
     public class BaseFindObjectsParams : CommandParams
@@ -57,6 +62,7 @@ namespace Altom.AltUnityDriver.Commands
         public By cameraBy { get; protected set; }
         public string cameraPath { get; protected set; }
         public bool enabled { get; protected set; }
+
         public BaseFindObjectsParams(string path, By cameraBy, string cameraPath, bool enabled) : base()
         {
             this.path = path;

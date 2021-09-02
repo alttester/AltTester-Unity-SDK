@@ -6,28 +6,29 @@ namespace Altom.AltUnityDriver
 {
     public class AltUnityErrors
     {
-        public const string errorNotFoundMessage = "error:notFound";
-        public const string errorPropertyNotFoundMessage = "error:propertyNotFound";
-        public const string errorMethodNotFoundMessage = "error:methodNotFound";
-        public const string errorComponentNotFoundMessage = "error:componentNotFound";
-        public const string errorAssemblyNotFoundMessage = "error:assemblyNotFound";
-        public const string errorCouldNotPerformOperationMessage = "error:couldNotPerformOperation";
-        public const string errorCouldNotParseJsonString = "error:couldNotParseJsonString";
-        public const string errorMethodWithGivenParametersNotFound = "error:methodWithGivenParametersNotFound";
-        public const string errorInvalidParameterType = "error:invalidParameterType";
-        public const string errorFailedToParseArguments = "error:failedToParseMethodArguments";
-        public const string errorObjectWasNotFound = "error:objectNotFound";
-        public const string errorPropertyNotSet = "error:propertyCannotBeSet";
-        public const string errorNullRefferenceMessage = "error:nullReferenceException";
-        public const string errorUnknownError = "error:unknownError";
-        public const string errorFormatException = "error:formatException";
-        public const string errorCameraNotFound = "error:cameraNotFound";
-        public const string errorIndexOutOfRange = "error:indexOutOfRange";
-        public const string errorInvalidParametersOnDriverCommand = "error:invalidParametersOnDriverCommand";
-        public const string errorInvalidCommand = "error:invalidCommand";
-        public const string errorInvalidPath = "error:invalidPath";
-        public const string errorInputModule = "error:ALTUNITYTESTERNotAddedAsDefineVariable";
+        public const string errorNotFoundMessage = "notFound";
+        public const string errorPropertyNotFoundMessage = "propertyNotFound";
+        public const string errorMethodNotFoundMessage = "methodNotFound";
+        public const string errorComponentNotFoundMessage = "componentNotFound";
+        public const string errorAssemblyNotFoundMessage = "assemblyNotFound";
+        public const string errorCouldNotPerformOperationMessage = "couldNotPerformOperation";
+        public const string errorCouldNotParseJsonString = "couldNotParseJsonString";
+        public const string errorMethodWithGivenParametersNotFound = "methodWithGivenParametersNotFound";
+        public const string errorInvalidParameterType = "invalidParameterType";
+        public const string errorFailedToParseArguments = "failedToParseMethodArguments";
+        public const string errorObjectWasNotFound = "objectNotFound";
+        public const string errorPropertyNotSet = "propertyCannotBeSet";
+        public const string errorNullReferenceMessage = "nullReferenceException";
+        public const string errorUnknownError = "unknownError";
+        public const string errorFormatException = "formatException";
+        public const string errorCameraNotFound = "cameraNotFound";
+        public const string errorIndexOutOfRange = "indexOutOfRange";
+        public const string errorInvalidParametersOnDriverCommand = "invalidParametersOnDriverCommand";
+        public const string errorInvalidCommand = "invalidCommand";
+        public const string errorInvalidPath = "invalidPath";
+        public const string errorInputModule = "ALTUNITYTESTERNotAddedAsDefineVariable";
     }
+
     public class AltUnityException : Exception
     {
         public AltUnityException()
