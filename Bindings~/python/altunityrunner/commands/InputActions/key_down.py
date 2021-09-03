@@ -1,6 +1,6 @@
 from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.alt_unity_key_code import AltUnityKeyCode
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
+from altunityrunner.exceptions import InvalidParameterTypeException
 
 
 class KeyDown(BaseCommand):

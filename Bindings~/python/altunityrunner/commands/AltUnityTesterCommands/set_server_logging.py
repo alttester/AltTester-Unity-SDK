@@ -1,6 +1,6 @@
 from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.logging import AltUnityLogger, AltUnityLogLevel
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
+from altunityrunner.exceptions import InvalidParameterTypeException
 
 
 class SetServerLogging(BaseCommand):

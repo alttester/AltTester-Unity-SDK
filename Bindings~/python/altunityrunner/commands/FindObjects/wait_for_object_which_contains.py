@@ -5,7 +5,7 @@ from loguru import logger
 from altunityrunner.by import By
 from altunityrunner.commands.base_command import Command
 from altunityrunner.commands.FindObjects.find_object_which_contains import FindObjectWhichContains
-from altunityrunner.altUnityExceptions import NotFoundException, WaitTimeOutException, InvalidParameterTypeException
+from altunityrunner.exceptions import NotFoundException, WaitTimeOutException, InvalidParameterTypeException
 
 
 class WaitForObjectWhichContains(Command):

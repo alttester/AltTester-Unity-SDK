@@ -4,7 +4,7 @@ from datetime import datetime
 
 from loguru import logger
 
-import altunityrunner.altUnityExceptions as exceptions
+import altunityrunner.exceptions as exceptions
 from altunityrunner.by import By
 
 

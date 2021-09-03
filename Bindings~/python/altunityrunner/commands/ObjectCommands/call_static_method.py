@@ -1,6 +1,7 @@
-from altunityrunner.commands.base_command import BaseCommand
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
 import json
+
+from altunityrunner.commands.base_command import BaseCommand
+from altunityrunner.exceptions import InvalidParameterTypeException
 
 
 class CallStaticMethod(BaseCommand):

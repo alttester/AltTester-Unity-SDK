@@ -1,3 +1,5 @@
+"""This module contains the set of AltUnity Tester's exceptions."""
+
 
 class AltUnityException(Exception):
     """Base exception class for AltUnity."""
@@ -14,8 +16,16 @@ class AltUnityInvalidServerResponse(AltUnityException):
         super().__init__("Expected to get response {}; Got {}".format(expected, received))
 
 
-class InvalidParameterTypeException(AltUnityException):
+class InvalidParameterTypeException(TypeError, AltUnityException):
     """Raised when an function or method receives an parameter that has the inappropriate type."""
+
+
+class InvalidParameterValueException(ValueError, AltUnityException):
+    """Raised when an function or method receives an parameter that has the right type but an inappropriate value."""
+
+
+class NullReferenceException(AltUnityException):
+    pass
 
 
 class NotFoundException(AltUnityException):
@@ -58,6 +68,10 @@ class CouldNotParseJsonStringException(AltUnityException):
     pass
 
 
+class WaitTimeOutException(AltUnityException):
+    """Raised when a function timed out."""
+
+
 class FailedToParseArgumentsException(AltUnityException):
     pass
 
@@ -66,19 +80,7 @@ class PropertyCannotBeSetException(AltUnityException):
     pass
 
 
-class NullReferenceException(AltUnityException):
-    pass
-
-
-class UnknownErrorException(AltUnityException):
-    pass
-
-
 class FormatException(AltUnityException):
-    pass
-
-
-class WaitTimeOutException(AltUnityException):
     pass
 
 
@@ -88,3 +90,7 @@ class AltUnityInvalidPathException(AltUnityException):
 
 class AltUnityInputModuleException(AltUnityException):
     pass
+
+
+class UnknownErrorException(AltUnityException):
+    """Raised when an unexpected error occurred."""

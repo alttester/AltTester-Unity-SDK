@@ -1,6 +1,7 @@
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
-from altunityrunner.commands.ObjectCommands.call_component_method import CallComponentMethodForObject
 import pytest
+
+from altunityrunner.exceptions import InvalidParameterTypeException
+from altunityrunner.commands.ObjectCommands.call_component_method import CallComponentMethodForObject
 
 
 class TestComponentParameters:

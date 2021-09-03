@@ -1,6 +1,6 @@
 from altunityrunner.commands.base_command import Command
 from altunityrunner.commands.FindObjects.find_objects import FindObjects
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
+from altunityrunner.exceptions import InvalidParameterTypeException
 from altunityrunner.by import By
 
 

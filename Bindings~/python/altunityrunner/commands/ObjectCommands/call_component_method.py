@@ -1,6 +1,7 @@
 import json
+
 from altunityrunner.commands.base_command import BaseCommand
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
+from altunityrunner.exceptions import InvalidParameterTypeException
 
 
 class CallComponentMethodForObject(BaseCommand):
@@ -9,6 +10,13 @@ class CallComponentMethodForObject(BaseCommand):
                  alt_object):
         super().__init__(connection, "callComponentMethodForObject")
 
+        if not isinstance(parameters, (list, tuple)):
+            raise InvalidParameterTypeException("parameters, Expected type list, got {}".format(type(parameters)))
+
+        if not isinstance(type_of_parameters, (list, tuple)):
+            raise InvalidParameterTypeException("type_of_parameters, Expected type list, got {}"
+                                                .format(type(type_of_parameters)))
+
         self.alt_object = alt_object
 
         self.component_name = component_name
@@ -16,11 +24,6 @@ class CallComponentMethodForObject(BaseCommand):
         self.parameters = parameters
         self.assembly_name = assembly_name
         self.type_of_parameters = type_of_parameters
-        if not isinstance(parameters, (list, tuple)):
-            raise InvalidParameterTypeException("parameters, Expected type list, got {}".format(type(parameters)))
-        if not isinstance(type_of_parameters, (list, tuple)):
-            raise InvalidParameterTypeException("type_of_parameters, Expected type list, got {}"
-                                                .format(type(type_of_parameters)))
 
     @property
     def _parameters(self):

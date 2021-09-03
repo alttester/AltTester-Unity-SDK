@@ -3,7 +3,7 @@ import time
 from loguru import logger
 
 from altunityrunner.commands.base_command import Command
-from altunityrunner.altUnityExceptions import WaitTimeOutException
+from altunityrunner.exceptions import WaitTimeOutException
 from altunityrunner.commands.UnityCommands.get_current_scene import GetCurrentScene
 
 
