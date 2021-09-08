@@ -1,22 +1,14 @@
 import json
 
+import altunityrunner.commands as commands
 from altunityrunner.by import By
-from altunityrunner.commands.FindObjects.find_object import FindObject
-from altunityrunner.commands.ObjectCommands.get_text import GetText
-from altunityrunner.commands.ObjectCommands.set_component_property import SetComponentProperty
-from altunityrunner.commands.ObjectCommands.get_component_property import GetComponentProperty
-from altunityrunner.commands.ObjectCommands.get_all_components import GetAllComponents
-from altunityrunner.commands.ObjectCommands.set_text import SetText
-from altunityrunner.commands.ObjectCommands.call_component_method import CallComponentMethodForObject
-from altunityrunner.commands.ObjectCommands.pointer_down import PointerDown
-from altunityrunner.commands.ObjectCommands.pointer_enter import PointerEnter
-from altunityrunner.commands.ObjectCommands.pointer_exit import PointerExit
-from altunityrunner.commands.ObjectCommands.pointer_up import PointerUp
-from altunityrunner.commands.ObjectCommands.tap_element import TapElement
-from altunityrunner.commands.ObjectCommands.click_element import ClickElement
 
 
 class AltElement:
+    """The element class represents an object present in the game and it allows you to interact with it.
+
+    It is the return type of the methods in the “find_*” category from the AltUnityDriver class.
+    """
 
     def __init__(self, altdriver, data):
         self._altdriver = altdriver
@@ -37,7 +29,7 @@ class AltElement:
         self.transformId = data.get("transformId", 0)
 
     def __repr__(self):
-        return "{}(driver, {!r})".format(self.__class__.__name__, self.to_json())
+        return "{}(altdriver, {!r})".format(self.__class__.__name__, self.to_json())
 
     def __str__(self):
         return json.dumps(self.to_json())
@@ -65,7 +57,7 @@ class AltElement:
         }
 
     def get_parent(self):
-        data = FindObject.run(
+        data = commands.FindObject.run(
             self._connection,
             By.PATH, "//*[@id={}]/..".format(self.id), By.NAME, "", True
         )
@@ -79,80 +71,101 @@ class AltElement:
         return self.worldX, self.worldY, self.worldZ
 
     def get_all_components(self):
-        return GetAllComponents.run(self._connection, self)
+        return commands.GetAllComponents.run(self._connection, self)
 
-    def get_component_property(self, component_name, property_name, assembly_name="", max_depth=2):
-        return GetComponentProperty.run(
+    def get_component_property(self, component_name, property_name, assembly="", max_depth=2):
+        return commands.GetComponentProperty.run(
             self._connection,
-            component_name, property_name, assembly_name, max_depth, self
+            component_name, property_name, assembly, max_depth, self
         )
 
-    def set_component_property(self, component_name, property_name, value, assembly_name=""):
-        return SetComponentProperty.run(
+    def set_component_property(self, component_name, property_name, value, assembly=""):
+        return commands.SetComponentProperty.run(
             self._connection,
-            component_name, property_name, value, assembly_name, self
+            component_name, property_name, value, assembly, self
         )
 
-    def call_component_method(self, component_name, method_name, parameters=None, assembly_name="",
-                              type_of_parameters=None):
-        parameters = parameters if parameters is not None else []
-        type_of_parameters = type_of_parameters if type_of_parameters is not None else []
-        return CallComponentMethodForObject.run(
+    def call_component_method(self, component_name, method_name, parameters=None, type_of_parameters=None, assembly=""):
+        """Invoke a method from an existing component of the object.
+
+        Args:
+            type_name (:obj:`str`): The name of the script. If the script has a namespace the format should look like
+                this: ``"namespace.typeName"``.
+            method_name (:obj:`str`): The name of the public method that we want to call. If the method is inside a
+                static property/field to be able to call that method, methodName need to be the following format
+                ``"propertyName.MethodName"``.
+            parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
+            type_of_parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
+            assembly (:obj:`str`, optional): The name of the assembly containing the script. Defaults to ``""``.
+
+        Return:
+            str: The value returned by the method is serialized to a JSON string.
+        """
+
+        return commands.CallMethod.run(
             self._connection,
-            component_name, method_name, parameters, assembly_name, type_of_parameters, self
+            component_name,
+            method_name,
+            alt_object=self,
+            parameters=parameters,
+            type_of_parameters=type_of_parameters,
+            assembly=assembly
         )
 
     def get_text(self):
-        return GetText.run(self._connection, self)
+        return commands.GetText.run(self._connection, self)
 
     def set_text(self, text):
-        data = SetText.run(self._connection, text, self)
+        data = commands.SetText.run(self._connection, text, self)
         return AltElement(self._altdriver, data)
 
     def pointer_up(self):
-        data = PointerUp.run(self._connection, self)
+        data = commands.PointerUp.run(self._connection, self)
         return AltElement(self._altdriver, data)
 
     def pointer_down(self):
-        data = PointerDown.run(self._connection, self)
+        data = commands.PointerDown.run(self._connection, self)
         return AltElement(self._altdriver, data)
 
     def pointer_enter(self):
-        data = PointerEnter.run(self._connection, self)
+        data = commands.PointerEnter.run(self._connection, self)
         return AltElement(self._altdriver, data)
 
     def pointer_exit(self):
-        data = PointerExit.run(self._connection, self)
+        data = commands.PointerExit.run(self._connection, self)
         return AltElement(self._altdriver, data)
 
     def tap(self, count=1, interval=0.1, wait=True):
         """Tap current object.
 
         Args:
-            count: Number of taps.
-            interval: Interval in seconds.
-            wait: Wait for command to finish.
+            count (:obj:`int`, optional): Number of taps. Defaults to ``1``.
+            interval (:obj:`int`, :obj:`float`, optional): Interval between taps in seconds. Defaults to ``0.1``.
+            wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
-            The tapped object.
+            AltElement: The tapped object.
         """
 
-        data = TapElement.run(self._connection, self, count, interval, wait)
+        data = commands.TapElement.run(
+            self._connection,
+            self, count, interval, wait
+        )
         return AltElement(self._altdriver, data)
 
     def click(self, count=1, interval=0.1, wait=True):
         """Click current object.
 
         Parameters:
-            count: Number of clicks (default 1)
-            interval: Interval between clicks in seconds (default 0.1)
-            wait: Wait for command to finish
+            count (:obj:`int`, optional): Number of clicks. Defaults to ``1``.
+            interval (:obj:`int`, :obj:`float`, optional): Interval between clicks in seconds. Defaults to ``0.1``.
+            wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
-            The clicked object.
+            AltElement: The clicked object.
         """
 
-        data = ClickElement.run(
+        data = commands.ClickElement.run(
             self._connection,
             self, count, interval, wait
         )

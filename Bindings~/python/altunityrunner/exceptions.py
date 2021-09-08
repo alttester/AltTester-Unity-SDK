@@ -24,10 +24,6 @@ class InvalidParameterValueException(ValueError, AltUnityException):
     """Raised when an function or method receives an parameter that has the right type but an inappropriate value."""
 
 
-class NullReferenceException(AltUnityException):
-    pass
-
-
 class NotFoundException(AltUnityException):
     """Raised when a object, camera, component, property, method or assembly is not found."""
 
@@ -60,6 +56,10 @@ class AssemblyNotFoundException(NotFoundException):
     """Raised when an assembly is not found."""
 
 
+class CallMethodException(AltUnityException):
+    pass
+
+
 class CouldNotPerformOperationException(AltUnityException):
     pass
 
@@ -68,12 +68,16 @@ class CouldNotParseJsonStringException(AltUnityException):
     pass
 
 
-class WaitTimeOutException(AltUnityException):
-    """Raised when a function timed out."""
+class NullReferenceException(AltUnityException):
+    """Raised when there is an attempt to dereference a null object reference."""
 
 
 class FailedToParseArgumentsException(AltUnityException):
     pass
+
+
+class WaitTimeOutException(AltUnityException):
+    """Raised when a command timed out."""
 
 
 class PropertyCannotBeSetException(AltUnityException):

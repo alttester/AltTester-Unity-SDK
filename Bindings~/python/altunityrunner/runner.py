@@ -23,9 +23,9 @@ class AltUnityDriver:
     Args:
         host (:obj:`str`): The server host to connect to.
         port (:obj:`int`): The server port to connect to.
-        timeout (:obj:`int` or :obj:`float`): The server connection timeout time.
-        tries (:obj:`int`): The maximum number of attempts to connect to the server.
-        enable_logging (:obj:`bool`): If set to ``True`` will turn on logging, by default logging is disabled.
+        timeout (:obj:`int`, :obj:`float`, optional): The server connection timeout time.
+        tries (:obj:`int`, optional): The maximum number of attempts to connect to the server.
+        enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
 
     """
 
@@ -116,11 +116,25 @@ class AltUnityDriver:
         self._connection.close()
 
     def call_static_method(self, type_name, method_name, parameters=None, type_of_parameters=None, assembly=""):
-        parameters = parameters if parameters is not None else []
-        type_of_parameters = type_of_parameters if type_of_parameters is not None else []
-        return commands.CallStaticMethod.run(
+        """Invoke a static method from your game.
+
+        Args:
+            type_name (:obj:`str`): The name of the script. If the script has a namespace the format should look like
+                this: ``"namespace.typeName"``.
+            method_name (:obj:`str`): The name of the public method that we want to call. If the method is inside a
+                static property/field to be able to call that method, methodName need to be the following format
+                ``"propertyName.MethodName"``.
+            parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
+            type_of_parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
+            assembly (:obj:`str`, optional): The name of the assembly containing the script. Defaults to ``""``.
+
+        Return:
+            str: The value returned by the method is serialized to a JSON string.
+        """
+
+        return commands.CallMethod.run(
             self._connection,
-            type_name, method_name, parameters, type_of_parameters, assembly
+            type_name, method_name, parameters=parameters, type_of_parameters=type_of_parameters, assembly=assembly
         )
 
     def get_all_elements(self, camera_by=By.NAME, camera_path="", enabled=True):

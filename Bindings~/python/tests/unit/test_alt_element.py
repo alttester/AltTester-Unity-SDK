@@ -7,7 +7,7 @@ class TestAltElement:
 
     def test_repr(self):
         element = AltElement(None, {"name": "ElementName", "id": "1" , "transformId": "100"})
-        reconstructed = eval(repr(element), globals(), {"driver": None})
+        reconstructed = eval(repr(element), globals(), {"altdriver": None})
 
         assert element._altdriver == reconstructed._altdriver
         assert element.name == reconstructed.name
