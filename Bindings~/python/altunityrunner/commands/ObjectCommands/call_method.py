@@ -22,12 +22,12 @@ class CallMethod(BaseCommand):
                 "Invalid type for parameter 'type_of_parameters'; expected type list, got {}.".format(type(type_of_parameters).__name__)
             )
 
+        self.alt_object = alt_object
         self.component_name = component_name
         self.method_name = method_name
         self.parameters = [json.dumps(parameter) for parameter in parameters]
         self.type_of_parameters = type_of_parameters
         self.assembly = assembly
-        self.alt_object = alt_object
 
     @property
     def _parameters(self):

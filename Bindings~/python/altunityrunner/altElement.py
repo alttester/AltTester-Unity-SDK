@@ -56,40 +56,86 @@ class AltElement:
             "idCamera": self.idCamera
         }
 
-    def get_parent(self):
-        data = commands.FindObject.run(
-            self._connection,
-            By.PATH, "//*[@id={}]/..".format(self.id), By.NAME, "", True
-        )
-
-        return AltElement(self._altdriver, data)
-
     def get_screen_position(self):
+        """Returns the screen position.
+
+        Returns:
+            tuple: A tuple containing ``x`` and ``y``.
+        """
+
         return self.x, self.y
 
     def get_world_position(self):
+        """Returns the world position.
+
+        Returns:
+            tuple: A tuple containing ``worldX``, ``worldY`` and ``worldZ``.
+        """
+
         return self.worldX, self.worldY, self.worldZ
+
+    def get_parent(self):
+        """Returns the parent element.
+
+        Returns:
+            AltElement: The parent element.
+        """
+
+        data = commands.FindObject.run(
+            self._connection,
+            By.PATH, "//*[@id={}]/..".format(self.id), By.NAME, "", enabled=True
+        )
+
+        return AltElement(self._altdriver, data)
 
     def get_all_components(self):
         return commands.GetAllComponents.run(self._connection, self)
 
     def get_component_property(self, component_name, property_name, assembly="", max_depth=2):
+        """Returns the value of the given component property.
+
+        Args:
+            component_name (:obj:`str`): The name of the component. If the component has a namespace the format should
+                look like this: ``"namespace.componentName"``.
+            property_name (:obj:`str`): The name of the property of which value you want. If the property is an array
+                you can specify which element of the array to return by doing ``property[index]``, or if you want a
+                property inside of another property you can get by doing ``property.subProperty``.
+            assembly (:obj:`str`, optional): The name of the assembly containing the component. Defaults to ``""``.
+            maxDepth (:obj:`int`, optional): Set how deep to serialize the property. Defaults to ``2``.
+
+        Returns:
+            str: The property value is serialized to a JSON string.
+        """
+
         return commands.GetComponentProperty.run(
             self._connection,
             component_name, property_name, assembly, max_depth, self
         )
 
     def set_component_property(self, component_name, property_name, value, assembly=""):
+        """Sets a value for a given component property.
+
+        Args:
+            component_name (:obj:`str`): The name of the component. If the component has a namespace the format should
+                look like this: ``"namespace.componentName"``.
+            property_name (:obj:`str`): The name of the property of which value you want to set.
+            value (:obj:`str`): The value to be set for the chosen component's property.
+            assembly (:obj:`str`, optional): The name of the assembly containing the component. Defaults to ``""``.
+
+        Returns:
+            str: The property value is serialized to a JSON string.
+        """
+
         return commands.SetComponentProperty.run(
             self._connection,
             component_name, property_name, value, assembly, self
         )
 
     def call_component_method(self, component_name, method_name, parameters=None, type_of_parameters=None, assembly=""):
-        """Invoke a method from an existing component of the object.
+        """Invokes a method from an existing component of the object.
 
         Args:
-            type_name (:obj:`str`): The name of the script. If the script has a namespace the format should look like
+            component_name (:obj:`str`): The name of the script. If the script has a namespace the format should look like
                 this: ``"namespace.typeName"``.
             method_name (:obj:`str`): The name of the public method that we want to call. If the method is inside a
                 static property/field to be able to call that method, methodName need to be the following format
@@ -113,30 +159,69 @@ class AltElement:
         )
 
     def get_text(self):
+        """Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
+
+        Returns:
+            str: The text value of the AltElement.
+        """
+
         return commands.GetText.run(self._connection, self)
 
     def set_text(self, text):
+        """Sets text value for a Button, Text or InputField. This also works with TextMeshPro elements.
+
+        Args:
+            text (obj:`str`): The text to be set.
+
+        Returns:
+            AltElement: The current AltElement.
+        """
+
         data = commands.SetText.run(self._connection, text, self)
         return AltElement(self._altdriver, data)
 
     def pointer_up(self):
+        """Simulates pointer up action on the object.
+
+        Returns:
+            AltElement: The current AltElement.
+        """
+
         data = commands.PointerUp.run(self._connection, self)
         return AltElement(self._altdriver, data)
 
     def pointer_down(self):
+        """Simulates pointer down action on the object.
+
+        Returns:
+            AltElement: The current AltElement.
+        """
+
         data = commands.PointerDown.run(self._connection, self)
         return AltElement(self._altdriver, data)
 
     def pointer_enter(self):
+        """Simulates pointer enter action on the object.
+
+        Returns:
+            AltElement: The current AltElement.
+        """
+
         data = commands.PointerEnter.run(self._connection, self)
         return AltElement(self._altdriver, data)
 
     def pointer_exit(self):
+        """Simulates pointer exit action on the object.
+
+        Returns:
+            AltElement: The current AltElement.
+        """
+
         data = commands.PointerExit.run(self._connection, self)
         return AltElement(self._altdriver, data)
 
     def tap(self, count=1, interval=0.1, wait=True):
-        """Tap current object.
+        """Taps the current object.
 
         Args:
             count (:obj:`int`, optional): Number of taps. Defaults to ``1``.
@@ -154,7 +239,7 @@ class AltElement:
         return AltElement(self._altdriver, data)
 
     def click(self, count=1, interval=0.1, wait=True):
-        """Click current object.
+        """Clicks the current object.
 
         Parameters:
             count (:obj:`int`, optional): Number of clicks. Defaults to ``1``.

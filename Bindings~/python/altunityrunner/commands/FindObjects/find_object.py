@@ -5,7 +5,7 @@ from altunityrunner.by import By
 
 class FindObject(BaseCommand):
 
-    def __init__(self, connection, by, value, camera_by, camera_path, enabled):
+    def __init__(self, connection, by, value, camera_by, camera_path, enabled=False):
         super().__init__(connection, "findObject")
 
         if by not in By:
