@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Altom.AltUnity.Instrumentation;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Logging;
-using Altom.AltUnity.Instrumentation;
+using Altom.AltUnityInstrumentation.UI;
 using Altom.Server.Logging;
 using Assets.AltUnityTester.AltUnityServer.Communication;
 using NLog;
-using Altom.AltUnityInstrumentation.UI;
 
 public class AltUnityRunner : UnityEngine.MonoBehaviour
 {
@@ -28,7 +28,6 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
     [UnityEngine.Space]
     [UnityEngine.SerializeField]
     private AltUnityInputsVisualiser _inputsVisualiser = null;
-    // private AltUnityDialog _dialog = null;
 
 
 
