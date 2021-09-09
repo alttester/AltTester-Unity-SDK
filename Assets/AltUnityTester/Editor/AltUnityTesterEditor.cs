@@ -100,6 +100,7 @@ namespace Altom.Editor
 
 
         private static UnityEngine.Font font;
+        private bool PlayInEditorPressed;
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
         [UnityEditor.MenuItem("AltUnity Tools/AltUnity Tester Editor", false, 80)]
@@ -323,6 +324,11 @@ namespace Altom.Editor
             {
                 afterExitPlayMode();
 
+            }
+            if (PlayInEditorPressed && !UnityEditor.EditorApplication.isCompiling)
+            {
+                PlayInEditorPressed = false;
+                UnityEditor.EditorApplication.isPlaying = true;
             }
             DrawGUI();
         }
@@ -1221,7 +1227,8 @@ namespace Altom.Editor
             AltUnityBuilder.InsertAltUnityInTheActiveScene();
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
-            UnityEditor.EditorApplication.isPlaying = true;
+            PlayInEditorPressed = true;
+
         }
 
         private void displayBuildSettings()
