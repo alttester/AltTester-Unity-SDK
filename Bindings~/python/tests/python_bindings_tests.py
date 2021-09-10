@@ -13,7 +13,7 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltUnityDriver(timeout=300, enable_logging=True)
+        cls.altdriver = AltUnityDriver(enable_logging=True)
 
     @classmethod
     def tearDownClass(cls):
