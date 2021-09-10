@@ -5,7 +5,7 @@ using System.Threading;
 using Altom.AltUnityDriver;
 using NUnit.Framework;
 
-[Timeout(10000)]
+[Timeout(30000)]
 public class TestForScene1TestSample
 {
     private AltUnityDriver altUnityDriver;
@@ -302,6 +302,7 @@ public class TestForScene1TestSample
 
 #if !UNITY_IOS
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestGetComponentPropertyUnityEngine()
     {
         const string componentName = "UnityEngine.CapsuleCollider";
@@ -771,6 +772,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestGetAllProperties()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -804,6 +806,7 @@ public class TestForScene1TestSample
         Assert.AreEqual("False", property.value);
     }
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestGetAllInheritedProperties()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -1448,6 +1451,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestSetComponentPropertyComplexClass3()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
@@ -1919,6 +1923,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestSetStructureProperty2()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -1928,6 +1933,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestSetStructureProperty3()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");

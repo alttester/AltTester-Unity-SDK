@@ -85,7 +85,8 @@ namespace Altom.Editor
                 {
                     locationPathName = getOutputPath(UnityEditor.BuildTarget.WebGL),
                     scenes = getScenesForBuild(),
-                    target = UnityEditor.BuildTarget.WebGL
+                    target = UnityEditor.BuildTarget.WebGL,
+                    targetGroup = UnityEditor.BuildTargetGroup.WebGL
                 };
 
                 buildGame(autoRun, buildPlayerOptions);

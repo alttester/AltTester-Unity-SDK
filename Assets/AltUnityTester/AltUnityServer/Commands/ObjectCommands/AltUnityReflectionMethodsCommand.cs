@@ -85,7 +85,7 @@ namespace Assets.AltUnityTester.AltUnityServer
 
             if (methodInfos.Length == 0)
             {
-                throw new MethodNotFoundException("Method not found");
+                throw new MethodNotFoundException(String.Format("Method {0} not found in {1}", altActionMethod, componentType.ToString()));
             }
             return methodInfos;
         }

@@ -201,6 +201,7 @@ public class TestForScene5KeyboardAndMouseInput
     }
 
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestCheckShadersSetCorrectlyAfterHighlight()
     {
         var cube = altUnityDriver.FindObject(By.NAME, "2MaterialCube");

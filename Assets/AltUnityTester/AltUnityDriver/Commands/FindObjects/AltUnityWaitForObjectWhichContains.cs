@@ -26,6 +26,8 @@ namespace Altom.AltUnityDriver.Commands
         {
             double time = 0;
             AltUnityObject altElement = null;
+
+            logger.Debug("Waiting for element " + path + " to be present.");
             while (time < timeout)
             {
                 try
@@ -35,7 +37,6 @@ namespace Altom.AltUnityDriver.Commands
                 }
                 catch (NotFoundException)
                 {
-                    logger.Debug("Waiting for element " + path + " to be present.");
                     Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                     time += interval;
                 }
