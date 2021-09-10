@@ -5,6 +5,7 @@ using System.IO;
 namespace Altom.AltUnityDriver.Tests
 {
     [Timeout(10000)]
+    [Category("Android")]
     public class TestAltUnityPortForwarding
     {
         private string androidSdkRoot;

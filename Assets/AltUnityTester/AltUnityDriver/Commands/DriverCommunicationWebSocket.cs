@@ -150,5 +150,11 @@ namespace Altom.AltUnityDriver.Commands
             logger.Debug(error.type + " is not handled by driver.");
             throw new UnknownErrorException(error.message);
         }
+        private string trimLog(string log, int maxLogLength = 1000)
+        {
+            if (string.IsNullOrEmpty(log)) return log;
+            if (log.Length <= maxLogLength) return log;
+            return log.Substring(0, maxLogLength) + "[...]";
+        }
     }
 }
