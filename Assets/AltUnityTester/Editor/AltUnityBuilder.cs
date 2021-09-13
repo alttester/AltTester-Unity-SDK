@@ -17,6 +17,7 @@ namespace Altom.Editor
 
     public class AltUnityBuilder
     {
+        private const string altunitytesterdefine = "ALTUNITYTESTER";
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
         public enum InputType
         {
@@ -106,7 +107,6 @@ namespace Altom.Editor
         {
             try
             {
-                string altunitytesterdefine = "ALTUNITYTESTER";
                 var scriptingDefineSymbolsForGroup =
                     UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
                 string newScriptingDefineSymbolsForGroup = "";
@@ -136,9 +136,14 @@ namespace Altom.Editor
         public static void AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
         {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains("ALTUNITYTESTER"))
-                scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
+            if (!scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine))
+                scriptingDefineSymbolsForGroup += ";" + altunitytesterdefine;
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
+        }
+        public static bool CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildTargetGroup targetGroup)
+        {
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+            return scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine);
         }
 
         public static void CreateJsonFileForInputMappingOfAxis()
