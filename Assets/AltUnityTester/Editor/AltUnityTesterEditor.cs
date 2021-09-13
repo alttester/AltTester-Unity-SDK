@@ -325,7 +325,7 @@ namespace Altom.Editor
                 afterExitPlayMode();
 
             }
-            if (PlayInEditorPressed && !UnityEditor.EditorApplication.isCompiling)
+            if (PlayInEditorPressed && !UnityEditor.EditorApplication.isCompiling && AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
             {
                 PlayInEditorPressed = false;
                 UnityEditor.EditorApplication.isPlaying = true;
@@ -610,7 +610,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.Separator();
 
             UnityEditor.EditorGUILayout.LabelField("Run", UnityEditor.EditorStyles.boldLabel);
-            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor && !UnityEditor.EditorApplication.isCompiling && !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 if (UnityEngine.GUILayout.Button("Play in Editor"))
                 {
