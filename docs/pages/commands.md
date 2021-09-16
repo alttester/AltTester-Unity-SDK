@@ -966,9 +966,9 @@ Simulates key press action in your game. This command waits for the action to fi
 
 | Name     | Type                            | Required | Description                                                                                                                                                                                                                                |
 | -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| keycode  | KeyCode(C#)/string(python/java) | Yes      | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names |
-| power    | float                           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
-| duration | float                           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
+| keycode  | AltUnityKeyCode | Yes      | Name of the button. |
+| power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1.                                                                                |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
 
 **_Returns_**
 
@@ -1058,9 +1058,9 @@ Simulates key press action in your game. This command does not wait for the acti
 
 | Name     | Type                            | Required | Description                                                                                                                                                                                                                                |
 | -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| keycode  | KeyCode(C#)/string(python/java) | Yes      | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names |
-| power    | float                           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
-| duration | float                           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
+| keycode  | AltUnityKeyCode | Yes      | Name of the button. |
+| power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
 
 **_Returns_**
 
