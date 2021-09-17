@@ -1,9 +1,10 @@
 package ro.altom.altunitytester.Commands.AltUnityCommands;
 
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.Logging.AltUnityLogLevel;
 import ro.altom.altunitytester.Logging.AltUnityLogger;
 
-public class AltSetServerLoggingParameters {
+public class AltSetServerLoggingParameters extends AltMessage{
 
     public static class Builder {
         private AltUnityLogger logger;
@@ -23,6 +24,7 @@ public class AltSetServerLoggingParameters {
     }
 
     private AltSetServerLoggingParameters() {
+        this.setCommandName("setServerLogging");
     }
 
     private AltUnityLogger logger;

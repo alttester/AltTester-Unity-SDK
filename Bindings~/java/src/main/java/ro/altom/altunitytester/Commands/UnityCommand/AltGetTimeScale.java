@@ -1,18 +1,19 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
-import com.google.gson.Gson;
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.AltMessage;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltGetTimeScale extends AltBaseCommand {
 
-    public AltGetTimeScale(AltBaseSettings altBaseSettings) {
-        super(altBaseSettings);
+    public AltGetTimeScale(IMessageHandler messageHandler) {
+        super(messageHandler);
     }
 
     public float Execute() {
-        SendCommand("getTimeScale");
-        String data = recvall();
-        return (new Gson().fromJson(data, float.class));
+        AltMessage altMessage = new AltMessage();
+        altMessage.setCommandName("getTimeScale");
+        SendCommand(altMessage);
+        return recvall(altMessage, Float.class);
     }
 }

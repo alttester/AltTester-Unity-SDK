@@ -1,12 +1,13 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.AltUnityDriver.By;
 
-public class AltGetAllElementsParameters {
+public class AltGetAllElementsParameters extends AltMessage{
 
     public static class Builder {
         private By cameraBy = By.NAME;
-        private String cameraPath = "";
+        private String cameraValue = "";
         private boolean enabled = true;
 
         public Builder() {
@@ -17,8 +18,8 @@ public class AltGetAllElementsParameters {
             return this;
         }
 
-        public AltGetAllElementsParameters.Builder withCamera(By cameraBy, String cameraPath) {
-            this.cameraPath = cameraPath;
+        public AltGetAllElementsParameters.Builder withCamera(By cameraBy, String cameraValue) {
+            this.cameraValue = cameraValue;
             this.cameraBy = cameraBy;
             return this;
         }
@@ -26,7 +27,7 @@ public class AltGetAllElementsParameters {
         public AltGetAllElementsParameters build() {
             AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters();
             altGetAllElementsParameters.cameraBy = this.cameraBy;
-            altGetAllElementsParameters.cameraPath = this.cameraPath;
+            altGetAllElementsParameters.cameraValue = this.cameraValue;
             altGetAllElementsParameters.enabled = this.enabled;
             return altGetAllElementsParameters;
         }
@@ -35,9 +36,17 @@ public class AltGetAllElementsParameters {
     private AltGetAllElementsParameters() {
     }
 
+    public String getCameraValue() {
+        return cameraValue;
+    }
+
+    public void setCameraValue(String cameraValue) {
+        this.cameraValue = cameraValue;
+    }
+
     private By cameraBy;
-    private String cameraPath;
     private boolean enabled;
+    private String cameraValue;
 
     public By getCameraBy() {
         return cameraBy;
@@ -45,14 +54,6 @@ public class AltGetAllElementsParameters {
 
     public void setCameraBy(By cameraBy) {
         this.cameraBy = cameraBy;
-    }
-
-    public String getCameraPath() {
-        return cameraPath;
-    }
-
-    public void setCameraPath(String cameraPath) {
-        this.cameraPath = cameraPath;
     }
 
     public boolean isEnabled() {

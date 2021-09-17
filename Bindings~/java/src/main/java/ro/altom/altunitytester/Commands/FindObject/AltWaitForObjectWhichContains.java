@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
 
@@ -16,10 +16,11 @@ public class AltWaitForObjectWhichContains extends AltBaseFindObject {
      */
     private AltWaitForObjectsParameters altWaitForObjectsParameters;
 
-    public AltWaitForObjectWhichContains(AltBaseSettings altBaseSettings,
+    public AltWaitForObjectWhichContains(IMessageHandler messageHandler,
             AltWaitForObjectsParameters altWaitForObjectsParameters) {
-        super(altBaseSettings);
+        super(messageHandler);
         this.altWaitForObjectsParameters = altWaitForObjectsParameters;
+        this.altWaitForObjectsParameters.setCommandName("findObject");
     }
 
     public AltUnityObject Execute() {
@@ -27,9 +28,9 @@ public class AltWaitForObjectWhichContains extends AltBaseFindObject {
         AltUnityObject altElement = null;
         while (time < altWaitForObjectsParameters.getTimeout()) {
             logger.debug("Waiting for element where name contains "
-                    + altWaitForObjectsParameters.getAltFindObjectsParameters().getValue() + "....");
+                    + altWaitForObjectsParameters.getAltFindObjectsParameters().getPath() + "....");
             try {
-                altElement = new AltFindObjectWhichContains(altBaseSettings,
+                altElement = new AltFindObjectWhichContains(messageHandler,
                         altWaitForObjectsParameters.getAltFindObjectsParameters()).Execute();
                 if (altElement != null) {
                     return altElement;
@@ -40,7 +41,7 @@ public class AltWaitForObjectWhichContains extends AltBaseFindObject {
             sleepFor(altWaitForObjectsParameters.getInterval());
             time += altWaitForObjectsParameters.getInterval();
         }
-        throw new WaitTimeOutException("Element " + altWaitForObjectsParameters.getAltFindObjectsParameters().getValue()
+        throw new WaitTimeOutException("Element " + altWaitForObjectsParameters.getAltFindObjectsParameters().getPath()
                 + " still not found after " + altWaitForObjectsParameters.getTimeout() + " seconds");
     }
 }

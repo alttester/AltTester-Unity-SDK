@@ -1,30 +1,23 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
 import com.google.gson.Gson;
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSendActionWithCoordinateAndEvaluate extends AltBaseCommand {
-    private AltUnityObject altUnityObject;
-    private int x;
-    private int y;
-    private String command;
+    
+    private AltSendActionWithCoordinateAndEvaluateParams params;
 
-    public AltSendActionWithCoordinateAndEvaluate(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject, int x,
+    public AltSendActionWithCoordinateAndEvaluate(IMessageHandler messageHandler, AltUnityObject altUnityObject, int x,
             int y, String command) {
-        super(altBaseSettings);
-        this.altUnityObject = altUnityObject;
-        this.x = x;
-        this.y = y;
-        this.command = command;
+        super(messageHandler);
+        params = new AltSendActionWithCoordinateAndEvaluateParams(altUnityObject, x, y);
+        params.setCommandName(command);
     }
 
     public AltUnityObject Execute() {
-        String positionString = vectorToJsonString(x, y);
-        String altObject = new Gson().toJson(altUnityObject);
-        SendCommand(command, positionString, altObject);
-        String data = recvall();
-        return new Gson().fromJson(data, AltUnityObject.class);
+        SendCommand(params);
+        return recvall(params, AltUnityObject.class);
     }
 }

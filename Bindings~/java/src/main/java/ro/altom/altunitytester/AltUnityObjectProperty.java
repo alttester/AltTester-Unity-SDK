@@ -10,4 +10,8 @@ public class AltUnityObjectProperty {
         component = componentName;
         property = propertyName;
     }
+
+    public void setAssembly(String assembly){
+        this.assembly = assembly;
+    }
 }

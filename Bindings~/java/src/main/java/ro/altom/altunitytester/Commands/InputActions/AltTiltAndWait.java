@@ -1,6 +1,7 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -10,18 +11,20 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
 public class AltTiltAndWait extends AltBaseCommand {
     private AltTiltParameters altTiltParameters;
 
-    public AltTiltAndWait(AltBaseSettings altBaseSettings, AltTiltParameters altTiltParameters) {
-        super(altBaseSettings);
+    public AltTiltAndWait(IMessageHandler messageHandler, AltTiltParameters altTiltParameters) {
+        super(messageHandler);
         this.altTiltParameters = altTiltParameters;
     }
 
     public void Execute() {
-        new AltTilt(altBaseSettings, altTiltParameters).Execute();
+        new AltTilt(messageHandler, altTiltParameters).Execute();
         sleepFor(altTiltParameters.getDuration());
         String data;
+        AltMessage altMessage = new AltMessage();
+        altMessage.setCommandName("actionFinished");
         do {
-            SendCommand("actionFinished");
-            data = recvall();
+            SendCommand(altMessage);
+            data = recvall(altTiltParameters, String.class);
         } while (data.equals("No"));
 
         validateResponse("Yes", data);

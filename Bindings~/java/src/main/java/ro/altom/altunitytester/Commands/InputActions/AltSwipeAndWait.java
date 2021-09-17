@@ -1,6 +1,7 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -8,45 +9,24 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  * action to finish.
  */
 public class AltSwipeAndWait extends AltBaseCommand {
-    /**
-     * @param xStart x coordinate of the screen where the swipe begins.
-     */
-    private int xStart;
-    /**
-     * @param yStart y coordinate of the screen where the swipe begins.
-     */
-    private int yStart;
-    /**
-     * @param xEnd x coordinate of the screen where the swipe ends.
-     */
-    private int xEnd;
-    /**
-     * @param yEnd y coordinate of the screen where the swipe ends.
-     */
-    private int yEnd;
-    /**
-     * @param durationInSeconds The time measured in seconds to move the mouse from
-     *                          current position to the set location.
-     */
-    private float durationInSeconds;
+    
+    private AltSwipeParameters params;
 
-    public AltSwipeAndWait(AltBaseSettings altBaseSettings, int xStart, int yStart, int xEnd, int yEnd,
+    public AltSwipeAndWait(IMessageHandler messageHandler, int xStart, int yStart, int xEnd, int yEnd,
             float durationInSeconds) {
-        super(altBaseSettings);
-        this.xStart = xStart;
-        this.yStart = yStart;
-        this.xEnd = xEnd;
-        this.yEnd = yEnd;
-        this.durationInSeconds = durationInSeconds;
+        super(messageHandler);
+        params = new AltSwipeParameters(xStart, yStart, xEnd, yEnd, durationInSeconds);
     }
 
     public void Execute() {
-        new AltSwipe(altBaseSettings, xStart, yStart, xEnd, yEnd, durationInSeconds).Execute();
-        sleepFor(durationInSeconds);
+        new AltSwipe(messageHandler, params.getxStart(), params.getyStart(), params.getxEnd(), params.getyEnd(), params.getDurationInSeconds()).Execute();
+        sleepFor(params.getDurationInSeconds());
         String data;
+        AltMessage altMessage = new AltMessage();
+        altMessage.setCommandName("actionFinished");
         do {
-            SendCommand("actionFinished");
-            data = recvall();
+            SendCommand(altMessage);
+            data = recvall(params, String.class);
         } while (data.equals("No"));
         validateResponse("Yes", data);
     }

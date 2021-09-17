@@ -1,6 +1,8 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-public class AltWaitForObjectWithTextParameters {
+import ro.altom.altunitytester.AltMessage;
+
+public class AltWaitForObjectWithTextParameters extends AltMessage {
     public static class Builder{
         private AltFindObjectsParameters altFindObjectsParameters;
         private double timeout=20;

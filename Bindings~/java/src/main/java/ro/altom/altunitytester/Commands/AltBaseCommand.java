@@ -3,120 +3,32 @@ package ro.altom.altunitytester.Commands;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
+import ro.altom.altunitytester.AltMessage;
+import ro.altom.altunitytester.AltMessageResponse;
+import ro.altom.altunitytester.CommandError;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class AltBaseCommand {
 
     protected static final Logger logger = LogManager.getLogger(AltBaseCommand.class);
 
-    private final static int BUFFER_SIZE = 1024;
-    private String messageId;
-    private String remaining = "";
-    public AltBaseSettings altBaseSettings;
+    protected IMessageHandler messageHandler;
 
-    public AltBaseCommand(AltBaseSettings altBaseSettings) {
-        this.altBaseSettings = altBaseSettings;
+    public AltBaseCommand(IMessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
     }
 
-    protected String recvall() {
-        String receivedData = "";
+    protected <T> T recvall(AltMessage altMessage, final Class<T> type) {
 
-        if (remaining.indexOf("::altend") >= 0) {
-            receivedData = remaining;
-        } else {
-            boolean streamIsFinished = false;
-            int receivedZeroBytesCounter = 0;
-            int receivedZeroBytesCounterLimit = 2;
-            while (!streamIsFinished) {
-                byte[] messageByte = new byte[BUFFER_SIZE];
-                int bytesRead = 0;
-                try {
-                    bytesRead = altBaseSettings.in.read(messageByte);
-                } catch (IOException e) {
-                    throw new ConnectionException(e);
-                }
-                if (bytesRead > 0)
-                    receivedData += new String(messageByte, 0, bytesRead, StandardCharsets.UTF_8);
-                else {
-                    if (receivedZeroBytesCounter < receivedZeroBytesCounterLimit) {
-                        receivedZeroBytesCounter++;
-                        continue;
-                    } else {
-                        throw new ConnectionException(new Throwable("Received empty response"));
-                    }
-                }
-                if (receivedData.contains("::altend")) {
-                    streamIsFinished = true;
-                }
-            }
-        }
+        AltMessageResponse<T> response = messageHandler.receive(altMessage, type);
+        handleErrors(response.error);
 
-        logger.trace(receivedData);
-
-        remaining = "";
-        int index = receivedData.indexOf("::altendaltstart::");
-        if (index >= 0) {
-            remaining = receivedData.substring(index + 8);
-            receivedData = receivedData.substring(0, index + 8);
-        }
-
-        String[] parts = receivedData.split("altstart::|::response::|::altLog::|::altend", -1);// -1 limit to include
-                                                                                               // Trailing empty strings
-        if (parts.length != 5 || !parts[0].equals("") || !parts[4].equals("")) {
-
-            throw new AltUnityRecvallMessageFormatException(String.format(
-                    "Data received from socket doesn't have correct start and end control strings.\nGot:\n %s",
-                    receivedData));
-        }
-
-        if (!parts[1].equals(messageId)) {
-            throw new AltUnityRecvallMessageIdException(
-                    "Response received does not match command send. Expected message id: " + messageId + ". Got "
-                            + parts[1]);
-        }
-        receivedData = parts[2];
-        String logData = parts[3];
-
-        logger.debug("response: " + trimLogData(receivedData));
-        if (logData != null && !logData.equals(""))
-            logger.debug(logData);
-
-        handleErrors(receivedData, logData);
-
-        return receivedData;
+        return response.data;
     }
 
-    protected void SendCommand(String... arguments) {
-        send(createCommand(arguments));
-    }
-
-    private void send(String message) {
-        altBaseSettings.out.print(message);
-        altBaseSettings.out.flush();
-        logger.debug("sent: {}", message);
-    }
-
-    private String createCommand(String[] arguments) {
-        String command = String.join(altBaseSettings.RequestSeparator, arguments);
-        messageId = Long.toString(System.currentTimeMillis());
-
-        command = String.join(altBaseSettings.RequestSeparator, messageId, command) + altBaseSettings.RequestEnd;
-        return command;
-    }
-
-    private String trimLogData(String data) {
-        return trimLogData(data, 1024 * 10);
-    }
-
-    private String trimLogData(String data, int maxSize) {
-        if (data.length() > maxSize) {
-            return data.substring(0, 10 * 1024) + "[...]";
-        }
-        return data;
+    protected void SendCommand(AltMessage altMessage) {
+        messageHandler.send(altMessage);
     }
 
     protected void validateResponse(String expected, String received) {
@@ -125,61 +37,52 @@ public class AltBaseCommand {
         }
     }
 
-    protected void handleErrors(String data) {
-        handleErrors(data, "");
-    }
-
-    private void handleErrors(String data, String log) {
-        String typeOfException = data.split(";")[0];
-        if (!log.equals(""))
-            log = "\n" + log;
-
-        data = data + log;
-        if ("error:notFound".equals(typeOfException)) {
-            throw new NotFoundException(data);
-        } else if ("error:propertyNotFound".equals(typeOfException)) {
-            throw new PropertyNotFoundException(data);
-        } else if ("error:methodNotFound".equals(typeOfException)) {
-            throw new MethodNotFoundException(data);
-        } else if ("error:componentNotFound".equals(typeOfException)) {
-            throw new ComponentNotFoundException(data);
-        } else if ("error:invalidParameterType".equals(typeOfException)) {
-            throw new InvalidParameterTypeException(data);
-        } else if ("error:assemblyNotFound".equals(typeOfException)) {
-            throw new AssemblyNotFoundException(data);
-        } else if ("error:couldNotPerformOperation".equals(typeOfException)) {
-            throw new CouldNotPerformOperationException(data);
-        } else if ("error:couldNotParseJsonString".equals(typeOfException)) {
-            throw new CouldNotParseJsonStringException(data);
-        } else if ("error:methodWithGivenParametersNotFound".equals(typeOfException)) {
-            throw new MethodWithGivenParametersNotFoundException(data);
-        } else if ("error:failedToParseMethodArguments".equals(typeOfException)) {
-            throw new FailedToParseArgumentsException(data);
-        } else if ("error:objectNotFound".equals(typeOfException)) {
-            throw new ObjectWasNotFoundException(data);
-        } else if ("error:propertyCannotBeSet".equals(typeOfException)) {
-            throw new PropertyNotFoundException(data);
-        } else if ("error:nullReferenceException".equals(typeOfException)) {
-            throw new NullReferenceException(data);
-        } else if ("error:unknownError".equals(typeOfException)) {
-            throw new UnknownErrorException(data);
-        } else if ("error:formatException".equals(typeOfException)) {
-            throw new FormatException(data);
-        } else if ("error:invalidPath".equals(typeOfException)) {
-            throw new AltUnityInvalidPathException(data);
-        } else if ("error:ALTUNITYTESTERNotAddedAsDefineVariable".equals(typeOfException)) {
-            throw new AltUnityInputModuleException(data);
-        } else if ("error:cameraNotFound".equals(typeOfException)) {
-            throw new AltUnityCameraNotFoundException(data);
+    private void handleErrors(CommandError error) {
+        if (error == null) {
+            return;
         }
-    }
 
-    public String vectorToJsonString(float x, float y) {
-        return "{\"x\":" + String.valueOf(x) + ", \"y\":" + String.valueOf(y) + "}";
-    }
+        switch (error.type) {
+            case AltUnityErrors.errorNotFoundMessage:
+                throw new NotFoundException(error.message);
+            case AltUnityErrors.errorPropertyNotFoundMessage:
+                throw new PropertyNotFoundException(error.message);
+            case AltUnityErrors.errorMethodNotFoundMessage:
+                throw new MethodNotFoundException(error.message);
+            case AltUnityErrors.errorComponentNotFoundMessage:
+                throw new ComponentNotFoundException(error.message);
+            case AltUnityErrors.errorAssemblyNotFoundMessage:
+                throw new AssemblyNotFoundException(error.message);
+            case AltUnityErrors.errorCouldNotPerformOperationMessage:
+                throw new CouldNotPerformOperationException(error.message);
+            case AltUnityErrors.errorMethodWithGivenParametersNotFound:
+                throw new MethodWithGivenParametersNotFoundException(error.message);
+            case AltUnityErrors.errorFailedToParseArguments:
+                throw new FailedToParseArgumentsException(error.message);
+            case AltUnityErrors.errorInvalidParameterType:
+                throw new InvalidParameterTypeException(error.message);
+            case AltUnityErrors.errorObjectWasNotFound:
+                throw new ObjectWasNotFoundException(error.message);
+            case AltUnityErrors.errorPropertyNotSet:
+                throw new PropertyNotFoundException(error.message);
+            case AltUnityErrors.errorNullReferenceMessage:
+                throw new NullReferenceException(error.message);
+            case AltUnityErrors.errorUnknownError:
+                throw new UnknownErrorException(error.message);
+            case AltUnityErrors.errorFormatException:
+                throw new FormatException(error.message);
+            case AltUnityErrors.errorInvalidPath:
+                throw new InvalidPathException(error.message);
+            case AltUnityErrors.errorInvalidCommand:
+                throw new InvalidCommandException(error.message);
+            case AltUnityErrors.errorInputModule:
+                throw new AltUnityInputModuleException(error.message);
+            case AltUnityErrors.errorCameraNotFound:
+                throw new CameraNotFoundException(error.message);
+        }
 
-    public String vectorToJsonString(float x, float y, float z) {
-        return "{\"x\":" + String.valueOf(x) + ", \"y\":" + String.valueOf(y) + ", \"z\":" + String.valueOf(z) + "}";
+        logger.error(error.type + " is not handled by driver.");
+        throw new UnknownErrorException(error.message);
     }
 
     /**

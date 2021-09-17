@@ -1,28 +1,25 @@
 package ro.altom.altunitytester.Commands;
 
-import com.google.gson.Gson;
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.AltUnityObject;
 
 public class AltCommandReturningAltObjects extends AltBaseCommand {
 
-    public AltCommandReturningAltObjects(AltBaseSettings altBaseSettings) {
-        super(altBaseSettings);
+    public AltCommandReturningAltObjects(IMessageHandler messageHandler) {
+        super(messageHandler);
     }
 
-    protected AltUnityObject ReceiveAltUnityObject() {
-        String data = recvall();
-
-        AltUnityObject altUnityObject = new Gson().fromJson(data, AltUnityObject.class);
-        altUnityObject.setAltBaseSettings(altBaseSettings);
+    protected AltUnityObject ReceiveAltUnityObject(AltMessage altMessage) {
+        AltUnityObject altUnityObject = recvall(altMessage, AltUnityObject.class);
+        altUnityObject.setMesssageHandler(messageHandler);
         return altUnityObject;
     }
 
-    protected AltUnityObject[] ReceiveListOfAltUnityObjects() {
-        String data = recvall();
-        AltUnityObject[] altUnityObjects = new Gson().fromJson(data, AltUnityObject[].class);
+    protected AltUnityObject[] ReceiveListOfAltUnityObjects(AltMessage altMessage) {
+        AltUnityObject[] altUnityObjects = recvall(altMessage, AltUnityObject[].class);
         for (AltUnityObject altUnityObject : altUnityObjects) {
-            altUnityObject.setAltBaseSettings(altBaseSettings);
+            altUnityObject.setMesssageHandler(messageHandler);
         }
         return altUnityObjects;
     }

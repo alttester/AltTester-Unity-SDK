@@ -1,6 +1,7 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -14,18 +15,20 @@ public class AltMoveMouseAndWait extends AltBaseCommand {
      */
     private AltMoveMouseParameters altMoveMouseParameters;
 
-    public AltMoveMouseAndWait(AltBaseSettings altBaseSettings, AltMoveMouseParameters altMoveMouseParameters) {
-        super(altBaseSettings);
+    public AltMoveMouseAndWait(IMessageHandler messageHandler, AltMoveMouseParameters altMoveMouseParameters) {
+        super(messageHandler);
         this.altMoveMouseParameters = altMoveMouseParameters;
     }
 
     public void Execute() {
-        new AltMoveMouse(altBaseSettings, altMoveMouseParameters).Execute();
+        new AltMoveMouse(messageHandler, altMoveMouseParameters).Execute();
         sleepFor(altMoveMouseParameters.getDuration());
         String data;
+        AltMessage altMessage = new AltMessage();
+        altMessage.setCommandName("actionFinished");
         do {
-            SendCommand("actionFinished");
-            data = recvall();
+            SendCommand(altMessage);
+            data = recvall(altMoveMouseParameters, String.class);
         } while (data.equals("No"));
 
         validateResponse("Yes", data);
