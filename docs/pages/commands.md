@@ -3066,13 +3066,13 @@ Returns the value of the time scale.
     .. code-tab:: c#
 
         [Test]
-    public void TestTimeScale()
-    {
-        altUnityDriver.SetTimeScale(0.1f);
-        Thread.Sleep(1000);
-        var timeScaleFromGame = altUnityDriver.GetTimeScale();
-        Assert.AreEqual(0.1f, timeScaleFromGame);
-    }
+        public void TestTimeScale()
+        {
+            altUnityDriver.SetTimeScale(0.1f);
+            Thread.Sleep(1000);
+            var timeScaleFromGame = altUnityDriver.GetTimeScale();
+            Assert.AreEqual(0.1f, timeScaleFromGame);
+        }
 
     .. code-tab:: java
 
