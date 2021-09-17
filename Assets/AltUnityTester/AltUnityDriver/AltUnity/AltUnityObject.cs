@@ -68,9 +68,9 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnityGetText(CommHandler, this).Execute();
         }
-        public AltUnityObject SetText(string text)
+        public AltUnityObject SetText(string text, bool submit = false)
         {
-            return new AltUnitySetText(CommHandler, this, text).Execute();
+            return new AltUnitySetText(CommHandler, this, text, submit).Execute();
         }
 
         /// <summary>

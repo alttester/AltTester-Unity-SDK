@@ -686,6 +686,7 @@ class PythonTests(unittest.TestCase):
         original_text = text_object.get_text()
         after_text = text_object.set_text("ModifiedText").get_text()
         self.assertNotEqual(original_text, after_text)
+        self.assertEquals(after_text, "ModifiedText")
 
     def test_press_next_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -1166,6 +1167,12 @@ class PythonTests(unittest.TestCase):
         with self.assertRaises(CameraNotFoundException):
             self.altdriver.find_object(By.NAME, "Capsule", By.NAME, "Camera")
 
+    def test_input_field_events(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        inputField = self.altdriver.find_object(By.NAME, 'InputField').set_text("example", True)
+        self.assertEqual("example", inputField.get_text())
+        self.assertTrue(inputField.get_component_property("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked"))
+        self.assertTrue(inputField.get_component_property("AltUnityInputFieldRaisedEvents", "onSubmitInvoked"))
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
