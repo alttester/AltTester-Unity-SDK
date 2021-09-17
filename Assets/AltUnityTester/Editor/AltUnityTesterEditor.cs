@@ -7,6 +7,7 @@ using Altom.AltUnityDriver;
 using Altom.Editor.Logging;
 using NLog;
 using NLog.Layouts;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -63,6 +64,9 @@ namespace Altom.Editor
         private static UnityEngine.GUIStyle gUIStyleButton;
         private static UnityEngine.GUIStyle gUIStyleText;
         private static UnityEngine.GUIStyle gUIStyleHistoryChanges;
+
+        private static UnityEngine.GUIStyle labelStyle;
+
 
         private static long timeSinceLastClick;
         private static UnityEngine.Networking.UnityWebRequest www;
@@ -400,7 +404,7 @@ namespace Altom.Editor
         protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
-            if (EditorConfiguration.ShowInsectorPopUpInEditor)
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
             {
                 popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
                 popUpContentPosition = new UnityEngine.Rect(screenWidth / 2 - 296, 4, 592, 92);
@@ -421,7 +425,7 @@ namespace Altom.Editor
                     }
                     if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
                     {
-                        EditorConfiguration.ShowInsectorPopUpInEditor = false;
+                        EditorConfiguration.ShowInspectorPopUpInEditor = false;
                         UnityEngine.GUIUtility.ExitGUI();
                     }
                 }
@@ -783,7 +787,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
             //PopUp
-            if (EditorConfiguration.ShowInsectorPopUpInEditor)
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
             {
                 ShowAltUnityPopup();
             }
@@ -827,6 +831,7 @@ namespace Altom.Editor
                     font = font
                 };
             }
+
             if (borderTexture == null)
             {
                 borderTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? borderColorDark : borderColor);
@@ -890,7 +895,7 @@ namespace Altom.Editor
                             EditorConfiguration.LatestInspectorVersion = releasedVersion;
                             downloadURl = match.Value;
                             version = releasedVersion;
-                            EditorConfiguration.ShowInsectorPopUpInEditor = true;
+                            EditorConfiguration.ShowInspectorPopUpInEditor = true;
                         }
                     }
                 }
@@ -1247,6 +1252,14 @@ namespace Altom.Editor
                 labelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
+                labelAndCheckboxHorizontalLayout("Keep ALTUNITYTESTER symbol defined(not recommended):", ref EditorConfiguration.KeepAUTSymbolDefined);
+                if (EditorConfiguration.KeepAUTSymbolDefined && !AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                {
+                    AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                }
+                if (!EditorConfiguration.KeepAUTSymbolDefined && AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                    AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+
             }
             switch (EditorConfiguration.platform)
             {
@@ -1326,11 +1339,15 @@ namespace Altom.Editor
             }
         }
 
-        private static void labelAndCheckboxHorizontalLayout(string label, ref bool editorConfigVariable)
+        private static void labelAndCheckboxHorizontalLayout(string labelText, ref bool editorConfigVariable)
         {
+            if (labelStyle == null)
+            {
+                labelStyle = new GUIStyle(EditorStyles.label) { wordWrap = true };
+            }
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
-            UnityEditor.EditorGUILayout.LabelField(label, UnityEngine.GUILayout.Width(150));
+            UnityEditor.EditorGUILayout.LabelField(labelText, labelStyle, UnityEngine.GUILayout.Width(150));
             editorConfigVariable =
                 UnityEditor.EditorGUILayout.Toggle(editorConfigVariable, UnityEngine.GUILayout.MaxWidth(30));
             UnityEngine.GUILayout.FlexibleSpace();
