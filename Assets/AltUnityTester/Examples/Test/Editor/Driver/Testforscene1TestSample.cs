@@ -1956,4 +1956,13 @@ public class TestForScene1TestSample
         Assert.AreNotEqual(initialScene, currentScene);
     }
 
+    [Test]
+    public void TestInputFieldEvents()
+    {
+        var inputField = altUnityDriver.FindObject(By.NAME, "InputField").SetText("example", true);
+        Assert.AreEqual("example", inputField.GetText());
+        Assert.IsTrue(Convert.ToBoolean(inputField.GetComponentProperty("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked", "Assembly-CSharp")));
+        Assert.IsTrue(Convert.ToBoolean(inputField.GetComponentProperty("AltUnityInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")));
+    }
+
 }

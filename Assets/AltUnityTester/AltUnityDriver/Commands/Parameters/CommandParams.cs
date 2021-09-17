@@ -338,10 +338,12 @@ namespace Altom.AltUnityDriver.Commands
     public class AltUnitySetTextParams : BaseAltUnityObjectParams
     {
         public string value;
+        public bool submit;
 
-        public AltUnitySetTextParams(AltUnityObject altUnityObject, string value) : base(altUnityObject)
+        public AltUnitySetTextParams(AltUnityObject altUnityObject, string value, bool submit) : base(altUnityObject)
         {
             this.value = value;
+            this.submit = submit;
         }
     }
 

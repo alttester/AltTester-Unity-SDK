@@ -105,8 +105,8 @@ class AltElement:
     def get_text(self):
         return GetText.run(self._connection, self)
 
-    def set_text(self, text):
-        data = SetText.run(self._connection, text, self)
+    def set_text(self, text, submit=False):
+        data = SetText.run(self._connection, text, self, submit)
         return AltElement(self._altdriver, data)
 
     def pointer_up(self):
