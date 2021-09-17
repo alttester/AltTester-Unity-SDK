@@ -8,6 +8,7 @@ using Altom.AltUnityDriver;
 using Altom.Editor.Logging;
 using NLog;
 using NLog.Layouts;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -65,6 +66,9 @@ namespace Altom.Editor
         private static UnityEngine.GUIStyle gUIStyleText;
         private static UnityEngine.GUIStyle gUIStyleHistoryChanges;
 
+        private static UnityEngine.GUIStyle labelStyle;
+
+
         private static long timeSinceLastClick;
         private static UnityEngine.Networking.UnityWebRequest www;
         UnityEngine.Vector2 scrollPosition;
@@ -96,6 +100,7 @@ namespace Altom.Editor
 
 
         private static UnityEngine.Font font;
+        private bool PlayInEditorPressed;
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
         [UnityEditor.MenuItem("AltUnity Tools/AltUnity Tester Editor", false, 80)]
@@ -155,7 +160,7 @@ namespace Altom.Editor
             AltUnityTestRunner.SetUpListTest();
             SendInspectorVersionRequest();
         }
-        [UnityEditor.MenuItem("AltUnity Tools/Add AltId to every object", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltId/Add AltId to every object", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
             var scenes = altUnityGetAllScenes();
@@ -166,7 +171,7 @@ namespace Altom.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/Add AltId to every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltId/Add AltId to every object in active scene", false, 800)]
         public static void AddIdComponentToEveryObjectInActiveScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -182,7 +187,7 @@ namespace Altom.Editor
         }
 
 
-        [UnityEditor.MenuItem("AltUnity Tools/Remove AltId from every object", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltId/Remove AltId from every object", false, 800)]
         public static void RemoveIdComponentFromEveryObjectInTheProject()
         {
             var scenes = altUnityGetAllScenes();
@@ -193,7 +198,7 @@ namespace Altom.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/Remove AltId from every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltUnity Tools/AltId/Remove AltId from every object in active scene", false, 800)]
         public static void RemoveComponentFromEveryObjectInTheScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -208,7 +213,17 @@ namespace Altom.Editor
             EditorSceneManager.SaveScene(scene);
         }
 
+        [UnityEditor.MenuItem("AltUnity Tools/Support/Documentation", false, 800)]
+        public static void GoToDocumentation()
+        {
+            Application.OpenURL("https://altom.gitlab.io/altunity/altunitytester/");
+        }
 
+        [UnityEditor.MenuItem("AltUnity Tools/Support/Discord", false, 800)]
+        public static void GoToDiscord()
+        {
+            Application.OpenURL("https://discord.com/channels/744769398023127102/748159679426985984");
+        }
 
         #endregion
 
@@ -310,6 +325,11 @@ namespace Altom.Editor
                 afterExitPlayMode();
 
             }
+            if (PlayInEditorPressed && !UnityEditor.EditorApplication.isCompiling && AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+            {
+                PlayInEditorPressed = false;
+                UnityEditor.EditorApplication.isPlaying = true;
+            }
             DrawGUI();
         }
 
@@ -380,7 +400,7 @@ namespace Altom.Editor
         protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
-            if (EditorConfiguration.ShowInsectorPopUpInEditor)
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
             {
                 popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
                 popUpContentPosition = new UnityEngine.Rect(screenWidth / 2 - 296, 4, 592, 92);
@@ -401,7 +421,7 @@ namespace Altom.Editor
                     }
                     if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
                     {
-                        EditorConfiguration.ShowInsectorPopUpInEditor = false;
+                        EditorConfiguration.ShowInspectorPopUpInEditor = false;
                         UnityEngine.GUIUtility.ExitGUI();
                     }
                 }
@@ -604,7 +624,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.Separator();
 
             UnityEditor.EditorGUILayout.LabelField("Run", UnityEditor.EditorStyles.boldLabel);
-            if (EditorConfiguration.platform == AltUnityPlatform.Editor)
+            if (EditorConfiguration.platform == AltUnityPlatform.Editor && !UnityEditor.EditorApplication.isCompiling && !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 if (UnityEngine.GUILayout.Button("Play in Editor"))
                 {
@@ -781,7 +801,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
             //PopUp
-            if (EditorConfiguration.ShowInsectorPopUpInEditor)
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
             {
                 ShowAltUnityPopup();
             }
@@ -825,6 +845,7 @@ namespace Altom.Editor
                     font = font
                 };
             }
+
             if (borderTexture == null)
             {
                 borderTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? borderColorDark : borderColor);
@@ -888,7 +909,7 @@ namespace Altom.Editor
                             EditorConfiguration.LatestInspectorVersion = releasedVersion;
                             downloadURl = match.Value;
                             version = releasedVersion;
-                            EditorConfiguration.ShowInsectorPopUpInEditor = true;
+                            EditorConfiguration.ShowInspectorPopUpInEditor = true;
                         }
                     }
                 }
@@ -1214,7 +1235,8 @@ namespace Altom.Editor
             AltUnityBuilder.InsertAltUnityInTheActiveScene(AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings());
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
-            UnityEditor.EditorApplication.isPlaying = true;
+            PlayInEditorPressed = true;
+
         }
 
         private void displayBuildSettings()
@@ -1232,7 +1254,14 @@ namespace Altom.Editor
 
                 labelAndCheckboxHorizontalLayout("Input visualizer", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
-                labelAndCheckboxHorizontalLayout("Append \"Test\" to build name", ref EditorConfiguration.appendToName);
+                labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
+                labelAndCheckboxHorizontalLayout("Keep ALTUNITYTESTER symbol defined(not recommended):", ref EditorConfiguration.KeepAUTSymbolDefined);
+                if (EditorConfiguration.KeepAUTSymbolDefined && !AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                {
+                    AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                }
+                if (!EditorConfiguration.KeepAUTSymbolDefined && AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                    AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
 
                 if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
                 {
@@ -1309,11 +1338,15 @@ namespace Altom.Editor
             }
         }
 
-        private static void labelAndCheckboxHorizontalLayout(string label, ref bool editorConfigVariable)
+        private static void labelAndCheckboxHorizontalLayout(string labelText, ref bool editorConfigVariable)
         {
+            if (labelStyle == null)
+            {
+                labelStyle = new GUIStyle(EditorStyles.label) { wordWrap = true };
+            }
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
-            UnityEditor.EditorGUILayout.LabelField(label, UnityEngine.GUILayout.Width(150));
+            UnityEditor.EditorGUILayout.LabelField(labelText, labelStyle, UnityEngine.GUILayout.Width(150));
             editorConfigVariable =
                 UnityEditor.EditorGUILayout.Toggle(editorConfigVariable, UnityEngine.GUILayout.MaxWidth(30));
             UnityEngine.GUILayout.FlexibleSpace();

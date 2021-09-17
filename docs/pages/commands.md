@@ -1,4 +1,4 @@
-# API Documentation
+# API
 
 ## AltUnityDriver
 
@@ -801,6 +801,135 @@ Simulates that a specific key was released.
 
 ```
 
+#### HoldButton
+
+Simulates holding left click button down for a specified amount of time at given coordinates. This command does not wait for the button press to finish. To wait for button press to finish use [HoldButtonAndWait](#holdbuttonandwait).
+
+**_Parameters_**
+
+| Name     | Type            | Required | Description                                                                                     |
+| -------- | --------------- | -------- | -----------------------------------------------------------------------------------------       |
+| position | AltUnityVector2 | Yes      | The coordinates where the button is held down.        |
+| duration | float           | Yes      | The time measured in seconds to keep the button down. |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestHoldButton()
+        {
+            var button = altUnityDriver.FindObject(By.NAME, "UIButton");
+            AltUnityVector2 vector2 = new AltUnityVector2(button.x, button.y);
+            altUnityDriver.HoldButton(vector2, 1);
+            Thread.Sleep(1400);
+            var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+            Thread.Sleep(1400);
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testHoldButton() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "UIButton").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "CapsuleInfo").build();
+            AltUnityObject button = altUnityDriver.findObject(altFindObjectsParameters1);
+            altUnityDriver.holdButton(button.x, button.y, 1);
+            Thread.sleep(2);
+            AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
+            Thread.sleep(2);
+            String text = capsuleInfo.getText();
+            assertEquals(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: py
+
+        def test_hold_button(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            button = self.altUnityDriver.find_object(By.NAME, 'UIButton')
+            self.altUnityDriver.hold_button(button.x, button.y, 1)
+            time.sleep(1.4)
+            capsule_info = self.altUnityDriver.find_object(By.NAME, 'CapsuleInfo')
+            time.sleep(1.4)
+            text = capsule_info.get_text()
+            self.assertEqual(text, "UIButton clicked to jump capsule!")
+
+```
+
+#### HoldButtonAndWait
+
+Simulates holding left click button down for a specified amount of time at given coordinates and waits for the button press to finish. If you don't want to wait until the command finishes use [HoldButton](#holdbutton).
+
+**_Parameters_**
+
+| Name     | Type            | Required | Description                                                                                     |
+| -------- | --------------- | -------- | -----------------------------------------------------------------------------------------       |
+| position | AltUnityVector2 | Yes      | The coordinates where the button is held down.        |
+| duration | float           | Yes      | The time measured in seconds to keep the button down. |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestHoldButton()
+        {
+            var button = altUnityDriver.FindObject(By.NAME, "UIButton");
+            AltUnityVector2 vector2 = new AltUnityVector2(button.x, button.y);
+            altUnityDriver.HoldButtonAndWait(vector2, 1);
+            var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+            Thread.Sleep(1400);
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testHoldButton() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "UIButton").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "CapsuleInfo").build();
+            AltUnityObject button = altUnityDriver.findObject(altFindObjectsParameters1);
+            altUnityDriver.holdButtonAndWait(button.x, button.y, 1);
+            AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
+            Thread.sleep(2);
+            String text = capsuleInfo.getText();
+            assertEquals(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: py
+
+        def test_hold_button(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            button = self.altUnityDriver.find_object(By.NAME, 'UIButton')
+            self.altUnityDriver.hold_button_and_wait(button.x, button.y, 1)
+            capsule_info = self.altUnityDriver.find_object(By.NAME, 'CapsuleInfo')
+            time.sleep(1.4)
+            text = capsule_info.get_text()
+            self.assertEqual(text, "UIButton clicked to jump capsule!")
+
+```
+
 #### MoveMouse
 
 Simulates mouse movement in your game. This command does not wait for the movement to finish. To also wait for the movement to finish use [MoveMouseAndWait](#movemouseandwait)
@@ -900,9 +1029,9 @@ Simulates key press action in your game. This command waits for the action to fi
 
 | Name     | Type                            | Required | Description                                                                                                                                                                                                                                |
 | -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| keycode  | KeyCode(C#)/string(python/java) | Yes      | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names |
-| power    | float                           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
-| duration | float                           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
+| keycode  | AltUnityKeyCode | Yes      | Name of the button. |
+| power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1.                                                                                |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
 
 **_Returns_**
 
@@ -992,9 +1121,9 @@ Simulates key press action in your game. This command does not wait for the acti
 
 | Name     | Type                            | Required | Description                                                                                                                                                                                                                                |
 | -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| keycode  | KeyCode(C#)/string(python/java) | Yes      | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names |
-| power    | float                           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
-| duration | float                           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
+| keycode  | AltUnityKeyCode | Yes      | Name of the button. |
+| power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
 
 **_Returns_**
 
@@ -2786,6 +2915,118 @@ Returns all the scenes that have been loaded.
 
 ```
 
+#### WaitForCurrentSceneToBe
+
+Waits for the scene to be loaded for a specified amount of time. It returns the name of the current scene.
+
+**_Parameters_**
+
+| Name     | Type            | Required | Description                                                                               |
+| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
+| sceneName| string          | Yes      | The name of the scene to wait for.              |
+| timeout | double           | Optional | The time measured in seconds to wait for the specified scene. |
+| interval| double           | Optional | How often to check that the scene was loaded in the given timeout. |
+
+**_Returns_**
+
+-   string
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestWaitForCurrentSceneToBe()
+        {
+            const string name = "Scene 1 AltUnityDriverTestScene";
+            var timeStart = DateTime.Now;
+            var currentScene = altUnityDriver.WaitForCurrentSceneToBe(name);
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.Less(time.TotalSeconds, 20);
+            Assert.NotNull(currentScene);
+            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", currentScene);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testWaitForCurrentSceneToBe() throws Exception {
+            String name = "Scene 1 AltUnityDriverTestScene";
+            long timeStart = System.currentTimeMillis();
+            AltWaitForCurrentSceneToBeParameters params = new AltWaitForCurrentSceneToBeParameters.Builder(name).build();
+            String currentScene = altUnityDriver.waitForCurrentSceneToBe(params);
+            long timeEnd = System.currentTimeMillis();
+            long time = timeEnd - timeStart;
+            assertTrue(time / 1000 < 20);
+            assertNotNull(currentScene);
+            assertEquals("Scene 1 AltUnityDriverTestScene", currentScene);
+        }   
+
+    .. code-tab:: py
+
+        def test_wait_for_current_scene_to_be(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            self.altUnityDriver.wait_for_current_scene_to_be(
+                'Scene 1 AltUnityDriverTestScene', 1)
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+            self.altUnityDriver.wait_for_current_scene_to_be(
+                'Scene 2 Draggable Panel', 1)
+            self.assertEqual('Scene 2 Draggable Panel',
+                         self.altUnityDriver.get_current_scene())
+
+```
+
+#### GetTimeScale
+
+Returns the value of the time scale.
+
+**_Parameters_**
+
+ None
+
+**_Returns_**
+
+-   float
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestTimeScale()
+        {
+            altUnityDriver.SetTimeScale(0.1f);
+            Thread.Sleep(1000);
+            var timeScaleFromGame = altUnityDriver.GetTimeScale();
+            Assert.AreEqual(0.1f, timeScaleFromGame);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestTimeScale() {
+            altUnityDriver.setTimeScale(0.1f);
+            float timeScale = altUnityDriver.getTimeScale();
+            assertEquals(0.1f, timeScale, 0);
+        }
+
+    .. code-tab:: py
+
+        def test_time_scale(self):
+            self.altUnityDriver.set_time_scale(0.1)
+            time.sleep(1)
+            time_scale = self.altUnityDriver.get_time_scale()
+            self.assertEqual(0.1, time_scale)
+
+```
+
 #### CallStaticMethod
 
 Invokes static methods from your game.
@@ -3595,6 +3836,54 @@ None
             color3 = alt_element.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
+```
+
+#### GetParent
+
+Returns the parent of the AltUnity object on which it is called.
+
+**_Parameters_**
+
+ None
+
+**_Returns_**
+
+-   AltUnityObject
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetParent()
+        {
+            var altElement = altUnityDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
+            var altElementParent = altElement.getParent();
+            Assert.AreEqual("Panel Drag Area", altElementParent.name);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestGetParent() {
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo")
+                    .build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+            AltUnityObject altElementParent = altElement.getParent();
+            assertEquals("Canvas", altElementParent.name);
+        }
+
+    .. code-tab:: py
+
+        def test_get_parent(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+            element = self.altUnityDriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
+            elementParent = element.get_parent()
+            self.assertEqual('Canvas', elementParent.name)
+
 ```
 
 ## BY-Selector
