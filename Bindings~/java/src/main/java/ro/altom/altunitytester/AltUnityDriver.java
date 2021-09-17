@@ -1,16 +1,7 @@
 package ro.altom.altunitytester;
 
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder;
-import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
-import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
-import org.apache.logging.log4j.core.config.builder.api.LayoutComponentBuilder;
-import org.apache.logging.log4j.core.config.builder.api.LoggerComponentBuilder;
-import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 import ro.altom.altunitytester.Commands.*;
@@ -23,9 +14,10 @@ import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import ro.altom.altunitytester.position.Vector2;
 
-import java.io.*;
-import java.net.Socket;
+import java.io.IOException;
 import java.util.List;
+
+import javax.websocket.CloseReason;
 
 public class AltUnityDriver {
     static {
@@ -35,85 +27,47 @@ public class AltUnityDriver {
 
     private static final Logger log = LogManager.getLogger(AltUnityDriver.class);
 
-    public static class PlayerPrefsKeyType {
-        public static int IntType = 1;
-        public static int StringType = 2;
-        public static int FloatType = 3;
+    public static enum PlayerPrefsKeyType {
+        Int(1),
+        String(2),
+        Float(3);
+
+        private int val;
+
+        PlayerPrefsKeyType(int val){
+            this.val = val;
+        }
+
+        public int getVal(){
+            return val;
+        }
     }
 
     public static final String VERSION = "1.6.6";
     public static final int READ_TIMEOUT = 5 * 1000;
 
-    private Socket socket = null;
-    private PrintWriter out = null;
-    private DataInputStream in = null;
-
-    private AltBaseSettings altBaseSettings;
+    private WebsocketConnection connection = null;
 
     public AltUnityDriver() {
         this("127.0.0.1", 13000);
     }
 
-    public AltUnityDriver(String ip, int port) {
+    public AltUnityDriver(String host, int port) {
 
-        this(ip, port, ";", "&", false);
+        this(host, port, false);
     }
 
-    public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd) {
-        this(ip, port, requestSeparator, requestEnd, false);
-    }
-
-    public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logFlag) {
-        this(ip, port, requestSeparator, requestEnd, logFlag, 60);
-    }
-
-    public AltUnityDriver(AltUnityDriverParams params) {
-        this(params.ip, params.port, params.requestSeparator, params.requestEnd, params.logFlag, params.connectTimeout);
-    }
-
-    public AltUnityDriver(String ip, int port, String requestSeparator, String requestEnd, Boolean logFlag,
-            int connectTimeout) {
-        if (!logFlag)
+    public AltUnityDriver(String host, int port, Boolean enableLogging) {
+        if (!enableLogging)
             AltUnityDriverConfigFactory.DisableLogging();
 
-        if (ip == null || ip.isEmpty()) {
+        if (host == null || host.isEmpty()) {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
 
-        while (connectTimeout > 0) {
-            try {
-                try {
-                    log.info(String.format("Initializing connection to %s:%d", ip, port));
-                    socket = new Socket(ip, port);
-                    socket.setSoTimeout(READ_TIMEOUT);
-                    out = new PrintWriter(socket.getOutputStream(), true);
-                    in = new DataInputStream(socket.getInputStream());
-                } catch (IOException e) {
-                    throw new ConnectionException("AltUnityServer not running on port " + port
-                            + ",retrying (timing out in " + connectTimeout + " secs)...", e);
-                }
+        this.connection = new WebsocketConnection(host, port);
+        checkServerVersion();
 
-                altBaseSettings = new AltBaseSettings(socket, requestSeparator, requestEnd, out, in);
-                checkServerVersion();
-                break;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-
-                if (socket != null)
-                    stop();
-
-                connectTimeout -= 5;
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
-            if (connectTimeout <= 0) {
-                throw new ConnectionException("Could not create connection to " + String.format("%s:%d", ip, port),
-                        new Throwable());
-            }
-        }
     }
 
     private String[] splitVersion(String version) {
@@ -123,7 +77,7 @@ public class AltUnityDriver {
     private void checkServerVersion() {
         String serverVersion;
         try {
-            serverVersion = new GetServerVersionCommand(altBaseSettings).Execute();
+            serverVersion = GetServerVersion();
         } catch (UnknownErrorException ex) {
             serverVersion = "<=1.5.3";
         } catch (AltUnityRecvallMessageFormatException ex) {
@@ -146,106 +100,78 @@ public class AltUnityDriver {
         }
     }
 
-    public void stop() {
-        new AltStop(altBaseSettings).Execute();
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            log.warn(ex);
-        }
+    public void stop(CloseReason closeReason) throws IOException {
+        this.connection.session.close(closeReason);
     }
 
-    public String callStaticMethod(AltCallStaticMethodParameters altCallStaticMethodParameters) {
-        return new AltCallStaticMethod(altBaseSettings, altCallStaticMethodParameters).Execute();
-    }
-
-    @Deprecated
-    public String callStaticMethods(AltCallStaticMethodParameters altCallStaticMethodParameters) {
-        return new AltCallStaticMethod(altBaseSettings, altCallStaticMethodParameters).Execute();
-    }
-
-    @Deprecated
-    public String callStaticMethods(String assembly, String typeName, String methodName, String parameters,
-            String typeOfParameters) {
-        AltCallStaticMethodParameters altCallStaticMethodParameters = new AltCallStaticMethodParameters.Builder(
-                typeName, methodName, parameters).withAssembly(assembly).withTypeOfParameters(typeOfParameters).build();
-        return callStaticMethods(altCallStaticMethodParameters);
-    }
-
-    @Deprecated
-    public String callStaticMethods(String typeName, String methodName, String parameters) {
-        return callStaticMethods("", typeName, methodName, parameters, "");
+    public String GetServerVersion() {
+        return new GetServerVersionCommand(this.connection.messageHandler).Execute();
     }
 
     public void loadScene(AltLoadSceneParameters altLoadSceneParameters) {
-        new AltLoadScene(altBaseSettings, altLoadSceneParameters).Execute();
+        new AltLoadScene(this.connection.messageHandler, altLoadSceneParameters).Execute();
     }
 
     public void unloadScene(String sceneName) {
-        new AltUnloadScene(altBaseSettings, sceneName).Execute();
+        new AltUnloadScene(this.connection.messageHandler, sceneName).Execute();
     }
 
     public String[] getAllLoadedScenes() {
-        return new AltGetAllLoadedScenes(altBaseSettings).Execute();
-    }
-
-    /**
-     * Ability to access altBaseSettings.
-     *
-     * @return Returns the AltBaseSettings used by the driver.
-     */
-    public AltBaseSettings GetAltBaseSettings() {
-        return altBaseSettings;
+        return new AltGetAllLoadedScenes(this.connection.messageHandler).Execute();
     }
 
     /**
      * Delete entire player pref of the game
      */
     public void deletePlayerPref() {
-        new AltDeletePlayerPref(altBaseSettings).Execute();
+        new AltDeletePlayerPref(this.connection.messageHandler).Execute();
     }
 
     /**
      * Delete from games player pref a key
      */
     public void deleteKeyPlayerPref(String keyName) {
-        new AltDeleteKeyPlayerPref(altBaseSettings, keyName).Execute();
+        new AltDeleteKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     }
 
     public void setKeyPlayerPref(String keyName, int valueName) {
-        new AltSetKeyPlayerPref(altBaseSettings, keyName, valueName).Execute();
+        new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
     }
 
     public void setKeyPlayerPref(String keyName, float valueName) {
-        new AltSetKeyPlayerPref(altBaseSettings, keyName, valueName).Execute();
+        new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
     }
 
     public void setKeyPlayerPref(String keyName, String valueName) {
-        new AltSetKeyPlayerPref(altBaseSettings, keyName, valueName).Execute();
+        new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
     }
 
     public int getIntKeyPlayerPref(String keyname) {
-        return new AltIntGetKeyPlayerPref(altBaseSettings, keyname).Execute();
+        return new AltIntGetKeyPlayerPref(this.connection.messageHandler, keyname).Execute();
     }
 
     public float getFloatKeyPlayerPref(String keyname) {
-        return new AltFloatGetKeyPlayerPref(altBaseSettings, keyname).Execute();
+        return new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyname).Execute();
     }
 
     public String getStringKeyPlayerPref(String keyname) {
-        return new AltStringGetKeyPlayerPref(altBaseSettings, keyname).Execute();
+        return new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyname).Execute();
     }
 
     public String getCurrentScene() {
-        return new AltGetCurrentScene(altBaseSettings).Execute();
+        return new AltGetCurrentScene(this.connection.messageHandler).Execute();
     }
 
     public float getTimeScale() {
-        return new AltGetTimeScale(altBaseSettings).Execute();
+        return new AltGetTimeScale(this.connection.messageHandler).Execute();
     }
 
     public void setTimeScale(float timeScale) {
-        new AltSetTimeScale(altBaseSettings, timeScale).Execute();
+        new AltSetTimeScale(this.connection.messageHandler, timeScale).Execute();
+    }
+
+    public <T> T callStaticMethod(AltCallStaticMethodParameters altCallStaticMethodParameters, Class<T> returnType) {
+        return new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParameters).Execute(returnType);
     }
 
     /**
@@ -260,7 +186,7 @@ public class AltUnityDriver {
      *                       current position to the set location.
      */
     public void swipe(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
-        new AltSwipe(altBaseSettings, xStart, yStart, xEnd, yEnd, durationInSecs).Execute();
+        new AltSwipe(this.connection.messageHandler, xStart, yStart, xEnd, yEnd, durationInSecs).Execute();
     }
 
     /**
@@ -275,7 +201,7 @@ public class AltUnityDriver {
      *                       current position to the set location.
      */
     public void swipeAndWait(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
-        new AltSwipeAndWait(altBaseSettings, xStart, yStart, xEnd, yEnd, durationInSecs).Execute();
+        new AltSwipeAndWait(this.connection.messageHandler, xStart, yStart, xEnd, yEnd, durationInSecs).Execute();
     }
 
     /**
@@ -287,7 +213,7 @@ public class AltUnityDriver {
      * @param durationInSecs how many seconds the swipe will need to complete
      */
     public void multipointSwipe(List<Vector2> positions, float durationInSecs) {
-        new AltMultiPointSwipe(altBaseSettings, positions, durationInSecs).Execute();
+        new AltMultiPointSwipe(this.connection.messageHandler, positions, durationInSecs).Execute();
     }
 
     /**
@@ -299,7 +225,7 @@ public class AltUnityDriver {
      * @param durationInSecs how many seconds the swipe will need to complete
      */
     public void multipointSwipeAndWait(List<Vector2> positions, float durationInSecs) {
-        new AltMultiPointSwipeAndWait(altBaseSettings, positions, durationInSecs).Execute();
+        new AltMultiPointSwipeAndWait(this.connection.messageHandler, positions, durationInSecs).Execute();
     }
 
     public void holdButton(int xPosition, int yPosition, float durationInSecs) {
@@ -314,7 +240,7 @@ public class AltUnityDriver {
      * Simulates device rotation action in your game.
      */
     public void tilt(AltTiltParameters altTiltParameter) {
-        new AltTilt(altBaseSettings, altTiltParameter).Execute();
+        new AltTilt(this.connection.messageHandler, altTiltParameter).Execute();
     }
 
     /**
@@ -322,7 +248,7 @@ public class AltUnityDriver {
      * finish.
      */
     public void tiltAndWait(AltTiltParameters altTiltParameters) {
-        new AltTiltAndWait(altBaseSettings, altTiltParameters).Execute();
+        new AltTiltAndWait(this.connection.messageHandler, altTiltParameters).Execute();
     }
 
     /**
@@ -332,12 +258,7 @@ public class AltUnityDriver {
      * @param altPressKeyParameters the builder for the press key commands.
      */
     public void pressKey(AltPressKeyParameters altPressKeyParameters) {
-        new AltPressKey(altBaseSettings, altPressKeyParameters).Execute();
-    }
-
-    @Deprecated
-    public void pressKey(String keyName, float power, float duration) {
-        pressKey(BuildPressKeyParameters(keyName, power, duration));
+        new AltPressKey(this.connection.messageHandler, altPressKeyParameters).Execute();
     }
 
     public void pressKey(AltUnityKeyCode keyCode, float power, float duration) {
@@ -351,26 +272,19 @@ public class AltUnityDriver {
      * @param altPressKeyParameters the builder for the press key commands.
      */
     public void pressKeyAndWait(AltPressKeyParameters altPressKeyParameters) {
-        new AltPressKeyAndWait(altBaseSettings, altPressKeyParameters).Execute();
-    }
-
-    @Deprecated
-    public void pressKeyAndWait(String keyName, float power, float duration) {
-        pressKeyAndWait(BuildPressKeyParameters(keyName, power, duration));
+        new AltPressKeyAndWait(this.connection.messageHandler, altPressKeyParameters).Execute();
     }
 
     public void pressKeyAndWait(AltUnityKeyCode keyCode, float power, float duration) {
         pressKeyAndWait(BuildPressKeyParameters(keyCode, power, duration));
     }
 
-    public void KeyDown(AltKeyParameters altKeyParameters)
-    {
-        new AltKeyDown(altBaseSettings, altKeyParameters).Execute();
+    public void KeyDown(AltKeyParameters altKeyParameters) {
+        new AltKeyDown(this.connection.messageHandler, altKeyParameters).Execute();
     }
 
-    public void KeyUp(AltUnityKeyCode keyCode)
-    {
-        new AltKeyUp(altBaseSettings, keyCode).Execute();
+    public void KeyUp(AltUnityKeyCode keyCode) {
+        new AltKeyUp(this.connection.messageHandler, keyCode).Execute();
     }
 
     /**
@@ -380,7 +294,7 @@ public class AltUnityDriver {
      * @param altMoveMouseParameters the builder for the mouse moves command.
      */
     public void moveMouse(AltMoveMouseParameters altMoveMouseParameters) {
-        new AltMoveMouse(altBaseSettings, altMoveMouseParameters).Execute();
+        new AltMoveMouse(this.connection.messageHandler, altMoveMouseParameters).Execute();
     }
 
     public void moveMouse(int x, int y, float duration) {
@@ -394,7 +308,7 @@ public class AltUnityDriver {
      * @param altMoveMouseParameters the builder for the mouse moves command.
      */
     public void moveMouseAndWait(AltMoveMouseParameters altMoveMouseParameters) {
-        new AltMoveMouseAndWait(altBaseSettings, altMoveMouseParameters).Execute();
+        new AltMoveMouseAndWait(this.connection.messageHandler, altMoveMouseParameters).Execute();
     }
 
     public void moveMouseAndWait(int x, int y, float duration) {
@@ -408,7 +322,7 @@ public class AltUnityDriver {
      * @param altScrollMouseParameters the builder for the scroll commands.
      */
     public void scrollMouse(AltScrollMouseParameters altScrollMouseParameters) {
-        new AltScrollMouse(altBaseSettings, altScrollMouseParameters).Execute();
+        new AltScrollMouse(this.connection.messageHandler, altScrollMouseParameters).Execute();
     }
 
     public void scrollMouse(float speed, float duration) {
@@ -422,7 +336,7 @@ public class AltUnityDriver {
      * @param altScrollMouseParameters the builder for the scroll commands.
      */
     public void scrollMouseAndWait(AltScrollMouseParameters altScrollMouseParameters) {
-        new AltScrollMouseAndWait(altBaseSettings, altScrollMouseParameters).Execute();
+        new AltScrollMouseAndWait(this.connection.messageHandler, altScrollMouseParameters).Execute();
     }
 
     public void scrollMouseAndWait(float speed, float duration) {
@@ -434,7 +348,7 @@ public class AltUnityDriver {
      * @return the first object in the scene that respects the given criteria.
      */
     public AltUnityObject findObject(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObject(altBaseSettings, altFindObjectsParameters).Execute();
+        return new AltFindObject(this.connection.messageHandler, altFindObjectsParameters).Execute();
     }
 
     /**
@@ -443,7 +357,7 @@ public class AltUnityDriver {
      * @return the first object containing the given criteria
      */
     public AltUnityObject findObjectWhichContains(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObjectWhichContains(altBaseSettings, altFindObjectsParameters).Execute();
+        return new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParameters).Execute();
     }
 
     public AltUnityObject findObjectWhichContains(By by, String value, By cameraBy, String cameraPath,
@@ -457,7 +371,7 @@ public class AltUnityDriver {
      * @return all the objects respecting the given criteria
      */
     public AltUnityObject[] findObjects(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObjects(altBaseSettings, altFindObjectsParameters).Execute();
+        return new AltFindObjects(this.connection.messageHandler, altFindObjectsParameters).Execute();
     }
 
     public AltUnityObject[] findObjects(By by, String value, By cameraBy, String cameraPath, boolean enabled) {
@@ -470,7 +384,7 @@ public class AltUnityDriver {
      * @return all objects containing the given criteria
      */
     public AltUnityObject[] findObjectsWhichContain(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObjectsWhichContain(altBaseSettings, altFindObjectsParameters).Execute();
+        return new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParameters).Execute();
     }
 
     /**
@@ -479,32 +393,12 @@ public class AltUnityDriver {
      * @return information about every object loaded in the currently loaded scenes.
      */
     public AltUnityObject[] getAllElements(AltGetAllElementsParameters altGetAllElementsParameters) {
-        return new AltGetAllElements(altBaseSettings, altGetAllElementsParameters).Execute();
-    }
-
-    /**
-     * Simulate a tap action on the screen at the given coordinates.
-     *
-     * @param x x coordinate of the screen
-     * @param y y coordinate of the screen
-     */
-    @Deprecated
-    public AltUnityObject tapScreen(int x, int y) {
-        return new AltTapScreen(altBaseSettings, x, y).Execute();
-    }
-
-    @Deprecated
-    public void tapCustom(int x, int y, int count, float interval) {
-        new AltTapCustom(altBaseSettings, x, y, count, interval).Execute();
-    }
-
-    @Deprecated
-    public void tapCustom(int x, int y, int count) {
-        tapCustom(x, y, count, 0.1f);
+        return new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParameters).Execute();
     }
 
     public String waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters) {
-        return new AltWaitForCurrentSceneToBe(altBaseSettings, altWaitForCurrentSceneToBeParameters).Execute();
+        return new AltWaitForCurrentSceneToBe(this.connection.messageHandler, altWaitForCurrentSceneToBeParameters)
+                .Execute();
     }
 
     /**
@@ -515,12 +409,7 @@ public class AltUnityDriver {
      *                                    objects in a scene.
      */
     public AltUnityObject waitForObject(AltWaitForObjectsParameters altWaitForObjectsParameters) {
-        return new AltWaitForObject(altBaseSettings, altWaitForObjectsParameters).Execute();
-    }
-
-    @Deprecated
-    public AltUnityObject waitForObjectWithText(AltWaitForObjectWithTextParameters altWaitForObjectWithTextParameters) {
-        return new AltWaitForObjectWithText(altBaseSettings, altWaitForObjectWithTextParameters).Execute();
+        return new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParameters).Execute();
     }
 
     /**
@@ -531,16 +420,11 @@ public class AltUnityDriver {
      *                                    objects in a scene.
      */
     public void waitForObjectToNotBePresent(AltWaitForObjectsParameters altWaitForObjectsParameters) {
-        new AltWaitForObjectToNotBePresent(altBaseSettings, altWaitForObjectsParameters).Execute();
+        new AltWaitForObjectToNotBePresent(this.connection.messageHandler, altWaitForObjectsParameters).Execute();
     }
 
     public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParameters altWaitForObjectsParameters) {
-        return new AltWaitForObjectWhichContains(altBaseSettings, altWaitForObjectsParameters).Execute();
-    }
-
-    @Deprecated
-    private AltPressKeyParameters BuildPressKeyParameters(String keyName, float power, float duration) {
-        return new AltPressKeyParameters.Builder(keyName).withPower(power).withDuration(duration).build();
+        return new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParameters).Execute();
     }
 
     private AltPressKeyParameters BuildPressKeyParameters(AltUnityKeyCode keyCode, float power, float duration) {
@@ -562,23 +446,23 @@ public class AltUnityDriver {
     }
 
     public void getPNGScreeshot(String path) {
-        new GetPNGScreenshotCommand(altBaseSettings, path).Execute();
+        new GetPNGScreenshotCommand(this.connection.messageHandler, path).Execute();
     }
 
     public void setServerLogging(AltSetServerLoggingParameters parameters) {
-        new AltUnitySetServerLogging(altBaseSettings, parameters).Execute();
+        new AltUnitySetServerLogging(this.connection.messageHandler, parameters).Execute();
     }
 
     public int beginTouch(Vector2 screenCoordinates) {
-        return new AltBeginTouch(altBaseSettings, screenCoordinates).Execute();
+        return new AltBeginTouch(this.connection.messageHandler, screenCoordinates).Execute();
     }
 
     public void moveTouch(int fingerId, Vector2 screenCoordinates) {
-        new AltMoveTouch(altBaseSettings, fingerId, screenCoordinates).Execute();
+        new AltMoveTouch(this.connection.messageHandler, fingerId, screenCoordinates).Execute();
     }
 
     public void endTouch(int fingerId) {
-        new AltEndTouch(altBaseSettings, fingerId).Execute();
+        new AltEndTouch(this.connection.messageHandler, fingerId).Execute();
     }
 
     /**
@@ -587,7 +471,7 @@ public class AltUnityDriver {
      * @param parameters Tap parameters
      */
     public void tap(AltTapClickCoordinatesParameters parameters) {
-        new AltTapCoordinates(altBaseSettings, parameters).Execute();
+        new AltTapCoordinates(this.connection.messageHandler, parameters).Execute();
     }
 
     /**
@@ -596,7 +480,7 @@ public class AltUnityDriver {
      * @param parameters Click parameters
      */
     public void click(AltTapClickCoordinatesParameters parameters) {
-        new AltClickCoordinates(altBaseSettings, parameters).Execute();
+        new AltClickCoordinates(this.connection.messageHandler, parameters).Execute();
     }
 
     /**

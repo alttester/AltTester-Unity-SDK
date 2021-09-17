@@ -1,19 +1,21 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltStringGetKeyPlayerPref extends AltBaseCommand {
-    private String keyName;
+    
+    private AltKeyPlayerPrefParams params;
 
-    public AltStringGetKeyPlayerPref(AltBaseSettings altBaseSettings, String keyName) {
-        super(altBaseSettings);
-        this.keyName = keyName;
+    public AltStringGetKeyPlayerPref(IMessageHandler messageHandler, String keyName) {
+        super(messageHandler);
+        params = new AltKeyPlayerPrefParams(keyName, AltUnityDriver.PlayerPrefsKeyType.String);
+        params.setCommandName("getKeyPlayerPref");
     }
 
     public String Execute() {
-        SendCommand("getKeyPlayerPref", keyName, String.valueOf(AltUnityDriver.PlayerPrefsKeyType.StringType));
-        return recvall();
+        SendCommand(params);
+        return recvall(params, String.class);
     }
 }

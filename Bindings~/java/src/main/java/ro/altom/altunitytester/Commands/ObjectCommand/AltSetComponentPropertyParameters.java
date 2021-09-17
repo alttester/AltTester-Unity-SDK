@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-public class AltSetComponentPropertyParameters {
+public class AltSetComponentPropertyParameters extends AltUnityObjectParameters{
     public static class Builder{
         private String componentName;
         private String propertyName;
@@ -18,8 +18,8 @@ public class AltSetComponentPropertyParameters {
         public AltSetComponentPropertyParameters build(){
             AltSetComponentPropertyParameters altSetComponentPropertyParameters=new AltSetComponentPropertyParameters();
             altSetComponentPropertyParameters.assembly=this.assembly;
-            altSetComponentPropertyParameters.propertyName=this.propertyName;
-            altSetComponentPropertyParameters.componentName=this.componentName;
+            altSetComponentPropertyParameters.property=this.propertyName;
+            altSetComponentPropertyParameters.component=this.componentName;
             altSetComponentPropertyParameters.value=this.value;
 
             return altSetComponentPropertyParameters;
@@ -30,19 +30,19 @@ public class AltSetComponentPropertyParameters {
     }
 
     public String getComponentName() {
-        return componentName;
+        return component;
     }
 
     public void setComponentName(String componentName) {
-        this.componentName = componentName;
+        this.component = componentName;
     }
 
     public String getPropertyName() {
-        return propertyName;
+        return property;
     }
 
     public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
+        this.property = propertyName;
     }
 
     public String getAssembly() {
@@ -53,8 +53,8 @@ public class AltSetComponentPropertyParameters {
         this.assembly = assembly;
     }
 
-    private String componentName;
-    private String propertyName;
+    private String component;
+    private String property;
     private String assembly;
 
     public String getValue() {

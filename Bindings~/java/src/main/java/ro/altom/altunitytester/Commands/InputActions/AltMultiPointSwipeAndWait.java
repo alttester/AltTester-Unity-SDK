@@ -1,8 +1,9 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 import ro.altom.altunitytester.position.Vector2;
+import ro.altom.altunitytester.AltMessage;
 
 import java.util.List;
 
@@ -12,30 +13,22 @@ import java.util.List;
  */
 public class AltMultiPointSwipeAndWait extends AltBaseCommand {
 
-    /**
-     * @param positions collection of positions on the screen where the swipe be
-     *                  made
-     */
-    private List<Vector2> positions;
-    /**
-     * @param durationInSeconds how many seconds the swipe will need to complete
-     */
-    private float durationInSeconds;
+    private AltMultiPointSwipeParameters params;
 
-    public AltMultiPointSwipeAndWait(AltBaseSettings altBaseSettings, List<Vector2> positions,
-            float durationInSeconds) {
-        super(altBaseSettings);
-        this.positions = positions;
-        this.durationInSeconds = durationInSeconds;
+    public AltMultiPointSwipeAndWait(IMessageHandler messageHandler, List<Vector2> positions, float durationInSeconds) {
+        super(messageHandler);
+        params = new AltMultiPointSwipeParameters(positions, durationInSeconds);
     }
 
     public void Execute() {
-        new AltMultiPointSwipe(altBaseSettings, positions, durationInSeconds).Execute();
-        sleepFor(durationInSeconds);
+        new AltMultiPointSwipe(messageHandler, params.getPositions(), params.getDurationInSeconds()).Execute();
+        sleepFor(params.getDurationInSeconds());
         String data;
+        AltMessage altMessage = new AltMessage();
+        altMessage.setCommandName("actionFinished");
         do {
-            SendCommand("actionFinished");
-            data = recvall();
+            SendCommand(altMessage);
+            data = recvall(params, String.class);
         } while (data.equals("No"));
 
         validateResponse("Yes", data);

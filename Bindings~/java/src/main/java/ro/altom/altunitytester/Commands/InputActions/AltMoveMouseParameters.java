@@ -1,13 +1,14 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-public class AltMoveMouseParameters {
+import ro.altom.altunitytester.AltMessage;
+import ro.altom.altunitytester.position.Vector2;
+
+public class AltMoveMouseParameters extends AltMessage{
     public static class Builder{
-        private int x;
-        private int y;
+        private Vector2 location;
         private float duration =1;
         public Builder(int x,int y){
-            this.x=x;
-            this.y=y;
+            this.location = new Vector2(x, y);
         }
         public Builder withDuration(float duration){
             this.duration = duration;
@@ -15,34 +16,33 @@ public class AltMoveMouseParameters {
         }
         public AltMoveMouseParameters build(){
             AltMoveMouseParameters altMoveMouseParameter=new AltMoveMouseParameters();
-            altMoveMouseParameter.x=this.x;
-            altMoveMouseParameter.y=this.y;
+            altMoveMouseParameter.location = this.location;
             altMoveMouseParameter.duration =this.duration;
             return altMoveMouseParameter;
         }
     }
 
     private AltMoveMouseParameters() {
+        this.setCommandName("moveMouse");
     }
 
-    private int x;
-    private int y;
+    private Vector2 location;
     private float duration;
 
     public int getX() {
-        return x;
+        return (int)location.x;
     }
 
     public void setX(int x) {
-        this.x = x;
+        this.location.x = x;
     }
 
     public int getY() {
-        return y;
+        return (int)location.y;
     }
 
     public void setY(int y) {
-        this.y = y;
+        this.location.y = y;
     }
 
     public float getDuration() {

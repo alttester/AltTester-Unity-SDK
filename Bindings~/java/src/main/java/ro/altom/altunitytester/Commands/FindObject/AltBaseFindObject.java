@@ -1,12 +1,12 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.Commands.AltCommandReturningAltObjects;
 
 public class AltBaseFindObject extends AltCommandReturningAltObjects {
-    public AltBaseFindObject(AltBaseSettings altBaseSettings) {
-        super(altBaseSettings);
+    public AltBaseFindObject(IMessageHandler messageHandler) {
+        super(messageHandler);
     }
 
     protected String SetPath(AltUnityDriver.By by, String value) {

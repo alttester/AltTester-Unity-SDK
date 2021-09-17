@@ -1,14 +1,17 @@
 package ro.altom.altunitytester.Commands;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.AltMessage;
+import ro.altom.altunitytester.IMessageHandler;
 
 public class GetServerVersionCommand extends AltBaseCommand {
-    public GetServerVersionCommand(AltBaseSettings altBaseSettings) {
-        super(altBaseSettings);
+    public GetServerVersionCommand(IMessageHandler messageHandler) {
+        super(messageHandler);
     }
 
     public String Execute() {
-        SendCommand("getServerVersion");
-        return recvall();
+        AltMessage altMessage = new AltMessage();
+        altMessage.setCommandName("getServerVersion");
+        SendCommand(altMessage);
+        return recvall(altMessage, String.class);
     }
 }

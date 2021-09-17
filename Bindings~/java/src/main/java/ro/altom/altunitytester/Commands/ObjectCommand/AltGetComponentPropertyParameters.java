@@ -1,50 +1,40 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-public class AltGetComponentPropertyParameters {
-    public static class Builder{
+import ro.altom.altunitytester.AltUnityObjectProperty;
+
+public class AltGetComponentPropertyParameters extends AltUnityObjectParameters {
+    public static class Builder {
         private String componentName;
         private String propertyName;
-        private String assembly="";
-        private int maxDepth=2;
-        public Builder(String componentName,String propertyName){
-            this.componentName=componentName;
-            this.propertyName=propertyName;
+        private String assembly = "";
+        private int maxDepth = 2;
+
+        public Builder(String componentName, String propertyName) {
+            this.componentName = componentName;
+            this.propertyName = propertyName;
         }
-        public Builder withAssembly(String assembly){
-            this.assembly=assembly;
+
+        public Builder withAssembly(String assembly) {
+            this.assembly = assembly;
             return this;
         }
-        public Builder withMaxDepth(int maxDepth){
-            this.maxDepth=maxDepth;
+
+        public Builder withMaxDepth(int maxDepth) {
+            this.maxDepth = maxDepth;
             return this;
         }
-        public AltGetComponentPropertyParameters build(){
-            AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters();
-            altGetComponentPropertyParameters.assembly=this.assembly;
-            altGetComponentPropertyParameters.propertyName=this.propertyName;
-            altGetComponentPropertyParameters.componentName=this.componentName;
-            altGetComponentPropertyParameters.maxDepth=this.maxDepth;
+
+        public AltGetComponentPropertyParameters build() {
+            AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters();
+            altGetComponentPropertyParameters.component = this.componentName;
+            altGetComponentPropertyParameters.property = this.propertyName;
+            altGetComponentPropertyParameters.assembly = this.assembly;
+            altGetComponentPropertyParameters.maxDepth = this.maxDepth;
             return altGetComponentPropertyParameters;
         }
     }
 
     private AltGetComponentPropertyParameters() {
-    }
-
-    public String getComponentName() {
-        return componentName;
-    }
-
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
     }
 
     public String getAssembly() {
@@ -54,6 +44,23 @@ public class AltGetComponentPropertyParameters {
     public void setAssembly(String assembly) {
         this.assembly = assembly;
     }
+
+    public String getPropertyName() {
+        return property;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.property = propertyName;
+    }
+
+    public String getComponentName() {
+        return component;
+    }
+
+    public void setComponentName(String componentName) {
+        this.component = componentName;
+    }
+
     public int getMaxDepth() {
         return maxDepth;
     }
@@ -62,9 +69,8 @@ public class AltGetComponentPropertyParameters {
         this.maxDepth = maxDepth;
     }
 
-
-    private String componentName;
-    private String propertyName;
-    private String assembly;
+    private String component;
+    private String property;
+    private String assembly = "";
     private int maxDepth;
 }

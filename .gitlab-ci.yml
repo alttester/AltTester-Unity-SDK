@@ -224,7 +224,7 @@ run-python-appium-android-tests:
       - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
-.run-java-android-tests:
+run-java-android-tests:
   stage: test
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
@@ -245,7 +245,7 @@ run-python-appium-android-tests:
       - AltUnityTesterLog.txt
   needs: ["build-apk"]
 
-.run-java-appium-android-tests:
+run-java-appium-android-tests:
   stage: test
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'

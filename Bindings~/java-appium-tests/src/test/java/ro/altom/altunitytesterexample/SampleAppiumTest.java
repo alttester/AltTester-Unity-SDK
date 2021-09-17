@@ -13,13 +13,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
-import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectWithTextParameters;
+import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+
+import javax.websocket.CloseReason;
+import javax.websocket.CloseReason.CloseCodes;
 
 import static org.junit.Assert.*;
 
@@ -30,22 +32,22 @@ public class SampleAppiumTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
         File app = new File("../../sampleGame.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
         capabilities.setCapability("deviceName", "Android");
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("app", app.getAbsolutePath());
-        AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
         appiumDriver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         appiumDriver.manage().timeouts().implicitlyWait(80, TimeUnit.SECONDS);
+        Thread.sleep(1000);
+        AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
         altUnityDriver = new AltUnityDriver("127.0.0.1", 13000);
     }
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop();
+        altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "Connection stopped successfully"));
         appiumDriver.quit();
         AltUnityDriver.removePortForwarding();
     }
@@ -67,10 +69,10 @@ public class SampleAppiumTest {
         tapButton.tap(new PointOption().withCoordinates(capsule.x, capsule.mobileY)).perform();
 
         AltFindObjectsParameters altFindObjectsParameters2 = 
-            new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "CapsuleInfo").build();
-        AltWaitForObjectWithTextParameters altWaitForObjectsParameters = 
-            new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters2, "Capsule was clicked to jump!").build();
-        String text = altUnityDriver.waitForObjectWithText(altWaitForObjectsParameters).getText();
+            new AltFindObjectsParameters.Builder(AltUnityDriver.By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
+        AltWaitForObjectsParameters altWaitForObjectsParameters = 
+            new AltWaitForObjectsParameters.Builder(altFindObjectsParameters2).build();
+        String text = altUnityDriver.waitForObject(altWaitForObjectsParameters).getText();
         assertEquals("Capsule was clicked to jump!", text);
     }
 }

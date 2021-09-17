@@ -1,7 +1,6 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import ro.altom.altunitytester.AltBaseSettings;
-import ro.altom.altunitytester.AltUnityDriver;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 
 /**
@@ -16,25 +15,16 @@ public class AltFindObject extends AltBaseFindObject {
      * @param altFindObjectsParameters the properties parameter for finding the
      *                                 objects in a scene.
      */
-    public AltFindObject(AltBaseSettings altBaseSettings, AltFindObjectsParameters altFindObjectsParameters) {
-        super(altBaseSettings);
+    public AltFindObject(IMessageHandler messageHandler, AltFindObjectsParameters altFindObjectsParameters) {
+        super(messageHandler);
         this.altFindObjectsParameters = altFindObjectsParameters;
+        this.altFindObjectsParameters.setCommandName("findObject");
     }
 
     public AltUnityObject Execute() {
-        if (altFindObjectsParameters.isEnabled() && altFindObjectsParameters.getBy() == AltUnityDriver.By.NAME) {
-            String cameraPath = SetPath(altFindObjectsParameters.getCameraBy(),
-                    altFindObjectsParameters.getCameraPath());
-            SendCommand("findActiveObjectByName", altFindObjectsParameters.getValue(),
-                    altFindObjectsParameters.getCameraBy().toString(), cameraPath,
-                    String.valueOf(altFindObjectsParameters.isEnabled()));
-        } else {
-            String path = SetPath(altFindObjectsParameters.getBy(), altFindObjectsParameters.getValue());
-            String cameraPath = SetPath(altFindObjectsParameters.getCameraBy(),
-                    altFindObjectsParameters.getCameraPath());
-            SendCommand("findObject", path, altFindObjectsParameters.getCameraBy().toString(), cameraPath,
-                    String.valueOf(altFindObjectsParameters.isEnabled()));
-        }
-        return ReceiveAltUnityObject();
+        altFindObjectsParameters.setPath(SetPath(altFindObjectsParameters.getBy(), altFindObjectsParameters.getValue()));
+        altFindObjectsParameters.setCameraPath(SetPath(altFindObjectsParameters.getCameraBy(), altFindObjectsParameters.getCameraValue()));
+        SendCommand(altFindObjectsParameters);
+        return ReceiveAltUnityObject(altFindObjectsParameters);
     }
 }
