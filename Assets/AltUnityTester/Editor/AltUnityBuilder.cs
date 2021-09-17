@@ -105,6 +105,8 @@ namespace Altom.Editor
 
         public static void RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
+            if (AltUnityTesterEditor.EditorConfiguration != null && AltUnityTesterEditor.EditorConfiguration.KeepAUTSymbolDefined)
+                return;
             try
             {
                 var scriptingDefineSymbolsForGroup =
