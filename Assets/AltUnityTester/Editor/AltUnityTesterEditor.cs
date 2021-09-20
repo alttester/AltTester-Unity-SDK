@@ -1233,7 +1233,6 @@ namespace Altom.Editor
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;
-
         }
 
         private void displayBuildSettings()
@@ -1252,13 +1251,15 @@ namespace Altom.Editor
                 labelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
-                labelAndCheckboxHorizontalLayout("Keep ALTUNITYTESTER symbol defined(not recommended):", ref EditorConfiguration.KeepAUTSymbolDefined);
-                if (EditorConfiguration.KeepAUTSymbolDefined && !AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                var keepAUTSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTUNITYTESTER symbol defined (not recommended):", ref EditorConfiguration.KeepAUTSymbolDefined);
+                if (keepAUTSymbolChanged && EditorConfiguration.KeepAUTSymbolDefined && !AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
                 {
                     AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
-                if (!EditorConfiguration.KeepAUTSymbolDefined && AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                if (keepAUTSymbolChanged && !EditorConfiguration.KeepAUTSymbolDefined && AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                {
                     AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                }
 
             }
             switch (EditorConfiguration.platform)
@@ -1339,34 +1340,42 @@ namespace Altom.Editor
             }
         }
 
-        private static void labelAndCheckboxHorizontalLayout(string labelText, ref bool editorConfigVariable)
+        private static bool labelAndCheckboxHorizontalLayout(string labelText, ref bool editorConfigVariable)
         {
+            bool initialValue = editorConfigVariable;
             if (labelStyle == null)
             {
                 labelStyle = new GUIStyle(EditorStyles.label) { wordWrap = true };
             }
             UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.LabelField(labelText, labelStyle, UnityEngine.GUILayout.Width(150));
             editorConfigVariable =
                 UnityEditor.EditorGUILayout.Toggle(editorConfigVariable, UnityEngine.GUILayout.MaxWidth(30));
             UnityEngine.GUILayout.FlexibleSpace();
+            UnityEditor.EditorGUI.EndDisabledGroup();
             UnityEditor.EditorGUILayout.EndHorizontal();
+            return initialValue != editorConfigVariable;
         }
 
         private static void labelAndInputFieldHorizontalLayout(string labelText, ref string editorConfigVariable)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             editorConfigVariable = UnityEditor.EditorGUILayout.TextField(labelText, editorConfigVariable);
+            UnityEditor.EditorGUI.EndDisabledGroup();
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 
         private static void labelAndInputFieldHorizontalLayout(string labelText, ref int editorConfigVariable)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             editorConfigVariable = UnityEditor.EditorGUILayout.IntField(labelText, editorConfigVariable);
+            UnityEditor.EditorGUI.EndDisabledGroup();
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 
