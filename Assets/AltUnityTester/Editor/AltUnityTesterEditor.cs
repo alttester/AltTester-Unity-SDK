@@ -1688,7 +1688,10 @@ namespace Altom.Editor
                 };
                 var guiStylee = new UnityEngine.GUIStyle { };
 
+                UnityEngine.GUILayout.BeginVertical();
+                GUILayout.Space(0);
                 var valueChanged = UnityEditor.EditorGUILayout.Toggle(test.Selected, UnityEngine.GUILayout.Width(15));
+                GUILayout.EndVertical();
                 if (valueChanged == test.Selected)
                 {
                     updateNumberOfSelectedTests(test);
