@@ -9,6 +9,7 @@ using NLog;
 using NLog.Layouts;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using System.IO;
 
 namespace Altom.Editor
 {
@@ -1735,9 +1736,9 @@ namespace Altom.Editor
                         if (actualTime - timeSinceLastClick < 5000000)
                         {
 #if UNITY_2019_1_OR_NEWER
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1, 0);
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName), 0);
 #else
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName));
 #endif
                         }
                     }
@@ -1761,6 +1762,15 @@ namespace Altom.Editor
                     test.FoldOut = UnityEditor.EditorGUILayout.Foldout(test.FoldOut, testName + "(" + test.TestSelectedCount.ToString() + ")");
                 }
             }
+        }
+
+        private static int findLine(String path, String nameOfTest){
+            String[] lines = File.ReadAllLines(path);  
+  
+            for (int i = 0; i < lines.Length; i++)  
+                if (lines[i].Contains(nameOfTest))
+                    return i; 
+            return 0;
         }
 
         private void changeSelectionChildsAndParent(AltUnityMyTest test)
@@ -2001,6 +2011,4 @@ namespace Altom.Editor
             return result.ToArray();
         }
     }
-
-
 }
