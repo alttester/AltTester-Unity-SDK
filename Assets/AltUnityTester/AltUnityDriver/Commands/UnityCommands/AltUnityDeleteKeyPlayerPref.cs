@@ -2,15 +2,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityDeleteKeyPlayerPref : AltBaseCommand
     {
-        readonly string keyName;
-        public AltUnityDeleteKeyPlayerPref(SocketSettings socketSettings, string keyname) : base(socketSettings)
+        AltUnityDeleteKeyPlayerPrefParams cmdParams;
+        public AltUnityDeleteKeyPlayerPref(IDriverCommunication commHandler, string keyName) : base(commHandler)
         {
-            this.keyName = keyname;
+            this.cmdParams = new AltUnityDeleteKeyPlayerPrefParams(keyName);
         }
         public void Execute()
         {
-            SendCommand("deleteKeyPlayerPref", keyName);
-            var data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

@@ -4,22 +4,26 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityTiltAndWait : AltBaseCommand
     {
-        AltUnityVector3 acceleration;
+        AltUnityTilt tiltCommand;
+        AltUnityActionFinishedParams actionFinishedParams;
         readonly float duration;
-        public AltUnityTiltAndWait(SocketSettings socketSettings, AltUnityVector3 acceleration, float duration) : base(socketSettings)
+        public AltUnityTiltAndWait(IDriverCommunication commHandler, AltUnityVector3 acceleration, float duration) : base(commHandler)
         {
-            this.acceleration = acceleration;
             this.duration = duration;
+            tiltCommand = new AltUnityTilt(commHandler, acceleration, duration);
+            actionFinishedParams = new AltUnityActionFinishedParams();
+
         }
         public void Execute()
         {
-            new AltUnityTilt(SocketSettings, acceleration, duration).Execute();
+            tiltCommand.Execute();
             Thread.Sleep((int)(duration * 1000));
+
             string data;
             do
             {
-                SendCommand("actionFinished");
-                data = Recvall();
+                CommHandler.Send(actionFinishedParams);
+                data = CommHandler.Recvall<string>(actionFinishedParams).data;
             } while (data == "No");
             ValidateResponse("Yes", data);
         }

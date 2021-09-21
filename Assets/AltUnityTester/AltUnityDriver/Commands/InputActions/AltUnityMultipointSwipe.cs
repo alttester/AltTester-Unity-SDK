@@ -5,27 +5,18 @@ namespace Altom.AltUnityDriver.Commands
 
     public class AltUnityMultipointSwipe : AltBaseCommand
     {
-        AltUnityVector2[] positions;
-        float duration;
+        AltUnityMultipointSwipeChainParams cmdParams;
 
-        public AltUnityMultipointSwipe(SocketSettings socketSettings, AltUnityVector2[] positions, float duration) : base(socketSettings)
+        public AltUnityMultipointSwipe(IDriverCommunication commHandler, AltUnityVector2[] positions, float duration) : base(commHandler)
         {
-            this.positions = positions;
-            this.duration = duration;
+            cmdParams = new AltUnityMultipointSwipeChainParams(positions, duration);
         }
 
         public void Execute()
         {
-            var args = new System.Collections.Generic.List<string> { "multipointSwipeChain", duration.ToString() };
-            foreach (var pos in positions)
-            {
-                var posJson = PositionToJson(pos);
-                args.Add(posJson);
-            }
-
-            SendCommand(args.ToArray());
-            var data = Recvall();
-            ValidateResponse("Ok", data, StringComparison.OrdinalIgnoreCase);
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
+            ValidateResponse("Ok", data);
         }
     }
 }

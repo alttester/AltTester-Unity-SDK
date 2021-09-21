@@ -4,19 +4,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySetServerLogging : AltBaseCommand
     {
-        private readonly AltUnityLogger logger;
-        private readonly AltUnityLogLevel logLevel;
+        private readonly AltUnitySetServerLoggingParams cmdParams;
 
-        public AltUnitySetServerLogging(SocketSettings socketSettings, AltUnityLogger logger, AltUnityLogLevel logLevel) : base(socketSettings)
+        public AltUnitySetServerLogging(IDriverCommunication commHandler, AltUnityLogger logger, AltUnityLogLevel logLevel) : base(commHandler)
         {
-            this.logger = logger;
-            this.logLevel = logLevel;
+            this.cmdParams = new AltUnitySetServerLoggingParams(logger, logLevel);
         }
         public void Execute()
         {
-            SendCommand("setServerLogging", logger.ToString(), logLevel.ToString());
-            var data = Recvall();
-
+            this.CommHandler.Send(this.cmdParams);
+            var data = this.CommHandler.Recvall<string>(this.cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

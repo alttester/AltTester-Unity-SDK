@@ -1,46 +1,49 @@
+using System;
+using System.Threading;
+using Altom.AltUnityDriver.Logging;
+using NLog;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityWaitForObjectWhichContains : AltUnityBaseFindObjects
     {
-        By by;
-        string value;
-        By cameraBy;
-        string cameraPath;
-        bool enabled;
-        double timeout;
-        double interval;
+        readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+        private AltUnityFindObjectWhichContains findObject;
+        private readonly string path;
+        private readonly double timeout;
+        private readonly double interval;
 
-        public AltUnityWaitForObjectWhichContains(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
+        public AltUnityWaitForObjectWhichContains(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(commHandler)
         {
-            this.by = by;
-            this.value = value;
-            this.cameraBy = cameraBy;
-            this.cameraPath = cameraPath;
-            this.enabled = enabled;
+            path = SetPath(by, value);
+            if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
+            if (interval <= 0) throw new ArgumentOutOfRangeException("interval");
             this.timeout = timeout;
             this.interval = interval;
+            findObject = new AltUnityFindObjectWhichContains(CommHandler, by, value, cameraBy, cameraPath, enabled);
         }
         public AltUnityObject Execute()
         {
             double time = 0;
             AltUnityObject altElement = null;
+
+            logger.Debug("Waiting for element " + path + " to be present.");
             while (time < timeout)
             {
                 try
                 {
-                    altElement = new AltUnityFindObjectWhichContains(SocketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
+                    altElement = findObject.Execute();
                     break;
                 }
-                catch (System.Exception)
+                catch (NotFoundException)
                 {
-                    System.Diagnostics.Debug.WriteLine("Waiting for element where name contains " + value + "....");
-                    System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                    Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                     time += interval;
                 }
             }
             if (altElement != null)
                 return altElement;
-            throw new WaitTimeOutException("Element " + value + " not loaded after " + timeout + " seconds");
+            throw new WaitTimeOutException("Element " + path + " not loaded after " + timeout + " seconds");
         }
     }
 }

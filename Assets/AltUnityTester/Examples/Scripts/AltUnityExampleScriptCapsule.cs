@@ -100,6 +100,11 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
         return param1 + param2;
     }
 
+    public string TestCallComponentMethod(int param1, string param2, float param, int[] arrayOfInts)
+    {
+        return string.Format("{0},{1},{2},[{3}]", param1, param2, param, string.Join(",", arrayOfInts));
+    }
+
     public void Test(string a)
     {
         Jump(a);
@@ -108,6 +113,7 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     {
         Jump((a + 4).ToString());
     }
+
     public struct TestStructure
     {
         string text;

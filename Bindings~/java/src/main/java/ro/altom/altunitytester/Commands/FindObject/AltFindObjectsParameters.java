@@ -1,15 +1,16 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityDriver.By;
 
-public class AltFindObjectsParameters {
+public class AltFindObjectsParameters extends AltMessage {
 
     public static class Builder {
         private By by;
         private String value;
         private By cameraBy = By.NAME;
-        private String cameraPath = "";
+        private String cameraValue = "";
         private boolean enabled = true;
 
         public Builder(AltUnityDriver.By by, String value) {
@@ -22,9 +23,9 @@ public class AltFindObjectsParameters {
             return this;
         }
 
-        public AltFindObjectsParameters.Builder withCamera(By cameraBy, String cameraPath) {
+        public AltFindObjectsParameters.Builder withCamera(By cameraBy, String cameraValue) {
             this.cameraBy = cameraBy;
-            this.cameraPath = cameraPath;
+            this.cameraValue = cameraValue;
             return this;
         }
 
@@ -33,7 +34,7 @@ public class AltFindObjectsParameters {
             altFindObjectsParameters.by = this.by;
             altFindObjectsParameters.value = this.value;
             altFindObjectsParameters.cameraBy = this.cameraBy;
-            altFindObjectsParameters.cameraPath = this.cameraPath;
+            altFindObjectsParameters.cameraValue = this.cameraValue;
             altFindObjectsParameters.enabled = this.enabled;
             return altFindObjectsParameters;
         }
@@ -42,11 +43,29 @@ public class AltFindObjectsParameters {
     private AltFindObjectsParameters() {
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getCameraValue() {
+        return cameraValue;
+    }
+
+    public void setCameraValue(String cameraValue) {
+        this.cameraValue = cameraValue;
+    }
+
     private AltUnityDriver.By by;
-    private String value;
+    private String path;
     private By cameraBy;
     private String cameraPath;
     private boolean enabled;
+    private String value;
+    private String cameraValue;
 
     public AltUnityDriver.By getBy() {
         return by;
@@ -56,12 +75,12 @@ public class AltFindObjectsParameters {
         this.by = by;
     }
 
-    public String getValue() {
-        return value;
+    public String getPath() {
+        return path;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public By getCameraBy() {

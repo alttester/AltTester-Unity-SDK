@@ -2,19 +2,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityMoveTouch : AltBaseCommand
     {
-        AltUnityVector2 coordinates;
-        int fingerId;
+        AltUnityMoveTouchParams cmdParams;
 
-        public AltUnityMoveTouch(SocketSettings socketSettings, int fingerId, AltUnityVector2 coordinates) : base(socketSettings)
+        public AltUnityMoveTouch(IDriverCommunication commHandler, int fingerId, AltUnityVector2 coordinates) : base(commHandler)
         {
-            this.coordinates = coordinates;
-            this.fingerId = fingerId;
+            this.cmdParams = new AltUnityMoveTouchParams(fingerId, coordinates);
         }
         public void Execute()
         {
-            var posJson = PositionToJson(coordinates.x, coordinates.y);
-            SendCommand("moveTouch", fingerId.ToString(), posJson);
-            string data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

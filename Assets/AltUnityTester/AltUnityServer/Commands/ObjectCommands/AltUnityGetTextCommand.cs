@@ -1,9 +1,10 @@
+using System;
 using Altom.AltUnityDriver;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetTextCommand : AltUnityReflectionMethodsCommand
+    class AltUnityGetTextCommand : AltUnityReflectionMethodsCommand<AltUnityGetTextParams, string>
     {
         static readonly AltUnityObjectProperty[] textProperties =
         {
@@ -12,37 +13,38 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             new AltUnityObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltUnityObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
         };
-        readonly AltUnityObject altUnityObject;
 
-        public AltUnityGetTextCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnityGetTextCommand(AltUnityGetTextParams cmdParams) : base(cmdParams)
         {
-            this.altUnityObject = JsonConvert.DeserializeObject<AltUnityObject>(parameters[2]);
         }
 
         public override string Execute()
         {
-            var response = AltUnityErrors.errorPropertyNotFoundMessage;
+            Exception exception = null;
 
             foreach (var property in textProperties)
             {
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
-                    response = GetValueForMember(altUnityObject, property.Property.Split('.'), type, 2);
-                    if (!response.Contains("error:"))
-                        break;
+                    return GetValueForMember(CommandParams.altUnityObject, property.Property.Split('.'), type, 2);
                 }
-                catch (PropertyNotFoundException)
+                catch (PropertyNotFoundException ex)
                 {
-                    response = AltUnityErrors.errorPropertyNotFoundMessage;
+                    exception = ex;
                 }
-                catch (ComponentNotFoundException)
+                catch (ComponentNotFoundException ex)
                 {
-                    response = AltUnityErrors.errorComponentNotFoundMessage;
+                    exception = ex;
+                }
+                catch (AssemblyNotFoundException ex)
+                {
+                    exception = ex;
                 }
             }
 
-            return response;
+            if (exception != null) throw exception;
+            throw new Exception("Something went wrong"); // should not reach this point
         }
     }
 }

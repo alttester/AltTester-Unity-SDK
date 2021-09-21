@@ -481,72 +481,6 @@ Waits until it finds an object that respects the given criteria or time runs out
             self.assertEqual(altElement.name,"Main Camera")
 ```
 
-#### WaitForObjectWithText
-
-Waits until it finds an object that respect the given criteria and it has the text you are looking for or times run out and will throw an error. Check [By](#by-selector) for more information about criterias.
-
-**_Parameters_**
-
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| text       | string             | Yes      | Text that the intented object should have                                                                                                                                                                                                                                                                                                                                                                 |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraName | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout    | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
-| interval   | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
-
-**_Returns_**
-
--   AltUnityObject
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestWaitForElementWithText()
-        {
-            const string name = "CapsuleInfo";
-            string text = altUnityDriver.FindObject(By.NAME,name).GetText();
-            var timeStart = DateTime.Now;
-            var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
-            var timeEnd = DateTime.Now;
-            var time = timeEnd - timeStart;
-            Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(altElement.GetText(), text);
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void testWaitForElementWithText() throws Exception {
-                String name = "CapsuleInfo";
-                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-                String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
-                long timeStart = System.currentTimeMillis();
-                AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters,text).withInterval(0).withTimeout(0).build();
-                AltUnityObject altElement = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParameters);
-                long timeEnd = System.currentTimeMillis();
-                long time = timeEnd - timeStart;
-                assertTrue(time / 1000 < 20);
-                assertNotNull(altElement);
-                assertEquals(altElement.getText(), text);
-            }
-
-    .. code-tab:: py
-
-        def test_wait_for_object_with_text(self):
-            altElement=self.altUnityDriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
-            self.assertEqual(altElement.name,"CapsuleInfo")
-
-```
 
 #### WaitForObjectNotBePresent
 
@@ -776,7 +710,7 @@ Simulates that a specific key was pressed without taking into consideration the 
             time.sleep(5)
             lastKeyUp = self.altUnityDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
-        
+
 
 ```
 
@@ -2132,7 +2066,7 @@ Click at screen coordinates
             var altElement = altUnityDriver.FindObject(By.NAME,name);
             altUnityDriver.Click(altElement.getScreenPosition());
             Assert.AreEqual(name, altElement.name);
-            altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
+            altUnityDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
     .. code-tab:: java
@@ -2193,7 +2127,7 @@ Tap at screen coordinates
             var altElement = altUnityDriver.FindObject(By.NAME,name);
             altUnityDriver.Tap(altElement.getScreenPosition());
             Assert.AreEqual(name, altElement.name);
-            altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
+            altUnityDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
     .. code-tab:: java
@@ -2695,7 +2629,7 @@ Removes key and its corresponding value from PlayerPrefs.
             }
             catch (NotFoundException exception)
             {
-                Assert.AreEqual("error:notFound", exception.Message);
+                Assert.AreEqual("notFound", exception.Message);
             }
 
         }
@@ -2717,7 +2651,7 @@ Removes key and its corresponding value from PlayerPrefs.
             }
             catch (NotFoundException e)
             {
-                assertEquals(e.getMessage(), "error:notFound");
+                assertEquals(e.getMessage(), "notFound");
             }
         }
 
@@ -3103,13 +3037,13 @@ Invokes static methods from your game.
 | ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | typeName         | string | Yes      | name of the script. If the script has a namespace the format should look like this: "namespace.typeName" )                                                                                                                                                                                                                                                                            |
 | methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"                                                                                                                                                                              |
-| parameters       | string | Yes      | a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc. |
-| typeOfParameters | string | No       | a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers                                                                                                                              |
+| parameters       | array | No      | an array containing the serialized parameters to be sent to the component method.  |
+| typeOfParameters | array | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                                             |
 | assemblyName     | string | No       | name of the assembly containing the script                                                                                                                                                                                                                                                                                                                                            |
 
 **_Returns_**
 
--   String. The value returned by the method is serialized to a JSON object and parsed as string.
+-   This is a generic method. The return type depends on the type parameter.
 
 **_Examples_**
 
@@ -3122,8 +3056,8 @@ Invokes static methods from your game.
         public void TestCallStaticMethod()
         {
 
-            altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
-            int a = Int32.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+            altUnityDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", new[] { "Test", "1" });
+            int a = altUnityDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", new[] { "Test", "2" });
             Assert.AreEqual(1, a);
 
         }
@@ -3144,9 +3078,12 @@ Invokes static methods from your game.
     .. code-tab:: py
 
         def test_call_static_method(self):
-            self.altUnityDriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1",assembly="UnityEngine.CoreModule")
-            a=int(self.altUnityDriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2",assembly="UnityEngine.CoreModule"))
-            self.assertEquals(1,a)
+
+            self.altdriver.call_static_method(
+            "UnityEngine.PlayerPrefs", "SetInt", ["Test", "1"], assembly="UnityEngine.CoreModule")
+            a = int(self.altdriver.call_static_method(
+            "UnityEngine.PlayerPrefs", "GetInt", ["Test", "2"], assembly="UnityEngine.CoreModule"))
+            self.assertEqual(1, a)
 
 ```
 
@@ -3226,13 +3163,13 @@ Invokes a method from an existing component of the object.
 | ---------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | componentName    | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )                                                                                                                                                                                                                                                                                                                                                                          |
 | methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"                                                                                                                                                                                                                                                                                               |
-| parameters       | string | Yes      | a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc. **Optional parameters are required to be set if the method has any in order to find the correct method** |
-| typeOfParameters | string | No       | a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers                                                                                                                                                                                                                                       |
+| parameters       | array | No      | an array containing the serialized parameters to be sent to the component method.  |
+| typeOfParameters | array | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                                                                                                                                                       |
 | assemblyName     | string | No       | name of the assembly containing the component                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 **_Returns_**
 
--   String. The value returned by the method is serialized to a JSON object and parsed as string.
+-   This is a generic method. The return type depends on the type parameter.
 
 **_Examples_**
 
@@ -3243,11 +3180,12 @@ Invokes a method from an existing component of the object.
 
         [Test]
         public void TestCallMethodWithAssembly(){
-            AltUnityObject capsule = altUnityDriver.FindObject(By.NAME,"Capsule");
+
+            AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
             var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
-            capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
-            AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME,"Capsule");
-            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
+            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
+            AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation";
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
 
@@ -3274,11 +3212,14 @@ Invokes a method from an existing component of the object.
     .. code-tab:: py
 
         def test_call_component_method(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altUnityDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-            self.assertEqual(result,"null")
-            self.altUnityDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altUnityDriver.find_element('CapsuleInfo').get_text())
+
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
+            "AltUnityExampleScriptCapsule", "Jump", ["setFromMethod"])
+            self.assertEqual(result, None)
+            self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
+            self.assertEqual('setFromMethod', self.altdriver.find_object(
+            By.NAME, 'CapsuleInfo').get_text())
 
 ```
 
@@ -3434,7 +3375,7 @@ None
             const string name = "CapsuleInfo";
             string text = altUnityDriver.FindObject(By.NAME,name).GetText();
             var timeStart = DateTime.Now;
-            var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
+            var altElement = altUnityDriver.WaitForObject(By.PATH, "//" + name + "[@text=" + text + "]");
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
@@ -4133,8 +4074,8 @@ The following selecting nodes and attributes are implemented:
 
 There are several characters that you need to escape when you try to find an object. Some examples characters are the symbols for Request separator and Request ending, by default this are `;` and `&` but can be changed in Server settings. If you don't escape this characters the whole request is invalid and might shut down the server. Other characters are `!`, `[`, `]`, `(`, `)`, `/`, `\`, `.` or `,`. This characters are used in searching algorithm and if not escaped might return the wrong object or not found at all. To escape all the characters mentioned before just add `\\` before each character you want to escape.
 
-_Example:_  
-`//Q&A` - not escaped  
+_Example:_
+`//Q&A` - not escaped
 `//Q\\&A` - escaped
 
 ### AltId

@@ -5,21 +5,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetAllFields : AltBaseCommand
     {
-        AltUnityComponent altUnityComponent;
-        readonly AltUnityObject altUnityObject;
-        readonly AltUnityFieldsSelections altUnityFieldsSelections;
-        public AltUnityGetAllFields(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject, AltUnityFieldsSelections altUnityFieldsSelections = AltUnityFieldsSelections.ALLFIELDS) : base(socketSettings)
+        AltUnityGetAllFieldsParams cmdParams;
+        public AltUnityGetAllFields(IDriverCommunication commHandler, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject, AltUnityFieldsSelections altUnityFieldsSelections = AltUnityFieldsSelections.ALLFIELDS) : base(commHandler)
         {
-            this.altUnityComponent = altUnityComponent;
-            this.altUnityObject = altUnityObject;
-            this.altUnityFieldsSelections = altUnityFieldsSelections;
+            cmdParams = new AltUnityGetAllFieldsParams(altUnityObject.id, altUnityComponent, altUnityFieldsSelections);
         }
         public List<AltUnityProperty> Execute()
         {
-            var altComponent = JsonConvert.SerializeObject(altUnityComponent);
-            SendCommand("getAllFields", altUnityObject.id.ToString(), altComponent, altUnityFieldsSelections.ToString());
-            string data = Recvall();
-            return JsonConvert.DeserializeObject<List<AltUnityProperty>>(data);
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<List<AltUnityProperty>>(cmdParams).data;
         }
     }
 }

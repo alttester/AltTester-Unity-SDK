@@ -1,7 +1,8 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
+import ro.altom.altunitytester.AltUnityDriver.By;
 
 /**
  * Returns information about every object loaded in the currently loaded scenes.
@@ -13,16 +14,14 @@ public class AltGetAllElements extends AltBaseFindObject {
      */
     private AltGetAllElementsParameters altGetAllElementsParameters;
 
-    public AltGetAllElements(AltBaseSettings altBaseSettings, AltGetAllElementsParameters altGetAllElementsParameters) {
-        super(altBaseSettings);
+    public AltGetAllElements(IMessageHandler messageHandler, AltGetAllElementsParameters altGetAllElementsParameters) {
+        super(messageHandler);
         this.altGetAllElementsParameters = altGetAllElementsParameters;
+        this.altGetAllElementsParameters.setCommandName("findObjects");
     }
 
     public AltUnityObject[] Execute() {
-        String cameraPath = SetPath(altGetAllElementsParameters.getCameraBy(),
-                altGetAllElementsParameters.getCameraPath());
-        SendCommand("findObjects", "//*", altGetAllElementsParameters.getCameraBy().toString(), cameraPath,
-                String.valueOf(altGetAllElementsParameters.isEnabled()));
-        return ReceiveListOfAltUnityObjects();
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH, "//*").withCamera(altGetAllElementsParameters.getCameraBy(), altGetAllElementsParameters.getCameraValue()).build();
+        return new AltFindObjects(messageHandler, altFindObjectsParameters).Execute();
     }
 }

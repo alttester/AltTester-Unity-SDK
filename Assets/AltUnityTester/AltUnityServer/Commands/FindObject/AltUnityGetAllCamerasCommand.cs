@@ -2,19 +2,24 @@ using Altom.AltUnityDriver;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetAllCamerasCommand : AltUnityCommand
+    class AltUnityGetAllCamerasCommand : AltUnityCommand<CommandParams, List<AltUnityObject>>
     {
         private readonly bool onlyActiveCameras;
-        public AltUnityGetAllCamerasCommand(bool onlyActiveCameras, params string[] parameters) : base(parameters, 2)
+
+        public AltUnityGetAllCamerasCommand(AltUnityGetAllCamerasParams cmdParams) : base(cmdParams)
         {
-            this.onlyActiveCameras = onlyActiveCameras;
+            this.onlyActiveCameras = false;
         }
-        public override string Execute()
+        public AltUnityGetAllCamerasCommand(AltUnityGetAllActiveCamerasParams cmdParams) : base(cmdParams)
         {
-            string response = AltUnityErrors.errorNotFoundMessage;
+            this.onlyActiveCameras = true;
+        }
+        public override List<AltUnityObject> Execute()
+        {
             var cameras = Object.FindObjectsOfType<Camera>();
             var cameraObjects = new List<AltUnityObject>();
             if (onlyActiveCameras)
@@ -28,8 +33,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 cameraObjects.AddRange(from Camera camera in cameras
                                        select AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(camera.gameObject));
             }
-            response = Newtonsoft.Json.JsonConvert.SerializeObject(cameraObjects);
-            return response;
+            return cameraObjects;
         }
     }
 }

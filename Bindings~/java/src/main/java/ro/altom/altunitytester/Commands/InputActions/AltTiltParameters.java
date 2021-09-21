@@ -1,6 +1,8 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-public class AltTiltParameters {
+import ro.altom.altunitytester.AltMessage;
+
+public class AltTiltParameters extends AltMessage{
     public static class Builder {
         private int x = 0;
         private int y = 0;
@@ -29,6 +31,7 @@ public class AltTiltParameters {
     }
 
     private AltTiltParameters() {
+        this.setCommandName("tilt");
     }
 
     private int x;

@@ -14,6 +14,9 @@ import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
 import java.util.ArrayList;
 
+import javax.websocket.CloseReason;
+import javax.websocket.CloseReason.CloseCodes;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -23,12 +26,12 @@ public class TestsSampleScene5 {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, ";", "&", true);
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, true);
     }
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop();
+        altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "Connection stopped successfully"));
         Thread.sleep(1000);
     }
 
@@ -187,5 +190,4 @@ public class TestsSampleScene5 {
         AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
         assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
     }
-
 }

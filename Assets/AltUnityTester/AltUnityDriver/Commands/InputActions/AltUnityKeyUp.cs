@@ -1,18 +1,17 @@
-using System;
-
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityKeyUp : AltBaseCommand
     {
-        readonly AltUnityKeyCode keyCode;
-        public AltUnityKeyUp(SocketSettings socketSettings, AltUnityKeyCode keyCode) : base(socketSettings)
+        AltUnityKeyUpParams cmdParams;
+
+        public AltUnityKeyUp(IDriverCommunication commHandler, AltUnityKeyCode keyCode) : base(commHandler)
         {
-            this.keyCode = keyCode;
+            this.cmdParams = new AltUnityKeyUpParams(keyCode);
         }
         public void Execute()
         {
-            SendCommand("keyUp", keyCode.ToString());
-            var data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

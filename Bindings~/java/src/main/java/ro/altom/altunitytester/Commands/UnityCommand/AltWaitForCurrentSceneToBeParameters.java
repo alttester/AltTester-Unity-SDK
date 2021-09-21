@@ -1,6 +1,8 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
-public class AltWaitForCurrentSceneToBeParameters {
+import ro.altom.altunitytester.AltMessage;
+
+public class AltWaitForCurrentSceneToBeParameters extends AltMessage{
     public static class Builder{
         private String sceneName;
         private double timeout=20;

@@ -1,13 +1,30 @@
 from altunityrunner.commands.base_command import BaseCommand
+from altunityrunner.alt_unity_key_code import AltUnityKeyCode
+from altunityrunner.altUnityExceptions import InvalidParameterTypeException
 
 
 class PressKey(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end, keyName, power, duration):
-        super(PressKey, self).__init__(socket, request_separator, request_end)
-        self.keyName = keyName
+    def __init__(self, connection, key_code, power, duration):
+        super().__init__(connection, "pressKeyboardKey")
+
+        if key_code not in AltUnityKeyCode:
+            raise InvalidParameterTypeException()
+
+        self.key_code = key_code
         self.power = power
         self.duration = duration
 
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
+            "keyCode": str(self.key_code),
+            "power": self.power,
+            "duration": self.duration,
+        })
+
+        return parameters
+
     def execute(self):
-        return self.send_command("pressKeyboardKey", self.keyName, self.power, self.duration)
+        return self.send()

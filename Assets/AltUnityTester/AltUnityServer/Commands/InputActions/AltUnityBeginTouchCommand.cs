@@ -1,20 +1,20 @@
-using Newtonsoft.Json;
+using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityBeginTouchCommand : AltUnityCommand
+    class AltUnityBeginTouchCommand : AltUnityCommand<AltUnityBeginTouchParams, int>
     {
-        UnityEngine.Vector2 position;
-        public AltUnityBeginTouchCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnityBeginTouchCommand(AltUnityBeginTouchParams cmdParams) : base(cmdParams)
         {
-            this.position = JsonConvert.DeserializeObject<UnityEngine.Vector2>(parameters[2]);
+
         }
-        public override string Execute()
+        public override int Execute()
         {
 #if ALTUNITYTESTER
-            return Input.BeginTouch(position).ToString();
+            return Input.BeginTouch(CommandParams.coordinates.ToUnity());
 #else
-            return AltUnityErrors.errorInputModule;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
     }

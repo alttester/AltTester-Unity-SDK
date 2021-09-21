@@ -1,6 +1,6 @@
+import time
 import os
 import unittest
-import sys
 
 from appium import webdriver
 from altunityrunner import AltUnityDriver
@@ -8,9 +8,8 @@ from altunityrunner.by import By
 from altunityrunner import AltUnityPortForwarding
 
 
-def PATH(p): return os.path.abspath(
-    os.path.join(os.path.dirname(__file__), p)
-)
+def PATH(p):
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), p))
 
 
 class SampleAppiumTest(unittest.TestCase):
@@ -21,21 +20,27 @@ class SampleAppiumTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.desired_caps = {}
+
         if cls.platform == "android":
             cls.setup_android()
-            AltUnityPortForwarding.forward_android()
         else:
             cls.setup_ios()
+
+        cls.driver = webdriver.Remote('http://localhost:4723/wd/hub', cls.desired_caps)
+        time.sleep(10)
+
+        if cls.platform == "android":
+            AltUnityPortForwarding.forward_android()
+        else:
             cls.iProxyProcessID = AltUnityPortForwarding.forward_ios()
 
-        cls.driver = webdriver.Remote(
-            'http://localhost:4723/wd/hub', cls.desired_caps)
-        cls.altdriver = AltUnityDriver(log_flag=True)
+        cls.altdriver = AltUnityDriver(timeout=None, enable_logging=True)
 
     @classmethod
     def tearDownClass(cls):
         cls.altdriver.stop()
         cls.driver.quit()
+
         if cls.platform == "android":
             AltUnityPortForwarding.remove_forward_android()
         else:
@@ -57,20 +62,10 @@ class SampleAppiumTest(unittest.TestCase):
     def test_find_object_and_tap(self):
         # tap UIButton to make capsule jump
         self.altdriver.find_object(By.NAME, 'UIButton').tap()
-        capsule_info = self.altdriver.wait_for_object_with_text(
-            By.NAME, 'CapsuleInfo', 'UIButton clicked to jump capsule!')
-        self.assertEqual('UIButton clicked to jump capsule!',
-                         capsule_info.get_text())
+        capsule_info = self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=UIButton clicked to jump capsule!]')
+        self.assertEqual('UIButton clicked to jump capsule!', capsule_info.get_text())
 
         # tap capsule to make it jump
         self.altdriver.find_object(By.NAME, 'Capsule').tap()
-        capsule_info = self.altdriver.wait_for_object_with_text(
-            By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!')
-        self.assertEqual('Capsule was clicked to jump!',
-                         capsule_info.get_text())
-
-
-if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(SampleAppiumTest)
-    result = unittest.TextTestRunner(verbosity=2).run(suite)
-    sys.exit(not result.wasSuccessful())
+        capsule_info = self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=Capsule was clicked to jump!]')
+        self.assertEqual('Capsule was clicked to jump!', capsule_info.get_text())

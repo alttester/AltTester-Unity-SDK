@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -9,16 +9,14 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
 public class AltTilt extends AltBaseCommand {
     private AltTiltParameters altTiltParameters;
 
-    public AltTilt(AltBaseSettings altBaseSettings, AltTiltParameters altTiltParameters) {
-        super(altBaseSettings);
+    public AltTilt(IMessageHandler messageHandler, AltTiltParameters altTiltParameters) {
+        super(messageHandler);
         this.altTiltParameters = altTiltParameters;
     }
 
     public void Execute() {
-        String accelerationString = vectorToJsonString(altTiltParameters.getX(), altTiltParameters.getY(),
-                altTiltParameters.getZ());
-        SendCommand("tilt", accelerationString, String.valueOf(altTiltParameters.getDuration()));
-        String data = recvall();
-        validateResponse("OK", data);
+        SendCommand(altTiltParameters);
+        String data = recvall(altTiltParameters, String.class);
+        validateResponse("Ok", data);
     }
 }

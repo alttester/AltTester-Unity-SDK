@@ -2,20 +2,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityDragObject : AltUnityCommandReturningAltElement
     {
-        AltUnityVector2 position;
-        AltUnityObject altUnityObject;
-        public AltUnityDragObject(SocketSettings socketSettings, AltUnityVector2 position, AltUnityObject altUnityObject) : base(socketSettings)
+        AltUnityDragObjectParams cmdParams;
+        public AltUnityDragObject(IDriverCommunication commHandler, AltUnityVector2 position, AltUnityObject altUnityObject) : base(commHandler)
         {
-            this.position = position;
-            this.altUnityObject = altUnityObject;
+            cmdParams = new AltUnityDragObjectParams(altUnityObject, position);
         }
         public AltUnityObject Execute()
         {
-            var positionJson = PositionToJson(position);
-            var altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-
-            SendCommand("dragObject", positionJson, altObject);
-            return ReceiveAltUnityObject();
+            CommHandler.Send(cmdParams);
+            return ReceiveAltUnityObject(cmdParams);
         }
     }
 }

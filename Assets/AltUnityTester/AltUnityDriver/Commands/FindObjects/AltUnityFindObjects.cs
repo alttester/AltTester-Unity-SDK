@@ -2,26 +2,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityFindObjects : AltUnityBaseFindObjects
     {
-        readonly By by;
-        readonly string value;
-        readonly By cameraBy;
-        string cameraPath;
-        readonly bool enabled;
+        AltUnityFindObjectsParams cmdParams;
 
-        public AltUnityFindObjects(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
+        public AltUnityFindObjects(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(commHandler)
         {
-            this.by = by;
-            this.value = value;
-            this.cameraBy = cameraBy;
-            this.cameraPath = cameraPath;
-            this.enabled = enabled;
+            cmdParams = new AltUnityFindObjectsParams(SetPath(by, value), cameraBy, SetPath(cameraBy, cameraPath), enabled);
         }
         public System.Collections.Generic.List<AltUnityObject> Execute()
         {
-            string path = SetPath(by, value);
-            cameraPath = SetPath(cameraBy, cameraPath);
-            SendCommand("findObjects", path, cameraBy.ToString(), cameraPath, enabled.ToString());
-            return ReceiveListOfAltUnityObjects();
+            CommHandler.Send(cmdParams);
+            return ReceiveListOfAltUnityObjects(cmdParams);
         }
     }
 }

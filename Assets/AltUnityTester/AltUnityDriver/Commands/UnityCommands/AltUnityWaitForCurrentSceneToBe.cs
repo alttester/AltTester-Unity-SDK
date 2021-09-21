@@ -5,7 +5,7 @@ namespace Altom.AltUnityDriver.Commands
         string sceneName;
         double timeout;
         double interval;
-        public AltUnityWaitForCurrentSceneToBe(SocketSettings socketSettings, string sceneName, double timeout, double interval) : base(socketSettings)
+        public AltUnityWaitForCurrentSceneToBe(IDriverCommunication commHandler, string sceneName, double timeout, double interval) : base(commHandler)
         {
             this.sceneName = sceneName;
             this.timeout = timeout;
@@ -17,7 +17,7 @@ namespace Altom.AltUnityDriver.Commands
             string currentScene = "";
             while (time < timeout)
             {
-                currentScene = new AltUnityGetCurrentScene(SocketSettings).Execute();
+                currentScene = new AltUnityGetCurrentScene(CommHandler).Execute();
                 if (!currentScene.Equals(sceneName))
                 {
                     System.Diagnostics.Debug.WriteLine("Waiting for scene to be " + sceneName + "...");

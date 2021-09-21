@@ -1,19 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnitySetTimeScaleCommand : AltUnityCommand
+    class AltUnitySetTimeScaleCommand : AltUnityCommand<AltUnitySetTimeScaleParams, string>
     {
-        readonly float timeScale;
-
-        public AltUnitySetTimeScaleCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnitySetTimeScaleCommand(AltUnitySetTimeScaleParams cmdParams) : base(cmdParams)
         {
-            this.timeScale = JsonConvert.DeserializeObject<float>(parameters[2]);
         }
 
         public override string Execute()
         {
-            UnityEngine.Time.timeScale = timeScale;
+            UnityEngine.Time.timeScale = CommandParams.timeScale;
             return "Ok";
         }
     }

@@ -1,23 +1,17 @@
-using Altom.AltUnityDriver;
-using Altom.AltUnityDriver.Commands;
-
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityBeginTouch : AltBaseCommand
     {
-        AltUnityVector2 coordinates;
+        AltUnityBeginTouchParams cmdParams;
 
-        public AltUnityBeginTouch(SocketSettings socketSettings, AltUnityVector2 coordinates) : base(socketSettings)
+        public AltUnityBeginTouch(IDriverCommunication commHandler, AltUnityVector2 coordinates) : base(commHandler)
         {
-            this.coordinates = coordinates;
+            this.cmdParams = new AltUnityBeginTouchParams(coordinates);
         }
         public int Execute()
         {
-            var posJson = PositionToJson(coordinates.x, coordinates.y);
-            SendCommand("beginTouch", posJson);
-            string data = Recvall();
-            int fingerId = int.Parse(data);
-            return fingerId;
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<int>(cmdParams).data;  //finger id
         }
     }
 }

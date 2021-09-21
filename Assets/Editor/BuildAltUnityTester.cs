@@ -1,6 +1,7 @@
 using System;
 using Altom.Editor;
 using Altom.Editor.Logging;
+using Altom.AltUnity.Instrumentation;
 using NLog;
 using UnityEditor;
 
@@ -41,11 +42,16 @@ public class BuildAltUnityTester
 
                 locationPathName = "sampleGame.apk",
                 target = BuildTarget.Android,
-                options = BuildOptions.Development | BuildOptions.AutoRunPlayer
+                options = BuildOptions.Development
             };
 
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
-            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
+
+
+            var instrumentationSettings = AltUnityTesterEditor.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings();
+            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+
+
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
             AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
@@ -54,26 +60,26 @@ public class BuildAltUnityTester
 #if UNITY_2017
             if (results.Equals(""))
             {
-                logger.Info("No Build Errors");
+                logger.Info("Build succeeded!");
                 EditorApplication.Exit(0);
 
             }
             else
                 {
-                    logger.Error("Build Error!");
+                    logger.Error("Build failed!");
                     EditorApplication.Exit(1);
                 }
 
 #else
             if (results.summary.totalErrors == 0)
             {
-                logger.Info("No Build Errors");
+                logger.Info("Build succeeded!");
 
             }
             else
             {
                 logger.Error("Total Errors: " + results.summary.totalErrors);
-                logger.Error("Build Error! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
+                logger.Error("Build failed! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
                 EditorApplication.Exit(1);
             }
 
@@ -123,29 +129,30 @@ public class BuildAltUnityTester
             };
 
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
-            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0]);
+            var instrumentationSettings = AltUnityTesterEditor.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings();
+            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
 #if UNITY_2017
             if (results.Equals(""))
             {
-                logger.Info("No Build Errors");
+                logger.Info("Build succeeded!");
 
             }
             else
-            logger.Error("Build Error!");
+            logger.Error("Build failed!");
             EditorApplication.Exit(1);
 
 #else
             if (results.summary.totalErrors == 0)
             {
-                logger.Info("No Build Errors");
+                logger.Info("Build succeeded!");
 
             }
             else
             {
-                logger.Error("Build Error!");
+                logger.Error("Build failed!");
                 EditorApplication.Exit(1);
             }
 
@@ -159,5 +166,88 @@ public class BuildAltUnityTester
             logger.Error(exception);
             EditorApplication.Exit(1);
         }
+    }
+
+    [MenuItem("Build/WebGL")]
+    protected static void WebGLBuildFromCommandLine()
+    {
+        try
+        {
+            string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+
+            PlayerSettings.companyName = "Altom";
+            PlayerSettings.productName = "sampleGame";
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.WebGL, "fi.altom.altunitytester");
+            PlayerSettings.bundleVersion = versionNumber;
+            PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.WebGL, ApiCompatibilityLevel.NET_4_6);
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
+            PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.FullWithoutStacktrace;
+
+            logger.Debug("Starting WebGL build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            var buildPlayerOptions = new BuildPlayerOptions
+            {
+                scenes = new string[]
+                {
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 1 AltUnityDriverTestScene.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 4 No Cameras.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene6.unity"
+                },
+
+                locationPathName = "build/webgl",
+                target = BuildTarget.WebGL,
+                options = BuildOptions.Development
+            };
+
+            AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.WebGL);
+
+
+            var instrumentationSettings = AltUnityTesterEditor.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings();
+            AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+
+            var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.WebGL);
+
+
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                logger.Info("Build succeeded!");
+                EditorApplication.Exit(0);
+
+            }
+            else
+                {
+                    logger.Error("Build failed!");
+                    EditorApplication.Exit(1);
+                }
+
+#else
+            if (results.summary.totalErrors == 0)
+            {
+                logger.Info("Build succeeded!");
+            }
+            else
+            {
+                logger.Error("Total Errors: " + results.summary.totalErrors);
+                logger.Error("Build failed! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
+                EditorApplication.Exit(1);
+            }
+
+#endif
+
+            logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+            EditorApplication.Exit(0);
+        }
+        catch (Exception exception)
+        {
+            logger.Error(exception);
+            EditorApplication.Exit(1);
+        }
+
     }
 }

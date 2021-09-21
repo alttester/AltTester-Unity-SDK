@@ -2,11 +2,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetAllCameras : AltUnityBaseFindObjects
     {
-        public AltUnityGetAllCameras(SocketSettings socketSettings) : base(socketSettings) {}
+        private readonly AltUnityGetAllCamerasParams cmdParams;
+        public AltUnityGetAllCameras(IDriverCommunication commHandler) : base(commHandler)
+        {
+            cmdParams = new AltUnityGetAllCamerasParams();
+        }
         public System.Collections.Generic.List<AltUnityObject> Execute()
         {
-            SendCommand("getAllCameras");
-            return ReceiveListOfAltUnityObjects();
+            CommHandler.Send(cmdParams);
+            return ReceiveListOfAltUnityObjects(cmdParams);
         }
     }
 }

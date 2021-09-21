@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -14,14 +14,13 @@ public class AltMoveMouse extends AltBaseCommand {
      */
     private AltMoveMouseParameters altMoveMouseParameters;
 
-    public AltMoveMouse(AltBaseSettings altBaseSettings, AltMoveMouseParameters altMoveMouseParameters) {
-        super(altBaseSettings);
+    public AltMoveMouse(IMessageHandler messageHandler, AltMoveMouseParameters altMoveMouseParameters) {
+        super(messageHandler);
         this.altMoveMouseParameters = altMoveMouseParameters;
     }
 
     public void Execute() {
-        SendCommand("moveMouse", vectorToJsonString(altMoveMouseParameters.getX(), altMoveMouseParameters.getY()),
-                String.valueOf(altMoveMouseParameters.getDuration()));
-        recvall();
+        SendCommand(altMoveMouseParameters);
+        recvall(altMoveMouseParameters, String.class);
     }
 }

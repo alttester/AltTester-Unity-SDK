@@ -2,18 +2,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityMoveMouse : AltBaseCommand
     {
-        AltUnityVector2 location;
-        float duration;
-        public AltUnityMoveMouse(SocketSettings socketSettings, AltUnityVector2 location, float duration) : base(socketSettings)
+        AltUnityMoveMouseParams cmdParams;
+        public AltUnityMoveMouse(IDriverCommunication commHandler, AltUnityVector2 location, float duration) : base(commHandler)
         {
-            this.location = location;
-            this.duration = duration;
+            cmdParams = new AltUnityMoveMouseParams(location, duration);
         }
         public void Execute()
         {
-            var locationJson = PositionToJson(location);
-            SendCommand("moveMouse", locationJson, duration.ToString());
-            var data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

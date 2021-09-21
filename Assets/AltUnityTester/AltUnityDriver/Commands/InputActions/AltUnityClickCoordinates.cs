@@ -2,26 +2,19 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityClickCoordinates : AltBaseCommand
     {
-        AltUnityVector2 coordinates;
-        readonly int count;
-        readonly float interval;
-        readonly bool wait;
-        public AltUnityClickCoordinates(SocketSettings socketSettings, AltUnityVector2 coordinates, int count, float interval, bool wait) : base(socketSettings)
+        AltUnityClickCoordinatesParams cmdParams;
+        public AltUnityClickCoordinates(IDriverCommunication commHandler, AltUnityVector2 coordinates, int count, float interval, bool wait) : base(commHandler)
         {
-            this.coordinates = coordinates;
-            this.count = count;
-            this.interval = interval;
-            this.wait = wait;
+            cmdParams = new AltUnityClickCoordinatesParams(coordinates, count, interval, wait);
         }
         public void Execute()
         {
-            var posJson = PositionToJson(coordinates.x, coordinates.y);
-            SendCommand("clickCoordinates", posJson, count.ToString(), interval.ToString(), wait.ToString());
-            string data = Recvall();
+            CommHandler.Send(cmdParams);
+            string data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
-            if (wait)
+            if (cmdParams.wait)
             {
-                data = Recvall();
+                data = CommHandler.Recvall<string>(cmdParams).data; ;
                 ValidateResponse("Finished", data);
             }
         }

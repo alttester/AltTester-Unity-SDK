@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Altom.AltUnity.Instrumentation;
 using Altom.AltUnityDriver;
 using Altom.Editor.Logging;
 using NLog;
@@ -75,12 +76,8 @@ namespace Altom.Editor
 
         private bool foldOutScenes = true;
         private bool foldOutBuildSettings = true;
-        private bool foldOutLogSettings = true;
         private bool foldOutIosSettings = true;
-        private bool foldOutAltUnityServerSettings = true;
         private bool foldOutPortForwarding = true;
-        public int selectedTestCount = 0;
-        private static bool showPopUp = false;
         UnityEngine.Rect popUpPosition;
         UnityEngine.Rect popUpContentPosition;
         UnityEngine.Rect closeButtonPosition;
@@ -90,7 +87,6 @@ namespace Altom.Editor
         float splitNormalizedPositionHorizontal = 0.33f;
         UnityEngine.Rect resizeHandleRect;
         UnityEngine.Rect resizeHandleRectHorizontal;
-
 
 
         bool resize;
@@ -452,12 +448,6 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.Separator();
             displayScenes();
             UnityEditor.EditorGUILayout.Separator();
-            displayLogSettings();
-
-            UnityEditor.EditorGUILayout.Separator();
-
-            displayAltUnityServerSettings();
-            UnityEditor.EditorGUILayout.Separator();
 
             displayPortForwarding(leftSide);
             UnityEditor.EditorGUILayout.EndVertical();
@@ -474,6 +464,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.LabelField("Platform", UnityEditor.EditorStyles.boldLabel);
             var guiStyleRadioButton = new UnityEngine.GUIStyle(UnityEditor.EditorStyles.radioButton) { };
             guiStyleRadioButton.padding = new UnityEngine.RectOffset(20, 0, 1, 0);
+
             if (rightSide <= 300)
             {
                 UnityEditor.EditorGUILayout.BeginVertical();
@@ -546,6 +537,21 @@ namespace Altom.Editor
                 }
             }
 #endif
+            if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+            {
+                browseBuildLocation();
+                UnityEditor.EditorGUILayout.Separator();
+                UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+                if (UnityEngine.GUILayout.Button("WebGL player settings"))
+                {
+#if UNITY_2018_3_OR_NEWER
+                    UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+#else
+                    UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+#endif
+                    UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.WebGL;
+                }
+            }
 
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
@@ -593,6 +599,10 @@ namespace Altom.Editor
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
+                    }
+                    else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                    {
+                        AltUnityBuilder.BuildWebGLFromUI(autoRun: false);
                     }
                     else
                     {
@@ -645,6 +655,10 @@ namespace Altom.Editor
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
+                    }
+                    else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                    {
+                        AltUnityBuilder.BuildWebGLFromUI(autoRun: true);
                     }
                     UnityEngine.GUIUtility.ExitGUI();
                 }
@@ -1192,17 +1206,6 @@ namespace Altom.Editor
 #endif
         }
 
-        private void displayAltUnityServerSettings()
-        {
-            foldOutAltUnityServerSettings = UnityEditor.EditorGUILayout.Foldout(foldOutAltUnityServerSettings, "AltUnityServer Settings");
-            if (foldOutAltUnityServerSettings)
-            {
-                labelAndInputFieldHorizontalLayout("Request separator", ref EditorConfiguration.RequestSeparator);
-                labelAndInputFieldHorizontalLayout("Request ending", ref EditorConfiguration.RequestEnding);
-                labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
-            }
-        }
-
         private void afterExitPlayMode()
         {
             removeAltUnityRunnerPrefab();
@@ -1229,7 +1232,7 @@ namespace Altom.Editor
 
         private void runInEditor()
         {
-            AltUnityBuilder.InsertAltUnityInTheActiveScene();
+            AltUnityBuilder.InsertAltUnityInTheActiveScene(AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings());
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;
@@ -1248,7 +1251,7 @@ namespace Altom.Editor
                 labelAndInputFieldHorizontalLayout("Product Name", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
-                labelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
+                labelAndCheckboxHorizontalLayout("Input visualizer", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
                 var keepAUTSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTUNITYTESTER symbol defined (not recommended):", ref EditorConfiguration.KeepAUTSymbolDefined);
@@ -1261,6 +1264,31 @@ namespace Altom.Editor
                     AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
 
+                if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                {
+                    int selected = (int)AltUnityInstrumentationMode.Proxy;
+                    GUI.enabled = false;
+                    labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
+                    GUI.enabled = true;
+                    EditorConfiguration.InstrumentationMode = AltUnityInstrumentationMode.Proxy;
+                }
+                else
+                {
+                    int selected = (int)EditorConfiguration.UserSelectionInstrumentationMode;
+                    labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
+                    EditorConfiguration.UserSelectionInstrumentationMode = (AltUnityInstrumentationMode)selected;
+                    EditorConfiguration.InstrumentationMode = EditorConfiguration.UserSelectionInstrumentationMode;
+                }
+
+                if (EditorConfiguration.InstrumentationMode == AltUnityInstrumentationMode.Server)
+                {
+                    labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
+                }
+                else
+                {
+                    labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost);
+                    labelAndInputFieldHorizontalLayout("Proxy port", ref EditorConfiguration.ProxyPort);
+                }
             }
             switch (EditorConfiguration.platform)
             {
@@ -1309,35 +1337,6 @@ namespace Altom.Editor
                         break;
 #endif
             }
-
-        }
-
-        private void displayLogSettings()
-        {
-            foldOutLogSettings = UnityEditor.EditorGUILayout.Foldout(foldOutLogSettings, "Log Settings");
-            if (foldOutLogSettings)
-            {
-                labelAndInputFieldHorizontalLayout("Max Length (Optional)", ref EditorConfiguration.MaxLogLength);
-                if (string.IsNullOrEmpty(EditorConfiguration.MaxLogLength))
-                {
-                    EditorConfiguration.MaxLogLength = "";
-                }
-                else
-                {
-                    try
-                    {
-                        var maxLogLength = int.Parse(EditorConfiguration.MaxLogLength);
-                        if (maxLogLength < 100)
-                        {
-                            EditorConfiguration.MaxLogLength = "100";
-                        }
-                    }
-                    catch
-                    {
-                        EditorConfiguration.MaxLogLength = "100";
-                    }
-                }
-            }
         }
 
         private static bool labelAndCheckboxHorizontalLayout(string labelText, ref bool editorConfigVariable)
@@ -1376,6 +1375,15 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             editorConfigVariable = UnityEditor.EditorGUILayout.IntField(labelText, editorConfigVariable);
             UnityEditor.EditorGUI.EndDisabledGroup();
+            UnityEditor.EditorGUILayout.EndHorizontal();
+        }
+
+        private static void labelAndDropdownFieldHorizontalLayout(string labelText, string[] options, ref int selected)
+        {
+            UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
+
+            selected = UnityEditor.EditorGUILayout.Popup(labelText, selected, options);
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 

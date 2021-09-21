@@ -2,26 +2,16 @@
 {
     public class AltUnityFindObjectWhichContains : AltUnityBaseFindObjects
     {
-        By by;
-        string value;
-        By cameraBy;
-        string cameraPath;
-        bool enabled;
+        AltUnityFindObjectParams cmdParams;
 
-        public AltUnityFindObjectWhichContains(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
+        public AltUnityFindObjectWhichContains(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(commHandler)
         {
-            this.by = by;
-            this.value = value;
-            this.cameraBy = cameraBy;
-            this.cameraPath = cameraPath;
-            this.enabled = enabled;
+            cmdParams = new AltUnityFindObjectParams(SetPathContains(by, value), cameraBy, SetPath(cameraBy, cameraPath), enabled);
         }
         public AltUnityObject Execute()
         {
-            string path = SetPathContains(by, value);
-            cameraPath = SetPath(cameraBy, cameraPath);
-            SendCommand("findObject", path, cameraBy.ToString(), cameraPath, enabled.ToString());
-            return ReceiveAltUnityObject();
+            CommHandler.Send(cmdParams);
+            return ReceiveAltUnityObject(cmdParams);
         }
     }
 }

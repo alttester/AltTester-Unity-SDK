@@ -3,13 +3,23 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class Tilt(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end, x, y, z, duration_in_seconds):
-        super(Tilt, self).__init__(socket, request_separator, request_end)
+    def __init__(self, connection, x, y, z, duration):
+        super().__init__(connection, "tilt")
+
         self.x = x
         self.y = y
         self.z = z
-        self.duration_in_seconds = duration_in_seconds
+        self.duration = duration
+
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
+            "acceleration": self.vector_to_json(self.x, self.y, self.z),
+            "duration": self.duration,
+        })
+
+        return parameters
 
     def execute(self):
-        acceleration = self.vector_to_json_string(self.x, self.y, self.z)
-        return self.send_command("tilt", acceleration, str(self.duration_in_seconds))
+        return self.send()

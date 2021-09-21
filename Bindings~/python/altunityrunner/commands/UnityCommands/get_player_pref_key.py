@@ -1,22 +1,28 @@
 from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.player_pref_key_type import PlayerPrefKeyType
+from altunityrunner.altUnityExceptions import InvalidParameterTypeException
 
 
 class GetPlayerPrefKey(BaseCommand):
 
-    def __init__(self, socket, request_separator, request_end, key_name, key_type):
-        super(GetPlayerPrefKey, self).__init__(socket, request_separator, request_end)
+    def __init__(self, connection, key_name, key_type):
+        super().__init__(connection, "getKeyPlayerPref")
+
+        if key_type not in PlayerPrefKeyType and key_type not in PlayerPrefKeyType.value():
+            raise InvalidParameterTypeException()
+
         self.key_name = key_name
         self.key_type = key_type
 
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
+            "keyName": self.key_name,
+            "keyType": str(self.key_type)
+        })
+
+        return parameters
+
     def execute(self):
-        data = ""
-
-        if self.key_type == 1:
-            data = self.send_command("getKeyPlayerPref", self.key_name, str(PlayerPrefKeyType.Int))
-        if self.key_type == 2:
-            data = self.send_command("getKeyPlayerPref", self.key_name, str(PlayerPrefKeyType.String))
-        if self.key_type == 3:
-            data = self.send_command("getKeyPlayerPref", self.key_name, str(PlayerPrefKeyType.Float))
-
-        return data
+        return self.send()

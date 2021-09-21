@@ -2,16 +2,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityEndTouch : AltBaseCommand
     {
-        int fingerId;
+        AltUnityEndTouchParams cmdParams;
 
-        public AltUnityEndTouch(SocketSettings socketSettings, int fingerId) : base(socketSettings)
+        public AltUnityEndTouch(IDriverCommunication commHandler, int fingerId) : base(commHandler)
         {
-            this.fingerId = fingerId;
+            this.cmdParams = new AltUnityEndTouchParams(fingerId);
         }
         public void Execute()
         {
-            SendCommand("endTouch", fingerId.ToString());
-            string data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

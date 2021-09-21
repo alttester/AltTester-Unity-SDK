@@ -1,29 +1,20 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-import com.google.gson.Gson;
-import ro.altom.altunitytester.AltBaseSettings;
-import ro.altom.altunitytester.AltUnityObject;
-import ro.altom.altunitytester.AltUnityObjectProperty;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSetComponentProperty extends AltBaseCommand {
-    private AltUnityObject altUnityObject;
     private AltSetComponentPropertyParameters altSetComponentPropertyParameters;
 
-    public AltSetComponentProperty(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject,
+    public AltSetComponentProperty(IMessageHandler messageHandler,
             AltSetComponentPropertyParameters altSetComponentPropertyParameters) {
-        super(altBaseSettings);
-        this.altUnityObject = altUnityObject;
+        super(messageHandler);
         this.altSetComponentPropertyParameters = altSetComponentPropertyParameters;
+        this.altSetComponentPropertyParameters.setCommandName("setObjectComponentProperty");
     }
 
     public String Execute() {
-        String altObject = new Gson().toJson(altUnityObject);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(
-                altSetComponentPropertyParameters.getAssembly(), altSetComponentPropertyParameters.getComponentName(),
-                altSetComponentPropertyParameters.getPropertyName()));
-        SendCommand("setObjectComponentProperty", altObject, propertyInfo,
-                altSetComponentPropertyParameters.getValue());
-        return recvall();
+        SendCommand(altSetComponentPropertyParameters);
+        return recvall(altSetComponentPropertyParameters, String.class);
     }
 }

@@ -1,119 +1,90 @@
+
 class AltUnityException(Exception):
-    def __init__(self, message):
-        super(AltUnityException, self).__init__(message)
+    """Base exception class for AltUnity."""
 
 
-class NotFoundException(AltUnityException):
-    def __init__(self, message):
-        super(NotFoundException, self).__init__(message)
+class ConnectionError(AltUnityException):
+    """Raised when the client can not connect to the server."""
 
 
-class PropertyNotFoundException(AltUnityException):
-    def __init__(self, message):
-        super(PropertyNotFoundException, self).__init__(message)
+class AltUnityInvalidServerResponse(AltUnityException):
+    """Raised when the server responds with an invalid respose."""
 
-
-class MethodNotFoundException(AltUnityException):
-    def __init__(self, message):
-        super(MethodNotFoundException, self).__init__(message)
-
-
-class ComponentNotFoundException(AltUnityException):
-    def __init__(self, message):
-        super(ComponentNotFoundException, self).__init__(message)
-
-
-class AssemblyNotFoundException(AltUnityException):
-    def __init__(self, message):
-        super(AssemblyNotFoundException, self).__init__(message)
-
-
-class CouldNotPerformOperationException(AltUnityException):
-    def __init__(self, message):
-        super(CouldNotPerformOperationException, self).__init__(message)
-
-
-class MethodWithGivenParametersNotFoundException(AltUnityException):
-    def __init__(self, message):
-        super(MethodWithGivenParametersNotFoundException, self).__init__(message)
+    def __init__(self, expected, received):
+        super().__init__("Expected to get response {}; Got {}".format(expected, received))
 
 
 class InvalidParameterTypeException(AltUnityException):
-    def __init__(self, message):
-        super(InvalidParameterTypeException, self).__init__(message)
+    """Raised when an function or method receives an parameter that has the inappropriate type."""
+
+
+class NotFoundException(AltUnityException):
+    """Raised when a object, camera, component, property, method or assembly is not found."""
+
+
+class ObjectNotFoundException(NotFoundException):
+    """Raised when a object is not found."""
+
+
+class CameraNotFoundException(NotFoundException):
+    """Raised when a camera is not found."""
+
+
+class PropertyNotFoundException(NotFoundException):
+    """Raised when a property is not found."""
+
+
+class MethodNotFoundException(NotFoundException):
+    """Raised when a method is not found."""
+
+
+class MethodWithGivenParametersNotFoundException(NotFoundException):
+    """Raised when a method with the given parameters is not found."""
+
+
+class ComponentNotFoundException(NotFoundException):
+    """Raised when a component is not found."""
+
+
+class AssemblyNotFoundException(NotFoundException):
+    """Raised when an assembly is not found."""
+
+
+class CouldNotPerformOperationException(AltUnityException):
+    pass
 
 
 class CouldNotParseJsonStringException(AltUnityException):
-    def __init__(self, message):
-        super(CouldNotParseJsonStringException, self).__init__(message)
+    pass
 
 
 class FailedToParseArgumentsException(AltUnityException):
-    def __init__(self, message):
-        super(FailedToParseArgumentsException, self).__init__(message)
-
-
-class ObjectWasNotFoundException(AltUnityException):
-    def __init__(self, message):
-        super(ObjectWasNotFoundException, self).__init__(message)
+    pass
 
 
 class PropertyCannotBeSetException(AltUnityException):
-    def __init__(self, message):
-        super(PropertyCannotBeSetException, self).__init__(message)
+    pass
 
 
 class NullReferenceException(AltUnityException):
-    def __init__(self, message):
-        super(NullReferenceException, self).__init__(message)
+    pass
 
 
 class UnknownErrorException(AltUnityException):
-    def __init__(self, message):
-        super(UnknownErrorException, self).__init__(message)
+    pass
 
 
 class FormatException(AltUnityException):
-    def __init__(self, message):
-        super(FormatException, self).__init__(message)
+    pass
 
 
 class WaitTimeOutException(AltUnityException):
-    def __init__(self, message):
-        super(WaitTimeOutException, self).__init__(message)
-
-
-class AltUnityRecvallException(AltUnityException):
-    def __init__(self, message):
-        super(AltUnityRecvallException, self).__init__(message)
-
-
-class AltUnityRecvallMessageIdException(AltUnityException):
-    def __init__(self, message):
-        super(AltUnityRecvallMessageIdException, self).__init__(message)
-
-
-class AltUnityRecvallMessageFormatException(AltUnityException):
-    def __init__(self, message):
-        super(AltUnityRecvallMessageFormatException, self).__init__(message)
-
-
-class AltUnityInvalidServerResponse (AltUnityException):
-    def __init__(self, expected, received):
-        super(AltUnityInvalidServerResponse, self).__init__(
-            "Expected to get response {}; Got {}".format(expected, received))
+    pass
 
 
 class AltUnityInvalidPathException(AltUnityException):
-    def __init__(self, message):
-        super(AltUnityInvalidPathException, self).__init__(message)
+    pass
 
 
 class AltUnityInputModuleException(AltUnityException):
-    def __init__(self, message):
-        super(AltUnityInputModuleException, self).__init__(message)
-
-
-class AltUnityCameraNotFound(AltUnityException):
-    def __init__(self, message):
-        super(AltUnityCameraNotFound, self).__init__(message)
+    pass

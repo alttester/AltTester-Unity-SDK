@@ -1,8 +1,6 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-import com.google.gson.Gson;
-import ro.altom.altunitytester.AltBaseSettings;
-import ro.altom.altunitytester.AltUnityObject;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -10,19 +8,17 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  * TextMeshPro elements.
  */
 public class AltGetText extends AltBaseCommand {
-    /**
-     * @param altUnityObject The game object
-     */
-    private AltUnityObject altUnityObject;
+    
+    private AltGetTextParameters params;
 
-    public AltGetText(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject) {
-        super(altBaseSettings);
-        this.altUnityObject = altUnityObject;
+    public AltGetText(IMessageHandler messageHandler, AltGetTextParameters params) {
+        super(messageHandler);
+        this.params = params;
+        params.setCommandName("getText");;
     }
 
     public String Execute() {
-        String altObject = new Gson().toJson(altUnityObject);
-        SendCommand("getText", altObject);
-        return recvall();
+        SendCommand(params);
+        return recvall(params, String.class);
     }
 }

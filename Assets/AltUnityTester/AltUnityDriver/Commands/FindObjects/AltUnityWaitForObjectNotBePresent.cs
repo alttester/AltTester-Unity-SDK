@@ -1,42 +1,46 @@
+using System;
+using System.Threading;
+using Altom.AltUnityDriver.Logging;
+using NLog;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityWaitForObjectNotBePresent : AltUnityBaseFindObjects
     {
-        By by;
-        string value;
-        By cameraBy;
-        string cameraPath;
-        bool enabled;
+        readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+        AltUnityFindObject findObject;
+        private readonly string path;
         double timeout;
         double interval;
-        public AltUnityWaitForObjectNotBePresent(SocketSettings socketSettings, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(socketSettings)
+        public AltUnityWaitForObjectNotBePresent(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(commHandler)
         {
-            this.by = by;
-            this.value = value;
-            this.cameraBy = cameraBy;
-            this.cameraPath = cameraPath;
-            this.enabled = enabled;
+            findObject = new AltUnityFindObject(commHandler, by, value, cameraBy, cameraPath, enabled);
+            path = SetPath(by, value);
+
             this.timeout = timeout;
             this.interval = interval;
+            if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
+            if (interval <= 0) throw new ArgumentOutOfRangeException("interval");
         }
         public void Execute()
         {
             double time = 0;
             bool found = false;
-            string path = SetPath(by, value);
             AltUnityObject altElement;
-            while (time <= timeout)
+
+            logger.Debug("Waiting for element " + path + " to not be present");
+            while (time < timeout)
             {
                 found = false;
                 try
                 {
-                    altElement = new AltUnityFindObject(SocketSettings, by, value, cameraBy, cameraPath, enabled).Execute();
+                    altElement = findObject.Execute();
                     found = true;
-                    System.Threading.Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                    Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                     time += interval;
-                    System.Diagnostics.Debug.WriteLine("Waiting for element " + path + " to not be present");
+
                 }
-                catch (System.Exception)
+                catch (NotFoundException)
                 {
                     break;
                 }

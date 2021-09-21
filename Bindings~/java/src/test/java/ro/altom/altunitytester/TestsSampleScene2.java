@@ -12,6 +12,9 @@ import ro.altom.altunitytester.position.Vector2;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.websocket.CloseReason;
+import javax.websocket.CloseReason.CloseCodes;
+
 import static org.junit.Assert.*;
 
 public class TestsSampleScene2 {
@@ -20,13 +23,13 @@ public class TestsSampleScene2 {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, ";", "&", true);
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, true);
 
     }
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop();
+        altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "Connection stopped successfully"));
         Thread.sleep(1000);
     }
 

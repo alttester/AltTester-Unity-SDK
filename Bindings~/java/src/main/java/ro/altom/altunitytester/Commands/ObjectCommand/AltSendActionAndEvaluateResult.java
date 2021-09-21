@@ -1,45 +1,22 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
 import com.google.gson.Gson;
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSendActionAndEvaluateResult extends AltBaseCommand {
-    /**
-     * @param command The action command
-     */
-    private String command;
-    private String[] parameters;
-    /**
-     * @param altUnityObject The game object
-     */
-    private AltUnityObject altUnityObject;
+    
+    private AltSendActionAndEvaluateResultParameters params;
 
-    public AltSendActionAndEvaluateResult(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject,
-            String command, String... parameters) {
-                super(altBaseSettings);
-        this.altUnityObject = altUnityObject;
-        this.command = command;
-        this.parameters = parameters;
+    public AltSendActionAndEvaluateResult(IMessageHandler messageHandler, AltUnityObject altUnityObject, String command) {
+        super(messageHandler);
+        params = new AltSendActionAndEvaluateResultParameters(altUnityObject);
+        params.setCommandName(command);
     }
 
     public AltUnityObject Execute() {
-        String altObject = new Gson().toJson(altUnityObject);
-        
-        String[] args=  new String[parameters.length+2];
-        args[0] = command;
-        args[1] = altObject;
-        for ( int i =0 ; i< parameters.length; i++ )
-        {
-            args[i+2] = parameters[i];
-        }
-        SendCommand(args);
-
-        String data = recvall();
-
-        AltUnityObject obj = new Gson().fromJson(data, AltUnityObject.class);
-        obj.setAltBaseSettings(altBaseSettings);
-        return obj;
+        SendCommand(params);
+        return recvall(params, AltUnityObject.class);
     }
 }
