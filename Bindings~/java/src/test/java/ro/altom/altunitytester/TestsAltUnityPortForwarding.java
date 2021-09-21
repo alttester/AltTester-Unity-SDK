@@ -11,6 +11,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import javax.websocket.CloseReason;
+import javax.websocket.CloseReason.CloseCodes;
+
 import com.github.stefanbirkner.systemlambda.SystemLambda;
 
 public class TestsAltUnityPortForwarding {
@@ -53,24 +56,19 @@ public class TestsAltUnityPortForwarding {
         AltUnityPortForwarding.forwardAndroid();
         AltUnityPortForwarding.removeForwardAndroid(13000);
         try {
-            AltUnityDriverParams params = new AltUnityDriverParams();
-            params.connectTimeout = 2;
-            AltUnityDriver altUnityDriver = new AltUnityDriver(params);
-            altUnityDriver.stop();
+            AltUnityDriver altUnityDriver = new AltUnityDriver();
+            altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "Could not create connection to [ws://127.0.0.1:13000/altws/]"));
         } catch (Exception ex) {
-            assertEquals("Could not create connection to 127.0.0.1:13000", ex.getMessage());
+            assertEquals("Could not create connection to ws://127.0.0.1:13000/altws/", ex.getMessage());
         }
     }
 
     @Test
     public void testForwardAndroid() {
         AltUnityPortForwarding.forwardAndroid();
-
         try {
-            AltUnityDriverParams params = new AltUnityDriverParams();
-            params.connectTimeout = 2;
-            AltUnityDriver altUnityDriver = new AltUnityDriver(params);
-            altUnityDriver.stop();
+            AltUnityDriver altUnityDriver = new AltUnityDriver();
+            altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "ForwardAndroid failed"));
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("ForwardAndroid failed: " + ex.toString());

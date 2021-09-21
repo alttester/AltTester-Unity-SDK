@@ -1,29 +1,25 @@
 using Altom.AltUnityDriver;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityPointerExitObjectCommand : AltUnityCommand
+    class AltUnityPointerExitObjectCommand : AltUnityCommand<AltUnityPointerExitObjectParams, AltUnityObject>
     {
-        readonly AltUnityObject altUnityObject;
 
-        public AltUnityPointerExitObjectCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnityPointerExitObjectCommand(AltUnityPointerExitObjectParams cmdParams) : base(cmdParams)
         {
-            this.altUnityObject = JsonConvert.DeserializeObject<AltUnityObject>(parameters[2]); ;
         }
 
-        public override string Execute()
+        public override AltUnityObject Execute()
         {
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altUnityObject);
+            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);
             UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-            var camera = AltUnityRunner._altUnityRunner.FoundCameraById(altUnityObject.idCamera);
+            var camera = AltUnityRunner._altUnityRunner.FoundCameraById(CommandParams.altUnityObject.idCamera);
 
-            string response = JsonConvert.SerializeObject(camera != null ?
+            return camera != null ?
                 AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, camera) :
-                AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject));
-
-            return response;
+                AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject);
         }
     }
 }

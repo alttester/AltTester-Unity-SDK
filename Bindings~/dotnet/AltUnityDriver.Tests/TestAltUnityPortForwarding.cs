@@ -1,12 +1,11 @@
 using NUnit.Framework;
-
-using Altom.AltUnityDriver;
 using System;
 using System.IO;
 
-namespace unit.AltUnityDriverTests
+namespace Altom.AltUnityDriver.Tests
 {
     [Timeout(10000)]
+    [Category("Android")]
     public class TestAltUnityPortForwarding
     {
         private string androidSdkRoot;
@@ -65,13 +64,17 @@ namespace unit.AltUnityDriverTests
             AltUnityPortForwarding.RemoveForwardAndroid(13000);
             try
             {
-                var driver = new AltUnityDriver(connectTimeout: 2);
+                var driver = new AltUnityDriver(enableLogging: true, connectTimeout: 2);
                 driver.Stop();
             }
             catch (Exception ex)
             {
-                Assert.AreEqual(ex.Message, "Could not create connection to 127.0.0.1:13000");
+                Console.WriteLine(ex.ToString());
+                Assert.AreEqual("Could not create connection to 127.0.0.1:13000", ex.Message);
+                return;
             }
+            Assert.Fail("Should not be able to connect");
+
         }
 
         [Test]
@@ -81,7 +84,7 @@ namespace unit.AltUnityDriverTests
             AltUnityPortForwarding.ForwardAndroid();
             try
             {
-                var driver = new AltUnityDriver(connectTimeout: 2);
+                var driver = new AltUnityDriver(enableLogging: true, connectTimeout: 2);
                 driver.Stop();
             }
             catch

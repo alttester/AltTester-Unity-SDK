@@ -1,28 +1,19 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetAllElementsLight : AltUnityBaseFindObjects
     {
-        readonly By cameraBy;
-        string cameraPath;
-        readonly bool enabled;
-        public AltUnityGetAllElementsLight(SocketSettings socketSettings, By cameraBy, string cameraPath, bool enabled) : base(socketSettings)
+        AltUnityFindObjectsLightParams cmdParams;
+        public AltUnityGetAllElementsLight(IDriverCommunication commHandler, By cameraBy, string cameraPath, bool enabled) : base(commHandler)
         {
-            this.cameraBy = cameraBy;
-            this.cameraPath = cameraPath;
-            this.enabled = enabled;
+            cmdParams = new AltUnityFindObjectsLightParams("//*", cameraBy, SetPath(cameraBy, cameraPath), enabled);
         }
         public List<AltUnityObjectLight> Execute()
         {
-            cameraPath = SetPath(cameraBy, cameraPath);
-            SendCommand("findObjectsLight", "//*", cameraBy.ToString(), cameraPath, enabled.ToString());
+            CommHandler.Send(cmdParams);
 
-            string data = Recvall();
-            var altElements = JsonConvert.DeserializeObject<List<AltUnityObjectLight>>(data);
-            return altElements;
-
+            return CommHandler.Recvall<List<AltUnityObjectLight>>(cmdParams).data;
         }
     }
 }

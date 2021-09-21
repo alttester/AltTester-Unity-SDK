@@ -1,23 +1,27 @@
+using System.Threading;
+
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityScrollMouseAndWait : AltBaseCommand
     {
-        readonly float speed;
+        AltUnityActionFinishedParams actionFinishedParams;
+        AltUnityScrollMouse scrollMouse;
         readonly float duration;
-        public AltUnityScrollMouseAndWait(SocketSettings socketSettings, float speed, float duration) : base(socketSettings)
+        public AltUnityScrollMouseAndWait(IDriverCommunication commHandler, float speed, float duration) : base(commHandler)
         {
-            this.speed = speed;
             this.duration = duration;
+            scrollMouse = new AltUnityScrollMouse(commHandler, speed, duration);
+            actionFinishedParams = new AltUnityActionFinishedParams();
         }
         public void Execute()
         {
-            new AltUnityScrollMouse(SocketSettings, speed, duration).Execute();
-            System.Threading.Thread.Sleep((int)(duration * 1000));
+            scrollMouse.Execute();
+            Thread.Sleep((int)(duration * 1000));
             string data;
             do
             {
-                SendCommand("actionFinished");
-                data = Recvall();
+                CommHandler.Send(actionFinishedParams);
+                data = CommHandler.Recvall<string>(actionFinishedParams).data;
             } while (data == "No");
             ValidateResponse("Yes", data);
         }

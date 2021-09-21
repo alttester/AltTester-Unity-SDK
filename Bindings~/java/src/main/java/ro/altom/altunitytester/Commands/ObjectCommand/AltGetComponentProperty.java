@@ -1,7 +1,7 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
 import com.google.gson.Gson;
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.AltUnityObjectProperty;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
@@ -11,29 +11,20 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  */
 public class AltGetComponentProperty extends AltBaseCommand {
     /**
-     * @param altUnityObject The game object
-     */
-    private AltUnityObject altUnityObject;
-    /**
      * @param altGetComponentPropertyParameters builder for getting components'
      *                                          property
      */
     private AltGetComponentPropertyParameters altGetComponentPropertyParameters;
 
-    public AltGetComponentProperty(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject,
+    public AltGetComponentProperty(IMessageHandler messageHandler, 
             AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
-        super(altBaseSettings);
-        this.altUnityObject = altUnityObject;
+        super(messageHandler);
         this.altGetComponentPropertyParameters = altGetComponentPropertyParameters;
+        this.altGetComponentPropertyParameters.setCommandName("getObjectComponentProperty");
     }
 
     public String Execute() {
-        String altObject = new Gson().toJson(altUnityObject);
-        String propertyInfo = new Gson().toJson(new AltUnityObjectProperty(
-                altGetComponentPropertyParameters.getAssembly(), altGetComponentPropertyParameters.getComponentName(),
-                altGetComponentPropertyParameters.getPropertyName()));
-        SendCommand("getObjectComponentProperty", altObject, propertyInfo,
-                Integer.toString(altGetComponentPropertyParameters.getMaxDepth()));
-        return recvall();
+        SendCommand(altGetComponentPropertyParameters);
+        return recvall(altGetComponentPropertyParameters, String.class);
     }
 }

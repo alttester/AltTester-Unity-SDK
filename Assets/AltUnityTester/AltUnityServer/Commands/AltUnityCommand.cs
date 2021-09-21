@@ -1,29 +1,44 @@
 using System;
+using System.Globalization;
 using Altom.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
+using Altom.AltUnityDriver.Commands;
+using Altom.Server.Logging;
 using Newtonsoft.Json;
+using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    public abstract class AltUnityCommand
+    public abstract class AltUnityCommand<TParam, TResult> where TParam : CommandParams
     {
-        protected string[] Parameters;
+        public TParam CommandParams { get; private set; }
 
-        public string MessageId { get { return Parameters[0]; } }
-        public string CommandName { get { return Parameters[1]; } }
-
-        protected static bool LogEnabled = false;
-
-        protected AltUnityCommand(string[] parameters, int expectedParametersCount)
+        protected AltUnityCommand(TParam commandParams)
         {
-            validateParametersCount(parameters, expectedParametersCount);
-            this.Parameters = parameters;
+            CommandParams = commandParams;
         }
 
-        public Tuple<string, string> ExecuteHandleErrors(Func<string> action)
+        public string ExecuteAndSerialize<T>(Func<T> action)
         {
+            var result = ExecuteHandleErrors(action);
+            return JsonConvert.SerializeObject(result, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Culture = CultureInfo.InvariantCulture
+            });
+        }
+
+        public string ExecuteAndSerialize()
+        {
+            return ExecuteAndSerialize(Execute);
+        }
+
+        protected CommandResponse<T> ExecuteHandleErrors<T>(Func<T> action)
+        {
+            T response = default(T);
             Exception exception = null;
-            string response;
+            CommandError error = null;
+            String errorType = null;
+
             try
             {
                 response = action();
@@ -31,87 +46,101 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             catch (System.NullReferenceException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorNullRefferenceMessage;
+                errorType = AltUnityErrors.errorNullReferenceMessage;
             }
             catch (FailedToParseArgumentsException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorFailedToParseArguments;
+                errorType = AltUnityErrors.errorFailedToParseArguments;
             }
             catch (MethodWithGivenParametersNotFoundException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorMethodWithGivenParametersNotFound;
+                errorType = AltUnityErrors.errorMethodWithGivenParametersNotFound;
             }
             catch (InvalidParameterTypeException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorInvalidParameterType;
+                errorType = AltUnityErrors.errorInvalidParameterType;
             }
             catch (JsonException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorCouldNotParseJsonString;
+                errorType = AltUnityErrors.errorCouldNotParseJsonString;
             }
             catch (ComponentNotFoundException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorComponentNotFoundMessage;
+                errorType = AltUnityErrors.errorComponentNotFoundMessage;
             }
             catch (MethodNotFoundException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorMethodNotFoundMessage;
+                errorType = AltUnityErrors.errorMethodNotFoundMessage;
             }
             catch (PropertyNotFoundException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorPropertyNotFoundMessage;
+                errorType = AltUnityErrors.errorPropertyNotFoundMessage;
             }
             catch (AssemblyNotFoundException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorAssemblyNotFoundMessage;
+                errorType = AltUnityErrors.errorAssemblyNotFoundMessage;
             }
             catch (CouldNotPerformOperationException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorCouldNotPerformOperationMessage;
-            }
-            catch (InvalidParametersOnDriverCommandException e)
-            {
-                exception = e;
-                response = AltUnityErrors.errorInvalidParametersOnDriverCommand;
+                errorType = AltUnityErrors.errorCouldNotPerformOperationMessage;
             }
             catch (InvalidPathException e)
             {
                 exception = e;
-                response = AltUnityErrors.errorInvalidPath;
+                errorType = AltUnityErrors.errorInvalidPath;
+            }
+            catch (NotFoundException e)
+            {
+                exception = e;
+                errorType = AltUnityErrors.errorNotFoundMessage;
+            }
+            catch (CameraNotFoundException e)
+            {
+                exception = e;
+                errorType = AltUnityErrors.errorCameraNotFound;
+            }
+            catch (InvalidCommandException e)
+            {
+                exception = e.InnerException;
+                errorType = AltUnityErrors.errorInvalidCommand;
+            }
+            catch (AltUnityInnerException e)
+            {
+                exception = e.InnerException;
+                errorType = AltUnityErrors.errorUnknownError;
             }
             catch (Exception e)
             {
                 exception = e;
-                response = AltUnityErrors.errorUnknownError;
+                errorType = AltUnityErrors.errorUnknownError;
             }
 
-            string logs = string.Empty;
             if (exception != null)
-                logs = exception.Message + "\n" + exception.StackTrace;
-
-            return new Tuple<string, string>(response, logs);
-        }
-        public virtual string GetLogs()
-        {
-            return string.Empty;
-        }
-        public abstract string Execute();
-
-        private void validateParametersCount(string[] parameters, int expectedCount)
-        {
-            if (parameters.Length != expectedCount)
             {
-                throw new InvalidParametersOnDriverCommandException("Expected " + expectedCount + " parameters, got " + parameters.Length);
+                error = new CommandError();
+                error.type = errorType;
+                error.message = exception.Message;
+                error.trace = exception.StackTrace;
             }
+
+            var cmdResponse = new CommandResponse<T>();
+            cmdResponse.commandName = CommandParams.commandName;
+            cmdResponse.messageId = CommandParams.messageId;
+            cmdResponse.data = response;
+            cmdResponse.error = error;
+
+            return cmdResponse;
         }
+
+        public abstract TResult Execute();
     }
 }

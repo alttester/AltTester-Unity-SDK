@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -10,15 +11,16 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using Altom.Server.Logging;
 using Assets.AltUnityTester.AltUnityServer.Commands;
+using Newtonsoft.Json;
 using NLog;
 
 namespace Assets.AltUnityTester.AltUnityServer
 {
-    class AltUnityReflectionMethodsCommand : AltUnityCommand
+    class AltUnityReflectionMethodsCommand<TParam, TResult> : AltUnityCommand<TParam, TResult> where TParam : CommandParams
     {
         private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        protected AltUnityReflectionMethodsCommand(string[] parameters, int expectedParametersCount) : base(parameters, expectedParametersCount) { }
+        protected AltUnityReflectionMethodsCommand(TParam cmdParams) : base(cmdParams) { }
 
         public Type GetType(string typeName, string assemblyName)
         {
@@ -58,7 +60,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
         }
 
-        public override string Execute()
+        public override TResult Execute()
         {
             throw new NotImplementedException();
         }
@@ -83,80 +85,38 @@ namespace Assets.AltUnityTester.AltUnityServer
 
             if (methodInfos.Length == 0)
             {
-                throw new MethodNotFoundException("Method not found");
+                throw new MethodNotFoundException(String.Format("Method {0} not found in {1}", altActionMethod, componentType.ToString()));
             }
             return methodInfos;
         }
 
-        protected MethodInfo GetMethodToBeInvoked(MethodInfo[] methodInfos, AltUnityObjectAction altUnityObjectAction)
+        protected object InvokeMethod(MethodInfo methodInfo, string[] parameters, object component)
         {
-            Type[] parameterTypes = getParameterTypes(altUnityObjectAction);
-            var parameters = altUnityObjectAction.Parameters.Split(new char[] { '?' });
-            if (parameterTypes.Length != 0 && parameters.Length != parameterTypes.Length)
-            {
-                throw new InvalidParameterTypeException("Different amount of parameter were declared than types of parameters");
-            }
-            if (parameterTypes.Length == 0 && parameters.Length == 1 && parameters[0] == "")
-            {
-                parameters = new string[0];
-            }
-            foreach (var methodInfo in methodInfos.Where(method => method.GetParameters().Length == parameters.Length))
-            {
-                var methodParameters = methodInfo.GetParameters();
-                bool methodSignatureMatches = true;
-                for (int counter = 0; counter < parameterTypes.Length && counter < methodParameters.Length; counter++)
-                {
-                    if (methodParameters[counter].ParameterType != parameterTypes[counter])
-                        methodSignatureMatches = false;
-                }
-                if (methodSignatureMatches)
-                    return methodInfo;
-            }
-
-            var errorMessage = "No method found with " + parameters.Length + " parameters matching signature: " +
-                altUnityObjectAction.Method + "(" + altUnityObjectAction.TypeOfParameters + ")";
-
-            throw new MethodWithGivenParametersNotFoundException(errorMessage);
-        }
-
-        protected string InvokeMethod(MethodInfo methodInfo, AltUnityObjectAction altAction, object component)
-        {
-            if (altAction.Parameters == string.Empty)
-            {
-                return Newtonsoft.Json.JsonConvert.SerializeObject(methodInfo.Invoke(component, null));
-            }
-
             ParameterInfo[] parameterInfos = methodInfo.GetParameters();
 
-            string[] parameterStrings = altAction.Parameters.Split('?');
-            if (parameterInfos.Length != parameterStrings.Length)
+            if (parameterInfos.Length != parameters.Length)
                 throw new TargetParameterCountException();
 
-            object[] parameters = new object[parameterInfos.Length];
+            object[] parameterValues = new object[parameterInfos.Length];
             for (int i = 0; i < parameterInfos.Length; i++)
             {
                 try
                 {
-                    if (parameterInfos[i].ParameterType == typeof(string))
-                    {
-                        parameters[i] = Newtonsoft.Json.JsonConvert.DeserializeObject
-                        (
-                           Newtonsoft.Json.JsonConvert.SerializeObject(parameterStrings[i]),
-                           parameterInfos[i].ParameterType
-                        );
-                    }
-                    else
-                    {
-                        parameters[i] = Newtonsoft.Json.JsonConvert.DeserializeObject(parameterStrings[i], parameterInfos[i].ParameterType);
-                    }
+
+                    parameterValues[i] = JsonConvert.DeserializeObject(parameters[i], parameterInfos[i].ParameterType,
+                       new JsonSerializerSettings
+                       {
+                           Culture = CultureInfo.InvariantCulture
+                       });
                 }
+
                 catch (Newtonsoft.Json.JsonException)
                 {
-                    throw new FailedToParseArgumentsException();
+                    throw new FailedToParseArgumentsException(string.Format("Could not parse parameter '{0}' to type {1}", parameters[i], parameterInfos[i].ParameterType));
                 }
             }
 
-            return Newtonsoft.Json.JsonConvert.SerializeObject(methodInfo.Invoke(component, parameters));
+            return methodInfo.Invoke(component, parameterValues);
         }
 
         protected string GetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, int maxDepth)
@@ -183,7 +143,6 @@ namespace Assets.AltUnityTester.AltUnityServer
 
         protected string SetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, string valueString)
         {
-
             var instance = AltUnityRunner.GetGameObject(altUnityObject).GetComponent(componentType);
             if (instance == null)
             {
@@ -281,7 +240,7 @@ namespace Assets.AltUnityTester.AltUnityServer
 
         private void setValue(object instance, MemberInfo memberInfo, int index, string valueString)
         {
-            MethodInfo methodDefinition = typeof(AltUnityReflectionMethodsCommand).GetMethod(nameof(SetElementOfListObject), new Type[] { typeof(int), typeof(object), typeof(object), typeof(Type) });
+            MethodInfo methodDefinition = typeof(AltUnityReflectionMethodsCommand<TParam, TResult>).GetMethod(nameof(SetElementOfListObject), new Type[] { typeof(int), typeof(object), typeof(object), typeof(Type) });
 
             if (memberInfo.MemberType == MemberTypes.Property)
             {
@@ -324,7 +283,6 @@ namespace Assets.AltUnityTester.AltUnityServer
                 {
                     object value = deserializeMemberValue(valueString, fieldInfo.FieldType);
                     fieldInfo.SetValue(instance, value);
-
                 }
             }
         }
@@ -352,21 +310,7 @@ namespace Assets.AltUnityTester.AltUnityServer
             throw new AltUnityException(AltUnityErrors.errorPropertyNotSet);
         }
 
-        private Type[] getParameterTypes(AltUnityObjectAction altUnityObjectAction)
-        {
-            if (string.IsNullOrEmpty(altUnityObjectAction.TypeOfParameters))
-                return new Type[0];
-            var parameterTypes = altUnityObjectAction.TypeOfParameters.Split('?');
-            var types = new Type[parameterTypes.Length];
-            for (int i = 0; i < parameterTypes.Length; i++)
-            {
-                var type = Type.GetType(parameterTypes[i]);
-                if (type == null)
-                    throw new InvalidParameterTypeException("Parameter type " + parameterTypes[i] + " not found.");
-                types[i] = type;
-            }
-            return types;
-        }
+
 
         private string serializeMemberValue(object value, System.Type type, int maxDepth)
         {
@@ -435,5 +379,6 @@ namespace Assets.AltUnityTester.AltUnityServer
             index++;
             return getInstance(instance, methodPathSplited, index);
         }
+
     }
 }

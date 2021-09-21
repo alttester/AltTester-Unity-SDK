@@ -1,39 +1,53 @@
-using System;
 using Altom.AltUnityDriver;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetKeyPlayerPrefCommand : AltUnityCommand
+    class AltUnityGetStringKeyPlayerPrefCommand : AltUnityCommand<AltUnityGetKeyPlayerPrefParams, string>
     {
-        readonly PLayerPrefKeyType type;
-        readonly string value;
-
-        public AltUnityGetKeyPlayerPrefCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnityGetStringKeyPlayerPrefCommand(AltUnityGetKeyPlayerPrefParams cmdParams) : base(cmdParams)
         {
-            this.value = parameters[2];
-            type = (PLayerPrefKeyType)Enum.Parse(typeof(PLayerPrefKeyType), parameters[3]);
         }
 
         public override string Execute()
         {
-            string response = AltUnityErrors.errorNotFoundMessage;
-            if (UnityEngine.PlayerPrefs.HasKey(value))
+            if (UnityEngine.PlayerPrefs.HasKey(CommandParams.keyName))
             {
-                switch (type)
-                {
-                    case PLayerPrefKeyType.String:
-                        response = UnityEngine.PlayerPrefs.GetString(value);
-                        break;
-                    case PLayerPrefKeyType.Float:
-                        response = UnityEngine.PlayerPrefs.GetFloat(value) + "";
-                        break;
-                    case PLayerPrefKeyType.Int:
-                        response = UnityEngine.PlayerPrefs.GetInt(value) + "";
-                        break;
-                }
+                return UnityEngine.PlayerPrefs.GetString(CommandParams.keyName);
             }
-            return response;
+            throw new NotFoundException(string.Format("PlayerPrefs key {0} not found", CommandParams.keyName));
+        }
+    }
+
+    class AltUnityGetFloatKeyPlayerPrefCommand : AltUnityCommand<AltUnityGetKeyPlayerPrefParams, float>
+    {
+        public AltUnityGetFloatKeyPlayerPrefCommand(AltUnityGetKeyPlayerPrefParams cmdParams) : base(cmdParams)
+        {
+        }
+
+        public override float Execute()
+        {
+            if (UnityEngine.PlayerPrefs.HasKey(CommandParams.keyName))
+            {
+                return UnityEngine.PlayerPrefs.GetFloat(CommandParams.keyName);
+            }
+            throw new NotFoundException(string.Format("PlayerPrefs key {0} not found", CommandParams.keyName));
+        }
+    }
+
+    class AltUnityGetIntKeyPlayerPrefCommand : AltUnityCommand<AltUnityGetKeyPlayerPrefParams, int>
+    {
+        public AltUnityGetIntKeyPlayerPrefCommand(AltUnityGetKeyPlayerPrefParams cmdParams) : base(cmdParams)
+        {
+        }
+
+        public override int Execute()
+        {
+            if (UnityEngine.PlayerPrefs.HasKey(CommandParams.keyName))
+            {
+                return UnityEngine.PlayerPrefs.GetInt(CommandParams.keyName);
+            }
+            throw new NotFoundException(string.Format("PlayerPrefs key {0} not found", CommandParams.keyName));
         }
     }
 }

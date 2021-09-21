@@ -1,9 +1,10 @@
-﻿
+﻿using Altom.AltUnityDriver.Commands;
+
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityDeletePlayerPrefCommand : AltUnityCommand
+    class AltUnityDeletePlayerPrefCommand : AltUnityCommand<AltUnityDeletePlayerPrefParams, string>
     {
-        public AltUnityDeletePlayerPrefCommand(params string[] parameters) : base(parameters, 2)
+        public AltUnityDeletePlayerPrefCommand(AltUnityDeletePlayerPrefParams cmdParams) : base(cmdParams)
         { }
 
         public override string Execute()

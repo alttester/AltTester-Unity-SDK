@@ -4,15 +4,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     internal class AltUnityGetAllLoadedScenes : AltBaseCommand
     {
-        public AltUnityGetAllLoadedScenes(SocketSettings socketSettings) : base(socketSettings)
+        private readonly AltUnityGetAllLoadedScenesParams cmdParams;
+        public AltUnityGetAllLoadedScenes(IDriverCommunication commHandler) : base(commHandler)
         {
+            cmdParams = new AltUnityGetAllLoadedScenesParams();
         }
         public List<string> Execute()
         {
-            SendCommand("getAllLoadedScenes");
-            var response = Recvall();
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(response);
-
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<List<string>>(cmdParams).data;
         }
     }
 }

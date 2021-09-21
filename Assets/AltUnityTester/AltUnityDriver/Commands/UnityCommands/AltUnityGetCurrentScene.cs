@@ -2,16 +2,17 @@ using Newtonsoft.Json;
 
 namespace Altom.AltUnityDriver.Commands
 {
-    public class AltUnityGetCurrentScene : AltBaseCommand
+    public class AltUnityGetCurrentScene : AltUnityBaseFindObjects
     {
-        public AltUnityGetCurrentScene(SocketSettings socketSettings) : base(socketSettings)
+        private readonly AltUnityGetCurrentSceneParams cmdParams;
+        public AltUnityGetCurrentScene(IDriverCommunication commHandler) : base(commHandler)
         {
+            cmdParams = new AltUnityGetCurrentSceneParams();
         }
         public string Execute()
         {
-            SendCommand("getCurrentScene");
-            string data = Recvall();
-            return JsonConvert.DeserializeObject<AltUnityObject>(data).name;
+            CommHandler.Send(cmdParams);
+            return ReceiveAltUnityObject(cmdParams).name;
         }
     }
 }

@@ -1,27 +1,17 @@
-using System;
-using Newtonsoft.Json;
-
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityTilt : AltBaseCommand
     {
-        AltUnityVector3 acceleration;
-        readonly float duration;
-        public AltUnityTilt(SocketSettings socketSettings, AltUnityVector3 acceleration, float duration) : base(socketSettings)
+        AltUnityTiltParams cmdParams;
+        public AltUnityTilt(IDriverCommunication commHandler, AltUnityVector3 acceleration, float duration) : base(commHandler)
         {
-            this.acceleration = acceleration;
-            this.duration = duration;
+            cmdParams = new AltUnityTiltParams(acceleration, duration);
         }
         public void Execute()
         {
-            string accelerationString = JsonConvert.SerializeObject(acceleration, Formatting.Indented, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-
-            });
-            SendCommand("tilt", accelerationString, duration.ToString());
-            string data = Recvall();
-            ValidateResponse("Ok", data, StringComparison.OrdinalIgnoreCase);
+            CommHandler.Send(cmdParams);
+            string data = CommHandler.Recvall<string>(cmdParams).data;
+            ValidateResponse("Ok", data);
         }
     }
 }

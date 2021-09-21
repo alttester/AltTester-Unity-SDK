@@ -1,8 +1,9 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.position.Vector2;
 
-public class AltTapClickCoordinatesParameters {
+public class AltTapClickCoordinatesParameters extends AltMessage{
     private Vector2 coordinates;
     private int count = 1;
     private float interval = 0.1f;

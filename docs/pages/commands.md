@@ -481,72 +481,6 @@ Waits until it finds an object that respects the given criteria or time runs out
             self.assertEqual(altElement.name,"Main Camera")
 ```
 
-#### WaitForObjectWithText
-
-Waits until it finds an object that respect the given criteria and it has the text you are looking for or times run out and will throw an error. Check [By](#by-selector) for more information about criterias.
-
-**_Parameters_**
-
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| text       | string             | Yes      | Text that the intented object should have                                                                                                                                                                                                                                                                                                                                                                 |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraName | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout    | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
-| interval   | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
-
-**_Returns_**
-
--   AltUnityObject
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestWaitForElementWithText()
-        {
-            const string name = "CapsuleInfo";
-            string text = altUnityDriver.FindObject(By.NAME,name).GetText();
-            var timeStart = DateTime.Now;
-            var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
-            var timeEnd = DateTime.Now;
-            var time = timeEnd - timeStart;
-            Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(altElement.GetText(), text);
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void testWaitForElementWithText() throws Exception {
-                String name = "CapsuleInfo";
-                AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-                String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
-                long timeStart = System.currentTimeMillis();
-                AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters,text).withInterval(0).withTimeout(0).build();
-                AltUnityObject altElement = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParameters);
-                long timeEnd = System.currentTimeMillis();
-                long time = timeEnd - timeStart;
-                assertTrue(time / 1000 < 20);
-                assertNotNull(altElement);
-                assertEquals(altElement.getText(), text);
-            }
-
-    .. code-tab:: py
-
-        def test_wait_for_object_with_text(self):
-            altElement=self.altUnityDriver.wait_for_object_with_text(By.NAME,"CapsuleInfo","Capsule Info")
-            self.assertEqual(altElement.name,"CapsuleInfo")
-
-```
 
 #### WaitForObjectNotBePresent
 
@@ -776,7 +710,7 @@ Simulates that a specific key was pressed without taking into consideration the 
             time.sleep(5)
             lastKeyUp = self.altUnityDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
-        
+
 
 ```
 
@@ -864,6 +798,135 @@ Simulates that a specific key was released.
             time.sleep(5)
             lastKeyUp = self.altUnityDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
+
+```
+
+#### HoldButton
+
+Simulates holding left click button down for a specified amount of time at given coordinates. This command does not wait for the button press to finish. To wait for button press to finish use [HoldButtonAndWait](#holdbuttonandwait).
+
+**_Parameters_**
+
+| Name     | Type            | Required | Description                                                                                     |
+| -------- | --------------- | -------- | -----------------------------------------------------------------------------------------       |
+| position | AltUnityVector2 | Yes      | The coordinates where the button is held down.        |
+| duration | float           | Yes      | The time measured in seconds to keep the button down. |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestHoldButton()
+        {
+            var button = altUnityDriver.FindObject(By.NAME, "UIButton");
+            AltUnityVector2 vector2 = new AltUnityVector2(button.x, button.y);
+            altUnityDriver.HoldButton(vector2, 1);
+            Thread.Sleep(1400);
+            var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+            Thread.Sleep(1400);
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testHoldButton() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "UIButton").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "CapsuleInfo").build();
+            AltUnityObject button = altUnityDriver.findObject(altFindObjectsParameters1);
+            altUnityDriver.holdButton(button.x, button.y, 1);
+            Thread.sleep(2);
+            AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
+            Thread.sleep(2);
+            String text = capsuleInfo.getText();
+            assertEquals(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: py
+
+        def test_hold_button(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            button = self.altUnityDriver.find_object(By.NAME, 'UIButton')
+            self.altUnityDriver.hold_button(button.x, button.y, 1)
+            time.sleep(1.4)
+            capsule_info = self.altUnityDriver.find_object(By.NAME, 'CapsuleInfo')
+            time.sleep(1.4)
+            text = capsule_info.get_text()
+            self.assertEqual(text, "UIButton clicked to jump capsule!")
+
+```
+
+#### HoldButtonAndWait
+
+Simulates holding left click button down for a specified amount of time at given coordinates and waits for the button press to finish. If you don't want to wait until the command finishes use [HoldButton](#holdbutton).
+
+**_Parameters_**
+
+| Name     | Type            | Required | Description                                                                                     |
+| -------- | --------------- | -------- | -----------------------------------------------------------------------------------------       |
+| position | AltUnityVector2 | Yes      | The coordinates where the button is held down.        |
+| duration | float           | Yes      | The time measured in seconds to keep the button down. |
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestHoldButton()
+        {
+            var button = altUnityDriver.FindObject(By.NAME, "UIButton");
+            AltUnityVector2 vector2 = new AltUnityVector2(button.x, button.y);
+            altUnityDriver.HoldButtonAndWait(vector2, 1);
+            var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+            Thread.Sleep(1400);
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testHoldButton() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "UIButton").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "CapsuleInfo").build();
+            AltUnityObject button = altUnityDriver.findObject(altFindObjectsParameters1);
+            altUnityDriver.holdButtonAndWait(button.x, button.y, 1);
+            AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
+            Thread.sleep(2);
+            String text = capsuleInfo.getText();
+            assertEquals(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: py
+
+        def test_hold_button(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            button = self.altUnityDriver.find_object(By.NAME, 'UIButton')
+            self.altUnityDriver.hold_button_and_wait(button.x, button.y, 1)
+            capsule_info = self.altUnityDriver.find_object(By.NAME, 'CapsuleInfo')
+            time.sleep(1.4)
+            text = capsule_info.get_text()
+            self.assertEqual(text, "UIButton clicked to jump capsule!")
 
 ```
 
@@ -966,9 +1029,9 @@ Simulates key press action in your game. This command waits for the action to fi
 
 | Name     | Type                            | Required | Description                                                                                                                                                                                                                                |
 | -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| keycode  | KeyCode(C#)/string(python/java) | Yes      | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names |
-| power    | float                           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
-| duration | float                           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
+| keycode  | AltUnityKeyCode | Yes      | Name of the button. |
+| power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1.                                                                                |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
 
 **_Returns_**
 
@@ -1058,9 +1121,9 @@ Simulates key press action in your game. This command does not wait for the acti
 
 | Name     | Type                            | Required | Description                                                                                                                                                                                                                                |
 | -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| keycode  | KeyCode(C#)/string(python/java) | Yes      | Name of the button. Please check [KeyCode for C#](https://docs.unity3d.com/ScriptReference/KeyCode.html) or [key section for python/java](https://docs.unity3d.com/Manual/ConventionalGameInput.html) for more information about key names |
-| power    | float                           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
-| duration | float                           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
+| keycode  | AltUnityKeyCode | Yes      | Name of the button. |
+| power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
+| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
 
 **_Returns_**
 
@@ -2003,7 +2066,7 @@ Click at screen coordinates
             var altElement = altUnityDriver.FindObject(By.NAME,name);
             altUnityDriver.Click(altElement.getScreenPosition());
             Assert.AreEqual(name, altElement.name);
-            altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
+            altUnityDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
     .. code-tab:: java
@@ -2064,7 +2127,7 @@ Tap at screen coordinates
             var altElement = altUnityDriver.FindObject(By.NAME,name);
             altUnityDriver.Tap(altElement.getScreenPosition());
             Assert.AreEqual(name, altElement.name);
-            altUnityDriver.WaitForObjectWithText(By.NAME,"CapsuleInfo", "UIButton clicked to jump capsule!");
+            altUnityDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
     .. code-tab:: java
@@ -2566,7 +2629,7 @@ Removes key and its corresponding value from PlayerPrefs.
             }
             catch (NotFoundException exception)
             {
-                Assert.AreEqual("error:notFound", exception.Message);
+                Assert.AreEqual("notFound", exception.Message);
             }
 
         }
@@ -2588,7 +2651,7 @@ Removes key and its corresponding value from PlayerPrefs.
             }
             catch (NotFoundException e)
             {
-                assertEquals(e.getMessage(), "error:notFound");
+                assertEquals(e.getMessage(), "notFound");
             }
         }
 
@@ -2852,6 +2915,118 @@ Returns all the scenes that have been loaded.
 
 ```
 
+#### WaitForCurrentSceneToBe
+
+Waits for the scene to be loaded for a specified amount of time. It returns the name of the current scene.
+
+**_Parameters_**
+
+| Name     | Type            | Required | Description                                                                               |
+| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
+| sceneName| string          | Yes      | The name of the scene to wait for.              |
+| timeout | double           | Optional | The time measured in seconds to wait for the specified scene. |
+| interval| double           | Optional | How often to check that the scene was loaded in the given timeout. |
+
+**_Returns_**
+
+-   string
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestWaitForCurrentSceneToBe()
+        {
+            const string name = "Scene 1 AltUnityDriverTestScene";
+            var timeStart = DateTime.Now;
+            var currentScene = altUnityDriver.WaitForCurrentSceneToBe(name);
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.Less(time.TotalSeconds, 20);
+            Assert.NotNull(currentScene);
+            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", currentScene);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testWaitForCurrentSceneToBe() throws Exception {
+            String name = "Scene 1 AltUnityDriverTestScene";
+            long timeStart = System.currentTimeMillis();
+            AltWaitForCurrentSceneToBeParameters params = new AltWaitForCurrentSceneToBeParameters.Builder(name).build();
+            String currentScene = altUnityDriver.waitForCurrentSceneToBe(params);
+            long timeEnd = System.currentTimeMillis();
+            long time = timeEnd - timeStart;
+            assertTrue(time / 1000 < 20);
+            assertNotNull(currentScene);
+            assertEquals("Scene 1 AltUnityDriverTestScene", currentScene);
+        }   
+
+    .. code-tab:: py
+
+        def test_wait_for_current_scene_to_be(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            self.altUnityDriver.wait_for_current_scene_to_be(
+                'Scene 1 AltUnityDriverTestScene', 1)
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+            self.altUnityDriver.wait_for_current_scene_to_be(
+                'Scene 2 Draggable Panel', 1)
+            self.assertEqual('Scene 2 Draggable Panel',
+                         self.altUnityDriver.get_current_scene())
+
+```
+
+#### GetTimeScale
+
+Returns the value of the time scale.
+
+**_Parameters_**
+
+ None
+
+**_Returns_**
+
+-   float
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestTimeScale()
+        {
+            altUnityDriver.SetTimeScale(0.1f);
+            Thread.Sleep(1000);
+            var timeScaleFromGame = altUnityDriver.GetTimeScale();
+            Assert.AreEqual(0.1f, timeScaleFromGame);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestTimeScale() {
+            altUnityDriver.setTimeScale(0.1f);
+            float timeScale = altUnityDriver.getTimeScale();
+            assertEquals(0.1f, timeScale, 0);
+        }
+
+    .. code-tab:: py
+
+        def test_time_scale(self):
+            self.altUnityDriver.set_time_scale(0.1)
+            time.sleep(1)
+            time_scale = self.altUnityDriver.get_time_scale()
+            self.assertEqual(0.1, time_scale)
+
+```
+
 #### CallStaticMethod
 
 Invokes static methods from your game.
@@ -2862,13 +3037,13 @@ Invokes static methods from your game.
 | ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | typeName         | string | Yes      | name of the script. If the script has a namespace the format should look like this: "namespace.typeName" )                                                                                                                                                                                                                                                                            |
 | methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"                                                                                                                                                                              |
-| parameters       | string | Yes      | a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc. |
-| typeOfParameters | string | No       | a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers                                                                                                                              |
+| parameters       | array | No      | an array containing the serialized parameters to be sent to the component method.  |
+| typeOfParameters | array | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                                             |
 | assemblyName     | string | No       | name of the assembly containing the script                                                                                                                                                                                                                                                                                                                                            |
 
 **_Returns_**
 
--   String. The value returned by the method is serialized to a JSON object and parsed as string.
+-   This is a generic method. The return type depends on the type parameter.
 
 **_Examples_**
 
@@ -2881,8 +3056,8 @@ Invokes static methods from your game.
         public void TestCallStaticMethod()
         {
 
-            altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "SetInt", "Test?1");
-            int a = Int32.Parse(altUnityDriver.CallStaticMethods("UnityEngine.PlayerPrefs", "GetInt", "Test?2"));
+            altUnityDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", new[] { "Test", "1" });
+            int a = altUnityDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", new[] { "Test", "2" });
             Assert.AreEqual(1, a);
 
         }
@@ -2903,9 +3078,12 @@ Invokes static methods from your game.
     .. code-tab:: py
 
         def test_call_static_method(self):
-            self.altUnityDriver.call_static_methods("UnityEngine.PlayerPrefs", "SetInt","Test?1",assembly="UnityEngine.CoreModule")
-            a=int(self.altUnityDriver.call_static_methods("UnityEngine.PlayerPrefs", "GetInt", "Test?2",assembly="UnityEngine.CoreModule"))
-            self.assertEquals(1,a)
+
+            self.altdriver.call_static_method(
+            "UnityEngine.PlayerPrefs", "SetInt", ["Test", "1"], assembly="UnityEngine.CoreModule")
+            a = int(self.altdriver.call_static_method(
+            "UnityEngine.PlayerPrefs", "GetInt", ["Test", "2"], assembly="UnityEngine.CoreModule"))
+            self.assertEqual(1, a)
 
 ```
 
@@ -2985,13 +3163,13 @@ Invokes a method from an existing component of the object.
 | ---------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | componentName    | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )                                                                                                                                                                                                                                                                                                                                                                          |
 | methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"                                                                                                                                                                                                                                                                                               |
-| parameters       | string | Yes      | a string containing the serialized parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'some string ? [1,2,3]' - this represents two parameters "some string" and "[1,2,3]" Each parameter will be deserialized to match the correct type, so '[1,2,3] will deserialized to an array of integers, '1' will be an integer etc. **Optional parameters are required to be set if the method has any in order to find the correct method** |
-| typeOfParameters | string | No       | a string containing the serialized type of parameters to be sent to the component method. This uses **'?'** to separate between parameters, like this: 'System.Int32 ? System.Int32' - this represents that the signature of the method has two integers                                                                                                                                                                                                                                       |
+| parameters       | array | No      | an array containing the serialized parameters to be sent to the component method.  |
+| typeOfParameters | array | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                                                                                                                                                       |
 | assemblyName     | string | No       | name of the assembly containing the component                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 **_Returns_**
 
--   String. The value returned by the method is serialized to a JSON object and parsed as string.
+-   This is a generic method. The return type depends on the type parameter.
 
 **_Examples_**
 
@@ -3002,11 +3180,12 @@ Invokes a method from an existing component of the object.
 
         [Test]
         public void TestCallMethodWithAssembly(){
-            AltUnityObject capsule = altUnityDriver.FindObject(By.NAME,"Capsule");
+
+            AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
             var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
-            capsule.CallComponentMethod("UnityEngine.Transform", "Rotate", "10?10?10", "System.Single?System.Single?System.Single", "UnityEngine.CoreModule");
-            AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME,"Capsule");
-            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
+            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
+            AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation";
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
 
@@ -3033,11 +3212,14 @@ Invokes a method from an existing component of the object.
     .. code-tab:: py
 
         def test_call_component_method(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altUnityDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-            self.assertEqual(result,"null")
-            self.altUnityDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altUnityDriver.find_element('CapsuleInfo').get_text())
+
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
+            "AltUnityExampleScriptCapsule", "Jump", ["setFromMethod"])
+            self.assertEqual(result, None)
+            self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
+            self.assertEqual('setFromMethod', self.altdriver.find_object(
+            By.NAME, 'CapsuleInfo').get_text())
 
 ```
 
@@ -3193,7 +3375,7 @@ None
             const string name = "CapsuleInfo";
             string text = altUnityDriver.FindObject(By.NAME,name).GetText();
             var timeStart = DateTime.Now;
-            var altElement = altUnityDriver.WaitForObjectWithText(By.NAME, name, text);
+            var altElement = altUnityDriver.WaitForObject(By.PATH, "//" + name + "[@text=" + text + "]");
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
@@ -3656,6 +3838,54 @@ None
             self.assertEqual(color1, color3)
 ```
 
+#### GetParent
+
+Returns the parent of the AltUnity object on which it is called.
+
+**_Parameters_**
+
+ None
+
+**_Returns_**
+
+-   AltUnityObject
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetParent()
+        {
+            var altElement = altUnityDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
+            var altElementParent = altElement.getParent();
+            Assert.AreEqual("Panel Drag Area", altElementParent.name);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestGetParent() {
+            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo")
+                    .build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+            AltUnityObject altElementParent = altElement.getParent();
+            assertEquals("Canvas", altElementParent.name);
+        }
+
+    .. code-tab:: py
+
+        def test_get_parent(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+            element = self.altUnityDriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
+            elementParent = element.get_parent()
+            self.assertEqual('Canvas', elementParent.name)
+
+```
+
 ## BY-Selector
 
 It is used in find objects methods to set the criteria of which the objects are searched.
@@ -3844,8 +4074,8 @@ The following selecting nodes and attributes are implemented:
 
 There are several characters that you need to escape when you try to find an object. Some examples characters are the symbols for Request separator and Request ending, by default this are `;` and `&` but can be changed in Server settings. If you don't escape this characters the whole request is invalid and might shut down the server. Other characters are `!`, `[`, `]`, `(`, `)`, `/`, `\`, `.` or `,`. This characters are used in searching algorithm and if not escaped might return the wrong object or not found at all. To escape all the characters mentioned before just add `\\` before each character you want to escape.
 
-_Example:_  
-`//Q&A` - not escaped  
+_Example:_
+`//Q&A` - not escaped
 `//Q\\&A` - escaped
 
 ### AltId

@@ -1,6 +1,8 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
-public class AltLoadSceneParameters {
+import ro.altom.altunitytester.AltMessage;
+
+public class AltLoadSceneParameters extends AltMessage {
     public static class Builder {
         private String sceneName;
         private boolean loadSingle = true;

@@ -4,21 +4,19 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityLoadScene : AltBaseCommand
     {
-        readonly string sceneName;
-        readonly bool loadSingle;
-        public AltUnityLoadScene(SocketSettings socketSettings, string sceneName, bool loadSingle) : base(socketSettings)
+        AltUnityLoadSceneParams cmdParams;
+        public AltUnityLoadScene(IDriverCommunication commHandler, string sceneName, bool loadSingle) : base(commHandler)
         {
-            this.sceneName = sceneName;
-            this.loadSingle = loadSingle;
+            cmdParams = new AltUnityLoadSceneParams(sceneName, loadSingle);
         }
         public void Execute()
         {
-            SendCommand("loadScene", sceneName, JsonConvert.SerializeObject(loadSingle));
+            CommHandler.Send(cmdParams);
 
-            var data = Recvall();
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
 
-            data = Recvall();
+            data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Scene Loaded", data);
         }
     }

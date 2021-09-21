@@ -1,36 +1,39 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Newtonsoft.Json;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityCallComponentMethodForObjectCommand : AltUnityReflectionMethodsCommand
+    class AltUnityCallComponentMethodForObjectCommand : AltUnityReflectionMethodsCommand<AltUnityCallComponentMethodForObjectParams, object>
     {
-        private readonly AltUnityObjectAction altUnityObjectAction;
-        private readonly AltUnityObject altUnityObject;
-
-        public AltUnityCallComponentMethodForObjectCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnityCallComponentMethodForObjectCommand(AltUnityCallComponentMethodForObjectParams cmdParams) : base(cmdParams)
         {
-            this.altUnityObject = string.IsNullOrEmpty(parameters[2]) ? null : JsonConvert.DeserializeObject<AltUnityObject>(Parameters[2]);
-            this.altUnityObjectAction = JsonConvert.DeserializeObject<AltUnityObjectAction>(Parameters[3]);
+
         }
 
-        public override string Execute()
+        public override object Execute()
         {
+            if (CommandParams.typeOfParameters != null && CommandParams.typeOfParameters.Length != 0 && CommandParams.parameters.Length != CommandParams.typeOfParameters.Length)
+            {
+                throw new InvalidParameterTypeException("Number of parameters different than number of types of parameters");
+            }
+
             System.Reflection.MethodInfo methodInfoToBeInvoked;
-            var componentType = GetType(altUnityObjectAction.Component, altUnityObjectAction.Assembly);
-            var methodPathSplited = altUnityObjectAction.Method.Split('.');
+            var componentType = GetType(CommandParams.component, CommandParams.assembly);
+            var methodPathSplited = CommandParams.method.Split('.');
             string methodName;
             object instance;
-            if (altUnityObject != null)
+            if (CommandParams.altUnityObject != null)
             {
-                UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altUnityObject);
+                UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);
                 if (componentType == typeof(UnityEngine.GameObject))
                 {
                     instance = gameObject;
                     if (instance == null)
                     {
-                        throw new ObjectWasNotFoundException("Object with name=" + altUnityObject.name + " and id=" + altUnityObject.id + " was not found");
+                        throw new ObjectWasNotFoundException("Object with name=" + CommandParams.altUnityObject.name + " and id=" + CommandParams.altUnityObject.id + " was not found");
                     }
                 }
                 else
@@ -40,7 +43,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         throw new ComponentNotFoundException();
                 }
                 instance = GetInstance(instance, methodPathSplited);
-
             }
             else
             {
@@ -53,7 +55,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             else
             {
-                methodName = altUnityObjectAction.Method;
+                methodName = CommandParams.method;
 
             }
             System.Reflection.MethodInfo[] methodInfos;
@@ -66,11 +68,51 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 methodInfos = GetMethodInfoWithSpecificName(instance.GetType(), methodName);
             }
-            methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos, altUnityObjectAction);
 
-            return InvokeMethod(methodInfoToBeInvoked, altUnityObjectAction, instance);
+
+            methodInfoToBeInvoked = GetMethodToBeInvoked(methodInfos);
+
+            return InvokeMethod(methodInfoToBeInvoked, CommandParams.parameters, instance);
+        }
+
+        private MethodInfo GetMethodToBeInvoked(MethodInfo[] methodInfos)
+        {
+            var parameterTypes = getParameterTypes(CommandParams.typeOfParameters);
+
+            foreach (var methodInfo in methodInfos.Where(method => method.GetParameters().Length == CommandParams.parameters.Length))
+            {
+                var methodParameters = methodInfo.GetParameters();
+                bool methodSignatureMatches = true;
+                for (int counter = 0; counter < parameterTypes.Length && counter < methodParameters.Length; counter++)
+                {
+                    if (methodParameters[counter].ParameterType != parameterTypes[counter])
+                        methodSignatureMatches = false;
+                }
+                if (methodSignatureMatches)
+                    return methodInfo;
+            }
+
+            var errorMessage = "No method found with " + CommandParams.parameters.Length + " parameters matching signature: " +
+                CommandParams.method + "(" + CommandParams.typeOfParameters + ")";
+
+            throw new MethodWithGivenParametersNotFoundException(errorMessage);
         }
 
 
+        private Type[] getParameterTypes(string[] typeOfParameters)
+        {
+            if (typeOfParameters == null || typeOfParameters.Length == 0)
+                return new Type[0];
+
+            var types = new Type[typeOfParameters.Length];
+            for (int i = 0; i < typeOfParameters.Length; i++)
+            {
+                var type = Type.GetType(typeOfParameters[i]);
+                if (type == null)
+                    throw new InvalidParameterTypeException("Parameter type " + typeOfParameters[i] + " not found.");
+                types[i] = type;
+            }
+            return types;
+        }
     }
 }

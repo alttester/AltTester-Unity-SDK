@@ -2,7 +2,7 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityBaseFindObjects : AltUnityCommandReturningAltElement
     {
-        public AltUnityBaseFindObjects(SocketSettings socketSettings) : base(socketSettings)
+        public AltUnityBaseFindObjects(IDriverCommunication commHandler) : base(commHandler)
         {
         }
         protected string SetPath(By by, string value)

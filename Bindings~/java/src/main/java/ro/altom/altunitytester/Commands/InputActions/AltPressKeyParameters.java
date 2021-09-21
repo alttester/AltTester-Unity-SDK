@@ -1,8 +1,9 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
-public class AltPressKeyParameters {
+public class AltPressKeyParameters extends AltMessage{
     public static class Builder {
         private AltUnityKeyCode keyCode = AltUnityKeyCode.NoKey;
         @Deprecated

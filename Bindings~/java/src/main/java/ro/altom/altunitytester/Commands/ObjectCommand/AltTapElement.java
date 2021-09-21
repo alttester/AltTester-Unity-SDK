@@ -1,7 +1,6 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-import com.google.gson.Gson;
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
@@ -13,27 +12,21 @@ public class AltTapElement extends AltBaseCommand {
     /**
      * @param altUnityObject The game object
      */
-    private AltUnityObject altUnityObject;
 
-    public AltTapElement(AltBaseSettings altBaseSettings, AltUnityObject altUnityObject,
+    public AltTapElement(IMessageHandler messageHandler,
             AltTapClickElementParameters parameters) {
-        super(altBaseSettings);
-        this.altUnityObject = altUnityObject;
+        super(messageHandler);
         this.parameters = parameters;
+        this.parameters.setCommandName("tapElement");
     }
 
     public AltUnityObject Execute() {
-        String altObject = new Gson().toJson(altUnityObject);
-
-        SendCommand("tapElement", altObject, String.valueOf(parameters.getCount()),
-                String.valueOf(parameters.getInterval()), String.valueOf(parameters.getWait()));
-
-        String data = recvall();
-        AltUnityObject obj = new Gson().fromJson(data, AltUnityObject.class);
-        obj.setAltBaseSettings(altBaseSettings);
+        SendCommand(parameters);
+        AltUnityObject obj = recvall(parameters, AltUnityObject.class);
+        obj.setMesssageHandler(messageHandler);
 
         if (parameters.getWait()) {
-            data = recvall();
+            String data = recvall(parameters, String.class);
             validateResponse("Finished", data);
         }
 

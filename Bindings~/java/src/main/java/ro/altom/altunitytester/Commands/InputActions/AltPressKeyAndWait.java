@@ -1,6 +1,7 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -14,18 +15,20 @@ public class AltPressKeyAndWait extends AltBaseCommand {
      */
     private AltPressKeyParameters altPressKeyParameters;
 
-    public AltPressKeyAndWait(AltBaseSettings altBaseSettings, AltPressKeyParameters altPressKeyParameters) {
-        super(altBaseSettings);
+    public AltPressKeyAndWait(IMessageHandler messageHandler, AltPressKeyParameters altPressKeyParameters) {
+        super(messageHandler);
         this.altPressKeyParameters = altPressKeyParameters;
     }
 
     public void Execute() {
-        new AltPressKey(altBaseSettings, altPressKeyParameters).Execute();
+        new AltPressKey(messageHandler, altPressKeyParameters).Execute();
         sleepFor(altPressKeyParameters.getDuration());
         String data;
+        AltMessage altMessage = new AltMessage();
+        altMessage.setCommandName("actionFinished");
         do {
-            SendCommand("actionFinished");
-            data = recvall();
+            SendCommand(altMessage);
+            data = recvall(altPressKeyParameters, String.class);
         } while (data.equals("No"));
         validateResponse("Yes", data);
     }

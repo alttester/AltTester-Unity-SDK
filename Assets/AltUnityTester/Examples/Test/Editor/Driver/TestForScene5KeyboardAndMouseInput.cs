@@ -13,7 +13,7 @@ public class TestForScene5KeyboardAndMouseInput
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver = new AltUnityDriver();
+        altUnityDriver = new AltUnityDriver(enableLogging: true);
     }
 
     //At the end of the test closes the connection with the socket
@@ -201,6 +201,7 @@ public class TestForScene5KeyboardAndMouseInput
     }
 
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestCheckShadersSetCorrectlyAfterHighlight()
     {
         var cube = altUnityDriver.FindObject(By.NAME, "2MaterialCube");

@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityPortForwardingException;
+import ro.altom.altunitytester.altUnityTesterExceptions.PortForwardingException;
 
 public class AltUnityPortForwarding {
     private static final Logger log = LogManager.getLogger(AltUnityPortForwarding.class);
@@ -59,7 +59,7 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new AltUnityPortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occured while running command: " + command, ex);
         }
 
         log.debug("adb forward enabled.");
@@ -91,7 +91,7 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new AltUnityPortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occured while running command: " + command, ex);
         }
         log.debug("Android forward removed...");
     }
@@ -108,7 +108,7 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new AltUnityPortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occured while running command: " + command, ex);
         }
         log.debug("Removed all existing adb forwarding...");
     }
@@ -142,7 +142,7 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new AltUnityPortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occured while running command: " + command, ex);
         }
         log.debug("iproxy forward enabled.");
     }
@@ -153,7 +153,7 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new AltUnityPortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occured while running command: " + command, ex);
         }
         log.debug("Killed any iproxy process that may have been running...");
     }

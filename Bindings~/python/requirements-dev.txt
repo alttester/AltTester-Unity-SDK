@@ -8,4 +8,6 @@ flake8
 
 # Tests
 pytest
+pytest-cov
+pytest-repeat
 appium-python-client

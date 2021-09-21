@@ -2,26 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityBaseClassFindObjectsCommand : AltUnityCommand
+    class AltUnityBaseClassFindObjectsCommand<T> : AltUnityCommand<BaseFindObjectsParams, T>
     {
-        protected string ObjectPath;
-        protected By CameraBy;
-        protected string CameraPath;
-        protected bool Enabled;
+        protected readonly BaseFindObjectsParams FindObjectsParams;
 
-        protected AltUnityBaseClassFindObjectsCommand(params string[] parameters) : base(parameters, 6)
+        protected AltUnityBaseClassFindObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams)
         {
-            ObjectPath = parameters[2];
-            CameraBy = (By)Enum.Parse(typeof(By), parameters[3]);
-            CameraPath = parameters[4];
-            Enabled = JsonConvert.DeserializeObject<bool>(parameters[5].ToLower());
+            this.FindObjectsParams = cmdParams;
         }
-        public override string Execute()
+        public override T Execute()
         {
             throw new System.NotImplementedException();
         }

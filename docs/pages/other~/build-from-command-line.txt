@@ -20,7 +20,8 @@ static void BuildFromCommandLine () {
         AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup (buildTargetGroup);
         if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
-        AltUnityBuilder.InsertAltUnityInScene (buildPlayerOptions.scenes[0]);
+        var instrumentationSettings = new AltUnityInstrumentationSettings();
+        AltUnityBuilder.InsertAltUnityInScene (buildPlayerOptions.scenes[0], instrumentationSettings);
         
         var results = BuildPipeline.BuildPlayer (buildPlayerOptions);
         AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols (BuildTargetGroup.Android);

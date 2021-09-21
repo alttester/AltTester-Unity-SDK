@@ -5,23 +5,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetAllMethods : AltBaseCommand
     {
-        AltUnityComponent altUnityComponent;
-        readonly AltUnityObject altUnityObject;
-        readonly AltUnityMethodSelection methodSelection;
-
-        public AltUnityGetAllMethods(SocketSettings socketSettings, AltUnityComponent altUnityComponent, AltUnityObject altUnityObject, AltUnityMethodSelection methodSelection = AltUnityMethodSelection.ALLMETHODS) : base(socketSettings)
+        AltUnityGetAllMethodsParams cmdParams;
+        public AltUnityGetAllMethods(IDriverCommunication commHandler, AltUnityComponent altUnityComponent, AltUnityMethodSelection methodSelection = AltUnityMethodSelection.ALLMETHODS) : base(commHandler)
         {
-            this.altUnityComponent = altUnityComponent;
-            this.altUnityObject = altUnityObject;
-            this.methodSelection = methodSelection;
+            cmdParams = new AltUnityGetAllMethodsParams(altUnityComponent, methodSelection);
         }
         public List<string> Execute()
         {
-            var altComponent = JsonConvert.SerializeObject(altUnityComponent);
-            SendCommand("getAllMethods", altComponent, methodSelection.ToString());
-            string data = Recvall();
-            return JsonConvert.DeserializeObject<List<string>>(data);
-
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<List<string>>(cmdParams).data;
         }
     }
 }

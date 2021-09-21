@@ -1,14 +1,17 @@
-﻿namespace Assets.AltUnityTester.AltUnityServer.Commands
+﻿using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
+
+namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityActionFinishedCommand : AltUnityCommand
+    class AltUnityActionFinishedCommand : AltUnityCommand<AltUnityActionFinishedParams, string>
     {
-        public AltUnityActionFinishedCommand(params string[] parameters) : base(parameters, 2) { }
+        public AltUnityActionFinishedCommand(AltUnityActionFinishedParams cmdParams) : base(cmdParams) { }
         public override string Execute()
         {
 #if ALTUNITYTESTER
             return Input.Finished ? "Yes" : "No";
 #else
-            return AltUnityErrors.errorInputModule;
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
         }
     }

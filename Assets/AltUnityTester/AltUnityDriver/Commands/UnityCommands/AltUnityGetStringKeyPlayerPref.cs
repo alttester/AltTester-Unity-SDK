@@ -2,16 +2,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityGetStringKeyPlayerPref : AltBaseCommand
     {
-        readonly string keyName;
-        public AltUnityGetStringKeyPlayerPref(SocketSettings socketSettings, string keyName) : base(socketSettings)
+        readonly AltUnityGetKeyPlayerPrefParams cmdParams;
+        public AltUnityGetStringKeyPlayerPref(IDriverCommunication commHandler, string keyName) : base(commHandler)
         {
-            this.keyName = keyName;
+            cmdParams = new AltUnityGetKeyPlayerPrefParams(keyName, PlayerPrefKeyType.String);
         }
         public string Execute()
         {
-            SendCommand("getKeyPlayerPref", keyName, PLayerPrefKeyType.String.ToString());
-            var data = Recvall();
-            return data;
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<string>(cmdParams).data;
         }
     }
 }

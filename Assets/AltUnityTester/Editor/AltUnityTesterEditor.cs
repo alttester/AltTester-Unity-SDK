@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Altom.AltUnity.Instrumentation;
 using Altom.AltUnityDriver;
 using Altom.Editor.Logging;
 using NLog;
 using NLog.Layouts;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using System.IO;
@@ -65,6 +67,9 @@ namespace Altom.Editor
         private static UnityEngine.GUIStyle gUIStyleText;
         private static UnityEngine.GUIStyle gUIStyleHistoryChanges;
 
+        private static UnityEngine.GUIStyle labelStyle;
+
+
         private static long timeSinceLastClick;
         private static UnityEngine.Networking.UnityWebRequest www;
         UnityEngine.Vector2 scrollPosition;
@@ -72,12 +77,8 @@ namespace Altom.Editor
 
         private bool foldOutScenes = true;
         private bool foldOutBuildSettings = true;
-        private bool foldOutLogSettings = true;
         private bool foldOutIosSettings = true;
-        private bool foldOutAltUnityServerSettings = true;
         private bool foldOutPortForwarding = true;
-        public int selectedTestCount = 0;
-        private static bool showPopUp = false;
         UnityEngine.Rect popUpPosition;
         UnityEngine.Rect popUpContentPosition;
         UnityEngine.Rect closeButtonPosition;
@@ -401,7 +402,7 @@ namespace Altom.Editor
         protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
-            if (EditorConfiguration.ShowInsectorPopUpInEditor)
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
             {
                 popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
                 popUpContentPosition = new UnityEngine.Rect(screenWidth / 2 - 296, 4, 592, 92);
@@ -422,7 +423,7 @@ namespace Altom.Editor
                     }
                     if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
                     {
-                        EditorConfiguration.ShowInsectorPopUpInEditor = false;
+                        EditorConfiguration.ShowInspectorPopUpInEditor = false;
                         UnityEngine.GUIUtility.ExitGUI();
                     }
                 }
@@ -449,12 +450,6 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.Separator();
             displayScenes();
             UnityEditor.EditorGUILayout.Separator();
-            displayLogSettings();
-
-            UnityEditor.EditorGUILayout.Separator();
-
-            displayAltUnityServerSettings();
-            UnityEditor.EditorGUILayout.Separator();
 
             displayPortForwarding(leftSide);
             UnityEditor.EditorGUILayout.EndVertical();
@@ -471,6 +466,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.LabelField("Platform", UnityEditor.EditorStyles.boldLabel);
             var guiStyleRadioButton = new UnityEngine.GUIStyle(UnityEditor.EditorStyles.radioButton) { };
             guiStyleRadioButton.padding = new UnityEngine.RectOffset(20, 0, 1, 0);
+
             if (rightSide <= 300)
             {
                 UnityEditor.EditorGUILayout.BeginVertical();
@@ -543,6 +539,21 @@ namespace Altom.Editor
                 }
             }
 #endif
+            if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+            {
+                browseBuildLocation();
+                UnityEditor.EditorGUILayout.Separator();
+                UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+                if (UnityEngine.GUILayout.Button("WebGL player settings"))
+                {
+#if UNITY_2018_3_OR_NEWER
+                    UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+#else
+                    UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+#endif
+                    UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.WebGL;
+                }
+            }
 
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
@@ -590,6 +601,10 @@ namespace Altom.Editor
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
+                    }
+                    else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                    {
+                        AltUnityBuilder.BuildWebGLFromUI(autoRun: false);
                     }
                     else
                     {
@@ -642,6 +657,10 @@ namespace Altom.Editor
                     else if (EditorConfiguration.platform == AltUnityPlatform.Standalone)
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
+                    }
+                    else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                    {
+                        AltUnityBuilder.BuildWebGLFromUI(autoRun: true);
                     }
                     UnityEngine.GUIUtility.ExitGUI();
                 }
@@ -784,7 +803,7 @@ namespace Altom.Editor
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
             //PopUp
-            if (EditorConfiguration.ShowInsectorPopUpInEditor)
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
             {
                 ShowAltUnityPopup();
             }
@@ -828,6 +847,7 @@ namespace Altom.Editor
                     font = font
                 };
             }
+
             if (borderTexture == null)
             {
                 borderTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? borderColorDark : borderColor);
@@ -891,7 +911,7 @@ namespace Altom.Editor
                             EditorConfiguration.LatestInspectorVersion = releasedVersion;
                             downloadURl = match.Value;
                             version = releasedVersion;
-                            EditorConfiguration.ShowInsectorPopUpInEditor = true;
+                            EditorConfiguration.ShowInspectorPopUpInEditor = true;
                         }
                     }
                 }
@@ -1188,17 +1208,6 @@ namespace Altom.Editor
 #endif
         }
 
-        private void displayAltUnityServerSettings()
-        {
-            foldOutAltUnityServerSettings = UnityEditor.EditorGUILayout.Foldout(foldOutAltUnityServerSettings, "AltUnityServer Settings");
-            if (foldOutAltUnityServerSettings)
-            {
-                labelAndInputFieldHorizontalLayout("Request separator", ref EditorConfiguration.RequestSeparator);
-                labelAndInputFieldHorizontalLayout("Request ending", ref EditorConfiguration.RequestEnding);
-                labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
-            }
-        }
-
         private void afterExitPlayMode()
         {
             removeAltUnityRunnerPrefab();
@@ -1225,11 +1234,10 @@ namespace Altom.Editor
 
         private void runInEditor()
         {
-            AltUnityBuilder.InsertAltUnityInTheActiveScene();
+            AltUnityBuilder.InsertAltUnityInTheActiveScene(AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings());
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;
-
         }
 
         private void displayBuildSettings()
@@ -1245,9 +1253,44 @@ namespace Altom.Editor
                 labelAndInputFieldHorizontalLayout("Product Name", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
-                labelAndCheckboxHorizontalLayout("Input visualizer:", ref EditorConfiguration.InputVisualizer);
+                labelAndCheckboxHorizontalLayout("Input visualizer", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltUnityTester builds:", ref EditorConfiguration.appendToName);
+                var keepAUTSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTUNITYTESTER symbol defined (not recommended):", ref EditorConfiguration.KeepAUTSymbolDefined);
+                if (keepAUTSymbolChanged && EditorConfiguration.KeepAUTSymbolDefined && !AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                {
+                    AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                }
+                if (keepAUTSymbolChanged && !EditorConfiguration.KeepAUTSymbolDefined && AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
+                {
+                    AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                }
+
+                if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                {
+                    int selected = (int)AltUnityInstrumentationMode.Proxy;
+                    GUI.enabled = false;
+                    labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
+                    GUI.enabled = true;
+                    EditorConfiguration.InstrumentationMode = AltUnityInstrumentationMode.Proxy;
+                }
+                else
+                {
+                    int selected = (int)EditorConfiguration.UserSelectionInstrumentationMode;
+                    labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
+                    EditorConfiguration.UserSelectionInstrumentationMode = (AltUnityInstrumentationMode)selected;
+                    EditorConfiguration.InstrumentationMode = EditorConfiguration.UserSelectionInstrumentationMode;
+                }
+
+                if (EditorConfiguration.InstrumentationMode == AltUnityInstrumentationMode.Server)
+                {
+                    labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
+                }
+                else
+                {
+                    labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost);
+                    labelAndInputFieldHorizontalLayout("Proxy port", ref EditorConfiguration.ProxyPort);
+                }
             }
             switch (EditorConfiguration.platform)
             {
@@ -1296,61 +1339,53 @@ namespace Altom.Editor
                         break;
 #endif
             }
-
         }
 
-        private void displayLogSettings()
+        private static bool labelAndCheckboxHorizontalLayout(string labelText, ref bool editorConfigVariable)
         {
-            foldOutLogSettings = UnityEditor.EditorGUILayout.Foldout(foldOutLogSettings, "Log Settings");
-            if (foldOutLogSettings)
+            bool initialValue = editorConfigVariable;
+            if (labelStyle == null)
             {
-                labelAndInputFieldHorizontalLayout("Max Length (Optional)", ref EditorConfiguration.MaxLogLength);
-                if (string.IsNullOrEmpty(EditorConfiguration.MaxLogLength))
-                {
-                    EditorConfiguration.MaxLogLength = "";
-                }
-                else
-                {
-                    try
-                    {
-                        var maxLogLength = int.Parse(EditorConfiguration.MaxLogLength);
-                        if (maxLogLength < 100)
-                        {
-                            EditorConfiguration.MaxLogLength = "100";
-                        }
-                    }
-                    catch
-                    {
-                        EditorConfiguration.MaxLogLength = "100";
-                    }
-                }
+                labelStyle = new GUIStyle(EditorStyles.label) { wordWrap = true };
             }
-        }
-
-        private static void labelAndCheckboxHorizontalLayout(string label, ref bool editorConfigVariable)
-        {
             UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
-            UnityEditor.EditorGUILayout.LabelField(label, UnityEngine.GUILayout.Width(150));
+            UnityEditor.EditorGUILayout.LabelField(labelText, labelStyle, UnityEngine.GUILayout.Width(150));
             editorConfigVariable =
                 UnityEditor.EditorGUILayout.Toggle(editorConfigVariable, UnityEngine.GUILayout.MaxWidth(30));
             UnityEngine.GUILayout.FlexibleSpace();
+            UnityEditor.EditorGUI.EndDisabledGroup();
             UnityEditor.EditorGUILayout.EndHorizontal();
+            return initialValue != editorConfigVariable;
         }
 
         private static void labelAndInputFieldHorizontalLayout(string labelText, ref string editorConfigVariable)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             editorConfigVariable = UnityEditor.EditorGUILayout.TextField(labelText, editorConfigVariable);
+            UnityEditor.EditorGUI.EndDisabledGroup();
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 
         private static void labelAndInputFieldHorizontalLayout(string labelText, ref int editorConfigVariable)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             editorConfigVariable = UnityEditor.EditorGUILayout.IntField(labelText, editorConfigVariable);
+            UnityEditor.EditorGUI.EndDisabledGroup();
+            UnityEditor.EditorGUILayout.EndHorizontal();
+        }
+
+        private static void labelAndDropdownFieldHorizontalLayout(string labelText, string[] options, ref int selected)
+        {
+            UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
+
+            selected = UnityEditor.EditorGUILayout.Popup(labelText, selected, options);
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
 
@@ -1663,7 +1698,10 @@ namespace Altom.Editor
                 };
                 var guiStylee = new UnityEngine.GUIStyle { };
 
+                UnityEngine.GUILayout.BeginVertical();
+                GUILayout.Space(0);
                 var valueChanged = UnityEditor.EditorGUILayout.Toggle(test.Selected, UnityEngine.GUILayout.Width(15));
+                GUILayout.EndVertical();
                 if (valueChanged == test.Selected)
                 {
                     updateNumberOfSelectedTests(test);

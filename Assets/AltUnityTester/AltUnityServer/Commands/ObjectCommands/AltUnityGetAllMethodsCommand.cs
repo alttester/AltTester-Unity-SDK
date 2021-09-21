@@ -3,26 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Altom.AltUnityDriver;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityGetAllMethodsCommand : AltUnityReflectionMethodsCommand
+    class AltUnityGetAllMethodsCommand : AltUnityReflectionMethodsCommand<AltUnityGetAllMethodsParams, List<string>>
     {
-        AltUnityComponent component;
-        readonly AltUnityMethodSelection methodSelection;
-
-        public AltUnityGetAllMethodsCommand(params string[] parameters) : base(parameters, 4)
+        public AltUnityGetAllMethodsCommand(AltUnityGetAllMethodsParams cmdParams) : base(cmdParams)
         {
-            this.component = JsonConvert.DeserializeObject<AltUnityComponent>(parameters[2]);
-            this.methodSelection = (AltUnityMethodSelection)Enum.Parse(typeof(AltUnityMethodSelection), parameters[3]);
         }
 
-        public override string Execute()
+        public override List<string> Execute()
         {
-            Type type = GetType(component.componentName, component.assemblyName);
+            Type type = GetType(CommandParams.altUnityComponent.componentName, CommandParams.altUnityComponent.assemblyName);
             MethodInfo[] methodInfos = new MethodInfo[1];
-            switch (methodSelection)
+            switch (CommandParams.methodSelection)
             {
                 case AltUnityMethodSelection.CLASSMETHODS:
                     methodInfos = type.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
@@ -43,7 +38,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             {
                 listMethods.Add(methodInfo.ToString());
             }
-            return JsonConvert.SerializeObject(listMethods);
+            return listMethods;
         }
     }
 }

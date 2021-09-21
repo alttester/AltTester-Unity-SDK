@@ -8,7 +8,7 @@ public class TestForScene4NoCameras
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver = new AltUnityDriver(logFlag: true);
+        altUnityDriver = new AltUnityDriver(enableLogging: true);
         altUnityDriver.LoadScene("Scene 4 No Cameras");
     }
 
@@ -44,6 +44,6 @@ public class TestForScene4NoCameras
             Assert.AreNotEqual(-1, button.x);
             Assert.AreNotEqual(-1, button.y);
         }
-        Assert.AreEqual(2, altObjects.Count);
+        Assert.AreEqual(3, altObjects.Count);
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using Altom.AltUnity.Instrumentation;
 using Altom.AltUnityDriver;
 using Altom.Editor.Logging;
-using Assets.AltUnityTester.AltUnityServer.AltSocket;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -75,6 +75,35 @@ namespace Altom.Editor
 
         }
 
+        public static void BuildWebGLFromUI(bool autoRun = false)
+        {
+            try
+            {
+                InitBuildSetup(UnityEditor.BuildTargetGroup.WebGL);
+                logger.Debug("Starting WebGL build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
+
+                var buildPlayerOptions = new UnityEditor.BuildPlayerOptions
+                {
+                    locationPathName = getOutputPath(UnityEditor.BuildTarget.WebGL),
+                    scenes = getScenesForBuild(),
+                    target = UnityEditor.BuildTarget.WebGL,
+                    targetGroup = UnityEditor.BuildTargetGroup.WebGL
+                };
+
+                buildGame(autoRun, buildPlayerOptions);
+            }
+            catch (System.Exception e)
+            {
+                logger.Error(e);
+            }
+            finally
+            {
+                built = true;
+                resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
+            }
+
+        }
+
         public static void BuildStandaloneFromUI(UnityEditor.BuildTarget buildTarget, bool autoRun = false)
         {
             try
@@ -105,6 +134,8 @@ namespace Altom.Editor
 
         public static void RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
+            if (AltUnityTesterEditor.EditorConfiguration != null && AltUnityTesterEditor.EditorConfiguration.KeepAUTSymbolDefined)
+                return;
             try
             {
                 var scriptingDefineSymbolsForGroup =
@@ -183,49 +214,37 @@ namespace Altom.Editor
             System.IO.File.WriteAllText(filePath, dataAsJson);
         }
 
-        public static void InsertAltUnityInScene(string scene, int port = 13000)
+        public static void InsertAltUnityInScene(string scene, AltUnityInstrumentationSettings instrumentationSettings)
         {
             logger.Debug("Adding AltUnityRunnerPrefab into the [" + scene + "] scene.");
             var altUnityRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
 
             SceneWithAltUnityRunner = EditorSceneManager.OpenScene(scene);
             AltUnityRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altUnityRunner);
-            var component = ((GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
-            if (AltUnityTesterEditor.EditorConfiguration == null)
-            {
-                component.ShowInputs = false;
-                component.showPopUp = true;
-                component.SocketPortNumber = port;
-            }
-            else
-            {
-                initSetings(component);
-            }
+            var altUnityRunnerComponent = ((GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
+            altUnityRunnerComponent.InstrumentationSettings = instrumentationSettings;
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
             logger.Info("AltUnityRunnerPrefab successfully modified into the [" + scene + "] scene.");
         }
 
-        public static void InsertAltUnityInTheActiveScene()
+        public static void InsertAltUnityInTheActiveScene(AltUnityInstrumentationSettings instrumentationSettings)
         {
             var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
-            InsertAltUnityInScene(activeScene);
+            InsertAltUnityInScene(activeScene, instrumentationSettings);
         }
 
-        public static void InsertAltUnityInTheFirstScene()
+        public static void InsertAltUnityInTheFirstScene(AltUnityInstrumentationSettings instrumentationSettings)
         {
-            var altUnityRunner =
-                UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(
-                    UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
-            altUnityRunner.GetComponent<AltUnityRunner>().ShowInputs = AltUnityTesterEditor.EditorConfiguration.InputVisualizer;
+            var altUnityRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityRunnerPrefab")[0]));
 
             PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             SceneWithAltUnityRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
 
             AltUnityRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altUnityRunner);
             AltUnityRunner altUnityRunnerComponent = ((UnityEngine.GameObject)AltUnityRunner).GetComponent<AltUnityRunner>();
-            initSetings(altUnityRunnerComponent);
+            altUnityRunnerComponent.InstrumentationSettings = instrumentationSettings;
 
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
@@ -284,21 +303,12 @@ namespace Altom.Editor
         }
 #endif
 
-        private static void initSetings(AltUnityRunner altUnityRunnerComponent)
-        {
-            altUnityRunnerComponent.SocketPortNumber = AltUnityTesterEditor.EditorConfiguration.ServerPort;
-            altUnityRunnerComponent.requestEndingString = AltUnityTesterEditor.EditorConfiguration.RequestEnding;
-            altUnityRunnerComponent.requestSeparatorString = AltUnityTesterEditor.EditorConfiguration.RequestSeparator;
-            altUnityRunnerComponent.ShowInputs = AltUnityTesterEditor.EditorConfiguration.InputVisualizer;
-            altUnityRunnerComponent.showPopUp = AltUnityTesterEditor.EditorConfiguration.ShowPopUp;
-            altUnityRunnerComponent.MaxLogLength = string.IsNullOrEmpty(AltUnityTesterEditor.EditorConfiguration.MaxLogLength) ? 0 : int.Parse(AltUnityTesterEditor.EditorConfiguration.MaxLogLength);
-        }
-
         private static string getOutputPath(UnityEditor.BuildTarget target)
         {
             var outputPath = AltUnityTesterEditor.EditorConfiguration.BuildLocationPath;
 
-            outputPath = string.IsNullOrEmpty(outputPath) ? UnityEditor.PlayerSettings.productName : outputPath + System.IO.Path.DirectorySeparatorChar.ToString() + UnityEditor.PlayerSettings.productName;
+            outputPath = string.IsNullOrEmpty(outputPath) ? "build" : outputPath;
+            outputPath = System.IO.Path.Combine(outputPath, UnityEditor.PlayerSettings.productName);
 
             switch (target)
             {
@@ -366,10 +376,14 @@ namespace Altom.Editor
             }
             var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
 
+            logger.Info("Finished building " + UnityEditor.PlayerSettings.productName + ":" + UnityEditor.PlayerSettings.bundleVersion);
+
+
 #if UNITY_2017
             if (results.Equals(""))
             {
-                logger.Info("No Build Errors");
+                logger.Info("Build path: " + buildPlayerOptions.locationPathName);
+                logger.Info("Build Succeeded");
             }
             else
             {
@@ -379,7 +393,8 @@ namespace Altom.Editor
 #else
             if (results.summary.totalErrors == 0 || results.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
             {
-                logger.Info("No Build Errors");
+                logger.Info("Build path: " + buildPlayerOptions.locationPathName);
+                logger.Info("Build Succeeded");
             }
             else
             {
@@ -388,7 +403,6 @@ namespace Altom.Editor
             }
 #endif
 
-            logger.Info("Finished. " + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
         }
 
         private static string[] getScenesForBuild()
@@ -407,7 +421,7 @@ namespace Altom.Editor
                 }
             }
 
-            InsertAltUnityInTheFirstScene();
+            InsertAltUnityInTheFirstScene(AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings());
 
             return sceneList.ToArray();
         }

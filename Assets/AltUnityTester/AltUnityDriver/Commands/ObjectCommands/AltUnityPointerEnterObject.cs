@@ -2,16 +2,15 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityPointerEnterObject : AltUnityCommandReturningAltElement
     {
-        AltUnityObject altUnityObject;
-        public AltUnityPointerEnterObject(SocketSettings socketSettings, AltUnityObject altUnityObject) : base(socketSettings)
+        AltUnityPointerEnterObjectParams cmdParams;
+        public AltUnityPointerEnterObject(IDriverCommunication commHandler, AltUnityObject altUnityObject) : base(commHandler)
         {
-            this.altUnityObject = altUnityObject;
+            cmdParams = new AltUnityPointerEnterObjectParams(altUnityObject);
         }
         public AltUnityObject Execute()
         {
-            string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-            SendCommand("pointerEnterObject", altObject);
-            return ReceiveAltUnityObject();
+            CommHandler.Send(cmdParams);
+            return ReceiveAltUnityObject(cmdParams);
         }
     }
 }

@@ -1,30 +1,29 @@
 using System.Collections.Generic;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityFindObjectsCommand : AltUnityBaseClassFindObjectsCommand
+    class AltUnityFindObjectsCommand : AltUnityBaseClassFindObjectsCommand<List<AltUnityObject>>
     {
-        public AltUnityFindObjectsCommand(params string[] paramters) : base(paramters) { }
+        public AltUnityFindObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams) { }
 
-        public override string Execute()
+        public override List<AltUnityObject> Execute()
         {
             UnityEngine.Camera camera = null;
-            if (!CameraPath.Equals("//"))
+            if (!CommandParams.cameraPath.Equals("//"))
             {
-                camera = GetCamera(CameraBy, CameraPath);
-                if (camera == null)
-                    return AltUnityErrors.errorCameraNotFound;
+                camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
+                if (camera == null) throw new CameraNotFoundException();
             }
-            var path = new PathSelector(ObjectPath);
+            var path = new PathSelector(CommandParams.path);
             var foundObjects = new List<AltUnityObject>();
-            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, Enabled))
+            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, CommandParams.enabled))
             {
                 foundObjects.Add(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(testableObject, camera));
             }
 
-            return Newtonsoft.Json.JsonConvert.SerializeObject(foundObjects);
-
+            return foundObjects;
         }
     }
 }

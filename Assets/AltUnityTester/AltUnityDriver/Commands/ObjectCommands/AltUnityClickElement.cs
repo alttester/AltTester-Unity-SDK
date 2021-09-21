@@ -2,27 +2,24 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityClickElement : AltUnityCommandReturningAltElement
     {
-        AltUnityObject altUnityObject;
-        private readonly int count;
-        private readonly float interval;
-        private readonly bool wait;
+        AltUnityClickElementParams cmdParams;
 
-        public AltUnityClickElement(SocketSettings socketSettings, AltUnityObject altUnityObject, int count, float interval, bool wait) : base(socketSettings)
+        public AltUnityClickElement(IDriverCommunication commHandler, AltUnityObject altUnityObject, int count, float interval, bool wait) : base(commHandler)
         {
-            this.altUnityObject = altUnityObject;
-            this.count = count;
-            this.interval = interval;
-            this.wait = wait;
+            cmdParams = new AltUnityClickElementParams(
+            altUnityObject,
+             count,
+             interval,
+             wait);
         }
         public AltUnityObject Execute()
         {
-            string altObject = Newtonsoft.Json.JsonConvert.SerializeObject(altUnityObject);
-            SendCommand("clickElement", altObject, count.ToString(), interval.ToString(), this.wait.ToString());
+            CommHandler.Send(cmdParams);
+            var element = ReceiveAltUnityObject(cmdParams);
 
-            var element = ReceiveAltUnityObject();
-            if (wait)
+            if (cmdParams.wait)
             {
-                var data = this.Recvall();
+                var data = CommHandler.Recvall<string>(cmdParams).data;
                 ValidateResponse("Finished", data);
             }
             return element;

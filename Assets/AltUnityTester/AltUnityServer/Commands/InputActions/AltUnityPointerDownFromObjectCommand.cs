@@ -1,33 +1,29 @@
 ﻿using Altom.AltUnityDriver;
-using Newtonsoft.Json;
+using Altom.AltUnityDriver.Commands;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
-    class AltUnityPointerDownFromObjectCommand : AltUnityCommand
+    class AltUnityPointerDownFromObjectCommand : AltUnityCommand<AltUnityPointerDownFromObjectParams, AltUnityObject>
     {
-        readonly AltUnityObject altUnityObject;
 
-        public AltUnityPointerDownFromObjectCommand(params string[] parameters) : base(parameters, 3)
+        public AltUnityPointerDownFromObjectCommand(AltUnityPointerDownFromObjectParams cmdParams) : base(cmdParams)
         {
-            this.altUnityObject = JsonConvert.DeserializeObject<AltUnityObject>(parameters[2]);
         }
 
-        public override string Execute()
+        public override AltUnityObject Execute()
         {
-            string response = AltUnityErrors.errorNotFoundMessage;
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(altUnityObject);
+            UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);
             UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
-            var camera = AltUnityRunner._altUnityRunner.FoundCameraById(altUnityObject.idCamera);
+            var camera = AltUnityRunner._altUnityRunner.FoundCameraById(CommandParams.altUnityObject.idCamera);
             if (camera != null)
             {
-                response = JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, camera));
+                return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject, camera);
             }
             else
             {
-                response = JsonConvert.SerializeObject(AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject));
+                return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject);
             }
-            return response;
         }
     }
 }

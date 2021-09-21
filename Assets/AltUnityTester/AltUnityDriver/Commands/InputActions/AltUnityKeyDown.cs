@@ -4,17 +4,16 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityKeyDown : AltBaseCommand
     {
-        readonly AltUnityKeyCode keyCode;
-        readonly float power;
-        public AltUnityKeyDown(SocketSettings socketSettings, AltUnityKeyCode keyCode, float power) : base(socketSettings)
+        AltUnityKeyDownParams cmdParams;
+
+        public AltUnityKeyDown(IDriverCommunication commHandler, AltUnityKeyCode keyCode, float power) : base(commHandler)
         {
-            this.keyCode = keyCode;
-            this.power = power;
+            this.cmdParams = new AltUnityKeyDownParams(keyCode, power);
         }
         public void Execute()
         {
-            SendCommand("keyDown", keyCode.ToString(), power.ToString());
-            var data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }

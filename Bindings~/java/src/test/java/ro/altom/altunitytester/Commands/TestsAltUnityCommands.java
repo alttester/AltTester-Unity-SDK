@@ -15,6 +15,9 @@ import ro.altom.altunitytester.Commands.AltUnityCommands.AltSetServerLoggingPara
 import ro.altom.altunitytester.Logging.AltUnityLogLevel;
 import ro.altom.altunitytester.Logging.AltUnityLogger;
 
+import javax.websocket.CloseReason;
+import javax.websocket.CloseReason.CloseCodes;
+
 public class TestsAltUnityCommands {
 
     class Rule {
@@ -25,20 +28,20 @@ public class TestsAltUnityCommands {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, ";", "&", true);
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, true);
     }
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop();
+        altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "Connection stopped successfully"));
     }
 
     @Test
     public void testSetServerLogging() {
         String result = altUnityDriver
                 .callStaticMethod(new AltCallStaticMethodParameters.Builder("Altom.Server.Logging.ServerLogManager",
-                        "Instance.Configuration.FindRuleByName", "AltUnityServerFileRule")
-                                .withAssembly("Assembly-CSharp").build());
+                        "Instance.Configuration.FindRuleByName", new Object[] { "AltUnityServerFileRule" })
+                                .withAssembly("Assembly-CSharp").build(), String.class);
 
         Rule rule = new Gson().fromJson(result, Rule.class);
 
@@ -48,8 +51,8 @@ public class TestsAltUnityCommands {
                 new AltSetServerLoggingParameters.Builder(AltUnityLogger.File, AltUnityLogLevel.Off).build());
         result = altUnityDriver
                 .callStaticMethod(new AltCallStaticMethodParameters.Builder("Altom.Server.Logging.ServerLogManager",
-                        "Instance.Configuration.FindRuleByName", "AltUnityServerFileRule")
-                                .withAssembly("Assembly-CSharp").build());
+                        "Instance.Configuration.FindRuleByName", new Object[] { "AltUnityServerFileRule" })
+                                .withAssembly("Assembly-CSharp").build(), String.class);
 
         rule = new Gson().fromJson(result, Rule.class);
         assertEquals(0, rule.Levels.size());

@@ -10,4 +10,4 @@ def test_delete_key_player_pref(self):
         self.altUnityDriver.get_player_pref_key("test", player_pref_key_type)
         self.fail()
     except NotFoundException as exception:
-        self.assertEqual("error:notFound", str(exception))
+        self.assertEqual("notFound", str(exception))

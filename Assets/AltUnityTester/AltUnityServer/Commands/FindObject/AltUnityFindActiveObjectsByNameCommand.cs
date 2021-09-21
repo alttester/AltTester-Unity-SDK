@@ -1,29 +1,37 @@
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
-{
-    class AltUnityFindActiveObjectsByNameCommand : AltUnityBaseClassFindObjectsCommand
-    {
-        public AltUnityFindActiveObjectsByNameCommand(params string[] parameters) : base(parameters)
-        {
-        }
+// TODO: handle this case in AltUnityBaseClassFindObjectsCommand
 
-        public override string Execute()
-        {
-            var foundGameObject = UnityEngine.GameObject.Find(ObjectPath);
-            if (foundGameObject != null)
-            {
-                UnityEngine.Camera camera = null;
-                if (!CameraPath.Equals("//"))
-                {
-                    camera = GetCamera(CameraBy, CameraPath);
-                    if (camera == null)
-                        return AltUnityErrors.errorCameraNotFound;
-                }
-                return Newtonsoft.Json.JsonConvert.SerializeObject(
-                    AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(foundGameObject, camera));
 
-            }
-            return AltUnityErrors.errorNotFoundMessage;
-        }
-    }
-}
+
+// using System.Collections.Generic;
+// using Altom.AltUnityDriver;
+
+// namespace Assets.AltUnityTester.AltUnityServer.Commands
+// {
+//     class AltUnityFindActiveObjectsByNameCommand : AltUnityBaseClassFindObjectsCommand<List<AltUnityObject>>
+//     {
+//         public AltUnityFindActiveObjectsByNameCommand(FindAc) : base(parameters)
+//         {
+//         }
+
+//         public override string Execute()
+//         {
+//             var foundGameObject = UnityEngine.GameObject.Find(ObjectPath);
+//             if ( foundGameObject == null ) throw new NotFoundException();
+//             if (foundGameObject != null)
+//             {
+//                 UnityEngine.Camera camera = null;
+//                 if (!CameraPath.Equals("//"))
+//                 {
+//                     camera = GetCamera(CameraBy, CameraPath);
+//                     if (camera == null)
+//                         return AltUnityErrors.errorCameraNotFound;
+//                 }
+//                 return Newtonsoft.Json.JsonConvert.SerializeObject(
+//                     AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(foundGameObject, camera));
+
+//             }
+//             return AltUnityErrors.errorNotFoundMessage;
+//         }
+//     }
+// }

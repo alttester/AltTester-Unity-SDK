@@ -1,28 +1,24 @@
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Altom.AltUnityDriver.Commands
 {
-    public class AltUnityCallStaticMethod : AltBaseCommand
+    public class AltUnityCallStaticMethod<T> : AltBaseCommand
     {
-        readonly string typeName;
-        readonly string methodName;
-        readonly string parameters;
-        readonly string typeOfParameters;
-        readonly string assemblyName;
-        public AltUnityCallStaticMethod(SocketSettings socketSettings, string typeName, string methodName, string parameters, string typeOfParameters, string assemblyName) : base(socketSettings)
+        AltUnityCallComponentMethodForObjectParams cmdParams;
+
+        public AltUnityCallStaticMethod(IDriverCommunication commHandler, string typeName, string methodName, object[] parameters, string[] typeOfParameters, string assemblyName) : base(commHandler)
         {
-            this.typeName = typeName;
-            this.methodName = methodName;
-            this.parameters = parameters;
-            this.typeOfParameters = typeOfParameters;
-            this.assemblyName = assemblyName;
+            cmdParams = new AltUnityCallComponentMethodForObjectParams(null, typeName, methodName, parameters.Select(p => JsonConvert.SerializeObject(p, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Culture = System.Globalization.CultureInfo.InvariantCulture
+            })).ToArray(), typeOfParameters, assemblyName);
         }
-        public string Execute()
+        public T Execute()
         {
-            string actionInfo = JsonConvert.SerializeObject(new AltUnityObjectAction(typeName, methodName, parameters, typeOfParameters, assemblyName));
-            SendCommand("callComponentMethodForObject", "", actionInfo);
-            var data = Recvall();
-            return data;
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<T>(cmdParams).data;
         }
     }
 }

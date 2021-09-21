@@ -2,60 +2,23 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySetKeyPLayerPref : AltBaseCommand
     {
-        readonly string keyName;
-        readonly int intValue;
-        readonly float floatValue;
-        readonly string stringValue;
-        readonly int option = 0;
-        public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, int intValue) : base(socketSettings)
+        AltUnitySetKeyPlayerPrefParams cmdParams;
+        public AltUnitySetKeyPLayerPref(IDriverCommunication commHandler, string keyName, int intValue) : base(commHandler)
         {
-            this.keyName = keyName;
-            this.intValue = intValue;
-            option = 1;
+            cmdParams = new AltUnitySetKeyPlayerPrefParams(keyName, intValue);
         }
-        public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, float floatValue) : base(socketSettings)
+        public AltUnitySetKeyPLayerPref(IDriverCommunication commHandler, string keyName, float floatValue) : base(commHandler)
         {
-            this.keyName = keyName;
-            this.floatValue = floatValue;
-            option = 2;
+            cmdParams = new AltUnitySetKeyPlayerPrefParams(keyName, floatValue);
         }
-        public AltUnitySetKeyPLayerPref(SocketSettings socketSettings, string keyName, string stringValue) : base(socketSettings)
+        public AltUnitySetKeyPLayerPref(IDriverCommunication commHandler, string keyName, string stringValue) : base(commHandler)
         {
-            this.keyName = keyName;
-            this.stringValue = stringValue;
-            option = 3;
+            cmdParams = new AltUnitySetKeyPlayerPrefParams(keyName, stringValue);
         }
         public void Execute()
         {
-            switch (option)
-            {
-                case 1:
-                    setIntKey();
-                    break;
-                case 2:
-                    setFloatKey();
-                    break;
-                case 3:
-                    setStringKey();
-                    break;
-            }
-        }
-        private void setStringKey()
-        {
-            SendCommand("setKeyPlayerPref", keyName, stringValue.ToString(), PLayerPrefKeyType.String.ToString());
-            var data = Recvall();
-            ValidateResponse("Ok", data);
-        }
-        private void setIntKey()
-        {
-            SendCommand("setKeyPlayerPref", keyName, intValue.ToString(), PLayerPrefKeyType.Int.ToString());
-            var data = Recvall();
-            ValidateResponse("Ok", data);
-        }
-        private void setFloatKey()
-        {
-            SendCommand("setKeyPlayerPref", keyName, floatValue.ToString(), PLayerPrefKeyType.Float.ToString());
-            var data = Recvall();
+            CommHandler.Send(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
         }
     }
