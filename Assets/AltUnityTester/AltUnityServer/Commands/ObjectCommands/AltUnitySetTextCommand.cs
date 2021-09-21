@@ -43,7 +43,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                         if (tMPInputFieldComp != null)
                         {
                             tMPInputFieldComp.onValueChanged.Invoke(CommandParams.value);
-                            checkSubmit(uiInputFieldComp.gameObject);
+                            checkSubmit(tMPInputFieldComp.gameObject);
                         }
                     }
                     return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject);
