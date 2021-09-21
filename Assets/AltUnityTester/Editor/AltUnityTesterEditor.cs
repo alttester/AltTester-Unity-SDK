@@ -88,7 +88,7 @@ namespace Altom.Editor
         UnityEngine.Rect resizeHandleRect;
         UnityEngine.Rect resizeHandleRectHorizontal;
 
-
+        private static bool insideMultilineComment = false;
 
         bool resize;
         bool resizeHorizontal;
@@ -1765,12 +1765,27 @@ namespace Altom.Editor
         }
 
         private static int findLine(String path, String nameOfTest){
-            String[] lines = File.ReadAllLines(path);  
-  
-            for (int i = 0; i < lines.Length; i++)  
-                if (lines[i].Contains(nameOfTest))
-                    return i; 
-            return 0;
+            String[] lines = File.ReadAllLines(path); 
+            int index = nameOfTest.IndexOf("(");
+            if (index > -1)
+                nameOfTest = nameOfTest.Substring(0, index);
+            for (int i = 0; i < lines.Length; i++) { 
+                if(isComment(lines[i]))
+                    continue;
+                if (System.Text.RegularExpressions.Regex.Match(lines[i], @"(\s+)" + nameOfTest + @"(\s*\()").Success)
+                    return i + 1;
+            }
+            return 1;
+        }
+
+        private static bool isComment(String line){
+            bool isOneLineComment = false;
+            if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*/\*)").Success)
+                    insideMultilineComment = true;
+                if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*\*/)").Success)
+                    insideMultilineComment = false;
+                isOneLineComment = System.Text.RegularExpressions.Regex.Match(line, @"^(\s*//)").Success;
+                return insideMultilineComment || isOneLineComment;
         }
 
         private void changeSelectionChildsAndParent(AltUnityMyTest test)
