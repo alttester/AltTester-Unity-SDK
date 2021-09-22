@@ -69,7 +69,7 @@ public class TestForScene5KeyboardAndMouseInput
     {
         altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-        var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star", cameraPath: "Player2");
+        var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
         var pressingpoint1 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
         Assert.AreEqual(1, stars.Count);
 

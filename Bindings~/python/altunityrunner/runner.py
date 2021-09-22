@@ -106,11 +106,11 @@ class AltUnityDriver:
         return alt_elements
 
     @staticmethod
-    def is_camera_by_string(camera_by, camera_path):
+    def is_camera_by_string(camera_by, camera_value):
         if isinstance(camera_by, str):
             return By.NAME, camera_by
         else:
-            return camera_by, camera_path
+            return camera_by, camera_value
 
     def stop(self):
         self._connection.close()
@@ -123,50 +123,50 @@ class AltUnityDriver:
             type_name, method_name, parameters, type_of_parameters, assembly
         )
 
-    def get_all_elements(self, camera_by=By.NAME, camera_path="", enabled=True):
+    def get_all_elements(self, camera_by=By.NAME, camera_value="", enabled=True):
         data = commands.GetAllElements.run(
             self._connection,
-            camera_by, camera_path, enabled
+            camera_by, camera_value, enabled
         )
 
         return self._get_alt_elements(data)
 
-    def find_object(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
-        camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
+    def find_object(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
+        camera_by, camera_value = self.is_camera_by_string(camera_by, camera_value)
 
         data = commands.FindObject.run(
             self._connection,
-            by, value, camera_by, camera_path, enabled
+            by, value, camera_by, camera_value, enabled
         )
 
         return self._get_alt_element(data)
 
-    def find_object_which_contains(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
-        camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
+    def find_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
+        camera_by, camera_value = self.is_camera_by_string(camera_by, camera_value)
 
         data = commands.FindObjectWhichContains.run(
             self._connection,
-            by, value, camera_by, camera_path, enabled
+            by, value, camera_by, camera_value, enabled
         )
 
         return self._get_alt_element(data)
 
-    def find_objects(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
-        camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
+    def find_objects(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
+        camera_by, camera_value = self.is_camera_by_string(camera_by, camera_value)
 
         data = commands.FindObjects.run(
             self._connection,
-            by, value, camera_by, camera_path, enabled
+            by, value, camera_by, camera_value, enabled
         )
 
         return self._get_alt_elements(data)
 
-    def find_objects_which_contain(self, by, value, camera_by=By.NAME, camera_path="", enabled=True):
-        camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
+    def find_objects_which_contain(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
+        camera_by, camera_value = self.is_camera_by_string(camera_by, camera_value)
 
         data = commands.FindObjectsWhichContain.run(
             self._connection,
-            by, value, camera_by, camera_path, enabled
+            by, value, camera_by, camera_value, enabled
         )
 
         return self._get_alt_elements(data)
@@ -297,34 +297,34 @@ class AltUnityDriver:
             scene_name, timeout, interval
         )
 
-    def wait_for_object(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5, enabled=True):
-        camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
+    def wait_for_object(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5, enabled=True):
+        camera_by, camera_value = self.is_camera_by_string(camera_by, camera_value)
 
         data = commands.WaitForObject.run(
             self._connection,
-            by, value, camera_by, camera_path, timeout, interval, enabled
+            by, value, camera_by, camera_value, timeout, interval, enabled
         )
 
         return self._get_alt_element(data)
 
-    def wait_for_object_which_contains(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5,
+    def wait_for_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                        enabled=True):
-        camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
+        camera_by, camera_value = self.is_camera_by_string(camera_by, camera_value)
 
         data = commands.WaitForObjectWhichContains.run(
             self._connection,
-            by, value, camera_by, camera_path, timeout, interval, enabled
+            by, value, camera_by, camera_value, timeout, interval, enabled
         )
 
         return self._get_alt_element(data)
 
-    def wait_for_object_to_not_be_present(self, by, value, camera_by=By.NAME, camera_path="", timeout=20, interval=0.5,
+    def wait_for_object_to_not_be_present(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                           enabled=True):
-        camera_by, camera_path = self.is_camera_by_string(camera_by, camera_path)
+        camera_by, camera_value = self.is_camera_by_string(camera_by, camera_value)
 
         return commands.WaitForObjectToNotBePresent.run(
             self._connection,
-            by, value, camera_by, camera_path, timeout, interval, enabled
+            by, value, camera_by, camera_value, timeout, interval, enabled
         )
 
     def tap(self, coordinates, count=1, interval=0.1, wait=True):

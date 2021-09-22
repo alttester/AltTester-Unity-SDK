@@ -6,11 +6,11 @@ namespace Altom.AltUnityDriver.Commands
     {
         AltUnityFindObjectParams cmdParams;
 
-        public AltUnityFindObject(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(commHandler)
+        public AltUnityFindObject(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraValue, bool enabled) : base(commHandler)
         {
-            cameraPath = SetPath(cameraBy, cameraPath);
+            cameraValue = SetPath(cameraBy, cameraValue);
             string path = SetPath(by, value);
-            cmdParams = new AltUnityFindObjectParams(path, cameraBy, cameraPath, enabled);
+            cmdParams = new AltUnityFindObjectParams(path, cameraBy, cameraValue, enabled);
         }
 
         public AltUnityObject Execute()

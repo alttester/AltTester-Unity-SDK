@@ -99,14 +99,14 @@ namespace Altom.AltUnityDriver
             return new AltUnityGetAllLoadedScenes(communicationHandler).Execute();
         }
 
-        public List<AltUnityObject> FindObjects(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+        public List<AltUnityObject> FindObjects(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
         {
-            return new AltUnityFindObjects(communicationHandler, by, value, cameraBy, cameraPath, enabled).Execute();
+            return new AltUnityFindObjects(communicationHandler, by, value, cameraBy, cameraValue, enabled).Execute();
         }
 
-        public List<AltUnityObject> FindObjectsWhichContain(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+        public List<AltUnityObject> FindObjectsWhichContain(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
         {
-            return new AltUnityFindObjectsWhichContain(communicationHandler, by, value, cameraBy, cameraPath, enabled).Execute();
+            return new AltUnityFindObjectsWhichContain(communicationHandler, by, value, cameraBy, cameraValue, enabled).Execute();
         }
 
         public AltUnityObject FindObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
@@ -261,13 +261,13 @@ namespace Altom.AltUnityDriver
             new AltUnityTiltAndWait(communicationHandler, acceleration, duration).Execute();
         }
 
-        public List<AltUnityObject> GetAllElements(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+        public List<AltUnityObject> GetAllElements(By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
         {
-            return new AltUnityGetAllElements(communicationHandler, cameraBy, cameraPath, enabled).Execute();
+            return new AltUnityGetAllElements(communicationHandler, cameraBy, cameraValue, enabled).Execute();
         }
-        public List<AltUnityObjectLight> GetAllElementsLight(By cameraBy = By.NAME, string cameraPath = "", bool enabled = true)
+        public List<AltUnityObjectLight> GetAllElementsLight(By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
         {
-            return new AltUnityGetAllElementsLight(communicationHandler, cameraBy, cameraPath, enabled).Execute();
+            return new AltUnityGetAllElementsLight(communicationHandler, cameraBy, cameraValue, enabled).Execute();
         }
 
         public string WaitForCurrentSceneToBe(string sceneName, double timeout = 10, double interval = 1)
@@ -275,19 +275,19 @@ namespace Altom.AltUnityDriver
             return new AltUnityWaitForCurrentSceneToBe(communicationHandler, sceneName, timeout, interval).Execute();
         }
 
-        public AltUnityObject WaitForObject(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+        public AltUnityObject WaitForObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
-            return new AltUnityWaitForObject(communicationHandler, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
+            return new AltUnityWaitForObject(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
         }
 
-        public void WaitForObjectNotBePresent(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+        public void WaitForObjectNotBePresent(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
-            new AltUnityWaitForObjectNotBePresent(communicationHandler, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
+            new AltUnityWaitForObjectNotBePresent(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
         }
 
-        public AltUnityObject WaitForObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraPath = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+        public AltUnityObject WaitForObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
-            return new AltUnityWaitForObjectWhichContains(communicationHandler, by, value, cameraBy, cameraPath, enabled, timeout, interval).Execute();
+            return new AltUnityWaitForObjectWhichContains(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
         }
 
         public List<string> GetAllScenes()

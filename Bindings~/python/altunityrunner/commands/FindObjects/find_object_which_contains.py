@@ -5,7 +5,7 @@ from altunityrunner.by import By
 
 class FindObjectWhichContains(BaseCommand):
 
-    def __init__(self, connection, by, value, camera_by, camera_path, enabled):
+    def __init__(self, connection, by, value, camera_by, camera_value, enabled):
         super().__init__(connection, "findObject")
 
         if by not in By:
@@ -17,7 +17,7 @@ class FindObjectWhichContains(BaseCommand):
         self.by = by
         self.value = value
         self.camera_by = camera_by
-        self.camera_path = camera_path
+        self.camera_value = camera_value
         self.enabled = enabled
 
     @property
@@ -27,7 +27,7 @@ class FindObjectWhichContains(BaseCommand):
             "by": str(self.by),
             "path": self.get_path_contains(self.by, self.value),
             "cameraBy": str(self.camera_by),
-            "cameraPath": self.get_path(self.camera_by, self.camera_path),
+            "cameraPath": self.get_path(self.camera_by, self.camera_value),
             "enabled": self.enabled
         })
 

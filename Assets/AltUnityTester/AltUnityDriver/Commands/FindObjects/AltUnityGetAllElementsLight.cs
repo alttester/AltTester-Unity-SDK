@@ -5,9 +5,9 @@ namespace Altom.AltUnityDriver.Commands
     public class AltUnityGetAllElementsLight : AltUnityBaseFindObjects
     {
         AltUnityFindObjectsLightParams cmdParams;
-        public AltUnityGetAllElementsLight(IDriverCommunication commHandler, By cameraBy, string cameraPath, bool enabled) : base(commHandler)
+        public AltUnityGetAllElementsLight(IDriverCommunication commHandler, By cameraBy, string cameraValue, bool enabled) : base(commHandler)
         {
-            cmdParams = new AltUnityFindObjectsLightParams("//*", cameraBy, SetPath(cameraBy, cameraPath), enabled);
+            cmdParams = new AltUnityFindObjectsLightParams("//*", cameraBy, SetPath(cameraBy, cameraValue), enabled);
         }
         public List<AltUnityObjectLight> Execute()
         {
