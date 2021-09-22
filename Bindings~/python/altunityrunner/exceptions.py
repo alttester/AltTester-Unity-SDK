@@ -13,11 +13,16 @@ class AltUnityInvalidServerResponse(AltUnityException):
     """Raised when the server responds with an invalid respose."""
 
     def __init__(self, expected, received):
-        super().__init__("Expected to get response {}; Got {}".format(expected, received))
+        super().__init__("Expected to get response {}; got {}".format(expected, received))
 
 
 class InvalidParameterTypeException(TypeError, AltUnityException):
     """Raised when an function or method receives an parameter that has the inappropriate type."""
+
+    def __init__(self, parameter_name, expected_type, received_type):
+        super().__init__(
+            "TypeError: {} must be {} not {}.".format(parameter_name, expected_type.__name__, received_type.__name__)
+        )
 
 
 class InvalidParameterValueException(ValueError, AltUnityException):

@@ -9,10 +9,10 @@ class FindObjectWhichContains(BaseCommand):
         super().__init__(connection, "findObject")
 
         if by not in By:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(parameter_name="by", expected_type=By, received_type=type(by))
 
         if camera_by not in By:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(parameter_name="camera_by", expected_type=By, received_type=type(camera_by))
 
         self.by = by
         self.value = value
