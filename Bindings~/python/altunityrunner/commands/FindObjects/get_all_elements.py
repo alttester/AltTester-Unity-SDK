@@ -6,15 +6,15 @@ from altunityrunner.by import By
 
 class GetAllElements(Command):
 
-    def __init__(self, connection, camera_by, camera_path, enabled):
+    def __init__(self, connection, camera_by, camera_value, enabled):
         self.connection = connection
 
         if camera_by not in By:
             raise InvalidParameterTypeException()
 
         self.camera_by = camera_by
-        self.camera_path = camera_path
+        self.camera_value = camera_value
         self.enabled = enabled
 
     def execute(self):
-        return FindObjects.run(self.connection, By.PATH, "//*", self.camera_by, self.camera_path, self.enabled)
+        return FindObjects.run(self.connection, By.PATH, "//*", self.camera_by, self.camera_value, self.enabled)

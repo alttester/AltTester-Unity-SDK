@@ -13,14 +13,14 @@ namespace Altom.AltUnityDriver.Commands
         private readonly double timeout;
         private readonly double interval;
 
-        public AltUnityWaitForObjectWhichContains(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(commHandler)
+        public AltUnityWaitForObjectWhichContains(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraValue, bool enabled, double timeout, double interval) : base(commHandler)
         {
             path = SetPath(by, value);
             if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
             if (interval <= 0) throw new ArgumentOutOfRangeException("interval");
             this.timeout = timeout;
             this.interval = interval;
-            findObject = new AltUnityFindObjectWhichContains(CommHandler, by, value, cameraBy, cameraPath, enabled);
+            findObject = new AltUnityFindObjectWhichContains(CommHandler, by, value, cameraBy, cameraValue, enabled);
         }
         public AltUnityObject Execute()
         {

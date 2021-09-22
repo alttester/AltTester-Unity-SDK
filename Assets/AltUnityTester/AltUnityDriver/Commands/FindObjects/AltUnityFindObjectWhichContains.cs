@@ -4,9 +4,9 @@
     {
         AltUnityFindObjectParams cmdParams;
 
-        public AltUnityFindObjectWhichContains(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled) : base(commHandler)
+        public AltUnityFindObjectWhichContains(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraValue, bool enabled) : base(commHandler)
         {
-            cmdParams = new AltUnityFindObjectParams(SetPathContains(by, value), cameraBy, SetPath(cameraBy, cameraPath), enabled);
+            cmdParams = new AltUnityFindObjectParams(SetPathContains(by, value), cameraBy, SetPath(cameraBy, cameraValue), enabled);
         }
         public AltUnityObject Execute()
         {

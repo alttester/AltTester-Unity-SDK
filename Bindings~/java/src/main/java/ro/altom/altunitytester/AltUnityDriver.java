@@ -360,9 +360,9 @@ public class AltUnityDriver {
         return new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParameters).Execute();
     }
 
-    public AltUnityObject findObjectWhichContains(By by, String value, By cameraBy, String cameraPath,
+    public AltUnityObject findObjectWhichContains(By by, String value, By cameraBy, String cameraValue,
             boolean enabled) {
-        return findObjectWhichContains(BuildFindObjectsParameters(by, value, cameraBy, cameraPath, enabled));
+        return findObjectWhichContains(BuildFindObjectsParameters(by, value, cameraBy, cameraValue, enabled));
     }
 
     /**
@@ -374,8 +374,8 @@ public class AltUnityDriver {
         return new AltFindObjects(this.connection.messageHandler, altFindObjectsParameters).Execute();
     }
 
-    public AltUnityObject[] findObjects(By by, String value, By cameraBy, String cameraPath, boolean enabled) {
-        return findObjects(BuildFindObjectsParameters(by, value, cameraBy, cameraPath, enabled));
+    public AltUnityObject[] findObjects(By by, String value, By cameraBy, String cameraValue, boolean enabled) {
+        return findObjects(BuildFindObjectsParameters(by, value, cameraBy, cameraValue, enabled));
     }
 
     /**

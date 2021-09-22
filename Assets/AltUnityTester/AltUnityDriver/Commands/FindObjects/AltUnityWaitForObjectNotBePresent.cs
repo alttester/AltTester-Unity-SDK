@@ -12,9 +12,9 @@ namespace Altom.AltUnityDriver.Commands
         private readonly string path;
         double timeout;
         double interval;
-        public AltUnityWaitForObjectNotBePresent(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(commHandler)
+        public AltUnityWaitForObjectNotBePresent(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraValue, bool enabled, double timeout, double interval) : base(commHandler)
         {
-            findObject = new AltUnityFindObject(commHandler, by, value, cameraBy, cameraPath, enabled);
+            findObject = new AltUnityFindObject(commHandler, by, value, cameraBy, cameraValue, enabled);
             path = SetPath(by, value);
 
             this.timeout = timeout;
