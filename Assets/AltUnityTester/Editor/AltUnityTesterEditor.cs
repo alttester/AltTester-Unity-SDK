@@ -1802,13 +1802,15 @@ namespace Altom.Editor
             }
         }
 
-        private static int findLine(String path, String nameOfTest){
-            String[] lines = File.ReadAllLines(path); 
+        private static int findLine(String path, String nameOfTest)
+        {
+            String[] lines = File.ReadAllLines(path);
             int index = nameOfTest.IndexOf("(");
             if (index > -1)
                 nameOfTest = nameOfTest.Substring(0, index);
-            for (int i = 0; i < lines.Length; i++) { 
-                if(isComment(lines[i]))
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (isComment(lines[i]))
                     continue;
                 if (System.Text.RegularExpressions.Regex.Match(lines[i], @"(\s+)" + nameOfTest + @"(\s*\()").Success)
                     return i + 1;
@@ -1816,14 +1818,17 @@ namespace Altom.Editor
             return 1;
         }
 
-        private static bool isComment(String line){
-            bool isOneLineComment = false;
+        private static bool isComment(String line)
+        {
+            bool isOneLineComment;
+            isOneLineComment = System.Text.RegularExpressions.Regex.Match(line, @"^(\s*//)").Success;
+            if (isOneLineComment)
+                return true;
             if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*/\*)").Success)
-                    insideMultilineComment = true;
-                if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*\*/)").Success)
-                    insideMultilineComment = false;
-                isOneLineComment = System.Text.RegularExpressions.Regex.Match(line, @"^(\s*//)").Success;
-                return insideMultilineComment || isOneLineComment;
+                insideMultilineComment = true;
+            if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*\*/)").Success)
+                insideMultilineComment = false;
+            return insideMultilineComment || isOneLineComment;
         }
 
         private void changeSelectionChildsAndParent(AltUnityMyTest test)
