@@ -1820,15 +1820,13 @@ namespace Altom.Editor
 
         private static bool isComment(String line)
         {
-            bool isOneLineComment;
-            isOneLineComment = System.Text.RegularExpressions.Regex.Match(line, @"^(\s*//)").Success;
-            if (isOneLineComment)
+            if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*//)").Success)
                 return true;
             if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*/\*)").Success)
                 insideMultilineComment = true;
             if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*\*/)").Success)
                 insideMultilineComment = false;
-            return insideMultilineComment || isOneLineComment;
+            return insideMultilineComment;
         }
 
         private void changeSelectionChildsAndParent(AltUnityMyTest test)
