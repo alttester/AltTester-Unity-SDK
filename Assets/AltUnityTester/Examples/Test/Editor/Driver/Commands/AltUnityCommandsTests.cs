@@ -10,6 +10,7 @@ public class AltUnityCommandsTests
     [OneTimeSetUp]
     public void SetUp()
     {
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Debug);
         altUnityDriver = new AltUnityDriver();
     }
 
@@ -20,6 +21,7 @@ public class AltUnityCommandsTests
     }
 
     [Test]
+    [Category("WebGLUnsupported")]
     public void TestSetServerLogging()
     {
         var rule = altUnityDriver.CallStaticMethod<dynamic>("Altom.Server.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltUnityServerFileRule" }, null, "Assembly-CSharp");

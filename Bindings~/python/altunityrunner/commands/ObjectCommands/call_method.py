@@ -13,14 +13,10 @@ class CallMethod(BaseCommand):
         type_of_parameters = type_of_parameters if type_of_parameters is not None else []
 
         if not isinstance(parameters, (list, tuple)):
-            raise InvalidParameterTypeException(
-                "Invalid type for parameter 'parameters'; expected type list, got {}.".format(type(parameters).__name__)
-            )
+            raise InvalidParameterTypeException(parameter_name="parameters", expected_types=(list, tuple), received_type=type(parameters))
 
         if not isinstance(type_of_parameters, (list, tuple)):
-            raise InvalidParameterTypeException(
-                "Invalid type for parameter 'type_of_parameters'; expected type list, got {}.".format(type(type_of_parameters).__name__)
-            )
+            raise InvalidParameterTypeException(parameter_name="type_of_parameters", expected_types=(list, tuple), received_type=type(type_of_parameters))
 
         self.alt_object = alt_object
         self.component_name = component_name

@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
 import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
@@ -17,9 +17,9 @@ public class AltWaitForObjectWithText extends AltBaseFindObject {
      */
     private AltWaitForObjectWithTextParameters altWaitForObjectWithTextParameters;
 
-    public AltWaitForObjectWithText(AltBaseSettings altBaseSettings,
+    public AltWaitForObjectWithText(IMessageHandler messageHandler,
             AltWaitForObjectWithTextParameters altWaitForObjectWithTextParameters) {
-        super(altBaseSettings);
+        super(messageHandler);
         this.altWaitForObjectWithTextParameters = altWaitForObjectWithTextParameters;
     }
 
@@ -28,10 +28,10 @@ public class AltWaitForObjectWithText extends AltBaseFindObject {
         AltUnityObject altElement = null;
         while (time < altWaitForObjectWithTextParameters.getTimeout()) {
             logger.debug(
-                    "Waiting for element " + altWaitForObjectWithTextParameters.getAltFindObjectsParameters().getValue()
+                    "Waiting for element " + altWaitForObjectWithTextParameters.getAltFindObjectsParameters().getPath()
                             + " to have text [" + altWaitForObjectWithTextParameters.getText() + "]");
             try {
-                altElement = new AltFindObject(altBaseSettings,
+                altElement = new AltFindObject(messageHandler,
                         altWaitForObjectWithTextParameters.getAltFindObjectsParameters()).Execute();
                 if (altElement != null && altElement.getText().equals(altWaitForObjectWithTextParameters.getText())) {
                     return altElement;

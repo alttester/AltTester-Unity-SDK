@@ -1,15 +1,15 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
 
 public class AltWaitForCurrentSceneToBe extends AltBaseCommand {
     private AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters;
 
-    public AltWaitForCurrentSceneToBe(AltBaseSettings altBaseSettings,
+    public AltWaitForCurrentSceneToBe(IMessageHandler messageHandler,
             AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters) {
-        super(altBaseSettings);
+        super(messageHandler);
         this.altWaitForCurrentSceneToBeParameters = altWaitForCurrentSceneToBeParameters;
     }
 
@@ -18,7 +18,7 @@ public class AltWaitForCurrentSceneToBe extends AltBaseCommand {
         String currentScene = "";
         while (time < altWaitForCurrentSceneToBeParameters.getTimeout()) {
             logger.debug("Waiting for scene to be " + altWaitForCurrentSceneToBeParameters.getSceneName() + "...");
-            currentScene = new AltGetCurrentScene(altBaseSettings).Execute();
+            currentScene = new AltGetCurrentScene(messageHandler).Execute();
             if (currentScene != null && currentScene.equals(altWaitForCurrentSceneToBeParameters.getSceneName())) {
                 return currentScene;
             }

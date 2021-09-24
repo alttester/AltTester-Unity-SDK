@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -13,19 +13,14 @@ public class AltPressKey extends AltBaseCommand {
      */
     private AltPressKeyParameters altPressKeyParameters;
 
-    public AltPressKey(AltBaseSettings altBaseSettings, AltPressKeyParameters altPressKeyParameters) {
-        super(altBaseSettings);
+    public AltPressKey(IMessageHandler messageHandler, AltPressKeyParameters altPressKeyParameters) {
+        super(messageHandler);
         this.altPressKeyParameters = altPressKeyParameters;
+        this.altPressKeyParameters.setCommandName("pressKeyboardKey");
     }
 
     public void Execute() {
-        String keyCode = altPressKeyParameters.getKeyCode().toString();
-        if(keyCode != "")
-            SendCommand("pressKeyboardKey", keyCode,
-                String.valueOf(altPressKeyParameters.getPower()), String.valueOf(altPressKeyParameters.getDuration()));
-        else
-            SendCommand("pressKeyboardKey", altPressKeyParameters.getKeyName(),
-                String.valueOf(altPressKeyParameters.getPower()), String.valueOf(altPressKeyParameters.getDuration()));
-        recvall();
+        SendCommand(altPressKeyParameters);
+        recvall(altPressKeyParameters, String.class);
     }
 }

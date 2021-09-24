@@ -19,9 +19,12 @@ class AltUnityInvalidServerResponse(AltUnityException):
 class InvalidParameterTypeException(TypeError, AltUnityException):
     """Raised when an function or method receives an parameter that has the inappropriate type."""
 
-    def __init__(self, parameter_name, expected_type, received_type):
+    def __init__(self, parameter_name, expected_types, received_type):
+        expected_types = [expected_type.__name__ for expected_type in expected_types]
+        expected_types = ", ".join(expected_types)
+
         super().__init__(
-            "TypeError: {} must be {} not {}.".format(parameter_name, expected_type.__name__, received_type.__name__)
+            "TypeError: {} must be {}; not {}.".format(parameter_name, expected_types, received_type.__name__)
         )
 
 

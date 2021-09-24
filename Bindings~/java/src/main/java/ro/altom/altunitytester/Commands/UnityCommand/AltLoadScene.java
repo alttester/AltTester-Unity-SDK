@@ -1,23 +1,23 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltLoadScene extends AltBaseCommand {
     private AltLoadSceneParameters altLoadSceneParameters;
 
-    public AltLoadScene(AltBaseSettings altBaseSettings, AltLoadSceneParameters altLoadSceneParameters) {
-        super(altBaseSettings);
+    public AltLoadScene(IMessageHandler messageHandler, AltLoadSceneParameters altLoadSceneParameters) {
+        super(messageHandler);
         this.altLoadSceneParameters = altLoadSceneParameters;
+        this.altLoadSceneParameters.setCommandName("loadScene");
     }
 
     public void Execute() {
-        SendCommand("loadScene", altLoadSceneParameters.getSceneName(),
-                Boolean.toString(altLoadSceneParameters.getLoadSingle()));
-        String data = recvall();
+        SendCommand(altLoadSceneParameters);
+        String data = recvall(altLoadSceneParameters, String.class);
         validateResponse("Ok", data);
 
-        data = recvall();
+        data = recvall(altLoadSceneParameters, String.class);
         validateResponse("Scene Loaded", data);
     }
 }

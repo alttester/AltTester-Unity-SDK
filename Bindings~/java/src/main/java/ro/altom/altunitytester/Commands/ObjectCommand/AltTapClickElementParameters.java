@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-public class AltTapClickElementParameters {
+public class AltTapClickElementParameters extends AltUnityObjectParameters {
     private int count = 1;
     private float interval = 0.1f;
     private boolean wait = true;

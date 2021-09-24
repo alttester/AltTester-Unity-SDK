@@ -4,9 +4,9 @@ namespace Altom.AltUnityDriver.Commands
     {
         AltUnityFindObjectsParams cmdParams;
 
-        public AltUnityGetAllElements(IDriverCommunication commHandler, By cameraBy, string cameraPath, bool enabled) : base(commHandler)
+        public AltUnityGetAllElements(IDriverCommunication commHandler, By cameraBy, string cameraValue, bool enabled) : base(commHandler)
         {
-            cmdParams = new AltUnityFindObjectsParams("//*", cameraBy, SetPath(cameraBy, cameraPath), enabled);
+            cmdParams = new AltUnityFindObjectsParams("//*", cameraBy, SetPath(cameraBy, cameraValue), enabled);
         }
         public System.Collections.Generic.List<AltUnityObject> Execute()
         {

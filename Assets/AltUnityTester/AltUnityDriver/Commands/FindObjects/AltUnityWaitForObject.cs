@@ -13,9 +13,9 @@ namespace Altom.AltUnityDriver.Commands
         double timeout;
         double interval;
 
-        public AltUnityWaitForObject(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraPath, bool enabled, double timeout, double interval) : base(commHandler)
+        public AltUnityWaitForObject(IDriverCommunication commHandler, By by, string value, By cameraBy, string cameraValue, bool enabled, double timeout, double interval) : base(commHandler)
         {
-            findObject = new AltUnityFindObject(CommHandler, by, value, cameraBy, cameraPath, enabled);
+            findObject = new AltUnityFindObject(CommHandler, by, value, cameraBy, cameraValue, enabled);
             path = SetPath(by, value);
             this.timeout = timeout;
             this.interval = interval;
@@ -26,6 +26,8 @@ namespace Altom.AltUnityDriver.Commands
         {
             double time = 0;
             AltUnityObject altElement = null;
+
+            logger.Debug("Waiting for element " + path + " to be present.");
             while (time < timeout)
             {
                 try
@@ -35,7 +37,6 @@ namespace Altom.AltUnityDriver.Commands
                 }
                 catch (NotFoundException)
                 {
-                    logger.Debug("Waiting for element " + path + " to be present.");
                     Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                     time += interval;
                 }

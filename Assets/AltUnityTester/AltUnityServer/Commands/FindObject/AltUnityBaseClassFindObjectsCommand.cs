@@ -69,20 +69,20 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             return objectsFound;
         }
-        protected UnityEngine.Camera GetCamera(By cameraBy, string cameraPath)
+        protected UnityEngine.Camera GetCamera(By cameraBy, string cameraValue)
         {
 
             if (cameraBy == By.NAME)
             {
-                var cameraPathSplited = cameraPath.Split('/');
-                var cameraName = cameraPathSplited[cameraPathSplited.Length - 1];
+                var cameraValueSplited = cameraValue.Split('/');
+                var cameraName = cameraValueSplited[cameraValueSplited.Length - 1];
                 return UnityEngine.Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
 
             }
             else
             {
-                var cameraPathProcessed = new PathSelector(cameraPath);
-                var gameObjectsCameraFound = FindObjects(null, cameraPathProcessed.FirstBound, false, true);
+                var cameraValueProcessed = new PathSelector(cameraValue);
+                var gameObjectsCameraFound = FindObjects(null, cameraValueProcessed.FirstBound, false, true);
                 return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetInstanceID() == d.GetInstanceID()));
             }
 

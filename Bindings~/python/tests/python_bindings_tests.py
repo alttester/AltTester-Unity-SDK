@@ -2,6 +2,8 @@ import os
 import time
 import unittest
 
+import pytest
+
 from altunityrunner import *
 from altunityrunner.__version__ import VERSION
 from altunityrunner.commands import GetServerVersion
@@ -13,11 +15,17 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltUnityDriver(timeout=300, enable_logging=True)
+        cls.altdriver = AltUnityDriver(enable_logging=True, timeout=None)
 
     @classmethod
     def tearDownClass(cls):
         cls.altdriver.stop()
+
+    # def test_timeout(self):
+    #     self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+    #     import time
+    #     time.sleep(50)
+    #     self.altdriver.load_scene('Scene 2 Draggable Panel')
 
     def test_tap_ui_object(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -156,47 +164,61 @@ class PythonTests(unittest.TestCase):
 
     def test_call_component_method_assembly_not_found(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        try:
-            self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
-                "RandomComponent", "TestMethodWithManyParameters",
-                [1, "stringparam", 0.5, [1, 2, 3]], "RandomAssembly", [])
-            self.fail()
-        except AssemblyNotFoundException as e:
-            assert str(e) == "Assembly not found"
+
+        with pytest.raises(AssemblyNotFoundException) as execinfo:
+            altelement = self.altdriver.find_object(By.NAME, 'Capsule')
+            altelement.call_component_method(
+                'RandomComponent', 'TestMethodWithManyParameters',
+                parameters=[1, 'stringparam', 0.5, [1, 2, 3]],
+                type_of_parameters=[],
+                assembly='RandomAssembly'
+            )
+
+        assert str(execinfo.value) == "Assembly not found"
 
     def test_call_component_method_incorrect_number_of_parameters(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        alt_element = self.altdriver.find_object(By.NAME, "Capsule")
-        try:
-            alt_element.call_component_method(
+        altelement = self.altdriver.find_object(By.NAME, "Capsule")
+
+        with pytest.raises(MethodWithGivenParametersNotFoundException) as execinfo:
+            altelement.call_component_method(
                 "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
-                ["stringparam", 0.5, [1, 2, 3]], "", [])
-            self.fail()
-        except MethodWithGivenParametersNotFoundException as e:
-            assert str(e) == "No method found with 3 parameters matching signature: TestMethodWithManyParameters(System.String[])"
+                parameters=["stringparam", 0.5, [1, 2, 3]],
+                type_of_parameters=[]
+            )
+
+        assert str(execinfo.value) == "No method found with 3 parameters matching signature: TestMethodWithManyParameters(System.String[])"
 
     def test_call_component_method_invalid_method_argument_types(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        alt_element = self.altdriver.find_object(By.NAME, "Capsule")
-        try:
-            alt_element.call_component_method(
+        altelement = self.altdriver.find_object(By.NAME, "Capsule")
+
+        with pytest.raises(FailedToParseArgumentsException) as execinfo:
+            altelement.call_component_method(
                 "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
-                ["stringnoint", "stringparams", 0.5, [1, 2, 3]], "", [])
-            self.fail()
-        except FailedToParseArgumentsException as e:
-            assert str(e) == "Could not parse parameter '\"stringnoint\"' to type System.Int32"
+                parameters=["stringnoint", "stringparams", 0.5, [1, 2, 3]],
+                type_of_parameters=[]
+            )
+
+        assert str(execinfo.value) == "Could not parse parameter '\"stringnoint\"' to type System.Int32"
 
     def test_call_component_method_check_parameters(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        alt_element = self.altdriver.find_object(By.NAME, "Capsule")
-        result = alt_element.call_component_method(
-            "AltUnityExampleScriptCapsule", "TestCallComponentMethod",
-            [1, "stringparam", 0.5, [1, 2, 3]], "", [])
+
+        altelement = self.altdriver.find_object(By.NAME, 'Capsule')
+        result = altelement.call_component_method(
+            'AltUnityExampleScriptCapsule', 'TestCallComponentMethod',
+            parameters=[1, 'stringparam', 0.5, [1, 2, 3]],
+            type_of_parameters=[]
+        )
         self.assertEqual(result, '1,stringparam,0.5,[1,2,3]')
-        resultTuple = alt_element.call_component_method(
-            "AltUnityExampleScriptCapsule", "TestCallComponentMethod",
-            (1, "stringparam", 0.5, [1, 2, 3]), "", [])
-        self.assertEqual(resultTuple, '1,stringparam,0.5,[1,2,3]')
+
+        result = altelement.call_component_method(
+            'AltUnityExampleScriptCapsule', 'TestCallComponentMethod',
+            parameters=(1, 'stringparam', 0.5, [1, 2, 3]),
+            type_of_parameters=[]
+        )
+        self.assertEqual(result, '1,stringparam,0.5,[1,2,3]')
 
     def test_pointer_enter_and_exit(self):
         self.altdriver.load_scene('Scene 3 Drag And Drop')
@@ -331,7 +353,7 @@ class PythonTests(unittest.TestCase):
 
     def test_set_player_pref_keys_int(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        self.altdriver.delete_player_prefs()
+        self.altdriver.delete_player_pref()
         self.altdriver.set_player_pref_key('test', 1, PlayerPrefKeyType.Int)
         value = self.altdriver.get_player_pref_key(
             'test', PlayerPrefKeyType.Int)
@@ -339,7 +361,7 @@ class PythonTests(unittest.TestCase):
 
     def test_set_player_pref_keys_float(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        self.altdriver.delete_player_prefs()
+        self.altdriver.delete_player_pref()
         self.altdriver.set_player_pref_key(
             'test', 1.3, PlayerPrefKeyType.Float)
         value = self.altdriver.get_player_pref_key(
@@ -348,7 +370,7 @@ class PythonTests(unittest.TestCase):
 
     def test_set_player_pref_keys_string(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-        self.altdriver.delete_player_prefs()
+        self.altdriver.delete_player_pref()
         self.altdriver.set_player_pref_key(
             'test', 'string value', PlayerPrefKeyType.String)
         value = self.altdriver.get_player_pref_key(
@@ -421,7 +443,6 @@ class PythonTests(unittest.TestCase):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
         response = self.altdriver.tap({"x": 1, "y": counter_button.y + 100})
-        self.assertEqual(response, "Finished")
 
     def test_set_and_get_time_scale(self):
         self.altdriver.set_time_scale(0.1)
@@ -555,8 +576,11 @@ class PythonTests(unittest.TestCase):
         initialRotation = capsule.get_component_property(
             "UnityEngine.Transform", "rotation")
         capsule.call_component_method(
-            "UnityEngine.Transform", "Rotate", ["10", "10", "10"],
-            "UnityEngine.CoreModule", ["System.Single", "System.Single", "System.Single"])
+            "UnityEngine.Transform", "Rotate",
+            parameters=["10", "10", "10"],
+            type_of_parameters=["System.Single", "System.Single", "System.Single"],
+            assembly="UnityEngine.CoreModule"
+        )
         capsuleAfterRotation = self.altdriver.find_object(By.NAME, "Capsule")
         finalRotation = capsuleAfterRotation.get_component_property(
             "UnityEngine.Transform", "rotation")
@@ -686,6 +710,7 @@ class PythonTests(unittest.TestCase):
         original_text = text_object.get_text()
         after_text = text_object.set_text("ModifiedText").get_text()
         self.assertNotEqual(original_text, after_text)
+        self.assertEqual(after_text, "ModifiedText")
 
     def test_press_next_scene(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -925,14 +950,17 @@ class PythonTests(unittest.TestCase):
 
     def test_find_object_by_camera(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+
         altButton = self.altdriver.find_object(By.PATH, "//Button")
         altButton.tap()
         altButton.tap()
+
         altElement = self.altdriver.find_object(
-            By.COMPONENT, "CapsuleCollider", "Camera")
+            By.COMPONENT, "CapsuleCollider", camera_value="Camera")
         self.assertTrue(altElement.name == "Capsule")
+
         altElement2 = self.altdriver.find_object(
-            By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera")
+            By.COMPONENT, "CapsuleCollider", camera_by=By.NAME, camera_value="Main Camera")
         self.assertNotEqual(altElement.x, altElement2.x)
         self.assertNotEqual(altElement.y, altElement2.y)
 
@@ -942,10 +970,10 @@ class PythonTests(unittest.TestCase):
         altButton.tap()
         altButton.tap()
         altElement = self.altdriver.wait_for_object(
-            By.COMPONENT, "CapsuleCollider", "Camera")
+            By.COMPONENT, "CapsuleCollider", camera_value="Camera")
         self.assertTrue(altElement.name == "Capsule")
         altElement2 = self.altdriver.wait_for_object(
-            By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera")
+            By.COMPONENT, "CapsuleCollider", camera_by=By.NAME, camera_value="Main Camera")
         self.assertNotEqual(altElement.x, altElement2.x)
         self.assertNotEqual(altElement.y, altElement2.y)
 
@@ -1166,6 +1194,12 @@ class PythonTests(unittest.TestCase):
         with self.assertRaises(CameraNotFoundException):
             self.altdriver.find_object(By.NAME, "Capsule", By.NAME, "Camera")
 
+    def test_input_field_events(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        inputField = self.altdriver.find_object(By.NAME, 'InputField').set_text("example", True)
+        self.assertEqual("example", inputField.get_text())
+        self.assertTrue(inputField.get_component_property("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked"))
+        self.assertTrue(inputField.get_component_property("AltUnityInputFieldRaisedEvents", "onSubmitInvoked"))
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)

@@ -10,105 +10,38 @@ import ro.altom.altunitytester.Commands.FindObject.AltFindObject;
 
 @Getter
 public class AltUnityObject {
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getName()
-     */
+
     public String name;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getId()
-     */
     public int id;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getX()
-     */
     public int x;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getY()
-     */
     public int y;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getZ()
-     */
     public int z;
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getMobileY()
-     */
     public int mobileY;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getType()
-     */
     public String type;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter isEnabled()
-     */
     public boolean enabled;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getWorldX()
-     */
     public float worldX;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getWorldY()
-     */
     public float worldY;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getWorldZ()
-     */
     public float worldZ;
-
-    /**
-     * Access to this variable will be removed in the future.
-     *
-     * As of version 1.3.0 use getter getIdCamera()
-     */
     public int idCamera;
-    @Deprecated
-    public int parentId;
     public int transformParentId;
     public int transformId;
 
-    public AltBaseSettings getAltBaseSettings() {
-        return altBaseSettings;
+    private transient IMessageHandler messageHandler;
+
+    public IMessageHandler getMessageHandler() {
+        return messageHandler;
     }
 
-    public void setAltBaseSettings(AltBaseSettings altBaseSettings) {
-        this.altBaseSettings = altBaseSettings;
+    public void setMesssageHandler(IMessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
     }
 
-    private transient AltBaseSettings altBaseSettings;
+    public AltUnityObject(){
+        
+    }
 
     public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled,
-            float worldX, float worldY, float worldZ, int idCamera, int parentId, int transformId) {
+            float worldX, float worldY, float worldZ, int idCamera, int transformParentId, int transformId) {
         this.name = name;
         this.id = id;
         this.x = x;
@@ -122,22 +55,13 @@ public class AltUnityObject {
         this.worldZ = worldZ;
         this.idCamera = idCamera;
         this.transformId = transformId;
-        this.parentId = parentId;
-        this.transformParentId = parentId;
-    }
-
-    public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled,
-            float worldX, float worldY, float worldZ, int idCamera, int parentId, int transformParentId,
-            int transformId) {
-        this(name, id, x, y, z, mobileY, type, enabled, worldX, worldY, worldZ, idCamera, transformParentId,
-                transformId);
         this.transformParentId = transformParentId;
     }
 
     public AltUnityObject getParent() {
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
                 "//*[@id=" + this.id + "]/..").build();
-        return new AltFindObject(altBaseSettings, altFindObjectsParameters).Execute();
+        return new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
     }
 
     public Vector2 getScreenPosition() {
@@ -149,7 +73,8 @@ public class AltUnityObject {
     }
 
     public String getComponentProperty(AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
-        return new AltGetComponentProperty(altBaseSettings, this, altGetComponentPropertyParameters).Execute();
+        altGetComponentPropertyParameters.setAltUnityObject(this);
+        return new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters).Execute();
     }
 
     public String getComponentProperty(String assemblyName, String componentName, String propertyName) {
@@ -163,7 +88,8 @@ public class AltUnityObject {
     }
 
     public String setComponentProperty(AltSetComponentPropertyParameters altSetComponentPropertyParameters) {
-        return new AltSetComponentProperty(altBaseSettings, this, altSetComponentPropertyParameters).Execute();
+        altSetComponentPropertyParameters.setAltUnityObject(this);
+        return new AltSetComponentProperty(messageHandler, altSetComponentPropertyParameters).Execute();
     }
 
     public String setComponentProperty(String assemblyName, String componentName, String propertyName, String value) {
@@ -176,28 +102,31 @@ public class AltUnityObject {
         return setComponentProperty("", componentName, propertyName, value);
     }
 
-    public String callComponentMethod(AltCallComponentMethodParameters altCallComponentMethodParameters) {
-        return new AltCallComponentMethod(altBaseSettings, this, altCallComponentMethodParameters).Execute();
+    public <T> T callComponentMethod(AltCallComponentMethodParameters altCallComponentMethodParameters, Class<T> returnType) {
+        altCallComponentMethodParameters.setAltUnityObject(this);
+        return new AltCallComponentMethod(messageHandler, altCallComponentMethodParameters).Execute(returnType);
     }
 
-    public String callComponentMethod(String assemblyName, String componentName, String methodName, String parameters,
-            String typeOfParameters) {
+    public <T> T callComponentMethod(String assemblyName, String componentName, String methodName, Object[] parameters,
+            String[] typeOfParameters, Class<T> returnType) {
         AltCallComponentMethodParameters altCallComponentMethodParameters = new AltCallComponentMethodParameters.Builder(
                 componentName, methodName, parameters).withTypeOfParameters(typeOfParameters).withAssembly(assemblyName)
                         .build();
-        return callComponentMethod(altCallComponentMethodParameters);
+        return callComponentMethod(altCallComponentMethodParameters, returnType);
     }
 
-    public String callComponentMethod(String componentName, String methodName, String parameters) throws Exception {
-        return callComponentMethod("", componentName, methodName, parameters, "");
+    public <T> T callComponentMethod(String componentName, String methodName, Object[] parameters, Class<T> returnType) throws Exception {
+        return callComponentMethod("", componentName, methodName, parameters, null, returnType);
     }
 
     public String getText() {
-        return new AltGetText(altBaseSettings, this).Execute();
+        AltGetTextParameters altGetTextParameters = new AltGetTextParameters(this);
+        return new AltGetText(messageHandler, altGetTextParameters).Execute();
     }
 
     public AltUnityObject setText(String text) {
-        return new AltSetText(altBaseSettings, this, text).Execute();
+        AltSetTextParameters altSetTextParameters = new AltSetTextParameters(text, this);
+        return new AltSetText(messageHandler, altSetTextParameters).Execute();
     }
 
     @Deprecated()
@@ -227,12 +156,7 @@ public class AltUnityObject {
      * @return The clicked object
      */
     public AltUnityObject tap() {
-        return sendActionAndEvaluateResult("tapObject", "1");
-    }
-
-    @Deprecated
-    public AltUnityObject doubleTap() {
-        return sendActionAndEvaluateResult("tapObject", "2");
+        return tap(new AltTapClickElementParameters.Builder().build());
     }
 
     /**
@@ -242,7 +166,8 @@ public class AltUnityObject {
      * @return The tapped object
      */
     public AltUnityObject tap(AltTapClickElementParameters parameters) {
-        return new AltTapElement(altBaseSettings, this, parameters).Execute();
+        parameters.setAltUnityObject(this);
+        return new AltTapElement(messageHandler, parameters).Execute();
     }
 
     /**
@@ -252,10 +177,11 @@ public class AltUnityObject {
      * @return The clicked object
      */
     public AltUnityObject click(AltTapClickElementParameters parameters) {
-        return new AltClickElement(altBaseSettings, this, parameters).Execute();
+        parameters.setAltUnityObject(this);
+        return new AltClickElement(messageHandler, parameters).Execute();
     }
 
-    private AltUnityObject sendActionAndEvaluateResult(String command, String... parameters) {
-        return new AltSendActionAndEvaluateResult(altBaseSettings, this, command, parameters).Execute();
+    private AltUnityObject sendActionAndEvaluateResult(String command) {
+        return new AltSendActionAndEvaluateResult(messageHandler, this, command).Execute();
     }
 }

@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -8,43 +8,18 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  * action to finish.
  */
 public class AltSwipe extends AltBaseCommand {
-    /**
-     * @param xStart x coordinate of the screen where the swipe begins.
-     */
-    private int xStart;
-    /**
-     * @param yStart y coordinate of the screen where the swipe begins.
-     */
-    private int yStart;
-    /**
-     * @param xEnd x coordinate of the screen where the swipe ends.
-     */
-    private int xEnd;
-    /**
-     * @param yEnd y coordinate of the screen where the swipe ends.
-     */
-    private int yEnd;
-    /**
-     * @param durationInSeconds The time measured in seconds to move the mouse from
-     *                          current position to the set location.
-     */
-    private float durationInSeconds;
+   
+    private AltSwipeParameters params;
 
-    public AltSwipe(AltBaseSettings altBaseSettings, int xStart, int yStart, int xEnd, int yEnd,
+    public AltSwipe(IMessageHandler messageHandler, int xStart, int yStart, int xEnd, int yEnd,
             float durationInSeconds) {
-        super(altBaseSettings);
-        this.xStart = xStart;
-        this.yStart = yStart;
-        this.xEnd = xEnd;
-        this.yEnd = yEnd;
-        this.durationInSeconds = durationInSeconds;
+        super(messageHandler);
+        params = new AltSwipeParameters(xStart, yStart, xEnd, yEnd, durationInSeconds);
     }
 
     public void Execute() {
-        String vectorStartJson = vectorToJsonString(xStart, yStart);
-        String vectorEndJson = vectorToJsonString(xEnd, yEnd);
-        SendCommand("multipointSwipe", vectorStartJson, vectorEndJson, String.valueOf(durationInSeconds));
-        String data = recvall();
+        SendCommand(params);
+        String data = recvall(params, String.class);
         validateResponse("Ok", data);
     }
 }

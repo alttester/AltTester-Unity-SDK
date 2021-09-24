@@ -1,6 +1,7 @@
 package ro.altom.altunitytester.Commands;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.AltMessage;
+import ro.altom.altunitytester.IMessageHandler;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,17 +17,19 @@ public class GetPNGScreenshotCommand extends AltBaseCommand {
      */
     private String path;
 
-    public GetPNGScreenshotCommand(AltBaseSettings altBaseSettings, String path) {
-        super(altBaseSettings);
+    public GetPNGScreenshotCommand(IMessageHandler messageHandler, String path) {
+        super(messageHandler);
         this.path = path;
     }
 
     public void Execute() {
-        SendCommand("getPNGScreenshot");
-        String data = recvall();
+        AltMessage altMessage = new AltMessage();
+        altMessage.setCommandName("getPNGScreenshot");
+        SendCommand(altMessage);
+        String data = recvall(altMessage, String.class);
         validateResponse("Ok", data);
 
-        String screenshotData = recvall();
+        String screenshotData = recvall(altMessage, String.class);
         byte[] screenshotDataBytes = Base64.getDecoder().decode(screenshotData);
         try (FileOutputStream stream = new FileOutputStream(path)) {
             stream.write(screenshotDataBytes);

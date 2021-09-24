@@ -1,14 +1,18 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-public class AltCallComponentMethodParameters {
+import java.util.Arrays;
+
+import com.google.gson.Gson;
+
+public class AltCallComponentMethodParameters extends AltUnityObjectParameters {
     public static class Builder {
         private String componentName;
         private String methodName;
-        private String parameters;
-        private String typeOfParameters;
+        private Object[] parameters = new Object[]{};
+        private String[] typeOfParameters;
         private String assembly;
 
-        public Builder(String componentName, String methodName, String parameters) {
+        public Builder(String componentName, String methodName, Object[] parameters) {
             this.componentName = componentName;
             this.methodName = methodName;
             this.parameters = parameters;
@@ -19,7 +23,7 @@ public class AltCallComponentMethodParameters {
             return this;
         }
 
-        public AltCallComponentMethodParameters.Builder withTypeOfParameters(String typeOfParameters) {
+        public AltCallComponentMethodParameters.Builder withTypeOfParameters(String[] typeOfParameters) {
             this.typeOfParameters = typeOfParameters;
             return this;
         }
@@ -27,9 +31,15 @@ public class AltCallComponentMethodParameters {
         public AltCallComponentMethodParameters build() {
             AltCallComponentMethodParameters altCallStaticMethodParameters = new AltCallComponentMethodParameters();
             altCallStaticMethodParameters.assembly = this.assembly;
-            altCallStaticMethodParameters.methodName = this.methodName;
-            altCallStaticMethodParameters.parameters = this.parameters;
-            altCallStaticMethodParameters.componentName = this.componentName;
+            altCallStaticMethodParameters.method = this.methodName;
+            if(this.parameters != null){
+                altCallStaticMethodParameters.parameters = new String[this.parameters.length];
+                for(int i = 0; i < this.parameters.length; i++){
+    
+                    altCallStaticMethodParameters.parameters[i] = new Gson().toJson(this.parameters[i]);
+                }
+            }
+            altCallStaticMethodParameters.component = this.componentName;
             altCallStaticMethodParameters.typeOfParameters = this.typeOfParameters;
             return altCallStaticMethodParameters;
         }
@@ -39,35 +49,27 @@ public class AltCallComponentMethodParameters {
     }
 
     public String getComponentName() {
-        return componentName;
+        return component;
     }
 
     public void setComponentName(String componentName) {
-        this.componentName = componentName;
+        this.component = componentName;
     }
 
     public String getMethodName() {
-        return methodName;
+        return method;
     }
 
     public void setMethodName(String methodName) {
-        this.methodName = methodName;
+        this.method = methodName;
     }
 
-    public String getParameters() {
+    public Object[] getParameters() {
         return parameters;
     }
 
-    public void setParameters(String parameters) {
-        this.parameters = parameters;
-    }
-
-    public String getTypeOfParameters() {
+    public String[] getTypeOfParameters() {
         return typeOfParameters;
-    }
-
-    public void setTypeOfParameters(String typeOfParameters) {
-        this.typeOfParameters = typeOfParameters;
     }
 
     public String getAssembly() {
@@ -78,9 +80,9 @@ public class AltCallComponentMethodParameters {
         this.assembly = assembly;
     }
 
-    private String componentName;
-    private String methodName;
-    private String parameters;
-    private String typeOfParameters;
+    private String component;
+    private String method;
+    private String[] parameters;
+    private String[] typeOfParameters;
     private String assembly;
 }

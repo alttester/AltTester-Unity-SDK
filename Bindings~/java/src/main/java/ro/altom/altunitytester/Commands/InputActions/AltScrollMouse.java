@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -14,15 +14,15 @@ public class AltScrollMouse extends AltBaseCommand {
      */
     private AltScrollMouseParameters altScrollMouseParameters;
 
-    public AltScrollMouse(AltBaseSettings altBaseSettings, AltScrollMouseParameters altScrollMouseParameters) {
-        super(altBaseSettings);
+    public AltScrollMouse(IMessageHandler messageHandler, AltScrollMouseParameters altScrollMouseParameters) {
+        super(messageHandler);
         this.altScrollMouseParameters = altScrollMouseParameters;
+        this.altScrollMouseParameters.setCommandName("scrollMouse");
     }
 
     public void Execute() {
-        SendCommand("scrollMouse", String.valueOf(altScrollMouseParameters.getSpeed()),
-                String.valueOf(altScrollMouseParameters.getDuration()));
-        recvall();
+        SendCommand(altScrollMouseParameters);
+        recvall(altScrollMouseParameters, String.class);
 
     }
 }

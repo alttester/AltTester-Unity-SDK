@@ -10,19 +10,19 @@ from altunityrunner.exceptions import NotFoundException, WaitTimeOutException, I
 
 class WaitForObject(Command):
 
-    def __init__(self, connection, by, value, camera_by, camera_path, timeout, interval, enabled=True):
+    def __init__(self, connection, by, value, camera_by, camera_value, timeout, interval, enabled):
         self.connection = connection
 
         if by not in By:
-            raise InvalidParameterTypeException(parameter_name="by", expected_type=By, received_type=type(by))
+            raise InvalidParameterTypeException(parameter_name="by", expected_types=[By], received_type=type(by))
 
         if camera_by not in By:
-            raise InvalidParameterTypeException(parameter_name="camera_by", expected_type=By, received_type=type(camera_by))
+            raise InvalidParameterTypeException(parameter_name="camera_by", expected_types=[By], received_type=type(camera_by))
 
         self.by = by
         self.value = value
         self.camera_by = camera_by
-        self.camera_path = camera_path
+        self.camera_value = camera_value
         self.timeout = timeout
         self.interval = interval
         self.enabled = enabled
@@ -35,7 +35,7 @@ class WaitForObject(Command):
             try:
                 alt_element = FindObject.run(
                     self.connection,
-                    self.by, self.value, self.camera_by, self.camera_path, self.enabled
+                    self.by, self.value, self.camera_by, self.camera_value, self.enabled
                 )
 
                 break

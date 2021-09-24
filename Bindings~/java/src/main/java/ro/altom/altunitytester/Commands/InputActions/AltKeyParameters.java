@@ -1,8 +1,9 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
+import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
-public class AltKeyParameters {
+public class AltKeyParameters extends AltMessage{
     public static class Builder {
         private AltUnityKeyCode keyCode = AltUnityKeyCode.NoKey;
         private float power = 1;
@@ -25,6 +26,7 @@ public class AltKeyParameters {
     }
 
     private AltKeyParameters() {
+        this.setCommandName("keyDown");
     }
 
     private AltUnityKeyCode keyCode;

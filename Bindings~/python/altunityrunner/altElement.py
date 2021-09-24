@@ -167,17 +167,18 @@ class AltElement:
 
         return commands.GetText.run(self._connection, self)
 
-    def set_text(self, text):
+    def set_text(self, text, submit=False):
         """Sets text value for a Button, Text or InputField. This also works with TextMeshPro elements.
 
         Args:
             text (obj:`str`): The text to be set.
+            submit (obj:`bool`): The.
 
         Returns:
             AltElement: The current AltElement.
         """
 
-        data = commands.SetText.run(self._connection, text, self)
+        data = commands.SetText.run(self._connection, text, self, submit)
         return AltElement(self._altdriver, data)
 
     def pointer_up(self):

@@ -4,9 +4,9 @@ namespace Altom.AltUnityDriver.Commands
     {
         AltUnitySetTextParams cmdParams;
 
-        public AltUnitySetText(IDriverCommunication commHandler, AltUnityObject altUnityObject, string text) : base(commHandler)
+        public AltUnitySetText(IDriverCommunication commHandler, AltUnityObject altUnityObject, string text, bool submit) : base(commHandler)
         {
-            cmdParams = new AltUnitySetTextParams(altUnityObject, text);
+            cmdParams = new AltUnitySetTextParams(altUnityObject, text, submit);
         }
 
         public AltUnityObject Execute()

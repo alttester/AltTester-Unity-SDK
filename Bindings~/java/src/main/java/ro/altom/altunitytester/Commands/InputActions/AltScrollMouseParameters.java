@@ -1,6 +1,8 @@
 package ro.altom.altunitytester.Commands.InputActions;
 
-public class AltScrollMouseParameters {
+import ro.altom.altunitytester.AltMessage;
+
+public class AltScrollMouseParameters extends AltMessage{
     public static class Builder{
         private float speed=1;
         private float duration =1;

@@ -1,23 +1,22 @@
 package ro.altom.altunitytester.Commands.AltUnityCommands;
 
-import ro.altom.altunitytester.AltBaseSettings;
+import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltUnitySetServerLogging extends AltBaseCommand {
 
     private AltSetServerLoggingParameters setServerLoggingParameters;
 
-    public AltUnitySetServerLogging(AltBaseSettings altBaseSettings,
+    public AltUnitySetServerLogging(IMessageHandler messageHandler,
             AltSetServerLoggingParameters setServerLoggingParameters) {
-        super(altBaseSettings);
+        super(messageHandler);
 
         this.setServerLoggingParameters = setServerLoggingParameters;
     }
 
     public void Execute() {
-        SendCommand("setServerLogging", setServerLoggingParameters.getLogger().toString(),
-                setServerLoggingParameters.getLogLevel().toString());
-        recvall();
+        SendCommand(setServerLoggingParameters);
+        recvall(setServerLoggingParameters, String.class);
 
     }
 

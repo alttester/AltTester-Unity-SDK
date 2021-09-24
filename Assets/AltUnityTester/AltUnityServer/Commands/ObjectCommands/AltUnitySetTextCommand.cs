@@ -1,6 +1,8 @@
 using System;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -29,6 +31,21 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
                     SetValueForMember(CommandParams.altUnityObject, property.Property.Split('.'), type, CommandParams.value);
+                    var uiInputFieldComp = targetObject.GetComponent<UnityEngine.UI.InputField>();
+                    if (uiInputFieldComp != null)
+                    {
+                        uiInputFieldComp.onValueChanged.Invoke(CommandParams.value);
+                        checkSubmit(uiInputFieldComp.gameObject);
+                    }
+                    else
+                    {
+                        var tMPInputFieldComp = targetObject.GetComponent<TMPro.TMP_InputField>();
+                        if (tMPInputFieldComp != null)
+                        {
+                            tMPInputFieldComp.onValueChanged.Invoke(CommandParams.value);
+                            checkSubmit(tMPInputFieldComp.gameObject);
+                        }
+                    }
                     return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject);
                 }
                 catch (PropertyNotFoundException ex)
@@ -46,6 +63,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             }
             if (exception != null) throw exception;
             throw new Exception("Something went wrong"); // should not reach this point
+        }
+
+        private void checkSubmit(GameObject obj)
+        {
+            if (CommandParams.submit)
+                ExecuteEvents.Execute(obj, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
         }
     }
 }

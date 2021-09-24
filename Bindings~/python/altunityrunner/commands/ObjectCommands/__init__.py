@@ -1,7 +1,6 @@
 from altunityrunner.commands.ObjectCommands.call_method import *
 from altunityrunner.commands.ObjectCommands.get_all_components import *
 from altunityrunner.commands.ObjectCommands.get_component_property import *
-from altunityrunner.commands.ObjectCommands.drag import *
 from altunityrunner.commands.ObjectCommands.get_text import *
 from altunityrunner.commands.ObjectCommands.set_text import *
 from altunityrunner.commands.ObjectCommands.pointer_down import *

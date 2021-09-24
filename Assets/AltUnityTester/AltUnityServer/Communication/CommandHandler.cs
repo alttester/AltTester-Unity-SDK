@@ -25,13 +25,13 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
             if (this.OnSendMessage != null)
             {
                 this.OnSendMessage.Invoke(data);
-                logger.Debug("response sent: " + data);
+                logger.Debug("response sent: " + trimLog(data));
             }
         }
 
         public void OnMessage(string data)
         {
-            logger.Debug("command received: " + data);
+            logger.Debug("command received: " + trimLog(data));
 
             var jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -62,6 +62,13 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
 
                    this.Send(response);
                });
+        }
+
+        private string trimLog(string log, int maxLogLength = 1000)
+        {
+            if (string.IsNullOrEmpty(log)) return log;
+            if (log.Length <= maxLogLength) return log;
+            return log.Substring(0, maxLogLength) + "[...]";
         }
 
         private Func<string> createCommand(CommandParams cmdParams)
