@@ -6,17 +6,26 @@ from altunityrunner.exceptions import InvalidParameterTypeException
 
 class CallMethod(BaseCommand):
 
-    def __init__(self, connection, component_name, method_name, alt_object=None, parameters=None, type_of_parameters=None, assembly=""):
+    def __init__(self, connection, component_name, method_name, alt_object=None, parameters=None,
+                 type_of_parameters=None, assembly=""):
         super().__init__(connection, "callComponentMethodForObject")
 
         parameters = parameters if parameters is not None else []
         type_of_parameters = type_of_parameters if type_of_parameters is not None else []
 
         if not isinstance(parameters, (list, tuple)):
-            raise InvalidParameterTypeException(parameter_name="parameters", expected_types=(list, tuple), received_type=type(parameters))
+            raise InvalidParameterTypeException(
+                parameter_name="parameters",
+                expected_types=(list, tuple),
+                received_type=type(parameters)
+            )
 
         if not isinstance(type_of_parameters, (list, tuple)):
-            raise InvalidParameterTypeException(parameter_name="type_of_parameters", expected_types=(list, tuple), received_type=type(type_of_parameters))
+            raise InvalidParameterTypeException(
+                parameter_name="type_of_parameters",
+                expected_types=(list, tuple),
+                received_type=type(type_of_parameters)
+            )
 
         self.alt_object = alt_object
         self.component_name = component_name

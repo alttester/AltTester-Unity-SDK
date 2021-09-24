@@ -135,8 +135,8 @@ class AltElement:
         """Invokes a method from an existing component of the object.
 
         Args:
-            component_name (:obj:`str`): The name of the script. If the script has a namespace the format should look like
-                this: ``"namespace.typeName"``.
+            component_name (:obj:`str`): The name of the script. If the script has a namespace the format should look
+                like this: ``"namespace.typeName"``.
             method_name (:obj:`str`): The name of the public method that we want to call. If the method is inside a
                 static property/field to be able to call that method, methodName need to be the following format
                 ``"propertyName.MethodName"``.

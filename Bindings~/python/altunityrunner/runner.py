@@ -265,7 +265,8 @@ class AltUnityDriver:
 
         Args:
             by (:obj:`By`): Sets what criteria to use in order to find the object.
-            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or not.
+            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
+                not.
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
             camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
                 criteria or not. If no camera is given it will search through all camera that are in the scene until
@@ -290,7 +291,8 @@ class AltUnityDriver:
 
         Args:
             by (:obj:`By`): Sets what criteria to use in order to find the objects.
-            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or not.
+            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
+                not.
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
             camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
                 criteria or not. If no camera is given it will search through all camera that are in the scene until
@@ -315,7 +317,8 @@ class AltUnityDriver:
 
         Args:
             by (:obj:`By`): Sets what criteria to use in order to find the object.
-            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or not.
+            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
+                not.
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
             camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
                 criteria or not. If no camera is given it will search through all camera that are in the scene until
@@ -340,7 +343,8 @@ class AltUnityDriver:
 
         Args:
             by (:obj:`By`): Sets what criteria to use in order to find the objects.
-            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or not.
+            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
+                not.
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
             camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
                 criteria or not. If no camera is given it will search through all camera that are in the scene until
@@ -365,7 +369,8 @@ class AltUnityDriver:
 
         Args:
             by (:obj:`By`): Sets what criteria to use in order to find the object.
-            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or not.
+            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
+                not.
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
             camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
                 criteria or not. If no camera is given it will search through all camera that are in the scene until

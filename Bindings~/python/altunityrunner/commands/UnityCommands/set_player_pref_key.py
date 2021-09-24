@@ -9,7 +9,11 @@ class SetPlayerPrefKey(BaseCommand):
         super().__init__(connection, "setKeyPlayerPref")
 
         if key_type not in PlayerPrefKeyType and key_type not in PlayerPrefKeyType.values():
-            raise InvalidParameterTypeException(parameter_name="key_type", expected_types=[PlayerPrefKeyType], received_type=type(key_type))
+            raise InvalidParameterTypeException(
+                parameter_name="key_type",
+                expected_types=[PlayerPrefKeyType],
+                received_type=type(key_type)
+            )
 
         self.key_name = key_name
         self.value = value

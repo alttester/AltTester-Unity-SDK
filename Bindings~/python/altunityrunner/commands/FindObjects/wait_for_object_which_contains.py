@@ -14,10 +14,18 @@ class WaitForObjectWhichContains(Command):
         self.connection = connection
 
         if by not in By:
-            raise InvalidParameterTypeException(parameter_name="by", expected_types=[By], received_type=type(by))
+            raise InvalidParameterTypeException(
+                parameter_name="by",
+                expected_types=[By],
+                received_type=type(by)
+            )
 
         if camera_by not in By:
-            raise InvalidParameterTypeException(parameter_name="camera_by", expected_types=[By], received_type=type(camera_by))
+            raise InvalidParameterTypeException(
+                parameter_name="camera_by",
+                expected_types=[By],
+                received_type=type(camera_by)
+            )
 
         self.by = by
         self.value = value

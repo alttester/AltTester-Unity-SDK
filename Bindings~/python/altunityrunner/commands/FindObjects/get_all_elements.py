@@ -10,7 +10,11 @@ class GetAllElements(Command):
         self.connection = connection
 
         if camera_by not in By:
-            raise InvalidParameterTypeException(parameter_name="camera_by", expected_types=[By], received_type=type(camera_by))
+            raise InvalidParameterTypeException(
+                parameter_name="camera_by",
+                expected_types=[By],
+                received_type=type(camera_by)
+            )
 
         self.camera_by = camera_by
         self.camera_value = camera_value

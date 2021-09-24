@@ -1,7 +1,6 @@
 import subprocess
 
 from ppadb.client import Client as AdbClient
-from deprecated import deprecated
 
 
 class AltUnityPortForwarding:
