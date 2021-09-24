@@ -11,6 +11,7 @@ using NLog.Layouts;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using System.IO;
 
 namespace Altom.Editor
 {
@@ -88,6 +89,7 @@ namespace Altom.Editor
         UnityEngine.Rect resizeHandleRect;
         UnityEngine.Rect resizeHandleRectHorizontal;
 
+        private static bool insideMultilineComment = false;
 
         bool resize;
         bool resizeHorizontal;
@@ -1772,9 +1774,9 @@ namespace Altom.Editor
                         if (actualTime - timeSinceLastClick < 5000000)
                         {
 #if UNITY_2019_1_OR_NEWER
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1, 0);
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName), 0);
 #else
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, 1);
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName));
 #endif
                         }
                     }
@@ -1798,6 +1800,33 @@ namespace Altom.Editor
                     test.FoldOut = UnityEditor.EditorGUILayout.Foldout(test.FoldOut, testName + "(" + test.TestSelectedCount.ToString() + ")");
                 }
             }
+        }
+
+        private static int findLine(String path, String nameOfTest)
+        {
+            String[] lines = File.ReadAllLines(path);
+            int index = nameOfTest.IndexOf("(");
+            if (index > -1)
+                nameOfTest = nameOfTest.Substring(0, index);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (isComment(lines[i]))
+                    continue;
+                if (System.Text.RegularExpressions.Regex.Match(lines[i], @"(\s+)" + nameOfTest + @"(\s*\()").Success)
+                    return i + 1;
+            }
+            return 1;
+        }
+
+        private static bool isComment(String line)
+        {
+            if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*//)").Success)
+                return true;
+            if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*/\*)").Success)
+                insideMultilineComment = true;
+            if (System.Text.RegularExpressions.Regex.Match(line, @"^(\s*\*/)").Success)
+                insideMultilineComment = false;
+            return insideMultilineComment;
         }
 
         private void changeSelectionChildsAndParent(AltUnityMyTest test)
@@ -2038,6 +2067,4 @@ namespace Altom.Editor
             return result.ToArray();
         }
     }
-
-
 }
