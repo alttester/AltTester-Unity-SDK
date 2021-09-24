@@ -680,12 +680,11 @@ namespace Altom.Editor
             var failedTests = 0;
             foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
             {
-                if (!test.IsSuite)
-                    totalTests++;
-                if (test.Selected && !test.IsSuite)
-                {
+                if (test.IsSuite)
+                    continue;
+                totalTests++;
+                if (test.Selected)
                     selectedTests += 1;
-                }
                 if (test.Status != 1 && test.Status != 0)
                     failedTests++;
             }
