@@ -388,8 +388,14 @@ namespace Altom.Editor
 
             if (testSuite.GetType() == typeof(NUnit.Framework.Internal.TestMethod))
             {
-                var fullName = testSuite.FullName;
-                var className = fullName.Split('.')[0];
+                string fullName;
+                int indexOfParantheses = testSuite.FullName.IndexOf("(");
+                if (indexOfParantheses > -1)
+                    fullName = testSuite.FullName.Substring(0, indexOfParantheses);
+                else
+                    fullName = testSuite.FullName;
+                var hierarchyNames = fullName.Split('.');
+                var className = hierarchyNames[hierarchyNames.Length - 2];
                 var assets = UnityEditor.AssetDatabase.FindAssets(className);
                 if (assets.Length != 0)
                 {
