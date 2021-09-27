@@ -26,5 +26,9 @@ namespace Altom.AltUnityDriver.Commands
         {
             this.webSocket.Send(data);
         }
+        public bool IsAlive()
+        {
+            return this.webSocket.IsAlive;
+        }
     }
 }

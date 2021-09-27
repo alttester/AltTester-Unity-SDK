@@ -61,10 +61,14 @@ namespace Altom.AltUnityDriver.Commands
 
         public CommandResponse<T> Recvall<T>(CommandParams param)
         {
-            //TODO: set timeout
-            while (messages.Count == 0)
+
+            while (messages.Count == 0 && wsClient.IsAlive())
             {
                 Thread.Sleep(10);
+            }
+            if (!wsClient.IsAlive())
+            {
+                throw new AltUnityException("Driver disconnected");
             }
 
             var message = JsonConvert.DeserializeObject<CommandResponse<T>>(messages.Dequeue());
