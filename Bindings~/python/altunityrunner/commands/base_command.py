@@ -11,6 +11,28 @@ from altunityrunner.by import By
 EPOCH = datetime.utcfromtimestamp(0)
 
 
+def validate_coordinates(coordinates):
+    if isinstance(coordinates, (list, tuple)):
+        if len(coordinates) != 2:
+            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have two items for x and y.")
+
+        return {
+            "x": coordinates[0],
+            "y": coordinates[1]
+        }
+    elif isinstance(coordinates, dict):
+        if not "x" in coordinates and "y" not in coordinates:
+            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have an x and y key.")
+
+        return coordinates
+    else:
+        raise exceptions.InvalidParameterTypeException(
+            parameter_name="coordinates",
+            expected_types=(list, tuple, dict),
+            received_type=type(coordinates)
+        )
+
+
 class Command(metaclass=abc.ABCMeta):
     """An abstract class that defines the command protocol and contains utils methods for the commands."""
 

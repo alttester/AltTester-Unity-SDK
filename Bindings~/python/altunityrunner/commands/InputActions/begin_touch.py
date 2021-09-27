@@ -1,4 +1,4 @@
-from altunityrunner.commands.base_command import BaseCommand
+from altunityrunner.commands.base_command import validate_coordinates, BaseCommand
 
 
 class BeginTouch(BaseCommand):
@@ -6,13 +6,7 @@ class BeginTouch(BaseCommand):
     def __init__(self, connection, coordinates):
         super().__init__(connection, "beginTouch")
 
-        if isinstance(coordinates, dict):
-            self.coordinates = coordinates
-        else:
-            self.coordinates = {
-                "x": coordinates[0],
-                "y": coordinates[1]
-            }
+        self.coordinates = validate_coordinates(coordinates)
 
     @property
     def _parameters(self):
