@@ -7,6 +7,7 @@ namespace Altom.AltUnityDriver.Tests
 {
     public class TestDriverCommunicationWebSocket
     {
+
         [Test]
         public void TestRecvall()
         {
@@ -17,6 +18,7 @@ namespace Altom.AltUnityDriver.Tests
             response.commandName = "commandName";
             response.data = "data";
             response.messageId = "messageId";
+            wsClient.Setup(p => p.IsAlive()).Returns(true);
 
             wsClient.Raise(foo => foo.OnMessage += null, this, JsonConvert.SerializeObject(response));
 

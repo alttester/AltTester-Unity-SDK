@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
+
 public class MessageHandler implements IMessageHandler {
 
     private Session session;
@@ -24,12 +26,15 @@ public class MessageHandler implements IMessageHandler {
     }
 
     public <T> AltMessageResponse<T> receive(AltMessage altMessage, Class<T> type) {
-        while (responses.isEmpty()) {
+        while (responses.isEmpty() && session.isOpen()) {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        if (!session.isOpen()) {
+            throw new AltUnityException("Driver disconnected");
         }
         String responseMessage = responses.remove();
 
@@ -63,20 +68,20 @@ public class MessageHandler implements IMessageHandler {
 
     private Type getType(Class<?> rawClass, Class<?> parameter) {
         return new ParameterizedType() {
-          @Override
-          public Type[] getActualTypeArguments() {
-             return new Type[] {parameter};
-          }
-      
-          @Override
-          public Type getRawType() {
-            return rawClass;
-          }
-      
-          @Override
-          public Type getOwnerType() {
-            return null;
-          }   
+            @Override
+            public Type[] getActualTypeArguments() {
+                return new Type[] { parameter };
+            }
+
+            @Override
+            public Type getRawType() {
+                return rawClass;
+            }
+
+            @Override
+            public Type getOwnerType() {
+                return null;
+            }
         };
-      }
+    }
 }

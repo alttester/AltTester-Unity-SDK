@@ -25,5 +25,6 @@ namespace Altom.AltUnityDriver.Commands
         // Summary:
         //     Closes the WebSocket connection, and releases all associated resources.
         void Close();
+        bool IsAlive();
     }
 }
