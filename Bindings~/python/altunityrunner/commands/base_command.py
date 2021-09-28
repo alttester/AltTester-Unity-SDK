@@ -21,7 +21,7 @@ def validate_coordinates(coordinates):
             "y": coordinates[1]
         }
     elif isinstance(coordinates, dict):
-        if not "x" in coordinates and "y" not in coordinates:
+        if "x" not in coordinates and "y" not in coordinates:
             raise exceptions.InvalidParameterValueException("ValueError: coordinates must have an x and y key.")
 
         return coordinates
