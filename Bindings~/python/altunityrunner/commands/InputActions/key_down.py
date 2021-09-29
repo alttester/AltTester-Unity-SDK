@@ -1,6 +1,6 @@
 from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.alt_unity_key_code import AltUnityKeyCode
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
+from altunityrunner.exceptions import InvalidParameterTypeException
 
 
 class KeyDown(BaseCommand):
@@ -9,7 +9,11 @@ class KeyDown(BaseCommand):
         super().__init__(connection, "keyDown")
 
         if key_code not in AltUnityKeyCode and key_code not in AltUnityKeyCode.names():
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(
+                parameter_name="key_code",
+                expected_types=[AltUnityKeyCode],
+                received_type=type(key_code)
+            )
 
         self.key_code = key_code
         self.power = power

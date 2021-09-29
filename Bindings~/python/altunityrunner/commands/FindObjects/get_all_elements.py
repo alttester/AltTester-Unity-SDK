@@ -1,6 +1,6 @@
 from altunityrunner.commands.base_command import Command
 from altunityrunner.commands.FindObjects.find_objects import FindObjects
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
+from altunityrunner.exceptions import InvalidParameterTypeException
 from altunityrunner.by import By
 
 
@@ -10,7 +10,11 @@ class GetAllElements(Command):
         self.connection = connection
 
         if camera_by not in By:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(
+                parameter_name="camera_by",
+                expected_types=[By],
+                received_type=type(camera_by)
+            )
 
         self.camera_by = camera_by
         self.camera_value = camera_value

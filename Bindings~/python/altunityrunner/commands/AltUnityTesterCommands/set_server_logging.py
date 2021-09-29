@@ -1,6 +1,6 @@
 from altunityrunner.commands.base_command import BaseCommand
 from altunityrunner.logging import AltUnityLogger, AltUnityLogLevel
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
+from altunityrunner.exceptions import InvalidParameterTypeException
 
 
 class SetServerLogging(BaseCommand):
@@ -9,10 +9,18 @@ class SetServerLogging(BaseCommand):
         super().__init__(connection, "setServerLogging")
 
         if logger not in AltUnityLogger:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(
+                parameter_name='logger',
+                expected_types=[AltUnityLogger],
+                received_type=type(logger)
+            )
 
         if log_level not in AltUnityLogLevel:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(
+                parameter_name='log_level',
+                expected_types=[AltUnityLogLevel],
+                received_type=type(log_level)
+            )
 
         self.logger = logger
         self.log_level = log_level

@@ -5,7 +5,7 @@ from loguru import logger
 from altunityrunner.by import By
 from altunityrunner.commands.base_command import Command
 from altunityrunner.commands.FindObjects.find_object import FindObject
-from altunityrunner.altUnityExceptions import NotFoundException, WaitTimeOutException, InvalidParameterTypeException
+from altunityrunner.exceptions import NotFoundException, WaitTimeOutException, InvalidParameterTypeException
 
 
 class WaitForObjectToNotBePresent(Command):
@@ -14,10 +14,18 @@ class WaitForObjectToNotBePresent(Command):
         self.connection = connection
 
         if by not in By:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(
+                parameter_name="by",
+                expected_types=[By],
+                received_type=type(by)
+            )
 
         if camera_by not in By:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(
+                parameter_name="camera_by",
+                expected_types=[By],
+                received_type=type(camera_by)
+            )
 
         self.by = by
         self.value = value

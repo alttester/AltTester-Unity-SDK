@@ -1,5 +1,5 @@
 from altunityrunner.commands.base_command import BaseCommand
-from altunityrunner.altUnityExceptions import InvalidParameterTypeException
+from altunityrunner.exceptions import InvalidParameterTypeException
 from altunityrunner.by import By
 
 
@@ -9,10 +9,18 @@ class FindObjectsWhichContain(BaseCommand):
         super().__init__(connection, "findObjects")
 
         if by not in By:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(
+                parameter_name="by",
+                expected_types=[By],
+                received_type=type(by)
+            )
 
         if camera_by not in By:
-            raise InvalidParameterTypeException()
+            raise InvalidParameterTypeException(
+                parameter_name="camera_by",
+                expected_types=[By],
+                received_type=type(camera_by)
+            )
 
         self.by = by
         self.value = value

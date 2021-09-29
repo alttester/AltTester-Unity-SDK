@@ -5,7 +5,7 @@ import json
 from loguru import logger
 import websocket
 
-from .altUnityExceptions import ConnectionError
+from .exceptions import ConnectionError
 
 
 class Store:

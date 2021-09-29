@@ -723,7 +723,6 @@ Simulates that a specific key was released.
 | Name     | Type           | Required | Description                                                                               |
 | -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
 | keyCode | AltUnityKeyCode| Yes      | The keyCode of the key simulated to be released. |
-| power | int          | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
 
 **_Returns_**
 
@@ -1031,7 +1030,7 @@ Simulates key press action in your game. This command waits for the action to fi
 | -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | keycode  | AltUnityKeyCode | Yes      | Name of the button. |
 | power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1.                                                                                |
-| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
+| duration | float           | Yes      | The time measured in seconds from the key press to the key release.                                                                                                                                                   |
 
 **_Returns_**
 
@@ -1123,7 +1122,7 @@ Simulates key press action in your game. This command does not wait for the acti
 | -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | keycode  | AltUnityKeyCode | Yes      | Name of the button. |
 | power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
-| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location.                                                                                                                                                  |
+| duration | float           | Yes      | The time measured in seconds from the key press to the key release.                                                                                                                                        |
 
 **_Returns_**
 
@@ -1214,7 +1213,7 @@ Simulates scroll mouse action in your game. This command waits for the action to
 | Name     | Type  | Required | Description                                                                                  |
 | -------- | ----- | -------- | -------------------------------------------------------------------------------------------- |
 | speed    | float | Yes      | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
-| duration | float | Yes      | The time measured in seconds to move the mouse from current position to the set location.    |
+| duration | float | Yes      | The time measured in seconds to scroll.    |
 
 **_Returns_**
 
@@ -1282,7 +1281,7 @@ Simulates scroll mouse action in your game. This command does not wait for the a
 | Name     | Type  | Required | Description                                                                                  |
 | -------- | ----- | -------- | -------------------------------------------------------------------------------------------- |
 | speed    | float | Yes      | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
-| duration | float | Yes      | The time measured in seconds to move the mouse from current position to the set location.    |
+| duration | float | Yes      | The time measured in seconds to scroll.    |
 
 **_Returns_**
 
@@ -2964,7 +2963,7 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
             assertTrue(time / 1000 < 20);
             assertNotNull(currentScene);
             assertEquals("Scene 1 AltUnityDriverTestScene", currentScene);
-        }   
+        }
 
     .. code-tab:: py
 

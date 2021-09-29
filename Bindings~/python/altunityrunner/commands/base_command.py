@@ -4,11 +4,33 @@ from datetime import datetime
 
 from loguru import logger
 
-import altunityrunner.altUnityExceptions as exceptions
+import altunityrunner.exceptions as exceptions
 from altunityrunner.by import By
 
 
 EPOCH = datetime.utcfromtimestamp(0)
+
+
+def validate_coordinates(coordinates):
+    if isinstance(coordinates, (list, tuple)):
+        if len(coordinates) != 2:
+            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have two items for x and y.")
+
+        return {
+            "x": coordinates[0],
+            "y": coordinates[1]
+        }
+    elif isinstance(coordinates, dict):
+        if "x" not in coordinates and "y" not in coordinates:
+            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have an x and y key.")
+
+        return coordinates
+    else:
+        raise exceptions.InvalidParameterTypeException(
+            parameter_name="coordinates",
+            expected_types=(list, tuple, dict),
+            received_type=type(coordinates)
+        )
 
 
 class Command(metaclass=abc.ABCMeta):

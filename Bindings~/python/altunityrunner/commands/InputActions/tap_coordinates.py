@@ -1,4 +1,4 @@
-from altunityrunner.commands.base_command import BaseCommand
+from altunityrunner.commands.base_command import validate_coordinates, BaseCommand
 
 
 class TapCoordinates(BaseCommand):
@@ -6,14 +6,7 @@ class TapCoordinates(BaseCommand):
     def __init__(self, connection, coordinates, count, interval, wait):
         super().__init__(connection, "tapCoordinates")
 
-        if isinstance(coordinates, dict):
-            self.coordinates = coordinates
-        else:
-            self.coordinates = {
-                "x": coordinates[0],
-                "y": coordinates[1]
-            }
-
+        self.coordinates = validate_coordinates(coordinates)
         self.count = count
         self.interval = interval
         self.wait = wait
