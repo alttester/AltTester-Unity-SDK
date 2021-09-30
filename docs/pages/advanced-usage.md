@@ -397,11 +397,14 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         .. code-block:: c#
 
-            var altUnityDriver = new AltUnityDriver (logFlag=false); //starts altunity driver with logging disabled
+            /* start altunity driver with logging disabled */
+            var altUnityDriver = new AltUnityDriver (enableLogging=false);
 
-            var altUnityDriver = new AltUnityDriver (logFlag=true); //starts altunity driver with logging enabled for Debug.Level; this is the default behaviour
+            /* start altunity driver with logging enabled for Debug.Level; this is the default behaviour*/
+            var altUnityDriver = new AltUnityDriver (enableLogging=true);
 
-            Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info); //set logging level to Info for File target
+            /* set logging level to Info for File target */
+            Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info);
 
 
     
@@ -409,14 +412,12 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via log4j. You can use log4j configuration files to customize your logging.
 
-        Setting the `logFlag` in `AltUnityDriver` initializes logger named `ro.altom.altunitytester` configured with two appenders, a file appender `AltUnityFileAppender` and a console appender `AltUnityConsoleAppender`
+        Setting the `enableLogging` in `AltUnityDriver` initializes logger named `ro.altom.altunitytester` configured with two appenders, a file appender `AltUnityFileAppender` and a console appender `AltUnityConsoleAppender`
             
         .. code-block:: java
 
             /* start altunity driver with logging enabled */
-            AltUnityDriverParams params = new AltUnityDriverParams();
-            params.logFlag = true;
-            AltUnityDriver altUnityDriver = new AltUnityDriver(params);
+            altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, true);
             
             /* disable logging for ro.altom.altunitytester logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
@@ -430,7 +431,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
         
         Logging is handled via loguru.
 
-        Setting the `log_flag` to `False` in AltUnityDriver, all logs from `altunityrunner` package are disabled.
+        Setting the `enable_logging` to `False` in AltUnityDriver, all logs from `altunityrunner` package are disabled.
 
         .. code-block:: python
 
