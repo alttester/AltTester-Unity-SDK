@@ -378,7 +378,7 @@ There are two logger targets that you can configure on the server:
 
 ### AltUnity Driver logging
 
-Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log4j` in Java. By default logging is disabled in the driver (tests). If you want to enable it you can set the logFlag in `AltUnityDriver` constructor.
+Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log4j` in Java. By default logging is disabled in the driver (tests). If you want to enable it you can set the `enableLogging` in `AltUnityDriver` constructor.
 
 ```eval_rst
 .. tabs::
