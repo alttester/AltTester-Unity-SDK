@@ -207,6 +207,17 @@ namespace Altom.AltUnityDriver
         {
         }
     }
+    public class ConnectionTimeoutException : AltUnityException
+    {
+        public ConnectionTimeoutException()
+        {
+
+        }
+        public ConnectionTimeoutException(string message) : base(message)
+        {
+
+        }
+    }
 
     public class CommandNotFoundException : AltUnityException
     {
