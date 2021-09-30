@@ -52,6 +52,8 @@ namespace Altom.AltUnityDriver.Commands
 
                 retries++;
             }
+            if (watch.Elapsed.TotalSeconds > connectTimeout && !wsClient.IsAlive)
+                throw new ConnectionTimeoutException("Connection failed because it took too long");
 
             if (!wsClient.IsAlive)
                 throw new Exception("Could not create connection to " + tcpIp + ":" + tcpPort);
