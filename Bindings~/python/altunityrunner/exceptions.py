@@ -9,6 +9,10 @@ class ConnectionError(AltUnityException):
     """Raised when the client can not connect to the server."""
 
 
+class ConnectionTimeoutError(ConnectionError):
+    """Raised when the client connection timesout."""
+
+
 class AltUnityInvalidServerResponse(AltUnityException):
     """Raised when the server responds with an invalid respose."""
 
