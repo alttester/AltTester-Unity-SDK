@@ -24,17 +24,18 @@ class AltUnityDriver:
         host (:obj:`str`): The server host to connect to.
         port (:obj:`int`): The server port to connect to.
         timeout (:obj:`float`, optional): The server connection timeout time.
-        tries (:obj:`int`, optional): The maximum number of attempts to connect to the server.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, timeout=None, tries=5, enable_logging=False):
+    def __init__(self, host="127.0.0.1", port=13000, timeout=None, enable_logging=False):
         self.host = host
         self.port = port
         self.enable_logging = enable_logging
 
         self._config_logging(self.enable_logging)
-        self._connection = WebsocketConnection(host=host, port=port, timeout=timeout, tries=tries)
+
+        self._connection = WebsocketConnection(host=host, port=port, timeout=timeout)
+        self._connection.connect()
 
     @staticmethod
     def _config_logging(enable_logging):

@@ -1,17 +1,21 @@
-from collections import defaultdict
 import time
 import json
+from collections import defaultdict, deque
+from threading import Thread
 
 from loguru import logger
 import websocket
 
-from .exceptions import ConnectionError
+from .exceptions import ConnectionError, ConnectionTimeoutError
 
 
 class Store:
 
-    def __init__(self):
-        self._store = defaultdict(list)
+    def __init__(self, dict=None):
+        self._store = dict or defaultdict(deque)
+
+    def __repr__(self):
+        return "{}({!r})".format(self.__class__.__name__, self._store)
 
     def has(self, key):
         if not key:
@@ -24,67 +28,119 @@ class Store:
 
     def pop(self, key):
         try:
-            self._store[key].pop(0)
+            return self._store[key].popleft()
         except IndexError:
             return None
 
 
 class WebsocketConnection:
-    """Handles the websocket connection with the AltUnityServer.
+    """Handles the websocket connection with AltUnity.
 
     Args:
         host (:obj:`str`): The host to connect to.
         port (:obj:`int`): The port to connect to.
-        timeout (:obj:`int` or :obj:`float`): Socket timeout time.
-        tries (:obj:`int`): The maximum number of attempts to connect.
+        timeout (:obj:`int` or :obj:`float`): The connection timeout time.
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, timeout=None, tries=5):
+    def __init__(self, host="127.0.0.1", port=13000, timeout=None):
         self.host = host
         self.port = port
         self.timeout = timeout
-        self.tries = tries
 
-        self.url = "ws://{}:{}/altws/".format(host, port)
-        self._websocket = self._connect(self.url, timeout=timeout, tries=tries)
-
-        self._store = Store()
         self._current_command_name = None
+        self._store = Store()
+        self._errors = deque()
+
+        self._websocket = None
+        self._is_open = False
+        self.url = "ws://{}:{}/altws/".format(host, port)
 
     def __repr__(self):
-        return "{}({!r}, {!r}, {!r}, {!r})".format(
+        return "{}({!r}, {!r}, {!r})".format(
             self.__class__.__name__,
             self.host,
             self.port,
             self.timeout,
-            self.tries
         )
 
-    def _connect(self, url, timeout=None, tries=5, delay=0.1):
-        logger.info("Connecting to AltUnityServer on: {}".format(url))
+    def connect(self):
+        logger.info("Connecting to AltUnityServer on: {}".format(self.url))
 
-        for x in range(tries):
-            try:
-                return self._create_connection(url, timeout=timeout)
-            except Exception as ex:
-                logger.exception("Unexpected error on connection try: {}.".format(x))
-                logger.exception(ex)
-                time.sleep(delay)
-                delay = min(delay * 2, 5)
+        self._websocket = self._create_connection()
+        self._wait_for_connection_to_open(timeout=self.timeout)
 
-        raise ConnectionError("Could not connect to AltUnityServer on host: {} port: {}".format(self.host, self.port))
-
-    def _create_connection(self, url, timeout=None):
-        ws = websocket.WebSocket()
-        ws.connect(url, timeout=timeout)
+    def _create_connection(self):
+        websocket.enableTrace(True)
+        ws = websocket.WebSocketApp(
+            self.url,
+            on_open=self._on_open,
+            on_message=self._on_message,
+            on_error=self._on_error,
+            on_close=self._on_close
+        )
+        Thread(target=ws.run_forever, daemon=True).start()
 
         return ws
 
+    def _wait_for_connection_to_open(self, timeout=None, delay=0.1):
+        elapsed_time = 0
+
+        while (not self._is_open and not self._errors) and (timeout is None or elapsed_time < timeout):
+            time.sleep(delay)
+            elapsed_time += delay
+
+        if self._errors:
+            raise ConnectionError(self._errors.pop())
+
+        if not self._is_open:
+            self.close()
+
+            raise ConnectionTimeoutError(
+                "Could not connect to AltUnity on host: {} port: {}.".format(
+                    self.host,
+                    self.port,
+                )
+            )
+
+    def _ensure_connection_is_open(self):
+        if self._errors:
+            raise ConnectionError(self._errors.pop())
+
+        if self._websocket is None or not self._is_open:
+            self.close()
+            raise ConnectionError("Connection already closed.")
+
+    def _on_message(self, ws, message):
+        """A callback which is called when the connection is opened."""
+
+        logger.debug("Message: {}", message)
+        response = json.loads(message)
+        self._store.push(response.get("commandName"), response)
+
+    def _on_error(self, ws, error):
+        """A callback which is called when the connection gets an error."""
+
+        logger.debug("Error: {}", error)
+        self._errors.append(error)
+
+    def _on_close(self, ws, close_status_code, close_msg):
+        """A callback which is called when the connection is closed."""
+
+        logger.debug("Connection closed with status code: {} and message: {}.", close_status_code, close_msg)
+
+        self._is_open = False
+        self._websocket = None
+
+    def _on_open(self, ws):
+        """A callback which is called when the connection recives data."""
+
+        logger.debug("Connection oppend successfully.")
+        self._is_open = True
+
     def send(self, data):
-        command_name = data.get("commandName")
-        if command_name:
-            self._current_command_name = command_name
+        self._ensure_connection_is_open()
+        self._current_command_name = data.get("commandName")
 
         message = json.dumps(data)
         logger.info("Message: {}".format(message))
@@ -92,24 +148,17 @@ class WebsocketConnection:
         self._websocket.send(message)
 
     def recv(self):
+        self._ensure_connection_is_open()
+
         if self._store.has(self._current_command_name):
             return self._store.pop(self._current_command_name)
 
-        response = self._websocket.recv()
-
-        if response:
-            logger.info("Response: {}".format(response))
-            response = json.loads(response)
-        else:
-            return self.recv()
-
-        command_name = response.get("commandName")
-        if self._current_command_name and command_name != self._current_command_name:
-            self._store.push(command_name, response)
-            return self.recv()
-
-        return response
+        time.sleep(0.1)
+        return self.recv()
 
     def close(self):
         logger.info("Closing connection to AltUnityServer on: {}".format(self.url))
-        self._websocket.close()
+
+        if self._websocket is not None:
+            self._websocket.close()
+            self._websocket = None

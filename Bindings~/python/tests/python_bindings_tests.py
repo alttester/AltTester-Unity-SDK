@@ -21,12 +21,6 @@ class PythonTests(unittest.TestCase):
     def tearDownClass(cls):
         cls.altdriver.stop()
 
-    # def test_timeout(self):
-    #     self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-    #     import time
-    #     time.sleep(50)
-    #     self.altdriver.load_scene('Scene 2 Draggable Panel')
-
     def test_tap_ui_object(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
         self.altdriver.find_object(By.NAME, 'UIButton').tap()
