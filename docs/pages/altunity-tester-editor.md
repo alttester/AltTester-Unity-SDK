@@ -95,17 +95,14 @@ You can also activate this option from within the test using the following code:
 
 ![Server Settings](../_static/images/altUnityTesterWindow/ServerSettings.png)
 
--   Request separator & Request ending
+-   Proxy host
 
-    When sending a request to the AltUnity Server, each command is separated by the Request Separator and finishes with the Request ending character.  
-     For example, in Java, you'll see something like this in the log: `Sending rpc message [loadScene;Scene 2 Draggable Panel;&]`.
+    Refers to the host the AltUnity Proxy is listening on.  
+     You can change this value and make a new game build if you want to use another host.
 
-    These characters should be changed (when making a game build) if a UI element in your game has one of them as element identifier.  
-     For example, if you have an element named as `item1; item2` and you want to find that element by using its name.
+-   Proxy port
 
--   Server port
-
-    Refers to the port used by the AltUnity Server running inside the game.  
+    Refers to the port the AltUnity Proxy is listening on.  
      You can change this value and make a new game build if you want to use another port.
 
 -   Port Forwarding

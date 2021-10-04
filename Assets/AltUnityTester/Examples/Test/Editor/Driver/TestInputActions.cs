@@ -1,4 +1,5 @@
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Logging;
 using NUnit.Framework;
 
 public class TestInputActions
@@ -9,6 +10,8 @@ public class TestInputActions
     public void SetUp()
     {
         altUnityDriver = new AltUnityDriver(enableLogging: true);
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
     }
 
     //At the end of the test closes the connection with the socket

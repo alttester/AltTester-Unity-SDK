@@ -1265,31 +1265,9 @@ namespace Altom.Editor
                     AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
 
-                if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
-                {
-                    int selected = (int)AltUnityInstrumentationMode.Proxy;
-                    GUI.enabled = false;
-                    labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
-                    GUI.enabled = true;
-                    EditorConfiguration.InstrumentationMode = AltUnityInstrumentationMode.Proxy;
-                }
-                else
-                {
-                    int selected = (int)EditorConfiguration.UserSelectionInstrumentationMode;
-                    labelAndDropdownFieldHorizontalLayout("Instrumentation mode", Enum.GetNames(typeof(AltUnityInstrumentationMode)), ref selected);
-                    EditorConfiguration.UserSelectionInstrumentationMode = (AltUnityInstrumentationMode)selected;
-                    EditorConfiguration.InstrumentationMode = EditorConfiguration.UserSelectionInstrumentationMode;
-                }
 
-                if (EditorConfiguration.InstrumentationMode == AltUnityInstrumentationMode.Server)
-                {
-                    labelAndInputFieldHorizontalLayout("Server port", ref EditorConfiguration.ServerPort);
-                }
-                else
-                {
-                    labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost);
-                    labelAndInputFieldHorizontalLayout("Proxy port", ref EditorConfiguration.ProxyPort);
-                }
+                labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost);
+                labelAndInputFieldHorizontalLayout("Proxy port", ref EditorConfiguration.ProxyPort);
             }
             switch (EditorConfiguration.platform)
             {

@@ -17,6 +17,7 @@ public class AltUnityCommandsTests
     [OneTimeTearDown]
     public void TearDown()
     {
+        altUnityDriver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Debug);
         altUnityDriver.Stop();
     }
 

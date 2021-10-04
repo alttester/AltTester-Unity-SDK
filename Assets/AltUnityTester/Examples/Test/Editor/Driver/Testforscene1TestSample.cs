@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Logging;
 using NUnit.Framework;
 
 [Timeout(30000)]
@@ -13,6 +14,8 @@ public class TestForScene1TestSample
     public void SetUp()
     {
         altUnityDriver = new AltUnityDriver(enableLogging: true);
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
     }
 
     [OneTimeTearDown]
@@ -212,7 +215,7 @@ public class TestForScene1TestSample
     {
         Thread.Sleep(1000);
         const string componentName = "AltUnityRunner";
-        const string propertyName = "InstrumentationSettings.ServerPort";
+        const string propertyName = "InstrumentationSettings.ProxyPort";
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);

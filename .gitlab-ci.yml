@@ -3,7 +3,7 @@
   - adb install sampleGame.apk
   - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
   - adb forward --remove-all
-  - adb forward tcp:13000 tcp:13000
+  #- adb forward tcp:13000 tcp:13000
 
 .initialize_venv: &initialize_venv
   - >
@@ -54,6 +54,8 @@ build-apk:
     - when: always
   tags:
     - android
+  variables:
+    PROXY_HOST: "192.168.11.35"
   script:
     - whoami
     - adb uninstall fi.altom.altunitytester || true
@@ -103,8 +105,8 @@ run-csharp-dotnet-webgl-tests:
   tags:
     - windows
     - unity
-  before_script:
-    - git clone https://dorinaltom:$GITLAB_PROXY_REPO_KEY@gitlab.com/altom/altunity/altunity-proxy.git
+  #before_script:
+  #  - git clone https://dorinaltom:$GITLAB_PROXY_REPO_KEY@gitlab.com/altom/altunity/altunity-proxy.git
   script:
     - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - docker run --rm -d -p 8080:8080 --name http-server -v $env:CI_PROJECT_DIR\build\webgl:/samplescenes-webgl node:14 /bin/bash -c "npm i -g http-server && http-server /samplescenes-webgl"
@@ -112,6 +114,7 @@ run-csharp-dotnet-webgl-tests:
     - Start-Process msedge -ArgumentList http://localhost:8080/ -PassThru
     - dotnet test Bindings~/dotnet/AltUnityDriver.Tests/AltUnityDriver.Tests.csproj --filter "TestCategory!=Android&TestCategory!=WebGLUnsupported" --logger:"console;verbosity=detailed"
   after_script:
+    - docker logs altunity-proxy > AltUnityProxyLog.txt
     - Stop-Process -Name msedge -Force
     - docker container stop http-server
     - docker container stop altunity-proxy
@@ -121,9 +124,7 @@ run-csharp-dotnet-webgl-tests:
     expire_in: 10 days
     paths:
       - AltUnityTesterLog.txt
-      #proxy logs
-      # driver logs
-      # game logs ??
+      - AltUnityProxyLog.txt
   needs: ["build-webgl"]
 
 .build-ipa:
@@ -155,19 +156,25 @@ run-csharp-unity-android-tests:
     - when: always
   tags:
     - android
-  script:
-    - ls
+  before_script:
+    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - *reinstall_and_start_android_app
+  script:
     - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.Editor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
   after_script:
+    - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
     - cat csharpAndroidTests.log
+    - docker logs altunity-proxy > AltUnityProxyLog.txt
+    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - csharpAndroidTests.log
       - AltUnityTesterLog.txt
+      - AltUnityServerLog.txt
+      - AltUnityProxyLog.txt
   needs: ["build-apk"]
 
 run-python-lint:
@@ -186,6 +193,7 @@ run-python-android-tests:
   tags:
     - android
   before_script:
+    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - *reinstall_and_start_android_app
     - *initialize_venv
     - *pip_install_dependencies
@@ -193,12 +201,17 @@ run-python-android-tests:
     - pytest Bindings~/python/tests/unit
     - pytest Bindings~/python/tests/python_bindings_tests.py
   after_script:
+    - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
+    - docker logs altunity-proxy > AltUnityProxyLog.txt
+    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - AltUnityTesterLog.txt
+      - AltUnityServerLog.txt
+      - AltUnityProxyLog.txt
   needs: ["build-apk"]
 
 run-python-appium-android-tests:
@@ -210,18 +223,23 @@ run-python-appium-android-tests:
   tags:
     - android
   before_script:
+    - adb uninstall fi.altom.altunitytester || true
+    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - *initialize_venv
     - *pip_install_dependencies
   script:
     - pytest "Bindings~/python/tests/python_appium_tests.py"
   after_script:
     - adb forward --remove-all
+    - docker logs altunity-proxy > AltUnityProxyLog.txt
+    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - appium.log
       - AltUnityTesterLog.txt
+      - AltUnityProxyLog.txt
   needs: ["build-apk"]
 
 run-java-android-tests:
@@ -232,17 +250,24 @@ run-java-android-tests:
     - when: always
   tags:
     - android
-  script:
+  before_script:
+    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - *reinstall_and_start_android_app
+  script:
     - cd "Bindings~/java"
     - mvn -Dtest=ro.altom.altunitytester.Tests* test
   after_script:
+    - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
+    - docker logs altunity-proxy > AltUnityProxyLog.txt
+    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
+      - AltUnityServerLog.txt
       - AltUnityTesterLog.txt
+      - AltUnityProxyLog.txt
   needs: ["build-apk"]
 
 run-java-appium-android-tests:
@@ -253,6 +278,9 @@ run-java-appium-android-tests:
     - when: always
   tags:
     - android
+  before_script:
+    - adb uninstall fi.altom.altunitytester || true
+    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
   script:
     - whoami
     - cd "Bindings~/java"
@@ -262,11 +290,14 @@ run-java-appium-android-tests:
     - mvn test
   after_script:
     - adb forward --remove-all
+    - docker logs altunity-proxy > AltUnityProxyLog.txt
+    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - AltUnityTesterLog.txt
+      - AltUnityProxyLog.txt
       - "./Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
   needs: ["build-apk"]
 

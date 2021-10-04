@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Logging;
 using NUnit.Framework;
 
 public class TestForScene5KeyboardAndMouseInput
@@ -14,6 +15,8 @@ public class TestForScene5KeyboardAndMouseInput
     public void SetUp()
     {
         altUnityDriver = new AltUnityDriver(enableLogging: true);
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
     }
 
     //At the end of the test closes the connection with the socket

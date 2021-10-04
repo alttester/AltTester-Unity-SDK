@@ -10,7 +10,6 @@ import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.position.Vector2;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class TestsSampleScene3 {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, false);
+        altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, true);
     }
 
     @AfterClass

@@ -16,27 +16,22 @@ namespace Altom.Editor
         public AltUnityPlatform platform = AltUnityPlatform.Editor;
         public UnityEditor.BuildTarget StandaloneTarget = UnityEditor.BuildTarget.StandaloneWindows;
         public bool RanInEditor = false;
-        public int ServerPort = 13000;
         public bool ScenePathDisplayed;
         public bool InputVisualizer;
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
         public string LatestInspectorVersion = "";
 
-        public AltUnityInstrumentationMode InstrumentationMode = AltUnityInstrumentationMode.Server;
 
-        public AltUnityInstrumentationMode UserSelectionInstrumentationMode = AltUnityInstrumentationMode.Server;
-        public string ProxyHost = "localhost";
+        public string ProxyHost = "127.0.0.1";
         public int ProxyPort = 13000;
 
         public AltUnityInstrumentationSettings GetInstrumentationSettings()
         {
             return new AltUnityInstrumentationSettings()
             {
-                ServerPort = ServerPort,
                 ShowPopUp = ShowPopUp,
                 InputVisualizer = InputVisualizer,
-                InstrumentationMode = InstrumentationMode,
                 ProxyHost = ProxyHost,
                 ProxyPort = ProxyPort,
             };

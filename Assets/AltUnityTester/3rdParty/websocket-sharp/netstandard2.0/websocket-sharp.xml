@@ -6973,7 +6973,7 @@
               </para>
             </exception>
         </member>
-        <member name="M:WebSocketSharp.Server.HttpServer.AddWebSocketService``1(System.String,System.Action{``0})">
+        <member name="M:WebSocketSharp.Server.HttpServer.AddWebSocketService``1(System.String,System.Action{WebSocketSharp.Net.WebSockets.WebSocketContext,``0})">
             <summary>
             Adds a WebSocket service with the specified behavior, path,
             and delegate.
@@ -8628,7 +8628,7 @@
               </para>
             </exception>
         </member>
-        <member name="M:WebSocketSharp.Server.WebSocketServer.AddWebSocketService``1(System.String,System.Action{``0})">
+        <member name="M:WebSocketSharp.Server.WebSocketServer.AddWebSocketService``1(System.String,System.Action{WebSocketSharp.Net.WebSockets.WebSocketContext,``0})">
             <summary>
             Adds a WebSocket service with the specified behavior, path,
             and delegate.
@@ -8952,7 +8952,7 @@
             The value specified for a set operation is zero or less.
             </exception>
         </member>
-        <member name="M:WebSocketSharp.Server.WebSocketServiceHost.CreateSession">
+        <member name="M:WebSocketSharp.Server.WebSocketServiceHost.CreateSession(WebSocketSharp.Net.WebSockets.WebSocketContext)">
             <summary>
             Creates a new session for the service.
             </summary>
@@ -9090,7 +9090,7 @@
             The value specified for a set operation is zero or less.
             </exception>
         </member>
-        <member name="M:WebSocketSharp.Server.WebSocketServiceManager.AddService``1(System.String,System.Action{``0})">
+        <member name="M:WebSocketSharp.Server.WebSocketServiceManager.AddService``1(System.String,System.Action{WebSocketSharp.Net.WebSockets.WebSocketContext,``0})">
             <summary>
             Adds a WebSocket service with the specified behavior, path,
             and delegate.

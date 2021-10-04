@@ -1,5 +1,6 @@
 using System.Threading;
 using Altom.AltUnityDriver;
+using Altom.AltUnityDriver.Logging;
 using NUnit.Framework;
 
 [Timeout(10000)]
@@ -11,6 +12,8 @@ public class TestForScene3DragAndDrop
     public void SetUp()
     {
         altUnityDriver = new AltUnityDriver(enableLogging: true);
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
+        DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
     }
 
     [OneTimeTearDown]
