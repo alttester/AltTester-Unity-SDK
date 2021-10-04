@@ -38,7 +38,7 @@ public class MessageHandler implements IMessageHandler {
         }
         String responseMessage = responses.remove();
 
-        logger.debug("received: " + trimLogData(responseMessage));
+        logger.debug("response received: {}", trimLogData(responseMessage));
         AltMessageResponse<T> response = new Gson().fromJson(responseMessage, getType(AltMessageResponse.class, type));
         return response;
 
@@ -47,7 +47,7 @@ public class MessageHandler implements IMessageHandler {
     public void send(AltMessage altMessage) {
         String message = new Gson().toJson(altMessage);
         session.getAsyncRemote().sendText(message);
-        logger.debug("sent: {}", altMessage);
+        logger.debug("command sent: {}", trimLogData(message));
 
     }
 

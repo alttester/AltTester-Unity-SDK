@@ -45,7 +45,6 @@ public class AltUnityDriverConfigFactory extends ConfigurationFactory {
         config.getLoggerConfig("ro.altom.altunitytester").setLevel(Level.OFF);
 
         ctx.updateLoggers();
-
     }
 
     static Configuration createConfiguration(final String name, ConfigurationBuilder<BuiltConfiguration> builder) {

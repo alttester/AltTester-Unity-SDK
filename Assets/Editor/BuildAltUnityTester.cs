@@ -47,11 +47,14 @@ public class BuildAltUnityTester
 
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
 
-
             var instrumentationSettings = AltUnityTesterEditor.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings();
+            var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
+            if (!string.IsNullOrEmpty(proxyHost))
+                instrumentationSettings.ProxyHost = proxyHost;
+
+            UnityEngine.Debug.Log(instrumentationSettings.ProxyHost);
+
             AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
-
-
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
             AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
@@ -65,10 +68,10 @@ public class BuildAltUnityTester
 
             }
             else
-                {
-                    logger.Error("Build failed!");
-                    EditorApplication.Exit(1);
-                }
+            {
+                logger.Error("Build failed!");
+                EditorApplication.Exit(1);
+            }
 
 #else
             if (results.summary.totalErrors == 0)

@@ -259,7 +259,7 @@ public class TestsSampleScene1 {
     public void testGetComponentProperty() throws Exception {
         Thread.sleep(1000);
         String componentName = "AltUnityRunner";
-        String propertyName = "InstrumentationSettings.ServerPort";
+        String propertyName = "InstrumentationSettings.ProxyPort";
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                 "AltUnityRunnerPrefab").build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
@@ -535,10 +535,10 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestCallStaticMethod() throws Exception {
-        altUnityDriver.callStaticMethod(
-                new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs", "SetInt", new Object[]{"Test", "1"}).build(), String.class);
-        int a = altUnityDriver.callStaticMethod(
-                new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs", "GetInt", new Object[]{"Test", "2"}).build(), Integer.class);
+        altUnityDriver.callStaticMethod(new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs", "SetInt",
+                new Object[] { "Test", "1" }).build(), String.class);
+        int a = altUnityDriver.callStaticMethod(new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs",
+                "GetInt", new Object[] { "Test", "2" }).build(), Integer.class);
         assertEquals(1, a);
     }
 
@@ -1124,8 +1124,3 @@ public class TestsSampleScene1 {
         assertTrue(new File(path).isFile());
     }
 }
-
-// TestsSampleScene1.testDeleteKey:450 PlayerPrefs key test not found
-// [ERROR]   TestsSampleScene1.testFindNonExistentObject:479 Object //NonExistent not found
-// [ERROR]   TestsSampleScene1.testFindNonExistentObjectByName:491 Object //NonExistent not found
-// [ERROR]   TestsSampleScene1.testSetNonExistingComponentProperty:333 Component not found

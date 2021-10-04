@@ -29,22 +29,12 @@ class SampleAppiumTest(unittest.TestCase):
         cls.driver = webdriver.Remote('http://localhost:4723/wd/hub', cls.desired_caps)
         time.sleep(10)
 
-        if cls.platform == "android":
-            AltUnityPortForwarding.forward_android()
-        else:
-            cls.iProxyProcessID = AltUnityPortForwarding.forward_ios()
-
         cls.altdriver = AltUnityDriver(timeout=None, enable_logging=True)
 
     @classmethod
     def tearDownClass(cls):
         cls.altdriver.stop()
         cls.driver.quit()
-
-        if cls.platform == "android":
-            AltUnityPortForwarding.remove_forward_android()
-        else:
-            AltUnityPortForwarding.kill_iproxy_process(cls.iProxyProcessID)
 
     @classmethod
     def setup_android(cls):

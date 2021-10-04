@@ -36,7 +36,7 @@ namespace Altom.AltUnityDriver.Commands
             {
                 logger.Error(args.Exception, args.Message);
             };
-            var comm = new DriverCommunicationWebSocket(new AltUnityWebSocketClient(wsClient));
+
 
             logger.Debug("Connecting to: " + url);
 
@@ -57,7 +57,9 @@ namespace Altom.AltUnityDriver.Commands
 
             if (!wsClient.IsAlive)
                 throw new Exception("Could not create connection to " + tcpIp + ":" + tcpPort);
+
             logger.Debug("Connected to: " + url);
+            var comm = new DriverCommunicationWebSocket(new AltUnityWebSocketClient(wsClient));
             return comm;
         }
 
@@ -94,6 +96,7 @@ namespace Altom.AltUnityDriver.Commands
                 Culture = CultureInfo.InvariantCulture
             });
             this.wsClient.Send(message);
+            logger.Debug("command sent: " + trimLog(message));
         }
 
         public void Close()
@@ -104,6 +107,7 @@ namespace Altom.AltUnityDriver.Commands
         protected void OnMessage(object sender, string data)
         {
             messages.Enqueue(data);
+            logger.Debug("response received: " + trimLog(data));
         }
 
         private void handleErrors(CommandError error)

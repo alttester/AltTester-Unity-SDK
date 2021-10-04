@@ -28,17 +28,15 @@ public class AltUnityDriver {
     private static final Logger log = LogManager.getLogger(AltUnityDriver.class);
 
     public static enum PlayerPrefsKeyType {
-        Int(1),
-        String(2),
-        Float(3);
+        Int(1), String(2), Float(3);
 
         private int val;
 
-        PlayerPrefsKeyType(int val){
+        PlayerPrefsKeyType(int val) {
             this.val = val;
         }
 
-        public int getVal(){
+        public int getVal() {
             return val;
         }
     }
@@ -58,6 +56,10 @@ public class AltUnityDriver {
     }
 
     public AltUnityDriver(String host, int port, Boolean enableLogging) {
+        this(host, port, enableLogging, 60);
+    }
+
+    public AltUnityDriver(String host, int port, Boolean enableLogging, int connectTimeout) {
         if (!enableLogging)
             AltUnityDriverConfigFactory.DisableLogging();
 
@@ -65,7 +67,7 @@ public class AltUnityDriver {
             throw new InvalidParamerException("Provided IP address is null or empty");
         }
 
-        this.connection = new WebsocketConnection(host, port);
+        this.connection = new WebsocketConnection(host, port, connectTimeout);
         checkServerVersion();
 
     }
@@ -171,7 +173,8 @@ public class AltUnityDriver {
     }
 
     public <T> T callStaticMethod(AltCallStaticMethodParameters altCallStaticMethodParameters, Class<T> returnType) {
-        return new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParameters).Execute(returnType);
+        return new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParameters)
+                .Execute(returnType);
     }
 
     /**

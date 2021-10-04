@@ -28,14 +28,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
         void OnMessage(string data);
     }
 
-    public class AddressInUseCommError : Exception
-    {
-        public AddressInUseCommError(string message) : base(message)
-        {
-
-        }
-    }
-
     public class UnhandledStartCommError : Exception
     {
         public UnhandledStartCommError(string message, Exception innerException) : base(message, innerException)

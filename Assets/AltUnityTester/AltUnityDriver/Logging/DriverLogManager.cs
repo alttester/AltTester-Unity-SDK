@@ -39,8 +39,6 @@ namespace Altom.AltUnityDriver.Logging
             {
                 if (rule.Targets[0].Name == string.Format("AltUnityDriver{0}Target", loggerType))
                 {
-                    Console.WriteLine("success");
-
                     if (minLogLevel == AltUnityLogLevel.Off)
                     {
                         rule.SetLoggingLevels(LogLevel.Off, LogLevel.Off);

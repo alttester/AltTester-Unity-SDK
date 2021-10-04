@@ -21,11 +21,11 @@ namespace Altom.AltUnityDriver
         /// <summary>
         /// Initiates AltUnity Driver and begins connection to AltUnity Server
         /// </summary>
-        /// <param name="tcp_ip">The ip or hostname  AltUnity Server is listening on.</param>
-        /// <param name="tcp_port">The port AltUnity Server is listening on.</param>
+        /// <param name="host">The ip or hostname  AltUnity Server is listening on.</param>
+        /// <param name="port">The port AltUnity Server is listening on.</param>
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
-        public AltUnityDriver(string tcp_ip = "127.0.0.1", int tcp_port = 13000, bool enableLogging = false, int connectTimeout = 60)
+        public AltUnityDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60)
         {
             if (enableLogging)
             {
@@ -36,7 +36,7 @@ namespace Altom.AltUnityDriver
 #endif
                 DriverLogManager.SetupAltUnityDriverLogging(defaultLevels);
             }
-            communicationHandler = DriverCommunicationWebSocket.Connect(tcp_ip, tcp_port, connectTimeout);
+            communicationHandler = DriverCommunicationWebSocket.Connect(host, port, connectTimeout);
 
             checkServerVersion();
         }

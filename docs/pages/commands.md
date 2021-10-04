@@ -9,11 +9,9 @@ An AltUnityDriver instance will connect to the AltUnity Server that is running i
 
 | Name             | Type    | Required | Description                               |
 | ---------------- | ------- | -------- | ----------------------------------------- |
-| tcp_ip           | string  | No       | The default value for this is "127.0.0.1" |
-| tcp_port         | int     | No       | The default value for this is 13000       |
-| requestSeparator | string  | No       | The default value for this is ";"         |
-| requestEnding    | string  | No       | The default value for this is "&"         |
-| logFlag          | boolean | No       | The default value for this is false       |
+| host             | string  | No       | The ip or hostname  AltUnity Server is listening on. The default value for this is "127.0.0.1" |
+| port             | int     | No       | The default value for this is 13000       |
+| enableLogging    | boolean | No       | The default value for this is false       |
 
 For more information about the AltUnityDriver parameters you can read the [Server Settings page](altunity-tester-editor.html#server-settings).
 
