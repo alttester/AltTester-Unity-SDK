@@ -243,6 +243,7 @@ public class CreateAltUnityPrefab : MonoBehaviour
         var panelHightlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltUnityTester/Prefab/Panel.prefab", typeof(GameObject));
         AltUnityrunner.panelHightlightPrefab = panelHightlightPrefab as GameObject;
         AltUnityrunner.RunOnlyInDebugMode = true;
+        AltUnityrunner.InputsVisualiser = AltUnityInputsVisualiser;
 
 
         //Set AltUnityDialog variables

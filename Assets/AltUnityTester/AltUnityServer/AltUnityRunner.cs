@@ -27,7 +27,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
 
     [UnityEngine.Space]
     [UnityEngine.SerializeField]
-    private AltUnityInputsVisualiser _inputsVisualiser = null;
+    public AltUnityInputsVisualiser InputsVisualiser = null;
 
 
 
@@ -186,18 +186,18 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
 
     public void ShowClick(UnityEngine.Vector2 position)
     {
-        if (!InstrumentationSettings.InputVisualizer || _inputsVisualiser == null)
+        if (!InstrumentationSettings.InputVisualizer || InputsVisualiser == null)
             return;
 
-        _inputsVisualiser.ShowClick(position);
+        InputsVisualiser.ShowClick(position);
     }
 
     public int ShowInput(UnityEngine.Vector2 position, int markId = -1)
     {
-        if (!InstrumentationSettings.InputVisualizer || _inputsVisualiser == null)
+        if (!InstrumentationSettings.InputVisualizer || InputsVisualiser == null)
             return -1;
 
-        return _inputsVisualiser.ShowContinuousInput(position, markId);
+        return InputsVisualiser.ShowContinuousInput(position, markId);
     }
 
     public static void CopyTo(System.IO.Stream src, System.IO.Stream dest)
