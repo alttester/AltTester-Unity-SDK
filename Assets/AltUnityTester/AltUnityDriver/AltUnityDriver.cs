@@ -36,7 +36,8 @@ namespace Altom.AltUnityDriver
 #endif
                 DriverLogManager.SetupAltUnityDriverLogging(defaultLevels);
             }
-            communicationHandler = DriverCommunicationWebSocket.Connect(host, port, connectTimeout);
+            communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout);
+            communicationHandler.Connect();
 
             checkServerVersion();
         }

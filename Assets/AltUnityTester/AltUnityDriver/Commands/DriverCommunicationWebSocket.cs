@@ -12,13 +12,58 @@ namespace Altom.AltUnityDriver.Commands
     public class DriverCommunicationWebSocket : IDriverCommunication
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
-        private IWebSocketClient wsClient;
+        private IWebSocketClient wsClient = null;
+        private readonly string _host;
+        private readonly int _port;
+        private readonly string _uri;
+        private readonly int _connectTimeout;
         private Queue<string> messages;
 
-        public DriverCommunicationWebSocket(IWebSocketClient wsClient)
+        public DriverCommunicationWebSocket(string host, int port, int connectTimeout)
         {
+            _host = host;
+            _port = port;
+            _uri = "ws://" + host + ":" + port + "/altws";
+            _connectTimeout = connectTimeout;
+
             messages = new Queue<string>();
-            this.wsClient = wsClient;
+        }
+
+        public void Connect()
+        {
+            int delay = 100;
+
+            logger.Info("Connecting to host: {0} port: {1}.", _host, _port);
+
+            WebSocket wsClient = new WebSocket(_uri);
+            wsClient.OnError += (sender, args) =>
+            {
+                logger.Error(args.Exception, args.Message);
+            };
+
+            Stopwatch watch = Stopwatch.StartNew();
+            int retries = 0;
+
+            while (_connectTimeout > watch.Elapsed.TotalSeconds)
+            {
+                if (retries > 0) logger.Debug(string.Format("Retrying #{0} to host: {1} port: {2}.", retries, _host, _port));
+                wsClient.Connect();
+
+                if (wsClient.IsAlive) break;
+
+                retries++;
+
+                Thread.Sleep(delay); // delay between retries
+            }
+            if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive)
+                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltUnity on host: {0} port: {1}.", _host, _port));
+
+            if (!wsClient.IsAlive)
+                throw new ConnectionException(string.Format("Failed to connect to AltUnity on host: {0} port: {1}.", _host, _port));
+
+            logger.Debug("Connected to: " + _uri);
+
+            this.wsClient = new AltUnityWebSocketClient(wsClient);
             this.wsClient.OnMessage += OnMessage;
             this.wsClient.OnError += (sender, args) =>
             {
@@ -26,41 +71,10 @@ namespace Altom.AltUnityDriver.Commands
                 if (args.Exception != null)
                     logger.Error(args.Exception);
             };
-        }
-
-        public static DriverCommunicationWebSocket Connect(string tcpIp, int tcpPort, int connectTimeout)
-        {
-            string url = "ws://" + tcpIp + ":" + tcpPort + "/altws";
-            WebSocket wsClient = new WebSocket(url);
-            wsClient.OnError += (sender, args) =>
+            this.wsClient.OnClose += (sender, args) =>
             {
-                logger.Error(args.Exception, args.Message);
+                logger.Debug("Connection to AltUnity closed: [Code:{0}, Reason:{1}]", args.Code, args.Reason);
             };
-
-
-            logger.Debug("Connecting to: " + url);
-
-            Stopwatch watch = Stopwatch.StartNew();
-            int retries = 0;
-
-            while (connectTimeout > watch.Elapsed.TotalSeconds)
-            {
-                if (retries > 0) logger.Debug(string.Format("Retrying #{0} to {1}", retries, url));
-                wsClient.Connect();
-
-                if (wsClient.IsAlive) break;
-
-                retries++;
-            }
-            if (watch.Elapsed.TotalSeconds > connectTimeout && !wsClient.IsAlive)
-                throw new ConnectionTimeoutException("Connection failed because it took too long");
-
-            if (!wsClient.IsAlive)
-                throw new Exception("Could not create connection to " + tcpIp + ":" + tcpPort);
-
-            logger.Debug("Connected to: " + url);
-            var comm = new DriverCommunicationWebSocket(new AltUnityWebSocketClient(wsClient));
-            return comm;
         }
 
         public CommandResponse<T> Recvall<T>(CommandParams param)
@@ -101,6 +115,7 @@ namespace Altom.AltUnityDriver.Commands
 
         public void Close()
         {
+            logger.Info(string.Format("Closing connection to AltUnity on: {}", _uri));
             this.wsClient.Close();
         }
 

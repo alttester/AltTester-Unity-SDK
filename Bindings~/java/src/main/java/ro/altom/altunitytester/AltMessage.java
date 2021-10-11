@@ -6,8 +6,6 @@ import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
 import javax.websocket.EncodeException;
 
-import java.util.HashMap;
-
 import com.google.gson.Gson;
 
 public class AltMessage {
@@ -16,7 +14,7 @@ public class AltMessage {
     private String commandName;
 
     public AltMessage() {
-        this.messageId = Long.toString(System.currentTimeMillis());
+        this.messageId = null;
     }
 
     public String getCommandName() {
@@ -29,6 +27,10 @@ public class AltMessage {
 
     public String messageId() {
         return this.messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     public static class AltMessageEncoder implements Encoder.Text<AltMessage> {

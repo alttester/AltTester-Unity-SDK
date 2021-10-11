@@ -1,5 +1,8 @@
 package ro.altom.altunitytester.altUnityTesterExceptions;
 
+/**
+ * Raised when the client can not connect to the server.
+ */
 public class ConnectionException extends AltUnityException {
     /**
      *

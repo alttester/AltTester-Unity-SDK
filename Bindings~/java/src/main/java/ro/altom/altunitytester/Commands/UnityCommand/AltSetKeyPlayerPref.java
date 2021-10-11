@@ -1,7 +1,6 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
 import ro.altom.altunitytester.IMessageHandler;
-import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSetKeyPlayerPref extends AltBaseCommand {
