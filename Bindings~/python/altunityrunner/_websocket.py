@@ -65,7 +65,7 @@ class WebsocketConnection:
         )
 
     def connect(self):
-        logger.info("Connecting to AltUnityServer on: {}".format(self.url))
+        logger.info("Connecting to host: {} port: {}.".format(self.host, self.port))
 
         self._websocket = self._create_connection()
         self._wait_for_connection_to_open(timeout=self.timeout)
@@ -97,10 +97,7 @@ class WebsocketConnection:
             self.close()
 
             raise ConnectionTimeoutError(
-                "Could not connect to AltUnity on host: {} port: {}.".format(
-                    self.host,
-                    self.port,
-                )
+                "Failed to connect to AltUnity host: {} port: {}.".format(self.host, self.port)
             )
 
     def _ensure_connection_is_open(self):
@@ -127,7 +124,8 @@ class WebsocketConnection:
     def _on_close(self, ws, close_status_code, close_msg):
         """A callback which is called when the connection is closed."""
 
-        logger.debug("Connection closed with status code: {} and message: {}.", close_status_code, close_msg)
+        logger.debug("Connection to AltUnity closed with status code: {} and message: {}.",
+                     close_status_code, close_msg)
 
         self._is_open = False
         self._websocket = None
@@ -157,7 +155,7 @@ class WebsocketConnection:
         return self.recv()
 
     def close(self):
-        logger.info("Closing connection to AltUnityServer on: {}".format(self.url))
+        logger.info("Closing connection to AltUnity on host: {} port: {}".format(self.host, self.port))
 
         if self._websocket is not None:
             self._websocket.close()

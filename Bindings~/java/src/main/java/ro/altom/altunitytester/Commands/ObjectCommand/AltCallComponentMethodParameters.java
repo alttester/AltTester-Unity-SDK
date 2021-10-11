@@ -1,14 +1,12 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-import java.util.Arrays;
-
 import com.google.gson.Gson;
 
 public class AltCallComponentMethodParameters extends AltUnityObjectParameters {
     public static class Builder {
         private String componentName;
         private String methodName;
-        private Object[] parameters = new Object[]{};
+        private Object[] parameters = new Object[] {};
         private String[] typeOfParameters;
         private String assembly;
 
@@ -32,10 +30,10 @@ public class AltCallComponentMethodParameters extends AltUnityObjectParameters {
             AltCallComponentMethodParameters altCallStaticMethodParameters = new AltCallComponentMethodParameters();
             altCallStaticMethodParameters.assembly = this.assembly;
             altCallStaticMethodParameters.method = this.methodName;
-            if(this.parameters != null){
+            if (this.parameters != null) {
                 altCallStaticMethodParameters.parameters = new String[this.parameters.length];
-                for(int i = 0; i < this.parameters.length; i++){
-    
+                for (int i = 0; i < this.parameters.length; i++) {
+
                     altCallStaticMethodParameters.parameters[i] = new Gson().toJson(this.parameters[i]);
                 }
             }

@@ -207,6 +207,10 @@ namespace Altom.AltUnityDriver
         {
         }
     }
+
+    /// <summary>
+    /// Raised when the client connection timesout.
+    /// </summary>
     public class ConnectionTimeoutException : AltUnityException
     {
         public ConnectionTimeoutException()
@@ -214,6 +218,21 @@ namespace Altom.AltUnityDriver
 
         }
         public ConnectionTimeoutException(string message) : base(message)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// Raised when the client can not connect to the server
+    /// </summary>
+    public class ConnectionException : AltUnityException
+    {
+        public ConnectionException()
+        {
+
+        }
+        public ConnectionException(string message) : base(message)
         {
 
         }

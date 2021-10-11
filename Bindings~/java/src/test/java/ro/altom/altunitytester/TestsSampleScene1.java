@@ -30,9 +30,6 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.lang.Void;
 
-import javax.websocket.CloseReason;
-import javax.websocket.CloseReason.CloseCodes;
-
 import java.io.File;
 
 public class TestsSampleScene1 {
@@ -46,7 +43,7 @@ public class TestsSampleScene1 {
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "Connection stopped successfully"));
+        altUnityDriver.stop();
         Thread.sleep(1000);
     }
 

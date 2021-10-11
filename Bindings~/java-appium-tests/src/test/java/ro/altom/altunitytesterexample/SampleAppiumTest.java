@@ -20,15 +20,12 @@ import java.io.File;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-import javax.websocket.CloseReason;
-import javax.websocket.CloseReason.CloseCodes;
-
 import static org.junit.Assert.*;
 
 public class SampleAppiumTest {
 
     private static AltUnityDriver altUnityDriver;
-    private static AndroidDriver appiumDriver;
+    private static AndroidDriver<MobileElement> appiumDriver;
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -46,7 +43,7 @@ public class SampleAppiumTest {
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "Connection stopped successfully"));
+        altUnityDriver.stop();
         appiumDriver.quit();
     }
 

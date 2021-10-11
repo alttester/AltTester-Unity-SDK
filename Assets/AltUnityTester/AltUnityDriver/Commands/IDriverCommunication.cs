@@ -4,6 +4,7 @@ namespace Altom.AltUnityDriver.Commands
     {
         void Send(CommandParams param);
         CommandResponse<T> Recvall<T>(CommandParams param);
+        void Connect();
         void Close();
     }
 }

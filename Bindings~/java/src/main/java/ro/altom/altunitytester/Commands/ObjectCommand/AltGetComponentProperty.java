@@ -1,9 +1,6 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-import com.google.gson.Gson;
 import ro.altom.altunitytester.IMessageHandler;
-import ro.altom.altunitytester.AltUnityObject;
-import ro.altom.altunitytester.AltUnityObjectProperty;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 /**
@@ -16,7 +13,7 @@ public class AltGetComponentProperty extends AltBaseCommand {
      */
     private AltGetComponentPropertyParameters altGetComponentPropertyParameters;
 
-    public AltGetComponentProperty(IMessageHandler messageHandler, 
+    public AltGetComponentProperty(IMessageHandler messageHandler,
             AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
         super(messageHandler);
         this.altGetComponentPropertyParameters = altGetComponentPropertyParameters;

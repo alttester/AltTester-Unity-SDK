@@ -17,8 +17,6 @@ import ro.altom.altunitytester.position.Vector2;
 import java.io.IOException;
 import java.util.List;
 
-import javax.websocket.CloseReason;
-
 public class AltUnityDriver {
     static {
         ConfigurationFactory custom = new AltUnityDriverConfigFactory();
@@ -64,10 +62,11 @@ public class AltUnityDriver {
             AltUnityDriverConfigFactory.DisableLogging();
 
         if (host == null || host.isEmpty()) {
-            throw new InvalidParamerException("Provided IP address is null or empty");
+            throw new InvalidParamerException("Provided host address is null or empty");
         }
 
         this.connection = new WebsocketConnection(host, port, connectTimeout);
+        this.connection.connect();
         checkServerVersion();
 
     }
@@ -102,8 +101,8 @@ public class AltUnityDriver {
         }
     }
 
-    public void stop(CloseReason closeReason) throws IOException {
-        this.connection.session.close(closeReason);
+    public void stop() throws IOException {
+        this.connection.close();
     }
 
     public String GetServerVersion() {

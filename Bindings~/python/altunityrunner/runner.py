@@ -23,11 +23,11 @@ class AltUnityDriver:
     Args:
         host (:obj:`str`): The server host to connect to.
         port (:obj:`int`): The server port to connect to.
-        timeout (:obj:`float`, optional): The server connection timeout time.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
+        timeout (:obj:`float`, optional): The server connection timeout time.
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, timeout=None, enable_logging=False):
+    def __init__(self, host="127.0.0.1", port=13000, enable_logging=False, timeout=None):
         self.host = host
         self.port = port
         self.enable_logging = enable_logging

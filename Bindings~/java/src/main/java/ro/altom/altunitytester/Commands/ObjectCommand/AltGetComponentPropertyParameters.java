@@ -1,7 +1,5 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-import ro.altom.altunitytester.AltUnityObjectProperty;
-
 public class AltGetComponentPropertyParameters extends AltUnityObjectParameters {
     public static class Builder {
         private String componentName;

@@ -14,9 +14,6 @@ import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
 import java.util.ArrayList;
 
-import javax.websocket.CloseReason;
-import javax.websocket.CloseReason.CloseCodes;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -31,7 +28,7 @@ public class TestsSampleScene5 {
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop(new CloseReason(CloseCodes.getCloseCode(1000), "Connection stopped successfully"));
+        altUnityDriver.stop();
         Thread.sleep(1000);
     }
 

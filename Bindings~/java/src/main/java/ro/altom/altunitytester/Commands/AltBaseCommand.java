@@ -28,6 +28,7 @@ public class AltBaseCommand {
     }
 
     protected void SendCommand(AltMessage altMessage) {
+        altMessage.setMessageId(Long.toString(System.currentTimeMillis()));
         messageHandler.send(altMessage);
     }
 

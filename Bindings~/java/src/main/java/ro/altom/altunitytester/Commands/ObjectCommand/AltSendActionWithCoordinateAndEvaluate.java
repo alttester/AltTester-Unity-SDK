@@ -1,12 +1,11 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-import com.google.gson.Gson;
 import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSendActionWithCoordinateAndEvaluate extends AltBaseCommand {
-    
+
     private AltSendActionWithCoordinateAndEvaluateParams params;
 
     public AltSendActionWithCoordinateAndEvaluate(IMessageHandler messageHandler, AltUnityObject altUnityObject, int x,
