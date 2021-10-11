@@ -3024,6 +3024,56 @@ Returns the value of the time scale.
 
 ```
 
+#### SetTimeScale
+
+Sets the value of the time scale.
+
+**_Parameters_**
+
+| Name     | Type            | Required | Description                                                                               |
+| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
+| timeScale| float           | Yes      | The value you want to set the time scale to.    |
+
+
+**_Returns_**
+
+-   None
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestTimeScale()
+        {
+            altUnityDriver.SetTimeScale(0.1f);
+            Thread.Sleep(1000);
+            var timeScaleFromGame = altUnityDriver.GetTimeScale();
+            Assert.AreEqual(0.1f, timeScaleFromGame);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestTimeScale() {
+            altUnityDriver.setTimeScale(0.1f);
+            float timeScale = altUnityDriver.getTimeScale();
+            assertEquals(0.1f, timeScale, 0);
+        }
+
+    .. code-tab:: py
+
+        def test_time_scale(self):
+            self.altUnityDriver.set_time_scale(0.1)
+            time.sleep(1)
+            time_scale = self.altUnityDriver.get_time_scale()
+            self.assertEqual(0.1, time_scale)
+
+```
+
 #### CallStaticMethod
 
 Invokes static methods from your game.
