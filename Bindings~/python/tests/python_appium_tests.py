@@ -29,7 +29,7 @@ class SampleAppiumTest(unittest.TestCase):
         cls.driver = webdriver.Remote('http://localhost:4723/wd/hub', cls.desired_caps)
         time.sleep(10)
 
-        cls.altdriver = AltUnityDriver(timeout=None, enable_logging=True)
+        cls.altdriver = AltUnityDriver(port=13010, timeout=None, enable_logging=True)
 
     @classmethod
     def tearDownClass(cls):

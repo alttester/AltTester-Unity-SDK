@@ -49,8 +49,11 @@ public class BuildAltUnityTester
 
             var instrumentationSettings = AltUnityTesterEditor.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings();
             var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
+            var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
             if (!string.IsNullOrEmpty(proxyHost))
                 instrumentationSettings.ProxyHost = proxyHost;
+            if (!string.IsNullOrEmpty(proxyPort))
+                instrumentationSettings.ProxyPort = int.Parse(proxyPort);
 
             UnityEngine.Debug.Log(instrumentationSettings.ProxyHost);
 

@@ -56,6 +56,7 @@ build-apk:
     - android
   variables:
     PROXY_HOST: "192.168.11.35"
+    PROXY_PORT: "13010"
   script:
     - whoami
     - adb uninstall fi.altom.altunitytester || true
@@ -156,8 +157,9 @@ run-csharp-unity-android-tests:
     - when: always
   tags:
     - android
+  variables:
+    PROXY_PORT: "13010"
   before_script:
-    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - *reinstall_and_start_android_app
   script:
     - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.Editor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
@@ -165,8 +167,6 @@ run-csharp-unity-android-tests:
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
     - cat csharpAndroidTests.log
-    - docker logs altunity-proxy > AltUnityProxyLog.txt
-    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
@@ -174,7 +174,6 @@ run-csharp-unity-android-tests:
       - csharpAndroidTests.log
       - AltUnityTesterLog.txt
       - AltUnityServerLog.txt
-      - AltUnityProxyLog.txt
   needs: ["build-apk"]
 
 run-python-lint:
@@ -193,7 +192,6 @@ run-python-android-tests:
   tags:
     - android
   before_script:
-    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - *reinstall_and_start_android_app
     - *initialize_venv
     - *pip_install_dependencies
@@ -203,15 +201,12 @@ run-python-android-tests:
   after_script:
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
-    - docker logs altunity-proxy > AltUnityProxyLog.txt
-    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - AltUnityTesterLog.txt
       - AltUnityServerLog.txt
-      - AltUnityProxyLog.txt
   needs: ["build-apk"]
 
 run-python-appium-android-tests:
@@ -224,22 +219,18 @@ run-python-appium-android-tests:
     - android
   before_script:
     - adb uninstall fi.altom.altunitytester || true
-    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - *initialize_venv
     - *pip_install_dependencies
   script:
     - pytest "Bindings~/python/tests/python_appium_tests.py"
   after_script:
     - adb forward --remove-all
-    - docker logs altunity-proxy > AltUnityProxyLog.txt
-    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - appium.log
       - AltUnityTesterLog.txt
-      - AltUnityProxyLog.txt
   needs: ["build-apk"]
 
 run-java-android-tests:
@@ -251,7 +242,6 @@ run-java-android-tests:
   tags:
     - android
   before_script:
-    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
     - *reinstall_and_start_android_app
   script:
     - cd "Bindings~/java"
@@ -259,15 +249,12 @@ run-java-android-tests:
   after_script:
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
-    - docker logs altunity-proxy > AltUnityProxyLog.txt
-    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - AltUnityServerLog.txt
       - AltUnityTesterLog.txt
-      - AltUnityProxyLog.txt
   needs: ["build-apk"]
 
 run-java-appium-android-tests:
@@ -280,7 +267,6 @@ run-java-appium-android-tests:
     - android
   before_script:
     - adb uninstall fi.altom.altunitytester || true
-    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
   script:
     - whoami
     - cd "Bindings~/java"
@@ -290,14 +276,11 @@ run-java-appium-android-tests:
     - mvn test
   after_script:
     - adb forward --remove-all
-    - docker logs altunity-proxy > AltUnityProxyLog.txt
-    - docker container stop altunity-proxy
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - AltUnityTesterLog.txt
-      - AltUnityProxyLog.txt
       - "./Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
   needs: ["build-apk"]
 

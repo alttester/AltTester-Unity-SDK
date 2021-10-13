@@ -13,7 +13,10 @@ public class TestForScene1TestSample
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver = new AltUnityDriver(enableLogging: true);
+        string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+        int port = 13000;
+        if (!string.IsNullOrEmpty(portStr)) port = int.Parse(portStr);
+        altUnityDriver = new AltUnityDriver(port: port, enableLogging: true);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
     }
@@ -219,7 +222,9 @@ public class TestForScene1TestSample
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual(propertyValue, "13000");
+        string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+        if (string.IsNullOrEmpty(portStr)) portStr = "13000";
+        Assert.AreEqual(portStr, propertyValue);
     }
 
     [Test]
