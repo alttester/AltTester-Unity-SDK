@@ -9,7 +9,10 @@ public class TestForScene4NoCameras
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver = new AltUnityDriver(enableLogging: true);
+        string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+        int port = 13000;
+        if (!string.IsNullOrEmpty(portStr)) port = int.Parse(portStr);
+        altUnityDriver = new AltUnityDriver(port: port, enableLogging: true);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
         altUnityDriver.LoadScene("Scene 4 No Cameras");

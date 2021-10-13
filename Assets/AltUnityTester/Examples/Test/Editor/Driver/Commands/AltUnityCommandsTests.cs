@@ -10,8 +10,11 @@ public class AltUnityCommandsTests
     [OneTimeSetUp]
     public void SetUp()
     {
+        string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+        int port = 13000;
+        if (!string.IsNullOrEmpty(portStr)) port = int.Parse(portStr);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Debug);
-        altUnityDriver = new AltUnityDriver();
+        altUnityDriver = new AltUnityDriver(port: port);
     }
 
     [OneTimeTearDown]

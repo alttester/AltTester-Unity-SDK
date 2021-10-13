@@ -15,7 +15,7 @@ class PythonTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltUnityDriver(enable_logging=True, timeout=None)
+        cls.altdriver = AltUnityDriver(port=13010, enable_logging=True, timeout=None)
 
     @classmethod
     def tearDownClass(cls):
@@ -181,7 +181,8 @@ class PythonTests(unittest.TestCase):
                 type_of_parameters=[]
             )
 
-        assert str(execinfo.value) == "No method found with 3 parameters matching signature: TestMethodWithManyParameters(System.String[])"
+        assert str(
+            execinfo.value) == "No method found with 3 parameters matching signature: TestMethodWithManyParameters(System.String[])"
 
     def test_call_component_method_invalid_method_argument_types(self):
         self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
@@ -1194,6 +1195,7 @@ class PythonTests(unittest.TestCase):
         self.assertEqual("example", inputField.get_text())
         self.assertTrue(inputField.get_component_property("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked"))
         self.assertTrue(inputField.get_component_property("AltUnityInputFieldRaisedEvents", "onSubmitInvoked"))
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
