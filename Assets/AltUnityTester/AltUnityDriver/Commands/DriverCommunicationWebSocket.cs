@@ -115,7 +115,7 @@ namespace Altom.AltUnityDriver.Commands
 
         public void Close()
         {
-            logger.Info(string.Format("Closing connection to AltUnity on: {}", _uri));
+            logger.Info(string.Format("Closing connection to AltUnity on: {0}", _uri));
             this.wsClient.Close();
         }
 

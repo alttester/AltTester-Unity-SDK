@@ -12,7 +12,7 @@ public class AltUnityRunner : UnityEngine.MonoBehaviour
 {
     private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-    public static readonly string VERSION = "1.6.6";
+    public static readonly string VERSION = "1.7.0-alpha";
     public static AltUnityRunner _altUnityRunner;
     public static AltResponseQueue _responseQueue;
 
