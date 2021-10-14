@@ -165,41 +165,6 @@ public class CreateAltUnityPrefab : MonoBehaviour
         MessageText.alignment = TextAnchor.MiddleCenter;
 
 
-
-        //Create ActionButton
-
-        var ActionButtonGameObject = new GameObject("ActionButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
-        var ActionButtonRectTransform = ActionButtonGameObject.GetComponent<RectTransform>();
-        ActionButtonRectTransform.SetParent(DialogTransform, false);
-
-        ActionButtonRectTransform.localPosition = new Vector3(0, 10, 0);
-        ActionButtonRectTransform.anchorMin = new Vector2(0.5f, 0f);
-        ActionButtonRectTransform.anchorMax = new Vector2(0.5f, 0f);
-        ActionButtonRectTransform.sizeDelta = new Vector2(160, 40);
-        ActionButtonRectTransform.pivot = new Vector2(0.5f, 0f);
-
-        var ActionButton = ActionButtonGameObject.GetComponent<Button>();
-
-
-
-        //Create ActionButtonText
-        var ActionButtonTextGameObject = new GameObject("ActionButtonText", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
-        var ActionButtonTextRectTransform = ActionButtonTextGameObject.GetComponent<RectTransform>();
-        ActionButtonTextRectTransform.SetParent(ActionButtonRectTransform, false);
-
-        ActionButtonTextRectTransform.localPosition = new Vector3(0, 20, 0);
-        ActionButtonTextRectTransform.anchorMin = new Vector2(0f, 0f);
-        ActionButtonTextRectTransform.anchorMax = new Vector2(1f, 1f);
-        ActionButtonTextRectTransform.sizeDelta = new Vector2(0, 0);
-        ActionButtonTextRectTransform.pivot = new Vector2(0.5f, 0.5f);
-
-        var ActionButtonText = ActionButtonTextRectTransform.GetComponent<Text>();
-        ActionButtonText.text = "Restart Server";
-        ActionButtonText.fontSize = 15;
-        ActionButtonText.color = Color.black;
-        ActionButtonText.alignment = TextAnchor.MiddleCenter;
-
-
         //Create CloseButton
 
         var CloseButtonGameObject = new GameObject("CloseButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
@@ -251,8 +216,6 @@ public class CreateAltUnityPrefab : MonoBehaviour
         AltUnityDialog.Dialog = DialogGameObject;
         AltUnityDialog.TitleText = TitleText;
         AltUnityDialog.MessageText = MessageText;
-        AltUnityDialog.ActionButton = ActionButton;
-        AltUnityDialog.ActionButtonText = ActionButtonText;
         AltUnityDialog.CloseButton = CloseButton;
         AltUnityDialog.Icon = IconImage;
 
@@ -444,14 +407,6 @@ public class CreateAltUnityPrefab : MonoBehaviour
         if (originalDialog.MessageText.name != newDialog.MessageText.name)
         {
             throw new System.Exception("MessageText object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.MessageText.name + " and new: " + newDialog.MessageText.name);
-        }
-        if (originalDialog.ActionButton.name != newDialog.ActionButton.name)
-        {
-            throw new System.Exception("ActionButton object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.ActionButton.name + " and new: " + newDialog.ActionButton.name);
-        }
-        if (originalDialog.ActionButtonText.name != newDialog.ActionButtonText.name)
-        {
-            throw new System.Exception("ActionButtonText object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.ActionButtonText.name + " and new: " + newDialog.ActionButtonText.name);
         }
         if (originalDialog.Icon.name != newDialog.Icon.name)
         {

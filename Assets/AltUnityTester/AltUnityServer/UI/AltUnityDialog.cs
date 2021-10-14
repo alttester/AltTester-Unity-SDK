@@ -22,10 +22,6 @@ namespace Altom.AltUnityInstrumentation.UI
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Text MessageText = null;
         [UnityEngine.SerializeField]
-        public UnityEngine.UI.Button ActionButton = null;
-        [UnityEngine.SerializeField]
-        public UnityEngine.UI.Text ActionButtonText = null;
-        [UnityEngine.SerializeField]
         public UnityEngine.UI.Button CloseButton = null;
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Image Icon = null;
@@ -43,7 +39,6 @@ namespace Altom.AltUnityInstrumentation.UI
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
             CloseButton.onClick.AddListener(ToggleDialog);
             Icon.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(ToggleDialog);
-            ActionButton.onClick.AddListener(OnActionButtonPressed);
             TitleText.text = "AltUnity Tester v." + AltUnityRunner.VERSION;
 
             startCommProtocol();
@@ -64,17 +59,10 @@ namespace Altom.AltUnityInstrumentation.UI
             Dialog.SetActive(!Dialog.activeSelf);
         }
 
-        public void OnActionButtonPressed()
-        {
-            communication.Stop();
-            startCommProtocol();
-        }
-
         private void setDialog(string message, UnityEngine.Color color, bool visible)
         {
             Dialog.SetActive(visible);
             MessageText.text = message;
-            ActionButtonText.text = "Reconnect";
             Dialog.GetComponent<UnityEngine.UI.Image>().color = color;
         }
 

@@ -1622,7 +1622,6 @@ public class TestForScene1TestSample
     [TestCase("//Dialog[0]", "Title", false)]
     [TestCase("//Dialog[1]", "Message", false)]
     [TestCase("//Dialog[-1]", "CloseButton", false)]
-    [TestCase("//Dialog[-2]", "ActionButton", false)]
     public void TestFindNthChild(string path, string expectedResult, bool enabled)
     {
         var altElement = altUnityDriver.FindObject(By.PATH, path, enabled: enabled);

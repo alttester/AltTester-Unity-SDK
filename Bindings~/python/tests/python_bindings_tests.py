@@ -623,7 +623,7 @@ class PythonTests(unittest.TestCase):
                 continue  # skip InputMark and direct children
             list_of_elements.append(element.name)
 
-        self.assertEqual(30, len(list_of_elements))
+        self.assertEqual(28, len(list_of_elements))
         self.assertTrue("EventSystem" in list_of_elements)
         self.assertTrue("Canvas" in list_of_elements)
         self.assertTrue("Panel Drag Area" in list_of_elements)
