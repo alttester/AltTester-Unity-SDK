@@ -5,7 +5,6 @@ import unittest
 from appium import webdriver
 from altunityrunner import AltUnityDriver
 from altunityrunner.by import By
-from altunityrunner import AltUnityPortForwarding
 
 
 def PATH(p):

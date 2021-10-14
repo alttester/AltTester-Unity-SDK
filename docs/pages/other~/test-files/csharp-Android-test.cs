@@ -8,7 +8,6 @@ public class MyFirstTest
   [OneTimeSetUp]
   public void SetUp()
   {
-    AltUnityPortForwarding.ForwardAndroid();
     altUnityDriver = new AltUnityDriver();
   }
 
@@ -16,7 +15,6 @@ public class MyFirstTest
   public void TearDown()
   {
     altUnityDriver.Stop();
-    AltUnityPortForwarding.RemoveForwardAndroid();
   }
 
   [Test]
