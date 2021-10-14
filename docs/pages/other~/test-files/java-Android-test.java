@@ -2,7 +2,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ro.altom.altunitytester.AltUnityPortForwarding;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
@@ -16,14 +15,12 @@ public class myFirstTest {
 
   @BeforeClass
   public static void setUp() throws IOException {
-    AltUnityPortForwarding.forwardAndroid();
     altUnityDriver = new AltUnityDriver();
   }
 
   @AfterClass
   public static void tearDown() throws Exception {
     altUnityDriver.stop();
-    AltUnityPortForwarding.removeForwardAndroid();
   }
 
   @Test

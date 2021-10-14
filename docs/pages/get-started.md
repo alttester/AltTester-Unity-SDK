@@ -144,9 +144,6 @@ Before running your tests you need to start the game instrumented with AltUnity 
             Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
 
-        .. note::
-            For more details read about `port forwarding at this link <advanced-usage.html#what-is-port-forwarding-and-when-to-use-it>`_.
-
 ```
 
 ## Write and execute first test for your game

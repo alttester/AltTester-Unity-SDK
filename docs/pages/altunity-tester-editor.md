@@ -105,9 +105,6 @@ You can also activate this option from within the test using the following code:
     Refers to the port the AltUnity Proxy is listening on.  
      You can change this value and make a new game build if you want to use another port.
 
--   Port Forwarding
-    In this section you can setup [Port Forwarding](advanced-usage.html#what-is-port-forwarding-and-when-to-use-it) on your device.  
-     Your device needs to be connected to the computer through USB and you need to click the Refresh button in the section to view it in the list.
 
 ## Build & Run Settings
 
