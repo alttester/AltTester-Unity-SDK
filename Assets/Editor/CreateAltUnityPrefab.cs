@@ -140,7 +140,7 @@ public class CreateAltUnityPrefab : MonoBehaviour
         TitleRectTransform.pivot = new Vector2(0.5f, 1f);
 
         var TitleText = TitleGameObject.GetComponent<Text>();
-        TitleText.text = "AltUnity Tester v.1.6.6";
+        TitleText.text = "AltUnity Tester v.1.7.0-alpha";
         TitleText.fontSize = 30;
         TitleText.color = Color.white;
         TitleText.alignment = TextAnchor.MiddleCenter;
