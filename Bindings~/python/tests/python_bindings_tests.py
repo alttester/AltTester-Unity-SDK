@@ -1196,6 +1196,19 @@ class PythonTests(unittest.TestCase):
         self.assertTrue(inputField.get_component_property("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked"))
         self.assertTrue(inputField.get_component_property("AltUnityInputFieldRaisedEvents", "onSubmitInvoked"))
 
+    def test_get_static_property(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", ["1920", "1080", "True"], ["System.Int32", "System.Int32", "System.Boolean"], "UnityEngine.CoreModule")
+        width = self.altdriver.get_static_property(
+            "UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule")
+        self.assertEqual(int(width), 1920)
+
+    def test_get_static_property_instance_null(self):
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        screenWidth = self.altdriver.call_static_method("UnityEngine.Screen", "get_width", [], None, "UnityEngine.CoreModule")
+        width = self.altdriver.get_static_property("UnityEngine.Screen", "width", "UnityEngine.CoreModule")
+        self.assertEqual(int(width), screenWidth)
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(PythonTests)
