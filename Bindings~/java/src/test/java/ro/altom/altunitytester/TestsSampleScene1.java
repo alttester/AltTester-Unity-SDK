@@ -1120,4 +1120,22 @@ public class TestsSampleScene1 {
         altUnityDriver.getPNGScreeshot(path);
         assertTrue(new File(path).isFile());
     }
+
+    @Test
+    public void testGetStaticProperty() {
+        AltCallStaticMethodParameters altCallStaticMethodParameters = new AltCallStaticMethodParameters.Builder("UnityEngine.Screen", "SetResolution", new Object[] {"1920", "1080", "True"}).withTypeOfParameters(new String[] {"System.Int32", "System.Int32", "System.Boolean"}).withAssembly("UnityEngine.CoreModule").build();
+        altUnityDriver.callStaticMethod(altCallStaticMethodParameters, Integer.class);
+        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.Screen", "currentResolution.width").withAssembly("UnityEngine.CoreModule").build();
+        int width = altUnityDriver.GetStaticProperty(altGetComponentPropertyParameters, Integer.class);
+        assertEquals(width, 1920);
+    }
+
+    @Test
+    public void testGetStaticPropertyInstanceNull() {
+        AltCallStaticMethodParameters altCallStaticMethodParameters = new AltCallStaticMethodParameters.Builder("UnityEngine.Screen", "get_width", new Object[] {}).withAssembly("UnityEngine.CoreModule").build();
+        int screenWidth = altUnityDriver.callStaticMethod(altCallStaticMethodParameters, Integer.class);
+        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.Screen", "width").withAssembly("UnityEngine.CoreModule").build();
+        int width = altUnityDriver.GetStaticProperty(altGetComponentPropertyParameters, Integer.class);
+        assertEquals(screenWidth, width);
+    }
 }

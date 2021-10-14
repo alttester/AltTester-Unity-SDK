@@ -1972,4 +1972,20 @@ public class TestForScene1TestSample
         Assert.IsTrue(Convert.ToBoolean(inputField.GetComponentProperty("AltUnityInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")));
     }
 
+    [Test] 
+    [Category("WebGLUnsupported")]
+    public void TestGetStaticProperty()
+    {
+        altUnityDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] {"1920", "1080", "true"}, new string[] {"System.Int32", "System.Int32", "System.Boolean"}, "UnityEngine.CoreModule");
+        var width = altUnityDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
+        Assert.AreEqual(1920, width);
+    }
+
+    [Test]
+    public void TestGetStaticPropertyInstanceNull()
+    {
+        var screenWidth = altUnityDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", new string[] { }, null, "UnityEngine.CoreModule");
+        var width = altUnityDriver.GetStaticProperty<int>("UnityEngine.Screen", "width", "UnityEngine.CoreModule");
+        Assert.AreEqual(screenWidth, width);
+    }
 }

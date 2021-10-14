@@ -135,6 +135,11 @@ namespace Altom.AltUnityDriver
             return new AltUnityCallStaticMethod<T>(communicationHandler, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
         }
 
+        public T GetStaticProperty<T>(string componentName, string propertyName, string assemblyName, int maxDepth = 2)
+        {
+            return new AltUnityGetStaticProperty<T>(communicationHandler, componentName, propertyName, assemblyName, maxDepth).Execute();
+        }
+
         public void DeletePlayerPref()
         {
             new AltUnityDeletePlayerPref(communicationHandler).Execute();

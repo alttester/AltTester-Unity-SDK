@@ -708,3 +708,19 @@ class AltUnityDriver:
             self._connection,
             x_position, y_position, x_position, y_position, duration
         )
+
+    def get_static_property(self, component_name, property_name, assembly="", max_depth=2):
+        """Returns the value of the static field or property given as parameter.
+
+        Args:
+            component_name (:obj:`str`): The name of the component containing the field or property
+            to be retrieved.
+            field_or_property_name (:obj:`str`): The name of the field or property to be retrieved.
+            assembly (:obj:`float`): The name of the assembly containing the component mentioned above.
+            max_depth (:obj:`float`): The value determining how deep to go in the hierarchy of objects
+            to find the field or property.
+        """
+        return commands.GetStaticProperty.run(
+            self._connection,
+            component_name, property_name, assembly, max_depth
+        )

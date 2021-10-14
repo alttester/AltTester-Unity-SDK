@@ -3134,6 +3134,60 @@ Invokes static methods from your game.
 
 ```
 
+#### GetStaticProperty
+
+Gets the value of the static field or property given as parameter.
+
+**_Parameters_**
+
+| Name     | Type            | Required | Description                                                                               |
+| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
+| componentName| string      | Yes      | The name of the component which has the static field or property to be retrieved.              |
+| propertyName | string      | Yes      | The name of the static field or property to be retrieved. |
+| assembly| string       | Yes      | The name of the assembly the component belongs to. |
+| maxDepth    | int           | Optional | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
+
+**_Returns_**
+
+-   This is a generic method. The return type depends on the type of the static field or property to be retrieved.
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test] 
+        public void TestGetStaticProperty()
+        {
+            altUnityDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] {"1920", "1080", "true"}, new string[] {"System.Int32", "System.Int32", "System.Boolean"}, "UnityEngine.CoreModule");
+            var width = altUnityDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
+            Assert.AreEqual(1920, width);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testGetStaticProperty() {
+            AltCallStaticMethodParameters altCallStaticMethodParameters = new AltCallStaticMethodParameters.Builder("UnityEngine.Screen", "SetResolution", new Object[] {"1920", "1080", "True"}).withTypeOfParameters(new String[] {"System.Int32", "System.Int32", "System.Boolean"}).withAssembly("UnityEngine.CoreModule").build();
+            altUnityDriver.callStaticMethod(altCallStaticMethodParameters, Integer.class);
+            AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.Screen", "currentResolution.width").withAssembly("UnityEngine.CoreModule").build();
+            int width = altUnityDriver.GetStaticProperty(altGetComponentPropertyParameters, Integer.class);
+            assertEquals(width, 1920);
+        }
+
+    .. code-tab:: py
+
+        def test_get_static_property(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", ["1920", "1080", "True"], ["System.Int32", "System.Int32", "System.Boolean"], "UnityEngine.CoreModule")
+            width = self.altdriver.get_static_property(
+                "UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule")
+            self.assertEqual(int(width), 1920)
+
+```
+
 ### AltUnity Commands
 
 #### SetServerLogging
