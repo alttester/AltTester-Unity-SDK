@@ -4,10 +4,6 @@ In some cases you might want to run your tests on dozens or even hundreds of rea
 
 Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. These services will not work with AltUnity Tester. 
 
-If your tests are running locally, on your machine, and the device is running in the cloud, your local tests cannot communicate with the TCP socket that AltUnity Tester opens on a specific port inside the device. That's because AltUnity Tester requires you to configure your port forwarding from the device to the machine running the tests.  
-
-However, some of these cloud services give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. This means you can configure your port forwarding so that the tests can connect to the TCP socket opened by AltUnity Tester inside the game running on the device.
-
 So far, we know that **AWS Device Farm** and **Bitbar Cloud** both offer this type of "server-side" running, so they both support running AltUnity tests. If you know of any other device cloud providers that might support this, please let us know and we will try them out. 
 
 ## BitBar Cloud
