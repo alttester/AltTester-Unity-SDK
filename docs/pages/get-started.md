@@ -88,6 +88,22 @@ Steps:
 
 ```
 
+## Instrument your game with AltUnity Pro Alpha
+
+Steps:
+1. Open AltUnity Tester Window from Unity Editor -> AltUnity Tools -> AltUnityTester
+2. In the Build Settings section set the Proxy host to the IP of the device you will be
+running your instrumented game on; set the Proxy port to the port you want to use both in
+the instrumented game and in AltUnity Pro Alpha
+3. In the Scene Manager section select the scenes you want to include in your build
+4. In the Platform section select WebGL and the path to which you want to save the build
+5. Press "Build Only" to instrument the game or "Build & Run" to start your instrumented game
+after the build succeeded
+6. Check the console to see if the build was successful. A green popup should appear in your
+build in case of successful instrumentation.
+
+![webgl](../_static/images/webgl.png)
+
 ## Run your game in Unity or on desired platform
 
 Before running your tests you need to start the game instrumented with AltUnity Server. Upon startup, your game should display a popup with the message: "waiting for connection on port 13000".
