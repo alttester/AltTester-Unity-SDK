@@ -1,10 +1,10 @@
-import time
 import os
+import time
 import unittest
 
 from appium import webdriver
-from altunityrunner import AltUnityDriver
-from altunityrunner.by import By
+
+from altunityrunner import AltUnityDriver, By
 
 
 def PATH(p):
@@ -39,14 +39,14 @@ class SampleAppiumTest(unittest.TestCase):
     def setup_android(cls):
         cls.desired_caps['platformName'] = 'Android'
         cls.desired_caps['deviceName'] = 'device'
-        cls.desired_caps['app'] = PATH('../../../sampleGame.apk')
+        cls.desired_caps['app'] = PATH('../../../../sampleGame.apk')
 
     @classmethod
     def setup_ios(cls):
         cls.desired_caps['platformName'] = 'iOS'
         cls.desired_caps['deviceName'] = 'iPhone5'
         cls.desired_caps['automationName'] = 'XCUITest'
-        cls.desired_caps['app'] = PATH('../../../sampleGame.ipa')
+        cls.desired_caps['app'] = PATH('../../../../sampleGame.ipa')
 
     def test_find_object_and_tap(self):
         # tap UIButton to make capsule jump

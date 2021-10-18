@@ -15,13 +15,13 @@ Check out the [Get Started](https://altom.gitlab.io/altunity/altunitytester/page
 ### Unit Tests
 
 ```
-$ pytest unit/
+$ pytest tests/unit/
 ```
 
 ### Integration Tests
 
 ```
-$ pytest integration/
+$ pytest tests/integration/
 ```
 
 ## Contributing

@@ -697,16 +697,16 @@ class AltUnityDriver:
 
         commands.GetPNGScreenshot.run(self._connection, path)
 
-    def hold_button(self, x_position, y_position, duration):
+    def hold_button(self, x, y, duration=0):
         return commands.Swipe.run(
             self._connection,
-            x_position, y_position, x_position, y_position, duration
+            x, y, x, y, duration
         )
 
-    def hold_button_and_wait(self, x_position, y_position, duration):
+    def hold_button_and_wait(self, x, y, duration=0):
         return commands.SwipeAndWait.run(
             self._connection,
-            x_position, y_position, x_position, y_position, duration
+            x, y, x, y, duration
         )
 
     def get_static_property(self, component_name, property_name, assembly="", max_depth=2):
@@ -720,6 +720,7 @@ class AltUnityDriver:
             max_depth (:obj:`float`): The value determining how deep to go in the hierarchy of objects
             to find the field or property.
         """
+
         return commands.GetStaticProperty.run(
             self._connection,
             component_name, property_name, assembly, max_depth
