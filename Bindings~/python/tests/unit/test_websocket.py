@@ -1,8 +1,10 @@
+import json
 import unittest.mock as mock
 
 import pytest
 
-from altunityrunner._websocket import Store
+from altunityrunner._websocket import Store, WebsocketConnection
+from altunityrunner.exceptions import ConnectionError, ConnectionTimeoutError
 
 
 class TestStore:
@@ -63,3 +65,124 @@ class TestStore:
         assert self.store.pop("a") is None
         assert not self.store.has("a")
         assert self.store.pop("a") is None
+
+
+class TestWebsocketConnection:
+
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        self.host = "127.0.0.1"
+        self.port = 1300
+        self.timeout = 5
+
+        self.websocket_mock = mock.Mock()
+        self.create_connection_mock = mock.Mock(
+            return_value=self.websocket_mock
+        )
+
+        self.connection = WebsocketConnection(
+            host=self.host,
+            port=self.port,
+            timeout=self.timeout
+        )
+        self.connection._create_connection = self.create_connection_mock
+        self.connection._is_open = True
+
+    def test_connect(self):
+        self.connection.connect()
+        self.create_connection_mock.assert_called_once()
+
+        self.websocket_mock.close.assert_not_called()
+        assert self.connection._websocket is not None
+
+    def test_connection_timeout(self):
+        self.connection._is_open = False
+
+        with pytest.raises(ConnectionTimeoutError):
+            self.connection.connect()
+
+        self.websocket_mock.close.assert_called_once()
+        assert self.connection._websocket is None
+
+    def test_connection_errors(self):
+        self.connection._errors.append("Error message.")
+
+        with pytest.raises(ConnectionError):
+            self.connection.connect()
+
+        self.websocket_mock.close.assert_called_once()
+        assert self.connection._websocket is None
+
+    def test_wait_for_connection(self):
+        self.connection._is_open = False
+
+        with mock.patch("time.sleep") as sleep_mock:
+            with pytest.raises(ConnectionTimeoutError):
+                self.connection._wait_for_connection_to_open(timeout=1, delay=0.5)
+
+        assert sleep_mock.call_count == 2
+        sleep_mock.assert_has_calls([mock.call(0.5), mock.call(0.5)], any_order=True)
+
+    def test_on_open(self):
+        self.connection._is_open = False
+        self.connection._on_open(self.websocket_mock)
+
+        assert self.connection._is_open
+
+    def test_on_message(self):
+        command_name = "TestCommand"
+        assert not self.connection._store.has(command_name)
+
+        self.connection._on_message(self.connection._websocket, json.dumps({"commandName": command_name}))
+
+        assert self.connection._store.has(command_name)
+
+    def test_on_error(self):
+        assert not self.connection._errors
+
+        error_message = "Error message."
+        self.connection._on_error(self.connection._websocket, error_message)
+
+        assert self.connection._errors.pop() == error_message
+
+    def test_on_close(self):
+        self.connection._is_open = True
+        self.connection._on_close(self.websocket_mock, None, None)
+
+        assert not self.connection._is_open
+        assert self.connection._websocket is None
+
+    def test_recv(self):
+        self.connection.connect()
+        self.connection._current_command_name = "TestCommand"
+        self.connection._store.push("TestCommand", mock.sentinel.response)
+
+        response = self.connection.recv()
+
+        assert response == mock.sentinel.response
+
+    def test_recv_with_closed_connection(self):
+        self.connection._is_open = False
+        self.connection._current_command_name = "TestCommand"
+        self.connection._store.push("TestCommand", mock.sentinel.response)
+
+        with pytest.raises(ConnectionError):
+            self.connection.recv()
+
+    def test_send(self):
+        self.connection.connect()
+
+        command_name = "TestCommand"
+        self.connection.send({"commandName": command_name})
+
+        assert self.connection._current_command_name == command_name
+
+    def test_send_with_close_connection(self):
+        self.connection._is_open = False
+
+        command_name = "TestCommand"
+
+        with pytest.raises(ConnectionError):
+            self.connection.send({"commandName": command_name})
+
+        assert self.connection._current_command_name != command_name

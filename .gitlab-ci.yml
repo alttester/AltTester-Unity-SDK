@@ -197,7 +197,7 @@ run-python-android-tests:
     - *pip_install_dependencies
   script:
     - pytest Bindings~/python/tests/unit
-    - pytest Bindings~/python/tests/python_bindings_tests.py
+    - pytest Bindings~/python/tests/integration/test_bindings.py
   after_script:
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
@@ -222,7 +222,7 @@ run-python-appium-android-tests:
     - *initialize_venv
     - *pip_install_dependencies
   script:
-    - pytest "Bindings~/python/tests/python_appium_tests.py"
+    - pytest Bindings~/python/tests/integration/test_appium.py
   after_script:
     - adb forward --remove-all
   artifacts:

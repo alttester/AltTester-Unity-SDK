@@ -10,6 +10,7 @@ from .exceptions import ConnectionError, ConnectionTimeoutError
 
 
 class Store:
+    """Stores the responses from AltUnity."""
 
     def __init__(self, dict=None):
         self._store = dict or defaultdict(deque)
@@ -64,14 +65,10 @@ class WebsocketConnection:
             self.timeout,
         )
 
-    def connect(self):
-        logger.info("Connecting to host: {} port: {}.".format(self.host, self.port))
-
-        self._websocket = self._create_connection()
-        self._wait_for_connection_to_open(timeout=self.timeout)
-
     def _create_connection(self):
-        websocket.enableTrace(True)
+        # TODO: Enable and disable the trace based on an environment variable or config option
+        # Uncomment the following line if you are debugging the websocket connection
+        # websocket.enableTrace(True)
         ws = websocket.WebSocketApp(
             self.url,
             on_open=self._on_open,
@@ -91,6 +88,8 @@ class WebsocketConnection:
             elapsed_time += delay
 
         if self._errors:
+            self.close()
+
             raise ConnectionError(self._errors.pop())
 
         if not self._is_open:
@@ -102,6 +101,7 @@ class WebsocketConnection:
 
     def _ensure_connection_is_open(self):
         if self._errors:
+            self.close()
             raise ConnectionError(self._errors.pop())
 
         if self._websocket is None or not self._is_open:
@@ -112,6 +112,7 @@ class WebsocketConnection:
         """A callback which is called when the connection is opened."""
 
         logger.debug("Message: {}", message)
+
         response = json.loads(message)
         self._store.push(response.get("commandName"), response)
 
@@ -135,6 +136,12 @@ class WebsocketConnection:
 
         logger.debug("Connection oppend successfully.")
         self._is_open = True
+
+    def connect(self):
+        logger.info("Connecting to host: {} port: {}.".format(self.host, self.port))
+
+        self._websocket = self._create_connection()
+        self._wait_for_connection_to_open(timeout=self.timeout)
 
     def send(self, data):
         self._ensure_connection_is_open()
@@ -160,3 +167,5 @@ class WebsocketConnection:
         if self._websocket is not None:
             self._websocket.close()
             self._websocket = None
+
+        self._is_open = False
