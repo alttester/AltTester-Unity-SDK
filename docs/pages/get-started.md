@@ -91,7 +91,7 @@ Steps:
 ## Instrument your game with AltUnity Pro Alpha
 
 Steps:
-1. Open AltUnity Tester Window from Unity Editor -> AltUnity Tools -> AltUnityTester
+1. Open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnityTester
 2. In the Build Settings section set the Proxy host to the IP of the device you will be
 running your instrumented game on; set the Proxy port to the port you want to use both in
 the instrumented game and in AltUnity Pro Alpha
