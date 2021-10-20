@@ -31,7 +31,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
                     memberInfo = GetMemberForObjectComponent(instance.GetType(), propertyName);
 
                 object value = GetValue(instance, memberInfo, -1);
-                response = SerializeMemberValue(value, value.GetType(), CommandParams.maxDepth);
+                response = SerializeMemberValue(value, CommandParams.maxDepth);
             }
             return response;
         }

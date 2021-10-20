@@ -297,6 +297,18 @@ public class TestForScene1TestSample
         var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
         Assert.AreEqual("0", propertyValue);
     }
+
+    [Test]
+    public void TestGetComponentPropertyNullValue()
+    {
+        const string componentName = "AltUnityExampleScriptCapsule";
+        const string propertyName = "fieldNullValue";
+        var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        Assert.NotNull(altElement);
+        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        Assert.AreEqual(null, propertyValue);
+    }
+
     [Test]
     public void TestGetComponentPropertyStaticPublic()
     {
@@ -841,7 +853,7 @@ public class TestForScene1TestSample
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.CLASSFIELDS);
-        Assert.AreEqual(14, fields.Count);
+        Assert.AreEqual(15, fields.Count);
     }
 
     [Test]
@@ -866,7 +878,7 @@ public class TestForScene1TestSample
         var component = componentList.First(componenta =>
             componenta.componentName.Equals("AltUnityExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
         List<AltUnityProperty> fields = altElement.GetAllFields(component, AltUnityFieldsSelections.ALLFIELDS);
-        Assert.AreEqual(15, fields.Count);
+        Assert.AreEqual(16, fields.Count);
     }
 
     [Test]
@@ -1972,11 +1984,11 @@ public class TestForScene1TestSample
         Assert.IsTrue(Convert.ToBoolean(inputField.GetComponentProperty("AltUnityInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")));
     }
 
-    [Test] 
+    [Test]
     [Category("WebGLUnsupported")]
     public void TestGetStaticProperty()
     {
-        altUnityDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] {"1920", "1080", "true"}, new string[] {"System.Int32", "System.Int32", "System.Boolean"}, "UnityEngine.CoreModule");
+        altUnityDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" }, "UnityEngine.CoreModule");
         var width = altUnityDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
         Assert.AreEqual(1920, width);
     }

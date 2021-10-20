@@ -131,13 +131,13 @@ namespace Assets.AltUnityTester.AltUnityServer
             }
             object value = GetValue(instance, memberInfo, index);
 
-            for (int i = 1; i < fieldArray.Length; i++)
+            for (int i = 1; i < fieldArray.Length && value != null; i++)
             {
                 index = getArrayIndex(fieldArray[i], out propertyName);
                 memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
                 value = GetValue(value, memberInfo, index);
             }
-            return SerializeMemberValue(value, value.GetType(), maxDepth);
+            return SerializeMemberValue(value, maxDepth);
         }
 
 
@@ -310,13 +310,12 @@ namespace Assets.AltUnityTester.AltUnityServer
             throw new AltUnityException(AltUnityErrors.errorPropertyNotSet);
         }
 
-
-
-        public string SerializeMemberValue(object value, System.Type type, int maxDepth)
+        public string SerializeMemberValue(object value, int maxDepth)
         {
             string response;
-            if (type == typeof(string))
-                return value.ToString();
+            if (value == null) return null;
+            if (value.GetType() == typeof(string)) return value.ToString();
+
             try
             {
                 using (var strWriter = new System.IO.StringWriter())
