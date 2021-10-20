@@ -133,7 +133,7 @@ public class CreateAltUnityPrefab : MonoBehaviour
         var TitleRectTransform = TitleGameObject.GetComponent<RectTransform>();
         TitleRectTransform.SetParent(DialogTransform, false);
 
-        TitleRectTransform.localPosition = new Vector3(0, 0, 0);
+        TitleRectTransform.localPosition = new Vector3(0, -31, 0);
         TitleRectTransform.anchorMin = new Vector2(0.5f, 1f);
         TitleRectTransform.anchorMax = new Vector2(0.5f, 1f);
         TitleRectTransform.sizeDelta = new Vector2(300, 75);
@@ -152,7 +152,7 @@ public class CreateAltUnityPrefab : MonoBehaviour
         var MessageRectTransform = MessageGameObject.GetComponent<RectTransform>();
         MessageRectTransform.SetParent(DialogTransform, false);
 
-        MessageRectTransform.localPosition = new Vector3(0, 0, 0);
+        MessageRectTransform.localPosition = new Vector3(0, -37.5f, 0);
         MessageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         MessageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
         MessageRectTransform.sizeDelta = new Vector2(400, 75);
