@@ -28,7 +28,9 @@ public class TestsAltUnityCommands {
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop();
+        if (altUnityDriver != null) {
+            altUnityDriver.stop();
+        }
     }
 
     @Test

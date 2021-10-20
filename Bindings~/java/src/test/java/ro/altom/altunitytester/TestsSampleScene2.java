@@ -26,7 +26,9 @@ public class TestsSampleScene2 {
 
     @AfterClass
     public static void tearDown() throws Exception {
-        altUnityDriver.stop();
+        if (altUnityDriver != null) {
+            altUnityDriver.stop();
+        }
         Thread.sleep(1000);
     }
 
