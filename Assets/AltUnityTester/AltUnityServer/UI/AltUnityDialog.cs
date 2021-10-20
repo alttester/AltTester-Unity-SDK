@@ -113,7 +113,7 @@ namespace Altom.AltUnityInstrumentation.UI
         private void onConnect()
         {
 
-            string message = "Connected AUT Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort;
+            string message = "Connected to AltUnity Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort;
             _updateQueue.ScheduleResponse(() =>
             {
                 setDialog(message, SUCCESS_COLOR, false);
