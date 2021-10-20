@@ -8,9 +8,6 @@ namespace Altom.Editor
     {
         public bool appendToName;
         public string AdbPath = "/usr/local/bin/adb";
-        public string IProxyPath = "/usr/local/bin/iproxy";
-        public string XcrunPath = "/usr/bin/xcrun";
-        public int BuildNumber = 0;
         public List<AltUnityMyTest> MyTests = new List<AltUnityMyTest>();
         public List<AltUnityMyScenes> Scenes = new List<AltUnityMyScenes>();
         public AltUnityPlatform platform = AltUnityPlatform.Editor;
@@ -20,8 +17,6 @@ namespace Altom.Editor
         public bool InputVisualizer;
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
-        public string LatestInspectorVersion = "";
-
 
         public string ProxyHost = "127.0.0.1";
         public int ProxyPort = 13000;
@@ -36,7 +31,6 @@ namespace Altom.Editor
                 ProxyPort = ProxyPort,
             };
         }
-        public bool ShowInspectorPopUpInEditor = false;
         public bool KeepAUTSymbolDefined = false;
     }
 }
