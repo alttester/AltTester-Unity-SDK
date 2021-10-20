@@ -12,6 +12,7 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     public int[] arrayOfInts = { 1, 2, 3 };
     public bool TestBool = true;
     public string stringToSetFromTests = "intialValue";
+    public object fieldNullValue = null;
     public AltUnitySampleClass AltUnitySampleClass;
     public List<AltUnitySampleClass> listOfSampleClass = new List<AltUnitySampleClass>() { new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } }),
         new AltUnitySampleClass("test2", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } }) };
