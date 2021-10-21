@@ -104,6 +104,12 @@ build in case of successful instrumentation.
 
 ![webgl](../_static/images/webgl.png)
 
+```eval_rst
+.. note::
+
+    To be able to run your instrumented game in the background, go to File -> Build Settings -> Player Settings -> Project Settings -> Player -> Resolution and presentation and check the box next to Run in background*.
+```
+
 ## Run your game in Unity or on desired platform
 
 Before running your tests you need to start the game instrumented with AltUnity Server. Upon startup, your game should display a popup with the message: "waiting for connection on port 13000".
