@@ -955,7 +955,7 @@ namespace Altom.Editor
                 }
 
 
-                labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost);
+                labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost, Uri.CheckHostName(EditorConfiguration.ProxyHost.Trim()) != UriHostNameType.Unknown);
                 labelAndInputFieldHorizontalLayout("Proxy port", ref EditorConfiguration.ProxyPort);
             }
             switch (EditorConfiguration.platform)
@@ -1023,12 +1023,20 @@ namespace Altom.Editor
             return initialValue != editorConfigVariable;
         }
 
-        private static void labelAndInputFieldHorizontalLayout(string labelText, ref string editorConfigVariable)
+        private static void labelAndInputFieldHorizontalLayout(string labelText, ref string editorConfigVariable, bool isValid=true)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
             UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
-            editorConfigVariable = UnityEditor.EditorGUILayout.TextField(labelText, editorConfigVariable);
+            if (isValid)
+                editorConfigVariable = UnityEditor.EditorGUILayout.TextField(labelText, editorConfigVariable.Trim());
+            else
+            {
+                GUIStyle style = new GUIStyle(GUI.skin.textField);
+                style.normal.textColor = Color.red;
+                style.focused.textColor = Color.red;
+                editorConfigVariable = UnityEditor.EditorGUILayout.TextField(labelText, editorConfigVariable.Trim(), style);
+            }
             UnityEditor.EditorGUI.EndDisabledGroup();
             UnityEditor.EditorGUILayout.EndHorizontal();
         }
