@@ -33,6 +33,7 @@ namespace Altom.AltUnityInstrumentation.UI
 
 
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
+        private bool wasConnectedBefore = false;
 
         protected void Start()
         {
@@ -108,7 +109,8 @@ namespace Altom.AltUnityInstrumentation.UI
         }
         private void onStart()
         {
-            setDialog("Connecting to AltUnity Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort, SUCCESS_COLOR, true);
+            setDialog("Connecting to AltUnity Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort, SUCCESS_COLOR, Dialog.activeSelf || wasConnectedBefore);
+            wasConnectedBefore = false;
         }
         private void onConnect()
         {
@@ -117,6 +119,7 @@ namespace Altom.AltUnityInstrumentation.UI
             _updateQueue.ScheduleResponse(() =>
             {
                 setDialog(message, SUCCESS_COLOR, false);
+                wasConnectedBefore = true;
             });
         }
 
