@@ -109,6 +109,11 @@ build in case of successful instrumentation.
 
     To be able to run your instrumented game in the background, go to File -> Build Settings -> Player Settings -> Project Settings -> Player -> Resolution and presentation and check the box next to Run in background*.
 ```
+```eval_rst
+.. note::
+
+    When running the WebGL build of your game in browser, even with the Run in background* setting enabled, you still might experience slow performance if the tab with your content is not on focus. Make sure that the tab with your app is visible, otherwise your content will only update once per second in most browsers.
+```
 
 ## Run your game in Unity or on desired platform
 
