@@ -46,7 +46,7 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             catch (System.NullReferenceException e)
             {
                 exception = e;
-                errorType = AltUnityErrors.errorNullReferenceMessage;
+                errorType = AltUnityErrors.errorNullReference;
             }
             catch (FailedToParseArgumentsException e)
             {
@@ -71,27 +71,27 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             catch (ComponentNotFoundException e)
             {
                 exception = e;
-                errorType = AltUnityErrors.errorComponentNotFoundMessage;
+                errorType = AltUnityErrors.errorComponentNotFound;
             }
             catch (MethodNotFoundException e)
             {
                 exception = e;
-                errorType = AltUnityErrors.errorMethodNotFoundMessage;
+                errorType = AltUnityErrors.errorMethodNotFound;
             }
             catch (PropertyNotFoundException e)
             {
                 exception = e;
-                errorType = AltUnityErrors.errorPropertyNotFoundMessage;
+                errorType = AltUnityErrors.errorPropertyNotFound;
             }
             catch (AssemblyNotFoundException e)
             {
                 exception = e;
-                errorType = AltUnityErrors.errorAssemblyNotFoundMessage;
+                errorType = AltUnityErrors.errorAssemblyNotFound;
             }
             catch (CouldNotPerformOperationException e)
             {
                 exception = e;
-                errorType = AltUnityErrors.errorCouldNotPerformOperationMessage;
+                errorType = AltUnityErrors.errorCouldNotPerformOperation;
             }
             catch (InvalidPathException e)
             {
@@ -101,7 +101,12 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
             catch (NotFoundException e)
             {
                 exception = e;
-                errorType = AltUnityErrors.errorNotFoundMessage;
+                errorType = AltUnityErrors.errorNotFound;
+            }
+            catch (SceneNotFoundException e)
+            {
+                exception = e;
+                errorType = AltUnityErrors.errorSceneNotFound;
             }
             catch (CameraNotFoundException e)
             {

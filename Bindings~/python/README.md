@@ -1,8 +1,6 @@
 # AltUnityTester Python Bindings
 
-The AltUnityTester package contains an `altunityrunner` module that will open a socket connection on the device running the Unity application and will give access to all the objects in the Unity hierarchy.
-
-Using this socket connection and the actions available in the AltUnity driver, we can run python tests tests against the Unity app running on iOS or Android.
+AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java.
 
 Read the documentation on https://altom.gitlab.io/altunity/altunitytester
 

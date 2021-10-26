@@ -1,3 +1,4 @@
+## C#
 **/[Ll]ibrary/
 **/[Tt]emp/
 **/[Oo]bj/
@@ -147,3 +148,6 @@ _build/
 omnisharp.json
 altunitytests/**
 aws-device-farm-example/wheelhouse/**
+
+## Bindings
+Bindings~/**/*.meta

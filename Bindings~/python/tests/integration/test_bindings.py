@@ -1054,6 +1054,10 @@ class TestPythonBindings:
         scenes = self.altdriver.get_all_loaded_scenes()
         assert len(scenes) == 2
 
+    def test_load_scene_with_invalid_scene_name(self):
+        with pytest.raises(SceneNotFoundException):
+            self.altdriver.load_scene("Scene 0")
+
     def test_get_component_property_complex_class(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 

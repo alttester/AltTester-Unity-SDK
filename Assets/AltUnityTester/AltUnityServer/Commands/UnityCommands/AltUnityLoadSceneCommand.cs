@@ -1,5 +1,7 @@
+using System;
 using Assets.AltUnityTester.AltUnityServer.Communication;
 using Altom.AltUnityDriver.Commands;
+using Altom.AltUnityDriver;
 
 namespace Assets.AltUnityTester.AltUnityServer.Commands
 {
@@ -11,11 +13,20 @@ namespace Assets.AltUnityTester.AltUnityServer.Commands
         {
             this.handler = handler;
         }
+
         public override string Execute()
         {
             var mode = CommandParams.loadSingle ? UnityEngine.SceneManagement.LoadSceneMode.Single : UnityEngine.SceneManagement.LoadSceneMode.Additive;
-            var sceneLoadingOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(CommandParams.sceneName, mode);
-            sceneLoadingOperation.completed += sceneLoaded;
+
+            try
+            {
+                var sceneLoadingOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(CommandParams.sceneName, mode);
+                sceneLoadingOperation.completed += sceneLoaded;
+            }
+            catch (System.NullReferenceException)
+            {
+                throw new SceneNotFoundException(String.Format("Could not found a scene with the name: {0}.", CommandParams.sceneName));
+            }
 
             return "Ok";
         }

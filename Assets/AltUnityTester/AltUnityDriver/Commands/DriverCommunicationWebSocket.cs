@@ -134,17 +134,19 @@ namespace Altom.AltUnityDriver.Commands
 
             switch (error.type)
             {
-                case AltUnityErrors.errorNotFoundMessage:
+                case AltUnityErrors.errorNotFound:
                     throw new NotFoundException(error.message);
-                case AltUnityErrors.errorPropertyNotFoundMessage:
+                case AltUnityErrors.errorSceneNotFound:
+                    throw new SceneNotFoundException(error.message);
+                case AltUnityErrors.errorPropertyNotFound:
                     throw new PropertyNotFoundException(error.message);
-                case AltUnityErrors.errorMethodNotFoundMessage:
+                case AltUnityErrors.errorMethodNotFound:
                     throw new MethodNotFoundException(error.message);
-                case AltUnityErrors.errorComponentNotFoundMessage:
+                case AltUnityErrors.errorComponentNotFound:
                     throw new ComponentNotFoundException(error.message);
-                case AltUnityErrors.errorAssemblyNotFoundMessage:
+                case AltUnityErrors.errorAssemblyNotFound:
                     throw new AssemblyNotFoundException(error.message);
-                case AltUnityErrors.errorCouldNotPerformOperationMessage:
+                case AltUnityErrors.errorCouldNotPerformOperation:
                     throw new CouldNotPerformOperationException(error.message);
                 case AltUnityErrors.errorMethodWithGivenParametersNotFound:
                     throw new MethodWithGivenParametersNotFoundException(error.message);
@@ -156,7 +158,7 @@ namespace Altom.AltUnityDriver.Commands
                     throw new ObjectWasNotFoundException(error.message);
                 case AltUnityErrors.errorPropertyNotSet:
                     throw new PropertyNotFoundException(error.message);
-                case AltUnityErrors.errorNullReferenceMessage:
+                case AltUnityErrors.errorNullReference:
                     throw new NullReferenceException(error.message);
                 case AltUnityErrors.errorUnknownError:
                     throw new UnknownErrorException(error.message);

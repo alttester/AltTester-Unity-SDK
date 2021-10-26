@@ -128,6 +128,7 @@ class BaseCommand(Command):
         error_map = {
             "ALTUNITYTESTERNotAddedAsDefineVariable": exceptions.AltUnityInputModuleException,
             "notFound": exceptions.NotFoundException,
+            "sceneNotFound": exceptions.SceneNotFoundException,
             "objectNotFound": exceptions.ObjectNotFoundException,
             "cameraNotFound": exceptions.CameraNotFoundException,
             "propertyNotFound": exceptions.PropertyNotFoundException,
