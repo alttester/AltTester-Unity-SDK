@@ -19,10 +19,10 @@ namespace Altom.AltUnityDriver
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
         /// <summary>
-        /// Initiates AltUnity Driver and begins connection to AltUnity Server
+        /// Initiates AltUnity Driver and begins connection with the instrumented Unity application through to AltUnity Proxy
         /// </summary>
-        /// <param name="host">The ip or hostname  AltUnity Server is listening on.</param>
-        /// <param name="port">The port AltUnity Server is listening on.</param>
+        /// <param name="host">The ip or hostname  AltUnity Proxy is listening on.</param>
+        /// <param name="port">The port AltUnity Proxy is listening on.</param>
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         public AltUnityDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60)
@@ -72,7 +72,7 @@ namespace Altom.AltUnityDriver
 
             if (majorServer != majorDriver || minorServer != minorDriver)
             {
-                string message = "Version mismatch. AltUnity Driver version is " + VERSION + ". AltUnity Server version is " + serverVersion + ".";
+                string message = "Version mismatch. AltUnity Driver version is " + VERSION + ". AltUnity Tester version is " + serverVersion + ".";
 
                 logger.Warn(message);
             }

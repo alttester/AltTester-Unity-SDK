@@ -19,7 +19,7 @@ To run the first test for your Unity game you need to:
 
 ## Import AltUnity Tester package in Unity Editor
 
-To instrument your game with AltUnity Server you first need to import the AltUnity Tester package into Unity. This can be done either by downloading from the Unity Asset Store or from the GitLab pages.
+To instrument your Unity application with AltUnity Tester you first need to import the AltUnity Tester package into Unity. This can be done either by downloading from the Unity Asset Store or from the GitLab pages.
 
 ```eval_rst
 
@@ -45,9 +45,9 @@ To instrument your game with AltUnity Server you first need to import the AltUni
 
 ![window menu with altUnity Tester](../_static/images/DownloadingImportingAltUnityTesterWindow.png)
 
-## Instrument your game with AltUnity Server
+## Instrument your game with AltUnity Tester
 
-In order for the tests to have access to Unity objects via AltUnity Driver you need to instrument the game with AltUnity Server.
+In order for the tests to have access to Unity objects via AltUnity Driver you need to instrument the game with AltUnity Tester.
 
 Steps:
 
@@ -67,7 +67,7 @@ Steps:
 
 .. important::
 
-    AltUnity Server is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltUnity Server.
+    Instrumentation with AltUnity Tester is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltUnity Tester.
 
 .. note::
 
@@ -117,7 +117,7 @@ build in case of successful instrumentation.
 
 ## Run your game in Unity or on desired platform
 
-Before running your tests you need to start the game instrumented with AltUnity Server. Upon startup, your game should display a popup with the message: "waiting for connection on port 13000".
+Before running your tests you need to start the instrumented Unity application. Upon startup, your game should display a popup with the message: "waiting for connection on port 13000".
 
 ```eval_rst
 

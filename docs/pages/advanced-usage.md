@@ -1,15 +1,15 @@
 # Advanced Usage
 ## Build games from the command line
 
-To build your game from command line you need a static method in your project that handles the build logic.  
-To instrument your game with AltUnity Server, your build method must define AltUnity Tester and must insert AltUnity Prefab in the first scene of the game.
+To build your Unity application from command line you need a static method in your project that handles the build logic.  
+To instrument your Unity application with AltUnity Tester, your build method must define `ALTUNITYTESTER` scripting symbol and must insert AltUnity Prefab in the first scene of the game.
 
 Depending on your project's setup, there are two ways in which games can be built from the command line:
 
 ```eval_rst
 .. note::
 
-    AltUnity Tester does not work by default in release mode. If you instrument your game in release mode, AltUnity Prefab self removes from the scenes and the socket server does not start. Best case practice is to customize your build script to insert AltUnity Prefab only in Debug mode. If you do want to use AltUnity Tester in release mode see `Using AltUnity Server in Release mode section <#using-altunity-server-in-release-mode>`_.
+    AltUnity Tester does not work by default in release mode. If you instrument your game in release mode, AltUnity Prefab self removes from the scenes and connection to proxy will not initiate. Best case practice is to customize your build script to insert AltUnity Prefab only in Debug mode. If you do want to use AltUnity Tester in release mode see `Using AltUnity Tester in Release mode section <#using-altunity-tester-in-release-mode>`_.
 ```
 
 **1. If you already have a custom build method for your game**  
@@ -92,26 +92,26 @@ In order to run tests from the command line you can use the following example co
 
 An example CI configuration file can be viewed in the [AltUnity Tester GitLab repository](https://gitlab.com/altom/altunity/altunitytester/-/blob/master/.gitlab-ci.yml).
 
-## Using AltUnity Server in Release mode
+## Using AltUnity Tester in Release mode
 
-By default AltUnity Server does not run in release mode. We recommended that you do not build your game in release mode with AltUnity Tester. That being said, if you do want to instrument your game with AltUnity Tester in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltUnityRunnerPrefab inside AltUnity Tester asset folder  `AltUnityTester/Prefab/AltUnityRunnerPrefab.prefab`
+By default AltUnity Tester does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltUnity Tester. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltUnityRunnerPrefab inside AltUnity Tester asset folder  `AltUnityTester/Prefab/AltUnityRunnerPrefab.prefab`
 
 
 ## Logging
 
-There are two types of logging that can be configured in AltUnityTester. The logs from the driver (from the tests) and the logs from the server (from the instrumented game) 
+There are two types of logging that can be configured in AltUnityTester. The logs from AltUnity Driver (from the tests) and the logs from the AltUnity Tester (from the instrumented Unity application) 
 
 
-### AltUnity Server logging
+### AltUnity Tester logging
 
-Logging is handled using a custom NLog LogFactory.  The Server LogFactory can be accessed here: `Altom.Server.Logging.ServerLogManager.Instance`
+Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.Server.Logging.ServerLogManager.Instance`
 
 
 There are two logger targets that you can configure on the server:
  * FileLogger
  * UnityLogger
 
- Logging on the server side can be configured from the driver using the SetServerLogging command:
+ Logging inside the instrumented app can be configured from the driver using the SetServerLogging command:
 
 
 ```eval_rst
@@ -135,7 +135,6 @@ There are two logger targets that you can configure on the server:
 ```
 
 
-
 ### AltUnity Driver logging
 
 Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log4j` in Java. By default logging is disabled in the driver (tests). If you want to enable it you can set the `enableLogging` in `AltUnityDriver` constructor.
@@ -145,7 +144,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
     .. tab:: C#
 
-        Logging is handled using a custom NLog LogFactory.  The Server LogFactory can be accessed here: `Altom.AltUnityDriver.Logging.DriverLogManager.Instance`
+        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `Altom.AltUnityDriver.Logging.DriverLogManager.Instance`
         
         There are three logger targets that you can configure on the driver:
 

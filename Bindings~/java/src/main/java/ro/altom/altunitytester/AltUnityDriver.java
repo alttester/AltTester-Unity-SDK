@@ -69,7 +69,6 @@ public class AltUnityDriver {
         this.connection = new WebsocketConnection(host, port, connectTimeout);
         this.connection.connect();
         checkServerVersion();
-
     }
 
     private String[] splitVersion(String version) {
@@ -95,7 +94,7 @@ public class AltUnityDriver {
 
         if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
             String message = "Version mismatch. AltUnity Driver version is " + AltUnityDriver.VERSION
-                    + ". AltUnity Server version is " + serverVersion + ".";
+                    + ". AltUnity Tester version is " + serverVersion + ".";
 
             log.warn(message);
             System.out.println(message);
@@ -489,7 +488,7 @@ public class AltUnityDriver {
     public <T> T GetStaticProperty(AltGetComponentPropertyParameters parameters, Class<T> returnType) {
         return new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
     }
-    
+
     public enum By {
         TAG, LAYER, NAME, COMPONENT, PATH, ID, TEXT
     }

@@ -7,7 +7,6 @@ namespace Altom.Editor
     public class AltUnityEditorConfiguration : ScriptableObject
     {
         public bool appendToName;
-        public string AdbPath = "/usr/local/bin/adb";
         public List<AltUnityMyTest> MyTests = new List<AltUnityMyTest>();
         public List<AltUnityMyScenes> Scenes = new List<AltUnityMyScenes>();
         public AltUnityPlatform platform = AltUnityPlatform.Editor;

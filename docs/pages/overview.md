@@ -1,6 +1,6 @@
 # Overview 
 
-AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your Unity game and interact with them using tests written in C#, Python or Java.  
+AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your Unity application and interact with them using tests written in C#, Python or Java.  
 You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor. 
 
 ## Key features 
@@ -19,16 +19,18 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 
 ## How it works 
 
-
 AltUnity Tester framework contains the following modules:
 
-* AltUnity Server
+* AltUnity Tester
 * AltUnity Driver
+* AltUnity Proxy
 * AltUnity Tester Editor Window
 
-AltUnity Server module is used to instrument your game to expose access to all the objects in the Unity hierarchy. The instrumented game opens up a TCP socket connection on the device running the Unity application and waits for an AltUnity Driver to connect after starting the application.
+AltUnity Tester module is used to instrument your Unity application to expose access to all the objects in the Unity hierarchy.
 
-AltUnity Driver module is used to connect to the AltUnity Server, access all the Unity objects and interact with them through tests written in C#, Java or Python.
+AltUnity Driver module is used to write tests and progamatically interact with the instrumented Unity app. The module is available in  C#, Java or Python.
+
+AltUnity Proxy module is used to create the bridge between the tests and the instrumented Unity App. It acts as a webscoket server that facilitate communication between AltUnity Driver (tests) and AltUnity Tester (instrumented Unity app).
 
 AltUnity Tester Editor Window is the GUI used for instrumenting a Unity game and running C# tests directly from Unity Editor.
 

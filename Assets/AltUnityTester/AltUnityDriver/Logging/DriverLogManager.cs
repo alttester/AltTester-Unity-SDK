@@ -25,7 +25,7 @@ namespace Altom.AltUnityDriver.Logging
             Instance.GetCurrentClassLogger().Info(AltUnityLogLevel.Info.ToNLogLevel());
             AltUnityLogLevel level;
             if (minLogLevels.TryGetValue(AltUnityLogger.File, out level) && level != AltUnityLogLevel.Off)
-                Instance.GetCurrentClassLogger().Info("AltUnity Server logs are saved at: " + LOGSFILEPATH);
+                Instance.GetCurrentClassLogger().Info("AltUnity Tester logs are saved at: " + LOGSFILEPATH);
         }
 
         /// <summary>

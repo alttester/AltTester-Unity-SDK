@@ -499,7 +499,7 @@ namespace Altom.Editor
 #if UNITY_2018_3_OR_NEWER
                         UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
 #else
-                    UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+                        UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
 #endif
                         UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.iOS;
                     }
@@ -954,7 +954,6 @@ namespace Altom.Editor
                     AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
 
-
                 labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost, Uri.CheckHostName(EditorConfiguration.ProxyHost.Trim()) != UriHostNameType.Unknown);
                 labelAndInputFieldHorizontalLayout("Proxy port", ref EditorConfiguration.ProxyPort);
             }
@@ -972,7 +971,6 @@ namespace Altom.Editor
                         {
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android, androidBundleIdentifier);
                         }
-                        labelAndInputFieldHorizontalLayout("Adb Path:", ref EditorConfiguration.AdbPath);
                     }
                     break;
                 case AltUnityPlatform.Editor:
@@ -980,26 +978,26 @@ namespace Altom.Editor
                 case AltUnityPlatform.Standalone:
                     break;
 #if UNITY_EDITOR_OSX
-                    case AltUnityPlatform.iOS:
-                        foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "iOS Settings");
-                        if (foldOutIosSettings)
+                case AltUnityPlatform.iOS:
+                    foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "iOS Settings");
+                    if (foldOutIosSettings)
+                    {
+                        string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
+                        labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
+                        if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS))
                         {
-                            string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
-                            labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
-                            if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS))
-                            {
-                                UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
-                            }
-
-                            var appleDevoleperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
-                            labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDevoleperTeamID);
-                            UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDevoleperTeamID;
-
-                            var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
-                            labelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
-                            UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning = appleEnableAutomaticsSigning;
+                            UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
                         }
-                        break;
+
+                        var appleDevoleperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
+                        labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDevoleperTeamID);
+                        UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDevoleperTeamID;
+
+                        var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
+                        labelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
+                        UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning = appleEnableAutomaticsSigning;
+                    }
+                    break;
 #endif
             }
         }
@@ -1023,7 +1021,7 @@ namespace Altom.Editor
             return initialValue != editorConfigVariable;
         }
 
-        private static void labelAndInputFieldHorizontalLayout(string labelText, ref string editorConfigVariable, bool isValid=true)
+        private static void labelAndInputFieldHorizontalLayout(string labelText, ref string editorConfigVariable, bool isValid = true)
         {
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
