@@ -40,6 +40,10 @@ class NotFoundException(AltUnityException):
     """Raised when a object, camera, component, property, method or assembly is not found."""
 
 
+class SceneNotFoundException(NotFoundException):
+    """Raised when a scene is not found."""
+
+
 class ObjectNotFoundException(NotFoundException):
     """Raised when a object is not found."""
 

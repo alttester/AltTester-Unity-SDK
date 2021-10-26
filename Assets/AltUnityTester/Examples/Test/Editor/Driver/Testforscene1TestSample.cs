@@ -34,6 +34,11 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    public void TestLoadNonExistentScene() {
+        Assert.Throws<SceneNotFoundException>(() => altUnityDriver.LoadScene("Scene 0", true));
+    }
+
+    [Test]
     public void TestGetCurrentScene()
     {
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
@@ -138,8 +143,6 @@ public class TestForScene1TestSample
         Assert.NotNull(currentScene);
         Assert.AreEqual("Scene 1 AltUnityDriverTestScene", currentScene);
     }
-
-
 
     [Test]
     public void TestWaitForExistingElementWhereNameContains()

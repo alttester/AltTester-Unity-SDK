@@ -55,6 +55,16 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    public void testLodeNonExistentScene() throws Exception {
+        try {
+            altUnityDriver.loadScene(new AltLoadSceneParameters.Builder("Scene 0").build());
+            assertTrue(false);
+        } catch (SceneNotFoundException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
     public void testGetCurrentScene() throws Exception {
         assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
     }

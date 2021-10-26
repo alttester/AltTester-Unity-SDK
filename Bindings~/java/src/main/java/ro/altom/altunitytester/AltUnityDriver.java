@@ -63,7 +63,7 @@ public class AltUnityDriver {
             AltUnityDriverConfigFactory.DisableLogging();
 
         if (host == null || host.isEmpty()) {
-            throw new InvalidParamerException("Provided host address is null or empty");
+            throw new InvalidParameterException("Provided host address is null or empty");
         }
 
         this.connection = new WebsocketConnection(host, port, connectTimeout);
@@ -469,7 +469,7 @@ public class AltUnityDriver {
 
     /**
      * Tap at screen coordinates
-     * 
+     *
      * @param parameters Tap parameters
      */
     public void tap(AltTapClickCoordinatesParameters parameters) {
@@ -478,7 +478,7 @@ public class AltUnityDriver {
 
     /**
      * Click at screen coordinates
-     * 
+     *
      * @param parameters Click parameters
      */
     public void click(AltTapClickCoordinatesParameters parameters) {

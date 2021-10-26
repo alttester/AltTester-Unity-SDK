@@ -4,11 +4,6 @@ package ro.altom.altunitytester.altUnityTesterExceptions;
  * Raised when the client can not connect to the server.
  */
 public class ConnectionException extends AltUnityException {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 326835660345791896L;
-
     public ConnectionException(String message, Throwable e) {
         super(message, e);
     }

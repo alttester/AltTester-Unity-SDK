@@ -9,7 +9,7 @@
 //import ro.altom.altunitytester.AltUnityDriver;
 //import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
 //import ro.altom.altunitytester.altUnityTesterExceptions.ConnectionException;
-//import ro.altom.altunitytester.altUnityTesterExceptions.InvalidParamerException;
+//import ro.altom.altunitytester.altUnityTesterExceptions.InvalidParameterException;
 //
 //import java.util.Arrays;
 //import java.util.Collection;
@@ -20,8 +20,8 @@
 //    @Parameters (name = "Initialize with ip[{0}] port[{1}]")
 //    public static Collection<Object[]> data() {
 //        return Arrays.asList( new Object[][] {
-//                {"", 30000, InvalidParamerException.class, "Provided IP address is null or empty"},
-//                {null, 30000, InvalidParamerException.class, "Provided IP address is null or empty"},
+//                {"", 30000, InvalidParameterException.class, "Provided IP address is null or empty"},
+//                {null, 30000, InvalidParameterException.class, "Provided IP address is null or empty"},
 //                {"some string", 30000, ConnectionException.class, "Could not create connection to"},
 //                {"localhost", 17000, ConnectionException.class, "Could not create connection to"} // still fails since there is no server to connect to
 //            }
