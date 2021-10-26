@@ -1617,7 +1617,7 @@ public class TestForScene1TestSample
     {
         var capsule = altUnityDriver.FindObject(By.ID, "2b78431c-2251-4489-8d50-7634304a5630");
         Assert.AreEqual("Capsule", capsule.name);
-        var plane = altUnityDriver.FindObject(By.PATH, "//*[@id=eff13b53-66de-4f98-82f3-a140b8949484]");
+        var plane = altUnityDriver.FindObject(By.PATH, "//*[@id=5277849a-16c3-469e-b3aa-ead06f0a37d2]");
         Assert.AreEqual("Plane", plane.name);
         var mainCamera = altUnityDriver.FindObject(By.NAME, "Main Camera");
         mainCamera = altUnityDriver.FindObject(By.ID, mainCamera.id.ToString());

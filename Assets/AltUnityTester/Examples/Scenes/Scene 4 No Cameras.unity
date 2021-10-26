@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 166865874}
   - component: {fileID: 166865873}
   - component: {fileID: 166865876}
-  - component: {fileID: 166865877}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -226,20 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f4bf7884102ea43b30efdde5ec2265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  altID: 943bf114-c92e-414a-ad33-4a480e916a23
---- !u!114 &166865877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 166865871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06f4bf7884102ea43b30efdde5ec2265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  altID: 5201eaf1-1db3-4e22-873c-aaed2fdd0a19
+  altID: da2eb56a-75a8-4cb4-a8d8-470fb9a0a037
 --- !u!1 &508519958
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,7 +237,6 @@ GameObject:
   - component: {fileID: 508519960}
   - component: {fileID: 508519959}
   - component: {fileID: 508519961}
-  - component: {fileID: 508519962}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -345,20 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f4bf7884102ea43b30efdde5ec2265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  altID: e1184aad-68e3-4207-a3be-752c30e414d8
---- !u!114 &508519962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 508519958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06f4bf7884102ea43b30efdde5ec2265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  altID: 84ce6aa7-ebdd-41aa-8675-f84371922cbc
+  altID: 9909e9eb-c657-4046-aaed-dd34913c38de
 --- !u!1 &1008334149
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +343,6 @@ GameObject:
   - component: {fileID: 1008334151}
   - component: {fileID: 1008334150}
   - component: {fileID: 1008334153}
-  - component: {fileID: 1008334154}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -439,20 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f4bf7884102ea43b30efdde5ec2265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  altID: 4f7ee0d2-8fb4-44ba-8a9f-da262e10395a
---- !u!114 &1008334154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1008334149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06f4bf7884102ea43b30efdde5ec2265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  altID: 16f15201-8c2a-43d0-9fdd-64506ed2a326
+  altID: 5a8f7230-0a39-4e24-8845-5eed32083454
 --- !u!1 &1243148204
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +424,6 @@ GameObject:
   - component: {fileID: 1243148206}
   - component: {fileID: 1243148205}
   - component: {fileID: 1243148209}
-  - component: {fileID: 1243148210}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -561,17 +518,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f4bf7884102ea43b30efdde5ec2265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  altID: 2a73331d-25bf-497f-861b-18e48e29a931
---- !u!114 &1243148210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1243148204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06f4bf7884102ea43b30efdde5ec2265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  altID: 5d3bd8d2-a8a7-4e56-aab4-916d266326b0
+  altID: 611b52a1-dd6a-41b7-98d1-7c6dd6027b21
