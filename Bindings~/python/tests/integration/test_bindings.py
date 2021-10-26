@@ -264,11 +264,13 @@ class TestPythonBindings:
         time.sleep(6)
 
         image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
-        image_source_drop_zone = self.altdriver.find_object(By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+        image_source_drop_zone = self.altdriver.find_object(
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
         assert image_source != image_source_drop_zone
 
         image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite")
-        image_source_drop_zone = self.altdriver.find_object(By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+        image_source_drop_zone = self.altdriver.find_object(
+            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
         assert image_source != image_source_drop_zone
 
     def test_multiple_swipe_and_waits(self):
@@ -290,11 +292,13 @@ class TestPythonBindings:
         self.altdriver.swipe_and_wait(image1.x, image1.y, box1.x, box1.y, 3)
 
         image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
-        image_source_drop_zone = self.altdriver.find_object(By.NAME,"Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+        image_source_drop_zone = self.altdriver.find_object(
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
         assert image_source != image_source_drop_zone
 
         image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite")
-        image_source_drop_zone = self.altdriver.find_object(By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+        image_source_drop_zone = self.altdriver.find_object(
+            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
         assert image_source != image_source_drop_zone
 
     def test_button_click_and_wait_with_swipe(self):
@@ -340,12 +344,16 @@ class TestPythonBindings:
         ]
 
         self.altdriver.multipoint_swipe_and_wait(positions, 3)
-        imageSource = self.altdriver.find_object(By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite")
-        imageSourceDropZone = self.altdriver.find_object(By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSource = self.altdriver.find_object(
+            By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSourceDropZone = self.altdriver.find_object(
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
         assert imageSource != imageSourceDropZone
 
-        imageSource = self.altdriver.find_object(By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite")
-        imageSourceDropZone = self.altdriver.find_object(By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSource = self.altdriver.find_object(
+            By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSourceDropZone = self.altdriver.find_object(
+            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
         assert imageSource != imageSourceDropZone
 
     def test_set_player_pref_keys_int(self):
@@ -507,7 +515,8 @@ class TestPythonBindings:
 
     def test_find_object_by_component_with_namespace(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-        alt_element = self.altdriver.find_object(By.COMPONENT, "AltUnityTesterExamples.Scripts.AltUnityExampleScriptCapsule")
+        alt_element = self.altdriver.find_object(
+            By.COMPONENT, "AltUnityTesterExamples.Scripts.AltUnityExampleScriptCapsule")
         assert alt_element.name == "Capsule"
 
     def test_find_child(self):
@@ -1133,7 +1142,7 @@ class TestPythonBindings:
             assembly="Assembly-CSharp"
         )
 
-        # Default logging level in AltUnity Server is Debug level
+        # Default logging level in AltUnity Tester is Debug level
         assert len(rule["Levels"]) == 5
 
         self.altdriver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off)

@@ -20,11 +20,15 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ![Build Settings](../_static/images/altUnityTesterWindow/BuildSettings.png)
 
--   Output Path
+-   Proxy host
 
-    Your build files are available in the configured Output Path.  
-     By default, the Output Path is a folder with the same name as your game.  
-     The file extension will be set automatically based on Platform, if game name in Output Path has no extension.
+    Refers to the host the AltUnity Proxy is listening on.  
+     You can change this value and make a new game build if you want to use another host.
+
+-   Proxy port
+
+    Refers to the port the AltUnity Proxy is listening on.  
+     You can change this value and make a new game build if you want to use another port.
 
 -   Company Name: company name used for the game build (same with Unity's Player Settings)
 -   Product Name: the company name (same with Unity's Player Settings)
@@ -72,38 +76,16 @@ You can also activate this option from within the test using the following code:
 -   Append "Test" to product: will add "Test" to the product name
 -   Keep ALTUNITYTESTER symbol defined: will add "ALTUNITYTESTER" to the scripting define symbols. This is usually done automatically when entering in playmode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
-## Log Settings
 
--   Max Length
+## Scene Manager
 
-    Through this parameter one can specify the maximum length of the logs. The default value of this
-    parameter is 100, values lower than 100 are not allowed.
-    It is optional to specify a value to Max Length. In case this field remains empty, no restrictions
-    to the length of the logs are applied.
-
-## Scene Settings
-
-![Scene Manager](../_static/images/altUnityTesterWindow/SceneManager.png)
+![Scenen Manager](../_static/images/altUnityTesterWindow/SceneManager.png)
 
 -   The Scene Manager pane displays a list of the Scenes from your Project. Checked scenes are included in the build.
 -   Unity uses the list of Scenes to determine the order that it loads the Scenes in. To adjust the order of the Scenes use the action buttons associated to each scene to move them up or down the list.
 -   Display scene full path: displays the full path where the scenes are located
 -   Add Scene: displays all the scenes in the project. User can add scenes to the "Scene Manager" from the "Add Scene" popup
 -   Action buttons (add / select / remove scenes)
-
-## Server Settings
-
-![Server Settings](../_static/images/altUnityTesterWindow/ServerSettings.png)
-
--   Proxy host
-
-    Refers to the host the AltUnity Proxy is listening on.  
-     You can change this value and make a new game build if you want to use another host.
-
--   Proxy port
-
-    Refers to the port the AltUnity Proxy is listening on.  
-     You can change this value and make a new game build if you want to use another port.
 
 
 ## Build & Run Settings
@@ -121,9 +103,13 @@ _Platform Settings_
 
                 .. image:: ../_static/images/platformSettings/AltUnityWindowAndroid.png
 
+
                 The **Android Bundle Identifier** field: fill in a valid bundle ID.
 
-                The **Adb Path** field: provide the path to adb.
+                The **Build Location** field: The build path for the instrumented Unity application.
+
+                    - By default, the Output Path is a folder with the same name as your game.
+                
 
             .. tab:: iOS
 
@@ -135,9 +121,10 @@ _Platform Settings_
 
                 The **Automatically Signed** field: check this for default signing.
 
-                The **Iproxy path** field: provide the path to iproxy.
 
-                The **Xcrun Path** field: provide the path to xcrun.
+                The **Build Location** field: The build path for the instrumented Unity application.
+
+                    - By default, the Output Path is a folder with the same name as your game.
 
             .. tab:: Editor
 
@@ -149,9 +136,24 @@ _Platform Settings_
 
                 The **Build Target** filed: choose build mode according to platform.
 
+                The **Build Location** field: The build path for the instrumented Unity application.
+
+                    - By default, the Output Path is a folder with the same name as your game.
+
+            .. tab:: Standalone
+
+                .. image:: ../_static/images/platformSettings/AltUnityWindowWebGL.png
+
+                The **Build Location** field: The build path for the instrumented Unity application.
+
+                    - By default, the Output Path is a folder with the same name as your game.
+
 ```
 
+
 _Build Settings_
+
+
 
     * Build Only
 

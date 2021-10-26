@@ -18,13 +18,13 @@ class AltUnityDriver:
 
     When you instantiate an ``AltUnityDriver`` object in your tests, you can use it to “drive” your game like one of
     your users would, by interacting with all the game objects, their properties and methods.  An ``AltUnityDriver``
-    instance will connect to the AltUnity Server that is running inside the game.
+    instance will connect to the AltUnity Proxy.
 
     Args:
-        host (:obj:`str`): The server host to connect to.
-        port (:obj:`int`): The server port to connect to.
+        host (:obj:`str`): The proxy host to connect to.
+        port (:obj:`int`): The proxy port to connect to.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
-        timeout (:obj:`float`, optional): The server connection timeout time.
+        timeout (:obj:`float`, optional): The connect timeout time.
     """
 
     def __init__(self, host="127.0.0.1", port=13000, enable_logging=False, timeout=None):
@@ -58,13 +58,14 @@ class AltUnityDriver:
 
     def _check_server_version(self):
         server_version = commands.GetServerVersion.run(self._connection)
-        logger.info("Connection established with AltUnity Server. Version: {}".format(server_version))
+        logger.info("Connection established with instrumented Unity app. AltUnity Tester Version: {}"
+                    .format(server_version))
 
         major_server, minor_server = self._split_version(server_version)
         major_driver, minor_driver = self._split_version(VERSION)
 
         if major_server != major_driver or minor_server != minor_driver:
-            message = "Version mismatch. AltUnity Driver version is {}. AltUnity Server version is {}.".format(
+            message = "Version mismatch. AltUnity Driver version is {}. AltUnity Tester version is {}.".format(
                 VERSION,
                 server_version
             )
@@ -111,7 +112,7 @@ class AltUnityDriver:
         self._connection.close()
 
     def set_server_logging(self, logger, log_level):
-        """Sets the level of logging on AltUnity Server.
+        """Sets the level of logging on AltUnity Tester.
 
         Args:
             logger (:obj:`AltUnityLogger`): The type of logger.
