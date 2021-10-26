@@ -30,7 +30,7 @@ AltUnity Tester module is used to instrument your Unity application to expose ac
 
 AltUnity Driver module is used to write tests and progamatically interact with the instrumented Unity app. The module is available in  C#, Java or Python.
 
-AltUnity Proxy module is used to create the bridge between the tests and the instrumented Unity App. It acts as a webscoket server that facilitate communication between AltUnity Driver (tests) and AltUnity Tester (instrumented Unity app).
+AltUnity Proxy module is used to create the bridge between the tests and the instrumented Unity App. It acts as a webscoket server that facilitates communication between AltUnity Driver (tests) and AltUnity Tester (instrumented Unity app).
 
 AltUnity Tester Editor Window is the GUI used for instrumenting a Unity game and running C# tests directly from Unity Editor.
 

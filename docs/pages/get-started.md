@@ -171,6 +171,18 @@ Before running your tests you need to start the instrumented Unity application. 
             Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
 
+    .. tab:: WebGL
+
+        Prerequisites:
+
+        * Use the Unity Hub to install WebGL Build Support 
+
+        Steps:
+
+        1. Open AltUnity Tester Window
+        2. In platform section select WebGL
+        3. Click Build & Run
+
 ```
 
 ## Write and execute first test for your game
@@ -196,24 +208,9 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:
 
-        .. tabs::
+        .. literalinclude:: other~/test-files/cSharp-test.cs
+            :language: c#
 
-            .. tab:: Unity Editor & PC
-
-                .. literalinclude:: other~/test-files/cSharp-test.cs
-                    :language: c#
-
-            .. tab:: Android
-
-                .. literalinclude:: other~/test-files/cSharp-Android-test.cs
-                    :language: c#
-                    :emphasize-lines: 11,19
-
-            .. tab:: iOS
-
-                .. literalinclude:: other~/test-files/cSharp-iOS-test.cs
-                    :language: c#
-                    :emphasize-lines: 11,19
 
         Run your test file from the command line by using the following command:
 
@@ -249,24 +246,9 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:
 
-        .. tabs::
+        .. literalinclude:: other~/test-files/java-test.java
+            :language: java
 
-            .. tab:: Unity Editor & PC
-
-                .. literalinclude:: other~/test-files/java-test.java
-                    :language: java
-
-            .. tab:: Android
-
-                .. literalinclude:: other~/test-files/java-Android-test.java
-                    :language: java
-                    :emphasize-lines: 19,26
-
-            .. tab:: iOS
-
-                .. literalinclude:: other~/test-files/java-iOS-test.java
-                    :language: java
-                    :emphasize-lines: 19,26
 
         Run your tests by using the following command (in the test project folder):
 
@@ -294,24 +276,9 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         Example test file:
 
-        .. tabs::
+        .. literalinclude:: other~/test-files/python-test.py
+            :language: py
 
-            .. tab:: Unity Editor & PC
-
-                .. literalinclude:: other~/test-files/python-test.py
-                    :language: py
-
-            .. tab:: Android
-
-                .. literalinclude:: other~/test-files/python-Android-test.py
-                    :language: py
-                    :emphasize-lines: 16,22
-
-            .. tab:: iOS
-
-                .. literalinclude:: other~/test-files/python-iOS-test.py
-                    :language: py
-                    :emphasize-lines: 16,22
 
         Run your test file by using the following command:
 

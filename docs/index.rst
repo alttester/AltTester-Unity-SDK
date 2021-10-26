@@ -25,10 +25,10 @@ Documentation
    *  `Overview <https://altom.gitlab.io/altunity/altunitytester/pages/overview.html>`_
    *  `Get Started <https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html>`_
 
-*  `AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector/inspector.html>`_
+*  `AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector-alpha/inspector.html>`_
 
-   *  `Overview <https://altom.gitlab.io/altunity/altunityinspector/pages/overview.html>`_
-   *  `Get Started <https://altom.gitlab.io/altunity/altunityinspector/pages/get-started.html>`_
+   *  `Overview <https://altom.gitlab.io/altunity/altunityinspector-alpha/pages/overview.html>`_
+   *  `Get Started <https://altom.gitlab.io/altunity/altunityinspector-alpha/pages/get-started.html>`_
 
 
 
@@ -37,7 +37,7 @@ Documentation
    :hidden:
 
    tester
-   AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector/inspector.html>
+   AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector-alpha/inspector.html>
 
 
 .. toctree::
