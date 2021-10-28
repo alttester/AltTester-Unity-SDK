@@ -206,7 +206,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
                 <dependency>
                     <groupId>com.altom</groupId>
                     <artifactId>altunitytester-java-client</artifactId>
-                    <version>1.6.6</version>
+                    <version>1.7.0-alpha</version>
                 </dependency>
 
 
@@ -218,7 +218,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
                 .. code-block:: console
 
-                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.6.6 -Dpackaging=jar``
+                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.7.0-alpha -Dpackaging=jar``
 
 
         Example test file:
@@ -241,7 +241,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             .. code-block:: console
 
-                pip install altunityrunner
+                pip install --pre altunityrunner
 
             **Method 2**: Install from the source code in the repository:
 
