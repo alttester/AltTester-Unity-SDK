@@ -1442,6 +1442,8 @@ namespace Altom.Editor
                         var actualTime = System.DateTime.Now.Ticks;
                         if (actualTime - timeSinceLastClick < 5000000)
                         {
+                            if (test.path == null)
+                                throw new AltUnityPathNotFoundException("The path to your test is invalid. Please make sure you have matching class and file names.");
 #if UNITY_2019_1_OR_NEWER
                             UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName), 0);
 #else
