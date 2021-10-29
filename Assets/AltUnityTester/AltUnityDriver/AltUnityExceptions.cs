@@ -350,6 +350,17 @@ namespace Altom.AltUnityDriver
         }
     }
 
+    public class AltUnityPathNotFoundException : AltUnityException
+    {
+        public AltUnityPathNotFoundException()
+        {
+        }
+
+        public AltUnityPathNotFoundException(string message) : base(message)
+        {
+        }
+    }
+
     public class SceneNotFoundException: AltUnityException
     {
         public SceneNotFoundException() {
