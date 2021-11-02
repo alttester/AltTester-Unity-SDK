@@ -1,7 +1,7 @@
 using Altom.AltUnityDriver.Commands;
-using Altom.Server.Logging;
+using Altom.AltUnityTester.Logging;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public class AltUnitySetServerLoggingCommand : AltUnityCommand<AltUnitySetServerLoggingParams, string>
     {

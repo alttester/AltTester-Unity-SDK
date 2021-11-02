@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Altom.AltUnityDriver.Commands;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityGetAllCamerasCommand : AltUnityCommand<CommandParams, List<AltUnityObject>>
     {

@@ -1,7 +1,7 @@
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public class AltUnityEndTouchCommand : AltUnityCommand<AltUnityEndTouchParams, string>
     {

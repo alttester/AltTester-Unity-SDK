@@ -1,9 +1,9 @@
 using System;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Assets.AltUnityTester.AltUnityServer.Communication;
+using Altom.AltUnityTester.Communication;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public class AltUnityClickCoordinatesCommand : AltUnityCommand<AltUnityClickCoordinatesParams, string>
     {

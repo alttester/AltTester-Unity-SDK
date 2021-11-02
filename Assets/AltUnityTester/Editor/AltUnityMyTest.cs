@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Altom.Editor
+namespace Altom.AltUnityTesterEditor
 {
     [System.Serializable]
     public class AltUnityMyTest

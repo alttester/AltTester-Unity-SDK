@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Altom.AltUnityDriver;
-using Altom.Server.Logging;
+using Altom.AltUnityTester.Logging;
 using Altom.AltUnityDriver.Commands;
 using NLog;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityGetAllComponentsCommand : AltUnityCommand<AltUnityGetAllComponentsParams, List<AltUnityComponent>>
     {

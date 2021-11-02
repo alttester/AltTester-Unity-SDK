@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.AltUnityTester.AltUnityServer.Communication
+namespace Altom.AltUnityTester.Communication
 {
     public delegate void SendResponse();
 
@@ -19,7 +19,6 @@ namespace Assets.AltUnityTester.AltUnityServer.Communication
                     responseQueue.Dequeue()();
                 }
             }
-
         }
 
         public void ScheduleResponse(SendResponse newResponse)

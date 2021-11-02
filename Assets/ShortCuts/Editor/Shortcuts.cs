@@ -1,4 +1,4 @@
-using Altom.Editor;
+using Altom.AltUnityTesterEditor;
 
 namespace altunitytester.Assets.ShortCuts.Editor
 {
@@ -16,7 +16,7 @@ namespace altunitytester.Assets.ShortCuts.Editor
         [UnityEditor.MenuItem("AltUnity Tools/Deselect All Tests _d", false, 80)]
         public static void DeselectAllTests()
         {
-            foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+            foreach (var test in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
             {
                 test.Selected = false;
             }

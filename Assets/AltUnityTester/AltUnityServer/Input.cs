@@ -7,6 +7,7 @@ using System.Linq;
 using Altom.AltUnityDriver;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Altom.AltUnityTester;
 
 public class Input : UnityEngine.MonoBehaviour
 {
@@ -1511,7 +1512,7 @@ public class KeyStructure
 #else
 using UnityEngine;
 
-namespace Altom.Server.Input
+namespace Altom.AltUnityTester.Input
 {
     public class Input : MonoBehaviour
     {

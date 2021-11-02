@@ -5,7 +5,7 @@ using NLog;
 using NLog.Layouts;
 using Altom.AltUnityDriver.Logging;
 
-namespace Altom.Editor.Logging
+namespace Altom.AltUnityTesterEditor.Logging
 {
     public class EditorLogManager
     {

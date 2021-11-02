@@ -1,8 +1,8 @@
 using System;
-using Altom.Server.Logging;
+using Altom.AltUnityTester.Logging;
 using WebSocketSharp;
 
-namespace Assets.AltUnityTester.AltUnityServer.Communication
+namespace Altom.AltUnityTester.Communication
 {
     public class WebSocketClientCommunication : ICommunication
     {

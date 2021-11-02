@@ -1,156 +1,159 @@
-public class AltUnityTextureScale
+namespace Altom.AltUnityTester
 {
-    public class AltUnityThreadData
+    public class AltUnityTextureScale
     {
-        public int start;
-        public int end;
-        public AltUnityThreadData(int s, int e)
+        public class AltUnityThreadData
         {
-            start = s;
-            end = e;
-        }
-    }
-
-    private static UnityEngine.Color32[] texColors;
-    private static UnityEngine.Color32[] newColors;
-    private static int w;
-    private static float ratioX;
-    private static float ratioY;
-    private static int w2;
-    private static int finishCount;
-    private static System.Threading.Mutex mutex;
-
-    public static void Point(UnityEngine.Texture2D tex, int newWidth, int newHeight)
-    {
-        ThreadedScale(tex, newWidth, newHeight, false);
-    }
-
-    public static void Bilinear(UnityEngine.Texture2D tex, int newWidth, int newHeight)
-    {
-        ThreadedScale(tex, newWidth, newHeight, true);
-    }
-
-    private static void ThreadedScale(UnityEngine.Texture2D tex, int newWidth, int newHeight, bool useBilinear)
-    {
-        texColors = tex.GetPixels32();
-        newColors = new UnityEngine.Color32[newWidth * newHeight];
-        if (useBilinear)
-        {
-            ratioX = 1.0f / ((float)newWidth / (tex.width - 1));
-            ratioY = 1.0f / ((float)newHeight / (tex.height - 1));
-        }
-        else
-        {
-            ratioX = ((float)tex.width) / newWidth;
-            ratioY = ((float)tex.height) / newHeight;
-        }
-        w = tex.width;
-        w2 = newWidth;
-
-        var cores = UnityEngine.Mathf.Min(UnityEngine.SystemInfo.processorCount, newHeight);
-        cores = UnityEngine.Mathf.Max(1, cores);
-        var slice = newHeight / cores;
-
-        finishCount = 0;
-        if (mutex == null)
-        {
-            mutex = new System.Threading.Mutex(false);
-        }
-        if (cores > 1)
-        {
-            int i = 0;
-            AltUnityThreadData threadData;
-            for (i = 0; i < cores - 1; i++)
+            public int start;
+            public int end;
+            public AltUnityThreadData(int s, int e)
             {
-                threadData = new AltUnityThreadData(slice * i, slice * (i + 1));
-                System.Threading.ParameterizedThreadStart ts = useBilinear ? new System.Threading.ParameterizedThreadStart(BilinearScale) : new System.Threading.ParameterizedThreadStart(PointScale);
-                System.Threading.Thread thread = new System.Threading.Thread(ts);
-                thread.Start(threadData);
+                start = s;
+                end = e;
             }
-            threadData = new AltUnityThreadData(slice * i, newHeight);
+        }
+
+        private static UnityEngine.Color32[] texColors;
+        private static UnityEngine.Color32[] newColors;
+        private static int w;
+        private static float ratioX;
+        private static float ratioY;
+        private static int w2;
+        private static int finishCount;
+        private static System.Threading.Mutex mutex;
+
+        public static void Point(UnityEngine.Texture2D tex, int newWidth, int newHeight)
+        {
+            ThreadedScale(tex, newWidth, newHeight, false);
+        }
+
+        public static void Bilinear(UnityEngine.Texture2D tex, int newWidth, int newHeight)
+        {
+            ThreadedScale(tex, newWidth, newHeight, true);
+        }
+
+        private static void ThreadedScale(UnityEngine.Texture2D tex, int newWidth, int newHeight, bool useBilinear)
+        {
+            texColors = tex.GetPixels32();
+            newColors = new UnityEngine.Color32[newWidth * newHeight];
             if (useBilinear)
             {
-                BilinearScale(threadData);
+                ratioX = 1.0f / ((float)newWidth / (tex.width - 1));
+                ratioY = 1.0f / ((float)newHeight / (tex.height - 1));
             }
             else
             {
-                PointScale(threadData);
+                ratioX = ((float)tex.width) / newWidth;
+                ratioY = ((float)tex.height) / newHeight;
             }
-            while (finishCount < cores)
+            w = tex.width;
+            w2 = newWidth;
+
+            var cores = UnityEngine.Mathf.Min(UnityEngine.SystemInfo.processorCount, newHeight);
+            cores = UnityEngine.Mathf.Max(1, cores);
+            var slice = newHeight / cores;
+
+            finishCount = 0;
+            if (mutex == null)
             {
-                System.Threading.Thread.Sleep(1);
+                mutex = new System.Threading.Mutex(false);
             }
-        }
-        else
-        {
-            AltUnityThreadData threadData = new AltUnityThreadData(0, newHeight);
-            if (useBilinear)
+            if (cores > 1)
             {
-                BilinearScale(threadData);
+                int i = 0;
+                AltUnityThreadData threadData;
+                for (i = 0; i < cores - 1; i++)
+                {
+                    threadData = new AltUnityThreadData(slice * i, slice * (i + 1));
+                    System.Threading.ParameterizedThreadStart ts = useBilinear ? new System.Threading.ParameterizedThreadStart(BilinearScale) : new System.Threading.ParameterizedThreadStart(PointScale);
+                    System.Threading.Thread thread = new System.Threading.Thread(ts);
+                    thread.Start(threadData);
+                }
+                threadData = new AltUnityThreadData(slice * i, newHeight);
+                if (useBilinear)
+                {
+                    BilinearScale(threadData);
+                }
+                else
+                {
+                    PointScale(threadData);
+                }
+                while (finishCount < cores)
+                {
+                    System.Threading.Thread.Sleep(1);
+                }
             }
             else
             {
-                PointScale(threadData);
+                AltUnityThreadData threadData = new AltUnityThreadData(0, newHeight);
+                if (useBilinear)
+                {
+                    BilinearScale(threadData);
+                }
+                else
+                {
+                    PointScale(threadData);
+                }
             }
+
+            tex.Resize(newWidth, newHeight);
+            tex.SetPixels32(newColors);
+            tex.Apply();
+
+            texColors = null;
+            newColors = null;
         }
 
-        tex.Resize(newWidth, newHeight);
-        tex.SetPixels32(newColors);
-        tex.Apply();
-
-        texColors = null;
-        newColors = null;
-    }
-
-    public static void BilinearScale(System.Object obj)
-    {
-        AltUnityThreadData threadData = (AltUnityThreadData)obj;
-        for (var y = threadData.start; y < threadData.end; y++)
+        public static void BilinearScale(System.Object obj)
         {
-            int yFloor = (int)UnityEngine.Mathf.Floor(y * ratioY);
-            var y1 = yFloor * w;
-            var y2 = (yFloor + 1) * w;
-            var yw = y * w2;
-
-            for (var x = 0; x < w2; x++)
+            AltUnityThreadData threadData = (AltUnityThreadData)obj;
+            for (var y = threadData.start; y < threadData.end; y++)
             {
-                int xFloor = (int)UnityEngine.Mathf.Floor(x * ratioX);
-                var xLerp = x * ratioX - xFloor;
-                newColors[yw + x] = ColorLerpUnclamped(ColorLerpUnclamped(texColors[y1 + xFloor], texColors[y1 + xFloor + 1], xLerp),
-                    ColorLerpUnclamped(texColors[y2 + xFloor], texColors[y2 + xFloor + 1], xLerp),
-                    y * ratioY - yFloor);
+                int yFloor = (int)UnityEngine.Mathf.Floor(y * ratioY);
+                var y1 = yFloor * w;
+                var y2 = (yFloor + 1) * w;
+                var yw = y * w2;
+
+                for (var x = 0; x < w2; x++)
+                {
+                    int xFloor = (int)UnityEngine.Mathf.Floor(x * ratioX);
+                    var xLerp = x * ratioX - xFloor;
+                    newColors[yw + x] = ColorLerpUnclamped(ColorLerpUnclamped(texColors[y1 + xFloor], texColors[y1 + xFloor + 1], xLerp),
+                        ColorLerpUnclamped(texColors[y2 + xFloor], texColors[y2 + xFloor + 1], xLerp),
+                        y * ratioY - yFloor);
+                }
             }
+
+            mutex.WaitOne();
+            finishCount++;
+            mutex.ReleaseMutex();
         }
 
-        mutex.WaitOne();
-        finishCount++;
-        mutex.ReleaseMutex();
-    }
-
-    public static void PointScale(System.Object obj)
-    {
-        AltUnityThreadData threadData = (AltUnityThreadData)obj;
-        for (var y = threadData.start; y < threadData.end; y++)
+        public static void PointScale(System.Object obj)
         {
-            var thisY = (int)(ratioY * y) * w;
-            var yw = y * w2;
-            for (var x = 0; x < w2; x++)
+            AltUnityThreadData threadData = (AltUnityThreadData)obj;
+            for (var y = threadData.start; y < threadData.end; y++)
             {
-                newColors[yw + x] = texColors[(int)(thisY + ratioX * x)];
+                var thisY = (int)(ratioY * y) * w;
+                var yw = y * w2;
+                for (var x = 0; x < w2; x++)
+                {
+                    newColors[yw + x] = texColors[(int)(thisY + ratioX * x)];
+                }
             }
+
+            mutex.WaitOne();
+            finishCount++;
+            mutex.ReleaseMutex();
         }
 
-        mutex.WaitOne();
-        finishCount++;
-        mutex.ReleaseMutex();
-    }
-
-    private static UnityEngine.Color32 ColorLerpUnclamped(UnityEngine.Color32 c1, UnityEngine.Color32 c2, float value)
-    {
-        byte r = (byte)UnityEngine.Mathf.Lerp(c1.r, c2.r, value);
-        byte g = (byte)UnityEngine.Mathf.Lerp(c1.g, c2.g, value);
-        byte b = (byte)UnityEngine.Mathf.Lerp(c1.b, c2.b, value);
-        byte a = (byte)UnityEngine.Mathf.Lerp(c1.a, c2.a, value);
-        return new UnityEngine.Color32(r, g, b, a);
+        private static UnityEngine.Color32 ColorLerpUnclamped(UnityEngine.Color32 c1, UnityEngine.Color32 c2, float value)
+        {
+            byte r = (byte)UnityEngine.Mathf.Lerp(c1.r, c2.r, value);
+            byte g = (byte)UnityEngine.Mathf.Lerp(c1.g, c2.g, value);
+            byte b = (byte)UnityEngine.Mathf.Lerp(c1.b, c2.b, value);
+            byte a = (byte)UnityEngine.Mathf.Lerp(c1.a, c2.a, value);
+            return new UnityEngine.Color32(r, g, b, a);
+        }
     }
 }

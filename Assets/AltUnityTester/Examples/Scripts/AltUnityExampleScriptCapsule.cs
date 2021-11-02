@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Altom.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityServer;
+using Altom.AltUnityTester;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Altom.AltUnity.Instrumentation;
+using Altom.AltUnityTester;
 using Altom.AltUnityDriver;
-using Altom.Editor.Logging;
+using Altom.AltUnityTesterEditor.Logging;
 using NLog;
 using NLog.Layouts;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Altom.Editor
+namespace Altom.AltUnityTesterEditor
 {
-    public class AltUnityTesterEditor : UnityEditor.EditorWindow
+    public class AltUnityTesterEditorWindow : UnityEditor.EditorWindow
     {
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
         public static bool NeedsRepaiting = false;
         public static AltUnityEditorConfiguration EditorConfiguration;
-        public static AltUnityTesterEditor Window;
+        public static AltUnityTesterEditorWindow Window;
         public static int SelectedTest = -1;
 
         //TestResult after running a test
@@ -107,7 +107,7 @@ namespace Altom.Editor
         public static void ShowWindow()
         {
             //Show existing window instance. If one doesn't exist, make one.
-            Window = (AltUnityTesterEditor)GetWindow(typeof(AltUnityTesterEditor));
+            Window = (AltUnityTesterEditorWindow)GetWindow(typeof(AltUnityTesterEditorWindow));
             Window.minSize = new UnityEngine.Vector2(600, 100);
             Window.titleContent = new UnityEngine.GUIContent("AltUnity Tester Editor");
             Window.Show();
@@ -645,7 +645,7 @@ namespace Altom.Editor
             var selectedTests = 0;
             var totalTests = 0;
             var failedTests = 0;
-            foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+            foreach (var test in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
             {
                 if (test.IsSuite)
                     continue;
@@ -781,8 +781,8 @@ namespace Altom.Editor
         {
             if (UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditorSettings").Length == 0)
             {
-                var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditor")[0]);
-                altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
+                var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltUnityTesterEditorWindow")[0]);
+                altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 30);
                 EditorConfiguration = CreateInstance<AltUnityEditorConfiguration>();
                 EditorConfiguration.MyTests = null;
                 UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltUnityTesterEditorSettings.asset");
@@ -922,7 +922,7 @@ namespace Altom.Editor
 
         private void runInEditor()
         {
-            AltUnityBuilder.InsertAltUnityInTheActiveScene(AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings());
+            AltUnityBuilder.InsertAltUnityInTheActiveScene(AltUnityTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
             AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;
@@ -1514,7 +1514,7 @@ namespace Altom.Editor
                     else
                     {
                         var totalTests = 0;
-                        foreach (var selectedTest in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                        foreach (var selectedTest in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
                         {
                             if (!selectedTest.IsSuite)
                                 totalTests++;
@@ -1522,7 +1522,7 @@ namespace Altom.Editor
                         if (test.Selected)
                         {
                             test.TestSelectedCount = totalTests;
-                            foreach (var selectedTest in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                            foreach (var selectedTest in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
                             {
                                 if (selectedTest.IsSuite)
                                     selectedTest.TestSelectedCount = selectedTest.TestCaseCount;
@@ -1531,7 +1531,7 @@ namespace Altom.Editor
                         else
                         {
                             test.TestSelectedCount = 0;
-                            foreach (var selectedTest in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                            foreach (var selectedTest in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
                             {
                                 if (selectedTest.IsSuite)
                                     selectedTest.TestSelectedCount = 0;

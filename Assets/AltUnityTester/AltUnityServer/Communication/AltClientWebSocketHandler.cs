@@ -1,6 +1,6 @@
 using WebSocketSharp;
 
-namespace Assets.AltUnityTester.AltUnityServer.Communication
+namespace Altom.AltUnityTester.Communication
 {
     public class AltClientWebSocketHandler
     {

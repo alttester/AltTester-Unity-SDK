@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Assets.AltUnityTester.AltUnityServer.Communication;
+using Altom.AltUnityTester.Communication;
 using UnityEngine;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityHightlightObjectFromCoordinatesCommand : AltUnityBaseScreenshotCommand<AltUnityHightlightObjectFromCoordinatesScreenshotParams, string>
     {

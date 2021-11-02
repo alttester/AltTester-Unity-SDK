@@ -4,7 +4,7 @@ using Altom.AltUnityDriver.Commands;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnitySetTextCommand : AltUnityReflectionMethodsCommand<AltUnitySetTextParams, AltUnityObject>
     {

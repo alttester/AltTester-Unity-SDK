@@ -28,13 +28,13 @@ public class AltUnityCommandsTests
     [Category("WebGLUnsupported")]
     public void TestSetServerLogging()
     {
-        var rule = altUnityDriver.CallStaticMethod<dynamic>("Altom.Server.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltUnityServerFileRule" }, null, "Assembly-CSharp");
+        var rule = altUnityDriver.CallStaticMethod<dynamic>("Altom.AltUnityTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltUnityServerFileRule" }, null, "Assembly-CSharp");
 
         var levels = (JArray)rule["Levels"];
         Assert.AreEqual(5, levels.Count, levels.ToString());
 
         altUnityDriver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        rule = altUnityDriver.CallStaticMethod<dynamic>("Altom.Server.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltUnityServerFileRule" }, null, "Assembly-CSharp");
+        rule = altUnityDriver.CallStaticMethod<dynamic>("Altom.AltUnityTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltUnityServerFileRule" }, null, "Assembly-CSharp");
         levels = (JArray)rule["Levels"];
         Assert.AreEqual(0, levels.Count, levels.ToString());
     }

@@ -3,7 +3,7 @@ using Altom.AltUnityDriver.Commands;
 
 
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityDragObjectCommand : AltUnityCommand<AltUnityDragObjectParams, AltUnityObject>
     {

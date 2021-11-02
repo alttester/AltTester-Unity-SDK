@@ -3,12 +3,12 @@ using System.Globalization;
 using System.Linq;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Altom.Server.Logging;
-using Assets.AltUnityTester.AltUnityServer.Communication;
+using Altom.AltUnityTester.Logging;
+using Altom.AltUnityTester.Communication;
 using Newtonsoft.Json;
 using NLog;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public abstract class AltUnityBaseScreenshotCommand<TParams, TResult> : AltUnityCommand<TParams, TResult> where TParams : CommandParams
     {

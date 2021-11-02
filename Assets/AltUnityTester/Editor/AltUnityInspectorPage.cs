@@ -1,4 +1,4 @@
-namespace Altom.Editor
+namespace Altom.AltUnityTesterEditor
 {
     public class AltUnityInspectorPage : UnityEditor.EditorWindow
     {
@@ -35,7 +35,7 @@ namespace Altom.Editor
         {
             if (buttonTexture == null)
             {
-                buttonTexture = AltUnityTesterEditor.MakeTexture(20, 20, new UnityEngine.Color(0.07058824f, 0.6039216f, 0.145098f, 1f));
+                buttonTexture = AltUnityTesterEditorWindow.MakeTexture(20, 20, new UnityEngine.Color(0.07058824f, 0.6039216f, 0.145098f, 1f));
             }
             if (image == null)
             {

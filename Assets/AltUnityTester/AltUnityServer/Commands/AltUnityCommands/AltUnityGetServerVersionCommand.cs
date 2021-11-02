@@ -1,6 +1,6 @@
 using Altom.AltUnityDriver.Commands;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public class AltUnityGetServerVersionCommand : AltUnityCommand<AltUnityGetServerVersionParams, string>
     {

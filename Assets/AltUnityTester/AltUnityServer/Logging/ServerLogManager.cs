@@ -6,7 +6,7 @@ using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 
-namespace Altom.Server.Logging
+namespace Altom.AltUnityTester.Logging
 {
     public class ServerLogManager
     {

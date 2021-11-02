@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Altom.AltUnityDriver;
 using UnityEngine;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public enum BoundType
     {

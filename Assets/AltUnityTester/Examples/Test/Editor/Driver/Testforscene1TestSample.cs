@@ -34,7 +34,8 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    public void TestLoadNonExistentScene() {
+    public void TestLoadNonExistentScene()
+    {
         Assert.Throws<SceneNotFoundException>(() => altUnityDriver.LoadScene("Scene 0", true));
     }
 
@@ -220,7 +221,7 @@ public class TestForScene1TestSample
     public void TestGetComponentProperty()
     {
         Thread.Sleep(1000);
-        const string componentName = "AltUnityRunner";
+        const string componentName = "Altom.AltUnityTester.AltUnityRunner";
         const string propertyName = "InstrumentationSettings.ProxyPort";
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
@@ -234,7 +235,7 @@ public class TestForScene1TestSample
     public void TestGetComponentPropertyNotFoundWithAssembly()
     {
         Thread.Sleep(1000);
-        const string componentName = "AltUnityRunner";
+        const string componentName = "Altom.AltUnityTester.AltUnityRunner";
         const string propertyName = "InvalidProperty";
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
@@ -253,7 +254,7 @@ public class TestForScene1TestSample
     public void TestGetNonExistingComponentProperty()
     {
         Thread.Sleep(1000);
-        const string componentName = "AltUnityRunner";
+        const string componentName = "Altom.AltUnityTester.AltUnityRunner";
         const string propertyName = "socketPort";
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         Assert.NotNull(altElement);

@@ -1,10 +1,10 @@
 using System;
-using Altom.AltUnity.Instrumentation;
-using Altom.Server.Logging;
-using Assets.AltUnityTester.AltUnityServer.Communication;
+using Altom.AltUnityTester;
+using Altom.AltUnityTester.Logging;
+using Altom.AltUnityTester.Communication;
 using NLog;
 
-namespace Altom.AltUnityInstrumentation.UI
+namespace Altom.AltUnityTester.UI
 {
     public class AltUnityDialog : UnityEngine.MonoBehaviour
     {
