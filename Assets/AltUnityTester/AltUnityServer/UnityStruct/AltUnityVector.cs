@@ -1,6 +1,6 @@
 using Altom.AltUnityDriver;
 
-namespace Assets.AltUnityTester.AltUnityServer
+namespace Altom.AltUnityTester
 {
     public static class AltUnityVectorExtensions
     {

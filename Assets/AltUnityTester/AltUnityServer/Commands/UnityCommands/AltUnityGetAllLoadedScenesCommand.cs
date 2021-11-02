@@ -1,7 +1,7 @@
 using Altom.AltUnityDriver.Commands;
 using System.Collections.Generic;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityGetAllLoadedScenesCommand : AltUnityCommand<AltUnityGetAllLoadedScenesParams, List<string>>
     {

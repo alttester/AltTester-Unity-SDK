@@ -2,7 +2,7 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using UnityEngine;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityKeyDownCommand : AltUnityCommand<AltUnityKeyDownParams, string>
     {

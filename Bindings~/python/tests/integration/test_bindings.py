@@ -450,13 +450,13 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 5 Keyboard Input")
 
         cube = self.altdriver.find_object(By.NAME, "Player1")
-        cubeInitialPostion = (cube.worldX, cube.worldY, cube.worldY)
+        cubeInitialPostion = (cube.worldX, cube.worldY, cube.worldZ)
         self.altdriver.scroll_mouse(30, 1)
         self.altdriver.press_key_with_keycode(AltUnityKeyCode.K, 1, 2)
         time.sleep(2)
-        cube = self.altdriver.find_object(By.NAME, "Player1")
         self.altdriver.press_key_with_keycode_and_wait(AltUnityKeyCode.O, 1, 1)
-        cubeFinalPosition = (cube.worldX, cube.worldY, cube.worldY)
+        cube = self.altdriver.find_object(By.NAME, "Player1")
+        cubeFinalPosition = (cube.worldX, cube.worldY, cube.worldZ)
 
         assert cubeInitialPostion != cubeFinalPosition
 
@@ -1140,7 +1140,7 @@ class TestPythonBindings:
 
     def test_set_server_logging(self):
         rule = self.altdriver.call_static_method(
-            "Altom.Server.Logging.ServerLogManager",
+            "Altom.AltUnityTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
             ["AltUnityServerFileRule"],
             assembly="Assembly-CSharp"
@@ -1151,7 +1151,7 @@ class TestPythonBindings:
 
         self.altdriver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off)
         rule = self.altdriver.call_static_method(
-            "Altom.Server.Logging.ServerLogManager",
+            "Altom.AltUnityTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
             ["AltUnityServerFileRule"],
             assembly="Assembly-CSharp")

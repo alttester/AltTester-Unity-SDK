@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using Assets.AltUnityTester.AltUnityServer.Communication;
+using Altom.AltUnityTester.Communication;
 using NUnit.Framework;
 using WebSocketSharp;
 using WebSocketSharp.Server;

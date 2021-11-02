@@ -1,13 +1,16 @@
 using UnityEngine;
 
-[DisallowMultipleComponent]
-public class AltUnityId : MonoBehaviour
+namespace Altom.AltUnityTester
 {
-
-    public string altID;
-    protected void OnValidate()
+    [DisallowMultipleComponent]
+    public class AltUnityId : MonoBehaviour
     {
-        if (altID == null)
-            altID = System.Guid.NewGuid().ToString();
+
+        public string altID;
+        protected void OnValidate()
+        {
+            if (altID == null)
+                altID = System.Guid.NewGuid().ToString();
+        }
     }
 }

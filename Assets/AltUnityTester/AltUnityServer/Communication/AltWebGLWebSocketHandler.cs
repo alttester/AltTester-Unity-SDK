@@ -1,7 +1,7 @@
 using System.Text;
-using Altom.Server.Logging;
+using Altom.AltUnityTester.Logging;
 
-namespace Assets.AltUnityTester.AltUnityServer.Communication
+namespace Altom.AltUnityTester.Communication
 {
     public class AltWebGLWebSocketHandler
     {

@@ -1,8 +1,8 @@
 using Altom.AltUnityDriver.Commands;
-using Assets.AltUnityTester.AltUnityServer.Communication;
+using Altom.AltUnityTester.Communication;
 using Altom.AltUnityDriver;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public class AltUnityGetScreenshotCommand : AltUnityBaseScreenshotCommand<AltUnityGetScreenshotParams, string>
     {

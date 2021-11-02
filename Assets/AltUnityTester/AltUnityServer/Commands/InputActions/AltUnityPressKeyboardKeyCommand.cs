@@ -2,7 +2,7 @@
 using Altom.AltUnityDriver.Commands;
 using UnityEngine;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityPressKeyboardKeyCommand : AltUnityCommand<AltUnityPressKeyboardKeyParams, string>
     {

@@ -79,7 +79,6 @@ namespace Altom.AltUnityDriver.Commands
 
         public CommandResponse<T> Recvall<T>(CommandParams param)
         {
-
             while (messages.Count == 0 && wsClient.IsAlive())
             {
                 Thread.Sleep(10);

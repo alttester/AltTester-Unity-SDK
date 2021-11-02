@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Altom.Server.Logging;
-using Assets.AltUnityTester.AltUnityServer.Commands;
+using Altom.AltUnityTester.Logging;
+using Altom.AltUnityTester.Commands;
 using Newtonsoft.Json;
 
-namespace Assets.AltUnityTester.AltUnityServer.Communication
+namespace Altom.AltUnityTester.Communication
 {
     public class CommandHandler : ICommandHandler
     {

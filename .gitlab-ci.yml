@@ -60,7 +60,7 @@ build-apk:
   script:
     - whoami
     - adb uninstall fi.altom.altunitytester || true
-    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterTools.BuildAltUnityTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
     - ls
   cache:
     paths:
@@ -83,7 +83,7 @@ build-webgl:
     - unity
   script:
     - whoami
-    - "& $env:UNITY_2019_2_HOME -batchmode -stackTraceLogType None -projectPath $env:CI_PROJECT_DIR -executeMethod BuildAltUnityTester.WebGLBuildFromCommandLine -logFile buildWebgl.log -quit"
+    - "& $env:UNITY_2019_2_HOME -batchmode -stackTraceLogType None -projectPath $env:CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterTools.BuildAltUnityTester.WebGLBuildFromCommandLine -logFile buildWebgl.log -quit"
     - ls
 
   cache:
@@ -138,7 +138,7 @@ run-csharp-dotnet-webgl-tests:
     - iPhone
   script:
     - whoami
-    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
+    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterTools.BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
     - cd sampleGame
     - xcodebuild build-for-testing -scheme Unity-iPhone -destination generic/platform=iOS -allowProvisioningUpdates
     - ls
@@ -162,7 +162,7 @@ run-csharp-unity-android-tests:
   before_script:
     - *reinstall_and_start_android_app
   script:
-    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.Editor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
+    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
   after_script:
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
@@ -297,7 +297,7 @@ run-java-appium-android-tests:
     - iproxy 13000 13000 &
     - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone -allowProvisioningUpdates &
     - sleep 60
-    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -projectPath $CI_PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -logFile csharpIosTests.log -quit
+    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpIosTests.log -quit
     - killall iproxy || true
     - killall xcodebuild || true
   artifacts:
@@ -321,7 +321,7 @@ create-unity-package:
     - mac
   script:
     - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityPackage || true
-    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.Editor.AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
+    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTesterEditor.CreateAltUnityTesterPackage -logFile createAltUnityTesterPackage.log -quit
     - AUT=$(find -E . -regex ".*/AltUnityTester.*\.unitypackage")
     - mv $AUT public/${CI_COMMIT_REF_NAME}/AltUnityPackage/AltUnityTester.unitypackage
     - cd public/${CI_COMMIT_REF_NAME}/AltUnityPackage

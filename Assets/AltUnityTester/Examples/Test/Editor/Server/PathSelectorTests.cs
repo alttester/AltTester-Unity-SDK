@@ -1,5 +1,5 @@
 using Altom.AltUnityDriver;
-using Assets.AltUnityTester.AltUnityServer.Commands;
+using Altom.AltUnityTester.Commands;
 using NUnit.Framework;
 
 public class PathSelectorTests

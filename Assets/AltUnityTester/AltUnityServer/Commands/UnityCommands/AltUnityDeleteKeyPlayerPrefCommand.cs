@@ -1,6 +1,6 @@
 using Altom.AltUnityDriver.Commands;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityDeleteKeyPlayerPrefCommand : AltUnityCommand<AltUnityDeleteKeyPlayerPrefParams, string>
     {

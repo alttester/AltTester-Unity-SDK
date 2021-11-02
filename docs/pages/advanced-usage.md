@@ -104,7 +104,7 @@ There are two types of logging that can be configured in AltUnityTester. The log
 
 ### AltUnity Tester logging
 
-Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.Server.Logging.ServerLogManager.Instance`
+Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.AltUnityTester.Logging.ServerLogManager.Instance`
 
 
 There are two logger targets that you can configure on the server:

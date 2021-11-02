@@ -1,6 +1,6 @@
 using System;
 
-namespace Assets.AltUnityTester.AltUnityServer.Communication
+namespace Altom.AltUnityTester.Communication
 {
     public delegate void SendMessageHandler(string message);
     public delegate void CommunicationHandler();

@@ -1,4 +1,4 @@
-namespace Altom.Editor
+namespace Altom.AltUnityTesterEditor
 {
     public enum AltUnityPlatform
     {

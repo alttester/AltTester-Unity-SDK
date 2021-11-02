@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Altom.Server.Logging;
+using Altom.AltUnityTester.Logging;
 using NLog;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityGetAllFieldsCommand : AltUnityReflectionMethodsCommand<AltUnityGetAllFieldsParams, List<AltUnityProperty>>
     {

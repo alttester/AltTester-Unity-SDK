@@ -2,11 +2,11 @@ using System;
 using System.Globalization;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Altom.Server.Logging;
+using Altom.AltUnityTester.Logging;
 using Newtonsoft.Json;
 using NLog;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public abstract class AltUnityCommand<TParam, TResult> where TParam : CommandParams
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Altom.Editor.Logging;
+using Altom.AltUnityTesterEditor.Logging;
 using Newtonsoft.Json;
 using NLog;
 
-namespace Altom.Editor
+namespace Altom.AltUnityTesterEditor
 {
     public delegate void TestRunDelegate(string name);
 
@@ -39,12 +39,12 @@ namespace Altom.Editor
             {
                 var result = testAssemblyRunner.Run(listener, filters);
                 setTestStatus(result);
-                AltUnityTesterEditor.IsTestRunResultAvailable = true;
-                AltUnityTesterEditor.SelectedTest = -1;
+                AltUnityTesterEditorWindow.IsTestRunResultAvailable = true;
+                AltUnityTesterEditorWindow.SelectedTest = -1;
             });
 
             runTestThread.Start();
-            if (AltUnityTesterEditor.EditorConfiguration.platform != AltUnityPlatform.Editor)
+            if (AltUnityTesterEditorWindow.EditorConfiguration.platform != AltUnityPlatform.Editor)
             {
                 float previousProgres = progress - 1;
                 while (runTestThread.IsAlive)
@@ -57,9 +57,9 @@ namespace Altom.Editor
             }
 
             runTestThread.Join();
-            if (AltUnityTesterEditor.EditorConfiguration.platform != AltUnityPlatform.Editor)
+            if (AltUnityTesterEditorWindow.EditorConfiguration.platform != AltUnityPlatform.Editor)
             {
-                AltUnityTesterEditor.NeedsRepaiting = true;
+                AltUnityTesterEditorWindow.NeedsRepaiting = true;
                 UnityEditor.EditorUtility.ClearProgressBar();
             }
         }
@@ -78,7 +78,7 @@ namespace Altom.Editor
             int numberOfTestPassed = 0;
             int numberOfTestFailed = 0;
             double totalTime = 0;
-            foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+            foreach (var test in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
             {
                 int counter = 0;
                 // int testPassed = 0;
@@ -190,18 +190,18 @@ namespace Altom.Editor
                     }
                 }
             }
-            var listOfTests = AltUnityTesterEditor.EditorConfiguration.MyTests;
+            var listOfTests = AltUnityTesterEditorWindow.EditorConfiguration.MyTests;
             var serializeTests = JsonConvert.SerializeObject(listOfTests, Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
             UnityEditor.EditorPrefs.SetString("tests", serializeTests);
 
-            AltUnityTesterEditor.ReportTestPassed = numberOfTestPassed;
-            AltUnityTesterEditor.ReportTestFailed = numberOfTestFailed;
-            AltUnityTesterEditor.IsTestRunResultAvailable = true;
-            AltUnityTesterEditor.SelectedTest = -1;
-            AltUnityTesterEditor.TimeTestRan = totalTime;
+            AltUnityTesterEditorWindow.ReportTestPassed = numberOfTestPassed;
+            AltUnityTesterEditorWindow.ReportTestFailed = numberOfTestFailed;
+            AltUnityTesterEditorWindow.IsTestRunResultAvailable = true;
+            AltUnityTesterEditorWindow.SelectedTest = -1;
+            AltUnityTesterEditorWindow.TimeTestRan = totalTime;
             if (passed)
             {
                 logger.Debug("All test passed");
@@ -218,17 +218,17 @@ namespace Altom.Editor
             switch (testMode)
             {
                 case TestRunMode.RunAllTest:
-                    foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                    foreach (var test in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
                         if (!test.IsSuite)
                             filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(test.TestName));
                     break;
                 case TestRunMode.RunSelectedTest:
-                    foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                    foreach (var test in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
                         if (test.Selected && !test.IsSuite)
                             filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(test.TestName));
                     break;
                 case TestRunMode.RunFailedTest:
-                    foreach (var test in AltUnityTesterEditor.EditorConfiguration.MyTests)
+                    foreach (var test in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
                         if (test.Status == -1 && !test.IsSuite)
                             filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(test.TestName));
                     break;
@@ -246,19 +246,19 @@ namespace Altom.Editor
                 if (test.PassCount == 1)
                 {
                     status = 1;
-                    AltUnityTesterEditor.ReportTestPassed++;
+                    AltUnityTesterEditorWindow.ReportTestPassed++;
                 }
                 else if (test.FailCount == 1)
                 {
                     status = -1;
-                    AltUnityTesterEditor.ReportTestFailed++;
+                    AltUnityTesterEditorWindow.ReportTestFailed++;
                 }
-                AltUnityTesterEditor.TimeTestRan += test.Duration;
-                int index = AltUnityTesterEditor.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName));
-                AltUnityTesterEditor.EditorConfiguration.MyTests[index].Status = status;
-                AltUnityTesterEditor.EditorConfiguration.MyTests[index].TestDuration = test.Duration;
-                AltUnityTesterEditor.EditorConfiguration.MyTests[index].TestStackTrace = test.StackTrace;
-                AltUnityTesterEditor.EditorConfiguration.MyTests[index].TestResultMessage = test.Message;
+                AltUnityTesterEditorWindow.TimeTestRan += test.Duration;
+                int index = AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName));
+                AltUnityTesterEditorWindow.EditorConfiguration.MyTests[index].Status = status;
+                AltUnityTesterEditorWindow.EditorConfiguration.MyTests[index].TestDuration = test.Duration;
+                AltUnityTesterEditorWindow.EditorConfiguration.MyTests[index].TestStackTrace = test.StackTrace;
+                AltUnityTesterEditorWindow.EditorConfiguration.MyTests[index].TestResultMessage = test.Message;
                 return status;
             }
 
@@ -283,17 +283,17 @@ namespace Altom.Editor
 
             if (test.Test.TestCaseCount != passCount + failCount + notExecutedCount)
             {
-                AltUnityTesterEditor.EditorConfiguration.MyTests[AltUnityTesterEditor.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = 0;
+                AltUnityTesterEditorWindow.EditorConfiguration.MyTests[AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = 0;
                 return 0;
             }
 
             if (failCount > 0)
             {
-                AltUnityTesterEditor.EditorConfiguration.MyTests[AltUnityTesterEditor.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = -1;
+                AltUnityTesterEditorWindow.EditorConfiguration.MyTests[AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = -1;
                 return -1;
 
             }
-            AltUnityTesterEditor.EditorConfiguration.MyTests[AltUnityTesterEditor.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = 1;
+            AltUnityTesterEditorWindow.EditorConfiguration.MyTests[AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FindIndex(a => a.TestName.Equals(test.Test.FullName))].Status = 1;
             return 1;
         }
 
@@ -330,7 +330,7 @@ namespace Altom.Editor
                 addTestSuiteToMyTest(testSuite, myTests);
             }
             setCorrectCheck(myTests);
-            AltUnityTesterEditor.EditorConfiguration.MyTests = myTests;
+            AltUnityTesterEditorWindow.EditorConfiguration.MyTests = myTests;
         }
 
         private static void setCorrectCheck(List<AltUnityMyTest> myTests)
@@ -350,7 +350,7 @@ namespace Altom.Editor
                         }
                         else
                         {
-                            var parentTest = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
+                            var parentTest = AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
                             parentTest.TestSelectedCount++;
 
                         }
@@ -406,9 +406,9 @@ namespace Altom.Editor
             if (testSuite.Parent != null)
                 parentName = testSuite.Parent.FullName;
             AltUnityMyTest index = null;
-            if (AltUnityTesterEditor.EditorConfiguration.MyTests != null)
+            if (AltUnityTesterEditorWindow.EditorConfiguration.MyTests != null)
 
-                index = AltUnityTesterEditor.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName) && a.ParentName.Equals(parentName));
+                index = AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName) && a.ParentName.Equals(parentName));
 
             if (index == null)
             {
@@ -448,8 +448,8 @@ namespace Altom.Editor
                     break;
                 }
             }
-            AltUnityTesterEditor.InitEditorConfiguration();
-            var tests = AltUnityTesterEditor.EditorConfiguration.MyTests;
+            AltUnityTesterEditorWindow.InitEditorConfiguration();
+            var tests = AltUnityTesterEditorWindow.EditorConfiguration.MyTests;
 
             if (!runAllTests)
             {

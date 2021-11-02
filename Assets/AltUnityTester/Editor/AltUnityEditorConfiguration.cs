@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Altom.AltUnity.Instrumentation;
+using Altom.AltUnityTester;
 using UnityEngine;
 
-namespace Altom.Editor
+namespace Altom.AltUnityTesterEditor
 {
     public class AltUnityEditorConfiguration : ScriptableObject
     {

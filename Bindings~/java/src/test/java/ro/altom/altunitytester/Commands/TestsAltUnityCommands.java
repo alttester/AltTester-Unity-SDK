@@ -37,21 +37,21 @@ public class TestsAltUnityCommands {
     public void testSetServerLogging() {
         altUnityDriver.setServerLogging(
                 new AltSetServerLoggingParameters.Builder(AltUnityLogger.File, AltUnityLogLevel.Debug).build());
-        Rule rule = altUnityDriver
-                .callStaticMethod(new AltCallStaticMethodParameters.Builder("Altom.Server.Logging.ServerLogManager",
+        Rule rule = altUnityDriver.callStaticMethod(
+                new AltCallStaticMethodParameters.Builder("Altom.AltUnityTester.Logging.ServerLogManager",
                         "Instance.Configuration.FindRuleByName", new Object[] { "AltUnityServerFileRule" })
                                 .withAssembly("Assembly-CSharp").build(),
-                        Rule.class);
+                Rule.class);
 
         assertEquals(5, rule.Levels.size());
 
         altUnityDriver.setServerLogging(
                 new AltSetServerLoggingParameters.Builder(AltUnityLogger.File, AltUnityLogLevel.Off).build());
-        rule = altUnityDriver
-                .callStaticMethod(new AltCallStaticMethodParameters.Builder("Altom.Server.Logging.ServerLogManager",
+        rule = altUnityDriver.callStaticMethod(
+                new AltCallStaticMethodParameters.Builder("Altom.AltUnityTester.Logging.ServerLogManager",
                         "Instance.Configuration.FindRuleByName", new Object[] { "AltUnityServerFileRule" })
                                 .withAssembly("Assembly-CSharp").build(),
-                        Rule.class);
+                Rule.class);
 
         assertEquals(0, rule.Levels.size());
     }

@@ -1,7 +1,7 @@
-﻿using Altom.Editor.Logging;
+﻿using Altom.AltUnityTesterEditor.Logging;
 using NLog;
 
-namespace Altom.Editor
+namespace Altom.AltUnityTesterEditor
 {
     public class AltUnityTestRunListener : NUnit.Framework.Interfaces.ITestListener
     {

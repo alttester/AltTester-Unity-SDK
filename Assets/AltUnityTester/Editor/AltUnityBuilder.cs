@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Altom.AltUnity.Instrumentation;
+using Altom.AltUnityTester;
 using Altom.AltUnityDriver;
-using Altom.Editor.Logging;
+using Altom.AltUnityTesterEditor.Logging;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Altom.Editor
+namespace Altom.AltUnityTesterEditor
 {
     public static class PlatformName
     {
@@ -33,9 +33,9 @@ namespace Altom.Editor
 
         public static void InitBuildSetup(UnityEditor.BuildTargetGroup buildTargetGroup)
         {
-            AltUnityTesterEditor.InitEditorConfiguration();
+            AltUnityTesterEditorWindow.InitEditorConfiguration();
 
-            if (AltUnityTesterEditor.EditorConfiguration.appendToName)
+            if (AltUnityTesterEditorWindow.EditorConfiguration.appendToName)
             {
                 UnityEditor.PlayerSettings.productName = UnityEditor.PlayerSettings.productName + "Test";
                 string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup) + "Test";
@@ -134,7 +134,7 @@ namespace Altom.Editor
 
         public static void RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
-            if (AltUnityTesterEditor.EditorConfiguration != null && AltUnityTesterEditor.EditorConfiguration.KeepAUTSymbolDefined)
+            if (AltUnityTesterEditorWindow.EditorConfiguration != null && AltUnityTesterEditorWindow.EditorConfiguration.KeepAUTSymbolDefined)
                 return;
             try
             {
@@ -262,7 +262,7 @@ namespace Altom.Editor
 
         public static string GetFirstSceneWhichWillBeBuilt()
         {
-            foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes)
+            foreach (var scene in AltUnityTesterEditorWindow.EditorConfiguration.Scenes)
             {
                 if (scene.ToBeBuilt)
                 {
@@ -305,7 +305,7 @@ namespace Altom.Editor
 
         private static string getOutputPath(UnityEditor.BuildTarget target)
         {
-            var outputPath = AltUnityTesterEditor.EditorConfiguration.BuildLocationPath;
+            var outputPath = AltUnityTesterEditorWindow.EditorConfiguration.BuildLocationPath;
 
             outputPath = string.IsNullOrEmpty(outputPath) ? "build" : outputPath;
             outputPath = System.IO.Path.Combine(outputPath, UnityEditor.PlayerSettings.productName);
@@ -350,7 +350,7 @@ namespace Altom.Editor
 
         private static void resetBuildSetup(UnityEditor.BuildTargetGroup buildTargetGroup)
         {
-            if (AltUnityTesterEditor.EditorConfiguration.appendToName)
+            if (AltUnityTesterEditorWindow.EditorConfiguration.appendToName)
             {
                 UnityEditor.PlayerSettings.productName = UnityEditor.PlayerSettings.productName.Remove(UnityEditor.PlayerSettings.productName.Length - 5);
                 string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
@@ -407,13 +407,13 @@ namespace Altom.Editor
 
         private static string[] getScenesForBuild()
         {
-            if (AltUnityTesterEditor.EditorConfiguration.Scenes.Count == 0)
+            if (AltUnityTesterEditorWindow.EditorConfiguration.Scenes.Count == 0)
             {
-                AltUnityTesterEditor.AddAllScenes();
-                AltUnityTesterEditor.SelectAllScenes();
+                AltUnityTesterEditorWindow.AddAllScenes();
+                AltUnityTesterEditorWindow.SelectAllScenes();
             }
             var sceneList = new List<string>();
-            foreach (var scene in AltUnityTesterEditor.EditorConfiguration.Scenes)
+            foreach (var scene in AltUnityTesterEditorWindow.EditorConfiguration.Scenes)
             {
                 if (scene.ToBeBuilt)
                 {
@@ -421,7 +421,7 @@ namespace Altom.Editor
                 }
             }
 
-            InsertAltUnityInTheFirstScene(AltUnityTesterEditor.EditorConfiguration.GetInstrumentationSettings());
+            InsertAltUnityInTheFirstScene(AltUnityTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
 
             return sceneList.ToArray();
         }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Altom.AltUnity.Instrumentation
+namespace Altom.AltUnityTester
 {
     /// <summary>
     /// AltUnity Unity App Instrumentation settings

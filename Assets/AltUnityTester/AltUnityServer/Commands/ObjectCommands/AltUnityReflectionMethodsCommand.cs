@@ -9,12 +9,12 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Altom.Server.Logging;
-using Assets.AltUnityTester.AltUnityServer.Commands;
+using Altom.AltUnityTester.Logging;
+using Altom.AltUnityTester.Commands;
 using Newtonsoft.Json;
 using NLog;
 
-namespace Assets.AltUnityTester.AltUnityServer
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityReflectionMethodsCommand<TParam, TResult> : AltUnityCommand<TParam, TResult> where TParam : CommandParams
     {

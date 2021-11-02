@@ -6,7 +6,7 @@ using Altom.AltUnityDriver.Commands;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityBaseClassFindObjectsCommand<T> : AltUnityCommand<BaseFindObjectsParams, T>
     {

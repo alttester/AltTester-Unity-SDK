@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Altom.Server.Logging;
+using Altom.AltUnityTester.Logging;
 using Newtonsoft.Json;
 using NLog;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     class AltUnityGetAllPropertiesCommand : AltUnityReflectionMethodsCommand<AltUnityGetAllPropertiesParams, List<AltUnityProperty>>
     {

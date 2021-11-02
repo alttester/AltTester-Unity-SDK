@@ -1,9 +1,9 @@
 using System;
-using Assets.AltUnityTester.AltUnityServer.Communication;
+using Altom.AltUnityTester.Communication;
 using Altom.AltUnityDriver.Commands;
 using Altom.AltUnityDriver;
 
-namespace Assets.AltUnityTester.AltUnityServer.Commands
+namespace Altom.AltUnityTester.Commands
 {
     public class AltUnityLoadSceneCommand : AltUnityCommand<AltUnityLoadSceneParams, string>
     {
