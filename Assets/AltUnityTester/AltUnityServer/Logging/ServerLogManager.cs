@@ -86,7 +86,7 @@ namespace Altom.AltUnityTester.Logging
 #if UNITY_EDITOR || ALTUNITYTESTER
             var unitylog = new UnityTarget("AltUnityServerUnityTarget")
             {
-                Layout = Layout.FromString("${longdate}|Server|${level:uppercase=true}|${message}"),
+                Layout = Layout.FromString("${longdate}|Tester|${level:uppercase=true}|${message}"),
             };
             config.AddRuleForOneLevel(LogLevel.Off, unitylog);
             config.LoggingRules[config.LoggingRules.Count - 1].RuleName = "AltUnityServerUnityRule";
