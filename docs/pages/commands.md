@@ -45,12 +45,12 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: c#
 
         [Test]
-        public void TestFindElement()
+        public void TestFindAltUnityObject()
         {
             const string name = "Capsule";
-            var altElement = altUnityDriver.FindObject(By.NAME,name);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(name, altElement.name);
+            var altUnityObject = altUnityDriver.FindObject(By.NAME,name);
+            Assert.NotNull(altUnityObject);
+            Assert.AreEqual(name, altUnityObject.name);
         }
 
     .. code-tab:: java
@@ -61,16 +61,16 @@ Finds the first object in the scene that respects the given criteria. Check [By]
             String name = "Capsule";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                     name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotNull(altElement);
-            assertEquals(name, altElement.name);
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
+            assertNotNull(altUnityObject);
+            assertEquals(name, altUnityObject.name);
         }
 
     .. code-tab:: py
 
         def test_find_object(self):
-            altElement = self.altUnityDriver.find_object(By.NAME,"Capsule")
-            self.assertEqual(altElement.name, "Capsule")
+            altUnityObject = self.altUnityDriver.find_object(By.NAME,"Capsule")
+            self.assertEqual(altUnityObject.name, "Capsule")
 ```
 
 #### FindObjects
@@ -101,33 +101,33 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         [Test]
         public void TestFindObjectsByTag()
         {
-            var altElements = altUnityDriver.FindObjects(By.TAG,"plane");
-            Assert.AreEqual(2, altElements.Count);
-            foreach(var altElement in altElements)
+            var altUnityObjects = altUnityDriver.FindObjects(By.TAG,"plane");
+            Assert.AreEqual(2, altUnityObjects.Count);
+            foreach(var altUnityObject in altUnityObjects)
             {
-                Assert.AreEqual("Plane", altElement.name);
+                Assert.AreEqual("Plane", altUnityObject.name);
             }
         }
 
     .. code-tab:: java
 
            @Test
-            public void testfindElements() throws Exception
+            public void testFindAltUnityObjects() throws Exception
             {
                 String name = "Plane";
                 AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                     name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-                AltUnityObject[] altElements = altUnityDriver.findObjects(altFindObjectsParameters);
-                assertNotNull(altElements);
-                assertEquals(altElements[0].name, name);
+                AltUnityObject[] altUnityObjects = altUnityDriver.findObjects(altFindObjectsParameters);
+                assertNotNull(altUnityObjects);
+                assertEquals(altUnityObjects[0].name, name);
             }
 
     .. code-tab:: py
 
         def test_find_objects_by_layer(self):
                 self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-                altElements = self.altUnityDriver.find_objects(By.LAYER,"Default")
-                self.assertEquals(8, len(altElements))
+                altUnityObjects = self.altUnityDriver.find_objects(By.LAYER,"Default")
+                self.assertEquals(8, len(altUnityObjects))
 
 ```
 
@@ -159,8 +159,8 @@ Finds the first object in the scene that respects the given criteria. Check [By]
        [Test]
         public void TestFindObjectWhichContains()
         {
-            var altElement = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
-            Assert.AreEqual("EventSystem", altElement.name);
+            var altUnityObject = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
+            Assert.AreEqual("EventSystem", altUnityObject.name);
         }
 
 
@@ -172,15 +172,15 @@ Finds the first object in the scene that respects the given criteria. Check [By]
             String name = "Event";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                    name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObjectWhichContains(altFindObjectsParameters);
-            assertEquals("EventSystem", altElement.name);
+            AltUnityObject altUnityObject = altUnityDriver.findObjectWhichContains(altFindObjectsParameters);
+            assertEquals("EventSystem", altUnityObject.name);
         }
 
     .. code-tab:: py
 
        def test_find_object_which_contains(self):
-        altElement = self.altUnityDriver.find_object_which_contains(By.NAME, "Event");
-        self.assertEqual("EventSystem", altElement.name)
+        altUnityObject = self.altUnityDriver.find_object_which_contains(By.NAME, "Event");
+        self.assertEqual("EventSystem", altUnityObject.name)
 
 ```
 
@@ -212,21 +212,21 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         [Test]
         public void TestFindObjectWhichContains()
         {
-          var altelement = altUnityDriver.FindObjectWhichContain(By.NAME, "Event");
-          Assert.AreEqual("EventSystem", altElement.name);
+          var altUnityObject = altUnityDriver.FindObjectWhichContain(By.NAME, "Event");
+          Assert.AreEqual("EventSystem", altUnityObject.name);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testFindElementsWhereNameContains() throws Exception
+        public void testFindObjectsWhereNameContains() throws Exception
         {
             String name = "Pla";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                 name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
-            assertNotNull(altElements);
-            assertTrue(altElements[0].name.contains(name));
+            AltUnityObject[] altUnityObjects = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
+            assertNotNull(altUnityObjects);
+            assertTrue(altUnityObjects[0].name.contains(name));
         }
 
     .. code-tab:: py
@@ -273,27 +273,27 @@ Returns information about every objects loaded in the currently loaded scenes. T
     .. code-tab:: c#
 
         [Test]
-        public void TestGetAllEnabledElements()
+        public void TestGetAllEnabledObjects()
         {
 
-            var altElements = altUnityDriver.GetAllElements(enabled: true);
-            Assert.IsNotEmpty(altElements);
-            string listOfElements="";
-                foreach(var element in altElements){
-                listOfElements=element.name+"; ";
+            var altUnityObjects = altUnityDriver.GetAllElements(enabled: true);
+            Assert.IsNotEmpty(altUnityObjects);
+            string listOfObjects="";
+                foreach(var object in altUnityObjects){
+                listOfObjects=object.name+"; ";
             }
-            Debug.Log(listOfElements);
-            Assert.AreEqual(19, altElements.Count);
-            Assert.IsNotNull(altElements.Where(p => p.name == "Capsule"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "Main Camera"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "Directional Light"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "Plane"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "AltUnityRunner"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "CapsuleInfo"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "UIButton"));
-            Assert.IsNotNull(altElements.Where(p => p.name == "Text"));
+            Debug.Log(listOfObjects);
+            Assert.AreEqual(19, altUnityObjects.Count);
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Capsule"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Main Camera"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Directional Light"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Plane"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Canvas"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "EventSystem"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "AltUnityRunner"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "CapsuleInfo"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "UIButton"));
+            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Text"));
         }
 
     .. code-tab:: java
@@ -301,19 +301,19 @@ Returns information about every objects loaded in the currently loaded scenes. T
         @Test
         public void testGetAllElements() throws Exception {
             AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters.Builder().withCamera(AltUnityDriver.By.NAME,"Main Camera").isEnabled(true).build();
-            AltUnityObject[] altElements = altUnityDriver.getAllElements(altGetAllElementsParameters);
-            assertNotNull(altElements);
-            String altElementsString = new Gson().toJson(altElements);
-            assertTrue(altElementsString.contains("Capsule"));
-            assertTrue(altElementsString.contains("Main Camera"));
-            assertTrue(altElementsString.contains("Directional Light"));
-            assertTrue(altElementsString.contains("Plane"));
-            assertTrue(altElementsString.contains("Canvas"));
-            assertTrue(altElementsString.contains("EventSystem"));
-            assertTrue(altElementsString.contains("AltUnityRunnerPrefab"));
-            assertTrue(altElementsString.contains("CapsuleInfo"));
-            assertTrue(altElementsString.contains("UIButton"));
-            assertTrue(altElementsString.contains("Text"));
+            AltUnityObject[] altUnityObjects = altUnityDriver.getAllElements(altGetAllElementsParameters);
+            assertNotNull(altUnityObjects);
+            String altUnityObjectsString = new Gson().toJson(altUnityObjects);
+            assertTrue(altUnityObjectsString.contains("Capsule"));
+            assertTrue(altUnityObjectsString.contains("Main Camera"));
+            assertTrue(altUnityObjectsString.contains("Directional Light"));
+            assertTrue(altUnityObjectsString.contains("Plane"));
+            assertTrue(altUnityObjectsString.contains("Canvas"));
+            assertTrue(altUnityObjectsString.contains("EventSystem"));
+            assertTrue(altUnityObjectsString.contains("AltUnityRunnerPrefab"));
+            assertTrue(altUnityObjectsString.contains("CapsuleInfo"));
+            assertTrue(altUnityObjectsString.contains("UIButton"));
+            assertTrue(altUnityObjectsString.contains("Text"));
         }
 
     .. code-tab:: py
@@ -400,25 +400,25 @@ Waits until it finds an object that respects the given criteria or until timeout
                     "CapsuleCollider").withCamera(By.ID, String.valueOf(camera.id)).build();
             AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
                     altFindObjectsParametersCapsule).build();
-            AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+            AltUnityObject altUnityObject = altUnityDriver.waitForObject(altWaitForObjectsParameters);
 
-            assertTrue("True", altElement.name.equals("Capsule"));
+            assertTrue("True", altUnityObject.name.equals("Capsule"));
 
             altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH, "//Main Camera").build();
             AltUnityObject camera2 = altUnityDriver.findObject(altFindObjectsParametersCamera);
             altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.COMPONENT, "CapsuleCollider")
                     .withCamera(By.ID, String.valueOf(camera2.id)).build();
             altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(altFindObjectsParametersCapsule).build();
-            AltUnityObject altElement2 = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+            AltUnityObject altUnityObject2 = altUnityDriver.waitForObject(altWaitForObjectsParameters);
 
-            assertNotEquals(altElement.getScreenPosition(), altElement2.getScreenPosition());
+            assertNotEquals(altUnityObject.getScreenPosition(), altUnityObject2.getScreenPosition());
         }
 
     .. code-tab:: py
 
         def test_wait_for_object(self):
-            altElement=self.altUnityDriver.wait_for_object(By.NAME,"Capsule")
-            self.assertEqual(altElement.name,"Capsule")
+            altUnityObject=self.altUnityDriver.wait_for_object(By.NAME,"Capsule")
+            self.assertEqual(altUnityObject.name,"Capsule")
 
 ```
 
@@ -452,8 +452,8 @@ Waits until it finds an object that respects the given criteria or time runs out
         [Test]
         public void TestWaitForObjectWhichContains()
         {
-            var altElement = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
-            Assert.AreEqual("Canvas", altElement.name);
+            var altUnityObject = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
+            Assert.AreEqual("Canvas", altUnityObject.name);
         }
     .. code-tab:: java
 
@@ -467,16 +467,16 @@ Waits until it finds an object that respects the given criteria or time runs out
                     .withCamera(By.ID, String.valueOf(camera.id)).build();
             AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
                     altFindObjectsParametersObject).build();
-            AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParameters);
-            assertEquals("Canvas", altElement.name);
+            AltUnityObject altUnityObject = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParameters);
+            assertEquals("Canvas", altUnityObject.name);
 
         }
 
     .. code-tab:: py
 
         def test_wait_for_object_which_contains(self):
-            altElement=self.altUnityDriver.wait_for_object_which_contains(By.NAME,"Main")
-            self.assertEqual(altElement.name,"Main Camera")
+            altUnityObject=self.altUnityDriver.wait_for_object_which_contains(By.NAME,"Main")
+            self.assertEqual(altUnityObject.name,"Main Camera")
 ```
 
 
@@ -1367,22 +1367,22 @@ Simulates a swipe action in your game. This command waits for the action to fini
             [Test]
             public void MultipleDragAndDropWait()
             {
-                var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                var altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.SwipeAndWait(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+                var altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                var altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                altUnityDriver.SwipeAndWait(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
 
-                altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image2");
-                altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
-                altUnityDriver.SwipeAndWait(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image2");
+                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
+                altUnityDriver.SwipeAndWait(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
 
-                altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image3");
-                altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.SwipeAndWait(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image3");
+                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                altUnityDriver.SwipeAndWait(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
 
 
-                altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.SwipeAndWait(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                altUnityDriver.SwipeAndWait(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
                 var imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
                 var imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
                 Assert.AreNotEqual(imageSource, imageSourceDropZone);
@@ -1398,43 +1398,43 @@ Simulates a swipe action in your game. This command waits for the action to fini
             @Test
             public void testMultipleDragAndDropWait() throws Exception
             {
-                String altElement1Name = "Drag Image1";
-                String altElement2Name = "Drop Box1";
-                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
-                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+                String altUnityObject1Name = "Drag Image1";
+                String altUnityObject2Name = "Drop Box1";
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
+                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
 
-                AltUnityObject altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y,altElement2.x, altElement2.y, 2);
+                AltUnityObject altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                AltUnityObject altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y,altUnityObject2.x, altUnityObject2.y, 2);
 
-                altElement1Name = "Drag Image2";
-                altElement2Name = "Drop Box2";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+                altUnityObject1Name = "Drag Image2";
+                altUnityObject2Name = "Drop Box2";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
 
-                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2,);
-                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
+                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2,);
+                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 2);
 
-                altElement1Name = "Drag Image3";
-                altElement2Name = "Drop Box1";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+                altUnityObject1Name = "Drag Image3";
+                altUnityObject2Name = "Drop Box1";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
 
-                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 3);
+                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 3);
 
-                altElement1Name = "Drag Image1";
-                altElement2Name = "Drop Box1";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+                altUnityObject1Name = "Drag Image1";
+                altUnityObject2Name = "Drop Box1";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
 
-                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 1);
+                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 1);
 
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
                 AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image",  "sprite").build();
                 String imageSource = altUnityDriver.findObject(altFindObjectsParameters1).getComponentProperty(altGetComponentPropertyParameters);
 
@@ -1443,8 +1443,8 @@ Simulates a swipe action in your game. This command waits for the action to fini
                 String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 assertNotSame(imageSource, imageSourceDropZone);
 
-                altElement1Name = "Drag Image2";
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altUnityObject1Name = "Drag Image2";
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
                 imageSource = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 assertNotSame(imageSource, imageSourceDropZone);
@@ -1511,22 +1511,22 @@ Simulates a swipe action in your game. This command does not wait for the action
             [Test]
             public void MultipleDragAndDrop()
             {
-                var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                var altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+                var altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                var altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                altUnityDriver.Swipe(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
 
-                altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image2");
-                altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
-                altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 2);
+                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image2");
+                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
+                altUnityDriver.Swipe(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 2);
 
-                altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image3");
-                altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 2);
+                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image3");
+                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                altUnityDriver.Swipe(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 2);
 
 
-                altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 3);
+                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                altUnityDriver.Swipe(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 3);
 
                 Thread.Sleep(4000);
 
@@ -1545,43 +1545,43 @@ Simulates a swipe action in your game. This command does not wait for the action
             @Test
             public void testMultipleDragAndDropWait() throws Exception
             {
-                String altElement1Name = "Drag Image1";
-                String altElement2Name = "Drop Box1";
-                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
-                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+                String altUnityObject1Name = "Drag Image1";
+                String altUnityObject2Name = "Drop Box1";
+                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
+                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
 
-                AltUnityObject altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y,altElement2.x, altElement2.y, 2);
+                AltUnityObject altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                AltUnityObject altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y,altUnityObject2.x, altUnityObject2.y, 2);
 
-                altElement1Name = "Drag Image2";
-                altElement2Name = "Drop Box2";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+                altUnityObject1Name = "Drag Image2";
+                altUnityObject2Name = "Drop Box2";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
 
-                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2,);
-                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
+                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2,);
+                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 2);
 
-                altElement1Name = "Drag Image3";
-                altElement2Name = "Drop Box1";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+                altUnityObject1Name = "Drag Image3";
+                altUnityObject2Name = "Drop Box1";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
 
-                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 3);
+                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 3);
 
-                altElement1Name = "Drag Image1";
-                altElement2Name = "Drop Box1";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altElement2Name).isEnabled(true).withCamera("Main Camera").build();
+                altUnityObject1Name = "Drag Image1";
+                altUnityObject2Name = "Drop Box1";
+                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
 
-                altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 1);
+                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
+                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
+                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 1);
 
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
                 AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image",  "sprite").build();
                 String imageSource = altUnityDriver.findObject(altFindObjectsParameters1).getComponentProperty(altGetComponentPropertyParameters);
 
@@ -1590,8 +1590,8 @@ Simulates a swipe action in your game. This command does not wait for the action
                 String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 assertNotSame(imageSource, imageSourceDropZone);
 
-                altElement1Name = "Drag Image2";
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altElement1Name).isEnabled(true).withCamera("Main Camera").build();
+                altUnityObject1Name = "Drag Image2";
+                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
                 imageSource = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
                 assertNotSame(imageSource, imageSourceDropZone);
@@ -1656,22 +1656,22 @@ Similar command like swipe but instead of swipe from point A to point B you are 
             [Test]
             public void ResizePanelWithMultipointSwipe()
             {
-                var altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-                var position = new AltUnityVector2(altElement.x, altElement.y);
+                var altUnityObject = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+                var position = new AltUnityVector2(altUnityObject.x, altUnityObject.y);
                 var pos = new []
                 {
-                    altElement.getScreenPosition(),
-                    new AltUnityVector2(altElement.x - 200, altElement.y - 200),
-                    new AltUnityVector2(altElement.x - 300, altElement.y - 100),
-                    new AltUnityVector2(altElement.x - 50, altElement.y - 100),
-                    new AltUnityVector2(altElement.x - 100, altElement.y - 100)
+                    altUnityObject.getScreenPosition(),
+                    new AltUnityVector2(altUnityObject.x - 200, altUnityObject.y - 200),
+                    new AltUnityVector2(altUnityObject.x - 300, altUnityObject.y - 100),
+                    new AltUnityVector2(altUnityObject.x - 50, altUnityObject.y - 100),
+                    new AltUnityVector2(altUnityObject.x - 100, altUnityObject.y - 100)
                 };
                 altUnityDriver.MultipointSwipe(pos, 4);
 
                 Thread.Sleep(4000);
 
-                altElement = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-                var position2 = new AltUnityVector2(altElement.x, altElement.y);
+                altUnityObject = altUnityDriver.FindObject(By.NAME,"Resize Zone");
+                var position2 = new AltUnityVector2(altUnityObject.x, altUnityObject.y);
                 Assert.AreNotEqual(position, position2);
             }
 
@@ -1682,42 +1682,42 @@ Similar command like swipe but instead of swipe from point A to point B you are 
         {
             String name = "Resize Zone";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
 
             List<AltUnityVector2> positions = Arrays.asList(
-                altElement.getScreenPosition(),
-                new AltUnityVector2(altElement.x + 100, altElement.y + 100),
-                new AltUnityVector2(altElement.x + 100, altElement.y + 200));
+                altUnityObject.getScreenPosition(),
+                new AltUnityVector2(altUnityObject.x + 100, altUnityObject.y + 100),
+                new AltUnityVector2(altUnityObject.x + 100, altUnityObject.y + 200));
 
             altUnityDriver.multipointSwipe(positions, 3);
             Thread.sleep(3000);
 
-            AltUnityObject altElementAfterResize = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotSame(altElement.x, altElementAfterResize.x);
-            assertNotSame(altElement.y, altElementAfterResize.y);
+            AltUnityObject altUnityObjectAfterResize = altUnityDriver.findObject(altFindObjectsParameters);
+            assertNotSame(altUnityObject.x, altUnityObjectAfterResize.x);
+            assertNotSame(altUnityObject.y, altUnityObjectAfterResize.y);
         }
 
     .. code-tab:: py
 
         def test_resize_panel_with_multipoinit_swipe(self):
             self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-            altElement = self.altUnityDriver.find_element('Resize Zone')
-            positionInitX = altElement.x
-            positionInitY = altElement.y
+            altUnityObject = self.altUnityDriver.find_element('Resize Zone')
+            positionInitX = altUnityObject.x
+            positionInitY = altUnityObject.y
             positions = [
-            altElement.get_screen_position(),
-            [int(altElement.x) - 200, int(altElement.y) - 200],
-            [int(altElement.x) - 300, int(altElement.y) - 100],
-            [int(altElement.x) - 50, int(altElement.y) - 100],
-            [int(altElement.x) - 100, int(altElement.y) - 100]
+            altUnityObject.get_screen_position(),
+            [int(altUnityObject.x) - 200, int(altUnityObject.y) - 200],
+            [int(altUnityObject.x) - 300, int(altUnityObject.y) - 100],
+            [int(altUnityObject.x) - 50, int(altUnityObject.y) - 100],
+            [int(altUnityObject.x) - 100, int(altUnityObject.y) - 100]
             ]
             self.altUnityDriver.multipoint_swipe(positions, 4)
 
             time.sleep(4)
 
-            altElement = self.altUnityDriver.find_element('Resize Zone')
-            positionFinalX = altElement.x
-            positionFinalY = altElement.y
+            altUnityObject = self.altUnityDriver.find_element('Resize Zone')
+            positionFinalX = altUnityObject.x
+            positionFinalY = altUnityObject.y
             self.assertNotEqual(positionInitX, positionFinalX)
             self.assertNotEqual(positionInitY, positionFinalY)
 
@@ -1749,19 +1749,19 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
             [Test]
             public void MultipleDragAndDropWaitWithMultipointSwipe()
             {
-                var altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                var altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.MultipointSwipe(new []{new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y)}, 2);
+                var altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                var altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                altUnityDriver.MultipointSwipe(new []{new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y)}, 2);
                 Thread.Sleep(2000);
 
-                altElement1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                altElement2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                var altElement3 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
+                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
+                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
+                var altUnityObject3 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
                 var positions = new[]
                 {
-                    new AltUnityVector2(altElement1.x, altElement1.y),
-                    new AltUnityVector2(altElement2.x, altElement2.y),
-                    new AltUnityVector2(altElement3.x, altElement3.y)
+                    new AltUnityVector2(altUnityObject1.x, altUnityObject1.y),
+                    new AltUnityVector2(altUnityObject2.x, altUnityObject2.y),
+                    new AltUnityVector2(altUnityObject3.x, altUnityObject3.y)
                 };
 
                 altUnityDriver.MultipointSwipeAndWait(positions, 3);
@@ -1781,18 +1781,18 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
         {
             String name = "Resize Zone";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
 
             List<AltUnityVector2> positions = Arrays.asList(
-                altElement.getScreenPosition(),
-                new AltUnityVector2(altElement.x + 100, altElement.y + 100),
-                new AltUnityVector2(altElement.x + 100, altElement.y + 200));
+                altUnityObject.getScreenPosition(),
+                new AltUnityVector2(altUnityObject.x + 100, altUnityObject.y + 100),
+                new AltUnityVector2(altUnityObject.x + 100, altUnityObject.y + 200));
 
             altUnityDriver.multipointSwipe(positions, 3);
 
-            AltUnityObject altElementAfterResize = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotSame(altElement.x, altElementAfterResize.x);
-            assertNotSame(altElement.y, altElementAfterResize.y);
+            AltUnityObject altUnityObjectAfterResize = altUnityDriver.findObject(altFindObjectsParameters);
+            assertNotSame(altUnityObject.x, altUnityObjectAfterResize.x);
+            assertNotSame(altUnityObject.y, altUnityObjectAfterResize.y);
         }
 
 
@@ -1800,22 +1800,22 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
     .. code-tab:: py
 
         def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
-            altElement1 = self.altUnityDriver.find_element('Drag Image1')
-            altElement2 = self.altUnityDriver.find_element('Drop Box1')
+            altUnityObject1 = self.altUnityDriver.find_element('Drag Image1')
+            altUnityObject2 = self.altUnityDriver.find_element('Drop Box1')
 
-            multipointPositions = [altElement1.get_screen_position(), [altElement2.x, altElement2.y]]
+            multipointPositions = [altUnityObject1.get_screen_position(), [altUnityObject2.x, altUnityObject2.y]]
 
             self.altUnityDriver.multipoint_swipe_and_wait(multipointPositions, 2)
             time.sleep(2)
 
-            altElement1 = self.altUnityDriver.find_element('Drag Image1')
-            altElement2 = self.altUnityDriver.find_element('Drop Box1')
-            altElement3 = self.altUnityDriver.find_element('Drop Box2')
+            altUnityObject1 = self.altUnityDriver.find_element('Drag Image1')
+            altUnityObject2 = self.altUnityDriver.find_element('Drop Box1')
+            altUnityObject3 = self.altUnityDriver.find_element('Drop Box2')
 
             positions = [
-            [altElement1.x, altElement1.y],
-            [altElement2.x, altElement2.y],
-            [altElement3.x, altElement3.y]
+            [altUnityObject1.x, altUnityObject1.y],
+            [altUnityObject2.x, altUnityObject2.y],
+            [altUnityObject3.x, altUnityObject3.y]
             ]
 
             self.altUnityDriver.multipoint_swipe_and_wait(positions, 3)
@@ -2060,9 +2060,9 @@ Click at screen coordinates
         public void TestClickCoordinates()
         {
             const string name = "UIButton";
-            var altElement = altUnityDriver.FindObject(By.NAME,name);
-            altUnityDriver.Click(altElement.getScreenPosition());
-            Assert.AreEqual(name, altElement.name);
+            var altUnityObject = altUnityDriver.FindObject(By.NAME,name);
+            altUnityDriver.Click(altUnityObject.getScreenPosition());
+            Assert.AreEqual(name, altUnityObject.name);
             altUnityDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
@@ -2121,9 +2121,9 @@ Tap at screen coordinates
         public void TestTapCoordinates()
         {
             const string name = "UIButton";
-            var altElement = altUnityDriver.FindObject(By.NAME,name);
-            altUnityDriver.Tap(altElement.getScreenPosition());
-            Assert.AreEqual(name, altElement.name);
+            var altUnityObject = altUnityDriver.FindObject(By.NAME,name);
+            altUnityDriver.Tap(altUnityObject.getScreenPosition());
+            Assert.AreEqual(name, altUnityObject.name);
             altUnityDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
@@ -3353,9 +3353,9 @@ Returns the value of the given component property.
         {
             const string componentName = "AltUnityRunner";
             const string propertyName = "SocketPortNumber";
-            var altElement = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
-            Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+            var altUnityObject = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
+            Assert.NotNull(altUnityObject);
+            var propertyValue = altUnityObject.GetComponentProperty(componentName, propertyName);
             Assert.AreEqual(propertyValue, "13000");
         }
 
@@ -3367,10 +3367,10 @@ Returns the value of the given component property.
             String componentName = "AltUnityRunner";
             String propertyName = "SocketPortNumber";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "AltUnityRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotNull(altElement);
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
+            assertNotNull(altUnityObject);
             AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters.Builder(componentName,propertyName).withAssembly("").build();
-            String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParameters);
+            String propertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParameters);
             assertEquals(propertyValue, "13000");
         }
 
@@ -3412,11 +3412,11 @@ Sets value of the given component property.
         {
             const string componentName = "Capsule";
             const string propertyName = "stringToSetFromTests";
-            var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            Assert.NotNull(altElement);
-            var propertyValue = altElement.SetComponentProperty(componentName, propertyName, "2");
+            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altUnityObject);
+            var propertyValue = altUnityObject.SetComponentProperty(componentName, propertyName, "2");
             Assert.AreEqual("valueSet", propertyValue);
-            propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+            propertyValue = altUnityObject.GetComponentProperty(componentName, propertyName);
             Assert.AreEqual("2", propertyValue);
         }
 
@@ -3428,11 +3428,11 @@ Sets value of the given component property.
             String componentName = "Capsule";
             String propertyName = "stringToSetFromTests";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotNull(altElement);
-            String propertyValue = altElement.setComponentProperty(componentName, propertyName, "2");
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
+            assertNotNull(altUnityObject);
+            String propertyValue = altUnityObject.setComponentProperty(componentName, propertyName, "2");
             assertEquals("valueSet", propertyValue);
-            propertyValue = altElement.getComponentProperty(componentName, propertyName);
+            propertyValue = altUnityObject.getComponentProperty(componentName, propertyName);
             assertEquals("2", propertyValue);
         }
 
@@ -3442,11 +3442,11 @@ Sets value of the given component property.
             self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
             componentName = "Capsule"
             propertyName = "stringToSetFromTests"
-            altElement = self.altUnityDriver.find_object(By.NAME, componentName)
-            self.assertNotEqual(altElement, None)
-            propertyValue = altElement.set_component_property(componentName, propertyName, "2")
+            altUnityObject = self.altUnityDriver.find_object(By.NAME, componentName)
+            self.assertNotEqual(altUnityObject, None)
+            propertyValue = altUnityObject.set_component_property(componentName, propertyName, "2")
             self.assertEqual("valueSet", propertyValue)
-            propertyValue = altElement.get_component_property(componentName, propertyName)
+            propertyValue = altUnityObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
 ```
@@ -3471,36 +3471,36 @@ None
     .. code-tab:: c#
 
         [Test]
-        public void TestWaitForElementWithText()
+        public void TestWaitForObjectWithText()
         {
             const string name = "CapsuleInfo";
             string text = altUnityDriver.FindObject(By.NAME,name).GetText();
             var timeStart = DateTime.Now;
-            var altElement = altUnityDriver.WaitForObject(By.PATH, "//" + name + "[@text=" + text + "]");
+            var altUnityObject = altUnityDriver.WaitForObject(By.PATH, "//" + name + "[@text=" + text + "]");
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(altElement.GetText(), text);
+            Assert.NotNull(altUnityObject);
+            Assert.AreEqual(altUnityObject.GetText(), text);
 
         }
 
     .. code-tab:: java
 
         @Test
-        public void testWaitForElementWithText() throws Exception
+        public void testWaitForObjectWithText() throws Exception
         {
             String name = "CapsuleInfo";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
             String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
             long timeStart = System.currentTimeMillis();
             AltWaitForObjectWithTextParameters altWaitForElementWithTextParameters = new AltWaitForObjectWithTextParameters.Builder(altFindObjectsParameters,text).withInterval(0).withTimeout(0).build();
-            AltUnityObject altElement = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParameters);
+            AltUnityObject altUnityObject = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParameters);
             long timeEnd = System.currentTimeMillis();
             long time = timeEnd - timeStart;
             assertTrue(time / 1000 < 20);
-            assertNotNull(altElement);
-            assertEquals(altElement.getText(), text);
+            assertNotNull(altUnityObject);
+            assertEquals(altUnityObject.getText(), text);
         }
 
     .. code-tab:: py
@@ -3830,13 +3830,13 @@ None
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altElement = altUnityDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            var altUnityObject = altUnityDriver.FindObject(By.NAME,"Drop Image");
+            var color1 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
             altUnityDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
-            var color2 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            var color2 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
             Assert.AreNotEqual(color1,color2);
             altUnityDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
-            var color3 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            var color3 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);
         }
@@ -3847,13 +3847,13 @@ None
         public void testPointerEnterAndExit()
         {
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            String color1 = altElement.getComponentProperty("DropMe", "highlightColor");
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
+            String color1 = altUnityObject.getComponentProperty("DropMe", "highlightColor");
             altUnityDriver.findObject(altFindObjectsParameters).pointerEnter();
-            String color2 = altElement.getComponentProperty("DropMe", "highlightColor");
+            String color2 = altUnityObject.getComponentProperty("DropMe", "highlightColor");
             assertNotEquals(color1,color2);
             altUnityDriver.findObject(altFindObjectsParameters).pointerExit();
-            String color3 = altElement.getComponentProperty("DropMe", "highlightColor");
+            String color3 = altUnityObject.getComponentProperty("DropMe", "highlightColor");
             assertNotEquals(color3, color2);
             assertEquals(color1,color3);
         }
@@ -3862,13 +3862,13 @@ None
 
         def test_pointer_enter_and_exit(self):
             self.altUnityDriver.load_scene("Scene 3 Drag And Drop")
-            alt_element = self.altUnityDriver.find_object(By.NAME,"Drop Image")
-            color1 = alt_element.get_component_property("DropMe", "highlightColor")
+            alt_unity_object = self.altUnityDriver.find_object(By.NAME,"Drop Image")
+            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_enter()
-            color2 = alt_element.get_component_property("DropMe", "highlightColor")
+            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color1, color2)
             self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_exit()
-            color3 = alt_element.get_component_property("DropMe", "highlightColor")
+            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
 
@@ -3896,13 +3896,13 @@ None
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altElement = altUnityDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            var altUnityObject = altUnityDriver.FindObject(By.NAME,"Drop Image");
+            var color1 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
             altUnityDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
-            var color2 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            var color2 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
             Assert.AreNotEqual(color1,color2);
             altUnityDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
-            var color3 = altElement.GetComponentProperty("DropMe", "highlightColor");
+            var color3 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);
         }
@@ -3913,13 +3913,13 @@ None
         public void testPointerEnterAndExit()
         {
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            String color1 = altElement.getComponentProperty("DropMe", "highlightColor");
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
+            String color1 = altUnityObject.getComponentProperty("DropMe", "highlightColor");
             altUnityDriver.findObject(altFindObjectsParameters).pointerEnter();
-            String color2 = altElement.getComponentProperty("DropMe", "highlightColor");
+            String color2 = altUnityObject.getComponentProperty("DropMe", "highlightColor");
             assertNotEquals(color1,color2);
             altUnityDriver.findObject(altFindObjectsParameters).pointerExit();
-            String color3 = altElement.getComponentProperty("DropMe", "highlightColor");
+            String color3 = altUnityObject.getComponentProperty("DropMe", "highlightColor");
             assertNotEquals(color3, color2);
             assertEquals(color1,color3);
         }
@@ -3928,13 +3928,13 @@ None
 
         def test_pointer_enter_and_exit(self):
             self.altUnityDriver.load_scene("Scene 3 Drag And Drop")
-            alt_element = self.altUnityDriver.find_object(By.NAME,"Drop Image")
-            color1 = alt_element.get_component_property("DropMe", "highlightColor")
+            alt_unity_object = self.altUnityDriver.find_object(By.NAME,"Drop Image")
+            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_enter()
-            color2 = alt_element.get_component_property("DropMe", "highlightColor")
+            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color1, color2)
             self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_exit()
-            color3 = alt_element.get_component_property("DropMe", "highlightColor")
+            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
 ```
@@ -3961,9 +3961,9 @@ Returns the parent of the AltUnity object on which it is called.
         [Test]
         public void TestGetParent()
         {
-            var altElement = altUnityDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
-            var altElementParent = altElement.getParent();
-            Assert.AreEqual("Panel Drag Area", altElementParent.name);
+            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
+            var altUnityObjectParent = altUnityObject.getParent();
+            Assert.AreEqual("Panel Drag Area", altUnityObjectParent.name);
         }
 
     .. code-tab:: java
@@ -3972,9 +3972,9 @@ Returns the parent of the AltUnity object on which it is called.
         public void TestGetParent() {
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo")
                     .build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-            AltUnityObject altElementParent = altElement.getParent();
-            assertEquals("Canvas", altElementParent.name);
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
+            AltUnityObject altUnityObjectParent = altUnityObject.getParent();
+            assertEquals("Canvas", altUnityObjectParent.name);
         }
 
     .. code-tab:: py

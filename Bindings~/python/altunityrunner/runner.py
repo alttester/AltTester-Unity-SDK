@@ -6,7 +6,7 @@ from loguru import logger
 import altunityrunner.commands as commands
 from altunityrunner.__version__ import VERSION
 from altunityrunner._websocket import WebsocketConnection
-from altunityrunner.altElement import AltElement
+from altunityrunner.altUnityObject import AltUnityObject
 from altunityrunner.by import By
 
 
@@ -72,39 +72,39 @@ class AltUnityDriver:
 
             logger.warning(message)
 
-    def _get_alt_element(self, data):
+    def _get_alt_unity_object(self, data):
         if data is None:
             return None
 
-        alt_element = AltElement(self, data)
+        alt_unity_object = AltUnityObject(self, data)
 
         logger.debug("Element {} found at x:{} y:{} mobileY:{}".format(
-            alt_element.name,
-            alt_element.x,
-            alt_element.y,
-            alt_element.mobileY
+            alt_unity_object.name,
+            alt_unity_object.x,
+            alt_unity_object.y,
+            alt_unity_object.mobileY
         ))
 
-        return alt_element
+        return alt_unity_object
 
-    def _get_alt_elements(self, data):
+    def _get_alt_unity_objects(self, data):
         if data is None:
             return None
 
-        alt_elements = []
+        alt_unity_objects = []
 
         for element in data:
-            alt_element = AltElement(self, element)
-            alt_elements.append(alt_element)
+            alt_unity_object = AltUnityObject(self, element)
+            alt_unity_objects.append(alt_unity_object)
 
             logger.debug("Element {} found at x:{} y:{} mobileY:{}".format(
-                alt_element.name,
-                alt_element.x,
-                alt_element.y,
-                alt_element.mobileY
+                alt_unity_object.name,
+                alt_unity_object.x,
+                alt_unity_object.y,
+                alt_unity_object.mobileY
             ))
 
-        return alt_elements
+        return alt_unity_objects
 
     def stop(self):
         """Close the connection to AltUnity."""
@@ -278,7 +278,7 @@ class AltUnityDriver:
                 match all objects. Defaults to ``True``.
 
         Returns:
-            AltElement: The object.
+            AltUnityObject: The object.
         """
 
         data = commands.FindObject.run(
@@ -286,7 +286,7 @@ class AltUnityDriver:
             by, value, camera_by, camera_value, enabled
         )
 
-        return self._get_alt_element(data)
+        return self._get_alt_unity_object(data)
 
     def find_objects(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds all objects in the scene that respects the given criteria.
@@ -304,7 +304,7 @@ class AltUnityDriver:
                 match all objects. Defaults to ``True``.
 
         Returns:
-            list of AltElement: The list of objects.
+            list of AltUnityObjects: The list of objects.
         """
 
         data = commands.FindObjects.run(
@@ -312,7 +312,7 @@ class AltUnityDriver:
             by, value, camera_by, camera_value, enabled
         )
 
-        return self._get_alt_elements(data)
+        return self._get_alt_unity_objects(data)
 
     def find_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds the first object in the scene that respects the given criteria.
@@ -330,7 +330,7 @@ class AltUnityDriver:
                 match all objects. Defaults to ``True``.
 
         Returns:
-            AltElement: The object.
+            AltUnityObject: The object.
         """
 
         data = commands.FindObjectWhichContains.run(
@@ -338,7 +338,7 @@ class AltUnityDriver:
             by, value, camera_by, camera_value, enabled
         )
 
-        return self._get_alt_element(data)
+        return self._get_alt_unity_object(data)
 
     def find_objects_which_contain(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds all objects in the scene that respects the given criteria.
@@ -356,7 +356,7 @@ class AltUnityDriver:
                 match all objects. Defaults to ``True``.
 
         Returns:
-            list of AltElement: The list of objects.
+            list of AltUnityObjects: The list of objects.
         """
 
         data = commands.FindObjectsWhichContain.run(
@@ -364,7 +364,7 @@ class AltUnityDriver:
             by, value, camera_by, camera_value, enabled
         )
 
-        return self._get_alt_elements(data)
+        return self._get_alt_unity_objects(data)
 
     def wait_for_object(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5, enabled=True):
         """Waits until it finds an object that respects the given criteria or until timeout limit is reached.
@@ -385,14 +385,14 @@ class AltUnityDriver:
                 match all objects. Defaults to ``True``.
 
         Returns:
-            AltElement: The object.
+            AltUnityObject: The object.
         """
         data = commands.WaitForObject.run(
             self._connection,
             by, value, camera_by, camera_value, timeout, interval, enabled
         )
 
-        return self._get_alt_element(data)
+        return self._get_alt_unity_object(data)
 
     def wait_for_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                        enabled=True):
@@ -401,7 +401,7 @@ class AltUnityDriver:
         Args:
 
         Returns:
-            AltElement: The object.
+            AltUnityObject: The object.
         """
 
         data = commands.WaitForObjectWhichContains.run(
@@ -409,7 +409,7 @@ class AltUnityDriver:
             by, value, camera_by, camera_value, timeout, interval, enabled
         )
 
-        return self._get_alt_element(data)
+        return self._get_alt_unity_object(data)
 
     def wait_for_object_to_not_be_present(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                           enabled=True):
@@ -439,7 +439,7 @@ class AltUnityDriver:
                 match all objects. Defaults to ``True``.
 
         Returns:
-            list of AltElements: The list of objects.
+            list of AltUnityObjects: The list of objects.
         """
 
         data = commands.GetAllElements.run(
@@ -447,7 +447,7 @@ class AltUnityDriver:
             camera_by, camera_value, enabled
         )
 
-        return self._get_alt_elements(data)
+        return self._get_alt_unity_objects(data)
 
     def move_mouse(self, x, y, duration=1):
         """Simulates mouse movement in your game. This command does not wait for the movement to finish.

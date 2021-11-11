@@ -4,8 +4,8 @@ import altunityrunner.commands as commands
 from altunityrunner.by import By
 
 
-class AltElement:
-    """The element class represents an object present in the game and it allows you to interact with it.
+class AltUnityObject:
+    """The AltUnityObject class represents an object present in the game and it allows you to interact with it.
 
     It is the return type of the methods in the “find_*” category from the AltUnityDriver class.
     """
@@ -75,10 +75,10 @@ class AltElement:
         return self.worldX, self.worldY, self.worldZ
 
     def get_parent(self):
-        """Returns the parent element.
+        """Returns the parent object.
 
         Returns:
-            AltElement: The parent element.
+            AltUnityObject: The parent object.
         """
 
         data = commands.FindObject.run(
@@ -86,7 +86,7 @@ class AltElement:
             By.PATH, "//*[@id={}]/..".format(self.id), By.NAME, "", enabled=True
         )
 
-        return AltElement(self._altdriver, data)
+        return AltUnityObject(self._altdriver, data)
 
     def get_all_components(self):
         return commands.GetAllComponents.run(self._connection, self)
@@ -162,7 +162,7 @@ class AltElement:
         """Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
 
         Returns:
-            str: The text value of the AltElement.
+            str: The text value of the AltUnityObject.
         """
 
         return commands.GetText.run(self._connection, self)
@@ -175,51 +175,51 @@ class AltElement:
             submit (obj:`bool`): The.
 
         Returns:
-            AltElement: The current AltElement.
+            AltUnityObject: The current AltUnityObject.
         """
 
         data = commands.SetText.run(self._connection, text, self, submit)
-        return AltElement(self._altdriver, data)
+        return AltUnityObject(self._altdriver, data)
 
     def pointer_up(self):
         """Simulates pointer up action on the object.
 
         Returns:
-            AltElement: The current AltElement.
+            AltUnityObject: The current AltUnityObject.
         """
 
         data = commands.PointerUp.run(self._connection, self)
-        return AltElement(self._altdriver, data)
+        return AltUnityObject(self._altdriver, data)
 
     def pointer_down(self):
         """Simulates pointer down action on the object.
 
         Returns:
-            AltElement: The current AltElement.
+            AltUnityObject: The current AltUnityObject.
         """
 
         data = commands.PointerDown.run(self._connection, self)
-        return AltElement(self._altdriver, data)
+        return AltUnityObject(self._altdriver, data)
 
     def pointer_enter(self):
         """Simulates pointer enter action on the object.
 
         Returns:
-            AltElement: The current AltElement.
+            AltUnityObject: The current AltUnityObject.
         """
 
         data = commands.PointerEnter.run(self._connection, self)
-        return AltElement(self._altdriver, data)
+        return AltUnityObject(self._altdriver, data)
 
     def pointer_exit(self):
         """Simulates pointer exit action on the object.
 
         Returns:
-            AltElement: The current AltElement.
+            AltUnityObject: The current AltUnityObject.
         """
 
         data = commands.PointerExit.run(self._connection, self)
-        return AltElement(self._altdriver, data)
+        return AltUnityObject(self._altdriver, data)
 
     def tap(self, count=1, interval=0.1, wait=True):
         """Taps the current object.
@@ -230,14 +230,14 @@ class AltElement:
             wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
-            AltElement: The tapped object.
+            AltUnityObject: The tapped object.
         """
 
         data = commands.TapElement.run(
             self._connection,
             self, count, interval, wait
         )
-        return AltElement(self._altdriver, data)
+        return AltUnityObject(self._altdriver, data)
 
     def click(self, count=1, interval=0.1, wait=True):
         """Clicks the current object.
@@ -248,11 +248,11 @@ class AltElement:
             wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
-            AltElement: The clicked object.
+            AltUnityObject: The clicked object.
         """
 
         data = commands.ClickElement.run(
             self._connection,
             self, count, interval, wait
         )
-        return AltElement(self._altdriver, data)
+        return AltUnityObject(self._altdriver, data)
