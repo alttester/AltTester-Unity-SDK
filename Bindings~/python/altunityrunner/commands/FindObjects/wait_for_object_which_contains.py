@@ -37,11 +37,11 @@ class WaitForObjectWhichContains(Command):
 
     def execute(self):
         t = 0
-        alt_element = None
+        alt_unity_object = None
 
         while (t <= self.timeout):
             try:
-                alt_element = FindObjectWhichContains.run(
+                alt_unity_object = FindObjectWhichContains.run(
                     self.connection,
                     self.by, self.value, self.camera_by, self.camera_value, self.enabled
                 )
@@ -58,4 +58,4 @@ class WaitForObjectWhichContains(Command):
                 self.timeout
             ))
 
-        return alt_element
+        return alt_unity_object
