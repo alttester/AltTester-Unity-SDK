@@ -1274,3 +1274,11 @@ class TestPythonBindings:
         )
 
         assert int(width) == screen_width
+
+    def test_float_world_coordinates(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        plane = self.altdriver.find_object(By.NAME, "Plane")
+
+        assert type(plane.worldX) == float
+        assert type(plane.worldY) == float
+        assert type(plane.worldZ) == float
