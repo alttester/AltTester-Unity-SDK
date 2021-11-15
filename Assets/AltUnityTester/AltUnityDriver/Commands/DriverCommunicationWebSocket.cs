@@ -131,6 +131,9 @@ namespace Altom.AltUnityDriver.Commands
                 return;
             }
 
+            logger.Debug(error.type + ": " + error.message);
+            logger.Debug(error.trace);
+
             switch (error.type)
             {
                 case AltUnityErrors.errorNotFound:

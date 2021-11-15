@@ -20,11 +20,11 @@ class SetTimeScale(BaseCommand):
         return parameters
 
     def execute(self):
-        logger.debug("Set time scale to: {}".format(self.time_scale))
+        logger.debug("Set time scale to: {}", self.time_scale)
         data = self.send()
 
         if (data == "Ok"):
-            logger.debug("Time scale set to: {}".format(self.time_scale))
+            logger.debug("Time scale set to: {}", self.time_scale)
             return data
 
         return None

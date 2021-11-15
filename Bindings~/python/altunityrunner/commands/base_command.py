@@ -1,5 +1,4 @@
 import abc
-import textwrap
 from datetime import datetime
 
 from loguru import logger
@@ -113,16 +112,13 @@ class BaseCommand(Command):
         error = response.get("error")
 
         if error:
-            logger.error("Response error: {} - {}".format(error.get("type"), error.get("message")))
+            logger.error("Response error: {} - {}", error.get("type"), error.get("message"))
+            logger.error("Trace: {}", error.get("trace"))
             self.handle_errors(error)
-
-        logs = response.get("logs")
-        if logs:
-            logger.debug("Response logs: {}".format(textwrap.shorten(logs, width=10240, placeholder="[...]")))
 
         data = response.get("data")
         if data:
-            logger.debug("Response data: {}".format(data))
+            logger.debug("Response data: {}", data)
 
     def handle_errors(self, error):
         error_map = {

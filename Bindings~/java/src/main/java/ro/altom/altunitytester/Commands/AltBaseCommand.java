@@ -10,7 +10,6 @@ import ro.altom.altunitytester.CommandError;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 
 public class AltBaseCommand {
-
     protected static final Logger logger = LogManager.getLogger(AltBaseCommand.class);
 
     protected IMessageHandler messageHandler;
@@ -20,7 +19,6 @@ public class AltBaseCommand {
     }
 
     protected <T> T recvall(AltMessage altMessage, final Class<T> type) {
-
         AltMessageResponse<T> response = messageHandler.receive(altMessage, type);
         handleErrors(response.error);
 
@@ -42,6 +40,9 @@ public class AltBaseCommand {
         if (error == null) {
             return;
         }
+
+        logger.error(error.type + ": " + error.message);
+        logger.error(error.trace);
 
         switch (error.type) {
             case AltUnityErrors.errorNotFound:

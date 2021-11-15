@@ -9,7 +9,6 @@ import javax.websocket.EncodeException;
 import com.google.gson.Gson;
 
 public class AltMessage {
-
     private String messageId;
     private String commandName;
 

@@ -40,7 +40,7 @@ class WaitForObjectToNotBePresent(Command):
 
         while (t <= self.timeout):
             try:
-                logger.debug("Waiting for element {} to not be present...".format(self.value))
+                logger.debug("Waiting for element {} to not be present...", self.value)
 
                 FindObject.run(
                     self.connection,

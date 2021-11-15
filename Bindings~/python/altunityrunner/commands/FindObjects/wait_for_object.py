@@ -48,7 +48,7 @@ class WaitForObject(Command):
 
                 break
             except NotFoundException:
-                logger.debug("Waiting for element {}...".format(self.value))
+                logger.debug("Waiting for element {}...", self.value)
                 time.sleep(self.interval)
                 t += self.interval
 

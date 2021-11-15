@@ -50,7 +50,6 @@ public class AltUnityDriver {
     }
 
     public AltUnityDriver(String host, int port) {
-
         this(host, port, false);
     }
 
@@ -59,8 +58,9 @@ public class AltUnityDriver {
     }
 
     public AltUnityDriver(String host, int port, Boolean enableLogging, int connectTimeout) {
-        if (!enableLogging)
+        if (!enableLogging) {
             AltUnityDriverConfigFactory.DisableLogging();
+        }
 
         if (host == null || host.isEmpty()) {
             throw new InvalidParameterException("Provided host address is null or empty");
@@ -72,30 +72,23 @@ public class AltUnityDriver {
     }
 
     private String[] splitVersion(String version) {
-        return version.split("\\.");
+        String[] parts = version.split("\\.");
+        return new String[] {parts[0], (parts.length > 1) ? parts[1] : ""};
     }
 
     private void checkServerVersion() {
-        String serverVersion;
-        try {
-            serverVersion = GetServerVersion();
-        } catch (UnknownErrorException ex) {
-            serverVersion = "<=1.5.3";
-        } catch (AltUnityRecvallMessageFormatException ex) {
-            serverVersion = "<=1.5.7";
-        }
+        String serverVersion = getServerVersion();
 
         String[] parts = splitVersion(serverVersion);
         String majorServer = parts[0];
-        String minorServer = (parts.length > 1) ? parts[1] : "";
+        String minorServer = parts[1];
+
         parts = splitVersion(AltUnityDriver.VERSION);
         String majorDriver = parts[0];
-        String minorDriver = (parts.length > 1) ? parts[1] : "";
+        String minorDriver = parts[1];
 
         if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
-            String message = "Version mismatch. AltUnity Driver version is " + AltUnityDriver.VERSION
-                    + ". AltUnity Tester version is " + serverVersion + ".";
-
+            String message = String.format("Version mismatch. AltUnity Driver version is %s. AltUnity Tester version is %s.", AltUnityDriver.VERSION, serverVersion);
             log.warn(message);
             System.out.println(message);
         }
@@ -105,7 +98,7 @@ public class AltUnityDriver {
         this.connection.close();
     }
 
-    public String GetServerVersion() {
+    public String getServerVersion() {
         return new GetServerVersionCommand(this.connection.messageHandler).Execute();
     }
 
@@ -147,16 +140,16 @@ public class AltUnityDriver {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
     }
 
-    public int getIntKeyPlayerPref(String keyname) {
-        return new AltIntGetKeyPlayerPref(this.connection.messageHandler, keyname).Execute();
+    public int getIntKeyPlayerPref(String keyName) {
+        return new AltIntGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     }
 
-    public float getFloatKeyPlayerPref(String keyname) {
-        return new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyname).Execute();
+    public float getFloatKeyPlayerPref(String keyName) {
+        return new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     }
 
-    public String getStringKeyPlayerPref(String keyname) {
-        return new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyname).Execute();
+    public String getStringKeyPlayerPref(String keyName) {
+        return new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     }
 
     public String getCurrentScene() {
@@ -281,11 +274,11 @@ public class AltUnityDriver {
         pressKeyAndWait(BuildPressKeyParameters(keyCode, power, duration));
     }
 
-    public void KeyDown(AltKeyParameters altKeyParameters) {
+    public void keyDown(AltKeyParameters altKeyParameters) {
         new AltKeyDown(this.connection.messageHandler, altKeyParameters).Execute();
     }
 
-    public void KeyUp(AltUnityKeyCode keyCode) {
+    public void keyUp(AltUnityKeyCode keyCode) {
         new AltKeyUp(this.connection.messageHandler, keyCode).Execute();
     }
 
@@ -447,7 +440,7 @@ public class AltUnityDriver {
                 .build();
     }
 
-    public void getPNGScreeshot(String path) {
+    public void getPNGScreenshot(String path) {
         new GetPNGScreenshotCommand(this.connection.messageHandler, path).Execute();
     }
 

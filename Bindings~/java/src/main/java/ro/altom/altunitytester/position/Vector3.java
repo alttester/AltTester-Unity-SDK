@@ -3,6 +3,8 @@ package ro.altom.altunitytester.position;
 import lombok.Data;
 import lombok.Getter;
 
+import com.google.gson.Gson;
+
 @Getter
 public @Data class Vector3 extends Vector2 {
     public float z;
@@ -13,7 +15,7 @@ public @Data class Vector3 extends Vector2 {
         this.z = z;
     }
 
-    public String toVector3Json() {
-        return "{\"x\":" + x + ", \"y\":" + y + ", \"z\":" + z + "}";
+    public String toJson() {
+        return new Gson().toJson(this);
     }
 }

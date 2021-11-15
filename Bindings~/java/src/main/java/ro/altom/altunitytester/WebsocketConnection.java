@@ -74,8 +74,10 @@ public class WebsocketConnection {
         Exception connectionError = null;
         while (finish - start < _connectTimeout * 1000) {
             try {
-                if (retries > 0)
+                if (retries > 0) {
                     logger.debug("Retrying #{} to host: {} port: {}.", retries, _host, _port);
+                }
+
                 this.session = container.connectToServer(this, URI.create(_uri));
 
             } catch (IllegalStateException e) {
@@ -110,7 +112,8 @@ public class WebsocketConnection {
     public void close() throws IOException {
         logger.info(String.format("Closing connection to AltUnity on host: %s port: %s.", _host, _port));
 
-        if (this.session != null)
+        if (this.session != null) {
             this.session.close();
+        }
     }
 }

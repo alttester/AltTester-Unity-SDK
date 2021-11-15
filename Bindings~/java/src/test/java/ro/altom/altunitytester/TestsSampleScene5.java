@@ -177,14 +177,14 @@ public class TestsSampleScene5 {
         AltUnityKeyCode kcode = AltUnityKeyCode.A;
         AltKeyParameters altKeyParams = new AltKeyParameters.Builder(kcode).build();
 
-        altUnityDriver.KeyDown(altKeyParams);
+        altUnityDriver.keyDown(altKeyParams);
         Thread.sleep(2000);
         AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
         AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
         assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
         assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
 
-        altUnityDriver.KeyUp(kcode);
+        altUnityDriver.keyUp(kcode);
         Thread.sleep(2000);
         AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
         assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
