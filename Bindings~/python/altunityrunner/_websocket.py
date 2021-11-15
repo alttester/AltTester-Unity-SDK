@@ -138,7 +138,7 @@ class WebsocketConnection:
         self._is_open = True
 
     def connect(self):
-        logger.info("Connecting to host: {} port: {}.".format(self.host, self.port))
+        logger.info("Connecting to host: {} port: {}.", self.host, self.port)
 
         self._websocket = self._create_connection()
         self._wait_for_connection_to_open(timeout=self.timeout)
@@ -148,7 +148,7 @@ class WebsocketConnection:
         self._current_command_name = data.get("commandName")
 
         message = json.dumps(data)
-        logger.info("Message: {}".format(message))
+        logger.info("Message: {}", message)
 
         self._websocket.send(message)
 
@@ -162,7 +162,7 @@ class WebsocketConnection:
         return self.recv()
 
     def close(self):
-        logger.info("Closing connection to AltUnity on host: {} port: {}".format(self.host, self.port))
+        logger.info("Closing connection to AltUnity on host: {} port: {}", self.host, self.port)
 
         if self._websocket is not None:
             self._websocket.close()

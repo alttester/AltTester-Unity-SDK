@@ -58,8 +58,7 @@ class AltUnityDriver:
 
     def _check_server_version(self):
         server_version = commands.GetServerVersion.run(self._connection)
-        logger.info("Connection established with instrumented Unity app. AltUnity Tester Version: {}"
-                    .format(server_version))
+        logger.info("Connection established with instrumented Unity app. AltUnity Tester Version: {}", server_version)
 
         major_server, minor_server = self._split_version(server_version)
         major_driver, minor_driver = self._split_version(VERSION)
@@ -78,12 +77,13 @@ class AltUnityDriver:
 
         alt_unity_object = AltUnityObject(self, data)
 
-        logger.debug("Element {} found at x:{} y:{} mobileY:{}".format(
+        logger.debug(
+            "Element {} found at x: {} y: {} mobileY: {}",
             alt_unity_object.name,
             alt_unity_object.x,
             alt_unity_object.y,
             alt_unity_object.mobileY
-        ))
+        )
 
         return alt_unity_object
 
@@ -97,12 +97,13 @@ class AltUnityDriver:
             alt_unity_object = AltUnityObject(self, element)
             alt_unity_objects.append(alt_unity_object)
 
-            logger.debug("Element {} found at x:{} y:{} mobileY:{}".format(
+            logger.debug(
+                "Element {} found at x: {} y: {} mobileY: {}",
                 alt_unity_object.name,
                 alt_unity_object.x,
                 alt_unity_object.y,
                 alt_unity_object.mobileY
-            ))
+            )
 
         return alt_unity_objects
 
@@ -387,6 +388,7 @@ class AltUnityDriver:
         Returns:
             AltUnityObject: The object.
         """
+
         data = commands.WaitForObject.run(
             self._connection,
             by, value, camera_by, camera_value, timeout, interval, enabled

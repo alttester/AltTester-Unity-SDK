@@ -16,7 +16,6 @@ import java.lang.reflect.Type;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
 
 public class MessageHandler implements IMessageHandler {
-
     private Session session;
     private Queue<String> responses = new LinkedList<String>();
     private static final Logger logger = LogManager.getLogger(MessageHandler.class);
@@ -41,14 +40,12 @@ public class MessageHandler implements IMessageHandler {
         logger.debug("response received: {}", trimLogData(responseMessage));
         AltMessageResponse<T> response = new Gson().fromJson(responseMessage, getType(AltMessageResponse.class, type));
         return response;
-
     }
 
     public void send(AltMessage altMessage) {
         String message = new Gson().toJson(altMessage);
         session.getAsyncRemote().sendText(message);
         logger.debug("command sent: {}", trimLogData(message));
-
     }
 
     public void onMessage(String message) {

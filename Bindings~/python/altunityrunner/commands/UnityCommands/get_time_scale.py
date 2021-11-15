@@ -12,5 +12,5 @@ class GetTimeScale(BaseCommand):
         logger.debug("Get time scale")
         data = self.send()
 
-        logger.debug("Got time scale: {}".format(data))
+        logger.debug("Got time scale: {}", data)
         return float(data)

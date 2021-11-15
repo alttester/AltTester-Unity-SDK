@@ -14,9 +14,5 @@ public class AltUnityObjectAction {
         parameters = parametersNames;
         this.typeOfParameters=typeOfParameters;
         assembly=assemblyName;
-
-
-
-
     }
 }

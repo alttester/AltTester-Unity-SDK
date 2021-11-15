@@ -21,7 +21,7 @@ class WaitForCurrentSceneToBe(Command):
         current_scene = ""
 
         while t <= self.timeout:
-            logger.debug("Waiting for scene to be {}...".format(self.scene_name))
+            logger.debug("Waiting for scene to be {}...", self.scene_name)
             current_scene = GetCurrentScene(self._connection).execute()
 
             if current_scene != self.scene_name:
