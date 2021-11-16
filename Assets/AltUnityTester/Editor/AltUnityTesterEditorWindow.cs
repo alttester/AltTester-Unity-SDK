@@ -436,10 +436,12 @@ namespace Altom.AltUnityTesterEditor
 
             if (rightSide <= 300)
             {
+                EditorGUI.BeginDisabledGroup(UnityEngine.Application.isPlaying || UnityEditor.EditorApplication.isCompiling);
                 UnityEditor.EditorGUILayout.BeginVertical();
                 EditorConfiguration.platform = (AltUnityPlatform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(AltUnityPlatform)), 1, guiStyleRadioButton);
 
                 UnityEditor.EditorGUILayout.EndVertical();
+                EditorGUI.EndDisabledGroup();
             }
             else
             {
