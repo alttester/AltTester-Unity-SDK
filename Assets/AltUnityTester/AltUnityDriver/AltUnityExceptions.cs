@@ -211,6 +211,17 @@ namespace Altom.AltUnityDriver
         }
     }
 
+    public class CommandResponseTimeoutException : AltUnityException
+    {
+        public CommandResponseTimeoutException()
+        {
+        }
+
+        public CommandResponseTimeoutException(string message) : base(message)
+        {
+        }
+    }
+
     /// <summary>
     /// Raised when the client connection timesout.
     /// </summary>

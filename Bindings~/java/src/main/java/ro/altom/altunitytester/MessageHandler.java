@@ -14,23 +14,33 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
+import ro.altom.altunitytester.altUnityTesterExceptions.CommandResponseTimeoutException;
 
 public class MessageHandler implements IMessageHandler {
     private Session session;
     private Queue<String> responses = new LinkedList<String>();
     private static final Logger logger = LogManager.getLogger(MessageHandler.class);
+    private double commandTimeout = 20;
 
     public MessageHandler(Session session) {
         this.session = session;
     }
 
     public <T> AltMessageResponse<T> receive(AltMessage altMessage, Class<T> type) {
-        while (responses.isEmpty() && session.isOpen()) {
+        double time = 0;
+        double delay = 0.1;
+        long sleepDelay = (long) (delay * 100);
+
+        while (responses.isEmpty() && session.isOpen() && commandTimeout >= time) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(sleepDelay);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            time += delay;
+        }
+        if (commandTimeout < time) {
+            throw new CommandResponseTimeoutException();
         }
         if (!session.isOpen()) {
             throw new AltUnityException("Driver disconnected");

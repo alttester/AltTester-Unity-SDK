@@ -18,6 +18,7 @@ namespace Altom.AltUnityDriver.Commands
         private readonly string _uri;
         private readonly int _connectTimeout;
         private Queue<string> messages;
+        private int commandTimeout = 20;
 
         public DriverCommunicationWebSocket(string host, int port, int connectTimeout)
         {
@@ -79,26 +80,29 @@ namespace Altom.AltUnityDriver.Commands
 
         public CommandResponse<T> Recvall<T>(CommandParams param)
         {
-            while (messages.Count == 0 && wsClient.IsAlive())
+
+            Stopwatch watch = Stopwatch.StartNew();
+            while (messages.Count == 0 && wsClient.IsAlive() && commandTimeout >= watch.Elapsed.TotalSeconds)
             {
                 Thread.Sleep(10);
             }
+            if (commandTimeout < watch.Elapsed.TotalSeconds)
+                throw new CommandResponseTimeoutException();
+            
             if (!wsClient.IsAlive())
             {
                 throw new AltUnityException("Driver disconnected");
             }
-
             var message = JsonConvert.DeserializeObject<CommandResponse<T>>(messages.Dequeue());
-
             if (message.error != null && message.error.type != AltUnityErrors.errorInvalidCommand && (message.messageId != param.messageId || message.commandName != param.commandName))
             {
                 throw new AltUnityRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
             }
-
             handleErrors(message.error);
-
             return message;
+            
         }
+
 
         public void Send(CommandParams param)
         {
