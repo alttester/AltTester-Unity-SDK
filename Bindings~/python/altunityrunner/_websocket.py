@@ -6,7 +6,7 @@ from threading import Thread
 from loguru import logger
 import websocket
 
-from .exceptions import ConnectionError, ConnectionTimeoutError
+from .exceptions import ConnectionError, ConnectionTimeoutError, CommandResponseTimeoutException
 
 
 class Store:
@@ -50,6 +50,7 @@ class WebsocketConnection:
         self.timeout = timeout
 
         self._current_command_name = None
+        self.command_timeout = 20
         self._store = Store()
         self._errors = deque()
 
@@ -154,12 +155,17 @@ class WebsocketConnection:
 
     def recv(self):
         self._ensure_connection_is_open()
+        elapsed_time = 0
+        delay = 0.1
 
-        if self._store.has(self._current_command_name):
-            return self._store.pop(self._current_command_name)
+        while (elapsed_time <= self.command_timeout):
+            if self._store.has(self._current_command_name):
+                return self._store.pop(self._current_command_name)
 
-        time.sleep(0.1)
-        return self.recv()
+            elapsed_time += delay
+            time.sleep(delay)
+
+        raise CommandResponseTimeoutException()
 
     def close(self):
         logger.info("Closing connection to AltUnity on host: {} port: {}", self.host, self.port)

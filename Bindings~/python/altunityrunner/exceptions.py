@@ -96,6 +96,10 @@ class WaitTimeOutException(AltUnityException):
     """Raised when a command timed out."""
 
 
+class CommandResponseTimeoutException(AltUnityException):
+    pass
+
+
 class PropertyCannotBeSetException(AltUnityException):
     pass
 
