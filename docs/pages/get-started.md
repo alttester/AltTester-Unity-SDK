@@ -23,7 +23,7 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 
 ```eval_rst
 
-    1. Download `AltUnity Tester Alpha <https://altom.com/app/uploads/altUnityProAlpha/AltUnityTester.unitypackage>`_.
+    1. Download `AltUnity Tester Alpha <http://altom.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
 
     2. Import it by drag and drop inside your Unity project.
     

@@ -22,7 +22,7 @@ from recommonmark.transform import AutoStructify
 
 
 project = 'AltUnity Tools'
-copyright = '2020, Altom Consulting'
+copyright = '2021, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
