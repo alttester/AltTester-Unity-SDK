@@ -445,10 +445,12 @@ namespace Altom.AltUnityTesterEditor
             }
             else
             {
+                EditorGUI.BeginDisabledGroup(UnityEngine.Application.isPlaying || UnityEditor.EditorApplication.isCompiling);
                 UnityEditor.EditorGUILayout.BeginHorizontal();
                 EditorConfiguration.platform = (AltUnityPlatform)UnityEngine.GUILayout.SelectionGrid((int)EditorConfiguration.platform, System.Enum.GetNames(typeof(AltUnityPlatform)), System.Enum.GetNames(typeof(AltUnityPlatform)).Length, guiStyleRadioButton);
 
                 UnityEditor.EditorGUILayout.EndHorizontal();
+                EditorGUI.EndDisabledGroup();
             }
 
 
