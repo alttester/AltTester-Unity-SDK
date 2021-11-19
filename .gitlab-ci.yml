@@ -322,7 +322,7 @@ create-unity-package:
   script:
     - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityPackage || true
     - mkdir -p public/${CI_COMMIT_REF_NAME}/SampleScenes || true
-    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTesterEditor.CreatePackages -logFile createPackages.log -quit
+    - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
     - AUT=$(find -E . -regex ".*/AltUnityTester.*\.unitypackage")
     - mv $AUT public/${CI_COMMIT_REF_NAME}/AltUnityPackage/AltUnityTester.unitypackage
     - SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
