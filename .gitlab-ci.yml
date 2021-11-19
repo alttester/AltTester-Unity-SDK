@@ -330,7 +330,7 @@ create-unity-package:
     - cd public/${CI_COMMIT_REF_NAME}/AltUnityPackage
     - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityPackage/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
     - ls
-    - cd public/${CI_COMMIT_REF_NAME}/SampleScenes
+    - cd ../SampleScenes
     - ls
   artifacts:
     when: always
