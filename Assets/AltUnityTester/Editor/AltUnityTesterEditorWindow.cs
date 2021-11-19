@@ -150,6 +150,21 @@ namespace Altom.AltUnityTesterEditor
             UnityEngine.Debug.Log("AltUnityTester - Unity Package done.");
         }
 
+        public static void CreateSampleScenesPackage()
+        {
+            UnityEngine.Debug.Log("SampleScenes - Unity Package creation started...");
+            string packageName = "SampleScenes.unitypackage";
+            string assetPathNames = "Assets/AltUnityTester/Examples";
+            UnityEditor.AssetDatabase.ExportPackage(assetPathNames, packageName, UnityEditor.ExportPackageOptions.Recurse);
+            UnityEngine.Debug.Log("SampleScenes - Unity Package done.");
+        }
+
+        public static void CreatePackages()
+        {
+            CreateAltUnityTesterPackage();
+            CreateSampleScenesPackage();
+        }
+
         private void Awake()
         {
             if (EditorConfiguration == null)
