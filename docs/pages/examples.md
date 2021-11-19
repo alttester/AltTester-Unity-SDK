@@ -30,3 +30,9 @@ We plan to add more examples in the near future.
 * [WebGL - C# tests](https://gitlab.com/altom/altunity/examples/altunity-pro-alpha-example)
 
     You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
+
+**4.** Example test project for AltUnity Tester:
+
+* [SampleScenes](https://gitlab.com/altom/altunity/altunitytester/SampleScenes.unitypackage)
+
+    Import this package under your AltUnity Tester package in Unity, to have access to the sample scenes and C# tests.
