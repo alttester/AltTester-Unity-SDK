@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Globalization;
 using System.Linq;
 using Altom.AltUnityDriver;
@@ -145,10 +146,13 @@ namespace Altom.AltUnityTester.Commands
 
         private string getPNGScreenshot()
         {
-            var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
-            var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
+
+            var screenShot = new UnityEngine.Texture2D(UnityEngine.Screen.width, UnityEngine.Screen.height, UnityEngine.TextureFormat.RGB24, false);
+            screenShot.ReadPixels(new UnityEngine.Rect(0, 0, UnityEngine.Screen.width, UnityEngine.Screen.height), 0, 0);
+            screenShot.Apply();
+            var bytesPNG = UnityEngine.ImageConversion.EncodeToPNG(screenShot);
             var pngAsString = Convert.ToBase64String(bytesPNG);
-            UnityEngine.Object.DestroyImmediate(screenshot);
+            UnityEngine.Object.DestroyImmediate(screenShot);
             return pngAsString;
         }
     }
