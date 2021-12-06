@@ -77,17 +77,14 @@ namespace Altom.AltUnityTester.Communication
             {
                 return new AltUnityGetServerVersionCommand((AltUnityGetServerVersionParams)cmdParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityTapElementParams)
             {
                 return new AltUnityTapElementCommand(this, cmdParams as AltUnityTapElementParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityClickElementParams)
             {
                 return new AltUnityClickElementCommand(this, cmdParams as AltUnityClickElementParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityTapCoordinatesParams)
             {
                 return new AltUnityTapCoordinatesCommand(this, cmdParams as AltUnityTapCoordinatesParams).ExecuteAndSerialize;
@@ -96,7 +93,6 @@ namespace Altom.AltUnityTester.Communication
             {
                 return new AltUnityClickCoordinatesCommand(this, cmdParams as AltUnityClickCoordinatesParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityKeyDownParams)
             {
                 return new AltUnityKeyDownCommand(cmdParams as AltUnityKeyDownParams).ExecuteAndSerialize;
@@ -105,12 +101,10 @@ namespace Altom.AltUnityTester.Communication
             {
                 return new AltUnityKeyUpCommand(cmdParams as AltUnityKeyUpParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityBeginTouchParams)
             {
                 return new AltUnityBeginTouchCommand(cmdParams as AltUnityBeginTouchParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityMoveTouchParams)
             {
                 return new AltUnityMoveTouchCommand(cmdParams as AltUnityMoveTouchParams).ExecuteAndSerialize;
@@ -119,17 +113,14 @@ namespace Altom.AltUnityTester.Communication
             {
                 return new AltUnityEndTouchCommand(cmdParams as AltUnityEndTouchParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityGetCurrentSceneParams)
             {
                 return new AltUnityGetCurrentSceneCommand((AltUnityGetCurrentSceneParams)cmdParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityGetObjectComponentPropertyParams)
             {
                 return new AltUnityGetComponentPropertyCommand(cmdParams as AltUnityGetObjectComponentPropertyParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnitySetObjectComponentPropertyParams)
             {
                 return new AltUnitySetObjectComponentPropertyCommand(cmdParams as AltUnitySetObjectComponentPropertyParams).ExecuteAndSerialize;
@@ -138,7 +129,6 @@ namespace Altom.AltUnityTester.Communication
             {
                 return new AltUnityCallComponentMethodForObjectCommand(cmdParams as AltUnityCallComponentMethodForObjectParams).ExecuteAndSerialize;
             }
-
             if (cmdParams is AltUnityDragObjectParams)
             {
                 return new AltUnityDragObjectCommand(cmdParams as AltUnityDragObjectParams).ExecuteAndSerialize;
@@ -161,15 +151,15 @@ namespace Altom.AltUnityTester.Communication
             }
             if (cmdParams is AltUnityTiltParams)
             {
-                return new AltUnityTiltCommand(cmdParams as AltUnityTiltParams).ExecuteAndSerialize;
+                return new AltUnityTiltCommand(this, cmdParams as AltUnityTiltParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltUnitySwipeParams)
+            {
+                return new AltUnitySwipeCommand(this, cmdParams as AltUnitySwipeParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityMultipointSwipeParams)
             {
-                return new AltUnitySetMultipointSwipeCommand(cmdParams as AltUnityMultipointSwipeParams).ExecuteAndSerialize;
-            }
-            if (cmdParams is AltUnityMultipointSwipeChainParams)
-            {
-                return new AltUnitySetMultipointSwipeChainCommand(cmdParams as AltUnityMultipointSwipeChainParams).ExecuteAndSerialize;
+                return new AltUnityMultipointSwipeCommand(this, cmdParams as AltUnityMultipointSwipeParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityLoadSceneParams)
             {
@@ -211,10 +201,7 @@ namespace Altom.AltUnityTester.Communication
                         return new AltUnityInvalidCommand(cmdParams, new InvalidParameterTypeException(string.Format("PlayerPrefKeyType {0} not handled", getKeyPlayerPrefParams.keyType))).ExecuteAndSerialize;
                 }
             }
-            if (cmdParams is AltUnityActionFinishedParams)
-            {
-                return new AltUnityActionFinishedCommand(cmdParams as AltUnityActionFinishedParams).ExecuteAndSerialize;
-            }
+
             if (cmdParams is AltUnityGetAllComponentsParams)
             {
                 return new AltUnityGetAllComponentsCommand(cmdParams as AltUnityGetAllComponentsParams).ExecuteAndSerialize;
@@ -265,15 +252,15 @@ namespace Altom.AltUnityTester.Communication
             }
             if (cmdParams is AltUnityPressKeyboardKeyParams)
             {
-                return new AltUnityPressKeyboardKeyCommand(cmdParams as AltUnityPressKeyboardKeyParams).ExecuteAndSerialize;
+                return new AltUnityPressKeyboardKeyCommand(this, cmdParams as AltUnityPressKeyboardKeyParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityMoveMouseParams)
             {
-                return new AltUnityMoveMouseCommand(cmdParams as AltUnityMoveMouseParams).ExecuteAndSerialize;
+                return new AltUnityMoveMouseCommand(this, cmdParams as AltUnityMoveMouseParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltUnityScrollMouseParams)
+            if (cmdParams is AltUnityScrollParams)
             {
-                return new AltUnityScrollMouseCommand(cmdParams as AltUnityScrollMouseParams).ExecuteAndSerialize;
+                return new AltUnityScrollCommand(this, cmdParams as AltUnityScrollParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityFindObjectParams)
             {

@@ -18,7 +18,7 @@ def altdriver():
 class TestPythonBindings:
 
     @pytest.fixture(autouse=True)
-    def setup(self, altdriver):
+    def setup(self, altdriver: AltUnityDriver):
         self.altdriver = altdriver
 
     def test_tap_ui_object(self):
@@ -54,9 +54,9 @@ class TestPythonBindings:
         alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
         position_init = (alt_unity_object.x, alt_unity_object.y)
 
-        self.altdriver.swipe_and_wait(
-            alt_unity_object.x, alt_unity_object.y,
-            alt_unity_object.x - 200, alt_unity_object.y - 200,
+        self.altdriver.swipe(
+            alt_unity_object.get_screen_position(),
+            (alt_unity_object.x - 200, alt_unity_object.y - 200,),
             duration=2
         )
         time.sleep(2)
@@ -66,7 +66,7 @@ class TestPythonBindings:
 
         assert position_init != position_final
 
-    def test_resize_panel_with_multipoinit_swipe(self):
+    def test_resize_panel_with_multipoint_swipe(self):
         self.altdriver.load_scene("Scene 2 Draggable Panel")
 
         alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
@@ -79,9 +79,7 @@ class TestPythonBindings:
             [alt_unity_object.x - 50, alt_unity_object.y - 100],
             [alt_unity_object.x - 100, alt_unity_object.y - 100]
         ]
-        self.altdriver.multipoint_swipe_and_wait(positions, duration=4)
-
-        time.sleep(4)
+        self.altdriver.multipoint_swipe(positions, duration=4)
 
         alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
         position_final = (alt_unity_object.x, alt_unity_object.y)
@@ -249,17 +247,17 @@ class TestPythonBindings:
         image1 = self.altdriver.find_object(By.NAME, "Drag Image1")
         box1 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        self.altdriver.swipe(image1.x, image1.y, box1.x, box1.y, 5)
+        self.altdriver.swipe(image1.get_screen_position(), box1.get_screen_position(), 5, False)
 
         image2 = self.altdriver.find_object(By.NAME, "Drag Image2")
         box2 = self.altdriver.find_object(By.NAME, "Drop Box2")
 
-        self.altdriver.swipe(image2.x, image2.y, box2.x, box2.y, 2)
+        self.altdriver.swipe(image2.get_screen_position(), box2.get_screen_position(), 2, False)
 
         image3 = self.altdriver.find_object(By.NAME, "Drag Image3")
         box1 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        self.altdriver.swipe(image3.x, image3.y, box1.x, box1.y, 3)
+        self.altdriver.swipe(image3.get_screen_position(), box1.get_screen_position(), 3, False)
 
         time.sleep(6)
 
@@ -279,17 +277,17 @@ class TestPythonBindings:
         image2 = self.altdriver.find_object(By.NAME, "Drag Image2")
         box2 = self.altdriver.find_object(By.NAME, "Drop Box2")
 
-        self.altdriver.swipe_and_wait(image2.x, image2.y, box2.x, box2.y, 2)
+        self.altdriver.swipe(image2.get_screen_position(), box2.get_screen_position(), 2)
 
         image3 = self.altdriver.find_object(By.NAME, "Drag Image3")
         box1 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        self.altdriver.swipe_and_wait(image3.x, image3.y, box1.x, box1.y, 1)
+        self.altdriver.swipe(image3.get_screen_position(), box1.get_screen_position(), 1)
 
         image1 = self.altdriver.find_object(By.NAME, "Drag Image1")
         box1 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        self.altdriver.swipe_and_wait(image1.x, image1.y, box1.x, box1.y, 3)
+        self.altdriver.swipe(image1.get_screen_position(), box1.get_screen_position(), 3)
 
         image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
         image_source_drop_zone = self.altdriver.find_object(
@@ -304,18 +302,16 @@ class TestPythonBindings:
     def test_button_click_and_wait_with_swipe(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         button = self.altdriver.find_object(By.NAME, "UIButton")
-        self.altdriver.hold_button_and_wait(button.x, button.y, 1)
+        self.altdriver.hold_button(button.get_screen_position(), 1)
+
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
-
-        time.sleep(1.4)
-
         text = capsule_info.get_text()
         assert text == "UIButton clicked to jump capsule!"
 
     def test_button_click_with_swipe(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         button = self.altdriver.find_object(By.NAME, "UIButton")
-        self.altdriver.hold_button(button.x, button.y, 1)
+        self.altdriver.hold_button(button.get_screen_position(), 1, False)
 
         time.sleep(2)
 
@@ -330,7 +326,7 @@ class TestPythonBindings:
 
         multipointPositions = [alt_unity_object1.get_screen_position(), [alt_unity_object2.x, alt_unity_object2.y]]
 
-        self.altdriver.multipoint_swipe_and_wait(multipointPositions, 2)
+        self.altdriver.multipoint_swipe(multipointPositions, 2)
         time.sleep(2)
 
         alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
@@ -343,7 +339,7 @@ class TestPythonBindings:
             [alt_unity_object3.x, alt_unity_object3.y]
         ]
 
-        self.altdriver.multipoint_swipe_and_wait(positions, 3)
+        self.altdriver.multipoint_swipe(positions, 3)
         imageSource = self.altdriver.find_object(
             By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite")
         imageSourceDropZone = self.altdriver.find_object(
@@ -451,10 +447,10 @@ class TestPythonBindings:
 
         cube = self.altdriver.find_object(By.NAME, "Player1")
         cubeInitialPostion = (cube.worldX, cube.worldY, cube.worldZ)
-        self.altdriver.scroll_mouse(30, 1)
-        self.altdriver.press_key_with_keycode(AltUnityKeyCode.K, 1, 2)
+        self.altdriver.scroll(30, 1, False)
+        self.altdriver.press_key(AltUnityKeyCode.K, 1, 2, False)
         time.sleep(2)
-        self.altdriver.press_key_with_keycode_and_wait(AltUnityKeyCode.O, 1, 1)
+        self.altdriver.press_key(AltUnityKeyCode.O, 1, 1)
         cube = self.altdriver.find_object(By.NAME, "Player1")
         cubeFinalPosition = (cube.worldX, cube.worldY, cube.worldZ)
 
@@ -466,7 +462,7 @@ class TestPythonBindings:
         cube = self.altdriver.find_object(By.NAME, "Player1")
         cubeInitialPostion = (cube.worldX, cube.worldY, cube.worldY)
 
-        self.altdriver.press_key_with_keycode(AltUnityKeyCode.W, 1, 2)
+        self.altdriver.press_key(AltUnityKeyCode.W, 1, 2, False)
         time.sleep(2)
         cube = self.altdriver.find_object(By.NAME, "Player1")
         cubeFinalPosition = (cube.worldX, cube.worldY, cube.worldY)
@@ -481,13 +477,13 @@ class TestPythonBindings:
         self.altdriver.find_objects_which_contain(By.NAME, "Player", By.NAME, "Player2")
         pressing_point_1 = self.altdriver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
 
-        self.altdriver.move_mouse(pressing_point_1.x, pressing_point_1.y, duration=1)
+        self.altdriver.move_mouse(pressing_point_1.get_screen_position(), duration=1, wait=False)
         time.sleep(1.5)
 
-        self.altdriver.press_key_with_keycode(AltUnityKeyCode.Mouse0, 1, 1)
+        self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1, 1, False)
         pressing_point_2 = self.altdriver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
-        self.altdriver.move_mouse_and_wait(pressing_point_1.x, pressing_point_2.y, duration=1)
-        self.altdriver.press_key_with_keycode(AltUnityKeyCode.Mouse0, power=1, duration=1)
+        self.altdriver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
+        self.altdriver.press_key(AltUnityKeyCode.Mouse0, power=1, duration=1, wait=False)
         time.sleep(2)
 
         stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
@@ -559,7 +555,7 @@ class TestPythonBindings:
         axisValue = self.altdriver.find_object(By.NAME, "AxisValue")
 
         for index, key in enumerate(keys_to_press):
-            self.altdriver.press_key_with_keycode_and_wait(key, 0.5, 0.1)
+            self.altdriver.press_key(key, 0.5, 0.1)
 
             assert axisValue.get_text() == "0.5"
             assert axisName.get_text() == button_names[index]
@@ -760,30 +756,28 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 5 Keyboard Input")
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
-        self.altdriver.scroll_mouse(4, 2)
-
+        self.altdriver.scroll(4, 2, False)
         time.sleep(2)
 
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
-
         assert cubeInitialPostion != cubeFinalPosition
 
     def test_scroll_and_wait(self):
         self.altdriver.load_scene("Scene 5 Keyboard Input")
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
-        self.altdriver.scroll_mouse_and_wait(4, 2)
+        self.altdriver.scroll(4, 2)
+
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
-
         assert cubeInitialPostion != cubeFinalPosition
 
     def test_acceleration(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-        self.altdriver.tilt(1, 1, 1, 1)
+        self.altdriver.tilt([1, 1, 1], 1, False)
 
         time.sleep(1)
 
@@ -796,10 +790,10 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-        self.altdriver.tilt_and_wait(1, 1, 1, 1)
+        self.altdriver.tilt([1, 1, 1], 1)
+
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-
         assert initial_position != final_position
 
     def test_find_object_with_camera_id(self):
@@ -1226,7 +1220,7 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
         capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
-        self.altdriver.move_mouse(capsule_element.x, capsule_element.y, 1)
+        self.altdriver.move_mouse(capsule_element.get_screen_position(), 1, False)
         time.sleep(1.5)
 
         self.altdriver.key_down(AltUnityKeyCode.Mouse0)

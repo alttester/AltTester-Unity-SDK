@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltMultiPointSwipeParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltSwipeParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.position.Vector2;
 
@@ -57,19 +59,27 @@ public class TestsSampleScene3 {
         AltUnityObject altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
 
         AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-        altUnityDriver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
+        altUnityDriver
+                .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                        .withDuration(2).withWait(false).build());
 
         altElement1 = altUnityDriver.findObject(altFindObjectsParameters3);
         altElement2 = altUnityDriver.findObject(altFindObjectsParameters5);
-        altUnityDriver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
+        altUnityDriver
+                .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                        .withDuration(2).withWait(false).build());
 
         altElement1 = altUnityDriver.findObject(altFindObjectsParameters4);
         altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-        altUnityDriver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 3);
+        altUnityDriver
+                .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                        .withDuration(3).withWait(false).build());
 
         altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
         altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-        altUnityDriver.swipe(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 5);
+        altUnityDriver
+                .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                        .withDuration(5).withWait(false).build());
 
         Thread.sleep(6000);
 
@@ -84,7 +94,6 @@ public class TestsSampleScene3 {
         imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters7)
                 .getComponentProperty("UnityEngine.UI.Image", "sprite");
         assertNotSame(imageSource, imageSourceDropZone);
-
     }
 
     @Test
@@ -107,19 +116,27 @@ public class TestsSampleScene3 {
 
         AltUnityObject altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
         AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-        altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
+        altUnityDriver
+                .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                        .withDuration(2).build());
 
         altElement1 = altUnityDriver.findObject(altFindObjectsParameters3);
         altElement2 = altUnityDriver.findObject(altFindObjectsParameters5);
-        altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 2);
+        altUnityDriver
+                .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                        .withDuration(2).build());
 
         altElement1 = altUnityDriver.findObject(altFindObjectsParameters4);
         altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-        altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 3);
+        altUnityDriver
+                .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                        .withDuration(3).build());
 
         altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
         altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-        altUnityDriver.swipeAndWait(altElement1.x, altElement1.y, altElement2.x, altElement2.y, 1);
+        altUnityDriver
+                .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                        .withDuration(1).build());
         String imageSource = altUnityDriver.findObject(altFindObjectsParameters1)
                 .getComponentProperty("UnityEngine.UI.Image", "sprite");
         String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters6)
@@ -166,7 +183,8 @@ public class TestsSampleScene3 {
         List<Vector2> positions = Arrays.asList(new Vector2(altElement1.x, altElement1.y),
                 new Vector2(altElement2.x, altElement2.y));
 
-        altUnityDriver.multipointSwipe(positions, 2);
+        altUnityDriver.multipointSwipe(
+                new AltMultiPointSwipeParameters.Builder(positions).withDuration(2).withWait(false).build());
 
         Thread.sleep(2000);
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drag Image1").build();
@@ -180,7 +198,7 @@ public class TestsSampleScene3 {
 
         List<Vector2> positions2 = Arrays.asList(new Vector2(altElement1.x, altElement1.y),
                 new Vector2(altElement2.x, altElement2.y), new Vector2(altElement3.x, altElement3.y));
-        altUnityDriver.multipointSwipeAndWait(positions2, 3);
+        altUnityDriver.multipointSwipe(new AltMultiPointSwipeParameters.Builder(positions2).withDuration(3).build());
 
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drag Image1").build();
         String imageSource = altUnityDriver.findObject(findObjectParams).getComponentProperty("UnityEngine.UI.Image",

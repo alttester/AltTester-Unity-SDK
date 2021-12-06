@@ -1,11 +1,11 @@
 namespace Altom.AltUnityDriver.Commands
 {
-    public class AltUnityPressKey : AltBaseCommand
+    public class AltUnityScroll : AltBaseCommand
     {
-        AltUnityPressKeyboardKeyParams cmdParams;
-        public AltUnityPressKey(IDriverCommunication commHandler, AltUnityKeyCode keyCode, float power, float duration, bool wait) : base(commHandler)
+        AltUnityScrollParams cmdParams;
+        public AltUnityScroll(IDriverCommunication commHandler, float speed, float duration, bool wait) : base(commHandler)
         {
-            cmdParams = new AltUnityPressKeyboardKeyParams(keyCode, power, duration, wait);
+            cmdParams = new AltUnityScrollParams(speed, duration, wait);
         }
         public void Execute()
         {

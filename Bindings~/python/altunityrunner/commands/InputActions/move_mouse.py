@@ -1,24 +1,32 @@
-from altunityrunner.commands.base_command import BaseCommand
+from altunityrunner.commands.base_command import validate_coordinates, BaseCommand
 
 
 class MoveMouse(BaseCommand):
 
-    def __init__(self, connection, x, y, duration):
+    def __init__(self, connection, coordinates, duration, wait):
         super().__init__(connection, "moveMouse")
 
-        self.x = x
-        self.y = y
+        self.coordinates = validate_coordinates(coordinates)
         self.duration = duration
+        self.wait = wait
 
     @property
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
-            "location": self.vector_to_json(self.x, self.y),
-            "duration": self.duration
+            "coordinates": self.coordinates,
+            "duration": self.duration,
+            "wait": self.wait,
         })
 
         return parameters
 
     def execute(self):
-        return self.send()
+        data = self.send()
+        self.validate_response("Ok", data)
+
+        if self.wait:
+            data = self.recv()
+            self.validate_response("Finished", data)
+
+        return data

@@ -25,15 +25,15 @@ public class TestInputActions
     }
 
     [Test]
-    public void TestScrollMouseAndWait()
+    public void TestScrollAndWait()
     {
         altUnityDriver.LoadScene("Scene6");
 
         var scrollBar = altUnityDriver.WaitForObject(By.PATH, "//ScrollCanvas//Handle");
 
         AltUnityVector2 scrollBarInitialPosition = scrollBar.getScreenPosition();
-        altUnityDriver.MoveMouseAndWait(scrollBarInitialPosition);
-        altUnityDriver.ScrollMouseAndWait(-20, 0.1f);
+        altUnityDriver.MoveMouse(scrollBarInitialPosition);
+        altUnityDriver.Scroll(-20, 0.1f);
 
         scrollBar = altUnityDriver.FindObject(By.PATH, "//ScrollCanvas//Handle");
         AltUnityVector2 scrollBarFinalPosition = scrollBar.getScreenPosition();

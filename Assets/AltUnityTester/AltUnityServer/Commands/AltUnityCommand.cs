@@ -2,9 +2,7 @@ using System;
 using System.Globalization;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Altom.AltUnityTester.Logging;
 using Newtonsoft.Json;
-using NLog;
 
 namespace Altom.AltUnityTester.Commands
 {

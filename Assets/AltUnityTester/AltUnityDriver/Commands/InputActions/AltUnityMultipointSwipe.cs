@@ -1,15 +1,12 @@
-using System;
-
 namespace Altom.AltUnityDriver.Commands
 {
-
     public class AltUnityMultipointSwipe : AltBaseCommand
     {
-        AltUnityMultipointSwipeChainParams cmdParams;
+        AltUnityMultipointSwipeParams cmdParams;
 
-        public AltUnityMultipointSwipe(IDriverCommunication commHandler, AltUnityVector2[] positions, float duration) : base(commHandler)
+        public AltUnityMultipointSwipe(IDriverCommunication commHandler, AltUnityVector2[] positions, float duration, bool wait) : base(commHandler)
         {
-            cmdParams = new AltUnityMultipointSwipeChainParams(positions, duration);
+            cmdParams = new AltUnityMultipointSwipeParams(positions, duration, wait);
         }
 
         public void Execute()
@@ -17,6 +14,12 @@ namespace Altom.AltUnityDriver.Commands
             CommHandler.Send(cmdParams);
             var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
+
+            if (cmdParams.wait)
+            {
+                data = CommHandler.Recvall<string>(cmdParams).data;
+                ValidateResponse("Finished", data);
+            }
         }
     }
 }

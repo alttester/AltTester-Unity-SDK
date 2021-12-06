@@ -176,34 +176,50 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnityGetCurrentScene(communicationHandler).Execute();
         }
-        public void Swipe(AltUnityVector2 start, AltUnityVector2 end, float duration)
+        /// <summary>
+        /// Simulates a swipe action between two points.
+        /// </summary>
+        /// <param name="start">Coordinates of the screen where the swipe begins</param>
+        /// <param name="end">Coordinates of the screen where the swipe ends</param>
+        /// <param name="duration">The time measured in seconds to move the mouse from start to end location. Defaults to <c>0.1</c>.</param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void Swipe(AltUnityVector2 start, AltUnityVector2 end, float duration = 0.1f, bool wait = true)
         {
-            new AltUnitySwipe(communicationHandler, start, end, duration).Execute();
-        }
-        public void SwipeAndWait(AltUnityVector2 start, AltUnityVector2 end, float duration)
-        {
-            new AltUnitySwipeAndWait(communicationHandler, start, end, duration).Execute();
-        }
-        public void MultipointSwipe(AltUnityVector2[] positions, float duration)
-        {
-            new AltUnityMultipointSwipe(communicationHandler, positions, duration).Execute();
-        }
-        public void MultipointSwipeAndWait(AltUnityVector2[] positions, float duration)
-        {
-            new AltUnityMultipointSwipeAndWait(communicationHandler, positions, duration).Execute();
-        }
-        public void HoldButton(AltUnityVector2 position, float duration)
-        {
-            Swipe(position, position, duration);
-        }
-        public void HoldButtonAndWait(AltUnityVector2 position, float duration)
-        {
-            SwipeAndWait(position, position, duration);
+            new AltUnitySwipe(communicationHandler, start, end, duration, wait).Execute();
         }
 
-        public void PressKey(AltUnityKeyCode keyCode, float power = 1, float duration = 1)
+        /// <summary>
+        /// Simulates a multipoint swipe action.
+        /// </summary>
+        /// <param name="positions">A list of positions on the screen where the swipe be made.</param>
+        /// <param name="duration">The time measured in seconds to swipe from first position to the last position. Defaults to <code>0.1</code>.</param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void MultipointSwipe(AltUnityVector2[] positions, float duration = 0.1f, bool wait = true)
         {
-            new AltUnityPressKey(communicationHandler, keyCode, power, duration).Execute();
+            new AltUnityMultipointSwipe(communicationHandler, positions, duration, wait).Execute();
+        }
+
+        /// <summary>
+        /// Simulates holding left click button down for a specified amount of time at given coordinates.
+        /// </summary>
+        /// <param name="coordinates">The coordinates where the button is held down.</param>
+        /// <param name="duration">The time measured in seconds to keep the button down.</param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void HoldButton(AltUnityVector2 coordinates, float duration, bool wait = true)
+        {
+            Swipe(coordinates, coordinates, duration, wait);
+        }
+
+        /// <summary>
+        /// Simulates key press action in your game.
+        /// </summary>
+        /// <param name="keyCode">The key code of the key simulated to be pressed.</param>
+        /// <param name="power" >A value between [-1,1] used for joysticks to indicate how hard the button was pressed. Defaults to <c>1</c>.</param>
+        /// <param name="duration">The time measured in seconds from the key press to the key release. Defaults to <c>0.1</c></param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void PressKey(AltUnityKeyCode keyCode, float power = 1, float duration = 0.1f, bool wait = true)
+        {
+            new AltUnityPressKey(communicationHandler, keyCode, power, duration, wait).Execute();
         }
         public void KeyDown(AltUnityKeyCode keyCode, float power = 1)
         {
@@ -214,25 +230,26 @@ namespace Altom.AltUnityDriver
             new AltUnityKeyUp(communicationHandler, keyCode).Execute();
         }
 
-        public void PressKeyAndWait(AltUnityKeyCode keyCode, float power = 1, float duration = 1)
+
+        /// <summary>
+        /// Simulate mouse movement in your game.
+        /// </summary>
+        /// <param name="coordinates">The screen coordinates</param>
+        /// <param name="duration">The time measured in seconds to move the mouse from the current mouse position to the set coordinates. Defaults to <c>0.1f</c></param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void MoveMouse(AltUnityVector2 coordinates, float duration = 0.1f, bool wait = true)
         {
-            new AltUnityPressKeyAndWait(communicationHandler, keyCode, power, duration).Execute();
+            new AltUnityMoveMouse(communicationHandler, coordinates, duration, wait).Execute();
         }
-        public void MoveMouse(AltUnityVector2 location, float duration = 0)
+        /// <summary>
+        /// Simulate scroll action in your game.
+        /// </summary>
+        /// <param name="speed">Set how fast to scroll. Positive values will scroll up and negative values will scroll down. Defaults to <code> 1 </code></param>
+        /// <param name="duration">The duration of the scroll in seconds. Defaults to <code> 0.1 </code></param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void Scroll(float speed = 1, float duration = 0.1f, bool wait = true)
         {
-            new AltUnityMoveMouse(communicationHandler, location, duration).Execute();
-        }
-        public void MoveMouseAndWait(AltUnityVector2 location, float duration = 0)
-        {
-            new AltUnityMoveMouseAndWait(communicationHandler, location, duration).Execute();
-        }
-        public void ScrollMouse(float speed, float duration = 0)
-        {
-            new AltUnityScrollMouse(communicationHandler, speed, duration).Execute();
-        }
-        public void ScrollMouseAndWait(float speed, float duration = 0)
-        {
-            new AltUnityScrollMouseAndWait(communicationHandler, speed, duration).Execute();
+            new AltUnityScroll(communicationHandler, speed, duration, wait).Execute();
         }
 
         /// <summary>
@@ -241,7 +258,7 @@ namespace Altom.AltUnityDriver
         /// <param name="coordinates">The screen coordinates</param>
         /// <param name="count">Number of taps</param>
         /// <param name="interval">Interval between taps in seconds</param>
-        /// <param name="wait">Wait for command to finish</param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
         public void Tap(AltUnityVector2 coordinates, int count = 1, float interval = 0.1f, bool wait = true)
         {
             new AltUnityTapCoordinates(communicationHandler, coordinates, count, interval, wait).Execute();
@@ -253,18 +270,20 @@ namespace Altom.AltUnityDriver
         /// <param name="coordinates">The screen coordinates</param>
         /// <param name="count" >Number of clicks.</param>
         /// <param name="interval">Interval between clicks in seconds</param>
-        /// <param name="wait">Wait for command to finish</param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
         public void Click(AltUnityVector2 coordinates, int count = 1, float interval = 0.1f, bool wait = true)
         {
             new AltUnityClickCoordinates(communicationHandler, coordinates, count, interval, wait).Execute();
         }
-        public void Tilt(AltUnityVector3 acceleration, float duration = 0)
+        /// <summary>
+        /// Simulates device rotation action in your game.
+        /// </summary>
+        /// <param name="acceleration">The linear acceleration of a device.</param>
+        /// <param name="duration">How long the rotation will take in seconds. Defaults to <code>0.1<code>.</param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void Tilt(AltUnityVector3 acceleration, float duration = 0.1f, bool wait = true)
         {
-            new AltUnityTilt(communicationHandler, acceleration, duration).Execute();
-        }
-        public void TiltAndWait(AltUnityVector3 acceleration, float duration = 0)
-        {
-            new AltUnityTiltAndWait(communicationHandler, acceleration, duration).Execute();
+            new AltUnityTilt(communicationHandler, acceleration, duration, wait).Execute();
         }
 
         public List<AltUnityObject> GetAllElements(By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)

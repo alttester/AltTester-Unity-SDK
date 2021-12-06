@@ -18,5 +18,10 @@ public class AltTilt extends AltBaseCommand {
         SendCommand(altTiltParameters);
         String data = recvall(altTiltParameters, String.class);
         validateResponse("Ok", data);
+
+        if (altTiltParameters.getWait()) {
+            data = recvall(altTiltParameters, String.class);
+            validateResponse("Finished", data);
+        }
     }
 }

@@ -21,6 +21,12 @@ public class AltMoveMouse extends AltBaseCommand {
 
     public void Execute() {
         SendCommand(altMoveMouseParameters);
-        recvall(altMoveMouseParameters, String.class);
+        String data = recvall(altMoveMouseParameters, String.class);
+        validateResponse("Ok", data);
+
+        if (altMoveMouseParameters.getWait()) {
+            data = recvall(altMoveMouseParameters, String.class);
+            validateResponse("Finished", data);
+        }
     }
 }

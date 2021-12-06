@@ -113,37 +113,34 @@ namespace Altom.AltUnityDriver.Commands
         {
         }
     }
-    [Command("actionFinished")]
-    public class AltUnityActionFinishedParams : CommandParams
-    {
-        public AltUnityActionFinishedParams() : base()
-        {
-        }
-    }
 
     [Command("moveMouse")]
     public class AltUnityMoveMouseParams : CommandParams
     {
-        public AltUnityVector2 location;
+        public AltUnityVector2 coordinates;
         public float duration;
+        public bool wait;
 
-        public AltUnityMoveMouseParams(AltUnityVector2 location, float duration) : base()
+        public AltUnityMoveMouseParams(AltUnityVector2 coordinates, float duration, bool wait) : base()
         {
-            this.location = location;
+            this.coordinates = coordinates;
             this.duration = duration;
+            this.wait = wait;
         }
     }
 
-    [Command("multipointSwipeChain")]
-    public class AltUnityMultipointSwipeChainParams : CommandParams
+    [Command("multipointSwipe")]
+    public class AltUnityMultipointSwipeParams : CommandParams
     {
         public AltUnityVector2[] positions;
         public float duration;
+        public bool wait;
 
-        public AltUnityMultipointSwipeChainParams(AltUnityVector2[] positions, float duration) : base()
+        public AltUnityMultipointSwipeParams(AltUnityVector2[] positions, float duration, bool wait) : base()
         {
             this.positions = positions;
             this.duration = duration;
+            this.wait = wait;
         }
     }
     [Command("pressKeyboardKey")]
@@ -152,40 +149,46 @@ namespace Altom.AltUnityDriver.Commands
         public AltUnityKeyCode keyCode;
         public float power;
         public float duration;
+        public bool wait;
 
-        public AltUnityPressKeyboardKeyParams(AltUnityKeyCode keyCode, float power, float duration) : base()
+        public AltUnityPressKeyboardKeyParams(AltUnityKeyCode keyCode, float power, float duration, bool wait) : base()
         {
             this.keyCode = keyCode;
             this.power = power;
             this.duration = duration;
+            this.wait = wait;
         }
     }
 
-    [Command("scrollMouse")]
-    public class AltUnityScrollMouseParams : CommandParams
+    [Command("scroll")]
+    public class AltUnityScrollParams : CommandParams
     {
         public float speed;
         public float duration;
+        public bool wait;
 
-        public AltUnityScrollMouseParams(float speed, float duration) : base()
+        public AltUnityScrollParams(float speed, float duration, bool wait) : base()
         {
             this.speed = speed;
             this.duration = duration;
+            this.wait = wait;
         }
     }
 
-    [Command("multipointSwipe")]
-    public class AltUnityMultipointSwipeParams : CommandParams
+    [Command("swipe")]
+    public class AltUnitySwipeParams : CommandParams
     {
         public AltUnityVector2 start;
         public AltUnityVector2 end;
         public float duration;
+        public bool wait;
 
-        public AltUnityMultipointSwipeParams(AltUnityVector2 start, AltUnityVector2 end, float duration) : base()
+        public AltUnitySwipeParams(AltUnityVector2 start, AltUnityVector2 end, float duration, bool wait) : base()
         {
             this.start = start;
             this.end = end;
             this.duration = duration;
+            this.wait = wait;
         }
     }
 
@@ -195,12 +198,13 @@ namespace Altom.AltUnityDriver.Commands
     {
         public AltUnityVector3 acceleration;
         public float duration;
+        public bool wait;
 
-
-        public AltUnityTiltParams(AltUnityVector3 acceleration, float duration) : base()
+        public AltUnityTiltParams(AltUnityVector3 acceleration, float duration, bool wait) : base()
         {
             this.acceleration = acceleration;
             this.duration = duration;
+            this.wait = wait;
         }
     }
     public class BaseAltUnityObjectParams : CommandParams

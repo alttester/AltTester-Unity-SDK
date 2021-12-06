@@ -45,44 +45,44 @@ public class AltBaseCommand {
         logger.error(error.trace);
 
         switch (error.type) {
-            case AltUnityErrors.errorNotFound:
-                throw new NotFoundException(error.message);
-            case AltUnityErrors.errorSceneNotFound:
-                throw new SceneNotFoundException(error.message);
-            case AltUnityErrors.errorPropertyNotFound:
-                throw new PropertyNotFoundException(error.message);
-            case AltUnityErrors.errorMethodNotFound:
-                throw new MethodNotFoundException(error.message);
-            case AltUnityErrors.errorComponentNotFound:
-                throw new ComponentNotFoundException(error.message);
-            case AltUnityErrors.errorAssemblyNotFound:
-                throw new AssemblyNotFoundException(error.message);
-            case AltUnityErrors.errorCouldNotPerformOperation:
-                throw new CouldNotPerformOperationException(error.message);
-            case AltUnityErrors.errorMethodWithGivenParametersNotFound:
-                throw new MethodWithGivenParametersNotFoundException(error.message);
-            case AltUnityErrors.errorFailedToParseArguments:
-                throw new FailedToParseArgumentsException(error.message);
-            case AltUnityErrors.errorInvalidParameterType:
-                throw new InvalidParameterTypeException(error.message);
-            case AltUnityErrors.errorObjectNotFound:
-                throw new ObjectWasNotFoundException(error.message);
-            case AltUnityErrors.errorPropertyNotSet:
-                throw new PropertyNotFoundException(error.message);
-            case AltUnityErrors.errorNullReference:
-                throw new NullReferenceException(error.message);
-            case AltUnityErrors.errorUnknownError:
-                throw new UnknownErrorException(error.message);
-            case AltUnityErrors.errorFormatException:
-                throw new FormatException(error.message);
-            case AltUnityErrors.errorInvalidPath:
-                throw new InvalidPathException(error.message);
-            case AltUnityErrors.errorInvalidCommand:
-                throw new InvalidCommandException(error.message);
-            case AltUnityErrors.errorInputModule:
-                throw new AltUnityInputModuleException(error.message);
-            case AltUnityErrors.errorCameraNotFound:
-                throw new CameraNotFoundException(error.message);
+        case AltUnityErrors.errorNotFound:
+            throw new NotFoundException(error.message);
+        case AltUnityErrors.errorSceneNotFound:
+            throw new SceneNotFoundException(error.message);
+        case AltUnityErrors.errorPropertyNotFound:
+            throw new PropertyNotFoundException(error.message);
+        case AltUnityErrors.errorMethodNotFound:
+            throw new MethodNotFoundException(error.message);
+        case AltUnityErrors.errorComponentNotFound:
+            throw new ComponentNotFoundException(error.message);
+        case AltUnityErrors.errorAssemblyNotFound:
+            throw new AssemblyNotFoundException(error.message);
+        case AltUnityErrors.errorCouldNotPerformOperation:
+            throw new CouldNotPerformOperationException(error.message);
+        case AltUnityErrors.errorMethodWithGivenParametersNotFound:
+            throw new MethodWithGivenParametersNotFoundException(error.message);
+        case AltUnityErrors.errorFailedToParseArguments:
+            throw new FailedToParseArgumentsException(error.message);
+        case AltUnityErrors.errorInvalidParameterType:
+            throw new InvalidParameterTypeException(error.message);
+        case AltUnityErrors.errorObjectNotFound:
+            throw new ObjectWasNotFoundException(error.message);
+        case AltUnityErrors.errorPropertyNotSet:
+            throw new PropertyNotFoundException(error.message);
+        case AltUnityErrors.errorNullReference:
+            throw new NullReferenceException(error.message);
+        case AltUnityErrors.errorUnknownError:
+            throw new UnknownErrorException(error.message);
+        case AltUnityErrors.errorFormatException:
+            throw new FormatException(error.message);
+        case AltUnityErrors.errorInvalidPath:
+            throw new InvalidPathException(error.message);
+        case AltUnityErrors.errorInvalidCommand:
+            throw new InvalidCommandException(error.message);
+        case AltUnityErrors.errorInputModule:
+            throw new AltUnityInputModuleException(error.message);
+        case AltUnityErrors.errorCameraNotFound:
+            throw new CameraNotFoundException(error.message);
         }
 
         logger.error(error.type + " is not handled by driver.");

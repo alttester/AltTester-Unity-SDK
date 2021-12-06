@@ -5,18 +5,23 @@ using Altom.AltUnityTester.Communication;
 
 namespace Altom.AltUnityTester.Commands
 {
-    public class AltUnityClickCoordinatesCommand : AltUnityCommandWithWait<AltUnityClickCoordinatesParams, string>
+    class AltUnityScrollCommand : AltUnityCommandWithWait<AltUnityScrollParams, string>
     {
-        public AltUnityClickCoordinatesCommand(ICommandHandler handler, AltUnityClickCoordinatesParams cmdParams) : base(cmdParams, handler, cmdParams.wait)
+
+
+        public AltUnityScrollCommand(ICommandHandler handler, AltUnityScrollParams cmdParams) : base(cmdParams, handler, cmdParams.wait)
         {
         }
+
         public override string Execute()
         {
+
 #if ALTUNITYTESTER
-            Input.ClickCoordinates(CommandParams.coordinates.ToUnity(), CommandParams.count, CommandParams.interval, onFinish);
+            Input.Scroll(CommandParams.speed, CommandParams.duration, onFinish);
             return "Ok";
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+
 #endif
         }
     }

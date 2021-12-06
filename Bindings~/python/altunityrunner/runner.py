@@ -451,54 +451,32 @@ class AltUnityDriver:
 
         return self._get_alt_unity_objects(data)
 
-    def move_mouse(self, x, y, duration=1):
-        """Simulates mouse movement in your game. This command does not wait for the movement to finish.
+    def move_mouse(self, coordinates, duration=0.1, wait=True):
+        """Simulates mouse movement in your game.
 
         Args:
-            x: The x position of the destination.
-            y: The y position of the destination.
-            duration: The time measured in seconds to move the mouse from current position to the set location.
+            coordinates (:obj:`dict`): The screen coordinates
+            duration (:obj:`int`): The time measured in seconds to move the mouse from current position to the
+                    set location. Defaults to ``0.1``
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
         """
 
-        commands.MoveMouse.run(self._connection, x, y, duration)
+        commands.MoveMouse.run(self._connection, coordinates, duration, wait)
 
-    def move_mouse_and_wait(self, x, y, duration=1):
-        """Simulates mouse movement in your game. This command will wait for the movement to finish.
-
-        Args:
-            x: The x position of the destination.
-            y: The y position of the destination.
-            duration: The time measured in seconds to move the mouse from current position to the set location.
-        """
-
-        commands.MoveMouseAndWait.run(self._connection, x, y, duration)
-
-    def scroll_mouse(self, speed, duration=1):
-        """Simulates scroll mouse action in your game. This command does not wait for the action to finish.
+    def scroll(self, speed=1, duration=0.1, wait=True):
+        """Simulate scroll mouse action in your game.
 
         Args:
             speed (:obj:`float`): Set how fast to scroll. Positive values will scroll up and negative values will
-                scroll down.
-            duration (:obj:`float`): The time measured in seconds to scroll.
+                scroll down. Defaults to ``1``
+            duration (:obj:`float`): The duration of the scroll in seconds. Defaults to ``0.1``.
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
         """
 
-        commands.ScrollMouse.run(
+        commands.Scroll.run(
             self._connection,
-            speed, duration
-        )
-
-    def scroll_mouse_and_wait(self, speed, duration=1):
-        """Simulates scroll mouse action in your game. This command waits for the action to finish.
-
-        Args:
-            speed (:obj:`float`): Set how fast to scroll. Positive values will scroll up and negative values will
-                scroll down.
-            duration (:obj:`float`): The time measured in seconds to scroll.
-        """
-
-        commands.ScrollMouseAndWait.run(
-            self._connection,
-            speed, duration
+            speed, duration,
+            wait,
         )
 
     def click(self, coordinates, count=1, interval=0.1, wait=True):
@@ -533,32 +511,18 @@ class AltUnityDriver:
 
         commands.KeyUp.run(self._connection, key_code)
 
-    def press_key_with_keycode(self, key_code, power=1, duration=1):
-        """Simulates key press action in your game. This command does not wait for the action to finish.
+    def press_key(self, key_code, power=1, duration=0.1, wait=True):
+        """Simulates key press action in your game.
 
         Args:
             key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be pressed.
             power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the button was
                 pressed. Defaults to ``1``.
             duration (:obj:`float`): The time measured in seconds from the key press to the key release.
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
         """
 
-        commands.PressKey.run(self._connection, key_code, power, duration)
-
-    def press_key_with_keycode_and_wait(self, key_code, power=1, duration=1):
-        """Simulates key press action in your game. This command waits for the action to finish.
-
-        Args:
-            key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be pressed.
-            power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the button was
-                pressed. Defaults to ``1``.
-            duration (:obj:`float`): The time measured in seconds from the key press to the key release.
-        """
-
-        commands.PressKeyAndWait.run(
-            self._connection,
-            key_code, power, duration
-        )
+        commands.PressKey.run(self._connection, key_code, power, duration, wait)
 
     def begin_touch(self, coordinates):
         """Simulates starting of a touch on the screen.
@@ -593,66 +557,33 @@ class AltUnityDriver:
 
         commands.EndTouch.run(self._connection, finger_id)
 
-    def swipe(self, x_start, y_start, x_end, y_end, duration=1):
-        """Simulates a swipe action in your game. This command does not wait for the action to finish.
+    def swipe(self, start, end, duration=0.1, wait=True):
+        """Simulates a swipe action between two points.
 
         Args:
-            x_start (:obj:`float`): The x coordinate of the screen where the swipe begins.
-            y_start (:obj:`float`): The y coordinate of the screen where the swipe begins.
-            x_end (:obj:`float`): The x coordinate of the screen where the swipe ends.
-            y_end (:obj:`float`): The y coordinate of the screen where the swipe ends.
-            duration (:obj:`float`): The time measured in seconds to swipe from current position to the set location.
-                Defaults to ``1``.
+            start (:obj:`dict`): Coordinates of the screen where the swipe begins.
+            end (:obj:`dict`): Coordinates of the screen where the swipe ends.
+            duration (:obj:`float`): The time measured in seconds to move the mouse from start to end location.
+                    Defaults to ``0.1``.
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
         """
 
         commands.Swipe.run(
             self._connection,
-            x_start, y_start, x_end, y_end, duration
+            start, end, duration, wait
         )
 
-    def swipe_and_wait(self, x_start, y_start, x_end, y_end, duration=1):
-        """Simulates a swipe action in your game. This command waits for the action to finish.
+    def multipoint_swipe(self, positions, duration=0.1, wait=True):
+        """Simulates a multipoint swipe action.
 
         Args:
-            x_start (:obj:`float`): The x coordinate of the screen where the swipe begins.
-            y_start (:obj:`float`): The y coordinate of the screen where the swipe begins.
-            x_end (:obj:`float`): The x coordinate of the screen where the swipe ends.
-            y_end (:obj:`float`): The y coordinate of the screen where the swipe ends.
-            duration (:obj:`float`): The time measured in seconds to swipe from current position to the set location.
-                Defaults to ``1``.
+            positions (:obj:`List[dict]`): A list of positions on the screen where the swipe be made.
+            duration (:obj:`float`): The time measured in seconds to swipe from first position to the last position.
+                Defaults to ``0.1``.
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
         """
 
-        commands.SwipeAndWait.run(
-            self._connection,
-            x_start, y_start, x_end, y_end, duration
-        )
-
-    def multipoint_swipe(self, positions, duration=1):
-        """Similar command like swipe but instead of swipe from point A to point B you are able to give list a points.
-        This command does not wait for the action to finish.
-
-        Args:
-            positions (:obj:`dict`): A list of positions on the screen where the swipe be made.
-            duration (:obj:`float`): The time measured in seconds to swipe from current position to the set location.
-                Defaults to ``1``.
-        """
-
-        commands.MultipointSwipe.run(self._connection, positions, duration)
-
-    def multipoint_swipe_and_wait(self, positions, duration=1):
-        """Similar command like swipe but instead of swipe from point A to point B you are able to give list a points.
-        This command waits for the action to finish.
-
-        Args:
-            positions (:obj:`dict`): A list of positions on the screen where the swipe be made.
-            duration (:obj:`float`): The time measured in seconds to swipe from current position to the set location.
-                Defaults to ``1``.
-        """
-
-        commands.MultipointSwipeAndWait.run(
-            self._connection,
-            positions, duration
-        )
+        commands.MultipointSwipe.run(self._connection, positions, duration, wait)
 
     def tap(self, coordinates, count=1, interval=0.1, wait=True):
         """Tap at screen coordinates.
@@ -666,30 +597,16 @@ class AltUnityDriver:
 
         commands.TapCoordinates.run(self._connection, coordinates, count, interval, wait)
 
-    def tilt(self, x, y, z, duration=0):
-        """Simulates device rotation action in your game. his command does not wait for the action to finish.
+    def tilt(self, acceleration, duration=0.1, wait=True):
+        """Simulates device rotation action in your game.
 
         Args:
-            x (:obj:`float`): The linear acceleration of a device on x.
-            y (:obj:`float`): The linear acceleration of a device on y.
-            z (:obj:`float`): The linear acceleration of a device on z.
-            duration (:obj:`float`): How long the rotation will take in seconds. Defaults to ``0``.
+            acceleration (:obj:`dict`): The linear acceleration of a device.
+            duration (:obj:`float`): How long the rotation will take in seconds. Defaults to ``0.1``.
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
         """
 
-        commands.Tilt.run(self._connection, x, y, z, duration)
-
-    def tilt_and_wait(self, x, y, z, duration=0):
-        """Simulates device rotation action in your game. This command waits for the action to finish.
-
-
-        Args:
-            x (:obj:`float`): The linear acceleration of a device on x.
-            y (:obj:`float`): The linear acceleration of a device on y.
-            z (:obj:`float`): The linear acceleration of a device on z.
-            duration (:obj:`float`): How long the rotation will take in seconds. Defaults to ``0``.
-        """
-
-        commands.TiltAndWait.run(self._connection, x, y, z, duration)
+        commands.Tilt.run(self._connection, acceleration, duration, wait)
 
     def get_png_screenshot(self, path):
         """Creates a screenshot of the current scene in png format at the given path.
@@ -700,16 +617,17 @@ class AltUnityDriver:
 
         commands.GetPNGScreenshot.run(self._connection, path)
 
-    def hold_button(self, x, y, duration=0):
+    def hold_button(self, coordinates, duration=0.1, wait=True):
+        """Simulates holding left click button down for a specified amount of time at given coordinates.
+
+        Args:
+            coordinates (:obj:`dict`): The coordinates where the button is held down
+            duration (:obj:`float`): The time measured in seconds to keep the button down.. Defaults to ``0.1``.
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+        """
         return commands.Swipe.run(
             self._connection,
-            x, y, x, y, duration
-        )
-
-    def hold_button_and_wait(self, x, y, duration=0):
-        return commands.SwipeAndWait.run(
-            self._connection,
-            x, y, x, y, duration
+            coordinates, coordinates, duration, wait
         )
 
     def get_static_property(self, component_name, property_name, assembly="", max_depth=2):
@@ -722,6 +640,7 @@ class AltUnityDriver:
             assembly (:obj:`float`): The name of the assembly containing the component mentioned above.
             max_depth (:obj:`float`): The value determining how deep to go in the hierarchy of objects
             to find the field or property.
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
         """
 
         return commands.GetStaticProperty.run(

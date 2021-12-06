@@ -3,21 +3,42 @@ package ro.altom.altunitytester.Commands.InputActions;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.position.Vector2;
 
-public class AltMoveMouseParameters extends AltMessage{
-    public static class Builder{
-        private Vector2 location;
-        private float duration =1;
-        public Builder(int x,int y){
-            this.location = new Vector2(x, y);
+public class AltMoveMouseParameters extends AltMessage {
+    public static class Builder {
+        private Vector2 coordinates;
+        private float duration = 0.1f;
+        private boolean wait;
+
+        /**
+         * @param coordinates The screen coordinates
+         */
+        public Builder(Vector2 coordinates) {
+            this.coordinates = coordinates;
         }
-        public Builder withDuration(float duration){
+
+        /**
+         * @param duration The time measured in seconds to move the mouse from the
+         *                 current position to the set location. Defaults to
+         *                 <code>0.1</code>
+         */
+        public AltMoveMouseParameters.Builder withDuration(float duration) {
             this.duration = duration;
             return this;
         }
-        public AltMoveMouseParameters build(){
-            AltMoveMouseParameters altMoveMouseParameter=new AltMoveMouseParameters();
-            altMoveMouseParameter.location = this.location;
-            altMoveMouseParameter.duration =this.duration;
+
+        /**
+         * @param wait If set wait for command to finish. Defaults to <code>true</code>.
+         */
+        public AltMoveMouseParameters.Builder withWait(boolean wait) {
+            this.wait = wait;
+            return this;
+        }
+
+        public AltMoveMouseParameters build() {
+            AltMoveMouseParameters altMoveMouseParameter = new AltMoveMouseParameters();
+            altMoveMouseParameter.coordinates = this.coordinates;
+            altMoveMouseParameter.duration = this.duration;
+            altMoveMouseParameter.wait = this.wait;
             return altMoveMouseParameter;
         }
     }
@@ -26,23 +47,16 @@ public class AltMoveMouseParameters extends AltMessage{
         this.setCommandName("moveMouse");
     }
 
-    private Vector2 location;
+    private Vector2 coordinates;
     private float duration;
+    private boolean wait;
 
-    public int getX() {
-        return (int)location.x;
+    public Vector2 getCoordinates() {
+        return coordinates;
     }
 
-    public void setX(int x) {
-        this.location.x = x;
-    }
-
-    public int getY() {
-        return (int)location.y;
-    }
-
-    public void setY(int y) {
-        this.location.y = y;
+    public void setCoordinates(Vector2 location) {
+        this.coordinates = location;
     }
 
     public float getDuration() {
@@ -51,5 +65,13 @@ public class AltMoveMouseParameters extends AltMessage{
 
     public void setDuration(float duration) {
         this.duration = duration;
+    }
+
+    public boolean getWait() {
+        return this.wait;
+    }
+
+    public void setWait(boolean wait) {
+        this.wait = wait;
     }
 }

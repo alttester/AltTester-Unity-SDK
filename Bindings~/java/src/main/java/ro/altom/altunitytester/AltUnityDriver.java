@@ -16,7 +16,6 @@ import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import ro.altom.altunitytester.position.Vector2;
 
 import java.io.IOException;
-import java.util.List;
 
 public class AltUnityDriver {
     static {
@@ -73,7 +72,7 @@ public class AltUnityDriver {
 
     private String[] splitVersion(String version) {
         String[] parts = version.split("\\.");
-        return new String[] {parts[0], (parts.length > 1) ? parts[1] : ""};
+        return new String[] { parts[0], (parts.length > 1) ? parts[1] : "" };
     }
 
     private void checkServerVersion() {
@@ -88,7 +87,9 @@ public class AltUnityDriver {
         String minorDriver = parts[1];
 
         if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
-            String message = String.format("Version mismatch. AltUnity Driver version is %s. AltUnity Tester version is %s.", AltUnityDriver.VERSION, serverVersion);
+            String message = String.format(
+                    "Version mismatch. AltUnity Driver version is %s. AltUnity Tester version is %s.",
+                    AltUnityDriver.VERSION, serverVersion);
             log.warn(message);
             System.out.println(message);
         }
@@ -170,65 +171,25 @@ public class AltUnityDriver {
     }
 
     /**
-     * Simulate scroll mouse action in your game. This command does not wait for the
-     * action to finish.
-     *
-     * @param xStart         x coordinate of the screen where the swipe begins.
-     * @param yStart         y coordinate of the screen where the swipe begins.
-     * @param xEnd           x coordinate of the screen where the swipe ends.
-     * @param yEnd           y coordinate of the screen where the swipe ends.
-     * @param durationInSecs The time measured in seconds to move the mouse from
-     *                       current position to the set location.
+     * Simulates a swipe action between two points.
      */
-    public void swipe(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
-        new AltSwipe(this.connection.messageHandler, xStart, yStart, xEnd, yEnd, durationInSecs).Execute();
+    public void swipe(AltSwipeParameters swipeParams) {
+        new AltSwipe(this.connection.messageHandler, swipeParams).Execute();
     }
 
     /**
-     * Simulate scroll mouse action in your game. This command waits for the action
-     * to finish.
-     *
-     * @param xStart         x coordinate of the screen where the swipe begins.
-     * @param yStart         y coordinate of the screen where the swipe begins.
-     * @param xEnd           x coordinate of the screen where the swipe ends.
-     * @param yEnd           y coordinate of the screen where the swipe ends.
-     * @param durationInSecs The time measured in seconds to move the mouse from
-     *                       current position to the set location.
+     * Simulates a multipoint swipe action.
      */
-    public void swipeAndWait(int xStart, int yStart, int xEnd, int yEnd, float durationInSecs) {
-        new AltSwipeAndWait(this.connection.messageHandler, xStart, yStart, xEnd, yEnd, durationInSecs).Execute();
+    public void multipointSwipe(AltMultiPointSwipeParameters paramers) {
+        new AltMultiPointSwipe(this.connection.messageHandler, paramers).Execute();
     }
 
     /**
-     * Similar command like swipe but instead of swipe from point A to point B you
-     * are able to give list a points.
-     *
-     * @param positions      collection of positions on the screen where the swipe
-     *                       be made
-     * @param durationInSecs how many seconds the swipe will need to complete
+     * Simulates holding left click button down for a specified amount of time at
+     * given coordinates.
      */
-    public void multipointSwipe(List<Vector2> positions, float durationInSecs) {
-        new AltMultiPointSwipe(this.connection.messageHandler, positions, durationInSecs).Execute();
-    }
-
-    /**
-     * Similar command like swipe but instead of swipe from point A to point B you
-     * are able to give list a points. Waits for the movement to finish
-     *
-     * @param positions      collection of positions on the screen where the swipe
-     *                       be made
-     * @param durationInSecs how many seconds the swipe will need to complete
-     */
-    public void multipointSwipeAndWait(List<Vector2> positions, float durationInSecs) {
-        new AltMultiPointSwipeAndWait(this.connection.messageHandler, positions, durationInSecs).Execute();
-    }
-
-    public void holdButton(int xPosition, int yPosition, float durationInSecs) {
-        swipe(xPosition, yPosition, xPosition, yPosition, durationInSecs);
-    }
-
-    public void holdButtonAndWait(int xPosition, int yPosition, float durationInSecs) {
-        swipeAndWait(xPosition, yPosition, xPosition, yPosition, durationInSecs);
+    public void holdButton(AltHoldParameters holdParams) {
+        swipe(holdParams);
     }
 
     /**
@@ -239,39 +200,10 @@ public class AltUnityDriver {
     }
 
     /**
-     * Simulates device rotation action in your game and waits for the action to
-     * finish.
-     */
-    public void tiltAndWait(AltTiltParameters altTiltParameters) {
-        new AltTiltAndWait(this.connection.messageHandler, altTiltParameters).Execute();
-    }
-
-    /**
-     * Similar command like swipe but instead of swipe from point A to point B you
-     * are able to give list a points.
-     *
-     * @param altPressKeyParameters the builder for the press key commands.
+     * Simulates key press action in your game.
      */
     public void pressKey(AltPressKeyParameters altPressKeyParameters) {
         new AltPressKey(this.connection.messageHandler, altPressKeyParameters).Execute();
-    }
-
-    public void pressKey(AltUnityKeyCode keyCode, float power, float duration) {
-        pressKey(BuildPressKeyParameters(keyCode, power, duration));
-    }
-
-    /**
-     * Similar command like swipe but instead of swipe from point A to point B you
-     * are able to give list a points.
-     *
-     * @param altPressKeyParameters the builder for the press key commands.
-     */
-    public void pressKeyAndWait(AltPressKeyParameters altPressKeyParameters) {
-        new AltPressKeyAndWait(this.connection.messageHandler, altPressKeyParameters).Execute();
-    }
-
-    public void pressKeyAndWait(AltUnityKeyCode keyCode, float power, float duration) {
-        pressKeyAndWait(BuildPressKeyParameters(keyCode, power, duration));
     }
 
     public void keyDown(AltKeyParameters altKeyParameters) {
@@ -283,63 +215,25 @@ public class AltUnityDriver {
     }
 
     /**
-     * Simulate mouse movement in your game. This command does not wait for the
-     * movement to finish.
+     * Simulate mouse movement in your game.
      *
-     * @param altMoveMouseParameters the builder for the mouse moves command.
+     * @param altMoveMouseParameters the builder for the move mouse command.
      */
     public void moveMouse(AltMoveMouseParameters altMoveMouseParameters) {
         new AltMoveMouse(this.connection.messageHandler, altMoveMouseParameters).Execute();
     }
 
-    public void moveMouse(int x, int y, float duration) {
-        moveMouse(BuildMoveMouseParameters(x, y, duration));
-    }
-
     /**
-     * Simulate mouse movement in your game. This command waits for the movement to
-     * finish.
+     * Simulate scroll action in your game.
      *
-     * @param altMoveMouseParameters the builder for the mouse moves command.
+     * @param altScrollParameters the builder for the scroll command.
      */
-    public void moveMouseAndWait(AltMoveMouseParameters altMoveMouseParameters) {
-        new AltMoveMouseAndWait(this.connection.messageHandler, altMoveMouseParameters).Execute();
-    }
-
-    public void moveMouseAndWait(int x, int y, float duration) {
-        moveMouseAndWait(BuildMoveMouseParameters(x, y, duration));
+    public void scroll(AltScrollParameters altScrollParameters) {
+        new AltScroll(this.connection.messageHandler, altScrollParameters).Execute();
     }
 
     /**
-     * Simulate scroll mouse action in your game. This command does not wait for the
-     * action to finish.
-     *
-     * @param altScrollMouseParameters the builder for the scroll commands.
-     */
-    public void scrollMouse(AltScrollMouseParameters altScrollMouseParameters) {
-        new AltScrollMouse(this.connection.messageHandler, altScrollMouseParameters).Execute();
-    }
-
-    public void scrollMouse(float speed, float duration) {
-        scrollMouse(BuildScrollMouseParameters(speed, duration));
-    }
-
-    /**
-     * Simulate scroll mouse action in your game. This command waits for the action
-     * to finish.
-     *
-     * @param altScrollMouseParameters the builder for the scroll commands.
-     */
-    public void scrollMouseAndWait(AltScrollMouseParameters altScrollMouseParameters) {
-        new AltScrollMouseAndWait(this.connection.messageHandler, altScrollMouseParameters).Execute();
-    }
-
-    public void scrollMouseAndWait(float speed, float duration) {
-        scrollMouseAndWait(BuildScrollMouseParameters(speed, duration));
-    }
-
-    /**
-     * @param altFindObjectsParameters
+     * @param altFindObjectsParameters the builder for the find objects command.
      * @return the first object in the scene that respects the given criteria.
      */
     public AltUnityObject findObject(AltFindObjectsParameters altFindObjectsParameters) {
@@ -420,18 +314,6 @@ public class AltUnityDriver {
 
     public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParameters altWaitForObjectsParameters) {
         return new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParameters).Execute();
-    }
-
-    private AltPressKeyParameters BuildPressKeyParameters(AltUnityKeyCode keyCode, float power, float duration) {
-        return new AltPressKeyParameters.Builder(keyCode).withPower(power).withDuration(duration).build();
-    }
-
-    private AltMoveMouseParameters BuildMoveMouseParameters(int x, int y, float duration) {
-        return new AltMoveMouseParameters.Builder(x, y).withDuration(duration).build();
-    }
-
-    private AltScrollMouseParameters BuildScrollMouseParameters(float speed, float duration) {
-        return new AltScrollMouseParameters.Builder().withDuration(duration).withSpeed(speed).build();
     }
 
     private AltFindObjectsParameters BuildFindObjectsParameters(By by, String value, By cameraBy, String cameraName,

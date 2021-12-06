@@ -2,9 +2,6 @@ package ro.altom.altunitytester.Commands.InputActions;
 
 import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
-import ro.altom.altunitytester.position.Vector2;
-
-import java.util.List;
 
 /**
  * Similar command like swipe but instead of swipe from point A to point B you
@@ -14,14 +11,19 @@ public class AltMultiPointSwipe extends AltBaseCommand {
 
     private AltMultiPointSwipeParameters params;
 
-    public AltMultiPointSwipe(IMessageHandler messageHandler, List<Vector2> positions, float durationInSeconds) {
+    public AltMultiPointSwipe(IMessageHandler messageHandler, AltMultiPointSwipeParameters params) {
         super(messageHandler);
-        params = new AltMultiPointSwipeParameters(positions, durationInSeconds);
+        this.params = params;
     }
 
     public void Execute() {
         SendCommand(params);
         String data = recvall(params, String.class);
         validateResponse("Ok", data);
+
+        if (params.getWait()) {
+            data = recvall(params, String.class);
+            validateResponse("Finished", data);
+        }
     }
 }
