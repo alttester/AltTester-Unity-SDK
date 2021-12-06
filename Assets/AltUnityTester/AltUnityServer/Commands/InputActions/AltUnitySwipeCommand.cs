@@ -1,11 +1,13 @@
+using System;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
+using Altom.AltUnityTester.Communication;
 
 namespace Altom.AltUnityTester.Commands
 {
-    class AltUnitySetMultipointSwipeCommand : AltUnityCommand<AltUnityMultipointSwipeParams, string>
+    class AltUnitySwipeCommand : AltUnityCommandWithWait<AltUnitySwipeParams, string>
     {
-        public AltUnitySetMultipointSwipeCommand(AltUnityMultipointSwipeParams cmdParams) : base(cmdParams)
+        public AltUnitySwipeCommand(ICommandHandler handler, AltUnitySwipeParams cmdParams) : base(cmdParams, handler, cmdParams.wait)
         {
         }
 
@@ -13,7 +15,7 @@ namespace Altom.AltUnityTester.Commands
         {
 #if ALTUNITYTESTER
             UnityEngine.Vector2[] positions = { CommandParams.start.ToUnity(), CommandParams.end.ToUnity() };
-            Input.SetMultipointSwipe(positions, CommandParams.duration);
+            Input.SetMultipointSwipe(positions, CommandParams.duration, onFinish);
 
             return "Ok";
 #else

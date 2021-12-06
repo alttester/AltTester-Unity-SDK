@@ -2,16 +2,22 @@ namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnitySwipe : AltBaseCommand
     {
-        AltUnityMultipointSwipeParams cmdParams;
-        public AltUnitySwipe(IDriverCommunication commHandler, AltUnityVector2 start, AltUnityVector2 end, float duration) : base(commHandler)
+        AltUnitySwipeParams cmdParams;
+        public AltUnitySwipe(IDriverCommunication commHandler, AltUnityVector2 start, AltUnityVector2 end, float duration, bool wait) : base(commHandler)
         {
-            cmdParams = new AltUnityMultipointSwipeParams(start, end, duration);
+            cmdParams = new AltUnitySwipeParams(start, end, duration, wait);
         }
         public void Execute()
         {
             CommHandler.Send(cmdParams);
             var data = CommHandler.Recvall<string>(cmdParams).data;
             ValidateResponse("Ok", data);
+
+            if (cmdParams.wait)
+            {
+                data = CommHandler.Recvall<string>(cmdParams).data;
+                ValidateResponse("Finished", data);
+            }
         }
     }
 }

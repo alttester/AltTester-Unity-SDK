@@ -38,9 +38,9 @@ public class TestForScene5KeyboardAndMouseInput
 
         var cube = altUnityDriver.FindObject(By.NAME, "Player1");
         AltUnityVector3 cubeInitialPostion = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
-        altUnityDriver.PressKey(AltUnityKeyCode.K, 1, 2);
+        altUnityDriver.PressKey(AltUnityKeyCode.K, 1, 2, wait: false);
         Thread.Sleep(2000);
-        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.O, 1, 1);
+        altUnityDriver.PressKey(AltUnityKeyCode.O, 1, 1);
 
         cube = altUnityDriver.FindObject(By.NAME, "Player1");
         AltUnityVector3 cubeFinalPosition = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
@@ -51,22 +51,18 @@ public class TestForScene5KeyboardAndMouseInput
     }
 
     [Test]
-    //Test Keyboard button press
     public void TestCameraMovement()
     {
         altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-
         var cube = altUnityDriver.FindObject(By.NAME, "Player1");
-        AltUnityVector3 cubeInitialPostion = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
+        AltUnityVector3 cubeInitialPostion = cube.getWorldPosition();
 
         altUnityDriver.PressKey(AltUnityKeyCode.W, 1, 2);
-        Thread.Sleep(2000);
         cube = altUnityDriver.FindObject(By.NAME, "Player1");
-        AltUnityVector3 cubeFinalPosition = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
+        AltUnityVector3 cubeFinalPosition = cube.getWorldPosition();
 
         Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
-
     }
 
     [Test]
@@ -79,14 +75,14 @@ public class TestForScene5KeyboardAndMouseInput
         var pressingpoint1 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
         Assert.AreEqual(1, stars.Count);
 
-        altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1);
+        altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1, wait: false);
         Thread.Sleep(1500);
 
-        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 0.1f);
+        altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
 
         var pressingpoint2 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
-        altUnityDriver.MoveMouseAndWait(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
-        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 0.1f);
+        altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
+        altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
 
         stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
         Assert.AreEqual(3, stars.Count);
@@ -103,7 +99,7 @@ public class TestForScene5KeyboardAndMouseInput
         {
             if (kcode != AltUnityKeyCode.NoKey)
             {
-                altUnityDriver.PressKeyAndWait(kcode, duration: 0.2f);
+                altUnityDriver.PressKey(kcode, duration: 0.2f);
 
                 Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
                 Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
@@ -147,7 +143,7 @@ public class TestForScene5KeyboardAndMouseInput
         int i = 0;
         foreach (AltUnityKeyCode kcode in KeyToPressForButtons)
         {
-            altUnityDriver.PressKeyAndWait(kcode, duration: 0.05f);
+            altUnityDriver.PressKey(kcode, duration: 0.05f);
             Assert.AreEqual(ButtonNames[i].ToString(), axisName.GetText());
             i++;
         }
@@ -171,7 +167,7 @@ public class TestForScene5KeyboardAndMouseInput
         int i = 0;
         foreach (AltUnityKeyCode kcode in KeyToPressForButtons)
         {
-            altUnityDriver.PressKeyAndWait(kcode, power: 0.5f, duration: 0.1f);
+            altUnityDriver.PressKey(kcode, power: 0.5f, duration: 0.1f);
             Assert.AreEqual("0.5", axisValue.GetText());
             Assert.AreEqual(ButtonNames[i].ToString(), axisName.GetText());
             i++;
@@ -180,12 +176,11 @@ public class TestForScene5KeyboardAndMouseInput
     [Test]
     public void TestScroll()
     {
-
         altUnityDriver.LoadScene("Scene 5 Keyboard Input");
         var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
 
         AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-        altUnityDriver.ScrollMouse(4, 2);
+        altUnityDriver.Scroll(4, 2, wait: false);
         Thread.Sleep(2000);
         player2 = altUnityDriver.FindObject(By.NAME, "Player2");
         AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
@@ -195,14 +190,13 @@ public class TestForScene5KeyboardAndMouseInput
     [Test]
     public void TestScrollAndWait()
     {
-
         altUnityDriver.LoadScene("Scene 5 Keyboard Input");
         var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
         AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-        altUnityDriver.ScrollMouseAndWait(4, 2);
+        altUnityDriver.Scroll(4, 2);
+
         player2 = altUnityDriver.FindObject(By.NAME, "Player2");
         AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-
         Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
     }
 

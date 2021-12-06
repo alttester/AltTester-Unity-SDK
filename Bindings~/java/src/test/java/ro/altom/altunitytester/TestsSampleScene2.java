@@ -5,6 +5,8 @@ import org.junit.*;
 import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltMultiPointSwipeParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltSwipeParameters;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.position.Vector2;
@@ -44,7 +46,9 @@ public class TestsSampleScene2 {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "Resize Zone").build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters1);
-        altUnityDriver.swipe(altElement.x, altElement.y, altElement.x + 200, altElement.y + 200, 2);
+        Vector2 start = altElement.getScreenPosition();
+        Vector2 end = new Vector2(start.x + 200, start.y + 200);
+        altUnityDriver.swipe(new AltSwipeParameters.Builder(start, end).withDuration(2).withWait(false).build());
         Thread.sleep(2000);
         AltUnityObject altElementAfterResize = altUnityDriver.findObject(altFindObjectsParameters1);
         assertNotSame(altElement.x, altElementAfterResize.x);
@@ -57,7 +61,9 @@ public class TestsSampleScene2 {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "Drag Zone").build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters1);
-        altUnityDriver.swipe(altElement.x, altElement.y, altElement.x + 200, altElement.y + 200, 2);
+        Vector2 start = altElement.getScreenPosition();
+        Vector2 end = new Vector2(start.x + 200, start.y + 200);
+        altUnityDriver.swipe(new AltSwipeParameters.Builder(start, end).withDuration(2).withWait(false).build());
         Thread.sleep(2000);
         AltUnityObject altElementAfterMove = altUnityDriver.findObject(altFindObjectsParameters1);
         assertNotSame(altElement.x, altElementAfterMove.x);
@@ -74,7 +80,7 @@ public class TestsSampleScene2 {
                 new Vector2(altElement.x + 100, altElement.y + 100),
                 new Vector2(altElement.x + 100, altElement.y + 200));
 
-        altUnityDriver.multipointSwipeAndWait(positions, 3);
+        altUnityDriver.multipointSwipe(new AltMultiPointSwipeParameters.Builder(positions).withDuration(3).build());
 
         AltUnityObject altElementAfterResize = altUnityDriver.findObject(altFindObjectsParameters1);
         assertNotSame(altElement.x, altElementAfterResize.x);

@@ -622,17 +622,14 @@ public class TestForScene1TestSample
         {
             Assert.IsTrue(exception.Message.StartsWith("Object //*[contains(@name,NonExistent)] not found"), exception.Message);
         }
-
     }
 
     [Test]
-    public void TestButtonClickWithSwipe()
+    public void TestHoldButton()
     {
         var button = altUnityDriver.FindObject(By.NAME, "UIButton");
-        AltUnityVector2 vector2 = new AltUnityVector2(button.x, button.y);
-        altUnityDriver.HoldButtonAndWait(vector2, 1);
+        altUnityDriver.HoldButton(button.getScreenPosition(), 1);
         var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
-        Thread.Sleep(1400);
         var text = capsuleInfo.GetText();
         Assert.AreEqual(text, "UIButton clicked to jump capsule!");
     }
@@ -1089,7 +1086,7 @@ public class TestForScene1TestSample
     {
         altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-        altUnityDriver.Swipe(counterButtonText.getScreenPosition(), counterButtonText.getScreenPosition(), 0);
+        altUnityDriver.Swipe(counterButtonText.getScreenPosition(), counterButtonText.getScreenPosition(), 0, wait: false);
         Thread.Sleep(500);
         Assert.AreEqual("1", counterButtonText.GetText());
     }
@@ -1300,11 +1297,12 @@ public class TestForScene1TestSample
 
     }
 
+    [Test]
     public void TestAcceleration()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var initialWorldCoordinates = capsule.getWorldPosition();
-        altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1), 1);
+        altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1), 1, wait: false);
         Thread.Sleep(1000);
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var afterTiltCoordinates = capsule.getWorldPosition();
@@ -1315,8 +1313,8 @@ public class TestForScene1TestSample
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var initialWorldCoordinates = capsule.getWorldPosition();
-        altUnityDriver.TiltAndWait(new AltUnityVector3(1, 1, 1), 1);
-        Thread.Sleep(1000);
+        altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1), 1);
+        Thread.Sleep(100);
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var afterTiltCoordinates = capsule.getWorldPosition();
         Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
@@ -1493,7 +1491,7 @@ public class TestForScene1TestSample
         var initialCapsulePosition = capsule.getWorldPosition();
         altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
         Thread.Sleep(400);
-        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse0, 1, 0.2f);
+        altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 1, 0.2f);
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalCapsulePosition = capsule.getWorldPosition();
         Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
@@ -1505,7 +1503,7 @@ public class TestForScene1TestSample
         var initialCapsulePosition = capsule.getWorldPosition();
         altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
         Thread.Sleep(400);
-        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse1, 1, 0.2f);
+        altUnityDriver.PressKey(AltUnityKeyCode.Mouse1, 1, 0.2f);
 
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalCapsulePosition = capsule.getWorldPosition();
@@ -1520,7 +1518,7 @@ public class TestForScene1TestSample
         var initialCapsulePosition = capsule.getWorldPosition();
         altUnityDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
         Thread.Sleep(400);
-        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.Mouse2, 1, 0.2f);
+        altUnityDriver.PressKey(AltUnityKeyCode.Mouse2, 1, 0.2f);
         capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var finalCapsulePosition = capsule.getWorldPosition();
         Assert.True(FastApproximately(initialCapsulePosition.x, finalCapsulePosition.x, 0.01f));
@@ -1551,7 +1549,7 @@ public class TestForScene1TestSample
     public void TestKeyPressNumberOfReads()
     {
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-        altUnityDriver.PressKeyAndWait(AltUnityKeyCode.LeftArrow);
+        altUnityDriver.PressKey(AltUnityKeyCode.LeftArrow);
 
         var pressDownCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "keyPressDownCounter"));
         var pressUpCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "keyPressUpCounter"));
@@ -1564,7 +1562,7 @@ public class TestForScene1TestSample
     {
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
-        altUnityDriver.SwipeAndWait(new AltUnityVector2(counterElement.x + 1, counterElement.y + 1), new AltUnityVector2(counterElement.x + 2, counterElement.y + 1), 1);
+        altUnityDriver.Swipe(new AltUnityVector2(counterElement.x + 1, counterElement.y + 1), new AltUnityVector2(counterElement.x + 2, counterElement.y + 1), 1);
         Thread.Sleep(500);
         Assert.AreEqual("1", counterButtonText.GetText());
     }
@@ -1781,11 +1779,13 @@ public class TestForScene1TestSample
     public void TestPointerEnter_PointerExit()
     {
         altUnityDriver.MoveMouse(new AltUnityVector2(-1, -1));
+        altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene", true);
 
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+
         altUnityDriver.MoveMouse(counterElement.getScreenPosition());
 
-        string eventsRaised = counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+        var eventsRaised = counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
         var eventsRaisedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsRaised);
 
         Assert.IsTrue(eventsRaisedList.Contains("OnPointerEnter")); //true because initial mouse position is exactly over ButtonCounter
@@ -1904,7 +1904,7 @@ public class TestForScene1TestSample
     {
         var incrementalClick = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var swipeCoordinate = new AltUnityVector2(incrementalClick.x + 10, incrementalClick.y + 10);
-        altUnityDriver.SwipeAndWait(swipeCoordinate, swipeCoordinate, 0.2f);
+        altUnityDriver.Swipe(swipeCoordinate, swipeCoordinate, 0.2f);
         Assert.AreEqual("(10.0, 10.0)", incrementalClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp"));
     }
 

@@ -5,7 +5,7 @@ from altunityrunner.exceptions import InvalidParameterTypeException
 
 class PressKey(BaseCommand):
 
-    def __init__(self, connection, key_code, power, duration):
+    def __init__(self, connection, key_code, power, duration, wait):
         super().__init__(connection, "pressKeyboardKey")
 
         if key_code not in AltUnityKeyCode:
@@ -18,6 +18,7 @@ class PressKey(BaseCommand):
         self.key_code = key_code
         self.power = power
         self.duration = duration
+        self.wait = wait
 
     @property
     def _parameters(self):
@@ -26,9 +27,17 @@ class PressKey(BaseCommand):
             "keyCode": str(self.key_code),
             "power": self.power,
             "duration": self.duration,
+            "wait": self.wait,
         })
 
         return parameters
 
     def execute(self):
-        return self.send()
+        data = self.send()
+        self.validate_response("Ok", data)
+
+        if self.wait:
+            data = self.recv()
+            self.validate_response("Finished", data)
+
+        return data

@@ -533,97 +533,6 @@ Waits until the object in the scene that respects the given criteria is no longe
 
 ### Input Actions
 
-#### MoveMouseAndWait
-
-Simulates mouse movement in your game. This command will wait for the movement to finish. If you don't want to wait until the mouse movement stops use [MoveMouse](#movemouse)
-
-**_Parameters_**
-
-| Name     | Type            | Required | Description                                                                               |
-| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
-| location | AltUnityVector2 | Yes      | The destination coordinates for mouse to go from the current mouse position               |
-| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestCreatingStars()
-        {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-
-            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-            var player = altUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
-            Assert.AreEqual(1, stars.Count);
-
-            altUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
-            UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-            Thread.Sleep(1500);
-
-            altUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
-            altUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
-            Thread.Sleep(1500);
-            altUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
-
-            stars = altUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
-            Assert.AreEqual(3, stars.Count);
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void TestCreatingStars() throws InterruptedException
-        {
-            String name = "Star";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
-            assertEquals(1, stars.length);
-
-            AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
-            altUnityDriver.moveMouse(altMoveMouseParameters);
-
-            Thread.sleep(1500);
-
-            AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder("Mouse0").withPower(1).withDuration(1).build();
-            altUnityDriver.pressKey(altPressKeyParameters);
-
-            altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y-500).withDuration(1).build();
-            altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
-            altUnityDriver.pressKeyAndWait(altPressKeyParameters);
-
-            stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
-            assertEquals(3, stars.length);
-        }
-
-    .. code-tab:: py
-
-        def test_creating_stars(self):
-                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
-
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
-                self.assertEqual(1, len(stars))
-                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
-
-                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
-                time.sleep(1.5)
-
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
-                self.assertEqual(3, len(stars))
-
-```
-
 #### KeyDown
 
 Simulates that a specific key was pressed without taking into consideration the duration of the press.
@@ -800,14 +709,15 @@ Simulates that a specific key was released.
 
 #### HoldButton
 
-Simulates holding left click button down for a specified amount of time at given coordinates. This command does not wait for the button press to finish. To wait for button press to finish use [HoldButtonAndWait](#holdbuttonandwait).
+Simulates holding left click button down for a specified amount of time at given coordinates.
 
 **_Parameters_**
 
-| Name     | Type            | Required | Description                                                                                     |
-| -------- | --------------- | -------- | -----------------------------------------------------------------------------------------       |
-| position | AltUnityVector2 | Yes      | The coordinates where the button is held down.        |
-| duration | float           | Yes      | The time measured in seconds to keep the button down. |
+| Name        | Type            | Required | Default | Description                                           |
+| ----------- | --------------- | -------- | ------- | ----------------------------------------------------- |
+| coordinates | Vector2         | Yes      |         | The coordinates where the button is held down.        |
+| duration    | float           | No       | 0.1     | The time measured in seconds to keep the button down. |
+| wait        | boolean         | No       | true    | If set wait for command to finish.                    |
 
 **_Returns_**
 
@@ -824,11 +734,8 @@ Simulates holding left click button down for a specified amount of time at given
         public void TestHoldButton()
         {
             var button = altUnityDriver.FindObject(By.NAME, "UIButton");
-            AltUnityVector2 vector2 = new AltUnityVector2(button.x, button.y);
-            altUnityDriver.HoldButton(vector2, 1);
-            Thread.Sleep(1400);
+            altUnityDriver.HoldButton(button.getScreenPosition(), 1);
             var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
-            Thread.Sleep(1400);
             var text = capsuleInfo.GetText();
             Assert.AreEqual(text, "UIButton clicked to jump capsule!");
         }
@@ -837,15 +744,11 @@ Simulates holding left click button down for a specified amount of time at given
 
         @Test
         public void testHoldButton() throws Exception {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                    AltUnityDriver.By.NAME, "UIButton").build();
-            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
-                    AltUnityDriver.By.NAME, "CapsuleInfo").build();
-            AltUnityObject button = altUnityDriver.findObject(altFindObjectsParameters1);
-            altUnityDriver.holdButton(button.x, button.y, 1);
-            Thread.sleep(2);
-            AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
-            Thread.sleep(2);
+            AltUnityObject button = altUnityDriver
+                    .findObject(new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "UIButton").build());
+            altUnityDriver.holdButton(new AltHoldParameters.Builder(button.getScreenPosition()).withDuration(1).build());
+            AltUnityObject capsuleInfo = altUnityDriver
+                    .findObject(new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "CapsuleInfo").build());
             String text = capsuleInfo.getText();
             assertEquals(text, "UIButton clicked to jump capsule!");
         }
@@ -853,90 +756,28 @@ Simulates holding left click button down for a specified amount of time at given
     .. code-tab:: py
 
         def test_hold_button(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            button = self.altUnityDriver.find_object(By.NAME, 'UIButton')
-            self.altUnityDriver.hold_button(button.x, button.y, 1)
-            time.sleep(1.4)
-            capsule_info = self.altUnityDriver.find_object(By.NAME, 'CapsuleInfo')
-            time.sleep(1.4)
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            button = self.altdriver.find_object(By.NAME, "UIButton")
+            self.altdriver.hold_button(button.get_screen_position(), 1)
+
+            capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
             text = capsule_info.get_text()
-            self.assertEqual(text, "UIButton clicked to jump capsule!")
-
-```
-
-#### HoldButtonAndWait
-
-Simulates holding left click button down for a specified amount of time at given coordinates and waits for the button press to finish. If you don't want to wait until the command finishes use [HoldButton](#holdbutton).
-
-**_Parameters_**
-
-| Name     | Type            | Required | Description                                                                                     |
-| -------- | --------------- | -------- | -----------------------------------------------------------------------------------------       |
-| position | AltUnityVector2 | Yes      | The coordinates where the button is held down.        |
-| duration | float           | Yes      | The time measured in seconds to keep the button down. |
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestHoldButton()
-        {
-            var button = altUnityDriver.FindObject(By.NAME, "UIButton");
-            AltUnityVector2 vector2 = new AltUnityVector2(button.x, button.y);
-            altUnityDriver.HoldButtonAndWait(vector2, 1);
-            var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
-            Thread.Sleep(1400);
-            var text = capsuleInfo.GetText();
-            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void testHoldButton() throws Exception {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                    AltUnityDriver.By.NAME, "UIButton").build();
-            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
-                    AltUnityDriver.By.NAME, "CapsuleInfo").build();
-            AltUnityObject button = altUnityDriver.findObject(altFindObjectsParameters1);
-            altUnityDriver.holdButtonAndWait(button.x, button.y, 1);
-            AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
-            Thread.sleep(2);
-            String text = capsuleInfo.getText();
-            assertEquals(text, "UIButton clicked to jump capsule!");
-        }
-
-    .. code-tab:: py
-
-        def test_hold_button(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            button = self.altUnityDriver.find_object(By.NAME, 'UIButton')
-            self.altUnityDriver.hold_button_and_wait(button.x, button.y, 1)
-            capsule_info = self.altUnityDriver.find_object(By.NAME, 'CapsuleInfo')
-            time.sleep(1.4)
-            text = capsule_info.get_text()
-            self.assertEqual(text, "UIButton clicked to jump capsule!")
+            assert text == "UIButton clicked to jump capsule!"
 
 ```
 
 #### MoveMouse
 
-Simulates mouse movement in your game. This command does not wait for the movement to finish. To also wait for the movement to finish use [MoveMouseAndWait](#movemouseandwait)
+Simulate mouse movement in your game
 
 **_Parameters_**
 
-| Name     | Type            | Required | Description                                                                               |
-| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
-| location | AltUnityVector2 | Yes      | The destination coordinates for mouse to go from the current mouse position               |
-| duration | float           | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name        | Type            | Required | Default |  Description                                                                                           |
+| ----------- | --------------- | -------- | ------- |  ----------------------------------------------------------------------------------------------------- |
+| coordinates | Vector2         | Yes      |         | The screen coordinates                                                                                 |
+| duration    | float           | No       | 0.1     | The time measured in seconds to move the mouse from the current mouse position to the set coordinates. |
+| wait        | boolean         | No       | true    | If set wait for command to finish.                                                                     |
+
 
 **_Returns_**
 
@@ -954,173 +795,74 @@ Simulates mouse movement in your game. This command does not wait for the moveme
         {
             altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-            var player = altUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
+            var pressingpoint1 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
             Assert.AreEqual(1, stars.Count);
 
-            altUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
-            UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-            Thread.Sleep(1500);
+            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1);
+            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
 
-            altUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
-            altUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
-            Thread.Sleep(1500);
-            altUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
+            var pressingpoint2 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
+            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
+            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
 
-            stars = altUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
             Assert.AreEqual(3, stars.Count);
         }
 
     .. code-tab:: java
 
         @Test
-        public void TestCreatingStars() throws InterruptedException
-        {
-            String name = "Star";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
+        public void TestCreatingStars2() throws InterruptedException {
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(new AltFindObjectsParameters.Builder(By.NAME, "Star").build());
             assertEquals(1, stars.length);
 
-            AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
-            altUnityDriver.moveMouse(altMoveMouseParameters);
+            AltUnityObject pressingPoint1 = altUnityDriver.findObject(new AltFindObjectsParameters.Builder(By.NAME, "PressingPoint1").withCamera(By.NAME, "Player2").build());
+            altUnityDriver.moveMouse(new AltMoveMouseParameters.Builder(pressingPoint1.getScreenPosition()).build());
+            altUnityDriver.pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.Mouse0).build());
 
-            Thread.sleep(1500);
+            AltUnityObject pressingPoint2 = altUnityDriver.findObject(new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "PressingPoint2").withCamera(AltUnityDriver.By.NAME, "Player2").build());
+            altUnityDriver.moveMouse(new AltMoveMouseParameters.Builder(pressingPoint2.getScreenPosition()).build());
+            altUnityDriver.pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.Mouse0).build());
 
-            AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder("Mouse0").withPower(1).withDuration(1).build();
-            altUnityDriver.pressKey(altPressKeyParameters);
-
-            altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y-500).withDuration(1).build();
-            altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
-            altUnityDriver.pressKeyAndWait(altPressKeyParameters);
-
-            stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
+            stars = altUnityDriver.findObjectsWhichContain(new AltFindObjectsParameters.Builder(By.NAME, "Star").build());
             assertEquals(3, stars.length);
         }
 
     .. code-tab:: py
 
         def test_creating_stars(self):
-                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
+            self.altdriver.load_scene("Scene 5 Keyboard Input")
+            stars = self.altdriver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
+            assert len(stars) == 1
 
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
-                self.assertEqual(1, len(stars))
-                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
+            self.altdriver.find_objects_which_contain(By.NAME, "Player", By.NAME, "Player2")
+            pressing_point_1 = self.altdriver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
 
-                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
-                time.sleep(1.5)
+            self.altdriver.move_mouse(pressing_point_1.get_screen_position(), duration=1)
+            self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1, 1)
+            pressing_point_2 = self.altdriver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
+            self.altdriver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
+            self.altdriver.press_key(AltUnityKeyCode.Mouse0, power=1, duration=1)
 
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
-                self.assertEqual(3, len(stars))
-
-```
-
-#### PressKeyAndWait
-
-Simulates key press action in your game. This command waits for the action to finish. If you don't want to wait the action to finish use [PressKey](#presskey)
-
-**_Parameters_**
-
-| Name     | Type                            | Required | Description                                                                                                                                                                                                                                |
-| -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| keycode  | AltUnityKeyCode | Yes      | Name of the button. |
-| power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1.                                                                                |
-| duration | float           | Yes      | The time measured in seconds from the key press to the key release.                                                                                                                                                   |
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestCreatingStars()
-        {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-
-            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-            var player = altUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
-            Assert.AreEqual(1, stars.Count);
-
-            altUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
-            UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-            Thread.Sleep(1500);
-
-            altUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
-            altUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
-            Thread.Sleep(1500);
-            altUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
-
-            stars = altUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
-            Assert.AreEqual(3, stars.Count);
-        }
-
-    .. code-tab:: java
-
-        @Test
-        public void TestCreatingStars() throws InterruptedException
-        {
-            String name = "Star";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
-            assertEquals(1, stars.length);
-
-            AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
-            altUnityDriver.moveMouse(altMoveMouseParameters);
-
-            Thread.sleep(1500);
-
-            AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder("Mouse0").withPower(1).withDuration(1).build();
-            altUnityDriver.pressKey(altPressKeyParameters);
-
-            altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y-500).withDuration(1).build();
-            altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
-            altUnityDriver.pressKeyAndWait(altPressKeyParameters);
-
-            stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
-            assertEquals(3, stars.length);
-        }
-
-    .. code-tab:: py
-
-        def test_creating_stars(self):
-                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
-
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
-                self.assertEqual(1, len(stars))
-                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
-
-                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
-                time.sleep(1.5)
-
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
-                self.assertEqual(3, len(stars))
+            stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
+            assert len(stars) == 3
 
 ```
 
 #### PressKey
 
-Simulates key press action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [PressKeyAndWait](#presskeyandwait)
+Simulates key press action in your game.
+
 
 **_Parameters_**
 
-| Name     | Type                            | Required | Description                                                                                                                                                                                                                                |
-| -------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| keycode  | AltUnityKeyCode | Yes      | Name of the button. |
-| power    | float           | Yes      | A value from \[-1,1\] that defines how strong the key was pressed. This is mostly used for joystick button since the keyboard button will always be 1 or -1                                                                                |
-| duration | float           | Yes      | The time measured in seconds from the key press to the key release.                                                                                                                                        |
+| Name     | Type            | Required | Default  | Description                                                                             |
+| -------- | --------------- | -------- | -------- | --------------------------------------------------------------------------------------- |
+| keycode  | AltUnityKeyCode | Yes      |          | The key code of the key simulated to be pressed.                                        |
+| power    | float           | No       | 1        | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed |
+| duration | float           | No       | 0.1      | The time measured in seconds from the key press to the key release.                     |
+| wait     | boolean         | No       | true     | If set wait for command to finish.                                                      |
 
 **_Returns_**
 
@@ -1130,7 +872,6 @@ Simulates key press action in your game. This command does not wait for the acti
 
 ```eval_rst
 .. tabs::
-
     .. code-tab:: c#
 
         [Test]
@@ -1138,148 +879,72 @@ Simulates key press action in your game. This command does not wait for the acti
         {
             altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star","Player2");
-            var player = altUnityDriver.FindObjectsWhichContain(By.NAME, "Player", "Player2");
+            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
+            var pressingpoint1 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
             Assert.AreEqual(1, stars.Count);
 
-            altUnityDriver.MoveMouse(new AltUnityVector2(player[0].x, player[0].y+500), 1);
-            UnityEngine.Debug.Log(stars[0].x+"  "+stars[0].y);
-            Thread.Sleep(1500);
+            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1);
+            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
 
-            altUnityDriver.PressKey(AltUnityKeyCode.KeyCode.Mouse0, 0);
-            altUnityDriver.MoveMouseAndWait(new AltUnityVector2(player[0].x, player[0].y-500), 1);
-            Thread.Sleep(1500);
-            altUnityDriver.PressKeyAndWait(AltUnityKeyCode.KeyCode.Mouse0, 1);
+            var pressingpoint2 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
+            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
+            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
 
-            stars = altUnityDriver.FindObjectsWhichContain(By.NAME,"Star");
+            stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
             Assert.AreEqual(3, stars.Count);
         }
 
     .. code-tab:: java
 
         @Test
-        public void TestCreatingStars() throws InterruptedException
-        {
-            String name = "Star";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
+        public void TestCreatingStars2() throws InterruptedException {
+            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(new AltFindObjectsParameters.Builder(By.NAME, "Star").build());
             assertEquals(1, stars.length);
 
-            AltUnityObject player=altUnityDriver.findElement("Player1","Player2");AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y+500).withDuration(1).build();
-            altUnityDriver.moveMouse(altMoveMouseParameters);
+            AltUnityObject pressingPoint1 = altUnityDriver.findObject(new AltFindObjectsParameters.Builder(By.NAME, "PressingPoint1").withCamera(By.NAME, "Player2").build());
+            altUnityDriver.moveMouse(new AltMoveMouseParameters.Builder(pressingPoint1.getScreenPosition()).build());
+            altUnityDriver.pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.Mouse0).build());
 
-            Thread.sleep(1500);
+            AltUnityObject pressingPoint2 = altUnityDriver.findObject(new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "PressingPoint2").withCamera(AltUnityDriver.By.NAME, "Player2").build());
+            altUnityDriver.moveMouse(new AltMoveMouseParameters.Builder(pressingPoint2.getScreenPosition()).build());
+            altUnityDriver.pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.Mouse0).build());
 
-            AltPressKeyParameters altPressKeyParameters=new AltPressKeyParameters.Builder("Mouse0").withPower(1).withDuration(1).build();
-            altUnityDriver.pressKey(altPressKeyParameters);
-
-            altMoveMouseParameters = new AltMoveMouseParameters.Builder(player.x, player.y-500).withDuration(1).build();
-            altUnityDriver.moveMouseAndWait(altMoveMouseParameters);
-            altUnityDriver.pressKeyAndWait(altPressKeyParameters);
-
-            stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
+            stars = altUnityDriver.findObjectsWhichContain(new AltFindObjectsParameters.Builder(By.NAME, "Star").build());
             assertEquals(3, stars.length);
         }
 
     .. code-tab:: py
 
         def test_creating_stars(self):
-                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
+            self.altdriver.load_scene("Scene 5 Keyboard Input")
+            stars = self.altdriver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
+            assert len(stars) == 1
 
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
-                self.assertEqual(1, len(stars))
-                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
+            self.altdriver.find_objects_which_contain(By.NAME, "Player", By.NAME, "Player2")
+            pressing_point_1 = self.altdriver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
 
-                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
-                time.sleep(1.5)
+            self.altdriver.move_mouse(pressing_point_1.get_screen_position(), duration=1)
+            self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1, 1)
+            pressing_point_2 = self.altdriver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
+            self.altdriver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
+            self.altdriver.press_key(AltUnityKeyCode.Mouse0, power=1, duration=1)
 
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
-                self.assertEqual(3, len(stars))
-
-```
-
-#### ScrollMouseAndWait
-
-Simulates scroll mouse action in your game. This command waits for the action to finish. If you don't want to wait until the action to finish use [ScrollMouse](#scrollmouse)
-
-**_Parameters_**
-
-| Name     | Type  | Required | Description                                                                                  |
-| -------- | ----- | -------- | -------------------------------------------------------------------------------------------- |
-| speed    | float | Yes      | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
-| duration | float | Yes      | The time measured in seconds to scroll.    |
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestScrollAndWait()
-        {
-
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
-            AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            altUnityDriver.ScrollMouseAndWait(4, 2);
-            player2 = altUnityDriver.FindObject(By.NAME, "Player2");
-            AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-
-            Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
-        }
-
-
-    .. code-tab:: java
-
-        @Test
-        public void TestScrollAndWait() throws InterruptedException {
-
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
-                    "Player2").build();
-            AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParameters);
-            AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            altUnityDriver.scrollMouse(4, 2);
-            Thread.sleep(2000);
-            player2 = altUnityDriver.findObject(altFindObjectsParameters);
-            AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            assertNotEquals(cubeInitialPostion, cubeFinalPosition);
-        }
-
-
-
-    .. code-tab:: py
-
-        def test_scroll_and_wait(self):
-            self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
-            player2 = self.altUnityDriver.find_object(By.NAME, "Player2")
-            cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
-            self.altUnityDriver.scroll_mouse_and_wait(4, 2)
-            player2 = self.altUnityDriver.find_object(By.NAME, "Player2")
-            cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
-            self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
+            stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
+            assert len(stars) == 3
 
 ```
 
-#### ScrollMouse
+#### Scroll
 
-Simulates scroll mouse action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [ScrollMouseAndWait](#scrollmouseandwait)
+Simulate scroll action in your game.
 
 **_Parameters_**
 
-| Name     | Type  | Required | Description                                                                                  |
-| -------- | ----- | -------- | -------------------------------------------------------------------------------------------- |
-| speed    | float | Yes      | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
-| duration | float | Yes      | The time measured in seconds to scroll.    |
+| Name     | Type    | Required | Default | Description                                                                                  |
+| -------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
+| speed    | float   | No       | 1       | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
+| duration | float   | No       | 0.1     | The duration of the scroll in seconds.                                                       |
+| wait     | boolean | No       | true    | If set wait for command to finish.                                                           |
 
 **_Returns_**
 
@@ -1295,12 +960,11 @@ Simulates scroll mouse action in your game. This command does not wait for the a
         [Test]
         public void TestScroll()
         {
-
             altUnityDriver.LoadScene("Scene 5 Keyboard Input");
             var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
             AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            altUnityDriver.ScrollMouse(4,2);
-            Thread.Sleep(2000);
+            altUnityDriver.Scroll(4, 2);
+
             player2 = altUnityDriver.FindObject(By.NAME, "Player2");
             AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
@@ -1313,189 +977,40 @@ Simulates scroll mouse action in your game. This command does not wait for the a
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                     "Player2").build();
             AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParameters);
-            AltUnityVector3 cubeInitialPostion = new AltUnityector3(player2.worldX, player2.worldY, player2.worldY);
-            altUnityDriver.scrollMouse(4, 2);
-            Thread.sleep(2000);
+            Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+            altUnityDriver.scroll(new AltScrollParameters.Builder().withSpeed(4).withDuration(2).build());
+
             player2 = altUnityDriver.findObject(altFindObjectsParameters);
-            AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
+            Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
             assertNotEquals(cubeInitialPostion, cubeFinalPosition);
         }
-
 
     .. code-tab:: py
 
         def test_scroll(self):
-            self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
-            player2 = self.altUnityDriver.find_object(By.NAME, "Player2")
+            self.altdriver.load_scene("Scene 5 Keyboard Input")
+            player2 = self.altdriver.find_object(By.NAME, "Player2")
             cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
-            self.altUnityDriver.scroll_mouse(4, 2)
-            time.sleep(2)
-            player2 = self.altUnityDriver.find_object(By.NAME, "Player2")
+            self.altdriver.scroll(4, 2)
+
+            player2 = self.altdriver.find_object(By.NAME, "Player2")
             cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
-            self.assertNotEqual(cubeInitialPostion, cubeFinalPosition)
-
-
-```
-
-#### SwipeAndWait
-
-Simulates a swipe action in your game. This command waits for the action to finish. If you don't want to wait until the action to finish use [Swipe](#swipe)
-
-**_Parameters_**
-
-| Name     | Type                | Required | Description                                                                               |
-| -------- | ------------------- | -------- | ----------------------------------------------------------------------------------------- |
-| start    | AltUnityVector2(C#) | Yes      | Starting location of the swipe                                                            |
-| end      | AltUnityVector2(C#) | Yes      | Ending location of the swipe                                                              |
-| xStart   | float(python/java)  | Yes      | x coordinate of the screen where the swipe begins.                                        |
-| yStart   | float(python/java)  | Yes      | y coordinate of the screen where the swipe begins                                         |
-| xEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
-| yEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
-| duration | float               | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-            [Test]
-            public void MultipleDragAndDropWait()
-            {
-                var altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                var altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.SwipeAndWait(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
-
-                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image2");
-                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
-                altUnityDriver.SwipeAndWait(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
-
-                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image3");
-                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.SwipeAndWait(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
-
-
-                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.SwipeAndWait(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
-                var imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                var imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                Assert.AreNotEqual(imageSource, imageSourceDropZone);
-
-                imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                Assert.AreNotEqual(imageSource, imageSourceDropZone);
-
-            }
-
-    .. code-tab:: java
-
-            @Test
-            public void testMultipleDragAndDropWait() throws Exception
-            {
-                String altUnityObject1Name = "Drag Image1";
-                String altUnityObject2Name = "Drop Box1";
-                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
-
-                AltUnityObject altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                AltUnityObject altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y,altUnityObject2.x, altUnityObject2.y, 2);
-
-                altUnityObject1Name = "Drag Image2";
-                altUnityObject2Name = "Drop Box2";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
-
-                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2,);
-                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 2);
-
-                altUnityObject1Name = "Drag Image3";
-                altUnityObject2Name = "Drop Box1";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
-
-                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 3);
-
-                altUnityObject1Name = "Drag Image1";
-                altUnityObject2Name = "Drop Box1";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
-
-                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 1);
-
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image",  "sprite").build();
-                String imageSource = altUnityDriver.findObject(altFindObjectsParameters1).getComponentProperty(altGetComponentPropertyParameters);
-
-                String altDropElementImageName = "Drop Image";
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altDropElementImageName).isEnabled(true).withCamera("Main Camera").build();
-                String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
-                assertNotSame(imageSource, imageSourceDropZone);
-
-                altUnityObject1Name = "Drag Image2";
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                imageSource = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
-                imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
-                assertNotSame(imageSource, imageSourceDropZone);
-            }
-
-    .. code-tab:: py
-
-            def test_multiple_swipe_and_waits(self):
-                self.altUnityDriver.load_scene('Scene 3 Drag And Drop')
-
-                image2 = self.altUnityDriver.find_element('Drag Image2')
-                box2 = self.altUnityDriver.find_element('Drop Box2')
-
-                self.altUnityDriver.swipe_and_wait(image2.x, image2.y, box2.x, box2.y, 2)
-
-
-                image3 = self.altUnityDriver.find_element('Drag Image3')
-                box1 = self.altUnityDriver.find_element('Drop Box1')
-
-                self.altUnityDriver.swipe_and_wait(image3.x, image3.y, box1.x, box1.y, 1)
-
-                image1 = self.altUnityDriver.find_element('Drag Image1')
-                box1 = self.altUnityDriver.find_element('Drop Box1')
-
-                self.altUnityDriver.swipe_and_wait(image1.x, image1.y, box1.x, box1.y, 3)
-
-                image_source = image1.get_component_property('UnityEngine.UI.Image', 'sprite')
-                image_source_drop_zone = self.altUnityDriver.find_element('Drop Image').get_component_property('UnityEngine.UI.Image', 'sprite')
-                self.assertNotEqual(image_source, image_source_drop_zone)
-
-                image_source = image2.get_component_property('UnityEngine.UI.Image', 'sprite')
-                image_source_drop_zone = self.altUnityDriver.find_element('Drop').get_component_property('UnityEngine.UI.Image', 'sprite')
-                self.assertNotEqual(image_source, image_source_drop_zone)
+            assert cubeInitialPostion != cubeFinalPosition
 
 ```
 
 #### Swipe
 
-Simulates a swipe action in your game. This command does not wait for the action to finish. To also wait for the action to finish use [SwipeAndWait](#swipeandwait)
+Simulates a swipe action between two points.
 
 **_Parameters_**
 
-| Name     | Type                | Required | Description                                                                               |
-| -------- | ------------------- | -------- | ----------------------------------------------------------------------------------------- |
-| start    | AltUnityVector2(C#) | Yes      | Starting location of the swipe                                                            |
-| end      | AltUnityVector2(C#) | Yes      | Ending location of the swipe                                                              |
-| xStart   | float(python/java)  | Yes      | x coordinate of the screen where the swipe begins.                                        |
-| yStart   | float(python/java)  | Yes      | y coordinate of the screen where the swipe begins                                         |
-| xEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
-| yEnd     | float(python/java)  | Yes      | x coordinate of the screen where the swipe ends                                           |
-| duration | float               | Yes      | The time measured in seconds to move the mouse from current position to the set location. |
+| Name     | Type                | Required | Default | Description                                                                 |
+| -------- | ------------------- | -------- | ------- | --------------------------------------------------------------------------- |
+| start    | Vector2             | Yes      |         | Starting location of the swipe                                              |
+| end      | Vector2             | Yes      |         | Ending location of the swipe                                                |
+| duration | float               | No       | 0.1     | The time measured in seconds to move the mouse from start to end location.  |
+| wait     | boolean             | No       | true    | If set wait for command to finish.                                          |
 
 **_Returns_**
 
@@ -1508,232 +1023,133 @@ Simulates a swipe action in your game. This command does not wait for the action
 
     .. code-tab:: c#
 
-            [Test]
-            public void MultipleDragAndDrop()
-            {
-                var altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                var altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.Swipe(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 1);
+        [Test]
+        public void MultipleDragAndDrop()
+        {
+            var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
+            var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
+            altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
 
-                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image2");
-                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
-                altUnityDriver.Swipe(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 2);
+            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image2");
+            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box2");
+            altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
 
-                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image3");
-                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.Swipe(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 2);
-
-
-                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.Swipe(new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y), 3);
-
-                Thread.Sleep(4000);
-
-                var imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                var imageSourceDropZone= altUnityDriver.FindObject(By.NAME,"Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                Assert.AreNotEqual(imageSource, imageSourceDropZone);
-
-                 imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                 imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                Assert.AreNotEqual(imageSource, imageSourceDropZone);
-
-            }
-
-    .. code-tab:: java
-
-            @Test
-            public void testMultipleDragAndDropWait() throws Exception
-            {
-                String altUnityObject1Name = "Drag Image1";
-                String altUnityObject2Name = "Drop Box1";
-                AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
-
-                AltUnityObject altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                AltUnityObject altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y,altUnityObject2.x, altUnityObject2.y, 2);
-
-                altUnityObject1Name = "Drag Image2";
-                altUnityObject2Name = "Drop Box2";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
-
-                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2,);
-                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 2);
-
-                altUnityObject1Name = "Drag Image3";
-                altUnityObject2Name = "Drop Box1";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
-
-                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 3);
-
-                altUnityObject1Name = "Drag Image1";
-                altUnityObject2Name = "Drop Box1";
-                altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(altUnityObject2Name).isEnabled(true).withCamera("Main Camera").build();
-
-                altUnityObject1 = altUnityDriver.findObject(altFindObjectsParameters1);
-                altUnityObject2 = altUnityDriver.findObject(altFindObjectsParameters2);
-                altUnityDriver.swipeAndWait(altUnityObject1.x, altUnityObject1.y, altUnityObject2.x, altUnityObject2.y, 1);
-
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image",  "sprite").build();
-                String imageSource = altUnityDriver.findObject(altFindObjectsParameters1).getComponentProperty(altGetComponentPropertyParameters);
-
-                String altDropElementImageName = "Drop Image";
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altDropElementImageName).isEnabled(true).withCamera("Main Camera").build();
-                String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
-                assertNotSame(imageSource, imageSourceDropZone);
-
-                altUnityObject1Name = "Drag Image2";
-                altFindObjectsParameters = new AltFindObjectsParameters.Builder(altUnityObject1Name).isEnabled(true).withCamera("Main Camera").build();
-                imageSource = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
-                imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters).getComponentProperty(altGetComponentPropertyParameters);
-                assertNotSame(imageSource, imageSourceDropZone);
-            }
-
-    .. code-tab:: py
-
-            def test_multiple_swipes(self):
-                self.altUnityDriver.load_scene('Scene 3 Drag And Drop')
-
-                image1 = self.altUnityDriver.find_element('Drag Image1')
-                box1 = self.altUnityDriver.find_element('Drop Box1')
-
-                self.altUnityDriver.swipe(image1.x, image1.y, box1.x, box1.y, 5)
+            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image3");
+            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
+            altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
 
 
-                image2 = self.altUnityDriver.find_element('Drag Image2')
-                box2 = self.altUnityDriver.find_element('Drop Box2')
+            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
+            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
+            altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            Assert.AreNotEqual(imageSource, imageSourceDropZone);
 
-                self.altUnityDriver.swipe(image2.x, image2.y, box2.x, box2.y, 2)
-
-
-                image3 = self.altUnityDriver.find_element('Drag Image3')
-                box1 = self.altUnityDriver.find_element('Drop Box1')
-
-                self.altUnityDriver.swipe(image3.x, image3.y, box1.x, box1.y, 3)
-
-                time.sleep(6)
-
-                image_source = image1.get_component_property('UnityEngine.UI.Image', 'sprite')
-                image_source_drop_zone = self.altUnityDriver.find_element('Drop Image').get_component_property('UnityEngine.UI.Image', 'sprite')
-                self.assertNotEqual(image_source, image_source_drop_zone)
-
-                image_source = image2.get_component_property('UnityEngine.UI.Image', 'sprite')
-                image_source_drop_zone = self.altUnityDriver.find_element('Drop').get_component_property('UnityEngine.UI.Image', 'sprite')
-                self.assertNotEqual(image_source, image_source_drop_zone)
-
-```
-
-#### MultiPointSwipe
-
-Similar command like swipe but instead of swipe from point A to point B you are able to give list a points.
-
-**_Parameters_**
-
-| Name      | Type                          | Required | Description                                                   |
-| --------- | ----------------------------- | -------- | ------------------------------------------------------------- |
-| positions | List/Array of AltUnityVector2 | Yes      | collection of positions on the screen where the swipe be made |
-| duration  | float                         | Yes      | how many seconds the swipe will need to complete              |
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-            [Test]
-            public void ResizePanelWithMultipointSwipe()
-            {
-                var altUnityObject = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-                var position = new AltUnityVector2(altUnityObject.x, altUnityObject.y);
-                var pos = new []
-                {
-                    altUnityObject.getScreenPosition(),
-                    new AltUnityVector2(altUnityObject.x - 200, altUnityObject.y - 200),
-                    new AltUnityVector2(altUnityObject.x - 300, altUnityObject.y - 100),
-                    new AltUnityVector2(altUnityObject.x - 50, altUnityObject.y - 100),
-                    new AltUnityVector2(altUnityObject.x - 100, altUnityObject.y - 100)
-                };
-                altUnityDriver.MultipointSwipe(pos, 4);
-
-                Thread.Sleep(4000);
-
-                altUnityObject = altUnityDriver.FindObject(By.NAME,"Resize Zone");
-                var position2 = new AltUnityVector2(altUnityObject.x, altUnityObject.y);
-                Assert.AreNotEqual(position, position2);
-            }
+            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            Assert.AreNotEqual(imageSource, imageSourceDropZone);
+        }
 
     .. code-tab:: java
 
         @Test
-        public void testResizePanelWithMultipointSwipe() throws Exception
-        {
-            String name = "Resize Zone";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
+        public void testMultipleDragAndDrop() throws Exception {
 
-            List<AltUnityVector2> positions = Arrays.asList(
-                altUnityObject.getScreenPosition(),
-                new AltUnityVector2(altUnityObject.x + 100, altUnityObject.y + 100),
-                new AltUnityVector2(altUnityObject.x + 100, altUnityObject.y + 200));
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Drag Image1").build();
+            AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Drop Box1").build();
+            AltFindObjectsParameters altFindObjectsParameters3 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Drag Image2").build();
+            AltFindObjectsParameters altFindObjectsParameters4 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Drag Image3").build();
+            AltFindObjectsParameters altFindObjectsParameters5 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Drop Box2").build();
+            AltFindObjectsParameters altFindObjectsParameters6 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Drop Image").build();
+            AltFindObjectsParameters altFindObjectsParameters7 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Drop Image").build();
 
-            altUnityDriver.multipointSwipe(positions, 3);
-            Thread.sleep(3000);
+            AltUnityObject altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+            AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
+            altUnityDriver
+                    .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                            .withDuration(2).build());
 
-            AltUnityObject altUnityObjectAfterResize = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotSame(altUnityObject.x, altUnityObjectAfterResize.x);
-            assertNotSame(altUnityObject.y, altUnityObjectAfterResize.y);
+            altElement1 = altUnityDriver.findObject(altFindObjectsParameters3);
+            altElement2 = altUnityDriver.findObject(altFindObjectsParameters5);
+            altUnityDriver
+                    .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                            .withDuration(2).build());
+
+            altElement1 = altUnityDriver.findObject(altFindObjectsParameters4);
+            altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
+            altUnityDriver
+                    .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                            .withDuration(3).build());
+
+            altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
+            altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
+            altUnityDriver
+                    .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
+                            .withDuration(1).build());
+            String imageSource = altUnityDriver.findObject(altFindObjectsParameters1)
+                    .getComponentProperty("UnityEngine.UI.Image", "sprite");
+            String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters6)
+                    .getComponentProperty("UnityEngine.UI.Image", "sprite");
+            assertNotSame(imageSource, imageSourceDropZone);
+
+            imageSource = altUnityDriver.findObject(altFindObjectsParameters3).getComponentProperty("UnityEngine.UI.Image",
+                    "sprite");
+            imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters7)
+                    .getComponentProperty("UnityEngine.UI.Image", "sprite");
+            assertNotSame(imageSource, imageSourceDropZone);
         }
 
     .. code-tab:: py
 
-        def test_resize_panel_with_multipoinit_swipe(self):
-            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-            altUnityObject = self.altUnityDriver.find_element('Resize Zone')
-            positionInitX = altUnityObject.x
-            positionInitY = altUnityObject.y
-            positions = [
-            altUnityObject.get_screen_position(),
-            [int(altUnityObject.x) - 200, int(altUnityObject.y) - 200],
-            [int(altUnityObject.x) - 300, int(altUnityObject.y) - 100],
-            [int(altUnityObject.x) - 50, int(altUnityObject.y) - 100],
-            [int(altUnityObject.x) - 100, int(altUnityObject.y) - 100]
-            ]
-            self.altUnityDriver.multipoint_swipe(positions, 4)
+        def test_multiple_swipes(self):
+            self.altdriver.load_scene("Scene 3 Drag And Drop")
 
-            time.sleep(4)
+            image2 = self.altdriver.find_object(By.NAME, "Drag Image2")
+            box2 = self.altdriver.find_object(By.NAME, "Drop Box2")
 
-            altUnityObject = self.altUnityDriver.find_element('Resize Zone')
-            positionFinalX = altUnityObject.x
-            positionFinalY = altUnityObject.y
-            self.assertNotEqual(positionInitX, positionFinalX)
-            self.assertNotEqual(positionInitY, positionFinalY)
+            self.altdriver.swipe(image2.get_screen_position(), box2.get_screen_position(), 2)
 
+            image3 = self.altdriver.find_object(By.NAME, "Drag Image3")
+            box1 = self.altdriver.find_object(By.NAME, "Drop Box1")
+
+            self.altdriver.swipe(image3.get_screen_position(), box1.get_screen_position(), 1)
+
+            image1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+            box1 = self.altdriver.find_object(By.NAME, "Drop Box1")
+
+            self.altdriver.swipe(image1.get_screen_position(), box1.get_screen_position(), 3)
+
+            image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
+            image_source_drop_zone = self.altdriver.find_object(
+                By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+            assert image_source != image_source_drop_zone
+
+            image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite")
+            image_source_drop_zone = self.altdriver.find_object(
+                By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+            assert image_source != image_source_drop_zone
 
 ```
 
-#### MultiPointSwipeAndWait
+#### MultipointSwipe
 
-Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from point A to point B you are able to give list a points.
+Simulates a multipoint swipe action.
 
 **_Parameters_**
 
-| Name      | Type                          | Required | Description                                                   |
-| --------- | ----------------------------- | -------- | ------------------------------------------------------------- |
-| positions | List/Array of AltUnityVector2 | Yes      | collection of positions on the screen where the swipe be made |
-| duration  | float                         | Yes      | how many seconds the swipe will need to complete              |
+| Name      | Type                    | Required | Default | Description                                                                      |
+| --------  | ----------------------- | -------- | ------- | -------------------------------------------------------------------------------- |
+| positions | List\[AltUnityVector2\] | Yes      |         | A list of positions on the screen where the swipe be made                        |
+| duration  | float                   | No       | 0.1     | The time measured in seconds to swipe from first position to the last position.  |
+| wait      | boolean                 | No       | true    | If set wait for command to finish.                                               |
 
 **_Returns_**
 
@@ -1746,86 +1162,66 @@ Similar command like [SwipeAndWait](#swipeandwait) but instead of swipe from poi
 
     .. code-tab:: c#
 
-            [Test]
-            public void MultipleDragAndDropWaitWithMultipointSwipe()
+        [Test]
+        public void TestResizePanelWithMultipointSwipe()
+        {
+            var altElement = altUnityDriver.FindObject(By.NAME, "Resize Zone");
+            var position = new AltUnityVector2(altElement.x, altElement.y);
+            var pos = new[]
             {
-                var altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                var altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                altUnityDriver.MultipointSwipe(new []{new AltUnityVector2(altUnityObject1.x, altUnityObject1.y), new AltUnityVector2(altUnityObject2.x, altUnityObject2.y)}, 2);
-                Thread.Sleep(2000);
+                altElement.getScreenPosition(),
+                new AltUnityVector2(altElement.x - 200, altElement.y - 200),
+                new AltUnityVector2(altElement.x - 300, altElement.y - 100),
+                new AltUnityVector2(altElement.x - 50, altElement.y - 100),
+                new AltUnityVector2(altElement.x - 100, altElement.y - 100)
+            };
+            altUnityDriver.MultipointSwipe(pos, 4);
 
-                altUnityObject1 = altUnityDriver.FindObject(By.NAME,"Drag Image1");
-                altUnityObject2 = altUnityDriver.FindObject(By.NAME,"Drop Box1");
-                var altUnityObject3 = altUnityDriver.FindObject(By.NAME,"Drop Box2");
-                var positions = new[]
-                {
-                    new AltUnityVector2(altUnityObject1.x, altUnityObject1.y),
-                    new AltUnityVector2(altUnityObject2.x, altUnityObject2.y),
-                    new AltUnityVector2(altUnityObject3.x, altUnityObject3.y)
-                };
-
-                altUnityDriver.MultipointSwipeAndWait(positions, 3);
-                var imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                var imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                Assert.AreNotEqual(imageSource, imageSourceDropZone);
-
-                imageSource = altUnityDriver.FindObject(By.NAME,"Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                imageSourceDropZone = altUnityDriver.FindObject(By.NAME,"Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-                Assert.AreNotEqual(imageSource, imageSourceDropZone);
-            }
+            altElement = altUnityDriver.FindObject(By.NAME, "Resize Zone");
+            var position2 = new AltUnityVector2(altElement.x, altElement.y);
+            Assert.AreNotEqual(position, position2);
+        }
 
     .. code-tab:: java
 
         @Test
-        public void testResizePanelWithMultipointSwipe() throws Exception
-        {
-            String name = "Resize Zone";
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
+        public void testResizePanelWithMultipointSwipe() throws Exception {
+            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+                    AltUnityDriver.By.NAME, "Resize Zone").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters1);
 
-            List<AltUnityVector2> positions = Arrays.asList(
-                altUnityObject.getScreenPosition(),
-                new AltUnityVector2(altUnityObject.x + 100, altUnityObject.y + 100),
-                new AltUnityVector2(altUnityObject.x + 100, altUnityObject.y + 200));
+            List<Vector2> positions = Arrays.asList(altElement.getScreenPosition(),
+                    new Vector2(altElement.x + 100, altElement.y + 100),
+                    new Vector2(altElement.x + 100, altElement.y + 200));
 
-            altUnityDriver.multipointSwipe(positions, 3);
+            altUnityDriver.multipointSwipe(new AltMultipointSwipeParameters.Builder(positions).withDuration(3).build());
 
-            AltUnityObject altUnityObjectAfterResize = altUnityDriver.findObject(altFindObjectsParameters);
-            assertNotSame(altUnityObject.x, altUnityObjectAfterResize.x);
-            assertNotSame(altUnityObject.y, altUnityObjectAfterResize.y);
+            AltUnityObject altElementAfterResize = altUnityDriver.findObject(altFindObjectsParameters1);
+            assertNotSame(altElement.x, altElementAfterResize.x);
+            assertNotSame(altElement.y, altElementAfterResize.y);
         }
-
-
 
     .. code-tab:: py
 
-        def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
-            altUnityObject1 = self.altUnityDriver.find_element('Drag Image1')
-            altUnityObject2 = self.altUnityDriver.find_element('Drop Box1')
+        def test_resize_panel_with_multipoint_swipe(self):
+            self.altdriver.load_scene("Scene 2 Draggable Panel")
 
-            multipointPositions = [altUnityObject1.get_screen_position(), [altUnityObject2.x, altUnityObject2.y]]
-
-            self.altUnityDriver.multipoint_swipe_and_wait(multipointPositions, 2)
-            time.sleep(2)
-
-            altUnityObject1 = self.altUnityDriver.find_element('Drag Image1')
-            altUnityObject2 = self.altUnityDriver.find_element('Drop Box1')
-            altUnityObject3 = self.altUnityDriver.find_element('Drop Box2')
+            alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+            position_init = (alt_unity_object.x, alt_unity_object.y)
 
             positions = [
-            [altUnityObject1.x, altUnityObject1.y],
-            [altUnityObject2.x, altUnityObject2.y],
-            [altUnityObject3.x, altUnityObject3.y]
+                alt_unity_object.get_screen_position(),
+                [alt_unity_object.x - 200, alt_unity_object.y - 200],
+                [alt_unity_object.x - 300, alt_unity_object.y - 100],
+                [alt_unity_object.x - 50, alt_unity_object.y - 100],
+                [alt_unity_object.x - 100, alt_unity_object.y - 100]
             ]
+            self.altdriver.multipoint_swipe(positions, duration=4)
 
-            self.altUnityDriver.multipoint_swipe_and_wait(positions, 3)
-            imageSource = self.altUnityDriver.find_element('Drag Image1').get_component_property("UnityEngine.UI.Image", "sprite")
-            imageSourceDropZone = self.altUnityDriver.find_element('Drop Image').get_component_property("UnityEngine.UI.Image", "sprite")
-            self.assertNotEqual(imageSource, imageSourceDropZone)
+            alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+            position_final = (alt_unity_object.x, alt_unity_object.y)
 
-            imageSource = self.altUnityDriver.find_element('Drag Image2').get_component_property("UnityEngine.UI.Image", "sprite")
-            imageSourceDropZone = self.altUnityDriver.find_element('Drop').get_component_property("UnityEngine.UI.Image", "sprite")
-            self.assertNotEqual(imageSource, imageSourceDropZone)
+            assert position_init != position_final
 
 
 ```
@@ -1836,9 +1232,9 @@ Simulates starting of a touch on the screen. To further interact with the touch 
 
 **_Parameters_**
 
-| Name        | Type                | Required | Description        |
-| ----------- | ------------------- | -------- | ------------------ |
-| coordinates | AltUnityVector2(C#) | Yes      | Screen coordinates |
+| Name        | Type           | Required | Description        |
+| ----------- | -------------- | -------- | ------------------ |
+| coordinates | Vector2        | Yes      | Screen coordinates |
 
 **_Returns_**
 
@@ -1903,10 +1299,10 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
 
 **_Parameters_**
 
-| Name        | Type                | Required | Description                                              |
-| ----------- | ------------------- | -------- | -------------------------------------------------------- |
-| fingerId    | int                 | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
-| coordinates | AltUnityVector2(C#) | Yes      | Screen coordinates where the touch will be moved         |
+| Name        | Type         | Required | Description                                              |
+| ----------- | ------------ | -------- | -------------------------------------------------------- |
+| fingerId    | int          | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
+| coordinates | Vector2      | Yes      | Screen coordinates where the touch will be moved         |
 
 **_Returns_**
 
@@ -2040,10 +1436,11 @@ Click at screen coordinates
 
 | Name        | Type            | Required | Default | Description                        |
 | ----------- | --------------- | -------- | ------- | ---------------------------------- |
-| coordinates | AltUnityVector2 | Yes      |         | The screen coordinates             |
+| coordinates | Vector2         | Yes      |         | The screen coordinates             |
 | count       | int             | No       | 1       | Number of clicks                   |
 | interval    | float           | No       | 0.1     | Interval between clicks in seconds |
-| wait        | boolean         | No       | true    | Wait for command to finish         |
+| wait        | boolean         | No       | true    | If set wait for command to finish. |
+
 
 **_Returns_**
 
@@ -2099,12 +1496,12 @@ Tap at screen coordinates
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default | Description                      |
-| ----------- | --------------- | -------- | ------- | -------------------------------- |
-| coordinates | AltUnityVector2 | Yes      |         | The screen coordinates           |
-| count       | int             | No       | 1       | Number of taps                   |
-| interval    | float           | No       | 0.1     | Interval between taps in seconds |
-| wait        | boolean         | No       | true    | Wait for command to finish       |
+| Name        | Type            | Required | Default | Description                        |
+| ----------- | --------------- | -------- | ------- | ---------------------------------- |
+| coordinates | Vector2         | Yes      |         | The screen coordinates             |
+| count       | int             | No       | 1       | Number of taps                     |
+| interval    | float           | No       | 0.1     | Interval between taps in seconds   |
+| wait        | boolean         | No       | true    | If set wait for command to finish. |
 
 **_Returns_**
 
@@ -2160,13 +1557,13 @@ Simulates device rotation action in your game.
 
 **_Parameters_**
 
-| Name         | Type                | Required | Description                                                |
-| ------------ | ------------------- | -------- | ---------------------------------------------------------- |
-| acceleration | AltUnityVector3(C#) | Yes      | Linear acceleration of a device in three-dimensional space |
-| x            | float(python/java)  | Yes      | Linear acceleration of a device on x                       |
-| y            | float(python/java)  | Yes      | Linear acceleration of a device on y                       |
-| z            | float(python/java)  | Yes      | Linear acceleration of a device on z                       |
-| duration     | float               | Yes      | How long the rotation will take in seconds                 |
+
+| Name         | Type            | Required | Default | Description                                 |
+| ------------ | --------------- | -------- | ------- | ------------------------------------------- |
+| acceleration | Vector3         | Yes      |         | The linear acceleration of a device.        |
+| duration     | float           | No       | 0.1     | How long the rotation will take in seconds. |
+| wait         | boolean         | No       | true    | If set wait for command to finish.          |
+
 
 **_Returns_**
 
@@ -2182,10 +1579,10 @@ Simulates device rotation action in your game.
         [Test]
         public void TestAcceleration()
         {
-            var capsule= altUnityDriver.FindObject(By.NAME, "Capsule");
+            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
             var initialWorldCoordinates = capsule.getWorldPosition();
-            altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1),1);
-            Thread.Sleep(1000);
+            altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1), 1);
+            Thread.Sleep(100);
             capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
             var afterTiltCoordinates = capsule.getWorldPosition();
             Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
@@ -2193,18 +1590,15 @@ Simulates device rotation action in your game.
 
     .. code-tab:: java
 
-
         @Test
         public void TestAcceleration() throws InterruptedException {
             AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                     AltUnityDriver.By.NAME, "Capsule").build();
             AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltUnityVector3 initialWorldCoordinates = capsule.getWorldPosition();
-            AltTiltParameters altTiltParameters = new AltTiltParameters.Builder(1, 1, 1).withDuration(1).build();
-            altUnityDriver.tilt(altTiltParameters);
-            Thread.sleep(1000);
+            Vector3 initialWorldCoordinates = capsule.getWorldPosition();
+            altUnityDriver.tilt(new AltTiltParameters.Builder(new Vector3(1, 1, 1)).withDuration(1).build());
             capsule = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltUnityVector3 afterTiltCoordinates = capsule.getWorldPosition();
+            Vector3 afterTiltCoordinates = capsule.getWorldPosition();
             assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
         }
 
@@ -2212,81 +1606,14 @@ Simulates device rotation action in your game.
     .. code-tab:: py
 
         def test_acceleration(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            capsule = self.altUnityDriver.find_object(By.NAME, "Capsule")
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
             initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-            self.altUnityDriver.tilt(1, 1, 1, 1)
-            time.sleep(1)
-            capsule = self.altUnityDriver.find_object(By.NAME, "Capsule")
+            self.altdriver.tilt([1, 1, 1], 1)
+            
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-            self.assertNotEqual(initial_position, final_position)
-
-```
-
-#### TiltAndWait
-
-Simulates device rotation action in your game. This command waits for the action to finish. If you don’t want to wait until the action to finish use [Tilt](#tilt)
-
-**_Parameters_**
-
-| Name         | Type                | Required | Description                                                |
-| ------------ | ------------------- | -------- | ---------------------------------------------------------- |
-| acceleration | AltUnityVector3(C#) | Yes      | Linear acceleration of a device in three-dimensional space |
-| x            | float(python/java)  | Yes      | Linear acceleration of a device on x                       |
-| y            | float(python/java)  | Yes      | Linear acceleration of a device on y                       |
-| z            | float(python/java)  | Yes      | Linear acceleration of a device on z                       |
-| duration     | float               | Yes      | How long the rotation will take in seconds                 |
-
-**_Returns_**
-
--   Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestAccelerationAndWait()
-        {
-            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var initialWorldCoordinates = capsule.getWorldPosition();
-            altUnityDriver.TiltAndWait(new AltUnityVector3(1, 1, 1), 1);
-            Thread.Sleep(1000);
-            capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var afterTiltCoordinates = capsule.getWorldPosition();
-            Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
-        }
-
-    .. code-tab:: java
-
-
-        @Test
-        public void TestAccelerationAndWait() throws InterruptedException {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                    AltUnityDriver.By.NAME, "Capsule").build();
-            AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltUnityVector3 initialWorldCoordinates = capsule.getWorldPosition();
-            AltTiltParameters altTiltParameters = new AltTiltParameters.Builder(1, 1, 1).withDuration(1).build();
-            altUnityDriver.tiltAndWait(altTiltParameters);
-            capsule = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltUnityVector3 afterTiltCoordinates = capsule.getWorldPosition();
-            assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
-        }
-
-
-    .. code-tab:: py
-
-       def test_acceleration_and_wait(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            capsule = self.altUnityDriver.find_object(By.NAME, "Capsule")
-            initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-            self.altUnityDriver.tilt_and_wait(1, 1, 1, 1)
-            capsule = self.altUnityDriver.find_object(By.NAME, "Capsule")
-            final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-            self.assertNotEqual(initial_position, final_position)
+            assert initial_position != final_position
 
 ```
 

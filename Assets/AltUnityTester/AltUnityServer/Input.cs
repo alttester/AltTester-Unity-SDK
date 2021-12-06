@@ -40,7 +40,6 @@ public class Input : UnityEngine.MonoBehaviour
     private static PointerEventData mouseDownPointerEventData = null;
     private static PointerEventData.InputButton[] mouseButtons = { PointerEventData.InputButton.Left, PointerEventData.InputButton.Middle, PointerEventData.InputButton.Right };
 
-    public static bool Finished { get; set; }
     public static float LastAxisValue { get; set; }
     public static string LastAxisName { get; set; }
     public static string LastButtonDown { get; set; }
@@ -77,6 +76,7 @@ public class Input : UnityEngine.MonoBehaviour
         string dataAsJson = targetFile.text;
         AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityAxis>>(dataAsJson);
     }
+
     private void Update()
     {
         _useCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta == UnityEngine.Vector2.zero;
@@ -110,7 +110,7 @@ public class Input : UnityEngine.MonoBehaviour
 
     }
 
-#region UnityEngine.Input.AltUnityTester.NotImplemented
+    #region UnityEngine.Input.AltUnityTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -219,10 +219,10 @@ public class Input : UnityEngine.MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-#endregion
+    #endregion
 
 
-#region UnityEngine.Input.AltUnityTester
+    #region UnityEngine.Input.AltUnityTester
 
     public static bool anyKey
     {
@@ -391,6 +391,7 @@ public class Input : UnityEngine.MonoBehaviour
             {
                 throw new NotFoundException("No axis with this name was found");
             }
+
             foreach (var keyStructure in _keyCodesPressed)
             {
                 if ((axis.positiveButton != "" && keyStructure.KeyCode == ConvertStringToKeyCode(axis.positiveButton)) || (axis.altPositiveButton != "" && keyStructure.KeyCode == ConvertStringToKeyCode(axis.altPositiveButton)))
@@ -642,7 +643,7 @@ public class Input : UnityEngine.MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-#endregion
+    #endregion
 
     private static UnityEngine.Touch createTouch(UnityEngine.Vector3 screenPosition)
     {
@@ -956,10 +957,9 @@ public class Input : UnityEngine.MonoBehaviour
         _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, false), onFinish));
     }
 
-    public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration)
+    public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
     {
-        Finished = false;
-        _instance.StartCoroutine(MultipointSwipeLifeCycle(positions, duration));
+        _instance.StartCoroutine(runThrowingIterator(MultipointSwipeLifeCycle(positions, duration), onFinish));
     }
 
     public static System.Collections.IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
@@ -1044,7 +1044,6 @@ public class Input : UnityEngine.MonoBehaviour
 
         touches = newTouches;
         touchCount--;
-        Finished = true;
     }
 
     private static void updateTouchInTouchList(Touch touch)
@@ -1058,10 +1057,9 @@ public class Input : UnityEngine.MonoBehaviour
         }
     }
 
-    public static void KeyPress(KeyCode keyCode, float power, float duration)
+    public static void KeyPress(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
     {
-        Finished = false;
-        _instance.StartCoroutine(keyPressLifeCycle(keyCode, power, duration));
+        _instance.StartCoroutine(runThrowingIterator(keyPressLifeCycle(keyCode, power, duration), onFinish));
     }
 
     public static void KeyDown(KeyCode keyCode, float power)
@@ -1136,8 +1134,6 @@ public class Input : UnityEngine.MonoBehaviour
         _keyCodesPressedUp.Add(keyStructure);
         yield return null;
         _keyCodesPressedUp.Remove(keyStructure);
-        Finished = true;
-
     }
 
     private static void mouseTriggerInit(PointerEventData.InputButton mouseButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget)
@@ -1202,10 +1198,9 @@ public class Input : UnityEngine.MonoBehaviour
         yield return new WaitForSecondsRealtime(duration);
         mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
     }
-    public static void MoveMouse(UnityEngine.Vector2 location, float duration)
+    public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
     {
-        Finished = false;
-        _instance.StartCoroutine(MoveMouseCycle(location, duration));
+        _instance.StartCoroutine(runThrowingIterator(MoveMouseCycle(location, duration), onFinish));
     }
     public static System.Collections.IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
     {
@@ -1247,12 +1242,10 @@ public class Input : UnityEngine.MonoBehaviour
             yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
         } while (time < duration);
-        Finished = true;
     }
-    public static void Scroll(float scrollValue, float duration)
+    public static void Scroll(float scrollValue, float duration, Action<Exception> onFinish)
     {
-        Finished = false;
-        _instance.StartCoroutine(ScrollLifeCycle(scrollValue, duration));
+        _instance.StartCoroutine(runThrowingIterator(ScrollLifeCycle(scrollValue, duration), onFinish));
     }
     private static System.Collections.IEnumerator ScrollLifeCycle(float scrollValue, float duration)
     {
@@ -1276,13 +1269,11 @@ public class Input : UnityEngine.MonoBehaviour
             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
         }
         _mouseScrollDelta = UnityEngine.Vector2.zero;//reset the value after scroll ended
-        Finished = true;
     }
 
-    public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration)
+    public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration, Action<Exception> onFinish)
     {
-        Finished = false;
-        _instance.StartCoroutine(AccelerationLifeCycle(accelarationValue, duration));
+        _instance.StartCoroutine(runThrowingIterator(AccelerationLifeCycle(accelarationValue, duration), onFinish));
     }
     private static System.Collections.IEnumerator AccelerationLifeCycle(UnityEngine.Vector3 accelarationValue, float duration)
     {
@@ -1294,8 +1285,6 @@ public class Input : UnityEngine.MonoBehaviour
             timeSpent += UnityEngine.Time.unscaledDeltaTime;
         }
         _acceleration = UnityEngine.Vector3.zero;//reset the value after acceleration ended
-        Finished = true;
-
     }
     private static UnityEngine.KeyCode ConvertStringToKeyCode(string keyName)
     {

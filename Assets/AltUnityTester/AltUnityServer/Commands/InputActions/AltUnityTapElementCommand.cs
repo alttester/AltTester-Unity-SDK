@@ -5,13 +5,10 @@ using Altom.AltUnityTester.Communication;
 
 namespace Altom.AltUnityTester.Commands
 {
-    class AltUnityTapElementCommand : AltUnityCommand<AltUnityTapElementParams, AltUnityObject>
+    class AltUnityTapElementCommand : AltUnityCommandWithWait<AltUnityTapElementParams, AltUnityObject>
     {
-        private readonly ICommandHandler handler;
-
-        public AltUnityTapElementCommand(ICommandHandler handler, AltUnityTapElementParams cmdParams) : base(cmdParams)
+        public AltUnityTapElementCommand(ICommandHandler handler, AltUnityTapElementParams cmdParams) : base(cmdParams, handler, cmdParams.wait)
         {
-            this.handler = handler;
         }
 
         public override AltUnityObject Execute()
@@ -27,19 +24,6 @@ namespace Altom.AltUnityTester.Commands
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
-        }
-
-        private void onFinish(Exception err)
-        {
-            if (CommandParams.wait)
-                if (err != null)
-                {
-                    handler.Send(ExecuteAndSerialize<string>(() => throw new AltUnityInnerException(err)));
-                }
-                else
-                {
-                    handler.Send(ExecuteAndSerialize(() => "Finished"));
-                }
         }
     }
 }

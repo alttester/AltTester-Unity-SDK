@@ -9,6 +9,9 @@ import ro.altom.altunitytester.position.Vector3;
 import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltKeyParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltPressKeyParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltScrollParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
@@ -55,11 +58,13 @@ public class TestsSampleScene5 {
         cubeInitWorldX = cube.worldX;
         cubeInitWorldZ = cube.worldZ;
 
-        altUnityDriver.scrollMouse(30, 20);
-        altUnityDriver.pressKey(AltUnityKeyCode.K, 1, 2);
+        altUnityDriver.scroll(new AltScrollParameters.Builder().withSpeed(30).withDuration(20).withWait(false).build());
+        altUnityDriver.pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.K).withDuration(2).withPower(1)
+                .withWait(false).build());
         Thread.sleep(2000);
 
-        altUnityDriver.pressKeyAndWait(AltUnityKeyCode.O, 1, 1);
+        altUnityDriver
+                .pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.O).withDuration(1).withPower(1).build());
         cube = altUnityDriver.findObject(altFindObjectsParameters1);
         float cubeFinalWorldX = cube.worldX;
         float cubeFinalWorldZ = cube.worldZ;
@@ -77,7 +82,8 @@ public class TestsSampleScene5 {
         AltUnityObject cube = altUnityDriver.findObject(altFindObjectsParameters2);
         float cubeInitWorldZ = cube.worldZ;
 
-        altUnityDriver.pressKey(AltUnityKeyCode.W, 1, 2);
+        altUnityDriver.pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.W).withDuration(2).withPower(1)
+                .withWait(false).build());
         Thread.sleep(2000);
         cube = altUnityDriver.findObject(altFindObjectsParameters2);
         float cubeFinalWorldZ = cube.worldZ;
@@ -98,20 +104,20 @@ public class TestsSampleScene5 {
         AltFindObjectsParameters params = new AltFindObjectsParameters.Builder(By.NAME, "PressingPoint1")
                 .withCamera(By.NAME, "Player2").build();
         AltUnityObject pressingPoint1 = altUnityDriver.findObject(params);
-        altUnityDriver.moveMouse(pressingPoint1.x, pressingPoint1.y, 1);
+        altUnityDriver.moveMouse(
+                new AltMoveMouseParameters.Builder(pressingPoint1.getScreenPosition()).withWait(false).build());
         Thread.sleep(1500);
 
-        altUnityDriver.pressKey(AltUnityKeyCode.Mouse0, 1, 1);
+        altUnityDriver.pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.Mouse0).withWait(false).build());
 
         params = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "PressingPoint2")
                 .withCamera(AltUnityDriver.By.NAME, "Player2").build();
         AltUnityObject pressingPoint2 = altUnityDriver.findObject(params);
-        altUnityDriver.moveMouseAndWait(pressingPoint2.x, pressingPoint2.y, 1);
-        altUnityDriver.pressKeyAndWait(AltUnityKeyCode.Mouse0, 1, 1);
+        altUnityDriver.moveMouse(new AltMoveMouseParameters.Builder(pressingPoint2.getScreenPosition()).build());
+        altUnityDriver.pressKey(new AltPressKeyParameters.Builder(AltUnityKeyCode.Mouse0).build());
 
         stars = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters1);
         assertEquals(3, stars.length);
-
     }
 
     @Test
@@ -132,7 +138,7 @@ public class TestsSampleScene5 {
         AltUnityObject axisValue = altUnityDriver.findObject(findObjectParams);
         int i = 0;
         for (AltUnityKeyCode key : KeyToPressForButtons) {
-            altUnityDriver.pressKeyAndWait(key, 0.5f, 0.1f);
+            altUnityDriver.pressKey(new AltPressKeyParameters.Builder(key).withPower(0.5f).withDuration(0.1f).build());
             assertEquals("0.5", axisValue.getText());
             assertEquals(ButtonNames.get(i), axisName.getText());
             i++;
@@ -145,7 +151,7 @@ public class TestsSampleScene5 {
                 "Player2").build();
         AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParameters);
         Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY, player2.worldY);
-        altUnityDriver.scrollMouse(4, 2);
+        altUnityDriver.scroll(new AltScrollParameters.Builder().withSpeed(4).withDuration(2).withWait(false).build());
         Thread.sleep(2000);
         player2 = altUnityDriver.findObject(altFindObjectsParameters);
         Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
@@ -154,13 +160,12 @@ public class TestsSampleScene5 {
 
     @Test
     public void TestScrollAndWait() throws InterruptedException {
-
         AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
                 "Player2").build();
         AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParameters);
         Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY, player2.worldY);
-        altUnityDriver.scrollMouse(4, 2);
-        Thread.sleep(2000);
+        altUnityDriver.scroll(new AltScrollParameters.Builder().withSpeed(4).withDuration(2).build());
+
         player2 = altUnityDriver.findObject(altFindObjectsParameters);
         Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
         assertNotEquals(cubeInitialPostion, cubeFinalPosition);

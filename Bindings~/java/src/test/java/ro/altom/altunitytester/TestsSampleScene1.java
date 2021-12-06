@@ -11,6 +11,7 @@ import ro.altom.altunitytester.Commands.AltCallStaticMethodParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
+import ro.altom.altunitytester.Commands.InputActions.AltHoldParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltKeyParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParameters;
@@ -503,14 +504,11 @@ public class TestsSampleScene1 {
 
     @Test
     public void testButtonClickWithSwipe() throws Exception {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "UIButton").build();
-        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
-                AltUnityDriver.By.NAME, "CapsuleInfo").build();
-        AltUnityObject button = altUnityDriver.findObject(altFindObjectsParameters1);
-        altUnityDriver.holdButtonAndWait(button.x, button.y, 1);
-        AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
-        Thread.sleep(2);
+        AltUnityObject button = altUnityDriver
+                .findObject(new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "UIButton").build());
+        altUnityDriver.holdButton(new AltHoldParameters.Builder(button.getScreenPosition()).withDuration(1).build());
+        AltUnityObject capsuleInfo = altUnityDriver
+                .findObject(new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "CapsuleInfo").build());
         String text = capsuleInfo.getText();
         assertEquals(text, "UIButton clicked to jump capsule!");
     }
@@ -663,8 +661,8 @@ public class TestsSampleScene1 {
                 AltUnityDriver.By.NAME, "Capsule").build();
         AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
         Vector3 initialWorldCoordinates = capsule.getWorldPosition();
-        AltTiltParameters altTiltParameters = new AltTiltParameters.Builder(1, 1, 1).withDuration(1).build();
-        altUnityDriver.tilt(altTiltParameters);
+        altUnityDriver
+                .tilt(new AltTiltParameters.Builder(new Vector3(1, 1, 1)).withDuration(1).withWait(false).build());
         Thread.sleep(1000);
         capsule = altUnityDriver.findObject(altFindObjectsParameters1);
         Vector3 afterTiltCoordinates = capsule.getWorldPosition();
@@ -677,8 +675,7 @@ public class TestsSampleScene1 {
                 AltUnityDriver.By.NAME, "Capsule").build();
         AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
         Vector3 initialWorldCoordinates = capsule.getWorldPosition();
-        AltTiltParameters altTiltParameters = new AltTiltParameters.Builder(1, 1, 1).withDuration(1).build();
-        altUnityDriver.tiltAndWait(altTiltParameters);
+        altUnityDriver.tilt(new AltTiltParameters.Builder(new Vector3(1, 1, 1)).withDuration(1).build());
         capsule = altUnityDriver.findObject(altFindObjectsParameters1);
         Vector3 afterTiltCoordinates = capsule.getWorldPosition();
         assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
@@ -1106,8 +1103,8 @@ public class TestsSampleScene1 {
                 .build();
         AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
         Vector2 initialCapsPos = capsule.getWorldPosition();
-        AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(
-                (int) capsule.getScreenPosition().x, (int) capsule.getScreenPosition().y).withDuration(0.1f).build();
+        AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(capsule.getScreenPosition())
+                .withDuration(0.1f).build();
         altUnityDriver.moveMouse(altMoveMouseParameters);
         Thread.sleep(1000);
         AltKeyParameters altKeyParameters = new AltKeyParameters.Builder(AltUnityKeyCode.Mouse0).build();

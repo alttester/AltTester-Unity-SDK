@@ -36,20 +36,20 @@ public class TestForScene3DragAndDrop
     {
         var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
         var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1, wait: false);
 
         altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image2");
         altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box2");
-        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 2);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 2, wait: false);
 
         altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image3");
         altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 2);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 2, wait: false);
 
 
         altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
         altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 3);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 3, wait: false);
 
         Thread.Sleep(4000);
 
@@ -67,20 +67,20 @@ public class TestForScene3DragAndDrop
     {
         var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
         var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        altUnityDriver.SwipeAndWait(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
 
         altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image2");
         altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box2");
-        altUnityDriver.SwipeAndWait(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
 
         altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image3");
         altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        altUnityDriver.SwipeAndWait(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
 
 
         altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
         altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        altUnityDriver.SwipeAndWait(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+        altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
         var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         Assert.AreNotEqual(imageSource, imageSourceDropZone);
@@ -95,7 +95,7 @@ public class TestForScene3DragAndDrop
     {
         var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
         var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        altUnityDriver.MultipointSwipe(new[] { new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y) }, 2);
+        altUnityDriver.MultipointSwipe(new[] { new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y) }, 2, wait: false);
         Thread.Sleep(2000);
 
         altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
@@ -108,7 +108,7 @@ public class TestForScene3DragAndDrop
             new AltUnityVector2(altElement3.x, altElement3.y)
         };
 
-        altUnityDriver.MultipointSwipeAndWait(positions, 3);
+        altUnityDriver.MultipointSwipe(positions, 3);
         var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
         Assert.AreNotEqual(imageSource, imageSourceDropZone);

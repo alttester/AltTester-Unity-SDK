@@ -19,7 +19,7 @@ public class AltUnityExampleScriptDebugController : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class AltUnityExampleScriptDebugController : MonoBehaviour
             foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
             {
                 if (Input.GetKeyDown(kcode))
-                    lastKeyDown.text=kcode.ToString();
+                    lastKeyDown.text = kcode.ToString();
             }
         }
         if (Input.anyKey)
@@ -41,13 +41,15 @@ public class AltUnityExampleScriptDebugController : MonoBehaviour
                     lastKeyPressed.text = kcode.ToString();
             }
         }
-        
+
         foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyUp(kcode))
                 lastKeyUp.text = kcode.ToString();
         }
 #if ALTUNITYTESTER
+        Input.GetAxis("Horizontal");
+        Input.GetAxis("Vertical");
         lastButtonDown.text = Input.LastButtonDown;
         lastButtonPressed.text = Input.LastButtonPressed;
         lastButtonUp.text = Input.LastButtonUp;

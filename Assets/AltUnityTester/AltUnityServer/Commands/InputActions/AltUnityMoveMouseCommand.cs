@@ -1,12 +1,14 @@
+using System;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
+using Altom.AltUnityTester.Communication;
 using UnityEngine;
 
 namespace Altom.AltUnityTester.Commands
 {
-    class AltUnityMoveMouseCommand : AltUnityCommand<AltUnityMoveMouseParams, string>
+    class AltUnityMoveMouseCommand : AltUnityCommandWithWait<AltUnityMoveMouseParams, string>
     {
-        public AltUnityMoveMouseCommand(AltUnityMoveMouseParams cmdParams) : base(cmdParams)
+        public AltUnityMoveMouseCommand(ICommandHandler handler, AltUnityMoveMouseParams cmdParams) : base(cmdParams, handler, cmdParams.wait)
         {
         }
 
@@ -14,7 +16,7 @@ namespace Altom.AltUnityTester.Commands
         {
 
 #if ALTUNITYTESTER
-            Input.MoveMouse(new Vector2(CommandParams.location.x, CommandParams.location.y), CommandParams.duration);
+            Input.MoveMouse(new Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y), CommandParams.duration, onFinish);
             return "Ok";
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);

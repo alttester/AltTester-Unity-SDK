@@ -8,18 +8,21 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  * action to finish.
  */
 public class AltSwipe extends AltBaseCommand {
-   
+
     private AltSwipeParameters params;
 
-    public AltSwipe(IMessageHandler messageHandler, int xStart, int yStart, int xEnd, int yEnd,
-            float durationInSeconds) {
+    public AltSwipe(IMessageHandler messageHandler, AltSwipeParameters params) {
         super(messageHandler);
-        params = new AltSwipeParameters(xStart, yStart, xEnd, yEnd, durationInSeconds);
+        this.params = params;
     }
 
     public void Execute() {
         SendCommand(params);
         String data = recvall(params, String.class);
         validateResponse("Ok", data);
+        if (params.getWait()) {
+            data = recvall(params, String.class);
+            validateResponse("Finished", data);
+        }
     }
 }

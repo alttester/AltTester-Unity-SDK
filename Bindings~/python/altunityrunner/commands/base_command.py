@@ -10,6 +10,29 @@ from altunityrunner.by import By
 EPOCH = datetime.utcfromtimestamp(0)
 
 
+def validate_coordinates_3(coordinates):
+    if isinstance(coordinates, (list, tuple)):
+        if len(coordinates) != 3:
+            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have items for x,y and z.")
+
+        return {
+            "x": coordinates[0],
+            "y": coordinates[1],
+            "z": coordinates[2]
+        }
+    elif isinstance(coordinates, dict):
+        if "x" not in coordinates or "y" not in coordinates or "z" not in coordinates:
+            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have an x,y and z key.")
+
+        return coordinates
+    else:
+        raise exceptions.InvalidParameterTypeException(
+            parameter_name="coordinates",
+            expected_types=(list, tuple, dict),
+            received_type=type(coordinates)
+        )
+
+
 def validate_coordinates(coordinates):
     if isinstance(coordinates, (list, tuple)):
         if len(coordinates) != 2:
@@ -20,7 +43,7 @@ def validate_coordinates(coordinates):
             "y": coordinates[1]
         }
     elif isinstance(coordinates, dict):
-        if "x" not in coordinates and "y" not in coordinates:
+        if "x" not in coordinates or "y" not in coordinates:
             raise exceptions.InvalidParameterValueException("ValueError: coordinates must have an x and y key.")
 
         return coordinates

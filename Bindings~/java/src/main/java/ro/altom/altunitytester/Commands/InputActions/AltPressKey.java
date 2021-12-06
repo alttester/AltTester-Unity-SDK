@@ -21,6 +21,12 @@ public class AltPressKey extends AltBaseCommand {
 
     public void Execute() {
         SendCommand(altPressKeyParameters);
-        recvall(altPressKeyParameters, String.class);
+        String data = recvall(altPressKeyParameters, String.class);
+        validateResponse("Ok", data);
+
+        if (altPressKeyParameters.getWait()) {
+            data = recvall(altPressKeyParameters, String.class);
+            validateResponse("Finished", data);
+        }
     }
 }
