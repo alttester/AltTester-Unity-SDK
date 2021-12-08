@@ -3512,5 +3512,6 @@ Is a solution offered by AltUnity Tester in order to find object easier. This is
 **A limitation of this is that only the object already in the scene before building the game will have an AltId. Object instantiated during run time will not have an AltId**
 
 To add AltId to every object simply just click AddAltIdToEveryObject from AltUnityTester menu.
+
 ![addAltId](../_static/images/AddAltId.png)
 
