@@ -326,7 +326,6 @@ public class TestForScene1TestSample
 
 #if !UNITY_IOS
     [Test]
-    [Category("WebGLUnsupported")]
     public void TestGetComponentPropertyUnityEngine()
     {
         const string componentName = "UnityEngine.CapsuleCollider";
@@ -796,7 +795,6 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    [Category("WebGLUnsupported")]
     public void TestGetAllProperties()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -806,11 +804,11 @@ public class TestForScene1TestSample
         List<AltUnityProperty> properties = altElement.GetAllProperties(component, AltUnityPropertiesSelections.ALLPROPERTIES);
         if (properties.Exists(prop => prop.name.Equals("runInEditMode")))
         {
-            Assert.AreEqual(11, properties.Count);
+            Assert.AreEqual(12, properties.Count); // runInEditMode and allowPrefabModeInPlayMode
         }
         else
         {
-            Assert.AreEqual(10, properties.Count);// if runned from editor then there are 11 properties, runInEditMode is only available in Editor
+            Assert.IsTrue(properties.Count >= 9 && properties.Count <= 10);// if runned from editor then there are 12 properties, runInEditMode is only available in Editor
         }
         AltUnityProperty property = properties.First(prop => prop.name.Equals("TestProperty"));
         Assert.NotNull(property);
@@ -830,7 +828,6 @@ public class TestForScene1TestSample
         Assert.AreEqual("False", property.value);
     }
     [Test]
-    [Category("WebGLUnsupported")]
     public void TestGetAllInheritedProperties()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -840,11 +837,11 @@ public class TestForScene1TestSample
         List<AltUnityProperty> properties = altElement.GetAllProperties(component, AltUnityPropertiesSelections.INHERITEDPROPERTIES);
         if (properties.Exists(prop => prop.name.Equals("runInEditMode")))
         {
-            Assert.AreEqual(9, properties.Count);
+            Assert.AreEqual(10, properties.Count);//runInEditMode and allowPrefabModeInPlayMode
         }
         else
         {
-            Assert.AreEqual(8, properties.Count);// if runned from editor then there are 9 properties, runInEditMode is only available in Editor
+            Assert.IsTrue(properties.Count >= 7 && properties.Count <= 8);// if runned from editor then there are 10 properties, runInEditMode is only available in Editor
         }
     }
 
@@ -1475,7 +1472,6 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    [Category("WebGLUnsupported")]
     public void TestSetComponentPropertyComplexClass3()
     {
         const string componentName = "AltUnityExampleScriptCapsule";
@@ -1946,7 +1942,6 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    [Category("WebGLUnsupported")]
     public void TestSetStructureProperty2()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -1956,7 +1951,6 @@ public class TestForScene1TestSample
     }
 
     [Test]
-    [Category("WebGLUnsupported")]
     public void TestSetStructureProperty3()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -1989,6 +1983,7 @@ public class TestForScene1TestSample
     }
 
     [Test]
+    //uses InvokeMethod
     [Category("WebGLUnsupported")]
     public void TestGetStaticProperty()
     {
