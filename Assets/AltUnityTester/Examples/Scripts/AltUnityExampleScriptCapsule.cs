@@ -25,6 +25,10 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     protected void Awake()
     {
         AltUnitySampleClass1 = new AltUnitySampleClass("test", 1, new List<float> { 2.3f, 4.4f }, new Dictionary<string, double>() { { "first", 1.1 }, { "second", 2.2 }, { "third", 3.3 } });
+        //keep these to prevent code stripping in WebGL
+        UnityEngine.Debug.Log("isTrigger " + this.GetComponent<CapsuleCollider>().isTrigger);
+        UnityEngine.Debug.Log("tag " + this.gameObject.tag);
+        UnityEngine.Debug.Log("hideFlags " + this.gameObject.hideFlags);
     }
 
     public bool TestProperty

@@ -179,7 +179,7 @@ namespace Altom.AltUnityTester.Commands
             }
             else
             {
-                setValue(instance, memberInfo, index, valueAsString);
+                setValue(instance, memberInfo, index, valueAsString, value.GetType());
                 return instance;
             }
         }
@@ -238,31 +238,25 @@ namespace Altom.AltUnityTester.Commands
             }
         }
 
-        private void setValue(object instance, MemberInfo memberInfo, int index, string valueString)
+        private void setValue(object instance, MemberInfo memberInfo, int index, string valueString, Type valueType)
         {
-            MethodInfo methodDefinition = typeof(AltUnityReflectionMethodsCommand<TParam, TResult>).GetMethod(nameof(SetElementOfListObject), new Type[] { typeof(int), typeof(object), typeof(object), typeof(Type) });
-
             if (memberInfo.MemberType == MemberTypes.Property)
             {
                 PropertyInfo propertyInfo = (PropertyInfo)memberInfo;
 
                 if (index != -1)
                 {
-                    var type = propertyInfo.PropertyType.GetElementType() != null ? propertyInfo.PropertyType.GetElementType() : propertyInfo.PropertyType.GetGenericArguments().Single();
-                    MethodInfo method = methodDefinition.MakeGenericMethod(type);
-
-                    object value = deserializeMemberValue(valueString, type);
+                    object value = deserializeMemberValue(valueString, valueType);
                     var listValue = GetValue(instance, memberInfo, -1);
 
-                    listValue = method.Invoke(this, new object[] { index, listValue, value, propertyInfo.PropertyType }); ;
+                    SetElementOfListObject(index, listValue, value);
                     propertyInfo.SetValue(instance, listValue);
 
                 }
                 else
                 {
-                    object value = deserializeMemberValue(valueString, propertyInfo.PropertyType);
+                    object value = deserializeMemberValue(valueString, valueType);
                     propertyInfo.SetValue(instance, value);
-
                 }
             }
             else if (memberInfo.MemberType == MemberTypes.Field)
@@ -271,42 +265,26 @@ namespace Altom.AltUnityTester.Commands
 
                 if (index != -1)
                 {
-                    var type = fieldInfo.FieldType.GetElementType() != null ? fieldInfo.FieldType.GetElementType() : fieldInfo.FieldType.GetGenericArguments().Single();
-                    object value = deserializeMemberValue(valueString, type);
+                    object value = deserializeMemberValue(valueString, valueType);
                     var listValue = GetValue(instance, memberInfo, -1);
 
-                    MethodInfo method = methodDefinition.MakeGenericMethod(type);
-                    listValue = method.Invoke(this, new object[] { index, listValue, value, fieldInfo.FieldType }); ;
+                    SetElementOfListObject(index, listValue, value);
                     fieldInfo.SetValue(instance, listValue);
                 }
                 else
                 {
-                    object value = deserializeMemberValue(valueString, fieldInfo.FieldType);
+                    object value = deserializeMemberValue(valueString, valueType);
                     fieldInfo.SetValue(instance, value);
                 }
             }
         }
 
-        public object SetElementOfListObject<T>(int index, object enumerable, object value, Type type)
+        public object SetElementOfListObject(int index, object enumerable, object value)
         {
-            if (type.IsArray)
-            {
-                var arrray = enumerable as T[];
-                if (arrray != null)
-                {
-                    arrray[index] = (T)value;
-                    return arrray;
-                }
-
-            }
-            var list = enumerable as IList<T>;
-            if (enumerable != null)
-            {
-                list[index] = (T)value;
-                return list;
-
-            }
-            return null;
+            var list = (IList)enumerable;
+            if (list != null)
+                list[index] = value;
+            return list;
             throw new AltUnityException(AltUnityErrors.errorPropertyNotSet);
         }
 
