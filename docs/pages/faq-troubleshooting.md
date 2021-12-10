@@ -62,6 +62,13 @@ These give you access to a virtual machine or a Docker container that has a clou
 <br>
 
 <details>
+<summary><strong> Why do I get an error when trying to call the port forwarding methods? </strong></summary>
+<br>
+<strong>Answer:</strong> You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our <a href="advanced-usage.html#how-to-setup-port-forwarding">setup port forwarding guide</a>.
+</details>
+<br>
+
+<details>
 <summary><strong> I get the error: <em>Multiple precompiled assemblies with the same name Newtonsoft.Json.dll included or the current platform.</em>, </strong> </summary>
 <br>
 <strong>Answer:</strong> You get this error due to multiple imports of Newtonsoft.Json.dll library. You can remove the Newtonsoft.Json version from AltUnity Tester by deleting the <em>JsonDotNet</em> folder <em>Assets/AltUnityTester/ThirdParty/JsonDotNet</em>. 
