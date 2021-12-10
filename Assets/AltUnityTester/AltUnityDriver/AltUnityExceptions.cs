@@ -312,6 +312,22 @@ namespace Altom.AltUnityDriver
         }
     }
 
+    public class PortForwardingException : AltUnityException
+    {
+        public PortForwardingException()
+        {
+        }
+
+        public PortForwardingException(string message) : base(message)
+        {
+        }
+
+        public PortForwardingException(string message, Exception inner) : base(message, inner)
+        {
+        }
+    }
+
+
     public class AltUnityInvalidServerResponse : AltUnityException
     {
         public AltUnityInvalidServerResponse(string expected, string received) : base(string.Format("Expected to get response '{0}'; Got  '{1}'", expected, received))
@@ -372,9 +388,10 @@ namespace Altom.AltUnityDriver
         }
     }
 
-    public class SceneNotFoundException: AltUnityException
+    public class SceneNotFoundException : AltUnityException
     {
-        public SceneNotFoundException() {
+        public SceneNotFoundException()
+        {
         }
 
         public SceneNotFoundException(string message) : base(message)
