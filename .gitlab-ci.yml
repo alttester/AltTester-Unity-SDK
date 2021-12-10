@@ -3,9 +3,8 @@
   - adb install sampleGame.apk
   - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
   - adb forward --remove-all
-  #- adb forward tcp:13000 tcp:13000
 
-.initialize_venv: &initialize_venv
+.initialize_python_venv: &initialize_python_venv
   - >
     if [ -d altunitytests ]; then
       echo "Activating virtual environment."
@@ -18,25 +17,25 @@
       echo "Virtual environment has been created and activated."
     fi
 
-.pip_install_dependencies: &pip_install_dependencies
+.install_python_dependencies: &install_python_dependencies
+  - pip install --upgrade pip setuptools wheel
   - pip uninstall --yes altunityrunner || true
-  - pip install --upgrade pip
   - pip install -r "Bindings~/python/requirements.txt"
   - pip install -r "Bindings~/python/requirements-dev.txt"
   - pip install -e "Bindings~/python" --root "Bindings~/python"
 
-workflow:
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME != "master" && $CI_COMMIT_REF_NAME != "development"'
-      when: never
-    - when: always
-
 stages:
+  - unit-tests
   - build
   - test
   - docs
-  - alphadocs
   - deploy
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME != "master"'
+      when: never
+    - when: always
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -46,8 +45,41 @@ cache:
     - .cache/pip
     - altunitytests/
 
+python-unit-tests:
+  stage: unit-tests
+  image: python:3.9
+  interruptible: true
+  before_script:
+    - *install_python_dependencies
+    - cd Bindings~/python/
+  script:
+    - flake8 altunityrunner
+    - pytest tests/unit
+
+# TODO: Add unit tests for Java
+java-unit-tests:
+  stage: unit-tests
+  image: maven:3-openjdk-11
+  interruptible: true
+  before_script:
+    - cd Bindings~/java/
+  script:
+    - mvn validate
+    - mvn compile
+
+# TODO: Add unit tests for .NET
+dotnet-unit-tests:
+  stage: unit-tests
+  image: mcr.microsoft.com/dotnet/sdk:5.0
+  interruptible: true
+  before_script:
+    - cd Bindings~/dotnet/AltUnityDriver
+  script:
+    - dotnet build
+
 build-apk:
   stage: build
+  needs: [python-unit-tests, java-unit-tests, dotnet-unit-tests]
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
       when: never
@@ -74,6 +106,7 @@ build-apk:
 
 build-webgl:
   stage: build
+  needs: [python-unit-tests, java-unit-tests, dotnet-unit-tests]
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
       when: never
@@ -82,51 +115,16 @@ build-webgl:
     - windows
     - unity
   script:
-    - whoami
     - "& $env:UNITY_2019_2_HOME -batchmode -stackTraceLogType None -projectPath $env:CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterTools.BuildAltUnityTester.WebGLBuildFromCommandLine -logFile buildWebgl.log -quit"
-    - ls
-
   cache:
     paths:
       - build/webgl/**
-
   artifacts:
     when: always
     expire_in: 10 days
     paths:
       - buildWebgl.log
       - build/webgl/**
-
-run-csharp-dotnet-webgl-tests:
-  stage: test
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
-  tags:
-    - windows
-    - unity
-  #before_script:
-  #  - git clone https://dorinaltom:$GITLAB_PROXY_REPO_KEY@gitlab.com/altom/altunity/altunity-proxy.git
-  script:
-    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
-    - docker run --rm -d -p 8080:8080 --name http-server -v $env:CI_PROJECT_DIR\build\webgl:/samplescenes-webgl node:14 /bin/bash -c "npm i -g http-server && http-server /samplescenes-webgl"
-    - start-sleep 10
-    - Start-Process msedge -ArgumentList http://localhost:8080/ -PassThru
-    - dotnet test Bindings~/dotnet/AltUnityDriver.Tests/AltUnityDriver.Tests.csproj --filter "TestCategory!=Android&TestCategory!=WebGLUnsupported" --logger:"console;verbosity=detailed"
-  after_script:
-    - docker logs altunity-proxy > AltUnityProxyLog.txt
-    - Stop-Process -Name msedge -Force
-    - docker container stop http-server
-    - docker container stop altunity-proxy
-
-  artifacts:
-    when: always
-    expire_in: 10 days
-    paths:
-      - AltUnityTesterLog.txt
-      - AltUnityProxyLog.txt
-  needs: ["build-webgl"]
 
 .build-ipa:
   stage: build
@@ -149,8 +147,9 @@ run-csharp-dotnet-webgl-tests:
       - sampleGame/
       - buildIos.log
 
-run-csharp-unity-android-tests:
+unity-android-tests:
   stage: test
+  needs: ["build-apk"]
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
       when: never
@@ -166,7 +165,6 @@ run-csharp-unity-android-tests:
   after_script:
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
-    - cat csharpAndroidTests.log
   artifacts:
     when: always
     expire_in: 10 days
@@ -174,117 +172,8 @@ run-csharp-unity-android-tests:
       - csharpAndroidTests.log
       - AltUnityTesterLog.txt
       - AltUnityServerLog.txt
-  needs: ["build-apk"]
 
-run-python-lint:
-  stage: test
-  tags:
-    - mac
-  before_script:
-    - *initialize_venv
-    - *pip_install_dependencies
-  script:
-    - cd Bindings~/python/
-    - flake8 altunityrunner
-
-run-python-android-tests:
-  stage: test
-  tags:
-    - android
-  before_script:
-    - *reinstall_and_start_android_app
-    - *initialize_venv
-    - *pip_install_dependencies
-  script:
-    - pytest Bindings~/python/tests/unit
-    - pytest Bindings~/python/tests/integration/test_bindings.py
-  after_script:
-    - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
-    - adb forward --remove-all
-  artifacts:
-    when: always
-    expire_in: 10 days
-    paths:
-      - AltUnityTesterLog.txt
-      - AltUnityServerLog.txt
-  needs: ["build-apk"]
-
-run-python-appium-android-tests:
-  stage: test
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
-  tags:
-    - android
-  before_script:
-    - adb uninstall fi.altom.altunitytester || true
-    - *initialize_venv
-    - *pip_install_dependencies
-  script:
-    - pytest Bindings~/python/tests/integration/test_appium.py
-  after_script:
-    - adb forward --remove-all
-  artifacts:
-    when: always
-    expire_in: 10 days
-    paths:
-      - appium.log
-      - AltUnityTesterLog.txt
-  needs: ["build-apk"]
-
-run-java-android-tests:
-  stage: test
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
-  tags:
-    - android
-  before_script:
-    - *reinstall_and_start_android_app
-  script:
-    - cd "Bindings~/java"
-    - mvn -Dtest=ro.altom.altunitytester.Tests* test
-  after_script:
-    - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
-    - adb forward --remove-all
-  artifacts:
-    when: always
-    expire_in: 10 days
-    paths:
-      - AltUnityServerLog.txt
-      - AltUnityTesterLog.txt
-  needs: ["build-apk"]
-
-run-java-appium-android-tests:
-  stage: test
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
-  tags:
-    - android
-  before_script:
-    - adb uninstall fi.altom.altunitytester || true
-  script:
-    - whoami
-    - cd "Bindings~/java"
-    - mvn clean compile assembly:single
-    - mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.7.0-alpha -Dpackaging=jar
-    - cd ../java-appium-tests
-    - mvn test
-  after_script:
-    - adb forward --remove-all
-  artifacts:
-    when: always
-    expire_in: 10 days
-    paths:
-      - AltUnityTesterLog.txt
-      - "./Bindings~/java/target/altunitytester-java-client-jar-with-dependencies.jar"
-  needs: ["build-apk"]
-
-.run-csharp-ios-tests:
+.unity-ios-tests:
   stage: test
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
@@ -307,6 +196,81 @@ run-java-appium-android-tests:
       - sampleGame/
       - csharpIosTests.log
   needs: ["build-ipa"]
+
+dotnet-webgl-tests:
+  stage: test
+  needs: ["build-webgl"]
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - when: always
+  tags:
+    - windows
+    - unity
+  #before_script:
+  #  - git clone https://dorinaltom:$GITLAB_PROXY_REPO_KEY@gitlab.com/altom/altunity/altunity-proxy.git
+  script:
+    - docker run --rm -d -p 13000:13000 --name altunity-proxy altunity-proxy
+    - docker run --rm -d -p 8080:8080 --name http-server -v $env:CI_PROJECT_DIR\build\webgl:/samplescenes-webgl node:14 /bin/bash -c "npm i -g http-server && http-server /samplescenes-webgl"
+    - start-sleep 10
+    - Start-Process msedge -ArgumentList http://localhost:8080/ -PassThru
+    - dotnet test Bindings~/dotnet/AltUnityDriver.Tests/AltUnityDriver.Tests.csproj --filter "TestCategory!=Android&TestCategory!=WebGLUnsupported" --logger:"console;verbosity=detailed"
+  after_script:
+    - docker logs altunity-proxy > AltUnityProxyLog.txt
+    - Stop-Process -Name msedge -Force
+    - docker container stop http-server
+    - docker container stop altunity-proxy
+  artifacts:
+    when: always
+    expire_in: 10 days
+    paths:
+      - AltUnityTesterLog.txt
+      - AltUnityProxyLog.txt
+
+python-android-tests:
+  stage: test
+  needs: ["build-apk"]
+  tags:
+    - android
+  before_script:
+    - *reinstall_and_start_android_app
+    - *initialize_python_venv
+    - *install_python_dependencies
+  script:
+    - pytest Bindings~/python/tests/integration/test_bindings.py
+  after_script:
+    - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
+    - adb forward --remove-all
+  artifacts:
+    when: always
+    expire_in: 10 days
+    paths:
+      - AltUnityTesterLog.txt
+      - AltUnityServerLog.txt
+
+java-android-tests:
+  stage: test
+  needs: ["build-apk"]
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
+      when: never
+    - when: always
+  tags:
+    - android
+  before_script:
+    - *reinstall_and_start_android_app
+  script:
+    - cd "Bindings~/java"
+    - mvn -Dtest=ro.altom.altunitytester.Tests* test
+  after_script:
+    - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
+    - adb forward --remove-all
+  artifacts:
+    when: always
+    expire_in: 10 days
+    paths:
+      - AltUnityServerLog.txt
+      - AltUnityTesterLog.txt
 
 create-unity-package:
   stage: docs
@@ -362,8 +326,9 @@ create-jar-archive:
     paths:
       - public
 
-deploy-altunitytester-python:
+publish-pip-package:
   stage: deploy
+  interruptible: false
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
       when: never
@@ -374,15 +339,17 @@ deploy-altunitytester-python:
     - unity
     - mac
     - android
-  script:
+  before_script:
     - cd "Bindings~/python"
     - python3 -m pip install --upgrade pip
     - python3 -m pip install -r requirements-dev.txt
+  script:
     - python3 setup.py sdist
     - python3 -m twine upload dist/*
 
-deploy-altunitydriver-dotnet:
+publish-nuget-package:
   stage: deploy
+  interruptible: false
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
       when: never
@@ -393,19 +360,35 @@ deploy-altunitydriver-dotnet:
     - unity
     - mac
     - android
-  script:
+  before_script:
     - cd "Bindings~/dotnet"
+  script:
     - dotnet pack AltUnityDriver/AltUnityDriver.csproj -c release
     - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.7.0-alpha.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
-devdocs:
-  stage: docs
+publish-maven-package:
+  stage: deploy
+  interruptible: false
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
       when: never
     - if: '$CI_COMMIT_REF_NAME == "master"'
-      when: always
+      when: manual
     - when: never
+  tags:
+    - unity
+    - mac
+  before_script:
+    - cd "Bindings~/java"
+  script:
+    - export GPG_TTY=$(tty)
+    - mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
+
+alpha-docs:
+  stage: docs
+  only:
+    refs:
+      - master
   trigger: altom/altunity/altunitytester-dev
 
 pages:
@@ -424,25 +407,9 @@ pages:
       - public
   script:
     - cd docs
-    - *initialize_venv
+    - *initialize_python_venv
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - make clean
     - make html
     - cp -r _build/html/. ../public/
-
-maven-repo:
-  stage: deploy
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - if: '$CI_COMMIT_REF_NAME == "master"'
-      when: manual
-    - when: never
-  script:
-    - cd "Bindings~/java"
-    - export GPG_TTY=$(tty)
-    - mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
-  tags:
-    - unity
-    - mac
