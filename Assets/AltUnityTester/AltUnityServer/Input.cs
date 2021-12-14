@@ -5,9 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Altom.AltUnityDriver;
+using Altom.AltUnityTester;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Altom.AltUnityTester;
 
 public class Input : UnityEngine.MonoBehaviour
 {
@@ -875,7 +875,7 @@ public class Input : UnityEngine.MonoBehaviour
     private static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
     {
         UnityEngine.Vector3 screenPosition;
-        AltUnityRunner._altUnityRunner.findCameraThatSeesObject(target, out screenPosition);
+        AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
         yield return new WaitForEndOfFrame();//run after Update
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)

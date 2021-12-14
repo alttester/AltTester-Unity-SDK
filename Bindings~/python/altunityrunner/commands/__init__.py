@@ -6,3 +6,4 @@ from altunityrunner.commands.UnityCommands import *
 from altunityrunner.commands.get_png_screenshot import GetPNGScreenshot
 from altunityrunner.commands.get_server_version import GetServerVersion
 from altunityrunner.commands.get_static_property import GetStaticProperty
+from altunityrunner.commands.Notifications import *

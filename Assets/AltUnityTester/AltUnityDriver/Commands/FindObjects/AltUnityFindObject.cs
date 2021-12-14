@@ -16,7 +16,7 @@ namespace Altom.AltUnityDriver.Commands
         public AltUnityObject Execute()
         {
             CommHandler.Send(cmdParams);
-            var altUnityObject = CommHandler.Recvall<AltUnityObject>(cmdParams).data;
+            var altUnityObject = CommHandler.Recvall<AltUnityObject>(cmdParams);
             altUnityObject.CommHandler = CommHandler;
             return altUnityObject;
         }

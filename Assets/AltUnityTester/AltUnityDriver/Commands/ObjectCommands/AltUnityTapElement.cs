@@ -19,7 +19,7 @@ namespace Altom.AltUnityDriver.Commands
 
             if (cmdParams.wait)
             {
-                var data = CommHandler.Recvall<string>(cmdParams).data;
+                var data = CommHandler.Recvall<string>(cmdParams);
                 ValidateResponse("Finished", data);
             }
             return element;

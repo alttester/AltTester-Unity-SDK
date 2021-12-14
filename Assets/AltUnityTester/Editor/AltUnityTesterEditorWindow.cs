@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Altom.AltUnityTester;
 using Altom.AltUnityDriver;
+using Altom.AltUnityTester;
 using Altom.AltUnityTesterEditor.Logging;
 using NLog;
 using NLog.Layouts;
@@ -555,7 +555,7 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorGUILayout.Separator();
 
 
-            if (AltUnityBuilder.built)
+            if (AltUnityBuilder.Built)
             {
                 var found = false;
 
@@ -573,7 +573,7 @@ namespace Altom.AltUnityTesterEditor
                     }
 
                     if (found == false)
-                        AltUnityBuilder.built = false;
+                        AltUnityBuilder.Built = false;
                 }
 
             }

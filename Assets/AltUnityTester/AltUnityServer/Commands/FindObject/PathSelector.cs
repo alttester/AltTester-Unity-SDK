@@ -228,9 +228,16 @@ namespace Altom.AltUnityTester.Commands
                     var list = gameObjectToCheck.GetComponents(typeof(UnityEngine.Component));
                     for (int i = 0; i < list.Length; i++)
                     {
-                        if (componentName.Equals(list[i].GetType().Name))
+                        try
                         {
-                            return gameObjectToCheck;
+                            if (componentName.Equals(list[i].GetType().Name))
+                            {
+                                return gameObjectToCheck;
+                            }
+                        }
+                        catch (System.NullReferenceException)
+                        {
+                            continue;
                         }
                     }
                     return null;

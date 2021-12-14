@@ -20,11 +20,11 @@ namespace Altom.AltUnityDriver.Commands
         {
             CommHandler.Send(cmdParams);
 
-            var data = CommHandler.Recvall<string>(cmdParams).data;
+            var data = CommHandler.Recvall<string>(cmdParams);
             ValidateResponse("Ok", data);
 
-            var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams).data;
-            byte[] decompressedImage = decompressScreenshot(imageData.compressedImage);
+            var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams);
+            byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
             return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize, imageData.textureFormat);
         }
     }
@@ -43,11 +43,11 @@ namespace Altom.AltUnityDriver.Commands
         public AltUnityTextureInformation Execute()
         {
             CommHandler.Send(cmdParams);
-            var data = CommHandler.Recvall<string>(cmdParams).data;
+            var data = CommHandler.Recvall<string>(cmdParams);
             ValidateResponse("Ok", data);
 
-            var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams).data;
-            byte[] decompressedImage = decompressScreenshot(imageData.compressedImage);
+            var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams);
+            byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
             return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize, imageData.textureFormat);
         }
     }
@@ -71,11 +71,11 @@ namespace Altom.AltUnityDriver.Commands
                 selectedObject = null;
             }
 
-            var data = CommHandler.Recvall<string>(cmdParams).data;
+            var data = CommHandler.Recvall<string>(cmdParams);
             ValidateResponse("Ok", data);
 
-            var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams).data;
-            byte[] decompressedImage = decompressScreenshot(imageData.compressedImage);
+            var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams);
+            byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
             return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize, imageData.textureFormat);
 
         }

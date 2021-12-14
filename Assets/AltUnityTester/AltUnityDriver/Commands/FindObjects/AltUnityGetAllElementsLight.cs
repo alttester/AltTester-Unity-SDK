@@ -13,7 +13,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             CommHandler.Send(cmdParams);
 
-            return CommHandler.Recvall<List<AltUnityObjectLight>>(cmdParams).data;
+            return CommHandler.Recvall<List<AltUnityObjectLight>>(cmdParams);
         }
     }
 }

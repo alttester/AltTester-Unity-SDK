@@ -11,14 +11,14 @@ namespace Altom.AltUnityDriver.Commands
 
         protected AltUnityObject ReceiveAltUnityObject(CommandParams cmdParams)
         {
-            var altElement = CommHandler.Recvall<AltUnityObject>(cmdParams).data;
+            var altElement = CommHandler.Recvall<AltUnityObject>(cmdParams);
             altElement.CommHandler = CommHandler;
 
             return altElement;
         }
         protected List<AltUnityObject> ReceiveListOfAltUnityObjects(CommandParams cmdParams)
         {
-            var altElements = CommHandler.Recvall<List<AltUnityObject>>(cmdParams).data;
+            var altElements = CommHandler.Recvall<List<AltUnityObject>>(cmdParams);
 
             foreach (var altElement in altElements)
             {

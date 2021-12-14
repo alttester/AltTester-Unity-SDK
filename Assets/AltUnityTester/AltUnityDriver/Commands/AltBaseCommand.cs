@@ -23,7 +23,7 @@ namespace Altom.AltUnityDriver.Commands
             }
         }
 
-        protected static byte[] decompressScreenshot(byte[] screenshotCompressed)
+        protected static byte[] DecompressScreenshot(byte[] screenshotCompressed)
         {
             using (var memoryStreamInput = new System.IO.MemoryStream(screenshotCompressed))
             using (var memoryStreamOutput = new System.IO.MemoryStream())

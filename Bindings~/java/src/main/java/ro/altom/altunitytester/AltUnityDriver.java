@@ -6,6 +6,10 @@ import org.apache.logging.log4j.LogManager;
 
 import ro.altom.altunitytester.Commands.*;
 import ro.altom.altunitytester.Commands.AltUnityCommands.AltSetServerLoggingParameters;
+import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityAddNotificationListener;
+import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityAddNotificationListenerParams;
+import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityRemoveNotificationListener;
+import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityRemoveNotificationListenerParams;
 import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnitySetServerLogging;
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
@@ -14,7 +18,6 @@ import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyPar
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import ro.altom.altunitytester.position.Vector2;
-
 import java.io.IOException;
 
 public class AltUnityDriver {
@@ -362,6 +365,16 @@ public class AltUnityDriver {
 
     public <T> T GetStaticProperty(AltGetComponentPropertyParameters parameters, Class<T> returnType) {
         return new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
+    }
+
+    public void AddNotification(AltUnityAddNotificationListenerParams params) {
+        new AltUnityAddNotificationListener(this.connection.messageHandler, params).Execute();
+    }
+
+    public void RemoveNotificationListener(AltUnityRemoveNotificationListenerParams notificationType) {
+
+        new AltUnityRemoveNotificationListener(this.connection.messageHandler, notificationType).Execute();
+
     }
 
     public enum By {

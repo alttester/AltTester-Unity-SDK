@@ -5,7 +5,9 @@ import pytest
 
 from altunityrunner import *
 from altunityrunner.__version__ import VERSION
-from altunityrunner.commands import GetServerVersion
+from altunityrunner.commands import GetServerVersion, Notifications
+from tests.integration.notification_callbacks_for_testing import TestNotificationCallback
+from altunityrunner.commands.Notifications.notification_type import NotificationType
 
 
 @pytest.fixture(scope="session")
@@ -661,8 +663,8 @@ class TestPythonBindings:
         assert alt_unity_object.name == "Main Camera"
 
     def test_get_chinese_letters(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
         assert text == "哦伊娜哦"
 
@@ -1268,6 +1270,14 @@ class TestPythonBindings:
         )
 
         assert int(width) == screen_width
+
+    def test_load_scene_notification(self):
+        test_notification_callbacks = TestNotificationCallback()
+        self.altdriver.add_notification_listener(
+            NotificationType.LOADSCENE, test_notification_callbacks.scene_loaded_callback)
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        assert test_notification_callbacks.last_scene_loaded == "Scene 1 AltUnityDriverTestScene"
+        self.altdriver.remove_notification_listener(NotificationType.LOADSCENE)
 
     def test_float_world_coordinates(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")

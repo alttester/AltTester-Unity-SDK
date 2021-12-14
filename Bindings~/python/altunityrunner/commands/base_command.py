@@ -5,6 +5,7 @@ from loguru import logger
 
 import altunityrunner.exceptions as exceptions
 from altunityrunner.by import By
+import json
 
 
 EPOCH = datetime.utcfromtimestamp(0)
@@ -170,7 +171,7 @@ class BaseCommand(Command):
         raise exception(error.get("message"))
 
     def validate_response(self, expected, received):
-        if expected != received:
+        if expected != received.strip('\"'):
             raise exceptions.AltUnityInvalidServerResponse(expected, received)
 
     def send(self):
@@ -179,8 +180,7 @@ class BaseCommand(Command):
         self.connection.send(self._parameters)
         response = self.connection.recv()
         self.handle_response(response)
-
-        return response.get("data")
+        return json.loads(response.get("data"))
 
     def recv(self):
         """Wait for a response from the AltUnity."""

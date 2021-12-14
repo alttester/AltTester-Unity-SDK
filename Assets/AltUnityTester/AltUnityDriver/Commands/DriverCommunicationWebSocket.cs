@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Security.Permissions;
 using System.Threading;
 using Altom.AltUnityDriver.Logging;
+using Altom.AltUnityDriver.Notifications;
 using Newtonsoft.Json;
 using WebSocketSharp;
 
@@ -17,7 +19,10 @@ namespace Altom.AltUnityDriver.Commands
         private readonly int _port;
         private readonly string _uri;
         private readonly int _connectTimeout;
-        private Queue<string> messages;
+        private Queue<CommandResponse> messages;
+        private List<Action<AltUnityLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltUnityLoadSceneNotificationResultParams>>();
+
+
         private int commandTimeout = 20;
 
         public DriverCommunicationWebSocket(string host, int port, int connectTimeout)
@@ -27,7 +32,8 @@ namespace Altom.AltUnityDriver.Commands
             _uri = "ws://" + host + ":" + port + "/altws";
             _connectTimeout = connectTimeout;
 
-            messages = new Queue<string>();
+
+            messages = new Queue<CommandResponse>();
         }
 
         public void Connect()
@@ -78,7 +84,7 @@ namespace Altom.AltUnityDriver.Commands
             };
         }
 
-        public CommandResponse<T> Recvall<T>(CommandParams param)
+        public T Recvall<T>(CommandParams param)
         {
 
             Stopwatch watch = Stopwatch.StartNew();
@@ -88,19 +94,19 @@ namespace Altom.AltUnityDriver.Commands
             }
             if (commandTimeout < watch.Elapsed.TotalSeconds)
                 throw new CommandResponseTimeoutException();
-            
+
             if (!wsClient.IsAlive())
             {
                 throw new AltUnityException("Driver disconnected");
             }
-            var message = JsonConvert.DeserializeObject<CommandResponse<T>>(messages.Dequeue());
+            var message = messages.Dequeue();
+
             if (message.error != null && message.error.type != AltUnityErrors.errorInvalidCommand && (message.messageId != param.messageId || message.commandName != param.commandName))
             {
                 throw new AltUnityRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
             }
             handleErrors(message.error);
-            return message;
-            
+            return JsonConvert.DeserializeObject<T>(message.data);
         }
 
 
@@ -124,8 +130,33 @@ namespace Altom.AltUnityDriver.Commands
 
         protected void OnMessage(object sender, string data)
         {
-            messages.Enqueue(data);
-            logger.Debug("response received: " + trimLog(data));
+            var message = JsonConvert.DeserializeObject<CommandResponse>(data);
+
+            if (message.isNotification)
+            {
+                handleNotification(message);
+            }
+            else
+            {
+                messages.Enqueue(message);
+                logger.Debug("response received: " + trimLog(data));
+            }
+
+        }
+
+        private void handleNotification(CommandResponse message)
+        {
+            handleErrors(message.error);
+            switch (message.commandName)
+            {
+                case "loadSceneNotification":
+                    AltUnityLoadSceneNotificationResultParams data = JsonConvert.DeserializeObject<AltUnityLoadSceneNotificationResultParams>(message.data);
+                    foreach (var callback in loadSceneCallbacks)
+                    {
+                        callback(data);
+                    }
+                    break;
+            }
         }
 
         private void handleErrors(CommandError error)
@@ -189,5 +220,35 @@ namespace Altom.AltUnityDriver.Commands
             if (log.Length <= maxLogLength) return log;
             return log.Substring(0, maxLogLength) + "[...]";
         }
+
+        public void AddNotificationListener<T>(NotificationType notificationType, Action<T> callback, bool overwrite)
+        {
+            switch (notificationType)
+            {
+                case NotificationType.LOADSCENE:
+                    if (callback.GetType() != typeof(Action<AltUnityLoadSceneNotificationResultParams>))
+                    {
+                        throw new InvalidCastException(String.Format("callback must be of type: {0} and not {1}", typeof(Action<AltUnityLoadSceneNotificationResultParams>), callback.GetType()));
+                    }
+                    if (overwrite)
+                        loadSceneCallbacks.Clear();
+                    loadSceneCallbacks.Add(callback as Action<AltUnityLoadSceneNotificationResultParams>);
+                    break;
+                case NotificationType.UNLOADSCENE:
+                    break;
+            }
+        }
+        public void RemoveNotificationListener(NotificationType notificationType)
+        {
+            switch (notificationType)
+            {
+                case NotificationType.LOADSCENE:
+                    loadSceneCallbacks.Clear();
+                    break;
+                case NotificationType.UNLOADSCENE:
+                    break;
+            }
+        }
     }
+
 }

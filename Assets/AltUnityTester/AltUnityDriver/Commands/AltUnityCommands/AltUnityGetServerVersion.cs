@@ -9,9 +9,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             var cmdParams = new AltUnityGetServerVersionParams();
             CommHandler.Send(cmdParams);
-            var response = CommHandler.Recvall<string>(cmdParams);
-
-            return response.data;
+            return CommHandler.Recvall<string>(cmdParams);
         }
     }
 }

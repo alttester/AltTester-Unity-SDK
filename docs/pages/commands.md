@@ -7,13 +7,12 @@ An AltUnityDriver instance will connect to the AltUnity Proxy that bridges the c
 
 **_Parameters_**
 
-| Name             | Type    | Required | Description                               |
-| ---------------- | ------- | -------- | ----------------------------------------- |
-| host             | string  | No       | The ip or hostname  AltUnity Proxy is listening on. The default value for this is "127.0.0.1" |
-| port             | int     | No       | The default value for this is 13000                                                           |
-| enableLogging    | boolean | No       | If true, enables logging on the driver. The default value for this is false                   |
-| connectTimeout   | int     | No       | Number of seconds to retry connection to proxy. The default value for this is 60 seconds      |
-
+| Name           | Type    | Required | Description                                                                                  |
+| -------------- | ------- | -------- | -------------------------------------------------------------------------------------------- |
+| host           | string  | No       | The ip or hostname AltUnity Proxy is listening on. The default value for this is "127.0.0.1" |
+| port           | int     | No       | The default value for this is 13000                                                          |
+| enableLogging  | boolean | No       | If true, enables logging on the driver. The default value for this is false                  |
+| connectTimeout | int     | No       | Number of seconds to retry connection to proxy. The default value for this is 60 seconds     |
 
 Once you have an instance of the _AltUnityDriver_, you can use all the available commands to interact with the game. The available methods are the following:
 
@@ -21,17 +20,17 @@ Once you have an instance of the _AltUnityDriver_, you can use all the available
 
 #### FindObject
 
-Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criterias.
+Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string            | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
 
 **_Returns_**
 
@@ -75,17 +74,17 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 #### FindObjects
 
-Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criterias.
+Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string            | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
 
 **_Returns_**
 
@@ -133,17 +132,17 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 #### FindObjectWhichContains
 
-Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criterias.
+Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string            | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
 
 **_Returns_**
 
@@ -186,17 +185,17 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 #### FindObjectsWhichContain
 
-Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criterias.
+Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string            | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
 
 **_Returns_**
 
@@ -255,11 +254,11 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 **_Parameters_**
 
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string            | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
 
 **_Returns_**
 
@@ -345,19 +344,19 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 #### WaitForObject
 
-Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criterias.
+Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string            | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout    | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
-| interval   | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| timeout     | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
+| interval    | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
 
 **_Returns_**
 
@@ -424,19 +423,19 @@ Waits until it finds an object that respects the given criteria or until timeout
 
 #### WaitForObjectWhichContains
 
-Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](#by-selector) for more information about criterias.
+Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string            | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout    | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
-| interval   | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| timeout     | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
+| interval    | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
 
 **_Returns_**
 
@@ -479,22 +478,21 @@ Waits until it finds an object that respects the given criteria or time runs out
             self.assertEqual(altUnityObject.name,"Main Camera")
 ```
 
-
 #### WaitForObjectNotBePresent
 
-Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout limit is reached. Check [By](#by-selector) for more information about criterias.
+Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
-| Name       | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by         | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value      | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy   | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string            | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled    | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout    | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
-| interval   | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| timeout     | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
+| interval    | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
 
 **_Returns_**
 
@@ -539,10 +537,10 @@ Simulates that a specific key was pressed without taking into consideration the 
 
 **_Parameters_**
 
-| Name     | Type           | Required | Description                                                                               |
-| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
-| keyCode | AltUnityKeyCode| Yes      | The keyCode of the key simulated to be pressed. |
-| power | int          | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
+| Name    | Type            | Required | Description                                                                            |
+| ------- | --------------- | -------- | -------------------------------------------------------------------------------------- |
+| keyCode | AltUnityKeyCode | Yes      | The keyCode of the key simulated to be pressed.                                        |
+| power   | int             | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
 
 **_Returns_**
 
@@ -627,9 +625,9 @@ Simulates that a specific key was released.
 
 **_Parameters_**
 
-| Name     | Type           | Required | Description                                                                               |
-| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
-| keyCode | AltUnityKeyCode| Yes      | The keyCode of the key simulated to be released. |
+| Name    | Type            | Required | Description                                      |
+| ------- | --------------- | -------- | ------------------------------------------------ |
+| keyCode | AltUnityKeyCode | Yes      | The keyCode of the key simulated to be released. |
 
 **_Returns_**
 
@@ -713,11 +711,11 @@ Simulates holding left click button down for a specified amount of time at given
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default | Description                                           |
-| ----------- | --------------- | -------- | ------- | ----------------------------------------------------- |
-| coordinates | Vector2         | Yes      |         | The coordinates where the button is held down.        |
-| duration    | float           | No       | 0.1     | The time measured in seconds to keep the button down. |
-| wait        | boolean         | No       | true    | If set wait for command to finish.                    |
+| Name        | Type    | Required | Default | Description                                           |
+| ----------- | ------- | -------- | ------- | ----------------------------------------------------- |
+| coordinates | Vector2 | Yes      |         | The coordinates where the button is held down.        |
+| duration    | float   | No       | 0.1     | The time measured in seconds to keep the button down. |
+| wait        | boolean | No       | true    | If set wait for command to finish.                    |
 
 **_Returns_**
 
@@ -772,12 +770,11 @@ Simulate mouse movement in your game
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default |  Description                                                                                           |
-| ----------- | --------------- | -------- | ------- |  ----------------------------------------------------------------------------------------------------- |
-| coordinates | Vector2         | Yes      |         | The screen coordinates                                                                                 |
-| duration    | float           | No       | 0.1     | The time measured in seconds to move the mouse from the current mouse position to the set coordinates. |
-| wait        | boolean         | No       | true    | If set wait for command to finish.                                                                     |
-
+| Name        | Type    | Required | Default | Description                                                                                            |
+| ----------- | ------- | -------- | ------- | ------------------------------------------------------------------------------------------------------ |
+| coordinates | Vector2 | Yes      |         | The screen coordinates                                                                                 |
+| duration    | float   | No       | 0.1     | The time measured in seconds to move the mouse from the current mouse position to the set coordinates. |
+| wait        | boolean | No       | true    | If set wait for command to finish.                                                                     |
 
 **_Returns_**
 
@@ -854,15 +851,14 @@ Simulate mouse movement in your game
 
 Simulates key press action in your game.
 
-
 **_Parameters_**
 
-| Name     | Type            | Required | Default  | Description                                                                             |
-| -------- | --------------- | -------- | -------- | --------------------------------------------------------------------------------------- |
-| keycode  | AltUnityKeyCode | Yes      |          | The key code of the key simulated to be pressed.                                        |
-| power    | float           | No       | 1        | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed |
-| duration | float           | No       | 0.1      | The time measured in seconds from the key press to the key release.                     |
-| wait     | boolean         | No       | true     | If set wait for command to finish.                                                      |
+| Name     | Type            | Required | Default | Description                                                                             |
+| -------- | --------------- | -------- | ------- | --------------------------------------------------------------------------------------- |
+| keycode  | AltUnityKeyCode | Yes      |         | The key code of the key simulated to be pressed.                                        |
+| power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed |
+| duration | float           | No       | 0.1     | The time measured in seconds from the key press to the key release.                     |
+| wait     | boolean         | No       | true    | If set wait for command to finish.                                                      |
 
 **_Returns_**
 
@@ -1005,12 +1001,12 @@ Simulates a swipe action between two points.
 
 **_Parameters_**
 
-| Name     | Type                | Required | Default | Description                                                                 |
-| -------- | ------------------- | -------- | ------- | --------------------------------------------------------------------------- |
-| start    | Vector2             | Yes      |         | Starting location of the swipe                                              |
-| end      | Vector2             | Yes      |         | Ending location of the swipe                                                |
-| duration | float               | No       | 0.1     | The time measured in seconds to move the mouse from start to end location.  |
-| wait     | boolean             | No       | true    | If set wait for command to finish.                                          |
+| Name     | Type    | Required | Default | Description                                                                |
+| -------- | ------- | -------- | ------- | -------------------------------------------------------------------------- |
+| start    | Vector2 | Yes      |         | Starting location of the swipe                                             |
+| end      | Vector2 | Yes      |         | Ending location of the swipe                                               |
+| duration | float   | No       | 0.1     | The time measured in seconds to move the mouse from start to end location. |
+| wait     | boolean | No       | true    | If set wait for command to finish.                                         |
 
 **_Returns_**
 
@@ -1145,11 +1141,11 @@ Simulates a multipoint swipe action.
 
 **_Parameters_**
 
-| Name      | Type                    | Required | Default | Description                                                                      |
-| --------  | ----------------------- | -------- | ------- | -------------------------------------------------------------------------------- |
-| positions | List\[AltUnityVector2\] | Yes      |         | A list of positions on the screen where the swipe be made                        |
-| duration  | float                   | No       | 0.1     | The time measured in seconds to swipe from first position to the last position.  |
-| wait      | boolean                 | No       | true    | If set wait for command to finish.                                               |
+| Name      | Type                    | Required | Default | Description                                                                     |
+| --------- | ----------------------- | -------- | ------- | ------------------------------------------------------------------------------- |
+| positions | List\[AltUnityVector2\] | Yes      |         | A list of positions on the screen where the swipe be made                       |
+| duration  | float                   | No       | 0.1     | The time measured in seconds to swipe from first position to the last position. |
+| wait      | boolean                 | No       | true    | If set wait for command to finish.                                              |
 
 **_Returns_**
 
@@ -1232,9 +1228,9 @@ Simulates starting of a touch on the screen. To further interact with the touch 
 
 **_Parameters_**
 
-| Name        | Type           | Required | Description        |
-| ----------- | -------------- | -------- | ------------------ |
-| coordinates | Vector2        | Yes      | Screen coordinates |
+| Name        | Type    | Required | Description        |
+| ----------- | ------- | -------- | ------------------ |
+| coordinates | Vector2 | Yes      | Screen coordinates |
 
 **_Returns_**
 
@@ -1299,10 +1295,10 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
 
 **_Parameters_**
 
-| Name        | Type         | Required | Description                                              |
-| ----------- | ------------ | -------- | -------------------------------------------------------- |
-| fingerId    | int          | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
-| coordinates | Vector2      | Yes      | Screen coordinates where the touch will be moved         |
+| Name        | Type    | Required | Description                                              |
+| ----------- | ------- | -------- | -------------------------------------------------------- |
+| fingerId    | int     | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
+| coordinates | Vector2 | Yes      | Screen coordinates where the touch will be moved         |
 
 **_Returns_**
 
@@ -1434,13 +1430,12 @@ Click at screen coordinates
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default | Description                        |
-| ----------- | --------------- | -------- | ------- | ---------------------------------- |
-| coordinates | Vector2         | Yes      |         | The screen coordinates             |
-| count       | int             | No       | 1       | Number of clicks                   |
-| interval    | float           | No       | 0.1     | Interval between clicks in seconds |
-| wait        | boolean         | No       | true    | If set wait for command to finish. |
-
+| Name        | Type    | Required | Default | Description                        |
+| ----------- | ------- | -------- | ------- | ---------------------------------- |
+| coordinates | Vector2 | Yes      |         | The screen coordinates             |
+| count       | int     | No       | 1       | Number of clicks                   |
+| interval    | float   | No       | 0.1     | Interval between clicks in seconds |
+| wait        | boolean | No       | true    | If set wait for command to finish. |
 
 **_Returns_**
 
@@ -1496,12 +1491,12 @@ Tap at screen coordinates
 
 **_Parameters_**
 
-| Name        | Type            | Required | Default | Description                        |
-| ----------- | --------------- | -------- | ------- | ---------------------------------- |
-| coordinates | Vector2         | Yes      |         | The screen coordinates             |
-| count       | int             | No       | 1       | Number of taps                     |
-| interval    | float           | No       | 0.1     | Interval between taps in seconds   |
-| wait        | boolean         | No       | true    | If set wait for command to finish. |
+| Name        | Type    | Required | Default | Description                        |
+| ----------- | ------- | -------- | ------- | ---------------------------------- |
+| coordinates | Vector2 | Yes      |         | The screen coordinates             |
+| count       | int     | No       | 1       | Number of taps                     |
+| interval    | float   | No       | 0.1     | Interval between taps in seconds   |
+| wait        | boolean | No       | true    | If set wait for command to finish. |
 
 **_Returns_**
 
@@ -1557,13 +1552,11 @@ Simulates device rotation action in your game.
 
 **_Parameters_**
 
-
-| Name         | Type            | Required | Default | Description                                 |
-| ------------ | --------------- | -------- | ------- | ------------------------------------------- |
-| acceleration | Vector3         | Yes      |         | The linear acceleration of a device.        |
-| duration     | float           | No       | 0.1     | How long the rotation will take in seconds. |
-| wait         | boolean         | No       | true    | If set wait for command to finish.          |
-
+| Name         | Type    | Required | Default | Description                                 |
+| ------------ | ------- | -------- | ------- | ------------------------------------------- |
+| acceleration | Vector3 | Yes      |         | The linear acceleration of a device.        |
+| duration     | float   | No       | 0.1     | How long the rotation will take in seconds. |
+| wait         | boolean | No       | true    | If set wait for command to finish.          |
 
 **_Returns_**
 
@@ -1610,7 +1603,7 @@ Simulates device rotation action in your game.
             capsule = self.altdriver.find_object(By.NAME, "Capsule")
             initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             self.altdriver.tilt([1, 1, 1], 1)
-            
+
             capsule = self.altdriver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             assert initial_position != final_position
@@ -2245,11 +2238,11 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
 
 **_Parameters_**
 
-| Name     | Type            | Required | Description                                                                               |
-| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
-| sceneName| string          | Yes      | The name of the scene to wait for.              |
-| timeout | double           | Optional | The time measured in seconds to wait for the specified scene. |
-| interval| double           | Optional | How often to check that the scene was loaded in the given timeout. |
+| Name      | Type   | Required | Description                                                        |
+| --------- | ------ | -------- | ------------------------------------------------------------------ |
+| sceneName | string | Yes      | The name of the scene to wait for.                                 |
+| timeout   | double | Optional | The time measured in seconds to wait for the specified scene.      |
+| interval  | double | Optional | How often to check that the scene was loaded in the given timeout. |
 
 **_Returns_**
 
@@ -2310,7 +2303,7 @@ Returns the value of the time scale.
 
 **_Parameters_**
 
- None
+None
 
 **_Returns_**
 
@@ -2357,10 +2350,9 @@ Sets the value of the time scale.
 
 **_Parameters_**
 
-| Name     | Type            | Required | Description                                                                               |
-| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
-| timeScale| float           | Yes      | The value you want to set the time scale to.    |
-
+| Name      | Type  | Required | Description                                  |
+| --------- | ----- | -------- | -------------------------------------------- |
+| timeScale | float | Yes      | The value you want to set the time scale to. |
 
 **_Returns_**
 
@@ -2407,13 +2399,13 @@ Invokes static methods from your game.
 
 **_Parameters_**
 
-| Name             | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                           |
-| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| typeName         | string | Yes      | name of the script. If the script has a namespace the format should look like this: "namespace.typeName" )                                                                                                                                                                                                                                                                            |
-| methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"                                                                                                                                                                              |
-| parameters       | array | No      | an array containing the serialized parameters to be sent to the component method.  |
-| typeOfParameters | array | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                                             |
-| assemblyName     | string | No       | name of the assembly containing the script                                                                                                                                                                                                                                                                                                                                            |
+| Name             | Type   | Required | Description                                                                                                                                                                                              |
+| ---------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| typeName         | string | Yes      | name of the script. If the script has a namespace the format should look like this: "namespace.typeName" )                                                                                               |
+| methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName" |
+| parameters       | array  | No       | an array containing the serialized parameters to be sent to the component method.                                                                                                                        |
+| typeOfParameters | array  | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                                |
+| assemblyName     | string | No       | name of the assembly containing the script                                                                                                                                                               |
 
 **_Returns_**
 
@@ -2467,12 +2459,12 @@ Gets the value of the static field or property given as parameter.
 
 **_Parameters_**
 
-| Name     | Type            | Required | Description                                                                               |
-| -------- | --------------- | -------- | ----------------------------------------------------------------------------------------- |
-| componentName| string      | Yes      | The name of the component which has the static field or property to be retrieved.              |
-| propertyName | string      | Yes      | The name of the static field or property to be retrieved. |
-| assembly| string       | Yes      | The name of the assembly the component belongs to. |
-| maxDepth    | int           | Optional | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
+| Name          | Type   | Required | Description                                                                                             |
+| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
+| componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
+| propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
+| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
+| maxDepth      | int    | Optional | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
 
 **_Returns_**
 
@@ -2485,7 +2477,7 @@ Gets the value of the static field or property given as parameter.
 
     .. code-tab:: c#
 
-        [Test] 
+        [Test]
         public void TestGetStaticProperty()
         {
             altUnityDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] {"1920", "1080", "true"}, new string[] {"System.Int32", "System.Int32", "System.Boolean"}, "UnityEngine.CoreModule");
@@ -2554,6 +2546,18 @@ Sets the level of logging in AltUnity Tester instrumented Unity application
 
 ```
 
+<!--### Notifications
+
+#### Scene loaded
+
+If activated this notification will be called every time a scene is loaded in the unity app. To activate this notification use [SetNotification](#setnotification) command and add `NotificationType.LoadScene` as a parameter.
+
+**_Returns_**
+
+-   sceneName - name of the loaded scene
+-   loadSceneMode - the way how the scene was loaded (Additive or Single)
+-->
+
 ## AltUnityObject
 
 The **AltUnityObject** class represents the objects present in the game and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.
@@ -2587,13 +2591,13 @@ Invokes a method from an existing component of the object.
 
 **_Parameters_**
 
-| Name             | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ---------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| componentName    | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )                                                                                                                                                                                                                                                                                                                                                                          |
-| methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName"                                                                                                                                                                                                                                                                                               |
-| parameters       | array | No      | an array containing the serialized parameters to be sent to the component method.  |
-| typeOfParameters | array | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                                                                                                                                                       |
-| assemblyName     | string | No       | name of the assembly containing the component                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Name             | Type   | Required | Description                                                                                                                                                                                      |
+| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| componentName    | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )                                                                            |
+| methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName" |
+| parameters       | array  | No       | an array containing the serialized parameters to be sent to the component method.                                                                                                                |
+| typeOfParameters | array  | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                        |
+| assemblyName     | string | No       | name of the assembly containing the component                                                                                                                                                    |
 
 **_Returns_**
 
@@ -2657,12 +2661,12 @@ Returns the value of the given component property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description |
-| ------------- | ------ | -------- | ------------|
-| componentName | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" |
-| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.|
-| assemblyName  | string | No       | name of the assembly containing the component
-| maxDepth      | int    | No       | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0, "sqrMagnitude":1.0, "x":0.871575534, "y":0.490261227, "z":0.0}, "magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0}|
+| Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| componentName | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                                                                                                                                                                                                                                                                                                            |
+| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                                                                                                                                  |
+| assemblyName  | string | No       | name of the assembly containing the component                                                                                                                                                                                                                                                                                                                                                                                                  |
+| maxDepth      | int    | No       | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0, "sqrMagnitude":1.0, "x":0.871575534, "y":0.490261227, "z":0.0}, "magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} |
 
 **_Returns_**
 
@@ -3272,7 +3276,7 @@ Returns the parent of the AltUnity object on which it is called.
 
 **_Parameters_**
 
- None
+None
 
 **_Returns_**
 
@@ -3514,7 +3518,6 @@ Is a solution offered by AltUnity Tester in order to find object easier. This is
 To add AltId to every object simply just click AddAltIdToEveryObject from AltUnityTester menu.
 
 ![addAltId](../_static/images/AddAltId.png)
-
 
 ## AltUnityPortForwarding
 

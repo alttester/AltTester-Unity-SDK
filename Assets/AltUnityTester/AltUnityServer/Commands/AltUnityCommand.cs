@@ -30,7 +30,7 @@ namespace Altom.AltUnityTester.Commands
             return ExecuteAndSerialize(Execute);
         }
 
-        protected CommandResponse<T> ExecuteHandleErrors<T>(Func<T> action)
+        protected CommandResponse ExecuteHandleErrors<T>(Func<T> action)
         {
             T response = default(T);
             Exception exception = null;
@@ -135,11 +135,12 @@ namespace Altom.AltUnityTester.Commands
                 error.trace = exception.StackTrace;
             }
 
-            var cmdResponse = new CommandResponse<T>();
+            var cmdResponse = new CommandResponse();
             cmdResponse.commandName = CommandParams.commandName;
             cmdResponse.messageId = CommandParams.messageId;
-            cmdResponse.data = response;
+            cmdResponse.data = JsonConvert.SerializeObject(response);
             cmdResponse.error = error;
+            cmdResponse.isNotification = false;
 
             return cmdResponse;
         }

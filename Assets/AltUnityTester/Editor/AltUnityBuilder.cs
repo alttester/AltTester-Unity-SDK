@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Altom.AltUnityTester;
 using Altom.AltUnityDriver;
+using Altom.AltUnityTester;
 using Altom.AltUnityTesterEditor.Logging;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -17,7 +17,7 @@ namespace Altom.AltUnityTesterEditor
 
     public class AltUnityBuilder
     {
-        private const string altunitytesterdefine = "ALTUNITYTESTER";
+        private const string ALTUNITYTESTERDEFINE = "ALTUNITYTESTER";
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
         public enum InputType
         {
@@ -26,7 +26,7 @@ namespace Altom.AltUnityTesterEditor
             JoystickAxis,
         };
 
-        public static bool built = false;
+        public static bool Built = false;
         public static string PreviousScenePath;
         public static UnityEngine.SceneManagement.Scene SceneWithAltUnityRunner;
         public static UnityEngine.Object AltUnityRunner;
@@ -69,7 +69,7 @@ namespace Altom.AltUnityTesterEditor
             }
             finally
             {
-                built = true;
+                Built = true;
                 resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
             }
 
@@ -98,7 +98,7 @@ namespace Altom.AltUnityTesterEditor
             }
             finally
             {
-                built = true;
+                Built = true;
                 resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
             }
 
@@ -126,7 +126,7 @@ namespace Altom.AltUnityTesterEditor
             }
             finally
             {
-                built = true;
+                Built = true;
                 resetBuildSetup(UnityEditor.BuildTargetGroup.Standalone);
             }
 
@@ -141,12 +141,12 @@ namespace Altom.AltUnityTesterEditor
                 var scriptingDefineSymbolsForGroup =
                     UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
                 string newScriptingDefineSymbolsForGroup = "";
-                if (scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine))
+                if (scriptingDefineSymbolsForGroup.Contains(ALTUNITYTESTERDEFINE))
                 {
                     var split = scriptingDefineSymbolsForGroup.Split(';');
                     foreach (var define in split)
                     {
-                        if (define != altunitytesterdefine)
+                        if (define != ALTUNITYTESTERDEFINE)
                         {
                             newScriptingDefineSymbolsForGroup += define + ";";
                         }
@@ -167,14 +167,14 @@ namespace Altom.AltUnityTesterEditor
         public static void AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
         {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine))
-                scriptingDefineSymbolsForGroup += ";" + altunitytesterdefine;
+            if (!scriptingDefineSymbolsForGroup.Contains(ALTUNITYTESTERDEFINE))
+                scriptingDefineSymbolsForGroup += ";" + ALTUNITYTESTERDEFINE;
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
         }
         public static bool CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildTargetGroup targetGroup)
         {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            return scriptingDefineSymbolsForGroup.Contains(altunitytesterdefine);
+            return scriptingDefineSymbolsForGroup.Contains(ALTUNITYTESTERDEFINE);
         }
 
         public static void CreateJsonFileForInputMappingOfAxis()
@@ -296,7 +296,7 @@ namespace Altom.AltUnityTesterEditor
             }
             finally
             {
-                built = true;
+                Built = true;
                 resetBuildSetup(UnityEditor.BuildTargetGroup.iOS);
             }
 
