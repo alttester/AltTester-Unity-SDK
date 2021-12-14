@@ -13,7 +13,7 @@ namespace Altom.AltUnityDriver.Commands
         public T Execute()
         {
             CommHandler.Send(cmdParams);
-            T data = CommHandler.Recvall<T>(cmdParams).data;
+            T data = CommHandler.Recvall<T>(cmdParams);
             return data;
         }
     }

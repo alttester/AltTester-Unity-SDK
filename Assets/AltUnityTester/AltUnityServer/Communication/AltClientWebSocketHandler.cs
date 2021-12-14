@@ -1,21 +1,23 @@
+using UnityEngine.Playables;
 using WebSocketSharp;
 
 namespace Altom.AltUnityTester.Communication
 {
-    public class AltClientWebSocketHandler
+    public class AltClientWebSocketHandler : BaseWebSocketHandler
     {
         private readonly WebSocket _webSocket;
-        private readonly ICommandHandler _commandHandler;
 
-        public AltClientWebSocketHandler(WebSocket webSocket, ICommandHandler commandHandler)
+
+        public AltClientWebSocketHandler(WebSocket webSocket, ICommandHandler commandHandler) : base(commandHandler)
         {
             this._webSocket = webSocket;
-            webSocket.OnMessage += this.OnMessage;
+            webSocket.OnMessage += this.onMessage;
 
-            this._commandHandler = commandHandler;
+
             this._commandHandler.OnSendMessage += webSocket.Send;
         }
-        private void OnMessage(object sender, MessageEventArgs message)
+
+        private void onMessage(object sender, MessageEventArgs message)
         {
             this._commandHandler.OnMessage(message.Data);
         }

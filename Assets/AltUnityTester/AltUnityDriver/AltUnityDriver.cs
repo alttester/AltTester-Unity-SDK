@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Altom.AltUnityDriver.Commands;
 using Altom.AltUnityDriver.Logging;
+using Altom.AltUnityDriver.Notifications;
 
 namespace Altom.AltUnityDriver
 {
@@ -36,6 +37,7 @@ namespace Altom.AltUnityDriver
 #endif
                 DriverLogManager.SetupAltUnityDriverLogging(defaultLevels);
             }
+
             communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout);
             communicationHandler.Connect();
 
@@ -364,6 +366,14 @@ namespace Altom.AltUnityDriver
         public void EndTouch(int fingerId)
         {
             new AltUnityEndTouch(communicationHandler, fingerId).Execute();
+        }
+        public void AddNotificationListener<T>(NotificationType notificationType, Action<T> callback, bool overwrite)
+        {
+            new AddNotificationListener<T>(communicationHandler, notificationType, callback, overwrite).Execute();
+        }
+        public void RemoveNotificationListener(NotificationType notificationType)
+        {
+            new RemoveNotificationListener(communicationHandler, notificationType).Execute();
         }
 
     }

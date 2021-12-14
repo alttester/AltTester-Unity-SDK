@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Altom.AltUnityTester;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Logging;
-using Altom.AltUnityTester.UI;
-using Altom.AltUnityTester.Logging;
+using Altom.AltUnityTester;
 using Altom.AltUnityTester.Communication;
+using Altom.AltUnityTester.Logging;
+using Altom.AltUnityTester.UI;
 using NLog;
+using UnityEngine.SceneManagement;
 
 namespace Altom.AltUnityTester
 {
@@ -28,7 +29,7 @@ namespace Altom.AltUnityTester
 
         [UnityEngine.Space]
         [UnityEngine.SerializeField]
-        public AltUnityInputsVisualiser InputsVisualiser = null;
+        public AltUnityInputsVisualizer InputsVisualizer = null;
 
 
 
@@ -57,6 +58,7 @@ namespace Altom.AltUnityTester
         protected void Start()
         {
             _responseQueue = new AltResponseQueue();
+
         }
 
         protected void Update()
@@ -67,19 +69,18 @@ namespace Altom.AltUnityTester
         #endregion
         #region public methods
 
-
         public AltUnityObject GameObjectToAltUnityObject(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
         {
             UnityEngine.Vector3 position;
 
             int cameraId;
             //if no camera is given it will iterate through all cameras until  found one that sees the object if no camera sees the object it will return the position from the last camera
-            //if there is no camera in the scene it will return as scren position x:-1 y=-1, z=-1 and cameraId=-1
+            // if there is no camera in the scene it will return as screen position x:-1 y=-1, z=-1 and cameraId=-1
             try
             {
                 if (camera == null)
                 {
-                    cameraId = findCameraThatSeesObject(altGameObject, out position);
+                    cameraId = FindCameraThatSeesObject(altGameObject, out position);
                 }
                 else
                 {
@@ -113,7 +114,7 @@ namespace Altom.AltUnityTester
             return altObject;
         }
 
-        public AltUnityObjectLight GameObjectToAltUnityObjectLight(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
+        public AltUnityObjectLight GameObjectToAltUnityObjectLight(UnityEngine.GameObject altGameObject)
         {
             int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
             AltUnityObjectLight altObject = new AltUnityObjectLight(
@@ -187,18 +188,18 @@ namespace Altom.AltUnityTester
 
         public void ShowClick(UnityEngine.Vector2 position)
         {
-            if (!InstrumentationSettings.InputVisualizer || InputsVisualiser == null)
+            if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
                 return;
 
-            InputsVisualiser.ShowClick(position);
+            InputsVisualizer.ShowClick(position);
         }
 
         public int ShowInput(UnityEngine.Vector2 position, int markId = -1)
         {
-            if (!InstrumentationSettings.InputVisualizer || InputsVisualiser == null)
+            if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
                 return -1;
 
-            return InputsVisualiser.ShowContinuousInput(position, markId);
+            return InputsVisualizer.ShowContinuousInput(position, markId);
         }
 
         public static void CopyTo(System.IO.Stream src, System.IO.Stream dest)
@@ -269,7 +270,7 @@ namespace Altom.AltUnityTester
         /// Iterate through all cameras until finds one that sees the object.
         /// If no camera sees the object return the position from the last camera
         ///</summary>
-        public int findCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
+        public int FindCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
         {
             position = UnityEngine.Vector3.one * -1;
             int cameraId = -1;

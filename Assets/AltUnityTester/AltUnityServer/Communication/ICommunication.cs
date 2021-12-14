@@ -21,13 +21,6 @@ namespace Altom.AltUnityTester.Communication
         void Stop();
     }
 
-    public interface ICommandHandler
-    {
-        SendMessageHandler OnSendMessage { get; set; }
-        void Send(string data);
-        void OnMessage(string data);
-    }
-
     public class UnhandledStartCommError : Exception
     {
         public UnhandledStartCommError(string message, Exception innerException) : base(message, innerException)

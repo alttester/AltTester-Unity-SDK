@@ -11,10 +11,10 @@ namespace Altom.AltUnityDriver.Commands
         {
             CommHandler.Send(cmdParams);
 
-            var data = CommHandler.Recvall<string>(cmdParams).data;
+            var data = CommHandler.Recvall<string>(cmdParams);
             ValidateResponse("Ok", data);
 
-            data = CommHandler.Recvall<string>(cmdParams).data;
+            data = CommHandler.Recvall<string>(cmdParams);
             ValidateResponse("Scene Unloaded", data);
         }
     }

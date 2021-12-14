@@ -57,7 +57,7 @@ namespace Altom.AltUnityTesterTools
 
             //Create InputVisualiser
 
-            var InputVisualiser = new GameObject("InputVisualiser", new System.Type[] { typeof(RectTransform), typeof(AltUnityInputsVisualiser) });
+            var InputVisualiser = new GameObject("InputVisualiser", new System.Type[] { typeof(RectTransform), typeof(AltUnityInputsVisualizer) });
 
             var InputVisualiserRectTransform = InputVisualiser.GetComponent<RectTransform>();
             InputVisualiserRectTransform.SetParent(CanvasInputVisualiserRectTransform, false);
@@ -69,7 +69,7 @@ namespace Altom.AltUnityTesterTools
             InputVisualiserRectTransform.pivot = Vector2.zero;
 
 
-            var AltUnityInputsVisualiser = InputVisualiser.GetComponent<AltUnityInputsVisualiser>();
+            var AltUnityInputsVisualiser = InputVisualiser.GetComponent<AltUnityInputsVisualizer>();
 
             AltUnityInputsVisualiser.VisibleTime = 1;
             AltUnityInputsVisualiser.approachSpeed = 0.02f;
@@ -211,7 +211,7 @@ namespace Altom.AltUnityTesterTools
             var panelHightlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltUnityTester/Prefab/Panel.prefab", typeof(GameObject));
             AltUnityrunner.panelHightlightPrefab = panelHightlightPrefab as GameObject;
             AltUnityrunner.RunOnlyInDebugMode = true;
-            AltUnityrunner.InputsVisualiser = AltUnityInputsVisualiser;
+            AltUnityrunner.InputsVisualizer = AltUnityInputsVisualiser;
 
 
             //Set AltUnityDialog variables

@@ -82,7 +82,7 @@ namespace Altom.AltUnityTester.Communication
             }
             catch (Exception ex)
             {
-                throw new UnhandledStartCommError("An error occured while starting client CommunicationProtocol", ex);
+                throw new UnhandledStartCommError("An error occurred while starting client CommunicationProtocol", ex);
             }
         }
 
@@ -110,7 +110,7 @@ namespace Altom.AltUnityTester.Communication
         [DllImport("__Internal")]
         public static extern int WebSocketGetState(int instanceId);
 
-        protected int instanceId;
+        protected int InstanceId;
 
         public event WebSocketOpenEventHandler OnOpen;
         public event WebSocketMessageEventHandler OnMessage;
@@ -127,22 +127,22 @@ namespace Altom.AltUnityTester.Communication
             int instanceId = WebSocketFactory.WebSocketAllocate(url);
             WebSocketFactory.instances.Add(instanceId, this);
 
-            this.instanceId = instanceId;
+            this.InstanceId = instanceId;
         }
 
         ~WebGLWebSocket()
         {
-            WebSocketFactory.HandleInstanceDestroy(this.instanceId);
+            WebSocketFactory.HandleInstanceDestroy(this.InstanceId);
         }
 
         public int GetInstanceId()
         {
-            return this.instanceId;
+            return this.InstanceId;
         }
 
         public Task Connect()
         {
-            int ret = WebSocketConnect(this.instanceId);
+            int ret = WebSocketConnect(this.InstanceId);
 
             if (ret < 0)
                 throw WebSocketHelpers.GetErrorMessageFromCode(ret, null);
@@ -158,7 +158,7 @@ namespace Altom.AltUnityTester.Communication
 
         public Task Close(WebSocketCloseCode code = WebSocketCloseCode.Normal, string reason = null)
         {
-            int ret = WebSocketClose(this.instanceId, (int)code, reason);
+            int ret = WebSocketClose(this.InstanceId, (int)code, reason);
 
             if (ret < 0)
                 throw WebSocketHelpers.GetErrorMessageFromCode(ret, null);
@@ -168,7 +168,7 @@ namespace Altom.AltUnityTester.Communication
 
         public Task Send(byte[] data)
         {
-            int ret = WebSocketSend(this.instanceId, data, data.Length);
+            int ret = WebSocketSend(this.InstanceId, data, data.Length);
 
             if (ret < 0)
                 throw WebSocketHelpers.GetErrorMessageFromCode(ret, null);
@@ -178,7 +178,7 @@ namespace Altom.AltUnityTester.Communication
 
         public Task SendText(string message)
         {
-            int ret = WebSocketSendText(this.instanceId, message);
+            int ret = WebSocketSendText(this.InstanceId, message);
 
             if (ret < 0)
                 throw WebSocketHelpers.GetErrorMessageFromCode(ret, null);
@@ -190,7 +190,7 @@ namespace Altom.AltUnityTester.Communication
         {
             get
             {
-                int state = WebSocketGetState(this.instanceId);
+                int state = WebSocketGetState(this.InstanceId);
 
                 if (state < 0)
                     throw WebSocketHelpers.GetErrorMessageFromCode(state, null);

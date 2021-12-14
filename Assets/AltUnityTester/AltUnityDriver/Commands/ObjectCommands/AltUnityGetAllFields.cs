@@ -13,7 +13,7 @@ namespace Altom.AltUnityDriver.Commands
         public List<AltUnityProperty> Execute()
         {
             CommHandler.Send(cmdParams);
-            return CommHandler.Recvall<List<AltUnityProperty>>(cmdParams).data;
+            return CommHandler.Recvall<List<AltUnityProperty>>(cmdParams);
         }
     }
 }

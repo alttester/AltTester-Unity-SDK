@@ -25,6 +25,8 @@ namespace Altom.AltUnityInstrumentation.Tests
         }
     }
 
+
+
     public class MockServerHandler : WebSocketBehavior
     {
         protected override void OnOpen()
@@ -81,6 +83,7 @@ namespace Altom.AltUnityInstrumentation.Tests
         public void TestConnectWithServer()
         {
             var cmdHandler = new MockCommandHandler();
+
             var wsServer = new WebSocketServer("ws://0.0.0.0:13420");
 
             wsServer.AddWebSocketService<MockServerHandler>("/altws/game", () =>

@@ -18,7 +18,7 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             CommHandler.Send(cmdParams);
-            var data = CommHandler.Recvall<string>(cmdParams).data;
+            var data = CommHandler.Recvall<string>(cmdParams);
             ValidateResponse("Ok", data);
         }
     }

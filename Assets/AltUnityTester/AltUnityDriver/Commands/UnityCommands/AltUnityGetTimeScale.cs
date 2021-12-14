@@ -12,7 +12,7 @@ namespace Altom.AltUnityDriver.Commands
         public float Execute()
         {
             CommHandler.Send(cmdParams);
-            return CommHandler.Recvall<float>(cmdParams).data;
+            return CommHandler.Recvall<float>(cmdParams);
         }
     }
 }

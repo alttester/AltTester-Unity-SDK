@@ -11,7 +11,7 @@ namespace Altom.AltUnityDriver.Commands
         public int Execute()
         {
             CommHandler.Send(cmdParams);
-            return CommHandler.Recvall<int>(cmdParams).data;  //finger id
+            return CommHandler.Recvall<int>(cmdParams);  //finger id
         }
     }
 }

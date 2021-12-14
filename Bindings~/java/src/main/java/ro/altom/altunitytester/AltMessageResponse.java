@@ -1,8 +1,11 @@
 package ro.altom.altunitytester;
 
-public class AltMessageResponse<T> {
+public class AltMessageResponse {
+
+    public String logs;
     public String messageId;
     public String commandName;
-    public T data;
+    public String data;
     public CommandError error;
+    public Boolean isNotification;
 }

@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class AltUnityInputsVisualiser : UnityEngine.MonoBehaviour
+public class AltUnityInputsVisualizer : UnityEngine.MonoBehaviour
 {
     public float VisibleTime = 1;
     [UnityEngine.Space]

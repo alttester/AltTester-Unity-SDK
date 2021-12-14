@@ -12,9 +12,9 @@ namespace Altom.AltUnityDriver.Commands
         public void Execute()
         {
             CommHandler.Send(cmdParams);
-            var message = CommHandler.Recvall<string>(cmdParams).data;
+            var message = CommHandler.Recvall<string>(cmdParams);
             ValidateResponse("Ok", message);
-            string screenshotData = CommHandler.Recvall<string>(cmdParams).data;
+            string screenshotData = CommHandler.Recvall<string>(cmdParams);
             System.IO.File.WriteAllBytes(path, System.Convert.FromBase64String(screenshotData));
         }
     }

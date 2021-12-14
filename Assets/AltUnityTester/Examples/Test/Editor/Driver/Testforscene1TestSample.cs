@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Logging;
+using Altom.AltUnityDriver.Notifications;
 using NUnit.Framework;
 
 [Timeout(30000)]
@@ -1394,6 +1395,7 @@ public class TestForScene1TestSample
         var scenes = altUnityDriver.GetAllLoadedScenes();
         Assert.IsTrue(scenes.Count == 2);
         altUnityDriver.LoadScene("Scene 2 Draggable Panel", true);
+
     }
     [Test]
     public void TestGetAltUnityObjectWithCanvasParentButOnlyTransform()
