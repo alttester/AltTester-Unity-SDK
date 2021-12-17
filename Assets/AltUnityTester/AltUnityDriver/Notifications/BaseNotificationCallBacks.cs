@@ -10,5 +10,10 @@ namespace Altom.AltUnityDriver.Notifications
         {
             logger.Log(LogLevel.Info, String.Format("Scene {0} was loaded {1}", altUnityLoadSceneNotificationResultParams.sceneName, altUnityLoadSceneNotificationResultParams.loadSceneMode.ToString()));
         }
+
+        public void SceneUnloadedCallback(string sceneName)
+        {
+            logger.Log(LogLevel.Info, String.Format("Scene {0} was unloaded", sceneName));
+        }
     }
 }

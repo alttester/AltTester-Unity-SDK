@@ -1279,6 +1279,16 @@ class TestPythonBindings:
         assert test_notification_callbacks.last_scene_loaded == "Scene 1 AltUnityDriverTestScene"
         self.altdriver.remove_notification_listener(NotificationType.LOADSCENE)
 
+    def test_unload_scene_notification(self):
+        test_notification_callbacks = TestNotificationCallback()
+        self.altdriver.add_notification_listener(
+            NotificationType.UNLOADSCENE, test_notification_callbacks.scene_unloaded_callback)
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        self.altdriver.load_scene("Scene 2 Draggable Panel", False)
+        self.altdriver.unload_scene("Scene 2 Draggable Panel")
+        assert test_notification_callbacks.last_scene_unloaded == "Scene 2 Draggable Panel"
+        self.altdriver.remove_notification_listener(NotificationType.UNLOADSCENE)
+
     def test_float_world_coordinates(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         plane = self.altdriver.find_object(By.NAME, "Plane")

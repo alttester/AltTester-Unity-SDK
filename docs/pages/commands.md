@@ -2556,6 +2556,14 @@ If activated this notification will be called every time a scene is loaded in th
 
 -   sceneName - name of the loaded scene
 -   loadSceneMode - the way how the scene was loaded (Additive or Single)
+
+#### Scene unloaded
+
+If activated this notification will be called every time a scene is unloaded in the unity app. To activate this notification use `AddNotificationListener` command and add `NotificationType.UnloadScene` as a parameter.
+
+**_Returns_**
+
+-   sceneName - name of the unloaded scene
 -->
 
 ## AltUnityObject

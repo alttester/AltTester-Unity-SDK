@@ -14,6 +14,7 @@ import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnitySetServerLoggin
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
+import ro.altom.altunitytester.Notifications.INotificationCallbacks;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParameters;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
