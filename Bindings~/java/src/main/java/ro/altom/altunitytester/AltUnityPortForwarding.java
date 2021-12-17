@@ -133,9 +133,9 @@ public class AltUnityPortForwarding {
         iproxyPath = getIproxyPath(iproxyPath);
         String arguments;
         if (deviceId == null || deviceId.isEmpty())
-            arguments = localPort + " " + devicePort + "&";
+            arguments = localPort + " " + devicePort;
         else
-            arguments = localPort + " " + devicePort + " -u " + deviceId + "&";
+            arguments = localPort + " " + devicePort + " -u " + deviceId;
         String command = iproxyPath + " " + arguments;
 
         try {
