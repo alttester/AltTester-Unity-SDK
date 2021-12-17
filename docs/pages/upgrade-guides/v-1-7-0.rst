@@ -1,0 +1,22 @@
+Upgrade from v1.6.6 to v1.7.0
+=============================
+
+This guide will assist in upgrading your AltUnity projects from **v1.6.6** to
+**v1.7.0**.
+
+AltUnity v1.7.0 is a major update to the framework with a brand new internal
+communication protocol and as such includes a small number of breaking changes.
+All changes are listed below, organized by drivers along with how to upgrade
+your code to work with AltUnity v1.7.0.
+
+To learn more about what's new in AltUnity v1.7.0, read the
+`v1.7.0 section from our changelog <https://gitlab.com/altom/altunity/altunitytester/-/blob/master/CHANGELOG.md>`_.
+
+Dotnet
+------
+
+Python
+------
+
+Java
+----
