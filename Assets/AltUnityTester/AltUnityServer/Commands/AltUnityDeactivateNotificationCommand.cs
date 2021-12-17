@@ -22,7 +22,8 @@ namespace Altom.AltUnityTester.Commands
                     new AltUnityLoadSceneNotification(commandHandler, false);
                     break;
                 case NotificationType.UNLOADSCENE:
-                    throw new NotImplementedException();
+                    new AltUnityUnloadSceneNotification(commandHandler, false);
+                    break;
             }
             return "Ok";
         }

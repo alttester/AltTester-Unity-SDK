@@ -131,6 +131,10 @@ class WebsocketConnection:
                 data.get("sceneName"), LoadSceneMode(data.get("loadSceneMode")))
             for callback in self.load_scene_callbacks:
                 callback(load_scene_result)
+        elif(message.get("commandName") == "unloadSceneNotification"):
+            scene_name = json.loads(message.get("data"))
+            for callback in self.unload_scene_callbacks:
+                callback(scene_name)
 
     def _on_error(self, ws, error):
         """A callback which is called when the connection gets an error."""
@@ -197,7 +201,14 @@ class WebsocketConnection:
                 self.load_scene_callbacks = [notification_callback]
             else:
                 self.load_scene_callbacks += notification_callback
+        if(notification_type == NotificationType.UNLOADSCENE):
+            if(overwrite):
+                self.unload_scene_callbacks = [notification_callback]
+            else:
+                self.unload_scene_callbacks += notification_callback
 
     def remove_notification_listener(self, notification_type):
         if(notification_type == NotificationType.LOADSCENE):
             self.load_scene_callbacks = []
+        if(notification_type == NotificationType.UNLOADSCENE):
+            self.unload_scene_callbacks = []

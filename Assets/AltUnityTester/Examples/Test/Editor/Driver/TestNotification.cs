@@ -18,6 +18,7 @@ public class TestNotification
         altUnityDriver = new AltUnityDriver(port: port, enableLogging: true);
         INotificationCallbacks notificationCallbacks = new MockNotificationCallBacks();
         altUnityDriver.AddNotificationListener<AltUnityLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
+        altUnityDriver.AddNotificationListener<String>(NotificationType.UNLOADSCENE, notificationCallbacks.SceneUnloadedCallback, true);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
     }
@@ -25,6 +26,7 @@ public class TestNotification
     public void TearDown()
     {
         altUnityDriver.RemoveNotificationListener(NotificationType.LOADSCENE);
+        altUnityDriver.RemoveNotificationListener(NotificationType.UNLOADSCENE);
         altUnityDriver.Stop();
     }
 
@@ -51,5 +53,14 @@ public class TestNotification
             if (timeout <= 0)
                 throw new TimeoutException("Notification variable not set to the desired value in time");
         }
+    }
+
+    [Test]
+    public void TestUnloadSceneNotification()
+    {
+        altUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
+        altUnityDriver.UnloadScene("Scene 2 Draggable Panel");
+        waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneUnloaded, "Scene 2 Draggable Panel", 10);
+        Assert.AreEqual("Scene 2 Draggable Panel", MockNotificationCallBacks.LastSceneUnloaded);
     }
 }
