@@ -53,7 +53,8 @@ class WebsocketConnection:
         self.timeout = timeout
 
         self._current_command_name = None
-        self.command_timeout = 20
+        self._current_command_id = None
+        self.command_timeout = 60
         self._store = Store()
         self._errors = deque()
 
@@ -61,6 +62,7 @@ class WebsocketConnection:
         self._is_open = False
         self.url = "ws://{}:{}/altws/".format(host, port)
         self.load_scene_callbacks = []
+        self.message_id_timeouts = []
 
     def __repr__(self):
         return "{}({!r}, {!r}, {!r})".format(
@@ -166,6 +168,7 @@ class WebsocketConnection:
     def send(self, data):
         self._ensure_connection_is_open()
         self._current_command_name = data.get("commandName")
+        self._current_command_id = data.get("messageId")
 
         message = json.dumps(data)
         logger.info("Message: {}", message)
@@ -176,15 +179,22 @@ class WebsocketConnection:
         self._ensure_connection_is_open()
         elapsed_time = 0
         delay = 0.1
+        while True:
+            while (elapsed_time <= self.command_timeout):
+                if self._store.has(self._current_command_name):
+                    if self._current_command_id in self.message_id_timeouts:
+                        self.message_id_timeouts.remove(self._current_command_id)
+                        continue
+                    return self._store.pop(self._current_command_name)
 
-        while (elapsed_time <= self.command_timeout):
-            if self._store.has(self._current_command_name):
-                return self._store.pop(self._current_command_name)
+                elapsed_time += delay
+                time.sleep(delay)
+            if elapsed_time > self.command_timeout and self._is_open:
+                self.message_id_timeouts.append(self._current_command_id)
+                raise CommandResponseTimeoutException()
 
-            elapsed_time += delay
-            time.sleep(delay)
-
-        raise CommandResponseTimeoutException()
+    def set_command_timeout(self, timeout):
+        self.command_timeout = timeout
 
     def close(self):
         logger.info("Closing connection to AltUnity on host: {} port: {}", self.host, self.port)

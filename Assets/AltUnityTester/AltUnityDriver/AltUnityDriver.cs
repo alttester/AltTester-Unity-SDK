@@ -84,6 +84,10 @@ namespace Altom.AltUnityDriver
         {
             communicationHandler.Close();
         }
+        public void SetCommandResponseTimeout(int commandTimeout)
+        {
+            communicationHandler.SetCommandTimeout(commandTimeout);
+        }
 
         public string GetServerVersion()
         {

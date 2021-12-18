@@ -1296,3 +1296,16 @@ class TestPythonBindings:
         assert type(plane.worldX) == float
         assert type(plane.worldY) == float
         assert type(plane.worldZ) == float
+
+    def test_set_command_response_timeout(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+        self.altdriver.set_command_response_timeout(1)
+        with pytest.raises(CommandResponseTimeoutException) as execinfo:
+            alt_unity_object.call_component_method(
+                "AltUnityExampleScriptCapsule", "JumpWithDelay",
+                parameters=[], type_of_parameters=[]
+            )
+
+        assert str(
+            execinfo.value) == ""

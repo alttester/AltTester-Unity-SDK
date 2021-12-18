@@ -45,9 +45,10 @@ public class MessageHandler implements IMessageHandler {
     private Queue<AltMessageResponse> responses = new LinkedList<AltMessageResponse>();
     private static final Logger logger = LogManager.getLogger(MessageHandler.class);
     private List<INotificationCallbacks> loadSceneNotificationList = new ArrayList<INotificationCallbacks>();
+    private List<String> messageIdTimeout = new ArrayList<String>();
+    private double commandTimeout = 60;
     private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
 
-    private double commandTimeout = 20;
 
     public MessageHandler(Session session) {
         this.session = session;
@@ -57,25 +58,31 @@ public class MessageHandler implements IMessageHandler {
         double time = 0;
         double delay = 0.1;
         long sleepDelay = (long) (delay * 100);
-
-        while (responses.isEmpty() && session.isOpen() && commandTimeout >= time) {
-            try {
-                Thread.sleep(sleepDelay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while (true) {
+            while (responses.isEmpty() && session.isOpen() && commandTimeout >= time) {
+                try {
+                    Thread.sleep(sleepDelay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                time += delay;
             }
-            time += delay;
+            if (commandTimeout < time && session.isOpen()) {
+                messageIdTimeout.add(data.messageId());
+                throw new CommandResponseTimeoutException();
+            }
+            if (!session.isOpen()) {
+                throw new AltUnityException("Driver disconnected");
+            }
+            AltMessageResponse responseMessage = responses.remove();
+            if (messageIdTimeout.contains(responseMessage.messageId)) {
+                messageIdTimeout.remove(responseMessage.messageId);
+                continue;
+            }
+            handleErrors(responseMessage.error);
+            T response = new Gson().fromJson(responseMessage.data, type);
+            return response;
         }
-        if (commandTimeout < time) {
-            throw new CommandResponseTimeoutException();
-        }
-        if (!session.isOpen()) {
-            throw new AltUnityException("Driver disconnected");
-        }
-        AltMessageResponse responseMessage = responses.remove();
-        handleErrors(responseMessage.error);
-        T response = new Gson().fromJson(responseMessage.data, type);
-        return response;
     }
 
     public void send(AltMessage altMessage) {
@@ -167,6 +174,10 @@ public class MessageHandler implements IMessageHandler {
         throw new UnknownErrorException(error.message);
     }
 
+    public void setCommandTimeout(int timeout) {
+        commandTimeout = timeout;
+    }
+
     private String trimLogData(String data) {
         return trimLogData(data, 1024 * 10);
     }
@@ -231,5 +242,4 @@ public class MessageHandler implements IMessageHandler {
 
         }
     }
-
 }

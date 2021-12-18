@@ -112,6 +112,11 @@ class AltUnityDriver:
 
         self._connection.close()
 
+    def set_command_response_timeout(self, timeout):
+        """Sets the command response timeout for the websocket"""
+
+        self._connection.set_command_timeout(timeout)
+
     def set_server_logging(self, logger, log_level):
         """Sets the level of logging on AltUnity Tester.
 

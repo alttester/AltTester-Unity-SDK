@@ -119,6 +119,10 @@ public class AltUnityDriver {
         return new AltGetAllLoadedScenes(this.connection.messageHandler).Execute();
     }
 
+    public void setCommandResponseTimeout(int timeout) {
+        this.connection.messageHandler.setCommandTimeout(timeout);
+    }
+
     /**
      * Delete entire player pref of the game
      */

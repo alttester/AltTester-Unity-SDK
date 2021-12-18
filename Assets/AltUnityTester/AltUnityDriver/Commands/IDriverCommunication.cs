@@ -12,5 +12,6 @@ namespace Altom.AltUnityDriver.Commands
         void RemoveNotificationListener(NotificationType notificationType);
         void Connect();
         void Close();
+        void SetCommandTimeout(int timeout);
     }
 }

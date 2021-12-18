@@ -21,10 +21,10 @@ namespace Altom.AltUnityDriver.Commands
         private readonly int _connectTimeout;
         private Queue<CommandResponse> messages;
         private List<Action<AltUnityLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltUnityLoadSceneNotificationResultParams>>();
+        private List<string> messageIdTimeouts = new List<string>();
         private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
 
-
-        private int commandTimeout = 20;
+        private int commandTimeout = 60;
 
         public DriverCommunicationWebSocket(string host, int port, int connectTimeout)
         {
@@ -89,25 +89,37 @@ namespace Altom.AltUnityDriver.Commands
         {
 
             Stopwatch watch = Stopwatch.StartNew();
-            while (messages.Count == 0 && wsClient.IsAlive() && commandTimeout >= watch.Elapsed.TotalSeconds)
-            {
-                Thread.Sleep(10);
-            }
-            if (commandTimeout < watch.Elapsed.TotalSeconds)
-                throw new CommandResponseTimeoutException();
+            while (true)
 
-            if (!wsClient.IsAlive())
             {
-                throw new AltUnityException("Driver disconnected");
-            }
-            var message = messages.Dequeue();
 
-            if (message.error != null && message.error.type != AltUnityErrors.errorInvalidCommand && (message.messageId != param.messageId || message.commandName != param.commandName))
-            {
-                throw new AltUnityRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
+                while (messages.Count == 0 && wsClient.IsAlive() && commandTimeout >= watch.Elapsed.TotalSeconds)
+                {
+                    Thread.Sleep(10);
+                }
+                if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive())
+                {
+                    messageIdTimeouts.Add(param.messageId);
+                    throw new CommandResponseTimeoutException();
+                }
+
+                if (!wsClient.IsAlive())
+                {
+                    throw new AltUnityException("Driver disconnected");
+                }
+                var message = messages.Dequeue();
+                if (messageIdTimeouts.Contains(message.messageId))
+                {
+                    messageIdTimeouts.Remove(message.messageId);
+                    continue;
+                }
+                if (message.error != null && message.error.type != AltUnityErrors.errorInvalidCommand && (message.messageId != param.messageId || message.commandName != param.commandName))
+                {
+                    throw new AltUnityRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
+                }
+                handleErrors(message.error);
+                return JsonConvert.DeserializeObject<T>(message.data);
             }
-            handleErrors(message.error);
-            return JsonConvert.DeserializeObject<T>(message.data);
         }
 
 
@@ -127,6 +139,10 @@ namespace Altom.AltUnityDriver.Commands
         {
             logger.Info(string.Format("Closing connection to AltUnity on: {0}", _uri));
             this.wsClient.Close();
+        }
+        public void SetCommandTimeout(int timeout)
+        {
+            commandTimeout = timeout;
         }
 
         protected void OnMessage(object sender, string data)
