@@ -5,6 +5,7 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityTester;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
 
 public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
 {
@@ -89,7 +90,11 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     public void UIButtonClicked()
     {
         Jump("UIButton clicked to jump capsule!");
-
+    }
+    public void JumpWithDelay()
+    {
+        Thread.Sleep(3000);
+        Jump("UIButton clicked to jump capsule with delay!");
     }
 
     public void TestMethodWithManyParameters(int param1, string param2, float param, int[] arrayOfInts)

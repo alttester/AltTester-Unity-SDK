@@ -529,6 +529,37 @@ Waits until the object in the scene that respects the given criteria is no longe
 
 ```
 
+### SetCommandResponseTimeout
+
+Sets the value for the command response timeout.
+
+**_Parameters_**
+
+| Name     | Type           | Required | Description                                                                               |
+| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
+| commandTimeout | int| Yes      | The duration for a command response from the driver. |
+
+**_Returns_**
+
+- Nothing
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        altUnityDriver.SetCommandResponseTimeout(commandTimeout);
+
+    .. code-tab:: java
+
+        altUnityDriver.setCommandResponseTimeout(commandTimeout);
+
+    .. code-tab:: py
+
+        altUnityDriver.set_command_response_timeout(command_timeout)
+
+```
+
 ### Input Actions
 
 #### KeyDown

@@ -11,6 +11,8 @@ public interface IMessageHandler {
 
     public void onMessage(String message);
 
+    public void setCommandTimeout(int timeout);
+
     public void addNotificationListener(NotificationType notificationType, INotificationCallbacks callbacks,
             boolean overwrite);
 

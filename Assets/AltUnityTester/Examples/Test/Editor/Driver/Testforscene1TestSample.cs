@@ -20,6 +20,7 @@ public class TestForScene1TestSample
         altUnityDriver = new AltUnityDriver(port: port, enableLogging: true);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+
     }
 
     [OneTimeTearDown]
@@ -31,7 +32,9 @@ public class TestForScene1TestSample
     [SetUp]
     public void LoadLevel()
     {
+        altUnityDriver.SetCommandResponseTimeout(60);
         altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene", true);
+
     }
 
     [Test]
@@ -2001,4 +2004,15 @@ public class TestForScene1TestSample
         var width = altUnityDriver.GetStaticProperty<int>("UnityEngine.Screen", "width", "UnityEngine.CoreModule");
         Assert.AreEqual(screenWidth, width);
     }
+
+
+    [Test]
+    public void TestSetCommandTimeout() 
+    {
+        var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+        var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+        altUnityDriver.SetCommandResponseTimeout(1);
+        Assert.Throws<CommandResponseTimeoutException>(() => counterButton.Tap(2,2));
+    }
+    
 }
