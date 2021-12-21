@@ -5,14 +5,18 @@ namespace Altom.AltUnityDriver.MockClasses
     {
         public static string LastSceneLoaded = "";
         public static string LastSceneUnloaded = "";
+        public static bool ApplicationPaused = false;
         public void SceneLoadedCallback(AltUnityLoadSceneNotificationResultParams altUnityLoadSceneNotificationResultParams)
         {
             LastSceneLoaded = altUnityLoadSceneNotificationResultParams.sceneName;
         }
-
         public void SceneUnloadedCallback(string sceneName)
         {
             LastSceneUnloaded = sceneName;
+        }
+        public void ApplicationPausedCallback(bool applicationPaused)
+        {
+            ApplicationPaused = applicationPaused;
         }
     }
 }

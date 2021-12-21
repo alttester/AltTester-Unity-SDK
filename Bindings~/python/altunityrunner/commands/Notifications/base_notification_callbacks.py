@@ -8,3 +8,6 @@ class BaseNotificationCallbacks():
 
     def scene_unloaded_callback(self, scene_name):
         logger.debug("Scene {0} was unloaded".format(scene_name))
+
+    def application_paused_callback(self, application_paused):
+        logger.debug("Application paused: {0}".format(application_paused))

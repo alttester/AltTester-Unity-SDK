@@ -5,5 +5,6 @@ namespace Altom.AltUnityDriver.Notifications
     {
         void SceneLoadedCallback(AltUnityLoadSceneNotificationResultParams altUnityLoadSceneNotificationResultParams);
         void SceneUnloadedCallback(string sceneName);
+        void ApplicationPausedCallback(bool applicationPaused);
     }
 }

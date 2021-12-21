@@ -1289,6 +1289,20 @@ class TestPythonBindings:
         assert test_notification_callbacks.last_scene_unloaded == "Scene 2 Draggable Panel"
         self.altdriver.remove_notification_listener(NotificationType.UNLOADSCENE)
 
+    def test_application_paused_notification(self):
+        test_notification_callbacks = TestNotificationCallback()
+        self.altdriver.add_notification_listener(
+            NotificationType.APPLICATION_PAUSED, test_notification_callbacks.application_paused_callback)
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        alt_unity_object = self.altdriver.find_object(By.NAME, "AltUnityRunnerPrefab")
+        alt_unity_object.call_component_method(
+            "Altom.AltUnityTester.AltUnityRunner", "OnApplicationPause",
+            parameters=[True],
+            type_of_parameters=["System.Boolean"]
+        )
+        assert test_notification_callbacks.application_paused == True
+        self.altdriver.remove_notification_listener(NotificationType.APPLICATION_PAUSED)
+
     def test_float_world_coordinates(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         plane = self.altdriver.find_object(By.NAME, "Plane")

@@ -21,8 +21,9 @@ namespace Altom.AltUnityDriver.Commands
         private readonly int _connectTimeout;
         private Queue<CommandResponse> messages;
         private List<Action<AltUnityLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltUnityLoadSceneNotificationResultParams>>();
-        private List<string> messageIdTimeouts = new List<string>();
         private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
+        private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
+        private List<string> messageIdTimeouts = new List<string>();
 
         private int commandTimeout = 60;
 
@@ -180,6 +181,13 @@ namespace Altom.AltUnityDriver.Commands
                         callback(sceneName);
                     }
                     break;
+                case "applicationPausedNotification":
+                    bool data1 = JsonConvert.DeserializeObject<bool>(message.data);
+                    foreach (var callback in applicationPausedCallbacks)
+                    {
+                        callback(data1);
+                    }
+                    break;
             }
         }
 
@@ -267,6 +275,15 @@ namespace Altom.AltUnityDriver.Commands
                         unloadSceneCallbacks.Clear();
                     unloadSceneCallbacks.Add(callback as Action<String>);
                     break;
+                case NotificationType.APPLICATION_PAUSED:
+                    if (callback.GetType() != typeof(Action<bool>))
+                    {
+                        throw new InvalidCastException(String.Format("callback must be of type: {0} and not {1}", typeof(Action<bool>), callback.GetType()));
+                    }
+                    if (overwrite)
+                        applicationPausedCallbacks.Clear();
+                    applicationPausedCallbacks.Add(callback as Action<bool>);
+                    break;
             }
         }
         public void RemoveNotificationListener(NotificationType notificationType)
@@ -278,6 +295,9 @@ namespace Altom.AltUnityDriver.Commands
                     break;
                 case NotificationType.UNLOADSCENE:
                     unloadSceneCallbacks.Clear();
+                    break;
+                case NotificationType.APPLICATION_PAUSED:
+                    applicationPausedCallbacks.Clear();
                     break;
             }
         }

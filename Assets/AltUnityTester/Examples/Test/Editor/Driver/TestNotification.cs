@@ -19,6 +19,7 @@ public class TestNotification
         INotificationCallbacks notificationCallbacks = new MockNotificationCallBacks();
         altUnityDriver.AddNotificationListener<AltUnityLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
         altUnityDriver.AddNotificationListener<String>(NotificationType.UNLOADSCENE, notificationCallbacks.SceneUnloadedCallback, true);
+        altUnityDriver.AddNotificationListener<bool>(NotificationType.APPLICATION_PAUSED, notificationCallbacks.ApplicationPausedCallback, true);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
     }
@@ -27,6 +28,7 @@ public class TestNotification
     {
         altUnityDriver.RemoveNotificationListener(NotificationType.LOADSCENE);
         altUnityDriver.RemoveNotificationListener(NotificationType.UNLOADSCENE);
+        altUnityDriver.RemoveNotificationListener(NotificationType.APPLICATION_PAUSED);
         altUnityDriver.Stop();
     }
 
@@ -54,7 +56,7 @@ public class TestNotification
                 throw new TimeoutException("Notification variable not set to the desired value in time");
         }
     }
-
+    
     [Test]
     public void TestUnloadSceneNotification()
     {
@@ -62,5 +64,13 @@ public class TestNotification
         altUnityDriver.UnloadScene("Scene 2 Draggable Panel");
         waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneUnloaded, "Scene 2 Draggable Panel", 10);
         Assert.AreEqual("Scene 2 Draggable Panel", MockNotificationCallBacks.LastSceneUnloaded);
+    }
+    
+    [Test]
+    public void TestApplicationPaused()
+    {
+        var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
+        altElement.CallComponentMethod<string>("Altom.AltUnityTester.AltUnityRunner", "OnApplicationPause", new object[] { true}, new string[] {"System.Boolean"}, "Assembly-CSharp");
+        Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
     }
 }

@@ -5,5 +5,6 @@ namespace Altom.AltUnityDriver.Notifications
     {
         LOADSCENE = 0,
         UNLOADSCENE = 1,
+        APPLICATION_PAUSED = 2
     }
 }

@@ -10,6 +10,7 @@ import org.junit.Test;
 import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityAddNotificationListenerParams;
 import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityRemoveNotificationListenerParams;
 import ro.altom.altunitytester.Commands.AltUnityCommands.NotificationType;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
 
@@ -23,8 +24,11 @@ public class TestNotifications {
                 NotificationType.LOADSCENE, new MockNotificationCallBacks()).build();
         AltUnityAddNotificationListenerParams altUnitySetNotificationParams2 = new AltUnityAddNotificationListenerParams.Builder(
                 NotificationType.UNLOADSCENE, new MockNotificationCallBacks()).build();
+        AltUnityAddNotificationListenerParams altUnitySetNotificationParams3 = new AltUnityAddNotificationListenerParams.Builder(
+                NotificationType.APPLICATION_PAUSED, new MockNotificationCallBacks()).build();
         altUnityDriver.AddNotification(altUnitySetNotificationParams);
         altUnityDriver.AddNotification(altUnitySetNotificationParams2);
+        altUnityDriver.AddNotification(altUnitySetNotificationParams3);
     }
 
     @AfterClass
@@ -34,8 +38,11 @@ public class TestNotifications {
                 NotificationType.LOADSCENE).build();
         AltUnityRemoveNotificationListenerParams altUnitySetNotificationParams2 = new AltUnityRemoveNotificationListenerParams.Builder(
                 NotificationType.UNLOADSCENE).build();
+        AltUnityRemoveNotificationListenerParams altUnitySetNotificationParams3 = new AltUnityRemoveNotificationListenerParams.Builder(
+                NotificationType.APPLICATION_PAUSED).build();
         altUnityDriver.RemoveNotificationListener(altUnitySetNotificationParams);
         altUnityDriver.RemoveNotificationListener(altUnitySetNotificationParams2);
+        altUnityDriver.RemoveNotificationListener(altUnitySetNotificationParams3);
         if (altUnityDriver != null) {
             altUnityDriver.stop();
         }
@@ -51,7 +58,6 @@ public class TestNotifications {
     @Test
     public void testLodeNonExistentScene() throws Exception {
         assertEquals("Scene 1 AltUnityDriverTestScene", MockNotificationCallBacks.lastLoadedScene);
-
     }
 
     @Test
@@ -71,6 +77,16 @@ public class TestNotifications {
             if (timeout <= 0)
                 throw new WaitTimeOutException("Notification variable not set to the desired value in time");
         }
+    }
+
+    @Test
+    public void testApplicationPausedNotification() throws Exception
+    {
+        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(
+                                AltUnityDriver.By.NAME,
+                                "AltUnityRunnerPrefab").build();
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        altElement.callComponentMethod("", "Altom.AltUnityTester.AltUnityRunner", "OnApplicationPause", new Object[] { true }, new String[] { "System.Boolean" }, Void.class);
     }
 
 }

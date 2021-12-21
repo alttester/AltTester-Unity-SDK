@@ -45,9 +45,10 @@ public class MessageHandler implements IMessageHandler {
     private Queue<AltMessageResponse> responses = new LinkedList<AltMessageResponse>();
     private static final Logger logger = LogManager.getLogger(MessageHandler.class);
     private List<INotificationCallbacks> loadSceneNotificationList = new ArrayList<INotificationCallbacks>();
+    private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
+    private List<INotificationCallbacks> applicationPausedNotificationList = new ArrayList<INotificationCallbacks>();
     private List<String> messageIdTimeout = new ArrayList<String>();
     private double commandTimeout = 60;
-    private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
 
 
     public MessageHandler(Session session) {
@@ -117,6 +118,12 @@ public class MessageHandler implements IMessageHandler {
                 String sceneName = new Gson().fromJson(message.data, String.class);
                 for (INotificationCallbacks callback : unloadSceneNotificationList) {
                     callback.SceneUnloadedCallBack(sceneName);
+                }
+                break;
+            case "applicationPausedNotification":
+                Boolean data1 = new Gson().fromJson(message.data, Boolean.class);
+                for (INotificationCallbacks callback : applicationPausedNotificationList) {
+                    callback.ApplicationPausedCallBack(data1);
                 }
                 break;
         }
@@ -223,6 +230,12 @@ public class MessageHandler implements IMessageHandler {
                 }
                 unloadSceneNotificationList.add(callbacks);
                 break;
+            case APPLICATION_PAUSED:
+                if (overwrite) {
+                    applicationPausedNotificationList.clear();
+                }
+                applicationPausedNotificationList.add(callbacks);
+                break;
             default:
                 break;
 
@@ -236,6 +249,9 @@ public class MessageHandler implements IMessageHandler {
                 break;
             case UNLOADSCENE:
                 unloadSceneNotificationList.clear();
+                break;
+            case APPLICATION_PAUSED:
+                applicationPausedNotificationList.clear();
                 break;
             default:
                 break;
