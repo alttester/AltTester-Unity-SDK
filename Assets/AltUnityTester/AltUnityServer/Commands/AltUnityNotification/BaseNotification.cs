@@ -31,7 +31,6 @@ namespace Altom.AltUnityTester.Notification
 
             var notification = JsonConvert.SerializeObject(cmdResponse, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Culture = CultureInfo.InvariantCulture
             });
             commandHandler.Send(notification);

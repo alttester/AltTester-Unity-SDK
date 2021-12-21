@@ -1,3 +1,4 @@
+import json
 from altunityrunner.commands.base_command import BaseCommand
 
 
@@ -10,7 +11,7 @@ class SetComponentProperty(BaseCommand):
 
         self.component_name = component_name
         self.property_name = property_name
-        self.value = value
+        self.value = json.dumps(value)
         self.assembly_name = assembly_name
 
     @property

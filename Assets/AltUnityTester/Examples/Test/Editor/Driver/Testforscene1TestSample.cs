@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Logging;
-using Altom.AltUnityDriver.Notifications;
 using NUnit.Framework;
 
 [Timeout(30000)]
@@ -32,7 +31,6 @@ public class TestForScene1TestSample
     [SetUp]
     public void LoadLevel()
     {
-        altUnityDriver.SetCommandResponseTimeout(60);
         altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene", true);
 
     }
@@ -224,16 +222,35 @@ public class TestForScene1TestSample
     [Test]
     public void TestGetComponentProperty()
     {
-        Thread.Sleep(1000);
         const string componentName = "Altom.AltUnityTester.AltUnityRunner";
         const string propertyName = "InstrumentationSettings.ProxyPort";
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
         string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
         if (string.IsNullOrEmpty(portStr)) portStr = "13000";
-        Assert.AreEqual(portStr, propertyValue);
+        int port = int.Parse(portStr);
+
+        Assert.AreEqual(port, propertyValue);
     }
+
+    [Test]
+    public void TestGetComponentPropertyInvalidDeserialization()
+    {
+        const string componentName = "Altom.AltUnityTester.AltUnityRunner";
+        const string propertyName = "InstrumentationSettings.ShowPopUp";
+        var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
+        try
+        {
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+            Assert.Fail("Expected ResponseFormatException");
+        }
+        catch (ResponseFormatException ex)
+        {
+            Assert.AreEqual("Could not deserialize response data: `true` into System.Int32", ex.Message);
+        }
+    }
+
 
     [Test]
     public void TestGetComponentPropertyNotFoundWithAssembly()
@@ -245,7 +262,7 @@ public class TestForScene1TestSample
         Assert.NotNull(altElement);
         try
         {
-            var propertyValue = altElement.GetComponentProperty(componentName, propertyName, "Assembly-CSharp");
+            var propertyValue = altElement.GetComponentProperty<bool>(componentName, propertyName, "Assembly-CSharp");
             Assert.Fail();
         }
         catch (PropertyNotFoundException exception)
@@ -264,7 +281,7 @@ public class TestForScene1TestSample
         Assert.NotNull(altElement);
         try
         {
-            altElement.GetComponentProperty(componentName, propertyName);
+            altElement.GetComponentProperty<int>(componentName, propertyName);
             Assert.Fail();
         }
         catch (PropertyNotFoundException exception)
@@ -280,8 +297,12 @@ public class TestForScene1TestSample
         const string propertyName = "arrayOfInts";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual("[1,2,3]", propertyValue);
+        var propertyValue = altElement.GetComponentProperty<int[]>(componentName, propertyName);
+
+        Assert.AreEqual(3, propertyValue.Length);
+        Assert.AreEqual(1, propertyValue[0]);
+        Assert.AreEqual(2, propertyValue[1]);
+        Assert.AreEqual(3, propertyValue[2]);
     }
 
     [Test]
@@ -291,8 +312,8 @@ public class TestForScene1TestSample
         const string propertyName = "privateVariable";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual("0", propertyValue);
+        var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+        Assert.AreEqual(0, propertyValue);
     }
 
     [Test]
@@ -302,8 +323,8 @@ public class TestForScene1TestSample
         const string propertyName = "privateStaticVariable";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual("0", propertyValue);
+        var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+        Assert.AreEqual(0, propertyValue);
     }
 
     [Test]
@@ -313,7 +334,7 @@ public class TestForScene1TestSample
         const string propertyName = "fieldNullValue";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        var propertyValue = altElement.GetComponentProperty<object>(componentName, propertyName);
         Assert.AreEqual(null, propertyValue);
     }
 
@@ -324,8 +345,8 @@ public class TestForScene1TestSample
         const string propertyName = "PublicStaticVariable";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual("0", propertyValue);
+        var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+        Assert.AreEqual(0, propertyValue);
     }
 
 #if !UNITY_IOS
@@ -336,8 +357,8 @@ public class TestForScene1TestSample
         const string propertyName = "isTrigger";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual("false", propertyValue);
+        var propertyValue = altElement.GetComponentProperty<bool>(componentName, propertyName);
+        Assert.AreEqual(false, propertyValue);
     }
 #endif
 
@@ -348,9 +369,9 @@ public class TestForScene1TestSample
         const string propertyName = "stringToSetFromTests";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.SetComponentProperty(componentName, propertyName, "2");
-        Assert.AreEqual("valueSet", propertyValue);
-        propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        altElement.SetComponentProperty(componentName, propertyName, "2");
+
+        var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName);
         Assert.AreEqual("2", propertyValue);
     }
 
@@ -751,11 +772,11 @@ public class TestForScene1TestSample
     public void TestCallMethodWithAssembly()
     {
         AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
+        var initialRotation = capsule.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation");
         capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new object[3] { 10, 10, 10 }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
         AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
-        Assert.AreNotEqual(initialRotation, finalRotation);
+        var finalRotation = capsuleAfterRotation.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation");
+        Assert.IsTrue(initialRotation["x"] != finalRotation["x"] || initialRotation["y"] != finalRotation["y"] || initialRotation["z"] != finalRotation["z"] || initialRotation["w"] != finalRotation["w"]);
     }
 
     [Test]
@@ -1437,8 +1458,8 @@ public class TestForScene1TestSample
         const string propertyName = "AltUnitySampleClass.testInt";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual("1", propertyValue);
+        var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+        Assert.AreEqual(1, propertyValue);
     }
     [Test]
     public void TestGetComponentPropertyComplexClass2()
@@ -1447,7 +1468,7 @@ public class TestForScene1TestSample
         const string propertyName = "listOfSampleClass[1].testString";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName);
         Assert.AreEqual("test2", propertyValue);
     }
 
@@ -1458,9 +1479,9 @@ public class TestForScene1TestSample
         const string propertyName = "AltUnitySampleClass.testInt";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        altElement.SetComponentProperty(componentName, propertyName, "2");
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual("2", propertyValue);
+        altElement.SetComponentProperty(componentName, propertyName, 2);
+        var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+        Assert.AreEqual(2, propertyValue);
     }
     [Test]
     public void TestSetComponentPropertyComplexClass2()
@@ -1470,7 +1491,7 @@ public class TestForScene1TestSample
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
         altElement.SetComponentProperty(componentName, propertyName, "test3");
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
+        var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName);
         Assert.AreEqual("test3", propertyValue);
     }
 
@@ -1481,9 +1502,9 @@ public class TestForScene1TestSample
         const string propertyName = "arrayOfInts[0]";
         var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
         Assert.NotNull(altElement);
-        altElement.SetComponentProperty(componentName, propertyName, "11");
-        var propertyValue = altElement.GetComponentProperty(componentName, propertyName);
-        Assert.AreEqual("11", propertyValue);
+        altElement.SetComponentProperty(componentName, propertyName, 11);
+        var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+        Assert.AreEqual(11, propertyValue);
     }
     [Test]
     public void TestClickWithMouse0Capsule()
@@ -1552,8 +1573,8 @@ public class TestForScene1TestSample
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         altUnityDriver.PressKey(AltUnityKeyCode.LeftArrow);
 
-        var pressDownCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "keyPressDownCounter"));
-        var pressUpCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "keyPressUpCounter"));
+        var pressDownCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "keyPressDownCounter");
+        var pressUpCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "keyPressUpCounter");
         Assert.AreEqual(1, pressDownCounter);
         Assert.AreEqual(1, pressUpCounter);
     }
@@ -1761,19 +1782,19 @@ public class TestForScene1TestSample
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         counterElement.Click();
 
-        var mouseDownCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "mouseDownCounter"));
-        var mouseUpCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "mouseUpCounter"));
-        var mousePressedCounter = int.Parse(counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "mousePressedCounter"));
+        var mouseDownCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mouseDownCounter");
+        var mouseUpCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mouseUpCounter");
+        var mousePressedCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mousePressedCounter");
 
-        string eventsRaised = counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
-        var eventsRaisedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsRaised);
+        List<string> eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+
         Assert.AreEqual(1, mouseDownCounter);
         Assert.AreEqual(1, mouseUpCounter);
         Assert.AreEqual(1, mousePressedCounter);
 
-        Assert.IsTrue(eventsRaisedList.Contains("OnMouseDown"));
-        Assert.IsTrue(eventsRaisedList.Contains("OnMouseUp"));
-        Assert.IsTrue(eventsRaisedList.Contains("OnMouseUpAsButton"));
+        Assert.IsTrue(eventsRaised.Contains("OnMouseDown"));
+        Assert.IsTrue(eventsRaised.Contains("OnMouseUp"));
+        Assert.IsTrue(eventsRaised.Contains("OnMouseUpAsButton"));
     }
 
     [Test]
@@ -1785,23 +1806,18 @@ public class TestForScene1TestSample
         var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
 
         altUnityDriver.MoveMouse(counterElement.getScreenPosition());
+        Thread.Sleep(200); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
 
-        var eventsRaised = counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
-        var eventsRaisedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsRaised);
-
-        Assert.IsTrue(eventsRaisedList.Contains("OnPointerEnter")); //true because initial mouse position is exactly over ButtonCounter
-        Assert.IsFalse(eventsRaisedList.Contains("OnPointerExit"));
+        var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+        Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
+        Assert.IsFalse(eventsRaised.Contains("OnPointerExit"));
 
         altUnityDriver.MoveMouse(new AltUnityVector2(200, 200));
 
-        eventsRaised = counterElement.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
-        eventsRaisedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsRaised);
-
-        Assert.IsTrue(eventsRaisedList.Contains("OnPointerEnter"));
-        Assert.IsTrue(eventsRaisedList.Contains("OnPointerExit"));
-
+        eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+        Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
+        Assert.IsTrue(eventsRaised.Contains("OnPointerExit"));
     }
-
 
     [Test]
     public void TestClickCoordinates()
@@ -1829,16 +1845,14 @@ public class TestForScene1TestSample
 
         altUnityDriver.Click(button2dCollider.getScreenPosition());
 
-        string monoBehaviourEventsRaisedString = button2dCollider.GetComponentProperty("AltUnityTapClickEventsScript", "monoBehaviourEventsRaised");
-        var monoBehaviourEventsRaised = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(monoBehaviourEventsRaisedString);
+        var monoBehaviourEventsRaised = button2dCollider.GetComponentProperty<List<string>>("AltUnityTapClickEventsScript", "monoBehaviourEventsRaised");
         // Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseEnter")); does not work on mobile
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseDown"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUp"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUpAsButton"));
         // Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseExit")); does not work on mobile
 
-        string eventSystemEventsRaisedString = button2dCollider.GetComponentProperty("AltUnityTapClickEventsScript", "eventSystemEventsRaised");
-        var eventSystemEventsRaised = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventSystemEventsRaisedString);
+        var eventSystemEventsRaised = button2dCollider.GetComponentProperty<List<string>>("AltUnityTapClickEventsScript", "eventSystemEventsRaised");
         // Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerEnter")); does not work on mobile
         Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerDown"));
         Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerUp"));
@@ -1852,15 +1866,13 @@ public class TestForScene1TestSample
         var sphere = altUnityDriver.FindObject(By.PATH, "/Sphere");
         altUnityDriver.Click(sphere.getScreenPosition());
 
-        string monoBehaviourEventsRaisedString = sphere.GetComponentProperty("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
-        var monoBehaviourEventsRaised = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(monoBehaviourEventsRaisedString);
+        var monoBehaviourEventsRaised = sphere.GetComponentProperty<List<string>>("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseOver"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseEnter"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseDown"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUp"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUpAsButton"));
         Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseExit"));
-
     }
 
     [Test]
@@ -1871,9 +1883,7 @@ public class TestForScene1TestSample
         var plane = altUnityDriver.FindObject(By.PATH, "/Sphere/PlaneS");
         altUnityDriver.Click(plane.getScreenPosition());
 
-
-        string eventsstring = plane.GetComponentProperty("AltUnityPlaneColliderScript", "monoBehaviourEventsRaised");
-        var planeEvents = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsstring);
+        var planeEvents = plane.GetComponentProperty<List<string>>("AltUnityPlaneColliderScript", "monoBehaviourEventsRaised");
         Assert.IsTrue(planeEvents.Contains("OnMouseOver"));
         Assert.IsTrue(planeEvents.Contains("OnMouseEnter"));
         Assert.IsTrue(planeEvents.Contains("OnMouseDown"));
@@ -1881,8 +1891,7 @@ public class TestForScene1TestSample
         Assert.IsTrue(planeEvents.Contains("OnMouseUpAsButton"));
         Assert.IsTrue(planeEvents.Contains("OnMouseExit"));
 
-        eventsstring = sphere.GetComponentProperty("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
-        var sphereevents = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(eventsstring);
+        var sphereevents = sphere.GetComponentProperty<List<string>>("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
         Assert.IsFalse(sphereevents.Contains("OnMouseEnter"));
         Assert.IsFalse(sphereevents.Contains("OnMouseDown"));
         Assert.IsFalse(sphereevents.Contains("OnMouseUp"));
@@ -1897,7 +1906,7 @@ public class TestForScene1TestSample
     {
         var incrementClick = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         altUnityDriver.Click(incrementClick.getScreenPosition());
-        Assert.AreEqual("Text", incrementClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "eventDataPressRaycastObject", "Assembly-CSharp"));
+        Assert.AreEqual("Text", incrementClick.GetComponentProperty<string>("AltUnityExampleScriptIncrementOnClick", "eventDataPressRaycastObject", "Assembly-CSharp"));
     }
 
     [Test]
@@ -1906,7 +1915,9 @@ public class TestForScene1TestSample
         var incrementalClick = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var swipeCoordinate = new AltUnityVector2(incrementalClick.x + 10, incrementalClick.y + 10);
         altUnityDriver.Swipe(swipeCoordinate, swipeCoordinate, 0.2f);
-        Assert.AreEqual("(10.0, 10.0)", incrementalClick.GetComponentProperty("AltUnityExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp"));
+        var pointerPress = incrementalClick.GetComponentProperty<AltUnityVector2>("AltUnityExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp");
+        Assert.AreEqual(10.0f, pointerPress.x);
+        Assert.AreEqual(10.0f, pointerPress.y);
     }
 
     [Test]
@@ -1927,14 +1938,12 @@ public class TestForScene1TestSample
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var id = altUnityDriver.BeginTouch(capsule.getScreenPosition());
-        var phase = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "TouchPhase");
-        Assert.AreEqual("0", phase);
+        var phase = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "TouchPhase");
+        Assert.AreEqual(0, phase);
         altUnityDriver.MoveTouch(id, capsule.getScreenPosition());
-        phase = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "TouchPhase");
-        Assert.AreEqual("1", phase);
+        phase = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "TouchPhase");
+        Assert.AreEqual(1, phase);
         altUnityDriver.EndTouch(id);
-
-
     }
 
     [Test]
@@ -1942,7 +1951,7 @@ public class TestForScene1TestSample
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.text", "changed");
-        var value = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.text");
+        var value = capsule.GetComponentProperty<string>("AltUnityExampleScriptCapsule", "testStructure.text");
         Assert.AreEqual("changed", value);
     }
 
@@ -1950,18 +1959,18 @@ public class TestForScene1TestSample
     public void TestSetStructureProperty2()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]", "1");
-        var value = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]");
-        Assert.AreEqual("1", value);
+        capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]", 1);
+        var value = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "testStructure.list[0]");
+        Assert.AreEqual(1, value);
     }
 
     [Test]
     public void TestSetStructureProperty3()
     {
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.List[0]", "1");
-        var value = capsule.GetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]");
-        Assert.AreEqual("1", value);
+        capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.List[0]", 1);
+        var value = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "testStructure.list[0]");
+        Assert.AreEqual(1, value);
     }
     [Test]
     public void TestCameraNotFoundException()
@@ -1983,8 +1992,8 @@ public class TestForScene1TestSample
     {
         var inputField = altUnityDriver.FindObject(By.NAME, "InputField").SetText("example", true);
         Assert.AreEqual("example", inputField.GetText());
-        Assert.IsTrue(Convert.ToBoolean(inputField.GetComponentProperty("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked", "Assembly-CSharp")));
-        Assert.IsTrue(Convert.ToBoolean(inputField.GetComponentProperty("AltUnityInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")));
+        Assert.IsTrue(inputField.GetComponentProperty<bool>("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked", "Assembly-CSharp"));
+        Assert.IsTrue(inputField.GetComponentProperty<bool>("AltUnityInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp"));
     }
 
     [Test]
@@ -2005,14 +2014,13 @@ public class TestForScene1TestSample
         Assert.AreEqual(screenWidth, width);
     }
 
-
     [Test]
-    public void TestSetCommandTimeout() 
+    public void TestSetCommandTimeout()
     {
         var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
         var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
         altUnityDriver.SetCommandResponseTimeout(1);
-        Assert.Throws<CommandResponseTimeoutException>(() => counterButton.Tap(2,2));
+        Assert.Throws<CommandResponseTimeoutException>(() => counterButton.Tap(2, 2));
+        altUnityDriver.SetCommandResponseTimeout(60);
     }
-    
 }

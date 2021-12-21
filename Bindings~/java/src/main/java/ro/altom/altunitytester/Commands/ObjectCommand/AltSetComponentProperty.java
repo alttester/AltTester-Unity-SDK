@@ -13,8 +13,9 @@ public class AltSetComponentProperty extends AltBaseCommand {
         this.altSetComponentPropertyParameters.setCommandName("setObjectComponentProperty");
     }
 
-    public String Execute() {
+    public void Execute() {
         SendCommand(altSetComponentPropertyParameters);
-        return recvall(altSetComponentPropertyParameters, String.class);
+        String response = recvall(altSetComponentPropertyParameters, String.class);
+        validateResponse("valueSet", response);
     }
 }

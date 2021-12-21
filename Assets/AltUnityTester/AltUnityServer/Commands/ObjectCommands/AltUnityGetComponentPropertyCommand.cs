@@ -2,21 +2,21 @@ using Altom.AltUnityDriver.Commands;
 
 namespace Altom.AltUnityTester.Commands
 {
-    class AltUnityGetComponentPropertyCommand : AltUnityReflectionMethodsCommand<AltUnityGetObjectComponentPropertyParams, string>
+    class AltUnityGetComponentPropertyCommand : AltUnityReflectionMethodsCommand<AltUnityGetObjectComponentPropertyParams, object>
     {
         public AltUnityGetComponentPropertyCommand(AltUnityGetObjectComponentPropertyParams cmdParams) : base(cmdParams)
         {
         }
 
-        public override string Execute()
+        public override object Execute()
         {
             System.Type type = GetType(CommandParams.component, CommandParams.assembly);
             System.Reflection.MemberInfo memberInfo;
             var propertySplited = CommandParams.property.Split('.');
             string propertyName;
-            string response;
+            object response;
             if (CommandParams.altUnityObject != null)
-                response = GetValueForMember(CommandParams.altUnityObject, propertySplited, type, CommandParams.maxDepth);
+                response = GetValueForMember(CommandParams.altUnityObject, propertySplited, type);
             else
             {
                 var instance = GetInstance(null, propertySplited, type);
@@ -30,8 +30,7 @@ namespace Altom.AltUnityTester.Commands
                 else
                     memberInfo = GetMemberForObjectComponent(instance.GetType(), propertyName);
 
-                object value = GetValue(instance, memberInfo, -1);
-                response = SerializeMemberValue(value, CommandParams.maxDepth);
+                response = GetValue(instance, memberInfo, -1);
             }
             return response;
         }

@@ -8,6 +8,7 @@ import java.lang.Thread;
 
 import javax.websocket.Session;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,6 +37,7 @@ import ro.altom.altunitytester.altUnityTesterExceptions.NotFoundException;
 import ro.altom.altunitytester.altUnityTesterExceptions.NullReferenceException;
 import ro.altom.altunitytester.altUnityTesterExceptions.ObjectWasNotFoundException;
 import ro.altom.altunitytester.altUnityTesterExceptions.PropertyNotFoundException;
+import ro.altom.altunitytester.altUnityTesterExceptions.ResponseFormatException;
 import ro.altom.altunitytester.altUnityTesterExceptions.SceneNotFoundException;
 import ro.altom.altunitytester.altUnityTesterExceptions.UnknownErrorException;
 import ro.altom.altunitytester.altUnityTesterExceptions.CommandResponseTimeoutException;
@@ -49,7 +51,6 @@ public class MessageHandler implements IMessageHandler {
     private double commandTimeout = 60;
     private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
 
-
     public MessageHandler(Session session) {
         this.session = session;
     }
@@ -57,7 +58,7 @@ public class MessageHandler implements IMessageHandler {
     public <T> T receive(AltMessage data, Class<T> type) {
         double time = 0;
         double delay = 0.1;
-        long sleepDelay = (long) (delay * 100);
+        long sleepDelay = (long) (delay * 1000);
         while (true) {
             while (responses.isEmpty() && session.isOpen() && commandTimeout >= time) {
                 try {
@@ -76,12 +77,16 @@ public class MessageHandler implements IMessageHandler {
             }
             AltMessageResponse responseMessage = responses.remove();
             if (messageIdTimeout.contains(responseMessage.messageId)) {
-                messageIdTimeout.remove(responseMessage.messageId);
                 continue;
             }
             handleErrors(responseMessage.error);
-            T response = new Gson().fromJson(responseMessage.data, type);
-            return response;
+            try {
+                T response = new Gson().fromJson(responseMessage.data, type);
+                return response;
+            } catch (JsonParseException ex) {
+                throw new ResponseFormatException(type, responseMessage.data);
+
+            }
         }
     }
 
@@ -187,25 +192,6 @@ public class MessageHandler implements IMessageHandler {
             return data.substring(0, 10 * 1024) + "[...]";
         }
         return data;
-    }
-
-    private Type getType(Class<?> rawClass, Class<?> parameter) {
-        return new ParameterizedType() {
-            @Override
-            public Type[] getActualTypeArguments() {
-                return new Type[] { parameter };
-            }
-
-            @Override
-            public Type getRawType() {
-                return rawClass;
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return null;
-            }
-        };
     }
 
     public void addNotificationListener(NotificationType notificationType, INotificationCallbacks callbacks,

@@ -30,7 +30,9 @@ namespace Altom.AltUnityTester.Commands
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
-                    SetValueForMember(CommandParams.altUnityObject, property.Property.Split('.'), type, CommandParams.value);
+
+                    string valueText = Newtonsoft.Json.JsonConvert.SerializeObject(CommandParams.value);
+                    SetValueForMember(CommandParams.altUnityObject, property.Property.Split('.'), type, valueText);
                     var uiInputFieldComp = targetObject.GetComponent<UnityEngine.UI.InputField>();
                     if (uiInputFieldComp != null)
                     {

@@ -20,8 +20,8 @@ public class AltGetComponentProperty extends AltBaseCommand {
         this.altGetComponentPropertyParameters.setCommandName("getObjectComponentProperty");
     }
 
-    public String Execute() {
+    public <T> T Execute(Class<T> returnType) {
         SendCommand(altGetComponentPropertyParameters);
-        return recvall(altGetComponentPropertyParameters, String.class);
+        return recvall(altGetComponentPropertyParameters, returnType);
     }
 }

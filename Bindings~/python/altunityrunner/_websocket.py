@@ -183,7 +183,6 @@ class WebsocketConnection:
             while (elapsed_time <= self.command_timeout):
                 if self._store.has(self._current_command_name):
                     if self._current_command_id in self.message_id_timeouts:
-                        self.message_id_timeouts.remove(self._current_command_id)
                         continue
                     return self._store.pop(self._current_command_name)
 

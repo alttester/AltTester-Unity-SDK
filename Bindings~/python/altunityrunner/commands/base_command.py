@@ -180,7 +180,10 @@ class BaseCommand(Command):
         self.connection.send(self._parameters)
         response = self.connection.recv()
         self.handle_response(response)
-        return json.loads(response.get("data"))
+        data = response.get("data")
+        if data is None:
+            return data
+        return json.loads(data)
 
     def recv(self):
         """Wait for a response from the AltUnity."""
@@ -188,4 +191,7 @@ class BaseCommand(Command):
         response = self.connection.recv()
         self.handle_response(response)
 
-        return response.get("data")
+        data = response.get("data")
+        if data is None:
+            return data
+        return json.loads(data)

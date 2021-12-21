@@ -9,6 +9,7 @@ import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltMultiPointSwipeParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltSwipeParameters;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.position.Vector2;
 
@@ -19,6 +20,10 @@ import static org.junit.Assert.*;
 
 public class TestsSampleScene3 {
     private static AltUnityDriver altUnityDriver;
+
+    class AltUnitySprite {
+        public String name;
+    }
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -83,17 +88,24 @@ public class TestsSampleScene3 {
 
         Thread.sleep(6000);
 
-        String imageSource = altUnityDriver.findObject(altFindObjectsParameters1)
-                .getComponentProperty("UnityEngine.UI.Image", "sprite");
-        String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters6)
-                .getComponentProperty("UnityEngine.UI.Image", "sprite");
-        assertNotSame(imageSource, imageSourceDropZone);
+        AltUnitySprite imageSource = altUnityDriver.findObject(altFindObjectsParameters1)
+                .getComponentProperty(
+                        new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        AltUnitySprite.class);
+        AltUnitySprite imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters6)
+                .getComponentProperty(
+                        new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        AltUnitySprite.class);
+        assertNotSame(imageSource.name, imageSourceDropZone.name);
 
-        imageSource = altUnityDriver.findObject(altFindObjectsParameters3).getComponentProperty("UnityEngine.UI.Image",
-                "sprite");
+        imageSource = altUnityDriver.findObject(altFindObjectsParameters3).getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image", "sprite").build(),
+                AltUnitySprite.class);
         imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters7)
-                .getComponentProperty("UnityEngine.UI.Image", "sprite");
-        assertNotSame(imageSource, imageSourceDropZone);
+                .getComponentProperty(
+                        new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        AltUnitySprite.class);
+        assertNotSame(imageSource.name, imageSourceDropZone.name);
     }
 
     @Test
@@ -137,17 +149,24 @@ public class TestsSampleScene3 {
         altUnityDriver
                 .swipe(new AltSwipeParameters.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
                         .withDuration(1).build());
-        String imageSource = altUnityDriver.findObject(altFindObjectsParameters1)
-                .getComponentProperty("UnityEngine.UI.Image", "sprite");
-        String imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters6)
-                .getComponentProperty("UnityEngine.UI.Image", "sprite");
-        assertNotSame(imageSource, imageSourceDropZone);
+        AltUnitySprite imageSource = altUnityDriver.findObject(altFindObjectsParameters1)
+                .getComponentProperty(
+                        new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        AltUnitySprite.class);
+        AltUnitySprite imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters6)
+                .getComponentProperty(
+                        new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        AltUnitySprite.class);
+        assertNotSame(imageSource.name, imageSourceDropZone.name);
 
-        imageSource = altUnityDriver.findObject(altFindObjectsParameters3).getComponentProperty("UnityEngine.UI.Image",
-                "sprite");
+        imageSource = altUnityDriver.findObject(altFindObjectsParameters3).getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image", "sprite").build(),
+                AltUnitySprite.class);
         imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters7)
-                .getComponentProperty("UnityEngine.UI.Image", "sprite");
-        assertNotSame(imageSource, imageSourceDropZone);
+                .getComponentProperty(
+                        new AltGetComponentPropertyParameters.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        AltUnitySprite.class);
+        assertNotSame(imageSource.name, imageSourceDropZone.name);
     }
 
     @Test
@@ -156,18 +175,24 @@ public class TestsSampleScene3 {
 
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drop Image").build();
         AltUnityObject altElement = altUnityDriver.findObject(findObjectParams);
-        String color1 = altElement.getComponentProperty("AltUnityExampleScriptDropMe", "highlightColor");
+        AltUnityColor color1 = altElement.getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("AltUnityExampleScriptDropMe", "highlightColor").build(),
+                AltUnityColor.class);
 
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drop Image").build();
         altUnityDriver.findObject(findObjectParams).pointerEnter();
-        String color2 = altElement.getComponentProperty("AltUnityExampleScriptDropMe", "highlightColor");
-        assertNotSame(color1, color2);
+        AltUnityColor color2 = altElement.getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("AltUnityExampleScriptDropMe", "highlightColor").build(),
+                AltUnityColor.class);
+        assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b || color1.a != color2.a);
 
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drop Image").build();
         altUnityDriver.findObject(findObjectParams).pointerExit();
-        String color3 = altElement.getComponentProperty("AltUnityExampleScriptDropMe", "highlightColor");
-        assertNotSame(color3, color2);
-        assertEquals(color1, color3);
+        AltUnityColor color3 = altElement.getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("AltUnityExampleScriptDropMe", "highlightColor").build(),
+                AltUnityColor.class);
+        assertTrue(color3.r != color2.r || color3.g != color2.g || color3.b != color2.b || color3.a != color2.a);
+        assertTrue(color1.r == color3.r && color1.g == color3.g && color1.b == color3.b && color1.a == color3.a);
     }
 
     @Test
@@ -201,20 +226,32 @@ public class TestsSampleScene3 {
         altUnityDriver.multipointSwipe(new AltMultiPointSwipeParameters.Builder(positions2).withDuration(3).build());
 
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drag Image1").build();
-        String imageSource = altUnityDriver.findObject(findObjectParams).getComponentProperty("UnityEngine.UI.Image",
-                "sprite");
+        String imageSourceName = altUnityDriver.findObject(findObjectParams).getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder(
+                        "UnityEngine.UI.Image",
+                        "sprite.name").build(),
+                String.class);
 
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drop Image").build();
-        String imageSourceDropZone = altUnityDriver.findObject(findObjectParams)
-                .getComponentProperty("UnityEngine.UI.Image", "sprite");
-        assertNotEquals(imageSource, imageSourceDropZone);
+        String imageSourceDropZoneName = altUnityDriver.findObject(findObjectParams)
+                .getComponentProperty(new AltGetComponentPropertyParameters.Builder(
+                        "UnityEngine.UI.Image",
+                        "sprite.name").build(),
+                        String.class);
+        assertNotEquals(imageSourceName, imageSourceDropZoneName);
 
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drag Image2").build();
-        imageSource = altUnityDriver.findObject(findObjectParams).getComponentProperty("UnityEngine.UI.Image",
-                "sprite");
+        imageSourceName = altUnityDriver.findObject(findObjectParams)
+                .getComponentProperty(new AltGetComponentPropertyParameters.Builder(
+                        "UnityEngine.UI.Image",
+                        "sprite.name").build(),
+                        String.class);
         findObjectParams = new AltFindObjectsParameters.Builder(By.NAME, "Drop").build();
-        imageSourceDropZone = altUnityDriver.findObject(findObjectParams).getComponentProperty("UnityEngine.UI.Image",
-                "sprite");
-        assertNotEquals(imageSource, imageSourceDropZone);
+        imageSourceDropZoneName = altUnityDriver.findObject(findObjectParams)
+                .getComponentProperty(new AltGetComponentPropertyParameters.Builder(
+                        "UnityEngine.UI.Image",
+                        "sprite.name").build(),
+                        String.class);
+        assertNotEquals(imageSourceName, imageSourceDropZoneName);
     }
 }

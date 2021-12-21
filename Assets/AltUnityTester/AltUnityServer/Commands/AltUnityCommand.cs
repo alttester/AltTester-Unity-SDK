@@ -8,6 +8,7 @@ namespace Altom.AltUnityTester.Commands
 {
     public abstract class AltUnityCommand<TParam, TResult> where TParam : CommandParams
     {
+        private const int MAX_DEPTH_REPONSE_DATA_SERIALIZATION = 2;
         public TParam CommandParams { get; private set; }
 
         protected AltUnityCommand(TParam commandParams)
@@ -20,7 +21,6 @@ namespace Altom.AltUnityTester.Commands
             var result = ExecuteHandleErrors(action);
             return JsonConvert.SerializeObject(result, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Culture = CultureInfo.InvariantCulture
             });
         }
@@ -138,7 +138,29 @@ namespace Altom.AltUnityTester.Commands
             var cmdResponse = new CommandResponse();
             cmdResponse.commandName = CommandParams.commandName;
             cmdResponse.messageId = CommandParams.messageId;
-            cmdResponse.data = JsonConvert.SerializeObject(response);
+
+            if (response != null)
+            {
+                int maxDepth = MAX_DEPTH_REPONSE_DATA_SERIALIZATION;
+
+                if (CommandParams is AltUnityGetObjectComponentPropertyParams)
+                {
+                    maxDepth = (CommandParams as AltUnityGetObjectComponentPropertyParams).maxDepth;
+                }
+
+                using (var strWriter = new System.IO.StringWriter())
+                {
+                    using (var jsonWriter = new CustomJsonTextWriter(strWriter))
+                    {
+                        Func<bool> include = () => jsonWriter.CurrentDepth <= maxDepth;
+                        var resolver = new AltUnityContractResolver(include);
+                        var serializer = new Newtonsoft.Json.JsonSerializer { ContractResolver = resolver, ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore };
+                        serializer.Serialize(jsonWriter, response);
+                    }
+                    cmdResponse.data = strWriter.ToString();
+                }
+            }
+
             cmdResponse.error = error;
             cmdResponse.isNotification = false;
 

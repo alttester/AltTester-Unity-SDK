@@ -123,7 +123,7 @@ namespace Altom.AltUnityTester.Communication
             }
             if (cmdParams is AltUnitySetObjectComponentPropertyParams)
             {
-                return new AltUnitySetObjectComponentPropertyCommand(cmdParams as AltUnitySetObjectComponentPropertyParams).ExecuteAndSerialize;
+                return new AltUnitySetComponentPropertyCommand(cmdParams as AltUnitySetObjectComponentPropertyParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityCallComponentMethodForObjectParams)
             {

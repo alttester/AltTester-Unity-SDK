@@ -145,16 +145,16 @@ class TestPythonBindings:
         result = self.altdriver.find_object(By.NAME,
                                             "Capsule").get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
 
-        assert result, "[1,2,3]"
+        assert result, [1,2,3]
 
     def test_set_component_property(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         self.altdriver.find_object(By.NAME, "Capsule").set_component_property(
-            "AltUnityExampleScriptCapsule", "arrayOfInts", "[2,3,4]")
+            "AltUnityExampleScriptCapsule", "arrayOfInts", [2,3,4])
         result = self.altdriver.find_object(By.NAME,
                                             "Capsule").get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
 
-        assert result == "[2,3,4]"
+        assert result == [2,3,4]
 
     def test_call_component_method(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
@@ -234,14 +234,15 @@ class TestPythonBindings:
         color2 = alt_unity_object.get_component_property(
             "AltUnityExampleScriptDropMe", "highlightColor")
 
-        assert color1 != color2
+        assert color1["r"] != color2["r"] or color1["g"] != color2["g"] or color1["b"] != color2["b"] or color1["a"] != color2["a"]
 
         alt_unity_object.pointer_exit()
         color3 = alt_unity_object.get_component_property(
             "AltUnityExampleScriptDropMe", "highlightColor")
 
-        assert color3 != color2
-        assert color3 == color1
+        assert color3["r"] != color2["r"] or color3["g"] != color2["g"] or color3["b"] != color2["b"] or color3["a"] != color2["a"]
+        
+        assert color3["r"] == color1["r"] and color3["g"] == color1["g"] and color3["b"] == color1["b"] and color3["a"] == color1["a"]
 
     def test_multiple_swipes(self):
         self.altdriver.load_scene("Scene 3 Drag And Drop")
@@ -266,12 +267,12 @@ class TestPythonBindings:
         image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
         image_source_drop_zone = self.altdriver.find_object(
             By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
-        assert image_source != image_source_drop_zone
+        assert image_source["name"] != image_source_drop_zone["name"]
 
         image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite")
         image_source_drop_zone = self.altdriver.find_object(
             By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
-        assert image_source != image_source_drop_zone
+        assert image_source["name"] != image_source_drop_zone["name"]
 
     def test_multiple_swipe_and_waits(self):
         self.altdriver.load_scene("Scene 3 Drag And Drop")
@@ -294,12 +295,12 @@ class TestPythonBindings:
         image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
         image_source_drop_zone = self.altdriver.find_object(
             By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
-        assert image_source != image_source_drop_zone
+        assert image_source["name"] != image_source_drop_zone["name"]
 
         image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite")
         image_source_drop_zone = self.altdriver.find_object(
             By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
-        assert image_source != image_source_drop_zone
+        assert image_source["name"] != image_source_drop_zone["name"]
 
     def test_button_click_and_wait_with_swipe(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
@@ -346,13 +347,13 @@ class TestPythonBindings:
             By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite")
         imageSourceDropZone = self.altdriver.find_object(
             By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
-        assert imageSource != imageSourceDropZone
+        assert imageSource["name"] != imageSourceDropZone["name"]
 
         imageSource = self.altdriver.find_object(
             By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite")
         imageSourceDropZone = self.altdriver.find_object(
             By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
-        assert imageSource != imageSourceDropZone
+        assert imageSource["name"] != imageSourceDropZone["name"]
 
     def test_set_player_pref_keys_int(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
@@ -413,7 +414,7 @@ class TestPythonBindings:
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         text = alt_unity_object.get_component_property("AltUnityExampleScriptCapsule", "TestBool")
 
-        assert text == "true"
+        assert text == True
 
     def test_call_static_method(self):
         self.altdriver.call_static_method(
@@ -577,7 +578,8 @@ class TestPythonBindings:
         finalRotation = capsuleAfterRotation.get_component_property(
             "UnityEngine.Transform", "rotation")
 
-        assert initialRotation != finalRotation
+        assert initialRotation["x"] != finalRotation["x"] or initialRotation["y"] != finalRotation["y"] or \
+               initialRotation["z"] != finalRotation["z"] or initialRotation["w"] != finalRotation["w"]
 
     def test_get_all_enabled_elements(self):
         self.altdriver.load_scene("Scene 2 Draggable Panel")
@@ -1072,7 +1074,7 @@ class TestPythonBindings:
         assert alt_unity_object is not None
 
         property_value = alt_unity_object.get_component_property(component_name, property_name, max_depth=1)
-        assert property_value == "1"
+        assert property_value == 1
 
     def test_get_component_property_complex_class2(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", True)
@@ -1093,9 +1095,9 @@ class TestPythonBindings:
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_unity_object is not None
 
-        alt_unity_object.set_component_property(component_name, property_name, "2")
+        alt_unity_object.set_component_property(component_name, property_name, 2)
         property_value = alt_unity_object.get_component_property(component_name, property_name, max_depth=1)
-        assert property_value == "2"
+        assert property_value == 2
 
     def test_set_component_property_complex_class2(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", True)
@@ -1307,5 +1309,6 @@ class TestPythonBindings:
                 parameters=[], type_of_parameters=[]
             )
 
+        self.altdriver.set_command_response_timeout(60)
         assert str(
             execinfo.value) == ""

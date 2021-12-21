@@ -20,7 +20,28 @@ namespace Altom.AltUnityDriver
             this.g = g;
             this.b = b;
             this.a = a;
+        }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is AltUnityColor))
+                return false;
+            var other = (AltUnityColor)obj;
+            return
+                other.r == this.r &&
+                other.g == this.g &&
+                other.b == this.b &&
+                other.a == this.a;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }
