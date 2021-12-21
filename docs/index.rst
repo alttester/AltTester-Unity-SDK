@@ -13,8 +13,6 @@ Through AltUnity Tools, we provide a UI Test Automation solution for Unity games
 
 - AltUnity Inspector is a desktop application allowing users to inspect the object hierarchy and interact with their app outside the Unity Editor. Get AltUnity Inspector from `our website <https://altom.com/testing-tools/altunitytester/>`_.
 
-- AltUnity Pro Alpha is a desktop application offering the same features as AltUnity Inspector with WebGL support on top.
-
 
 Documentation
 =============
@@ -32,11 +30,6 @@ Documentation
    *  `Overview <https://altom.gitlab.io/altunity/altunityinspector/pages/overview.html>`__
    *  `Get Started <https://altom.gitlab.io/altunity/altunityinspector/pages/get-started.html>`__
 
-*  `AltUnity Pro Alpha <https://altom.gitlab.io/altunity/altunityinspector-alpha/altunityproalpha.html>`_ 
-
-   *  `Overview <https://altom.gitlab.io/altunity/altunityinspector-alpha/pages/overview-pro-alpha.html>`__
-   *  `Get Started <https://altom.gitlab.io/altunity/altunityinspector-alpha/pages/get-started-pro-alpha.html>`__ 
-
 
 .. toctree::
    :caption: Table of contents:
@@ -44,7 +37,6 @@ Documentation
 
    tester
    AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector-alpha/inspector.html>
-   AltUnity Pro Alpha <https://altom.gitlab.io/altunity/altunityinspector-alpha/altunityproalpha.html>
 
 
 .. toctree::

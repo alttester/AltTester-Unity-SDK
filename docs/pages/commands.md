@@ -3,16 +3,16 @@
 ## AltUnityDriver
 
 The **AltUnityDriver** class represents the main game driver component. When you instantiate an AltUnityDriver in your tests, you can use it to "drive" your game like one of your users would, by interacting with all the game objects, their properties and methods.
-An AltUnityDriver instance will connect to the AltUnity Proxy that bridges the connection with the instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the proxy is running. We can also set some more advanced parameters, as shown in the table below:
+An AltUnityDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App is running. We can also set some more advanced parameters, as shown in the table below:
 
 **_Parameters_**
 
-| Name           | Type    | Required | Description                                                                                  |
-| -------------- | ------- | -------- | -------------------------------------------------------------------------------------------- |
-| host           | string  | No       | The ip or hostname AltUnity Proxy is listening on. The default value for this is "127.0.0.1" |
-| port           | int     | No       | The default value for this is 13000                                                          |
-| enableLogging  | boolean | No       | If true, enables logging on the driver. The default value for this is false                  |
-| connectTimeout | int     | No       | Number of seconds to retry connection to proxy. The default value for this is 60 seconds     |
+| Name             | Type    | Required | Description                               |
+| ---------------- | ------- | -------- | ----------------------------------------- |
+| host             | string  | No       | The ip or hostname  AltUnity Tester is listening on. The default value for this is "127.0.0.1" |
+| port             | int     | No       | The default value for this is 13000       |
+| enableLogging    | boolean | No       | The default value for this is false       |
+
 
 Once you have an instance of the _AltUnityDriver_, you can use all the available commands to interact with the game. The available methods are the following:
 

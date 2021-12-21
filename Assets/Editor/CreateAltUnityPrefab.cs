@@ -143,7 +143,7 @@ namespace Altom.AltUnityTesterTools
             TitleRectTransform.pivot = new Vector2(0.5f, 1f);
 
             var TitleText = TitleGameObject.GetComponent<Text>();
-            TitleText.text = "AltUnity Tester v.1.7.0-alpha";
+            TitleText.text = "AltUnity Tester v.1.7.0";
             TitleText.fontSize = 30;
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;
