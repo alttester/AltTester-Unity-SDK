@@ -8,6 +8,7 @@ from altunityrunner.__version__ import VERSION
 from altunityrunner.commands import GetServerVersion, Notifications
 from tests.integration.notification_callbacks_for_testing import TestNotificationCallback
 from altunityrunner.commands.Notifications.notification_type import NotificationType
+from altunityrunner.logging import AltUnityLogLevel
 
 
 def altunitytester_port():
@@ -1306,6 +1307,15 @@ class TestPythonBindings:
         self.altdriver.unload_scene("Scene 2 Draggable Panel")
         assert test_notification_callbacks.last_scene_unloaded == "Scene 2 Draggable Panel"
         self.altdriver.remove_notification_listener(NotificationType.UNLOADSCENE)
+
+    def test_log_notification(self):
+        test_notification_callbacks = TestNotificationCallback()
+        self.altdriver.add_notification_listener(
+            NotificationType.LOG, test_notification_callbacks.log_callback)
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        assert "Scene Loaded" in test_notification_callbacks.log_message
+        assert test_notification_callbacks.log_type == AltUnityLogLevel.Debug.value
+        self.altdriver.remove_notification_listener(NotificationType.LOG)
 
     def test_application_paused_notification(self):
         test_notification_callbacks = TestNotificationCallback()

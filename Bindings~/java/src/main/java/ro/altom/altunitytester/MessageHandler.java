@@ -18,6 +18,7 @@ import java.lang.reflect.Type;
 
 import ro.altom.altunitytester.Commands.AltUnityCommands.NotificationType;
 import ro.altom.altunitytester.Notifications.AltUnityLoadSceneNotificationResultParams;
+import ro.altom.altunitytester.Notifications.AltUnityLogNotificationResultParams;
 import ro.altom.altunitytester.Notifications.INotificationCallbacks;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityErrors;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
@@ -48,6 +49,7 @@ public class MessageHandler implements IMessageHandler {
     private static final Logger logger = LogManager.getLogger(MessageHandler.class);
     private List<INotificationCallbacks> loadSceneNotificationList = new ArrayList<INotificationCallbacks>();
     private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
+    private List<INotificationCallbacks> logNotificationList = new ArrayList<INotificationCallbacks>();
     private List<INotificationCallbacks> applicationPausedNotificationList = new ArrayList<INotificationCallbacks>();
     private List<String> messageIdTimeout = new ArrayList<String>();
     private double commandTimeout = 60;
@@ -125,10 +127,17 @@ public class MessageHandler implements IMessageHandler {
                     callback.SceneUnloadedCallBack(sceneName);
                 }
                 break;
+            case "logNotification":
+                AltUnityLogNotificationResultParams data1 = new Gson().fromJson(message.data,
+                        AltUnityLogNotificationResultParams.class);
+                for (INotificationCallbacks callback : logNotificationList) {
+                    callback.LogCallBack(data1);
+                }
+                break;
             case "applicationPausedNotification":
-                Boolean data1 = new Gson().fromJson(message.data, Boolean.class);
+                Boolean data2 = new Gson().fromJson(message.data, Boolean.class);
                 for (INotificationCallbacks callback : applicationPausedNotificationList) {
-                    callback.ApplicationPausedCallBack(data1);
+                    callback.ApplicationPausedCallBack(data2);
                 }
                 break;
         }
@@ -216,6 +225,12 @@ public class MessageHandler implements IMessageHandler {
                 }
                 unloadSceneNotificationList.add(callbacks);
                 break;
+            case LOG:
+                if (overwrite) {
+                    logNotificationList.clear();
+                }
+                logNotificationList.add(callbacks);
+                break;
             case APPLICATION_PAUSED:
                 if (overwrite) {
                     applicationPausedNotificationList.clear();
@@ -235,6 +250,9 @@ public class MessageHandler implements IMessageHandler {
                 break;
             case UNLOADSCENE:
                 unloadSceneNotificationList.clear();
+                break;
+            case LOG:
+                logNotificationList.clear();
                 break;
             case APPLICATION_PAUSED:
                 applicationPausedNotificationList.clear();

@@ -5,9 +5,10 @@ from threading import Thread
 
 from loguru import logger
 import websocket
-from altunityrunner.commands.Notifications.load_scene_notification_result import LoadSceneNotificationResult
-from altunityrunner.commands.Notifications.load_scene_mode import LoadSceneMode
 from altunityrunner.commands.Notifications.notification_type import NotificationType
+from altunityrunner.commands.Notifications.load_scene_notification_result import LoadSceneNotificationResult
+from altunityrunner.commands.Notifications.log_notification_result import LogNotificationResult
+from altunityrunner.commands.Notifications.load_scene_mode import LoadSceneMode
 
 from .exceptions import ConnectionError, ConnectionTimeoutError, CommandResponseTimeoutException
 
@@ -62,6 +63,7 @@ class WebsocketConnection:
         self._is_open = False
         self.url = "ws://{}:{}/altws/".format(host, port)
         self.load_scene_callbacks = []
+        self.log_callbacks = []
         self.application_paused_callbacks = []
         self.message_id_timeouts = []
 
@@ -138,6 +140,12 @@ class WebsocketConnection:
             scene_name = json.loads(message.get("data"))
             for callback in self.unload_scene_callbacks:
                 callback(scene_name)
+        elif(message.get("commandName") == "logNotification"):
+            data = json.loads(message.get("data"))
+            log_result = LogNotificationResult(
+                data.get("message"), data.get("stack_trace"), data.get("level"),)
+            for callback in self.log_callbacks:
+                callback(log_result)
         elif(message.get("commandName") == "applicationPausedNotification"):
             data = json.loads(message.get("data"))
             application_paused_result = bool(data)
@@ -221,6 +229,11 @@ class WebsocketConnection:
                 self.unload_scene_callbacks = [notification_callback]
             else:
                 self.unload_scene_callbacks += notification_callback
+        elif(notification_type == NotificationType.LOG):
+            if(overwrite):
+                self.log_callbacks = [notification_callback]
+            else:
+                self.log_callbacks += notification_callback
         elif(notification_type == NotificationType.APPLICATION_PAUSED):
             if(overwrite):
                 self.application_paused_callbacks = [notification_callback]
@@ -232,5 +245,7 @@ class WebsocketConnection:
             self.load_scene_callbacks = []
         elif(notification_type == NotificationType.UNLOADSCENE):
             self.unload_scene_callbacks = []
+        elif(notification_type == NotificationType.LOG):
+            self.log_callbacks = []
         elif(notification_type == NotificationType.APPLICATION_PAUSED):
             self.application_paused_callbacks = []
