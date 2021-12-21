@@ -2,6 +2,7 @@ package ro.altom.altunitytester.Notifications;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ro.altom.altunitytester.Logging.AltUnityLogLevel;
 
 public class BaseNotificationCallbacks implements INotificationCallbacks {
     protected static final Logger logger = LogManager.getLogger(BaseNotificationCallbacks.class);
@@ -16,6 +17,12 @@ public class BaseNotificationCallbacks implements INotificationCallbacks {
     @Override
     public void SceneUnloadedCallBack(String sceneName) {
         logger.info("Scene " + sceneName + " was unloaded ");
+    }
+    
+    @Override
+    public void LogCallBack(AltUnityLogNotificationResultParams altUnityLogNotificationResultParams) {
+        logger.info("Log of type " + AltUnityLogLevel.values()[altUnityLogNotificationResultParams.level] + " with message " +
+        altUnityLogNotificationResultParams.message + " was received");
     }
 
     @Override

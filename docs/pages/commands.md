@@ -2596,6 +2596,16 @@ If activated this notification will be called every time a scene is unloaded in 
 
 -   sceneName - name of the unloaded scene
 
+#### Log notification
+
+If ctivated this notification will be called every time a log is generated. To activate this notification use `AddNotificationListener` command and add `NotificationType.Log` as a parameter.
+
+**_Returns_**
+
+-   message - the message of the log
+-   stackTrace - the stack trace of the log
+-   level - the level of the log (ex. Error, Warning etc.)
+
 #### Application paused
 
 If activated this notification will be called every time the application has paused. To activate this notification use `AddNotificationListener` command and add `NotificationType.ApplicationPaused` as a parameter.

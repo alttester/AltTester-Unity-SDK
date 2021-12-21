@@ -19,6 +19,7 @@ public class TestNotification
         INotificationCallbacks notificationCallbacks = new MockNotificationCallBacks();
         altUnityDriver.AddNotificationListener<AltUnityLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
         altUnityDriver.AddNotificationListener<String>(NotificationType.UNLOADSCENE, notificationCallbacks.SceneUnloadedCallback, true);
+        altUnityDriver.AddNotificationListener<AltUnityLogNotificationResultParams>(NotificationType.LOG, notificationCallbacks.LogCallback, true);
         altUnityDriver.AddNotificationListener<bool>(NotificationType.APPLICATION_PAUSED, notificationCallbacks.ApplicationPausedCallback, true);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
@@ -28,6 +29,7 @@ public class TestNotification
     {
         altUnityDriver.RemoveNotificationListener(NotificationType.LOADSCENE);
         altUnityDriver.RemoveNotificationListener(NotificationType.UNLOADSCENE);
+        altUnityDriver.RemoveNotificationListener(NotificationType.LOG);
         altUnityDriver.RemoveNotificationListener(NotificationType.APPLICATION_PAUSED);
         altUnityDriver.Stop();
     }
@@ -64,6 +66,13 @@ public class TestNotification
         altUnityDriver.UnloadScene("Scene 2 Draggable Panel");
         waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneUnloaded, "Scene 2 Draggable Panel", 10);
         Assert.AreEqual("Scene 2 Draggable Panel", MockNotificationCallBacks.LastSceneUnloaded);
+    }
+
+    [Test]
+    public void TestLogNotification()
+    {
+        StringAssert.Contains("\"commandName\":\"loadScene\"", MockNotificationCallBacks.LogMessage);
+        Assert.AreEqual(AltUnityLogLevel.Debug, MockNotificationCallBacks.LogLevel);
     }
     
     [Test]

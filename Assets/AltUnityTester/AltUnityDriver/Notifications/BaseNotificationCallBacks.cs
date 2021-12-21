@@ -14,6 +14,10 @@ namespace Altom.AltUnityDriver.Notifications
         {
             logger.Log(LogLevel.Info, String.Format("Scene {0} was unloaded", sceneName));
         }
+        public void LogCallback(AltUnityLogNotificationResultParams altUnityLogNotificationResultParams)
+        {
+            logger.Log(LogLevel.Info, String.Format("Log of type {0} with message {1} was received", altUnityLogNotificationResultParams.level, altUnityLogNotificationResultParams.message));
+        }
         public void ApplicationPausedCallback(bool applicationPaused)
         {
             logger.Log(LogLevel.Info, String.Format("Application paused: {0}", applicationPaused));

@@ -22,6 +22,7 @@ namespace Altom.AltUnityDriver.Commands
         private Queue<CommandResponse> messages;
         private List<Action<AltUnityLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltUnityLoadSceneNotificationResultParams>>();
         private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
+        private List<Action<AltUnityLogNotificationResultParams>> logCallbacks = new List<Action<AltUnityLogNotificationResultParams>>();
         private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
         private List<string> messageIdTimeouts = new List<string>();
 
@@ -188,11 +189,18 @@ namespace Altom.AltUnityDriver.Commands
                         callback(sceneName);
                     }
                     break;
-                case "applicationPausedNotification":
-                    bool data1 = JsonConvert.DeserializeObject<bool>(message.data);
-                    foreach (var callback in applicationPausedCallbacks)
+                case "logNotification":
+                    AltUnityLogNotificationResultParams data1 = JsonConvert.DeserializeObject<AltUnityLogNotificationResultParams>(message.data);
+                    foreach (var callback in logCallbacks)
                     {
                         callback(data1);
+                    }
+                    break;
+                case "applicationPausedNotification":
+                    bool data2 = JsonConvert.DeserializeObject<bool>(message.data);
+                    foreach (var callback in applicationPausedCallbacks)
+                    {
+                        callback(data2);
                     }
                     break;
             }
@@ -282,6 +290,15 @@ namespace Altom.AltUnityDriver.Commands
                         unloadSceneCallbacks.Clear();
                     unloadSceneCallbacks.Add(callback as Action<String>);
                     break;
+                case NotificationType.LOG:
+                    if (callback.GetType() != typeof(Action<AltUnityLogNotificationResultParams>))
+                    {
+                        throw new InvalidCastException(String.Format("callback must be of type: {0} and not {1}", typeof(Action<AltUnityLogNotificationResultParams>), callback.GetType()));
+                    }
+                    if (overwrite)
+                        logCallbacks.Clear();
+                    logCallbacks.Add(callback as Action<AltUnityLogNotificationResultParams>);
+                    break;
                 case NotificationType.APPLICATION_PAUSED:
                     if (callback.GetType() != typeof(Action<bool>))
                     {
@@ -302,6 +319,9 @@ namespace Altom.AltUnityDriver.Commands
                     break;
                 case NotificationType.UNLOADSCENE:
                     unloadSceneCallbacks.Clear();
+                    break;
+                case NotificationType.LOG:
+                    logCallbacks.Clear();
                     break;
                 case NotificationType.APPLICATION_PAUSED:
                     applicationPausedCallbacks.Clear();
