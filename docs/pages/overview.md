@@ -21,18 +21,21 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 
 AltUnity Tester framework contains the following modules:
 
-* AltUnity Tester
 * AltUnity Driver
-* AltUnity Proxy
 * AltUnity Tester Editor Window
+<!--
+* AltUnity Proxy
+-->
 
-AltUnity Tester module is used to instrument your Unity application to expose access to all the objects in the Unity hierarchy.
+AltUnity Tester is used to instrument your Unity App to expose access to all the objects in the Unity hierarchy. The instrumented Unity App opens up a TCP socket connection on the device running the Unity application and waits for an AltUnity Driver to connect after starting the application.
 
-AltUnity Driver module is used to write tests and progamatically interact with the instrumented Unity app. The module is available in  C#, Java or Python.
-
-AltUnity Proxy module is used to create the bridge between the tests and the instrumented Unity App. It acts as a webscoket server that facilitates communication between AltUnity Driver (tests) and AltUnity Tester (instrumented Unity app).
+AltUnity Driver module is used to connect to the instrumented Unity App, access all the Unity objects and interact with them through tests written in C#, Java or Python.
 
 AltUnity Tester Editor Window is the GUI used for instrumenting a Unity game and running C# tests directly from Unity Editor.
 
+<!--
+AltUnity Proxy module is used to create the bridge between the tests and the instrumented Unity App. It acts as a webscoket server that facilitates communication between AltUnity Driver (tests) and AltUnity Tester (instrumented Unity app).
+-->
 
-![Architecture](../_static/images/architecture.png)
+
+![Architecture](../_static/images/architecture-old.png)

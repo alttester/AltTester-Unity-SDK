@@ -22,13 +22,13 @@ from recommonmark.transform import AutoStructify
 
 
 project = 'AltUnity Tools'
-copyright = '2021, Altom Consulting'
+copyright = '2022, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
 # displays version under project title
-version = 'AltUnity Tester v.1.7.0-alpha'
-release = 'v.1.7.0-alpha'
+version = 'AltUnity Tester v.1.7.0'
+release = 'v.1.7.0'
 
 
 # -- General configuration ---------------------------------------------------

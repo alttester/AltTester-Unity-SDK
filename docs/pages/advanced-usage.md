@@ -9,7 +9,7 @@ Depending on your project's setup, there are two ways in which games can be buil
 ```eval_rst
 .. note::
 
-    AltUnity Tester does not work by default in release mode. If you instrument your game in release mode, AltUnity Prefab self removes from the scenes and connection to proxy will not initiate. Best case practice is to customize your build script to insert AltUnity Prefab only in Debug mode. If you do want to use AltUnity Tester in release mode see `Using AltUnity Tester in Release mode section <#using-altunity-tester-in-release-mode>`_.
+    AltUnity Tester does not work by default in release mode. If you instrument your game in release mode, AltUnity Prefab self removes from the scenes and the socket server does not start. Best case practice is to customize your build script to insert AltUnity Prefab only in Debug mode. If you do want to use AltUnity Tester in release mode see `Using AltUnity Tester in Release mode section <#using-altunity-tester-in-release-mode>`_.
 ```
 
 **1. If you already have a custom build method for your game**  
@@ -97,7 +97,7 @@ An example CI configuration file can be viewed in the [AltUnity Tester GitLab re
 
 Port forwarding, or tunneling, is the behind-the-scenes process of intercepting data traffic headed for a computer’s IP/port combination and redirecting it to a different IP and/or port.
 
-When you run your game instrumented with AltUnity Server, on a device, you need to tell your AltUnity Driver how to connect to it. 
+When you run your game instrumented with AltUnity Tester, on a device, you need to tell your AltUnity Driver how to connect to it. 
 
 Port forwarding can be set up either through a command line command or in the test code by using the methods available in AltUnity classes.
 
@@ -236,13 +236,13 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
 ```eval_rst
 .. note::
-    The default port on which the AltUnity Server is running is 13000. 
+    The default port on which the AltUnity Tester is running is 13000. 
     Port can be changed when making a new game build or make use of port forwarding if needed.
 ```
 
-## Connect to AltUnity server running inside the game
+## Connect to AltUnity Tester running inside the game
 
-There are multiple scenarios on how to connect to the AltUnity Server running inside a game:
+There are multiple scenarios on how to connect to the AltUnity Tester running inside a game:
 
 1. [Connect to the game running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
 2. [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device) by using [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it).
