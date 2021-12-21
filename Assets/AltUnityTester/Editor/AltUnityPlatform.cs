@@ -8,6 +8,5 @@ namespace Altom.AltUnityTesterEditor
 #endif
         Editor,
         Standalone,
-        WebGL
     }
 }

@@ -27,10 +27,10 @@ Documentation
    *  `Overview <https://altom.gitlab.io/altunity/altunitytester/pages/overview.html>`_
    *  `Get Started <https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html>`_
 
-*  `AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector-alpha/inspector.html>`_
+*  `AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector/inspector.html>`_
 
-   *  `Overview <https://altom.gitlab.io/altunity/altunityinspector-alpha/pages/overview.html>`__
-   *  `Get Started <https://altom.gitlab.io/altunity/altunityinspector-alpha/pages/get-started.html>`__
+   *  `Overview <https://altom.gitlab.io/altunity/altunityinspector/pages/overview.html>`__
+   *  `Get Started <https://altom.gitlab.io/altunity/altunityinspector/pages/get-started.html>`__
 
 *  `AltUnity Pro Alpha <https://altom.gitlab.io/altunity/altunityinspector-alpha/altunityproalpha.html>`_ 
 

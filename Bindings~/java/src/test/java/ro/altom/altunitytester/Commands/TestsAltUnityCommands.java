@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ro.altom.altunitytester.AltUnityDriver;
+import ro.altom.altunitytester.TestsHelper;
 import ro.altom.altunitytester.Commands.AltUnityCommands.AltSetServerLoggingParameters;
 import ro.altom.altunitytester.Logging.AltUnityLogLevel;
 import ro.altom.altunitytester.Logging.AltUnityLogger;
@@ -23,7 +24,8 @@ public class TestsAltUnityCommands {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13010, true);
+        altUnityDriver = new AltUnityDriver(TestsHelper.GetAltUnityDriverHost(), TestsHelper.GetAltUnityDriverPort(),
+                true);
     }
 
     @AfterClass

@@ -2,12 +2,20 @@ using System;
 
 namespace Altom.AltUnityTester
 {
+    public enum AltUnityInstrumentationMode
+    {
+        Server,
+        Proxy
+    }
+
     /// <summary>
     /// AltUnity Unity App Instrumentation settings
     /// </summary>
     [Serializable]
     public class AltUnityInstrumentationSettings
     {
+        public AltUnityInstrumentationMode InstrumentationMode = AltUnityInstrumentationMode.Server;
+
         /// <summary>
         /// The proxy host to which the Instrumented Unity App will connect to. Used only in Proxy instrumentation mode
         /// </summary>
@@ -17,6 +25,11 @@ namespace Altom.AltUnityTester
         /// The proxy port to which the Instrumented Unity App will connect to. Used only in Proxy instrumentation mode
         /// </summary>
         public int ProxyPort = 13000;
+
+        /// <summary>
+        /// The port AltUnity Tester is listening on for connections from driver.
+        /// </summary>
+        public int AltUnityTesterPort = 13000;
 
 
         /// <summary>

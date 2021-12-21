@@ -72,7 +72,6 @@ namespace Altom.AltUnityTesterEditor
                 Built = true;
                 resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
             }
-
         }
 
         public static void BuildWebGLFromUI(bool autoRun = false)

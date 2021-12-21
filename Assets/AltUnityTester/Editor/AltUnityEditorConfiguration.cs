@@ -20,8 +20,8 @@ namespace Altom.AltUnityTesterEditor
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
 
-        public string ProxyHost = "127.0.0.1";
-        public int ProxyPort = 13000;
+        public int AltUnityTesterPort = 13000;
+
 
         public AltUnityInstrumentationSettings GetInstrumentationSettings()
         {
@@ -29,8 +29,7 @@ namespace Altom.AltUnityTesterEditor
             {
                 ShowPopUp = ShowPopUp,
                 InputVisualizer = InputVisualizer,
-                ProxyHost = ProxyHost,
-                ProxyPort = ProxyPort,
+                AltUnityTesterPort = AltUnityTesterPort,
             };
         }
         public bool KeepAUTSymbolDefined = false;

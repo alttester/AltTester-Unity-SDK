@@ -27,7 +27,8 @@ public class TestsSampleScene3 {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altUnityDriver = new AltUnityDriver("127.0.0.1", 13010, true);
+        altUnityDriver = new AltUnityDriver(TestsHelper.GetAltUnityDriverHost(), TestsHelper.GetAltUnityDriverPort(),
+                true);
     }
 
     @AfterClass

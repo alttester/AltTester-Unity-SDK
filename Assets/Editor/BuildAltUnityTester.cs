@@ -26,7 +26,7 @@ namespace Altom.AltUnityTesterTools
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Android, ApiCompatibilityLevel.NET_4_6);
 #if UNITY_2018_1_OR_NEWER
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
+                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 #endif
 
                 logger.Debug("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
@@ -49,15 +49,7 @@ namespace Altom.AltUnityTesterTools
 
                 AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
 
-                var instrumentationSettings = AltUnityTesterEditorWindow.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings();
-                var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-                var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-                if (!string.IsNullOrEmpty(proxyHost))
-                    instrumentationSettings.ProxyHost = proxyHost;
-                if (!string.IsNullOrEmpty(proxyPort))
-                    instrumentationSettings.ProxyPort = int.Parse(proxyPort);
-
-                UnityEngine.Debug.Log(instrumentationSettings.ProxyHost);
+                var instrumentationSettings = getInstrumentationSettings();
 
                 AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
@@ -137,7 +129,7 @@ namespace Altom.AltUnityTesterTools
                 };
 
                 AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
-                var instrumentationSettings = AltUnityTesterEditorWindow.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings();
+                var instrumentationSettings = getInstrumentationSettings();
                 AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -214,7 +206,7 @@ namespace Altom.AltUnityTesterTools
                 AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.WebGL);
 
 
-                var instrumentationSettings = AltUnityTesterEditorWindow.EditorConfiguration == null ? new AltUnityInstrumentationSettings() : AltUnityTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings();
+                var instrumentationSettings = getInstrumentationSettings();
                 AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -256,7 +248,39 @@ namespace Altom.AltUnityTesterTools
                 logger.Error(exception);
                 EditorApplication.Exit(1);
             }
+        }
 
+        private static AltUnityInstrumentationSettings getInstrumentationSettings()
+        {
+            if (AltUnityTesterEditorWindow.EditorConfiguration == null)
+            {
+                var instrumentationSettings = new AltUnityInstrumentationSettings();
+                var altUnityTesterPort = System.Environment.GetEnvironmentVariable("ALTUNITYTESTER_PORT");
+
+                if (!string.IsNullOrEmpty(altUnityTesterPort)) //server mode
+                {
+                    instrumentationSettings.AltUnityTesterPort = int.Parse(altUnityTesterPort);
+                    return instrumentationSettings;
+                }
+
+                var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
+
+                if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
+                {
+                    instrumentationSettings.InstrumentationMode = AltUnityInstrumentationMode.Proxy;
+                    instrumentationSettings.ProxyHost = proxyHost;
+                }
+                var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+                if (!string.IsNullOrEmpty(proxyPort))//proxy mode
+                {
+                    instrumentationSettings.InstrumentationMode = AltUnityInstrumentationMode.Proxy;
+                    instrumentationSettings.ProxyPort = int.Parse(proxyPort);
+                }
+
+                return instrumentationSettings;
+            }
+
+            return AltUnityTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings();
         }
     }
 }

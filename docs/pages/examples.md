@@ -25,13 +25,15 @@ We plan to add more examples in the near future.
 
     You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-reference-project-80165).
 
+<!--
 **3.** Example test project for AltUnity Pro Alpha:
 
 * [WebGL - C# tests](https://gitlab.com/altom/altunity/examples/altunity-pro-alpha-example)
 
     You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
+ -->
 
-**4.** Example test project for AltUnity Tester:
+**3.** Example test project for AltUnity Tester:
 
 * [SampleScenes](https://gitlab.com/altom/altunity/altunitytester/SampleScenes.unitypackage)
 

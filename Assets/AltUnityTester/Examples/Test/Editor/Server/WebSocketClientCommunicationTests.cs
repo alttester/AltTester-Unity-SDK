@@ -64,9 +64,7 @@ namespace Altom.AltUnityInstrumentation.Tests
             client.OnDisconnect += () =>
             {
                 onDisconnect = true;
-
             };
-
 
             client.OnError += (string message, Exception error) =>
             {
@@ -86,9 +84,9 @@ namespace Altom.AltUnityInstrumentation.Tests
 
             var wsServer = new WebSocketServer("ws://0.0.0.0:13420");
 
-            wsServer.AddWebSocketService<MockServerHandler>("/altws/game", () =>
+            wsServer.AddWebSocketService<MockServerHandler>("/altws/game", (context, handler) =>
             {
-                return new MockServerHandler();
+
             });
             wsServer.Start();
             var stopwatch = Stopwatch.StartNew();
