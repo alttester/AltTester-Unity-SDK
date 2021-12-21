@@ -1,8 +1,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +8,6 @@ using System.Text.RegularExpressions;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using Altom.AltUnityTester.Logging;
-using Altom.AltUnityTester.Commands;
 using Newtonsoft.Json;
 using NLog;
 
@@ -119,7 +116,7 @@ namespace Altom.AltUnityTester.Commands
             return methodInfo.Invoke(component, parameterValues);
         }
 
-        protected string GetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType, int maxDepth)
+        protected object GetValueForMember(AltUnityObject altUnityObject, string[] fieldArray, Type componentType)
         {
             string propertyName;
             int index = getArrayIndex(fieldArray[0], out propertyName);
@@ -137,7 +134,7 @@ namespace Altom.AltUnityTester.Commands
                 memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
                 value = GetValue(value, memberInfo, index);
             }
-            return SerializeMemberValue(value, maxDepth);
+            return value;
         }
 
 
@@ -288,39 +285,9 @@ namespace Altom.AltUnityTester.Commands
             throw new AltUnityException(AltUnityErrors.errorPropertyNotSet);
         }
 
-        public string SerializeMemberValue(object value, int maxDepth)
-        {
-            string response;
-            if (value == null) return null;
-            if (value.GetType() == typeof(string)) return value.ToString();
-
-            try
-            {
-                using (var strWriter = new System.IO.StringWriter())
-                {
-                    using (var jsonWriter = new CustomJsonTextWriter(strWriter))
-                    {
-                        Func<bool> include = () => jsonWriter.CurrentDepth <= maxDepth;
-                        var resolver = new AltUnityContractResolver(include);
-                        var serializer = new Newtonsoft.Json.JsonSerializer { ContractResolver = resolver, ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore };
-                        serializer.Serialize(jsonWriter, value);
-                    }
-                    return strWriter.ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                logger.Trace(e);
-                response = value.ToString();
-            }
-            return response;
-        }
-
         private object deserializeMemberValue(string valueString, System.Type type)
         {
             object value;
-            if (type == typeof(string))
-                valueString = Newtonsoft.Json.JsonConvert.SerializeObject(valueString);
             try
             {
                 value = Newtonsoft.Json.JsonConvert.DeserializeObject(valueString, type);

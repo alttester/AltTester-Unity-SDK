@@ -4,14 +4,17 @@ namespace Altom.AltUnityDriver.Commands
     {
         AltUnitySetObjectComponentPropertyParams cmdParams;
 
-        public AltUnitySetComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, string value, string assemblyName, AltUnityObject altUnityObject) : base(commHandler)
+        public AltUnitySetComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, object value, string assemblyName, AltUnityObject altUnityObject) : base(commHandler)
         {
-            cmdParams = new AltUnitySetObjectComponentPropertyParams(altUnityObject, componentName, propertyName, assemblyName, value);
+            var strValue = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+            cmdParams = new AltUnitySetObjectComponentPropertyParams(altUnityObject, componentName, propertyName, assemblyName, strValue);
         }
-        public string Execute()
+        public void Execute()
         {
             CommHandler.Send(cmdParams);
-            return CommHandler.Recvall<string>(cmdParams);
+            var data = CommHandler.Recvall<string>(cmdParams);
+
+            ValidateResponse("valueSet", data);
         }
     }
 }

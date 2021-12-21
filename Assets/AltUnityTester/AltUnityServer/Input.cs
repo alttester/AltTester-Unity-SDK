@@ -1443,6 +1443,7 @@ public class Input : UnityEngine.MonoBehaviour
         IEnumerator enumerator,
         Action<Exception> done)
     {
+        Exception err = null;
         while (true)
         {
             object current;
@@ -1457,12 +1458,12 @@ public class Input : UnityEngine.MonoBehaviour
             catch (Exception ex)
             {
                 UnityEngine.Debug.LogError(ex.ToString());
-                done.Invoke(ex);
+                err = ex;
                 yield break;
             }
             yield return current;
         }
-        done.Invoke(null);
+        done.Invoke(err);
     }
 }
 

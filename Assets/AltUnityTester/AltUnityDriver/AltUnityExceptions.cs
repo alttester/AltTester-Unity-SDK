@@ -398,4 +398,13 @@ namespace Altom.AltUnityDriver
         {
         }
     }
+
+    public class ResponseFormatException : AltUnityException
+    {
+        public ResponseFormatException() { }
+        public ResponseFormatException(Type t, string data) : base("Could not deserialize response data: `" + data + "` into " + t.FullName)
+        {
+
+        }
+    }
 }

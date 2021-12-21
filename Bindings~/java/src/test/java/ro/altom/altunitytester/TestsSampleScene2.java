@@ -7,6 +7,7 @@ import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltMultiPointSwipeParameters;
 import ro.altom.altunitytester.Commands.InputActions.AltSwipeParameters;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParameters;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParameters;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
 import ro.altom.altunitytester.position.Vector2;
@@ -117,11 +118,16 @@ public class TestsSampleScene2 {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "Panel").build();
         AltUnityObject panel = altUnityDriver.findObject(altFindObjectsParameters1);
-        String color1 = panel.getComponentProperty("AltUnityExampleScriptPanel", "normalColor");
+
+        AltUnityColor color1 = panel.getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("AltUnityExampleScriptPanel", "normalColor").build(),
+                AltUnityColor.class);
         panel.pointerDown();
         Thread.sleep(1000);
-        String color2 = panel.getComponentProperty("AltUnityExampleScriptPanel", "highlightColor");
-        assertTrue(color1 != color2);
+        AltUnityColor color2 = panel.getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("AltUnityExampleScriptPanel", "highlightColor").build(),
+                AltUnityColor.class);
+        assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b || color1.a != color2.a);
     }
 
     @Test
@@ -129,12 +135,16 @@ public class TestsSampleScene2 {
         AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
                 AltUnityDriver.By.NAME, "Panel").build();
         AltUnityObject panel = altUnityDriver.findObject(altFindObjectsParameters1);
-        String color1 = panel.getComponentProperty("AltUnityExampleScriptPanel", "normalColor");
+        AltUnityColor color1 = panel.getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("AltUnityExampleScriptPanel", "normalColor").build(),
+                AltUnityColor.class);
         panel.pointerDown();
         Thread.sleep(1000);
         panel.pointerUp();
-        String color2 = panel.getComponentProperty("AltUnityExampleScriptPanel", "highlightColor");
-        assertEquals(color1, color2);
+        AltUnityColor color2 = panel.getComponentProperty(
+                new AltGetComponentPropertyParameters.Builder("AltUnityExampleScriptPanel", "highlightColor").build(),
+                AltUnityColor.class);
+        assertTrue(color1.r == color2.r && color1.g == color2.g && color1.b == color2.b && color1.a == color2.a);
     }
 
     @Test

@@ -5,7 +5,8 @@ import ro.altom.altunitytester.IMessageHandler;
 public class AltCallStaticMethod extends AltBaseCommand {
     AltCallStaticMethodParameters altCallStaticMethodParameters;
 
-    public AltCallStaticMethod(IMessageHandler messageHandler, AltCallStaticMethodParameters altCallStaticMethodParameters) {
+    public AltCallStaticMethod(IMessageHandler messageHandler,
+            AltCallStaticMethodParameters altCallStaticMethodParameters) {
         super(messageHandler);
         this.altCallStaticMethodParameters = altCallStaticMethodParameters;
         this.altCallStaticMethodParameters.setCommandName("callComponentMethodForObject");

@@ -110,7 +110,6 @@ namespace Altom.AltUnityDriver.Commands
                 var message = messages.Dequeue();
                 if (messageIdTimeouts.Contains(message.messageId))
                 {
-                    messageIdTimeouts.Remove(message.messageId);
                     continue;
                 }
                 if (message.error != null && message.error.type != AltUnityErrors.errorInvalidCommand && (message.messageId != param.messageId || message.commandName != param.commandName))
@@ -118,7 +117,15 @@ namespace Altom.AltUnityDriver.Commands
                     throw new AltUnityRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
                 }
                 handleErrors(message.error);
-                return JsonConvert.DeserializeObject<T>(message.data);
+                if (message.data == null) return default(T);
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(message.data);
+                }
+                catch (JsonReaderException)
+                {
+                    throw new ResponseFormatException(typeof(T), message.data);
+                }
             }
         }
 

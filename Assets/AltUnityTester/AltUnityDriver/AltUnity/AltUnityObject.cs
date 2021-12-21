@@ -51,13 +51,13 @@ namespace Altom.AltUnityDriver
         {
             return new AltUnityVector3(worldX, worldY, worldZ);
         }
-        public string GetComponentProperty(string componentName, string propertyName, string assemblyName = null, int maxDepth = 2)
+        public T GetComponentProperty<T>(string componentName, string propertyName, string assemblyName = null, int maxDepth = 2)
         {
-            return new AltUnityGetComponentProperty(CommHandler, componentName, propertyName, assemblyName, maxDepth, this).Execute();
+            return new AltUnityGetComponentProperty<T>(CommHandler, componentName, propertyName, assemblyName, maxDepth, this).Execute();
         }
-        public string SetComponentProperty(string componentName, string propertyName, string value, string assemblyName = null)
+        public void SetComponentProperty(string componentName, string propertyName, object value, string assemblyName = null)
         {
-            return new AltUnitySetComponentProperty(CommHandler, componentName, propertyName, value, assemblyName, this).Execute();
+            new AltUnitySetComponentProperty(CommHandler, componentName, propertyName, value, assemblyName, this).Execute();
         }
 
         public T CallComponentMethod<T>(string componentName, string methodName, object[] parameters, string[] typeOfParameters = null, string assemblyName = null)

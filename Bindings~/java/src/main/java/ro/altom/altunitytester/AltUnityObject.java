@@ -36,8 +36,8 @@ public class AltUnityObject {
         this.messageHandler = messageHandler;
     }
 
-    public AltUnityObject(){
-        
+    public AltUnityObject() {
+
     }
 
     public AltUnityObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled,
@@ -72,37 +72,19 @@ public class AltUnityObject {
         return new Vector3(this.worldX, this.worldY, this.worldZ);
     }
 
-    public String getComponentProperty(AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
+    public <T> T getComponentProperty(AltGetComponentPropertyParameters altGetComponentPropertyParameters,
+            Class<T> returnType) {
         altGetComponentPropertyParameters.setAltUnityObject(this);
-        return new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters).Execute();
+        return new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters).Execute(returnType);
     }
 
-    public String getComponentProperty(String assemblyName, String componentName, String propertyName) {
-        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
-                componentName, propertyName).withAssembly(assemblyName).build();
-        return getComponentProperty(altGetComponentPropertyParameters);
-    }
-
-    public String getComponentProperty(String componentName, String propertyName) {
-        return getComponentProperty("", componentName, propertyName);
-    }
-
-    public String setComponentProperty(AltSetComponentPropertyParameters altSetComponentPropertyParameters) {
+    public void setComponentProperty(AltSetComponentPropertyParameters altSetComponentPropertyParameters) {
         altSetComponentPropertyParameters.setAltUnityObject(this);
-        return new AltSetComponentProperty(messageHandler, altSetComponentPropertyParameters).Execute();
+        new AltSetComponentProperty(messageHandler, altSetComponentPropertyParameters).Execute();
     }
 
-    public String setComponentProperty(String assemblyName, String componentName, String propertyName, String value) {
-        AltSetComponentPropertyParameters altSetComponentPropertyParameters = new AltSetComponentPropertyParameters.Builder(
-                componentName, propertyName, value).withAssembly(assemblyName).build();
-        return setComponentProperty(altSetComponentPropertyParameters);
-    }
-
-    public String setComponentProperty(String componentName, String propertyName, String value) {
-        return setComponentProperty("", componentName, propertyName, value);
-    }
-
-    public <T> T callComponentMethod(AltCallComponentMethodParameters altCallComponentMethodParameters, Class<T> returnType) {
+    public <T> T callComponentMethod(AltCallComponentMethodParameters altCallComponentMethodParameters,
+            Class<T> returnType) {
         altCallComponentMethodParameters.setAltUnityObject(this);
         return new AltCallComponentMethod(messageHandler, altCallComponentMethodParameters).Execute(returnType);
     }
@@ -115,7 +97,8 @@ public class AltUnityObject {
         return callComponentMethod(altCallComponentMethodParameters, returnType);
     }
 
-    public <T> T callComponentMethod(String componentName, String methodName, Object[] parameters, Class<T> returnType) throws Exception {
+    public <T> T callComponentMethod(String componentName, String methodName, Object[] parameters, Class<T> returnType)
+            throws Exception {
         return callComponentMethod("", componentName, methodName, parameters, null, returnType);
     }
 

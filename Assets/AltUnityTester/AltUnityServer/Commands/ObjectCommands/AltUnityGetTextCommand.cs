@@ -27,7 +27,7 @@ namespace Altom.AltUnityTester.Commands
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
-                    return GetValueForMember(CommandParams.altUnityObject, property.Property.Split('.'), type, 2);
+                    return GetValueForMember(CommandParams.altUnityObject, property.Property.Split('.'), type) as string;
                 }
                 catch (PropertyNotFoundException ex)
                 {

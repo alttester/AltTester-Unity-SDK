@@ -163,6 +163,7 @@ unity-android-tests:
   script:
     - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
   after_script:
+    - cat csharpAndroidTests.log
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
   artifacts:
@@ -197,7 +198,7 @@ unity-android-tests:
       - csharpIosTests.log
   needs: ["build-ipa"]
 
-dotnet-webgl-tests:
+dotnet-android-tests:
   stage: test
   needs: ["build-webgl"]
   rules:
@@ -384,7 +385,7 @@ publish-maven-package:
     - export GPG_TTY=$(tty)
     - mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
 
-alpha-docs:
+dev-docs:
   stage: docs
   only:
     refs:

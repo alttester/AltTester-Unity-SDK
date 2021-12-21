@@ -1,12 +1,11 @@
-using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 
 
 namespace Altom.AltUnityTester.Commands
 {
-    class AltUnitySetObjectComponentPropertyCommand : AltUnityReflectionMethodsCommand<AltUnitySetObjectComponentPropertyParams, string>
+    class AltUnitySetComponentPropertyCommand : AltUnityReflectionMethodsCommand<AltUnitySetObjectComponentPropertyParams, string>
     {
-        public AltUnitySetObjectComponentPropertyCommand(AltUnitySetObjectComponentPropertyParams cmdParams) : base(cmdParams)
+        public AltUnitySetComponentPropertyCommand(AltUnitySetObjectComponentPropertyParams cmdParams) : base(cmdParams)
         {
         }
 

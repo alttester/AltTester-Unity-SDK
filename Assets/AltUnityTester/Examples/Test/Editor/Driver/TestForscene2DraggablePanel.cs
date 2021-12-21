@@ -160,10 +160,10 @@ public class TestForScene2DraggablePanel
     public void TestPointerDownFromObject()
     {
         var panel = altUnityDriver.FindObject(By.NAME, "Panel");
-        var color1 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "normalColor");
+        var color1 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "normalColor");
         panel.PointerDownFromObject();
         Thread.Sleep(1000);
-        var color2 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "highlightColor");
+        var color2 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "highlightColor");
         Assert.AreNotEqual(color1, color2);
     }
 
@@ -171,11 +171,11 @@ public class TestForScene2DraggablePanel
     public void TestPointerUpFromObject()
     {
         var panel = altUnityDriver.FindObject(By.NAME, "Panel");
-        var color1 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "normalColor");
+        var color1 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "normalColor");
         panel.PointerDownFromObject();
         Thread.Sleep(1000);
         panel.PointerUpFromObject();
-        var color2 = panel.GetComponentProperty("AltUnityExampleScriptPanel", "highlightColor");
+        var color2 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "highlightColor");
         Assert.AreEqual(color1, color2);
     }
     [Test]

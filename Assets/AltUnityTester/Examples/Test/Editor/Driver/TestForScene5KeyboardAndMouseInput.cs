@@ -205,11 +205,11 @@ public class TestForScene5KeyboardAndMouseInput
     public void TestCheckShadersSetCorrectlyAfterHighlight()
     {
         var cube = altUnityDriver.FindObject(By.NAME, "2MaterialCube");
-        var count = int.Parse(cube.GetComponentProperty("UnityEngine.Renderer", "materials.Length", "UnityEngine.CoreModule"));
+        var count = cube.GetComponentProperty<int>("UnityEngine.Renderer", "materials.Length", "UnityEngine.CoreModule");
         var shadersName = new List<string>();
         for (int i = 0; i < count; i++)
         {
-            shadersName.Add(cube.GetComponentProperty("UnityEngine.Renderer", "materials[" + i + "].shader.name", "UnityEngine.CoreModule"));
+            shadersName.Add(cube.GetComponentProperty<string>("UnityEngine.Renderer", "materials[" + i + "].shader.name", "UnityEngine.CoreModule"));
         }
 
         altUnityDriver.GetScreenshot(cube.id, new AltUnityColor(1, 1, 1), 1.1f);
@@ -217,7 +217,7 @@ public class TestForScene5KeyboardAndMouseInput
         var newShadersName = new List<string>();
         for (int i = 0; i < count; i++)
         {
-            newShadersName.Add(cube.GetComponentProperty("UnityEngine.Renderer", "materials[" + i + "].shader.name", "UnityEngine.CoreModule"));
+            newShadersName.Add(cube.GetComponentProperty<string>("UnityEngine.Renderer", "materials[" + i + "].shader.name", "UnityEngine.CoreModule"));
         }
         Assert.AreEqual(newShadersName, shadersName);
 
