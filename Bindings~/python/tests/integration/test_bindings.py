@@ -10,9 +10,24 @@ from tests.integration.notification_callbacks_for_testing import TestNotificatio
 from altunityrunner.commands.Notifications.notification_type import NotificationType
 
 
+def altunitytester_port():
+    port = os.environ.get("ALTUNITYDRIVER_PORT")
+    if port:
+        return int(port)
+    return 13000
+
+
+def altunitytester_host():
+    host = os.environ.get("ALTUNITYDRIVER_HOST")
+    if host:
+        return host
+    return "127.0.0.1"
+
+
 @pytest.fixture(scope="session")
 def altdriver():
-    altdriver = AltUnityDriver(port=13010, enable_logging=True, timeout=None)
+    altdriver = AltUnityDriver(host=altunitytester_host(), port=altunitytester_port(),
+                               enable_logging=True, timeout=None)
     yield altdriver
     altdriver.stop()
 
@@ -696,6 +711,7 @@ class TestPythonBindings:
         assert counter_button_text.get_text() == "2"
 
     def test_set_text_normal_text(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         text_object = self.altdriver.find_object(By.NAME, "NonEnglishText")
         original_text = text_object.get_text()
         after_text = text_object.set_text("ModifiedText").get_text()

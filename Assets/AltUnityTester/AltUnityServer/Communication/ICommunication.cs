@@ -11,11 +11,6 @@ namespace Altom.AltUnityTester.Communication
         CommunicationHandler OnDisconnect { get; set; }
         CommunicationErrorHandler OnError { get; set; }
         bool IsConnected { get; }
-        /// <summary>
-        /// Returns weather the server is listening
-        /// TODO: Find a solution when communication is in client mode, connecting to a proxy.
-        /// </summary>
-        /// <value></value>
         bool IsListening { get; }
         void Start();
         void Stop();
@@ -28,4 +23,12 @@ namespace Altom.AltUnityTester.Communication
 
         }
     }
+    public class AddressInUseCommError : Exception
+    {
+        public AddressInUseCommError(string message) : base(message)
+        {
+
+        }
+    }
+
 }

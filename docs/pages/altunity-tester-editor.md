@@ -20,6 +20,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ![Build Settings](../_static/images/altUnityTesterWindow/BuildSettings.png)
 
+<!-- 
 -   Proxy host
 
     Refers to the host the AltUnity Proxy is listening on.  
@@ -29,15 +30,27 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     Refers to the port the AltUnity Proxy is listening on.  
      You can change this value and make a new game build if you want to use another port.
+-->
+-   *AltUnity Tester Port*
 
--   Company Name: company name used for the game build (same with Unity's Player Settings)
--   Product Name: the company name (same with Unity's Player Settings)
+    The port the AltUnity Tester is listening on inside the running instrumented Unity App.  
+
+-   *Company Name*
+
+    Company name used for the game build (same with Unity's Player Settings)
+
+-   *Product Name*
+
+    The product name (same with Unity's Player Settings)
+
 -   Input visualizer
 
 ```eval_rst
     | Lets you see where on screen an action (e.g. swipe or click) happens.
     | The action position is marked on the screen with a red circle.
 ```
+
+
 
 To activate this option before build check the "Input visualizer" checkbox.
 
@@ -63,7 +76,7 @@ You can also activate this option from within the test using the following code:
         self.altUnityDriver.find_object (By.NAME,"AltUnityRunnerPrefab").set_component_property("AltUnityRunner", "ShowInputs", "true")
 ```
 
--   Show popup
+-   *Show popup*
 
 ```eval_rst
     | If this option is checked, it will display the "AltUnityTester" popup in game containing the text "Waiting for connection on port 13000".
@@ -73,8 +86,13 @@ You can also activate this option from within the test using the following code:
 
 ![popup](../_static/images/AltUnityTesterPopup.png)
 
--   Append "Test" to product: will add "Test" to the product name
--   Keep ALTUNITYTESTER symbol defined: will add "ALTUNITYTESTER" to the scripting define symbols. This is usually done automatically when entering in playmode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
+-   *Append "Test" to product name for AltUnity Tester builds*
+
+    Will add "Test" to the product name
+
+-   *Keep ALTUNITYTESTER symbol defined*  
+
+    Will add "ALTUNITYTESTER" to the scripting define symbols. This is usually done automatically when entering in playmode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
 
 ## Scene Manager
@@ -140,14 +158,6 @@ _Platform Settings_
                 .. image:: ../_static/images/platformSettings/AltUnityWindowStandalone.png
 
                 The **Build Target** filed: choose build mode according to platform.
-
-                The **Build Location** field: The build path for the instrumented Unity application.
-
-                    - By default, the Output Path is a folder with the same name as your game.
-
-            .. tab:: Standalone
-
-                .. image:: ../_static/images/platformSettings/AltUnityWindowWebGL.png
 
                 The **Build Location** field: The build path for the instrumented Unity application.
 

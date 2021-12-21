@@ -534,21 +534,21 @@ namespace Altom.AltUnityTesterEditor
                 }
             }
 #endif
-            if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
-            {
-                browseBuildLocation();
-                UnityEditor.EditorGUILayout.Separator();
-                UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
-                if (UnityEngine.GUILayout.Button("WebGL player settings"))
-                {
-#if UNITY_2018_3_OR_NEWER
-                    UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
-#else
-                    UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
-#endif
-                    UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.WebGL;
-                }
-            }
+            //             if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+            //             {
+            //                 browseBuildLocation();
+            //                 UnityEditor.EditorGUILayout.Separator();
+            //                 UnityEditor.EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
+            //                 if (UnityEngine.GUILayout.Button("WebGL player settings"))
+            //                 {
+            // #if UNITY_2018_3_OR_NEWER
+            //                     UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
+            // #else
+            //                     UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+            // #endif
+            //                     UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.WebGL;
+            //                 }
+            //             }
 
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
@@ -597,10 +597,10 @@ namespace Altom.AltUnityTesterEditor
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
                     }
-                    else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
-                    {
-                        AltUnityBuilder.BuildWebGLFromUI(autoRun: false);
-                    }
+                    // else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                    // {
+                    //     AltUnityBuilder.BuildWebGLFromUI(autoRun: false);
+                    // }
                     else
                     {
                         runInEditor();
@@ -653,10 +653,10 @@ namespace Altom.AltUnityTesterEditor
                     {
                         AltUnityBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
                     }
-                    else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
-                    {
-                        AltUnityBuilder.BuildWebGLFromUI(autoRun: true);
-                    }
+                    // else if (EditorConfiguration.platform == AltUnityPlatform.WebGL)
+                    // {
+                    //     AltUnityBuilder.BuildWebGLFromUI(autoRun: true);
+                    // }
                     UnityEngine.GUIUtility.ExitGUI();
                 }
 
@@ -982,8 +982,7 @@ namespace Altom.AltUnityTesterEditor
                     AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
 
-                labelAndInputFieldHorizontalLayout("Proxy host", ref EditorConfiguration.ProxyHost, Uri.CheckHostName(EditorConfiguration.ProxyHost.Trim()) != UriHostNameType.Unknown);
-                labelAndInputFieldHorizontalLayout("Proxy port", ref EditorConfiguration.ProxyPort);
+                labelAndInputFieldHorizontalLayout("AltUnity Tester Port", ref EditorConfiguration.AltUnityTesterPort);
             }
             switch (EditorConfiguration.platform)
             {
