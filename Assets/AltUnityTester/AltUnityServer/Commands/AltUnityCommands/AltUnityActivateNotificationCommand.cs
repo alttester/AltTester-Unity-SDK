@@ -24,6 +24,9 @@ namespace Altom.AltUnityTester.Commands
                 case NotificationType.UNLOADSCENE:
                     new AltUnityUnloadSceneNotification(commandHandler, true);
                     break;
+                case NotificationType.APPLICATION_PAUSED:
+                    new AltUnityApplicationPausedNotification(commandHandler, true);
+                    break;
             }
             return "Ok";
         }

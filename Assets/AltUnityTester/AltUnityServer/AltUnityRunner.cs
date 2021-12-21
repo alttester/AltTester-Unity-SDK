@@ -5,6 +5,7 @@ using Altom.AltUnityDriver.Logging;
 using Altom.AltUnityTester;
 using Altom.AltUnityTester.Communication;
 using Altom.AltUnityTester.Logging;
+using Altom.AltUnityTester.Notification;
 using Altom.AltUnityTester.UI;
 using NLog;
 using UnityEngine.SceneManagement;
@@ -68,6 +69,11 @@ namespace Altom.AltUnityTester
 
         #endregion
         #region public methods
+
+        public void OnApplicationPause(bool pauseStatus)
+        {
+            AltUnityApplicationPausedNotification.OnPause(pauseStatus);
+        }
 
         public AltUnityObject GameObjectToAltUnityObject(UnityEngine.GameObject altGameObject, UnityEngine.Camera camera = null)
         {

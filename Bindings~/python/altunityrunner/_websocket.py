@@ -62,6 +62,7 @@ class WebsocketConnection:
         self._is_open = False
         self.url = "ws://{}:{}/altws/".format(host, port)
         self.load_scene_callbacks = []
+        self.application_paused_callbacks = []
         self.message_id_timeouts = []
 
     def __repr__(self):
@@ -137,6 +138,11 @@ class WebsocketConnection:
             scene_name = json.loads(message.get("data"))
             for callback in self.unload_scene_callbacks:
                 callback(scene_name)
+        elif(message.get("commandName") == "applicationPausedNotification"):
+            data = json.loads(message.get("data"))
+            application_paused_result = bool(data)
+            for callback in self.application_paused_callbacks:
+                callback(application_paused_result)
 
     def _on_error(self, ws, error):
         """A callback which is called when the connection gets an error."""
@@ -210,14 +216,21 @@ class WebsocketConnection:
                 self.load_scene_callbacks = [notification_callback]
             else:
                 self.load_scene_callbacks += notification_callback
-        if(notification_type == NotificationType.UNLOADSCENE):
+        elif(notification_type == NotificationType.UNLOADSCENE):
             if(overwrite):
                 self.unload_scene_callbacks = [notification_callback]
             else:
                 self.unload_scene_callbacks += notification_callback
+        elif(notification_type == NotificationType.APPLICATION_PAUSED):
+            if(overwrite):
+                self.application_paused_callbacks = [notification_callback]
+            else:
+                self.application_paused_callbacks += notification_callback
 
     def remove_notification_listener(self, notification_type):
         if(notification_type == NotificationType.LOADSCENE):
             self.load_scene_callbacks = []
-        if(notification_type == NotificationType.UNLOADSCENE):
+        elif(notification_type == NotificationType.UNLOADSCENE):
             self.unload_scene_callbacks = []
+        elif(notification_type == NotificationType.APPLICATION_PAUSED):
+            self.application_paused_callbacks = []

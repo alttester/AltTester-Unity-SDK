@@ -2581,7 +2581,7 @@ Sets the level of logging in AltUnity Tester instrumented Unity application
 
 #### Scene loaded
 
-If activated this notification will be called every time a scene is loaded in the unity app. To activate this notification use [SetNotification](#setnotification) command and add `NotificationType.LoadScene` as a parameter.
+If activated this notification will be called every time a scene is loaded in the unity app. To activate this notification use `AddNotificationListener` command and add `NotificationType.LoadScene` as a parameter.
 
 **_Returns_**
 
@@ -2595,6 +2595,14 @@ If activated this notification will be called every time a scene is unloaded in 
 **_Returns_**
 
 -   sceneName - name of the unloaded scene
+
+#### Application paused
+
+If activated this notification will be called every time the application has paused. To activate this notification use `AddNotificationListener` command and add `NotificationType.ApplicationPaused` as a parameter.
+
+**_Returns_**
+
+-   Nothing
 -->
 
 ## AltUnityObject

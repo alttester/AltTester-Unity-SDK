@@ -18,4 +18,8 @@ public class BaseNotificationCallbacks implements INotificationCallbacks {
         logger.info("Scene " + sceneName + " was unloaded ");
     }
 
+    @Override
+    public void ApplicationPausedCallBack(boolean applicationPaused) {
+        logger.info("Application paused: " + applicationPaused);
+    }
 }
