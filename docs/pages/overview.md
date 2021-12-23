@@ -38,4 +38,4 @@ AltUnity Proxy module is used to create the bridge between the tests and the ins
 -->
 
 
-![Architecture](../_static/images/architecture-old.png)
+![Architecture](../_static/images/architecture2.png)
