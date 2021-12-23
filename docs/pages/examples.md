@@ -39,7 +39,7 @@ We plan to add more examples in the near future.
 
     Import this package under your AltUnity Tester package in Unity, to have access to the sample scenes and C# tests.
 
-**5.** Example test project for AltUnity Tester and Unity Test Framework:
+**4.** Example test project for AltUnity Tester and Unity Test Framework:
 * [Endless Runner - C# tests](https://gitlab.com/altom/altunity/examples/unity-test-runner)
 
     You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).

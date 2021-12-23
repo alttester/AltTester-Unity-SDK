@@ -74,7 +74,7 @@ after the build succeeded
 
 .. important::
 
-    AltUnity Server is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltUnity Server.
+    AltUnity Tester is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltUnity Tester.
 
 .. note::
 
@@ -108,7 +108,7 @@ The Proxy Module is incorporated in AltUnity Pro Alpha. In order to start it, al
 
 ## Run your game in Unity or on desired platform
 
-Before running your tests you need to start the instrumented Unity application. Upon startup, your instrumented Unity app should display a popup with the message: "Connecting to AltUnity Proxy on {ProxyHost}:{ProxyPort}". The popup disappears when your app has successfully connected to the proxy.
+Before running your tests you need to start the instrumented Unity application. Upon startup, your instrumented Unity app should display a popup with the message: "Connecting to AltUnity Inspector on {Host}:{Port}". The popup disappears when your app has successfully connected to the Inspector.
 
 ```eval_rst
 
@@ -293,7 +293,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
                 .. code-block:: console
 
-                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.7.0-alpha -Dpackaging=jar``
+                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.7.0 -Dpackaging=jar``
         
 
         Run your tests by using the following command (in the test project folder):
