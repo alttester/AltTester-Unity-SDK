@@ -7,12 +7,11 @@ An AltUnityDriver instance will connect to the running instrumented Unity applic
 
 **_Parameters_**
 
-| Name             | Type    | Required | Description                               |
-| ---------------- | ------- | -------- | ----------------------------------------- |
-| host             | string  | No       | The ip or hostname  AltUnity Tester is listening on. The default value for this is "127.0.0.1" |
-| port             | int     | No       | The default value for this is 13000       |
-| enableLogging    | boolean | No       | The default value for this is false       |
-
+| Name          | Type    | Required | Description                                                                                   |
+| ------------- | ------- | -------- | --------------------------------------------------------------------------------------------- |
+| host          | string  | No       | The ip or hostname AltUnity Tester is listening on. The default value for this is "127.0.0.1" |
+| port          | int     | No       | The default value for this is 13000                                                           |
+| enableLogging | boolean | No       | The default value for this is false                                                           |
 
 Once you have an instance of the _AltUnityDriver_, you can use all the available commands to interact with the game. The available methods are the following:
 
@@ -535,13 +534,13 @@ Sets the value for the command response timeout.
 
 **_Parameters_**
 
-| Name     | Type           | Required | Description                                                                               |
-| -------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
-| commandTimeout | int| Yes      | The duration for a command response from the driver. |
+| Name           | Type | Required | Description                                          |
+| -------------- | ---- | -------- | ---------------------------------------------------- |
+| commandTimeout | int  | Yes      | The duration for a command response from the driver. |
 
 **_Returns_**
 
-- Nothing
+-   Nothing
 
 ```eval_rst
 .. tabs::
@@ -2690,7 +2689,7 @@ Invokes a method from an existing component of the object.
             AltUnityObject capsule=altUnityDriver.findObject(altFindObjectsParameters);
 
             AltCallComponentMethodParameters altCallComponentMethodParameters=new AltCallComponentMethodParameters.Builder("Capsule","Test","2").withTypeOfParameters("System.Int32").withAssembly("").build();
-            capsule.callComponentMethod(altCallComponentMethodParameters);
+            capsule.callComponentMethod(altCallComponentMethodParameters, Void.class);
 
             altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
             AltUnityObject capsuleInfo=altUnityDriver.findObject(altFindObjectsParameters);
@@ -2718,16 +2717,15 @@ Returns the value of the given component property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                                                                                                                                                                                                                                                                                                            |
-| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                                                                                                                                  |
-| assemblyName  | string | No       | name of the assembly containing the component                                                                                                                                                                                                                                                                                                                                                                                                  |
-| maxDepth      | int    | No       | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0, "sqrMagnitude":1.0, "x":0.871575534, "y":0.490261227, "z":0.0}, "magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} |
+| Name | Type | Required | Description | | ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| componentName | string | Yes | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" |
+| propertyName | string | Yes | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x. |
+| assemblyName | string | No | name of the assembly containing the component |
+| maxDepth | int | No | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0, "sqrMagnitude":1.0, "x":0.871575534, "y":0.490261227, "z":0.0}, "magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} |
 
 **_Returns_**
 
--   String
+-   Object
 
 **_Examples_**
 
@@ -2739,12 +2737,12 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "AltUnityRunner";
-            const string propertyName = "SocketPortNumber";
+            const string componentName = "Altom.AltUnityTester.AltUnityRunner";
+            const string propertyName = "InstrumentationSettings.AltUnityTesterPort";
             var altUnityObject = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
             Assert.NotNull(altUnityObject);
-            var propertyValue = altUnityObject.GetComponentProperty(componentName, propertyName);
-            Assert.AreEqual(propertyValue, "13000");
+            var propertyValue = altUnityObject.GetComponentProperty<int>(componentName, propertyName);
+            Assert.AreEqual(propertyValue, 13000);
         }
 
     .. code-tab:: java
@@ -2752,14 +2750,14 @@ Returns the value of the given component property.
         @Test
         public void testGetComponentProperty() throws Exception
         {
-            String componentName = "AltUnityRunner";
-            String propertyName = "SocketPortNumber";
+            String componentName = "Altom.AltUnityTester.AltUnityRunner";
+            String propertyName = "InstrumentationSettings.AltUnityTesterPort";
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "AltUnityRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
             AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotNull(altUnityObject);
             AltGetComponentPropertyParameters altGetComponentPropertyParameters=new AltGetComponentPropertyParameters.Builder(componentName,propertyName).withAssembly("").build();
-            String propertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParameters);
-            assertEquals(propertyValue, "13000");
+            int propertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParameters,Integer.class);
+            assertEquals(propertyValue, 13000);
         }
 
     .. code-tab:: py
@@ -2767,7 +2765,7 @@ Returns the value of the given component property.
         def test_get_component_property(self):
             self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
             result = self.altUnityDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
-            self.assertEqual(result,"[1,2,3]")
+            self.assertEqual(result,[1,2,3])
 
 ```
 
@@ -2781,12 +2779,12 @@ Sets value of the given component property.
 | ------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------- |
 | componentName | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" ) |
 | propertyName  | string | Yes      | name of the property of which value you want to set                                                                   |
-| value         | string | Yes      | the value to be set for the chosen component's property                                                               |
+| value         | object | Yes      | the value to be set for the chosen component's property                                                               |
 | assemblyName  | string | No       | name of the assembly containing the component. It is NULL by default                                                  |
 
 **_Returns_**
 
--   String
+-   void
 
 **_Examples_**
 
@@ -2802,9 +2800,9 @@ Sets value of the given component property.
             const string propertyName = "stringToSetFromTests";
             var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altUnityObject);
-            var propertyValue = altUnityObject.SetComponentProperty(componentName, propertyName, "2");
-            Assert.AreEqual("valueSet", propertyValue);
-            propertyValue = altUnityObject.GetComponentProperty(componentName, propertyName);
+            altUnityObject.SetComponentProperty(componentName, propertyName, "2");
+
+            var propertyValue = altUnityObject.GetComponentProperty<string>(componentName, propertyName);
             Assert.AreEqual("2", propertyValue);
         }
 
@@ -2818,9 +2816,8 @@ Sets value of the given component property.
             AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
             AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParameters);
             assertNotNull(altUnityObject);
-            String propertyValue = altUnityObject.setComponentProperty(componentName, propertyName, "2");
-            assertEquals("valueSet", propertyValue);
-            propertyValue = altUnityObject.getComponentProperty(componentName, propertyName);
+            altElement.setComponentProperty(new AltSetComponentPropertyParameters.Builder(componentName, propertyName,"2").build());
+            String propertyValue = altElement.getComponentProperty(new AltGetComponentPropertyParameters.Builder(componentName,propertyName).build(), String.class);
             assertEquals("2", propertyValue);
         }
 
@@ -2832,8 +2829,7 @@ Sets value of the given component property.
             propertyName = "stringToSetFromTests"
             altUnityObject = self.altUnityDriver.find_object(By.NAME, componentName)
             self.assertNotEqual(altUnityObject, None)
-            propertyValue = altUnityObject.set_component_property(componentName, propertyName, "2")
-            self.assertEqual("valueSet", propertyValue)
+            altUnityObject.set_component_property(componentName, propertyName, "2")
             propertyValue = altUnityObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
