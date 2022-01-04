@@ -16,7 +16,7 @@ namespace Altom.AltUnityTesterTools
         {
             try
             {
-                string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+                string versionNumber = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
 
                 PlayerSettings.companyName = "Altom";
                 PlayerSettings.productName = "sampleGame";
@@ -101,7 +101,7 @@ namespace Altom.AltUnityTesterTools
         {
             try
             {
-                string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+                string versionNumber = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
                 PlayerSettings.companyName = "Altom";
                 PlayerSettings.productName = "sampleGame";
                 PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, "fi.altom.altunitytester");
@@ -173,7 +173,7 @@ namespace Altom.AltUnityTesterTools
         {
             try
             {
-                string versionNumber = DateTime.Now.ToString("yyMMddHHss");
+                string versionNumber = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
 
                 PlayerSettings.companyName = "Altom";
                 PlayerSettings.productName = "sampleGame";
