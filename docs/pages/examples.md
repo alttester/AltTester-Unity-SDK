@@ -35,7 +35,7 @@ We plan to add more examples in the near future.
 
 **3.** Example test project for AltUnity Tester:
 
-* [SampleScenes](https://gitlab.com/altom/altunity/altunitytester/SampleScenes.unitypackage)
+* [SampleScenes](https://altom.gitlab.io/altunity/altunitytester/SampleScenes/SampleScenes.unitypackage)
 
     Import this package under your AltUnity Tester package in Unity, to have access to the sample scenes and C# tests.
 
