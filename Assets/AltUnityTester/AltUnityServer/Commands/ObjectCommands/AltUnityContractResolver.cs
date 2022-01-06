@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Reflection;
+using System.Linq;
 
 namespace Altom.AltUnityTester.Commands
 {
@@ -14,9 +15,14 @@ namespace Altom.AltUnityTester.Commands
             this._includeProperty = includeProperty;
         }
 
+
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
+            if (property.AttributeProvider.GetAttributes(true).OfType<ObsoleteAttribute>().Any())
+            {
+                property.ShouldSerialize = obj => false;
+            }
             var shouldSerialize = property.ShouldSerialize;
             property.ShouldSerialize = obj => _includeProperty() &&
                                               (shouldSerialize == null ||

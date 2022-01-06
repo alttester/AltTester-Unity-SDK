@@ -147,18 +147,28 @@ namespace Altom.AltUnityTester.Commands
                 {
                     maxDepth = (CommandParams as AltUnityGetObjectComponentPropertyParams).maxDepth;
                 }
-
-                using (var strWriter = new System.IO.StringWriter())
+                try
                 {
-                    using (var jsonWriter = new CustomJsonTextWriter(strWriter))
+                    using (var strWriter = new System.IO.StringWriter())
                     {
-                        Func<bool> include = () => jsonWriter.CurrentDepth <= maxDepth;
-                        var resolver = new AltUnityContractResolver(include);
-                        var serializer = new Newtonsoft.Json.JsonSerializer { ContractResolver = resolver, ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore };
-                        serializer.Serialize(jsonWriter, response);
+                        using (var jsonWriter = new CustomJsonTextWriter(strWriter))
+                        {
+                            Func<bool> include = () => jsonWriter.CurrentDepth <= maxDepth;
+                            var resolver = new AltUnityContractResolver(include);
+                            var serializer = new Newtonsoft.Json.JsonSerializer { ContractResolver = resolver, ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore };
+                            serializer.Serialize(jsonWriter, response);
+                        }
+                        cmdResponse.data = strWriter.ToString();
                     }
-                    cmdResponse.data = strWriter.ToString();
                 }
+                catch (Exception e) 
+                {
+                    error = new CommandError();
+                    error.type = AltUnityErrors.errorUnknownError;
+                    error.message = e.Message;
+                    error.trace = e.StackTrace;
+                }
+                
             }
 
             cmdResponse.error = error;
