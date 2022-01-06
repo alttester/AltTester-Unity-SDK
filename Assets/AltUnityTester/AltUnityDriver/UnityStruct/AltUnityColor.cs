@@ -41,7 +41,6 @@ namespace Altom.AltUnityDriver
 
         public override string ToString()
         {
-            return base.ToString();
-        }
+            return string.Format("RGBA({0},{1},{2},{3})", this.r, this.g, this.b, this.a);        }
     }
 }
