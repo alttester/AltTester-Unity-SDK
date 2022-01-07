@@ -1,5 +1,6 @@
 package ro.altom.altunitytester;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.apache.logging.log4j.LogManager;
@@ -59,7 +60,7 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new PortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occurred while running command: " + command, ex);
         }
 
         log.debug("adb forward enabled.");
@@ -91,7 +92,7 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new PortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occurred while running command: " + command, ex);
         }
         log.debug("Android forward removed...");
     }
@@ -108,28 +109,29 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new PortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occurred while running command: " + command, ex);
         }
         log.debug("Removed all existing adb forwarding...");
     }
 
-    public static void forwardIos() {
+    public static void forwardIos() throws IOException {
         forwardIos(13000, 13000, "", "");
     }
 
-    public static void forwardIos(int localPort) {
+    public static void forwardIos(int localPort) throws IOException {
         forwardIos(localPort, 13000, "", "");
     }
 
-    public static void forwardIos(int localPort, int devicePort) {
+    public static void forwardIos(int localPort, int devicePort) throws IOException {
         forwardIos(localPort, devicePort, "", "");
     }
 
-    public static void forwardIos(int localPort, int devicePort, String deviceId) {
+    public static void forwardIos(int localPort, int devicePort, String deviceId) throws IOException {
         forwardIos(localPort, devicePort, deviceId, "");
     }
 
-    public static void forwardIos(int localPort, int devicePort, String deviceId, String iproxyPath) {
+    public static void forwardIos(int localPort, int devicePort, String deviceId, String iproxyPath)
+            throws IOException {
         iproxyPath = getIproxyPath(iproxyPath);
         String arguments;
         if (deviceId == null || deviceId.isEmpty())
@@ -138,12 +140,7 @@ public class AltUnityPortForwarding {
             arguments = localPort + " " + devicePort + " -u " + deviceId;
         String command = iproxyPath + " " + arguments;
 
-        try {
-            Runtime.getRuntime().exec(command);
-            Thread.sleep(1000);
-        } catch (Exception ex) {
-            throw new PortForwardingException("An exception occured while running command: " + command, ex);
-        }
+        Runtime.getRuntime().exec(command);
         log.debug("iproxy forward enabled.");
     }
 
@@ -153,7 +150,7 @@ public class AltUnityPortForwarding {
             Runtime.getRuntime().exec(command);
             Thread.sleep(1000);
         } catch (Exception ex) {
-            throw new PortForwardingException("An exception occured while running command: " + command, ex);
+            throw new PortForwardingException("An exception occurred while running command: " + command, ex);
         }
         log.debug("Killed any iproxy process that may have been running...");
     }

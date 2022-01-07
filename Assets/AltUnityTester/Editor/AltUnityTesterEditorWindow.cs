@@ -1110,21 +1110,20 @@ namespace Altom.AltUnityTesterEditor
 #if UNITY_EDITOR_OSX
                                 else
                                 {
-                                    var response = AltUnityPortForwarding.ForwardIos(device.LocalPort, device.RemotePort, device.DeviceId, EditorConfiguration.IProxyPath);
-                                    if (response.StartsWith("Ok"))
+                                    try
                                     {
-                                        var processID = int.Parse(response.Split(' ')[1]);
+
+                                        device.Pid = AltUnityPortForwarding.ForwardIos(device.LocalPort, device.RemotePort, device.DeviceId, EditorConfiguration.IProxyPath); ;
                                         device.Active = true;
-                                        device.Pid = processID;
                                     }
-                                    else
+                                    catch (Exception ex)
                                     {
-                                        logger.Error(response);
+                                        logger.Error(ex);
                                     }
 
                                 }
-#endif
                                 refreshDeviceList();
+#endif
                             }
                         }
 

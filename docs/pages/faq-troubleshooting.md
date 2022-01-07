@@ -1,6 +1,5 @@
 # FAQ
 
-
 <details>
 <summary><strong> On what platforms can I run tests with AltUnity Tester? </strong></summary>
 <br>
@@ -51,7 +50,6 @@ These give you access to a virtual machine or a Docker container that has a clou
 </details>
 <br>
 
-
 ## Troubleshooting
 
 <details>
@@ -85,5 +83,20 @@ These give you access to a virtual machine or a Docker container that has a clou
 2. Reference other asemblies in AltUnityServer assembly
 
 3. Reference AltUnityServer assembly in Project-Main-Assembly
+ </details>
+ <br>
+
+<details>
+<summary><strong> I get the error: <em>Error while running command: iproxy 13000 13000</em> </strong></summary>
+<br>
+<strong>Answer:</strong> 
+If the inner exception is:
+<br>
+
+<em>System.ComponentModel.Win32Exception : ApplicationName='iproxy', CommandLine='13000 13000', CurrentDirectory='', Native error= Cannot find the specified file</em>
+<br>
+
+Pass the full path of iproxy to <em>AltUnityPortForwarding.ForwardIos</em>
+
 </details>
 <br>
