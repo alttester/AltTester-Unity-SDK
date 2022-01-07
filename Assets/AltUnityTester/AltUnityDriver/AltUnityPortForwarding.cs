@@ -26,7 +26,7 @@ namespace Altom.AltUnityDriver
         /// <param name="remotePort">The device port to forward to</param>
         /// <param name="deviceId">The id of the device</param>
         /// <param name="iproxyPath">The path to iProxy. If iproxyPath is not provided, iproxy should be available in PATH</param>
-        public static string ForwardIos(int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
+        public static int ForwardIos(int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
         {
             iproxyPath = GetIProxyPath(iproxyPath);
             string arguments;
@@ -44,9 +44,10 @@ namespace Altom.AltUnityDriver
 
                 if (process.HasExited)
                 {
-                    return process.StandardError.ReadToEnd();
+                    throw new PortForwardingException("Error while running command `" + iproxyPath + " " + arguments + "`:" + process.StandardError.ReadToEnd());
+
                 }
-                return "Ok " + process.Id;
+                return process.Id;
             }
             catch (Exception ex)
             {
