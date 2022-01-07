@@ -1,9 +1,8 @@
 using System.Text;
-using Altom.AltUnityTester.Logging;
 
 namespace Altom.AltUnityTester.Communication
 {
-
+#if UNITY_WEBGL
     public class AltWebGLWebSocketHandler : BaseWebSocketHandler
     {
         protected readonly WebGLWebSocket _webSocket;
@@ -27,4 +26,5 @@ namespace Altom.AltUnityTester.Communication
             this._commandHandler.OnMessage(message);
         }
     }
+#endif
 }

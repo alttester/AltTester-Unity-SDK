@@ -86,14 +86,14 @@ namespace Altom.AltUnityTester.UI
             }
             catch (AddressInUseCommError)
             {
-                setDialog("Cannot start AltUnity Server. Another process is listening on port " + InstrumentationSettings.AltUnityTesterPort, ERROR_COLOR, true);
-                logger.Error("Cannot start AltUnity Server. Another process is listening on port" + InstrumentationSettings.AltUnityTesterPort);
+                setDialog("Cannot start AltUnity Tester communication protocol. Another process is listening on port " + InstrumentationSettings.AltUnityTesterPort, ERROR_COLOR, true);
+                logger.Error("Cannot start AltUnity Tester communication protocol. Another process is listening on port" + InstrumentationSettings.AltUnityTesterPort);
             }
 
             catch (UnhandledStartCommError ex)
             {
                 setDialog("An unexpected error occured while starting the communication protocol.", ERROR_COLOR, true);
-                logger.Error(ex.InnerException, "An unexpected error occured while starting the communication protocol.");
+                logger.Error(ex.InnerException, ex.InnerException.Message);
             }
         }
 
