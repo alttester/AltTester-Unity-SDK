@@ -65,12 +65,12 @@ namespace Altom.AltUnityTester.Communication
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("Only one usage of each socket address"))
+                if (ex is InvalidOperationException && ex.InnerException != null && ex.InnerException.Message.Contains("Only one usage of each socket address"))
                 {
-                    throw new AddressInUseCommError("Cannot start AltUnity Server. Another process is listening on port " + port);
+                    throw new AddressInUseCommError("Cannot start AltUnity Tester communication protocol. Another process is listening on port " + port);
                 }
 
-                throw new UnhandledStartCommError("An error occured while starting AltUnity Server", ex);
+                throw new UnhandledStartCommError("An error occured while starting AltUnity Tester communication protocol", ex);
             }
         }
 

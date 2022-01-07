@@ -1,4 +1,5 @@
 # Advanced Usage
+
 ## Build games from the command line
 
 To build your Unity application from command line you need a static method in your project that handles the build logic.  
@@ -12,9 +13,10 @@ Depending on your project's setup, there are two ways in which games can be buil
     AltUnity Tester does not work by default in release mode. If you instrument your game in release mode, AltUnity Prefab self removes from the scenes and the socket server does not start. Best case practice is to customize your build script to insert AltUnity Prefab only in Debug mode. If you do want to use AltUnity Tester in release mode see `Using AltUnity Tester in Release mode section <#using-altunity-tester-in-release-mode>`_.
 ```
 
-**1. If you already have a custom build method for your game**  
+**1. If you already have a custom build method for your game**
 
 If you already have a custom build method for your game, you can add the following two lines to your build method:
+
 ```
 var buildTargetGroup = BuildTargetGroup.Android;
 AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
@@ -30,17 +32,17 @@ AltUnityBuilder.InsertAltUnityInScene(FirstSceneOfTheGame, instrumentationSettin
     Change `buildTargetGroup` above to the target group for which you are building.
 ```
 
-**2. If you create a new custom build method for your game** 
+**2. If you create a new custom build method for your game**
 
 The following example script can be used.  
 It sets all the project settings needed and uses the same two important lines from point 1 above.
 
 This example method is configured for the Android platform, so make sure to update it based on your target platform.
- 
+
 ```eval_rst
 .. include:: other~/build-from-command-line.txt
     :code: c#
-    
+
 ```
 
 The following command is used to call the build method:
@@ -50,8 +52,8 @@ The following command is used to call the build method:
 
     <UnityPath>/Unity -projectPath $CI_PROJECT_DIR -executeMethod BuilderClass.BuildFromCommandLine -logFile logFile.log -quit
 ```
- 
-You can find more information about the build command and arguments [here](https://docs.unity3d.com/Manual/CommandLineArguments.html).  
+
+You can find more information about the build command and arguments [here](https://docs.unity3d.com/Manual/CommandLineArguments.html).
 
 ```eval_rst
 .. note::
@@ -70,7 +72,7 @@ In order to run tests from the command line you can use the following example co
         .. code-block:: bash
 
             <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -logFile logFile.log -batchmode -quit
-    
+
     .. tab:: Java
 
         .. code-block:: bash
@@ -92,33 +94,32 @@ In order to run tests from the command line you can use the following example co
 
 An example CI configuration file can be viewed in the [AltUnity Tester GitLab repository](https://gitlab.com/altom/altunity/altunitytester/-/blob/master/.gitlab-ci.yml).
 
-
 ## What is port forwarding and when to use it
 
 Port forwarding, or tunneling, is the behind-the-scenes process of intercepting data traffic headed for a computer’s IP/port combination and redirecting it to a different IP and/or port.
 
-When you run your game instrumented with AltUnity Tester, on a device, you need to tell your AltUnity Driver how to connect to it. 
+When you run your game instrumented with AltUnity Tester, on a device, you need to tell your AltUnity Driver how to connect to it.
 
 Port forwarding can be set up either through a command line command or in the test code by using the methods available in AltUnity classes.
 
 The following are some cases when Port Forwarded is needed:
+
 1. [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
 2. [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game)
 
 ### How to setup port forwarding
 
 Port forwarding can be set up in three ways:
-* through a command line command (using adb / IProxy) or 
-* in the test code by using the methods available in AltUnity classes.
-* from AltUnity Tester Editor - Port Forwarding Section
 
+-   through a command line command (using adb / IProxy) or
+-   in the test code by using the methods available in AltUnity classes.
+-   from AltUnity Tester Editor - Port Forwarding Section
 
-All methods listed above require that you have ADB or iProxy installed. 
+All methods listed above require that you have ADB or iProxy installed.
 
-For installing ABD, check `this article <https://developer.android.com/studio/command-line/adb>`_ for more information on ADB. 
+For installing ABD, check `this article <https://developer.android.com/studio/command-line/adb>`\_ for more information on ADB.
 
-For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
-
+For installing iProxy `brew install libimobiledevice`. _Requires iproxy 2.0.2_
 
 ```eval_rst
 .. tabs::
@@ -129,22 +130,22 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
             .. tab:: Android
 
-                - Forward the port using the following command: 
+                - Forward the port using the following command:
 
                     ``adb [-s UDID] forward tcp:local_port tcp:device_port``
 
                 - Forward using AltUnity Tester Editor
-                    
+
                     click on the refresh button in the Port Forwarding section in the Editor to see connected devices and then select the device to forward
 
             .. tab:: iOS
 
-                - Forward the port using the following command: 
+                - Forward the port using the following command:
 
                     ``iproxy LOCAL_TCP_PORT DEVICE_TCP_PORT -u [UDID]``
 
                 - Forward using AltUnity Tester Editor
-                    
+
                     click on the refresh button in the Port Forwarding section in the Editor to see connected devices and then select the device to forward
 
 
@@ -155,10 +156,10 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
             .. tab:: Android
 
                 Use the following static methods (from the AltUnityPortForwarding class) in your test file:
-        
+
                     - ForwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
                     - RemoveForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
-            
+
                 Example test file:
 
                     .. include:: other~/test-files/csharp-Android-test.cs
@@ -167,12 +168,12 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
             .. tab:: iOS
 
                 Use the following static methods (from the AltUnityPortForwarding class) in your test file:
-        
+
                     - ForwardIos (int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
                     - KillAllIproxyProcess ()
 
                 Example test file:
-            
+
                     .. include:: other~/test-files/csharp-iOS-test.cs
                         :code: c#
 
@@ -181,12 +182,12 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
         .. tabs::
 
             .. tab:: Android
-            
+
                 Use the following static methods (from the AltUnityPortForwarding class) in your test file:
-        
+
                     - forwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
                     - removeForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
-            
+
                 Example test file:
 
                     .. include:: other~/test-files/java-Android-test.java
@@ -195,7 +196,7 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
             .. tab:: iOS
 
                 Use the following static methods (from the AltUnityPortForwarding class) in your test file:
-        
+
                     - forwardIos (int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
                     - killAllIproxyProcess ()
 
@@ -206,29 +207,29 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
     .. tab:: Python
 
-        .. tabs:: 
-            
+        .. tabs::
+
             .. tab:: Android
 
                 Use the following static methods (from the AltUnityPortForwarding class) in your test file:
-        
+
                     - forward_android (local_port = 13000, device_port = 13000, device_id = "")
                     - remove_forward_android (local_port = 13000, device_id = "")
-            
+
                 Example test file:
-            
+
                     .. include:: other~/test-files/python-Android-test.py
                         :code: py
 
             .. tab:: iOS
 
                 Use the following static methods (from the AltUnityPortForwarding class) in your test file:
-                
+
                     - forward_ios (local_port = 13000, device_port = 13000, device_id = "")
                     - kill_all_iproxy_process()
 
                 Example test file:
-            
+
                     .. include:: other~/test-files/python-iOS-test.py
                         :code: py
 
@@ -236,7 +237,7 @@ For installing iProxy ``brew install libimobiledevice``. _Requires iproxy 2.0.2_
 
 ```eval_rst
 .. note::
-    The default port on which the AltUnity Tester is running is 13000. 
+    The default port on which the AltUnity Tester is running is 13000.
     Port can be changed when making a new game build or make use of port forwarding if needed.
 ```
 
@@ -270,20 +271,20 @@ Check [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it) for more de
 
 ![port forwarding case 3](../_static/images/portForwarding/case3.png)
 
-You can connect directly through an IP address if the altUnity server port is available and the IP address is reachable.
+You can connect directly through an IP address if the port the instrumented Unity App is listening on is available and the IP address is reachable.
 It is recommended to use [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it) since IP addresses could change and would need to be updated more frequently.
 
-The following command can be used to connect to the altUnity server inside the game:
+The following command can be used to connect to the running instrumented Unity App:
 
 ```eval_rst
 .. tabs::
     .. code-tab:: c#
 
-            altUnityDriver = new AltUnityDriver ("deviceIp", 13000); 
+            altUnityDriver = new AltUnityDriver ("deviceIp", 13000);
 
     .. code-tab:: java
 
-            altUnityDriver = new AltUnityDriver ("deviceIp", 13000, ";", "&", true);  
+            altUnityDriver = new AltUnityDriver ("deviceIp", 13000, ";", "&", true);
 
     .. code-tab:: py
 
@@ -297,8 +298,9 @@ The following command can be used to connect to the altUnity server inside the g
 For two devices you have to do the same steps above, by [connecting through port forwarding](#how-to-setup-port-forwarding) twice.
 
 So, in the end, you will have:
-* 2 devices, each with one AltUnity Server
-* 1 computer with two AltUnity Drivers
+
+-   2 devices, each with one instrumented Unity App
+-   1 computer with two AltUnity Drivers
 
 Then, in your tests, you will send commands from each of the two AltUnity Drivers.
 
@@ -306,19 +308,19 @@ The same happens with n devices, repeat the steps n times.
 
 ### Connect to multiple builds of the application running on the same device
 
-If you want to run two builds on the same device you will need to change the AltUnity Server Port. 
+If you want to run two builds on the same device you will need to change the AltUnity Tester Port during instrumentation.
 
-For example, you will build a game with AltUnity Server running on Server Port 13001 and another one that runs on Server Port 13002.
+For example, you will instrument a game with AltUnity Tester to listen on port 13001 and another one to listen on port 13002.
 
 ![port forwarding case 5](../_static/images/portForwarding/case5.png)
 
-Then in your tests you will need to instantiate two AltUnity server drivers for each of the Server Ports.
+Then in your tests you will need to create two AltUnityDriver instances, one for each of the configured ports.
 
 ```eval_rst
 .. important::
-    On mobile devices, AltUnity Driver can only interact with a single game at a time and the game needs to be in focus.  
+    On mobile devices, AltUnity Driver can only interact with a single game at a time and the game needs to be in focus.
 
-    On Android/iOS only one application is in focus at a time so you need to switch (in code) between the applications if using two drivers at the same time.   
+    On Android/iOS only one application is in focus at a time so you need to switch (in code) between the applications if using two drivers at the same time.
     This applies even when using split screen mode.
 ```
 
@@ -326,35 +328,29 @@ You can change the port for your game build from the AltUnityTesterEditor window
 
 ![altUnity Server Settings](../_static/images/portForwarding/altUnityServerSettings.png)
 
-
 ```eval_rst
 .. note::
     After you have done the Server Port forwarding or connected to the AltUnity driver directly, you can use it in your tests to send commands to the server and receive information from the game.
 ```
 
-
-
 ## Using AltUnity Tester in Release mode
 
-By default AltUnity Tester does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltUnity Tester. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltUnityRunnerPrefab inside AltUnity Tester asset folder  `AltUnityTester/Prefab/AltUnityRunnerPrefab.prefab`
-
+By default AltUnity Tester does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltUnity Tester. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltUnityRunnerPrefab inside AltUnity Tester asset folder `AltUnityTester/Prefab/AltUnityRunnerPrefab.prefab`
 
 ## Logging
 
-There are two types of logging that can be configured in AltUnityTester. The logs from AltUnity Driver (from the tests) and the logs from the AltUnity Tester (from the instrumented Unity application) 
-
+There are two types of logging that can be configured in AltUnityTester. The logs from AltUnity Driver (from the tests) and the logs from the AltUnity Tester (from the instrumented Unity application)
 
 ### AltUnity Tester logging
 
 Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.AltUnityTester.Logging.ServerLogManager.Instance`
 
-
 There are two logger targets that you can configure on the server:
- * FileLogger
- * UnityLogger
 
- Logging inside the instrumented app can be configured from the driver using the SetServerLogging command:
+-   FileLogger
+-   UnityLogger
 
+Logging inside the instrumented app can be configured from the driver using the SetServerLogging command:
 
 ```eval_rst
 .. tabs::
@@ -376,7 +372,6 @@ There are two logger targets that you can configure on the server:
 
 ```
 
-
 ### AltUnity Driver logging
 
 Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log4j` in Java. By default logging is disabled in the driver (tests). If you want to enable it you can set the `enableLogging` in `AltUnityDriver` constructor.
@@ -387,7 +382,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
     .. tab:: C#
 
         Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `Altom.AltUnityDriver.Logging.DriverLogManager.Instance`
-        
+
         There are three logger targets that you can configure on the driver:
 
         * FileLogger
@@ -408,18 +403,18 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info);
 
 
-    
+
     .. tab:: Java
 
         Logging is handled via log4j. You can use log4j configuration files to customize your logging.
 
         Setting the `enableLogging` in `AltUnityDriver` initializes logger named `ro.altom.altunitytester` configured with two appenders, a file appender `AltUnityFileAppender` and a console appender `AltUnityConsoleAppender`
-            
+
         .. code-block:: java
 
             /* start altunity driver with logging enabled */
             altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, true);
-            
+
             /* disable logging for ro.altom.altunitytester logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
             final Configuration config = ctx.getConfiguration();
@@ -429,7 +424,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
 
     .. tab:: Python
-        
+
         Logging is handled via loguru.
 
         Setting the `enable_logging` to `False` in AltUnityDriver, all logs from `altunityrunner` package are disabled.
