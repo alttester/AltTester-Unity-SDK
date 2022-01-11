@@ -100,17 +100,17 @@ public class WebsocketConnection {
         }
         if (this.session == null || (!this.session.isOpen() && finish - start >= _connectTimeout * 1000)) {
             throw new ConnectionTimeoutException(
-                    String.format("Failed to connect to AltUnity on host: %s port: %s.", _host, _port),
+                    String.format("Failed to connect to AltUnity Tester on host: %s port: %s.", _host, _port),
                     connectionError);
         }
         if (!this.session.isOpen())
             throw new ConnectionException(
-                    String.format("Failed to connect to AltUnity on host: %s port: %s.", _host, _port),
+                    String.format("Failed to connect to AltUnity Tester on host: %s port: %s.", _host, _port),
                     connectionError);
     }
 
     public void close() throws IOException {
-        logger.info(String.format("Closing connection to AltUnity on host: %s port: %s.", _host, _port));
+        logger.info(String.format("Closing connection to AltUnity Tester on host: %s port: %s.", _host, _port));
 
         if (this.session != null) {
             this.session.close();
