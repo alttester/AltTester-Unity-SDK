@@ -66,10 +66,10 @@ namespace Altom.AltUnityDriver.Commands
                 Thread.Sleep(delay); // delay between retries
             }
             if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive)
-                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltUnity on host: {0} port: {1}.", _host, _port));
+                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltUnity Tester on host: {0} port: {1}.", _host, _port));
 
             if (!wsClient.IsAlive)
-                throw new ConnectionException(string.Format("Failed to connect to AltUnity on host: {0} port: {1}.", _host, _port));
+                throw new ConnectionException(string.Format("Failed to connect to AltUnity Tester on host: {0} port: {1}.", _host, _port));
 
             logger.Debug("Connected to: " + _uri);
 

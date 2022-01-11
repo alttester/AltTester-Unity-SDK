@@ -106,7 +106,7 @@ class WebsocketConnection:
             self.close()
 
             raise ConnectionTimeoutError(
-                "Failed to connect to AltUnity host: {} port: {}.".format(self.host, self.port)
+                "Failed to connect to AltUnity Tester host: {} port: {}.".format(self.host, self.port)
             )
 
     def _ensure_connection_is_open(self):
