@@ -1122,8 +1122,8 @@ namespace Altom.AltUnityTesterEditor
                                     }
 
                                 }
-                                refreshDeviceList();
 #endif
+                                refreshDeviceList();
                             }
                         }
 
