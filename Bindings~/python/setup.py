@@ -1,7 +1,8 @@
 from setuptools import setup, find_packages
 
 NAME = 'altunityrunner'
-DESCRIPTION = 'Python Binding to allow Appium tests to be run against Unity games and apps using AltUnityTester.'
+DESCRIPTION = "Python bindings for the AltUnity Tester framework. AltUnity Tester is an open-source UI driven test " \
+    "automation tool that helps you find objects in your game and interacts with them."
 URL = 'https://gitlab.com/altom/altunity/altunitytester'
 EMAIL = 'altunitytester@altom.fi'
 AUTHOR = 'Altom Consulting'

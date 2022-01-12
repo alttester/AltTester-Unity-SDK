@@ -54,7 +54,7 @@ python-unit-tests:
     - *install_python_dependencies
     - cd Bindings~/python/
   script:
-    - flake8 altunityrunner
+    - flake8 .
     - pytest tests/unit
 
 # TODO: Add unit tests for Java

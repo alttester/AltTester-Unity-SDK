@@ -6,7 +6,7 @@ from altunityrunner.altUnityObject import AltUnityObject
 class TestAltUnityObject:
 
     def test_repr(self):
-        element = AltUnityObject(None, {"name": "ElementName", "id": "1" , "transformId": "100"})
+        element = AltUnityObject(None, {"name": "ElementName", "id": "1", "transformId": "100"})
         reconstructed = eval(repr(element), globals(), {"altdriver": None})
 
         assert element._altdriver == reconstructed._altdriver

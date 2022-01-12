@@ -1,6 +1,5 @@
 from altunityrunner.commands.Notifications.base_notification_callbacks import BaseNotificationCallbacks
 from altunityrunner.logging import AltUnityLogLevel
-from loguru import logger
 
 
 class TestNotificationCallback(BaseNotificationCallbacks):
