@@ -1,6 +1,10 @@
 # AltUnityTester Python Bindings
 
+This package contains an library for adding Python language binding to the AltUnity Tester framework.
+
 AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java.
+
+You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
 
 Read the documentation on https://altom.gitlab.io/altunity/altunitytester
 
@@ -8,15 +12,26 @@ Read the documentation on https://altom.gitlab.io/altunity/altunitytester
 
 Check out the [Get Started](https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html) guide from the documentation.
 
-## Running Tests
+## Development
 
-### Unit Tests
+* Code Style: [PEP-0008](https://www.python.org/dev/peps/pep-0008/)
+* Docstring style: [Google Style Docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
+
+### Running Tests
+
+Run the following command to install the dev dependencies:
+
+```
+$ pip install -r requirements-dev.txt
+```
+
+#### Unit Tests
 
 ```
 $ pytest tests/unit/
 ```
 
-### Integration Tests
+#### Integration Tests
 
 ```
 $ pytest tests/integration/

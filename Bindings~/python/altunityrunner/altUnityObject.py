@@ -61,6 +61,7 @@ class AltUnityObject:
 
         Returns:
             tuple: A tuple containing ``x`` and ``y``.
+
         """
 
         return self.x, self.y
@@ -70,6 +71,7 @@ class AltUnityObject:
 
         Returns:
             tuple: A tuple containing ``worldX``, ``worldY`` and ``worldZ``.
+
         """
 
         return self.worldX, self.worldY, self.worldZ
@@ -79,6 +81,7 @@ class AltUnityObject:
 
         Returns:
             AltUnityObject: The parent object.
+
         """
 
         data = commands.FindObject.run(
@@ -89,6 +92,8 @@ class AltUnityObject:
         return AltUnityObject(self._altdriver, data)
 
     def get_all_components(self):
+        """Returns all components."""
+
         return commands.GetAllComponents.run(self._connection, self)
 
     def get_component_property(self, component_name, property_name, assembly="", max_depth=2):
@@ -105,6 +110,7 @@ class AltUnityObject:
 
         Returns:
             str: The property value is serialized to a JSON string.
+
         """
 
         return commands.GetComponentProperty.run(
@@ -124,6 +130,7 @@ class AltUnityObject:
 
         Returns:
             str: The property value is serialized to a JSON string.
+
         """
 
         return commands.SetComponentProperty.run(
@@ -146,6 +153,7 @@ class AltUnityObject:
 
         Return:
             str: The value returned by the method is serialized to a JSON string.
+
         """
 
         return commands.CallMethod.run(
@@ -163,6 +171,7 @@ class AltUnityObject:
 
         Returns:
             str: The text value of the AltUnityObject.
+
         """
 
         return commands.GetText.run(self._connection, self)
@@ -176,6 +185,7 @@ class AltUnityObject:
 
         Returns:
             AltUnityObject: The current AltUnityObject.
+
         """
 
         data = commands.SetText.run(self._connection, text, self, submit)
@@ -186,6 +196,7 @@ class AltUnityObject:
 
         Returns:
             AltUnityObject: The current AltUnityObject.
+
         """
 
         data = commands.PointerUp.run(self._connection, self)
@@ -196,6 +207,7 @@ class AltUnityObject:
 
         Returns:
             AltUnityObject: The current AltUnityObject.
+
         """
 
         data = commands.PointerDown.run(self._connection, self)
@@ -206,6 +218,7 @@ class AltUnityObject:
 
         Returns:
             AltUnityObject: The current AltUnityObject.
+
         """
 
         data = commands.PointerEnter.run(self._connection, self)
@@ -216,6 +229,7 @@ class AltUnityObject:
 
         Returns:
             AltUnityObject: The current AltUnityObject.
+
         """
 
         data = commands.PointerExit.run(self._connection, self)
@@ -231,6 +245,7 @@ class AltUnityObject:
 
         Returns:
             AltUnityObject: The tapped object.
+
         """
 
         data = commands.TapElement.run(
@@ -242,13 +257,14 @@ class AltUnityObject:
     def click(self, count=1, interval=0.1, wait=True):
         """Clicks the current object.
 
-        Parameters:
+        Args:
             count (:obj:`int`, optional): Number of clicks. Defaults to ``1``.
             interval (:obj:`int`, :obj:`float`, optional): Interval between clicks in seconds. Defaults to ``0.1``.
             wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
             AltUnityObject: The clicked object.
+
         """
 
         data = commands.ClickElement.run(

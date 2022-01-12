@@ -25,6 +25,7 @@ class AltUnityDriver:
         port (:obj:`int`): The proxy port to connect to.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
         timeout (:obj:`float`, optional): The connect timeout time.
+
     """
 
     def __init__(self, host="127.0.0.1", port=13000, enable_logging=False, timeout=None):
@@ -113,7 +114,12 @@ class AltUnityDriver:
         self._connection.close()
 
     def set_command_response_timeout(self, timeout):
-        """Sets the command response timeout for the websocket"""
+        """Sets the command response timeout for the websocket.
+
+        Args:
+            timeout (:obj:`int` or :obj:`float`): The new comand response timeout in seconds.
+
+        """
 
         self._connection.set_command_timeout(timeout)
 
@@ -123,6 +129,7 @@ class AltUnityDriver:
         Args:
             logger (:obj:`AltUnityLogger`): The type of logger.
             log_lever (:obj:`AltUnityLogLevel`): The logging level.
+
         """
 
         commands.SetServerLogging.run(self._connection, logger, log_level)
@@ -142,6 +149,7 @@ class AltUnityDriver:
 
         Return:
             str: The value returned by the method is serialized to a JSON string.
+
         """
 
         return commands.CallMethod.run(
@@ -152,8 +160,9 @@ class AltUnityDriver:
     def get_current_scene(self):
         """Returns the name of the current scene.
 
-        Args:
+        Returns:
             str: The name of the current scene.
+
         """
 
         return commands.GetCurrentScene.run(self._connection)
@@ -165,6 +174,7 @@ class AltUnityDriver:
             scene_name (:obj:`str`): The name of the scene to be loaded.
             load_single (:obj`bool`): Sets the loading mode. If set to ``False`` the scene will be loaded additive,
                 together with the current loaded scenes. Defaults to ``True``.
+
         """
 
         commands.LoadScene.run(
@@ -184,6 +194,7 @@ class AltUnityDriver:
 
         Returns:
             str: The name of the loaded scene.
+
         """
 
         return commands.WaitForCurrentSceneToBe.run(
@@ -196,6 +207,7 @@ class AltUnityDriver:
 
         Args:
             scene_name (:obj:`str`): The name of the scene to be unloaded.
+
         """
 
         commands.UnloadScene.run(self._connection, scene_name)
@@ -205,6 +217,7 @@ class AltUnityDriver:
 
         Returns:
             :obj:`list` of :obj:`str`: A list containing the names of all the loaded scenes.
+
         """
 
         return commands.GetAllLoadedScenes.run(self._connection)
@@ -214,6 +227,7 @@ class AltUnityDriver:
 
         Returns:
             float: The value of the time scale.
+
         """
 
         return commands.GetTimeScale.run(self._connection)
@@ -223,6 +237,7 @@ class AltUnityDriver:
 
         Args:
             time_scale (:obj:`float` or :obj:`int`): The value of the time scale.
+
         """
 
         commands.SetTimeScale.run(self._connection, time_scale)
@@ -233,6 +248,7 @@ class AltUnityDriver:
         Args:
             key_name (:obj:`str`): The name of the key to be retrived.
             key_type (:obj:`PlayerPrefKeyType`): The type of the key.
+
         """
 
         return commands.GetPlayerPrefKey.run(
@@ -247,6 +263,7 @@ class AltUnityDriver:
             key_name (:obj:`str`): The name of the key to be set.
             value (:obj:`str`): The new value of be set.
             key_type (:obj:`PlayerPrefKeyType`): The type of the key.
+
         """
 
         commands.SetPlayerPrefKey.run(
@@ -259,6 +276,7 @@ class AltUnityDriver:
 
         Args:
             key_name (:obj:`str`): The name of the key to be deleted.
+
         """
 
         commands.DeletePlayerPrefKey.run(self._connection, key_name)
@@ -285,6 +303,7 @@ class AltUnityDriver:
 
         Returns:
             AltUnityObject: The object.
+
         """
 
         data = commands.FindObject.run(
@@ -311,6 +330,7 @@ class AltUnityDriver:
 
         Returns:
             list of AltUnityObjects: The list of objects.
+
         """
 
         data = commands.FindObjects.run(
@@ -337,6 +357,7 @@ class AltUnityDriver:
 
         Returns:
             AltUnityObject: The object.
+
         """
 
         data = commands.FindObjectWhichContains.run(
@@ -363,6 +384,7 @@ class AltUnityDriver:
 
         Returns:
             list of AltUnityObjects: The list of objects.
+
         """
 
         data = commands.FindObjectsWhichContain.run(
@@ -392,6 +414,7 @@ class AltUnityDriver:
 
         Returns:
             AltUnityObject: The object.
+
         """
 
         data = commands.WaitForObject.run(
@@ -406,9 +429,23 @@ class AltUnityDriver:
         """Waits until it finds an object that respects the given criteria or time runs out and will throw an error.
 
         Args:
+            by (:obj:`By`): Sets what criteria to use in order to find the object.
+            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
+                not.
+            camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
+            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
+                criteria or not. If no camera is given it will search through all camera that are in the scene until
+                some camera sees the object or return the screen coordinate of the object calculated to the last camera
+                in the scene.
+            timeout (:obj:`int` or :obj:`float`): The number of seconds that it will wait for object.
+            interval (:obj:`int` or :obj:`float`): The number of seconds after which it will try to find the object
+                again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
+                match all objects. Defaults to ``True``.
 
         Returns:
             AltUnityObject: The object.
+
         """
 
         data = commands.WaitForObjectWhichContains.run(
@@ -424,6 +461,19 @@ class AltUnityDriver:
         limit is reached.
 
         Args:
+            by (:obj:`By`): Sets what criteria to use in order to find the object.
+            value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
+                not.
+            camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
+            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
+                criteria or not. If no camera is given it will search through all camera that are in the scene until
+                some camera sees the object or return the screen coordinate of the object calculated to the last camera
+                in the scene.
+            timeout (:obj:`int` or :obj:`float`): The number of seconds that it will wait for object.
+            interval (:obj:`int` or :obj:`float`): The number of seconds after which it will try to find the object
+                again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
+                match all objects. Defaults to ``True``.
 
         """
 
@@ -447,14 +497,10 @@ class AltUnityDriver:
 
         Returns:
             list of AltUnityObjects: The list of objects.
+
         """
 
-        data = commands.GetAllElements.run(
-            self._connection,
-            camera_by, camera_value, enabled
-        )
-
-        return self._get_alt_unity_objects(data)
+        return self.find_objects(By.PATH, "//*", camera_by=camera_by, camera_value=camera_value, enabled=enabled)
 
     def move_mouse(self, coordinates, duration=0.1, wait=True):
         """Simulates mouse movement in your game.
@@ -462,8 +508,9 @@ class AltUnityDriver:
         Args:
             coordinates (:obj:`dict`): The screen coordinates
             duration (:obj:`int`): The time measured in seconds to move the mouse from current position to the
-                    set location. Defaults to ``0.1``
+                set location. Defaults to ``0.1``
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
 
         commands.MoveMouse.run(self._connection, coordinates, duration, wait)
@@ -476,6 +523,7 @@ class AltUnityDriver:
                 scroll down. Defaults to ``1``
             duration (:obj:`float`): The duration of the scroll in seconds. Defaults to ``0.1``.
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
 
         commands.Scroll.run(
@@ -492,6 +540,7 @@ class AltUnityDriver:
             count (:obj:`int`): Number of taps. Defaults to ``1``.
             interval (:obj:`float`): The interval between taps in seconds. Defaults to ``0.1``.
             wait (:obj:`bool`): If set to ``True`` Wait for command to finish.
+
         """
 
         commands.ClickCoordinates.run(self._connection, coordinates, count, interval, wait)
@@ -503,6 +552,7 @@ class AltUnityDriver:
             key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be pressed.
             power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the button was
                 pressed. Defaults to ``1``.
+
         """
 
         commands.KeyDown.run(self._connection, key_code, power)
@@ -512,6 +562,7 @@ class AltUnityDriver:
 
         Args:
             key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be released.
+
         """
 
         commands.KeyUp.run(self._connection, key_code)
@@ -525,6 +576,7 @@ class AltUnityDriver:
                 pressed. Defaults to ``1``.
             duration (:obj:`float`): The time measured in seconds from the key press to the key release.
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
 
         commands.PressKey.run(self._connection, key_code, power, duration, wait)
@@ -537,6 +589,7 @@ class AltUnityDriver:
 
         Returns:
             str: A ``finger_id`` to use with ``move_touch`` and ``end_touch``.
+
         """
 
         return commands.BeginTouch.run(self._connection, coordinates)
@@ -548,6 +601,7 @@ class AltUnityDriver:
         Args:
             finger_id (:obj:`str`): The value returned by ``begin_touch``.
             coordinates (:obj:`dict`): Screen coordinates where the touch will be moved.
+
         """
 
         commands.MoveTouch.run(self._connection, finger_id, coordinates)
@@ -558,6 +612,7 @@ class AltUnityDriver:
 
         Args:
             finger_id (:obj:`str`): The value returned by ``begin_touch``.
+
         """
 
         commands.EndTouch.run(self._connection, finger_id)
@@ -569,8 +624,9 @@ class AltUnityDriver:
             start (:obj:`dict`): Coordinates of the screen where the swipe begins.
             end (:obj:`dict`): Coordinates of the screen where the swipe ends.
             duration (:obj:`float`): The time measured in seconds to move the mouse from start to end location.
-                    Defaults to ``0.1``.
+                Defaults to ``0.1``.
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
 
         commands.Swipe.run(
@@ -586,6 +642,7 @@ class AltUnityDriver:
             duration (:obj:`float`): The time measured in seconds to swipe from first position to the last position.
                 Defaults to ``0.1``.
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
 
         commands.MultipointSwipe.run(self._connection, positions, duration, wait)
@@ -598,6 +655,7 @@ class AltUnityDriver:
             count (:obj:`int`): Number of taps. Defaults to ``1``.
             interval (:obj:`float`): The interval between taps in seconds. Defaults to ``0.1``.
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
 
         commands.TapCoordinates.run(self._connection, coordinates, count, interval, wait)
@@ -609,6 +667,7 @@ class AltUnityDriver:
             acceleration (:obj:`dict`): The linear acceleration of a device.
             duration (:obj:`float`): How long the rotation will take in seconds. Defaults to ``0.1``.
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
 
         commands.Tilt.run(self._connection, acceleration, duration, wait)
@@ -618,6 +677,7 @@ class AltUnityDriver:
 
         Args:
             path (:obj:`str`): The path where the image will be created.
+
         """
 
         commands.GetPNGScreenshot.run(self._connection, path)
@@ -629,6 +689,7 @@ class AltUnityDriver:
             coordinates (:obj:`dict`): The coordinates where the button is held down
             duration (:obj:`float`): The time measured in seconds to keep the button down.. Defaults to ``0.1``.
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
         return commands.Swipe.run(
             self._connection,
@@ -640,12 +701,13 @@ class AltUnityDriver:
 
         Args:
             component_name (:obj:`str`): The name of the component containing the field or property
-            to be retrieved.
+                to be retrieved.
             field_or_property_name (:obj:`str`): The name of the field or property to be retrieved.
             assembly (:obj:`float`): The name of the assembly containing the component mentioned above.
             max_depth (:obj:`float`): The value determining how deep to go in the hierarchy of objects
-            to find the field or property.
+                to find the field or property.
             wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
         """
 
         return commands.GetStaticProperty.run(
@@ -653,28 +715,37 @@ class AltUnityDriver:
             component_name, property_name, assembly, max_depth
         )
 
-    def set_notification(self, notification_type, notification_callback=None):
-        """Sets what notifications will the tester send and what to do with those notifications
+    def _set_notification(self, notification_type, notification_callback=None):
+        """Sets what notifications will the tester send and what to do with those notifications.
+
         Args:
-            notification_type (:obj:`int`): Flag that sets which notification to be turned on
-            notification_callback (:obj:`class`): Class which contains callbacks used by notifications
+            notification_type (:obj:`int`): Flag that sets which notification to be turned on.
+            notification_callback (:obj:`class`): Class which contains callbacks used by notifications.
+
         """
+
         self._connection.notification_callbacks = notification_callback
         commands.SetNotification.run(self._connection, notification_type)
 
-    def add_notification_listener(self, notification_type, notification_callback, overwrite=True):
+    def _add_notification_listener(self, notification_type, notification_callback, overwrite=True):
         """Activates a notification that the tester will send
+
         Args:
             notification_type (:obj:`int`): Flag that indicates which notification to be turned on
             notification_callback (:obj:`method`): callback used when a notification is received
             overwrite (:obj:'bool'): Flag to set if the new callback will overwrite the other
-                                    callbacks or just append
+                callbacks or just append.
+
         """
+
         commands.AddNotificationListener.run(self._connection, notification_type, notification_callback, overwrite)
 
-    def remove_notification_listener(self, notification_type):
-        """Clear list of callback for the notification type and turn off the notification in tester
+    def _remove_notification_listener(self, notification_type):
+        """Clear list of callback for the notification type and turn off the notification in tester.
+
         Args:
-            notification_type (:obj:`int`): Flag that indicates which notification to be turned off
+            notification_type (:obj:`int`): Flag that indicates which notification to be turned off.
+
         """
+
         commands.RemoveNotificationListener.run(self._connection, notification_type)

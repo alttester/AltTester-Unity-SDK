@@ -3,33 +3,37 @@ import time
 
 import pytest
 
-from altunityrunner import *
+import altunityrunner.exceptions as exceptions
 from altunityrunner.__version__ import VERSION
-from altunityrunner.commands import GetServerVersion, Notifications
-from tests.integration.notification_callbacks_for_testing import TestNotificationCallback
+from altunityrunner import AltUnityDriver, By
+from altunityrunner.logging import AltUnityLogLevel, AltUnityLogger
+from altunityrunner.alt_unity_key_code import AltUnityKeyCode
+from altunityrunner.player_pref_key_type import PlayerPrefKeyType
+from altunityrunner.commands import GetServerVersion
 from altunityrunner.commands.Notifications.notification_type import NotificationType
-from altunityrunner.logging import AltUnityLogLevel
+from tests.integration.notification_callbacks_for_testing import TestNotificationCallback
 
 
-def altunitytester_port():
-    port = os.environ.get("ALTUNITYDRIVER_PORT")
-    if port:
-        return int(port)
-    return 13000
+def get_altunitytester_port():
+    port = os.environ.get("ALTUNITYDRIVER_PORT", 13000)
+    return int(port)
 
 
-def altunitytester_host():
-    host = os.environ.get("ALTUNITYDRIVER_HOST")
-    if host:
-        return host
-    return "127.0.0.1"
+def get_altunitytester_host():
+    return os.environ.get("ALTUNITYDRIVER_HOST", "127.0.0.1")
 
 
 @pytest.fixture(scope="session")
 def altdriver():
-    altdriver = AltUnityDriver(host=altunitytester_host(), port=altunitytester_port(),
-                               enable_logging=True, timeout=None)
+    altdriver = AltUnityDriver(
+        host=get_altunitytester_host(),
+        port=get_altunitytester_port(),
+        enable_logging=True,
+        timeout=None
+    )
+
     yield altdriver
+
     altdriver.stop()
 
 
@@ -74,7 +78,7 @@ class TestPythonBindings:
 
         self.altdriver.swipe(
             alt_unity_object.get_screen_position(),
-            (alt_unity_object.x - 200, alt_unity_object.y - 200,),
+            (alt_unity_object.x - 200, alt_unity_object.y - 200),
             duration=2
         )
         time.sleep(2)
@@ -158,19 +162,19 @@ class TestPythonBindings:
 
     def test_get_component_property(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-        result = self.altdriver.find_object(By.NAME,
-                                            "Capsule").get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
+        altobject = self.altdriver.find_object(By.NAME, "Capsule")
+        result = altobject.get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
 
-        assert result, [1,2,3]
+        assert result, [1, 2, 3]
 
     def test_set_component_property(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         self.altdriver.find_object(By.NAME, "Capsule").set_component_property(
-            "AltUnityExampleScriptCapsule", "arrayOfInts", [2,3,4])
-        result = self.altdriver.find_object(By.NAME,
-                                            "Capsule").get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
+            "AltUnityExampleScriptCapsule", "arrayOfInts", [2, 3, 4])
+        altobject = self.altdriver.find_object(By.NAME, "Capsule")
+        result = altobject.get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
 
-        assert result == [2,3,4]
+        assert result == [2, 3, 4]
 
     def test_call_component_method(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
@@ -184,7 +188,7 @@ class TestPythonBindings:
     def test_call_component_method_assembly_not_found(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
-        with pytest.raises(AssemblyNotFoundException) as execinfo:
+        with pytest.raises(exceptions.AssemblyNotFoundException) as execinfo:
             alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
             alt_unity_object.call_component_method(
                 "RandomComponent", "TestMethodWithManyParameters",
@@ -199,21 +203,21 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
 
-        with pytest.raises(MethodWithGivenParametersNotFoundException) as execinfo:
+        with pytest.raises(exceptions.MethodWithGivenParametersNotFoundException) as execinfo:
             alt_unity_object.call_component_method(
                 "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
                 parameters=["stringparam", 0.5, [1, 2, 3]],
                 type_of_parameters=[]
             )
 
-        assert str(
-            execinfo.value) == "No method found with 3 parameters matching signature: TestMethodWithManyParameters(System.String[])"
+        assert str(execinfo.value) == \
+            "No method found with 3 parameters matching signature: TestMethodWithManyParameters(System.String[])"
 
     def test_call_component_method_invalid_method_argument_types(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
 
-        with pytest.raises(FailedToParseArgumentsException) as execinfo:
+        with pytest.raises(exceptions.FailedToParseArgumentsException) as execinfo:
             alt_unity_object.call_component_method(
                 "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
                 parameters=["stringnoint", "stringparams", 0.5, [1, 2, 3]],
@@ -250,15 +254,24 @@ class TestPythonBindings:
         color2 = alt_unity_object.get_component_property(
             "AltUnityExampleScriptDropMe", "highlightColor")
 
-        assert color1["r"] != color2["r"] or color1["g"] != color2["g"] or color1["b"] != color2["b"] or color1["a"] != color2["a"]
+        assert color1["r"] != color2["r"] or \
+            color1["g"] != color2["g"] or \
+            color1["b"] != color2["b"] or \
+            color1["a"] != color2["a"]
 
         alt_unity_object.pointer_exit()
         color3 = alt_unity_object.get_component_property(
             "AltUnityExampleScriptDropMe", "highlightColor")
 
-        assert color3["r"] != color2["r"] or color3["g"] != color2["g"] or color3["b"] != color2["b"] or color3["a"] != color2["a"]
-        
-        assert color3["r"] == color1["r"] and color3["g"] == color1["g"] and color3["b"] == color1["b"] and color3["a"] == color1["a"]
+        assert color3["r"] != color2["r"] or \
+            color3["g"] != color2["g"] or \
+            color3["b"] != color2["b"] or \
+            color3["a"] != color2["a"]
+
+        assert color3["r"] == color1["r"] and \
+            color3["g"] == color1["g"] and \
+            color3["b"] == color1["b"] and \
+            color3["a"] == color1["a"]
 
     def test_multiple_swipes(self):
         self.altdriver.load_scene("Scene 3 Drag And Drop")
@@ -398,7 +411,7 @@ class TestPythonBindings:
     def test_wait_for_non_existing_object(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
-        with pytest.raises(WaitTimeOutException) as execinfo:
+        with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
             self.altdriver.wait_for_object(By.NAME, "dlkasldkas", timeout=1)
 
         assert str(execinfo.value) == "Element dlkasldkas not found after 1 seconds"
@@ -406,7 +419,7 @@ class TestPythonBindings:
     def test_wait_for_object_to_not_exist_fail(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
-        with pytest.raises(WaitTimeOutException) as execinfo:
+        with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
             self.altdriver.wait_for_object_to_not_be_present(By.NAME, "Capsule", timeout=1)
 
         assert str(execinfo.value) == "Element Capsule still found after 1 seconds"
@@ -414,13 +427,13 @@ class TestPythonBindings:
     def test_wait_for_object_with_text_wrong_text(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
-        with pytest.raises(WaitTimeOutException) as execinfo:
+        with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
             self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=aaaaa]", timeout=1)
 
         assert str(execinfo.value) == "Element //CapsuleInfo[@text=aaaaa] not found after 1 seconds"
 
     def test_wait_for_current_scene_to_be_a_non_existing_scene(self):
-        with pytest.raises(WaitTimeOutException) as execinfo:
+        with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
             self.altdriver.wait_for_current_scene_to_be("AltUnityDriverTestScenee", 1, 0.5)
 
         assert str(execinfo.value) == "Scene AltUnityDriverTestScenee not loaded after 1 seconds"
@@ -430,7 +443,7 @@ class TestPythonBindings:
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         text = alt_unity_object.get_component_property("AltUnityExampleScriptCapsule", "TestBool")
 
-        assert text == True
+        assert text is True
 
     def test_call_static_method(self):
         self.altdriver.call_static_method(
@@ -655,7 +668,7 @@ class TestPythonBindings:
     def test_find_with_find_object_which_contains_not_existing_object(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
-        with pytest.raises(NotFoundException) as execinfo:
+        with pytest.raises(exceptions.NotFoundException) as execinfo:
             self.altdriver.find_object_which_contains(By.NAME, "EventNonExisting")
 
         assert str(execinfo.value) == "Object //*[contains(@name,EventNonExisting)] not found"
@@ -1079,7 +1092,7 @@ class TestPythonBindings:
         assert len(scenes) == 2
 
     def test_load_scene_with_invalid_scene_name(self):
-        with pytest.raises(SceneNotFoundException):
+        with pytest.raises(exceptions.SceneNotFoundException):
             self.altdriver.load_scene("Scene 0")
 
     def test_get_component_property_complex_class(self):
@@ -1094,7 +1107,7 @@ class TestPythonBindings:
         assert property_value == 1
 
     def test_get_component_property_complex_class2(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", True)
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", load_single=True)
 
         component_name = "AltUnityExampleScriptCapsule"
         property_name = "listOfSampleClass[1].testString"
@@ -1105,7 +1118,7 @@ class TestPythonBindings:
         assert property_value == "test2"
 
     def test_set_component_property_complex_class(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", True)
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", load_single=True)
 
         component_name = "AltUnityExampleScriptCapsule"
         property_name = "AltUnitySampleClass.testInt"
@@ -1117,7 +1130,7 @@ class TestPythonBindings:
         assert property_value == 2
 
     def test_set_component_property_complex_class2(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", True)
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", load_single=True)
         component_name = "AltUnityExampleScriptCapsule"
         property_name = "listOfSampleClass[1].testString"
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
@@ -1148,9 +1161,9 @@ class TestPythonBindings:
         assert self.altdriver.get_all_loaded_scenes()[0] == "Scene 1 AltUnityDriverTestScene"
 
     def test_unload_only_scene(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", True)
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", load_single=True)
 
-        with pytest.raises(CouldNotPerformOperationException):
+        with pytest.raises(exceptions.CouldNotPerformOperationException):
             self.altdriver.unload_scene("Scene 1 AltUnityDriverTestScene")
 
     def test_set_server_logging(self):
@@ -1180,7 +1193,7 @@ class TestPythonBindings:
         "path", ["//[1]", "CapsuleInfo[@tag=UI]", "//CapsuleInfo[@tag=UI/Text", "//CapsuleInfo[0/Text"]
     )
     def test_invalid_paths(self, path):
-        with pytest.raises(AltUnityInvalidPathException):
+        with pytest.raises(exceptions.AltUnityInvalidPathException):
             self.altdriver.find_object(By.PATH, path)
 
     def test_tapcoordinates(self):
@@ -1251,12 +1264,12 @@ class TestPythonBindings:
     def test_camera_not_found_exception(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
-        with pytest.raises(CameraNotFoundException):
+        with pytest.raises(exceptions.CameraNotFoundException):
             self.altdriver.find_object(By.NAME, "Capsule", By.NAME, "Camera")
 
     def test_input_field_events(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-        input_field = self.altdriver.find_object(By.NAME, "InputField").set_text("example", True)
+        input_field = self.altdriver.find_object(By.NAME, "InputField").set_text("example", submit=True)
 
         assert input_field.get_text() == "example"
         assert input_field.get_component_property("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked")
@@ -1292,34 +1305,34 @@ class TestPythonBindings:
 
     def test_load_scene_notification(self):
         test_notification_callbacks = TestNotificationCallback()
-        self.altdriver.add_notification_listener(
+        self.altdriver._add_notification_listener(
             NotificationType.LOADSCENE, test_notification_callbacks.scene_loaded_callback)
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         assert test_notification_callbacks.last_scene_loaded == "Scene 1 AltUnityDriverTestScene"
-        self.altdriver.remove_notification_listener(NotificationType.LOADSCENE)
+        self.altdriver._remove_notification_listener(NotificationType.LOADSCENE)
 
     def test_unload_scene_notification(self):
         test_notification_callbacks = TestNotificationCallback()
-        self.altdriver.add_notification_listener(
+        self.altdriver._add_notification_listener(
             NotificationType.UNLOADSCENE, test_notification_callbacks.scene_unloaded_callback)
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-        self.altdriver.load_scene("Scene 2 Draggable Panel", False)
+        self.altdriver.load_scene("Scene 2 Draggable Panel", load_single=False)
         self.altdriver.unload_scene("Scene 2 Draggable Panel")
         assert test_notification_callbacks.last_scene_unloaded == "Scene 2 Draggable Panel"
-        self.altdriver.remove_notification_listener(NotificationType.UNLOADSCENE)
+        self.altdriver._remove_notification_listener(NotificationType.UNLOADSCENE)
 
     def test_log_notification(self):
         test_notification_callbacks = TestNotificationCallback()
-        self.altdriver.add_notification_listener(
+        self.altdriver._add_notification_listener(
             NotificationType.LOG, test_notification_callbacks.log_callback)
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         assert "Scene Loaded" in test_notification_callbacks.log_message
         assert test_notification_callbacks.log_type == AltUnityLogLevel.Debug.value
-        self.altdriver.remove_notification_listener(NotificationType.LOG)
+        self.altdriver._remove_notification_listener(NotificationType.LOG)
 
     def test_application_paused_notification(self):
         test_notification_callbacks = TestNotificationCallback()
-        self.altdriver.add_notification_listener(
+        self.altdriver._add_notification_listener(
             NotificationType.APPLICATION_PAUSED, test_notification_callbacks.application_paused_callback)
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         alt_unity_object = self.altdriver.find_object(By.NAME, "AltUnityRunnerPrefab")
@@ -1328,8 +1341,9 @@ class TestPythonBindings:
             parameters=[True],
             type_of_parameters=["System.Boolean"]
         )
-        assert test_notification_callbacks.application_paused == True
-        self.altdriver.remove_notification_listener(NotificationType.APPLICATION_PAUSED)
+
+        assert test_notification_callbacks.application_paused is True
+        self.altdriver._remove_notification_listener(NotificationType.APPLICATION_PAUSED)
 
     def test_float_world_coordinates(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
@@ -1343,12 +1357,11 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.set_command_response_timeout(1)
-        with pytest.raises(CommandResponseTimeoutException) as execinfo:
+        with pytest.raises(exceptions.CommandResponseTimeoutException) as execinfo:
             alt_unity_object.call_component_method(
                 "AltUnityExampleScriptCapsule", "JumpWithDelay",
                 parameters=[], type_of_parameters=[]
             )
 
         self.altdriver.set_command_response_timeout(60)
-        assert str(
-            execinfo.value) == ""
+        assert str(execinfo.value) == ""
