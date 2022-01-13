@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: AltUnity Tester v.1.7.0-alpha
+  m_Text: AltUnity Tester v.1.7.0
 --- !u!1 &737578568959250199
 GameObject:
   m_ObjectHideFlags: 0
