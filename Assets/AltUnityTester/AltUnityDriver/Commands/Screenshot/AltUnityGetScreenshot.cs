@@ -3,7 +3,6 @@ namespace Altom.AltUnityDriver.Commands
     public class AltUnityGetScreenshotResponse
     {
         public AltUnityVector2 scaleDifference;
-        public AltUnityTextureFormat textureFormat;
         public AltUnityVector3 textureSize;
         public byte[] compressedImage;
 
@@ -25,7 +24,7 @@ namespace Altom.AltUnityDriver.Commands
 
             var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams);
             byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
-            return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize, imageData.textureFormat);
+            return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize);
         }
     }
 
@@ -48,7 +47,7 @@ namespace Altom.AltUnityDriver.Commands
 
             var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams);
             byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
-            return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize, imageData.textureFormat);
+            return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize);
         }
     }
 
@@ -76,7 +75,7 @@ namespace Altom.AltUnityDriver.Commands
 
             var imageData = CommHandler.Recvall<AltUnityGetScreenshotResponse>(cmdParams);
             byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
-            return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize, imageData.textureFormat);
+            return new AltUnityTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize);
 
         }
     }

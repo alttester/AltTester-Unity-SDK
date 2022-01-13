@@ -98,7 +98,6 @@ namespace Altom.AltUnityTester.Commands
             int width = (int)size.x;
             int height = (int)size.y;
 
-            quality = UnityEngine.Mathf.Clamp(quality, 1, 100);
             if (width == 0 && height == 0)
             {
                 width = screenshot.width;
@@ -122,24 +121,22 @@ namespace Altom.AltUnityTester.Commands
             AltUnityGetScreenshotResponse response = new AltUnityGetScreenshotResponse();
 
             response.scaleDifference = new AltUnityVector2(screenshot.width, screenshot.height);
-
-            width = width * quality / 100;
-            height = height * quality / 100;
-            AltUnityTextureScale.Bilinear(screenshot, width, height);
-            screenshot.Compress(false);
-            screenshot.Apply(false);
-
-            var screenshotSerialized = screenshot.GetRawTextureData();
+            quality = UnityEngine.Mathf.Clamp(quality, 1, 100);
+            if (quality != 100)
+            {
+                width = width * quality / 100;
+                height = height * quality / 100;
+                AltUnityTextureScale.Bilinear(screenshot, width, height);
+            }
+            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
 
             logger.Trace("Start Compression");
             var screenshotCompressed = AltUnityRunner.CompressScreenshot(screenshotSerialized);
             logger.Trace("Finished Compression");
 
-            response.textureFormat = (AltUnityTextureFormat)screenshot.format;
             response.textureSize = new AltUnityVector3(screenshot.width, screenshot.height);
-            response.compressedImage = screenshotCompressed; // todo StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
+            response.compressedImage = screenshotCompressed;
 
-            screenshot.Apply(false, true);
             UnityEngine.Object.DestroyImmediate(screenshot);
             return response;
         }
