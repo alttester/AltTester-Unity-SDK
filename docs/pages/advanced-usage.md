@@ -439,3 +439,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
 
 ```
+
+## Code Stripping
+
+AltUnity Tester is using reflection in some of the commands to get information from the instrumented application. If you application is using IL2CPP scripting backend then it might strip code that you would use in your tests. If this is the case we recommend creating an `link.xml file`. More information how to manage code stripping and create `link.xml file` is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)
