@@ -69,7 +69,7 @@ These give you access to a virtual machine or a Docker container that has a clou
 <details>
 <summary><strong> I get the error: <em>Multiple precompiled assemblies with the same name Newtonsoft.Json.dll included or the current platform.</em>, </strong> </summary>
 <br>
-<strong>Answer:</strong> You get this error due to multiple imports of Newtonsoft.Json.dll library. You can remove the Newtonsoft.Json version from AltUnity Tester by deleting the <em>JsonDotNet</em> folder <em>Assets/AltUnityTester/ThirdParty/JsonDotNet</em>. 
+<strong>Answer:</strong> You get this error due to multiple imports of Newtonsoft.Json.dll library. You can remove the Newtonsoft.Json version from AltUnity Tester by deleting the <em>Newtonsonft</em> folder <em>Assets/AltUnityTester/ThirdParty/Newtonsonft</em>. 
 </details>
 <br>
 
