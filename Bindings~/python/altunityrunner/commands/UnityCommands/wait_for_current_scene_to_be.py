@@ -24,12 +24,9 @@ class WaitForCurrentSceneToBe(Command):
             logger.debug("Waiting for scene to be {}...", self.scene_name)
             current_scene = GetCurrentScene(self._connection).execute()
 
-            if current_scene != self.scene_name:
-                time.sleep(self.interval)
-                t += self.interval
-            else:
-                break
+            if current_scene == self.scene_name:
+                return
+            time.sleep(self.interval)
+            t += self.interval
         if t >= self.timeout:
             raise WaitTimeOutException("Scene {} not loaded after {} seconds".format(self.scene_name, self.timeout))
-
-        return current_scene

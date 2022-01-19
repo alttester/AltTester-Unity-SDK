@@ -7,18 +7,20 @@ import ro.altom.altunitytester.AltUnityObject;
  * Find the first object in the scene which respects the given criteria.
  */
 public class AltFindObjectWhichContains extends AltBaseFindObject {
-    private AltFindObjectsParameters altFindObjectsParameters;
+    private AltFindObjectsParams altFindObjectsParameters;
 
     public AltFindObjectWhichContains(IMessageHandler messageHandler,
-            AltFindObjectsParameters altFindObjectsParameters) {
+            AltFindObjectsParams altFindObjectsParameters) {
         super(messageHandler);
         this.altFindObjectsParameters = altFindObjectsParameters;
         this.altFindObjectsParameters.setCommandName("findObject");
     }
 
     public AltUnityObject Execute() {
-        altFindObjectsParameters.setPath(SetPathContains(altFindObjectsParameters.getBy(), altFindObjectsParameters.getValue()));
-        altFindObjectsParameters.setCameraPath(SetPath(altFindObjectsParameters.getCameraBy(), altFindObjectsParameters.getCameraValue()));
+        altFindObjectsParameters
+                .setPath(SetPathContains(altFindObjectsParameters.getBy(), altFindObjectsParameters.getValue()));
+        altFindObjectsParameters.setCameraPath(
+                SetPath(altFindObjectsParameters.getCameraBy(), altFindObjectsParameters.getCameraValue()));
         SendCommand(altFindObjectsParameters);
         return ReceiveAltUnityObject(altFindObjectsParameters);
     }

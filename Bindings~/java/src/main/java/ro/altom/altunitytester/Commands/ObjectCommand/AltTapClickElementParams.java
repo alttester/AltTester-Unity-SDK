@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-public class AltTapClickElementParameters extends AltUnityObjectParameters {
+public class AltTapClickElementParams extends AltUnityObjectParams {
     private int count = 1;
     private float interval = 0.1f;
     private boolean wait = true;
@@ -23,23 +23,23 @@ public class AltTapClickElementParameters extends AltUnityObjectParameters {
             this.interval = interval;
         }
 
-        public AltTapClickElementParameters.Builder withCount(int count) {
+        public AltTapClickElementParams.Builder withCount(int count) {
             this.count = count;
             return this;
         }
 
-        public AltTapClickElementParameters.Builder withInterval(float interval) {
+        public AltTapClickElementParams.Builder withInterval(float interval) {
             this.interval = interval;
             return this;
         }
 
-        public AltTapClickElementParameters.Builder withWait(boolean wait) {
+        public AltTapClickElementParams.Builder withWait(boolean wait) {
             this.wait = wait;
             return this;
         }
 
-        public AltTapClickElementParameters build() {
-            AltTapClickElementParameters parameters = new AltTapClickElementParameters();
+        public AltTapClickElementParams build() {
+            AltTapClickElementParams parameters = new AltTapClickElementParams();
             parameters.count = this.count;
             parameters.interval = this.interval;
             parameters.wait = this.wait;
@@ -48,7 +48,7 @@ public class AltTapClickElementParameters extends AltUnityObjectParameters {
         }
     }
 
-    private AltTapClickElementParameters() {
+    private AltTapClickElementParams() {
     }
 
     public int getCount() {

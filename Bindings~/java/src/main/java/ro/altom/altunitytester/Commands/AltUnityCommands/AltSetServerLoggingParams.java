@@ -4,7 +4,7 @@ import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.Logging.AltUnityLogLevel;
 import ro.altom.altunitytester.Logging.AltUnityLogger;
 
-public class AltSetServerLoggingParameters extends AltMessage{
+public class AltSetServerLoggingParams extends AltMessage {
 
     public static class Builder {
         private AltUnityLogger logger;
@@ -15,15 +15,15 @@ public class AltSetServerLoggingParameters extends AltMessage{
             this.logLevel = logLevel;
         }
 
-        public AltSetServerLoggingParameters build() {
-            AltSetServerLoggingParameters setServerLoggingParameters = new AltSetServerLoggingParameters();
+        public AltSetServerLoggingParams build() {
+            AltSetServerLoggingParams setServerLoggingParameters = new AltSetServerLoggingParams();
             setServerLoggingParameters.logger = this.logger;
             setServerLoggingParameters.logLevel = this.logLevel;
             return setServerLoggingParameters;
         }
     }
 
-    private AltSetServerLoggingParameters() {
+    private AltSetServerLoggingParams() {
         this.setCommandName("setServerLogging");
     }
 

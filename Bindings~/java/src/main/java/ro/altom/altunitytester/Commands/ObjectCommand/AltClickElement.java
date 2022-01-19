@@ -8,12 +8,13 @@ public class AltClickElement extends AltCommandReturningAltObjects {
     /**
      * @param command The parameters
      */
-    private AltTapClickElementParameters params;
+    private AltTapClickElementParams params;
+
     /**
      * @param altUnityObject The game object
      */
 
-    public AltClickElement(IMessageHandler messageHandler, AltTapClickElementParameters parameters) {
+    public AltClickElement(IMessageHandler messageHandler, AltTapClickElementParams parameters) {
         super(messageHandler);
         this.params = parameters;
         this.params.setCommandName("clickElement");

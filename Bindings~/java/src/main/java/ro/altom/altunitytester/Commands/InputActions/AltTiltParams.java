@@ -3,7 +3,7 @@ package ro.altom.altunitytester.Commands.InputActions;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.position.Vector3;
 
-public class AltTiltParameters extends AltMessage {
+public class AltTiltParams extends AltMessage {
     public static class Builder {
         private Vector3 acceleration;
         private float duration = 0.1f;
@@ -20,7 +20,7 @@ public class AltTiltParameters extends AltMessage {
          * @param duration How long the rotation will take in seconds. Defaults to
          *                 <code>0.1<code>.
          */
-        public AltTiltParameters.Builder withDuration(float duration) {
+        public AltTiltParams.Builder withDuration(float duration) {
             this.duration = duration;
             return this;
         }
@@ -28,7 +28,7 @@ public class AltTiltParameters extends AltMessage {
         /**
          * @param acceleration The linear acceleration of a device.
          */
-        public AltTiltParameters.Builder withAcceleration(Vector3 acceleration) {
+        public AltTiltParams.Builder withAcceleration(Vector3 acceleration) {
             this.acceleration = acceleration;
             return this;
         }
@@ -36,13 +36,13 @@ public class AltTiltParameters extends AltMessage {
         /**
          * @param wait If set wait for command to finish. Defaults to <code>true</code>.
          */
-        public AltTiltParameters.Builder withWait(boolean wait) {
+        public AltTiltParams.Builder withWait(boolean wait) {
             this.wait = wait;
             return this;
         }
 
-        public AltTiltParameters build() {
-            AltTiltParameters altTiltParameters = new AltTiltParameters();
+        public AltTiltParams build() {
+            AltTiltParams altTiltParameters = new AltTiltParams();
             altTiltParameters.acceleration = this.acceleration;
             altTiltParameters.duration = this.duration;
             altTiltParameters.wait = this.wait;
@@ -50,7 +50,7 @@ public class AltTiltParameters extends AltMessage {
         }
     }
 
-    private AltTiltParameters() {
+    private AltTiltParams() {
         this.setCommandName("tilt");
     }
 

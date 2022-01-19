@@ -9,9 +9,9 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  */
 public class AltSwipe extends AltBaseCommand {
 
-    private AltSwipeParameters params;
+    private AltSwipeParams params;
 
-    public AltSwipe(IMessageHandler messageHandler, AltSwipeParameters params) {
+    public AltSwipe(IMessageHandler messageHandler, AltSwipeParams params) {
         super(messageHandler);
         this.params = params;
     }

@@ -3,7 +3,7 @@ package ro.altom.altunitytester.Commands.InputActions;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
-public class AltKeyParameters extends AltMessage{
+public class AltKeyDownParams extends AltMessage {
     public static class Builder {
         private AltUnityKeyCode keyCode = AltUnityKeyCode.NoKey;
         private float power = 1;
@@ -12,20 +12,20 @@ public class AltKeyParameters extends AltMessage{
             this.keyCode = keyCode;
         }
 
-        public AltKeyParameters.Builder withPower(float power) {
+        public AltKeyDownParams.Builder withPower(float power) {
             this.power = power;
             return this;
         }
 
-        public AltKeyParameters build() {
-            AltKeyParameters altKeyUpParameters = new AltKeyParameters();
-            altKeyUpParameters.keyCode = this.keyCode;
-            altKeyUpParameters.power = this.power;
-            return altKeyUpParameters;
+        public AltKeyDownParams build() {
+            AltKeyDownParams params = new AltKeyDownParams();
+            params.keyCode = this.keyCode;
+            params.power = this.power;
+            return params;
         }
     }
 
-    private AltKeyParameters() {
+    private AltKeyDownParams() {
         this.setCommandName("keyDown");
     }
 

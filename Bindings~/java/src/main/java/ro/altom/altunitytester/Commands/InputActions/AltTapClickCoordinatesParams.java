@@ -3,7 +3,7 @@ package ro.altom.altunitytester.Commands.InputActions;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.position.Vector2;
 
-public class AltTapClickCoordinatesParameters extends AltMessage{
+public class AltTapClickCoordinatesParams extends AltMessage {
     private Vector2 coordinates;
     private int count = 1;
     private float interval = 0.1f;
@@ -30,23 +30,23 @@ public class AltTapClickCoordinatesParameters extends AltMessage{
             this.interval = interval;
         }
 
-        public AltTapClickCoordinatesParameters.Builder withCount(int count) {
+        public AltTapClickCoordinatesParams.Builder withCount(int count) {
             this.count = count;
             return this;
         }
 
-        public AltTapClickCoordinatesParameters.Builder withInterval(float interval) {
+        public AltTapClickCoordinatesParams.Builder withInterval(float interval) {
             this.interval = interval;
             return this;
         }
 
-        public AltTapClickCoordinatesParameters.Builder withWait(boolean wait) {
+        public AltTapClickCoordinatesParams.Builder withWait(boolean wait) {
             this.wait = wait;
             return this;
         }
 
-        public AltTapClickCoordinatesParameters build() {
-            AltTapClickCoordinatesParameters parameters = new AltTapClickCoordinatesParameters();
+        public AltTapClickCoordinatesParams build() {
+            AltTapClickCoordinatesParams parameters = new AltTapClickCoordinatesParams();
             parameters.coordinates = this.coordinates;
             parameters.count = this.count;
             parameters.interval = this.interval;
@@ -56,7 +56,7 @@ public class AltTapClickCoordinatesParameters extends AltMessage{
         }
     }
 
-    private AltTapClickCoordinatesParameters() {
+    private AltTapClickCoordinatesParams() {
     }
 
     public Vector2 getCoordinates() {

@@ -5,27 +5,27 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
 import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
 
 public class AltWaitForCurrentSceneToBe extends AltBaseCommand {
-    private AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters;
+    private AltWaitForCurrentSceneToBeParams params;
 
     public AltWaitForCurrentSceneToBe(IMessageHandler messageHandler,
-            AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters) {
+            AltWaitForCurrentSceneToBeParams params) {
         super(messageHandler);
-        this.altWaitForCurrentSceneToBeParameters = altWaitForCurrentSceneToBeParameters;
+        this.params = params;
     }
 
-    public String Execute() {
+    public void Execute() {
         double time = 0;
         String currentScene = "";
-        while (time < altWaitForCurrentSceneToBeParameters.getTimeout()) {
-            logger.debug("Waiting for scene to be " + altWaitForCurrentSceneToBeParameters.getSceneName() + "...");
+        while (time < params.getTimeout()) {
+            logger.debug("Waiting for scene to be " + params.getSceneName() + "...");
             currentScene = new AltGetCurrentScene(messageHandler).Execute();
-            if (currentScene != null && currentScene.equals(altWaitForCurrentSceneToBeParameters.getSceneName())) {
-                return currentScene;
+            if (currentScene != null && currentScene.equals(params.getSceneName())) {
+                return;
             }
-            sleepFor(altWaitForCurrentSceneToBeParameters.getInterval());
-            time += altWaitForCurrentSceneToBeParameters.getInterval();
+            sleepFor(params.getInterval());
+            time += params.getInterval();
         }
-        throw new WaitTimeOutException("Scene [" + altWaitForCurrentSceneToBeParameters.getSceneName()
-                + "] not loaded after " + altWaitForCurrentSceneToBeParameters.getTimeout() + " seconds");
+        throw new WaitTimeOutException("Scene [" + params.getSceneName()
+                + "] not loaded after " + params.getTimeout() + " seconds");
     }
 }

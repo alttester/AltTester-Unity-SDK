@@ -4,12 +4,12 @@ import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSetTimeScale extends AltBaseCommand {
-    
-    private AltSetTimescaleParams params;
 
-    public AltSetTimeScale(IMessageHandler messageHandler, float timeScale) {
+    private AltSetTimeScaleParams params;
+
+    public AltSetTimeScale(IMessageHandler messageHandler, AltSetTimeScaleParams params) {
         super(messageHandler);
-        params = new AltSetTimescaleParams(timeScale);
+        this.params = params;
         params.setCommandName("setTimeScale");
     }
 

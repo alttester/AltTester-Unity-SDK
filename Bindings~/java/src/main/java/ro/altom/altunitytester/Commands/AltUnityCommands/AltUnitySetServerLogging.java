@@ -5,10 +5,10 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltUnitySetServerLogging extends AltBaseCommand {
 
-    private AltSetServerLoggingParameters setServerLoggingParameters;
+    private AltSetServerLoggingParams setServerLoggingParameters;
 
     public AltUnitySetServerLogging(IMessageHandler messageHandler,
-            AltSetServerLoggingParameters setServerLoggingParameters) {
+            AltSetServerLoggingParams setServerLoggingParameters) {
         super(messageHandler);
 
         this.setServerLoggingParameters = setServerLoggingParameters;

@@ -2,15 +2,14 @@ package ro.altom.altunitytester.Commands.InputActions;
 
 import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
-import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
 public class AltKeyUp extends AltBaseCommand {
 
-    private AltKeyUpParameters params;
+    private AltKeyUpParams params;
 
-    public AltKeyUp(IMessageHandler messageHandler, AltUnityKeyCode keyCode) {
+    public AltKeyUp(IMessageHandler messageHandler, AltKeyUpParams params) {
         super(messageHandler);
-        params = new AltKeyUpParameters(keyCode);
+        this.params = params;
     }
 
     public void Execute() {

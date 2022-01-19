@@ -3,7 +3,7 @@ package ro.altom.altunitytester.Commands.InputActions;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.position.Vector2;
 
-public class AltMoveMouseParameters extends AltMessage {
+public class AltMoveMouseParams extends AltMessage {
     public static class Builder {
         private Vector2 coordinates;
         private float duration = 0.1f;
@@ -21,7 +21,7 @@ public class AltMoveMouseParameters extends AltMessage {
          *                 current position to the set location. Defaults to
          *                 <code>0.1</code>
          */
-        public AltMoveMouseParameters.Builder withDuration(float duration) {
+        public AltMoveMouseParams.Builder withDuration(float duration) {
             this.duration = duration;
             return this;
         }
@@ -29,21 +29,21 @@ public class AltMoveMouseParameters extends AltMessage {
         /**
          * @param wait If set wait for command to finish. Defaults to <code>true</code>.
          */
-        public AltMoveMouseParameters.Builder withWait(boolean wait) {
+        public AltMoveMouseParams.Builder withWait(boolean wait) {
             this.wait = wait;
             return this;
         }
 
-        public AltMoveMouseParameters build() {
-            AltMoveMouseParameters altMoveMouseParameter = new AltMoveMouseParameters();
-            altMoveMouseParameter.coordinates = this.coordinates;
-            altMoveMouseParameter.duration = this.duration;
-            altMoveMouseParameter.wait = this.wait;
-            return altMoveMouseParameter;
+        public AltMoveMouseParams build() {
+            AltMoveMouseParams params = new AltMoveMouseParams();
+            params.coordinates = this.coordinates;
+            params.duration = this.duration;
+            params.wait = this.wait;
+            return params;
         }
     }
 
-    private AltMoveMouseParameters() {
+    private AltMoveMouseParams() {
         this.setCommandName("moveMouse");
     }
 

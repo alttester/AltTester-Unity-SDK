@@ -14,10 +14,10 @@ public class AltWaitForObjectToNotBePresent extends AltBaseFindObject {
      * @param altWaitForObjectsParameters the properties parameter for finding the
      *                                    objects in a scene.
      */
-    private AltWaitForObjectsParameters altWaitForObjectsParameters;
+    private AltWaitForObjectsParams altWaitForObjectsParameters;
 
     public AltWaitForObjectToNotBePresent(IMessageHandler messageHandler,
-            AltWaitForObjectsParameters altWaitForObjectsParameters) {
+            AltWaitForObjectsParams altWaitForObjectsParameters) {
         super(messageHandler);
         this.altWaitForObjectsParameters = altWaitForObjectsParameters;
     }

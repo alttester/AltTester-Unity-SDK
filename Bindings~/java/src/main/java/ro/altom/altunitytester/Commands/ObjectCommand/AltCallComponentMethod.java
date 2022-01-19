@@ -11,10 +11,10 @@ public class AltCallComponentMethod extends AltBaseCommand {
     /**
      * @param altCallComponentMethodParameters builder for calling component methods
      */
-    private AltCallComponentMethodParameters altCallComponentMethodParameters;
+    private AltCallComponentMethodParams altCallComponentMethodParameters;
 
     public AltCallComponentMethod(IMessageHandler messageHandler,
-            AltCallComponentMethodParameters altCallComponentMethodParameters) {
+            AltCallComponentMethodParams altCallComponentMethodParameters) {
         super(messageHandler);
         this.altCallComponentMethodParameters = altCallComponentMethodParameters;
         this.altCallComponentMethodParameters.setCommandName("callComponentMethodForObject");

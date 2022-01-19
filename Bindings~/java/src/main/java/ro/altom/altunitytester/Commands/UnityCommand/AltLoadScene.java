@@ -4,9 +4,9 @@ import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltLoadScene extends AltBaseCommand {
-    private AltLoadSceneParameters altLoadSceneParameters;
+    private AltLoadSceneParams altLoadSceneParameters;
 
-    public AltLoadScene(IMessageHandler messageHandler, AltLoadSceneParameters altLoadSceneParameters) {
+    public AltLoadScene(IMessageHandler messageHandler, AltLoadSceneParams altLoadSceneParameters) {
         super(messageHandler);
         this.altLoadSceneParameters = altLoadSceneParameters;
         this.altLoadSceneParameters.setCommandName("loadScene");

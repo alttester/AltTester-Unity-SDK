@@ -4,7 +4,7 @@ import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.AltUnityDriver.By;
 
-public class AltFindObjectsParameters extends AltMessage {
+public class AltFindObjectsParams extends AltMessage {
 
     public static class Builder {
         private By by;
@@ -18,19 +18,19 @@ public class AltFindObjectsParameters extends AltMessage {
             this.value = value;
         }
 
-        public AltFindObjectsParameters.Builder isEnabled(boolean enabled) {
+        public AltFindObjectsParams.Builder isEnabled(boolean enabled) {
             this.enabled = enabled;
             return this;
         }
 
-        public AltFindObjectsParameters.Builder withCamera(By cameraBy, String cameraValue) {
+        public AltFindObjectsParams.Builder withCamera(By cameraBy, String cameraValue) {
             this.cameraBy = cameraBy;
             this.cameraValue = cameraValue;
             return this;
         }
 
-        public AltFindObjectsParameters build() {
-            AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters();
+        public AltFindObjectsParams build() {
+            AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams();
             altFindObjectsParameters.by = this.by;
             altFindObjectsParameters.value = this.value;
             altFindObjectsParameters.cameraBy = this.cameraBy;
@@ -40,7 +40,7 @@ public class AltFindObjectsParameters extends AltMessage {
         }
     }
 
-    private AltFindObjectsParameters() {
+    private AltFindObjectsParams() {
     }
 
     public String getValue() {

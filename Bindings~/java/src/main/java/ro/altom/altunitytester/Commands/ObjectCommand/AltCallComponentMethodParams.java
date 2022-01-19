@@ -2,7 +2,7 @@ package ro.altom.altunitytester.Commands.ObjectCommand;
 
 import com.google.gson.Gson;
 
-public class AltCallComponentMethodParameters extends AltUnityObjectParameters {
+public class AltCallComponentMethodParams extends AltUnityObjectParams {
     public static class Builder {
         private String componentName;
         private String methodName;
@@ -16,18 +16,18 @@ public class AltCallComponentMethodParameters extends AltUnityObjectParameters {
             this.parameters = parameters;
         }
 
-        public AltCallComponentMethodParameters.Builder withAssembly(String assembly) {
+        public AltCallComponentMethodParams.Builder withAssembly(String assembly) {
             this.assembly = assembly;
             return this;
         }
 
-        public AltCallComponentMethodParameters.Builder withTypeOfParameters(String[] typeOfParameters) {
+        public AltCallComponentMethodParams.Builder withTypeOfParameters(String[] typeOfParameters) {
             this.typeOfParameters = typeOfParameters;
             return this;
         }
 
-        public AltCallComponentMethodParameters build() {
-            AltCallComponentMethodParameters altCallStaticMethodParameters = new AltCallComponentMethodParameters();
+        public AltCallComponentMethodParams build() {
+            AltCallComponentMethodParams altCallStaticMethodParameters = new AltCallComponentMethodParams();
             altCallStaticMethodParameters.assembly = this.assembly;
             altCallStaticMethodParameters.method = this.methodName;
             if (this.parameters != null) {
@@ -43,7 +43,7 @@ public class AltCallComponentMethodParameters extends AltUnityObjectParameters {
         }
     }
 
-    private AltCallComponentMethodParameters() {
+    private AltCallComponentMethodParams() {
     }
 
     public String getComponentName() {

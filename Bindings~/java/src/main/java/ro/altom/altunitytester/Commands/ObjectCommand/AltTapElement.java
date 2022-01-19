@@ -8,13 +8,14 @@ public class AltTapElement extends AltBaseCommand {
     /**
      * @param command The parameters
      */
-    private AltTapClickElementParameters parameters;
+    private AltTapClickElementParams parameters;
+
     /**
      * @param altUnityObject The game object
      */
 
     public AltTapElement(IMessageHandler messageHandler,
-            AltTapClickElementParameters parameters) {
+            AltTapClickElementParams parameters) {
         super(messageHandler);
         this.parameters = parameters;
         this.parameters.setCommandName("tapElement");

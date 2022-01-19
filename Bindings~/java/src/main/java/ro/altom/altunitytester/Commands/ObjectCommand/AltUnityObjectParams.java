@@ -3,11 +3,11 @@ package ro.altom.altunitytester.Commands.ObjectCommand;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.AltUnityObject;
 
-public class AltUnityObjectParameters extends AltMessage {
+public class AltUnityObjectParams extends AltMessage {
 
     protected AltUnityObject altUnityObject;
 
-    AltUnityObjectParameters() {
+    AltUnityObjectParams() {
     }
 
     public void setAltUnityObject(AltUnityObject altUnityObject) {

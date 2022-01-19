@@ -5,7 +5,7 @@ import java.util.List;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.position.Vector2;
 
-public class AltMultiPointSwipeParameters extends AltMessage {
+public class AltMultiPointSwipeParams extends AltMessage {
     public static class Builder {
         private List<Vector2> positions;
         private float duration = 0.1f;
@@ -21,7 +21,7 @@ public class AltMultiPointSwipeParameters extends AltMessage {
         /**
          * @param positions A list of positions on the screen where the swipe be made.
          */
-        public AltMultiPointSwipeParameters.Builder withPositions(List<Vector2> positions) {
+        public AltMultiPointSwipeParams.Builder withPositions(List<Vector2> positions) {
             this.positions = positions;
             return this;
         }
@@ -30,7 +30,7 @@ public class AltMultiPointSwipeParameters extends AltMessage {
          * @param duration The time measured in seconds to swipe from first position to
          *                 the last position. Defaults to <code>0.1</code>.
          */
-        public AltMultiPointSwipeParameters.Builder withDuration(float duration) {
+        public AltMultiPointSwipeParams.Builder withDuration(float duration) {
             this.duration = duration;
             return this;
         }
@@ -38,13 +38,13 @@ public class AltMultiPointSwipeParameters extends AltMessage {
         /**
          * @param wait If set wait for command to finish. Defaults to <code>true</code>.
          */
-        public AltMultiPointSwipeParameters.Builder withWait(boolean wait) {
+        public AltMultiPointSwipeParams.Builder withWait(boolean wait) {
             this.wait = wait;
             return this;
         }
 
-        public AltMultiPointSwipeParameters build() {
-            AltMultiPointSwipeParameters params = new AltMultiPointSwipeParameters();
+        public AltMultiPointSwipeParams build() {
+            AltMultiPointSwipeParams params = new AltMultiPointSwipeParams();
             params.positions = this.positions;
             params.duration = this.duration;
             params.wait = this.wait;
@@ -56,7 +56,7 @@ public class AltMultiPointSwipeParameters extends AltMessage {
     private float duration;
     private boolean wait;
 
-    private AltMultiPointSwipeParameters() {
+    private AltMultiPointSwipeParams() {
         this.setCommandName("multipointSwipe");
     }
 

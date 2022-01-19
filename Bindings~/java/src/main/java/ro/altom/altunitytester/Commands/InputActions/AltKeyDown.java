@@ -5,9 +5,9 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltKeyDown extends AltBaseCommand {
 
-    private AltKeyParameters altKeyDownParameters;
+    private AltKeyDownParams altKeyDownParameters;
 
-    public AltKeyDown(IMessageHandler messageHandler, AltKeyParameters altKeyDownParameters) {
+    public AltKeyDown(IMessageHandler messageHandler, AltKeyDownParams altKeyDownParameters) {
         super(messageHandler);
         this.altKeyDownParameters = altKeyDownParameters;
     }

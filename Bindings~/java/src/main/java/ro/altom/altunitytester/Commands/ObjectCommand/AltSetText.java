@@ -5,10 +5,10 @@ import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.Commands.AltCommandReturningAltObjects;
 
 public class AltSetText extends AltCommandReturningAltObjects {
-    
-    private AltSetTextParameters params;
 
-    public AltSetText(IMessageHandler messageHandler, AltSetTextParameters params) {
+    private AltSetTextParams params;
+
+    public AltSetText(IMessageHandler messageHandler, AltSetTextParams params) {
         super(messageHandler);
         this.params = params;
         params.setCommandName("setText");
