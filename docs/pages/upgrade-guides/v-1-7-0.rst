@@ -273,13 +273,13 @@ With:
 
     int width = altUnityDriver.get_static_property("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule")
 
-3. We replaced the `wait_foror_object_with_text` command with `wait_for_object`.
+3. We replaced the `wait_for_object_with_text` command with `wait_for_object`.
 
 Replace:
 
 .. code-block:: py
 
-    var altUnityObject = altUnityDriver.wait_foror_object_with_text(By.NAME, name, text);
+    var altUnityObject = altUnityDriver.wait_for_object_with_text(By.NAME, name, text);
 
 With:
 
@@ -383,7 +383,7 @@ Replace:
 
 .. code-block:: java
 
-    AltGetComponentPropertyParameters altGetComponentPropertyParams = new AltGetComponentPropertyParameters.Builder(
+    AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
         componentName, propertyName).build();
     String propertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParameters);
     assertEquals(propertyValue, "13000");
@@ -413,7 +413,7 @@ With:
 .. code-block:: java
 
     AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(componentName, propertyName, 2).build();
-    altUnityObject.setComponentProperty(altSetComponentPropertyParameters);
+    altUnityObject.setComponentProperty(altSetComponentPropertyParams);
 
 3. In case of `callComponentMethod` command, we changed the types of `parameters` and `typeOfParameters`
 from `String` to `Array`. `callComponentMethod` returns now generic `T` instead of `String`.
@@ -470,6 +470,7 @@ With:
     int width = altUnityDriver.getStaticProperty(altGetComponentPropertyParams, Integer.class);
 
 3. We replaced the `waitForObjectWithText` command with `waitForObject`.
+Instead of `AltWaitForObjectWithTextParameters` we use `AltWaitForObjectsParams`.
 
 Replace:
 
@@ -489,12 +490,13 @@ With:
 .. code-block:: java
 
     String name = "CapsuleInfo";
-    AltWaitForObjectsParams waitObjectParams = new AltFindObjectsParameters.Builder(AltUnityDriver.By.PATH,
+    AltWaitForObjectsParams waitObjectParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
             "//CapsuleInfo[@text=Capsule Info"]).build();
     
     AltUnityObject altElement = altUnityDriver.waitForObject(waitObjectParams);
 
 4. We removed the `moveMouseAndWait` command and now the `moveMouse` will take a wait argument.
+`AltMoveMouseParameters` was renamed to `AltMoveMouseParams`.
 
 Replace:
 
@@ -511,6 +513,7 @@ With:
     altUnityDriver.moveMouse(altMoveMouseParams);
 
 5. We removed the `pressKeyAndWait` command and now the `pressKey` will take a wait argument.
+`AltPressKeyParameters` was renamed to `AltPressKeyParams`.
 
 Replace:
 
