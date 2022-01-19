@@ -2,14 +2,13 @@ package ro.altom.altunitytester.Commands.InputActions;
 
 import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
-import ro.altom.altunitytester.position.Vector2;
 
 public class AltBeginTouch extends AltBaseCommand {
-    private AltBeginTouchParameters params;
+    private AltBeginTouchParams params;
 
-    public AltBeginTouch(IMessageHandler messageHandler, Vector2 coordinates) {
+    public AltBeginTouch(IMessageHandler messageHandler, AltBeginTouchParams params) {
         super(messageHandler);
-        params = new AltBeginTouchParameters(coordinates);
+        this.params = params;
     }
 
     public int Execute() {

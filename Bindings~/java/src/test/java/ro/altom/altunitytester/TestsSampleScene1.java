@@ -8,20 +8,24 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ro.altom.altunitytester.AltUnityDriver.By;
-import ro.altom.altunitytester.Commands.AltCallStaticMethodParameters;
-import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
-import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParameters;
-import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParameters;
-import ro.altom.altunitytester.Commands.InputActions.AltHoldParameters;
-import ro.altom.altunitytester.Commands.InputActions.AltKeyParameters;
-import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParameters;
-import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParameters;
-import ro.altom.altunitytester.Commands.InputActions.AltTiltParameters;
-import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParameters;
-import ro.altom.altunitytester.Commands.ObjectCommand.AltSetComponentPropertyParameters;
-import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParameters;
-import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParameters;
-import ro.altom.altunitytester.Commands.UnityCommand.AltWaitForCurrentSceneToBeParameters;
+import ro.altom.altunitytester.Commands.AltCallStaticMethodParams;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParams;
+import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParams;
+import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParams;
+import ro.altom.altunitytester.Commands.InputActions.AltHoldParams;
+import ro.altom.altunitytester.Commands.InputActions.AltKeyDownParams;
+import ro.altom.altunitytester.Commands.InputActions.AltKeyUpParams;
+import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParams;
+import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
+import ro.altom.altunitytester.Commands.InputActions.AltTiltParams;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltCallComponentMethodParams;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltSetComponentPropertyParams;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
+import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParams;
+import ro.altom.altunitytester.Commands.UnityCommand.AltSetTimeScaleParams;
+import ro.altom.altunitytester.Commands.UnityCommand.AltUnloadSceneParams;
+import ro.altom.altunitytester.Commands.UnityCommand.AltWaitForCurrentSceneToBeParams;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import ro.altom.altunitytester.position.Vector2;
@@ -39,7 +43,7 @@ public class TestsSampleScene1 {
     private static AltUnityDriver altUnityDriver;
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         altUnityDriver = new AltUnityDriver(TestsHelper.GetAltUnityDriverHost(), TestsHelper.GetAltUnityDriverPort(),
                 true);
     }
@@ -53,14 +57,14 @@ public class TestsSampleScene1 {
     }
 
     @Before
-    public void loadLevel() throws Exception {
-        altUnityDriver.loadScene(new AltLoadSceneParameters.Builder("Scene 1 AltUnityDriverTestScene").build());
+    public void loadLevel() {
+        altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltUnityDriverTestScene").build());
     }
 
     @Test
-    public void testLodeNonExistentScene() throws Exception {
+    public void testLodeNonExistentScene() {
         try {
-            altUnityDriver.loadScene(new AltLoadSceneParameters.Builder("Scene 0").build());
+            altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 0").build());
             assertTrue(false);
         } catch (SceneNotFoundException e) {
             assertTrue(true);
@@ -68,47 +72,47 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testGetCurrentScene() throws Exception {
+    public void testGetCurrentScene() {
         assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
     }
 
     @Test
-    public void testFindElement() throws Exception {
+    public void testFindElement() {
         String name = "Capsule";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         assertEquals(name, altElement.name);
     }
 
     @Test
-    public void testFindElements() throws Exception {
+    public void testFindElements() {
         String name = "Plane";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
-        AltUnityObject[] altElements = altUnityDriver.findObjects(altFindObjectsParameters);
+        AltUnityObject[] altElements = altUnityDriver.findObjects(altFindObjectsParams);
         assertNotNull(altElements);
         assertEquals(altElements[0].name, name);
     }
 
     @Test
-    public void testFindElementWhereNameContains() throws Exception {
+    public void testFindElementWhereNameContains() {
 
         String name = "Cap";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
-        AltUnityObject altElement = altUnityDriver.findObjectWhichContains(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObjectWhichContains(altFindObjectsParams);
         assertNotNull(altElement);
         assertTrue(altElement.name.contains(name));
     }
 
     @Test
-    public void testFindElementsWhereNameContains() throws Exception {
+    public void testFindElementsWhereNameContains() {
         String name = "Pla";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
-        AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContain(altFindObjectsParameters);
+        AltUnityObject[] altElements = altUnityDriver.findObjectsWhichContain(altFindObjectsParams);
         assertNotNull(altElements);
         assertTrue(altElements[0].name.contains(name));
     }
@@ -116,8 +120,8 @@ public class TestsSampleScene1 {
     @Test
     public void testGetAllElements() throws Exception {
         Thread.sleep(1000);
-        AltGetAllElementsParameters allElementsParameters = new AltGetAllElementsParameters.Builder().build();
-        AltUnityObject[] altElements = altUnityDriver.getAllElements(allElementsParameters);
+        AltGetAllElementsParams allElementsParams = new AltGetAllElementsParams.Builder().build();
+        AltUnityObject[] altElements = altUnityDriver.getAllElements(allElementsParams);
         assertNotNull(altElements);
         String altElementsString = new Gson().toJson(altElements);
         assertTrue(altElementsString.contains("Capsule"));
@@ -133,14 +137,14 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testWaitForExistingElement() throws Exception {
+    public void testWaitForExistingElement() {
         String name = "Capsule";
         long timeStart = System.currentTimeMillis();
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
-                altFindObjectsParameters).build();
-        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
+                altFindObjectsParams).build();
+        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParams);
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
         assertTrue(time / 1000 < 20);
@@ -149,15 +153,15 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testWaitForExistingDisabledElement() throws Exception {
+    public void testWaitForExistingDisabledElement() {
         String name = "Cube";
         long timeStart = System.currentTimeMillis();
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
-        altFindObjectsParameters.setEnabled(false);
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
-                altFindObjectsParameters).build();
-        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+        altFindObjectsParams.setEnabled(false);
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
+                altFindObjectsParams).build();
+        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParams);
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
         assertTrue(time / 1000 < 20);
@@ -168,33 +172,34 @@ public class TestsSampleScene1 {
     @Test(expected = WaitTimeOutException.class)
     public void testWaitForNonExistingElement() {
         String name = "Capsulee";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
 
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
-                altFindObjectsParameters).withTimeout(1).build();
-        altUnityDriver.waitForObject(altWaitForObjectsParameters);
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
+                altFindObjectsParams).withTimeout(1).build();
+        altUnityDriver.waitForObject(altWaitForObjectsParams);
     }
 
     @Test
-    public void testWaitForCurrentSceneToBe() throws Exception {
+    public void testWaitForCurrentSceneToBe() {
         String name = "Scene 1 AltUnityDriverTestScene";
         long timeStart = System.currentTimeMillis();
-        AltWaitForCurrentSceneToBeParameters params = new AltWaitForCurrentSceneToBeParameters.Builder(name).build();
-        String currentScene = altUnityDriver.waitForCurrentSceneToBe(params);
+        AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
+        altUnityDriver.waitForCurrentSceneToBe(params);
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
         assertTrue(time / 1000 < 20);
-        assertNotNull(currentScene);
-        assertEquals("Scene 1 AltUnityDriverTestScene", currentScene);
+
+        String currentScene = altUnityDriver.getCurrentScene();
+        assertEquals(name, currentScene);
     }
 
     @Test
-    public void testWaitForCurrrentSceneToBeANonExistingScene() {
+    public void testWaitForCurrentSceneToBeANonExistingScene() {
 
         String name = "NonExistentScene";
         try {
-            AltWaitForCurrentSceneToBeParameters params = new AltWaitForCurrentSceneToBeParameters.Builder(name)
+            AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name)
                     .withTimeout(1).build();
             altUnityDriver.waitForCurrentSceneToBe(params);
             fail();
@@ -204,14 +209,14 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testWaitForExistingElementWhereNameContains() throws Exception {
+    public void testWaitForExistingElementWhereNameContains() {
         String name = "Dir";
         long timeStart = System.currentTimeMillis();
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
-                altFindObjectsParameters).build();
-        AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParameters);
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
+                altFindObjectsParams).build();
+        AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParams);
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
         assertTrue(time / 1000 < 20);
@@ -222,63 +227,63 @@ public class TestsSampleScene1 {
     @Test(expected = WaitTimeOutException.class)
     public void testWaitForNonExistingElementWhereNameContains() {
         String name = "xyz";
-        AltFindObjectsParameters findObjectsParams = new AltFindObjectsParameters.Builder(By.NAME, name).build();
-        AltWaitForObjectsParameters params = new AltWaitForObjectsParameters.Builder(findObjectsParams).withTimeout(1)
+        AltFindObjectsParams findObjectsParams = new AltFindObjectsParams.Builder(By.NAME, name).build();
+        AltWaitForObjectsParams params = new AltWaitForObjectsParams.Builder(findObjectsParams).withTimeout(1)
                 .build();
 
         altUnityDriver.waitForObjectWhichContains(params);
     }
 
     @Test
-    public void testFindElementWithText() throws Exception {
+    public void testFindElementWithText() {
         String name = "CapsuleInfo";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 name).build();
 
-        String text = altUnityDriver.findObject(altFindObjectsParameters).getText();
+        String text = altUnityDriver.findObject(altFindObjectsParams).getText();
 
-        altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.TEXT, text).build();
+        altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.TEXT, text).build();
 
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
 
         assertNotNull(altElement);
         assertEquals(altElement.getText(), text);
     }
 
     @Test
-    public void testFindElementByComponent() throws Exception {
+    public void testFindElementByComponent() throws InterruptedException {
         Thread.sleep(1000);
         String componentName = "AltUnityRunner";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.COMPONENT, componentName).build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         assertEquals(altElement.name, "AltUnityRunnerPrefab");
     }
 
     @Test
-    public void testFindElementByComponentWithNamespace() throws Exception {
+    public void testFindElementByComponentWithNamespace() throws InterruptedException {
         Thread.sleep(1000);
         String componentName = "Altom.AltUnityTester.AltUnityRunner";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.COMPONENT, componentName).build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         assertEquals(altElement.name, "AltUnityRunnerPrefab");
     }
 
     @Test
-    public void testGetComponentProperty() throws Exception {
+    public void testGetComponentProperty() throws InterruptedException {
         Thread.sleep(1000);
         String componentName = "Altom.AltUnityTester.AltUnityRunner";
         String propertyName = "InstrumentationSettings.ShowPopUp";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "AltUnityRunnerPrefab").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
 
         Boolean propertyValue = altElement.getComponentProperty(
-                new AltGetComponentPropertyParameters.Builder(componentName,
+                new AltGetComponentPropertyParams.Builder(componentName,
                         propertyName).build(),
                 Boolean.class);
         assertTrue(propertyValue);
@@ -288,12 +293,12 @@ public class TestsSampleScene1 {
     public void testGetComponentPropertyInvalidDeserialization() {
         String componentName = "Altom.AltUnityTester.AltUnityRunner";
         String propertyName = "InstrumentationSettings.ShowPopUp";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "AltUnityRunnerPrefab").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         try {
             altElement.getComponentProperty(
-                    new AltGetComponentPropertyParameters.Builder(componentName,
+                    new AltGetComponentPropertyParams.Builder(componentName,
                             propertyName).build(),
                     int.class);
             fail("Expected ResponseFormatException");
@@ -304,30 +309,30 @@ public class TestsSampleScene1 {
     }
 
     @Test(expected = PropertyNotFoundException.class)
-    public void testGetNonExistingComponentProperty() throws Exception {
+    public void testGetNonExistingComponentProperty() throws InterruptedException {
         Thread.sleep(1000);
         String componentName = "Altom.AltUnityTester.AltUnityRunner";
         String propertyName = "socketPort";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "AltUnityRunnerPrefab").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         altElement.getComponentProperty(
-                new AltGetComponentPropertyParameters.Builder(componentName,
+                new AltGetComponentPropertyParams.Builder(componentName,
                         propertyName).build(),
                 String.class);
     }
 
     @Test
-    public void testGetComponentPropertyArray() throws Exception {
+    public void testGetComponentPropertyArray() {
         String componentName = "AltUnityExampleScriptCapsule";
         String propertyName = "arrayOfInts";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         int[] propertyValue = altElement.getComponentProperty(
-                new AltGetComponentPropertyParameters.Builder(componentName,
+                new AltGetComponentPropertyParams.Builder(componentName,
                         propertyName).build(),
                 int[].class);
         assertEquals(3, propertyValue.length);
@@ -337,49 +342,49 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testGetComponentPropertyUnityEngine() throws Exception {
+    public void testGetComponentPropertyUnityEngine() {
         String componentName = "UnityEngine.CapsuleCollider";
         String propertyName = "isTrigger";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         boolean propertyValue = altElement.getComponentProperty(
-                new AltGetComponentPropertyParameters.Builder(componentName,
+                new AltGetComponentPropertyParams.Builder(componentName,
                         propertyName).build(),
                 Boolean.class);
         assertEquals(false, propertyValue);
     }
 
     @Test
-    public void testSetComponentProperty() throws Exception {
+    public void testSetComponentProperty() {
         String componentName = "AltUnityExampleScriptCapsule";
         String propertyName = "stringToSetFromTests";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         altElement.setComponentProperty(
-                new AltSetComponentPropertyParameters.Builder(componentName, propertyName,
+                new AltSetComponentPropertyParams.Builder(componentName, propertyName,
                         "2").build());
         int propertyValue = altElement.getComponentProperty(
-                new AltGetComponentPropertyParameters.Builder(componentName,
+                new AltGetComponentPropertyParams.Builder(componentName,
                         propertyName).build(),
                 int.class);
         assertEquals(2, propertyValue);
     }
 
     @Test
-    public void testSetNonExistingComponentProperty() throws Exception {
-        String componentName = "AltUnityExampleScriptCapsulee";
+    public void testSetNonExistingComponentProperty() {
+        String componentName = "AltUnityExampleScriptCapsuleNotFound";
         String propertyName = "stringToSetFromTests";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         try {
             altElement.setComponentProperty(
-                    new AltSetComponentPropertyParameters.Builder(componentName, propertyName,
+                    new AltSetComponentPropertyParams.Builder(componentName, propertyName,
                             "2").build());
             fail();
         } catch (ComponentNotFoundException e) {
@@ -388,13 +393,16 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void testCallMethodWithNoParameters() throws Exception {
+    public void testCallMethodWithNoParameters() {
         String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "UIButtonClicked";
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-        assertNull(altElement.callComponentMethod(componentName, methodName, new Object[] {}, Void.class));
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+        assertNull(altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {}).build(),
+                Void.class));
     }
 
     @Test
@@ -402,11 +410,12 @@ public class TestsSampleScene1 {
         String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "Jump";
         String[] parameters = new String[] { "New Text" };
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-        assertNull(altElement.callComponentMethod(componentName, methodName,
-                parameters, Void.class));
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+        assertNull(altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters).build(), Void.class));
     }
 
     @Test
@@ -415,11 +424,11 @@ public class TestsSampleScene1 {
         String methodName = "TestMethodWithManyParameters";
         Object[] parameters = new Object[] { 1, "stringparam", 0.5, new int[] { 1, 2,
                 3 } };
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-        assertNull(altElement.callComponentMethod(componentName, methodName,
-                parameters, Void.class));
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+        assertNull(altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters).build(), Void.class));
     }
 
     @Test(expected = MethodWithGivenParametersNotFoundException.class)
@@ -428,10 +437,11 @@ public class TestsSampleScene1 {
         String methodName = "TestMethodWithManyParameters";
         Object[] parameters = new Object[] { 1, "stringparam", new int[] { 1, 2, 3 }
         };
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-        altElement.callComponentMethod(componentName, methodName, parameters,
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+        altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters).build(),
                 Void.class);
     }
 
@@ -440,10 +450,13 @@ public class TestsSampleScene1 {
         String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "TestMethodWithManyParameters";
         Object[] parameters = new Object[] { 1, "stringparam", 0.5, new int[] { 1, 2, 3 } };
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-        altElement.callComponentMethod("", componentName, methodName, parameters, new String[] { "System.Stringggggg" },
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+        altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
+                        .withTypeOfParameters(new String[] { "System.Stringggggg" }).build(),
                 Void.class);
     }
 
@@ -453,11 +466,13 @@ public class TestsSampleScene1 {
         String methodName = "TestMethodWithManyParameters";
         Object[] parameters = new Object[] { 'a', "stringparam", 0.5, new int[] { 1,
                 2, 3 } };
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-        altElement.callComponentMethod("RandomAssembly", componentName, methodName,
-                parameters, new String[] {},
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+        altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
+                        .withAssembly("RandomAssembly").build(),
                 Void.class);
     }
 
@@ -467,10 +482,11 @@ public class TestsSampleScene1 {
         String methodName = "TestMethodWithManyParameters";
         Object[] parameters = new Object[] { 'a', "stringparam", new int[] { 1, 2, 3
         } };
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
-        altElement.callComponentMethod("", componentName, methodName, parameters, new String[] {}, Void.class);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+        altElement.callComponentMethod(new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
+                .build(), Void.class);
     }
 
     @Test
@@ -514,15 +530,15 @@ public class TestsSampleScene1 {
 
     @Test
     public void testDifferentCamera() throws Exception {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "Button").withCamera(By.NAME, "Main Camera").build();
-        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "Capsule").withCamera(By.NAME, "Main Camera").build();
-        AltFindObjectsParameters altFindObjectsParameters3 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters3 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "Capsule").withCamera(By.NAME, "Camera").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParameters1);
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        altButton.click(new AltTapClickElementParameters.Builder().build());
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        altButton.click(new AltTapClickElementParams.Builder().build());
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters2);
         AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters3);
         assertNotSame(altElement.x, altElement2.x);
@@ -532,7 +548,7 @@ public class TestsSampleScene1 {
     @Test
     public void testFindNonExistentObject() throws Exception {
         try {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                     AltUnityDriver.By.NAME, "NonExistent").build();
             altUnityDriver.findObject(altFindObjectsParameters1);
             fail();
@@ -544,7 +560,7 @@ public class TestsSampleScene1 {
     @Test
     public void testFindNonExistentObjectByName() throws Exception {
         try {
-            AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                     AltUnityDriver.By.NAME, "NonExistent").build();
             altUnityDriver.findObject(altFindObjectsParameters1);
             fail();
@@ -556,11 +572,11 @@ public class TestsSampleScene1 {
     @Test
     public void testButtonClickWithSwipe() throws Exception {
         AltUnityObject button = altUnityDriver
-                .findObject(new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                .findObject(new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                         "UIButton").build());
-        altUnityDriver.holdButton(new AltHoldParameters.Builder(button.getScreenPosition()).withDuration(1).build());
+        altUnityDriver.holdButton(new AltHoldParams.Builder(button.getScreenPosition()).withDuration(1).build());
         AltUnityObject capsuleInfo = altUnityDriver
-                .findObject(new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+                .findObject(new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                         "CapsuleInfo").build());
         String text = capsuleInfo.getText();
         assertEquals(text, "UIButton clicked to jump capsule!");
@@ -568,11 +584,11 @@ public class TestsSampleScene1 {
 
     @Test
     public void testButtonTap() throws Exception {
-        AltFindObjectsParameters params = new AltFindObjectsParameters.Builder(By.NAME, "UIButton").build();
-        AltTapClickElementParameters param2 = new AltTapClickElementParameters.Builder().build();
+        AltFindObjectsParams params = new AltFindObjectsParams.Builder(By.NAME, "UIButton").build();
+        AltTapClickElementParams param2 = new AltTapClickElementParams.Builder().build();
         altUnityDriver.findObject(params).tap(param2);
 
-        params = new AltFindObjectsParameters.Builder(By.NAME,
+        params = new AltFindObjectsParams.Builder(By.NAME,
                 "CapsuleInfo").build();
         AltUnityObject capsuleInfo = altUnityDriver.findObject(params);
 
@@ -583,9 +599,9 @@ public class TestsSampleScene1 {
 
     @Test
     public void testCapsuleTap() throws Exception {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "Capsule").build();
-        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "CapsuleInfo").build();
         altUnityDriver.findObject(altFindObjectsParameters1).tap();
         AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
@@ -596,9 +612,9 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestCallStaticMethod() throws Exception {
-        altUnityDriver.callStaticMethod(new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs", "SetInt",
+        altUnityDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "SetInt",
                 new Object[] { "Test", "1" }).build(), String.class);
-        int a = altUnityDriver.callStaticMethod(new AltCallStaticMethodParameters.Builder("UnityEngine.PlayerPrefs",
+        int a = altUnityDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs",
                 "GetInt", new Object[] { "Test", "2" }).build(), Integer.class);
         assertEquals(1, a);
     }
@@ -606,42 +622,49 @@ public class TestsSampleScene1 {
     @Test
     public void TestCallMethodWithMultipleDefinitions() throws Exception {
 
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "Capsule").build();
-        AltFindObjectsParameters altFindObjectsParameters2 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "CapsuleInfo").build();
         AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
-        capsule.callComponentMethod("", "AltUnityExampleScriptCapsule", "Test", new Object[] { "2" },
-                new String[] { "System.Int32" }, Void.class);
+        capsule.callComponentMethod(
+                new AltCallComponentMethodParams.Builder("AltUnityExampleScriptCapsule", "Test", new Object[] { 2 })
+                        .withTypeOfParameters(new String[] { "System.Int32" }).build(),
+                Void.class);
         AltUnityObject capsuleInfo = altUnityDriver.findObject(altFindObjectsParameters2);
         assertEquals("6", capsuleInfo.getText());
     }
 
     @Test
-    public void TestGetSetTimeScale() throws InterruptedException {
-        altUnityDriver.setTimeScale(0.1f);
+    public void TestGetSetTimeScale() {
+        float timescale = 0.1f;
+        AltSetTimeScaleParams.Builder builder = new AltSetTimeScaleParams.Builder(timescale);
+
+        altUnityDriver.setTimeScale(builder.build());
         float timeScale = altUnityDriver.getTimeScale();
         assertEquals(0.1f, timeScale, 0);
-        altUnityDriver.setTimeScale(1f);
+        altUnityDriver.setTimeScale(new AltSetTimeScaleParams.Builder(1f).build());
     }
 
     @Test
     public void TestCallMethodWithAssembly() {
 
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "Capsule").build();
         AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
         AltUnityRotation initialRotation = capsule.getComponentProperty(
-                new AltGetComponentPropertyParameters.Builder("UnityEngine.Transform",
+                new AltGetComponentPropertyParams.Builder("UnityEngine.Transform",
                         "rotation").build(),
                 AltUnityRotation.class);
 
-        capsule.callComponentMethod("UnityEngine.CoreModule",
+        capsule.callComponentMethod(new AltCallComponentMethodParams.Builder(
                 "UnityEngine.Transform", "Rotate",
-                new Object[] { 10, 10, 10 }, new String[] {}, Void.class);
+                new Object[] { 10, 10, 10 }).withAssembly("UnityEngine.CoreModule")
+                        .withTypeOfParameters(new String[] {}).build(),
+                Void.class);
         AltUnityObject capsuleAfterRotation = altUnityDriver.findObject(altFindObjectsParameters1);
         AltUnityRotation finalRotation = capsuleAfterRotation.getComponentProperty(
-                new AltGetComponentPropertyParameters.Builder("UnityEngine.Transform",
+                new AltGetComponentPropertyParams.Builder("UnityEngine.Transform",
                         "rotation").build(),
                 AltUnityRotation.class);
         assertTrue("Rotation should be distinct",
@@ -651,9 +674,9 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestWaitForObjectToNotBePresent() {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "ObjectDestroyedIn5Secs").build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters1 = new AltWaitForObjectsParameters.Builder(
+        AltWaitForObjectsParams altWaitForObjectsParameters1 = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParameters1).build();
         altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParameters1);
         try {
@@ -663,13 +686,13 @@ public class TestsSampleScene1 {
             assertTrue(e.getMessage(), e.getMessage().startsWith("Object //ObjectDestroyedIn5Secs not found"));
         }
 
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsulee").build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
-                altFindObjectsParameters).build();
-        altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParameters);
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
+                altFindObjectsParams).build();
+        altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParams);
         try {
-            altUnityDriver.findObject(altFindObjectsParameters);
+            altUnityDriver.findObject(altFindObjectsParams);
             assertFalse("Not found exception should be thrown", true);
         } catch (NotFoundException e) {
             assertTrue(e.getMessage(), e.getMessage().startsWith("Object //Capsulee not found"));
@@ -678,7 +701,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestGetChineseLetters() {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "ChineseLetters").build();
         String text = altUnityDriver.findObject(altFindObjectsParameters1).getText();
         assertEquals("哦伊娜哦", text);
@@ -686,7 +709,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestNonEnglishText() {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "NonEnglishText").build();
         String text = altUnityDriver.findObject(altFindObjectsParameters1).getText();
         assertEquals("BJÖRN'S PASS", text);
@@ -695,7 +718,7 @@ public class TestsSampleScene1 {
     @Test
     public void TestPressNextScene() throws InterruptedException {
         String initialScene = altUnityDriver.getCurrentScene();
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "NextScene").build();
         altUnityDriver.findObject(altFindObjectsParameters1).tap();
         String currentScene = altUnityDriver.getCurrentScene();
@@ -704,7 +727,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestSetTextFunction() {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "NonEnglishText").build();
         AltUnityObject textObject = altUnityDriver.findObject(altFindObjectsParameters1);
         String originalText = textObject.getText();
@@ -714,7 +737,7 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestFindParentUsingPath() {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.PATH, "//CapsuleInfo/..").build();
         AltUnityObject parent = altUnityDriver.findObject(altFindObjectsParameters1);
         assertEquals("Canvas", parent.name);
@@ -722,12 +745,12 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestAcceleration() throws InterruptedException {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "Capsule").build();
         AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
         Vector3 initialWorldCoordinates = capsule.getWorldPosition();
         altUnityDriver
-                .tilt(new AltTiltParameters.Builder(new Vector3(1, 1,
+                .tilt(new AltTiltParams.Builder(new Vector3(1, 1,
                         1)).withDuration(1).withWait(false).build());
         Thread.sleep(1000);
         capsule = altUnityDriver.findObject(altFindObjectsParameters1);
@@ -737,11 +760,11 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestAccelerationAndWait() throws InterruptedException {
-        AltFindObjectsParameters altFindObjectsParameters1 = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "Capsule").build();
         AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
         Vector3 initialWorldCoordinates = capsule.getWorldPosition();
-        altUnityDriver.tilt(new AltTiltParameters.Builder(new Vector3(1, 1,
+        altUnityDriver.tilt(new AltTiltParams.Builder(new Vector3(1, 1,
                 1)).withDuration(1).build());
         capsule = altUnityDriver.findObject(altFindObjectsParameters1);
         Vector3 afterTiltCoordinates = capsule.getWorldPosition();
@@ -749,23 +772,23 @@ public class TestsSampleScene1 {
     }
 
     public void TestFindObjectWithCameraId() {
-        AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
                 "//Camera").build();
         AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
-        AltFindObjectsParameters altFindObjectsParametersCampsule = new AltFindObjectsParameters.Builder(By.COMPONENT,
+        AltFindObjectsParams altFindObjectsParametersCampsule = new AltFindObjectsParams.Builder(By.COMPONENT,
                 "CapsuleCollider").withCamera(By.ID, String.valueOf(camera.id)).build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParametersCampsule);
 
         assertTrue("True", altElement.name.equals("Capsule"));
 
-        altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH, "//Main Camera").build();
+        altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH, "//Main Camera").build();
         AltUnityObject camera2 = altUnityDriver.findObject(altFindObjectsParametersCamera);
-        altFindObjectsParametersCampsule = new AltFindObjectsParameters.Builder(By.COMPONENT, "CapsuleCollider")
+        altFindObjectsParametersCampsule = new AltFindObjectsParams.Builder(By.COMPONENT, "CapsuleCollider")
                 .withCamera(By.ID, String.valueOf(camera2.id)).build();
         AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParametersCampsule);
         assertNotEquals(altElement.getScreenPosition(),
@@ -774,52 +797,52 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestWaitForObjectWithCameraId() {
-        AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
                 "//Camera").build();
         AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
-        AltFindObjectsParameters altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.COMPONENT,
+        AltFindObjectsParams altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT,
                 "CapsuleCollider").withCamera(By.ID, String.valueOf(camera.id)).build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParametersCapsule).build();
-        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParams);
 
         assertTrue("True", altElement.name.equals("Capsule"));
 
-        altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH, "//Main Camera").build();
+        altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH, "//Main Camera").build();
         AltUnityObject camera2 = altUnityDriver.findObject(altFindObjectsParametersCamera);
-        altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.COMPONENT, "CapsuleCollider")
+        altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT, "CapsuleCollider")
                 .withCamera(By.ID, String.valueOf(camera2.id)).build();
-        altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(altFindObjectsParametersCapsule).build();
-        AltUnityObject altElement2 = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+        altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParametersCapsule).build();
+        AltUnityObject altElement2 = altUnityDriver.waitForObject(altWaitForObjectsParams);
 
         assertNotEquals(altElement.getScreenPosition(), altElement2.getScreenPosition());
     }
 
     @Test
     public void TestFindObjectsWithCameraId() {
-        AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
                 "//Camera").build();
         AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
-        AltFindObjectsParameters altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.NAME,
+        AltFindObjectsParams altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.NAME,
                 "Plane").withCamera(By.ID, String.valueOf(camera.id)).build();
 
         AltUnityObject[] altElement = altUnityDriver.findObjects(altFindObjectsParametersCapsule);
 
         assertTrue("True", altElement[0].name.equals("Plane"));
 
-        altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH, "//Main Camera").build();
+        altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH, "//Main Camera").build();
         AltUnityObject camera2 = altUnityDriver.findObject(altFindObjectsParametersCamera);
-        altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.NAME, "Plane")
+        altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.NAME, "Plane")
                 .withCamera(By.ID, String.valueOf(camera2.id)).build();
         AltUnityObject[] altElement2 = altUnityDriver.findObjects(altFindObjectsParametersCapsule);
 
@@ -828,18 +851,18 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestWaitForObjectNotBePresentWithCameraId() {
-        AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
                 "//Main Camera").build();
         AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
 
-        AltFindObjectsParameters altFindObjectsParametersObject = new AltFindObjectsParameters.Builder(By.NAME,
+        AltFindObjectsParams altFindObjectsParametersObject = new AltFindObjectsParams.Builder(By.NAME,
                 "ObjectDestroyedIn5Secs").withCamera(By.ID, String.valueOf(camera.id)).build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParametersObject).build();
-        altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParameters);
+        altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParams);
 
-        AltGetAllElementsParameters allElementsParameters = new AltGetAllElementsParameters.Builder().build();
-        AltUnityObject[] allObjectsInTheScene = altUnityDriver.getAllElements(allElementsParameters);
+        AltGetAllElementsParams allElementsParams = new AltGetAllElementsParams.Builder().build();
+        AltUnityObject[] allObjectsInTheScene = altUnityDriver.getAllElements(allElementsParams);
 
         Boolean searchObjectFound = false;
         for (AltUnityObject altUnityObject : allObjectsInTheScene) {
@@ -853,33 +876,33 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestWaitForObjectWhichContainsWithCameraId() {
-        AltFindObjectsParameters altFindObjectsParametersCamera = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
                 "//Main Camera").build();
         AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
 
-        AltFindObjectsParameters altFindObjectsParametersObject = new AltFindObjectsParameters.Builder(By.NAME, "Canva")
+        AltFindObjectsParams altFindObjectsParametersObject = new AltFindObjectsParams.Builder(By.NAME, "Canva")
                 .withCamera(By.ID, String.valueOf(camera.id)).build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParametersObject).build();
-        AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParams);
         assertEquals("Canvas", altElement.name);
 
     }
 
     @Test
     public void TestFindObjectWithTag() {
-        AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        AltFindObjectsParameters altFindObjectsParametersCampsule = new AltFindObjectsParameters.Builder(By.COMPONENT,
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        AltFindObjectsParams altFindObjectsParametersCampsule = new AltFindObjectsParams.Builder(By.COMPONENT,
                 "CapsuleCollider").withCamera(By.TAG, "MainCamera").build();
         AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParametersCampsule);
 
         assertTrue("True", altElement.name.equals("Capsule"));
 
-        altFindObjectsParametersCampsule = new AltFindObjectsParameters.Builder(By.COMPONENT, "CapsuleCollider")
+        altFindObjectsParametersCampsule = new AltFindObjectsParams.Builder(By.COMPONENT, "CapsuleCollider")
                 .withCamera(By.TAG, "Untagged").build();
         AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParametersCampsule);
         assertNotEquals(altElement.getScreenPosition(), altElement2.getScreenPosition());
@@ -887,42 +910,42 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestWaitForObjectWithTag() {
-        AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        AltFindObjectsParameters altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.COMPONENT,
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        AltFindObjectsParams altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT,
                 "CapsuleCollider").withCamera(By.TAG, "MainCamera").build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParametersCapsule).build();
-        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.waitForObject(altWaitForObjectsParams);
 
         assertTrue("True", altElement.name.equals("Capsule"));
 
-        altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.COMPONENT, "CapsuleCollider")
+        altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT, "CapsuleCollider")
                 .withCamera(By.TAG, "Untagged").build();
-        altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(altFindObjectsParametersCapsule).build();
-        AltUnityObject altElement2 = altUnityDriver.waitForObject(altWaitForObjectsParameters);
+        altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParametersCapsule).build();
+        AltUnityObject altElement2 = altUnityDriver.waitForObject(altWaitForObjectsParams);
 
         assertNotEquals(altElement.getScreenPosition(), altElement2.getScreenPosition());
     }
 
     @Test
     public void TestFindObjectsWithTag() {
-        AltFindObjectsParameters altFindObjectsParametersButton = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.PATH, "//Button").build();
         AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        altButton.click(new AltTapClickElementParameters.Builder().build());
-        AltFindObjectsParameters altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.NAME,
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        altButton.click(new AltTapClickElementParams.Builder().build());
+        AltFindObjectsParams altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.NAME,
                 "Plane").withCamera(By.TAG, "MainCamera").build();
 
         AltUnityObject[] altElement = altUnityDriver.findObjects(altFindObjectsParametersCapsule);
 
         assertTrue("True", altElement[0].name.equals("Plane"));
 
-        altFindObjectsParametersCapsule = new AltFindObjectsParameters.Builder(By.NAME, "Plane")
+        altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.NAME, "Plane")
                 .withCamera(By.TAG, "Untagged").build();
         AltUnityObject[] altElement2 = altUnityDriver.findObjects(altFindObjectsParametersCapsule);
 
@@ -932,14 +955,14 @@ public class TestsSampleScene1 {
     @Test
     public void TestWaitForObjectNotBePresentWithTag() {
 
-        AltFindObjectsParameters altFindObjectsParametersObject = new AltFindObjectsParameters.Builder(By.NAME,
+        AltFindObjectsParams altFindObjectsParametersObject = new AltFindObjectsParams.Builder(By.NAME,
                 "ObjectDestroyedIn5Secs").withCamera(By.TAG, "MainCamera").build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParametersObject).build();
-        altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParameters);
+        altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParams);
 
-        AltGetAllElementsParameters allElementsParameters = new AltGetAllElementsParameters.Builder().build();
-        AltUnityObject[] allObjectsInTheScene = altUnityDriver.getAllElements(allElementsParameters);
+        AltGetAllElementsParams allElementsParams = new AltGetAllElementsParams.Builder().build();
+        AltUnityObject[] allObjectsInTheScene = altUnityDriver.getAllElements(allElementsParams);
 
         Boolean searchObjectFound = false;
         for (AltUnityObject altUnityObject : allObjectsInTheScene) {
@@ -954,24 +977,24 @@ public class TestsSampleScene1 {
     @Test
     public void TestWaitForObjectWhichContainsWithTag() {
 
-        AltFindObjectsParameters altFindObjectsParametersObject = new AltFindObjectsParameters.Builder(By.NAME, "Canva")
+        AltFindObjectsParams altFindObjectsParametersObject = new AltFindObjectsParams.Builder(By.NAME, "Canva")
                 .withCamera(By.TAG, "MainCamera").build();
-        AltWaitForObjectsParameters altWaitForObjectsParameters = new AltWaitForObjectsParameters.Builder(
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParametersObject).build();
-        AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParams);
         assertEquals("Canvas", altElement.name);
 
     }
 
     @Test
     public void TestLoadAdditiveScenes() throws Exception {
-        AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters.Builder().build();
-        AltUnityObject[] initialNumberOfElements = altUnityDriver.getAllElements(altGetAllElementsParameters);
+        AltGetAllElementsParams altGetAllElementsParams = new AltGetAllElementsParams.Builder().build();
+        AltUnityObject[] initialNumberOfElements = altUnityDriver.getAllElements(altGetAllElementsParams);
 
-        AltLoadSceneParameters altLoadSceneParameters = new AltLoadSceneParameters.Builder("Scene 2 Draggable Panel")
-                .loadMode(false).build();
-        altUnityDriver.loadScene(altLoadSceneParameters);
-        AltUnityObject[] finalNumberOfElements = altUnityDriver.getAllElements(altGetAllElementsParameters);
+        AltLoadSceneParams altLoadSceneParams = new AltLoadSceneParams.Builder("Scene 2 Draggable Panel")
+                .loadSingle(false).build();
+        altUnityDriver.loadScene(altLoadSceneParams);
+        AltUnityObject[] finalNumberOfElements = altUnityDriver.getAllElements(altGetAllElementsParams);
 
         assertNotEquals(initialNumberOfElements, finalNumberOfElements);
 
@@ -983,13 +1006,13 @@ public class TestsSampleScene1 {
     public void TestGetComponentPropertyComplexClass() throws Exception {
         String componentName = "AltUnityExampleScriptCapsule";
         String propertyName = "AltUnitySampleClass.testInt";
-        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 componentName, propertyName).build();
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
-        int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParameters, int.class);
+        int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, int.class);
         assertEquals(1, propertyValue);
     }
 
@@ -997,13 +1020,13 @@ public class TestsSampleScene1 {
     public void TestGetComponentPropertyComplexClass2() throws Exception {
         String componentName = "AltUnityExampleScriptCapsule";
         String propertyName = "listOfSampleClass[1].testString";
-        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 componentName, propertyName).build();
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
-        String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParameters, String.class);
+        String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, String.class);
         assertEquals("test2", propertyValue);
     }
 
@@ -1011,16 +1034,16 @@ public class TestsSampleScene1 {
     public void TestSetComponentPropertyComplexClass() {
         String componentName = "AltUnityExampleScriptCapsule";
         String propertyName = "AltUnitySampleClass.testInt";
-        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 componentName, propertyName).withMaxDepth(1).build();
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
-        AltSetComponentPropertyParameters altSetComponentPropertyParameters = new AltSetComponentPropertyParameters.Builder(
+        AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
                 componentName, propertyName, 2).build();
-        altElement.setComponentProperty(altSetComponentPropertyParameters);
-        int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParameters, int.class);
+        altElement.setComponentProperty(altSetComponentPropertyParams);
+        int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, int.class);
         assertEquals(2, propertyValue);
     }
 
@@ -1029,16 +1052,16 @@ public class TestsSampleScene1 {
 
         String componentName = "AltUnityExampleScriptCapsule";
         String propertyName = "listOfSampleClass[1].testString";
-        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 componentName, propertyName).withMaxDepth(1).build();
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
-        AltSetComponentPropertyParameters altSetComponentPropertyParameters = new AltSetComponentPropertyParameters.Builder(
+        AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
                 componentName, propertyName, "test3").build();
-        altElement.setComponentProperty(altSetComponentPropertyParameters);
-        String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParameters, String.class);
+        altElement.setComponentProperty(altSetComponentPropertyParams);
+        String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, String.class);
         assertEquals("test3", propertyValue);
     }
 
@@ -1050,144 +1073,144 @@ public class TestsSampleScene1 {
 
     @Test
     public void TestGetParent() {
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "CapsuleInfo")
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "CapsuleInfo")
                 .build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         AltUnityObject altElementParent = altElement.getParent();
         assertEquals("Canvas", altElementParent.name);
     }
 
     @Test
     public void TestUnloadScene() {
-        AltLoadSceneParameters altLoadSceneParameters = new AltLoadSceneParameters.Builder("Scene 2 Draggable Panel")
-                .loadMode(false).build();
-        altUnityDriver.loadScene(altLoadSceneParameters);
+        AltLoadSceneParams altLoadSceneParams = new AltLoadSceneParams.Builder("Scene 2 Draggable Panel")
+                .loadSingle(false).build();
+        altUnityDriver.loadScene(altLoadSceneParams);
         assertEquals(2, altUnityDriver.getAllLoadedScenes().length);
-        altUnityDriver.unloadScene("Scene 2 Draggable Panel");
+        altUnityDriver.unloadScene(new AltUnloadSceneParams.Builder("Scene 2 Draggable Panel").build());
+
         assertEquals(1, altUnityDriver.getAllLoadedScenes().length);
         assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getAllLoadedScenes()[0]);
     }
 
     @Test(expected = CouldNotPerformOperationException.class)
     public void TestUnloadOnlyScene() {
-        altUnityDriver.unloadScene("Scene 1 AltUnityDriverTestScene");
+        altUnityDriver.unloadScene(new AltUnloadSceneParams.Builder("Scene 1 AltUnityDriverTestScene").build());
     }
 
     @Test(expected = InvalidPathException.class)
     public void TestInvalidPath() {
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH, "//[1]")
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.PATH, "//[1]")
                 .build();
-        altUnityDriver.findObject(altFindObjectsParameters);
+        altUnityDriver.findObject(altFindObjectsParams);
     }
 
     @Test(expected = InvalidPathException.class)
     public void TestInvalidPath2() {
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.PATH,
                 "CapsuleInfo[@tag=UI]").build();
-        altUnityDriver.findObject(altFindObjectsParameters);
+        altUnityDriver.findObject(altFindObjectsParams);
     }
 
     @Test(expected = InvalidPathException.class)
     public void TestInvalidPath3() {
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.PATH,
                 "//CapsuleInfo[@tag=UI/Text").build();
-        altUnityDriver.findObject(altFindObjectsParameters);
+        altUnityDriver.findObject(altFindObjectsParams);
     }
 
     @Test(expected = InvalidPathException.class)
     public void TestInvalidPath4() {
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.PATH,
                 "//CapsuleInfo[0/Text").build();
-        altUnityDriver.findObject(altFindObjectsParameters);
+        altUnityDriver.findObject(altFindObjectsParams);
     }
 
     @Test()
     public void TestTapCoordinates() {
-        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
-        AltTapClickCoordinatesParameters tapParameters = new AltTapClickCoordinatesParameters.Builder(
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+        AltTapClickCoordinatesParams tapParams = new AltTapClickCoordinatesParams.Builder(
                 capsule.getScreenPosition()).build();
-        altUnityDriver.tap(tapParameters);
+        altUnityDriver.tap(tapParams);
 
-        AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
                 "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
-        AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+        AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                 .build();
         altUnityDriver.waitForObject(waitParams);
     }
 
     @Test()
     public void TestClickCoordinates() {
-        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
-        AltTapClickCoordinatesParameters clickParameters = new AltTapClickCoordinatesParameters.Builder(
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+        AltTapClickCoordinatesParams clickParams = new AltTapClickCoordinatesParams.Builder(
                 capsule.getScreenPosition()).build();
-        altUnityDriver.click(clickParameters);
+        altUnityDriver.click(clickParams);
 
-        AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
                 "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
-        AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+        AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                 .build();
         altUnityDriver.waitForObject(waitParams);
     }
 
     @Test()
     public void TestTapElement() {
-        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
 
-        AltTapClickElementParameters tapParameters = new AltTapClickElementParameters.Builder().build();
-        capsule.tap(tapParameters);
+        AltTapClickElementParams tapParams = new AltTapClickElementParams.Builder().build();
+        capsule.tap(tapParams);
 
-        AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
                 "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
-        AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+        AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                 .build();
         altUnityDriver.waitForObject(waitParams);
     }
 
     @Test()
     public void TestClickElement() {
-        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
 
-        AltTapClickElementParameters tapParameters = new AltTapClickElementParameters.Builder().build();
-        capsule.click(tapParameters);
+        AltTapClickElementParams tapParams = new AltTapClickElementParams.Builder().build();
+        capsule.click(tapParams);
 
-        AltFindObjectsParameters findCapsuleInfoParameters = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
                 "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
-        AltWaitForObjectsParameters waitParams = new AltWaitForObjectsParameters.Builder(findCapsuleInfoParameters)
+        AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                 .build();
         altUnityDriver.waitForObject(waitParams);
     }
 
     @Test()
     public void TestKeyDownAndKeyUpMouse0() throws InterruptedException {
-        AltFindObjectsParameters findCapsuleParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .build();
-        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParameters);
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
         Vector2 initialCapsPos = capsule.getWorldPosition();
-        AltMoveMouseParameters altMoveMouseParameters = new AltMoveMouseParameters.Builder(capsule.getScreenPosition())
+        AltMoveMouseParams altMoveMouseParams = new AltMoveMouseParams.Builder(capsule.getScreenPosition())
                 .withDuration(0.1f).build();
-        altUnityDriver.moveMouse(altMoveMouseParameters);
+        altUnityDriver.moveMouse(altMoveMouseParams);
         Thread.sleep(1000);
-        AltKeyParameters altKeyParameters = new AltKeyParameters.Builder(AltUnityKeyCode.Mouse0).build();
-        altUnityDriver.keyDown(altKeyParameters);
-        altUnityDriver.keyUp(AltUnityKeyCode.Mouse0);
-        capsule = altUnityDriver.findObject(findCapsuleParameters);
+        altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.Mouse0).build());
+        altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.Mouse0).build());
+        capsule = altUnityDriver.findObject(findCapsuleParams);
         Vector2 finalCapsPos = capsule.getWorldPosition();
         assertNotEquals(initialCapsPos, finalCapsPos);
     }
 
     @Test(expected = CameraNotFoundException.class)
     public void TestCameraNotFoundException() {
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.NAME, "Capsule")
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                 .withCamera(By.NAME, "Camera").build();
-        altUnityDriver.findObject(altFindObjectsParameters);
+        altUnityDriver.findObject(altFindObjectsParams);
 
     }
 
@@ -1200,32 +1223,32 @@ public class TestsSampleScene1 {
 
     @Test
     public void testGetStaticProperty() {
-        AltCallStaticMethodParameters altCallStaticMethodParameters = new AltCallStaticMethodParameters.Builder(
+        AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
                 "UnityEngine.Screen", "SetResolution", new Object[] { "1920", "1080", "True"
                 })
                         .withTypeOfParameters(new String[] { "System.Int32", "System.Int32",
                                 "System.Boolean" })
                         .withAssembly("UnityEngine.CoreModule").build();
-        altUnityDriver.callStaticMethod(altCallStaticMethodParameters,
-                Integer.class);
-        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
+        altUnityDriver.callStaticMethod(altCallStaticMethodParams,
+                Void.class);
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 "UnityEngine.Screen",
                 "currentResolution.width").withAssembly("UnityEngine.CoreModule").build();
-        int width = altUnityDriver.GetStaticProperty(altGetComponentPropertyParameters,
+        int width = altUnityDriver.getStaticProperty(altGetComponentPropertyParams,
                 Integer.class);
         assertEquals(width, 1920);
     }
 
     @Test
     public void testGetStaticPropertyInstanceNull() {
-        AltCallStaticMethodParameters altCallStaticMethodParameters = new AltCallStaticMethodParameters.Builder(
+        AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
                 "UnityEngine.Screen", "get_width", new Object[] {}).withAssembly("UnityEngine.CoreModule").build();
-        int screenWidth = altUnityDriver.callStaticMethod(altCallStaticMethodParameters,
+        int screenWidth = altUnityDriver.callStaticMethod(altCallStaticMethodParams,
                 Integer.class);
-        AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters.Builder(
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 "UnityEngine.Screen",
                 "width").withAssembly("UnityEngine.CoreModule").build();
-        int width = altUnityDriver.GetStaticProperty(altGetComponentPropertyParameters,
+        int width = altUnityDriver.getStaticProperty(altGetComponentPropertyParams,
                 Integer.class);
 
         assertEquals(screenWidth, width);
@@ -1236,13 +1259,15 @@ public class TestsSampleScene1 {
         String componentName = "AltUnityExampleScriptCapsule";
         String methodName = "JumpWithDelay";
         Object[] parameters = new Object[] {};
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME,
                 "Capsule").build();
-        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters);
+        AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
         altUnityDriver.setCommandResponseTimeout(1);
         try {
-            altElement.callComponentMethod(componentName, methodName, parameters, Void.class);
+            altElement.callComponentMethod(
+                    new AltCallComponentMethodParams.Builder(componentName, methodName, parameters).build(),
+                    Void.class);
             fail("Expected CommandResponseTimeoutException");
         } catch (CommandResponseTimeoutException ex) {
 

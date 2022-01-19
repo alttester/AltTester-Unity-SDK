@@ -2,14 +2,13 @@ package ro.altom.altunitytester.Commands.InputActions;
 
 import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
-import ro.altom.altunitytester.position.Vector2;
 
 public class AltMoveTouch extends AltBaseCommand {
-    private AltMoveTouchParameters params;
+    private AltMoveTouchParams params;
 
-    public AltMoveTouch(IMessageHandler messageHandler, int fingerId, Vector2 coordinates) {
+    public AltMoveTouch(IMessageHandler messageHandler, AltMoveTouchParams params) {
         super(messageHandler);
-        params = new AltMoveTouchParameters(fingerId, coordinates);
+        this.params = params;
     }
 
     public void Execute() {

@@ -301,9 +301,9 @@ namespace Altom.AltUnityDriver
             return new AltUnityGetAllElementsLight(communicationHandler, cameraBy, cameraValue, enabled).Execute();
         }
 
-        public string WaitForCurrentSceneToBe(string sceneName, double timeout = 10, double interval = 1)
+        public void WaitForCurrentSceneToBe(string sceneName, double timeout = 10, double interval = 1)
         {
-            return new AltUnityWaitForCurrentSceneToBe(communicationHandler, sceneName, timeout, interval).Execute();
+            new AltUnityWaitForCurrentSceneToBe(communicationHandler, sceneName, timeout, interval).Execute();
         }
 
         public AltUnityObject WaitForObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)

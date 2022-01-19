@@ -14,16 +14,16 @@ public class AltWaitForObjectWhichContains extends AltBaseFindObject {
      * @param altWaitForObjectsParameters the properties parameter for finding the
      *                                    objects in a scene.
      */
-    private AltWaitForObjectsParameters altWaitForObjectsParameters;
+    private AltWaitForObjectsParams altWaitForObjectsParameters;
 
     public AltWaitForObjectWhichContains(IMessageHandler messageHandler,
-            AltWaitForObjectsParameters altWaitForObjectsParameters) {
+            AltWaitForObjectsParams altWaitForObjectsParameters) {
         super(messageHandler);
         this.altWaitForObjectsParameters = altWaitForObjectsParameters;
         this.altWaitForObjectsParameters.setCommandName("findObject");
     }
 
-    public AltUnityObject Execute() {
+    public AltUnityObject Execute() throws WaitTimeOutException {
         double time = 0;
         AltUnityObject altElement = null;
         while (time < altWaitForObjectsParameters.getTimeout()) {

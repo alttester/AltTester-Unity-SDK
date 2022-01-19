@@ -3,7 +3,7 @@ package ro.altom.altunitytester.Commands.InputActions;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 
-public class AltPressKeyParameters extends AltMessage {
+public class AltPressKeyParams extends AltMessage {
     public static class Builder {
         private AltUnityKeyCode keyCode = AltUnityKeyCode.NoKey;
         private float power = 1;
@@ -22,7 +22,7 @@ public class AltPressKeyParameters extends AltMessage {
          * @param duration The time measured in seconds from the key press to the key
          *                 release. Defaults to <code>0.1</code>
          */
-        public AltPressKeyParameters.Builder withDuration(float duration) {
+        public AltPressKeyParams.Builder withDuration(float duration) {
             this.duration = duration;
             return this;
         }
@@ -32,7 +32,7 @@ public class AltPressKeyParameters extends AltMessage {
          * @param power A value between [-1,1] used for joysticks to indicate how hard
          *              the button was pressed. Defaults to <code>1</code>
          */
-        public AltPressKeyParameters.Builder withPower(float power) {
+        public AltPressKeyParams.Builder withPower(float power) {
             this.power = power;
             return this;
         }
@@ -40,13 +40,13 @@ public class AltPressKeyParameters extends AltMessage {
         /**
          * @param wait If set wait for command to finish. Defaults to <code>true</code>.
          */
-        public AltPressKeyParameters.Builder withWait(boolean wait) {
+        public AltPressKeyParams.Builder withWait(boolean wait) {
             this.wait = wait;
             return this;
         }
 
-        public AltPressKeyParameters build() {
-            AltPressKeyParameters altPressKeyParameters = new AltPressKeyParameters();
+        public AltPressKeyParams build() {
+            AltPressKeyParams altPressKeyParameters = new AltPressKeyParams();
             altPressKeyParameters.keyCode = this.keyCode;
             altPressKeyParameters.power = this.power;
             altPressKeyParameters.duration = this.duration;
@@ -55,7 +55,7 @@ public class AltPressKeyParameters extends AltMessage {
         }
     }
 
-    private AltPressKeyParameters() {
+    private AltPressKeyParams() {
     }
 
     private AltUnityKeyCode keyCode;

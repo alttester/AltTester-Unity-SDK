@@ -8,13 +8,14 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  * TextMeshPro elements.
  */
 public class AltGetText extends AltBaseCommand {
-    
-    private AltGetTextParameters params;
 
-    public AltGetText(IMessageHandler messageHandler, AltGetTextParameters params) {
+    private AltGetTextParams params;
+
+    public AltGetText(IMessageHandler messageHandler, AltGetTextParams params) {
         super(messageHandler);
         this.params = params;
-        params.setCommandName("getText");;
+        params.setCommandName("getText");
+        ;
     }
 
     public String Execute() {

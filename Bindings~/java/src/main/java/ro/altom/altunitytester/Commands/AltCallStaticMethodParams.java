@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import ro.altom.altunitytester.AltMessage;
 
-public class AltCallStaticMethodParameters extends AltMessage {
+public class AltCallStaticMethodParams extends AltMessage {
     public static class Builder {
         private String component;
         private String method;
@@ -28,14 +28,14 @@ public class AltCallStaticMethodParameters extends AltMessage {
             return this;
         }
 
-        public AltCallStaticMethodParameters build() {
-            AltCallStaticMethodParameters altCallStaticMethodParameters = new AltCallStaticMethodParameters();
+        public AltCallStaticMethodParams build() {
+            AltCallStaticMethodParams altCallStaticMethodParameters = new AltCallStaticMethodParams();
             altCallStaticMethodParameters.assembly = this.assembly;
             altCallStaticMethodParameters.method = this.method;
-            if(this.parameters != null){
+            if (this.parameters != null) {
                 altCallStaticMethodParameters.parameters = new String[this.parameters.length];
-                for(int i = 0; i < this.parameters.length; i++){
-    
+                for (int i = 0; i < this.parameters.length; i++) {
+
                     altCallStaticMethodParameters.parameters[i] = new Gson().toJson(this.parameters[i]);
                 }
             }
@@ -45,7 +45,7 @@ public class AltCallStaticMethodParameters extends AltMessage {
         }
     }
 
-    private AltCallStaticMethodParameters() {
+    private AltCallStaticMethodParams() {
     }
 
     public String getComponent() {

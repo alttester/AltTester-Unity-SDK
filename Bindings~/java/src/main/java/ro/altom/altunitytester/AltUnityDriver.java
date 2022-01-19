@@ -5,7 +5,7 @@ import org.apache.logging.log4j.core.config.ConfigurationFactory;
 import org.apache.logging.log4j.LogManager;
 
 import ro.altom.altunitytester.Commands.*;
-import ro.altom.altunitytester.Commands.AltUnityCommands.AltSetServerLoggingParameters;
+import ro.altom.altunitytester.Commands.AltUnityCommands.AltSetServerLoggingParams;
 import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityAddNotificationListener;
 import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityAddNotificationListenerParams;
 import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnityRemoveNotificationListener;
@@ -14,11 +14,8 @@ import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnitySetServerLoggin
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
-import ro.altom.altunitytester.Notifications.INotificationCallbacks;
-import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParameters;
-import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
-import ro.altom.altunitytester.position.Vector2;
 import java.io.IOException;
 
 public class AltUnityDriver {
@@ -99,127 +96,183 @@ public class AltUnityDriver {
         }
     }
 
+    /**
+     * Closes the connection to the running instrumented app
+     */
     public void stop() throws IOException {
         this.connection.close();
     }
 
+    /**
+     * Gets the AltUnity Tester version, used to instrument the app
+     */
     public String getServerVersion() {
         return new GetServerVersionCommand(this.connection.messageHandler).Execute();
     }
 
-    public void loadScene(AltLoadSceneParameters altLoadSceneParameters) {
+    /**
+     * Loads a scene.
+     */
+    public void loadScene(AltLoadSceneParams altLoadSceneParameters) {
         new AltLoadScene(this.connection.messageHandler, altLoadSceneParameters).Execute();
     }
 
-    public void unloadScene(String sceneName) {
-        new AltUnloadScene(this.connection.messageHandler, sceneName).Execute();
+    /**
+     * Unloads a scene.
+     * 
+     * @param sceneName - the scene name
+     */
+    public void unloadScene(AltUnloadSceneParams unloadSceneParams) {
+        new AltUnloadScene(this.connection.messageHandler, unloadSceneParams).Execute();
     }
 
+    /**
+     * Returns all the scenes that have been loaded.
+     */
     public String[] getAllLoadedScenes() {
         return new AltGetAllLoadedScenes(this.connection.messageHandler).Execute();
     }
 
+    /**
+     * Sets the value for the command response timeout.
+     */
     public void setCommandResponseTimeout(int timeout) {
         this.connection.messageHandler.setCommandTimeout(timeout);
     }
 
     /**
-     * Delete entire player pref of the game
+     * Removes all keys and values from PlayerPref.
      */
     public void deletePlayerPref() {
         new AltDeletePlayerPref(this.connection.messageHandler).Execute();
     }
 
     /**
-     * Delete from games player pref a key
+     * Removes key and its corresponding value from PlayerPrefs.
      */
     public void deleteKeyPlayerPref(String keyName) {
         new AltDeleteKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     }
 
+    /**
+     * Sets the value for a given key in PlayerPrefs.
+     */
     public void setKeyPlayerPref(String keyName, int valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
     }
 
+    /**
+     * Sets the value for a given key in PlayerPrefs.
+     */
     public void setKeyPlayerPref(String keyName, float valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
     }
 
+    /**
+     * Sets the value for a given key in PlayerPrefs.
+     */
     public void setKeyPlayerPref(String keyName, String valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
     }
 
+    /**
+     * Returns the value for a given key from PlayerPrefs.
+     */
     public int getIntKeyPlayerPref(String keyName) {
         return new AltIntGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     }
 
+    /**
+     * Returns the value for a given key from PlayerPrefs.
+     */
     public float getFloatKeyPlayerPref(String keyName) {
         return new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     }
 
+    /**
+     * Returns the value for a given key from PlayerPrefs.
+     */
     public String getStringKeyPlayerPref(String keyName) {
         return new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     }
 
+    /**
+     * Returns the current active scene.
+     */
     public String getCurrentScene() {
         return new AltGetCurrentScene(this.connection.messageHandler).Execute();
     }
 
+    /**
+     * Returns the value of the time scale.
+     */
     public float getTimeScale() {
         return new AltGetTimeScale(this.connection.messageHandler).Execute();
     }
 
-    public void setTimeScale(float timeScale) {
-        new AltSetTimeScale(this.connection.messageHandler, timeScale).Execute();
+    /**
+     * Sets the value of the time scale.
+     */
+    public void setTimeScale(AltSetTimeScaleParams setTimescaleParams) {
+        new AltSetTimeScale(this.connection.messageHandler, setTimescaleParams).Execute();
     }
 
-    public <T> T callStaticMethod(AltCallStaticMethodParameters altCallStaticMethodParameters, Class<T> returnType) {
-        return new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParameters)
+    /**
+     * Invokes static methods from your game.
+     */
+    public <T> T callStaticMethod(AltCallStaticMethodParams altCallStaticMethodParams, Class<T> returnType) {
+        return new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
                 .Execute(returnType);
     }
 
     /**
      * Simulates a swipe action between two points.
      */
-    public void swipe(AltSwipeParameters swipeParams) {
+    public void swipe(AltSwipeParams swipeParams) {
         new AltSwipe(this.connection.messageHandler, swipeParams).Execute();
     }
 
     /**
      * Simulates a multipoint swipe action.
      */
-    public void multipointSwipe(AltMultiPointSwipeParameters paramers) {
-        new AltMultiPointSwipe(this.connection.messageHandler, paramers).Execute();
+    public void multipointSwipe(AltMultiPointSwipeParams parameters) {
+        new AltMultiPointSwipe(this.connection.messageHandler, parameters).Execute();
     }
 
     /**
      * Simulates holding left click button down for a specified amount of time at
      * given coordinates.
      */
-    public void holdButton(AltHoldParameters holdParams) {
+    public void holdButton(AltHoldParams holdParams) {
         swipe(holdParams);
     }
 
     /**
      * Simulates device rotation action in your game.
      */
-    public void tilt(AltTiltParameters altTiltParameter) {
+    public void tilt(AltTiltParams altTiltParameter) {
         new AltTilt(this.connection.messageHandler, altTiltParameter).Execute();
     }
 
     /**
      * Simulates key press action in your game.
      */
-    public void pressKey(AltPressKeyParameters altPressKeyParameters) {
+    public void pressKey(AltPressKeyParams altPressKeyParameters) {
         new AltPressKey(this.connection.messageHandler, altPressKeyParameters).Execute();
     }
 
-    public void keyDown(AltKeyParameters altKeyParameters) {
-        new AltKeyDown(this.connection.messageHandler, altKeyParameters).Execute();
+    /**
+     * Simulates a key down.
+     */
+    public void keyDown(AltKeyDownParams keyDownParams) {
+        new AltKeyDown(this.connection.messageHandler, keyDownParams).Execute();
     }
 
-    public void keyUp(AltUnityKeyCode keyCode) {
-        new AltKeyUp(this.connection.messageHandler, keyCode).Execute();
+    /**
+     * Simulates a key up.
+     */
+    public void keyUp(AltKeyUpParams keyUpParams) {
+        new AltKeyUp(this.connection.messageHandler, keyUpParams).Execute();
     }
 
     /**
@@ -227,74 +280,76 @@ public class AltUnityDriver {
      *
      * @param altMoveMouseParameters the builder for the move mouse command.
      */
-    public void moveMouse(AltMoveMouseParameters altMoveMouseParameters) {
-        new AltMoveMouse(this.connection.messageHandler, altMoveMouseParameters).Execute();
+    public void moveMouse(AltMoveMouseParams altMoveMouseParams) {
+        new AltMoveMouse(this.connection.messageHandler, altMoveMouseParams).Execute();
     }
 
     /**
      * Simulate scroll action in your game.
      *
-     * @param altScrollParameters the builder for the scroll command.
+     * @param altScrollParams the builder for the scroll command.
      */
-    public void scroll(AltScrollParameters altScrollParameters) {
-        new AltScroll(this.connection.messageHandler, altScrollParameters).Execute();
+    public void scroll(AltScrollParams altScrollParams) {
+        new AltScroll(this.connection.messageHandler, altScrollParams).Execute();
     }
 
     /**
-     * @param altFindObjectsParameters the builder for the find objects command.
+     * @param altFindObjectsParams the builder for the find objects command.
      * @return the first object in the scene that respects the given criteria.
      */
-    public AltUnityObject findObject(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObject(this.connection.messageHandler, altFindObjectsParameters).Execute();
+    public AltUnityObject findObject(AltFindObjectsParams altFindObjectsParams) {
+        return new AltFindObject(this.connection.messageHandler, altFindObjectsParams).Execute();
     }
 
     /**
      *
-     * @param altFindObjectsParameters
+     * @param altFindObjectsParams
      * @return the first object containing the given criteria
      */
-    public AltUnityObject findObjectWhichContains(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParameters).Execute();
-    }
-
-    public AltUnityObject findObjectWhichContains(By by, String value, By cameraBy, String cameraValue,
-            boolean enabled) {
-        return findObjectWhichContains(BuildFindObjectsParameters(by, value, cameraBy, cameraValue, enabled));
+    public AltUnityObject findObjectWhichContains(AltFindObjectsParams altFindObjectsParams) {
+        return new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParams).Execute();
     }
 
     /**
      *
-     * @param altFindObjectsParameters
+     * @param altFindObjectsParams
      * @return all the objects respecting the given criteria
      */
-    public AltUnityObject[] findObjects(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObjects(this.connection.messageHandler, altFindObjectsParameters).Execute();
-    }
-
-    public AltUnityObject[] findObjects(By by, String value, By cameraBy, String cameraValue, boolean enabled) {
-        return findObjects(BuildFindObjectsParameters(by, value, cameraBy, cameraValue, enabled));
+    public AltUnityObject[] findObjects(AltFindObjectsParams altFindObjectsParams) {
+        return new AltFindObjects(this.connection.messageHandler, altFindObjectsParams).Execute();
     }
 
     /**
-     *
-     * @param altFindObjectsParameters
+     * Finds all objects in the scene that respects the given criteria.
+     * 
+     * @param altFindObjectsParams
      * @return all objects containing the given criteria
      */
-    public AltUnityObject[] findObjectsWhichContain(AltFindObjectsParameters altFindObjectsParameters) {
-        return new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParameters).Execute();
+    public AltUnityObject[] findObjectsWhichContain(AltFindObjectsParams altFindObjectsParams) {
+        return new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParams).Execute();
     }
 
     /**
-     *
-     * @param altGetAllElementsParameters
+     * Returns information about every objects loaded in the currently loaded
+     * scenes. This also means objects that are set as DontDestroyOnLoad.
+     * 
+     * @param altGetAllElementsParams - get all elements parameters
      * @return information about every object loaded in the currently loaded scenes.
      */
-    public AltUnityObject[] getAllElements(AltGetAllElementsParameters altGetAllElementsParameters) {
-        return new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParameters).Execute();
+    public AltUnityObject[] getAllElements(AltGetAllElementsParams altGetAllElementsParams) {
+        return new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParams).Execute();
     }
 
-    public String waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParameters altWaitForCurrentSceneToBeParameters) {
-        return new AltWaitForCurrentSceneToBe(this.connection.messageHandler, altWaitForCurrentSceneToBeParameters)
+    /**
+     * Waits for the scene to be loaded for a specified amount of time. It returns
+     * the name of the current scene.
+     * 
+     * @param altWaitForCurrentSceneToBeParameters - Wait for current scene
+     *                                             parameters
+     * @return {String} -
+     */
+    public void waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParams altWaitForCurrentSceneToBeParameters) {
+        new AltWaitForCurrentSceneToBe(this.connection.messageHandler, altWaitForCurrentSceneToBeParameters)
                 .Execute();
     }
 
@@ -302,60 +357,75 @@ public class AltUnityDriver {
      * Wait until there are no longer any objects that respect the given criteria or
      * times run out and will throw an error.
      *
-     * @param altWaitForObjectsParameters the properties parameter for finding the
-     *                                    objects in a scene.
+     * @param altWaitForObjectsParams the properties parameter for finding the
+     *                                objects in a scene.
      */
-    public AltUnityObject waitForObject(AltWaitForObjectsParameters altWaitForObjectsParameters) {
-        return new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParameters).Execute();
+    public AltUnityObject waitForObject(AltWaitForObjectsParams altWaitForObjectsParams) {
+        return new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams).Execute();
     }
 
     /**
      * Wait until the object in the scene that respect the given criteria is no
      * longer in the scene or times run out and will throw an error.
      *
-     * @param altWaitForObjectsParameters the properties parameter for finding the
-     *                                    objects in a scene.
+     * @param altWaitForObjectsParams the properties parameter for finding the
+     *                                objects in a scene.
      */
-    public void waitForObjectToNotBePresent(AltWaitForObjectsParameters altWaitForObjectsParameters) {
-        new AltWaitForObjectToNotBePresent(this.connection.messageHandler, altWaitForObjectsParameters).Execute();
+    public void waitForObjectToNotBePresent(AltWaitForObjectsParams altWaitForObjectsParams) {
+        new AltWaitForObjectToNotBePresent(this.connection.messageHandler, altWaitForObjectsParams).Execute();
     }
 
-    public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParameters altWaitForObjectsParameters) {
-        return new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParameters).Execute();
+    /**
+     * Waits until it finds an object that respects the given criteria or time runs
+     * out and will throw an error.
+     */
+    public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParams altWaitForObjectsParams) {
+        return new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParams).Execute();
     }
 
-    private AltFindObjectsParameters BuildFindObjectsParameters(By by, String value, By cameraBy, String cameraName,
-            boolean enabled) {
-        return new AltFindObjectsParameters.Builder(by, value).isEnabled(enabled).withCamera(cameraBy, cameraName)
-                .build();
-    }
-
+    /**
+     * Creates a screenshot of the current screen in png format.
+     */
     public void getPNGScreenshot(String path) {
         new GetPNGScreenshotCommand(this.connection.messageHandler, path).Execute();
     }
 
-    public void setServerLogging(AltSetServerLoggingParameters parameters) {
+    /**
+     * Sets the level of logging on AltUnity Tester
+     * 
+     * @param parameters
+     */
+    public void setServerLogging(AltSetServerLoggingParams parameters) {
         new AltUnitySetServerLogging(this.connection.messageHandler, parameters).Execute();
     }
 
-    public int beginTouch(Vector2 screenCoordinates) {
-        return new AltBeginTouch(this.connection.messageHandler, screenCoordinates).Execute();
-    }
-
-    public void moveTouch(int fingerId, Vector2 screenCoordinates) {
-        new AltMoveTouch(this.connection.messageHandler, fingerId, screenCoordinates).Execute();
-    }
-
-    public void endTouch(int fingerId) {
-        new AltEndTouch(this.connection.messageHandler, fingerId).Execute();
+    /**
+     * Simulates starting of a touch on the screen.
+     */
+    public int beginTouch(AltBeginTouchParams beginTouchParams) {
+        return new AltBeginTouch(this.connection.messageHandler, beginTouchParams).Execute();
     }
 
     /**
-     * Tap at screen coordinates
+     * Simulates a touch movement on the screen.
+     */
+    public void moveTouch(AltMoveTouchParams moveTouchParams) {
+        new AltMoveTouch(this.connection.messageHandler, moveTouchParams).Execute();
+    }
+
+    /**
+     * Simulates ending of a touch on the screen.
+     */
+    public void endTouch(AltEndTouchParams endTouchParams) {
+        new AltEndTouch(this.connection.messageHandler, endTouchParams).Execute();
+    }
+
+    /**
+     * Tap at screen coordinates.
      *
      * @param parameters Tap parameters
      */
-    public void tap(AltTapClickCoordinatesParameters parameters) {
+    public void tap(AltTapClickCoordinatesParams parameters) {
         new AltTapCoordinates(this.connection.messageHandler, parameters).Execute();
     }
 
@@ -364,19 +434,22 @@ public class AltUnityDriver {
      *
      * @param parameters Click parameters
      */
-    public void click(AltTapClickCoordinatesParameters parameters) {
+    public void click(AltTapClickCoordinatesParams parameters) {
         new AltClickCoordinates(this.connection.messageHandler, parameters).Execute();
     }
 
-    public <T> T GetStaticProperty(AltGetComponentPropertyParameters parameters, Class<T> returnType) {
+    /**
+     * Gets the value of the static field or property
+     */
+    public <T> T getStaticProperty(AltGetComponentPropertyParams parameters, Class<T> returnType) {
         return new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
     }
 
-    public void AddNotification(AltUnityAddNotificationListenerParams params) {
+    public void addNotification(AltUnityAddNotificationListenerParams params) {
         new AltUnityAddNotificationListener(this.connection.messageHandler, params).Execute();
     }
 
-    public void RemoveNotificationListener(AltUnityRemoveNotificationListenerParams notificationType) {
+    public void removeNotificationListener(AltUnityRemoveNotificationListenerParams notificationType) {
 
         new AltUnityRemoveNotificationListener(this.connection.messageHandler, notificationType).Execute();
 

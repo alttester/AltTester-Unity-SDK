@@ -4,10 +4,10 @@ import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSetComponentProperty extends AltBaseCommand {
-    private AltSetComponentPropertyParameters altSetComponentPropertyParameters;
+    private AltSetComponentPropertyParams altSetComponentPropertyParameters;
 
     public AltSetComponentProperty(IMessageHandler messageHandler,
-            AltSetComponentPropertyParameters altSetComponentPropertyParameters) {
+            AltSetComponentPropertyParams altSetComponentPropertyParameters) {
         super(messageHandler);
         this.altSetComponentPropertyParameters = altSetComponentPropertyParameters;
         this.altSetComponentPropertyParameters.setCommandName("setObjectComponentProperty");

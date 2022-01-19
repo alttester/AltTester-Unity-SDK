@@ -3,7 +3,7 @@ package ro.altom.altunitytester.Commands.FindObject;
 import ro.altom.altunitytester.AltMessage;
 import ro.altom.altunitytester.AltUnityDriver.By;
 
-public class AltGetAllElementsParameters extends AltMessage{
+public class AltGetAllElementsParams extends AltMessage {
 
     public static class Builder {
         private By cameraBy = By.NAME;
@@ -13,19 +13,19 @@ public class AltGetAllElementsParameters extends AltMessage{
         public Builder() {
         }
 
-        public AltGetAllElementsParameters.Builder isEnabled(boolean enabled) {
+        public AltGetAllElementsParams.Builder isEnabled(boolean enabled) {
             this.enabled = enabled;
             return this;
         }
 
-        public AltGetAllElementsParameters.Builder withCamera(By cameraBy, String cameraValue) {
+        public AltGetAllElementsParams.Builder withCamera(By cameraBy, String cameraValue) {
             this.cameraValue = cameraValue;
             this.cameraBy = cameraBy;
             return this;
         }
 
-        public AltGetAllElementsParameters build() {
-            AltGetAllElementsParameters altGetAllElementsParameters = new AltGetAllElementsParameters();
+        public AltGetAllElementsParams build() {
+            AltGetAllElementsParams altGetAllElementsParameters = new AltGetAllElementsParams();
             altGetAllElementsParameters.cameraBy = this.cameraBy;
             altGetAllElementsParameters.cameraValue = this.cameraValue;
             altGetAllElementsParameters.enabled = this.enabled;
@@ -33,7 +33,7 @@ public class AltGetAllElementsParameters extends AltMessage{
         }
     }
 
-    private AltGetAllElementsParameters() {
+    private AltGetAllElementsParams() {
     }
 
     public String getCameraValue() {

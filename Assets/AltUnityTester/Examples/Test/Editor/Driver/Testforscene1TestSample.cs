@@ -135,11 +135,11 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string name = "Scene 1 AltUnityDriverTestScene";
             var timeStart = DateTime.Now;
-            var currentScene = altUnityDriver.WaitForCurrentSceneToBe(name);
+            altUnityDriver.WaitForCurrentSceneToBe(name);
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(currentScene);
+            var currentScene = altUnityDriver.GetCurrentScene();
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", currentScene);
         }
 
@@ -712,9 +712,9 @@ namespace Altom.AltUnityDriver.Tests
         }
 
         [Test]
-        public void TestWaitForCurrrentSceneToBeANonExistingScene()
+        public void TestWaitForCurrentSceneToBeANonExistingScene()
         {
-            const string name = "AltUnityDriverTestScenee";
+            const string name = "AltUnityDriverTestScene";
             try
             {
                 altUnityDriver.WaitForCurrentSceneToBe(name, 1);
@@ -722,7 +722,7 @@ namespace Altom.AltUnityDriver.Tests
             }
             catch (WaitTimeOutException exception)
             {
-                Assert.AreEqual("Scene AltUnityDriverTestScenee not loaded after 1 seconds", exception.Message);
+                Assert.AreEqual("Scene AltUnityDriverTestScene not loaded after 1 seconds", exception.Message);
             }
         }
 

@@ -4,11 +4,11 @@ import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltEndTouch extends AltBaseCommand {
-    private AltEndTouchParameters params;
+    private AltEndTouchParams params;
 
-    public AltEndTouch(IMessageHandler messageHandler, int fingerId) {
+    public AltEndTouch(IMessageHandler messageHandler, AltEndTouchParams params) {
         super(messageHandler);
-        params = new AltEndTouchParameters(fingerId);
+        this.params = params;
     }
 
     public void Execute() {

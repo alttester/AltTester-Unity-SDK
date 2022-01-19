@@ -5,7 +5,7 @@ import ro.altom.altunitytester.Commands.ObjectCommand.*;
 import ro.altom.altunitytester.position.Vector2;
 import ro.altom.altunitytester.position.Vector3;
 import ro.altom.altunitytester.AltUnityDriver.By;
-import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParams;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObject;
 
 @Getter
@@ -58,77 +58,105 @@ public class AltUnityObject {
         this.transformParentId = transformParentId;
     }
 
+    /**
+     * Returns the parent of the AltUnity object on which it is called
+     * 
+     * @return - The parent object
+     */
     public AltUnityObject getParent() {
-        AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(By.PATH,
+        AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(By.PATH,
                 "//*[@id=" + this.id + "]/..").build();
         return new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
     }
 
+    /**
+     * Returns the screen position of the AltUnity object
+     * 
+     * @return - the screen position
+     */
     public Vector2 getScreenPosition() {
         return new Vector2(this.x, this.y);
     }
 
+    /**
+     * Returns the world position of the AltUnity object
+     * 
+     * @return - the world position
+     */
     public Vector3 getWorldPosition() {
         return new Vector3(this.worldX, this.worldY, this.worldZ);
     }
 
-    public <T> T getComponentProperty(AltGetComponentPropertyParameters altGetComponentPropertyParameters,
+    /**
+     * Returns the value of the given component property.
+     * 
+     * @return - the value of the given component property
+     */
+    public <T> T getComponentProperty(AltGetComponentPropertyParams altGetComponentPropertyParameters,
             Class<T> returnType) {
         altGetComponentPropertyParameters.setAltUnityObject(this);
         return new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters).Execute(returnType);
     }
 
-    public void setComponentProperty(AltSetComponentPropertyParameters altSetComponentPropertyParameters) {
+    /**
+     * Sets value of the given component property.
+     */
+    public void setComponentProperty(AltSetComponentPropertyParams altSetComponentPropertyParameters) {
         altSetComponentPropertyParameters.setAltUnityObject(this);
         new AltSetComponentProperty(messageHandler, altSetComponentPropertyParameters).Execute();
     }
 
-    public <T> T callComponentMethod(AltCallComponentMethodParameters altCallComponentMethodParameters,
+    /**
+     * Invokes a method from an existing component of the object.
+     */
+    public <T> T callComponentMethod(AltCallComponentMethodParams altCallComponentMethodParameters,
             Class<T> returnType) {
         altCallComponentMethodParameters.setAltUnityObject(this);
         return new AltCallComponentMethod(messageHandler, altCallComponentMethodParameters).Execute(returnType);
     }
 
-    public <T> T callComponentMethod(String assemblyName, String componentName, String methodName, Object[] parameters,
-            String[] typeOfParameters, Class<T> returnType) {
-        AltCallComponentMethodParameters altCallComponentMethodParameters = new AltCallComponentMethodParameters.Builder(
-                componentName, methodName, parameters).withTypeOfParameters(typeOfParameters).withAssembly(assemblyName)
-                        .build();
-        return callComponentMethod(altCallComponentMethodParameters, returnType);
-    }
-
-    public <T> T callComponentMethod(String componentName, String methodName, Object[] parameters, Class<T> returnType)
-            throws Exception {
-        return callComponentMethod("", componentName, methodName, parameters, null, returnType);
-    }
-
+    /**
+     * Returns text value from a Button, Text, InputField. This also works with
+     * TextMeshPro elements.
+     */
     public String getText() {
-        AltGetTextParameters altGetTextParameters = new AltGetTextParameters(this);
+        AltGetTextParams altGetTextParameters = new AltGetTextParams(this);
         return new AltGetText(messageHandler, altGetTextParameters).Execute();
     }
 
+    /**
+     * Sets text value for a Button, Text, InputField. This also works with
+     * TextMeshPro elements.
+     */
     public AltUnityObject setText(String text) {
-        AltSetTextParameters altSetTextParameters = new AltSetTextParameters(text, this);
+        AltSetTextParams altSetTextParameters = new AltSetTextParams(text, this);
         return new AltSetText(messageHandler, altSetTextParameters).Execute();
     }
 
-    @Deprecated()
-    public AltUnityObject clickEvent() {
-        return sendActionAndEvaluateResult("clickEvent");
-    }
-
+    /**
+     * Simulates pointer up action on the object.
+     */
     public AltUnityObject pointerUp() {
         return sendActionAndEvaluateResult("pointerUpFromObject");
     }
 
+    /**
+     * Simulates pointer down action on the object.
+     */
     public AltUnityObject pointerDown() {
         return sendActionAndEvaluateResult("pointerDownFromObject");
     }
 
+    /**
+     * Simulates pointer enter action on the object.
+     */
     public AltUnityObject pointerEnter() {
         return sendActionAndEvaluateResult("pointerEnterObject");
     }
 
+    /**
+     * Simulates pointer exit action on the object.
+     */
     public AltUnityObject pointerExit() {
         return sendActionAndEvaluateResult("pointerExitObject");
     }
@@ -139,7 +167,7 @@ public class AltUnityObject {
      * @return The clicked object
      */
     public AltUnityObject tap() {
-        return tap(new AltTapClickElementParameters.Builder().build());
+        return tap(new AltTapClickElementParams.Builder().build());
     }
 
     /**
@@ -148,9 +176,19 @@ public class AltUnityObject {
      * @param parameters Tap parameters
      * @return The tapped object
      */
-    public AltUnityObject tap(AltTapClickElementParameters parameters) {
+    public AltUnityObject tap(AltTapClickElementParams parameters) {
         parameters.setAltUnityObject(this);
         return new AltTapElement(messageHandler, parameters).Execute();
+    }
+
+    /**
+     * Click current object.
+     * 
+     * @return The clicked object
+     */
+    public AltUnityObject click() {
+        AltTapClickElementParams params = new AltTapClickElementParams.Builder().build();
+        return this.click(params);
     }
 
     /**
@@ -159,7 +197,7 @@ public class AltUnityObject {
      * @param parameters Click parameters
      * @return The clicked object
      */
-    public AltUnityObject click(AltTapClickElementParameters parameters) {
+    public AltUnityObject click(AltTapClickElementParams parameters) {
         parameters.setAltUnityObject(this);
         return new AltClickElement(messageHandler, parameters).Execute();
     }

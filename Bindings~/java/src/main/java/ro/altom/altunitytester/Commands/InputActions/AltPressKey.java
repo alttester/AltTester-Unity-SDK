@@ -11,9 +11,9 @@ public class AltPressKey extends AltBaseCommand {
     /**
      * @param altPressKeyParameters the builder for the press key commands.
      */
-    private AltPressKeyParameters altPressKeyParameters;
+    private AltPressKeyParams altPressKeyParameters;
 
-    public AltPressKey(IMessageHandler messageHandler, AltPressKeyParameters altPressKeyParameters) {
+    public AltPressKey(IMessageHandler messageHandler, AltPressKeyParams altPressKeyParameters) {
         super(messageHandler);
         this.altPressKeyParameters = altPressKeyParameters;
         this.altPressKeyParameters.setCommandName("pressKeyboardKey");

@@ -2,7 +2,10 @@ package ro.altom.altunitytester.Commands.UnityCommand;
 
 import ro.altom.altunitytester.AltMessage;
 
-public class AltLoadSceneParameters extends AltMessage {
+public class AltLoadSceneParams extends AltMessage {
+    private boolean loadSingle = true;
+    private String sceneName;
+
     public static class Builder {
         private String sceneName;
         private boolean loadSingle = true;
@@ -11,23 +14,21 @@ public class AltLoadSceneParameters extends AltMessage {
             this.sceneName = sceneName;
         }
 
-        public AltLoadSceneParameters.Builder loadMode(boolean loadSingle) {
+        public AltLoadSceneParams.Builder loadSingle(boolean loadSingle) {
             this.loadSingle = loadSingle;
             return this;
         }
 
-        public AltLoadSceneParameters build() {
-            AltLoadSceneParameters altLoadSceneParameters = new AltLoadSceneParameters();
+        public AltLoadSceneParams build() {
+            AltLoadSceneParams altLoadSceneParameters = new AltLoadSceneParams();
             altLoadSceneParameters.loadSingle = this.loadSingle;
             altLoadSceneParameters.sceneName = this.sceneName;
             return altLoadSceneParameters;
         }
     }
 
-    private AltLoadSceneParameters() {
+    private AltLoadSceneParams() {
     }
-
-    private boolean loadSingle = true;
 
     public String getSceneName() {
         return sceneName;
@@ -36,8 +37,6 @@ public class AltLoadSceneParameters extends AltMessage {
     public void setSceneName(String sceneName) {
         this.sceneName = sceneName;
     }
-
-    private String sceneName;
 
     public boolean getLoadSingle() {
         return loadSingle;

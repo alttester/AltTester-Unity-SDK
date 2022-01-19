@@ -11,10 +11,10 @@ public class AltGetComponentProperty extends AltBaseCommand {
      * @param altGetComponentPropertyParameters builder for getting components'
      *                                          property
      */
-    private AltGetComponentPropertyParameters altGetComponentPropertyParameters;
+    private AltGetComponentPropertyParams altGetComponentPropertyParameters;
 
     public AltGetComponentProperty(IMessageHandler messageHandler,
-            AltGetComponentPropertyParameters altGetComponentPropertyParameters) {
+            AltGetComponentPropertyParams altGetComponentPropertyParameters) {
         super(messageHandler);
         this.altGetComponentPropertyParameters = altGetComponentPropertyParameters;
         this.altGetComponentPropertyParameters.setCommandName("getObjectComponentProperty");

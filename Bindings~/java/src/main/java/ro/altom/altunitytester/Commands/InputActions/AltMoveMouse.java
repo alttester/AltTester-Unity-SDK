@@ -10,22 +10,22 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
 public class AltMoveMouse extends AltBaseCommand {
 
     /**
-     * @param altMoveMouseParameters the builder for the mouse moves command.
+     * @param params the builder for the mouse moves command.
      */
-    private AltMoveMouseParameters altMoveMouseParameters;
+    private AltMoveMouseParams params;
 
-    public AltMoveMouse(IMessageHandler messageHandler, AltMoveMouseParameters altMoveMouseParameters) {
+    public AltMoveMouse(IMessageHandler messageHandler, AltMoveMouseParams params) {
         super(messageHandler);
-        this.altMoveMouseParameters = altMoveMouseParameters;
+        this.params = params;
     }
 
     public void Execute() {
-        SendCommand(altMoveMouseParameters);
-        String data = recvall(altMoveMouseParameters, String.class);
+        SendCommand(params);
+        String data = recvall(params, String.class);
         validateResponse("Ok", data);
 
-        if (altMoveMouseParameters.getWait()) {
-            data = recvall(altMoveMouseParameters, String.class);
+        if (params.getWait()) {
+            data = recvall(params, String.class);
             validateResponse("Finished", data);
         }
     }

@@ -7,9 +7,9 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  * Simulates device rotation action in your game.
  */
 public class AltTilt extends AltBaseCommand {
-    private AltTiltParameters altTiltParameters;
+    private AltTiltParams altTiltParameters;
 
-    public AltTilt(IMessageHandler messageHandler, AltTiltParameters altTiltParameters) {
+    public AltTilt(IMessageHandler messageHandler, AltTiltParams altTiltParameters) {
         super(messageHandler);
         this.altTiltParameters = altTiltParameters;
     }

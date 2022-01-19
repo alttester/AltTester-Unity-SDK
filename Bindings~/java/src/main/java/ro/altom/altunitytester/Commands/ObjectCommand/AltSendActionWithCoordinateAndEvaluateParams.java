@@ -2,13 +2,13 @@ package ro.altom.altunitytester.Commands.ObjectCommand;
 
 import ro.altom.altunitytester.AltUnityObject;
 
-public class AltSendActionWithCoordinateAndEvaluateParams extends AltUnityObjectParameters{
-    
+public class AltSendActionWithCoordinateAndEvaluateParams extends AltUnityObjectParams {
+
     private AltUnityObject altUnityObject;
     private int x;
     private int y;
 
-    AltSendActionWithCoordinateAndEvaluateParams(AltUnityObject altUnityObject, int x, int y){
+    AltSendActionWithCoordinateAndEvaluateParams(AltUnityObject altUnityObject, int x, int y) {
         this.setAltUnityObject(altUnityObject);
         this.setX(x);
         this.setY(y);

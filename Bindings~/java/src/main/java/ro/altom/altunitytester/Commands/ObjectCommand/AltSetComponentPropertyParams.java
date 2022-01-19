@@ -2,7 +2,7 @@ package ro.altom.altunitytester.Commands.ObjectCommand;
 
 import com.google.gson.Gson;
 
-public class AltSetComponentPropertyParameters extends AltUnityObjectParameters {
+public class AltSetComponentPropertyParams extends AltUnityObjectParams {
     public static class Builder {
         private String componentName;
         private String propertyName;
@@ -20,8 +20,8 @@ public class AltSetComponentPropertyParameters extends AltUnityObjectParameters 
             return this;
         }
 
-        public AltSetComponentPropertyParameters build() {
-            AltSetComponentPropertyParameters altSetComponentPropertyParameters = new AltSetComponentPropertyParameters();
+        public AltSetComponentPropertyParams build() {
+            AltSetComponentPropertyParams altSetComponentPropertyParameters = new AltSetComponentPropertyParams();
             altSetComponentPropertyParameters.assembly = this.assembly;
             altSetComponentPropertyParameters.property = this.propertyName;
             altSetComponentPropertyParameters.component = this.componentName;
@@ -31,7 +31,7 @@ public class AltSetComponentPropertyParameters extends AltUnityObjectParameters 
         }
     }
 
-    private AltSetComponentPropertyParameters() {
+    private AltSetComponentPropertyParams() {
     }
 
     public String getComponentName() {

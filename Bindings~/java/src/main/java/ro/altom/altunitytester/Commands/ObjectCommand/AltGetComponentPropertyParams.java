@@ -1,6 +1,6 @@
 package ro.altom.altunitytester.Commands.ObjectCommand;
 
-public class AltGetComponentPropertyParameters extends AltUnityObjectParameters {
+public class AltGetComponentPropertyParams extends AltUnityObjectParams {
     public static class Builder {
         private String componentName;
         private String propertyName;
@@ -22,8 +22,8 @@ public class AltGetComponentPropertyParameters extends AltUnityObjectParameters 
             return this;
         }
 
-        public AltGetComponentPropertyParameters build() {
-            AltGetComponentPropertyParameters altGetComponentPropertyParameters = new AltGetComponentPropertyParameters();
+        public AltGetComponentPropertyParams build() {
+            AltGetComponentPropertyParams altGetComponentPropertyParameters = new AltGetComponentPropertyParams();
             altGetComponentPropertyParameters.component = this.componentName;
             altGetComponentPropertyParameters.property = this.propertyName;
             altGetComponentPropertyParameters.assembly = this.assembly;
@@ -32,7 +32,7 @@ public class AltGetComponentPropertyParameters extends AltUnityObjectParameters 
         }
     }
 
-    private AltGetComponentPropertyParameters() {
+    private AltGetComponentPropertyParams() {
     }
 
     public String getAssembly() {

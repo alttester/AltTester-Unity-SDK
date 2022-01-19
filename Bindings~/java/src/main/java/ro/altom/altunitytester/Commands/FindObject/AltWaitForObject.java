@@ -13,9 +13,9 @@ public class AltWaitForObject extends AltBaseFindObject {
      * @param altFindObjectsParameters the properties parameter for finding the
      *                                 objects in a scene.
      */
-    private AltWaitForObjectsParameters altWaitForObjectsParameters;
+    private AltWaitForObjectsParams altWaitForObjectsParameters;
 
-    public AltWaitForObject(IMessageHandler messageHandler, AltWaitForObjectsParameters altWaitForObjectsParameters) {
+    public AltWaitForObject(IMessageHandler messageHandler, AltWaitForObjectsParams altWaitForObjectsParameters) {
         super(messageHandler);
         this.altWaitForObjectsParameters = altWaitForObjectsParameters;
     }

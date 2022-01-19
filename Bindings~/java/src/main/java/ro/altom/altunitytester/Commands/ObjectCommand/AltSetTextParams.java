@@ -2,11 +2,11 @@ package ro.altom.altunitytester.Commands.ObjectCommand;
 
 import ro.altom.altunitytester.AltUnityObject;
 
-public class AltSetTextParameters extends AltUnityObjectParameters{
-    
+public class AltSetTextParams extends AltUnityObjectParams {
+
     private String newText;
 
-    public AltSetTextParameters(String newText, AltUnityObject altUnityObject){
+    public AltSetTextParams(String newText, AltUnityObject altUnityObject) {
         this.setNewText(newText);
         super.altUnityObject = altUnityObject;
     }

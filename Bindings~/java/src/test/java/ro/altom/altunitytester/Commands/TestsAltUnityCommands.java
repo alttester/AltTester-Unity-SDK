@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import ro.altom.altunitytester.AltUnityDriver;
 import ro.altom.altunitytester.TestsHelper;
-import ro.altom.altunitytester.Commands.AltUnityCommands.AltSetServerLoggingParameters;
+import ro.altom.altunitytester.Commands.AltUnityCommands.AltSetServerLoggingParams;
 import ro.altom.altunitytester.Logging.AltUnityLogLevel;
 import ro.altom.altunitytester.Logging.AltUnityLogger;
 
@@ -38,9 +38,9 @@ public class TestsAltUnityCommands {
     @Test
     public void testSetServerLogging() {
         altUnityDriver.setServerLogging(
-                new AltSetServerLoggingParameters.Builder(AltUnityLogger.File, AltUnityLogLevel.Debug).build());
+                new AltSetServerLoggingParams.Builder(AltUnityLogger.File, AltUnityLogLevel.Debug).build());
         Rule rule = altUnityDriver.callStaticMethod(
-                new AltCallStaticMethodParameters.Builder("Altom.AltUnityTester.Logging.ServerLogManager",
+                new AltCallStaticMethodParams.Builder("Altom.AltUnityTester.Logging.ServerLogManager",
                         "Instance.Configuration.FindRuleByName", new Object[] { "AltUnityServerFileRule" })
                                 .withAssembly("Assembly-CSharp").build(),
                 Rule.class);
@@ -48,9 +48,9 @@ public class TestsAltUnityCommands {
         assertEquals(5, rule.Levels.size());
 
         altUnityDriver.setServerLogging(
-                new AltSetServerLoggingParameters.Builder(AltUnityLogger.File, AltUnityLogLevel.Off).build());
+                new AltSetServerLoggingParams.Builder(AltUnityLogger.File, AltUnityLogLevel.Off).build());
         rule = altUnityDriver.callStaticMethod(
-                new AltCallStaticMethodParameters.Builder("Altom.AltUnityTester.Logging.ServerLogManager",
+                new AltCallStaticMethodParams.Builder("Altom.AltUnityTester.Logging.ServerLogManager",
                         "Instance.Configuration.FindRuleByName", new Object[] { "AltUnityServerFileRule" })
                                 .withAssembly("Assembly-CSharp").build(),
                 Rule.class);

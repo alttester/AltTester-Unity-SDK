@@ -7,25 +7,21 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
  * Simulate scroll mouse action in your game.
  */
 public class AltScroll extends AltBaseCommand {
+    private AltScrollParams params;
 
-    /**
-     * @param altScrollParameters the builder for the scroll commands.
-     */
-    private AltScrollParameters altScrollParameters;
-
-    public AltScroll(IMessageHandler messageHandler, AltScrollParameters altScrollParameters) {
+    public AltScroll(IMessageHandler messageHandler, AltScrollParams params) {
         super(messageHandler);
-        this.altScrollParameters = altScrollParameters;
-        this.altScrollParameters.setCommandName("scroll");
+        this.params = params;
+        this.params.setCommandName("scroll");
     }
 
     public void Execute() {
-        SendCommand(altScrollParameters);
-        String data = recvall(altScrollParameters, String.class);
+        SendCommand(params);
+        String data = recvall(params, String.class);
         validateResponse("Ok", data);
 
-        if (altScrollParameters.getWait()) {
-            data = recvall(altScrollParameters, String.class);
+        if (params.getWait()) {
+            data = recvall(params, String.class);
             validateResponse("Finished", data);
         }
 

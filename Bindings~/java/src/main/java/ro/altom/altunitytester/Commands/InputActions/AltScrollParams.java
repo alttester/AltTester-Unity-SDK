@@ -2,7 +2,7 @@ package ro.altom.altunitytester.Commands.InputActions;
 
 import ro.altom.altunitytester.AltMessage;
 
-public class AltScrollParameters extends AltMessage {
+public class AltScrollParams extends AltMessage {
     public static class Builder {
         private float speed = 1;
         private float duration = 0.1f;
@@ -16,7 +16,7 @@ public class AltScrollParameters extends AltMessage {
          * @param duration The duration of the scroll in seconds. Defaults to
          *                 <code> 0.1 </code>
          */
-        public AltScrollParameters.Builder withDuration(float duration) {
+        public AltScrollParams.Builder withDuration(float duration) {
             this.duration = duration;
             return this;
         }
@@ -26,7 +26,7 @@ public class AltScrollParameters extends AltMessage {
          * @param speed Set how fast to scroll. Positive values will scroll up and
          *              negative values will scroll down. Defaults to <code> 1 </code>
          */
-        public AltScrollParameters.Builder withSpeed(float speed) {
+        public AltScrollParams.Builder withSpeed(float speed) {
             this.speed = speed;
             return this;
         }
@@ -34,13 +34,13 @@ public class AltScrollParameters extends AltMessage {
         /**
          * @param wait If set wait for command to finish. Defaults to <code>true</code>.
          */
-        public AltScrollParameters.Builder withWait(boolean wait) {
+        public AltScrollParams.Builder withWait(boolean wait) {
             this.wait = wait;
             return this;
         }
 
-        public AltScrollParameters build() {
-            AltScrollParameters altScrollMouseParameters = new AltScrollParameters();
+        public AltScrollParams build() {
+            AltScrollParams altScrollMouseParameters = new AltScrollParams();
             altScrollMouseParameters.speed = this.speed;
             altScrollMouseParameters.duration = this.duration;
             altScrollMouseParameters.wait = this.wait;
@@ -48,7 +48,7 @@ public class AltScrollParameters extends AltMessage {
         }
     }
 
-    private AltScrollParameters() {
+    private AltScrollParams() {
     }
 
     private float speed;

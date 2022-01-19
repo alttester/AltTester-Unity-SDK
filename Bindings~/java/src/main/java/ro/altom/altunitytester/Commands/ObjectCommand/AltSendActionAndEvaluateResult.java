@@ -6,12 +6,12 @@ import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltSendActionAndEvaluateResult extends AltBaseCommand {
 
-    private AltSendActionAndEvaluateResultParameters params;
+    private AltSendActionAndEvaluateResultParams params;
 
     public AltSendActionAndEvaluateResult(IMessageHandler messageHandler, AltUnityObject altUnityObject,
             String command) {
         super(messageHandler);
-        params = new AltSendActionAndEvaluateResultParameters(altUnityObject);
+        params = new AltSendActionAndEvaluateResultParams(altUnityObject);
         params.setCommandName(command);
     }
 

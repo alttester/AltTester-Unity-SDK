@@ -4,9 +4,9 @@ import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 
 public class AltTapCoordinates extends AltBaseCommand {
-    private AltTapClickCoordinatesParameters parameters;
+    private AltTapClickCoordinatesParams parameters;
 
-    public AltTapCoordinates(IMessageHandler messageHandler, AltTapClickCoordinatesParameters parameters) {
+    public AltTapCoordinates(IMessageHandler messageHandler, AltTapClickCoordinatesParams parameters) {
         super(messageHandler);
         this.parameters = parameters;
         this.parameters.setCommandName("tapCoordinates");
