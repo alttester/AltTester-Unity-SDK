@@ -1795,7 +1795,7 @@ namespace Altom.AltUnityDriver.Tests
             var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
 
             altUnityDriver.MoveMouse(counterElement.getScreenPosition());
-            Thread.Sleep(200); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
+            Thread.Sleep(500); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
 
             var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
