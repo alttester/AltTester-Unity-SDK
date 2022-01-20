@@ -4,7 +4,7 @@ import unittest.mock as mock
 import pytest
 
 from altunityrunner._websocket import Store, WebsocketConnection
-from altunityrunner.exceptions import ConnectionError, ConnectionTimeoutError
+from altunityrunner.exceptions import ConnectionError
 
 
 class TestStore:
@@ -93,35 +93,6 @@ class TestWebsocketConnection:
         self.create_connection_mock.assert_called_once()
 
         self.websocket_mock.close.assert_not_called()
-        assert self.connection._websocket is not None
-
-    def test_connection_timeout(self):
-        self.connection._is_open = False
-
-        with pytest.raises(ConnectionTimeoutError):
-            self.connection.connect()
-
-        self.websocket_mock.close.assert_called_once()
-        assert self.connection._websocket is None
-
-    def test_connection_errors(self):
-        self.connection._errors.append("Error message.")
-
-        with pytest.raises(ConnectionError):
-            self.connection.connect()
-
-        self.websocket_mock.close.assert_called_once()
-        assert self.connection._websocket is None
-
-    def test_wait_for_connection(self):
-        self.connection._is_open = False
-
-        with mock.patch("time.sleep") as sleep_mock:
-            with pytest.raises(ConnectionTimeoutError):
-                self.connection._wait_for_connection_to_open(timeout=1, delay=0.5)
-
-        assert sleep_mock.call_count == 2
-        sleep_mock.assert_has_calls([mock.call(0.5), mock.call(0.5)], any_order=True)
 
     def test_on_open(self):
         self.connection._is_open = False
@@ -154,6 +125,7 @@ class TestWebsocketConnection:
 
     def test_recv(self):
         self.connection.connect()
+        self.connection._websocket = self.websocket_mock
         self.connection._current_command_name = "TestCommand"
         self.connection._store.push("TestCommand", mock.sentinel.response)
 
@@ -171,6 +143,7 @@ class TestWebsocketConnection:
 
     def test_send(self):
         self.connection.connect()
+        self.connection._websocket = self.websocket_mock
 
         command_name = "TestCommand"
         self.connection.send({"commandName": command_name})

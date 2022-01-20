@@ -715,7 +715,7 @@ class AltUnityDriver:
             component_name, property_name, assembly, max_depth
         )
 
-    def _set_notification(self, notification_type, notification_callback=None):
+    def set_notification(self, notification_type, notification_callback=None):
         """Sets what notifications will the tester send and what to do with those notifications.
 
         Args:
@@ -727,8 +727,8 @@ class AltUnityDriver:
         self._connection.notification_callbacks = notification_callback
         commands.SetNotification.run(self._connection, notification_type)
 
-    def _add_notification_listener(self, notification_type, notification_callback, overwrite=True):
-        """Activates a notification that the tester will send
+    def add_notification_listener(self, notification_type, notification_callback, overwrite=True):
+        """Activates a notification that the tester will send.
 
         Args:
             notification_type (:obj:`int`): Flag that indicates which notification to be turned on
@@ -740,7 +740,7 @@ class AltUnityDriver:
 
         commands.AddNotificationListener.run(self._connection, notification_type, notification_callback, overwrite)
 
-    def _remove_notification_listener(self, notification_type):
+    def remove_notification_listener(self, notification_type):
         """Clear list of callback for the notification type and turn off the notification in tester.
 
         Args:

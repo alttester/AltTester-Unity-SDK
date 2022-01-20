@@ -1305,34 +1305,34 @@ class TestPythonBindings:
 
     def test_load_scene_notification(self):
         test_notification_callbacks = TestNotificationCallback()
-        self.altdriver._add_notification_listener(
+        self.altdriver.add_notification_listener(
             NotificationType.LOADSCENE, test_notification_callbacks.scene_loaded_callback)
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         assert test_notification_callbacks.last_scene_loaded == "Scene 1 AltUnityDriverTestScene"
-        self.altdriver._remove_notification_listener(NotificationType.LOADSCENE)
+        self.altdriver.remove_notification_listener(NotificationType.LOADSCENE)
 
     def test_unload_scene_notification(self):
         test_notification_callbacks = TestNotificationCallback()
-        self.altdriver._add_notification_listener(
+        self.altdriver.add_notification_listener(
             NotificationType.UNLOADSCENE, test_notification_callbacks.scene_unloaded_callback)
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         self.altdriver.load_scene("Scene 2 Draggable Panel", load_single=False)
         self.altdriver.unload_scene("Scene 2 Draggable Panel")
         assert test_notification_callbacks.last_scene_unloaded == "Scene 2 Draggable Panel"
-        self.altdriver._remove_notification_listener(NotificationType.UNLOADSCENE)
+        self.altdriver.remove_notification_listener(NotificationType.UNLOADSCENE)
 
     def test_log_notification(self):
         test_notification_callbacks = TestNotificationCallback()
-        self.altdriver._add_notification_listener(
+        self.altdriver.add_notification_listener(
             NotificationType.LOG, test_notification_callbacks.log_callback)
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         assert "Scene Loaded" in test_notification_callbacks.log_message
         assert test_notification_callbacks.log_type == AltUnityLogLevel.Debug.value
-        self.altdriver._remove_notification_listener(NotificationType.LOG)
+        self.altdriver.remove_notification_listener(NotificationType.LOG)
 
     def test_application_paused_notification(self):
         test_notification_callbacks = TestNotificationCallback()
-        self.altdriver._add_notification_listener(
+        self.altdriver.add_notification_listener(
             NotificationType.APPLICATION_PAUSED, test_notification_callbacks.application_paused_callback)
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         alt_unity_object = self.altdriver.find_object(By.NAME, "AltUnityRunnerPrefab")
@@ -1343,7 +1343,7 @@ class TestPythonBindings:
         )
 
         assert test_notification_callbacks.application_paused is True
-        self.altdriver._remove_notification_listener(NotificationType.APPLICATION_PAUSED)
+        self.altdriver.remove_notification_listener(NotificationType.APPLICATION_PAUSED)
 
     def test_float_world_coordinates(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
@@ -1357,6 +1357,7 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.set_command_response_timeout(1)
+
         with pytest.raises(exceptions.CommandResponseTimeoutException) as execinfo:
             alt_unity_object.call_component_method(
                 "AltUnityExampleScriptCapsule", "JumpWithDelay",
