@@ -34,12 +34,12 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 
     .. tab:: UnityPackage from GitLab pages
 
-        1. Download from `GitLab pages (deployed using CI) - link <https://altom.gitlab.io/altunity/altunitytester/master/AltUnityPackage/AltUnityTester.unitypackage>`_.
+        1. Download from `GitLab pages (deployed using CI) - link <https://altom.gitlab.io/altunity/altunitytester/AltUnityPackage/AltUnityTester.unitypackage>`_.
         2. Import it by drag and drop inside your Unity project.
 
 ```
 
-<!-- 
+<!--
 To instrument your Unity application with AltUnity Tester you first need to import the AltUnity Tester package into Unity.
 
 ```eval_rst
@@ -47,7 +47,7 @@ To instrument your Unity application with AltUnity Tester you first need to impo
     1. Download `AltUnity Tester Alpha <https://altom.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
 
     2. Import it by drag and drop inside your Unity project.
-    
+
 ```
 -->
 
@@ -60,15 +60,15 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 ## Instrument your game with AltUnity Tester
 
 Steps:
+
 1. Open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnityTester
-<!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
+ <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
 2. In the Build Settings section set **AltUnity Tester Port** to 13000
 3. In the Scene Manager section select the scenes you want to include in your build
 4. In the Platform section select desired platform and set the path to where you want to save the build
 5. Press "Build Only" to instrument the game or "Build & Run" to start your instrumented game
-after the build succeeded
+   after the build succeeded
 6. Check the console to see if the build was successful.
-
 
 ```eval_rst
 
@@ -94,7 +94,7 @@ after the build succeeded
     To be able to run your instrumented game in the background, go to File -> Build Settings -> Player Settings -> Project Settings -> Player -> Resolution and presentation and check the box next to Run in background*.
 ```
 
-<!-- 
+<!--
 
 ```eval_rst
 .. note::
@@ -162,12 +162,13 @@ Before running your tests you need to start the instrumented Unity application. 
             Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
 ```
+
 <!--
     .. tab:: WebGL
 
         Prerequisites:
 
-        * Use the Unity Hub to install WebGL Build Support 
+        * Use the Unity Hub to install WebGL Build Support
 
         Steps:
 
@@ -228,7 +229,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         AltUnityDriver is available also as a nuget package. You can use the nuget package to write your tests in a separate tests project, independent of the Unity application.
 
-        Create a new test project 
+        Create a new test project
 
         .. code-block:: console
 
@@ -240,10 +241,10 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             dotnet add package AltUnityDriver --version 1.7.0
 
-        Run your tests 
+        Run your tests
 
         .. code-block:: console
-        
+
             dotnet test
 
         Example test file:
@@ -268,7 +269,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
                     :emphasize-lines: 11,19
 
 
-        
+
 
     .. tab:: Java
 
@@ -294,7 +295,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
                 .. code-block:: console
 
                     mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.7.0 -Dpackaging=jar``
-        
+
 
         Run your tests by using the following command (in the test project folder):
 
@@ -374,7 +375,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
 Now your project can use all the [AltUnity Driver Commands](./commands.md).
 
-<!-- 
+<!--
 ```note::
         Before running your tests, start the Proxy and the Instrumented Unity app.
 ```
