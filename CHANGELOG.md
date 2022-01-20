@@ -1,26 +1,116 @@
+# Changes in version 1.7.0
+
+## New
+
+-   "Set a global command timeout for commands"	!567
+-   "Communication protocol" !419
+-   "Communication protocol - Python" !440
+-   "Java Communication Protocol"	!512
+
+## Bug fixes and improvements
+
+-   "CallComponentMehtod and CallStaticMethod definitions"	!492
+-   "[Get started] Add a note in "Instrument your game with AltUnity Server" section" !494
+-   "Invoke input Events such as OnValueChange or OnSubmit on PressKey and SetText"	!495
+-   "Communication protocol - Improve error handling" !498
+-   "Find a more suggestive name for "API Documentation" !500
+-   "From the unity editor, users should have all the info for getting started" !501
+-   "Improve the parameter validation in python" !507
+-   "rewrite CreateAltunityPrefab" !511
+-   "ALTUNITYTESTER scripting symbol not visible in instrumented game - Unity 2020"	!513
+-   "Update websocket-sharp" !514
+-   "[API] Insert missing commands in documentation" !521
+-   "Add option in AUT editor window to keep ALTUNITYTESTER define when apps are not in playmode" !522
+-   "[Tests list] Tests checkboxes alignment inconsistency" !523
+-   "[API methods] [Docs - API] Change param names of "cameraName" and "cameraPath" in "cameraValue"" !524
+-   "Fix AltUnitySetTextCommand.cs error" !525
+-   "[Command] Add a new command to retrieve static properties and fields" !527
+-   "Add event when scene is loaded" !528
+-   "Double clicking a test should open the test file at the line where the test is" !531
+-   "[Run tests] Incorrect failed tests number" !532
+-   "Handle WaitTimeOutException during Connect" !534
+-   "Fix connection timeout error for Python" !535
+-   "Logging documentation update" !536
+-   "Standardize AltUnityDriver constructor" !538
+-   "remove reconnect button from instrumented game" !540
+-   "Add documentation for SetTimeScale" !543
+-   "Input visualizer not assigned when option is checked in Build Settings" !547
+-   "Disconnecting before handshake throws error in Java" !548
+-   "[AltUnity Runner prefab popup] Rearange texts to be centered" !550
+-   "GetComponentProperty fails when value is null." !552
+-   "LoadScene throws null reference exception if name of the scene is not found" !553
+-   "Add info about setting Run in Background" !558
+-   "The table with Parameters for GetComponentProperty is not entirely visible in docs" !559
+-   "Test are not opened and error is thrown in console when class name is different with file name" !561
+-   "Remove Duplicate AltUnityId components in Sample Scenes" !562
+-   "Popup reappears after every 5 seconds" !564
+-   "Set a global command timeout for commands" !567
+-   "Error handling - log stacktrace from instrumented game" !568
+-   "Namespaces for AUT Instrumentation side" !572
+-   "[AUT logs] Replace "Server" with "Tester""	!574
+-   "Rename AltElement to AltUnityObject in python for consistency"	!575
+-   "[Python] Modify AltUnityObject to have world coordinate as float instead of int" !576
+-   "UI issues while "Play on Editor" when InvalidOperationException error" !577
+-   "Include Samplescenes project package in Examples" !578
+-   "Change the command GetPNGScreenshot to use ScreenCapture.CaptureScreenshot" !580
+-   "Refactor wait commands to use callback pattern" !586
+-   "CommandResponseTimeoutException is raised even if the driver is disconnected" !593
+-   "Add AUT+UTF example in the docs" !595
+-   "[API - BY-Selector] Update screenshot for AltId" !596
+-   "Tester dev documentation" !598
+-   "websocket server inside AltUnity Tester"	!600
+-   "Strong type return message on AltUnityObject commands"	!603
+-   "Update java dependencies" !604
+-   "[Java] forwardIos not working"	!605
+-   "[AltUnityRunnerPrefab] Incorrect message when another process is listening on the same port" !607
+-   "Docs for GetComponentProperty / SetComponentProperty"	!609
+-   "Include Samplescenes project package in Examples"	!610
+-   "Add known issue about portforwarding ios in mono" !611
+-   "CreateProperties and unhandled exception"	!612
+-   "Update docstrings for the public methods" !613
+-   "Add "Tester" in error message when Inspector cannot connect" !614
+-   "[Port Forwarding] [Windows] UI issues when port forwarding starts from AUT Editor"	!615
+-   "Modify GetScreenshot to send screenshot information as a png image" !617
+-   "Fix connection issue for python bindings" !616
+-   "[AltUnityRunnerPrefab] Wrong Tester version in popup when communication protocol is initiated"	!618
+-   "[Overview - How it works] Remove the Previous and Next buttons from screenshot" !619
+-   "Review java Driver library for consistency of api"	!622
+-   "Add information about code stripping in documentation"	!623
+-   "Update newtonsoft to v.10.0.1 netstandard1.3"	!626
+-   "Fix connection issue for python bindings" !628
+
+## Contributors
+
+-   Dorin Oltean @dorinaltom
+-   Gombos Kriszta @GombosKriszta
+-   Andra Cardas @andra.cardas
+-   Robert Dezmerean @robert-dezmerean
+-   Iuliana Todoran @iuliana.todoran
+-   Robert Poienar @robert_poienar
+
 # Changes in version 1.6.6
 
 ## New
 
--   Resolve "Input Handle Mouse events every frame" !467
--   Resolve "Add CameraNotFound error handler" !477
--   Resolve "Drag/Drop events for KeyUp / KeyDown" !483
+-   "Input Handle Mouse events every frame" !467
+-   "Add CameraNotFound error handler" !477
+-   "Drag/Drop events for KeyUp / KeyDown" !483
 
 ## Bug fixes and improvements
 
--   Resolve "[Tests list] Case when Assembly-CSharp_editor.dll displays an extra number of selected tests and passed test icon" !482
--   Resolve "[Unity - Game] Large AUT popup and icon for the Asset Store package" !481
--   Resolve "Make menu item and window name for AUT editor the same" !471
--   Resolve "Tests list missing for cloned game project from Gitlab" !479
--   Resolve "Click method is not working" !476
--   Resolve "Change the Selectors name with name used in syntax" !478
--   Resolve "Eliminate note from "Write and execute first test" section" !475
--   Resolve "Preselected build location path deleted after canceling to change it" !473
--   Resolve "Fix inconsistencies in documentation" !472
--   Resolve "SetComponentProperty doesn't set value for properties in a struct" !469
--   Resolve "Add an x button to altunity popup, so it's more intuitive that it can be closed" !470
--   Resolve "Problems with maven release job" !466
--   Resolve "Pressing x button on the test report pop-up makes the pop-up reopen" !468
+-   "[Tests list] Case when Assembly-CSharp_editor.dll displays an extra number of selected tests and passed test icon" !482
+-   "[Unity - Game] Large AUT popup and icon for the Asset Store package" !481
+-   "Make menu item and window name for AUT editor the same" !471
+-   "Tests list missing for cloned game project from Gitlab" !479
+-   "Click method is not working" !476
+-   "Change the Selectors name with name used in syntax" !478
+-   "Eliminate note from "Write and execute first test" section" !475
+-   "Preselected build location path deleted after canceling to change it" !473
+-   "Fix inconsistencies in documentation" !472
+-   "SetComponentProperty doesn't set value for properties in a struct" !469
+-   "Add an x button to altunity popup, so it's more intuitive that it can be closed" !470
+-   "Problems with maven release job" !466
+-   "Pressing x button on the test report pop-up makes the pop-up reopen" !468
 
 ## Contributors
 
@@ -244,7 +334,7 @@
 -   "Remove null checker to make compatible with .net 3.x" !268
 -   "GetVersion should return server version when there is a mismatch" !266
 -   "Load scene additive" !265
--   Resolve "AltUnityDriver python does not display warnings by default" !263
+-   "AltUnityDriver python does not display warnings by default" !263
 -   Update documentation
 
 ## Contributors
@@ -315,16 +405,16 @@
 
 ## Bug fixes and improvements
 
--   Resolve "Create in sample scene a button that load other scene and test it" !221
--   Resolve "Add a way to control the amount of output" !222
--   Resolve "Add option to set port in BuildGame Method and move to Awake runner instantiation settings" !213
--   Resolve "Compile errors after adding 'ALTUNITYTESTER' in scripting define symbols" !210
--   Resolve "Add Text and TextMeshPro Text component to SetText" !220
--   Resolve "Add favicon to altom.gitlab.io" !223
--   Resolve "If the server is not started when calling getServerVersion, it's stuck" !217
--   Resolve "Add license information in documentation" !219
--   Resolve "Add google groups links in documentation" !215
--   Resolve "Move Bindings folder from BindingAndExample Folder" !214
+-   "Create in sample scene a button that load other scene and test it" !221
+-   "Add a way to control the amount of output" !222
+-   "Add option to set port in BuildGame Method and move to Awake runner instantiation settings" !213
+-   "Compile errors after adding 'ALTUNITYTESTER' in scripting define symbols" !210
+-   "Add Text and TextMeshPro Text component to SetText" !220
+-   "Add favicon to altom.gitlab.io" !223
+-   "If the server is not started when calling getServerVersion, it's stuck" !217
+-   "Add license information in documentation" !219
+-   "Add google groups links in documentation" !215
+-   "Move Bindings folder from BindingAndExample Folder" !214
 
 ## Contributors
 
