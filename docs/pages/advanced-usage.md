@@ -88,7 +88,7 @@ In order to run tests from the command line you can use the following example co
 
 ## Run tests on a Continuous Integration Server
 
-1. Instrument your game build with altUnity Tester from Unity or by [building from the command line](#build-games-from-the-command-line).
+1. Instrument your game build with AltUnity Tester from Unity or by [building from the command line](#build-games-from-the-command-line).
 2. Start the game build on a device.
 3. Run your tests - see commands in the ["Run tests from the command line" section](#run-tests-from-the-command-line).
 
@@ -142,7 +142,7 @@ For installing iProxy `brew install libimobiledevice`. _Requires iproxy 2.0.2_
 
                 - Forward the port using the following command:
 
-                    ``iproxy LOCAL_TCP_PORT DEVICE_TCP_PORT -u [UDID]``
+                    ``iproxy LOCAL_PORT DEVICE_PORT -u [UDID]``
 
                 - Forward using AltUnity Tester Editor
 
@@ -284,11 +284,11 @@ The following command can be used to connect to the running instrumented Unity A
 
     .. code-tab:: java
 
-            altUnityDriver = new AltUnityDriver ("deviceIp", 13000, ";", "&", true);
+            altUnityDriver = new AltUnityDriver ("deviceIp", 13000, true);
 
     .. code-tab:: py
 
-            cls.altUnityDriver = AltUnityDriver(TCP_IP='deviceIp', TCP_PORT=13000)
+            cls.altUnityDriver = AltUnityDriver(host='deviceIp', port=13000)
 ```
 
 ### Connect to multiple devices running the game
@@ -324,13 +324,13 @@ Then in your tests you will need to create two AltUnityDriver instances, one for
     This applies even when using split screen mode.
 ```
 
-You can change the port for your game build from the AltUnityTesterEditor window inside your Unity project.
+You can change the port for your game build from the AltUnity Tester Editor window inside your Unity project.
 
 ![altUnity Server Settings](../_static/images/portForwarding/altUnityServerSettings.png)
 
 ```eval_rst
 .. note::
-    After you have done the Server Port forwarding or connected to the AltUnity driver directly, you can use it in your tests to send commands to the server and receive information from the game.
+    After you have done the AltUnity Tester Port forwarding or connected to the AltUnity Driver directly, you can use it in your tests to send commands to the server and receive information from the game.
 ```
 
 ## Using AltUnity Tester in Release mode
