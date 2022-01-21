@@ -288,7 +288,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             **Method 2**: Use the **.jar** file from GIT (**without building it from source**)
 
-                * Download `AltUnity Java Driver <https://altom.gitlab.io/altunity/altunitytester/master/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
+                * Download `AltUnity Java Driver <https://altom.gitlab.io/altunity/altunitytester/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
 
                 * Install the **.jar** file:
 
