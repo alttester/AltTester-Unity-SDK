@@ -348,12 +348,12 @@ create-jar-archive:
     - unity
     - mac
   script:
-    - mkdir -p public/${CI_COMMIT_REF_NAME}/AltUnityJAR || true
+    - mkdir -p public/AltUnityJAR || true
     - cd "Bindings~/java"
     - mvn clean compile assembly:single
-    - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/${CI_COMMIT_REF_NAME}/AltUnityJAR/altunitytester-java-client-jar.jar
-    - cd ../../public/${CI_COMMIT_REF_NAME}/
-    - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/'${CI_COMMIT_REF_NAME}'/AltUnityJAR/altunitytester-java-client.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
+    - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/AltUnityJAR/altunitytester-java-client-jar.jar
+    - cd ../../public/
+    - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/AltUnityJAR/altunitytester-java-client.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
     - ls
     - cat index.html
   artifacts:
