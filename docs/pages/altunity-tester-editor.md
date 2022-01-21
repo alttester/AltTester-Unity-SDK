@@ -157,7 +157,7 @@ _Platform Settings_
 
                 .. image:: ../_static/images/platformSettings/AltUnityWindowStandalone.png
 
-                The **Build Target** filed: choose build mode according to platform.
+                The **Build Target** field: choose build mode according to platform.
 
                 The **Build Location** field: The build path for the instrumented Unity application.
 
