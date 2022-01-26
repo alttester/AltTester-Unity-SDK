@@ -10,7 +10,7 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 - simulate any kind of device input  
 - manipulate and generate test data 
 - get screenshots from your Unity Game 
-- instrument your game and run C# tests from within the Unity Editor using the AltUnity Tester window
+- instrument your game and run C# tests from within the Unity Editor using the AltUnity Tester Editor
 - run C#, Python or Java tests using your favourite IDE and against the game running on a device or inside the Unity Editor
 - integrate with Appium tests for the ability to interact with native elements
 - visualize input actions during test execution 

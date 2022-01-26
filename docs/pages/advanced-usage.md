@@ -341,6 +341,13 @@ By default AltUnity Tester does not run in release mode. We recommended that you
 
 There are two types of logging that can be configured in AltUnityTester. The logs from AltUnity Driver (from the tests) and the logs from the AltUnity Tester (from the instrumented Unity application)
 
+```eval_rst
+.. note::
+
+    From version 1.7.0 on logs from `Server` are referred to as logs from `Tester`.
+
+```
+
 ### AltUnity Tester logging
 
 Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.AltUnityTester.Logging.ServerLogManager.Instance`

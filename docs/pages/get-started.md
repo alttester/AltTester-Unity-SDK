@@ -15,6 +15,10 @@ To run the first test for your Unity game you need to:
 
     If you don't have access to source code of the game you need to ask a person with access to give you an instrumented version of the game.
 
+.. note::
+
+    From version 1.7.0 on we'll be referring to `AltUnity Server` as `AltUnity Tester`.
+
 ```
 
 ## Import AltUnity Tester package in Unity Editor
