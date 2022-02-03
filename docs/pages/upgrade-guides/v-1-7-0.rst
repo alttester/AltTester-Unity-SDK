@@ -133,7 +133,7 @@ With:
 
 .. code-block:: c#
 
-    altUnityDriver.MoveMouse(keyCode, wait = true);
+    altUnityDriver.PressKey(keyCode, wait = true);
 
 6. We removed the "ScrollMouseAndWait" command and now the "Scroll" will take a wait argument.
 
