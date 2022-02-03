@@ -208,10 +208,10 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
     .. code-tab:: c#
 
         [Test]
-        public void TestFindObjectWhichContains()
+        public void TestFindObjects()
         {
-          var altUnityObject = altUnityDriver.FindObjectWhichContain(By.NAME, "Event");
-          Assert.AreEqual("EventSystem", altUnityObject.name);
+            var planes = altUnityDriver.FindObjectsWhichContain(By.NAME, "Plane");
+            Assert.AreEqual(3, planes.Count);
         }
 
     .. code-tab:: java

@@ -742,6 +742,13 @@ namespace Altom.AltUnityDriver.Tests
             }
         }
 
+        [Test]
+        public void TestFindObjects()
+        {
+            var planes = altUnityDriver.FindObjectsWhichContain(By.NAME, "Plan");
+            Assert.AreEqual(3, planes.Count);
+        }
+
 
         [Test]
         public void TestCallStaticMethod()
@@ -1323,6 +1330,7 @@ namespace Altom.AltUnityDriver.Tests
             capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
             var afterTiltCoordinates = capsule.getWorldPosition();
             Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
+
         }
         [Test]
         public void TestAccelerationAndWait()
