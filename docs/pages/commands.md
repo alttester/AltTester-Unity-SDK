@@ -1078,10 +1078,7 @@ Simulates a swipe action between two points.
         }
 
     .. code-tab:: java
-        class AltUnitySprite {
-           public String name;
-        }
-
+        
         @Test
         public void testMultipleDragAndDrop() throws Exception {
 
