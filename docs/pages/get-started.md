@@ -112,7 +112,7 @@ The Proxy Module is incorporated in AltUnity Pro Alpha. In order to start it, al
 
 ## Run your game in Unity or on desired platform
 
-Before running your tests you need to start the instrumented Unity application. Upon startup, your instrumented Unity app should display a popup with the message: "Connecting to AltUnity Inspector on {Host}:{Port}". The popup disappears when your app has successfully connected to the Inspector.
+Before running your tests you need to start the instrumented Unity application. Upon startup, your instrumented Unity app should display a popup with the message: "Waiting for connections on port: {Port}". The popup disappears when your app has successfully connected to the tests.
 
 ```eval_rst
 
