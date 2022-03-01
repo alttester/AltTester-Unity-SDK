@@ -17,11 +17,6 @@ namespace Altom.AltUnityDriver.Commands
             this.commandName = cmdAttribute.Name;
         }
 
-        public CommandParams(string commandName)
-        {
-            this.commandName = commandName;
-            this.messageId = null;
-        }
         [JsonConstructor]
         public CommandParams(string commandName, string messageId)
         {
