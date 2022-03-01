@@ -9,7 +9,7 @@ namespace Altom.AltUnityTester.Commands
         private readonly Exception ex;
 
 
-        public AltUnityInvalidCommand(CommandParams cmdParams, Exception ex) : base(cmdParams ?? new CommandParams(AltUnityErrors.errorInvalidCommand))
+        public AltUnityInvalidCommand(CommandParams cmdParams, Exception ex) : base(cmdParams ?? new CommandParams(AltUnityErrors.errorInvalidCommand, null))
         {
             this.ex = ex;
         }
