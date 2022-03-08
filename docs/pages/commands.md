@@ -1078,7 +1078,7 @@ Simulates a swipe action between two points.
         }
 
     .. code-tab:: java
-        
+
         @Test
         public void testMultipleDragAndDrop() throws Exception {
 
@@ -2909,9 +2909,10 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 **_Parameters_**
 
-| Name | Type   | Required | Description    |
-| ---- | ------ | -------- | -------------- |
-| text | string | Yes      | text to be set |
+| Name   | Type   | Required | Description                        |
+| ------ | ------ | -------- | ---------------------------------- |
+| text   | string | Yes      | text to be set                     |
+| submit | bool   | No       | if set will trigger a submit event |
 
 **_Returns_**
 
@@ -2929,7 +2930,7 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
         {
             const string name = "InputField";
             const string text = "InputFieldTest";
-            var input = altUnityDriver.FindObject(By.NAME, name).SetText(text);
+            var input = altUnityDriver.FindObject(By.NAME, name).SetText(text, true);
             Assert.NotNull(input);
             Assert.AreEqual(input.GetText(), text);
         }
@@ -2953,7 +2954,7 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
             self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
             name = "InputField"
             text = "InputFieldTest"
-            input = self.altUnityDriver.find_object(By.NAME, name).set_text(text)
+            input = self.altUnityDriver.find_object(By.NAME, name).set_text(text, submit=True)
             self.assertNotEqual(input, None)
             self.assertEqual(input.get_text(), text)
 

@@ -21,6 +21,7 @@ There's a couple of reasons / scenarios for which you would want to use both of 
 * By itself, AltUnity Tester cannot launch an app on a device. If you want to run tests in a pipeline, or by using [cloud services](tester-with-cloud.html#running-tests-using-device-cloud-services), you can either create a script which will start your app, or you can use Appium before the tests execution;
 * AltUnity Tester cannot perform some types of actions, such as interacting with any native popups your app might have, or putting the app in the background and resuming it. In any of these cases you can use Appium to do the things that AltUnity Tester can't.
 
+
 ## AltUnity Tester with Appium example
 
 After you cloned our example project, there are a couple of things you need to check before running the tests:
@@ -46,7 +47,7 @@ The script will install any requirements that are missing from your machine (exc
 ```eval_rst
 .. note::
    Please observe the following about the setup method in **base_test.py**:
-   
+
    1. A minimum amount of desired capabilities have to be set in order for Appium to work. More details about desired capabilities can be found in the official `Appium documentation <http://appium.io/docs/en/writing-running-appium/caps/index.html>`_
    2. The Appium driver needs to be created before the port forwarding needed by AltUnity Tester is done. This is because Appium clears any other port forwarding when it starts.
 ```

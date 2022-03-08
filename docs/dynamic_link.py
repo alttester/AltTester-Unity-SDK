@@ -1,4 +1,4 @@
-with open('index.rst', 'r') as file :
+with open('index.rst', 'r') as file:
   filedata = file.read()
 
 filedata = filedata.replace('/altunitytester/', '/altunitytester-dev/')
