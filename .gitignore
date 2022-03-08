@@ -8,6 +8,7 @@
 **/[Pp]rojectSettings/
 **/[Bb]in
 .vscode/
+.vs/
 **/.DS_Store
 
 ## Intellij
@@ -123,20 +124,11 @@ testJava2.png
 Assets/TextMesh Pro/Resources.meta
 Assets/AltUnityTester/Editor/AltUnityTesterEditorSettings.asset
 Assets/AltUnityTester/Editor/AltUnityTesterEditorSettings.asset.meta
-Assets/AltUnityTester/Bindings/java-appium-tests/.project
-Assets/AltUnityTester/Bindings/java-appium-tests/.settings/
-Assets/AltUnityTester/Bindings/java-appium-tests/.classpath
 Assets/AltUnityTester/AltUnityDriver/Editor/idProject.asset
 Assets/AltUnityTester/Bindings/java/.project
 Assets/AltUnityTester/Bindings/java/.settings
 Assets/AltUnityTester/Bindings/java/.classpath
 Assets/AltUnityTester/Bindings/java/**/*.meta
-
-## VS
-.vs/altunitytester/v*/Server/sqlite3/db.lock
-.vs/altunitytester/v*/Server/sqlite3/storage.ide
-.vs/altunitytester/v*/Server/sqlite3/storage.ide-shm
-.vs/altunitytester/v*/Server/sqlite3/storage.ide-wal
 
 ## Misc
 *.iml

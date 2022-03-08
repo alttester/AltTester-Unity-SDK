@@ -11,7 +11,7 @@ It would help us enormously if you would let a review in the [asset store](https
 ## Did you find a bug?
 
 Ensure the bug was not already reported by searching all issues.
-If you’re unable to find an open issue addressing the problem, open a [new issue](https://gitlab.com/altom/altunity/altunitytester/issues/new?issuable_template=BugTemplate)
+If you’re unable to find an open issue addressing the problem, open a [new issue](https://gitlab.com/altom/altunity/altunitytester/issues/new?issuable_template=BugTemplate).
 
 **When you ask a question about a problem you will get a much better/quicker answer if you provide a code sample that can be used to reproduce the problem.**
 

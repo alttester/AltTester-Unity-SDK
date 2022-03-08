@@ -1,8 +1,7 @@
-# AltUnity Tester
+AltUnity Tester
+===============
 
 AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java. You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
-
-```eval_rst
 
 .. toctree::
    :caption: Table of contents:
@@ -18,7 +17,6 @@ AltUnity Tester is an open-source UI driven test automation tool that helps you 
    pages/advanced-usage
    pages/upgrade-guides
    pages/faq-troubleshooting
+   pages/known-issues
    pages/contributing
    pages/license
-
-```
