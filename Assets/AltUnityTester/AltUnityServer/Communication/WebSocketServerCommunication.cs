@@ -21,6 +21,7 @@ namespace Altom.AltUnityTester.Communication
             }
 
             wsServer = new WebSocketServer(uri.ToString());
+            wsServer.AllowForwardedRequest = true;
 
             wsServer.AddWebSocketService<AltServerWebSocketHandler>("/altws", (context, handler) =>
             {
