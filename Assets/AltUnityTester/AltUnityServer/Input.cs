@@ -1,4 +1,4 @@
-#if ALTUNITYTESTER
+#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
 using System;
 using System.Collections;
@@ -9,7 +9,7 @@ using Altom.AltUnityTester;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Input : UnityEngine.MonoBehaviour
+public class Input : MonoBehaviour
 {
     private static bool _useCustomInput;
     private static UnityEngine.Vector3 _acceleration;
@@ -26,7 +26,7 @@ public class Input : UnityEngine.MonoBehaviour
     private static UnityEngine.GameObject previousEventSystemTarget = null;
 
     private static AltUnityMockUpPointerInputModule _mockUpPointerInputModule;
-    private static Input _instance;
+    public static Input _instance;
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressed = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedDown = new System.Collections.Generic.List<KeyStructure>();
     private static System.Collections.Generic.List<KeyStructure> _keyCodesPressedUp = new System.Collections.Generic.List<KeyStructure>();
@@ -80,7 +80,6 @@ public class Input : UnityEngine.MonoBehaviour
     private void Update()
     {
         _useCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta == UnityEngine.Vector2.zero;
-
         var monoBehaviourTarget = AltUnityMockUpPointerInputModule.GetGameObjectHitMonoBehaviour(mousePosition);
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {
@@ -274,7 +273,7 @@ public class Input : UnityEngine.MonoBehaviour
                 return UnityEngine.Input.inputString;
             }
         }
-    }//TODO: Doable 
+    }//TODO: Doable
 
     public static UnityEngine.Vector3 acceleration
     {
@@ -1243,11 +1242,8 @@ public class Input : UnityEngine.MonoBehaviour
             time += UnityEngine.Time.unscaledDeltaTime;
         } while (time < duration);
     }
-    public static void Scroll(float scrollValue, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(ScrollLifeCycle(scrollValue, duration), onFinish));
-    }
-    private static System.Collections.IEnumerator ScrollLifeCycle(float scrollValue, float duration)
+
+    internal static System.Collections.IEnumerator ScrollLifeCycle(float scrollValue, float duration)
     {
         float timeSpent = 0;
 
@@ -1269,6 +1265,7 @@ public class Input : UnityEngine.MonoBehaviour
             UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
         }
         _mouseScrollDelta = UnityEngine.Vector2.zero;//reset the value after scroll ended
+
     }
 
     public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration, Action<Exception> onFinish)
@@ -1438,10 +1435,9 @@ public class Input : UnityEngine.MonoBehaviour
     {
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
-
-    private static IEnumerator runThrowingIterator(
-        IEnumerator enumerator,
-        Action<Exception> done)
+    internal static IEnumerator runThrowingIterator( //TODO Remove this method when all the input methods were implemented in InputController
+           IEnumerator enumerator,
+           Action<Exception> done)
     {
         Exception err = null;
         while (true)
@@ -1465,6 +1461,7 @@ public class Input : UnityEngine.MonoBehaviour
         }
         done.Invoke(err);
     }
+
 }
 
 public class KeyStructure

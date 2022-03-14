@@ -123,12 +123,14 @@ public class TestsSampleScene2 {
         AltUnityObject panel = altUnityDriver.findObject(altFindObjectsParameters1);
 
         AltUnityColor color1 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptPanel", "normalColor").build(),
+                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptPanel", "normalColor").withAssembly(
+                        "Assembly-CSharp").build(),
                 AltUnityColor.class);
         panel.pointerDown();
         Thread.sleep(1000);
         AltUnityColor color2 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptPanel", "highlightColor").build(),
+                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptPanel", "highlightColor").withAssembly(
+                        "Assembly-CSharp").build(),
                 AltUnityColor.class);
         assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b || color1.a != color2.a);
     }
@@ -139,13 +141,15 @@ public class TestsSampleScene2 {
                 AltUnityDriver.By.NAME, "Panel").build();
         AltUnityObject panel = altUnityDriver.findObject(altFindObjectsParameters1);
         AltUnityColor color1 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptPanel", "normalColor").build(),
+                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptPanel", "normalColor").withAssembly(
+                        "Assembly-CSharp").build(),
                 AltUnityColor.class);
         panel.pointerDown();
         Thread.sleep(1000);
         panel.pointerUp();
         AltUnityColor color2 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptPanel", "highlightColor").build(),
+                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptPanel", "highlightColor").withAssembly(
+                        "Assembly-CSharp").build(),
                 AltUnityColor.class);
         assertTrue(color1.r == color2.r && color1.g == color2.g && color1.b == color2.b && color1.a == color2.a);
     }

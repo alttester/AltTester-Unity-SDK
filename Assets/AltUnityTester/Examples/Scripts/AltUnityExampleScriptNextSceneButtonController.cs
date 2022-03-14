@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class AltUnityExampleScriptNextSceneButtonController : MonoBehaviour {
+public class AltUnityExampleScriptNextSceneButtonController : MonoBehaviour
+{
 
-	public void NextSceneButtonPressed(int sceneIndex)
+    public void NextSceneButtonPressed(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
     }

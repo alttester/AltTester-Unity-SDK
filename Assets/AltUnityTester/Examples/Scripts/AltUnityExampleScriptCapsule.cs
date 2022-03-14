@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Reflection;
-using Altom.AltUnityDriver;
-using Altom.AltUnityTester;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading;
 
 public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
 {

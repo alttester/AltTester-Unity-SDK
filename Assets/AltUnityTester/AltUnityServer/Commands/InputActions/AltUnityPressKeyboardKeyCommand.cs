@@ -14,12 +14,17 @@ namespace Altom.AltUnityTester.Commands
 
         public override string Execute()
         {
+#if ENABLE_INPUT_SYSTEM
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
 #if ALTUNITYTESTER
             var powerClamped = Mathf.Clamp01(CommandParams.power);
             Input.KeyPress((UnityEngine.KeyCode)CommandParams.keyCode, CommandParams.power, CommandParams.duration, onFinish);
             return "Ok";
+
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
 #endif
         }
     }

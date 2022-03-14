@@ -118,3 +118,7 @@ class AltUnityInputModuleException(AltUnityException):
 
 class UnknownErrorException(AltUnityException):
     """Raised when an unexpected error occurred."""
+
+
+class AltUnityReceiveMessageIdException(AltUnityException):
+    """Raised when an response has different id than the command"""

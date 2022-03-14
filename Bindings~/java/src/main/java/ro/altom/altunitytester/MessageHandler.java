@@ -23,6 +23,7 @@ import ro.altom.altunitytester.Notifications.INotificationCallbacks;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityErrors;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityInputModuleException;
+import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityRecvallException;
 import ro.altom.altunitytester.altUnityTesterExceptions.AssemblyNotFoundException;
 import ro.altom.altunitytester.altUnityTesterExceptions.CameraNotFoundException;
 import ro.altom.altunitytester.altUnityTesterExceptions.ComponentNotFoundException;
@@ -81,6 +82,15 @@ public class MessageHandler implements IMessageHandler {
             AltMessageResponse responseMessage = responses.remove();
             if (messageIdTimeout.contains(responseMessage.messageId)) {
                 continue;
+            }
+
+            if ((responseMessage.error == null || responseMessage.error.type != AltUnityErrors.errorInvalidCommand)
+                    && (!responseMessage.messageId.equals(data.messageId())
+                            || !responseMessage.commandName.equals(data.getCommandName()))) {
+                throw new AltUnityRecvallException(
+                        String.format("Response received does not match command send. Expected %s:%s. Got %s:%s",
+                                data.getCommandName(), data.messageId(), responseMessage.commandName,
+                                responseMessage.messageId));
             }
             handleErrors(responseMessage.error);
             try {

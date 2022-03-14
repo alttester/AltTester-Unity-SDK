@@ -52,12 +52,12 @@ namespace Altom.AltUnityDriver.Tests
 
             Thread.Sleep(4000);
 
-            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
-            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
+            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
 
-            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
-            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
+            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
         }
 
@@ -81,12 +81,12 @@ namespace Altom.AltUnityDriver.Tests
             altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
             altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
             altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
-            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
-            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
+            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
 
-            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
-            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
+            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
         }
 
@@ -110,12 +110,12 @@ namespace Altom.AltUnityDriver.Tests
             };
 
             altUnityDriver.MultipointSwipe(positions, 3);
-            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
-            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
+            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
 
-            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
-            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite");
+            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
         }
 
@@ -123,12 +123,12 @@ namespace Altom.AltUnityDriver.Tests
         public void TestPointerEnterAndExit()
         {
             var altElement = altUnityDriver.FindObject(By.NAME, "Drop Image");
-            var color1 = altElement.GetComponentProperty<dynamic>("AltUnityExampleScriptDropMe", "highlightColor");
+            var color1 = altElement.GetComponentProperty<dynamic>("AltUnityExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             altUnityDriver.FindObject(By.NAME, "Drop Image").PointerEnterObject();
-            var color2 = altElement.GetComponentProperty<dynamic>("AltUnityExampleScriptDropMe", "highlightColor");
+            var color2 = altElement.GetComponentProperty<dynamic>("AltUnityExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
             altUnityDriver.FindObject(By.NAME, "Drop Image").PointerExitObject();
-            var color3 = altElement.GetComponentProperty<dynamic>("AltUnityExampleScriptDropMe", "highlightColor");
+            var color3 = altElement.GetComponentProperty<dynamic>("AltUnityExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1, color3);
         }

@@ -179,8 +179,8 @@ namespace Altom.AltUnityDriver.Tests
             var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
 
             AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            altUnityDriver.Scroll(4, 2, wait: false);
-            Thread.Sleep(2000);
+            altUnityDriver.Scroll(4, 2, false);
+            Thread.Sleep(4000);
             player2 = altUnityDriver.FindObject(By.NAME, "Player2");
             AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
 
