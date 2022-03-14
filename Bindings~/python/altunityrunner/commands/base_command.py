@@ -1,6 +1,5 @@
 import abc
 from datetime import datetime
-
 from loguru import logger
 
 import altunityrunner.exceptions as exceptions
@@ -118,10 +117,7 @@ class BaseCommand(Command):
     def __init__(self, connection, command_name):
         self.connection = connection
         self.command_name = command_name
-
-    @property
-    def message_id(self):
-        return str((datetime.utcnow() - EPOCH).total_seconds())
+        self.message_id = str((datetime.utcnow() - EPOCH).total_seconds())
 
     @property
     def _parameters(self):
@@ -189,6 +185,13 @@ class BaseCommand(Command):
         """Wait for a response from the AltUnity."""
 
         response = self.connection.recv()
+        if (
+                response.get("error") is None or
+                response.get("error").get("type") != "invalidCommand"
+            ) and (response.get("messageId") != self._parameters["messageId"] or
+                   response.get("commandName") != self._parameters["commandName"]
+                   ):
+            raise exceptions.AltUnityReceiveMessageIdException()
         self.handle_response(response)
 
         data = response.get("data")

@@ -15,14 +15,8 @@ namespace Altom.AltUnityTester.Commands
 
         public override string Execute()
         {
-
-#if ALTUNITYTESTER
-            Input.Scroll(CommandParams.speed, CommandParams.duration, onFinish);
+            InputController.Scroll(CommandParams.speed, CommandParams.duration, onFinish);
             return "Ok";
-#else
-            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
-
-#endif
         }
     }
 }

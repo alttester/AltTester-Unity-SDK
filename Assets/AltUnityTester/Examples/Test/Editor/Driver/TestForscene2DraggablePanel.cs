@@ -158,10 +158,10 @@ namespace Altom.AltUnityDriver.Tests
         public void TestPointerDownFromObject()
         {
             var panel = altUnityDriver.FindObject(By.NAME, "Panel");
-            var color1 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "normalColor");
+            var color1 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "normalColor", "Assembly-CSharp");
             panel.PointerDownFromObject();
             Thread.Sleep(1000);
-            var color2 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "highlightColor");
+            var color2 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
         }
 
@@ -169,11 +169,11 @@ namespace Altom.AltUnityDriver.Tests
         public void TestPointerUpFromObject()
         {
             var panel = altUnityDriver.FindObject(By.NAME, "Panel");
-            var color1 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "normalColor");
+            var color1 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "normalColor", "Assembly-CSharp");
             panel.PointerDownFromObject();
             Thread.Sleep(1000);
             panel.PointerUpFromObject();
-            var color2 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "highlightColor");
+            var color2 = panel.GetComponentProperty<AltUnityColor>("AltUnityExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }
         [Test]

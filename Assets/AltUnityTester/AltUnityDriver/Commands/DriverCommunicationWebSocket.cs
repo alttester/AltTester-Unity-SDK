@@ -114,7 +114,8 @@ namespace Altom.AltUnityDriver.Commands
                 {
                     continue;
                 }
-                if (message.error != null && message.error.type != AltUnityErrors.errorInvalidCommand && (message.messageId != param.messageId || message.commandName != param.commandName))
+
+                if ((message.error == null || message.error.type != AltUnityErrors.errorInvalidCommand) && (message.messageId != param.messageId || message.commandName != param.commandName))
                 {
                     throw new AltUnityRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
                 }

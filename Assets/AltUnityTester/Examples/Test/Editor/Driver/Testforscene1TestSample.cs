@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using Altom.AltUnityDriver.Logging;
@@ -290,7 +291,7 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "arrayOfInts";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<int[]>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<int[]>(componentName, propertyName, "Assembly-CSharp");
 
             Assert.AreEqual(3, propertyValue.Length);
             Assert.AreEqual(1, propertyValue[0]);
@@ -304,7 +305,7 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "privateVariable";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(0, propertyValue);
         }
 
@@ -315,7 +316,7 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "privateStaticVariable";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(0, propertyValue);
         }
 
@@ -326,7 +327,7 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "fieldNullValue";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<object>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<object>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(null, propertyValue);
         }
 
@@ -337,7 +338,7 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "PublicStaticVariable";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(0, propertyValue);
         }
 
@@ -350,7 +351,7 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "isTrigger";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<bool>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<bool>(componentName, propertyName, "UnityEngine.PhysicsModule");
             Assert.AreEqual(false, propertyValue);
         }
 
@@ -363,9 +364,9 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "stringToSetFromTests";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            altElement.SetComponentProperty(componentName, propertyName, "2");
+            altElement.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
 
-            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual("2", propertyValue);
         }
 
@@ -378,7 +379,7 @@ namespace Altom.AltUnityDriver.Tests
             Assert.NotNull(altElement);
             try
             {
-                altElement.SetComponentProperty(componentName, propertyName, "2");
+                altElement.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
                 Assert.Fail();
             }
             catch (ComponentNotFoundException exception)
@@ -393,8 +394,9 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "UIButtonClicked";
+            const string assemblyName = "Assembly-CSharp";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { });
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
             Assert.IsNull(data);
         }
 
@@ -404,9 +406,10 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "Jump";
+            const string assemblyName = "Assembly-CSharp";
             string[] parameters = new[] { "New Text" };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
             Assert.IsNull(data);
         }
 
@@ -416,9 +419,10 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "TestMethodWithManyParameters";
+            const string assemblyName = "Assembly-CSharp";
             object[] parameters = new object[4] { 1, "stringparam", 0.5, new[] { 1, 2, 3 } };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
             Assert.IsNull(data);
         }
 
@@ -428,9 +432,10 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "TestMethodWithOptionalParameters";
+            const string assemblyName = "Assembly-CSharp";
             string[] parameters = new[] { "1", "2" };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
             Assert.AreEqual("3", data);
         }
 
@@ -439,10 +444,11 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "TestMethodWithOptionalParameters";
+            const string assemblyName = "Assembly-CSharp";
             object[] parameters = new[] { "FirstParameter", "SecondParameter" };
             string[] typeOfParameters = new[] { "System.String", "System.String" };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters, assemblyName: assemblyName);
             Assert.AreEqual("FirstParameterSecondParameter", data);
         }
 
@@ -451,10 +457,11 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "TestMethodWithOptionalParameters";
+            const string assemblyName = "Assembly-CSharp";
             object[] parameters = new[] { "FirstParameter", "" };
             string[] typeOfParameters = new[] { "System.String", "System.String" };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters, assemblyName: assemblyName);
             Assert.AreEqual("FirstParameter", data);
         }
 
@@ -463,11 +470,12 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "TestMethodWithManyParameters";
+            const string assemblyName = "Assembly-CSharp";
             object[] parameters = new object[3] { 1, "stringparam", new int[] { 1, 2, 3 } };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+                altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
                 Assert.Fail();
             }
             catch (MethodWithGivenParametersNotFoundException exception)
@@ -481,11 +489,12 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "TestMethodWithManyParameters";
+            const string assemblyName = "Assembly-CSharp";
             object[] parameters = new object[3] { "a", "stringparam", new[] { 1, 2, 3 } };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+                altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
                 Assert.Fail();
             }
             catch (MethodWithGivenParametersNotFoundException exception)
@@ -519,11 +528,13 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "TestMethodWithManyParameters";
+            const string assemblyName = "Assembly-CSharp";
+
             object[] parameters = new object[4] { "stringnoint", "stringparam", 0.5, new[] { 1, 2, 3 } };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters);
+                altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
                 Assert.Fail();
             }
             catch (FailedToParseArgumentsException exception)
@@ -537,11 +548,13 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "TestMethodWithManyParameters";
+            const string assemblyName = "Assembly-CSharp";
+
             object[] parameters = new object[4] { 1, "stringparam", 0.5, new int[] { 1, 2, 3 } };
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters, new[] { "System.Stringggggg" });
+                altElement.CallComponentMethod<string>(componentName, methodName, parameters, new[] { "System.Stringggggg" }, assemblyName);
                 Assert.Fail();
             }
             catch (InvalidParameterTypeException exception)
@@ -764,7 +777,7 @@ namespace Altom.AltUnityDriver.Tests
         {
 
             AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            capsule.CallComponentMethod<string>("AltUnityExampleScriptCapsule", "Test", new[] { "2" }, new[] { "System.Int32" });
+            capsule.CallComponentMethod<string>("AltUnityExampleScriptCapsule", "Test", new[] { "2" }, new[] { "System.Int32" }, "Assembly-CSharp");
             AltUnityObject capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
             Assert.AreEqual("6", capsuleInfo.GetText());
         }
@@ -981,7 +994,7 @@ namespace Altom.AltUnityDriver.Tests
         public void TestGetAllScenes()
         {
             var scenes = altUnityDriver.GetAllScenes();
-            Assert.AreEqual(6, scenes.Count);
+            Assert.AreEqual(10, scenes.Count);
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
         }
 
@@ -1459,7 +1472,7 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "AltUnitySampleClass.testInt";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(1, propertyValue);
         }
         [Test]
@@ -1469,7 +1482,7 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "listOfSampleClass[1].testString";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual("test2", propertyValue);
         }
 
@@ -1480,8 +1493,8 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "AltUnitySampleClass.testInt";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            altElement.SetComponentProperty(componentName, propertyName, 2);
-            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+            altElement.SetComponentProperty(componentName, propertyName, 2, "Assembly-CSharp");
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(2, propertyValue);
         }
         [Test]
@@ -1491,8 +1504,8 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "listOfSampleClass[1].testString";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            altElement.SetComponentProperty(componentName, propertyName, "test3");
-            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName);
+            altElement.SetComponentProperty(componentName, propertyName, "test3", "Assembly-CSharp");
+            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual("test3", propertyValue);
         }
 
@@ -1503,8 +1516,8 @@ namespace Altom.AltUnityDriver.Tests
             const string propertyName = "arrayOfInts[0]";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
-            altElement.SetComponentProperty(componentName, propertyName, 11);
-            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+            altElement.SetComponentProperty(componentName, propertyName, 11, "Assembly-CSharp");
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(11, propertyValue);
         }
         [Test]
@@ -1573,8 +1586,8 @@ namespace Altom.AltUnityDriver.Tests
             var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
             altUnityDriver.PressKey(AltUnityKeyCode.LeftArrow);
 
-            var pressDownCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "keyPressDownCounter");
-            var pressUpCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "keyPressUpCounter");
+            var pressDownCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "keyPressDownCounter", "Assembly-CSharp");
+            var pressUpCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "keyPressUpCounter", "Assembly-CSharp");
             Assert.AreEqual(1, pressDownCounter);
             Assert.AreEqual(1, pressUpCounter);
         }
@@ -1594,8 +1607,9 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "AltUnitySampleClass.TestMethod";
+            const string assemblyName = "Assembly-CSharp";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { });
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { }, assemblyName: assemblyName);
             Assert.AreEqual("Test", data);
         }
 
@@ -1605,8 +1619,9 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "listOfSampleClass[0].TestMethod";
+            const string assemblyName = "Assembly-CSharp";
             var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { });
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { }, assemblyName: assemblyName);
             Assert.AreEqual("Test", data);
         }
 
@@ -1615,7 +1630,9 @@ namespace Altom.AltUnityDriver.Tests
         {
             const string componentName = "AltUnityExampleScriptCapsule";
             const string methodName = "StaticSampleClass.TestMethod";
-            var data = altUnityDriver.CallStaticMethod<string>(componentName, methodName, new string[] { });
+            const string assemblyName = "Assembly-CSharp";
+
+            var data = altUnityDriver.CallStaticMethod<string>(componentName, methodName, new string[] { }, assemblyName: assemblyName);
             Assert.AreEqual("Test", data);
         }
 
@@ -1780,11 +1797,11 @@ namespace Altom.AltUnityDriver.Tests
             var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
             counterElement.Click();
 
-            var mouseDownCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mouseDownCounter");
-            var mouseUpCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mouseUpCounter");
-            var mousePressedCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mousePressedCounter");
+            var mouseDownCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mouseDownCounter", "Assembly-CSharp");
+            var mouseUpCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mouseUpCounter", "Assembly-CSharp");
+            var mousePressedCounter = counterElement.GetComponentProperty<int>("AltUnityExampleScriptIncrementOnClick", "mousePressedCounter", "Assembly-CSharp");
 
-            List<string> eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+            List<string> eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
 
             Assert.AreEqual(1, mouseDownCounter);
             Assert.AreEqual(1, mouseUpCounter);
@@ -1805,12 +1822,12 @@ namespace Altom.AltUnityDriver.Tests
             altUnityDriver.MoveMouse(counterElement.getScreenPosition());
             Thread.Sleep(500); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
 
-            var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+            var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
             Assert.IsFalse(eventsRaised.Contains("OnPointerExit"));
             altUnityDriver.MoveMouse(new AltUnityVector2(200, 200));
 
-            eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised");
+            eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
             Assert.IsTrue(eventsRaised.Contains("OnPointerExit"));
         }
@@ -1840,14 +1857,14 @@ namespace Altom.AltUnityDriver.Tests
 
             altUnityDriver.Click(button2dCollider.getScreenPosition());
 
-            var monoBehaviourEventsRaised = button2dCollider.GetComponentProperty<List<string>>("AltUnityTapClickEventsScript", "monoBehaviourEventsRaised");
+            var monoBehaviourEventsRaised = button2dCollider.GetComponentProperty<List<string>>("AltUnityTapClickEventsScript", "monoBehaviourEventsRaised", "Assembly-CSharp");
             // Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseEnter")); does not work on mobile
             Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseDown"));
             Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUp"));
             Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseUpAsButton"));
             // Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseExit")); does not work on mobile
 
-            var eventSystemEventsRaised = button2dCollider.GetComponentProperty<List<string>>("AltUnityTapClickEventsScript", "eventSystemEventsRaised");
+            var eventSystemEventsRaised = button2dCollider.GetComponentProperty<List<string>>("AltUnityTapClickEventsScript", "eventSystemEventsRaised", "Assembly-CSharp");
             // Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerEnter")); does not work on mobile
             Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerDown"));
             Assert.IsTrue(eventSystemEventsRaised.Contains("OnPointerUp"));
@@ -1861,7 +1878,7 @@ namespace Altom.AltUnityDriver.Tests
             var sphere = altUnityDriver.FindObject(By.PATH, "/Sphere");
             altUnityDriver.Click(sphere.getScreenPosition());
 
-            var monoBehaviourEventsRaised = sphere.GetComponentProperty<List<string>>("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
+            var monoBehaviourEventsRaised = sphere.GetComponentProperty<List<string>>("AltUnitySphereColliderScript", "monoBehaviourEventsRaised", "Assembly-CSharp");
             Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseOver"));
             Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseEnter"));
             Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseDown"));
@@ -1878,7 +1895,7 @@ namespace Altom.AltUnityDriver.Tests
             var plane = altUnityDriver.FindObject(By.PATH, "/Sphere/PlaneS");
             altUnityDriver.Click(plane.getScreenPosition());
 
-            var planeEvents = plane.GetComponentProperty<List<string>>("AltUnityPlaneColliderScript", "monoBehaviourEventsRaised");
+            var planeEvents = plane.GetComponentProperty<List<string>>("AltUnityPlaneColliderScript", "monoBehaviourEventsRaised", "Assembly-CSharp");
             Assert.IsTrue(planeEvents.Contains("OnMouseOver"));
             Assert.IsTrue(planeEvents.Contains("OnMouseEnter"));
             Assert.IsTrue(planeEvents.Contains("OnMouseDown"));
@@ -1886,7 +1903,7 @@ namespace Altom.AltUnityDriver.Tests
             Assert.IsTrue(planeEvents.Contains("OnMouseUpAsButton"));
             Assert.IsTrue(planeEvents.Contains("OnMouseExit"));
 
-            var sphereevents = sphere.GetComponentProperty<List<string>>("AltUnitySphereColliderScript", "monoBehaviourEventsRaised");
+            var sphereevents = sphere.GetComponentProperty<List<string>>("AltUnitySphereColliderScript", "monoBehaviourEventsRaised", "Assembly-CSharp");
             Assert.IsFalse(sphereevents.Contains("OnMouseEnter"));
             Assert.IsFalse(sphereevents.Contains("OnMouseDown"));
             Assert.IsFalse(sphereevents.Contains("OnMouseUp"));
@@ -1933,10 +1950,10 @@ namespace Altom.AltUnityDriver.Tests
         {
             var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
             var id = altUnityDriver.BeginTouch(capsule.getScreenPosition());
-            var phase = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "TouchPhase");
+            var phase = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "TouchPhase", "Assembly-CSharp");
             Assert.AreEqual(0, phase);
             altUnityDriver.MoveTouch(id, capsule.getScreenPosition());
-            phase = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "TouchPhase");
+            phase = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "TouchPhase", "Assembly-CSharp");
             Assert.AreEqual(1, phase);
             altUnityDriver.EndTouch(id);
         }
@@ -1945,8 +1962,8 @@ namespace Altom.AltUnityDriver.Tests
         public void TestSetStructureProperty()
         {
             var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.text", "changed");
-            var value = capsule.GetComponentProperty<string>("AltUnityExampleScriptCapsule", "testStructure.text");
+            capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.text", "changed", "Assembly-CSharp");
+            var value = capsule.GetComponentProperty<string>("AltUnityExampleScriptCapsule", "testStructure.text", "Assembly-CSharp");
             Assert.AreEqual("changed", value);
         }
 
@@ -1954,8 +1971,8 @@ namespace Altom.AltUnityDriver.Tests
         public void TestSetStructureProperty2()
         {
             var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]", 1);
-            var value = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "testStructure.list[0]");
+            capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.list[0]", 1, "Assembly-CSharp");
+            var value = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "testStructure.list[0]", "Assembly-CSharp");
             Assert.AreEqual(1, value);
         }
 
@@ -1963,8 +1980,8 @@ namespace Altom.AltUnityDriver.Tests
         public void TestSetStructureProperty3()
         {
             var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.List[0]", 1);
-            var value = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "testStructure.list[0]");
+            capsule.SetComponentProperty("AltUnityExampleScriptCapsule", "testStructure.List[0]", 1, "Assembly-CSharp");
+            var value = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "testStructure.list[0]", "Assembly-CSharp");
             Assert.AreEqual(1, value);
         }
         [Test]

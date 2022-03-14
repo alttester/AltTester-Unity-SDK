@@ -5,7 +5,6 @@
 **/[Bb]uild/
 **/[Bb]uilds/
 **/[Aa]ssets/AssetStoreTools*
-**/[Pp]rojectSettings/
 **/[Bb]in
 .vscode/
 .vs/
@@ -133,7 +132,6 @@ Assets/AltUnityTester/Bindings/java/**/*.meta
 ## Misc
 *.iml
 *.iml.meta
-Packages/
 build.app/
 sampleGame/
 _build/

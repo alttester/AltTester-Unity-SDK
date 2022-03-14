@@ -163,23 +163,25 @@ class TestPythonBindings:
     def test_get_component_property(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         altobject = self.altdriver.find_object(By.NAME, "Capsule")
-        result = altobject.get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
+        result = altobject.get_component_property(
+            "AltUnityExampleScriptCapsule", "arrayOfInts", assembly="Assembly-CSharp")
 
         assert result, [1, 2, 3]
 
     def test_set_component_property(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         self.altdriver.find_object(By.NAME, "Capsule").set_component_property(
-            "AltUnityExampleScriptCapsule", "arrayOfInts", [2, 3, 4])
+            "AltUnityExampleScriptCapsule", "arrayOfInts", [2, 3, 4], assembly="Assembly-CSharp")
         altobject = self.altdriver.find_object(By.NAME, "Capsule")
-        result = altobject.get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
+        result = altobject.get_component_property(
+            "AltUnityExampleScriptCapsule", "arrayOfInts", assembly="Assembly-CSharp")
 
         assert result == [2, 3, 4]
 
     def test_call_component_method(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
-            "AltUnityExampleScriptCapsule", "Jump", ["setFromMethod"])
+            "AltUnityExampleScriptCapsule", "Jump", ["setFromMethod"], assembly="Assembly-CSharp")
         assert result is None
 
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=setFromMethod]", timeout=1)
@@ -207,7 +209,7 @@ class TestPythonBindings:
             alt_unity_object.call_component_method(
                 "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
                 parameters=["stringparam", 0.5, [1, 2, 3]],
-                type_of_parameters=[]
+                type_of_parameters=[], assembly="Assembly-CSharp"
             )
 
         assert str(execinfo.value) == \
@@ -221,7 +223,7 @@ class TestPythonBindings:
             alt_unity_object.call_component_method(
                 "AltUnityExampleScriptCapsule", "TestMethodWithManyParameters",
                 parameters=["stringnoint", "stringparams", 0.5, [1, 2, 3]],
-                type_of_parameters=[]
+                type_of_parameters=[], assembly="Assembly-CSharp"
             )
 
         assert str(execinfo.value) == "Could not parse parameter '\"stringnoint\"' to type System.Int32"
@@ -233,14 +235,14 @@ class TestPythonBindings:
         result = alt_unity_object.call_component_method(
             "AltUnityExampleScriptCapsule", "TestCallComponentMethod",
             parameters=[1, "stringparam", 0.5, [1, 2, 3]],
-            type_of_parameters=[]
+            type_of_parameters=[], assembly="Assembly-CSharp"
         )
         assert result == "1,stringparam,0.5,[1,2,3]"
 
         result = alt_unity_object.call_component_method(
             "AltUnityExampleScriptCapsule", "TestCallComponentMethod",
             parameters=(1, "stringparam", 0.5, [1, 2, 3]),
-            type_of_parameters=[]
+            type_of_parameters=[], assembly="Assembly-CSharp"
         )
         assert result == "1,stringparam,0.5,[1,2,3]"
 
@@ -249,10 +251,10 @@ class TestPythonBindings:
 
         alt_unity_object = self.altdriver.find_object(By.NAME, "Drop Image")
         color1 = alt_unity_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor")
+            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
         alt_unity_object.pointer_enter()
         color2 = alt_unity_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor")
+            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
 
         assert color1["r"] != color2["r"] or \
             color1["g"] != color2["g"] or \
@@ -261,7 +263,7 @@ class TestPythonBindings:
 
         alt_unity_object.pointer_exit()
         color3 = alt_unity_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor")
+            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
 
         assert color3["r"] != color2["r"] or \
             color3["g"] != color2["g"] or \
@@ -441,7 +443,8 @@ class TestPythonBindings:
     def test_get_bool(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
-        text = alt_unity_object.get_component_property("AltUnityExampleScriptCapsule", "TestBool")
+        text = alt_unity_object.get_component_property(
+            "AltUnityExampleScriptCapsule", "TestBool", assembly="Assembly-CSharp")
 
         assert text is True
 
@@ -457,7 +460,8 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         capsule.call_component_method(
-            "AltUnityExampleScriptCapsule", "Test", ["2"], type_of_parameters=["System.Int32"])
+            "AltUnityExampleScriptCapsule", "Test", ["2"], type_of_parameters=["System.Int32"],
+            assembly="Assembly-CSharp")
         capsuleInfo = self.altdriver.find_object(By.NAME, "CapsuleInfo")
 
         assert capsuleInfo.get_text() == "6"
@@ -608,7 +612,7 @@ class TestPythonBindings:
             "UnityEngine.Transform", "rotation")
 
         assert initialRotation["x"] != finalRotation["x"] or initialRotation["y"] != finalRotation["y"] or \
-               initialRotation["z"] != finalRotation["z"] or initialRotation["w"] != finalRotation["w"]
+            initialRotation["z"] != finalRotation["z"] or initialRotation["w"] != finalRotation["w"]
 
     def test_get_all_enabled_elements(self):
         self.altdriver.load_scene("Scene 2 Draggable Panel")
@@ -755,12 +759,13 @@ class TestPythonBindings:
         time.sleep(1)
 
         p_panel = self.altdriver.find_object(By.NAME, "Panel")
-        color1 = p_panel.get_component_property("AltUnityExampleScriptPanel", "normalColor")
+        color1 = p_panel.get_component_property("AltUnityExampleScriptPanel", "normalColor", assembly="Assembly-CSharp")
         p_panel.pointer_down()
 
         time.sleep(1)
 
-        color2 = p_panel.get_component_property("AltUnityExampleScriptPanel", "highlightColor")
+        color2 = p_panel.get_component_property("AltUnityExampleScriptPanel",
+                                                "highlightColor", assembly="Assembly-CSharp")
         assert color1 != color2
 
     def test_pointer_up_from_object(self):
@@ -769,13 +774,13 @@ class TestPythonBindings:
         time.sleep(1)
 
         p_panel = self.altdriver.find_object(By.NAME, "Panel")
-        color1 = p_panel.get_component_property("AltUnityExampleScriptPanel", "normalColor")
+        color1 = p_panel.get_component_property("AltUnityExampleScriptPanel", "normalColor", assembly="Assembly-CSharp")
         p_panel.pointer_down()
-
         time.sleep(1)
 
         p_panel.pointer_up()
-        color2 = p_panel.get_component_property("AltUnityExampleScriptPanel", "highlightColor")
+        color2 = p_panel.get_component_property("AltUnityExampleScriptPanel",
+                                                "highlightColor", assembly="Assembly-CSharp")
         assert color1 == color2
 
     def test_get_all_components(self):
@@ -1103,7 +1108,8 @@ class TestPythonBindings:
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_unity_object is not None
 
-        property_value = alt_unity_object.get_component_property(component_name, property_name, max_depth=1)
+        property_value = alt_unity_object.get_component_property(
+            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
         assert property_value == 1
 
     def test_get_component_property_complex_class2(self):
@@ -1114,7 +1120,8 @@ class TestPythonBindings:
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_unity_object is not None
 
-        property_value = alt_unity_object.get_component_property(component_name, property_name, max_depth=1)
+        property_value = alt_unity_object.get_component_property(
+            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
         assert property_value == "test2"
 
     def test_set_component_property_complex_class(self):
@@ -1125,8 +1132,9 @@ class TestPythonBindings:
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_unity_object is not None
 
-        alt_unity_object.set_component_property(component_name, property_name, 2)
-        property_value = alt_unity_object.get_component_property(component_name, property_name, max_depth=1)
+        alt_unity_object.set_component_property(component_name, property_name, 2, assembly="Assembly-CSharp")
+        property_value = alt_unity_object.get_component_property(
+            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
         assert property_value == 2
 
     def test_set_component_property_complex_class2(self):
@@ -1136,8 +1144,9 @@ class TestPythonBindings:
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_unity_object is not None
 
-        alt_unity_object.set_component_property(component_name, property_name, "test3")
-        propertyValue = alt_unity_object.get_component_property(component_name, property_name, max_depth=1)
+        alt_unity_object.set_component_property(component_name, property_name, "test3", assembly="Assembly-CSharp")
+        propertyValue = alt_unity_object.get_component_property(
+            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
         assert propertyValue == "test3"
 
     def test_get_version(self):
@@ -1272,8 +1281,10 @@ class TestPythonBindings:
         input_field = self.altdriver.find_object(By.NAME, "InputField").set_text("example", submit=True)
 
         assert input_field.get_text() == "example"
-        assert input_field.get_component_property("AltUnityInputFieldRaisedEvents", "onValueChangedInvoked")
-        assert input_field.get_component_property("AltUnityInputFieldRaisedEvents", "onSubmitInvoked")
+        assert input_field.get_component_property(
+            "AltUnityInputFieldRaisedEvents", "onValueChangedInvoked", assembly="Assembly-CSharp")
+        assert input_field.get_component_property(
+            "AltUnityInputFieldRaisedEvents", "onSubmitInvoked", assembly="Assembly-CSharp")
 
     def test_get_static_property(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
@@ -1361,8 +1372,21 @@ class TestPythonBindings:
         with pytest.raises(exceptions.CommandResponseTimeoutException) as execinfo:
             alt_unity_object.call_component_method(
                 "AltUnityExampleScriptCapsule", "JumpWithDelay",
-                parameters=[], type_of_parameters=[]
+                parameters=[], type_of_parameters=[], assembly="Assembly-CSharp"
             )
 
         self.altdriver.set_command_response_timeout(60)
         assert str(execinfo.value) == ""
+
+    def test_scroll_NIS(self):
+        self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity")
+        player = self.altdriver.find_object(By.NAME, "Player")
+        assert player.get_component_property(
+            "AltUnityNIPDebugScript", "wasScrolled", "Assembly-CSharp") is False
+        self.altdriver.scroll(300, 1, True)
+
+        assert player.get_component_property("AltUnityNIPDebugScript", "wasScrolled", "Assembly-CSharp") is True
+
+    # TODO Test with scroll on an UI element
+    # I checked already and it's working with the current implementation
+    # but to write a test for it I need to move the mouse to the UI element

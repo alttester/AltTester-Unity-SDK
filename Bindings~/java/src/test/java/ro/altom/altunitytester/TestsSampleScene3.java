@@ -177,20 +177,23 @@ public class TestsSampleScene3 {
         findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
         AltUnityObject altElement = altUnityDriver.findObject(findObjectParams);
         AltUnityColor color1 = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptDropMe", "highlightColor").build(),
+                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptDropMe", "highlightColor").withAssembly(
+                        "Assembly-CSharp").build(),
                 AltUnityColor.class);
 
         findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
         altUnityDriver.findObject(findObjectParams).pointerEnter();
         AltUnityColor color2 = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptDropMe", "highlightColor").build(),
+                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptDropMe", "highlightColor").withAssembly(
+                        "Assembly-CSharp").build(),
                 AltUnityColor.class);
         assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b || color1.a != color2.a);
 
         findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
         altUnityDriver.findObject(findObjectParams).pointerExit();
         AltUnityColor color3 = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptDropMe", "highlightColor").build(),
+                new AltGetComponentPropertyParams.Builder("AltUnityExampleScriptDropMe", "highlightColor").withAssembly(
+                        "Assembly-CSharp").build(),
                 AltUnityColor.class);
         assertTrue(color3.r != color2.r || color3.g != color2.g || color3.b != color2.b || color3.a != color2.a);
         assertTrue(color1.r == color3.r && color1.g == color3.g && color1.b == color3.b && color1.a == color3.a);

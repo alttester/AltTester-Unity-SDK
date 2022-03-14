@@ -13,6 +13,7 @@ namespace Altom.AltUnityTester.Commands
 
         public override AltUnityObject Execute()
         {
+
 #if ALTUNITYTESTER
             AltUnityRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(CommandParams.altUnityObject.getScreenPosition().x, CommandParams.altUnityObject.getScreenPosition().y));
             UnityEngine.GameObject gameObject = AltUnityRunner.GetGameObject(CommandParams.altUnityObject);
@@ -23,6 +24,7 @@ namespace Altom.AltUnityTester.Commands
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
+
         }
     }
 }

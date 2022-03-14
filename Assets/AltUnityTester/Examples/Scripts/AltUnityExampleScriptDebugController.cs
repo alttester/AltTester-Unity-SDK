@@ -47,7 +47,7 @@ public class AltUnityExampleScriptDebugController : MonoBehaviour
             if (Input.GetKeyUp(kcode))
                 lastKeyUp.text = kcode.ToString();
         }
-#if ALTUNITYTESTER
+#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
         Input.GetAxis("Horizontal");
         Input.GetAxis("Vertical");
         lastButtonDown.text = Input.LastButtonDown;
