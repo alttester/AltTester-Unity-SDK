@@ -302,6 +302,10 @@ namespace Altom.AltUnityTester.Communication
             {
                 return new AltUnityDeactivateNotificationCommand(this, cmdParams as DeactivateNotification).ExecuteAndSerialize;
             }
+            if (cmdParams is AltUnityFindObjectAtCoordinatesParams)
+            {
+                return new AltUnityFindObjectAtCoordinatesCommand(cmdParams as AltUnityFindObjectAtCoordinatesParams).ExecuteAndSerialize;
+            }
 
             return new AltUnityInvalidCommand(cmdParams, new CommandNotFoundException(string.Format("Command {0} not handled", cmdParams.commandName))).ExecuteAndSerialize;
         }

@@ -247,6 +247,60 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
                 self.assertEqual(3, len(stars))
 ```
 
+#### FindObjectAtCoordinates
+
+Retrieves the Unity object at given coordinates.
+
+Uses EventSystem.RaycastAll to find object. If no object is found then it uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and returns the one closer to the camera.
+
+**_Parameters_**
+
+| Name        | Type    | Required | Description            |
+| ----------- | ------- | -------- | ---------------------- |
+| coordinates | Vector2 | Yes      | The screen coordinates |
+
+**_Returns_**
+
+-   AltUnityObject - The UI object hit by event system Raycast, null otherwise
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestFindElementAtCoordinates()
+        {
+            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+            var element = altUnityDriver.FindObjectAtCoordinates(new AltUnityVector2(80 + counterButton.x, 15 + counterButton.y));
+            Assert.AreEqual("Text", element.name);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testFindElementAtCoordinates() {
+            AltUnityObject counterButton = altUnityDriver.findObject(new AltFindObjectsParams.Builder(
+                    AltUnityDriver.By.NAME, "ButtonCounter").build());
+
+            AltUnityObject element = altUnityDriver.findObjectAtCoordinates(
+                    new AltFindObjectAtCoordinatesParams.Builder(new Vector2(80 + counterButton.x, 15 + counterButton.y))
+                            .build());
+            assertEquals("Text", element.name);
+        }
+
+    .. code-tab:: py
+
+        def test_find_object_by_coordinates(self):
+            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
+
+            element = self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
+            assert "Text" == element.name
+```
+
 #### GetAllElements
 
 Returns information about every objects loaded in the currently loaded scenes. This also means objects that are set as DontDestroyOnLoad.

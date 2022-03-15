@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.AltCallStaticMethodParams;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectAtCoordinatesParams;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParams;
 import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParams;
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParams;
@@ -1295,5 +1296,24 @@ public class TestsSampleScene1 {
         } finally {
             altUnityDriver.setCommandResponseTimeout(60);
         }
+    }
+
+    @Test
+    public void testFindElementAtCoordinates() {
+        AltUnityObject counterButton = altUnityDriver.findObject(new AltFindObjectsParams.Builder(
+                AltUnityDriver.By.NAME, "ButtonCounter").build());
+
+        AltUnityObject element = altUnityDriver.findObjectAtCoordinates(
+                new AltFindObjectAtCoordinatesParams.Builder(new Vector2(80 + counterButton.x, 15 + counterButton.y))
+                        .build());
+        assertEquals("Text", element.name);
+    }
+    
+    @Test
+    public void testFindElementAtCoordinates_NoElement() {
+        AltUnityObject element = altUnityDriver.findObjectAtCoordinates(
+                new AltFindObjectAtCoordinatesParams.Builder(new Vector2(-1, -1))
+                        .build());
+        assertNull(element);
     }
 }

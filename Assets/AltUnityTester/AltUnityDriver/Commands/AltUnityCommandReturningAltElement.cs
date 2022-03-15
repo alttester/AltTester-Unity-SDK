@@ -12,7 +12,7 @@ namespace Altom.AltUnityDriver.Commands
         protected AltUnityObject ReceiveAltUnityObject(CommandParams cmdParams)
         {
             var altElement = CommHandler.Recvall<AltUnityObject>(cmdParams);
-            altElement.CommHandler = CommHandler;
+            if (altElement != null) altElement.CommHandler = CommHandler;
 
             return altElement;
         }

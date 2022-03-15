@@ -715,6 +715,21 @@ class AltUnityDriver:
             component_name, property_name, assembly, max_depth
         )
 
+    def find_object_at_coordinates(self, coordinates):
+        """Retrieves the Unity object at given coordinates
+
+        Uses EventSystem.RaycastAll to find object. If no object is found then it uses UnityEngine.Physics.Raycast
+        and UnityEngine.Physics2D.Raycast and returns the one closer to the camera.
+
+        Args:
+            coordinates (:obj:`dict`): The screen coordinates
+
+        Returns:
+            AltUnityObject: The UI object hit by event system Raycast, None otherwise.
+        """
+        data = commands.FindObjectAtCoordinates.run(self._connection, coordinates)
+        return self._get_alt_unity_object(data)
+
     def set_notification(self, notification_type, notification_callback=None):
         """Sets what notifications will the tester send and what to do with those notifications.
 

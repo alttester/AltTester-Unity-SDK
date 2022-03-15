@@ -8,6 +8,7 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityTester;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Altom.AltUnityTester.InputModule;
 
 public class Input : MonoBehaviour
 {
@@ -67,6 +68,7 @@ public class Input : MonoBehaviour
 
     }
 
+    #region MonoBehaviour
     public void Start()
     {
         _instance = this;
@@ -108,6 +110,7 @@ public class Input : MonoBehaviour
         if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
     }
+    #endregion
 
     #region UnityEngine.Input.AltUnityTester.NotImplemented
 
@@ -644,6 +647,291 @@ public class Input : MonoBehaviour
 
     #endregion
 
+
+    #region public commands interface
+    public static int BeginTouch(UnityEngine.Vector3 screenPosition)
+    {
+        var touch = createTouch(screenPosition);
+
+        if (touch.fingerId == 0)
+            mousePosition = screenPosition;
+        var pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch);
+        _pointerEventsDataDictionary.Add(touch.fingerId, pointerEventData);
+
+        _instance.StartCoroutine(setMouse0KeyCodePressedDown());
+        var inputId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
+        _inputIdDictionary.Add(touch.fingerId, inputId);
+
+        return touch.fingerId;
+    }
+
+    public static void MoveTouch(int fingerId, Vector3 screenPosition)
+    {
+        var touch = findTouch(fingerId);
+        var previousPointerEventData = _pointerEventsDataDictionary[touch.fingerId];
+        var previousPosition = touch.position;
+        touch.phase = TouchPhase.Moved;
+        touch.position = screenPosition;
+        touch.rawPosition = screenPosition;
+        touch.deltaPosition = touch.position - previousPosition;
+        if (fingerId == 0)
+        {
+            mousePosition = screenPosition;
+        }
+        updateTouchInTouchList(touch);
+        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
+        var inputId = _inputIdDictionary[fingerId];
+        AltUnityRunner._altUnityRunner.ShowInput(touch.position, inputId);
+
+    }
+    public static void EndTouch(int fingerId)
+    {
+        _instance.StartCoroutine(endTouch(fingerId));
+    }
+
+    public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
+    {
+        _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, true), onFinish));
+    }
+    public static void ClickElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
+    {
+        _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, false), onFinish));
+    }
+
+    public static void TapCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
+    {
+        _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, true), onFinish));
+    }
+    public static void ClickCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
+    {
+        _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, false), onFinish));
+    }
+
+    public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
+    {
+        _instance.StartCoroutine(runThrowingIterator(MultipointSwipeLifeCycle(positions, duration), onFinish));
+    }
+
+    public static System.Collections.IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
+    {
+        var touch = new UnityEngine.Touch
+        {
+            phase = UnityEngine.TouchPhase.Began,
+            position = positions[0]
+        };
+
+        System.Collections.Generic.List<UnityEngine.Touch> currentTouches = touches.ToList();
+        currentTouches.Sort((touch1, touch2) => (touch1.fingerId.CompareTo(touch2.fingerId)));
+        int fingerId = 0;
+        foreach (var iter in currentTouches)
+        {
+            if (iter.fingerId != fingerId)
+                break;
+            fingerId++;
+        }
+
+        touch.fingerId = fingerId;
+        touchCount++;
+
+        var touchListCopy = new UnityEngine.Touch[touchCount];
+        System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
+        touchListCopy[touchCount - 1] = touch;
+        touches = touchListCopy;
+        mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
+        var pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch);
+        var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
+
+        yield return null;
+
+        var oneInputDuration = duration / (positions.Length - 1);
+        for (var i = 1; i < positions.Length; i++)
+        {
+            var wholeDelta = positions[i] - touch.position;
+            var deltaPerSecond = wholeDelta / oneInputDuration;
+            float time = 0;
+            do
+            {
+                UnityEngine.Vector2 previousPosition = touch.position;
+                if (time + UnityEngine.Time.unscaledDeltaTime < oneInputDuration)
+                {
+                    touch.position += deltaPerSecond * UnityEngine.Time.unscaledDeltaTime;
+                }
+                else
+                {
+                    touch.position = positions[i];
+                }
+
+                touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
+                time += UnityEngine.Time.unscaledDeltaTime;
+                touch.deltaPosition = touch.position - previousPosition;
+                updateTouchInTouchList(touch);
+                mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
+                pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+
+                AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
+                yield return null;
+
+            } while (time <= oneInputDuration);
+        }
+
+        yield return null;
+
+        touch.phase = UnityEngine.TouchPhase.Ended;
+        updateTouchInTouchList(touch);
+
+        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
+        yield return null;
+        var newTouches = new UnityEngine.Touch[touchCount - 1];
+        int contor = 0;
+        foreach (var t in touches)
+        {
+            if (t.fingerId != touch.fingerId)
+            {
+                newTouches[contor] = t;
+                contor++;
+            }
+        }
+
+        touches = newTouches;
+        touchCount--;
+    }
+
+    public static void KeyPress(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
+    {
+        _instance.StartCoroutine(runThrowingIterator(keyPressLifeCycle(keyCode, power, duration), onFinish));
+    }
+
+    public static void KeyDown(KeyCode keyCode, float power)
+    {
+        _instance.StartCoroutine(keyDownLifeCycle(keyCode, power));
+    }
+
+    public static void KeyUp(KeyCode keyCode)
+    {
+        _instance.StartCoroutine(keyUpLifeCycle(keyCode));
+    }
+
+    public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
+    {
+        _instance.StartCoroutine(runThrowingIterator(MoveMouseCycle(location, duration), onFinish));
+    }
+
+    public static System.Collections.IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
+    {
+        float time = 0;
+        var distance = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
+        var inputId = mouseInputVisualiserId;
+        if (mouseInputVisualiserId == -1)
+        {
+            inputId = AltUnityRunner._altUnityRunner.ShowInput(location);
+            mouseInputVisualiserId = inputId;
+
+        }
+        else
+        {
+            AltUnityRunner._altUnityRunner.ShowInput(location, inputId);
+        }
+        do
+        {
+            UnityEngine.Vector3 delta;
+
+            if (time + UnityEngine.Time.unscaledDeltaTime < duration)
+            {
+                delta = distance * UnityEngine.Time.unscaledDeltaTime / duration;
+            }
+            else
+            {
+                delta = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
+            }
+
+            mousePosition += delta;
+            if (mouseDownPointerEventData != null)
+            {
+                _mockUpPointerInputModule.ExecuteDragPointerEvents(mouseDownPointerEventData);
+                mouseDownPointerEventData.position = mousePosition;
+                mouseDownPointerEventData.delta = delta;
+                findEventSystemObject(mouseDownPointerEventData);
+            }
+            AltUnityRunner._altUnityRunner.ShowInput(mousePosition, inputId);
+            yield return null;
+            time += UnityEngine.Time.unscaledDeltaTime;
+        } while (time < duration);
+    }
+
+    public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration, Action<Exception> onFinish)
+    {
+        _instance.StartCoroutine(runThrowingIterator(AccelerationLifeCycle(accelarationValue, duration), onFinish));
+    }
+
+    public static UnityEngine.GameObject FindObjectAtCoordinates(UnityEngine.Vector2 screenPosition)
+    {
+        var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+        {
+            position = screenPosition,
+            button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
+            eligibleForClick = true,
+            pressPosition = screenPosition
+        };
+        var eventSystemTarget = findEventSystemObject(pointerEventData);
+        if (eventSystemTarget != null) return eventSystemTarget;
+        var monoBehaviourTarget = AltUnityMockUpPointerInputModule.FindMonoBehaviourObject(screenPosition);
+        return monoBehaviourTarget;
+    }
+
+    internal static System.Collections.IEnumerator ScrollLifeCycle(float scrollValue, float duration)
+    {
+        float timeSpent = 0;
+
+        while (timeSpent < duration)
+        {
+            yield return null;
+            timeSpent += UnityEngine.Time.unscaledDeltaTime;
+            float scrollStep = scrollValue * UnityEngine.Time.unscaledDeltaTime / duration;
+
+            var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+            {
+                position = _mousePosition,
+                button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
+                eligibleForClick = true,
+            };
+            var eventSystemTarget = findEventSystemObject(pointerEventData);
+            _mouseScrollDelta = new UnityEngine.Vector2(0, scrollStep);//x value is not taken in consideration
+            pointerEventData.scrollDelta = _mouseScrollDelta;
+            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
+        }
+        _mouseScrollDelta = UnityEngine.Vector2.zero;//reset the value after scroll ended
+    }
+    internal static IEnumerator runThrowingIterator( //TODO Remove this method when all the input methods were implemented in InputController
+           IEnumerator enumerator,
+           Action<Exception> done)
+    {
+        Exception err = null;
+        while (true)
+        {
+            object current;
+            try
+            {
+                if (enumerator.MoveNext() == false)
+                {
+                    break;
+                }
+                current = enumerator.Current;
+            }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogError(ex.ToString());
+                err = ex;
+                yield break;
+            }
+            yield return current;
+        }
+        done.Invoke(err);
+    }
+
+
+    #endregion
+
+    #region private interface
     private static UnityEngine.Touch createTouch(UnityEngine.Vector3 screenPosition)
     {
         var touch = new UnityEngine.Touch
@@ -690,46 +978,6 @@ public class Input : MonoBehaviour
 
         touches = newTouches;
         touchCount--;
-    }
-
-    public static int BeginTouch(UnityEngine.Vector3 screenPosition)
-    {
-        var touch = createTouch(screenPosition);
-
-        if (touch.fingerId == 0)
-            mousePosition = screenPosition;
-        var pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch);
-        _pointerEventsDataDictionary.Add(touch.fingerId, pointerEventData);
-
-        _instance.StartCoroutine(setMouse0KeyCodePressedDown());
-        var inputId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
-        _inputIdDictionary.Add(touch.fingerId, inputId);
-
-        return touch.fingerId;
-    }
-
-    public static void MoveTouch(int fingerId, Vector3 screenPosition)
-    {
-        var touch = findTouch(fingerId);
-        var previousPointerEventData = _pointerEventsDataDictionary[touch.fingerId];
-        var previousPosition = touch.position;
-        touch.phase = TouchPhase.Moved;
-        touch.position = screenPosition;
-        touch.rawPosition = screenPosition;
-        touch.deltaPosition = touch.position - previousPosition;
-        if (fingerId == 0)
-        {
-            mousePosition = screenPosition;
-        }
-        updateTouchInTouchList(touch);
-        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
-        var inputId = _inputIdDictionary[fingerId];
-        AltUnityRunner._altUnityRunner.ShowInput(touch.position, inputId);
-
-    }
-    public static void EndTouch(int fingerId)
-    {
-        _instance.StartCoroutine(endTouch(fingerId));
     }
 
     private static IEnumerator endTouch(int fingerId)
@@ -801,8 +1049,6 @@ public class Input : MonoBehaviour
         pointerEventData.pointerPressRaycast = firstRaycastResult;
         return firstRaycastResult.gameObject;
     }
-
-
 
     private static IEnumerator tapClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval, bool tap)
     {
@@ -938,112 +1184,6 @@ public class Input : MonoBehaviour
         UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
         if (target != null) target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
-    public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, true), onFinish));
-    }
-    public static void ClickElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, false), onFinish));
-    }
-
-    public static void TapCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, true), onFinish));
-    }
-    public static void ClickCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, false), onFinish));
-    }
-
-    public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(MultipointSwipeLifeCycle(positions, duration), onFinish));
-    }
-
-    public static System.Collections.IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
-    {
-        var touch = new UnityEngine.Touch
-        {
-            phase = UnityEngine.TouchPhase.Began,
-            position = positions[0]
-        };
-
-        System.Collections.Generic.List<UnityEngine.Touch> currentTouches = touches.ToList();
-        currentTouches.Sort((touch1, touch2) => (touch1.fingerId.CompareTo(touch2.fingerId)));
-        int fingerId = 0;
-        foreach (var iter in currentTouches)
-        {
-            if (iter.fingerId != fingerId)
-                break;
-            fingerId++;
-        }
-
-        touch.fingerId = fingerId;
-        touchCount++;
-
-        var touchListCopy = new UnityEngine.Touch[touchCount];
-        System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
-        touchListCopy[touchCount - 1] = touch;
-        touches = touchListCopy;
-        mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
-        var pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch);
-        var markId = AltUnityRunner._altUnityRunner.ShowInput(touch.position);
-
-        yield return null;
-
-        var oneInputDuration = duration / (positions.Length - 1);
-        for (var i = 1; i < positions.Length; i++)
-        {
-            var wholeDelta = positions[i] - touch.position;
-            var deltaPerSecond = wholeDelta / oneInputDuration;
-            float time = 0;
-            do
-            {
-                UnityEngine.Vector2 previousPosition = touch.position;
-                if (time + UnityEngine.Time.unscaledDeltaTime < oneInputDuration)
-                {
-                    touch.position += deltaPerSecond * UnityEngine.Time.unscaledDeltaTime;
-                }
-                else
-                {
-                    touch.position = positions[i];
-                }
-
-                touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
-                time += UnityEngine.Time.unscaledDeltaTime;
-                touch.deltaPosition = touch.position - previousPosition;
-                updateTouchInTouchList(touch);
-                mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
-                pointerEventData = AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
-
-                AltUnityRunner._altUnityRunner.ShowInput(touch.position, markId);
-                yield return null;
-
-            } while (time <= oneInputDuration);
-        }
-
-        yield return null;
-
-        touch.phase = UnityEngine.TouchPhase.Ended;
-        updateTouchInTouchList(touch);
-
-        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
-        yield return null;
-        var newTouches = new UnityEngine.Touch[touchCount - 1];
-        int contor = 0;
-        foreach (var t in touches)
-        {
-            if (t.fingerId != touch.fingerId)
-            {
-                newTouches[contor] = t;
-                contor++;
-            }
-        }
-
-        touches = newTouches;
-        touchCount--;
-    }
 
     private static void updateTouchInTouchList(Touch touch)
     {
@@ -1054,21 +1194,6 @@ public class Input : MonoBehaviour
                 touches[t] = touch;
             }
         }
-    }
-
-    public static void KeyPress(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(keyPressLifeCycle(keyCode, power, duration), onFinish));
-    }
-
-    public static void KeyDown(KeyCode keyCode, float power)
-    {
-        _instance.StartCoroutine(keyDownLifeCycle(keyCode, power));
-    }
-
-    public static void KeyUp(KeyCode keyCode)
-    {
-        _instance.StartCoroutine(keyUpLifeCycle(keyCode));
     }
 
     private static IEnumerator keyDownLifeCycle(KeyCode keyCode, float power)
@@ -1197,81 +1322,9 @@ public class Input : MonoBehaviour
         yield return new WaitForSecondsRealtime(duration);
         mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
     }
-    public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(MoveMouseCycle(location, duration), onFinish));
-    }
-    public static System.Collections.IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
-    {
-        float time = 0;
-        var distance = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
-        var inputId = mouseInputVisualiserId;
-        if (mouseInputVisualiserId == -1)
-        {
-            inputId = AltUnityRunner._altUnityRunner.ShowInput(location);
-            mouseInputVisualiserId = inputId;
 
-        }
-        else
-        {
-            AltUnityRunner._altUnityRunner.ShowInput(location, inputId);
-        }
-        do
-        {
-            UnityEngine.Vector3 delta;
 
-            if (time + UnityEngine.Time.unscaledDeltaTime < duration)
-            {
-                delta = distance * UnityEngine.Time.unscaledDeltaTime / duration;
-            }
-            else
-            {
-                delta = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
-            }
 
-            mousePosition += delta;
-            if (mouseDownPointerEventData != null)
-            {
-                _mockUpPointerInputModule.ExecuteDragPointerEvents(mouseDownPointerEventData);
-                mouseDownPointerEventData.position = mousePosition;
-                mouseDownPointerEventData.delta = delta;
-                findEventSystemObject(mouseDownPointerEventData);
-            }
-            AltUnityRunner._altUnityRunner.ShowInput(mousePosition, inputId);
-            yield return null;
-            time += UnityEngine.Time.unscaledDeltaTime;
-        } while (time < duration);
-    }
-
-    internal static System.Collections.IEnumerator ScrollLifeCycle(float scrollValue, float duration)
-    {
-        float timeSpent = 0;
-
-        while (timeSpent < duration)
-        {
-            yield return null;
-            timeSpent += UnityEngine.Time.unscaledDeltaTime;
-            float scrollStep = scrollValue * UnityEngine.Time.unscaledDeltaTime / duration;
-
-            var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
-            {
-                position = _mousePosition,
-                button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
-                eligibleForClick = true,
-            };
-            var eventSystemTarget = findEventSystemObject(pointerEventData);
-            _mouseScrollDelta = new UnityEngine.Vector2(0, scrollStep);//x value is not taken in consideration
-            pointerEventData.scrollDelta = _mouseScrollDelta;
-            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
-        }
-        _mouseScrollDelta = UnityEngine.Vector2.zero;//reset the value after scroll ended
-
-    }
-
-    public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(AccelerationLifeCycle(accelarationValue, duration), onFinish));
-    }
     private static System.Collections.IEnumerator AccelerationLifeCycle(UnityEngine.Vector3 accelarationValue, float duration)
     {
         float timeSpent = 0;
@@ -1283,6 +1336,7 @@ public class Input : MonoBehaviour
         }
         _acceleration = UnityEngine.Vector3.zero;//reset the value after acceleration ended
     }
+
     private static UnityEngine.KeyCode ConvertStringToKeyCode(string keyName)
     {
         if (keyName.Length == 1 && IsEnglishLetter(keyName[0]))
@@ -1431,75 +1485,53 @@ public class Input : MonoBehaviour
         }
         throw new NotFoundException("Key not recognized");
     }
+
     private static bool IsEnglishLetter(char c)
     {
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
-    internal static IEnumerator runThrowingIterator( //TODO Remove this method when all the input methods were implemented in InputController
-           IEnumerator enumerator,
-           Action<Exception> done)
-    {
-        Exception err = null;
-        while (true)
-        {
-            object current;
-            try
-            {
-                if (enumerator.MoveNext() == false)
-                {
-                    break;
-                }
-                current = enumerator.Current;
-            }
-            catch (Exception ex)
-            {
-                UnityEngine.Debug.LogError(ex.ToString());
-                err = ex;
-                yield break;
-            }
-            yield return current;
-        }
-        done.Invoke(err);
-    }
 
+    #endregion
 }
 
-public class KeyStructure
+namespace Altom.AltUnityTester.InputModule
 {
-    public KeyStructure(UnityEngine.KeyCode keyCode, float power)
+    public class KeyStructure
     {
-        KeyCode = keyCode;
-        Power = power;
+        public KeyStructure(UnityEngine.KeyCode keyCode, float power)
+        {
+            KeyCode = keyCode;
+            Power = power;
+        }
+
+        public UnityEngine.KeyCode KeyCode { get; set; }
+
+        public float Power { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is KeyStructure))
+                return false;
+            var other = (KeyStructure)obj;
+            return
+                other.KeyCode == this.KeyCode;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
-
-    public UnityEngine.KeyCode KeyCode { get; set; }
-
-    public float Power { get; set; }
-
-    public override bool Equals(object obj)
-    {
-        if (!(obj is KeyStructure))
-            return false;
-        var other = (KeyStructure)obj;
-        return
-            other.KeyCode == this.KeyCode;
-    }
-
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
-
-    public override string ToString()
-    {
-        return base.ToString();
-    }
-
 }
 #else
 using UnityEngine;
 
-namespace Altom.AltUnityTester.Input
+namespace Altom.AltUnityTester.InputModule
 {
     public class Input : MonoBehaviour
     {
