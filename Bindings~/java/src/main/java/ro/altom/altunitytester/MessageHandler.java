@@ -13,9 +13,6 @@ import com.google.gson.JsonParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 import ro.altom.altunitytester.Commands.AltUnityCommands.NotificationType;
 import ro.altom.altunitytester.Notifications.AltUnityLoadSceneNotificationResultParams;
 import ro.altom.altunitytester.Notifications.AltUnityLogNotificationResultParams;

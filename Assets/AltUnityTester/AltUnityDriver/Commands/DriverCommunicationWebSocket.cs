@@ -89,7 +89,6 @@ namespace Altom.AltUnityDriver.Commands
 
         public T Recvall<T>(CommandParams param)
         {
-
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
 

@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityFindObject : AltUnityBaseFindObjects

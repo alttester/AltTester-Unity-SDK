@@ -2033,5 +2033,29 @@ namespace Altom.AltUnityDriver.Tests
             Assert.Throws<CommandResponseTimeoutException>(() => counterButton.Tap(2, 2));
             altUnityDriver.SetCommandResponseTimeout(60);
         }
+
+        [Test]
+        public void TestFindElementAtCoordinates()
+        {
+            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+            var element = altUnityDriver.FindObjectAtCoordinates(new AltUnityVector2(80 + counterButton.x, 15 + counterButton.y));
+            Assert.AreEqual("Text", element.name);
+        }
+
+        [Test]
+        public void TestFindElementAtCoordinates_NoElement()
+        {
+            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
+            var element = altUnityDriver.FindObjectAtCoordinates(new AltUnityVector2(-1, -1));
+            Assert.IsNull(element);
+        }
+
+        [Test]
+        public void TestFindElementAtCoordinates_3dElement()
+        {
+            var counterButton = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var element = altUnityDriver.FindObjectAtCoordinates(counterButton.getScreenPosition());
+            Assert.AreEqual("Capsule", element.name);
+        }
     }
 }

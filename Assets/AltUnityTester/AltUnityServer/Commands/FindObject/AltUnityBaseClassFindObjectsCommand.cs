@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
-using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Altom.AltUnityTester.Commands
