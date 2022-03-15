@@ -38,33 +38,6 @@ namespace Altom.AltUnityTester.Commands
         text
     }
 
-    // public interface ICondition
-    // {
-    //     string Selector { get; set; }
-
-    // }
-
-    // public class Condition<T> : ICondition
-    // {
-    //     public Condition(string selector, T type, ICondition previousCondition = null)
-    //     {
-    //         this.Selector = selector;
-    //         this.Type = type;
-    //         this.PreviousCondition = previousCondition;
-    //         this.NextCondition = null;
-    //         if (previousCondition != null)
-    //         {
-    //             previousCondition.NextCondition = this;
-    //         }
-    //     }
-    //     public string Selector { get; set; }
-
-    //     public T Type { get; protected set; }
-    //     public ICondition NextCondition { get; set; }
-    //     public ICondition PreviousCondition { get; set; }
-
-    // }
-
     public class BoundCondition
     {
         public BoundCondition(string selector, BoundType type, BoundCondition previousBound)

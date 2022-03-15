@@ -2,13 +2,10 @@ using System;
 using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Logging;
-using Altom.AltUnityTester;
 using Altom.AltUnityTester.Communication;
 using Altom.AltUnityTester.Logging;
 using Altom.AltUnityTester.Notification;
-using Altom.AltUnityTester.UI;
 using NLog;
-using UnityEngine.SceneManagement;
 
 namespace Altom.AltUnityTester
 {
@@ -38,15 +35,22 @@ namespace Altom.AltUnityTester
 
         protected void Awake()
         {
+#if !ALTUNITYTESTER
+            logger.Error("ALTUNITYTESTER needs to be added to 'Scripting Define Symbols'");
+            Destroy(this.gameObject);
+            return;
+
+#else
             if (_altUnityRunner != null)
             {
+                logger.Warn("AltUnityTester already initialized.");
                 Destroy(this.gameObject);
                 return;
             }
 
             if (RunOnlyInDebugMode && !UnityEngine.Debug.isDebugBuild)
             {
-                logger.Warn("AltUnityTester runs only on Debug build");
+                logger.Error("AltUnityTester runs only on Debug build");
                 Destroy(this.gameObject);
                 return;
             }
@@ -55,6 +59,7 @@ namespace Altom.AltUnityTester
 
             _altUnityRunner = this;
             DontDestroyOnLoad(this);
+#endif
         }
         protected void Start()
         {
