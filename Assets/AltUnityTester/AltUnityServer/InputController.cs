@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Altom.AltUnityTester;
+using UnityEngine;
 
 public class InputController
 {
@@ -49,7 +50,7 @@ public class InputController
 #if ALTUNITYTESTER
         List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
-        coroutines.Add(NewInputSystem.ScrollLifeCircle(scrollValue, duration));
+        coroutines.Add(NewInputSystem.ScrollLifeCycle(scrollValue, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
         coroutines.Add(Input.ScrollLifeCycle(scrollValue, duration));
@@ -61,9 +62,48 @@ public class InputController
 
     }
 
+    public static void KeyDown(KeyCode keyCode, float power)
+    {
+#if ALTUNITYTESTER
+#if ENABLE_INPUT_SYSTEM
+        NewInputSystem.KeyDownLifeCycle(keyCode, power);
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+        AltUnityRunner._altUnityRunner.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
+#endif
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+    }
 
+    public static void KeyUp(KeyCode keyCode)
+    {
+#if ALTUNITYTESTER
+#if ENABLE_INPUT_SYSTEM
+        NewInputSystem.KeyUpLifeCycle(keyCode);
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+        AltUnityRunner._altUnityRunner.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
+#endif
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+    }
 
-
-
+    public static void PressKey(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
+    {
+#if ALTUNITYTESTER
+        List<IEnumerator> coroutines = new List<IEnumerator>();
+#if ENABLE_INPUT_SYSTEM
+        coroutines.Add(NewInputSystem.KeyPressLifeCycle(keyCode, power, duration));
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+        coroutines.Add(Input.KeyPressLifeCycle(keyCode, power, duration));
+#endif
+        AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+    }
 
 }

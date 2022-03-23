@@ -1058,20 +1058,20 @@ public class Input : MonoBehaviour
 
     public static void KeyPress(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
     {
-        _instance.StartCoroutine(runThrowingIterator(keyPressLifeCycle(keyCode, power, duration), onFinish));
+        _instance.StartCoroutine(runThrowingIterator(KeyPressLifeCycle(keyCode, power, duration), onFinish));
     }
 
     public static void KeyDown(KeyCode keyCode, float power)
     {
-        _instance.StartCoroutine(keyDownLifeCycle(keyCode, power));
+        _instance.StartCoroutine(KeyDownLifeCycle(keyCode, power));
     }
 
     public static void KeyUp(KeyCode keyCode)
     {
-        _instance.StartCoroutine(keyUpLifeCycle(keyCode));
+        _instance.StartCoroutine(KeyUpLifeCycle(keyCode));
     }
 
-    private static IEnumerator keyDownLifeCycle(KeyCode keyCode, float power)
+    internal static IEnumerator KeyDownLifeCycle(KeyCode keyCode, float power)
     {
         var keyStructure = new KeyStructure(keyCode, power);
         yield return new WaitForEndOfFrame();
@@ -1094,7 +1094,7 @@ public class Input : MonoBehaviour
         return inputButtons[Array.IndexOf(mouseKeyCodes, keyCode)];
     }
 
-    private static IEnumerator keyUpLifeCycle(KeyCode keyCode)
+    internal static IEnumerator KeyUpLifeCycle(KeyCode keyCode)
     {
         if (mouseKeyCodes.Contains(keyCode))
         {
@@ -1109,7 +1109,7 @@ public class Input : MonoBehaviour
         _keyCodesPressedUp.Remove(keyStructure);
     }
 
-    private static IEnumerator keyPressLifeCycle(KeyCode keyCode, float power, float duration)
+    internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
     {
         var keyStructure = new KeyStructure(keyCode, power);
         yield return null;
