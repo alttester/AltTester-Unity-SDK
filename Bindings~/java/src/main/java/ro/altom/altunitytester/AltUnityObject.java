@@ -60,7 +60,7 @@ public class AltUnityObject {
 
     /**
      * Returns the parent of the AltUnity object on which it is called
-     * 
+     *
      * @return - The parent object
      */
     public AltUnityObject getParent() {
@@ -71,7 +71,7 @@ public class AltUnityObject {
 
     /**
      * Returns the screen position of the AltUnity object
-     * 
+     *
      * @return - the screen position
      */
     public Vector2 getScreenPosition() {
@@ -80,7 +80,7 @@ public class AltUnityObject {
 
     /**
      * Returns the world position of the AltUnity object
-     * 
+     *
      * @return - the world position
      */
     public Vector3 getWorldPosition() {
@@ -89,7 +89,7 @@ public class AltUnityObject {
 
     /**
      * Returns the value of the given component property.
-     * 
+     *
      * @return - the value of the given component property
      */
     public <T> T getComponentProperty(AltGetComponentPropertyParams altGetComponentPropertyParameters,
@@ -129,8 +129,19 @@ public class AltUnityObject {
      * TextMeshPro elements.
      */
     public AltUnityObject setText(String text) {
-        AltSetTextParams altSetTextParameters = new AltSetTextParams(text, this);
-        return new AltSetText(messageHandler, altSetTextParameters).Execute();
+        AltSetTextParams parameters = new AltSetTextParams.Builder(text).build();
+        parameters.setAltUnityObject(this);
+
+        return new AltSetText(messageHandler, parameters).Execute();
+    }
+
+    /**
+     * Sets text value for a Button, Text, InputField. This also works with
+     * TextMeshPro elements.
+     */
+    public AltUnityObject setText(AltSetTextParams parameters) {
+        parameters.setAltUnityObject(this);
+        return new AltSetText(messageHandler, parameters).Execute();
     }
 
     /**
@@ -163,7 +174,7 @@ public class AltUnityObject {
 
     /**
      * Tap current object.
-     * 
+     *
      * @return The clicked object
      */
     public AltUnityObject tap() {
@@ -172,7 +183,7 @@ public class AltUnityObject {
 
     /**
      * Tap current object
-     * 
+     *
      * @param parameters Tap parameters
      * @return The tapped object
      */
@@ -183,7 +194,7 @@ public class AltUnityObject {
 
     /**
      * Click current object.
-     * 
+     *
      * @return The clicked object
      */
     public AltUnityObject click() {
@@ -193,7 +204,7 @@ public class AltUnityObject {
 
     /**
      * Click current object.
-     * 
+     *
      * @param parameters Click parameters
      * @return The clicked object
      */
