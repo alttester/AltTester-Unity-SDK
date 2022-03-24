@@ -445,8 +445,22 @@ public class AltUnityDriver {
         return new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
     }
 
-    public void addNotification(AltUnityAddNotificationListenerParams params) {
-        new AltUnityAddNotificationListener(this.connection.messageHandler, params).Execute();
+    /**
+     * Retrieves the Unity object at given coordinates
+     * Uses EventSystem.RaycastAll to find object. If no object is found then it
+     * uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and
+     * returns the one closer to the camera.
+     * 
+     * @param coordinates The screen coordinates
+     * @return The UI object hit by event system Raycast, null otherwise
+     */
+
+    public AltUnityObject findObjectAtCoordinates(AltFindObjectAtCoordinatesParams parameters) {
+        return new AltFindObjectAtCoordinates(this.connection.messageHandler, parameters).Execute();
+    }
+
+    public void addNotification(AltUnityAddNotificationListenerParams parameters) {
+        new AltUnityAddNotificationListener(this.connection.messageHandler, parameters).Execute();
     }
 
     public void removeNotificationListener(AltUnityRemoveNotificationListenerParams notificationType) {

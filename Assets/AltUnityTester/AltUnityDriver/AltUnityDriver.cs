@@ -371,6 +371,18 @@ namespace Altom.AltUnityDriver
         {
             new AltUnityEndTouch(communicationHandler, fingerId).Execute();
         }
+
+        /// <summary>
+        /// Retrieves the Unity object at given coordinates. 
+        /// Uses EventSystem.RaycastAll to find object. If no object is found then it uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and returns the one closer to the camera.
+        /// </summary>
+        /// <param name="coordinates">The screen coordinates</param>
+        /// <returns>The UI object hit by event system Raycast, null otherwise</returns>
+        public AltUnityObject FindObjectAtCoordinates(AltUnityVector2 coordinates)
+        {
+            return new AltUnityFindObjectAtCoordinates(communicationHandler, coordinates).Execute();
+        }
+
         public void AddNotificationListener<T>(NotificationType notificationType, Action<T> callback, bool overwrite)
         {
             new AddNotificationListener<T>(communicationHandler, notificationType, callback, overwrite).Execute();
@@ -379,6 +391,5 @@ namespace Altom.AltUnityDriver
         {
             new RemoveNotificationListener(communicationHandler, notificationType).Execute();
         }
-
     }
 }

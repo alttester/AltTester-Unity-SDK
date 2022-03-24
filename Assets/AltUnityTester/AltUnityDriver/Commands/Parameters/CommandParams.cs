@@ -711,6 +711,13 @@ namespace Altom.AltUnityDriver.Commands
         }
     }
 
-
-
+    [Command("findObjectAtCoordinates")]
+    public class AltUnityFindObjectAtCoordinatesParams : CommandParams
+    {
+        public AltUnityVector2 coordinates;
+        public AltUnityFindObjectAtCoordinatesParams(AltUnityVector2 coordinates)
+        {
+            this.coordinates = coordinates;
+        }
+    }
 }

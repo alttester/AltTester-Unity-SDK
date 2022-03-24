@@ -1378,6 +1378,19 @@ class TestPythonBindings:
         self.altdriver.set_command_response_timeout(60)
         assert str(execinfo.value) == ""
 
+    def test_find_object_by_coordinates(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
+
+        element = self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
+        assert "Text" == element.name
+
+    def test_find_object_by_coordinates_no_element(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+
+        element = self.altdriver.find_object_at_coordinates([-1, -1])
+        assert element is None
+
     def test_scroll_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity")
         player = self.altdriver.find_object(By.NAME, "Player")
