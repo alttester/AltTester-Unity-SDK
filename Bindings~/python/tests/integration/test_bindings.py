@@ -1400,6 +1400,18 @@ class TestPythonBindings:
 
         assert player.get_component_property("AltUnityNIPDebugScript", "wasScrolled", "Assembly-CSharp") is True
 
+    def test_click_element_NIS(self):
+        self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        capsule.click()
+        assert capsule.get_component_property("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp") is True
+
+    def test_click_coordinates_NIS(self):
+        self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        self.altdriver.click(capsule.get_screen_position())
+        assert capsule.get_component_property("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp") is True
+
     # TODO Test with scroll on an UI element
     # I checked already and it's working with the current implementation
     # but to write a test for it I need to move the mouse to the UI element

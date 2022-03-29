@@ -11,6 +11,8 @@ public class TestForNIS
     string scene8 = "Assets/AltUnityTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
     string scene9 = "Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity";
     string scene10 = "Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity";
+    string scene11 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
+
     [OneTimeSetUp]
     public void SetUp()
     {
@@ -38,5 +40,27 @@ public class TestForNIS
     /*
     I checked already and it's working with the current implementation but to write a test for it I need to move the mouse to the UI element
     */
+
+    
+        [Test]
+        public void TestClickObject()
+        {
+            altUnityDriver.LoadScene(scene11);
+            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+            capsule.Click();
+            Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
+            
+        }
+
+        [Test]
+        public void TestClickCoordinates()
+        {
+            altUnityDriver.LoadScene(scene11);
+            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+            altUnityDriver.Click(new AltUnityVector2(capsule.x, capsule.y));
+            Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
+
+        }
+       
 
 }

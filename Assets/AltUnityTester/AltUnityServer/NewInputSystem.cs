@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Altom.AltUnityTester;
 
 public class NewInputSystem : MonoBehaviour
 {
@@ -59,6 +60,40 @@ public class NewInputSystem : MonoBehaviour
         }
         InputTestFixture.Set(Mouse.current.scroll, new Vector2(0, 0));
     }
+
+    
+    internal static IEnumerator ClickElementLifeCycle(GameObject target, int count, float interval)
+    {
+        Mouse.MakeCurrent();
+        UnityEngine.Vector3 screenPosition;
+        AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
+        InputTestFixture.Set(Mouse.current.position,screenPosition);
+        for(int i=0;i<count;i++)        
+        {
+            float time = 0;
+            InputTestFixture.Click(Mouse.leftButton);
+            yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
+            time += Time.fixedUnscaledDeltaTime;
+            if (i != count - 1 && time < interval)
+                yield return new WaitForSecondsRealtime(interval-time);
+        }
+    }
+
+    internal static IEnumerator ClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition,int count, float interval)
+    {
+        Mouse.MakeCurrent();
+        InputTestFixture.Set(Mouse.current.position,screenPosition);
+        for( int i=0; i<count; i++)
+        {
+            float time = 0;
+            InputTestFixture.Click(Mouse.leftButton);
+            yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
+            time += Time.fixedUnscaledDeltaTime;
+            if (i != count - 1 && time < interval)
+                yield return new WaitForSecondsRealtime(interval-time);
+        }
+    }
+
 
 }
 

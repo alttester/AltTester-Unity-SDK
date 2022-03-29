@@ -10,6 +10,8 @@ import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParams;
 import ro.altom.altunitytester.Commands.InputActions.AltMultiPointSwipeParams;
 import ro.altom.altunitytester.Commands.InputActions.AltScrollParams;
 import ro.altom.altunitytester.Commands.InputActions.AltSwipeParams;
+import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParams;
 import ro.altom.altunitytester.position.Vector2;
@@ -25,6 +27,7 @@ public class TestsForNIS {
     String scene8 = "Assets/AltUnityTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
     String scene9 = "Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity";
     String scene10 = "Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity";
+    String scene11 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
 
     class AltUnitySprite {
         public String name;
@@ -71,6 +74,45 @@ public class TestsForNIS {
                         "Assembly-CSharp")
                 .build(), Boolean.class);
         assertTrue(isScrolling);
+    }
+
+    @Test
+    public void TestClickElement() throws Exception {
+        loadLevel(scene11);
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                "Capsule").build();
+
+        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+
+        AltTapClickElementParams clickParams = new AltTapClickElementParams.Builder().build();
+        capsule.click(clickParams);
+
+        Boolean wasClicked = capsule
+                .getComponentProperty(new AltGetComponentPropertyParams.Builder("AltUnityExampleNewInputSystem",
+                        "wasClicked").withAssembly(
+                                "Assembly-CSharp")
+                        .build(), Boolean.class);
+        assertTrue(wasClicked);
+    }
+
+    @Test
+    public void TestClickCoordinates() throws Exception {
+        loadLevel(scene11);
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                "Capsule").build();
+
+        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+
+        AltTapClickCoordinatesParams clickParams = new AltTapClickCoordinatesParams.Builder(
+                capsule.getScreenPosition()).build();
+        altUnityDriver.click(clickParams);
+
+        Boolean wasClicked = capsule
+                .getComponentProperty(new AltGetComponentPropertyParams.Builder("AltUnityExampleNewInputSystem",
+                        "wasClicked").withAssembly(
+                                "Assembly-CSharp")
+                        .build(), Boolean.class);
+        assertTrue(wasClicked);
     }
 
     // TODO Test with scroll on an UI element
