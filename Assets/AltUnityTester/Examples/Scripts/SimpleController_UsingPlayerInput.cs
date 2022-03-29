@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.UI;
+
 
 // Use a separate PlayerInput component for setting up input.
 public class SimpleController_UsingPlayerInput : MonoBehaviour
@@ -15,6 +17,9 @@ public class SimpleController_UsingPlayerInput : MonoBehaviour
     private Vector2 m_Rotation;
     private Vector2 m_Look;
     private Vector2 m_Move;
+    
+    public Text counterText;
+    int jumpCounter = 0;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -52,6 +57,13 @@ public class SimpleController_UsingPlayerInput : MonoBehaviour
                 break;
         }
     }
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if(context.phase is InputActionPhase.Performed)
+        {
+            Jump();
+        }
+    }
 
     public void OnGUI()
     {
@@ -86,6 +98,11 @@ public class SimpleController_UsingPlayerInput : MonoBehaviour
         m_Rotation.y += rotate.x * scaledRotateSpeed;
         m_Rotation.x = Mathf.Clamp(m_Rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
         transform.localEulerAngles = m_Rotation;
+    }
+    private void Jump()
+    {
+        jumpCounter++;
+        counterText.text = jumpCounter.ToString();
     }
 
     private IEnumerator BurstFire(int burstAmount)

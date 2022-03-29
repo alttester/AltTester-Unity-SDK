@@ -20,6 +20,7 @@ namespace Altom.AltUnityTester.Commands
             var powerClamped = Mathf.Clamp01(CommandParams.power);
             Input.KeyDown((UnityEngine.KeyCode)CommandParams.keyCode, powerClamped);
             return "Ok";
+
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif

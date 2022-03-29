@@ -58,6 +58,38 @@ public class InputController
 #else
         throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
-
     }
+
+    public static void ClickElement(UnityEngine.GameObject target, int count,float interval,Action<Exception> onFinish)
+    {
+#if ALTUNITYTESTER
+        List<IEnumerator> coroutines = new List<IEnumerator>();
+#if ENABLE_INPUT_SYSTEM
+        coroutines.Add(NewInputSystem.ClickElementLifeCycle(target, count, interval));
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+        coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval,false));
+#endif
+        AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+    }
+
+    public static void ClickCoordinates(UnityEngine.Vector2 screenPosition, int count, float interval,Action<Exception> onFinish)
+    {
+#if ALTUNITYTESTER
+        List<IEnumerator> coroutines = new List<IEnumerator>();
+#if ENABLE_INPUT_SYSTEM
+        coroutines.Add(NewInputSystem.ClickCoordinatesLifeCycle(screenPosition,count,interval));
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+        coroutines.Add(Input.tapClickCoordinatesLifeCycle(screenPosition,count,interval,false));
+#endif
+        AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+    }
+
 }

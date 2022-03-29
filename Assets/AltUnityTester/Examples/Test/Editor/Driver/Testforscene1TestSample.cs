@@ -994,7 +994,7 @@ namespace Altom.AltUnityDriver.Tests
         public void TestGetAllScenes()
         {
             var scenes = altUnityDriver.GetAllScenes();
-            Assert.AreEqual(10, scenes.Count);
+            Assert.AreEqual(11, scenes.Count);
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
         }
 
