@@ -438,14 +438,6 @@ dev-docs:
     - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 34168  "rm -rf ${DOCUMENTATION_PATH}/*"
     - scp -r -P 34168 -o 'StrictHostKeyChecking no' _build/html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
 
-# TODO: Delete after redirect is added to the old documentation url
-# dev-docs:
-#   stage: docs
-#   only:
-#     refs:
-#       - master
-#   trigger: altom/altunity/altunitytester-dev
-
 pages:
   stage: deploy
   rules:
