@@ -43,6 +43,32 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 
 ```
 
+### Resolve dependencies
+
+-   Newtonsoft.Json
+
+In order for AltUnity Tester to work you need dependency for Newtonsoft.Json. Add `"com.unity.nuget.newtonsoft-json": "3.0.1"` to your project `manifest.json`, inside `dependencies`.
+
+```
+{
+    "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.1"
+    }
+}
+```
+
+-   Input System
+
+AltUnity Tester has support for Input System starting with version 1.7.1. To enable Input System in AltUnity Tester you need to add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
+
+```
+{
+    "testables": [
+        "com.unity.inputsystem"
+  ]
+}
+```
+
 <!--
 To instrument your Unity application with AltUnity Tester you first need to import the AltUnity Tester package into Unity.
 
