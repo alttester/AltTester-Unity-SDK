@@ -375,14 +375,12 @@ namespace Altom.AltUnityTesterEditor
             }
             var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
 
-            logger.Info("Finished building " + UnityEditor.PlayerSettings.productName + ":" + UnityEditor.PlayerSettings.bundleVersion);
-
 
 #if UNITY_2017
             if (results.Equals(""))
             {
                 logger.Info("Build path: " + buildPlayerOptions.locationPathName);
-                logger.Info("Build Succeeded");
+                logger.Info("Build " + UnityEditor.PlayerSettings.productName + ":" + UnityEditor.PlayerSettings.bundleVersion + " Succeeded");
             }
             else
             {
@@ -393,7 +391,7 @@ namespace Altom.AltUnityTesterEditor
             if (results.summary.totalErrors == 0 || results.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
             {
                 logger.Info("Build path: " + buildPlayerOptions.locationPathName);
-                logger.Info("Build Succeeded");
+                logger.Info("Build " + UnityEditor.PlayerSettings.productName + ":" + UnityEditor.PlayerSettings.bundleVersion + " Succeeded");
             }
             else
             {
