@@ -1,6 +1,5 @@
-using System;
+#if ENABLE_INPUT_SYSTEM
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -61,6 +60,12 @@ public class NewInputSystem : MonoBehaviour
     }
 
 }
+#else 
+namespace Altom.AltUnityTester
+{
+    public class NewInputSystem
+    {
 
-
-
+    }
+}
+#endif
