@@ -8,8 +8,10 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityTester;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Scripting;
 using Altom.AltUnityTester.InputModule;
 
+[Preserve]
 public class Input : MonoBehaviour
 {
     private static bool _useCustomInput;
