@@ -60,6 +60,22 @@ public class InputController
 #endif
     }
 
+    public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
+    {
+#if ALTUNITYTESTER
+        List<IEnumerator> coroutines = new List<IEnumerator>();
+#if ENABLE_INPUT_SYSTEM
+        coroutines.Add(NewInputSystem.MoveMouseCycle(location, duration));
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+        coroutines.Add(Input.MoveMouseCycle(location, duration));
+#endif
+        AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+    }
+
     public static void ClickElement(UnityEngine.GameObject target, int count,float interval,Action<Exception> onFinish)
     {
 #if ALTUNITYTESTER
@@ -69,6 +85,8 @@ public class InputController
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
         coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval,false));
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
 #endif
         AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else

@@ -803,11 +803,6 @@ public class Input : MonoBehaviour
         _instance.StartCoroutine(keyUpLifeCycle(keyCode));
     }
 
-    public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(MoveMouseCycle(location, duration), onFinish));
-    }
-
     public static System.Collections.IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
     {
         float time = 0;

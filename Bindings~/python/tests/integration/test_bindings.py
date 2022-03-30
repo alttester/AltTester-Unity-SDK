@@ -1263,7 +1263,7 @@ class TestPythonBindings:
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
 
         capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
-        self.altdriver.move_mouse(capsule_element.get_screen_position(), 1, False)
+        self.altdriver.move_mouse(capsule_element.get_screen_position(), 1, True)
         time.sleep(1.5)
 
         self.altdriver.key_down(AltUnityKeyCode.Mouse0)
@@ -1400,6 +1400,16 @@ class TestPythonBindings:
 
         assert player.get_component_property("AltUnityNIPDebugScript", "wasScrolled", "Assembly-CSharp") is True
 
+    def test_scroll_element_NIS(self):
+        self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity")
+        scrollbar = self.altdriver.find_object(By.NAME, "Handle")
+        scrollbarPosition = scrollbar.get_screen_position()
+        self.altdriver.move_mouse(scrollbarPosition, duration=1, wait=False)
+        self.altdriver.scroll(300, 1, True)
+        scrollbarFinal = self.altdriver.find_object(By.NAME, "Handle")
+        scrollbarPositionFinal = scrollbarFinal.get_screen_position()
+        assert scrollbarPosition != scrollbarPositionFinal
+
     def test_click_element_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
@@ -1411,7 +1421,3 @@ class TestPythonBindings:
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.click(capsule.get_screen_position())
         assert capsule.get_component_property("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp") is True
-
-    # TODO Test with scroll on an UI element
-    # I checked already and it's working with the current implementation
-    # but to write a test for it I need to move the mouse to the UI element
