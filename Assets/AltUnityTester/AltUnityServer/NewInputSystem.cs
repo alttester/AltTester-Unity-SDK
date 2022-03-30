@@ -61,6 +61,30 @@ public class NewInputSystem : MonoBehaviour
         InputTestFixture.Set(Mouse.current.scroll, new Vector2(0, 0));
     }
 
+    internal static IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
+    {
+        float time = 0;
+        Mouse.MakeCurrent();
+        var mousePosition = Mouse.current.position;
+        var distance = location - new UnityEngine.Vector2(mousePosition.x.ReadValue(),mousePosition.y.ReadValue());
+        do
+        {
+            UnityEngine.Vector2 delta;
+            if (time + UnityEngine.Time.unscaledDeltaTime < duration)
+            {
+                delta = distance * UnityEngine.Time.unscaledDeltaTime / duration;
+            }
+            else
+            {
+                delta = location - new UnityEngine.Vector2(mousePosition.x.ReadValue(), mousePosition.y.ReadValue());
+            }
+
+            InputTestFixture.Move(Mouse.current.position,delta);
+            yield return null;
+            time+=UnityEngine.Time.unscaledDeltaTime;
+        } while(time<duration);
+    }
+
     
     internal static IEnumerator ClickElementLifeCycle(GameObject target, int count, float interval)
     {
@@ -93,7 +117,6 @@ public class NewInputSystem : MonoBehaviour
                 yield return new WaitForSecondsRealtime(interval-time);
         }
     }
-
 
 }
 

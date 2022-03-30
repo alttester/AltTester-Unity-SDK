@@ -10,6 +10,7 @@ import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParams;
 import ro.altom.altunitytester.Commands.InputActions.AltMultiPointSwipeParams;
 import ro.altom.altunitytester.Commands.InputActions.AltScrollParams;
 import ro.altom.altunitytester.Commands.InputActions.AltSwipeParams;
+import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParams;
 import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
@@ -77,6 +78,31 @@ public class TestsForNIS {
     }
 
     @Test
+    public void TestScrollElement() throws Exception {
+        loadLevel(scene9);
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                "Handle").build();
+
+        AltUnityObject scrollbar = altUnityDriver.findObject(altFindObjectsParams);
+        Vector2 scrollbarPosition = scrollbar.getScreenPosition();
+
+        AltMoveMouseParams altMoveMouseParams = new AltMoveMouseParams.Builder(scrollbar.getScreenPosition())
+                .withDuration(0.1f).build();
+        altUnityDriver.moveMouse(altMoveMouseParams);
+        Thread.sleep(1000);
+
+        AltScrollParams altScrollParams = new AltScrollParams.Builder().withDuration(1).withSpeed(300)
+                .withWait(true).build();
+        altUnityDriver.scroll(altScrollParams);
+
+        AltFindObjectsParams altFindObjectsParamsFinal = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                "Handle").build();
+        AltUnityObject scrollbarFinal = altUnityDriver.findObject(altFindObjectsParamsFinal);
+        Vector2 scrollbarPositionFinal = scrollbarFinal.getScreenPosition();
+        assertNotEquals(scrollbarPosition, scrollbarPositionFinal);
+
+    }
+
     public void TestClickElement() throws Exception {
         loadLevel(scene11);
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
@@ -114,11 +140,5 @@ public class TestsForNIS {
                         .build(), Boolean.class);
         assertTrue(wasClicked);
     }
-
-    // TODO Test with scroll on an UI element
-    /*
-     * I checked already and it's working with the current implementation but to
-     * write a test for it I need to move the mouse to the UI element
-     */
 
 }

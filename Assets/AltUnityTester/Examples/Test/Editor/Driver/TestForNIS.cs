@@ -36,10 +36,20 @@ public class TestForNIS
         Assert.True(player.GetComponentProperty<bool>("AltUnityNIPDebugScript", "wasScrolled", "Assembly-CSharp"));
     }
 
-    //TODO Test with scroll on an UI element
-    /*
-    I checked already and it's working with the current implementation but to write a test for it I need to move the mouse to the UI element
-    */
+    [Test]
+    public void TestScrollElement()
+    {
+        altUnityDriver.LoadScene(scene9);
+        var scrollbar = altUnityDriver.FindObject(By.NAME, "Handle");
+        var scrollbarPosition = scrollbar.getScreenPosition();
+        altUnityDriver.MoveMouse(scrollbarPosition);
+        altUnityDriver.Scroll(300, 1, true);
+        var scrollbarFinal = altUnityDriver.FindObject(By.NAME, "Handle");
+        var scrollbarPositionFinal = scrollbarFinal.getScreenPosition();        
+        Assert.AreNotEqual(scrollbarPosition.y,scrollbarPositionFinal.y);
+
+    }
+
 
     
         [Test]
