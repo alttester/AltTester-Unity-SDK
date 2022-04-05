@@ -72,16 +72,12 @@ class AssemblyNotFoundException(NotFoundException):
     """Raised when an assembly is not found."""
 
 
-class CallMethodException(AltUnityException):
-    pass
-
-
 class CouldNotPerformOperationException(AltUnityException):
-    pass
+    """Raised when an opperation could not be performed."""
 
 
 class CouldNotParseJsonStringException(AltUnityException):
-    pass
+    """Raised when AltUnity could not parse an JSON command."""
 
 
 class NullReferenceException(AltUnityException):
@@ -89,19 +85,19 @@ class NullReferenceException(AltUnityException):
 
 
 class FailedToParseArgumentsException(AltUnityException):
-    pass
+    """Raised when a method arguments could not be parsed by AltUnity."""
 
 
 class WaitTimeOutException(AltUnityException):
-    """Raised when a command timed out."""
+    """Raised when a wait command times out."""
 
 
 class CommandResponseTimeoutException(AltUnityException):
-    pass
+    """Raised when a command does't send a response in the given time."""
 
 
 class PropertyCannotBeSetException(AltUnityException):
-    pass
+    """Raised when a property could not be found or it's value could not be updated."""
 
 
 class FormatException(AltUnityException):
@@ -109,7 +105,7 @@ class FormatException(AltUnityException):
 
 
 class AltUnityInvalidPathException(AltUnityException):
-    pass
+    """Raised when a command recives an invalid path."""
 
 
 class AltUnityInputModuleException(AltUnityException):
@@ -118,7 +114,3 @@ class AltUnityInputModuleException(AltUnityException):
 
 class UnknownErrorException(AltUnityException):
     """Raised when an unexpected error occurred."""
-
-
-class AltUnityReceiveMessageIdException(AltUnityException):
-    """Raised when an response has different id than the command"""

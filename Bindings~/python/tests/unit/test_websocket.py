@@ -101,12 +101,18 @@ class TestWebsocketConnection:
         assert self.connection._is_open
 
     def test_on_message(self):
-        command_name = "TestCommand"
-        assert not self.connection._store.has(command_name)
+        command = {
+            "messageId": "0",
+            "commandName": "TestCommand"
+        }
 
-        self.connection._on_message(self.connection._websocket, json.dumps({"commandName": command_name}))
+        self.connection._command_handler.set_current_command(command)
+        assert not self.connection._command_handler.has_response()
 
-        assert self.connection._store.has(command_name)
+        self.connection._on_message(self.connection._websocket, json.dumps(command))
+
+        assert self.connection._command_handler.has_response()
+        assert self.connection._command_handler.get_response() == command
 
     def test_on_error(self):
         assert not self.connection._errors
@@ -124,19 +130,21 @@ class TestWebsocketConnection:
         assert self.connection._websocket is None
 
     def test_recv(self):
+        command = {
+            "messageId": "0",
+            "commandName": "TestCommand"
+        }
         self.connection.connect()
         self.connection._websocket = self.websocket_mock
-        self.connection._current_command_name = "TestCommand"
-        self.connection._store.push("TestCommand", mock.sentinel.response)
+        self.connection._command_handler.set_current_command(command)
+        self.connection._command_handler.handle_command(command)
 
         response = self.connection.recv()
 
-        assert response == mock.sentinel.response
+        assert response == command
 
     def test_recv_with_closed_connection(self):
         self.connection._is_open = False
-        self.connection._current_command_name = "TestCommand"
-        self.connection._store.push("TestCommand", mock.sentinel.response)
 
         with pytest.raises(ConnectionError):
             self.connection.recv()
@@ -145,17 +153,23 @@ class TestWebsocketConnection:
         self.connection.connect()
         self.connection._websocket = self.websocket_mock
 
-        command_name = "TestCommand"
-        self.connection.send({"commandName": command_name})
+        command = {
+            "messageId": "0",
+            "commandName": "TestCommand"
+        }
+        self.connection.send(command)
 
-        assert self.connection._current_command_name == command_name
+        assert self.connection._command_handler.get_current_command() == (command["messageId"], command["commandName"])
 
     def test_send_with_close_connection(self):
         self.connection._is_open = False
 
-        command_name = "TestCommand"
+        command = {
+            "messageId": "0",
+            "commandName": "TestCommand"
+        }
 
         with pytest.raises(ConnectionError):
-            self.connection.send({"commandName": command_name})
+            self.connection.send(command)
 
-        assert self.connection._current_command_name != command_name
+        assert self.connection._command_handler.get_current_command() != (command["messageId"], command["commandName"])

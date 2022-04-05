@@ -24,7 +24,7 @@ class AltUnityDriver:
         host (:obj:`str`): The proxy host to connect to.
         port (:obj:`int`): The proxy port to connect to.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
-        timeout (:obj:`float`, optional): The connect timeout time.
+        timeout (:obj:`int`, :obj:`float`, optional): The connect timeout time in seconds.
 
     """
 
@@ -113,8 +113,18 @@ class AltUnityDriver:
 
         self._connection.close()
 
+    def get_command_response_timeout(self):
+        """Gets the current command response timeout for the AltUnity connection.
+
+        Return:
+            int or float: The current command response time.
+
+        """
+
+        return self._connection.set_command_timeout()
+
     def set_command_response_timeout(self, timeout):
-        """Sets the command response timeout for the websocket.
+        """Sets the command response timeout for the AltUnity connection.
 
         Args:
             timeout (:obj:`int` or :obj:`float`): The new comand response timeout in seconds.
@@ -172,8 +182,8 @@ class AltUnityDriver:
 
         Args:
             scene_name (:obj:`str`): The name of the scene to be loaded.
-            load_single (:obj`bool`): Sets the loading mode. If set to ``False`` the scene will be loaded additive,
-                together with the current loaded scenes. Defaults to ``True``.
+            load_single (:obj`bool`, optional): Sets the loading mode. If set to ``False`` the scene will be loaded
+                additive, together with the current loaded scenes. Defaults to ``True``.
 
         """
 
@@ -187,10 +197,10 @@ class AltUnityDriver:
 
         Args:
             scene_name (:obj:`str`): The name of the scene to wait for.
-            timeout (obj:`int` or :obj:`float`): The time measured in seconds to wait for the specified scene.
+            timeout (obj:`int`, :obj:`float`, optional): The time measured in seconds to wait for the specified scene.
                 Defaults to ``30``.
-            interval (obj:`int` or :obj:`float`): How often to check that the scene was loaded in the given timeout.
-                Defaults to ``1``.
+            interval (obj:`int`, :obj:`float`, optional): How often to check that the scene was loaded in the given
+                timeout. Defaults to ``1``.
 
         Returns:
             str: The name of the loaded scene.
@@ -236,7 +246,7 @@ class AltUnityDriver:
         """Sets the value of the time scale.
 
         Args:
-            time_scale (:obj:`float` or :obj:`int`): The value of the time scale.
+            time_scale (:obj:`float`, :obj:`int`): The value of the time scale.
 
         """
 
@@ -293,13 +303,13 @@ class AltUnityDriver:
             by (:obj:`By`): Sets what criteria to use in order to find the object.
             value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
                 not.
-            camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
-            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
-                criteria or not. If no camera is given it will search through all camera that are in the scene until
-                some camera sees the object or return the screen coordinate of the object calculated to the last camera
-                in the scene.
-            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
-                match all objects. Defaults to ``True``.
+            camera_by (:obj:`By`, optional): Set what criteria to use in order to find the camera.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
             AltUnityObject: The object.
@@ -320,13 +330,13 @@ class AltUnityDriver:
             by (:obj:`By`): Sets what criteria to use in order to find the objects.
             value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
                 not.
-            camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
-            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
-                criteria or not. If no camera is given it will search through all camera that are in the scene until
-                some camera sees the object or return the screen coordinate of the object calculated to the last camera
-                in the scene.
-            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
-                match all objects. Defaults to ``True``.
+            camera_by (:obj:`By`, optional): Set what criteria to use in order to find the camera.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
             list of AltUnityObjects: The list of objects.
@@ -347,13 +357,13 @@ class AltUnityDriver:
             by (:obj:`By`): Sets what criteria to use in order to find the object.
             value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
                 not.
-            camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
-            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
-                criteria or not. If no camera is given it will search through all camera that are in the scene until
-                some camera sees the object or return the screen coordinate of the object calculated to the last camera
-                in the scene.
-            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
-                match all objects. Defaults to ``True``.
+            camera_by (:obj:`By`, optional): Set what criteria to use in order to find the camera.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
             AltUnityObject: The object.
@@ -375,10 +385,10 @@ class AltUnityDriver:
             value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
                 not.
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
-            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
-                criteria or not. If no camera is given it will search through all camera that are in the scene until
-                some camera sees the object or return the screen coordinate of the object calculated to the last camera
-                in the scene.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
             enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
                 match all objects. Defaults to ``True``.
 
@@ -401,16 +411,16 @@ class AltUnityDriver:
             by (:obj:`By`): Sets what criteria to use in order to find the object.
             value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
                 not.
-            camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
-            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
-                criteria or not. If no camera is given it will search through all camera that are in the scene until
-                some camera sees the object or return the screen coordinate of the object calculated to the last camera
-                in the scene.
-            timeout (:obj:`int` or :obj:`float`): The number of seconds that it will wait for object.
-            interval (:obj:`int` or :obj:`float`): The number of seconds after which it will try to find the object
-                again. The interval should be smaller than the timeout.
-            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
-                match all objects. Defaults to ``True``.
+            camera_by (:obj:`By`, optional): Set what criteria to use in order to find the camera.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
+            timeout (:obj:`int`, :obj:`float`, optional): The number of seconds that it will wait for object.
+            interval (:obj:`int`, :obj:`float`, optional): The number of seconds after which it will try to find the
+                object again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
             AltUnityObject: The object.
@@ -433,15 +443,15 @@ class AltUnityDriver:
             value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
                 not.
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
-            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
-                criteria or not. If no camera is given it will search through all camera that are in the scene until
-                some camera sees the object or return the screen coordinate of the object calculated to the last camera
-                in the scene.
-            timeout (:obj:`int` or :obj:`float`): The number of seconds that it will wait for object.
-            interval (:obj:`int` or :obj:`float`): The number of seconds after which it will try to find the object
-                again. The interval should be smaller than the timeout.
-            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
-                match all objects. Defaults to ``True``.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
+            timeout (:obj:`int`, :obj:`float`, optional): The number of seconds that it will wait for object.
+            interval (:obj:`int`, :obj:`float`, optional): The number of seconds after which it will try to find the
+                object again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
             AltUnityObject: The object.
@@ -457,23 +467,23 @@ class AltUnityDriver:
 
     def wait_for_object_to_not_be_present(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                           enabled=True):
-        """Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout
-        limit is reached.
+        """Waits until the object in the scene that respects the given criteria is no longer in the scene or until
+        timeout limit is reached.
 
         Args:
             by (:obj:`By`): Sets what criteria to use in order to find the object.
             value (:obj:`str`): The value to which an object will be compared to see if they respect the criteria or
                 not.
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
-            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
-                criteria or not. If no camera is given it will search through all camera that are in the scene until
-                some camera sees the object or return the screen coordinate of the object calculated to the last camera
-                in the scene.
-            timeout (:obj:`int` or :obj:`float`): The number of seconds that it will wait for object.
-            interval (:obj:`int` or :obj:`float`): The number of seconds after which it will try to find the object
-                again. The interval should be smaller than the timeout.
-            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
-                match all objects. Defaults to ``True``.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
+            timeout (:obj:`int`, :obj:`float`, optional): The number of seconds that it will wait for object.
+            interval (:obj:`int`, :obj:`float`, optional): The number of seconds after which it will try to find the
+                object again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
 
         """
 
@@ -488,12 +498,12 @@ class AltUnityDriver:
 
         Args:
             camera_by (:obj:`By`): Set what criteria to use in order to find the camera.
-            camera_value: The value to which all the cameras in the scene will be compared to see if they respect the
-                criteria or not. If no camera is given it will search through all camera that are in the scene until
-                some camera sees the object or return the screen coordinate of the object calculated to the last camera
-                in the scene.
-            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
-                match all objects. Defaults to ``True``.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
             list of AltUnityObjects: The list of objects.
@@ -507,9 +517,9 @@ class AltUnityDriver:
 
         Args:
             coordinates (:obj:`dict`): The screen coordinates
-            duration (:obj:`int`): The time measured in seconds to move the mouse from current position to the
-                set location. Defaults to ``0.1``
-            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+            duration (:obj:`int`, optional): The time measured in seconds to move the mouse from current position to
+                the set location. Defaults to ``0.1``
+            wait (:obj:`bool`, optional): If set wait for command to finish. Defaults to ``True``.
 
         """
 
@@ -519,10 +529,10 @@ class AltUnityDriver:
         """Simulate scroll mouse action in your game.
 
         Args:
-            speed (:obj:`float`): Set how fast to scroll. Positive values will scroll up and negative values will
-                scroll down. Defaults to ``1``
-            duration (:obj:`float`): The duration of the scroll in seconds. Defaults to ``0.1``.
-            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+            speed (:obj:`int`, :obj:`float`): Set how fast to scroll. Positive values will scroll up and negative
+                values will scroll down. Defaults to ``1``
+            duration (:obj:`int`, :obj:`float`, optional): The duration of the scroll in seconds. Defaults to ``0.1``.
+            wait (:obj:`bool`, optional): If set wait for command to finish. Defaults to ``True``.
 
         """
 
@@ -537,9 +547,9 @@ class AltUnityDriver:
 
         Args:
             coordinates (:obj:`dict`): The screen coordinates.
-            count (:obj:`int`): Number of taps. Defaults to ``1``.
-            interval (:obj:`float`): The interval between taps in seconds. Defaults to ``0.1``.
-            wait (:obj:`bool`): If set to ``True`` Wait for command to finish.
+            count (:obj:`int`, optional): Number of taps. Defaults to ``1``.
+            interval (:obj:`int`, :obj:`float`, optional): The interval between taps in seconds. Defaults to ``0.1``.
+            wait (:obj:`bool`, optional): If set to ``True`` Wait for command to finish.
 
         """
 
@@ -550,8 +560,8 @@ class AltUnityDriver:
 
         Args:
             key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be pressed.
-            power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the button was
-                pressed. Defaults to ``1``.
+            power (:obj:`float`, optional): A value between [-1,1] used for joysticks to indicate how hard the button
+                was pressed. Defaults to ``1``.
 
         """
 
@@ -572,10 +582,10 @@ class AltUnityDriver:
 
         Args:
             key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be pressed.
-            power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the button was
-                pressed. Defaults to ``1``.
-            duration (:obj:`float`): The time measured in seconds from the key press to the key release.
-            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+            power (:obj:`int`, :obj:`float`, optional): A value between [-1,1] used for joysticks to indicate how hard
+                the button was pressed. Defaults to ``1``.
+            duration (:obj:`float`, optional): The time measured in seconds from the key press to the key release.
+            wait (:obj:`bool`, optional): If set wait for command to finish. Defaults to ``True``.
 
         """
 
@@ -623,9 +633,9 @@ class AltUnityDriver:
         Args:
             start (:obj:`dict`): Coordinates of the screen where the swipe begins.
             end (:obj:`dict`): Coordinates of the screen where the swipe ends.
-            duration (:obj:`float`): The time measured in seconds to move the mouse from start to end location.
-                Defaults to ``0.1``.
-            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+            duration (:obj:`int`, :obj:`float`, optional): The time measured in seconds to move the mouse from start to
+                end location. Defaults to ``0.1``.
+            wait (:obj:`bool`, optional): If set wait for command to finish. Defaults to ``True``.
 
         """
 
@@ -652,9 +662,9 @@ class AltUnityDriver:
 
         Args:
             coordinates (:obj:`dict`): The screen coordinates.
-            count (:obj:`int`): Number of taps. Defaults to ``1``.
-            interval (:obj:`float`): The interval between taps in seconds. Defaults to ``0.1``.
-            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+            count (:obj:`int`, optional): Number of taps. Defaults to ``1``.
+            interval (:obj:`int`, :obj:`float`, optional): The interval between taps in seconds. Defaults to ``0.1``.
+            wait (:obj:`bool`, optional): If set wait for command to finish. Defaults to ``True``.
 
         """
 
@@ -665,8 +675,9 @@ class AltUnityDriver:
 
         Args:
             acceleration (:obj:`dict`): The linear acceleration of a device.
-            duration (:obj:`float`): How long the rotation will take in seconds. Defaults to ``0.1``.
-            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+            duration (:obj:`int`, :obj:`float`, optional): How long the rotation will take in seconds.
+                Defaults to ``0.1``.
+            wait (:obj:`bool`, optional): If set wait for command to finish. Defaults to ``True``.
 
         """
 
@@ -687,10 +698,12 @@ class AltUnityDriver:
 
         Args:
             coordinates (:obj:`dict`): The coordinates where the button is held down
-            duration (:obj:`float`): The time measured in seconds to keep the button down.. Defaults to ``0.1``.
-            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+            duration ((:obj:`int`, :obj:`float`, optional): The time measured in seconds to keep the button down.
+                Defaults to ``0.1``.
+            wait (:obj:`bool`, optional): If set wait for command to finish. Defaults to ``True``.
 
         """
+
         return commands.Swipe.run(
             self._connection,
             coordinates, coordinates, duration, wait
@@ -703,10 +716,9 @@ class AltUnityDriver:
             component_name (:obj:`str`): The name of the component containing the field or property
                 to be retrieved.
             field_or_property_name (:obj:`str`): The name of the field or property to be retrieved.
-            assembly (:obj:`float`): The name of the assembly containing the component mentioned above.
-            max_depth (:obj:`float`): The value determining how deep to go in the hierarchy of objects
+            assembly (:obj:`str`, optional): The name of the assembly containing the component mentioned above.
+            max_depth (:obj:`int`, optional): The value determining how deep to go in the hierarchy of objects
                 to find the field or property.
-            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
 
         """
 
@@ -722,11 +734,13 @@ class AltUnityDriver:
         and UnityEngine.Physics2D.Raycast and returns the one closer to the camera.
 
         Args:
-            coordinates (:obj:`dict`): The screen coordinates
+            coordinates (:obj:`dict`): The screen coordinates.
 
         Returns:
-            AltUnityObject: The UI object hit by event system Raycast, None otherwise.
+            AltUnityObject: The UI object hit by event system Raycast, ``None`` otherwise.
+
         """
+
         data = commands.FindObjectAtCoordinates.run(self._connection, coordinates)
         return self._get_alt_unity_object(data)
 
@@ -746,9 +760,9 @@ class AltUnityDriver:
         """Activates a notification that the tester will send.
 
         Args:
-            notification_type (:obj:`int`): Flag that indicates which notification to be turned on
-            notification_callback (:obj:`method`): callback used when a notification is received
-            overwrite (:obj:'bool'): Flag to set if the new callback will overwrite the other
+            notification_type (:obj:`int`): Flag that indicates which notification to be turned on.
+            notification_callback (:obj:`method`): callback used when a notification is received.
+            overwrite (:obj:'bool', optional): Flag to set if the new callback will overwrite the other
                 callbacks or just append.
 
         """
