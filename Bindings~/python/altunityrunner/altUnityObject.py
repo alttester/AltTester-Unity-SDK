@@ -12,21 +12,7 @@ class AltUnityObject:
 
     def __init__(self, altdriver, data):
         self._altdriver = altdriver
-
-        self.name = data.get("name", "")
-        self.id = data.get("id", 0)
-        self.x = data.get("x", 0)
-        self.y = data.get("y", 0)
-        self.z = data.get("z", 0)
-        self.mobileY = data.get("mobileY", 0)
-        self.type = data.get("type", "")
-        self.enabled = data.get("enabled", True)
-        self.worldX = data.get("worldX", 0.0)
-        self.worldY = data.get("worldY", 0.0)
-        self.worldZ = data.get("worldZ", 0.0)
-        self.idCamera = data.get("idCamera", 0)
-        self.transformParentId = data.get("transformParentId", "")
-        self.transformId = data.get("transformId", 0)
+        self._data = data
 
     def __repr__(self):
         return "{}(altdriver, {!r})".format(self.__class__.__name__, self.to_json())
@@ -37,6 +23,62 @@ class AltUnityObject:
     @property
     def _connection(self):
         return self._altdriver._connection
+
+    @property
+    def name(self):
+        return self._data.get("name", "")
+
+    @property
+    def id(self):
+        return self._data.get("id", 0)
+
+    @property
+    def x(self):
+        return self._data.get("x", 0)
+
+    @property
+    def y(self):
+        return self._data.get("y", 0)
+
+    @property
+    def z(self):
+        return self._data.get("z", 0)
+
+    @property
+    def mobileY(self):
+        return self._data.get("mobileY", 0)
+
+    @property
+    def type(self):
+        return self._data.get("type", "")
+
+    @property
+    def enabled(self):
+        return self._data.get("enabled", True)
+
+    @property
+    def worldX(self):
+        return self._data.get("worldX", 0.0)
+
+    @property
+    def worldY(self):
+        return self._data.get("worldY", 0.0)
+
+    @property
+    def worldZ(self):
+        return self._data.get("worldZ", 0.0)
+
+    @property
+    def idCamera(self):
+        return self._data.get("idCamera", 0)
+
+    @property
+    def transformParentId(self):
+        return self._data.get("transformParentId", 0)
+
+    @property
+    def transformId(self):
+        return self._data.get("transformId", 0)
 
     def to_json(self):
         return {
@@ -181,7 +223,7 @@ class AltUnityObject:
 
         Args:
             text (obj:`str`): The text to be set.
-            submit (obj:`bool`): The.
+            submit (obj:`bool`): If set will trigger a submit event.
 
         Returns:
             AltUnityObject: The current AltUnityObject.

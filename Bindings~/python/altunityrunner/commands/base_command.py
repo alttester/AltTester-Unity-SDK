@@ -1,10 +1,10 @@
 import abc
+import json
 from datetime import datetime
 from loguru import logger
 
 import altunityrunner.exceptions as exceptions
 from altunityrunner.by import By
-import json
 
 
 EPOCH = datetime.utcfromtimestamp(0)
@@ -185,13 +185,6 @@ class BaseCommand(Command):
         """Wait for a response from the AltUnity."""
 
         response = self.connection.recv()
-        if (
-                response.get("error") is None or
-                response.get("error").get("type") != "invalidCommand"
-            ) and (response.get("messageId") != self._parameters["messageId"] or
-                   response.get("commandName") != self._parameters["commandName"]
-                   ):
-            raise exceptions.AltUnityReceiveMessageIdException()
         self.handle_response(response)
 
         data = response.get("data")
