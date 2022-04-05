@@ -5,9 +5,9 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityTester;
 using UnityEngine;
 
-public class InputController
+public static class InputController
 {
-    protected static IEnumerator runThrowingIterator(
+    private static IEnumerator runThrowingIterator(
            List<IEnumerator> enumerators,
            Action<Exception> done)
     {

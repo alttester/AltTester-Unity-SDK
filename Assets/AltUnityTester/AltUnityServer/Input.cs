@@ -796,21 +796,6 @@ public class Input : MonoBehaviour
         touchCount--;
     }
 
-    public static void KeyPress(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(KeyPressLifeCycle(keyCode, power, duration), onFinish));
-    }
-
-    public static void KeyDown(KeyCode keyCode, float power)
-    {
-        _instance.StartCoroutine(KeyDownLifeCycle(keyCode, power));
-    }
-
-    public static void KeyUp(KeyCode keyCode)
-    {
-        _instance.StartCoroutine(KeyUpLifeCycle(keyCode));
-    }
-
     public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
     {
         _instance.StartCoroutine(runThrowingIterator(MoveMouseCycle(location, duration), onFinish));

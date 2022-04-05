@@ -14,7 +14,7 @@ namespace Altom.AltUnityTester.Commands
 
         public override string Execute()
         {
-            var powerClamped = Mathf.Clamp01(CommandParams.power);
+            var powerClamped = Mathf.Clamp(CommandParams.power, -1, 1);
             InputController.PressKey((UnityEngine.KeyCode)CommandParams.keyCode, CommandParams.power, CommandParams.duration, onFinish);
             return "Ok";
         }
