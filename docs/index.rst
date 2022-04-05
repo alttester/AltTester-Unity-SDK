@@ -43,8 +43,8 @@ Documentation
    :caption: Community:
    :hidden:
 
-    Discord <https://discord.gg/Ag9RSuS>
-    Google Group <https://groups.google.com/a/altom.com/forum/#!forum/altunityforum>
+   Discord <https://discord.gg/Ag9RSuS>
+   Google Group <https://groups.google.com/a/altom.com/forum/#!forum/altunityforum>
 
 
 .. toctree::
