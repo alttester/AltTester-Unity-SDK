@@ -3,7 +3,7 @@
 <details>
 <summary> On what platforms can I run tests with AltUnity Tester? </summary>
 <br>
-<strong>Answer:</strong> PC, Mac, Android, iOS and Unity Editor; support for WebGL and Consoles is work in progress. 
+PC, Mac, Android, iOS and Unity Editor; support for WebGL and Consoles is work in progress. 
 </details>
 <br>
 
