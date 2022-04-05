@@ -427,6 +427,7 @@ dev-docs:
   tags:
     - unity
     - mac
+    - docs
   script:
     - cd docs
     - find . -type f ! -name 'license.md' -exec sed -i '' "s#https://altom.com#${DEV_DOCUMENTATION_URL}#g" {} \;
