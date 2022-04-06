@@ -46,33 +46,32 @@ public class TestForNIS
         altUnityDriver.MoveMouse(scrollbarPosition);
         altUnityDriver.Scroll(300, 1, true);
         var scrollbarFinal = altUnityDriver.FindObject(By.NAME, "Handle");
-        var scrollbarPositionFinal = scrollbarFinal.getScreenPosition();        
-        Assert.AreNotEqual(scrollbarPosition.y,scrollbarPositionFinal.y);
+        var scrollbarPositionFinal = scrollbarFinal.getScreenPosition();
+        Assert.AreNotEqual(scrollbarPosition.y, scrollbarPositionFinal.y);
 
     }
 
 
-    
-        [Test]
-        public void TestClickObject()
-        {
-            altUnityDriver.LoadScene(scene11);
-            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            capsule.Click();
-            Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
-            
-        }
 
-        [Test]
-        public void TestClickCoordinates()
-        {
-            altUnityDriver.LoadScene(scene11);
-            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            altUnityDriver.Click(new AltUnityVector2(capsule.x, capsule.y));
-            Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
+    [Test]
+    public void TestClickObject()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.Click();
+        Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
 
-        }
-       
+    }
+
+    [Test]
+    public void TestClickCoordinates()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        altUnityDriver.Click(new AltUnityVector2(capsule.x, capsule.y));
+        Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
+
+    }
 
     [Test]
     public void TestKeyDownAndKeyUp()
@@ -90,10 +89,12 @@ public class TestForNIS
                 altUnityDriver.KeyUp(altUnityKeyCode);
                 string mouseControl = null;
                 var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyPressed", "Assembly-CSharp");
+                var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyReleased", "Assembly-CSharp");
                 foreach (var e in AltUnityKeyMapping.mouseKeyCodeToButtonControl)
                     if ((AltUnityKeyCode)e.Key == altUnityKeyCode)
                         mouseControl = e.Value.displayName;
-                Assert.AreEqual(mouseControl, keyPressed);
+                Assert.AreEqual(keyPressed, mouseControl);
+                Assert.AreEqual(keyReleased, mouseControl);
             }
         for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.JoystickButton0; altUnityKeyCode <= AltUnityKeyCode.JoystickButton19; altUnityKeyCode++)
             joystickKeyDownAndUp(player, altUnityKeyCode, 1);
@@ -108,13 +109,16 @@ public class TestForNIS
             altUnityDriver.KeyDown(altUnityKeyCode);
             altUnityDriver.KeyUp(altUnityKeyCode);
             var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyPressed", "Assembly-CSharp");
+            var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyReleased", "Assembly-CSharp");
             string keyControl = null;
             foreach (var e in AltUnityKeyMapping.StringToKeyCode)
                 if ((AltUnityKeyCode)e.Value == altUnityKeyCode)
-                    foreach (var e2 in AltUnityKeyMapping.StringToKey)
-                        if (e2.Key.Equals(e.Key))
-                            keyControl = e2.Value.ToString();
-            Assert.AreEqual(keyControl, keyPressed);
+                {
+                    keyControl = AltUnityKeyMapping.StringToKey[e.Key].ToString();
+                    break;
+                }
+            Assert.AreEqual(keyPressed, keyControl);
+            Assert.AreEqual(keyReleased, keyControl);
         }
     }
 
@@ -123,10 +127,17 @@ public class TestForNIS
         altUnityDriver.KeyDown(altUnityKeyCode, power);
         altUnityDriver.KeyUp(altUnityKeyCode);
         var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyPressed", "Assembly-CSharp");
+        var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyReleased", "Assembly-CSharp");
+        string joystickControl = null;
         var altUnityKeyMapping = new AltUnityKeyMapping(power);
         foreach (var e in altUnityKeyMapping.joystickKeyCodeToGamepad)
             if ((AltUnityKeyCode)e.Key == altUnityKeyCode)
-                Assert.AreEqual(keyPressed, e.Value.displayName);
+            {
+                joystickControl = e.Value.displayName;
+                break;
+            }
+        Assert.AreEqual(keyPressed, joystickControl);
+        Assert.AreEqual(keyReleased, joystickControl);
     }
 
     [Test]
@@ -144,10 +155,15 @@ public class TestForNIS
                 altUnityDriver.PressKey(altUnityKeyCode);
                 string mouseControl = null;
                 var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyPressed", "Assembly-CSharp");
+                var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyReleased", "Assembly-CSharp");
                 foreach (var e in AltUnityKeyMapping.mouseKeyCodeToButtonControl)
                     if ((AltUnityKeyCode)e.Key == altUnityKeyCode)
+                    {
                         mouseControl = e.Value.displayName;
-                Assert.AreEqual(mouseControl, keyPressed);
+                        break;
+                    }
+                Assert.AreEqual(keyPressed, mouseControl);
+                Assert.AreEqual(keyReleased, mouseControl);
             }
         for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.JoystickButton0; altUnityKeyCode <= AltUnityKeyCode.JoystickButton19; altUnityKeyCode++)
             joystickKeyPress(player, altUnityKeyCode, 1);
@@ -161,13 +177,16 @@ public class TestForNIS
         {
             altUnityDriver.PressKey(altUnityKeyCode);
             var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyPressed", "Assembly-CSharp");
+            var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyReleased", "Assembly-CSharp");
             string keyControl = null;
             foreach (var e in AltUnityKeyMapping.StringToKeyCode)
                 if ((AltUnityKeyCode)e.Value == altUnityKeyCode)
-                    foreach (var e2 in AltUnityKeyMapping.StringToKey)
-                        if (e2.Key.Equals(e.Key))
-                            keyControl = e2.Value.ToString();
-            Assert.AreEqual(keyControl, keyPressed);
+                {
+                    keyControl = AltUnityKeyMapping.StringToKey[e.Key].ToString();
+                    break;
+                }
+            Assert.AreEqual(keyPressed, keyControl);
+            Assert.AreEqual(keyReleased, keyControl);
         }
     }
 
@@ -175,10 +194,17 @@ public class TestForNIS
     {
         altUnityDriver.PressKey(altUnityKeyCode, power);
         var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyPressed", "Assembly-CSharp");
+        var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "keyReleased", "Assembly-CSharp");
+        string joystickControl = null;
         var altUnityKeyMapping = new AltUnityKeyMapping(power);
         foreach (var e in altUnityKeyMapping.joystickKeyCodeToGamepad)
             if ((AltUnityKeyCode)e.Key == altUnityKeyCode)
-                Assert.AreEqual(keyPressed, e.Value.displayName);
+            {
+                joystickControl = e.Value.displayName;
+                break;
+            }
+        Assert.AreEqual(keyPressed, joystickControl);
+        Assert.AreEqual(keyReleased, joystickControl);
     }
 
 }

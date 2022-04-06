@@ -10,6 +10,8 @@ namespace Altom.AltUnityTester
 {
     public class NewInputSystem : MonoBehaviour
     {
+        private static float keyDownPower;
+
         public static InputTestFixture InputTestFixture = new InputTestFixture();
         public static NewInputSystem Instance;
         public static Keyboard Keyboard;
@@ -119,63 +121,38 @@ namespace Altom.AltUnityTester
             }
         }
 
-        internal static void KeyDownLifeCycle(KeyCode keyCode, float power)
+        internal static void KeyDown(KeyCode keyCode, float power)
         {
+            keyDownPower = power;
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
             if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
-            {
-                if (buttonControl == Gamepad.current.leftStick.up)
-                    InputTestFixture.Set(Gamepad.current.leftStick.y, power);
-                else if (buttonControl == Gamepad.current.leftStick.down)
-                    InputTestFixture.Set(Gamepad.current.leftStick.y, power);
-                else if (buttonControl == Gamepad.current.leftStick.right)
-                    InputTestFixture.Set(Gamepad.current.leftStick.x, power);
-                else if (buttonControl == Gamepad.current.leftStick.left)
-                    InputTestFixture.Set(Gamepad.current.leftStick.x, power);
-                else if (buttonControl == Gamepad.current.rightStick.up)
-                    InputTestFixture.Set(Gamepad.current.rightStick.y, power);
-                else if (buttonControl == Gamepad.current.rightStick.down)
-                    InputTestFixture.Set(Gamepad.current.rightStick.y, power);
-                else if (buttonControl == Gamepad.current.rightStick.right)
-                    InputTestFixture.Set(Gamepad.current.rightStick.x, power);
-                else if (buttonControl == Gamepad.current.rightStick.left)
-                    InputTestFixture.Set(Gamepad.current.rightStick.x, power);
-            }
+                setStick(power, buttonControl);
             else
                 InputTestFixture.Press(buttonControl);
         }
 
-        internal static void KeyUpLifeCycle(KeyCode keyCode)
-           => InputTestFixture.Release(keyCodeToButtonControl(keyCode));
+        internal static void KeyUp(KeyCode keyCode)
+        {
+            ButtonControl buttonControl = keyCodeToButtonControl(keyCode, keyDownPower);
+            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
+                setStick(0, buttonControl);
+            else
+                InputTestFixture.Release(buttonControl);
+        }
 
         internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
         {
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
             yield return null;
             if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
-            {
-                if (buttonControl == Gamepad.current.leftStick.up)
-                    InputTestFixture.Set(Gamepad.current.leftStick.y, power);
-                else if (buttonControl == Gamepad.current.leftStick.down)
-                    InputTestFixture.Set(Gamepad.current.leftStick.y, power);
-                else if (buttonControl == Gamepad.current.leftStick.right)
-                    InputTestFixture.Set(Gamepad.current.leftStick.x, power);
-                else if (buttonControl == Gamepad.current.leftStick.left)
-                    InputTestFixture.Set(Gamepad.current.leftStick.x, power);
-                else if (buttonControl == Gamepad.current.rightStick.up)
-                    InputTestFixture.Set(Gamepad.current.rightStick.y, power);
-                else if (buttonControl == Gamepad.current.rightStick.down)
-                    InputTestFixture.Set(Gamepad.current.rightStick.y, power);
-                else if (buttonControl == Gamepad.current.rightStick.right)
-                    InputTestFixture.Set(Gamepad.current.rightStick.x, power);
-                else if (buttonControl == Gamepad.current.rightStick.left)
-                    InputTestFixture.Set(Gamepad.current.rightStick.x, power);
-            }
+                setStick(power, buttonControl);
             else
-
                 InputTestFixture.Press(buttonControl);
             yield return new WaitForSeconds(duration);
-            InputTestFixture.Release(buttonControl);
+            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
+                setStick(0, buttonControl);
+            else
+                InputTestFixture.Release(buttonControl);
         }
 
         #region private interface
@@ -183,9 +160,7 @@ namespace Altom.AltUnityTester
         {
             foreach (var e in AltUnityKeyMapping.StringToKeyCode)
                 if (e.Value == keyCode)
-                    foreach (var e2 in AltUnityKeyMapping.StringToKey)
-                        if (e2.Key.Equals(e.Key))
-                            return Keyboard.current[e2.Value];
+                    return Keyboard.current[AltUnityKeyMapping.StringToKey[e.Key]];
             foreach (var e in AltUnityKeyMapping.mouseKeyCodeToButtonControl)
                 if (e.Key == keyCode)
                     return e.Value;
@@ -194,6 +169,26 @@ namespace Altom.AltUnityTester
                 if (e.Key == keyCode)
                     return e.Value;
             return null;
+        }
+
+        private static void setStick(float value, ButtonControl buttonControl)
+        {
+            if (buttonControl == Gamepad.current.leftStick.up)
+                InputTestFixture.Set(Gamepad.current.leftStick.y, value);
+            else if (buttonControl == Gamepad.current.leftStick.down)
+                InputTestFixture.Set(Gamepad.current.leftStick.y, value);
+            else if (buttonControl == Gamepad.current.leftStick.right)
+                InputTestFixture.Set(Gamepad.current.leftStick.x, value);
+            else if (buttonControl == Gamepad.current.leftStick.left)
+                InputTestFixture.Set(Gamepad.current.leftStick.x, value);
+            else if (buttonControl == Gamepad.current.rightStick.up)
+                InputTestFixture.Set(Gamepad.current.rightStick.y, value);
+            else if (buttonControl == Gamepad.current.rightStick.down)
+                InputTestFixture.Set(Gamepad.current.rightStick.y, value);
+            else if (buttonControl == Gamepad.current.rightStick.right)
+                InputTestFixture.Set(Gamepad.current.rightStick.x, value);
+            else if (buttonControl == Gamepad.current.rightStick.left)
+                InputTestFixture.Set(Gamepad.current.rightStick.x, value);
         }
         #endregion
     }
