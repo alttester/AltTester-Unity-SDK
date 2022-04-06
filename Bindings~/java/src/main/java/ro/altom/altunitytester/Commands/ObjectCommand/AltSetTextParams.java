@@ -3,12 +3,32 @@ package ro.altom.altunitytester.Commands.ObjectCommand;
 import ro.altom.altunitytester.AltUnityObject;
 
 public class AltSetTextParams extends AltUnityObjectParams {
-
     private String newText;
+    private boolean submit = true;
 
-    public AltSetTextParams(String newText, AltUnityObject altUnityObject) {
-        this.setNewText(newText);
-        super.altUnityObject = altUnityObject;
+    public static class Builder {
+        private String newText;
+        private boolean submit = true;
+
+        public Builder(String newText) {
+            this.newText = newText;
+        }
+
+        public Builder withSubmit(boolean submit) {
+            this.submit = submit;
+            return this;
+        }
+
+        public AltSetTextParams build() {
+            AltSetTextParams altSetTextParams = new AltSetTextParams();
+            altSetTextParams.newText = this.newText;
+            altSetTextParams.submit = this.submit;
+
+            return altSetTextParams;
+        }
+    }
+
+    private AltSetTextParams() {
     }
 
     public String getNewText() {
@@ -17,5 +37,13 @@ public class AltSetTextParams extends AltUnityObjectParams {
 
     public void setNewText(String newText) {
         this.newText = newText;
+    }
+
+    public boolean getSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(boolean submit) {
+        this.submit = submit;
     }
 }

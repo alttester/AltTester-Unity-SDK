@@ -17,6 +17,7 @@ namespace Altom.AltUnityTester.Commands
 #if ALTUNITYTESTER
             Input.EndTouch(CommandParams.fingerId);
             return "Ok";
+
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif

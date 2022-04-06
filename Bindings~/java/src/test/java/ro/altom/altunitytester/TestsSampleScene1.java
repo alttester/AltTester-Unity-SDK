@@ -23,6 +23,7 @@ import ro.altom.altunitytester.Commands.ObjectCommand.AltCallComponentMethodPara
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltSetTextParams;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParams;
 import ro.altom.altunitytester.Commands.UnityCommand.AltSetTimeScaleParams;
 import ro.altom.altunitytester.Commands.UnityCommand.AltUnloadSceneParams;
@@ -742,12 +743,24 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void TestSetTextFunction() {
+    public void TestSetText() {
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "NonEnglishText").build();
         AltUnityObject textObject = altUnityDriver.findObject(altFindObjectsParameters1);
         String originalText = textObject.getText();
         String afterText = textObject.setText("ModifiedText").getText();
+        assertNotEquals(originalText, afterText);
+    }
+
+    @Test
+    public void TestSetTextWithSubmit() {
+        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                AltUnityDriver.By.NAME, "NonEnglishText").build();
+        AltUnityObject textObject = altUnityDriver.findObject(altFindObjectsParameters1);
+        String originalText = textObject.getText();
+
+        AltSetTextParams setTextParams = new AltSetTextParams.Builder("ModifiedText").withSubmit(true).build();
+        String afterText = textObject.setText(setTextParams).getText();
         assertNotEquals(originalText, afterText);
     }
 
@@ -1308,7 +1321,7 @@ public class TestsSampleScene1 {
                         .build());
         assertEquals("Text", element.name);
     }
-    
+
     @Test
     public void testFindElementAtCoordinates_NoElement() {
         AltUnityObject element = altUnityDriver.findObjectAtCoordinates(

@@ -80,7 +80,6 @@ public class MessageHandler implements IMessageHandler {
             if (messageIdTimeout.contains(responseMessage.messageId)) {
                 continue;
             }
-
             if ((responseMessage.error == null || responseMessage.error.type != AltUnityErrors.errorInvalidCommand)
                     && (!responseMessage.messageId.equals(data.messageId())
                             || !responseMessage.commandName.equals(data.getCommandName()))) {

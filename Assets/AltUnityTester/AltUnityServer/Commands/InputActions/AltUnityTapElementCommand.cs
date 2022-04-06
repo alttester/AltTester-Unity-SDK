@@ -23,7 +23,6 @@ namespace Altom.AltUnityTester.Commands
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
-
         }
     }
 }

@@ -20,15 +20,15 @@ Documentation
 .. rst-class:: toc
 
 
-*  `AltUnity Tester <https://altom.gitlab.io/altunity/altunitytester/tester.html>`_
+*  `AltUnity Tester <https://altom.com/altunity/docs/altunitytester/tester.html>`_
 
-   *  `Overview <https://altom.gitlab.io/altunity/altunitytester/pages/overview.html>`_
-   *  `Get Started <https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html>`_
+   *  `Overview <https://altom.com/altunity/docs/altunitytester/pages/overview.html>`_
+   *  `Get Started <https://altom.com/altunity/docs/altunitytester/pages/get-started.html>`_
 
-*  `AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector/inspector.html>`_
+*  `AltUnity Inspector <https://altom.com/altunity/docs/altunityinspector/inspector.html>`_
 
-   *  `Overview <https://altom.gitlab.io/altunity/altunityinspector/pages/overview.html>`__
-   *  `Get Started <https://altom.gitlab.io/altunity/altunityinspector/pages/get-started.html>`__
+   *  `Overview <https://altom.com/altunity/docs/altunityinspector/pages/overview.html>`__
+   *  `Get Started <https://altom.com/altunity/docs/altunityinspector/pages/get-started.html>`__
 
 
 .. toctree::
@@ -36,15 +36,15 @@ Documentation
    :hidden:
 
    tester
-   AltUnity Inspector <https://altom.gitlab.io/altunity/altunityinspector/inspector.html>
+   AltUnity Inspector <https://altom.com/altunity/docs/altunityinspector/inspector.html>
 
 
 .. toctree::
    :caption: Community:
    :hidden:
 
-    Discord <https://discord.gg/Ag9RSuS>
-    Google Group <https://groups.google.com/a/altom.com/forum/#!forum/altunityforum>
+   Discord <https://discord.gg/Ag9RSuS>
+   Google Group <https://groups.google.com/a/altom.com/forum/#!forum/altunityforum>
 
 
 .. toctree::

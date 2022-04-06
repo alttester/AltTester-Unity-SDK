@@ -2997,9 +2997,11 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
             String name = "InputField";
             String text = "InputFieldTest";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject input = altUnityDriver.findObject(altFindObjectsParams).setText(text);
-            assertNotNull(input);
-            assertEquals(input.getText(), text);
+            AltUnityObject altObject = altUnityDriver.findObject(altFindObjectsParams);
+            AltSetTextParams setTextParams = new AltSetTextParams.Builder(text).withSubmit(true).build();
+            altObject.setText(setTextParams);
+            assertNotNull(altObject);
+            assertEquals(altObject.getText(), text);
         }
 
     .. code-tab:: py

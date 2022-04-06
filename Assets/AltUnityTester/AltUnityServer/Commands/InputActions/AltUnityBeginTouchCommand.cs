@@ -11,7 +11,6 @@ namespace Altom.AltUnityTester.Commands
         }
         public override int Execute()
         {
-
 #if ALTUNITYTESTER
             return Input.BeginTouch(CommandParams.coordinates.ToUnity());
 #else

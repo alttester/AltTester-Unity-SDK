@@ -39,7 +39,7 @@ class Store:
 
 
 class NotificationHandler:
-    """Handles the parsing of messages from AltUnity."""
+    """Handles the parsing of the notification messages from AltUnity."""
 
     def __init__(self):
         self._notification_callbacks = defaultdict(list)
@@ -85,6 +85,45 @@ class NotificationHandler:
         self._notification_callbacks[notification_type].clear()
 
 
+class CommandHandler:
+    """Handles the parsing of command messages from AltUnity."""
+
+    def __init__(self):
+        self._store = Store()
+
+        self._current_command = None
+        self._timeout_commands = []
+
+    def __repr__(self):
+        return "{}()".format(self.__class__.__name__)
+
+    def set_current_command(self, message):
+        self._current_command = (message.get("messageId"), message.get("commandName"))
+
+    def get_current_command(self):
+        return self._current_command
+
+    def timeout(self):
+        """Mark the current command as timedout."""
+
+        self._timeout_commands.append(self._current_command)
+
+    def handle_command(self, message):
+        command = (message.get("messageId"), message.get("commandName"))
+
+        # Skip messages for commands that timedout
+        if command in self._timeout_commands:
+            return
+
+        self._store.push(command, message)
+
+    def has_response(self):
+        return self._store.has(self._current_command)
+
+    def get_response(self):
+        return self._store.pop(self._current_command)
+
+
 class WebsocketConnection:
     """Handles the websocket connection with AltUnity.
 
@@ -104,16 +143,13 @@ class WebsocketConnection:
         self.command_timeout = 60
         self.delay = 0.1
 
-        self._message_id_timeouts = []
-        self._current_command_name = None
-        self._current_command_id = None
-        self._store = Store()
         self._errors = deque()
 
         self._thread = None
         self._websocket = None
         self._is_open = False
 
+        self._command_handler = CommandHandler()
         self._notification_handler = NotificationHandler()
 
     def __repr__(self):
@@ -123,9 +159,6 @@ class WebsocketConnection:
             self.port,
             self.timeout,
         )
-
-    def set_command_timeout(self, timeout):
-        self.command_timeout = timeout
 
     def _create_connection(self):
         # TODO: Enable and disable the trace based on an environment variable or config option
@@ -156,14 +189,10 @@ class WebsocketConnection:
         logger.debug("Received: {}", message)
         response = json.loads(message)
 
-        # Skip messages for commands that timedout
-        if response.get("messageId") in self._message_id_timeouts:
-            return
-
         if response.get("isNotification"):
             self._notification_handler.handle_notification(response)
         else:
-            self._store.push(response.get("commandName"), response)
+            self._command_handler.handle_command(response)
 
     def _on_error(self, ws, error):
         """A callback which is called when the connection gets an error."""
@@ -188,6 +217,12 @@ class WebsocketConnection:
 
         logger.debug("Connection oppend successfully.")
         self._is_open = True
+
+    def set_command_timeout(self, timeout):
+        self.command_timeout = timeout
+
+    def get_command_timeout(self):
+        return self.command_timeout
 
     def connect(self):
         logger.info("Connecting to host: {} port: {}.", self.host, self.port)
@@ -218,12 +253,11 @@ class WebsocketConnection:
 
     def send(self, data):
         self._ensure_connection_is_open()
-        self._current_command_name = data.get("commandName")
-        self._current_command_id = data.get("messageId")
 
         message = json.dumps(data)
         logger.debug("Sent: {}", message)
 
+        self._command_handler.set_current_command(data)
         self._websocket.send(message)
 
     def recv(self):
@@ -232,14 +266,14 @@ class WebsocketConnection:
         delay = 0.1
 
         while elapsed_time <= self.command_timeout:
-            if self._store.has(self._current_command_name):
-                return self._store.pop(self._current_command_name)
+            if self._command_handler.has_response():
+                return self._command_handler.get_response()
 
             elapsed_time += delay
             time.sleep(delay)
 
         if elapsed_time > self.command_timeout:
-            self._message_id_timeouts.append(self._current_command_id)
+            self._command_handler.timeout()
             raise CommandResponseTimeoutException()
 
     def close(self):
@@ -253,11 +287,10 @@ class WebsocketConnection:
             self._thread.join(0)
             self._thread = None
 
-        self._message_id_timeouts = []
         self._errors = []
         self._is_open = False
 
-    def add_notification_listener(self, notification_type, callback, overwrite):
+    def add_notification_listener(self, notification_type, callback, overwrite=False):
         self._notification_handler.add_notification_listener(notification_type, callback, overwrite=overwrite)
 
     def remove_notification_listener(self, notification_type):

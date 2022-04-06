@@ -424,7 +424,20 @@ dev-docs:
   only:
     refs:
       - master
-  trigger: altom/altunity/altunitytester-dev
+  tags:
+    - unity
+    - mac
+    - docs
+  script:
+    - cd docs
+    - find . -type f ! -name 'license.md' -exec sed -i '' "s#https://altom.com#${DEV_DOCUMENTATION_URL}#g" {} \;
+    - *initialize_python_venv
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - make clean
+    - make html
+    - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 34168  "rm -rf ${DOCUMENTATION_PATH}/*"
+    - scp -r -P 34168 -o 'StrictHostKeyChecking no' _build/html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
 
 pages:
   stage: deploy

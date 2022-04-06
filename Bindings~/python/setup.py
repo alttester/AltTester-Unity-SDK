@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 
+
 NAME = 'altunityrunner'
 DESCRIPTION = "Python bindings for the AltUnity Tester framework. AltUnity Tester is an open-source UI driven test " \
     "automation tool that helps you find objects in your game and interacts with them."

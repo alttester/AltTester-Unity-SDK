@@ -8,8 +8,10 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityTester;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Scripting;
 using Altom.AltUnityTester.InputModule;
 
+[Preserve]
 public class Input : MonoBehaviour
 {
     private static bool _useCustomInput;
@@ -693,18 +695,10 @@ public class Input : MonoBehaviour
     {
         _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, true), onFinish));
     }
-    public static void ClickElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, false), onFinish));
-    }
 
     public static void TapCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
     {
         _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, true), onFinish));
-    }
-    public static void ClickCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, false), onFinish));
     }
 
     public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
@@ -1035,7 +1029,9 @@ public class Input : MonoBehaviour
         return firstRaycastResult.gameObject;
     }
 
-    private static IEnumerator tapClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval, bool tap)
+
+
+    internal static IEnumerator tapClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval, bool tap)
     {
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {
@@ -1102,7 +1098,7 @@ public class Input : MonoBehaviour
         if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
-    private static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
+    internal static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
     {
         UnityEngine.Vector3 screenPosition;
         AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);

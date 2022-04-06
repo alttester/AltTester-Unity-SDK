@@ -147,8 +147,13 @@ namespace Altom.AltUnityTesterEditor
             UnityEngine.Debug.Log("AltUnityTester - Unity Package creation started...");
             var version = AltUnityRunner.VERSION.Replace('.', '_');
             string packageName = "AltUnityTester_" + version + ".unitypackage";
-            string assetPathNames = "Assets/AltUnityTester";
-            UnityEditor.AssetDatabase.ExportPackage(assetPathNames, packageName, UnityEditor.ExportPackageOptions.Recurse);
+            string assetPathName = "Assets/AltUnityTester";
+
+            // add all paths inside AltUnityTester except examples
+            var assetPathNames = Directory.GetDirectories(assetPathName).Where(dir => !dir.EndsWith("Examples")).ToList();
+            assetPathNames.AddRange(Directory.GetFiles(assetPathName));
+
+            UnityEditor.AssetDatabase.ExportPackage(assetPathNames.ToArray(), packageName, UnityEditor.ExportPackageOptions.Recurse);
             UnityEngine.Debug.Log("AltUnityTester - Unity Package done.");
         }
 
