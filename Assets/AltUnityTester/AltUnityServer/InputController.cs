@@ -113,50 +113,50 @@ namespace Altom.AltUnityTester
 #endif
         }
 
-    }
 
-    public static void KeyDown(KeyCode keyCode, float power)
-    {
+        public static void KeyDown(KeyCode keyCode, float power)
+        {
 #if ALTUNITYTESTER
 #if ENABLE_INPUT_SYSTEM
-        NewInputSystem.KeyDownLifeCycle(keyCode, power);
+            NewInputSystem.KeyDownLifeCycle(keyCode, power);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-        AltUnityRunner._altUnityRunner.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
+            AltUnityRunner._altUnityRunner.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
 #endif
 #else
         throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
-    }
+        }
 
-    public static void KeyUp(KeyCode keyCode)
-    {
+        public static void KeyUp(KeyCode keyCode)
+        {
 #if ALTUNITYTESTER
 #if ENABLE_INPUT_SYSTEM
-        NewInputSystem.KeyUpLifeCycle(keyCode);
+            NewInputSystem.KeyUpLifeCycle(keyCode);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-        AltUnityRunner._altUnityRunner.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
+            AltUnityRunner._altUnityRunner.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
 #endif
 #else
         throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
-    }
+        }
 
-    public static void PressKey(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
-    {
+        public static void PressKey(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
+        {
 #if ALTUNITYTESTER
-        List<IEnumerator> coroutines = new List<IEnumerator>();
+            List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
-        coroutines.Add(NewInputSystem.KeyPressLifeCycle(keyCode, power, duration));
+            coroutines.Add(NewInputSystem.KeyPressLifeCycle(keyCode, power, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-        coroutines.Add(Input.KeyPressLifeCycle(keyCode, power, duration));
+            coroutines.Add(Input.KeyPressLifeCycle(keyCode, power, duration));
 #endif
-        AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
         throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
-    }
+        }
 
+    }
 }
