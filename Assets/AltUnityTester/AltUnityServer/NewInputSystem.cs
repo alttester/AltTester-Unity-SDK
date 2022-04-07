@@ -23,7 +23,6 @@ namespace Altom.AltUnityTester
             if (Instance == null)
                 Instance = this;
             InputTestFixture = new InputTestFixture();
-            InputTestFixture.Setup();
             Keyboard = (Keyboard)InputSystem.GetDevice("AltUnityKeyboard");
             if (Keyboard == null)
             {
