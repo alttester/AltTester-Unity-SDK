@@ -2697,9 +2697,7 @@ The **AltUnityObject** class represents the objects present in the game and it a
 
 The available methods are the following:
 
-### Object Commands
-
-#### CallComponentMethod
+### CallComponentMethod
 
 Invokes a method from an existing component of the object.
 
@@ -2769,7 +2767,7 @@ Invokes a method from an existing component of the object.
 
 ```
 
-#### GetComponentProperty
+### GetComponentProperty
 
 Returns the value of the given component property.
 
@@ -2828,7 +2826,7 @@ Returns the value of the given component property.
 
 ```
 
-#### SetComponentProperty
+### SetComponentProperty
 
 Sets value of the given component property.
 
@@ -2894,7 +2892,7 @@ Sets value of the given component property.
 
 ```
 
-#### GetText
+### GetText
 
 Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
 
@@ -2957,7 +2955,7 @@ None
 
 ```
 
-#### SetText
+### SetText
 
 Sets text value for a Button, Text, InputField. This also works with TextMeshPro elements.
 
@@ -3016,7 +3014,7 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 ```
 
-#### Tap
+### Tap
 
 Tap current object
 
@@ -3076,7 +3074,7 @@ Tap current object
 
 ```
 
-#### Click
+### Click
 
 Click current object
 
@@ -3136,7 +3134,7 @@ Click current object
 
 ```
 
-#### PointerDown
+### PointerDown
 
 Simulates pointer down action on the object.
 
@@ -3193,7 +3191,7 @@ None
 
 ```
 
-#### PointerUp
+### PointerUp
 
 Simulates pointer up action on the object.
 
@@ -3256,7 +3254,7 @@ None
 
 ```
 
-#### PointerEnter
+### PointerEnter
 
 Simulates pointer enter action on the object.
 
@@ -3324,7 +3322,7 @@ None
 
 ```
 
-#### PointerExit
+### PointerExit
 
 Simulates pointer exit action on the object.
 
@@ -3392,7 +3390,7 @@ None
             self.assertEqual(color1, color3)
 ```
 
-#### GetParent
+### GetParent
 
 Returns the parent of the AltUnity object on which it is called.
 
