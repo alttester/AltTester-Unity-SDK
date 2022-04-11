@@ -11,34 +11,34 @@ We plan to add more examples in the near future.
 
 ```
 
-## **1.** Example test projects created for different languages and platforms:
+**1.** Example test projects created for different languages and platforms:
 
-* C# tests [Standalone Build(NuGetPackage) | ](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-csharp)[Android Build | ](https://gitlab.com/altom/altunity/examples/android-build-with-csharp-tests)[iOS Build](https://gitlab.com/altom/altunity/examples/ios-build-with-csharp-tests)
-* Python tests [Standalone Build | ](https://gitlab.com/altom/altunity/examples/standalone-build-with-python-tests)[Android Build | ](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python)[iOS Build ](https://gitlab.com/altom/altunity/examples/ios-build-with-python-tests)
-* Java tests [Standalone Build | ](https://gitlab.com/altom/altunity/examples/standalone-and-android-build-with-java-tests)[Android Build | ](https://gitlab.com/altom/altunity/examples/standalone-and-android-build-with-java-tests)[iOS Build](https://gitlab.com/altom/altunity/examples/alttrashcat-tests---java)
+* C# tests [Standalone (NuGetPackage) | ](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-csharp)[Android | ](https://gitlab.com/altom/altunity/examples/android-build-with-csharp-tests)[iOS](https://gitlab.com/altom/altunity/examples/ios-build-with-csharp-tests)
+* Python tests [Standalone | ](https://gitlab.com/altom/altunity/examples/standalone-build-with-python-tests)[Android | ](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python)[iOS ](https://gitlab.com/altom/altunity/examples/ios-build-with-python-tests)
+* Java tests [Standalone | ](https://gitlab.com/altom/altunity/examples/standalone-and-android-build-with-java-tests)[Android | ](https://gitlab.com/altom/altunity/examples/standalone-and-android-build-with-java-tests)[iOS](https://gitlab.com/altom/altunity/examples/alttrashcat-tests---java)
 
-    You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
+    You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
 
-## **2.** Example test project for multiplayer features:
+**2.** Example test project for multiplayer features:
 
-* [Multiplayer - iOS / Android | Python tests](https://gitlab.com/altom/altunity/examples/alttanksmultiplayer-test-python)
+* Python tests [Multiplayer iOS / Android](https://gitlab.com/altom/altunity/examples/alttanksmultiplayer-test-python)
 
 <!--
 **3.** Example test project for AltUnity Pro Alpha:
 
-* [WebGL - C# tests](https://gitlab.com/altom/altunity/examples/altunity-pro-alpha-example)
+* C# tests [WebGL](https://gitlab.com/altom/altunity/examples/altunity-pro-alpha-example)
 
-    You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
+    You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
  -->
 
-## **3.** Example test project for AltUnity Tester:
+**3.** Example test project for AltUnity Tester:
 
-* [SampleScenes](https://altom.gitlab.io/altunity/altunitytester/SampleScenes/SampleScenes.unitypackage)
+* C# tests [SampleScenes](https://altom.gitlab.io/altunity/altunitytester/SampleScenes/SampleScenes.unitypackage)
 
     Import this package under your AltUnity Tester package in Unity, to have access to the sample scenes and C# tests.
 
-## **4.** Example test project for AltUnity Tester and Unity Test Framework:
+**4.** Example test project for AltUnity Tester and Unity Test Framework:
 
-* [Endless Runner - C# tests](https://gitlab.com/altom/altunity/examples/unity-test-runner)
+* C# tests [Endless Runner](https://gitlab.com/altom/altunity/examples/unity-test-runner)
 
-    You can get the sample game from the [Unity Asset Store - link](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
+    You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
