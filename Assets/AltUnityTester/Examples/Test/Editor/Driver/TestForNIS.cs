@@ -37,6 +37,35 @@ public class TestForNIS
     }
 
     [Test]
+    public void TestTapElement()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.Tap();
+        var counter = capsule.GetComponentProperty<int>("AltUnityExampleNewInputSystem", "jumpCounter", "Assembly-CSharp");
+        Assert.AreEqual(counter,1);
+    }
+
+    [Test]
+    public void TestMultiTapElement()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.Tap(count:2, interval:1.0f);
+        var counter = capsule.GetComponentProperty<int>("AltUnityExampleNewInputSystem", "jumpCounter", "Assembly-CSharp");
+        Assert.AreEqual(counter,2);
+    }
+
+    [Test]
+    public void TestTapCoordinates()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        altUnityDriver.Tap(capsule.getScreenPosition());
+        altUnityDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was tapped!]");
+    }
+
+    [Test]
     public void TestScrollElement()
     {
         altUnityDriver.LoadScene(scene9);
@@ -46,31 +75,25 @@ public class TestForNIS
         altUnityDriver.Scroll(300, 1, true);
         var scrollbarFinal = altUnityDriver.FindObject(By.NAME, "Handle");
         var scrollbarPositionFinal = scrollbarFinal.getScreenPosition();        
-        Assert.AreNotEqual(scrollbarPosition.y,scrollbarPositionFinal.y);
-
+        Assert.AreNotEqual(scrollbarPosition.y, scrollbarPositionFinal.y);
     }
 
+    [Test]
+    public void TestClickElement()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.Click();
+        var counter = capsule.GetComponentProperty<int>("AltUnityExampleNewInputSystem", "jumpCounter", "Assembly-CSharp");
+        Assert.AreEqual(counter,1);
+    }
 
-    
-        [Test]
-        public void TestClickObject()
-        {
-            altUnityDriver.LoadScene(scene11);
-            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            capsule.Click();
-            Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
-            
-        }
-
-        [Test]
-        public void TestClickCoordinates()
-        {
-            altUnityDriver.LoadScene(scene11);
-            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-            altUnityDriver.Click(new AltUnityVector2(capsule.x, capsule.y));
-            Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
-
-        }
-       
-
+    [Test]
+    public void TestClickCoordinates()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        altUnityDriver.Click(capsule.getScreenPosition());
+        altUnityDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]");
+    }
 }

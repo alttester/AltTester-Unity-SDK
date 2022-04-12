@@ -14,13 +14,18 @@ import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParams;
 import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
+import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
+import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParams;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParams;
 import ro.altom.altunitytester.position.Vector2;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static junit.framework.TestCase.*;
+
 
 public class TestsForNIS {
     private static AltUnityDriver altUnityDriver;
@@ -78,6 +83,42 @@ public class TestsForNIS {
     }
 
     @Test
+    public void TestTapElement() throws Exception {
+        String componentName = "AltUnityExampleNewInputSystem";
+        String propertyName = "jumpCounter";      
+        String assembly = "Assembly-CSharp";  
+        loadLevel(scene11);
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                "Capsule").build();
+        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+        AltTapClickElementParams tapParams = new AltTapClickElementParams.Builder().build();
+        capsule.tap(tapParams);
+        int propertyValue = capsule.getComponentProperty(
+                new AltGetComponentPropertyParams.Builder(componentName,
+                        propertyName).withAssembly(assembly).build(),
+                int.class);
+        assertEquals(1, propertyValue);
+    }
+
+    @Test
+    public void TestTapCoordinates() throws Exception {
+        loadLevel(scene11);
+        AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
+                .build();
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+        AltTapClickCoordinatesParams tapParams = new AltTapClickCoordinatesParams.Builder(
+                capsule.getScreenPosition()).build();
+        altUnityDriver.tap(tapParams);
+
+        AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
+                "//ActionText[@text=Capsule was tapped!]").build();
+        AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
+                .build();
+        altUnityDriver.waitForObject(waitParams);
+    }
+
+
+    @Test
     public void TestScrollElement() throws Exception {
         loadLevel(scene9);
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
@@ -103,42 +144,40 @@ public class TestsForNIS {
 
     }
 
+    @Test
     public void TestClickElement() throws Exception {
+        String componentName = "AltUnityExampleNewInputSystem";
+        String propertyName = "jumpCounter";      
+        String assembly = "Assembly-CSharp";  
         loadLevel(scene11);
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
 
         AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
-
-        AltTapClickElementParams clickParams = new AltTapClickElementParams.Builder().build();
-        capsule.click(clickParams);
-
-        Boolean wasClicked = capsule
-                .getComponentProperty(new AltGetComponentPropertyParams.Builder("AltUnityExampleNewInputSystem",
-                        "wasClicked").withAssembly(
-                                "Assembly-CSharp")
-                        .build(), Boolean.class);
-        assertTrue(wasClicked);
+        AltTapClickElementParams tapParams = new AltTapClickElementParams.Builder().build();
+        capsule.click(tapParams);
+        int propertyValue = capsule.getComponentProperty(
+                new AltGetComponentPropertyParams.Builder(componentName,
+                        propertyName).withAssembly(assembly).build(),
+                int.class);
+        assertEquals(1, propertyValue);
     }
 
     @Test
     public void TestClickCoordinates() throws Exception {
         loadLevel(scene11);
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Capsule").build();
-
-        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
-
-        AltTapClickCoordinatesParams clickParams = new AltTapClickCoordinatesParams.Builder(
+        AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
+                .build();
+        AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+        AltTapClickCoordinatesParams tapParams = new AltTapClickCoordinatesParams.Builder(
                 capsule.getScreenPosition()).build();
-        altUnityDriver.click(clickParams);
+        altUnityDriver.click(tapParams);
 
-        Boolean wasClicked = capsule
-                .getComponentProperty(new AltGetComponentPropertyParams.Builder("AltUnityExampleNewInputSystem",
-                        "wasClicked").withAssembly(
-                                "Assembly-CSharp")
-                        .build(), Boolean.class);
-        assertTrue(wasClicked);
+        AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
+                "//ActionText[@text=Capsule was clicked!]").build();
+        AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
+                .build();
+        altUnityDriver.waitForObject(waitParams);
     }
 
 }
