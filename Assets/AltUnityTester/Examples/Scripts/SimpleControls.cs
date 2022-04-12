@@ -55,7 +55,7 @@ public class @SimpleControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""abb776f3-f329-4f7b-bbf8-b577d13be018"",
-                    ""path"": ""*/{PrimaryAction}"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -185,6 +185,44 @@ public class @SimpleControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Capsule"",
+            ""id"": ""e6769226-6e59-4aca-8428-1adae166c9ac"",
+            ""actions"": [
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""cb6ff29f-da1c-49df-8aa4-0842111b3b9c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""45176413-3f66-4962-8349-b3222796103a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0f7c6ea-623c-451c-95c5-103175203af7"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -195,6 +233,9 @@ public class @SimpleControls : IInputActionCollection, IDisposable
         m_gameplay_move = m_gameplay.FindAction("move", throwIfNotFound: true);
         m_gameplay_look = m_gameplay.FindAction("look", throwIfNotFound: true);
         m_gameplay_jump = m_gameplay.FindAction("jump", throwIfNotFound: true);
+        // Capsule
+        m_Capsule = asset.FindActionMap("Capsule", throwIfNotFound: true);
+        m_Capsule_Jump = m_Capsule.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -297,11 +338,48 @@ public class @SimpleControls : IInputActionCollection, IDisposable
         }
     }
     public GameplayActions @gameplay => new GameplayActions(this);
+
+    // Capsule
+    private readonly InputActionMap m_Capsule;
+    private ICapsuleActions m_CapsuleActionsCallbackInterface;
+    private readonly InputAction m_Capsule_Jump;
+    public struct CapsuleActions
+    {
+        private @SimpleControls m_Wrapper;
+        public CapsuleActions(@SimpleControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Jump => m_Wrapper.m_Capsule_Jump;
+        public InputActionMap Get() { return m_Wrapper.m_Capsule; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CapsuleActions set) { return set.Get(); }
+        public void SetCallbacks(ICapsuleActions instance)
+        {
+            if (m_Wrapper.m_CapsuleActionsCallbackInterface != null)
+            {
+                @Jump.started -= m_Wrapper.m_CapsuleActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_CapsuleActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_CapsuleActionsCallbackInterface.OnJump;
+            }
+            m_Wrapper.m_CapsuleActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+            }
+        }
+    }
+    public CapsuleActions @Capsule => new CapsuleActions(this);
     public interface IGameplayActions
     {
         void OnFire(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+    }
+    public interface ICapsuleActions
+    {
         void OnJump(InputAction.CallbackContext context);
     }
 }

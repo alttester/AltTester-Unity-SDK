@@ -42,83 +42,116 @@ namespace Altom.AltUnityTester
             {
                 Touchscreen = InputSystem.AddDevice<Touchscreen>("AltUnityTouchscreen");
             }
-
         }
-        internal static IEnumerator ScrollLifeCircle(float speed, float duration)
+
+    internal static IEnumerator ScrollLifeCircle(float speed, float duration)
+    {
+
+        float currentTime = 0;
+        float frameTime = 0;// using this because of a bug with yield return which waits only every other iteration
+        while (currentTime <= duration - Time.fixedUnscaledDeltaTime)
         {
-
-            float currentTime = 0;
-            float frameTime = 0;// using this because of a bug with yield return which waits only every other iteration
-            while (currentTime <= duration - Time.fixedUnscaledDeltaTime)
-            {
-                InputTestFixture.Move(Mouse.current.scroll, new Vector2(speed * frameTime / duration, speed * frameTime / duration));
-                var initialTime = Time.fixedUnscaledTime;
-                yield return null;
-                var afterTime = Time.fixedUnscaledTime;
-                frameTime = afterTime - initialTime;
-                currentTime += frameTime;
-            }
-            InputTestFixture.Set(Mouse.current.scroll, new Vector2(0, 0));
+            InputTestFixture.Move(Mouse.current.scroll, new Vector2(speed * frameTime / duration, speed * frameTime / duration));
+            var initialTime = Time.fixedUnscaledTime;
+            yield return null;
+            var afterTime = Time.fixedUnscaledTime;
+            frameTime = afterTime - initialTime;
+            currentTime += frameTime;
         }
+        InputTestFixture.Set(Mouse.current.scroll, new Vector2(0, 0));
+    }
+            
+    internal static IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
+    {
+        float time = 0;
+        Mouse.MakeCurrent();
+        var mousePosition = Mouse.current.position;
+        var distance = location - new UnityEngine.Vector2(mousePosition.x.ReadValue(), mousePosition.y.ReadValue());
+        do
+        {
+            UnityEngine.Vector2 delta;
+            if (time + UnityEngine.Time.unscaledDeltaTime < duration)
+            {
+                delta = distance * UnityEngine.Time.unscaledDeltaTime / duration;
+            }
+            else
+            {
+                delta = location - new UnityEngine.Vector2(mousePosition.x.ReadValue(), mousePosition.y.ReadValue());
+            }
 
-        internal static IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
+            InputTestFixture.Move(Mouse.current.position, delta);
+            yield return null;
+            time += UnityEngine.Time.unscaledDeltaTime;
+        } while (time < duration);
+    }
+
+    internal static IEnumerator TapElementCycle(GameObject target, int count, float interval)
+    {
+        Touchscreen.MakeCurrent();
+        var touchId = 0;
+        UnityEngine.Vector3 screenPosition;
+        AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
+        for(int i = 0; i < count; i++)        
         {
             float time = 0;
-            Mouse.MakeCurrent();
-            var mousePosition = Mouse.current.position;
-            var distance = location - new UnityEngine.Vector2(mousePosition.x.ReadValue(), mousePosition.y.ReadValue());
-            do
-            {
-                UnityEngine.Vector2 delta;
-                if (time + UnityEngine.Time.unscaledDeltaTime < duration)
-                {
-                    delta = distance * UnityEngine.Time.unscaledDeltaTime / duration;
-                }
-                else
-                {
-                    delta = location - new UnityEngine.Vector2(mousePosition.x.ReadValue(), mousePosition.y.ReadValue());
-                }
-
-                InputTestFixture.Move(Mouse.current.position, delta);
-                yield return null;
-                time += UnityEngine.Time.unscaledDeltaTime;
-            } while (time < duration);
+            InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
+            yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
+            time += Time.fixedUnscaledDeltaTime;
+            InputTestFixture.EndTouch(touchId, screenPosition, screen: Touchscreen);
+            if (i != count - 1 && time < interval)
+                yield return new WaitForSecondsRealtime(interval - time);
         }
-
-
-        internal static IEnumerator ClickElementLifeCycle(GameObject target, int count, float interval)
-        {
-            Mouse.MakeCurrent();
-            UnityEngine.Vector3 screenPosition;
-            AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
-            InputTestFixture.Set(Mouse.current.position, screenPosition);
-            for (int i = 0; i < count; i++)
-            {
-                float time = 0;
-                InputTestFixture.Click(Mouse.leftButton);
-                yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
-                time += Time.fixedUnscaledDeltaTime;
-                if (i != count - 1 && time < interval)
-                    yield return new WaitForSecondsRealtime(interval - time);
-            }
-        }
-
-        internal static IEnumerator ClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
-        {
-            Mouse.MakeCurrent();
-            InputTestFixture.Set(Mouse.current.position, screenPosition);
-            for (int i = 0; i < count; i++)
-            {
-                float time = 0;
-                InputTestFixture.Click(Mouse.leftButton);
-                yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
-                time += Time.fixedUnscaledDeltaTime;
-                if (i != count - 1 && time < interval)
-                    yield return new WaitForSecondsRealtime(interval - time);
-            }
-        }
-
     }
+    internal static IEnumerator TapCoordinatesCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
+    {
+        Touchscreen.MakeCurrent();
+        var touchId = 0;
+        for(int i = 0; i < count; i++)        
+        {
+            float time = 0;
+            InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
+            yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
+            time += Time.fixedUnscaledDeltaTime;
+            InputTestFixture.EndTouch(touchId, screenPosition, screen: Touchscreen);
+            if (i != count - 1 && time < interval)
+                yield return new WaitForSecondsRealtime(interval - time);
+        }
+    }
+
+    internal static IEnumerator ClickElementLifeCycle(GameObject target, int count, float interval)
+    {
+        Mouse.MakeCurrent();
+        UnityEngine.Vector3 screenPosition;
+        AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
+        InputTestFixture.Set(Mouse.current.position,screenPosition);
+        for(int i = 0; i < count; i++)        
+        {
+            float time = 0;
+            InputTestFixture.Press(Mouse.leftButton);
+            yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
+            time += Time.fixedUnscaledDeltaTime;
+            InputTestFixture.Release(Mouse.leftButton);
+            if (i != count - 1 && time < interval)
+                yield return new WaitForSecondsRealtime(interval - time);
+        }
+    }
+    internal static IEnumerator ClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
+    {
+        Mouse.MakeCurrent();
+        InputTestFixture.Set(Mouse.current.position, screenPosition);
+        for(int i = 0; i < count; i++)
+        {
+            float time = 0;
+            InputTestFixture.Press(Mouse.leftButton);
+            yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
+            time += Time.fixedUnscaledDeltaTime;
+            InputTestFixture.Release(Mouse.leftButton);
+            if (i != count - 1 && time < interval)
+                yield return new WaitForSecondsRealtime(interval - time);
+        }
+    }
+        
+}
 }
 #else
 namespace Altom.AltUnityTester
