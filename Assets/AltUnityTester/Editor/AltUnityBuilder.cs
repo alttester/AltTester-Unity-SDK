@@ -367,11 +367,11 @@ namespace Altom.AltUnityTesterEditor
 
             if (autoRun)
             {
-                buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.AutoRunPlayer;
+                buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.AutoRunPlayer | UnityEditor.BuildOptions.IncludeTestAssemblies;
             }
             else
             {
-                buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.ShowBuiltPlayer;
+                buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.ShowBuiltPlayer | UnityEditor.BuildOptions.IncludeTestAssemblies;
             }
             var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
 

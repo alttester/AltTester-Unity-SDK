@@ -837,10 +837,6 @@ public class Input : MonoBehaviour
         } while (time < duration);
     }
 
-    public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(AccelerationLifeCycle(accelarationValue, duration), onFinish));
-    }
 
     public static UnityEngine.GameObject FindObjectAtCoordinates(UnityEngine.Vector2 screenPosition)
     {
@@ -1304,7 +1300,7 @@ public class Input : MonoBehaviour
 
 
 
-    private static System.Collections.IEnumerator AccelerationLifeCycle(UnityEngine.Vector3 accelarationValue, float duration)
+    public static System.Collections.IEnumerator AccelerationLifeCycle(UnityEngine.Vector3 accelarationValue, float duration)
     {
         float timeSpent = 0;
         while (timeSpent < duration)

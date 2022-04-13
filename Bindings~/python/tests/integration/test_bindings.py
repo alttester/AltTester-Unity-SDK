@@ -1447,3 +1447,11 @@ class TestPythonBindings:
             By.PATH, "//ActionText[@text=Capsule was clicked!]", timeout=1)
 
         assert action_info.get_text() == "Capsule was clicked!"
+
+    def test_tilt(self):
+        self.altdriver.load_scene(
+            "Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        initialPosition = capsule.get_world_position()
+        self.altdriver.tilt([1000, 10, 10], 1)
+        assert initialPosition != self.altdriver.find_object(By.NAME, "Capsule").get_world_position()

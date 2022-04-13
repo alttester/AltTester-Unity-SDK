@@ -43,7 +43,7 @@ public class TestForNIS
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         capsule.Tap();
         var counter = capsule.GetComponentProperty<int>("AltUnityExampleNewInputSystem", "jumpCounter", "Assembly-CSharp");
-        Assert.AreEqual(counter,1);
+        Assert.AreEqual(counter, 1);
     }
 
     [Test]
@@ -51,9 +51,9 @@ public class TestForNIS
     {
         altUnityDriver.LoadScene(scene11);
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        capsule.Tap(count:2, interval:1.0f);
+        capsule.Tap(count: 2, interval: 1.0f);
         var counter = capsule.GetComponentProperty<int>("AltUnityExampleNewInputSystem", "jumpCounter", "Assembly-CSharp");
-        Assert.AreEqual(counter,2);
+        Assert.AreEqual(counter, 2);
     }
 
     [Test]
@@ -74,8 +74,9 @@ public class TestForNIS
         altUnityDriver.MoveMouse(scrollbarPosition);
         altUnityDriver.Scroll(300, 1, true);
         var scrollbarFinal = altUnityDriver.FindObject(By.NAME, "Handle");
-        var scrollbarPositionFinal = scrollbarFinal.getScreenPosition();        
+        var scrollbarPositionFinal = scrollbarFinal.getScreenPosition();
         Assert.AreNotEqual(scrollbarPosition.y, scrollbarPositionFinal.y);
+
     }
 
     [Test]
@@ -85,7 +86,18 @@ public class TestForNIS
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         capsule.Click();
         var counter = capsule.GetComponentProperty<int>("AltUnityExampleNewInputSystem", "jumpCounter", "Assembly-CSharp");
-        Assert.AreEqual(counter,1);
+        Assert.AreEqual(counter, 1);
+    }
+
+
+    [Test]
+    public void TestClickObject()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        capsule.Click();
+        Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
+
     }
 
     [Test]
@@ -95,5 +107,15 @@ public class TestForNIS
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         altUnityDriver.Click(capsule.getScreenPosition());
         altUnityDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]");
+    }
+
+    [Test]
+    public void TestTilt()
+    {
+        altUnityDriver.LoadScene(scene11);
+        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+        var initialPosition = capsule.getWorldPosition();
+        altUnityDriver.Tilt(new AltUnityVector3(1000, 10, 10), 3f);
+        Assert.AreNotEqual(initialPosition, altUnityDriver.FindObject(By.NAME, "Capsule").getWorldPosition());
     }
 }
