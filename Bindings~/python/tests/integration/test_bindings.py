@@ -1400,6 +1400,25 @@ class TestPythonBindings:
 
         assert player.get_component_property("AltUnityNIPDebugScript", "wasScrolled", "Assembly-CSharp") is True
 
+    def test_tap_element_NIS(self):
+        self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        capsule.tap()
+        component_name = "AltUnityExampleNewInputSystem"
+        property_name = "jumpCounter"
+        propertyValue = capsule.get_component_property(
+            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
+        assert propertyValue == 1
+
+    def test_tap_coordinates_NIS(self):
+        self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        self.altdriver.tap(capsule.get_screen_position())
+        action_info = self.altdriver.wait_for_object(
+            By.PATH, "//ActionText[@text=Capsule was tapped!]", timeout=1)
+
+        assert action_info.get_text() == "Capsule was tapped!"
+
     def test_scroll_element_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity")
         scrollbar = self.altdriver.find_object(By.NAME, "Handle")
@@ -1414,13 +1433,28 @@ class TestPythonBindings:
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         capsule.click()
-        assert capsule.get_component_property("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp") is True
+        component_name = "AltUnityExampleNewInputSystem"
+        property_name = "jumpCounter"
+        propertyValue = capsule.get_component_property(
+            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
+        assert propertyValue == 1
 
     def test_click_coordinates_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.click(capsule.get_screen_position())
-        assert capsule.get_component_property("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp") is True
+        action_info = self.altdriver.wait_for_object(
+            By.PATH, "//ActionText[@text=Capsule was clicked!]", timeout=1)
+
+        assert action_info.get_text() == "Capsule was clicked!"
+
+    def test_tilt(self):
+        self.altdriver.load_scene(
+            "Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")
+        capsule = self.altdriver.find_object(By.NAME, "Capsule")
+        initialPosition = capsule.get_world_position()
+        self.altdriver.tilt([1000, 10, 10], 1)
+        assert initialPosition != self.altdriver.find_object(By.NAME, "Capsule").get_world_position()
 
     def test_key_down_and_key_up_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity")

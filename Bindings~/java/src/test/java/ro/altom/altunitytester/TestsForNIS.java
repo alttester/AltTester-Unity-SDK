@@ -16,8 +16,12 @@ import ro.altom.altunitytester.Commands.InputActions.AltKeyDownParams;
 import ro.altom.altunitytester.Commands.InputActions.AltKeyUpParams;
 import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParams;
 import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
+import ro.altom.altunitytester.Commands.InputActions.AltTiltParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
+import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
+import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParams;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParams;
 import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 import ro.altom.altunitytester.position.Vector2;
@@ -26,205 +30,250 @@ import ro.altom.altunitytester.position.Vector3;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static junit.framework.TestCase.*;
 
 public class TestsForNIS {
-    private static AltUnityDriver altUnityDriver;
-    String scene7 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 Drag And Drop NIS";
-    String scene8 = "Assets/AltUnityTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
-    String scene9 = "Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity";
-    String scene10 = "Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity";
-    String scene11 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
+        private static AltUnityDriver altUnityDriver;
+        String scene7 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 Drag And Drop NIS";
+        String scene8 = "Assets/AltUnityTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
+        String scene9 = "Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity";
+        String scene10 = "Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity";
+        String scene11 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
 
-    class AltUnitySprite {
-        public String name;
-    }
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        altUnityDriver = new AltUnityDriver(TestsHelper.GetAltUnityDriverHost(),
-                TestsHelper.GetAltUnityDriverPort(),
-                true);
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (altUnityDriver != null) {
-            altUnityDriver.stop();
+        class AltUnitySprite {
+                public String name;
         }
-        Thread.sleep(1000);
-    }
 
-    public void loadLevel(String sceneName) throws Exception {
+        @BeforeClass
+        public static void setUp() throws Exception {
+                altUnityDriver = new AltUnityDriver(TestsHelper.GetAltUnityDriverHost(),
+                                TestsHelper.GetAltUnityDriverPort(),
+                                true);
+        }
 
-        AltLoadSceneParams params = new AltLoadSceneParams.Builder(sceneName).build();
-        altUnityDriver.loadScene(params);
-    }
+        @AfterClass
+        public static void tearDown() throws Exception {
+                if (altUnityDriver != null) {
+                        altUnityDriver.stop();
+                }
+                Thread.sleep(1000);
+        }
 
-    @Test
-    public void TestScroll() throws Exception {
-        loadLevel(scene10);
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Player").build();
+        public void loadLevel(String sceneName) throws Exception {
 
-        AltUnityObject player = altUnityDriver.findObject(altFindObjectsParams);
-        Boolean isScrolling = player
-                .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("AltUnityNIPDebugScript",
-                                "wasScrolled").withAssembly(
-                                        "Assembly-CSharp")
-                                .build(),
-                        Boolean.class);
-        assertFalse(isScrolling);
-        AltScrollParams altScrollParams = new AltScrollParams.Builder().withDuration(1).withSpeed(300)
-                .withWait(true).build();
-        altUnityDriver.scroll(altScrollParams);
-        isScrolling = player.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltUnityNIPDebugScript",
-                        "wasScrolled").withAssembly(
-                                "Assembly-CSharp")
-                        .build(),
-                Boolean.class);
-        assertTrue(isScrolling);
-    }
+                AltLoadSceneParams params = new AltLoadSceneParams.Builder(sceneName).build();
+                altUnityDriver.loadScene(params);
+        }
 
-    @Test
-    public void TestScrollElement() throws Exception {
-        loadLevel(scene9);
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Handle").build();
+        @Test
+        public void TestScroll() throws Exception {
+                loadLevel(scene10);
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                                "Player").build();
 
-        AltUnityObject scrollbar = altUnityDriver.findObject(altFindObjectsParams);
-        Vector2 scrollbarPosition = scrollbar.getScreenPosition();
+                AltUnityObject player = altUnityDriver.findObject(altFindObjectsParams);
+                Boolean isScrolling = player
+                                .getComponentProperty(
+                                                new AltGetComponentPropertyParams.Builder("AltUnityNIPDebugScript",
+                                                                "wasScrolled").withAssembly(
+                                                                                "Assembly-CSharp")
+                                                                .build(),
+                                                Boolean.class);
+                assertFalse(isScrolling);
+                AltScrollParams altScrollParams = new AltScrollParams.Builder().withDuration(1).withSpeed(300)
+                                .withWait(true).build();
+                altUnityDriver.scroll(altScrollParams);
+                isScrolling = player.getComponentProperty(
+                                new AltGetComponentPropertyParams.Builder("AltUnityNIPDebugScript",
+                                                "wasScrolled").withAssembly(
+                                                                "Assembly-CSharp")
+                                                .build(),
+                                Boolean.class);
+                assertTrue(isScrolling);
+        }
 
-        AltMoveMouseParams altMoveMouseParams = new AltMoveMouseParams.Builder(scrollbar.getScreenPosition())
-                .withDuration(0.1f).build();
-        altUnityDriver.moveMouse(altMoveMouseParams);
-        Thread.sleep(1000);
+        @Test
+        public void TestTapElement() throws Exception {
+                String componentName = "AltUnityExampleNewInputSystem";
+                String propertyName = "jumpCounter";
+                String assembly = "Assembly-CSharp";
+                loadLevel(scene11);
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                                "Capsule").build();
+                AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+                AltTapClickElementParams tapParams = new AltTapClickElementParams.Builder().build();
+                capsule.tap(tapParams);
+                int propertyValue = capsule.getComponentProperty(
+                                new AltGetComponentPropertyParams.Builder(componentName,
+                                                propertyName).withAssembly(assembly).build(),
+                                int.class);
+                assertEquals(1, propertyValue);
+        }
 
-        AltScrollParams altScrollParams = new AltScrollParams.Builder().withDuration(1).withSpeed(300)
-                .withWait(true).build();
-        altUnityDriver.scroll(altScrollParams);
+        @Test
+        public void TestTapCoordinates() throws Exception {
+                loadLevel(scene11);
+                AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
+                                .build();
+                AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+                AltTapClickCoordinatesParams tapParams = new AltTapClickCoordinatesParams.Builder(
+                                capsule.getScreenPosition()).build();
+                altUnityDriver.tap(tapParams);
 
-        AltFindObjectsParams altFindObjectsParamsFinal = new AltFindObjectsParams.Builder(
-                AltUnityDriver.By.NAME,
-                "Handle").build();
-        AltUnityObject scrollbarFinal = altUnityDriver.findObject(altFindObjectsParamsFinal);
-        Vector2 scrollbarPositionFinal = scrollbarFinal.getScreenPosition();
-        assertNotEquals(scrollbarPosition, scrollbarPositionFinal);
+                AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
+                                "//ActionText[@text=Capsule was tapped!]").build();
+                AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
+                                .build();
+                altUnityDriver.waitForObject(waitParams);
+        }
 
-    }
+        @Test
+        public void TestScrollElement() throws Exception {
+                loadLevel(scene9);
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                                "Handle").build();
 
-    public void TestClickElement() throws Exception {
-        loadLevel(scene11);
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Capsule").build();
+                AltUnityObject scrollbar = altUnityDriver.findObject(altFindObjectsParams);
+                Vector2 scrollbarPosition = scrollbar.getScreenPosition();
 
-        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+                AltMoveMouseParams altMoveMouseParams = new AltMoveMouseParams.Builder(scrollbar.getScreenPosition())
+                                .withDuration(0.1f).build();
+                altUnityDriver.moveMouse(altMoveMouseParams);
+                Thread.sleep(1000);
 
-        AltTapClickElementParams clickParams = new AltTapClickElementParams.Builder().build();
-        capsule.click(clickParams);
+                AltScrollParams altScrollParams = new AltScrollParams.Builder().withDuration(1).withSpeed(300)
+                                .withWait(true).build();
+                altUnityDriver.scroll(altScrollParams);
 
-        Boolean wasClicked = capsule
-                .getComponentProperty(new AltGetComponentPropertyParams.Builder(
-                        "AltUnityExampleNewInputSystem",
-                        "wasClicked").withAssembly(
-                                "Assembly-CSharp")
-                        .build(), Boolean.class);
-        assertTrue(wasClicked);
-    }
+                AltFindObjectsParams altFindObjectsParamsFinal = new AltFindObjectsParams.Builder(
+                                AltUnityDriver.By.NAME,
+                                "Handle").build();
+                AltUnityObject scrollbarFinal = altUnityDriver.findObject(altFindObjectsParamsFinal);
+                Vector2 scrollbarPositionFinal = scrollbarFinal.getScreenPosition();
+                assertNotEquals(scrollbarPosition, scrollbarPositionFinal);
 
-    @Test
-    public void TestClickCoordinates() throws Exception {
-        loadLevel(scene11);
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Capsule").build();
+        }
 
-        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+        @Test
+        public void TestClickElement() throws Exception {
+                String componentName = "AltUnityExampleNewInputSystem";
+                String propertyName = "jumpCounter";
+                String assembly = "Assembly-CSharp";
+                loadLevel(scene11);
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                                "Capsule").build();
 
-        AltTapClickCoordinatesParams clickParams = new AltTapClickCoordinatesParams.Builder(
-                capsule.getScreenPosition()).build();
-        altUnityDriver.click(clickParams);
+                AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+                AltTapClickElementParams tapParams = new AltTapClickElementParams.Builder().build();
+                capsule.click(tapParams);
+                int propertyValue = capsule.getComponentProperty(
+                                new AltGetComponentPropertyParams.Builder(componentName,
+                                                propertyName).withAssembly(assembly).build(),
+                                int.class);
+                assertEquals(1, propertyValue);
+        }
 
-        Boolean wasClicked = capsule
-                .getComponentProperty(new AltGetComponentPropertyParams.Builder(
-                        "AltUnityExampleNewInputSystem",
-                        "wasClicked").withAssembly(
-                                "Assembly-CSharp")
-                        .build(), Boolean.class);
-        assertTrue(wasClicked);
-    }
+        @Test
+        public void TestClickCoordinates() throws Exception {
+                loadLevel(scene11);
+                AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
+                                .build();
+                AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+                AltTapClickCoordinatesParams tapParams = new AltTapClickCoordinatesParams.Builder(
+                                capsule.getScreenPosition()).build();
+                altUnityDriver.click(tapParams);
 
-    @Test
-    public void TestKeyDownAndKeyUp() throws Exception {
-        loadLevel(scene10);
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Player").build();
-        AltUnityObject player = altUnityDriver.findObject(altFindObjectsParams);
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                "UnityEngine.Transform",
-                "position").build();
-        Vector3 initialPos = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.A).build());
-        altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.A).build());
-        Vector3 posUp = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        Assert.assertNotEquals(initialPos, posUp);
-        altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.D).build());
-        altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.D).build());
-        Vector3 posDown = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        Assert.assertNotEquals(posUp, posDown);
-        altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.W).build());
-        altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.W).build());
-        Vector3 posLeft = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        Assert.assertNotEquals(posDown, posLeft);
-        altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.S).build());
-        altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.S).build());
-        Vector3 posRight = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        Assert.assertNotEquals(posLeft, posRight);
-    }
+                AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
+                                "//ActionText[@text=Capsule was clicked!]").build();
+                AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
+                                .build();
+                altUnityDriver.waitForObject(waitParams);
+        }
 
-    @Test
-    public void TestPressKey() throws Exception {
-        loadLevel(scene10);
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Player").build();
-        AltUnityObject player = altUnityDriver.findObject(altFindObjectsParams);
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                "UnityEngine.Transform",
-                "position").build();
-        Vector3 initialPos = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.A).build());
-        Vector3 posUp = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        Assert.assertNotEquals(initialPos, posUp);
-        altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.D).build());
-        Vector3 posDown = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        Assert.assertNotEquals(posUp, posDown);
-        altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.W).build());
-        Vector3 posLeft = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        Assert.assertNotEquals(posDown, posLeft);
-        altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.S).build());
-        Vector3 posRight = player
-                .getComponentProperty(altGetComponentPropertyParams,
-                        Vector3.class);
-        Assert.assertNotEquals(posLeft, posRight);
-    }
+        @Test
+        public void TestTilt() throws Exception {
+                loadLevel(scene11);
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                                "Capsule").build();
+
+                AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+
+                Vector3 initialPosition = capsule.getWorldPosition();
+                altUnityDriver.tilt(new AltTiltParams.Builder(new Vector3(1000, 10, 10)).withDuration(3f).build());
+                assertNotEquals(initialPosition, altUnityDriver.findObject(altFindObjectsParams).getWorldPosition());
+        }
+
+        @Test
+        public void TestKeyDownAndKeyUp() throws Exception {
+                loadLevel(scene10);
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                                "Player").build();
+                AltUnityObject player = altUnityDriver.findObject(altFindObjectsParams);
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                "UnityEngine.Transform",
+                                "position").build();
+                Vector3 initialPos = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.A).build());
+                altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.A).build());
+                Vector3 posUp = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(initialPos, posUp);
+                altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.D).build());
+                altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.D).build());
+                Vector3 posDown = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(posUp, posDown);
+                altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.W).build());
+                altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.W).build());
+                Vector3 posLeft = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(posDown, posLeft);
+                altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.S).build());
+                altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.S).build());
+                Vector3 posRight = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(posLeft, posRight);
+        }
+
+        @Test
+        public void TestPressKey() throws Exception {
+                loadLevel(scene10);
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                                "Player").build();
+                AltUnityObject player = altUnityDriver.findObject(altFindObjectsParams);
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                "UnityEngine.Transform",
+                                "position").build();
+                Vector3 initialPos = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.A).build());
+                Vector3 posUp = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(initialPos, posUp);
+                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.D).build());
+                Vector3 posDown = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(posUp, posDown);
+                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.W).build());
+                Vector3 posLeft = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(posDown, posLeft);
+                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.S).build());
+                Vector3 posRight = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(posLeft, posRight);
+        }
 
 }

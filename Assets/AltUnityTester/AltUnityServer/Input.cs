@@ -691,16 +691,6 @@ public class Input : MonoBehaviour
         _instance.StartCoroutine(endTouch(fingerId));
     }
 
-    public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(tapClickElementLifeCycle(target, count, interval, true), onFinish));
-    }
-
-    public static void TapCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(tapClickCoordinatesLifeCycle(coordinates, count, interval, true), onFinish));
-    }
-
     public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
     {
         _instance.StartCoroutine(runThrowingIterator(MultipointSwipeLifeCycle(positions, duration), onFinish));
@@ -837,10 +827,6 @@ public class Input : MonoBehaviour
         } while (time < duration);
     }
 
-    public static void Acceleration(UnityEngine.Vector3 accelarationValue, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(AccelerationLifeCycle(accelarationValue, duration), onFinish));
-    }
 
     public static UnityEngine.GameObject FindObjectAtCoordinates(UnityEngine.Vector2 screenPosition)
     {
@@ -1028,8 +1014,6 @@ public class Input : MonoBehaviour
         pointerEventData.pointerPressRaycast = firstRaycastResult;
         return firstRaycastResult.gameObject;
     }
-
-
 
     internal static IEnumerator tapClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval, bool tap)
     {
@@ -1306,7 +1290,7 @@ public class Input : MonoBehaviour
 
 
 
-    private static System.Collections.IEnumerator AccelerationLifeCycle(UnityEngine.Vector3 accelarationValue, float duration)
+    public static System.Collections.IEnumerator AccelerationLifeCycle(UnityEngine.Vector3 accelarationValue, float duration)
     {
         float timeSpent = 0;
         while (timeSpent < duration)
