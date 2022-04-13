@@ -139,6 +139,7 @@ namespace Altom.AltUnityDriver.Commands
             this.wait = wait;
         }
     }
+
     [Command("pressKeyboardKey")]
     public class AltUnityPressKeyboardKeyParams : CommandParams
     {
@@ -155,6 +156,24 @@ namespace Altom.AltUnityDriver.Commands
             this.wait = wait;
         }
     }
+
+    [Command("pressKeyboardKeys")]
+    public class AltUnityPressKeyboardKeysParams : CommandParams
+    {
+        public AltUnityKeyCode[] keyCodes;
+        public float power;
+        public float duration;
+        public bool wait;
+
+        public AltUnityPressKeyboardKeysParams(AltUnityKeyCode[] keyCodes, float power, float duration, bool wait) : base()
+        {
+            this.keyCodes = keyCodes;
+            this.power = power;
+            this.duration = duration;
+            this.wait = wait;
+        }
+    }
+
 
     [Command("scroll")]
     public class AltUnityScrollParams : CommandParams
@@ -645,6 +664,16 @@ namespace Altom.AltUnityDriver.Commands
         }
     }
 
+    [Command("keysUp")]
+    public class AltUnityKeysUpParams : CommandParams
+    {
+        public AltUnityKeyCode[] keyCodes;
+
+        public AltUnityKeysUpParams(AltUnityKeyCode[] keyCodes)
+        {
+            this.keyCodes = keyCodes;
+        }
+    }
 
     [Command("keyDown")]
     public class AltUnityKeyDownParams : CommandParams
@@ -655,6 +684,19 @@ namespace Altom.AltUnityDriver.Commands
         public AltUnityKeyDownParams(AltUnityKeyCode keyCode, float power)
         {
             this.keyCode = keyCode;
+            this.power = power;
+        }
+    }
+
+    [Command("keysDown")]
+    public class AltUnityKeysDownParams : CommandParams
+    {
+        public AltUnityKeyCode[] keyCodes;
+        public float power;
+
+        public AltUnityKeysDownParams(AltUnityKeyCode[] keyCodes, float power)
+        {
+            this.keyCodes = keyCodes;
             this.power = power;
         }
     }

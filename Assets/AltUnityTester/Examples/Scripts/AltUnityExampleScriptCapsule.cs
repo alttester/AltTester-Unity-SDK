@@ -64,9 +64,9 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     {
         transform.Rotate(Input.acceleration);
         if (Input.touchCount > 0)
-        {
             TouchPhase = Input.GetTouch(0).phase;
-        }
+        if (Input.GetKeyDown(KeyCode.K) && Input.GetKeyDown(KeyCode.L))
+            ChangeTextOnMultipleKeysPressed();
     }
     protected void OnMouseDown()
     {
@@ -119,6 +119,9 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
     {
         Jump((a + 4).ToString());
     }
+
+    public void ChangeTextOnMultipleKeysPressed()
+        => stringToSetFromTests = "multiple keys pressed";
 
     public struct TestStructure
     {
