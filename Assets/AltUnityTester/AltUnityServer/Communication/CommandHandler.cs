@@ -97,9 +97,17 @@ namespace Altom.AltUnityTester.Communication
             {
                 return new AltUnityKeyDownCommand(cmdParams as AltUnityKeyDownParams).ExecuteAndSerialize;
             }
+            if (cmdParams is AltUnityKeysDownParams)
+            {
+                return new AltUnityKeysDownCommand(cmdParams as AltUnityKeysDownParams).ExecuteAndSerialize;
+            }
             if (cmdParams is AltUnityKeyUpParams)
             {
                 return new AltUnityKeyUpCommand(cmdParams as AltUnityKeyUpParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltUnityKeysUpParams)
+            {
+                return new AltUnityKeysUpCommand(cmdParams as AltUnityKeysUpParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityBeginTouchParams)
             {
@@ -253,6 +261,10 @@ namespace Altom.AltUnityTester.Communication
             if (cmdParams is AltUnityPressKeyboardKeyParams)
             {
                 return new AltUnityPressKeyboardKeyCommand(this, cmdParams as AltUnityPressKeyboardKeyParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltUnityPressKeyboardKeysParams)
+            {
+                return new AltUnityPressKeyboardKeysCommand(this, cmdParams as AltUnityPressKeyboardKeysParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityMoveMouseParams)
             {

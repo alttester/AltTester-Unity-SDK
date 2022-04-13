@@ -1601,7 +1601,6 @@ namespace Altom.AltUnityDriver.Tests
             Assert.AreEqual("1", counterButtonText.GetText());
         }
 
-
         [Test]
         public void TestCallMethodInsideASubObject()
         {
@@ -2035,6 +2034,26 @@ namespace Altom.AltUnityDriver.Tests
         }
 
         [Test]
+        public void TestKeysDown()
+        {
+            AltUnityKeyCode[] keys = {AltUnityKeyCode.K, AltUnityKeyCode.L};
+            altUnityDriver.KeysDown(keys);
+            altUnityDriver.KeysUp(keys);
+            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var finalPropertyValue = altUnityObject.GetComponentProperty<string>("AltUnityExampleScriptCapsule", "stringToSetFromTests", "Assembly-CSharp");
+            Assert.AreEqual("multiple keys pressed", finalPropertyValue);
+        }
+
+        [Test]
+        public void TestPressKeys()
+        {
+            AltUnityKeyCode[] keys = {AltUnityKeyCode.K, AltUnityKeyCode.L};
+            altUnityDriver.PressKeys(keys);
+            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var finalPropertyValue = altUnityObject.GetComponentProperty<string>("AltUnityExampleScriptCapsule", "stringToSetFromTests", "Assembly-CSharp");
+            Assert.AreEqual("multiple keys pressed", finalPropertyValue);
+        }
+
         public void TestFindElementAtCoordinates()
         {
             var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");

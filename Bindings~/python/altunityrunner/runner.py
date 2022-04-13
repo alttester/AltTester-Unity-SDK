@@ -567,6 +567,18 @@ class AltUnityDriver:
 
         commands.KeyDown.run(self._connection, key_code, power)
 
+    def keys_down(self, key_codes, power=1):
+        """Simulates that multiple keys were pressed without taking into consideration the duration of the press.
+
+        Args:
+            key_codes (:obj:`list` of :obj:`AltUnityKeyCode`): The key codes of the keys simulated to be pressed.
+            power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the button was
+                pressed. Defaults to ``1``.
+
+        """
+
+        commands.KeysDown.run(self._connection, key_codes, power)
+
     def key_up(self, key_code):
         """Simulates that a specific key was released.
 
@@ -576,6 +588,16 @@ class AltUnityDriver:
         """
 
         commands.KeyUp.run(self._connection, key_code)
+
+    def keys_up(self, key_codes):
+        """Simulates that multiple keys were released.
+
+        Args:
+            key_codes (:obj:`list` of :obj:`AltUnityKeyCode`): The key codes of the keys simulated to be released.
+
+        """
+
+        commands.KeysUp.run(self._connection, key_codes)
 
     def press_key(self, key_code, power=1, duration=0.1, wait=True):
         """Simulates key press action in your game.
@@ -590,6 +612,20 @@ class AltUnityDriver:
         """
 
         commands.PressKey.run(self._connection, key_code, power, duration, wait)
+
+    def press_keys(self, key_codes, power=1, duration=0.1, wait=True):
+        """Simulates multiple keypress action in your game.
+
+        Args:
+            key_codes (:obj:`list` of :obj:`AltUnityKeyCode`): The key codes of the keys simulated to be pressed.
+            power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the buttons were
+                pressed. Defaults to ``1``.
+            duration (:obj:`float`): The time measured in seconds from the key press to the key release.
+            wait (:obj:`bool`): If set wait for command to finish. Defaults to ``True``.
+
+        """
+
+        commands.PressKeys.run(self._connection, key_codes, power, duration, wait)
 
     def begin_touch(self, coordinates):
         """Simulates starting of a touch on the screen.

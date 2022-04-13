@@ -1378,12 +1378,41 @@ class TestPythonBindings:
         self.altdriver.set_command_response_timeout(60)
         assert str(execinfo.value) == ""
 
+    def test_keys_down(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+
+        keys = [AltUnityKeyCode.K, AltUnityKeyCode.L]
+        self.altdriver.keys_down(keys)
+        self.altdriver.keys_up(keys)
+
+        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+        property_value = alt_unity_object.get_component_property(
+            "AltUnityExampleScriptCapsule",
+            "stringToSetFromTests",
+            assembly="Assembly-CSharp"
+        )
+        assert property_value == "multiple keys pressed"
+
+    def test_press_keys(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+
+        keys = [AltUnityKeyCode.K, AltUnityKeyCode.L]
+        self.altdriver.press_keys(keys)
+
+        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+        property_value = alt_unity_object.get_component_property(
+            "AltUnityExampleScriptCapsule",
+            "stringToSetFromTests",
+            assembly="Assembly-CSharp"
+        )
+        assert property_value == "multiple keys pressed"
+
     def test_find_object_by_coordinates(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
 
         element = self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
-        assert "Text" == element.name
+        assert element.name == "Text"
 
     def test_find_object_by_coordinates_no_element(self):
         self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
@@ -1394,11 +1423,20 @@ class TestPythonBindings:
     def test_scroll_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity")
         player = self.altdriver.find_object(By.NAME, "Player")
+
         assert player.get_component_property(
-            "AltUnityNIPDebugScript", "wasScrolled", "Assembly-CSharp") is False
+            "AltUnityNIPDebugScript",
+            "wasScrolled",
+            assembly="Assembly-CSharp"
+        ) is False
+
         self.altdriver.scroll(300, 1, True)
 
-        assert player.get_component_property("AltUnityNIPDebugScript", "wasScrolled", "Assembly-CSharp") is True
+        assert player.get_component_property(
+            "AltUnityNIPDebugScript",
+            "wasScrolled",
+            assembly="Assembly-CSharp"
+        ) is True
 
     def test_tap_element_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")

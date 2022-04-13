@@ -6,25 +6,21 @@ using UnityEngine;
 
 namespace Altom.AltUnityTester.Commands
 {
-    class AltUnityPressKeyboardKeyCommand : AltUnityCommandWithWait<AltUnityPressKeyboardKeyParams, string>
+    class AltUnityPressKeyboardKeysCommand : AltUnityCommandWithWait<AltUnityPressKeyboardKeysParams, string>
     {
-        public AltUnityPressKeyboardKeyCommand(ICommandHandler handler, AltUnityPressKeyboardKeyParams cmdParams) : base(cmdParams, handler, cmdParams.wait)
+        public AltUnityPressKeyboardKeysCommand(ICommandHandler handler, AltUnityPressKeyboardKeysParams cmdParams) : base(cmdParams, handler, cmdParams.wait)
         {
         }
 
         public override string Execute()
         {
-#if ENABLE_INPUT_SYSTEM
-#endif
-#if ENABLE_LEGACY_INPUT_MANAGER
 #if ALTUNITYTESTER
             var powerClamped = Mathf.Clamp01(CommandParams.power);
-            Input.KeyPress((UnityEngine.KeyCode)CommandParams.keyCode, CommandParams.power, CommandParams.duration, onFinish);
+            foreach(var keyCode in CommandParams.keyCodes)
+                Input.KeyPress((UnityEngine.KeyCode)keyCode, CommandParams.power, CommandParams.duration, onFinish);
             return "Ok";
-
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
-#endif
 #endif
         }
     }
