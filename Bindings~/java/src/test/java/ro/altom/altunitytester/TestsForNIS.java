@@ -12,6 +12,7 @@ import ro.altom.altunitytester.Commands.InputActions.AltScrollParams;
 import ro.altom.altunitytester.Commands.InputActions.AltSwipeParams;
 import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParams;
 import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
+import ro.altom.altunitytester.Commands.InputActions.AltTiltParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltTapClickElementParams;
@@ -19,6 +20,7 @@ import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParam
 import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParams;
 import ro.altom.altunitytester.Commands.UnityCommand.AltLoadSceneParams;
 import ro.altom.altunitytester.position.Vector2;
+import ro.altom.altunitytester.position.Vector3;
 
 import java.util.Arrays;
 import java.util.List;
@@ -178,6 +180,19 @@ public class TestsForNIS {
         AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                 .build();
         altUnityDriver.waitForObject(waitParams);
+    }
+
+    @Test
+    public void TestTilt() throws Exception {
+        loadLevel(scene11);
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                "Capsule").build();
+
+        AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
+
+        Vector3 initialPosition = capsule.getWorldPosition();
+        altUnityDriver.tilt(new AltTiltParams.Builder(new Vector3(1000, 10, 10)).withDuration(3f).build());
+        assertNotEquals(initialPosition, altUnityDriver.findObject(altFindObjectsParams).getWorldPosition());
     }
 
 }

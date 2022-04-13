@@ -1,6 +1,5 @@
 {
     "name": "AltUnityTester",
-    "rootNamespace": "",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:dc04f38471c3a459fb4d31124ee9127d",
@@ -21,9 +20,6 @@
         "Newtonsoft.Json.dll"
     ],
     "autoReferenced": true,
-    "defineConstraints": [
-        "UNITY_INCLUDE_TESTS"
-    ],
-    "versionDefines": [],
-    "noEngineReferences": false
+    "defineConstraints": [],
+    "versionDefines": []
 }
