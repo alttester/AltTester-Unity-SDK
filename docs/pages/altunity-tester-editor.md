@@ -1,6 +1,6 @@
 # AltUnity Tester Editor
 
-The GUI refers to the "AltUnityTesterEditor" window that is displayed when adding the altUnity Tester package in Unity.
+The GUI refers to the AltUnity Tester Editor window that is displayed when adding the AltUnity Tester package in Unity.
 
 ![Editor Window](../_static/images/altUnityTesterWindow/EditorWindow.png)
 
