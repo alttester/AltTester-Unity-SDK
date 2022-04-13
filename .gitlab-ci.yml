@@ -49,18 +49,22 @@ cache:
 python-unit-tests:
   stage: unit-tests
   image: python:3.9
+  tags:
+    - docker
   interruptible: true
   before_script:
     - *install_python_dependencies
     - cd Bindings~/python/
   script:
     - flake8 .
-    - pytest tests/unit
+    - pytest tests/unit -x
 
 # TODO: Add unit tests for Java
 java-unit-tests:
   stage: unit-tests
   image: maven:3-openjdk-11
+  tags:
+    - docker
   interruptible: true
   before_script:
     - cd Bindings~/java/
@@ -72,6 +76,8 @@ java-unit-tests:
 dotnet-unit-tests:
   stage: unit-tests
   image: mcr.microsoft.com/dotnet/sdk:5.0
+  tags:
+    - docker
   interruptible: true
   before_script:
     - cd Bindings~/dotnet/AltUnityDriver
@@ -269,7 +275,7 @@ python-android-tests:
     - *initialize_python_venv
     - *install_python_dependencies
   script:
-    - pytest Bindings~/python/tests/integration/test_bindings.py
+    - pytest Bindings~/python/tests/integration/test_bindings.py -x
   after_script:
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all

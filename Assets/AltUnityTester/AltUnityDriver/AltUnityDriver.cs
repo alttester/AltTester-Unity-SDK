@@ -236,6 +236,36 @@ namespace Altom.AltUnityDriver
             new AltUnityKeyUp(communicationHandler, keyCode).Execute();
         }
 
+        /// <summary>
+        /// Simulates multiple keys pressed action in your game.
+        /// </summary>
+        /// <param name="keyCodes">The list of key codes of the keys simulated to be pressed.</param>
+        /// <param name="power" >A value between [-1,1] used for joysticks to indicate how hard the button was pressed. Defaults to <c>1</c>.</param>
+        /// <param name="duration">The time measured in seconds from the key press to the key release. Defaults to <c>0.1</c></param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void PressKeys(AltUnityKeyCode[] keyCodes, float power = 1, float duration = 0.1f, bool wait = true)
+        {
+            new AltUnityPressKeys(communicationHandler, keyCodes, power, duration, wait).Execute();
+        }
+
+        /// <summary>
+        /// Simulates multiple keys down action in your game.
+        /// </summary>
+        /// <param name="keyCodes">The key codes of the keys simulated to be down.</param>
+        /// <param name="power" >A value between [-1,1] used for joysticks to indicate how hard the button was pressed. Defaults to <c>1</c>.</param>
+        public void KeysDown(AltUnityKeyCode[] keyCodes, float power = 1)
+        {
+            new AltUnityKeysDown(communicationHandler, keyCodes, power).Execute();
+        }
+
+        /// <summary>
+        /// Simulates multiple keys up action in your game.
+        /// </summary>
+        /// <param name="keyCodes">The key codes of the keys simulated to be up.</param>
+        public void KeysUp(AltUnityKeyCode[] keyCodes)
+        {
+            new AltUnityKeysUp(communicationHandler, keyCodes).Execute();
+        }
 
         /// <summary>
         /// Simulate mouse movement in your game.

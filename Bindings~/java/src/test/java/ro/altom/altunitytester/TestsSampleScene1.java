@@ -16,7 +16,10 @@ import ro.altom.altunitytester.Commands.FindObject.AltWaitForObjectsParams;
 import ro.altom.altunitytester.Commands.InputActions.AltHoldParams;
 import ro.altom.altunitytester.Commands.InputActions.AltKeyDownParams;
 import ro.altom.altunitytester.Commands.InputActions.AltKeyUpParams;
+import ro.altom.altunitytester.Commands.InputActions.AltKeysDownParams;
+import ro.altom.altunitytester.Commands.InputActions.AltKeysUpParams;
 import ro.altom.altunitytester.Commands.InputActions.AltMoveMouseParams;
+import ro.altom.altunitytester.Commands.InputActions.AltPressKeysParams;
 import ro.altom.altunitytester.Commands.InputActions.AltTapClickCoordinatesParams;
 import ro.altom.altunitytester.Commands.InputActions.AltTiltParams;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltCallComponentMethodParams;
@@ -1312,6 +1315,44 @@ public class TestsSampleScene1 {
     }
 
     @Test
+    public void testKeysDown()
+    {
+        AltUnityKeyCode[] keys = {AltUnityKeyCode.K, AltUnityKeyCode.L};
+
+        altUnityDriver.keysDown(new AltKeysDownParams.Builder(keys).build());
+        altUnityDriver.keysUp(new AltKeysUpParams.Builder(keys).build());
+
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
+            AltUnityDriver.By.NAME, "Capsule").build();
+        AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+            "AltUnityExampleScriptCapsule",
+            "stringToSetFromTests").withAssembly("Assembly-CSharp").build();
+        String finalPropertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParams, String.class);
+
+        assertEquals(finalPropertyValue, "multiple keys pressed");
+    }
+
+    @Test
+    public void testPressKeys()
+    {
+        AltUnityKeyCode[] keys = {AltUnityKeyCode.K, AltUnityKeyCode.L};
+
+        altUnityDriver.pressKeys(new AltPressKeysParams.Builder(keys).build());
+
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
+                AltUnityDriver.By.NAME, "Capsule").build();
+        AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+            "AltUnityExampleScriptCapsule",
+            "stringToSetFromTests").withAssembly("Assembly-CSharp").build();
+        String finalPropertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParams, String.class);
+
+        assertEquals(finalPropertyValue, "multiple keys pressed");
+    }
+
     public void testFindElementAtCoordinates() {
         AltUnityObject counterButton = altUnityDriver.findObject(new AltFindObjectsParams.Builder(
                 AltUnityDriver.By.NAME, "ButtonCounter").build());

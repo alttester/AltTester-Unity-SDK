@@ -14,6 +14,7 @@ import ro.altom.altunitytester.Commands.AltUnityCommands.AltUnitySetServerLoggin
 import ro.altom.altunitytester.Commands.FindObject.*;
 import ro.altom.altunitytester.Commands.InputActions.*;
 import ro.altom.altunitytester.Commands.UnityCommand.*;
+import ro.altom.altunitytester.UnityStruct.AltUnityKeyCode;
 import ro.altom.altunitytester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import ro.altom.altunitytester.altUnityTesterExceptions.*;
 import java.io.IOException;
@@ -262,6 +263,13 @@ public class AltUnityDriver {
     }
 
     /**
+     * Simulates multiple keys pressed action in your game.
+     */
+    public void pressKeys(AltPressKeysParams altPressKeysParameters) {
+        new AltPressKeys(this.connection.messageHandler, altPressKeysParameters).Execute();
+    }
+
+    /**
      * Simulates a key down.
      */
     public void keyDown(AltKeyDownParams keyDownParams) {
@@ -269,10 +277,24 @@ public class AltUnityDriver {
     }
 
     /**
+     * Simulates multiple keys down.
+     */
+    public void keysDown(AltKeysDownParams keysDownParams) {
+        new AltKeysDown(this.connection.messageHandler, keysDownParams).Execute();
+    }
+
+    /**
      * Simulates a key up.
      */
     public void keyUp(AltKeyUpParams keyUpParams) {
         new AltKeyUp(this.connection.messageHandler, keyUpParams).Execute();
+    }
+
+    /**
+     * Simulates multiple keys up.
+     */
+    public void keysUp(AltKeysUpParams keysUpParams) {
+        new AltKeysUp(this.connection.messageHandler, keysUpParams).Execute();
     }
 
     /**

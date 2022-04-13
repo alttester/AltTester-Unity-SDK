@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using Altom.AltUnityTester.Communication;
