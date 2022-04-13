@@ -81,7 +81,7 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 ```
 -->
 
-```important:: To make sure the import was correct, check if you can open AltUnity Tester Editor Window from Unity Editor -> AltUnity Tools -> AltUnityTester.
+```important:: To make sure the import was correct, check if you can open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnity Tester Editor.
 
 ```
 
@@ -91,7 +91,7 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 
 Steps:
 
-1. Open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnityTester
+1. Open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnity Tester Editor
  <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
 2. In the Build Settings section set **AltUnity Tester Port** to 13000
 3. In the Scene Manager section select the scenes you want to include in your build
@@ -146,13 +146,13 @@ Before running your tests you need to start the instrumented Unity application. 
 
     .. tab:: Unity Editor
 
-        1. Open AltUnity Tester Window
+        1. Open AltUnity Tester Editor
         2. In platform section select Editor
         3. Click Play in Editor
 
     .. tab:: PC
 
-        1. Open AltUnity Tester Window
+        1. Open AltUnity Tester Editor
         2. In platform section select Standalone
         3. Choose your build target
         4. Click Build & Run
@@ -171,7 +171,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltUnity Tester Window
+        1. Open AltUnity Tester Editor
         2. In platform section select Android
         3. Click Build & Run
 
@@ -184,7 +184,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltUnity Tester Window
+        1. Open AltUnity Tester Editor
         2. In platform section select iOS
         3. Click Build & Run
 
@@ -202,7 +202,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltUnity Tester Window
+        1. Open AltUnity Tester Editor
         2. In platform section select WebGL
         3. Click Build & Run
  -->
@@ -224,7 +224,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
         1.  Create a folder named Editor in your Unity Project.
         2.  Right-click on Editor folder and select `Create -> AltUnityTest`. This will create a template file in which you could start to write your test.
         3.  Name the file MyFirstTest.
-        4.  Open AltUnity Tester Window.
+        4.  Open AltUnity Tester Editor.
         5.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
 
         Example test file:
