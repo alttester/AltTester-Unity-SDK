@@ -191,7 +191,7 @@ namespace Altom.AltUnityTester
             if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
                 setStick(0, buttonControl);
             else
-                InputTestFixture.Release(buttonControl);
+                InputTestFixture.Release(buttonControl, queueEventOnly: true);
         }
 
         internal static IEnumerator AccelerationLifeCycle(Vector3 accelerationValue, float duration)
@@ -231,21 +231,21 @@ namespace Altom.AltUnityTester
         private static void setStick(float value, ButtonControl buttonControl)
         {
             if (buttonControl == Gamepad.current.leftStick.up)
-                InputTestFixture.Set(Gamepad.current.leftStick.y, value);
+                InputTestFixture.Set(Gamepad.current.leftStick.y, value, queueEventOnly: true);
             else if (buttonControl == Gamepad.current.leftStick.down)
-                InputTestFixture.Set(Gamepad.current.leftStick.y, value);
+                InputTestFixture.Set(Gamepad.current.leftStick.y, value, queueEventOnly: true);
             else if (buttonControl == Gamepad.current.leftStick.right)
-                InputTestFixture.Set(Gamepad.current.leftStick.x, value);
+                InputTestFixture.Set(Gamepad.current.leftStick.x, value, queueEventOnly: true);
             else if (buttonControl == Gamepad.current.leftStick.left)
-                InputTestFixture.Set(Gamepad.current.leftStick.x, value);
+                InputTestFixture.Set(Gamepad.current.leftStick.x, value, queueEventOnly: true);
             else if (buttonControl == Gamepad.current.rightStick.up)
-                InputTestFixture.Set(Gamepad.current.rightStick.y, value);
+                InputTestFixture.Set(Gamepad.current.rightStick.y, value, queueEventOnly: true);
             else if (buttonControl == Gamepad.current.rightStick.down)
-                InputTestFixture.Set(Gamepad.current.rightStick.y, value);
+                InputTestFixture.Set(Gamepad.current.rightStick.y, value, queueEventOnly: true);
             else if (buttonControl == Gamepad.current.rightStick.right)
-                InputTestFixture.Set(Gamepad.current.rightStick.x, value);
+                InputTestFixture.Set(Gamepad.current.rightStick.x, value, queueEventOnly: true);
             else if (buttonControl == Gamepad.current.rightStick.left)
-                InputTestFixture.Set(Gamepad.current.rightStick.x, value);
+                InputTestFixture.Set(Gamepad.current.rightStick.x, value, queueEventOnly: true);
         }
         #endregion
     }

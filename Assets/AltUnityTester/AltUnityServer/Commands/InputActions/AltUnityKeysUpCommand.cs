@@ -14,8 +14,8 @@ namespace Altom.AltUnityTester.Commands
         {
 
 #if ALTUNITYTESTER
-            foreach(var keyCode in CommandParams.keyCodes)
-                Input.KeyUp((UnityEngine.KeyCode)keyCode);
+            foreach (var keyCode in CommandParams.keyCodes)
+                InputController.KeyUp((UnityEngine.KeyCode)keyCode);
             return "Ok";
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
