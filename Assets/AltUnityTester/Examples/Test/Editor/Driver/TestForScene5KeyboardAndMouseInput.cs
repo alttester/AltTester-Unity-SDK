@@ -96,7 +96,7 @@ namespace Altom.AltUnityDriver.Tests
             var runner = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
             foreach (AltUnityKeyCode kcode in Enum.GetValues(typeof(AltUnityKeyCode)))
             {
-                if (kcode != AltUnityKeyCode.NoKey)
+                if (kcode != AltUnityKeyCode.NoKey && kcode < AltUnityKeyCode.Joystick1Button0)
                 {
                     altUnityDriver.PressKey(kcode, duration: 0.2f);
 
