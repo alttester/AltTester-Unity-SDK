@@ -46,6 +46,7 @@ namespace Altom.AltUnityTester.Commands
                         {
                             tMPInputFieldComp.onValueChanged.Invoke(CommandParams.value);
                             checkSubmit(tMPInputFieldComp.gameObject);
+                            tMPInputFieldComp.onEndEdit.Invoke(CommandParams.value);
                         }
                     }
                     return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(targetObject);

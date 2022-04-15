@@ -35,8 +35,9 @@ namespace Altom.AltUnityTester
                         var monoBehaviourTarget = FindMonoBehaviourObject(pointerEventData.position);
                         pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                             ExecuteEvents.pointerDownHandler);
+                        pointerEventData.selectedObject = pointerEventData.pointerPress;
                         pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.initializePotentialDrag);
+                            ExecuteEvents.dragHandler);
                         if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
                         return pointerEventData;
                     case UnityEngine.TouchPhase.Moved:
