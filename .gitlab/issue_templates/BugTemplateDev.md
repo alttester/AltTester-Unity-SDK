@@ -9,7 +9,7 @@
 <!-- How does the app behave in this scenario? --> 
 
 ### Additional info
-<!-- Add screenshots or recording that shows how the app missbehaves. Logs and the OS on which the bug was reproduced could also come in handy. --> 
+<!-- Add screenshots or recording that shows how the app misbehaves. Logs and the OS on which the bug was reproduced could also come in handy. --> 
 
 ## Expected result
 
