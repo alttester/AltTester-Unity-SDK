@@ -217,29 +217,33 @@ public class TestsForNIS {
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
                 altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.A).build());
+                Thread.sleep(1000);
                 altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.A).build());
                 Vector3 posUp = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(initialPos, posUp);
+                Assert.assertNotEquals(initialPos.x, posUp.x);
                 altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.D).build());
+                Thread.sleep(1000);
                 altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.D).build());
                 Vector3 posDown = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posUp, posDown);
+                Assert.assertNotEquals(posUp.x, posDown.x);
                 altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.W).build());
+                Thread.sleep(1000);
                 altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.W).build());
                 Vector3 posLeft = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posDown, posLeft);
+                Assert.assertNotEquals(posDown.z, posLeft.z);
                 altUnityDriver.keyDown(new AltKeyDownParams.Builder(AltUnityKeyCode.S).build());
+                Thread.sleep(1000);
                 altUnityDriver.keyUp(new AltKeyUpParams.Builder(AltUnityKeyCode.S).build());
                 Vector3 posRight = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posLeft, posRight);
+                Assert.assertNotEquals(posLeft.z, posRight.z);
         }
 
         @Test
@@ -254,26 +258,26 @@ public class TestsForNIS {
                 Vector3 initialPos = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.A).build());
+                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.A).withDuration(1).build());
                 Vector3 posUp = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(initialPos, posUp);
-                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.D).build());
+                Assert.assertNotEquals(initialPos.x, posUp.x);
+                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.D).withDuration(1).build());
                 Vector3 posDown = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posUp, posDown);
-                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.W).build());
+                Assert.assertNotEquals(posUp.x, posDown.x);
+                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.W).withDuration(1).build());
                 Vector3 posLeft = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posDown, posLeft);
-                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.S).build());
+                Assert.assertNotEquals(posDown.z, posLeft.z);
+                altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.S).withDuration(1).build());
                 Vector3 posRight = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posLeft, posRight);
+                Assert.assertNotEquals(posLeft.z, posRight.z);
         }
 
 }
