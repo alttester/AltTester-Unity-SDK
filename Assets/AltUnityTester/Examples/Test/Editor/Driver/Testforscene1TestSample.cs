@@ -1819,7 +1819,7 @@ namespace Altom.AltUnityDriver.Tests
             var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
 
             altUnityDriver.MoveMouse(counterElement.getScreenPosition());
-            Thread.Sleep(500); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
+            Thread.Sleep(800); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
 
             var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
@@ -2036,7 +2036,7 @@ namespace Altom.AltUnityDriver.Tests
         [Test]
         public void TestKeysDown()
         {
-            AltUnityKeyCode[] keys = {AltUnityKeyCode.K, AltUnityKeyCode.L};
+            AltUnityKeyCode[] keys = { AltUnityKeyCode.K, AltUnityKeyCode.L };
             altUnityDriver.KeysDown(keys);
             altUnityDriver.KeysUp(keys);
             var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
@@ -2047,7 +2047,7 @@ namespace Altom.AltUnityDriver.Tests
         [Test]
         public void TestPressKeys()
         {
-            AltUnityKeyCode[] keys = {AltUnityKeyCode.K, AltUnityKeyCode.L};
+            AltUnityKeyCode[] keys = { AltUnityKeyCode.K, AltUnityKeyCode.L };
             altUnityDriver.PressKeys(keys);
             var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
             var finalPropertyValue = altUnityObject.GetComponentProperty<string>("AltUnityExampleScriptCapsule", "stringToSetFromTests", "Assembly-CSharp");
