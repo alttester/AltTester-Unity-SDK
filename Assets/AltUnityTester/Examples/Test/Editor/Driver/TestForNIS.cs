@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using Altom.AltUnityDriver;
 using NUnit.Framework;
 
@@ -70,13 +69,12 @@ public class TestForNIS
     public void TestScrollElement()
     {
         altUnityDriver.LoadScene(scene9);
-        var scrollbar = altUnityDriver.FindObject(By.NAME, "Handle");
-        var scrollbarPosition = scrollbar.getScreenPosition();
-        altUnityDriver.MoveMouse(scrollbarPosition);
-        altUnityDriver.Scroll(300, 1, true);
-        var scrollbarFinal = altUnityDriver.FindObject(By.NAME, "Handle");
-        var scrollbarPositionFinal = scrollbarFinal.getScreenPosition();
-        Assert.AreNotEqual(scrollbarPosition.y, scrollbarPositionFinal.y);
+        var scrollbar = altUnityDriver.FindObject(By.NAME, "Scrollbar Vertical");
+        var scrollbarPosition = scrollbar.GetComponentProperty<float>("UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI");
+        altUnityDriver.MoveMouse(altUnityDriver.FindObject(By.NAME, "Scroll View").getScreenPosition(), 1);
+        altUnityDriver.Scroll(new AltUnityVector2(-3000, -3000), 1, true);
+        var scrollbarPositionFinal = scrollbar.GetComponentProperty<float>("UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI");
+        Assert.AreNotEqual(scrollbarPosition, scrollbarPositionFinal);
 
     }
 

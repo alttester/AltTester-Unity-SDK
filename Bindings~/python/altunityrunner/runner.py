@@ -525,21 +525,22 @@ class AltUnityDriver:
 
         commands.MoveMouse.run(self._connection, coordinates, duration, wait)
 
-    def scroll(self, speed=1, duration=0.1, wait=True):
+    def scroll(self, speed_vertical=1, duration=0.1, wait=True, speed_horizontal=1):
         """Simulate scroll mouse action in your game.
 
         Args:
-            speed (:obj:`int`, :obj:`float`): Set how fast to scroll. Positive values will scroll up and negative
-                values will scroll down. Defaults to ``1``
+            speed_vertical (:obj:`int`, :obj:`float`): Set how fast to scroll. Positive values will scroll up and
+                negative values will scroll down. Defaults to ``1``
             duration (:obj:`int`, :obj:`float`, optional): The duration of the scroll in seconds. Defaults to ``0.1``.
             wait (:obj:`bool`, optional): If set wait for command to finish. Defaults to ``True``.
+            speed_horizontal (:obj:`int`, :obj:`float`): Set how fast to scroll right or left. Defaults to ``1``
 
         """
 
         commands.Scroll.run(
             self._connection,
-            speed, duration,
-            wait,
+            speed_vertical, duration,
+            wait, speed_horizontal
         )
 
     def click(self, coordinates, count=1, interval=0.1, wait=True):

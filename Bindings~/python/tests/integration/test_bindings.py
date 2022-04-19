@@ -1459,13 +1459,16 @@ class TestPythonBindings:
 
     def test_scroll_element_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity")
-        scrollbar = self.altdriver.find_object(By.NAME, "Handle")
-        scrollbarPosition = scrollbar.get_screen_position()
-        self.altdriver.move_mouse(scrollbarPosition, duration=1, wait=False)
-        self.altdriver.scroll(300, 1, True)
-        scrollbarFinal = self.altdriver.find_object(By.NAME, "Handle")
-        scrollbarPositionFinal = scrollbarFinal.get_screen_position()
-        assert scrollbarPosition != scrollbarPositionFinal
+        scrollbar = self.altdriver.find_object(By.NAME, "Scrollbar Vertical")
+        scrollbar_value = scrollbar.get_component_property(
+            "UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI")
+        self.altdriver.move_mouse(self.altdriver.find_object(
+            By.NAME, "Scroll View").get_screen_position(), duration=1, wait=True)
+        self.altdriver.scroll(-3000, 1, True)
+        scrollbarFinal = self.altdriver.find_object(By.NAME, "Scrollbar Vertical")
+        scrollbar_value_final = scrollbarFinal.get_component_property(
+            "UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI")
+        assert scrollbar_value != scrollbar_value_final
 
     def test_click_element_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity")

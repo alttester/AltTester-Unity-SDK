@@ -1020,11 +1020,12 @@ Simulate scroll action in your game.
 
 **_Parameters_**
 
-| Name     | Type    | Required | Default | Description                                                                                  |
-| -------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
-| speed    | float   | No       | 1       | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
-| duration | float   | No       | 0.1     | The duration of the scroll in seconds.                                                       |
-| wait     | boolean | No       | true    | If set wait for command to finish.                                                           |
+| Name          | Type    | Required | Default | Description                                                                                  |
+| ------------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
+| speed         | float   | No       | 1       | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
+| duration      | float   | No       | 0.1     | The duration of the scroll in seconds.                                                       |
+| wait          | boolean | No       | true    | If set wait for command to finish.                                                           |
+|speedHorizontal| float   | No       | 1       |Set how fast to scroll right or left.                                                         |
 
 **_Returns_**
 

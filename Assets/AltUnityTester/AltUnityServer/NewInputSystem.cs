@@ -54,13 +54,14 @@ namespace Altom.AltUnityTester
             }
 
         }
-        internal static IEnumerator ScrollLifeCycle(float speed, float duration)
+
+        internal static IEnumerator ScrollLifeCycle(float speedVertical, float speedHorizontal, float duration)
         {
             float currentTime = 0;
             float frameTime = 0;// using this because of a bug with yield return which waits only every other iteration
             while (currentTime <= duration - Time.fixedUnscaledDeltaTime)
             {
-                InputTestFixture.Set(Mouse.scroll, new Vector2(speed * frameTime / duration, speed * frameTime / duration), queueEventOnly: true);
+                InputTestFixture.Set(Mouse.scroll, new Vector2(speedHorizontal * frameTime / duration, speedVertical * frameTime / duration), queueEventOnly: true);
                 var initialTime = Time.fixedUnscaledTime;
                 yield return null;
                 var afterTime = Time.fixedUnscaledTime;
