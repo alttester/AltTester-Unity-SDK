@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using NUnit.Framework;
 
@@ -86,7 +88,6 @@ public class TestForNIS
         Assert.AreEqual(counter, 1);
     }
 
-
     [Test]
     public void TestClickObject()
     {
@@ -94,6 +95,100 @@ public class TestForNIS
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         capsule.Click();
         Assert.True(capsule.GetComponentProperty<bool>("AltUnityExampleNewInputSystem", "wasClicked", "Assembly-CSharp"));
+
+    }
+
+    [Test]
+    public void TestKeyDownAndKeyUp()
+    {
+        altUnityDriver.LoadScene(scene10);
+        var player = altUnityDriver.FindObject(By.NAME, "Player");
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.Backspace; altUnityKeyCode <= AltUnityKeyCode.F12; altUnityKeyCode++) //because F13->F15 is present in KeyCode but not in Key
+            keyboardKeyDownAndUp(player, altUnityKeyCode);
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.Numlock; altUnityKeyCode <= AltUnityKeyCode.Menu; altUnityKeyCode++)
+            keyboardKeyDownAndUp(player, altUnityKeyCode);
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.Mouse0; altUnityKeyCode <= AltUnityKeyCode.Mouse4; altUnityKeyCode++)
+            if (Enum.IsDefined(typeof(AltUnityKeyCode), altUnityKeyCode))
+            {
+                altUnityDriver.KeyDown(altUnityKeyCode);
+                altUnityDriver.KeyUp(altUnityKeyCode);
+                var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "MousePressed", "Assembly-CSharp");
+                var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "MouseReleased", "Assembly-CSharp");
+                Assert.AreEqual(altUnityKeyCode.ToString(), keyPressed);
+                Assert.AreEqual(altUnityKeyCode.ToString(), keyReleased);
+            }
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.JoystickButton0; altUnityKeyCode <= AltUnityKeyCode.JoystickButton19; altUnityKeyCode++)
+            joystickKeyDownAndUp(player, altUnityKeyCode, 1);
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.JoystickButton16; altUnityKeyCode <= AltUnityKeyCode.JoystickButton19; altUnityKeyCode++) //for axis.x < 0 and axis.y < 0
+            joystickKeyDownAndUp(player, altUnityKeyCode, -1);
+    }
+
+    private void keyboardKeyDownAndUp(AltUnityObject player, AltUnityKeyCode altUnityKeyCode)
+    {
+        if (Enum.IsDefined(typeof(AltUnityKeyCode), altUnityKeyCode))
+        {
+            altUnityDriver.KeyDown(altUnityKeyCode);
+            altUnityDriver.KeyUp(altUnityKeyCode);
+            var keyPressed = player.GetComponentProperty<List<int>>("AltUnityNIPDebugScript", "KeyPressed", "Assembly-CSharp");
+            var keyReleased = player.GetComponentProperty<List<int>>("AltUnityNIPDebugScript", "KeyReleased", "Assembly-CSharp");
+            Assert.Contains((int)altUnityKeyCode, keyPressed);
+            Assert.Contains((int)altUnityKeyCode, keyReleased);
+        }
+    }
+
+    private void joystickKeyDownAndUp(AltUnityObject player, AltUnityKeyCode altUnityKeyCode, float power)
+    {
+        altUnityDriver.KeyDown(altUnityKeyCode, power);
+        altUnityDriver.KeyUp(altUnityKeyCode);
+        var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "JoystickPressed", "Assembly-CSharp");
+        var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "JoystickReleased", "Assembly-CSharp");
+        Assert.AreEqual(altUnityKeyCode.ToString(), keyPressed);
+        Assert.AreEqual(altUnityKeyCode.ToString(), keyReleased);
+    }
+
+    [Test]
+    public void TestPressKey()
+    {
+        altUnityDriver.LoadScene(scene10);
+        var player = altUnityDriver.FindObject(By.NAME, "Player");
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.Backspace; altUnityKeyCode <= AltUnityKeyCode.F12; altUnityKeyCode++) //because F13->F15 is present in KeyCode but not in Key
+            keyboardKeyPress(player, altUnityKeyCode);
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.Numlock; altUnityKeyCode <= AltUnityKeyCode.Menu; altUnityKeyCode++)
+            keyboardKeyPress(player, altUnityKeyCode);
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.Mouse0; altUnityKeyCode <= AltUnityKeyCode.Mouse4; altUnityKeyCode++)
+            if (Enum.IsDefined(typeof(AltUnityKeyCode), altUnityKeyCode))
+            {
+                altUnityDriver.PressKey(altUnityKeyCode);
+                var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "MousePressed", "Assembly-CSharp");
+                var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "MouseReleased", "Assembly-CSharp");
+                Assert.AreEqual(altUnityKeyCode.ToString(), keyPressed);
+                Assert.AreEqual(altUnityKeyCode.ToString(), keyReleased);
+            }
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.JoystickButton0; altUnityKeyCode <= AltUnityKeyCode.JoystickButton19; altUnityKeyCode++)
+            joystickKeyPress(player, altUnityKeyCode, 1);
+        for (AltUnityKeyCode altUnityKeyCode = AltUnityKeyCode.JoystickButton16; altUnityKeyCode <= AltUnityKeyCode.JoystickButton19; altUnityKeyCode++) //for axis.x < 0 and axis.y < 0
+            joystickKeyPress(player, altUnityKeyCode, -1);
+    }
+
+    private void keyboardKeyPress(AltUnityObject player, AltUnityKeyCode altUnityKeyCode)
+    {
+        if (Enum.IsDefined(typeof(AltUnityKeyCode), altUnityKeyCode))
+        {
+            altUnityDriver.PressKey(altUnityKeyCode);
+            var keyPressed = player.GetComponentProperty<List<int>>("AltUnityNIPDebugScript", "KeyPressed", "Assembly-CSharp");
+            var keyReleased = player.GetComponentProperty<List<int>>("AltUnityNIPDebugScript", "KeyReleased", "Assembly-CSharp");
+            Assert.Contains((int)altUnityKeyCode, keyPressed);
+            Assert.Contains((int)altUnityKeyCode, keyReleased);
+        }
+    }
+
+    private void joystickKeyPress(AltUnityObject player, AltUnityKeyCode altUnityKeyCode, float power)
+    {
+        altUnityDriver.PressKey(altUnityKeyCode, power);
+        var keyPressed = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "JoystickPressed", "Assembly-CSharp");
+        var keyReleased = player.GetComponentProperty<string>("AltUnityNIPDebugScript", "JoystickReleased", "Assembly-CSharp");
+        Assert.AreEqual(altUnityKeyCode.ToString(), keyPressed);
+        Assert.AreEqual(altUnityKeyCode.ToString(), keyReleased);
 
     }
 
