@@ -46,15 +46,15 @@ namespace Altom.AltUnityTester
             done.Invoke(err);
         }
 
-        public static void Scroll(float scrollValue, float duration, Action<Exception> onFinish)
+        public static void Scroll(float speedVertical, float speedHorizontal, float duration, Action<Exception> onFinish)
         {
 #if ALTUNITYTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
-            coroutines.Add(NewInputSystem.ScrollLifeCircle(scrollValue, duration));
+            coroutines.Add(NewInputSystem.ScrollLifeCycle(speedVertical, speedHorizontal, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.ScrollLifeCycle(scrollValue, duration));
+            coroutines.Add(Input.ScrollLifeCycle(speedVertical, speedHorizontal, duration));
 #endif
             AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else

@@ -20,12 +20,12 @@ namespace Altom.AltUnityTester.Commands
 #if ALTUNITYTESTER
 
             Input.SetMultipointSwipe(CommandParams.positions.Select(p => p.ToUnity()).ToArray(), CommandParams.duration, onFinish);
-            return "Ok";
 
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
 #endif
+            return "Ok";
         }
     }
 }

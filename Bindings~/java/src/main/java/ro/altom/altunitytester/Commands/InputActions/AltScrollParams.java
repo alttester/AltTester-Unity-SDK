@@ -5,6 +5,7 @@ import ro.altom.altunitytester.AltMessage;
 public class AltScrollParams extends AltMessage {
     public static class Builder {
         private float speed = 1;
+        private float speedHorizontal = 1;
         private float duration = 0.1f;
         private boolean wait = true;
 
@@ -32,6 +33,16 @@ public class AltScrollParams extends AltMessage {
         }
 
         /**
+         * 
+         * @param speed Set how fast to scroll right or left. Defaults to
+         *              <code> 1 </code>
+         */
+        public AltScrollParams.Builder withHorizontalSpeed(float speed) {
+            this.speedHorizontal = speed;
+            return this;
+        }
+
+        /**
          * @param wait If set wait for command to finish. Defaults to <code>true</code>.
          */
         public AltScrollParams.Builder withWait(boolean wait) {
@@ -44,6 +55,7 @@ public class AltScrollParams extends AltMessage {
             altScrollMouseParameters.speed = this.speed;
             altScrollMouseParameters.duration = this.duration;
             altScrollMouseParameters.wait = this.wait;
+            altScrollMouseParameters.setSpeedHorizontal(this.speedHorizontal);
             return altScrollMouseParameters;
         }
     }
@@ -51,9 +63,18 @@ public class AltScrollParams extends AltMessage {
     private AltScrollParams() {
     }
 
+    public float getSpeedHorizontal() {
+        return speedHorizontal;
+    }
+
+    public void setSpeedHorizontal(float speedHorizontal) {
+        this.speedHorizontal = speedHorizontal;
+    }
+
     private float speed;
     private float duration;
     private boolean wait;
+    private float speedHorizontal;
 
     public float getSpeed() {
         return speed;

@@ -21,32 +21,24 @@ public class AltUnityExampleNewInputSystem : MonoBehaviour
 
     void OnEnable()
     {
-#if UNITY_ANDROID
         InputSystem.EnableDevice(Accelerometer.current);
-#endif
 
     }
     protected void OnDisable()
     {
-#if UNITY_ANDROID
 
         InputSystem.DisableDevice(Accelerometer.current);
-#endif
 
     }
     void Update()
     {
         wasClicked = Mouse.current.position.ReadValue() != Vector2.zero;
-#if UNITY_ANDROID
-
         var acceleration = Accelerometer.current.acceleration.ReadValue();
         if (acceleration != previousAcceleration)
         {
             previousAcceleration = acceleration;
             transform.Rotate(acceleration);
         }
-#endif
-
     }
 
     public void Jump(InputAction.CallbackContext context)

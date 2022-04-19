@@ -20,12 +20,13 @@ namespace Altom.AltUnityTester.Commands
 #if ALTUNITYTESTER
             var powerClamped = Mathf.Clamp01(CommandParams.power);
             Input.KeyPress((UnityEngine.KeyCode)CommandParams.keyCode, CommandParams.power, CommandParams.duration, onFinish);
-            return "Ok";
 
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
 #endif
+            return "Ok";
+
         }
     }
 }

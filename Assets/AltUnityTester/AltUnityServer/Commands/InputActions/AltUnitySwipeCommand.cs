@@ -19,13 +19,14 @@ namespace Altom.AltUnityTester.Commands
 #if ALTUNITYTESTER
             UnityEngine.Vector2[] positions = { CommandParams.start.ToUnity(), CommandParams.end.ToUnity() };
             Input.SetMultipointSwipe(positions, CommandParams.duration, onFinish);
-            return "Ok";
 
 
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
 #endif
+            return "Ok";
+
 
         }
     }

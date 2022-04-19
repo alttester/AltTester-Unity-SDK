@@ -9,15 +9,13 @@ namespace Altom.AltUnityTester.Commands
 
         public override AltUnityObject Execute()
         {
-#if ALTUNITYTESTER
-            UnityEngine.GameObject gameObject = Input.FindObjectAtCoordinates(CommandParams.coordinates.ToUnity());
+            UnityEngine.GameObject gameObject = FindObjectViaRayCast.FindObjectAtCoordinates(CommandParams.coordinates.ToUnity());
 
             if (gameObject == null) return null;
 
             return AltUnityRunner._altUnityRunner.GameObjectToAltUnityObject(gameObject);
-#else
-            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
-#endif
         }
+
+
     }
 }

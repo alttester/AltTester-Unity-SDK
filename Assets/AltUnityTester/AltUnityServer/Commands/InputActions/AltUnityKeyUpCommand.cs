@@ -17,12 +17,13 @@ namespace Altom.AltUnityTester.Commands
 #if ENABLE_LEGACY_INPUT_MANAGER
 #if ALTUNITYTESTER
             Input.KeyUp((UnityEngine.KeyCode)CommandParams.keyCode);
-            return "Ok";
 
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
 #endif
+            return "Ok";
+
         }
     }
 }

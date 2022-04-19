@@ -28,7 +28,6 @@ import java.util.List;
 import static org.junit.Assert.assertNotEquals;
 import static junit.framework.TestCase.*;
 
-
 public class TestsForNIS {
     private static AltUnityDriver altUnityDriver;
     String scene7 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 Drag And Drop NIS";
@@ -87,8 +86,8 @@ public class TestsForNIS {
     @Test
     public void TestTapElement() throws Exception {
         String componentName = "AltUnityExampleNewInputSystem";
-        String propertyName = "jumpCounter";      
-        String assembly = "Assembly-CSharp";  
+        String propertyName = "jumpCounter";
+        String assembly = "Assembly-CSharp";
         loadLevel(scene11);
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();
@@ -119,29 +118,32 @@ public class TestsForNIS {
         altUnityDriver.waitForObject(waitParams);
     }
 
-
     @Test
     public void TestScrollElement() throws Exception {
         loadLevel(scene9);
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Handle").build();
+                "Scrollbar Vertical").build();
 
         AltUnityObject scrollbar = altUnityDriver.findObject(altFindObjectsParams);
-        Vector2 scrollbarPosition = scrollbar.getScreenPosition();
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                "UnityEngine.UI.Scrollbar", "value").withAssembly("UnityEngine.UI").build();
+        Float scrollbarPosition = scrollbar.getComponentProperty(altGetComponentPropertyParams, Float.class);
 
-        AltMoveMouseParams altMoveMouseParams = new AltMoveMouseParams.Builder(scrollbar.getScreenPosition())
-                .withDuration(0.1f).build();
+        AltFindObjectsParams altFindObjectsParamsScrollView = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                "Scroll View").build();
+        AltUnityObject scrollView = altUnityDriver.findObject(altFindObjectsParamsScrollView);
+
+        AltMoveMouseParams altMoveMouseParams = new AltMoveMouseParams.Builder(
+                scrollView.getScreenPosition())
+                .withDuration(1f).build();
         altUnityDriver.moveMouse(altMoveMouseParams);
-        Thread.sleep(1000);
 
-        AltScrollParams altScrollParams = new AltScrollParams.Builder().withDuration(1).withSpeed(300)
+        AltScrollParams altScrollParams = new AltScrollParams.Builder().withDuration(1).withSpeed(-300)
                 .withWait(true).build();
         altUnityDriver.scroll(altScrollParams);
 
-        AltFindObjectsParams altFindObjectsParamsFinal = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                "Handle").build();
-        AltUnityObject scrollbarFinal = altUnityDriver.findObject(altFindObjectsParamsFinal);
-        Vector2 scrollbarPositionFinal = scrollbarFinal.getScreenPosition();
+        AltUnityObject scrollbarFinal = altUnityDriver.findObject(altFindObjectsParams);
+        Float scrollbarPositionFinal = scrollbarFinal.getComponentProperty(altGetComponentPropertyParams, Float.class);
         assertNotEquals(scrollbarPosition, scrollbarPositionFinal);
 
     }
@@ -149,8 +151,8 @@ public class TestsForNIS {
     @Test
     public void TestClickElement() throws Exception {
         String componentName = "AltUnityExampleNewInputSystem";
-        String propertyName = "jumpCounter";      
-        String assembly = "Assembly-CSharp";  
+        String propertyName = "jumpCounter";
+        String assembly = "Assembly-CSharp";
         loadLevel(scene11);
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                 "Capsule").build();

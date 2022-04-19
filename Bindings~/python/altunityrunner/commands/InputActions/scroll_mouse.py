@@ -3,10 +3,11 @@ from altunityrunner.commands.base_command import BaseCommand
 
 class Scroll(BaseCommand):
 
-    def __init__(self, connection, speed, duration, wait):
+    def __init__(self, connection, speed_vertical, duration, wait, speed_horizontal):
         super(Scroll, self).__init__(connection, "scroll")
 
-        self.speed = speed
+        self.speed_vertical = speed_vertical
+        self.speed_horizontal = speed_horizontal
         self.duration = duration
         self.wait = wait
 
@@ -14,7 +15,8 @@ class Scroll(BaseCommand):
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
-            "speed": self.speed,
+            "speed": self.speed_vertical,
+            "speedHorizontal": self.speed_horizontal,
             "duration": self.duration,
             "wait": self.wait,
         })
