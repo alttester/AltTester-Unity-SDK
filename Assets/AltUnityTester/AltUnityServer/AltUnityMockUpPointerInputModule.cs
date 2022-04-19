@@ -32,7 +32,7 @@ namespace Altom.AltUnityTester
                         pointerEventData.pointerPressRaycast = pointerEventData.pointerCurrentRaycast;
                         pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                             ExecuteEvents.pointerEnterHandler);
-                        var monoBehaviourTarget = FindMonoBehaviourObject(pointerEventData.position);
+                        var monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(pointerEventData.position);
                         pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                             ExecuteEvents.pointerDownHandler);
                         pointerEventData.selectedObject = pointerEventData.pointerPress;
@@ -183,60 +183,7 @@ namespace Altom.AltUnityTester
             return null;
         }
 
-        public UnityEngine.GameObject GetGameObjectHitMonoBehaviour(UnityEngine.Vector2 coordinates)
-        {
-            foreach (var camera in UnityEngine.Camera.allCameras.OrderByDescending(c => c.depth))
-            {
-                UnityEngine.RaycastHit hit;
-                UnityEngine.Ray ray = camera.ScreenPointToRay(coordinates);
-                UnityEngine.GameObject gameObject3d = null;
-                UnityEngine.GameObject gameObject2d = null;
-                UnityEngine.Vector3 hitPosition3d = UnityEngine.Vector3.zero;
-                UnityEngine.Vector3 hitPosition2d = UnityEngine.Vector3.zero;
-                if (UnityEngine.Physics.Raycast(ray, out hit))
-                {
-                    hitPosition3d = hit.point;
-                    gameObject3d = hit.transform.gameObject;
-                }
-                UnityEngine.RaycastHit2D hit2d;
-                if (hit2d = UnityEngine.Physics2D.Raycast(coordinates, UnityEngine.Vector2.zero))
-                {
-                    hitPosition2d = hit2d.point;
-                    gameObject2d = hit2d.transform.gameObject;
-                }
 
 
-                if (gameObject2d != null && gameObject3d != null)
-                {
-                    if (UnityEngine.Vector3.Distance(camera.transform.position, hitPosition2d) < UnityEngine.Vector3.Distance(camera.transform.position, hitPosition3d))
-                        return gameObject2d;
-                    else
-                        return gameObject3d;
-                }
-                if (gameObject2d != null) return gameObject2d;
-                if (gameObject3d != null) return gameObject3d;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Finds element(s) at given coordinates for which we raise MonoBehaviour input events
-        /// </summary>
-        /// <param name="coordinates"></param>
-        /// <returns>the found gameObject</returns>
-        public UnityEngine.GameObject FindMonoBehaviourObject(UnityEngine.Vector2 coordinates)
-        {
-            var target = GetGameObjectHitMonoBehaviour(coordinates);
-            if (target == null)
-                return null;
-
-            var rigidBody = target.GetComponentInParent<UnityEngine.Rigidbody>();
-            if (rigidBody != null)
-                return rigidBody.gameObject;
-            var rigidBody2D = target.GetComponentInParent<UnityEngine.Rigidbody2D>();
-            if (rigidBody2D != null)
-                return rigidBody2D.gameObject;
-            return target;
-        }
     }
 }

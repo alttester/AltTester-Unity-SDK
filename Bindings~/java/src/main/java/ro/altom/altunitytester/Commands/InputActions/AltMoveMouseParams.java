@@ -7,7 +7,7 @@ public class AltMoveMouseParams extends AltMessage {
     public static class Builder {
         private Vector2 coordinates;
         private float duration = 0.1f;
-        private boolean wait;
+        private boolean wait = true;
 
         /**
          * @param coordinates The screen coordinates

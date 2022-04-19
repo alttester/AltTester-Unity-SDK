@@ -283,9 +283,20 @@ namespace Altom.AltUnityDriver
         /// <param name="speed">Set how fast to scroll. Positive values will scroll up and negative values will scroll down. Defaults to <code> 1 </code></param>
         /// <param name="duration">The duration of the scroll in seconds. Defaults to <code> 0.1 </code></param>
         /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
-        public void Scroll(float speed = 1, float duration = 0.1f, bool wait = true)
+        public void Scroll(float speed, float duration = 0.1f, bool wait = true)
         {
-            new AltUnityScroll(communicationHandler, speed, duration, wait).Execute();
+            new AltUnityScroll(communicationHandler, speed, 0, duration, wait).Execute();
+        }
+
+        /// <summary>
+        /// Simulate scroll action in your game.
+        /// </summary>
+        /// <param name="scrollValue">Set how fast to scroll. X is horizontal and Y is vertical. Defaults to <code> 1 </code></param>
+        /// <param name="duration">The duration of the scroll in seconds. Defaults to <code> 0.1 </code></param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        public void Scroll(AltUnityVector2 scrollValue, float duration = 0.1f, bool wait = true)
+        {
+            new AltUnityScroll(communicationHandler, scrollValue.y, scrollValue.x, duration, wait).Execute();
         }
 
         /// <summary>

@@ -178,15 +178,17 @@ namespace Altom.AltUnityDriver.Commands
     [Command("scroll")]
     public class AltUnityScrollParams : CommandParams
     {
-        public float speed;
+        public float speed;//TODO change to vector2
+        public float speedHorizontal;
         public float duration;
         public bool wait;
 
-        public AltUnityScrollParams(float speed, float duration, bool wait) : base()
+        public AltUnityScrollParams(float speed, float duration, bool wait, float speedHorizontal = 0) : base()
         {
             this.speed = speed;
             this.duration = duration;
             this.wait = wait;
+            this.speedHorizontal = speedHorizontal;
         }
     }
 
