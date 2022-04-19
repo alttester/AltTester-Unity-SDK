@@ -1,12 +1,17 @@
 #if ENABLE_INPUT_SYSTEM
 using System.Collections;
+using System.Collections.Generic;
+using Altom.AltUnityTester;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace Altom.AltUnityTester
 {
     public class NewInputSystem : MonoBehaviour
     {
+        private static float keyDownPower;
+
         public static InputTestFixture InputTestFixture = new InputTestFixture();
         public static NewInputSystem Instance;
         public static Keyboard Keyboard;
@@ -52,7 +57,6 @@ namespace Altom.AltUnityTester
 
         internal static IEnumerator ScrollLifeCycle(float speedVertical, float speedHorizontal, float duration)
         {
-
             float currentTime = 0;
             float frameTime = 0;// using this because of a bug with yield return which waits only every other iteration
             while (currentTime <= duration - Time.fixedUnscaledDeltaTime)
@@ -156,6 +160,29 @@ namespace Altom.AltUnityTester
                     yield return new WaitForSecondsRealtime(interval - time);
             }
         }
+
+        internal static void KeyDown(KeyCode keyCode, float power)
+        {
+            keyDownPower = power;
+            ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
+            keyDown(keyCode, power, buttonControl);
+        }
+
+        internal static void KeyUp(KeyCode keyCode)
+        {
+            ButtonControl buttonControl = keyCodeToButtonControl(keyCode, keyDownPower);
+            keyUp(keyCode, buttonControl);
+        }
+
+        internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
+        {
+            ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
+            yield return null;
+            keyDown(keyCode, power, buttonControl);
+            yield return new WaitForSeconds(duration);
+            keyUp(keyCode, buttonControl, true);
+        }
+
         internal static IEnumerator AccelerationLifeCycle(Vector3 accelerationValue, float duration)
         {
             float currentTime = 0;
@@ -173,6 +200,51 @@ namespace Altom.AltUnityTester
             InputTestFixture.Set(Accelerometer.acceleration, Vector3.zero);
             InputSystem.DisableDevice(Accelerometer);
         }
+
+        #region private interface
+        private static ButtonControl keyCodeToButtonControl(KeyCode keyCode, float power = 1)
+        {
+            foreach (var e in AltUnityKeyMapping.StringToKeyCode)
+                if (e.Value == keyCode)
+                    return Keyboard.current[AltUnityKeyMapping.StringToKey[e.Key]];
+            foreach (var e in AltUnityKeyMapping.mouseKeyCodeToButtonControl)
+                if (e.Key == keyCode)
+                    return e.Value;
+            AltUnityKeyMapping altUnityKeyMapping = new AltUnityKeyMapping(power);
+            foreach (var e in altUnityKeyMapping.joystickKeyCodeToGamepad)
+                if (e.Key == keyCode)
+                    return e.Value;
+            return null;
+        }
+
+        private static void setStick(float value, ButtonControl buttonControl)
+        {
+            if (buttonControl == Gamepad.current.leftStick.up || buttonControl == Gamepad.current.leftStick.down)
+                InputTestFixture.Set(Gamepad.current.leftStick.y, value, queueEventOnly: true);
+            else if (buttonControl == Gamepad.current.leftStick.right || buttonControl == Gamepad.current.leftStick.left)
+                InputTestFixture.Set(Gamepad.current.leftStick.x, value, queueEventOnly: true);
+            else if (buttonControl == Gamepad.current.rightStick.up || buttonControl == Gamepad.current.rightStick.down)
+                InputTestFixture.Set(Gamepad.current.rightStick.y, value, queueEventOnly: true);
+            else if (buttonControl == Gamepad.current.rightStick.right || buttonControl == Gamepad.current.rightStick.left)
+                InputTestFixture.Set(Gamepad.current.rightStick.x, value, queueEventOnly: true);
+        }
+
+        private static void keyDown(KeyCode keyCode, float power, ButtonControl buttonControl)
+        {
+            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
+                setStick(power, buttonControl);
+            else
+                InputTestFixture.Press(buttonControl);
+        }
+
+        private static void keyUp(KeyCode keyCode, ButtonControl buttonControl, bool queueEventOnly = false)
+        {
+            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
+                setStick(0, buttonControl);
+            else
+                InputTestFixture.Release(buttonControl, queueEventOnly: queueEventOnly);
+        }
+        #endregion
     }
 
 }

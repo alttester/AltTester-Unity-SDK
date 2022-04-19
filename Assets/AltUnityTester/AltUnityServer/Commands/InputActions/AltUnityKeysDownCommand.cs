@@ -16,8 +16,8 @@ namespace Altom.AltUnityTester.Commands
 
 #if ALTUNITYTESTER
             var powerClamped = Mathf.Clamp01(CommandParams.power);
-            foreach(var keyCode in CommandParams.keyCodes)
-                Input.KeyDown((UnityEngine.KeyCode)keyCode, powerClamped);
+            foreach (var keyCode in CommandParams.keyCodes)
+                InputController.KeyDown((UnityEngine.KeyCode)keyCode, powerClamped);
             return "Ok";
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
