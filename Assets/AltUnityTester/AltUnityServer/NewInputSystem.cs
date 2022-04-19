@@ -164,34 +164,22 @@ namespace Altom.AltUnityTester
         {
             keyDownPower = power;
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
-            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
-                setStick(power, buttonControl);
-            else
-                InputTestFixture.Press(buttonControl);
+            keyDown(keyCode, power, buttonControl);
         }
 
         internal static void KeyUp(KeyCode keyCode)
         {
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, keyDownPower);
-            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
-                setStick(0, buttonControl);
-            else
-                InputTestFixture.Release(buttonControl);
+            keyUp(keyCode, buttonControl);
         }
 
         internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
         {
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
             yield return null;
-            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
-                setStick(power, buttonControl);
-            else
-                InputTestFixture.Press(buttonControl);
+            keyDown(keyCode, power, buttonControl);
             yield return new WaitForSeconds(duration);
-            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
-                setStick(0, buttonControl);
-            else
-                InputTestFixture.Release(buttonControl, queueEventOnly: true);
+            keyUp(keyCode, buttonControl, true);
         }
 
         internal static IEnumerator AccelerationLifeCycle(Vector3 accelerationValue, float duration)
@@ -230,22 +218,30 @@ namespace Altom.AltUnityTester
 
         private static void setStick(float value, ButtonControl buttonControl)
         {
-            if (buttonControl == Gamepad.current.leftStick.up)
+            if (buttonControl == Gamepad.current.leftStick.up || buttonControl == Gamepad.current.leftStick.down)
                 InputTestFixture.Set(Gamepad.current.leftStick.y, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.leftStick.down)
-                InputTestFixture.Set(Gamepad.current.leftStick.y, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.leftStick.right)
+            else if (buttonControl == Gamepad.current.leftStick.right || buttonControl == Gamepad.current.leftStick.left)
                 InputTestFixture.Set(Gamepad.current.leftStick.x, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.leftStick.left)
-                InputTestFixture.Set(Gamepad.current.leftStick.x, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.rightStick.up)
+            else if (buttonControl == Gamepad.current.rightStick.up || buttonControl == Gamepad.current.rightStick.down)
                 InputTestFixture.Set(Gamepad.current.rightStick.y, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.rightStick.down)
-                InputTestFixture.Set(Gamepad.current.rightStick.y, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.rightStick.right)
+            else if (buttonControl == Gamepad.current.rightStick.right || buttonControl == Gamepad.current.rightStick.left)
                 InputTestFixture.Set(Gamepad.current.rightStick.x, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.rightStick.left)
-                InputTestFixture.Set(Gamepad.current.rightStick.x, value, queueEventOnly: true);
+        }
+
+        private static void keyDown(KeyCode keyCode, float power, ButtonControl buttonControl)
+        {
+            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
+                setStick(power, buttonControl);
+            else
+                InputTestFixture.Press(buttonControl);
+        }
+
+        private static void keyUp(KeyCode keyCode, ButtonControl buttonControl, bool queueEventOnly = false)
+        {
+            if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
+                setStick(0, buttonControl);
+            else
+                InputTestFixture.Release(buttonControl, queueEventOnly: queueEventOnly);
         }
         #endregion
     }
