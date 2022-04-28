@@ -1,17 +1,20 @@
 # API
 
+If you are looking for information on a specific function, class or method, this part of the documentation is for you.
+
 ## AltUnityDriver
 
 The **AltUnityDriver** class represents the main game driver component. When you instantiate an AltUnityDriver in your tests, you can use it to "drive" your game like one of your users would, by interacting with all the game objects, their properties and methods.
+
 An AltUnityDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App is running. We can also set some more advanced parameters, as shown in the table below:
 
 **_Parameters_**
 
-| Name          | Type    | Required | Description                                                                                   |
-| ------------- | ------- | -------- | --------------------------------------------------------------------------------------------- |
-| host          | string  | No       | The ip or hostname AltUnity Tester is listening on. The default value for this is "127.0.0.1" |
-| port          | int     | No       | The default value for this is 13000                                                           |
-| enableLogging | boolean | No       | The default value for this is false                                                           |
+| Name          | Type    | Required | Description                                                                           |
+| ------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
+| host          | string  | No       | The IP or hostname AltUnity Tester is listening on. The default value is "127.0.0.1". |
+| port          | int     | No       | The default value is 13000.                                                           |
+| enableLogging | boolean | No       | The default value is false.                                                           |
 
 Once you have an instance of the _AltUnityDriver_, you can use all the available commands to interact with the game. The available methods are the following:
 
@@ -23,17 +26,17 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -77,17 +80,17 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
 
 **_Returns_**
 
--   List of AltUnityObjects/ empty list if no objects were found
+- List of AltUnityObjects or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -109,16 +112,16 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
     .. code-tab:: java
 
-           @Test
-            public void testFindAltUnityObjects() throws Exception
-            {
-                String name = "Plane";
-                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                    name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-                AltUnityObject[] altUnityObjects = altUnityDriver.findObjects(altFindObjectsParams);
-                assertNotNull(altUnityObjects);
-                assertEquals(altUnityObjects[0].name, name);
-            }
+        @Test
+        public void testFindAltUnityObjects() throws Exception
+        {
+            String name = "Plane";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
+            AltUnityObject[] altUnityObjects = altUnityDriver.findObjects(altFindObjectsParams);
+            assertNotNull(altUnityObjects);
+            assertEquals(altUnityObjects[0].name, name);
+        }
 
     .. code-tab:: py
 
@@ -135,17 +138,17 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
 
 **_Returns_**
 
--   AltUnityObjects
+- AltUnityObject
 
 **_Examples_**
 
@@ -160,7 +163,6 @@ Finds the first object in the scene that respects the given criteria. Check [By]
             var altUnityObject = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
             Assert.AreEqual("EventSystem", altUnityObject.name);
         }
-
 
     .. code-tab:: java
 
@@ -190,15 +192,15 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
 | ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
 | cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
 
 **_Returns_**
 
--   List of AltUnityObjects/ empty list if no objects were found
+- List of AltUnityObjects or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -230,38 +232,38 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
     .. code-tab:: py
 
         def test_creating_stars(self):
-                self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
+            self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
 
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
-                self.assertEqual(1, len(stars))
-                player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
+            stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
+            self.assertEqual(1, len(stars))
+            player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
 
-                self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
-                time.sleep(1.5)
+            self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+            time.sleep(1.5)
 
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-                self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-                self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+            self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+            self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+            self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
 
-                stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
-                self.assertEqual(3, len(stars))
+            stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
+            self.assertEqual(3, len(stars))
 ```
 
 #### FindObjectAtCoordinates
 
 Retrieves the Unity object at given coordinates.
 
-Uses EventSystem.RaycastAll to find object. If no object is found then it uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and returns the one closer to the camera.
+Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses `UnityEngine.Physics.Raycast` and `UnityEngine.Physics2D.Raycast` and returns the one closer to the camera.
 
 **_Parameters_**
 
-| Name        | Type    | Required | Description            |
-| ----------- | ------- | -------- | ---------------------- |
-| coordinates | Vector2 | Yes      | The screen coordinates |
+| Name        | Type    | Required | Description             |
+| ----------- | ------- | -------- | ----------------------- |
+| coordinates | Vector2 | Yes      | The screen coordinates. |
 
 **_Returns_**
 
--   AltUnityObject - The UI object hit by event system Raycast, null otherwise
+- AltUnityObject - The UI object hit by event system Raycast, nothing otherwise.
 
 **_Examples_**
 
@@ -307,15 +309,15 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
 
 **_Returns_**
 
--   List of AltUnityObjects/ empty list if no objects were found
+- List of AltUnityObjects or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -327,25 +329,8 @@ Returns information about every objects loaded in the currently loaded scenes. T
         [Test]
         public void TestGetAllEnabledObjects()
         {
-
             var altUnityObjects = altUnityDriver.GetAllElements(enabled: true);
             Assert.IsNotEmpty(altUnityObjects);
-            string listOfObjects="";
-                foreach(var object in altUnityObjects){
-                listOfObjects=object.name+"; ";
-            }
-            Debug.Log(listOfObjects);
-            Assert.AreEqual(19, altUnityObjects.Count);
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Capsule"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Main Camera"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Directional Light"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Plane"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Canvas"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "EventSystem"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "AltUnityRunner"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "CapsuleInfo"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "UIButton"));
-            Assert.IsNotNull(altUnityObjects.Where(p => p.name == "Text"));
         }
 
     .. code-tab:: java
@@ -354,44 +339,14 @@ Returns information about every objects loaded in the currently loaded scenes. T
         public void testGetAllElements() throws Exception {
             AltGetAllElementsParams altGetAllElementsParams = new AltGetAllElementsParams.Builder().withCamera(AltUnityDriver.By.NAME,"Main Camera").isEnabled(true).build();
             AltUnityObject[] altUnityObjects = altUnityDriver.getAllElements(altGetAllElementsParams);
-            assertNotNull(altUnityObjects);
-            String altUnityObjectsString = new Gson().toJson(altUnityObjects);
-            assertTrue(altUnityObjectsString.contains("Capsule"));
-            assertTrue(altUnityObjectsString.contains("Main Camera"));
-            assertTrue(altUnityObjectsString.contains("Directional Light"));
-            assertTrue(altUnityObjectsString.contains("Plane"));
-            assertTrue(altUnityObjectsString.contains("Canvas"));
-            assertTrue(altUnityObjectsString.contains("EventSystem"));
-            assertTrue(altUnityObjectsString.contains("AltUnityRunnerPrefab"));
-            assertTrue(altUnityObjectsString.contains("CapsuleInfo"));
-            assertTrue(altUnityObjectsString.contains("UIButton"));
-            assertTrue(altUnityObjectsString.contains("Text"));
+            assertFalse(altUnityObjects.isEmpty());
         }
 
     .. code-tab:: py
 
         def test_get_all_elements(self):
             alt_elements = self.altUnityDriver.get_all_elements(enabled= False)
-            self.assertIsNotNone(alt_elements)
-
-            list_of_elements=[]
-            for element in alt_elements:
-                list_of_elements.append(element.name)
-
-            self.assertEqual(28, len(list_of_elements))
-            self.assertTrue("Capsule" in list_of_elements)
-            self.assertTrue("Main Camera" in list_of_elements)
-            self.assertTrue("Directional Light" in list_of_elements)
-            self.assertTrue("Plane" in list_of_elements)
-            self.assertTrue("Canvas" in list_of_elements)
-            self.assertTrue("EventSystem" in list_of_elements)
-            self.assertTrue("AltUnityRunnerPrefab" in list_of_elements)
-            self.assertTrue("CapsuleInfo" in list_of_elements)
-            self.assertTrue("UIButton" in list_of_elements)
-            self.assertTrue("Cube" in list_of_elements)
-            self.assertTrue("Camera" in list_of_elements)
-            self.assertTrue("InputField" in list_of_elements)
-
+            assert alt_elements
 
 ```
 
@@ -401,19 +356,19 @@ Waits until it finds an object that respects the given criteria or until timeout
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
-| interval    | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
+| timeout     | double             | No       | The number of seconds that it will wait for object.                                                                                                                                                                                                                                                                                                                                                        |
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -469,8 +424,8 @@ Waits until it finds an object that respects the given criteria or until timeout
     .. code-tab:: py
 
         def test_wait_for_object(self):
-            altUnityObject=self.altUnityDriver.wait_for_object(By.NAME,"Capsule")
-            self.assertEqual(altUnityObject.name,"Capsule")
+            alt_object = self.altUnityDriver.wait_for_object(By.NAME, "Capsule")
+            assert alt_object.name == "Capsule"
 
 ```
 
@@ -482,17 +437,17 @@ Waits until it finds an object that respects the given criteria or time runs out
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
 | ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
 | cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
-| interval    | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
+| timeout     | double             | No       | The number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                        |
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                           |
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -507,6 +462,7 @@ Waits until it finds an object that respects the given criteria or time runs out
             var altUnityObject = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
             Assert.AreEqual("Canvas", altUnityObject.name);
         }
+
     .. code-tab:: java
 
         @Test
@@ -527,8 +483,9 @@ Waits until it finds an object that respects the given criteria or time runs out
     .. code-tab:: py
 
         def test_wait_for_object_which_contains(self):
-            altUnityObject=self.altUnityDriver.wait_for_object_which_contains(By.NAME,"Main")
-            self.assertEqual(altUnityObject.name,"Main Camera")
+            alt_object = self.altUnityDriver.wait_for_object_which_contains(By.NAME, "Main")
+            assert alt_object.name == "Main Camera"
+
 ```
 
 #### WaitForObjectNotBePresent
@@ -539,17 +496,17 @@ Waits until the object in the scene that respects the given criteria is no longe
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
 | ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera                                                                                                                                                                                                                                                                                                                                                      |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
 | cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                            |
-| interval    | double             | No       | number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                               |
+| timeout     | double             | No       | The number of seconds that it will wait for object.                                                                                                                                                                                                                                                                                                                                                       |
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. interval should be smaller than timeout.                                                                                                                                                                                                                                                                                          |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -594,7 +551,9 @@ Sets the value for the command response timeout.
 
 **_Returns_**
 
--   Nothing
+- Nothing
+
+**_Examples_**
 
 ```eval_rst
 .. tabs::
@@ -628,7 +587,7 @@ Simulates a key down.
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -715,7 +674,7 @@ Simulates a key up.
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -803,7 +762,7 @@ Simulates holding left click button down for a specified amount of time at given
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -850,19 +809,19 @@ Simulates holding left click button down for a specified amount of time at given
 
 #### MoveMouse
 
-Simulate mouse movement in your game
+Simulate mouse movement in your game.
 
 **_Parameters_**
 
 | Name        | Type    | Required | Default | Description                                                                                            |
 | ----------- | ------- | -------- | ------- | ------------------------------------------------------------------------------------------------------ |
-| coordinates | Vector2 | Yes      |         | The screen coordinates                                                                                 |
+| coordinates | Vector2 | Yes      |         | The screen coordinates.                                                                                |
 | duration    | float   | No       | 0.1     | The time measured in seconds to move the mouse from the current mouse position to the set coordinates. |
 | wait        | boolean | No       | true    | If set wait for command to finish.                                                                     |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -937,16 +896,16 @@ Simulates key press action in your game.
 
 **_Parameters_**
 
-| Name     | Type            | Required | Default | Description                                                                             |
-| -------- | --------------- | -------- | ------- | --------------------------------------------------------------------------------------- |
-| keycode  | AltUnityKeyCode | Yes      |         | The key code of the key simulated to be pressed.                                        |
-| power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed |
-| duration | float           | No       | 0.1     | The time measured in seconds from the key press to the key release.                     |
-| wait     | boolean         | No       | true    | If set wait for command to finish.                                                      |
+| Name     | Type            | Required | Default | Description                                                                              |
+| -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
+| keycode  | AltUnityKeyCode | Yes      |         | The key code of the key simulated to be pressed.                                         |
+| power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed. |
+| duration | float           | No       | 0.1     | The time measured in seconds from the key press to the key release.                      |
+| wait     | boolean         | No       | true    | If set wait for command to finish.                                                       |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -1029,7 +988,7 @@ Simulate scroll action in your game.
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -1043,12 +1002,12 @@ Simulate scroll action in your game.
         {
             altUnityDriver.LoadScene("Scene 5 Keyboard Input");
             var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
-            AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
+            AltUnityVector3 cubeInitialPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
             altUnityDriver.Scroll(4, 2);
 
             player2 = altUnityDriver.FindObject(By.NAME, "Player2");
             AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
+            Assert.AreNotEqual(cubeInitialPosition, cubeFinalPosition);
         }
 
     .. code-tab:: java
@@ -1058,12 +1017,12 @@ Simulate scroll action in your game.
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
                     "Player2").build();
             AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParams);
-            Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY, player2.worldY);
+            Vector3 cubeInitialPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
             altUnityDriver.scroll(new AltScrollParams.Builder().withSpeed(4).withDuration(2).build());
 
             player2 = altUnityDriver.findObject(altFindObjectsParams);
             Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
-            assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+            assertNotEquals(cubeInitialPosition, cubeFinalPosition);
         }
 
     .. code-tab:: py
@@ -1071,12 +1030,12 @@ Simulate scroll action in your game.
         def test_scroll(self):
             self.altdriver.load_scene("Scene 5 Keyboard Input")
             player2 = self.altdriver.find_object(By.NAME, "Player2")
-            cubeInitialPostion = [player2.worldX, player2.worldY, player2.worldY]
+            cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
             self.altdriver.scroll(4, 2)
 
             player2 = self.altdriver.find_object(By.NAME, "Player2")
             cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
-            assert cubeInitialPostion != cubeFinalPosition
+            assert cube_initial_position != cubeFinalPosition
 
 ```
 
@@ -1088,14 +1047,14 @@ Simulates a swipe action between two points.
 
 | Name     | Type    | Required | Default | Description                                                                |
 | -------- | ------- | -------- | ------- | -------------------------------------------------------------------------- |
-| start    | Vector2 | Yes      |         | Starting location of the swipe                                             |
-| end      | Vector2 | Yes      |         | Ending location of the swipe                                               |
+| start    | Vector2 | Yes      |         | Starting location of the swipe.                                            |
+| end      | Vector2 | Yes      |         | Ending location of the swipe.                                              |
 | duration | float   | No       | 0.1     | The time measured in seconds to move the mouse from start to end location. |
 | wait     | boolean | No       | true    | If set wait for command to finish.                                         |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -1231,13 +1190,13 @@ Simulates a multipoint swipe action.
 
 | Name      | Type                    | Required | Default | Description                                                                     |
 | --------- | ----------------------- | -------- | ------- | ------------------------------------------------------------------------------- |
-| positions | List\[AltUnityVector2\] | Yes      |         | A list of positions on the screen where the swipe be made                       |
+| positions | List\[AltUnityVector2\] | Yes      |         | A list of positions on the screen where the swipe be made.                      |
 | duration  | float                   | No       | 0.1     | The time measured in seconds to swipe from first position to the last position. |
 | wait      | boolean                 | No       | true    | If set wait for command to finish.                                              |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -1307,7 +1266,6 @@ Simulates a multipoint swipe action.
 
             assert position_init != position_final
 
-
 ```
 
 #### BeginTouch
@@ -1316,13 +1274,13 @@ Simulates starting of a touch on the screen. To further interact with the touch 
 
 **_Parameters_**
 
-| Name        | Type    | Required | Description        |
-| ----------- | ------- | -------- | ------------------ |
-| coordinates | Vector2 | Yes      | Screen coordinates |
+| Name        | Type    | Required | Description         |
+| ----------- | ------- | -------- | ------------------- |
+| coordinates | Vector2 | Yes      | Screen coordinates. |
 
 **_Returns_**
 
--   int - the fingerId
+- int - the fingerId.
 
 **_Examples_**
 
@@ -1331,49 +1289,48 @@ Simulates starting of a touch on the screen. To further interact with the touch 
 
     .. code-tab:: c#
 
-            [Test]
-            public void TestNewTouchCommands()
-            {
-                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-                var initialPosition = draggableArea.getScreenPosition();
-                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
-                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
-                altUnityDriver.MoveTouch(fingerId, newPosition);
-                altUnityDriver.EndTouch(fingerId);
-                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+        [Test]
+        public void TestNewTouchCommands()
+        {
+            var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            var initialPosition = draggableArea.getScreenPosition();
+            int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+            AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+            altUnityDriver.MoveTouch(fingerId, newPosition);
+            altUnityDriver.EndTouch(fingerId);
+            draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
 
-            }
+        }
 
     .. code-tab:: java
 
-            @Test
-            public void testNewTouchCommands() throws InterruptedException {
-                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                        AltUnityDriver.By.NAME, "Drag Zone").build();
-                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
-                Vector2 initialPosition = draggableArea.getScreenPosition();
-                int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
-                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
-                altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
-                altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
-                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
-                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
-                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
-            }
+        @Test
+        public void testNewTouchCommands() throws InterruptedException {
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                    AltUnityDriver.By.NAME, "Drag Zone").build();
+            AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            Vector2 initialPosition = draggableArea.getScreenPosition();
+            int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
+            Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+            altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
+            altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
+            draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+            assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+        }
 
     .. code-tab:: py
 
-            def test_new_touch_commands(self):
-                self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
-                initial_position = draggable_area.get_screen_position()
-                finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
-                self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-                self.altUnityDriver.end_touch(finger_id)
-                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
-                self.assertNotEqual(initial_position, draggable_area)
-
+        def test_new_touch_commands(self):
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            initial_position = draggable_area.get_screen_position()
+            finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
+            self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.altUnityDriver.end_touch(finger_id)
+            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            self.assertNotEqual(initial_position, draggable_area)
 
 ```
 
@@ -1383,14 +1340,14 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
 
 **_Parameters_**
 
-| Name        | Type    | Required | Description                                              |
-| ----------- | ------- | -------- | -------------------------------------------------------- |
-| fingerId    | int     | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
-| coordinates | Vector2 | Yes      | Screen coordinates where the touch will be moved         |
+| Name        | Type    | Required | Description                                               |
+| ----------- | ------- | -------- | --------------------------------------------------------- |
+| fingerId    | int     | Yes      | Identifier returned by [BeginTouch](#begintouch) command. |
+| coordinates | Vector2 | Yes      | Screen coordinates where the touch will be moved.         |
 
 **_Returns_**
 
--   void
+- Nothing
 
 **_Examples_**
 
@@ -1399,48 +1356,48 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
 
     .. code-tab:: c#
 
-            [Test]
-            public void TestNewTouchCommands()
-            {
-                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-                var initialPosition = draggableArea.getScreenPosition();
-                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
-                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
-                altUnityDriver.MoveTouch(fingerId, newPosition);
-                altUnityDriver.EndTouch(fingerId);
-                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+        [Test]
+        public void TestNewTouchCommands()
+        {
+            var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            var initialPosition = draggableArea.getScreenPosition();
+            int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+            AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+            altUnityDriver.MoveTouch(fingerId, newPosition);
+            altUnityDriver.EndTouch(fingerId);
+            draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
 
-            }
+        }
 
     .. code-tab:: java
 
-            @Test
-            public void testNewTouchCommands() throws InterruptedException {
-                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                        AltUnityDriver.By.NAME, "Drag Zone").build();
-                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
-                Vector2 initialPosition = draggableArea.getScreenPosition();
-                int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
-                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
-                altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
-                altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
-                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
-                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
-                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
-            }
+        @Test
+        public void testNewTouchCommands() throws InterruptedException {
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                    AltUnityDriver.By.NAME, "Drag Zone").build();
+            AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            Vector2 initialPosition = draggableArea.getScreenPosition();
+            int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
+            Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+            altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
+            altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
+            draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+            assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+        }
 
     .. code-tab:: py
 
-            def test_new_touch_commands(self):
-                self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
-                initial_position = draggable_area.get_screen_position()
-                finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
-                self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-                self.altUnityDriver.end_touch(finger_id)
-                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
-                self.assertNotEqual(initial_position, draggable_area)
+        def test_new_touch_commands(self):
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            initial_position = draggable_area.get_screen_position()
+            finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
+            self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.altUnityDriver.end_touch(finger_id)
+            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            self.assertNotEqual(initial_position, draggable_area)
 
 
 ```
@@ -1451,13 +1408,13 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
 
 **_Parameters_**
 
-| Name     | Type | Required | Description                                              |
-| -------- | ---- | -------- | -------------------------------------------------------- |
-| fingerId | int  | Yes      | Identifier returned by [BeginTouch](#begintouch) command |
+| Name     | Type | Required | Description                                               |
+| -------- | ---- | -------- | --------------------------------------------------------- |
+| fingerId | int  | Yes      | Identifier returned by [BeginTouch](#begintouch) command. |
 
 **_Returns_**
 
--   void
+- Nothing
 
 **_Examples_**
 
@@ -1466,68 +1423,67 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
 
     .. code-tab:: c#
 
-            [Test]
-            public void TestNewTouchCommands()
-            {
-                var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-                var initialPosition = draggableArea.getScreenPosition();
-                int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
-                AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
-                altUnityDriver.MoveTouch(fingerId, newPosition);
-                altUnityDriver.EndTouch(fingerId);
-                draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
-                Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+        [Test]
+        public void TestNewTouchCommands()
+        {
+            var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            var initialPosition = draggableArea.getScreenPosition();
+            int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
+            AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
+            altUnityDriver.MoveTouch(fingerId, newPosition);
+            altUnityDriver.EndTouch(fingerId);
+            draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
 
-            }
+        }
 
     .. code-tab:: java
 
-            @Test
-            public void testNewTouchCommands() throws InterruptedException {
-                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                        AltUnityDriver.By.NAME, "Drag Zone").build();
-                AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
-                Vector2 initialPosition = draggableArea.getScreenPosition();
-                int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
-                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
-                altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
-                altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
-                draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
-                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
-                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
-            }
+        @Test
+        public void testNewTouchCommands() throws InterruptedException {
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                    AltUnityDriver.By.NAME, "Drag Zone").build();
+            AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            Vector2 initialPosition = draggableArea.getScreenPosition();
+            int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
+            Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+            altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
+            altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
+            draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+            assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+        }
 
     .. code-tab:: py
 
-            def test_new_touch_commands(self):
-                self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
-                initial_position = draggable_area.get_screen_position()
-                finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
-                self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-                self.altUnityDriver.end_touch(finger_id)
-                draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
-                self.assertNotEqual(initial_position, draggable_area)
-
+        def test_new_touch_commands(self):
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            initial_position = draggable_area.get_screen_position()
+            finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
+            self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.altUnityDriver.end_touch(finger_id)
+            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            self.assertNotEqual(initial_position, draggable_area)
 
 ```
 
 #### Click
 
-Click at screen coordinates
+Click at screen coordinates.
 
 **_Parameters_**
 
-| Name        | Type    | Required | Default | Description                        |
-| ----------- | ------- | -------- | ------- | ---------------------------------- |
-| coordinates | Vector2 | Yes      |         | The screen coordinates             |
-| count       | int     | No       | 1       | Number of clicks                   |
-| interval    | float   | No       | 0.1     | Interval between clicks in seconds |
-| wait        | boolean | No       | true    | If set wait for command to finish. |
+| Name        | Type    | Required | Default | Description                         |
+| ----------- | ------- | -------- | ------- | ----------------------------------- |
+| coordinates | Vector2 | Yes      |         | The screen coordinates.             |
+| count       | int     | No       | 1       | Number of clicks.                   |
+| interval    | float   | No       | 0.1     | Interval between clicks in seconds. |
+| wait        | boolean | No       | true    | If set wait for command to finish.  |
 
 **_Returns_**
 
--   void
+- Nothing
 
 **_Examples_**
 
@@ -1548,7 +1504,7 @@ Click at screen coordinates
 
     .. code-tab:: java
 
-         @Test()
+        @Test()
         public void TestTapCoordinates() {
             AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                     .build();
@@ -1566,7 +1522,7 @@ Click at screen coordinates
 
     .. code-tab:: py
 
-        def test_tapcoordinates(self):
+        def test_tap_coordinates(self):
             capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
             self.altUnityDriver.click(capsule_element.get_screen_position())
             self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
@@ -1575,20 +1531,20 @@ Click at screen coordinates
 
 #### Tap
 
-Tap at screen coordinates
+Tap at screen coordinates.
 
 **_Parameters_**
 
-| Name        | Type    | Required | Default | Description                        |
-| ----------- | ------- | -------- | ------- | ---------------------------------- |
-| coordinates | Vector2 | Yes      |         | The screen coordinates             |
-| count       | int     | No       | 1       | Number of taps                     |
-| interval    | float   | No       | 0.1     | Interval between taps in seconds   |
-| wait        | boolean | No       | true    | If set wait for command to finish. |
+| Name        | Type    | Required | Default | Description                         |
+| ----------- | ------- | -------- | ------- | ----------------------------------- |
+| coordinates | Vector2 | Yes      |         | The screen coordinates.             |
+| count       | int     | No       | 1       | Number of taps.                     |
+| interval    | float   | No       | 0.1     | Interval between taps in seconds.   |
+| wait        | boolean | No       | true    | If set wait for command to finish.  |
 
 **_Returns_**
 
--   void
+- Nothing
 
 **_Examples_**
 
@@ -1627,7 +1583,7 @@ Tap at screen coordinates
 
     .. code-tab:: py
 
-        def test_tapcoordinates(self):
+        def test_tap_coordinates(self):
             capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
             self.altUnityDriver.tap(capsule_element.get_screen_position())
             self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
@@ -1648,7 +1604,7 @@ Simulates device rotation action in your game.
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -1706,13 +1662,13 @@ Creates a screenshot of the current screen in png format.
 
 **_Parameters_**
 
-| Name | Type   | Required | Description                         |
-| ---- | ------ | -------- | ----------------------------------- |
-| path | string | Yes      | location where the image is created |
+| Name | Type   | Required | Description                          |
+| ---- | ------ | -------- | ------------------------------------ |
+| path | string | Yes      | location where the image is created. |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -1728,23 +1684,27 @@ Creates a screenshot of the current screen in png format.
             altUnityDriver.GetPNGScreenshot(path);
             FileAssert.Exists(path);
         }
+
+
     .. code-tab:: java
 
         @Test
         public void testScreenshot()
         {
             String path="testJava2.png";
-            altUnityDriver.getPNGScreeshot(path);
+            altUnityDriver.getPNGScreenshot(path);
             assertTrue(new File(path).isFile());
         }
 
 
     .. code-tab:: py
 
-       def test_screenshot(self):
-        png_path="testPython.png"
-        self.altUnityDriver.get_png_screenshot(png_path)
-        self.assertTrue(path.exists(png_path))
+        def test_screenshot(self):
+            png_path = "testPython.png"
+            self.altUnityDriver.get_png_screenshot(png_path)
+
+            assert path.exists(png_path)
+
 ```
 
 ### Unity Commands
@@ -1976,7 +1936,6 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             *Parameters*
 
-
             +------------+-----------------------+-----------+----------------------------------+
             |    Name    |          Type         |  Required |           Description            |
             +============+=======================+===========+==================================+
@@ -2004,13 +1963,13 @@ Removes key and its corresponding value from PlayerPrefs.
 
 **_Parameters_**
 
-| Name    | Type  | Required | Description       |
-| ------- | ----- | -------- | ----------------- |
-| keyname | sting | Yes      | Key to be deleted |
+| Name    | Type  | Required | Description         |
+| ------- | ----- | -------- | ------------------- |
+| keyname | sting | Yes      | Key to be deleted.  |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -2077,7 +2036,7 @@ None
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -2126,7 +2085,7 @@ None
 
 **_Returns_**
 
--   String
+- String
 
 **_Examples_**
 
@@ -2152,9 +2111,9 @@ None
 
     .. code-tab:: py
 
-       def test_get_current_scene(self):
-        self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
-        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altUnityDriver.get_current_scene())
+        def test_get_current_scene(self):
+            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altUnityDriver.get_current_scene())
 ```
 
 #### LoadScene
@@ -2163,14 +2122,14 @@ Loads a scene.
 
 **_Parameters_**
 
-| Name       | Type   | Required | Description                                                                                                                                                    |
-| ---------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| scene      | string | Yes      | Name of the scene to be loaded                                                                                                                                 |
-| loadSingle | bool   | No       | Flag to set the mode how to load the scene. Default value is true. If set to false the scene will be loaded additive, together with the current loaded scenes. |
+| Name       | Type   | Required | Description                                                                                                        |
+| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------ |
+| scene      | string | Yes      | The name of the scene to be loaded.                                                                                |
+| loadSingle | bool   | No       | If set to false the scene will be loaded additive, together with the current loaded scenes. Default value is true. |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -2207,13 +2166,13 @@ Unloads a scene.
 
 **_Parameters_**
 
-| Name  | Type   | Required | Description                      |
-| ----- | ------ | -------- | -------------------------------- |
-| scene | string | Yes      | Name of the scene to be unloaded |
+| Name  | Type   | Required | Description                       |
+| ----- | ------ | -------- | --------------------------------- |
+| scene | string | Yes      | Name of the scene to be unloaded. |
 
 **_Returns_**
 
--   Nothing
+- Nothing
 
 **_Examples_**
 
@@ -2231,6 +2190,7 @@ Unloads a scene.
             Assert.AreEqual(1, altUnityDriver.GetAllLoadedScenes().Count);
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetAllLoadedScenes()[0]);
         }
+
     .. code-tab:: java
 
         @Test
@@ -2246,14 +2206,14 @@ Unloads a scene.
 
     .. code-tab:: py
 
-       def test_unload_scene(self):
-        self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
-        self.altUnityDriver.load_scene('Scene 2 Draggable Panel', False)
-        self.assertEqual(2, len(self.altUnityDriver.get_all_loaded_scenes()))
-        self.altUnityDriver.unload_scene('Scene 2 Draggable Panel')
-        self.assertEqual(1, len(self.altUnityDriver.get_all_loaded_scenes()))
-        self.assertEqual("Scene 1 AltUnityDriverTestScene",
-                         self.altUnityDriver.get_all_loaded_scenes()[0])
+        def test_unload_scene(self):
+            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
+            self.altUnityDriver.load_scene('Scene 2 Draggable Panel', False)
+            self.assertEqual(2, len(self.altUnityDriver.get_all_loaded_scenes()))
+            self.altUnityDriver.unload_scene('Scene 2 Draggable Panel')
+            self.assertEqual(1, len(self.altUnityDriver.get_all_loaded_scenes()))
+            self.assertEqual("Scene 1 AltUnityDriverTestScene",
+                            self.altUnityDriver.get_all_loaded_scenes()[0])
 ```
 
 #### GetAllLoadedScenes
@@ -2262,11 +2222,11 @@ Returns all the scenes that have been loaded.
 
 **_Parameters_**
 
--   None
+None
 
 **_Returns_**
 
--   List of strings
+- List of strings
 
 **_Examples_**
 
@@ -2275,7 +2235,7 @@ Returns all the scenes that have been loaded.
 
     .. code-tab:: c#
 
-       [Test]
+        [Test]
         public void TestGetAllLoadedScenes()
         {
             altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
@@ -2335,7 +2295,7 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
 
 **_Returns_**
 
--   void
+- None
 
 **_Examples_**
 
@@ -2396,7 +2356,7 @@ None
 
 **_Returns_**
 
--   float
+- float
 
 **_Examples_**
 
@@ -2445,7 +2405,7 @@ Sets the value of the time scale.
 
 **_Returns_**
 
--   None
+- Nothing
 
 **_Examples_**
 
@@ -2488,17 +2448,17 @@ Invokes static methods from your game.
 
 **_Parameters_**
 
-| Name             | Type   | Required | Description                                                                                                                                                                                              |
-| ---------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| typeName         | string | Yes      | name of the script. If the script has a namespace the format should look like this: "namespace.typeName" )                                                                                               |
-| methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName" |
-| parameters       | array  | No       | an array containing the serialized parameters to be sent to the component method.                                                                                                                        |
-| typeOfParameters | array  | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                                |
-| assemblyName     | string | No       | name of the assembly containing the script                                                                                                                                                               |
+| Name             | Type   | Required | Description                                                                                                                                                                                               |
+| ---------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| typeName         | string | Yes      | The name of the script. If the script has a namespace the format should look like this: "namespace.typeName".                                                                                             |
+| methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
+| parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
+| typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                                 |
+| assemblyName     | string | No       | The name of the assembly containing the script.                                                                                                                                                           |
 
 **_Returns_**
 
--   This is a generic method. The return type depends on the type parameter.
+- This is a generic method. The return type depends on the type parameter.
 
 **_Examples_**
 
@@ -2544,7 +2504,7 @@ Invokes static methods from your game.
 
 #### GetStaticProperty
 
-Gets the value of the static field or property
+Gets the value of the static field or property.
 
 **_Parameters_**
 
@@ -2557,7 +2517,7 @@ Gets the value of the static field or property
 
 **_Returns_**
 
--   This is a generic method. The return type depends on the type of the static field or property to be retrieved.
+- This is a generic method. The return type depends on the type of the static field or property to be retrieved.
 
 **_Examples_**
 
@@ -2600,14 +2560,14 @@ Gets the value of the static field or property
 
 #### SetServerLogging
 
-Sets the level of logging on AltUnity Tester
+Sets the level of logging on AltUnity Tester.
 
 **_Parameters_**
 
-| Name     | Type             | Required | Description        |
-| -------- | ---------------- | -------- | ------------------ |
-| logger   | AltUnityLogger   | Yes      | The type of logger |
-| logLevel | AltUnityLogLevel | Yes      | The logging level  |
+| Name     | Type             | Required | Description         |
+| -------- | ---------------- | -------- | ------------------- |
+| logger   | AltUnityLogger   | Yes      | The type of logger. |
+| logLevel | AltUnityLogLevel | Yes      | The logging level.  |
 
 **_Returns_**
 
@@ -2681,19 +2641,19 @@ The **AltUnityObject** class represents the objects present in the game and it a
 
 | Name              | Type   | Description                                                                                                                          |
 | ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| name              | string | The name of the object                                                                                                               |
-| id                | int    | The objects's id                                                                                                                     |
-| x                 | int    | The value for x axis coordinate on screen                                                                                            |
-| y                 | int    | The value for y axis coordinate on screen                                                                                            |
-| mobileY           | int    | The value for y axis for appium                                                                                                      |
-| type              | string | Object's type, for objects from the game is gameObject                                                                               |
+| name              | string | The name of the object.                                                                                                              |
+| id                | int    | The objects's id.                                                                                                                    |
+| x                 | int    | The value for x axis coordinate on screen.                                                                                           |
+| y                 | int    | The value for y axis coordinate on screen.                                                                                           |
+| mobileY           | int    | The value for y axis for appium.                                                                                                     |
+| type              | string | Object's type, for objects from the game is gameObject.                                                                              |
 | enabled           | bool   | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
-| worldX            | float  | The value for x axis coordinate in the game's world                                                                                  |
-| worldY            | float  | The value for y axis coordinate in the game's world                                                                                  |
-| worldZ            | float  | The value for z axis coordinate in the game's world                                                                                  |
-| idCamera          | int    | The camera's id                                                                                                                      |
-| transformId       | int    | The transform's component id                                                                                                         |
-| parentId          | int    | The transform parent's id. It's obsolete. Use transformParentId instead                                                              |
+| worldX            | float  | The value for x axis coordinate in the game's world.                                                                                 |
+| worldY            | float  | The value for y axis coordinate in the game's world.                                                                                 |
+| worldZ            | float  | The value for z axis coordinate in the game's world.                                                                                 |
+| idCamera          | int    | The camera's id.                                                                                                                     |
+| transformId       | int    | The transform's component id.                                                                                                        |
+| parentId          | int    | The transform parent's id. It's obsolete. Use transformParentId instead.                                                             |
 | transformParentId | int    | The transform parent's id.                                                                                                           |
 
 The available methods are the following:
@@ -2704,17 +2664,17 @@ Invokes a method from an existing component of the object.
 
 **_Parameters_**
 
-| Name             | Type   | Required | Description                                                                                                                                                                                      |
-| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| componentName    | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" )                                                                            |
-| methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName" |
-| parameters       | array  | No       | an array containing the serialized parameters to be sent to the component method.                                                                                                                |
-| typeOfParameters | array  | No       | an array containing the serialized type of parameters to be sent to the component method.                                                                                                        |
-| assemblyName     | string | No       | name of the assembly containing the component                                                                                                                                                    |
+| Name             | Type   | Required | Description                                                                                                                                                                                       |
+| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
+| componentName    | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName".                                                                          |
+| methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
+| parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
+| typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                         |
+| assemblyName     | string | No       | The name of the assembly containing the component.                                                                                                                                                |
 
 **_Returns_**
 
--   This is a generic method. The return type depends on the type parameter.
+- This is a generic method. The return type depends on the type parameter.
 
 **_Examples_**
 
@@ -2776,14 +2736,14 @@ Returns the value of the given component property.
 
 | Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                                                                                                                                                                                                                                                                                                            |
+| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                                                                                                                                                                                                                                                                                                            |
 | propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                                                                                                                                  |
-| assemblyName  | string | No       | name of the assembly containing the component                                                                                                                                                                                                                                                                                                                                                                                                  |
+| assemblyName  | string | No       | The name of the assembly containing the component.                                                                                                                                                                                                                                                                                                                                                                                                  |
 | maxDepth      | int    | No       | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0, "sqrMagnitude":1.0, "x":0.871575534, "y":0.490261227, "z":0.0}, "magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} |
 
 **_Returns_**
 
--   Object
+- Object
 
 **_Examples_**
 
@@ -2833,16 +2793,16 @@ Sets value of the given component property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                                           |
-| ------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | name of the component. If the component has a namespace the format should look like this: "namespace.componentName" ) |
-| propertyName  | string | Yes      | name of the property of which value you want to set                                                                   |
-| value         | object | Yes      | the value to be set for the chosen component's property                                                               |
-| assemblyName  | string | No       | name of the assembly containing the component. It is NULL by default                                                  |
+| Name          | Type   | Required | Description                                                                                                              |
+| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
+| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
+| propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
+| value         | object | Yes      | The value to be set for the chosen component's property                                                                  |
+| assemblyName  | string | No       | The name of the assembly containing the component. It is NULL by default.                                                |
 
 **_Returns_**
 
--   void
+- Nothing
 
 **_Examples_**
 
@@ -2903,7 +2863,7 @@ None
 
 **_Returns_**
 
--   String
+- String
 
 **_Examples_**
 
@@ -2962,14 +2922,14 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 **_Parameters_**
 
-| Name   | Type   | Required | Description                        |
-| ------ | ------ | -------- | ---------------------------------- |
-| text   | string | Yes      | text to be set                     |
-| submit | bool   | No       | if set will trigger a submit event |
+| Name   | Type   | Required | Description                         |
+| ------ | ------ | -------- | ----------------------------------- |
+| text   | string | Yes      | The text to be set.                 |
+| submit | bool   | No       | If set will trigger a submit event. |
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -3017,19 +2977,19 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 ### Tap
 
-Tap current object
+Tap current object.
 
 **_Parameters_**
 
-| Name     | Type    | Required | Default | Description                      |
-| -------- | ------- | -------- | ------- | -------------------------------- |
-| count    | int     | No       | 1       | Number of taps                   |
-| interval | float   | No       | 0.1     | Interval between taps in seconds |
-| wait     | boolean | No       | true    | Wait for command to finish       |
+| Name     | Type    | Required | Default | Description                       |
+| -------- | ------- | -------- | ------- | --------------------------------- |
+| count    | int     | No       | 1       | Number of taps.                   |
+| interval | float   | No       | 0.1     | Interval between taps in seconds. |
+| wait     | boolean | No       | true    | Wait for command to finish.       |
 
 **_Returns_**
 
--   void
+- Nothing
 
 **_Examples_**
 
@@ -3067,7 +3027,7 @@ Tap current object
 
     .. code-tab:: py
 
-        def test_tapelement(self):
+        def test_tap_element(self):
             self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
             capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
             capsule_element.tap()
@@ -3077,19 +3037,19 @@ Tap current object
 
 ### Click
 
-Click current object
+Click current object.
 
 **_Parameters_**
 
-| Name     | Type    | Required | Default | Description                        |
-| -------- | ------- | -------- | ------- | ---------------------------------- |
-| count    | int     | No       | 1       | Number of clicks                   |
-| interval | float   | No       | 0.1     | Interval between clicks in seconds |
-| wait     | boolean | No       | true    | Wait for command to finish         |
+| Name     | Type    | Required | Default | Description                         |
+| -------- | ------- | -------- | ------- | ----------------------------------- |
+| count    | int     | No       | 1       | Number of clicks.                   |
+| interval | float   | No       | 0.1     | Interval between clicks in seconds. |
+| wait     | boolean | No       | true    | Wait for command to finish.         |
 
 **_Returns_**
 
--   void
+- Nothing
 
 **_Examples_**
 
@@ -3145,7 +3105,7 @@ None
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -3202,7 +3162,7 @@ None
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -3239,7 +3199,6 @@ None
             assertEquals(color1, color2);
         }
 
-
     .. code-tab:: py
 
         def test_pointer_up_command():
@@ -3265,7 +3224,7 @@ None
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -3333,7 +3292,7 @@ None
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -3401,7 +3360,7 @@ None
 
 **_Returns_**
 
--   AltUnityObject
+- AltUnityObject
 
 **_Examples_**
 
@@ -3442,7 +3401,7 @@ None
 ## BY-Selector
 
 It is used in find objects methods to set the criteria of which the objects are searched.
-Currenty there are 7 types implemented:
+Currently there are 7 types implemented:
 
 -   _By.TAG_ - search for objects that have a specific tag
 -   _By.LAYER_ - search for objects that are set on a specific layer
@@ -3627,9 +3586,10 @@ The following selecting nodes and attributes are implemented:
 
 There are several characters that you need to escape when you try to find an object. Some examples characters are the symbols for Request separator and Request ending, by default this are `;` and `&` but can be changed in Server settings. If you don't escape this characters the whole request is invalid and might shut down the server. Other characters are `!`, `[`, `]`, `(`, `)`, `/`, `\`, `.` or `,`. This characters are used in searching algorithm and if not escaped might return the wrong object or not found at all. To escape all the characters mentioned before just add `\\` before each character you want to escape.
 
-_Example:_
-`//Q&A` - not escaped
-`//Q\\&A` - escaped
+**_Examples_**
+
+* `//Q&A` - not escaped
+* `//Q\\&A` - escaped
 
 ### AltId
 
@@ -3642,58 +3602,234 @@ To add AltId to every object simply just click AddAltIdToEveryObject from AltUni
 
 ## AltUnityPortForwarding
 
-API to interact with adb and iproxy programatically
+API to interact with `adb` and `iproxy` programmatically.
 
 ### ForwardAndroid
 
-Calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
+This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`.
 
 **_Parameters_**
 
-| Name       | Type   | Required | Description                                                                                                                                                                                |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| localPort  | int    | No       | The local port to forward from                                                                                                                                                             |
-| remotePort | int    | No       | The device port to forward to                                                                                                                                                              |
-| deviceId   | string | No       | The id of the device                                                                                                                                                                       |
-| adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from PATH. |
+| Name       | Type   | Required | Description                                                                                                                                                                                      |
+| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| localPort  | int    | No       | The local port to forward from.                                                                                                                                                                  |
+| remotePort | int    | No       | The device port to forward to.                                                                                                                                                                   |
+| deviceId   | string | No       | The id of the device.                                                                                                                                                                            |
+| adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            AltUnityPortForwarding.ForwardAndroid();
+            altUnityDriver = new AltUnityDriver();
+        }
+
+    .. code-tab:: java
+
+        @BeforeClass
+        public static void setUp() throws IOException {
+            AltUnityPortForwarding.forwardAndroid();
+            altUnityDriver = new AltUnityDriver();
+        }
+
+    .. code-tab:: py
+
+        @classmethod
+        def setUpClass(cls):
+            AltUnityPortForwarding.forward_android()
+            cls.altUnityDriver = AltUnityDriver()
+
+```
 
 ### RemoveForwardAndroid
 
-Calls `adb forward --remove [-s {deviceId}] tcp:{localPort}` or `adb forward --remove-all` if no localport provided
+This method calls `adb forward --remove [-s {deviceId}] tcp:{localPort}` or `adb forward --remove-all` if no local port is provided.
 
 **_Parameters_**
 
-| Name      | Type   | Required | Description                                                                                                                                                                                |
-| --------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| localPort | int    | No       | The local port to be removed                                                                                                                                                               |
-| deviceId  | string | No       | The id of the device to be removed                                                                                                                                                         |
-| adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from PATH. |
+| Name      | Type   | Required | Description                                                                                                                                                                                      |
+| --------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| localPort | int    | No       | The local port to be removed.                                                                                                                                                                    |
+| deviceId  | string | No       | The id of the device to be removed.                                                                                                                                                              |
+| adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
+
+**_Returns_**
+
+Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            altUnityDriver.Stop();
+            AltUnityPortForwarding.RemoveForwardAndroid();
+        }
+
+    .. code-tab:: java
+
+        @AfterClass
+        public static void tearDown() throws Exception {
+            altUnityDriver.stop();
+            AltUnityPortForwarding.removeForwardAndroid();
+        }
+
+    .. code-tab:: py
+
+        @classmethod
+        def tearDownClass(cls):
+            cls.altUnityDriver.stop()
+            AltUnityPortForwarding.remove_forward_android()
+
+```
 
 ### RemoveAllForwardAndroid
 
-Calls `adb forward --remove-all`
+This method calls `adb forward --remove-all`.
 
 **_Parameters_**
 
-| Name    | Type   | Required | Description                                                                                                                                                                                |
-| ------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| adbPath | string | No       | The adb path. If no adb path is provided, it tries to use adb from ${ANDROID_SDK_ROOT}/platform-tools/adb. If ANDROID_SDK_ROOT env varibale is not set, it tries to execute adb from PATH. |
+| Name    | Type   | Required | Description                                                                                                                                                                                      |
+| ------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| adbPath | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
+
+**_Returns_**
+
+Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            altUnityDriver.Stop();
+            AltUnityPortForwarding.RemoveAllForwardAndroid();
+        }
+
+    .. code-tab:: java
+
+        @AfterClass
+        public static void tearDown() throws Exception {
+            altUnityDriver.stop();
+            AltUnityPortForwarding.removeAllForwardAndroid();
+        }
+
+    .. code-tab:: py
+
+        @classmethod
+        def tearDownClass(cls):
+            cls.altUnityDriver.stop()
+            AltUnityPortForwarding.remove_all_forward_android()
+
+```
 
 ### ForwardIos
 
-Calls `iproxy {localport} {remotePort} -u {deviceId}`.
-
-_Requires iproxy 2.0.2_.
+This method calls `iproxy {localPort} {remotePort} -u {deviceId}`. **_Requires iproxy 2.0.2_**.
 
 **_Parameters_**
 
-| Name       | Type   | Required | Description                                                                           |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------- |
-| localPort  | int    | No       | The local port to forward from                                                        |
-| remotePort | int    | No       | The device port to forward to                                                         |
-| deviceId   | string | No       | The id of the device                                                                  |
-| iproxyPath | string | No       | The path to iProxy. If iproxyPath is not provided, iproxy should be available in PATH |
+| Name       | Type   | Required | Description                                                                                |
+| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------ |
+| localPort  | int    | No       | The local port to forward from.                                                            |
+| remotePort | int    | No       | The device port to forward to.                                                             |
+| deviceId   | string | No       | The id of the device.                                                                      |
+| iproxyPath | string | No       | The path to iProxy. If `iproxyPath` is not provided, iproxy should be available in `PATH`. |
+
+**_Returns_**
+
+Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            AltUnityPortForwarding.ForwardIos();
+            altUnityDriver = new AltUnityDriver();
+        }
+
+    .. code-tab:: java
+
+        @BeforeClass
+        public static void setUp() throws IOException {
+            AltUnityPortForwarding.forwardIos();
+            altUnityDriver = new AltUnityDriver();
+        }
+
+
+    .. code-tab:: py
+
+        @classmethod
+        def setUpClass(cls):
+            AltUnityPortForwarding.forward_ios()
+            cls.altUnityDriver = AltUnityDriver()
+
+```
 
 ### KillAllIproxyProcess
 
-Kills iproxy process by name. Calls `killall iproxy`
+This method kills all iproxy processes. Calls `killall iproxy`.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            altUnityDriver.Stop();
+            AltUnityPortForwarding.KillAllIproxyProcess();
+        }
+
+
+    .. code-tab:: java
+
+        @AfterClass
+        public static void tearDown() throws Exception {
+            altUnityDriver.stop();
+            AltUnityPortForwarding.killAllIproxyProcess();
+        }
+
+
+    .. code-tab:: py
+
+        @classmethod
+        def tearDownClass(cls):
+            cls.altUnityDriver.stop()
+            AltUnityPortForwarding.kill_all_iproxy_process()
+
+```

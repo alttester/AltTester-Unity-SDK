@@ -13,9 +13,9 @@ We plan to add more examples in the near future.
 
 **1.** Example test projects created for different languages and platforms:
 
-* C# tests [Standalone (NuGetPackage) | ](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-csharp)[Android | ](https://gitlab.com/altom/altunity/examples/android-build-with-csharp-tests)[iOS](https://gitlab.com/altom/altunity/examples/ios-build-with-csharp-tests)
-* Python tests [Standalone | ](https://gitlab.com/altom/altunity/examples/standalone-build-with-python-tests)[Android | ](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python)[iOS ](https://gitlab.com/altom/altunity/examples/ios-build-with-python-tests)
-* Java tests [Standalone | ](https://gitlab.com/altom/altunity/examples/standalone-and-android-build-with-java-tests)[Android | ](https://gitlab.com/altom/altunity/examples/standalone-and-android-build-with-java-tests)[iOS](https://gitlab.com/altom/altunity/examples/alttrashcat-tests---java)
+* C# tests [Standalone (NuGetPackage)](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-csharp) | [Android](https://gitlab.com/altom/altunity/examples/android-build-with-csharp-tests) | [iOS](https://gitlab.com/altom/altunity/examples/ios-build-with-csharp-tests)
+* Python tests [Standalone](https://gitlab.com/altom/altunity/examples/standalone-build-with-python-tests) | [Android](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python) | [iOS](https://gitlab.com/altom/altunity/examples/ios-build-with-python-tests)
+* Java tests [Standalone](https://gitlab.com/altom/altunity/examples/standalone-and-android-build-with-java-tests) | [Android](https://gitlab.com/altom/altunity/examples/standalone-and-android-build-with-java-tests) | [iOS](https://gitlab.com/altom/altunity/examples/alttrashcat-tests---java)
 
     You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
 
