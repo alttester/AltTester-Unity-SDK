@@ -162,7 +162,7 @@ namespace Altom.AltUnityTester
         {
 #if ALTUNITYTESTER
 #if ENABLE_INPUT_SYSTEM
-            NewInputSystem.KeyDown(keyCode, power);
+            AltUnityRunner._altUnityRunner.StartCoroutine(NewInputSystem.KeyDown(keyCode, power));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
             AltUnityRunner._altUnityRunner.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
@@ -176,7 +176,7 @@ namespace Altom.AltUnityTester
         {
 #if ALTUNITYTESTER
 #if ENABLE_INPUT_SYSTEM
-            NewInputSystem.KeyUp(keyCode);
+            AltUnityRunner._altUnityRunner.StartCoroutine(NewInputSystem.KeyUp(keyCode));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
             AltUnityRunner._altUnityRunner.StartCoroutine(Input.KeyUpLifeCycle(keyCode));

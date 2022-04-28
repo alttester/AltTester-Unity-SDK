@@ -161,17 +161,19 @@ namespace Altom.AltUnityTester
             }
         }
 
-        internal static void KeyDown(KeyCode keyCode, float power)
+        internal static IEnumerator KeyDown(KeyCode keyCode, float power)
         {
             keyDownPower = power;
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
             keyDown(keyCode, power, buttonControl);
+            yield return null;
         }
 
-        internal static void KeyUp(KeyCode keyCode)
+        internal static IEnumerator KeyUp(KeyCode keyCode)
         {
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, keyDownPower);
             keyUp(keyCode, buttonControl);
+            yield return null;
         }
 
         internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
