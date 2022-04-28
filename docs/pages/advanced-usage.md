@@ -1,8 +1,10 @@
 # Advanced Usage
 
+This guide covers some of the more advanced features, patterns and configuration options of AltUnity Tester.
+
 ## Build games from the command line
 
-To build your Unity application from command line you need a static method in your project that handles the build logic.  
+To build your Unity application from command line you need a static method in your project that handles the build logic.
 To instrument your Unity application with AltUnity Tester, your build method must define `ALTUNITYTESTER` scripting symbol and must insert AltUnity Prefab in the first scene of the game.
 
 Depending on your project's setup, there are two ways in which games can be built from the command line:
@@ -17,7 +19,7 @@ Depending on your project's setup, there are two ways in which games can be buil
 
 If you already have a custom build method for your game, you can add the following two lines to your build method:
 
-```
+```c#
 var buildTargetGroup = BuildTargetGroup.Android;
 AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
 if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
@@ -34,7 +36,7 @@ AltUnityBuilder.InsertAltUnityInScene(FirstSceneOfTheGame, instrumentationSettin
 
 **2. If you create a new custom build method for your game**
 
-The following example script can be used.  
+The following example script can be used.
 It sets all the project settings needed and uses the same two important lines from point 1 above.
 
 This example method is configured for the Android platform, so make sure to update it based on your target platform.
@@ -58,6 +60,7 @@ You can find more information about the build command and arguments [here](https
 ```eval_rst
 .. note::
     After building from the command line you can run the tests by using the commands from the `next section <#run-tests-from-the-command-line>`_.
+
 ```
 
 ## Run tests from the command line
