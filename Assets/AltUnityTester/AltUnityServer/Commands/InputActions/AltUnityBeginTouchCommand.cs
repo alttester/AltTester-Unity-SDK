@@ -11,7 +11,7 @@ namespace Altom.AltUnityTester.Commands
         }
         public override int Execute()
         {
-#if ALTUNITYTESTER
+#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
             return Input.BeginTouch(CommandParams.coordinates.ToUnity());
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);

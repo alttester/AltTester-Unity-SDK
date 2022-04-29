@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/AltUnityTester/Examples/Scripts/SimpleControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/altunitytester/Assets/AltUnityTester/Examples/Scripts/SimpleControls.inputactions'
 
 using System;
 using System.Collections;

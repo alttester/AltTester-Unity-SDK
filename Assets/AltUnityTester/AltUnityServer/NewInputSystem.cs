@@ -19,6 +19,7 @@ namespace Altom.AltUnityTester
         public static Gamepad Gamepad;
         public static Touchscreen Touchscreen;
         public static Accelerometer Accelerometer;
+
         public void Awake()
         {
             if (Instance == null)
@@ -74,10 +75,12 @@ namespace Altom.AltUnityTester
         internal static IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
         {
             float time = 0;
-            Mouse.MakeCurrent();
-            var mousePosition = Mouse.current.position;
-            var distance = location - new UnityEngine.Vector2(mousePosition.x.ReadValue(), mousePosition.y.ReadValue());
-            do
+            yield return null;
+            var mousePosition = new Vector2(Mouse.position.x.ReadValue(),Mouse.position.y.ReadValue());
+            var distance = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
+            
+            var deltaUnchanged=false;
+            while(time<duration)
             {
                 UnityEngine.Vector2 delta;
                 if (time + UnityEngine.Time.unscaledDeltaTime < duration)
@@ -86,14 +89,26 @@ namespace Altom.AltUnityTester
                 }
                 else
                 {
-                    delta = location - new UnityEngine.Vector2(mousePosition.x.ReadValue(), mousePosition.y.ReadValue());
+                    delta = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
                 }
 
-                InputTestFixture.Move(Mouse.current.position, delta);
+                mousePosition += delta;
+                if(delta==Vector2.zero)
+                {
+                    deltaUnchanged=true;
+                    break;
+                }
+                InputTestFixture.Move(Mouse.position, mousePosition, delta);
                 yield return null;
                 time += UnityEngine.Time.unscaledDeltaTime;
-            } while (time < duration);
+            }
+            if(deltaUnchanged){
+                InputTestFixture.Move(Mouse.position, mousePosition*1.01f, Vector2.zero);
+                InputTestFixture.Move(Mouse.position, mousePosition, Vector2.zero);
+                yield return new WaitForSecondsRealtime(duration - time);
+            }
         }
+
 
         internal static IEnumerator TapElementCycle(GameObject target, int count, float interval)
         {
@@ -235,6 +250,7 @@ namespace Altom.AltUnityTester
                 setStick(power, buttonControl);
             else
                 InputTestFixture.Press(buttonControl);
+
         }
 
         private static void keyUp(KeyCode keyCode, ButtonControl buttonControl, bool queueEventOnly = false)
@@ -243,6 +259,7 @@ namespace Altom.AltUnityTester
                 setStick(0, buttonControl);
             else
                 InputTestFixture.Release(buttonControl, queueEventOnly: queueEventOnly);
+
         }
         #endregion
     }

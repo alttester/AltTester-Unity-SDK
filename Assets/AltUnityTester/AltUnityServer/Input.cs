@@ -1,5 +1,4 @@
-#if ALTUNITYTESTER 
-// && ENABLE_LEGACY_INPUT_MANAGER
+#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
 using System;
 using System.Collections;
