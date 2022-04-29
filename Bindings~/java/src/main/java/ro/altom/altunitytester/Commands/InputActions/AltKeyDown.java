@@ -12,8 +12,9 @@ public class AltKeyDown extends AltBaseCommand {
         this.altKeyDownParameters = altKeyDownParameters;
     }
 
-    public void Execute() {
+    public void Execute() throws InterruptedException {
         SendCommand(altKeyDownParameters);
         recvall(altKeyDownParameters, String.class);
+        Thread.sleep(100);
     }
 }
