@@ -53,6 +53,8 @@ namespace Altom.AltUnityTester
             {
                 Accelerometer = InputSystem.AddDevice<Accelerometer>("AltUnityAccelerometer");
             }
+            InputTestFixture.Set(Mouse.position, new Vector2(0, 0));
+
 
         }
 
@@ -107,6 +109,8 @@ namespace Altom.AltUnityTester
                 InputTestFixture.Move(Mouse.position, mousePosition, Vector2.zero);
                 yield return new WaitForSecondsRealtime(duration - time);
             }
+            InputTestFixture.Set(Mouse.position, mousePosition);
+
         }
 
 
