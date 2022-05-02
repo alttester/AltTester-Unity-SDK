@@ -271,8 +271,10 @@ public class AltUnityDriver {
 
     /**
      * Simulates a key down.
+     * 
+     * @throws InterruptedException
      */
-    public void keyDown(AltKeyDownParams keyDownParams) {
+    public void keyDown(AltKeyDownParams keyDownParams) throws InterruptedException {
         new AltKeyDown(this.connection.messageHandler, keyDownParams).Execute();
     }
 

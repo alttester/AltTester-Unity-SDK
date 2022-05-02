@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace Altom.AltUnityDriver.Commands
 {
@@ -14,6 +15,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             CommHandler.Send(cmdParams);
             var data = CommHandler.Recvall<string>(cmdParams);
+            Thread.Sleep(100);
             ValidateResponse("Ok", data);
         }
     }
