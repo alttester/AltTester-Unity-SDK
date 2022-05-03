@@ -1,8 +1,12 @@
+using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Altom.AltUnityTesterEditor.Logging;
 using Newtonsoft.Json;
 using NLog;
+using Unity.EditorCoroutines.Editor;
 
 namespace Altom.AltUnityTesterEditor
 {
@@ -297,9 +301,8 @@ namespace Altom.AltUnityTesterEditor
             return 1;
         }
 
-        public static void SetUpListTest()
+        public static IEnumerator SetUpListTest()
         {
-
             var myTests = new List<AltUnityMyTest>();
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
 
@@ -327,10 +330,13 @@ namespace Altom.AltUnityTesterEditor
                     }
                 }
                 var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
-                addTestSuiteToMyTest(testSuite, myTests);
+                var coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(addTestSuiteToMyTest(testSuite, myTests));
+                yield return coroutine;
             }
             setCorrectCheck(myTests);
             AltUnityTesterEditorWindow.EditorConfiguration.MyTests = myTests;
+            AltUnityTesterEditorWindow.loadTestCompleted = true;
+            AltUnityTesterEditorWindow.Window.Repaint();
         }
 
         private static void setCorrectCheck(List<AltUnityMyTest> myTests)
@@ -352,7 +358,6 @@ namespace Altom.AltUnityTesterEditor
                         {
                             var parentTest = AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(test.ParentName));
                             parentTest.TestSelectedCount++;
-
                         }
                         break;
                     case "NUnit.Framework.Internal.TestFixture":
@@ -382,18 +387,16 @@ namespace Altom.AltUnityTesterEditor
             }
         }
 
-        private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, List<AltUnityMyTest> newMyTests)
+        private static IEnumerator addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, List<AltUnityMyTest> newMyTests)
         {
             string path = null;
 
             if (testSuite.GetType() == typeof(NUnit.Framework.Internal.TestMethod))
             {
-                string fullName;
-                int indexOfParantheses = testSuite.FullName.IndexOf("(");
+                string fullName = testSuite.FullName;
+                int indexOfParantheses = fullName.IndexOf("(");
                 if (indexOfParantheses > -1)
                     fullName = testSuite.FullName.Substring(0, indexOfParantheses);
-                else
-                    fullName = testSuite.FullName;
                 var hierarchyNames = fullName.Split('.');
                 var className = hierarchyNames[hierarchyNames.Length - 2];
                 var assets = UnityEditor.AssetDatabase.FindAssets(className);
@@ -407,9 +410,7 @@ namespace Altom.AltUnityTesterEditor
                 parentName = testSuite.Parent.FullName;
             AltUnityMyTest index = null;
             if (AltUnityTesterEditorWindow.EditorConfiguration.MyTests != null)
-
                 index = AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName) && a.ParentName.Equals(parentName));
-
             if (index == null)
             {
                 newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
@@ -421,9 +422,11 @@ namespace Altom.AltUnityTesterEditor
                    index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, index.TestStackTrace, index.TestDuration, path, index.TestSelectedCount));
             }
 
+
             foreach (var test in testSuite.Tests)
             {
-                addTestSuiteToMyTest(test, newMyTests);
+                var coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(addTestSuiteToMyTest(test, newMyTests));
+                yield return coroutine;
             }
         }
 
