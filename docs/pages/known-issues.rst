@@ -23,3 +23,15 @@ Calling ``GetPNGScreenshot`` throws ``StackOverflow`` error
 resolution until this issue is fixed.
 
 **Affects**: AltUnityTester v1.7.0 with .NET 6
+
+
+### New Input System
+
+**Problem**: Inputs are not executed in the UnityEditor
+
+**Workaround**: Focus the game view after starting the tests.
+
+**Affects**: AltUnityTester v1.7.1 in UnityEditor with Input System v1.0.2 or earlier
+
+
+

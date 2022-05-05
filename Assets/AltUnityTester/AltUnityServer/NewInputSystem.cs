@@ -1,7 +1,9 @@
 #if ENABLE_INPUT_SYSTEM
 using System.Collections;
-using System.Collections.Generic;
-using Altom.AltUnityTester;
+#if USE_INPUT_SYSTEM_1_3
+using NUnit.Framework;
+using NUnit.Framework.Internal;
+#endif
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -25,6 +27,17 @@ namespace Altom.AltUnityTester
             if (Instance == null)
                 Instance = this;
             InputTestFixture = new InputTestFixture();
+#if USE_INPUT_SYSTEM_1_3
+
+            TestExecutionContext testExecutionContext = new TestExecutionContext();
+            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
+            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
+            TestContext testContext = new TestContext(testExecutionContext);
+            TestContext.CurrentTestExecutionContext = testExecutionContext;
+            InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+            InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+#endif
+
             Keyboard = (Keyboard)InputSystem.GetDevice("AltUnityKeyboard");
             if (Keyboard == null)
             {
@@ -78,11 +91,11 @@ namespace Altom.AltUnityTester
         {
             float time = 0;
             yield return null;
-            var mousePosition = new Vector2(Mouse.position.x.ReadValue(),Mouse.position.y.ReadValue());
+            var mousePosition = new Vector2(Mouse.position.x.ReadValue(), Mouse.position.y.ReadValue());
             var distance = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
-            
-            var deltaUnchanged=false;
-            while(time<duration)
+
+            var deltaUnchanged = false;
+            while (time < duration)
             {
                 UnityEngine.Vector2 delta;
                 if (time + UnityEngine.Time.unscaledDeltaTime < duration)
@@ -95,17 +108,18 @@ namespace Altom.AltUnityTester
                 }
 
                 mousePosition += delta;
-                if(delta==Vector2.zero)
+                if (delta == Vector2.zero)
                 {
-                    deltaUnchanged=true;
+                    deltaUnchanged = true;
                     break;
                 }
                 InputTestFixture.Move(Mouse.position, mousePosition, delta);
                 yield return null;
                 time += UnityEngine.Time.unscaledDeltaTime;
             }
-            if(deltaUnchanged){
-                InputTestFixture.Move(Mouse.position, mousePosition*1.01f, Vector2.zero);
+            if (deltaUnchanged)
+            {
+                InputTestFixture.Move(Mouse.position, mousePosition * 1.01f, Vector2.zero);
                 InputTestFixture.Move(Mouse.position, mousePosition, Vector2.zero);
                 yield return new WaitForSecondsRealtime(duration - time);
             }
@@ -273,6 +287,16 @@ namespace Altom.AltUnityTester
 namespace Altom.AltUnityTester
 {
     public class NewInputSystem
+    {
+
+    }
+}
+#endif
+#if USE_INPUT_SYSTEM_1_3
+public class TestExample
+{
+    [Test]
+    public void Test()
     {
 
     }
