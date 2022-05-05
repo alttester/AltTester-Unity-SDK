@@ -21,5 +21,12 @@
     ],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "[1.1,1.3.0]",
+            "define": "USE_INPUT_SYSTEM_1_3"
+        }
+    ],
+    "noEngineReferences": false
 }
