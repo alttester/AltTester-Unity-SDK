@@ -2,6 +2,7 @@
 using System.Collections;
 #if USE_INPUT_SYSTEM_1_3
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 #endif
 using UnityEngine;
@@ -34,6 +35,7 @@ namespace Altom.AltUnityTester
             testExecutionContext.CurrentTest = new TestMethod(methodInfo);
             TestContext testContext = new TestContext(testExecutionContext);
             TestContext.CurrentTestExecutionContext = testExecutionContext;
+            Application.runInBackground = true;
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
 #endif
