@@ -5,13 +5,12 @@ using Altom.AltUnityDriver.Logging;
 using Altom.AltUnityTester.Communication;
 using Altom.AltUnityTester.Logging;
 using Altom.AltUnityTester.Notification;
-using NLog;
 
 namespace Altom.AltUnityTester
 {
     public class AltUnityRunner : UnityEngine.MonoBehaviour
     {
-        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
         public static readonly string VERSION = "1.7.0";
         public static AltUnityRunner _altUnityRunner;

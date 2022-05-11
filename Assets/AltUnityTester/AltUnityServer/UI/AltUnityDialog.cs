@@ -2,7 +2,6 @@ using System;
 using Altom.AltUnityTester.Logging;
 using Altom.AltUnityTester;
 using Altom.AltUnityTester.Communication;
-using NLog;
 
 namespace Altom.AltUnityTester.UI
 {
@@ -11,7 +10,7 @@ namespace Altom.AltUnityTester.UI
         private readonly UnityEngine.Color SUCCESS_COLOR = new UnityEngine.Color32(0, 165, 36, 255);
         private readonly UnityEngine.Color WARNING_COLOR = new UnityEngine.Color32(255, 255, 95, 255);
         private readonly UnityEngine.Color ERROR_COLOR = new UnityEngine.Color32(191, 71, 85, 255);
-        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
