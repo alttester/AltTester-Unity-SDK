@@ -4,7 +4,7 @@ namespace Altom.AltUnityTesterEditor
     {
         Android,
 #if UNITY_EDITOR_OSX
-    iOS,
+        iOS,
 #endif
         Editor,
         Standalone,

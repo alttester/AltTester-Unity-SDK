@@ -9,6 +9,7 @@ using Altom.AltUnityTester;
 using Altom.AltUnityTesterEditor.Logging;
 using NLog;
 using NLog.Layouts;
+using NUnit.Framework.Internal;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -239,21 +240,13 @@ namespace Altom.AltUnityTesterEditor
             var currentVersionSplited = version.Split('.');
             if (Int16.Parse(currentVersionSplited[0]) != Int16.Parse(releasedVersionSplited[0]))//check major number
             {
-                if (Int16.Parse(currentVersionSplited[0]) < Int16.Parse(releasedVersionSplited[0]))
-                    return false;
-                else
-                    return true;
+                return Int16.Parse(currentVersionSplited[0]) >= Int16.Parse(releasedVersionSplited[0]);
             }
             if (Int16.Parse(currentVersionSplited[1]) != Int16.Parse(releasedVersionSplited[1]))//check minor number
             {
-                if (Int16.Parse(currentVersionSplited[1]) < Int16.Parse(releasedVersionSplited[1]))
-                    return false;
-                else
-                    return true;
+                return Int16.Parse(currentVersionSplited[1]) >= Int16.Parse(releasedVersionSplited[1]);
             }
-            if (Int16.Parse(currentVersionSplited[2]) < Int16.Parse(releasedVersionSplited[2]))//check patch number
-                return false;
-            return true;
+            return Int16.Parse(currentVersionSplited[2]) >= Int16.Parse(releasedVersionSplited[2]);
         }
 
 
@@ -405,9 +398,9 @@ namespace Altom.AltUnityTesterEditor
         }
         protected void OnInspectorUpdate()
         {
-            Repaint();
             if (IsTestRunResultAvailable)
             {
+                Repaint();
                 IsTestRunResultAvailable = UnityEditor.EditorUtility.DisplayDialog("Test Report",
                       " Total tests:" + (ReportTestFailed + ReportTestPassed) + System.Environment.NewLine + " Tests passed:" +
                       ReportTestPassed + System.Environment.NewLine + " Tests failed:" + ReportTestFailed + System.Environment.NewLine +
@@ -826,11 +819,11 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
 
+            UnityEditor.EditorGUILayout.EndScrollView();
             if (EditorConfiguration.ShowInsectorPopUpInEditor)
             {
                 showAltUnityPopup();
             }
-            UnityEditor.EditorGUILayout.EndScrollView();
         }
 
         private void DisplayPlatformAndPlatformSettings(float size)
@@ -850,7 +843,7 @@ namespace Altom.AltUnityTesterEditor
             switch (EditorConfiguration.platform)
             {
                 case AltUnityPlatform.Android:
-                    showSettings(UnityEditor.BuildTargetGroup.Android);
+                    showSettings(UnityEditor.BuildTargetGroup.Android, AltUnityPlatform.Android);
 
                     break;
                 case AltUnityPlatform.Standalone:
@@ -865,23 +858,23 @@ namespace Altom.AltUnityTesterEditor
                     browseBuildLocation();
                     break;
 #if UNITY_EDITOR_OSX
-                    case AltUnityPlatform.iOS:
-                    showSettings(UnityEditor.BuildTargetGroup.iOS);
+                case AltUnityPlatform.iOS:
+                    showSettings(UnityEditor.BuildTargetGroup.iOS, AltUnityPlatform.iOS);
                     break;
 #endif
                     // case AltUnityPlatform.WebGL:
-                    // showSettings(UnityEditor.BuildTargetGroup.WebGL);
+                    // showSettings(UnityEditor.BuildTargetGroup.WebGL,AltUnityPlatform.WebGL);
                     //     break;
             }
         }
 
-        private void showSettings(BuildTargetGroup targetGroup)
+        private void showSettings(BuildTargetGroup targetGroup, AltUnityPlatform platform)
         {
             browseBuildLocation();
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("Settings", UnityEditor.EditorStyles.boldLabel);
 
-            if (UnityEngine.GUILayout.Button(targetGroup.ToString() + " player settings"))
+            if (UnityEngine.GUILayout.Button(platform.ToString() + " player settings"))
             {
 #if UNITY_2018_3_OR_NEWER
                 UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
@@ -1491,8 +1484,8 @@ namespace Altom.AltUnityTesterEditor
                     var path = UnityEditor.AssetDatabase.GetAssetPath(obj);
                     if (EditorConfiguration.Scenes.All(n => n.Path != path))
                     {
-                        EditorConfiguration.Scenes.Add(new AltUnityMyScenes(false, path, 0));
-                        obj = new UnityEngine.Object();
+                        EditorConfiguration.Scenes.Add(new AltUnityMyScenes(false, path, -1));
+                        UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
                     }
 
                     obj = null;
@@ -1633,50 +1626,47 @@ namespace Altom.AltUnityTesterEditor
                     {
                         continue;
                     }
-                    if (foldOutCounter > 0 && test.Type == typeof(NUnit.Framework.Internal.TestMethod))
-                    {
-                        foldOutCounter--;
-                        continue;
-                    }
                     if (foldOutCounter > 0)
                     {
+                        if (test.Type.Equals("NUnit.Framework.Internal.TestMethod"))
+                        {
+                            foldOutCounter--;
+                        }
                         continue;
                     }
                     testCounter++;
                     var idx = parentNames.IndexOf(test.ParentName) + 1;
                     parentNames.RemoveRange(idx, parentNames.Count - idx);
+
+                    var horizontalStyle = new UnityEngine.GUIStyle();
                     if (tests.IndexOf(test) == SelectedTest)
                     {
-                        var selectedTestStyle = new UnityEngine.GUIStyle();
-                        selectedTestStyle.normal.background = selectedTestTexture;
-                        UnityEditor.EditorGUILayout.BeginHorizontal(selectedTestStyle);
+                        horizontalStyle.normal.background = selectedTestTexture;
                     }
                     else
                     {
                         if (testCounter % 2 == 0)
                         {
-                            var evenNumberStyle = new UnityEngine.GUIStyle();
                             if (evenNumberTestTexture == null)
                             {
                                 evenNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? evenNumberTestColorDark : evenNumberTestColor);
                             }
-                            evenNumberStyle.normal.background = evenNumberTestTexture;
-                            UnityEditor.EditorGUILayout.BeginHorizontal(evenNumberStyle);
+                            horizontalStyle.normal.background = evenNumberTestTexture;
                         }
                         else
                         {
-                            var oddNumberStyle = new UnityEngine.GUIStyle();
 
                             if (oddNumberTestTexture == null)
                             {
                                 oddNumberTestTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? oddNumberTestColorDark : oddNumberTestColor);
                             }
-                            oddNumberStyle.normal.background = oddNumberTestTexture;
-                            UnityEditor.EditorGUILayout.BeginHorizontal(oddNumberStyle);
+                            horizontalStyle.normal.background = oddNumberTestTexture;
                         }
                     }
+                    UnityEditor.EditorGUILayout.BeginHorizontal(horizontalStyle);
 
-                    if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
+
+                    if (test.Type.Equals("NUnit.Framework.Internal.TestMethod"))
                     {
                         test.FoldOut = true;
                     }
@@ -1689,17 +1679,8 @@ namespace Altom.AltUnityTesterEditor
                         parentNames.Add(test.TestName);
                         selectedTests.Add(test.TestSelectedCount);
                     }
+                    EditorGUILayout.LabelField(" ", GUILayout.Width((!test.IsSuite ? 13 : 10) * parentNames.Count));
 
-                    if (!test.IsSuite)
-                    {
-                        UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(3 * parentNames.Count));
-                    }
-                    UnityEditor.EditorGUILayout.LabelField(" ", UnityEngine.GUILayout.Width(10 * parentNames.Count));
-                    var gUIStyle = new UnityEngine.GUIStyle
-                    {
-                        alignment = UnityEngine.TextAnchor.MiddleLeft
-                    };
-                    var guiStylee = new UnityEngine.GUIStyle { };
 
                     UnityEngine.GUILayout.BeginVertical();
                     GUILayout.Space(0);
@@ -1735,12 +1716,9 @@ namespace Altom.AltUnityTesterEditor
                             testName = splitedPath[splitedPath.Length - 1];
                         }
                     }
-                    if (test.Status == 0)
-                    {
-                        var guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black } };
-                        selectTest(tests, test, testName, guiStyle);
-                    }
-                    else
+
+                    var guiStyle = new UnityEngine.GUIStyle { normal = { textColor = UnityEditor.EditorGUIUtility.isProSkin ? UnityEngine.Color.white : UnityEngine.Color.black } };
+                    if (test.Status != 0)
                     {
                         UnityEngine.Color color = redColor;
                         UnityEngine.Texture2D icon = failIcon;
@@ -1749,10 +1727,14 @@ namespace Altom.AltUnityTesterEditor
                             color = greenColor;
                             icon = passIcon;
                         }
-                        UnityEngine.GUILayout.Label(icon, gUIStyle, UnityEngine.GUILayout.Width(20));
-                        var guiStyle = new UnityEngine.GUIStyle { normal = { textColor = color } };
-                        selectTest(tests, test, testName, guiStyle);
+                        var gUIStyleLabel = new UnityEngine.GUIStyle
+                        {
+                            alignment = UnityEngine.TextAnchor.MiddleLeft
+                        };
+                        UnityEngine.GUILayout.Label(icon, gUIStyleLabel, UnityEngine.GUILayout.Width(20));
+                        guiStyle = new UnityEngine.GUIStyle { normal = { textColor = color } };
                     }
+                    selectTest(tests, test, testName, guiStyle);
                     UnityEngine.GUILayout.FlexibleSpace();
                     UnityEditor.EditorGUILayout.EndHorizontal();
                 }

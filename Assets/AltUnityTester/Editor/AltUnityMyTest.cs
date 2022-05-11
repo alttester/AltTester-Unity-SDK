@@ -11,7 +11,7 @@ namespace Altom.AltUnityTesterEditor
         public string _testName;
         public int _status;
         public bool _isSuite;
-        public System.Type _type;
+        public string _type;
         public string _parentName;
         public int _testCaseCount;
         public bool _foldOut;
@@ -21,7 +21,7 @@ namespace Altom.AltUnityTesterEditor
         public string path;
         public int _testSelectedCount;
 
-        public AltUnityMyTest(bool selected, string testName, int status, bool isSuite, Type type, string parentName, int testCaseCount, bool foldOut, string testResultMessage, string testStackTrace, Double testDuration, string path, int testSelectedCount)
+        public AltUnityMyTest(bool selected, string testName, int status, bool isSuite, string type, string parentName, int testCaseCount, bool foldOut, string testResultMessage, string testStackTrace, Double testDuration, string path, int testSelectedCount)
         {
             _selected = selected;
             _testName = testName;
@@ -90,7 +90,7 @@ namespace Altom.AltUnityTesterEditor
             }
         }
 
-        public Type Type
+        public string Type
         {
             get
             {

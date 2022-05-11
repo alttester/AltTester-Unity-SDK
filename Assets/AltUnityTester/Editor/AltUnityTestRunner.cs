@@ -90,93 +90,89 @@ namespace Altom.AltUnityTesterEditor
                 int testFailedCounter = 0;
                 foreach (var result in results)
                 {
-                    if (test.Type == typeof(NUnit.Framework.Internal.TestAssembly))
+                    switch (test.Type.ToString())
                     {
-                        counter++;
-                        var enumerator = result.Children.GetEnumerator();
-                        enumerator.MoveNext();
-                        if (enumerator.Current != null)
-                        {
-                            var enumerator2 = enumerator.Current.Children.GetEnumerator();
-                            enumerator2.MoveNext();
-                            if (enumerator2.Current != null && enumerator2.Current.FailCount > 0)
+                        case "NUnit.Framework.Internal.TestMethod":
+                            var enumerator = result.Children.GetEnumerator();
+                            enumerator.MoveNext();
+                            if (enumerator.Current != null)
                             {
+                                var enumerator2 = enumerator.Current.Children.GetEnumerator();
+                                enumerator2.MoveNext();
+                                if (enumerator2.Current != null && enumerator2.Current.FullName.Equals(test.TestName))
+                                {
+                                    if (enumerator2.Current.FailCount > 0)
+                                    {
+                                        test.Status = -1;
+                                        test.TestResultMessage = enumerator2.Current.Message + " \n\n\n StackTrace:  " + enumerator2.Current.StackTrace;
+                                        passed = false;
+                                        numberOfTestFailed++;
 
-                                testFailedCounter++;
+                                    }
+                                    else if (enumerator2.Current.PassCount > 0)
+                                    {
+                                        test.Status = 1;
+                                        test.TestResultMessage = "Passed in " + enumerator2.Current.Duration;
+                                        numberOfTestPassed++;
+                                    }
+
+                                    totalTime += (enumerator2.Current.EndTime - enumerator2.Current.StartTime).TotalSeconds;
+                                }
+                                enumerator2.Dispose();
                             }
-                            else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0)
+
+                            enumerator.Dispose();
+                            break;
+                        case "NUnit.Framework.Internal.TestFixture":
+                            enumerator = result.Children.GetEnumerator();
+                            enumerator.MoveNext();
+                            if (enumerator.Current != null && enumerator.Current.FullName.Equals(test.TestName))
                             {
-                                testPassedCounter++;
+                                counter++;
+                                var enumerator2 = enumerator.Current.Children.GetEnumerator();
+                                enumerator2.MoveNext();
+                                if (enumerator2.Current != null && enumerator2.Current.FailCount > 0)
+                                {
+                                    testFailedCounter++;
+
+                                }
+                                else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0)
+                                {
+                                    testPassedCounter++;
+
+                                }
+                                enumerator2.Dispose();
                             }
-
-                            enumerator2.Dispose();
-                        }
-
-                        enumerator.Dispose();
-
-                    }
-
-                    if (test.Type == typeof(NUnit.Framework.Internal.TestFixture))
-                    {
-                        var enumerator = result.Children.GetEnumerator();
-                        enumerator.MoveNext();
-                        if (enumerator.Current != null && enumerator.Current.FullName.Equals(test.TestName))
-                        {
+                            enumerator.Dispose();
+                            break;
+                        case "NUnit.Framework.Internal.TestAssembly":
                             counter++;
-                            var enumerator2 = enumerator.Current.Children.GetEnumerator();
-                            enumerator2.MoveNext();
-                            if (enumerator2.Current != null && enumerator2.Current.FailCount > 0)
+                            enumerator = result.Children.GetEnumerator();
+                            enumerator.MoveNext();
+                            if (enumerator.Current != null)
                             {
-                                testFailedCounter++;
-
-                            }
-                            else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0)
-                            {
-                                testPassedCounter++;
-
-                            }
-                            enumerator2.Dispose();
-                        }
-                        enumerator.Dispose();
-                    }
-
-                    if (test.Type == typeof(NUnit.Framework.Internal.TestMethod))
-                    {
-                        var enumerator = result.Children.GetEnumerator();
-                        enumerator.MoveNext();
-                        if (enumerator.Current != null)
-                        {
-                            var enumerator2 = enumerator.Current.Children.GetEnumerator();
-                            enumerator2.MoveNext();
-                            if (enumerator2.Current != null && enumerator2.Current.FullName.Equals(test.TestName))
-                            {
-                                if (enumerator2.Current.FailCount > 0)
+                                var enumerator2 = enumerator.Current.Children.GetEnumerator();
+                                enumerator2.MoveNext();
+                                if (enumerator2.Current != null && enumerator2.Current.FailCount > 0)
                                 {
-                                    test.Status = -1;
-                                    test.TestResultMessage = enumerator2.Current.Message + " \n\n\n StackTrace:  " + enumerator2.Current.StackTrace;
-                                    passed = false;
-                                    numberOfTestFailed++;
 
+                                    testFailedCounter++;
                                 }
-                                else if (enumerator2.Current.PassCount > 0)
+                                else if (enumerator2.Current != null && enumerator2.Current.PassCount > 0)
                                 {
-                                    test.Status = 1;
-                                    test.TestResultMessage = "Passed in " + enumerator2.Current.Duration;
-                                    numberOfTestPassed++;
+                                    testPassedCounter++;
                                 }
 
-                                totalTime += (enumerator2.Current.EndTime - enumerator2.Current.StartTime).TotalSeconds;
+                                enumerator2.Dispose();
                             }
-                            enumerator2.Dispose();
-                        }
 
-                        enumerator.Dispose();
+                            enumerator.Dispose();
+                            break;
                     }
-
 
                 }
 
-                if (test.Type != typeof(NUnit.Framework.Internal.TestMethod))
+                if (test.Type.Equals("NUnit.Framework.Internal.TestMethod"))
                 {
                     if (test.TestCaseCount == counter)
                     {
@@ -346,8 +342,7 @@ namespace Altom.AltUnityTesterEditor
             for (int i = myTests.Count - 1; i >= 0; i--)
             {
                 AltUnityMyTest test = myTests[i];
-                System.Type testType = test.Type;
-                switch (testType.ToString())
+                switch (test.Type.ToString())
                 {
                     case "NUnit.Framework.Internal.TestMethod":
                         if (!test.Selected)//test not selected then the class which the test belong must be not selected
@@ -413,12 +408,12 @@ namespace Altom.AltUnityTesterEditor
                 index = AltUnityTesterEditorWindow.EditorConfiguration.MyTests.FirstOrDefault(a => a.TestName.Equals(testSuite.FullName) && a.ParentName.Equals(parentName));
             if (index == null)
             {
-                newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType(),
+                newMyTests.Add(new AltUnityMyTest(false, testSuite.FullName, 0, testSuite.IsSuite, testSuite.GetType().ToString(),
                     parentName, testSuite.TestCaseCount, false, null, null, 0, path, 0));
             }
             else
             {
-                newMyTests.Add(new AltUnityMyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType(),
+                newMyTests.Add(new AltUnityMyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType().ToString(),
                    index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, index.TestStackTrace, index.TestDuration, path, index.TestSelectedCount));
             }
 
@@ -530,7 +525,6 @@ namespace Altom.AltUnityTesterEditor
                 foreach (var test in testSuite.Tests)
                     foreach (var t in test.Tests)
                     {
-                        logger.Debug(t.FullName);
                         filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
                     }
             }
