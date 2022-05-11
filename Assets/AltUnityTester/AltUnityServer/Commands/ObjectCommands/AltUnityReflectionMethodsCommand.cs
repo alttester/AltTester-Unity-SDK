@@ -9,13 +9,12 @@ using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using Altom.AltUnityTester.Logging;
 using Newtonsoft.Json;
-using NLog;
 
 namespace Altom.AltUnityTester.Commands
 {
     class AltUnityReflectionMethodsCommand<TParam, TResult> : AltUnityCommand<TParam, TResult> where TParam : CommandParams
     {
-        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
         protected AltUnityReflectionMethodsCommand(TParam cmdParams) : base(cmdParams) { }
 

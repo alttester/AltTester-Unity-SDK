@@ -2,13 +2,12 @@
 using Altom.AltUnityDriver;
 using Altom.AltUnityTester.Logging;
 using Altom.AltUnityDriver.Commands;
-using NLog;
 
 namespace Altom.AltUnityTester.Commands
 {
     class AltUnityGetAllComponentsCommand : AltUnityCommand<AltUnityGetAllComponentsParams, List<AltUnityComponent>>
     {
-        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
         public AltUnityGetAllComponentsCommand(AltUnityGetAllComponentsParams cmdParams) : base(cmdParams)
         {

@@ -7,13 +7,12 @@ using Altom.AltUnityDriver.Commands;
 using Altom.AltUnityTester.Logging;
 using Altom.AltUnityTester.Communication;
 using Newtonsoft.Json;
-using NLog;
 
 namespace Altom.AltUnityTester.Commands
 {
     public abstract class AltUnityBaseScreenshotCommand<TParams, TResult> : AltUnityCommand<TParams, TResult> where TParams : CommandParams
     {
-        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
         protected readonly ICommandHandler Handler;
 
         protected AltUnityBaseScreenshotCommand(ICommandHandler handler, TParams cmdParams) : base(cmdParams)

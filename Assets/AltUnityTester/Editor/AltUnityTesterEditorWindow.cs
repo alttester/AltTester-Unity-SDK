@@ -7,7 +7,6 @@ using System.Threading;
 using Altom.AltUnityDriver;
 using Altom.AltUnityTester;
 using Altom.AltUnityTesterEditor.Logging;
-using NLog;
 using NLog.Layouts;
 using NUnit.Framework.Internal;
 using Unity.EditorCoroutines.Editor;

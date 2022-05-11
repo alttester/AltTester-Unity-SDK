@@ -4,13 +4,12 @@ using System.Linq;
 using Altom.AltUnityDriver;
 using Altom.AltUnityDriver.Commands;
 using Altom.AltUnityTester.Logging;
-using NLog;
 
 namespace Altom.AltUnityTester.Commands
 {
     class AltUnityGetAllFieldsCommand : AltUnityReflectionMethodsCommand<AltUnityGetAllFieldsParams, List<AltUnityProperty>>
     {
-        private static readonly Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
         public AltUnityGetAllFieldsCommand(AltUnityGetAllFieldsParams cmdParams) : base(cmdParams)
         {

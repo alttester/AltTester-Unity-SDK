@@ -1,13 +1,12 @@
 using System;
 using System.Threading;
 using Altom.AltUnityDriver.Logging;
-using NLog;
 
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityWaitForObjectWhichContains : AltUnityBaseFindObjects
     {
-        readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+        readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private AltUnityFindObjectWhichContains findObject;
         private readonly string path;
         private readonly double timeout;

@@ -1,11 +1,10 @@
 ﻿using Altom.AltUnityTesterEditor.Logging;
-using NLog;
 
 namespace Altom.AltUnityTesterEditor
 {
     public class AltUnityTestRunListener : NUnit.Framework.Interfaces.ITestListener
     {
-        private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
         private readonly TestRunDelegate callRunDelegate;
 

@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using Altom.AltUnityTesterEditor.Logging;
 using Newtonsoft.Json;
-using NLog;
 using Unity.EditorCoroutines.Editor;
 
 namespace Altom.AltUnityTesterEditor
@@ -14,7 +13,7 @@ namespace Altom.AltUnityTesterEditor
 
     public class AltUnityTestRunner
     {
-        private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
         public enum TestRunMode { RunAllTest, RunSelectedTest, RunFailedTest }
 

@@ -1,12 +1,11 @@
 using System;
 using Altom.AltUnityDriver.Logging;
-using NLog;
 
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltBaseCommand
     {
-        readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+        readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
 
         protected IDriverCommunication CommHandler;
 

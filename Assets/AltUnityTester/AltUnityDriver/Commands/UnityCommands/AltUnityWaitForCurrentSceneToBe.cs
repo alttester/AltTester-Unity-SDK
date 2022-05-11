@@ -1,12 +1,11 @@
 using System.Threading;
 using Altom.AltUnityDriver.Logging;
-using NLog;
 
 namespace Altom.AltUnityDriver.Commands
 {
     public class AltUnityWaitForCurrentSceneToBe : AltBaseCommand
     {
-        readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+        readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         string sceneName;
         double timeout;
         double interval;

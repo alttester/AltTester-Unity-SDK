@@ -2,14 +2,13 @@ using System;
 using Altom.AltUnityTester;
 using Altom.AltUnityTesterEditor;
 using Altom.AltUnityTesterEditor.Logging;
-using NLog;
 using UnityEditor;
 
 namespace Altom.AltUnityTesterTools
 {
     public class BuildAltUnityTester
     {
-        private static readonly Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
         [MenuItem("Build/Android")]
         protected static void AndroidBuildFromCommandLine()

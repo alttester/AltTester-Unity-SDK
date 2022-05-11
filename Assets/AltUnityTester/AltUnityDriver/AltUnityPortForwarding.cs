@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Altom.AltUnityDriver.Logging;
-using NLog;
 
 namespace Altom.AltUnityDriver
 {
@@ -15,7 +14,7 @@ namespace Altom.AltUnityDriver
     {
 
 #if UNITY_EDITOR
-        private static readonly Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
 #endif
         public static int IdIproxyProcess = 0;
 
