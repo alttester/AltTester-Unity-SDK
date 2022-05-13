@@ -1,13 +1,17 @@
 using System;
+using Altom.AltUnityTester.Logging;
 using WebSocketSharp.Server;
+
 namespace Altom.AltUnityTester.Communication
 {
     public class WebSocketServerCommunication : ICommunication
     {
-        WebSocketServer wsServer;
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+
         private readonly int port;
         private readonly string host;
 
+        WebSocketServer wsServer;
         AltServerWebSocketHandler wsHandler = null;
 
         public WebSocketServerCommunication(ICommandHandler cmdHandler, string host, int port)
@@ -25,7 +29,10 @@ namespace Altom.AltUnityTester.Communication
 
             wsServer.AddWebSocketService<AltServerWebSocketHandler>("/altws", (context, handler) =>
             {
-                if (wsServer.WebSocketServices["/altws"].Sessions.Count == 1) { throw new Exception("Driver already connected."); }
+                if (wsServer.WebSocketServices["/altws"].Sessions.Count == 1)
+                {
+                    throw new Exception("Driver already connected.");
+                }
 
                 handler.Init(cmdHandler);
                 this.wsHandler = handler;
@@ -45,11 +52,14 @@ namespace Altom.AltUnityTester.Communication
                     if (this.OnDisconnect != null)
                     {
                         if (wsServer.WebSocketServices["/altws"].Sessions.Count == 0)
+                        {
                             this.OnDisconnect();
+                        }
                     }
                 };
             });
         }
+
         public bool IsConnected { get { return wsServer.WebSocketServices["/altws"].Sessions.Count > 0; } }
         public bool IsListening { get { return wsServer.IsListening; } }
 
@@ -61,17 +71,21 @@ namespace Altom.AltUnityTester.Communication
         {
             try
             {
-                if (!wsServer.IsListening)
+                if (!wsServer.IsListening) {
                     wsServer.Start();
+                }
             }
             catch (Exception ex)
             {
-                if (ex is InvalidOperationException && ex.InnerException != null && ex.InnerException.Message.Contains("Only one usage of each socket address"))
+                if (ex is InvalidOperationException && ex.InnerException != null && (ex.InnerException.Message.Contains("Only one usage of each socket address") || ex.InnerException.Message.Contains("Address already in use")))
                 {
-                    throw new AddressInUseCommError("Cannot start AltUnity Tester communication protocol. Another process is listening on port " + port);
+                    string message = String.Format("Port {0} is in use by another program. Start AltUnity Tester with a different port.", port);
+
+                    throw new AddressInUseCommError(message);
                 }
 
-                throw new UnhandledStartCommError("An error occured while starting AltUnity Tester communication protocol", ex);
+                logger.Error(ex.GetType().ToString(), ex.InnerException.Message);
+                throw new UnhandledStartCommError("An unexpected error occurred while starting AltUnity Tester.", ex);
             }
         }
 

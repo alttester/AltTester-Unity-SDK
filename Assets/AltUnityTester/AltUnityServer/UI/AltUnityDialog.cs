@@ -7,22 +7,36 @@ namespace Altom.AltUnityTester.UI
 {
     public class AltUnityDialog : UnityEngine.MonoBehaviour
     {
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+
         private readonly UnityEngine.Color SUCCESS_COLOR = new UnityEngine.Color32(0, 165, 36, 255);
         private readonly UnityEngine.Color WARNING_COLOR = new UnityEngine.Color32(255, 255, 95, 255);
         private readonly UnityEngine.Color ERROR_COLOR = new UnityEngine.Color32(191, 71, 85, 255);
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
 
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Text TitleText = null;
+
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Text MessageText = null;
+
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Button CloseButton = null;
+
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Image Icon = null;
+
+        [UnityEngine.SerializeField]
+        public UnityEngine.UI.Text PortLabel = null;
+
+        [UnityEngine.SerializeField]
+        public UnityEngine.UI.InputField PortInputField = null;
+
+        [UnityEngine.SerializeField]
+        public UnityEngine.UI.Button RestartButton = null;
 
         private ICommunication communication;
 
@@ -33,19 +47,17 @@ namespace Altom.AltUnityTester.UI
 
         protected void Start()
         {
+            SetUpPortInputField();
+            SetUpRestartButton();
+
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
             CloseButton.onClick.AddListener(ToggleDialog);
             Icon.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(ToggleDialog);
             TitleText.text = "AltUnity Tester v." + AltUnityRunner.VERSION;
 
-            if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server)
-
-                startServerCommProtocol();
-            else
-            {
-                startProxyCommProtocol();
-            }
+            StartAltUnityTester();
         }
+
         protected void Update()
         {
             _updateQueue.Cycle();
@@ -56,6 +68,51 @@ namespace Altom.AltUnityTester.UI
             cleanUp();
         }
 
+        public void OnPortInputFieldValueChange(string value)
+        {
+            // Allow only positive numbers.
+            if (value == "-") {
+                PortInputField.text = "";
+            }
+        }
+
+        public void SetUpPortInputField()
+        {
+            PortInputField.text = InstrumentationSettings.AltUnityTesterPort.ToString();
+            PortInputField.onValueChanged.AddListener(OnPortInputFieldValueChange);
+            PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
+        }
+
+        private void OnRestartButtonPress() {
+            logger.Debug("Restart the AltUnity Tester.");
+
+            int port;
+            if (Int32.TryParse(PortInputField.text, out port) && port > 0 && port < 65535)
+            {
+                InstrumentationSettings.AltUnityTesterPort = port;
+            }
+            else
+            {
+                setDialog("The port number should be beteween 1 and 65535.", ERROR_COLOR, true);
+                return;
+            }
+
+            try
+            {
+                RestartAltUnityTester();
+            }
+            catch (Exception ex)
+            {
+                setDialog("An unexpected error occurred while restarting the AltUnity Tester.", ERROR_COLOR, true);
+                logger.Error("An unexpected error occurred while restarting the AltUnity Tester.");
+                logger.Error(ex.GetType().ToString(), ex.Message);
+            }
+        }
+
+        public void SetUpRestartButton()
+        {
+            RestartButton.onClick.AddListener(OnRestartButtonPress);
+        }
 
         public void ToggleDialog()
         {
@@ -69,6 +126,32 @@ namespace Altom.AltUnityTester.UI
             Dialog.GetComponent<UnityEngine.UI.Image>().color = color;
         }
 
+        private void StartAltUnityTester()
+        {
+             if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server) {
+                startServerCommProtocol();
+            }
+            else
+            {
+                startProxyCommProtocol();
+            }
+        }
+
+        private void StopAltUnityTester()
+        {
+            logger.Debug("Stopping AltUnity Tester.");
+            if (communication != null)
+            {
+                communication.Stop();
+            }
+        }
+
+        private void RestartAltUnityTester()
+        {
+            StopAltUnityTester();
+            StartAltUnityTester();
+        }
+
         private void startServerCommProtocol()
         {
             var cmdHandler = new CommandHandler();
@@ -76,6 +159,7 @@ namespace Altom.AltUnityTester.UI
             communication.OnConnect += onClientConnected;
             communication.OnDisconnect += onClientDisconnected;
             communication.OnError += onError;
+
             setDialog("Starting AltUnity Tester on port: " + InstrumentationSettings.AltUnityTesterPort, WARNING_COLOR, true);
 
             try
@@ -83,22 +167,20 @@ namespace Altom.AltUnityTester.UI
                 communication.Start();
                 setDialog("Waiting for connection on port: " + InstrumentationSettings.AltUnityTesterPort, SUCCESS_COLOR, true);
             }
-            catch (AddressInUseCommError)
+            catch (AddressInUseCommError ex)
             {
-                setDialog("Cannot start AltUnity Tester communication protocol. Another process is listening on port " + InstrumentationSettings.AltUnityTesterPort, ERROR_COLOR, true);
-                logger.Error("Cannot start AltUnity Tester communication protocol. Another process is listening on port" + InstrumentationSettings.AltUnityTesterPort);
+                setDialog(ex.Message, ERROR_COLOR, true);
+                logger.Error(ex.Message);
             }
-
             catch (UnhandledStartCommError ex)
             {
-                setDialog("An unexpected error occured while starting the communication protocol.", ERROR_COLOR, true);
+                setDialog(ex.Message, ERROR_COLOR, true);
                 logger.Error(ex.InnerException, ex.InnerException.Message);
             }
         }
 
         private void onClientConnected()
         {
-
             string message = "Client connected.";
             _updateQueue.ScheduleResponse(() =>
             {
@@ -108,15 +190,15 @@ namespace Altom.AltUnityTester.UI
 
         private void onClientDisconnected()
         {
-            if (!communication.IsConnected) // 
+            if (!communication.IsConnected) //
                 _updateQueue.ScheduleResponse(() =>
                 {
                     setDialog("Waiting for connections on port: " + InstrumentationSettings.AltUnityTesterPort, SUCCESS_COLOR, false);
                 });
         }
 
-
         #region proxy mode comm protocol
+
         private void initProxyCommProtocol()
         {
             var cmdHandler = new CommandHandler();
@@ -132,6 +214,7 @@ namespace Altom.AltUnityTester.UI
             communication.OnError += onError;
 
         }
+
         private void startProxyCommProtocol()
         {
             initProxyCommProtocol();
@@ -141,10 +224,9 @@ namespace Altom.AltUnityTester.UI
                 if (communication == null || !communication.IsListening) // start only if it is not already listening
                     communication.Start();
 
-                if (!communication.IsConnected) // display dialog only if not connected 
+                if (!communication.IsConnected) // display dialog only if not connected
                     onStart();
             }
-
             catch (UnhandledStartCommError ex)
             {
                 setDialog("An unexpected error occurred while starting the communication protocol.", ERROR_COLOR, true);
@@ -156,14 +238,15 @@ namespace Altom.AltUnityTester.UI
                 logger.Error(ex, "An unexpected error occurred while starting the communication protocol.");
             }
         }
+
         private void onStart()
         {
             setDialog("Connecting to AltUnity Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort, SUCCESS_COLOR, Dialog.activeSelf || wasConnectedBeforeToProxy);
             wasConnectedBeforeToProxy = false;
         }
+
         private void onProxyConnect()
         {
-
             string message = "Connected to AltUnity Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort;
             _updateQueue.ScheduleResponse(() =>
             {
@@ -182,14 +265,18 @@ namespace Altom.AltUnityTester.UI
         private void onError(string message, Exception ex)
         {
             logger.Error(message);
-            if (ex != null)
+            if (ex != null) {
                 logger.Error(ex);
+            }
         }
+
         private void cleanUp()
         {
             logger.Debug("Stopping communication protocol");
             if (communication != null)
+            {
                 communication.Stop();
+            }
         }
     }
 }

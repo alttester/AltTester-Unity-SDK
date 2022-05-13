@@ -659,7 +659,7 @@ class TestPythonBindings:
 
             names.append(element.name)
 
-        assert len(names) == 28
+        assert len(names) == 34
         for name in expected_names:
             assert name in names
 

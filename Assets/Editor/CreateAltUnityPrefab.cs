@@ -115,9 +115,8 @@ namespace Altom.AltUnityTesterTools
             DialogTransform.anchorMin = new Vector2(0.5f, 0.5f);
             DialogTransform.anchorMax = new Vector2(0.5f, 0.5f);
             DialogTransform.pivot = new Vector2(0.5f, 0.5f);
-            DialogTransform.sizeDelta = new Vector2(400, 200);
+            DialogTransform.sizeDelta = new Vector2(400, 350);
             DialogTransform.localPosition = new Vector3(0, 0, 0);
-
 
 
             var DialogImage = DialogGameObject.GetComponent<Image>();
@@ -148,14 +147,13 @@ namespace Altom.AltUnityTesterTools
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;
 
-
             //Create LookingForConnections
 
             var MessageGameObject = new GameObject("Message", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
             var MessageRectTransform = MessageGameObject.GetComponent<RectTransform>();
             MessageRectTransform.SetParent(DialogTransform, false);
 
-            MessageRectTransform.localPosition = new Vector3(0, -37.5f, 0);
+            MessageRectTransform.localPosition = new Vector3(0, 45, 0);
             MessageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             MessageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             MessageRectTransform.sizeDelta = new Vector2(400, 75);
@@ -167,6 +165,96 @@ namespace Altom.AltUnityTesterTools
             MessageText.color = Color.white;
             MessageText.alignment = TextAnchor.MiddleCenter;
 
+            // Create Port Label
+            var PortLabel = new GameObject("PortLabel", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var PortLabelRectTransform = PortLabel.GetComponent<RectTransform>();
+            PortLabelRectTransform.SetParent(DialogTransform, false);
+
+            PortLabelRectTransform.localPosition = new Vector3(0, -30, 0);
+            PortLabelRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            PortLabelRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            PortLabelRectTransform.sizeDelta = new Vector2(400, 75);
+            PortLabelRectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var PortLabelText = PortLabel.GetComponent<Text>();
+            PortLabelText.text = "To change the port number input a new port and press the Restart Server button.";
+            PortLabelText.fontSize = 16;
+            PortLabelText.color = Color.white;
+            PortLabelText.alignment = TextAnchor.MiddleCenter;
+
+            // Create Port Input Field
+            var PortInputFieldGameObject = new GameObject("PortInputField", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(InputField) });
+            var PortInputFieldTransform = PortInputFieldGameObject.GetComponent<RectTransform>();
+            PortInputFieldTransform.SetParent(DialogTransform, false);
+
+            PortInputFieldTransform.localPosition = new Vector3(0, -80, 0);
+            PortInputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            PortInputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            PortInputFieldTransform.sizeDelta = new Vector2(160, 30);
+            PortInputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
+            PortInputFieldTransform.sizeDelta = new Vector2(160, 30);
+
+            var PortInputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var PortInputFieldTextTransform = PortInputFieldTextGameObject.GetComponent<RectTransform>();
+            PortInputFieldTextTransform.SetParent(PortInputFieldTransform, false);
+
+            PortInputFieldTextTransform.localPosition = new Vector3(0, -0.5f, 0);
+            PortInputFieldTextTransform.sizeDelta = new Vector2(-20, -13);
+            PortInputFieldTextTransform.anchorMin = new Vector2(0, 0);
+            PortInputFieldTextTransform.anchorMax = new Vector2(1, 1);
+            PortInputFieldTextTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var PortInputFieldText = PortInputFieldTextGameObject.GetComponent<Text>();
+            PortInputFieldText.supportRichText = false;
+            PortInputFieldText.color = Color.black;
+
+            var PortInputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var PortInputFieldPlaceholderTransform = PortInputFieldPlaceholderGameObject.GetComponent<RectTransform>();
+            PortInputFieldPlaceholderTransform.SetParent(PortInputFieldTransform, false);
+
+            PortInputFieldPlaceholderTransform.localPosition = new Vector3(0, -0.5f, 0);
+            PortInputFieldPlaceholderTransform.sizeDelta = new Vector2(-20, -13);
+            PortInputFieldPlaceholderTransform.anchorMin = new Vector2(0, 0);
+            PortInputFieldPlaceholderTransform.anchorMax = new Vector2(1, 1);
+            PortInputFieldPlaceholderTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var PortInputFieldPlaceholder = PortInputFieldPlaceholderGameObject.GetComponent<Text>();
+            PortInputFieldPlaceholder.supportRichText = false;
+            PortInputFieldPlaceholder.text = "Enter port number...";
+            PortInputFieldPlaceholder.color = Color.gray;
+
+            var PortInputField = PortInputFieldGameObject.GetComponent<InputField>();
+            PortInputField.textComponent = PortInputFieldText;
+            PortInputField.placeholder = PortInputFieldPlaceholder;
+
+            // Create Restart Button
+            var RestartButtonGameObject = new GameObject("RestartButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
+            var RestartButtonRectTransform = RestartButtonGameObject.GetComponent<RectTransform>();
+            RestartButtonRectTransform.SetParent(DialogTransform, false);
+
+            RestartButtonRectTransform.localPosition = new Vector3(0, -120, 0);
+            RestartButtonRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            RestartButtonRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            RestartButtonRectTransform.sizeDelta = new Vector2(160, 30);
+            RestartButtonRectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var RestartButtonTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var RestartButtonTextRectTransform = RestartButtonTextGameObject.GetComponent<RectTransform>();
+            RestartButtonTextRectTransform.SetParent(RestartButtonRectTransform, false);
+
+            RestartButtonTextRectTransform.localPosition = new Vector3(0, 0, 0);
+            RestartButtonTextRectTransform.anchorMin = new Vector2(0, 0);
+            RestartButtonTextRectTransform.anchorMax = new Vector2(1, 1);
+            RestartButtonTextRectTransform.sizeDelta = new Vector2(0, 0);
+            RestartButtonTextRectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var RestartButtonText = RestartButtonTextGameObject.GetComponent<Text>();
+            RestartButtonText.text = "Restart Server";
+            RestartButtonText.fontSize = 14;
+            RestartButtonText.color = Color.black;
+            RestartButtonText.alignment = TextAnchor.MiddleCenter;
+
+            var RestartButton = RestartButtonGameObject.GetComponent<Button>();
 
             //Create CloseButton
 
@@ -221,6 +309,9 @@ namespace Altom.AltUnityTesterTools
             AltUnityDialog.MessageText = MessageText;
             AltUnityDialog.CloseButton = CloseButton;
             AltUnityDialog.Icon = IconImage;
+            AltUnityDialog.PortLabel = PortLabelText;
+            AltUnityDialog.PortInputField = PortInputField;
+            AltUnityDialog.RestartButton = RestartButton;
 
             var testPath = "Assets/Editor/AltUnityRunnerPrefab.prefab";
             PrefabUtility.SaveAsPrefabAsset(Prefab, testPath);
