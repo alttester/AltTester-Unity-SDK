@@ -11,16 +11,7 @@ namespace Altom.AltUnityTester.Commands
         }
         public override string Execute()
         {
-#if ENABLE_INPUT_SYSTEM
-#endif
-#if ENABLE_LEGACY_INPUT_MANAGER
-#if ALTUNITYTESTER
-            Input.MoveTouch(CommandParams.fingerId, CommandParams.coordinates.ToUnity());
-
-#else
-            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
-#endif
-#endif
+            InputController.MoveTouch(CommandParams.fingerId, CommandParams.coordinates.ToUnity());
             return "Ok";
 
         }

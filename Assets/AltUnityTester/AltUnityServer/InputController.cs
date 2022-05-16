@@ -157,7 +157,6 @@ namespace Altom.AltUnityTester
 #endif  
         }
 
-
         public static void KeyDown(KeyCode keyCode, float power)
         {
 #if ALTUNITYTESTER
@@ -202,5 +201,55 @@ namespace Altom.AltUnityTester
 #endif
         }
 
+        public static int BeginTouch(Vector3 screenPosition)
+        {
+            int newFingerId = 0, oldFingerId = -1;
+#if ALTUNITYTESTER
+#if ENABLE_INPUT_SYSTEM
+            newFingerId = NewInputSystem.BeginTouch(screenPosition);
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+            oldFingerId = Input.BeginTouch(screenPosition);
+#endif
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+            if (newFingerId == 0)
+                return oldFingerId + 1;
+            if (oldFingerId == -1)
+                return newFingerId;
+            if (newFingerId - 1 == oldFingerId)
+                return newFingerId;
+            throw new Exception("FingerIds are not identical! OldInput fingerId: " + oldFingerId + " New Input fingerId: " + newFingerId);
+        }
+
+        public static void MoveTouch(int fingerId, Vector3 screenPosition)
+        {
+#if ALTUNITYTESTER
+#if ENABLE_INPUT_SYSTEM
+            NewInputSystem.MoveTouch(fingerId, screenPosition);
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+            Input.MoveTouch(fingerId - 1, screenPosition);
+#endif
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+        }
+
+        public static void EndTouch(int fingerId)
+        {
+#if ALTUNITYTESTER
+#if ENABLE_INPUT_SYSTEM
+            NewInputSystem.EndTouch(fingerId);
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+            Input.EndTouch(fingerId - 1);
+#endif
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+
+        }
     }
 }

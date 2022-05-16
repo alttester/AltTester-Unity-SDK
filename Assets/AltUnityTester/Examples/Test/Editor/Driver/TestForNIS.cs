@@ -210,4 +210,17 @@ public class TestForNIS
         altUnityDriver.Tilt(new AltUnityVector3(1000, 10, 10), 3f);
         Assert.AreNotEqual(initialPosition, altUnityDriver.FindObject(By.NAME, "Capsule").getWorldPosition());
     }
+
+    [Test]
+    public void TestBeginMoveEndTouch()
+    {
+        altUnityDriver.LoadScene(scene8);
+        var panelToDrag = altUnityDriver.FindObject(By.PATH, "//Panel/Drag Zone");
+        var initialPanelPos = panelToDrag.getScreenPosition();
+        var fingerId = altUnityDriver.BeginTouch(panelToDrag.getScreenPosition());
+        altUnityDriver.MoveTouch(fingerId, new AltUnityVector2(initialPanelPos.x + 20, initialPanelPos.y + 20));
+        altUnityDriver.EndTouch(fingerId);
+        var finalPanelPos = altUnityDriver.FindObject(By.PATH, "//Panel/Drag Zone").getScreenPosition();
+        Assert.AreNotEqual(initialPanelPos, finalPanelPos);
+    }
 }

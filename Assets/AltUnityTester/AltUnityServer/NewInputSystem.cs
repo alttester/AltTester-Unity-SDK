@@ -13,6 +13,7 @@ namespace Altom.AltUnityTester
 {
     public class NewInputSystem : MonoBehaviour
     {
+        private static Vector2 endTouchScreenPos;
         private static float keyDownPower;
 
         public static InputTestFixture InputTestFixture = new InputTestFixture();
@@ -22,7 +23,7 @@ namespace Altom.AltUnityTester
         public static Gamepad Gamepad;
         public static Touchscreen Touchscreen;
         public static Accelerometer Accelerometer;
-
+        public static bool[] touches = new bool[] { false, true, true, true, true, true, true, true, true, true, true };
         public void Awake()
         {
             if (Instance == null)
@@ -236,6 +237,26 @@ namespace Altom.AltUnityTester
             InputSystem.DisableDevice(Accelerometer);
         }
 
+        internal static int BeginTouch(Vector3 screenPosition)
+        {
+            var fingerId = getFreeTouch(touches);
+            touches[fingerId] = false;
+            InputTestFixture.BeginTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
+            return fingerId;
+        }
+
+        internal static void MoveTouch(int fingerId, Vector3 screenPosition)
+        {
+            InputTestFixture.MoveTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
+            endTouchScreenPos = screenPosition;
+        }
+
+        internal static void EndTouch(int fingerId)
+        {
+            InputTestFixture.EndTouch(fingerId, endTouchScreenPos, queueEventOnly: true, screen: Touchscreen);
+            touches[fingerId] = true;
+        }
+
         #region private interface
         private static ButtonControl keyCodeToButtonControl(KeyCode keyCode, float power = 1)
         {
@@ -280,6 +301,15 @@ namespace Altom.AltUnityTester
             else
                 InputTestFixture.Release(buttonControl, queueEventOnly: queueEventOnly);
 
+        }
+
+        private static int getFreeTouch(bool[] touches)
+        {
+            for (int i = 1; i < touches.Length; i++)
+            {
+                if (touches[i]) return i;
+            }
+            return 0;
         }
         #endregion
     }
