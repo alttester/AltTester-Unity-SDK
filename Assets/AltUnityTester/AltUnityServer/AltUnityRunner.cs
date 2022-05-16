@@ -12,7 +12,7 @@ namespace Altom.AltUnityTester
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "1.7.0";
+        public static readonly string VERSION = "1.7.1-Alpha";
         public static AltUnityRunner _altUnityRunner;
         public static AltResponseQueue _responseQueue;
         public AltUnityInstrumentationSettings InstrumentationSettings = null;
@@ -229,7 +229,7 @@ namespace Altom.AltUnityTester
             using (var memoryStreamInput = new System.IO.MemoryStream(screenshotSerialized))
             using (var memoryStreamOutout = new System.IO.MemoryStream())
             {
-                using (var gZipStream = new Unity.IO.Compression.GZipStream(memoryStreamOutout, Unity.IO.Compression.CompressionMode.Compress))
+                using (var gZipStream = new System.IO.Compression.GZipStream(memoryStreamOutout, System.IO.Compression.CompressionMode.Compress))
                 {
                     CopyTo(memoryStreamInput, gZipStream);
                 }
