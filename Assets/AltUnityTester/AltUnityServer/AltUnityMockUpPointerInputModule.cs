@@ -105,7 +105,6 @@ namespace Altom.AltUnityTester
 
                 return previousData;
             }
-
             return null;
         }
 

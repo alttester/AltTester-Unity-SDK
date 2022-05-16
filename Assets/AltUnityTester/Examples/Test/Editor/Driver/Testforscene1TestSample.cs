@@ -1825,6 +1825,7 @@ namespace Altom.AltUnityDriver.Tests
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
             Assert.IsFalse(eventsRaised.Contains("OnPointerExit"));
             altUnityDriver.MoveMouse(new AltUnityVector2(200, 200));
+            Thread.Sleep(800);
 
             eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
