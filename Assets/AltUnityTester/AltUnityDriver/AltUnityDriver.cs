@@ -15,7 +15,7 @@ namespace Altom.AltUnityDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "1.7.0";
+        public static readonly string VERSION = "1.7.1-Alpha";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
