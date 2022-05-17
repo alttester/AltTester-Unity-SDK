@@ -74,6 +74,39 @@ namespace Altom.AltUnityTester
 
         }
 
+        public static void DisableDefaultDevicesAndEnableAltUnityDevices()
+        {
+            foreach (var device in InputSystem.devices)
+            {
+                if (device.name.Contains("AltUnity"))
+                {
+                    InputSystem.EnableDevice(device);
+                }
+                else
+                {
+                    InputSystem.DisableDevice(device);
+
+                }
+            }
+
+        }
+        public static void EnableDefaultDevicesAndDisableAltUnityDevices()
+        {
+            foreach (var device in InputSystem.devices)
+            {
+                if (device.name.Contains("AltUnity"))
+                {
+                    InputSystem.DisableDevice(device);
+                }
+                else
+                {
+                    InputSystem.EnableDevice(device);
+
+                }
+            }
+
+        }
+
         internal static IEnumerator ScrollLifeCycle(float speedVertical, float speedHorizontal, float duration)
         {
             float currentTime = 0;
@@ -169,7 +202,7 @@ namespace Altom.AltUnityTester
             Mouse.MakeCurrent();
             UnityEngine.Vector3 screenPosition;
             AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
-            InputTestFixture.Set(Mouse.current.position, screenPosition);
+            InputTestFixture.Set(Mouse.position, screenPosition);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
@@ -184,7 +217,7 @@ namespace Altom.AltUnityTester
         internal static IEnumerator ClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
         {
             Mouse.MakeCurrent();
-            InputTestFixture.Set(Mouse.current.position, screenPosition);
+            InputTestFixture.Set(Mouse.position, screenPosition);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
@@ -206,12 +239,14 @@ namespace Altom.AltUnityTester
 
         internal static void KeyUp(KeyCode keyCode)
         {
+
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, keyDownPower);
             keyUp(keyCode, buttonControl);
         }
 
         internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
         {
+
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
             yield return null;
             keyDown(keyCode, power, buttonControl);
@@ -223,7 +258,6 @@ namespace Altom.AltUnityTester
         {
             float currentTime = 0;
             float frameTime = 0;// using this because of a bug with yield return which waits only every other iteration
-            InputSystem.EnableDevice(Accelerometer);
             while (currentTime <= duration - Time.fixedUnscaledDeltaTime)
             {
                 InputTestFixture.Set(Accelerometer.acceleration, accelerationValue * frameTime / duration, queueEventOnly: true);
@@ -234,7 +268,26 @@ namespace Altom.AltUnityTester
                 currentTime += frameTime;
             }
             InputTestFixture.Set(Accelerometer.acceleration, Vector3.zero);
-            InputSystem.DisableDevice(Accelerometer);
+        }
+
+        internal static int BeginTouch(Vector3 screenPosition)
+        {
+            var fingerId = getFreeTouch(touches);
+            touches[fingerId] = false;
+            InputTestFixture.BeginTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
+            return fingerId;
+        }
+
+        internal static void MoveTouch(int fingerId, Vector3 screenPosition)
+        {
+            InputTestFixture.MoveTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
+            endTouchScreenPos = screenPosition;
+        }
+
+        internal static void EndTouch(int fingerId)
+        {
+            InputTestFixture.EndTouch(fingerId, endTouchScreenPos, queueEventOnly: true, screen: Touchscreen);
+            touches[fingerId] = true;
         }
 
         internal static int BeginTouch(Vector3 screenPosition)
@@ -262,7 +315,7 @@ namespace Altom.AltUnityTester
         {
             foreach (var e in AltUnityKeyMapping.StringToKeyCode)
                 if (e.Value == keyCode)
-                    return Keyboard.current[AltUnityKeyMapping.StringToKey[e.Key]];
+                    return Keyboard[AltUnityKeyMapping.StringToKey[e.Key]];
             foreach (var e in AltUnityKeyMapping.mouseKeyCodeToButtonControl)
                 if (e.Key == keyCode)
                     return e.Value;
@@ -275,14 +328,14 @@ namespace Altom.AltUnityTester
 
         private static void setStick(float value, ButtonControl buttonControl)
         {
-            if (buttonControl == Gamepad.current.leftStick.up || buttonControl == Gamepad.current.leftStick.down)
-                InputTestFixture.Set(Gamepad.current.leftStick.y, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.leftStick.right || buttonControl == Gamepad.current.leftStick.left)
-                InputTestFixture.Set(Gamepad.current.leftStick.x, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.rightStick.up || buttonControl == Gamepad.current.rightStick.down)
-                InputTestFixture.Set(Gamepad.current.rightStick.y, value, queueEventOnly: true);
-            else if (buttonControl == Gamepad.current.rightStick.right || buttonControl == Gamepad.current.rightStick.left)
-                InputTestFixture.Set(Gamepad.current.rightStick.x, value, queueEventOnly: true);
+            if (buttonControl == Gamepad.leftStick.up || buttonControl == Gamepad.leftStick.down)
+                InputTestFixture.Set(Gamepad.leftStick.y, value, queueEventOnly: true);
+            else if (buttonControl == Gamepad.leftStick.right || buttonControl == Gamepad.leftStick.left)
+                InputTestFixture.Set(Gamepad.leftStick.x, value, queueEventOnly: true);
+            else if (buttonControl == Gamepad.rightStick.up || buttonControl == Gamepad.rightStick.down)
+                InputTestFixture.Set(Gamepad.rightStick.y, value, queueEventOnly: true);
+            else if (buttonControl == Gamepad.rightStick.right || buttonControl == Gamepad.rightStick.left)
+                InputTestFixture.Set(Gamepad.rightStick.x, value, queueEventOnly: true);
         }
 
         private static void keyDown(KeyCode keyCode, float power, ButtonControl buttonControl)

@@ -19,7 +19,7 @@ public class AltUnityExampleNewInputSystem : MonoBehaviour
     public static Mouse Mouse;
     public static Touchscreen Touchscreen;
 
-    void OnEnable()
+    protected void OnEnable()
     {
         InputSystem.EnableDevice(Accelerometer.current);
 
@@ -30,14 +30,14 @@ public class AltUnityExampleNewInputSystem : MonoBehaviour
         InputSystem.DisableDevice(Accelerometer.current);
 
     }
-    void Update()
+    protected void Update()
     {
         wasClicked = Mouse.current.position.ReadValue() != Vector2.zero;
         var acceleration = Accelerometer.current.acceleration.ReadValue();
         if (acceleration != previousAcceleration)
         {
             previousAcceleration = acceleration;
-            transform.Rotate(acceleration);
+            transform.position += acceleration * 0.02f;
         }
     }
 

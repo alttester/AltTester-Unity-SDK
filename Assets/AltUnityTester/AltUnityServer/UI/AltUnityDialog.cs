@@ -1,7 +1,7 @@
 using System;
-using Altom.AltUnityTester.Logging;
 using Altom.AltUnityTester;
 using Altom.AltUnityTester.Communication;
+using Altom.AltUnityTester.Logging;
 
 namespace Altom.AltUnityTester.UI
 {
@@ -71,7 +71,8 @@ namespace Altom.AltUnityTester.UI
         public void OnPortInputFieldValueChange(string value)
         {
             // Allow only positive numbers.
-            if (value == "-") {
+            if (value == "-")
+            {
                 PortInputField.text = "";
             }
         }
@@ -83,7 +84,8 @@ namespace Altom.AltUnityTester.UI
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
         }
 
-        private void OnRestartButtonPress() {
+        private void OnRestartButtonPress()
+        {
             logger.Debug("Restart the AltUnity Tester.");
 
             int port;
@@ -128,7 +130,8 @@ namespace Altom.AltUnityTester.UI
 
         private void StartAltUnityTester()
         {
-             if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server) {
+            if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server)
+            {
                 startServerCommProtocol();
             }
             else
@@ -182,17 +185,36 @@ namespace Altom.AltUnityTester.UI
         private void onClientConnected()
         {
             string message = "Client connected.";
+#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = true;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
+
+
             _updateQueue.ScheduleResponse(() =>
             {
+#if ENABLE_INPUT_SYSTEM
+                NewInputSystem.DisableDefaultDevicesAndEnableAltUnityDevices();
+#endif
                 setDialog(message, SUCCESS_COLOR, false);
             });
         }
 
         private void onClientDisconnected()
         {
+#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = false;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
+
             if (!communication.IsConnected) //
                 _updateQueue.ScheduleResponse(() =>
                 {
+
+#if ENABLE_INPUT_SYSTEM
+                    NewInputSystem.EnableDefaultDevicesAndDisableAltUnityDevices();
+
+#endif
                     setDialog("Waiting for connections on port: " + InstrumentationSettings.AltUnityTesterPort, SUCCESS_COLOR, false);
                 });
         }
@@ -265,7 +287,8 @@ namespace Altom.AltUnityTester.UI
         private void onError(string message, Exception ex)
         {
             logger.Error(message);
-            if (ex != null) {
+            if (ex != null)
+            {
                 logger.Error(ex);
             }
         }
