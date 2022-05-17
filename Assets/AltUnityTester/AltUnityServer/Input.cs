@@ -49,6 +49,7 @@ public class Input : MonoBehaviour
     public static string LastButtonPressed { get; set; }
     public static string LastButtonUp { get; set; }
 
+    public static bool UseCustomInput { get => _useCustomInput; set => _useCustomInput = value; }
     public static AltUnityMockUpPointerInputModule AltUnityMockUpPointerInputModule
     {
         get
@@ -83,7 +84,7 @@ public class Input : MonoBehaviour
 
     private void Update()
     {
-        _useCustomInput = UnityEngine.Input.touchCount == 0 && !UnityEngine.Input.anyKey && UnityEngine.Input.mouseScrollDelta == UnityEngine.Vector2.zero;
+
         var monoBehaviourTarget = FindObjectViaRayCast.GetGameObjectHitMonoBehaviour(mousePosition);
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {

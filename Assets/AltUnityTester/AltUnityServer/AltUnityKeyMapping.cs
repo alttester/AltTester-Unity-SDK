@@ -314,11 +314,11 @@ namespace Altom.AltUnityTester
         public static Dictionary<KeyCode, ButtonControl> mouseKeyCodeToButtonControl = new Dictionary<KeyCode, ButtonControl>()
         {
             // in Mouse class there are only 5 buttons thus KeyCode.Mouse5, KeyCode.Mouse6 are not mapped
-            {KeyCode.Mouse0, Mouse.current.leftButton},
-            {KeyCode.Mouse1, Mouse.current.rightButton},
-            {KeyCode.Mouse2, Mouse.current.middleButton},
-            {KeyCode.Mouse3, Mouse.current.forwardButton},
-            {KeyCode.Mouse4, Mouse.current.backButton}
+            {KeyCode.Mouse0, NewInputSystem.Mouse.leftButton},
+            {KeyCode.Mouse1, NewInputSystem.Mouse.rightButton},
+            {KeyCode.Mouse2, NewInputSystem.Mouse.middleButton},
+            {KeyCode.Mouse3, NewInputSystem.Mouse.forwardButton},
+            {KeyCode.Mouse4, NewInputSystem.Mouse.backButton}
         };
 
         public Dictionary<KeyCode, ButtonControl> joystickKeyCodeToGamepad;
@@ -327,26 +327,26 @@ namespace Altom.AltUnityTester
         {
             joystickKeyCodeToGamepad = new Dictionary<KeyCode, ButtonControl>()
         {
-            {KeyCode.JoystickButton0, Gamepad.current.aButton},
-            {KeyCode.JoystickButton1, Gamepad.current.bButton},
-            {KeyCode.JoystickButton2, Gamepad.current.xButton},
-            {KeyCode.JoystickButton3, Gamepad.current.yButton},
-            {KeyCode.JoystickButton4, Gamepad.current.leftShoulder},
-            {KeyCode.JoystickButton5, Gamepad.current.rightShoulder},
-            {KeyCode.JoystickButton6, Gamepad.current.leftTrigger},
-            {KeyCode.JoystickButton7, Gamepad.current.rightTrigger},
-            {KeyCode.JoystickButton8, Gamepad.current.selectButton},
-            {KeyCode.JoystickButton9, Gamepad.current.startButton},
-            {KeyCode.JoystickButton10, Gamepad.current.leftStickButton},
-            {KeyCode.JoystickButton11, Gamepad.current.rightStickButton},
-            {KeyCode.JoystickButton12, Gamepad.current.dpad.up},
-            {KeyCode.JoystickButton13, Gamepad.current.dpad.down},
-            {KeyCode.JoystickButton14, Gamepad.current.dpad.left},
-            {KeyCode.JoystickButton15, Gamepad.current.dpad.right},
-            {KeyCode.JoystickButton16, power > 0 ? Gamepad.current.leftStick.right : Gamepad.current.leftStick.left},
-            {KeyCode.JoystickButton17, power > 0 ? Gamepad.current.leftStick.up : Gamepad.current.leftStick.down},
-            {KeyCode.JoystickButton18, power > 0 ? Gamepad.current.rightStick.right: Gamepad.current.rightStick.left},
-            {KeyCode.JoystickButton19, power > 0 ? Gamepad.current.rightStick.up : Gamepad.current.rightStick.down}
+            {KeyCode.JoystickButton0, NewInputSystem.Gamepad.aButton},
+            {KeyCode.JoystickButton1, NewInputSystem.Gamepad.bButton},
+            {KeyCode.JoystickButton2, NewInputSystem.Gamepad.xButton},
+            {KeyCode.JoystickButton3, NewInputSystem.Gamepad.yButton},
+            {KeyCode.JoystickButton4, NewInputSystem.Gamepad.leftShoulder},
+            {KeyCode.JoystickButton5, NewInputSystem.Gamepad.rightShoulder},
+            {KeyCode.JoystickButton6, NewInputSystem.Gamepad.leftTrigger},
+            {KeyCode.JoystickButton7, NewInputSystem.Gamepad.rightTrigger},
+            {KeyCode.JoystickButton8, NewInputSystem.Gamepad.selectButton},
+            {KeyCode.JoystickButton9, NewInputSystem.Gamepad.startButton},
+            {KeyCode.JoystickButton10, NewInputSystem.Gamepad.leftStickButton},
+            {KeyCode.JoystickButton11, NewInputSystem.Gamepad.rightStickButton},
+            {KeyCode.JoystickButton12, NewInputSystem.Gamepad.dpad.up},
+            {KeyCode.JoystickButton13, NewInputSystem.Gamepad.dpad.down},
+            {KeyCode.JoystickButton14, NewInputSystem.Gamepad.dpad.left},
+            {KeyCode.JoystickButton15, NewInputSystem.Gamepad.dpad.right},
+            {KeyCode.JoystickButton16, power > 0 ? NewInputSystem.Gamepad.leftStick.right : NewInputSystem.Gamepad.leftStick.left},
+            {KeyCode.JoystickButton17, power > 0 ? NewInputSystem.Gamepad.leftStick.up : NewInputSystem.Gamepad.leftStick.down},
+            {KeyCode.JoystickButton18, power > 0 ? NewInputSystem.Gamepad.rightStick.right: NewInputSystem.Gamepad.rightStick.left},
+            {KeyCode.JoystickButton19, power > 0 ? NewInputSystem.Gamepad.rightStick.up : NewInputSystem.Gamepad.rightStick.down}
         };
         }
     }

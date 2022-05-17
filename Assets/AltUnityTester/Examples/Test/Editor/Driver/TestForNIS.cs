@@ -207,7 +207,7 @@ public class TestForNIS
         altUnityDriver.LoadScene(scene11);
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var initialPosition = capsule.getWorldPosition();
-        altUnityDriver.Tilt(new AltUnityVector3(1000, 10, 10), 3f);
+        altUnityDriver.Tilt(new AltUnityVector3(5, 0, 5f), 1f);
         Assert.AreNotEqual(initialPosition, altUnityDriver.FindObject(By.NAME, "Capsule").getWorldPosition());
     }
 
