@@ -1813,12 +1813,12 @@ namespace Altom.AltUnityDriver.Tests
         [Test]
         public void TestPointerEnter_PointerExit()
         {
-            altUnityDriver.MoveMouse(new AltUnityVector2(-1, -1));
+            altUnityDriver.MoveMouse(new AltUnityVector2(-1, -1), 1);
             altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene", true);
 
             var counterElement = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
 
-            altUnityDriver.MoveMouse(counterElement.getScreenPosition());
+            altUnityDriver.MoveMouse(counterElement.getScreenPosition(), 1);
             Thread.Sleep(800); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
 
             var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltUnityExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");

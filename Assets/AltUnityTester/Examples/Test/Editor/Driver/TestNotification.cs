@@ -58,7 +58,7 @@ public class TestNotification
                 throw new TimeoutException("Notification variable not set to the desired value in time");
         }
     }
-    
+
     [Test]
     public void TestUnloadSceneNotification()
     {
@@ -74,12 +74,12 @@ public class TestNotification
         StringAssert.Contains("\"commandName\":\"loadScene\"", MockNotificationCallBacks.LogMessage);
         Assert.AreEqual(AltUnityLogLevel.Debug, MockNotificationCallBacks.LogLevel);
     }
-    
+
     [Test]
     public void TestApplicationPaused()
     {
         var altElement = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
-        altElement.CallComponentMethod<string>("Altom.AltUnityTester.AltUnityRunner", "OnApplicationPause", new object[] { true}, new string[] {"System.Boolean"}, "Assembly-CSharp");
+        altElement.CallComponentMethod<string>("Altom.AltUnityTester.AltUnityRunner", "OnApplicationPause", new object[] { true }, new string[] { "System.Boolean" }, "Assembly-CSharp");
         Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
     }
 }
