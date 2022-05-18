@@ -349,20 +349,20 @@ namespace Altom.AltUnityTester
     }
 
 }
-#else
-namespace Altom.AltUnityTester
-{
-    public class NewInputSystem
-    {
-
-    }
-}
-#endif
 #if USE_INPUT_SYSTEM_1_3
 public class TestExample
 {
     [Test]
     public void Test()
+    {
+
+    }
+}
+#endif
+#else
+namespace Altom.AltUnityTester
+{
+    public class NewInputSystem
     {
 
     }
