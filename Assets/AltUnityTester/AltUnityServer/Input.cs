@@ -82,10 +82,17 @@ public class Input : MonoBehaviour
         AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltUnityAxis>>(dataAsJson);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-
         var monoBehaviourTarget = FindObjectViaRayCast.GetGameObjectHitMonoBehaviour(mousePosition);
+        if (monoBehaviourPreviousTarget != monoBehaviourTarget)
+        {
+            if (monoBehaviourPreviousTarget != null) monoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (monoBehaviourTarget != null && previousMousePosition != mousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            monoBehaviourPreviousTarget = monoBehaviourTarget;
+        }
+        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {
             position = mousePosition,
@@ -94,12 +101,6 @@ public class Input : MonoBehaviour
         };
         var eventSystemTarget = findEventSystemObject(pointerEventData);
 
-        if (monoBehaviourPreviousTarget != monoBehaviourTarget)
-        {
-            if (monoBehaviourPreviousTarget != null) monoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (monoBehaviourTarget != null && previousMousePosition != mousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            monoBehaviourPreviousTarget = monoBehaviourTarget;
-        }
         if (eventSystemTarget != previousEventSystemTarget)
         {
             if (previousEventSystemTarget != null) UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
@@ -110,7 +111,6 @@ public class Input : MonoBehaviour
         {
             previousMousePosition = mousePosition;
         }
-        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
     }
     #endregion
