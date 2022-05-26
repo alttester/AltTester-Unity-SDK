@@ -51,9 +51,18 @@ public class MessageHandler implements IMessageHandler {
     private List<INotificationCallbacks> applicationPausedNotificationList = new ArrayList<INotificationCallbacks>();
     private List<String> messageIdTimeout = new ArrayList<String>();
     private double commandTimeout = 60;
+    private double delayAfterCommand = 0;
 
     public MessageHandler(Session session) {
         this.session = session;
+    }
+
+    public double getDelayAfterCommand() {
+        return this.delayAfterCommand;
+    }
+
+    public void setDelayAfterCommand(double delay) {
+        this.delayAfterCommand = delay;
     }
 
     public <T> T receive(AltMessage data, Class<T> type) {

@@ -1,8 +1,8 @@
 import abc
 import json
+import time
 from datetime import datetime
 from loguru import logger
-import time
 
 import altunityrunner.exceptions as exceptions
 from altunityrunner.by import By
@@ -59,6 +59,8 @@ def validate_coordinates(coordinates):
 class Command(metaclass=abc.ABCMeta):
     """An abstract class that defines the command protocol and contains utils methods for the commands."""
 
+    delay_after_command = 0
+
     def get_path(self, by, value):
         if by == By.TAG:
             return "//*[@tag={}]".format(value)
@@ -100,6 +102,14 @@ class Command(metaclass=abc.ABCMeta):
     def positions_to_json(self, positions):
         return [self.vector_to_json(x, y) for x, y in positions]
 
+    @classmethod
+    def get_delay_after_command(cls):
+        return cls.delay_after_command
+
+    @classmethod
+    def set_delay_after_command(cls, delay):
+        cls.delay_after_command = delay
+
     @abc.abstractmethod
     def execute(self):
         """Execute the command."""
@@ -109,7 +119,10 @@ class Command(metaclass=abc.ABCMeta):
         """Run the command."""
 
         command = cls(*args, **kwargs)
-        return command.execute()
+        response = command.execute()
+        time.sleep(cls.delay_after_command)
+
+        return response
 
 
 class BaseCommand(Command):

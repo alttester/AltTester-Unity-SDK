@@ -4,6 +4,7 @@ import sys
 from loguru import logger
 
 import altunityrunner.commands as commands
+from altunityrunner.commands.base_command import Command
 from altunityrunner.__version__ import VERSION
 from altunityrunner._websocket import WebsocketConnection
 from altunityrunner.altUnityObject import AltUnityObject
@@ -127,11 +128,25 @@ class AltUnityDriver:
         """Sets the command response timeout for the AltUnity connection.
 
         Args:
-            timeout (:obj:`int` or :obj:`float`): The new comand response timeout in seconds.
+            timeout (:obj:`int` or :obj:`float`): The new command response timeout in seconds.
 
         """
 
         self._connection.set_command_timeout(timeout)
+
+    def get_delay_after_command(self):
+        """Gets the current delay after a command."""
+
+        return Command.get_delay_after_command()
+
+    def set_delay_after_command(self, delay):
+        """Set the delay after a command.
+
+        Args:
+            delay (:obj:`int` or :obj:`float`): The new delay a after a command.
+        """
+
+        Command.set_delay_after_command(delay)
 
     def set_server_logging(self, logger, log_level):
         """Sets the level of logging on AltUnity Tester.

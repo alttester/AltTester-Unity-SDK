@@ -31,18 +31,4 @@ public class AltBaseCommand {
             throw new AltUnityInvalidServerResponse(expected, received);
         }
     }
-
-    /**
-     * Sleeps for certain amount of seconds.
-     *
-     * @param interval Seconds to sleep for.
-     */
-    protected void sleepFor(double interval) {
-        long timeToSleep = (long) (interval * 1000);
-        try {
-            Thread.sleep(timeToSleep);
-        } catch (InterruptedException e) {
-            logger.warn("Could not sleep for " + timeToSleep + " ms");
-        }
-    }
 }

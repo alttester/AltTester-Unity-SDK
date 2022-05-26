@@ -13,9 +13,11 @@ public interface IMessageHandler {
 
     public void setCommandTimeout(int timeout);
 
-    public void addNotificationListener(NotificationType notificationType, INotificationCallbacks callbacks,
-            boolean overwrite);
+    public void addNotificationListener(NotificationType notificationType, INotificationCallbacks callbacks, boolean overwrite);
 
     public void removeNotificationListener(NotificationType notificationType);
 
+    public double getDelayAfterCommand();
+
+    public void setDelayAfterCommand(double delay);
 }

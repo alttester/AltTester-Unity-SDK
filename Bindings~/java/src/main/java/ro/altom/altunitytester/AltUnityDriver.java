@@ -111,27 +111,39 @@ public class AltUnityDriver {
         return new GetServerVersionCommand(this.connection.messageHandler).Execute();
     }
 
+    public double getDelayAfterCommand() {
+        return this.connection.messageHandler.getDelayAfterCommand();
+    }
+
+    public void setDelayAfterCommand(double delay) {
+        this.connection.messageHandler.setDelayAfterCommand(delay);
+    }
+
     /**
      * Loads a scene.
      */
     public void loadScene(AltLoadSceneParams altLoadSceneParameters) {
         new AltLoadScene(this.connection.messageHandler, altLoadSceneParameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
      * Unloads a scene.
-     * 
+     *
      * @param sceneName - the scene name
      */
     public void unloadScene(AltUnloadSceneParams unloadSceneParams) {
         new AltUnloadScene(this.connection.messageHandler, unloadSceneParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
      * Returns all the scenes that have been loaded.
      */
     public String[] getAllLoadedScenes() {
-        return new AltGetAllLoadedScenes(this.connection.messageHandler).Execute();
+        String[] response = new AltGetAllLoadedScenes(this.connection.messageHandler).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -146,6 +158,7 @@ public class AltUnityDriver {
      */
     public void deletePlayerPref() {
         new AltDeletePlayerPref(this.connection.messageHandler).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -153,6 +166,7 @@ public class AltUnityDriver {
      */
     public void deleteKeyPlayerPref(String keyName) {
         new AltDeleteKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -160,6 +174,7 @@ public class AltUnityDriver {
      */
     public void setKeyPlayerPref(String keyName, int valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -167,6 +182,7 @@ public class AltUnityDriver {
      */
     public void setKeyPlayerPref(String keyName, float valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -174,41 +190,52 @@ public class AltUnityDriver {
      */
     public void setKeyPlayerPref(String keyName, String valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
      * Returns the value for a given key from PlayerPrefs.
      */
     public int getIntKeyPlayerPref(String keyName) {
-        return new AltIntGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+        int response = new AltIntGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
      * Returns the value for a given key from PlayerPrefs.
      */
     public float getFloatKeyPlayerPref(String keyName) {
-        return new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+        float response = new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
      * Returns the value for a given key from PlayerPrefs.
      */
     public String getStringKeyPlayerPref(String keyName) {
-        return new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+        String response = new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
      * Returns the current active scene.
      */
     public String getCurrentScene() {
-        return new AltGetCurrentScene(this.connection.messageHandler).Execute();
+        String response = new AltGetCurrentScene(this.connection.messageHandler).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
      * Returns the value of the time scale.
      */
     public float getTimeScale() {
-        return new AltGetTimeScale(this.connection.messageHandler).Execute();
+        float response = new AltGetTimeScale(this.connection.messageHandler).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -216,14 +243,16 @@ public class AltUnityDriver {
      */
     public void setTimeScale(AltSetTimeScaleParams setTimescaleParams) {
         new AltSetTimeScale(this.connection.messageHandler, setTimescaleParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
      * Invokes static methods from your game.
      */
     public <T> T callStaticMethod(AltCallStaticMethodParams altCallStaticMethodParams, Class<T> returnType) {
-        return new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
-                .Execute(returnType);
+        T response = new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams).Execute(returnType);
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -231,6 +260,7 @@ public class AltUnityDriver {
      */
     public void swipe(AltSwipeParams swipeParams) {
         new AltSwipe(this.connection.messageHandler, swipeParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -238,6 +268,7 @@ public class AltUnityDriver {
      */
     public void multipointSwipe(AltMultiPointSwipeParams parameters) {
         new AltMultiPointSwipe(this.connection.messageHandler, parameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -253,6 +284,7 @@ public class AltUnityDriver {
      */
     public void tilt(AltTiltParams altTiltParameter) {
         new AltTilt(this.connection.messageHandler, altTiltParameter).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -260,6 +292,7 @@ public class AltUnityDriver {
      */
     public void pressKey(AltPressKeyParams altPressKeyParameters) {
         new AltPressKey(this.connection.messageHandler, altPressKeyParameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -267,15 +300,17 @@ public class AltUnityDriver {
      */
     public void pressKeys(AltPressKeysParams altPressKeysParameters) {
         new AltPressKeys(this.connection.messageHandler, altPressKeysParameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
      * Simulates a key down.
-     * 
+     *
      * @throws InterruptedException
      */
     public void keyDown(AltKeyDownParams keyDownParams) throws InterruptedException {
         new AltKeyDown(this.connection.messageHandler, keyDownParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -283,6 +318,7 @@ public class AltUnityDriver {
      */
     public void keysDown(AltKeysDownParams keysDownParams) {
         new AltKeysDown(this.connection.messageHandler, keysDownParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -290,6 +326,7 @@ public class AltUnityDriver {
      */
     public void keyUp(AltKeyUpParams keyUpParams) {
         new AltKeyUp(this.connection.messageHandler, keyUpParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -297,6 +334,7 @@ public class AltUnityDriver {
      */
     public void keysUp(AltKeysUpParams keysUpParams) {
         new AltKeysUp(this.connection.messageHandler, keysUpParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -306,6 +344,7 @@ public class AltUnityDriver {
      */
     public void moveMouse(AltMoveMouseParams altMoveMouseParams) {
         new AltMoveMouse(this.connection.messageHandler, altMoveMouseParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -315,6 +354,7 @@ public class AltUnityDriver {
      */
     public void scroll(AltScrollParams altScrollParams) {
         new AltScroll(this.connection.messageHandler, altScrollParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -322,7 +362,9 @@ public class AltUnityDriver {
      * @return the first object in the scene that respects the given criteria.
      */
     public AltUnityObject findObject(AltFindObjectsParams altFindObjectsParams) {
-        return new AltFindObject(this.connection.messageHandler, altFindObjectsParams).Execute();
+        AltUnityObject response = new AltFindObject(this.connection.messageHandler, altFindObjectsParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -331,7 +373,9 @@ public class AltUnityDriver {
      * @return the first object containing the given criteria
      */
     public AltUnityObject findObjectWhichContains(AltFindObjectsParams altFindObjectsParams) {
-        return new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParams).Execute();
+        AltUnityObject response = new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -340,41 +384,47 @@ public class AltUnityDriver {
      * @return all the objects respecting the given criteria
      */
     public AltUnityObject[] findObjects(AltFindObjectsParams altFindObjectsParams) {
-        return new AltFindObjects(this.connection.messageHandler, altFindObjectsParams).Execute();
+        AltUnityObject[] response = new AltFindObjects(this.connection.messageHandler, altFindObjectsParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
      * Finds all objects in the scene that respects the given criteria.
-     * 
+     *
      * @param altFindObjectsParams
      * @return all objects containing the given criteria
      */
     public AltUnityObject[] findObjectsWhichContain(AltFindObjectsParams altFindObjectsParams) {
-        return new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParams).Execute();
+        AltUnityObject[] response = new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
      * Returns information about every objects loaded in the currently loaded
      * scenes. This also means objects that are set as DontDestroyOnLoad.
-     * 
+     *
      * @param altGetAllElementsParams - get all elements parameters
      * @return information about every object loaded in the currently loaded scenes.
      */
     public AltUnityObject[] getAllElements(AltGetAllElementsParams altGetAllElementsParams) {
-        return new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParams).Execute();
+        AltUnityObject[] response = new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
      * Waits for the scene to be loaded for a specified amount of time. It returns
      * the name of the current scene.
-     * 
+     *
      * @param altWaitForCurrentSceneToBeParameters - Wait for current scene
      *                                             parameters
      * @return {String} -
      */
     public void waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParams altWaitForCurrentSceneToBeParameters) {
-        new AltWaitForCurrentSceneToBe(this.connection.messageHandler, altWaitForCurrentSceneToBeParameters)
-                .Execute();
+        new AltWaitForCurrentSceneToBe(this.connection.messageHandler, altWaitForCurrentSceneToBeParameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -385,7 +435,9 @@ public class AltUnityDriver {
      *                                objects in a scene.
      */
     public AltUnityObject waitForObject(AltWaitForObjectsParams altWaitForObjectsParams) {
-        return new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams).Execute();
+        AltUnityObject response = new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -397,6 +449,7 @@ public class AltUnityDriver {
      */
     public void waitForObjectToNotBePresent(AltWaitForObjectsParams altWaitForObjectsParams) {
         new AltWaitForObjectToNotBePresent(this.connection.messageHandler, altWaitForObjectsParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -404,7 +457,9 @@ public class AltUnityDriver {
      * out and will throw an error.
      */
     public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParams altWaitForObjectsParams) {
-        return new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParams).Execute();
+        AltUnityObject response = new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -412,22 +467,26 @@ public class AltUnityDriver {
      */
     public void getPNGScreenshot(String path) {
         new GetPNGScreenshotCommand(this.connection.messageHandler, path).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
      * Sets the level of logging on AltUnity Tester
-     * 
+     *
      * @param parameters
      */
     public void setServerLogging(AltSetServerLoggingParams parameters) {
         new AltUnitySetServerLogging(this.connection.messageHandler, parameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
      * Simulates starting of a touch on the screen.
      */
     public int beginTouch(AltBeginTouchParams beginTouchParams) {
-        return new AltBeginTouch(this.connection.messageHandler, beginTouchParams).Execute();
+        int response = new AltBeginTouch(this.connection.messageHandler, beginTouchParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -435,6 +494,7 @@ public class AltUnityDriver {
      */
     public void moveTouch(AltMoveTouchParams moveTouchParams) {
         new AltMoveTouch(this.connection.messageHandler, moveTouchParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -442,6 +502,7 @@ public class AltUnityDriver {
      */
     public void endTouch(AltEndTouchParams endTouchParams) {
         new AltEndTouch(this.connection.messageHandler, endTouchParams).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -451,6 +512,7 @@ public class AltUnityDriver {
      */
     public void tap(AltTapClickCoordinatesParams parameters) {
         new AltTapCoordinates(this.connection.messageHandler, parameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -460,13 +522,16 @@ public class AltUnityDriver {
      */
     public void click(AltTapClickCoordinatesParams parameters) {
         new AltClickCoordinates(this.connection.messageHandler, parameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**
      * Gets the value of the static field or property
      */
     public <T> T getStaticProperty(AltGetComponentPropertyParams parameters, Class<T> returnType) {
-        return new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
+        T response = new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -474,13 +539,15 @@ public class AltUnityDriver {
      * Uses EventSystem.RaycastAll to find object. If no object is found then it
      * uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and
      * returns the one closer to the camera.
-     * 
+     *
      * @param coordinates The screen coordinates
      * @return The UI object hit by event system Raycast, null otherwise
      */
 
     public AltUnityObject findObjectAtCoordinates(AltFindObjectAtCoordinatesParams parameters) {
-        return new AltFindObjectAtCoordinates(this.connection.messageHandler, parameters).Execute();
+        AltUnityObject response = new AltFindObjectAtCoordinates(this.connection.messageHandler, parameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     public void addNotification(AltUnityAddNotificationListenerParams parameters) {
@@ -488,9 +555,7 @@ public class AltUnityDriver {
     }
 
     public void removeNotificationListener(AltUnityRemoveNotificationListenerParams notificationType) {
-
         new AltUnityRemoveNotificationListener(this.connection.messageHandler, notificationType).Execute();
-
     }
 
     public enum By {
