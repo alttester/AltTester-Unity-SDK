@@ -1,5 +1,7 @@
 #if ENABLE_INPUT_SYSTEM
 using System.Collections;
+using System.Collections.Generic;
+using Altom.AltUnityTester;
 #if USE_INPUT_SYSTEM_1_3
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -30,7 +32,6 @@ namespace Altom.AltUnityTester
                 Instance = this;
             InputTestFixture = new InputTestFixture();
 #if USE_INPUT_SYSTEM_1_3
-
             TestExecutionContext testExecutionContext = new TestExecutionContext();
             IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
             testExecutionContext.CurrentTest = new TestMethod(methodInfo);
@@ -110,15 +111,11 @@ namespace Altom.AltUnityTester
         internal static IEnumerator ScrollLifeCycle(float speedVertical, float speedHorizontal, float duration)
         {
             float currentTime = 0;
-            float frameTime = 0;// using this because of a bug with yield return which waits only every other iteration
-            while (currentTime <= duration - Time.fixedUnscaledDeltaTime)
+            while (currentTime <= duration)
             {
-                InputTestFixture.Set(Mouse.scroll, new Vector2(speedHorizontal * frameTime / duration, speedVertical * frameTime / duration), queueEventOnly: true);
-                var initialTime = Time.fixedUnscaledTime;
+                InputTestFixture.Set(Mouse.scroll, new Vector2(speedHorizontal * Time.unscaledDeltaTime / duration, speedVertical * Time.unscaledDeltaTime / duration), queueEventOnly: true);
                 yield return null;
-                var afterTime = Time.fixedUnscaledTime;
-                frameTime = afterTime - initialTime;
-                currentTime += frameTime;
+                currentTime += Time.unscaledDeltaTime;
             }
             InputTestFixture.Set(Mouse.scroll, new Vector2(0, 0), queueEventOnly: true);
         }
@@ -167,34 +164,40 @@ namespace Altom.AltUnityTester
         internal static IEnumerator TapElementCycle(GameObject target, int count, float interval)
         {
             Touchscreen.MakeCurrent();
-            var touchId = 0;
+            var touchId = getFreeTouch(touches);
+            touches[touchId] = false;
             UnityEngine.Vector3 screenPosition;
             AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
-                yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
-                time += Time.fixedUnscaledDeltaTime;
-                InputTestFixture.EndTouch(touchId, screenPosition, screen: Touchscreen);
+                InputTestFixture.BeginTouch(touchId, screenPosition, screen:Touchscreen);
+                yield return null;
+                time += Time.unscaledDeltaTime;
+                InputTestFixture.EndTouch(touchId, screenPosition, screen:Touchscreen);
                 if (i != count - 1 && time < interval)
                     yield return new WaitForSecondsRealtime(interval - time);
+
             }
+            touches[touchId] = true;
         }
         internal static IEnumerator TapCoordinatesCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
         {
             Touchscreen.MakeCurrent();
-            var touchId = 0;
+            var touchId = getFreeTouch(touches);
+            touches[touchId] = false;
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
-                yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
-                time += Time.fixedUnscaledDeltaTime;
-                InputTestFixture.EndTouch(touchId, screenPosition, screen: Touchscreen);
+                InputTestFixture.BeginTouch(touchId, screenPosition, screen:Touchscreen);
+                yield return null;
+                time += Time.unscaledDeltaTime;
+                endTouchScreenPos = screenPosition;
+                InputTestFixture.EndTouch(touchId, screenPosition, screen:Touchscreen);
                 if (i != count - 1 && time < interval)
                     yield return new WaitForSecondsRealtime(interval - time);
             }
+            touches[touchId] = true;
         }
 
         internal static IEnumerator ClickElementLifeCycle(GameObject target, int count, float interval)
@@ -202,14 +205,14 @@ namespace Altom.AltUnityTester
             Mouse.MakeCurrent();
             UnityEngine.Vector3 screenPosition;
             AltUnityRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
-            InputTestFixture.Set(Mouse.position, screenPosition);
+            InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: true);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.Press(Mouse.leftButton);
-                yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
-                time += Time.fixedUnscaledDeltaTime;
-                InputTestFixture.Release(Mouse.leftButton);
+                InputTestFixture.Press(Mouse.leftButton, queueEventOnly: true);
+                yield return null;
+                time += Time.unscaledDeltaTime;
+                InputTestFixture.Release(Mouse.leftButton, queueEventOnly: true);
                 if (i != count - 1 && time < interval)
                     yield return new WaitForSecondsRealtime(interval - time);
             }
@@ -217,14 +220,14 @@ namespace Altom.AltUnityTester
         internal static IEnumerator ClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
         {
             Mouse.MakeCurrent();
-            InputTestFixture.Set(Mouse.position, screenPosition);
+            InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: true);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.Press(Mouse.leftButton);
-                yield return new WaitForSecondsRealtime(Time.fixedUnscaledDeltaTime);
-                time += Time.fixedUnscaledDeltaTime;
-                InputTestFixture.Release(Mouse.leftButton);
+                InputTestFixture.Press(Mouse.leftButton, queueEventOnly: true);
+                yield return null;
+                time += Time.unscaledDeltaTime;
+                InputTestFixture.Release(Mouse.leftButton, queueEventOnly: true);
                 if (i != count - 1 && time < interval)
                     yield return new WaitForSecondsRealtime(interval - time);
             }
@@ -246,7 +249,7 @@ namespace Altom.AltUnityTester
 
         internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
         {
-
+            keyDownPower = power;
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
             yield return null;
             keyDown(keyCode, power, buttonControl);
@@ -257,22 +260,53 @@ namespace Altom.AltUnityTester
         internal static IEnumerator AccelerationLifeCycle(Vector3 accelerationValue, float duration)
         {
             float currentTime = 0;
-            float frameTime = 0;// using this because of a bug with yield return which waits only every other iteration
-            while (currentTime <= duration - Time.fixedUnscaledDeltaTime)
+            while (currentTime <= duration - Time.unscaledDeltaTime)
             {
-                InputTestFixture.Set(Accelerometer.acceleration, accelerationValue * frameTime / duration, queueEventOnly: true);
-                var initialTime = Time.fixedUnscaledTime;
+                InputTestFixture.Set(Accelerometer.acceleration, accelerationValue * Time.unscaledDeltaTime / duration, queueEventOnly: true);
                 yield return null;
-                var afterTime = Time.fixedUnscaledTime;
-                frameTime = afterTime - initialTime;
-                currentTime += frameTime;
+                currentTime += Time.unscaledDeltaTime;
+                
             }
             InputTestFixture.Set(Accelerometer.acceleration, Vector3.zero);
         }
 
+
+        internal static IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
+        {
+            Touchscreen.MakeCurrent();
+            float oneTouchDuration = duration / (positions.Length - 1);
+            var touchId = BeginTouch(positions[0]);
+            yield return null;
+            for (int i = 1; i < positions.Length; i++)
+            {
+                float time = 0;
+                Vector2 currentPosition = positions[i - 1];
+                var distance = positions[i] - currentPosition;
+                while (time < oneTouchDuration)
+                {
+                    UnityEngine.Vector2 delta;
+
+                    if (time + UnityEngine.Time.unscaledDeltaTime < oneTouchDuration)
+                    {
+                        delta = distance * UnityEngine.Time.unscaledDeltaTime / oneTouchDuration;
+                    }
+                    else
+                    {
+                        delta = positions[i] - currentPosition;
+                    }
+                    currentPosition += delta;
+
+                    MoveTouch(touchId,currentPosition);
+                    yield return null;
+                    time += UnityEngine.Time.unscaledDeltaTime;
+                }
+            }
+            endTouchScreenPos = positions[positions.Length - 1];
+            EndTouch(touchId);
+        }
         internal static int BeginTouch(Vector3 screenPosition)
         {
-            var fingerId = getFreeTouch(touches);
+            var fingerId = 0;
             touches[fingerId] = false;
             InputTestFixture.BeginTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
             return fingerId;

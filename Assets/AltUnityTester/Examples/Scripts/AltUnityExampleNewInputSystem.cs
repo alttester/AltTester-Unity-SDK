@@ -11,7 +11,6 @@ using UnityEngine.UI;
 public class AltUnityExampleNewInputSystem : MonoBehaviour
 {
     int jumpCounter = 0;
-    public bool wasClicked = false;
     public Vector3 previousAcceleration = Vector3.zero;
     public Text counterText;
     public Text actionText;
@@ -19,27 +18,8 @@ public class AltUnityExampleNewInputSystem : MonoBehaviour
     public static Mouse Mouse;
     public static Touchscreen Touchscreen;
 
-    protected void OnEnable()
-    {
-        InputSystem.EnableDevice(Accelerometer.current);
-
-    }
-    protected void OnDisable()
-    {
-
-        InputSystem.DisableDevice(Accelerometer.current);
-
-    }
-    protected void Update()
-    {
-        wasClicked = Mouse.current.position.ReadValue() != Vector2.zero;
-        var acceleration = Accelerometer.current.acceleration.ReadValue();
-        if (acceleration != previousAcceleration)
-        {
-            previousAcceleration = acceleration;
-            transform.position += acceleration * 0.02f;
-        }
-    }
+    
+    
 
     public void Jump(InputAction.CallbackContext context)
     {
@@ -69,7 +49,7 @@ public class AltUnityExampleNewInputSystem : MonoBehaviour
     {
         jumpCounter++;
         counterText.text = jumpCounter.ToString();
-        capsuleRigidBody.GetComponent<Rigidbody>().AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        capsuleRigidBody.GetComponent<Rigidbody>().AddForce(Vector3.up * 1.5f, ForceMode.Impulse);
     }
 
 }

@@ -32,7 +32,7 @@ import static junit.framework.TestCase.*;
 
 public class TestsForNIS {
         private static AltUnityDriver altUnityDriver;
-        String scene7 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 Drag And Drop NIS";
+        String scene7 = "Assets/AltUnityTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity";
         String scene8 = "Assets/AltUnityTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
         String scene9 = "Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity";
         String scene10 = "Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity";
@@ -186,11 +186,16 @@ public class TestsForNIS {
         public void TestTilt() throws Exception {
                 loadLevel(scene11);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                                "Capsule").build();
+                                "Cube (1)").build();
                 AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParams);
                 Vector3 initialPosition = capsule.getWorldPosition();
                 altUnityDriver.tilt(new AltTiltParams.Builder(new Vector3(1000, 10, 10)).withDuration(3f).build());
                 assertNotEquals(initialPosition, altUnityDriver.findObject(altFindObjectsParams).getWorldPosition());
+                Boolean isMoved = capsule.getComponentProperty(
+                        new AltGetComponentPropertyParams.Builder("AltUnityCubeNIS",
+                                        "isMoved").withAssembly("Assembly-CSharp").build(),
+                        Boolean.class);
+                assertTrue(isMoved);
         }
 
         @Test
@@ -267,5 +272,90 @@ public class TestsForNIS {
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
                 Assert.assertNotEquals(posLeft.z, posRight.z);
+        }
+
+        @Test
+        public void TestMultipointSwipe() throws Exception { 
+            loadLevel(scene7);
+            AltFindObjectsParams findObjectParams;
+    
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
+            AltUnityObject altElement1 = altUnityDriver.findObject(findObjectParams);
+    
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box1").build();
+            AltUnityObject altElement2 = altUnityDriver.findObject(findObjectParams);
+    
+            List<Vector2> positions = Arrays.asList(new Vector2(altElement1.x, altElement1.y),
+                    new Vector2(altElement2.x, altElement2.y));
+    
+            altUnityDriver.multipointSwipe(
+                    new AltMultiPointSwipeParams.Builder(positions).withDuration(2).withWait(false).build());
+    
+            Thread.sleep(2000);
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
+            altElement1 = altUnityDriver.findObject(findObjectParams);
+    
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box1").build();
+            altElement2 = altUnityDriver.findObject(findObjectParams);
+    
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box2").build();
+            AltUnityObject altElement3 = altUnityDriver.findObject(findObjectParams);
+    
+            List<Vector2> positions2 = Arrays.asList(new Vector2(altElement1.x, altElement1.y),
+                    new Vector2(altElement2.x, altElement2.y), new Vector2(altElement3.x, altElement3.y));
+            altUnityDriver.multipointSwipe(new AltMultiPointSwipeParams.Builder(positions2).withDuration(3).build());
+    
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
+            String imageSourceName = altUnityDriver.findObject(findObjectParams).getComponentProperty(
+                    new AltGetComponentPropertyParams.Builder(
+                            "UnityEngine.UI.Image",
+                            "sprite.name").build(),
+                    String.class);
+    
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
+            String imageSourceDropZoneName = altUnityDriver.findObject(findObjectParams)
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder(
+                            "UnityEngine.UI.Image",
+                            "sprite.name").build(),
+                            String.class);
+            assertNotEquals(imageSourceName, imageSourceDropZoneName);
+    
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image2").build();
+            imageSourceName = altUnityDriver.findObject(findObjectParams)
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder(
+                            "UnityEngine.UI.Image",
+                            "sprite.name").build(),
+                            String.class);
+            findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop").build();
+            imageSourceDropZoneName = altUnityDriver.findObject(findObjectParams)
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder(
+                            "UnityEngine.UI.Image",
+                            "sprite.name").build(),
+                            String.class);
+            assertNotEquals(imageSourceName, imageSourceDropZoneName);
+        }
+    
+        @Test
+        public void TestSwipe() throws Exception {
+            loadLevel(scene9);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+                    "//Scroll View/Viewport/Content/Button (4)").build();
+    
+            AltUnityObject scrollbar = altUnityDriver.findObject(altFindObjectsParams);
+            Vector2 scrollbarPosition = scrollbar.getScreenPosition();
+    
+            AltFindObjectsParams altFindButtonParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                    "Handle").build();
+            AltUnityObject button = altUnityDriver.findObject(altFindButtonParams);
+    
+            altUnityDriver
+            .swipe(new AltSwipeParams.Builder(new Vector2(button.x, button.y), new Vector2(button.x, button.y+20))
+                    .withDuration(1).build());
+    
+            AltFindObjectsParams altFindObjectsParamsFinal = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                    "Handle").build();
+            AltUnityObject scrollbarFinal = altUnityDriver.findObject(altFindObjectsParamsFinal);
+            Vector2 scrollbarPositionFinal = scrollbarFinal.getScreenPosition();
+            assertNotEquals(scrollbarPosition, scrollbarPositionFinal);
         }
 }
