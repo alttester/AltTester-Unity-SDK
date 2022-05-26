@@ -572,6 +572,71 @@ Sets the value for the command response timeout.
 
 ```
 
+
+### GetDelayAfterCommand
+
+Gets the current delay after a command.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- The current delay a after a command.
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        altUnityDriver.GetDelayAfterCommand();
+
+    .. code-tab:: java
+
+        altUnityDriver.getDelayAfterCommand();
+
+    .. code-tab:: py
+
+        altUnityDriver.get_delay_after_command()
+
+```
+
+### SetDelayAfterCommand
+
+Set the delay after a command.
+
+**_Parameters_**
+
+| Name           | Type | Required | Description                      |
+| -------------- | ---- | -------- | -------------------------------- |
+| delay          | int  | Yes      | The new delay a after a command. |
+
+**_Returns_**
+
+- Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        altUnityDriver.SetDelayAfterCommand(5);
+
+    .. code-tab:: java
+
+        altUnityDriver.setDelayAfterCommand(5);
+
+    .. code-tab:: py
+
+        altUnityDriver.set_delay_after_command(5)
+
+```
+
 ### Input Actions
 
 #### KeyDown

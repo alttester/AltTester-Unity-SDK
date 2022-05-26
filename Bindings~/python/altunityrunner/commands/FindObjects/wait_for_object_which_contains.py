@@ -41,10 +41,10 @@ class WaitForObjectWhichContains(Command):
 
         while (t <= self.timeout):
             try:
-                alt_unity_object = FindObjectWhichContains.run(
+                alt_unity_object = FindObjectWhichContains(
                     self.connection,
                     self.by, self.value, self.camera_by, self.camera_value, self.enabled
-                )
+                ).execute()
 
                 break
             except NotFoundException:

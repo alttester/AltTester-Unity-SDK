@@ -66,7 +66,9 @@ public class AltUnityObject {
     public AltUnityObject getParent() {
         AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(By.PATH,
                 "//*[@id=" + this.id + "]/..").build();
-        return new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
+        AltUnityObject response = new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -95,7 +97,9 @@ public class AltUnityObject {
     public <T> T getComponentProperty(AltGetComponentPropertyParams altGetComponentPropertyParameters,
             Class<T> returnType) {
         altGetComponentPropertyParameters.setAltUnityObject(this);
-        return new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters).Execute(returnType);
+        T response = new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters).Execute(returnType);
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -104,6 +108,7 @@ public class AltUnityObject {
     public void setComponentProperty(AltSetComponentPropertyParams altSetComponentPropertyParameters) {
         altSetComponentPropertyParameters.setAltUnityObject(this);
         new AltSetComponentProperty(messageHandler, altSetComponentPropertyParameters).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
     }
 
     /**
@@ -112,7 +117,9 @@ public class AltUnityObject {
     public <T> T callComponentMethod(AltCallComponentMethodParams altCallComponentMethodParameters,
             Class<T> returnType) {
         altCallComponentMethodParameters.setAltUnityObject(this);
-        return new AltCallComponentMethod(messageHandler, altCallComponentMethodParameters).Execute(returnType);
+        T response = new AltCallComponentMethod(messageHandler, altCallComponentMethodParameters).Execute(returnType);
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -121,7 +128,9 @@ public class AltUnityObject {
      */
     public String getText() {
         AltGetTextParams altGetTextParameters = new AltGetTextParams(this);
-        return new AltGetText(messageHandler, altGetTextParameters).Execute();
+        String response = new AltGetText(messageHandler, altGetTextParameters).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -132,7 +141,9 @@ public class AltUnityObject {
         AltSetTextParams parameters = new AltSetTextParams.Builder(text).build();
         parameters.setAltUnityObject(this);
 
-        return new AltSetText(messageHandler, parameters).Execute();
+        AltUnityObject response = new AltSetText(messageHandler, parameters).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -141,7 +152,9 @@ public class AltUnityObject {
      */
     public AltUnityObject setText(AltSetTextParams parameters) {
         parameters.setAltUnityObject(this);
-        return new AltSetText(messageHandler, parameters).Execute();
+        AltUnityObject response = new AltSetText(messageHandler, parameters).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     /**
@@ -210,10 +223,14 @@ public class AltUnityObject {
      */
     public AltUnityObject click(AltTapClickElementParams parameters) {
         parameters.setAltUnityObject(this);
-        return new AltClickElement(messageHandler, parameters).Execute();
+        AltUnityObject response = new AltClickElement(messageHandler, parameters).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
     }
 
     private AltUnityObject sendActionAndEvaluateResult(String command) {
-        return new AltSendActionAndEvaluateResult(messageHandler, this, command).Execute();
+        AltUnityObject response = new AltSendActionAndEvaluateResult(messageHandler, this, command).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
     }
 }

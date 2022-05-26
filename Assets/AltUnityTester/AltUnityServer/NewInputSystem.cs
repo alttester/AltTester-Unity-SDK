@@ -290,7 +290,6 @@ namespace Altom.AltUnityTester
             touches[fingerId] = true;
         }
 
-
         #region private interface
         private static ButtonControl keyCodeToButtonControl(KeyCode keyCode, float power = 1)
         {

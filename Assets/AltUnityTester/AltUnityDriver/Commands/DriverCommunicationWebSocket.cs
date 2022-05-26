@@ -27,6 +27,7 @@ namespace Altom.AltUnityDriver.Commands
         private List<string> messageIdTimeouts = new List<string>();
 
         private int commandTimeout = 60;
+        private int delayAfterCommand = 0;
 
         public DriverCommunicationWebSocket(string host, int port, int connectTimeout)
         {
@@ -327,6 +328,15 @@ namespace Altom.AltUnityDriver.Commands
                     applicationPausedCallbacks.Clear();
                     break;
             }
+        }
+        public void SetDelayAfterCommand(int delayTimeInMilliseconds)
+        {
+            delayAfterCommand = delayTimeInMilliseconds;
+        }
+
+        public int GetDelayAfterCommand()
+        {
+            return delayAfterCommand;
         }
     }
 

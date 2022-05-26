@@ -13,5 +13,7 @@ namespace Altom.AltUnityDriver.Commands
         void Connect();
         void Close();
         void SetCommandTimeout(int timeout);
+        void SetDelayAfterCommand(int delayTimeMilliseconds);
+        int GetDelayAfterCommand();
     }
 }

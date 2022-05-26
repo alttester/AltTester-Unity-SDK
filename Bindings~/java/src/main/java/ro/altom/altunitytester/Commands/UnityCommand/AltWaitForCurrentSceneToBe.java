@@ -1,5 +1,6 @@
 package ro.altom.altunitytester.Commands.UnityCommand;
 
+import ro.altom.altunitytester.Utils;
 import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.Commands.AltBaseCommand;
 import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
@@ -22,7 +23,7 @@ public class AltWaitForCurrentSceneToBe extends AltBaseCommand {
             if (currentScene != null && currentScene.equals(params.getSceneName())) {
                 return;
             }
-            sleepFor(params.getInterval());
+            Utils.sleepFor(params.getInterval());
             time += params.getInterval();
         }
         throw new WaitTimeOutException("Scene [" + params.getSceneName()

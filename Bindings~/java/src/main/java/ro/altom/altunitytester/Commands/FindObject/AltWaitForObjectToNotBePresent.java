@@ -1,5 +1,6 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
+import ro.altom.altunitytester.Utils;
 import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
@@ -39,7 +40,7 @@ public class AltWaitForObjectToNotBePresent extends AltBaseFindObject {
                 logger.warn(e.getLocalizedMessage());
                 break;
             }
-            sleepFor(altWaitForObjectsParameters.getInterval());
+            Utils.sleepFor(altWaitForObjectsParameters.getInterval());
             time += altWaitForObjectsParameters.getInterval();
         }
 

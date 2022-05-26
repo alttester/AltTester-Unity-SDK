@@ -42,10 +42,10 @@ class WaitForObjectToNotBePresent(Command):
             try:
                 logger.debug("Waiting for element {} to not be present...", self.value)
 
-                FindObject.run(
+                FindObject(
                     self.connection,
                     self.by, self.value, self.camera_by, self.camera_value, self.enabled
-                )
+                ).execute()
 
                 time.sleep(self.interval)
                 t += self.interval

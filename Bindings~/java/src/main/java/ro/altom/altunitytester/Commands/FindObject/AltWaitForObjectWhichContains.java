@@ -1,5 +1,6 @@
 package ro.altom.altunitytester.Commands.FindObject;
 
+import ro.altom.altunitytester.Utils;
 import ro.altom.altunitytester.IMessageHandler;
 import ro.altom.altunitytester.AltUnityObject;
 import ro.altom.altunitytester.altUnityTesterExceptions.WaitTimeOutException;
@@ -38,7 +39,7 @@ public class AltWaitForObjectWhichContains extends AltBaseFindObject {
             } catch (Exception e) {
                 logger.warn("Exception thrown: " + e.getLocalizedMessage());
             }
-            sleepFor(altWaitForObjectsParameters.getInterval());
+            Utils.sleepFor(altWaitForObjectsParameters.getInterval());
             time += altWaitForObjectsParameters.getInterval();
         }
         throw new WaitTimeOutException("Element " + altWaitForObjectsParameters.getAltFindObjectsParameters().getPath()
