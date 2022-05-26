@@ -43,7 +43,7 @@ public class AltUnityExampleScriptDragMe : MonoBehaviour, IBeginDragHandler, IDr
 
 	public void OnDrag(PointerEventData eventData)
 	{
-		if (m_DraggingIcons[eventData.pointerId] != null)
+		if (m_DraggingIcons.ContainsKey(eventData.pointerId) && m_DraggingIcons[eventData.pointerId] != null)
 			SetDraggedPosition(eventData);
 	}
 

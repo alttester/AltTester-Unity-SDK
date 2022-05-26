@@ -2027,10 +2027,9 @@ namespace Altom.AltUnityDriver.Tests
         [Test]
         public void TestSetCommandTimeout()
         {
-            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+            var capsule=altUnityDriver.FindObject(By.NAME,"Capsule");
             altUnityDriver.SetCommandResponseTimeout(1);
-            Assert.Throws<CommandResponseTimeoutException>(() => counterButton.Tap(2, 2));
+            Assert.Throws<CommandResponseTimeoutException>(() => capsule.CallComponentMethod<dynamic>("AltUnityExampleScriptCapsule", "JumpWithDelay", new object[] { }, assemblyName: "Assembly-CSharp"));
             altUnityDriver.SetCommandResponseTimeout(60);
         }
 

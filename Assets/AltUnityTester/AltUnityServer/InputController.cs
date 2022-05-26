@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Altom.AltUnityDriver;
 using Altom.AltUnityTester;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 namespace Altom.AltUnityTester
 {
@@ -17,19 +19,26 @@ namespace Altom.AltUnityTester
             while (true)
             {
                 object current;
+                int cnt =0;
                 try
                 {
-                    bool isDone = true;
+                    bool[] isDone = new bool[enumerators.Count];
                     for (int i = 0; i < enumerators.Count; i++)
                     {
-                        if (enumerators[i].MoveNext() != false)
+                        if (enumerators[i].MoveNext())
                         {
                             current = enumerators[i];
-                            isDone = false;
-                            break;
+                            isDone[i] = true;
+                            continue;
                         }
                     }
-                    if (isDone)
+                    for (int i=0;i<enumerators.Count;i++)
+                    {
+                        if (isDone[i]) break;
+                        cnt++;
+
+                    }
+                    if(cnt==enumerators.Count)
                         break;
 
                     current = enumerators[0];
@@ -41,7 +50,7 @@ namespace Altom.AltUnityTester
                     err = ex;
                     yield break;
                 }
-                yield return current;
+                yield return null;
             }
 
             done.Invoke(err);
@@ -194,6 +203,24 @@ namespace Altom.AltUnityTester
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.KeyPressLifeCycle(keyCode, power, duration));
+#endif
+            AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+#else
+        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+#endif
+        }
+
+        public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
+        {
+            
+  
+#if ALTUNITYTESTER
+            List<IEnumerator> coroutines = new List<IEnumerator>();
+#if ENABLE_INPUT_SYSTEM
+            coroutines.Add(NewInputSystem.MultipointSwipeLifeCycle(positions, duration));
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+            coroutines.Add(Input.MultipointSwipeLifeCycle(positions, duration));
 #endif
             AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
