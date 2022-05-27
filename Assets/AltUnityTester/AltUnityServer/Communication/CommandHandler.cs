@@ -57,11 +57,16 @@ namespace Altom.AltUnityTester.Communication
             }
 
             AltUnityRunner._responseQueue.ScheduleResponse(delegate
-               {
-                   var response = executeAndSerialize();
+                {
 
-                   this.Send(response);
-               });
+                    var response = executeAndSerialize();
+                    //TODO: remove this
+                    if (!cmdParams.commandName.Equals("endTouch")) //Temporary solution to ignore first "Ok"
+                    {
+                        //Do not remove the send only the if
+                        this.Send(response);
+                    }
+                });
         }
 
         private string trimLog(string log, int maxLogLength = 1000)
@@ -119,7 +124,7 @@ namespace Altom.AltUnityTester.Communication
             }
             if (cmdParams is AltUnityEndTouchParams)
             {
-                return new AltUnityEndTouchCommand(cmdParams as AltUnityEndTouchParams).ExecuteAndSerialize;
+                return new AltUnityEndTouchCommand(this, cmdParams as AltUnityEndTouchParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltUnityGetCurrentSceneParams)
             {

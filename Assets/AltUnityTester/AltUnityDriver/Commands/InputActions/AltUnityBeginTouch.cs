@@ -12,6 +12,7 @@ namespace Altom.AltUnityDriver.Commands
         {
             CommHandler.Send(cmdParams);
             return CommHandler.Recvall<int>(cmdParams);  //finger id
+            //TODO: add handling for "Finished"
         }
     }
 }
