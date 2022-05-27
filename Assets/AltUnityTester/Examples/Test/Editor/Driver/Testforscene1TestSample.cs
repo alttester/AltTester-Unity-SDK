@@ -29,6 +29,7 @@ namespace Altom.AltUnityDriver.Tests
         [SetUp]
         public void LoadLevel()
         {
+            altUnityDriver.SetCommandResponseTimeout(60);
             altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene", true);
         }
 
@@ -2027,9 +2028,8 @@ namespace Altom.AltUnityDriver.Tests
         [Test]
         public void TestSetCommandTimeout()
         {
-            var capsule=altUnityDriver.FindObject(By.NAME,"Capsule");
             altUnityDriver.SetCommandResponseTimeout(1);
-            Assert.Throws<CommandResponseTimeoutException>(() => capsule.CallComponentMethod<dynamic>("AltUnityExampleScriptCapsule", "JumpWithDelay", new object[] { }, assemblyName: "Assembly-CSharp"));
+            Assert.Throws<CommandResponseTimeoutException>(() => altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1), 3, true));
             altUnityDriver.SetCommandResponseTimeout(60);
         }
 

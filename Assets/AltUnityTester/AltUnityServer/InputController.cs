@@ -11,15 +11,16 @@ namespace Altom.AltUnityTester
 {
     public static class InputController
     {
+
         private static IEnumerator runThrowingIterator(
-               List<IEnumerator> enumerators,
-               Action<Exception> done)
+           List<IEnumerator> enumerators,
+           Action<Exception> done)
         {
             Exception err = null;
             while (true)
             {
                 object current;
-                int cnt =0;
+                int cnt = 0;
                 try
                 {
                     bool[] isDone = new bool[enumerators.Count];
@@ -32,13 +33,13 @@ namespace Altom.AltUnityTester
                             continue;
                         }
                     }
-                    for (int i=0;i<enumerators.Count;i++)
+                    for (int i = 0; i < enumerators.Count; i++)
                     {
                         if (isDone[i]) break;
                         cnt++;
 
                     }
-                    if(cnt==enumerators.Count)
+                    if (cnt == enumerators.Count)
                         break;
 
                     current = enumerators[0];
@@ -163,7 +164,7 @@ namespace Altom.AltUnityTester
             AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
-#endif  
+#endif
         }
 
         public static void KeyDown(KeyCode keyCode, float power)
@@ -212,8 +213,6 @@ namespace Altom.AltUnityTester
 
         public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
         {
-            
-  
 #if ALTUNITYTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -264,17 +263,19 @@ namespace Altom.AltUnityTester
 #endif
         }
 
-        public static void EndTouch(int fingerId)
+        public static void EndTouch(int fingerId, Action<Exception> onFinish)
         {
 #if ALTUNITYTESTER
+            List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
-            NewInputSystem.EndTouch(fingerId);
+            coroutines.Add(NewInputSystem.EndTouch(fingerId));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            Input.EndTouch(fingerId - 1);
+            coroutines.Add(Input.EndTouch(fingerId - 1));
 #endif
+            AltUnityRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-        throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
+            throw new AltUnityInputModuleException(AltUnityErrors.errorInputModule);
 #endif
 
         }

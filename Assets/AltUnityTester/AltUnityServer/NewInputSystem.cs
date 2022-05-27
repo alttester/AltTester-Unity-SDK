@@ -171,10 +171,10 @@ namespace Altom.AltUnityTester
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.BeginTouch(touchId, screenPosition, screen:Touchscreen);
+                InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
                 yield return null;
                 time += Time.unscaledDeltaTime;
-                InputTestFixture.EndTouch(touchId, screenPosition, screen:Touchscreen);
+                InputTestFixture.EndTouch(touchId, screenPosition, screen: Touchscreen);
                 if (i != count - 1 && time < interval)
                     yield return new WaitForSecondsRealtime(interval - time);
 
@@ -189,11 +189,11 @@ namespace Altom.AltUnityTester
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.BeginTouch(touchId, screenPosition, screen:Touchscreen);
+                InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
                 yield return null;
                 time += Time.unscaledDeltaTime;
                 endTouchScreenPos = screenPosition;
-                InputTestFixture.EndTouch(touchId, screenPosition, screen:Touchscreen);
+                InputTestFixture.EndTouch(touchId, screenPosition, screen: Touchscreen);
                 if (i != count - 1 && time < interval)
                     yield return new WaitForSecondsRealtime(interval - time);
             }
@@ -251,10 +251,14 @@ namespace Altom.AltUnityTester
         {
             keyDownPower = power;
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
-            yield return null;
             keyDown(keyCode, power, buttonControl);
-            yield return new WaitForSeconds(duration);
-            keyUp(keyCode, buttonControl, true);
+            float currentTime = 0;
+            while (currentTime <= duration)
+            {
+                yield return null;
+                currentTime += Time.unscaledDeltaTime;
+            }
+            keyUp(keyCode, buttonControl);
         }
 
         internal static IEnumerator AccelerationLifeCycle(Vector3 accelerationValue, float duration)
@@ -265,7 +269,6 @@ namespace Altom.AltUnityTester
                 InputTestFixture.Set(Accelerometer.acceleration, accelerationValue * Time.unscaledDeltaTime / duration, queueEventOnly: true);
                 yield return null;
                 currentTime += Time.unscaledDeltaTime;
-                
             }
             InputTestFixture.Set(Accelerometer.acceleration, Vector3.zero);
         }
@@ -296,7 +299,7 @@ namespace Altom.AltUnityTester
                     }
                     currentPosition += delta;
 
-                    MoveTouch(touchId,currentPosition);
+                    MoveTouch(touchId, currentPosition);
                     yield return null;
                     time += UnityEngine.Time.unscaledDeltaTime;
                 }
@@ -314,13 +317,14 @@ namespace Altom.AltUnityTester
 
         internal static void MoveTouch(int fingerId, Vector3 screenPosition)
         {
-            InputTestFixture.MoveTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
+            InputTestFixture.MoveTouch(fingerId, screenPosition, screen: Touchscreen);
             endTouchScreenPos = screenPosition;
         }
 
-        internal static void EndTouch(int fingerId)
+        internal static IEnumerator EndTouch(int fingerId)
         {
-            InputTestFixture.EndTouch(fingerId, endTouchScreenPos, queueEventOnly: true, screen: Touchscreen);
+            yield return new WaitForEndOfFrame();
+            InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);
             touches[fingerId] = true;
         }
 

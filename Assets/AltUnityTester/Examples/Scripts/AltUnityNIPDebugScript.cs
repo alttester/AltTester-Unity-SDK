@@ -16,6 +16,8 @@ public class AltUnityNIPDebugScript : MonoBehaviour
     public string MouseReleased;
     public string JoystickPressed;
     public string JoystickReleased;
+    public KeyControl pressedKey;
+    public ButtonControl pressedButton;
 
     // Update is called once per frame
     void Update()
@@ -24,14 +26,19 @@ public class AltUnityNIPDebugScript : MonoBehaviour
             wasScrolled = true;
         var allKeys = Keyboard.current.allKeys;
         foreach (var key in allKeys)
-            if (key.wasPressedThisFrame)
+            if (key.isPressed)
             {
+                pressedKey = key;
                 KeyPressed = new List<int>() { };
                 foreach (var e in AltUnityKeyMapping.StringToKey)
+                {
                     if (Keyboard.current[e.Value] == key)
+                    {
                         KeyPressed.Add((int)AltUnityKeyMapping.StringToKeyCode[e.Key]);
+                    }
+                }
             }
-            else if (key.wasReleasedThisFrame)
+            else if (key == pressedKey && !key.isPressed)
             {
                 KeyReleased = new List<int>() { };
                 foreach (var e in AltUnityKeyMapping.StringToKey)
@@ -41,12 +48,15 @@ public class AltUnityNIPDebugScript : MonoBehaviour
         var allMouseControls = new List<ButtonControl> { Mouse.current.leftButton, Mouse.current.rightButton, Mouse.current.middleButton, Mouse.current.forwardButton, Mouse.current.backButton };
         foreach (var mouseCtrl in allMouseControls)
             if (mouseCtrl.wasPressedThisFrame)
+            {
+                pressedButton = mouseCtrl;
                 foreach (var e in AltUnityKeyMapping.mouseKeyCodeToButtonControl)
                 {
                     if (mouseCtrl == e.Value)
                         MousePressed = e.Key.ToString();
                 }
-            else if (mouseCtrl.wasReleasedThisFrame)
+            }
+            else if (pressedButton == mouseCtrl && !mouseCtrl.isPressed)
             {
                 foreach (var e in AltUnityKeyMapping.mouseKeyCodeToButtonControl)
                 {
@@ -58,6 +68,7 @@ public class AltUnityNIPDebugScript : MonoBehaviour
         foreach (var joystick in allJoysticks)
             if (joystick.GetType() == typeof(ButtonControl) && ((ButtonControl)joystick).wasPressedThisFrame)
             {
+                pressedButton = (ButtonControl)joystick;
                 if (joystick.parent.ReadValueAsObject().GetType() == typeof(Vector2))
                 {
                     Vector2 axis = (Vector2)joystick.parent.ReadValueAsObject();
@@ -70,7 +81,7 @@ public class AltUnityNIPDebugScript : MonoBehaviour
                     if (joystick == e.Value)
                         JoystickPressed = e.Key.ToString();
             }
-            else if (joystick.GetType() == typeof(ButtonControl) && ((ButtonControl)joystick).wasReleasedThisFrame)
+            else if (joystick.GetType() == typeof(ButtonControl) && ((ButtonControl)joystick) == pressedButton && !((ButtonControl)joystick).isPressed)
             {
                 var altUnityKeyMapping = new AltUnityKeyMapping(power);
                 foreach (var e in altUnityKeyMapping.joystickKeyCodeToGamepad)

@@ -686,9 +686,24 @@ public class Input : MonoBehaviour
         AltUnityRunner._altUnityRunner.ShowInput(touch.position, inputId);
 
     }
-    public static void EndTouch(int fingerId)
+
+    public static IEnumerator EndTouch(int fingerId)
     {
-        _instance.StartCoroutine(endTouch(fingerId));
+        yield return new WaitForEndOfFrame();
+
+        var touch = findTouch(fingerId);
+        var inputId = _inputIdDictionary[fingerId];
+        _inputIdDictionary.Remove(touch.fingerId);
+        AltUnityRunner._altUnityRunner.ShowInput(touch.position, inputId);
+        var previousPointerEventData = _pointerEventsDataDictionary[touch.fingerId];
+        _pointerEventsDataDictionary.Remove(touch.fingerId);
+
+        var keyStructure = new KeyStructure(KeyCode.Mouse0, 1);
+        beginKeyUpTouchEndedLifecycle(keyStructure, true, ref touch);
+        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
+
+        yield return null;
+        endKeyUpTouchEndedLifecycle(keyStructure, true, touch);
     }
 
     public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
@@ -929,23 +944,6 @@ public class Input : MonoBehaviour
 
         touches = newTouches;
         touchCount--;
-    }
-
-    private static IEnumerator endTouch(int fingerId)
-    {
-        yield return new WaitForEndOfFrame();
-
-        var touch = findTouch(fingerId);
-        var inputId = _inputIdDictionary[fingerId];
-        _inputIdDictionary.Remove(touch.fingerId);
-        AltUnityRunner._altUnityRunner.ShowInput(touch.position, inputId);
-        var previousPointerEventData = _pointerEventsDataDictionary[touch.fingerId];
-        _pointerEventsDataDictionary.Remove(touch.fingerId);
-        var keyStructure = new KeyStructure(KeyCode.Mouse0, 1);
-        beginKeyUpTouchEndedLifecycle(keyStructure, true, ref touch);
-        AltUnityMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
-        yield return null;
-        endKeyUpTouchEndedLifecycle(keyStructure, true, touch);
     }
 
     private static IEnumerator setMouse0KeyCodePressedDown()

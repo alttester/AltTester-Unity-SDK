@@ -15,7 +15,7 @@ namespace Altom.AltUnityTester.Commands
             this._wait = wait;
             this._handler = handler;
         }
-        protected void onFinish(Exception err)
+        protected virtual void onFinish(Exception err)
         {
             if (this._wait)
                 if (err != null)
