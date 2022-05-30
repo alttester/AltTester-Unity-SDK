@@ -305,13 +305,14 @@ namespace Altom.AltUnityTester
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
-            EndTouch(touchId);
+            AltUnityRunner._altUnityRunner.StartCoroutine(EndTouch(touchId));
         }
         internal static int BeginTouch(Vector3 screenPosition)
         {
-            var fingerId = 0;
+            var fingerId = getFreeTouch(touches);
             touches[fingerId] = false;
             InputTestFixture.BeginTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
+            endTouchScreenPos = screenPosition;
             return fingerId;
         }
 

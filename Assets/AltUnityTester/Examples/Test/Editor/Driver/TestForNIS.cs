@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Altom.AltUnityDriver;
 using NUnit.Framework;
 
@@ -274,5 +275,7 @@ public class TestForNIS
         var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
         var fingerId = altUnityDriver.BeginTouch(capsule.getScreenPosition());
         altUnityDriver.EndTouch(fingerId);
+        var text = capsule.GetComponentProperty<string>("AltUnityExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
+        Assert.AreEqual("Capsule was tapped!", text);
     }
 }
