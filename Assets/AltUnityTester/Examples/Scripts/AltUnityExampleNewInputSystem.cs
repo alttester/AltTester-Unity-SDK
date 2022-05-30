@@ -18,9 +18,6 @@ public class AltUnityExampleNewInputSystem : MonoBehaviour
     public static Mouse Mouse;
     public static Touchscreen Touchscreen;
 
-    
-    
-
     public void Jump(InputAction.CallbackContext context)
     {
         if (context.action.name == "Jump" && context.phase is InputActionPhase.Performed)
@@ -49,7 +46,7 @@ public class AltUnityExampleNewInputSystem : MonoBehaviour
     {
         jumpCounter++;
         counterText.text = jumpCounter.ToString();
-        capsuleRigidBody.GetComponent<Rigidbody>().AddForce(Vector3.up * 1.5f, ForceMode.Impulse);
+        capsuleRigidBody.GetComponent<Rigidbody>().AddForce(Vector3.up * 5.5f, ForceMode.Impulse);
     }
 
 }

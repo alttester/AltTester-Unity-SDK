@@ -1954,6 +1954,7 @@ namespace Altom.AltUnityDriver.Tests
             var phase = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "TouchPhase", "Assembly-CSharp");
             Assert.AreEqual(0, phase);
             altUnityDriver.MoveTouch(id, capsule.getScreenPosition());
+            Thread.Sleep(100);
             phase = capsule.GetComponentProperty<int>("AltUnityExampleScriptCapsule", "TouchPhase", "Assembly-CSharp");
             Assert.AreEqual(1, phase);
             altUnityDriver.EndTouch(id);
