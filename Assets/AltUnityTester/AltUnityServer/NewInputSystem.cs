@@ -305,7 +305,7 @@ namespace Altom.AltUnityTester
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
-            AltUnityRunner._altUnityRunner.StartCoroutine(EndTouch(touchId));
+            yield return AltUnityRunner._altUnityRunner.StartCoroutine(EndTouch(touchId));
         }
         internal static int BeginTouch(Vector3 screenPosition)
         {
