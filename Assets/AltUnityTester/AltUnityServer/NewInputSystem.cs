@@ -130,6 +130,8 @@ namespace Altom.AltUnityTester
             var deltaUnchanged = false;
             while (time < duration)
             {
+                yield return null;
+                time += UnityEngine.Time.unscaledDeltaTime;
                 UnityEngine.Vector2 delta;
                 if (time + UnityEngine.Time.unscaledDeltaTime < duration)
                 {
@@ -139,7 +141,6 @@ namespace Altom.AltUnityTester
                 {
                     delta = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
                 }
-
                 mousePosition += delta;
                 if (delta == Vector2.zero)
                 {
@@ -147,8 +148,6 @@ namespace Altom.AltUnityTester
                     break;
                 }
                 InputTestFixture.Move(Mouse.position, mousePosition, delta);
-                yield return null;
-                time += UnityEngine.Time.unscaledDeltaTime;
             }
             if (deltaUnchanged)
             {
@@ -156,8 +155,6 @@ namespace Altom.AltUnityTester
                 InputTestFixture.Move(Mouse.position, mousePosition, Vector2.zero);
                 yield return new WaitForSecondsRealtime(duration - time);
             }
-            InputTestFixture.Set(Mouse.position, mousePosition);
-
         }
 
 
@@ -287,6 +284,8 @@ namespace Altom.AltUnityTester
                 var distance = positions[i] - currentPosition;
                 while (time < oneTouchDuration)
                 {
+                    yield return null;
+                    time += UnityEngine.Time.unscaledDeltaTime;
                     UnityEngine.Vector2 delta;
 
                     if (time + UnityEngine.Time.unscaledDeltaTime < oneTouchDuration)
@@ -300,8 +299,6 @@ namespace Altom.AltUnityTester
                     currentPosition += delta;
 
                     MoveTouch(touchId, currentPosition);
-                    yield return null;
-                    time += UnityEngine.Time.unscaledDeltaTime;
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
