@@ -27,7 +27,7 @@ namespace Altom.AltUnityTesterTools
                 Debug.LogError("ALTUNTITYTESTER must be added as define before updating the prefab");
             }
 
-            var Prefab = new GameObject("AltUnityRunnerPrefab", new System.Type[] { typeof(Transform), typeof(AltUnityRunner), typeof(Input) });
+            var Prefab = new GameObject("AltUnityRunnerPrefab", new System.Type[] { typeof(Transform), typeof(AltUnityRunner), typeof(Input), typeof(NewInputSystem) });
 
             string path = "Assets/AltUnityTester/Prefab/AltUnityRunnerPrefab.prefab";
             string localPath = path;
@@ -115,7 +115,7 @@ namespace Altom.AltUnityTesterTools
             DialogTransform.anchorMin = new Vector2(0.5f, 0.5f);
             DialogTransform.anchorMax = new Vector2(0.5f, 0.5f);
             DialogTransform.pivot = new Vector2(0.5f, 0.5f);
-            DialogTransform.sizeDelta = new Vector2(400, 350);
+            DialogTransform.sizeDelta = new Vector2(440, 350);
             DialogTransform.localPosition = new Vector3(0, 0, 0);
 
 
@@ -161,7 +161,7 @@ namespace Altom.AltUnityTesterTools
 
             var MessageText = MessageGameObject.GetComponent<Text>();
             MessageText.text = "Starting communication protocol!";
-            MessageText.fontSize = 20;
+            MessageText.fontSize = 24;
             MessageText.color = Color.white;
             MessageText.alignment = TextAnchor.MiddleCenter;
 
@@ -177,8 +177,8 @@ namespace Altom.AltUnityTesterTools
             PortLabelRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var PortLabelText = PortLabel.GetComponent<Text>();
-            PortLabelText.text = "To change the port number input a new port and press the Restart Server button.";
-            PortLabelText.fontSize = 16;
+            PortLabelText.text = "To change the port number input a new port and press the Restart button.";
+            PortLabelText.fontSize = 20;
             PortLabelText.color = Color.white;
             PortLabelText.alignment = TextAnchor.MiddleCenter;
 
@@ -187,12 +187,11 @@ namespace Altom.AltUnityTesterTools
             var PortInputFieldTransform = PortInputFieldGameObject.GetComponent<RectTransform>();
             PortInputFieldTransform.SetParent(DialogTransform, false);
 
-            PortInputFieldTransform.localPosition = new Vector3(0, -80, 0);
+            PortInputFieldTransform.localPosition = new Vector3(0, -90, 0);
             PortInputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             PortInputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            PortInputFieldTransform.sizeDelta = new Vector2(160, 30);
+            PortInputFieldTransform.sizeDelta = new Vector2(240, 34);
             PortInputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
-            PortInputFieldTransform.sizeDelta = new Vector2(160, 30);
 
             var PortInputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
             var PortInputFieldTextTransform = PortInputFieldTextGameObject.GetComponent<RectTransform>();
@@ -206,6 +205,7 @@ namespace Altom.AltUnityTesterTools
 
             var PortInputFieldText = PortInputFieldTextGameObject.GetComponent<Text>();
             PortInputFieldText.supportRichText = false;
+            PortInputFieldText.fontSize = 18;
             PortInputFieldText.color = Color.black;
 
             var PortInputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -220,6 +220,7 @@ namespace Altom.AltUnityTesterTools
 
             var PortInputFieldPlaceholder = PortInputFieldPlaceholderGameObject.GetComponent<Text>();
             PortInputFieldPlaceholder.supportRichText = false;
+            PortInputFieldPlaceholder.fontSize = 18;
             PortInputFieldPlaceholder.text = "Enter port number...";
             PortInputFieldPlaceholder.color = Color.gray;
 
@@ -232,10 +233,10 @@ namespace Altom.AltUnityTesterTools
             var RestartButtonRectTransform = RestartButtonGameObject.GetComponent<RectTransform>();
             RestartButtonRectTransform.SetParent(DialogTransform, false);
 
-            RestartButtonRectTransform.localPosition = new Vector3(0, -120, 0);
+            RestartButtonRectTransform.localPosition = new Vector3(0, -135, 0);
             RestartButtonRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             RestartButtonRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            RestartButtonRectTransform.sizeDelta = new Vector2(160, 30);
+            RestartButtonRectTransform.sizeDelta = new Vector2(240, 34);
             RestartButtonRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var RestartButtonTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -249,8 +250,8 @@ namespace Altom.AltUnityTesterTools
             RestartButtonTextRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var RestartButtonText = RestartButtonTextGameObject.GetComponent<Text>();
-            RestartButtonText.text = "Restart Server";
-            RestartButtonText.fontSize = 14;
+            RestartButtonText.text = "Restart";
+            RestartButtonText.fontSize = 18;
             RestartButtonText.color = Color.black;
             RestartButtonText.alignment = TextAnchor.MiddleCenter;
 

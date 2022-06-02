@@ -89,7 +89,7 @@ namespace Altom.AltUnityTester.UI
             logger.Debug("Restart the AltUnity Tester.");
 
             int port;
-            if (Int32.TryParse(PortInputField.text, out port) && port > 0 && port < 65535)
+            if (Int32.TryParse(PortInputField.text, out port) && port > 0 && port <= 65535)
             {
                 InstrumentationSettings.AltUnityTesterPort = port;
             }
