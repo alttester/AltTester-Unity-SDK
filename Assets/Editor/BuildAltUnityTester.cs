@@ -101,7 +101,8 @@ namespace Altom.AltUnityTesterTools
                     "Assets/AltUnityTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
                     "Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity",
                     "Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity",
-                    "Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity"
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity",
+                    "Assets/AltUnityTester/Examples/Scenes/Scene 11 ScrollView Scene.unity"
                     };
         }
 

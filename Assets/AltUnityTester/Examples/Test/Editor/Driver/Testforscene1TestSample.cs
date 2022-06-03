@@ -995,7 +995,7 @@ namespace Altom.AltUnityDriver.Tests
         public void TestGetAllScenes()
         {
             var scenes = altUnityDriver.GetAllScenes();
-            Assert.AreEqual(11, scenes.Count);
+            Assert.AreEqual(12, scenes.Count);
             Assert.AreEqual("Scene 1 AltUnityDriverTestScene", scenes[0]);
         }
 
@@ -2076,6 +2076,18 @@ namespace Altom.AltUnityDriver.Tests
             var counterButton = altUnityDriver.FindObject(By.NAME, "Capsule");
             var element = altUnityDriver.FindObjectAtCoordinates(counterButton.getScreenPosition());
             Assert.AreEqual("Capsule", element.name);
+        }
+        [Test]
+        public void TestScrollViewSwipe()
+        {
+            altUnityDriver.LoadScene("Scene 11 ScrollView Scene");
+            var buttons = altUnityDriver.FindObjects(By.PATH, "//Content/*");
+            for (int i = 1; i <= buttons.Count - 3; i++)
+            {
+                altUnityDriver.Swipe(buttons[i].getScreenPosition(), buttons[i - 1].getScreenPosition());
+
+            }
+            Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltUnityScrollViewButtonController", "Counter", "Assembly-CSharp"));
         }
     }
 }
