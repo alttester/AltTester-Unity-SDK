@@ -5,7 +5,6 @@ namespace Altom.AltUnityDriver.Commands
 {
     public interface IDriverCommunication
     {
-
         void Send(CommandParams param);
         T Recvall<T>(CommandParams param);
         void AddNotificationListener<T>(NotificationType notificationType, Action<T> callback, bool overwrite);
@@ -13,7 +12,8 @@ namespace Altom.AltUnityDriver.Commands
         void Connect();
         void Close();
         void SetCommandTimeout(int timeout);
-        void SetDelayAfterCommand(int delayTimeMilliseconds);
-        int GetDelayAfterCommand();
+        void SetDelayAfterCommand(float delay);
+        float GetDelayAfterCommand();
+        void SleepFor(float time);
     }
 }

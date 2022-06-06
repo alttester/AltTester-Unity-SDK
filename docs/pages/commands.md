@@ -583,7 +583,7 @@ None
 
 **_Returns_**
 
-- The current delay a after a command.
+- The current delay after a command.
 
 **_Examples_**
 
