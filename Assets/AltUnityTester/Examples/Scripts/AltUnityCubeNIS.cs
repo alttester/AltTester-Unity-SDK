@@ -1,9 +1,9 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AltUnityCubeNIS : MonoBehaviour {
-    
+public class AltUnityCubeNIS : MonoBehaviour
+{
+
     public Vector3 previousAcceleration = Vector3.zero;
     public bool isMoved = false;
 
@@ -20,6 +20,7 @@ public class AltUnityCubeNIS : MonoBehaviour {
     }
     protected void Update()
     {
+
         var acceleration = Accelerometer.current.acceleration.ReadValue();
         if (acceleration != previousAcceleration)
         {
@@ -27,5 +28,6 @@ public class AltUnityCubeNIS : MonoBehaviour {
             transform.position += acceleration * 0.02f;
             isMoved = true;
         }
+
     }
 }

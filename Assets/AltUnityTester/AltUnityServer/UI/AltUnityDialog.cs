@@ -193,7 +193,7 @@ namespace Altom.AltUnityTester.UI
 
             _updateQueue.ScheduleResponse(() =>
             {
-#if ENABLE_INPUT_SYSTEM
+#if ALTUNITYTESTER && ENABLE_INPUT_SYSTEM
                 NewInputSystem.DisableDefaultDevicesAndEnableAltUnityDevices();
 #endif
                 setDialog(message, SUCCESS_COLOR, false);
@@ -211,7 +211,7 @@ namespace Altom.AltUnityTester.UI
                 _updateQueue.ScheduleResponse(() =>
                 {
 
-#if ENABLE_INPUT_SYSTEM
+#if ALTUNITYTESTER && ENABLE_INPUT_SYSTEM
                     NewInputSystem.EnableDefaultDevicesAndDisableAltUnityDevices();
 
 #endif

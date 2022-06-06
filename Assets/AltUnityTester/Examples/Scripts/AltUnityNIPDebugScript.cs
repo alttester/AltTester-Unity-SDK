@@ -22,6 +22,8 @@ public class AltUnityNIPDebugScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if ALTUNITYTESTER && ENABLE_INPUT_SYSTEM
+
         if (Mouse.current.scroll.ReadValue() != Vector2.zero)
             wasScrolled = true;
         var allKeys = Keyboard.current.allKeys;
@@ -88,5 +90,7 @@ public class AltUnityNIPDebugScript : MonoBehaviour
                     if (joystick == e.Value)
                         JoystickReleased = e.Key.ToString();
             }
+#endif
+
     }
 }
