@@ -30,6 +30,10 @@ namespace Altom.AltUnityTester
         {
             if (Instance == null)
                 Instance = this;
+            else
+            {
+                return;
+            }
             InputTestFixture = new InputTestFixture();
 #if USE_INPUT_SYSTEM_1_3
             TestExecutionContext testExecutionContext = new TestExecutionContext();
@@ -71,7 +75,7 @@ namespace Altom.AltUnityTester
                 Accelerometer = InputSystem.AddDevice<Accelerometer>("AltUnityAccelerometer");
             }
             InputTestFixture.Set(Mouse.position, new Vector2(0, 0));
-
+            EnableDefaultDevicesAndDisableAltUnityDevices();
 
         }
 
@@ -86,7 +90,6 @@ namespace Altom.AltUnityTester
                 else
                 {
                     InputSystem.DisableDevice(device);
-
                 }
             }
 
