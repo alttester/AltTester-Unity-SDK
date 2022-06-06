@@ -1,4 +1,4 @@
-#if ENABLE_INPUT_SYSTEM
+#if ALTUNITYTESTER && ENABLE_INPUT_SYSTEM
 using System.Collections;
 using System.Collections.Generic;
 using Altom.AltUnityTester;
@@ -326,7 +326,7 @@ namespace Altom.AltUnityTester
             touches[fingerId] = true;
         }
 
-        #region private interface
+#region private interface
         private static ButtonControl keyCodeToButtonControl(KeyCode keyCode, float power = 1)
         {
             foreach (var e in AltUnityKeyMapping.StringToKeyCode)
@@ -380,7 +380,7 @@ namespace Altom.AltUnityTester
             }
             return 0;
         }
-        #endregion
+#endregion
     }
 
 }
@@ -395,9 +395,11 @@ public class TestExample
 }
 #endif
 #else
+using UnityEngine;
+
 namespace Altom.AltUnityTester
 {
-    public class NewInputSystem
+    public class NewInputSystem : MonoBehaviour
     {
 
     }
