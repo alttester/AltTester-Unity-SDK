@@ -27,7 +27,7 @@ namespace Altom.AltUnityDriver.Commands
         private List<string> messageIdTimeouts = new List<string>();
 
         private int commandTimeout = 60;
-        private int delayAfterCommand = 0;
+        private float delayAfterCommand = 0;
 
         public DriverCommunicationWebSocket(string host, int port, int connectTimeout)
         {
@@ -35,7 +35,6 @@ namespace Altom.AltUnityDriver.Commands
             _port = port;
             _uri = "ws://" + host + ":" + port + "/altws";
             _connectTimeout = connectTimeout;
-
 
             messages = new Queue<CommandResponse>();
         }
@@ -311,6 +310,7 @@ namespace Altom.AltUnityDriver.Commands
                     break;
             }
         }
+
         public void RemoveNotificationListener(NotificationType notificationType)
         {
             switch (notificationType)
@@ -329,15 +329,18 @@ namespace Altom.AltUnityDriver.Commands
                     break;
             }
         }
-        public void SetDelayAfterCommand(int delayTimeInMilliseconds)
+        public void SetDelayAfterCommand(float delay)
         {
-            delayAfterCommand = delayTimeInMilliseconds;
+            delayAfterCommand = delay;
         }
 
-        public int GetDelayAfterCommand()
+        public float GetDelayAfterCommand()
         {
             return delayAfterCommand;
         }
-    }
 
+        public void SleepFor(float time) {
+            Thread.Sleep(System.Convert.ToInt32(time * 1000));
+        }
+    }
 }

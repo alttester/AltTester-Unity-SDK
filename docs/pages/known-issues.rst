@@ -35,9 +35,9 @@ resolution until this issue is fixed.
 
 **Problem**: Instrumented game with AltUnity Tester stops working in BlueStacks
 
-**Workaround**: The issue seems to happen because of the communication protocol 
-used inside the AltUnity Tester. There are other alternatives that work with instrumented builds. 
-For Android you can use the Android Emulator inside the Android Studio. 
+**Workaround**: The issue seems to happen because of the communication protocol
+used inside the AltUnity Tester. There are other alternatives that work with instrumented builds.
+For Android you can use the Android Emulator inside the Android Studio.
 For iOS you can use a simulator inside Xcode.
 
 **Affects**: AltUnity Tester v1.7.0 and v1.7.1
