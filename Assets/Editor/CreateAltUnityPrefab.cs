@@ -33,12 +33,12 @@ namespace Altom.AltUnityTesterTools
             string localPath = path;
 
 
-            //Set RectTrasnform for rootObject
+            // Set RectTransform for rootObject
             var RectTransform = Prefab.GetComponent<Transform>();
             var AltUnityrunner = Prefab.GetComponent<AltUnityRunner>();
 
 
-            //Create CanvasInputVisualiser
+            // Create CanvasInputVisualiser
             var CanvasInputVisualiserGameObject = new GameObject("CanvasInputVisualiser", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster) });
             var CanvasInputVisualiserRectTransform = CanvasInputVisualiserGameObject.GetComponent<RectTransform>();
 
@@ -55,8 +55,7 @@ namespace Altom.AltUnityTesterTools
             CanvasInputVisualiser.sortingOrder = 32767;
 
 
-            //Create InputVisualiser
-
+            // Create InputVisualiser
             var InputVisualiser = new GameObject("InputVisualiser", new System.Type[] { typeof(RectTransform), typeof(AltUnityInputsVisualizer) });
 
             var InputVisualiserRectTransform = InputVisualiser.GetComponent<RectTransform>();
@@ -80,8 +79,7 @@ namespace Altom.AltUnityTesterTools
 
 
 
-            //Create AltUnityDialog
-
+            // Create AltUnityDialog
             var AltUnityDialogGameObject = new GameObject("AltUnityDialog", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(AltUnityDialog) });
             var AltUnityDialogTransform = AltUnityDialogGameObject.GetComponent<RectTransform>();
             AltUnityDialogTransform.SetParent(RectTransform, false);
@@ -105,9 +103,7 @@ namespace Altom.AltUnityTesterTools
             var AltUnityDialog = AltUnityDialogGameObject.GetComponent<AltUnityDialog>();
 
 
-
-            //Create Dialog
-
+            // Create Dialog
             var DialogGameObject = new GameObject("Dialog", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
             var DialogTransform = DialogGameObject.GetComponent<RectTransform>();
             DialogTransform.SetParent(AltUnityDialogTransform, false);
@@ -115,22 +111,18 @@ namespace Altom.AltUnityTesterTools
             DialogTransform.anchorMin = new Vector2(0.5f, 0.5f);
             DialogTransform.anchorMax = new Vector2(0.5f, 0.5f);
             DialogTransform.pivot = new Vector2(0.5f, 0.5f);
-            DialogTransform.sizeDelta = new Vector2(440, 350);
+            DialogTransform.sizeDelta = new Vector2(440, 440);
             DialogTransform.localPosition = new Vector3(0, 0, 0);
-
 
             var DialogImage = DialogGameObject.GetComponent<Image>();
             DialogImage.color = new Color(0, 0.6470588f, 0.1411765f, 1);
-
             DialogImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             DialogImage.type = Image.Type.Sliced;
             DialogImage.fillCenter = true;
             DialogImage.pixelsPerUnitMultiplier = 1;
 
 
-
-            //Create AltUnityTesterTitleText
-
+            // Create AltUnityTesterTitleText
             var TitleGameObject = new GameObject("Title", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
             var TitleRectTransform = TitleGameObject.GetComponent<RectTransform>();
             TitleRectTransform.SetParent(DialogTransform, false);
@@ -147,16 +139,15 @@ namespace Altom.AltUnityTesterTools
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;
 
-            //Create LookingForConnections
-
+            // Create LookingForConnections
             var MessageGameObject = new GameObject("Message", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
             var MessageRectTransform = MessageGameObject.GetComponent<RectTransform>();
             MessageRectTransform.SetParent(DialogTransform, false);
 
-            MessageRectTransform.localPosition = new Vector3(0, 45, 0);
+            MessageRectTransform.localPosition = new Vector3(0, 60, 0);
             MessageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             MessageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            MessageRectTransform.sizeDelta = new Vector2(400, 75);
+            MessageRectTransform.sizeDelta = new Vector2(400, 100);
             MessageRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var MessageText = MessageGameObject.GetComponent<Text>();
@@ -170,7 +161,7 @@ namespace Altom.AltUnityTesterTools
             var PortLabelRectTransform = PortLabel.GetComponent<RectTransform>();
             PortLabelRectTransform.SetParent(DialogTransform, false);
 
-            PortLabelRectTransform.localPosition = new Vector3(0, -30, 0);
+            PortLabelRectTransform.localPosition = new Vector3(0, -50, 0);
             PortLabelRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             PortLabelRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             PortLabelRectTransform.sizeDelta = new Vector2(400, 75);
@@ -187,7 +178,7 @@ namespace Altom.AltUnityTesterTools
             var PortInputFieldTransform = PortInputFieldGameObject.GetComponent<RectTransform>();
             PortInputFieldTransform.SetParent(DialogTransform, false);
 
-            PortInputFieldTransform.localPosition = new Vector3(0, -90, 0);
+            PortInputFieldTransform.localPosition = new Vector3(0, -110, 0);
             PortInputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             PortInputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
             PortInputFieldTransform.sizeDelta = new Vector2(240, 34);
@@ -233,7 +224,7 @@ namespace Altom.AltUnityTesterTools
             var RestartButtonRectTransform = RestartButtonGameObject.GetComponent<RectTransform>();
             RestartButtonRectTransform.SetParent(DialogTransform, false);
 
-            RestartButtonRectTransform.localPosition = new Vector3(0, -135, 0);
+            RestartButtonRectTransform.localPosition = new Vector3(0, -155, 0);
             RestartButtonRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             RestartButtonRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             RestartButtonRectTransform.sizeDelta = new Vector2(240, 34);
@@ -257,8 +248,7 @@ namespace Altom.AltUnityTesterTools
 
             var RestartButton = RestartButtonGameObject.GetComponent<Button>();
 
-            //Create CloseButton
-
+            // Create CloseButton
             var CloseButtonGameObject = new GameObject("CloseButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
             var CloseButtonRectTransform = CloseButtonGameObject.GetComponent<RectTransform>();
             CloseButtonRectTransform.SetParent(DialogTransform, false);
@@ -275,8 +265,7 @@ namespace Altom.AltUnityTesterTools
             var CloseButton = CloseButtonGameObject.GetComponent<Button>();
 
 
-            //Create Icon
-
+            // Create Icon
             var Icon = new GameObject("Icon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
             var IconRectTransform = Icon.GetComponent<RectTransform>();
             IconRectTransform.SetParent(AltUnityDialogTransform, false);
@@ -292,9 +281,7 @@ namespace Altom.AltUnityTesterTools
             IconImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltUnityTester/altUnity-512x512.png", typeof(Sprite)) as Sprite;
 
 
-            //Set AltUnityRunner variables
-
-
+            // Set AltUnityRunner variables
             var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltUnityTester/Shader/OutlineShader.shader", typeof(Shader));
             AltUnityrunner.outlineShader = outlineShader as Shader;
             var panelHightlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltUnityTester/Prefab/Panel.prefab", typeof(GameObject));
@@ -303,8 +290,7 @@ namespace Altom.AltUnityTesterTools
             AltUnityrunner.InputsVisualizer = AltUnityInputsVisualiser;
 
 
-            //Set AltUnityDialog variables
-
+            // Set AltUnityDialog variables
             AltUnityDialog.Dialog = DialogGameObject;
             AltUnityDialog.TitleText = TitleText;
             AltUnityDialog.MessageText = MessageText;
@@ -403,7 +389,6 @@ namespace Altom.AltUnityTesterTools
             {
                 checkObjectEquality(originalObject.transform.GetChild(i).gameObject, newObject.transform.GetChild(i).gameObject);
             }
-
         }
         private static void checkTranformEquality(RectTransform originalTransform, RectTransform newTransform)
         {
