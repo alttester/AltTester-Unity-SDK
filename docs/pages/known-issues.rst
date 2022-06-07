@@ -5,7 +5,7 @@ Known Issues
 This section lists the known bugs and issues with the AltUnity Tester. If
 available, we list a workaround to help troubleshoot the issue.
 
-To report a bug that isn’t listed here, see our :doc:`contributing` section
+To report a bug that isn't listed here, see our :doc:`contributing` section
 to learn how to best report the issue.
 
 
@@ -15,7 +15,7 @@ to learn how to best report the issue.
 **Problem**: For high resolutions calling ``GetPNGScreenshot`` might throw a
 ``StackOverflow`` error.
 
-**Workaround**: The issue only happens with .NET 6 as a workaround you can use
+**Workaround**: The issue only happens with .NET 6. As a workaround you can use
 .NET 5, or if you can't downgrade to .NET 5, try to run your tests with a lower
 resolution until this issue is fixed.
 
@@ -24,11 +24,37 @@ resolution until this issue is fixed.
 
 2. New Input System
 
-**Problem**: Inputs are not executed in the UnityEditor
+**1. Problem**: Inputs are not executed in the UnityEditor
 
 **Workaround**: Focus the game view after starting the tests.
 
 **Affects**: AltUnityTester v1.7.1 in UnityEditor with Input System v1.0.2 or earlier
+
+
+**2. Problem**: Touch or Mouse actions do not work in tests
+
+**Workaround**: In Analysis -> Input Debugger -> Options make sure the setting Simulate 
+Touch Input From Mouse or Pen is not checked and Lock Input to Game View is checked.
+
+**Affects**: AltUnityTester v1.7.1 and Input System with a version below 1.3.0
+
+
+**3. Problem**: The Tilt command is not working when using the Input Actions Map
+
+**Affects**: AltUnityTester v1.7.1
+
+
+**4. Problem**: The PressKey command does not work 
+
+**Workaround**: This issue might happen if your code uses the methods *wasPressedThisFrame*
+and *wasReleasedThisFrame*. Use *isPressed* instead.
+
+**Affects**: AltUnityTester v1.7.1
+
+
+**5. Problem**:  Player Input is not working in the instrumented build when connected to the tests or to AltUnity Inspector 
+
+**Affects**: All input actions for objects for the New Input System commands, except the ones for the Old Input System.
 
 
 3. BlueStacks
