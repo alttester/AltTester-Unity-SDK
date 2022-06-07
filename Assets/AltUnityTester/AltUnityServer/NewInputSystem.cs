@@ -86,6 +86,7 @@ namespace Altom.AltUnityTester
                 if (device.name.Contains("AltUnity"))
                 {
                     InputSystem.EnableDevice(device);
+                    device.MakeCurrent();
                 }
                 else
                 {
@@ -105,6 +106,7 @@ namespace Altom.AltUnityTester
                 else
                 {
                     InputSystem.EnableDevice(device);
+                    device.MakeCurrent();
 
                 }
             }
@@ -329,7 +331,7 @@ namespace Altom.AltUnityTester
             touches[fingerId] = true;
         }
 
-#region private interface
+        #region private interface
         private static ButtonControl keyCodeToButtonControl(KeyCode keyCode, float power = 1)
         {
             foreach (var e in AltUnityKeyMapping.StringToKeyCode)
@@ -383,7 +385,7 @@ namespace Altom.AltUnityTester
             }
             return 0;
         }
-#endregion
+        #endregion
     }
 
 }
