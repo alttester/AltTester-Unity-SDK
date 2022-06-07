@@ -1,3 +1,17 @@
-﻿{
-	"name": "AltUnityDriver"
+{
+    "name": "AltUnityDriver",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "NLog.dll",
+        "Newtonsoft.Json.dll",
+        "websocket-sharp.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
