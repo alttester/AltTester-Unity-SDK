@@ -1,3 +1,61 @@
+# Changes in version 1.7.1
+
+## New
+
+- "New commands FindObjectAtCoordinates" !650
+- "Documentation on how to add references to newinputsystem and newtonsoft json" !662
+- "Add option for multiple key pressing simultaneously" !646
+- "Logic for both input system to work together" #768
+- "Click with new input system" !639
+- "Scroll with new input system" !691
+- "MoveMouse with new input system" !688
+- "Key up and down with new input system" !685
+- "Press key with new input system" !765
+- "Add way to set a delay after each altUnity command" !684
+- "Add logic for BeginTouch, MoveTouch and EndTouch to support NIS" !704
+- "Tap with new input system" !656
+- "Swipe with new input system" !707
+- "Change server port from the game" !689
+- "Tilt with new input system" !712
+- "Updates for New Input System" !703
+
+## Bug fixes and improvements
+
+- "Not connecting to Android with PortForwarding on a different port" !652
+- "Multiple precompiled assemblies with the same name Newtonsoft.json" !654
+- "Fix issue in the python driver where WebsocketConnection class does not check the messageId" !653
+- "[API - AltUnityObject] List all commands under main section and remove Object Commands subsection" !670
+- "[Examples] Only one list expanded item in table of contents" !672
+- "Instrumented build does not connect to AltUnity Inspector/tests" #818
+- "[Get Started] "AltUnity Tester Window" or "AltUnity Tester" instead of "AltUnity Tester Editor"" !674
+- "SetText with submit true does not trigger the validation event that is triggered by enter" !673
+- "[License] Commands typos" !680
+- "[SampleScenes-Apk] UI elements not showing" !658
+- "Add examples to AltUnityPortForwarding section" !677
+- "Add clarifications to the license file" !681
+- "[Mac] iOS Player Settings button not functional" #780
+- "Logger should be used with full NLog.Logger name" !694
+- "AUT Editor Windows slow" !690
+- "Compressing the screenshot triggers app block after connecting with Inspector" !695
+- "Swipe should not tap elements that are dragged" !705
+- "Tests for API commands sometimes fail when Active Input Handling is set to "Input System Package (New)"" !710
+- "Instrumented game with AltUnity Tester 1.7.0 hangs in Bluestacks" !702
+- "[AltUnityRunnerPrefab] Text elements inconsistencies for Port change feature" !711
+- "[Get/SetDelayAfterCommand] Typo in description" !708
+- "Connecting Issue with il2cpp builds" !701
+- "Fix error thrown when only old input system is used" !706
+
+## Contributors
+
+-   Dorin Oltean @dorinaltom
+-   Gombos Kriszta @GombosKriszta
+-   Andra Cardas @andra.cardas
+-   Robert Dezmerean @robert-dezmerean
+-   Iuliana Todoran @iuliana.todoran
+-   Robert Poienar @robert_poienar
+-   Edvin Reich @ReichEdvin
+
+
 # Changes in version 1.7.0
 
 ## New
