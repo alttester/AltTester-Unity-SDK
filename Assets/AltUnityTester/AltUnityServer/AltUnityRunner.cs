@@ -12,7 +12,7 @@ namespace Altom.AltUnityTester
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "1.7.1-Alpha";
+        public static readonly string VERSION = "1.7.1";
         public static AltUnityRunner _altUnityRunner;
         public static AltResponseQueue _responseQueue;
         public AltUnityInstrumentationSettings InstrumentationSettings = null;

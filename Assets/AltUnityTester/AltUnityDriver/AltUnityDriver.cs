@@ -16,7 +16,7 @@ namespace Altom.AltUnityDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "1.7.1-Alpha";
+        public static readonly string VERSION = "1.7.1";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
@@ -96,7 +96,8 @@ namespace Altom.AltUnityDriver
             communicationHandler.SetDelayAfterCommand(delay);
         }
 
-        public float GetDelayAfterCommand() {
+        public float GetDelayAfterCommand()
+        {
             return communicationHandler.GetDelayAfterCommand();
         }
 

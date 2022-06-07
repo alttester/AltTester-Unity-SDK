@@ -41,7 +41,7 @@ public class AltUnityDriver {
         }
     }
 
-    public static final String VERSION = "1.7.1-Alpha";
+    public static final String VERSION = "1.7.1";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private WebsocketConnection connection = null;
@@ -250,7 +250,8 @@ public class AltUnityDriver {
      * Invokes static methods from your game.
      */
     public <T> T callStaticMethod(AltCallStaticMethodParams altCallStaticMethodParams, Class<T> returnType) {
-        T response = new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams).Execute(returnType);
+        T response = new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
+                .Execute(returnType);
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
     }
@@ -373,7 +374,8 @@ public class AltUnityDriver {
      * @return the first object containing the given criteria
      */
     public AltUnityObject findObjectWhichContains(AltFindObjectsParams altFindObjectsParams) {
-        AltUnityObject response = new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParams).Execute();
+        AltUnityObject response = new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParams)
+                .Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
     }
@@ -396,7 +398,8 @@ public class AltUnityDriver {
      * @return all objects containing the given criteria
      */
     public AltUnityObject[] findObjectsWhichContain(AltFindObjectsParams altFindObjectsParams) {
-        AltUnityObject[] response = new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParams).Execute();
+        AltUnityObject[] response = new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParams)
+                .Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
     }
@@ -409,7 +412,8 @@ public class AltUnityDriver {
      * @return information about every object loaded in the currently loaded scenes.
      */
     public AltUnityObject[] getAllElements(AltGetAllElementsParams altGetAllElementsParams) {
-        AltUnityObject[] response = new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParams).Execute();
+        AltUnityObject[] response = new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParams)
+                .Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
     }
@@ -435,7 +439,8 @@ public class AltUnityDriver {
      *                                objects in a scene.
      */
     public AltUnityObject waitForObject(AltWaitForObjectsParams altWaitForObjectsParams) {
-        AltUnityObject response = new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams).Execute();
+        AltUnityObject response = new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams)
+                .Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
     }
@@ -457,7 +462,8 @@ public class AltUnityDriver {
      * out and will throw an error.
      */
     public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParams altWaitForObjectsParams) {
-        AltUnityObject response = new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParams).Execute();
+        AltUnityObject response = new AltWaitForObjectWhichContains(this.connection.messageHandler,
+                altWaitForObjectsParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
     }

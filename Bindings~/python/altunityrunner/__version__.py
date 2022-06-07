@@ -1,1 +1,1 @@
-VERSION = "1.7.1-Alpha"
+VERSION = "1.7.1"
