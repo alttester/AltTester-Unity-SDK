@@ -76,6 +76,11 @@ You can also activate this option from within the test using the following code:
         self.altUnityDriver.find_object (By.NAME,"AltUnityRunnerPrefab").set_component_property("AltUnityRunner", "ShowInputs", "true")
 ```
 
+```eval_rst
+.. note::
+    The input visualizer will only work if the Active Input Handling setting is set to Both or Input Manager (Old). It is not implemented yet for the New Input System.
+```
+
 -   *Show popup*
 
 ```eval_rst
