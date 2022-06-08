@@ -42,3 +42,9 @@ We plan to add more examples in the near future.
 * C# tests [Endless Runner](https://gitlab.com/altom/altunity/examples/unity-test-runner)
 
     You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
+
+**5.** Example test projects for AltUnity Tester v.1.7.1 and the New Input System:
+
+* C# tests [CoinCollector](https://gitlab.com/altom/altunity/examples/new-input-system-examples/coincollector-csharp-tests)
+* C# tests [LeanTouch](https://gitlab.com/altom/altunity/examples/new-input-system-examples/leantouch-csharp-tests)
+* C# tests [RollABall](https://gitlab.com/altom/altunity/examples/new-input-system-examples/rollaball-csharp-tests)

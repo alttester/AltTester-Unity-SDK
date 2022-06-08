@@ -24,14 +24,8 @@ resolution until this issue is fixed.
 
 2. New Input System
 
-**1. Problem**: Inputs are not executed in the UnityEditor
 
-**Workaround**: Focus the game view after starting the tests.
-
-**Affects**: AltUnityTester v1.7.1 in UnityEditor with Input System v1.0.2 or earlier
-
-
-**2. Problem**: Touch or Mouse actions do not work in tests
+**1. Problem**: Touch or Mouse actions do not work in tests
 
 **Workaround**: In Analysis -> Input Debugger -> Options make sure the setting Simulate 
 Touch Input From Mouse or Pen is not checked and Lock Input to Game View is checked.
@@ -39,12 +33,7 @@ Touch Input From Mouse or Pen is not checked and Lock Input to Game View is chec
 **Affects**: AltUnityTester v1.7.1 and Input System with a version below 1.3.0
 
 
-**3. Problem**: The Tilt command is not working when using the Input Actions Map
-
-**Affects**: AltUnityTester v1.7.1
-
-
-**4. Problem**: The PressKey command does not work 
+**2. Problem**: The PressKey command does not work 
 
 **Workaround**: This issue might happen if your code uses the methods *wasPressedThisFrame*
 and *wasReleasedThisFrame*. Use *isPressed* instead.
@@ -52,9 +41,9 @@ and *wasReleasedThisFrame*. Use *isPressed* instead.
 **Affects**: AltUnityTester v1.7.1
 
 
-**5. Problem**:  Player Input is not working in the instrumented build when connected to the tests or to AltUnity Inspector 
+**3. Problem**:  Player Input is not working in the instrumented build when connected to the tests or to AltUnity Inspector 
 
-**Affects**: All input actions for objects for the New Input System commands, except the ones for the Old Input System.
+**Affects**: All input actions created with the New Input System for game objects. The New Input System actions for UI objects are not affected, as well as the Old Input System actions.
 
 
 3. BlueStacks

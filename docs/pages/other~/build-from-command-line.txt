@@ -13,7 +13,7 @@ static void BuildFromCommandLine () {
 
         buildPlayerOptions.locationPathName = "sampleGame.apk";
         buildPlayerOptions.target = BuildTarget.Android;
-        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.AutoRunPlayer; 
+        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer; 
 
         // Setup for AltUnity
         var buildTargetGroup = BuildTargetGroup.Android;

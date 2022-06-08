@@ -17,7 +17,7 @@ Depending on your project's setup, there are two ways in which games can be buil
 
 **1. If you already have a custom build method for your game**
 
-If you already have a custom build method for your game, you can add the following two lines to your build method:
+If you already have a custom build method for your game, you can add the following lines to your build method. Also, the BuildPlayerOptions should check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
 
 ```c#
 var buildTargetGroup = BuildTargetGroup.Android;
