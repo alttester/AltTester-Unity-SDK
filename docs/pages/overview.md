@@ -8,7 +8,7 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 
 - find elements and get all their (public) properties: coordinates, text, values, Unity components, etc.
 - use and modify any of the (public) methods and properties of a Unity element
-- simulate any kind of device input
+- simulate any kind of device input (support for Input Manager and Input System)
 - manipulate and generate test data
 - get screenshots from your Unity Game
 - instrument your game and run C# tests from within the Unity Editor using the AltUnity Tester Editor
