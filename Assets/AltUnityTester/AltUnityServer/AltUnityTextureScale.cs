@@ -94,7 +94,11 @@ public class AltUnityTextureScale
             }
         }
 
+    #if UNITY_2021_2_OR_NEWER
+        tex.Reinitialize(newWidth, newHeight);
+    #else
         tex.Resize(newWidth, newHeight);
+    #endif        
         tex.SetPixels32(newColors);
         tex.Apply();
 
