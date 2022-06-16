@@ -54,23 +54,13 @@ namespace Altom.AltUnityDriver
 
         private void checkServerVersion()
         {
-            string serverVersion;
-            try
-            {
-                serverVersion = GetServerVersion();
-            }
-            catch (UnknownErrorException)
-            {
-                serverVersion = "<=1.5.3";
-            }
-            catch (AltUnityRecvallMessageFormatException)
-            {
-                serverVersion = "<=1.5.7";
-            }
+            string serverVersion = GetServerVersion();
+
             string majorServer;
             string majorDriver;
             string minorDriver;
             string minorServer;
+
             splitVersion(serverVersion, out majorServer, out minorServer);
             splitVersion(VERSION, out majorDriver, out minorDriver);
 
