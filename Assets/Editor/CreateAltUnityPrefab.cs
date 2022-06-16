@@ -266,7 +266,7 @@ namespace Altom.AltUnityTesterTools
 
 
             // Create Icon
-            var Icon = new GameObject("Icon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
+            var Icon = new GameObject("Icon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button), typeof(AltUnityPrefabDrag) });
             var IconRectTransform = Icon.GetComponent<RectTransform>();
             IconRectTransform.SetParent(AltUnityDialogTransform, false);
 
