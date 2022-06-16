@@ -33,7 +33,7 @@ setup(
     url=URL,
     project_urls={
         "Bug Tracker": "https://gitlab.com/altom/altunity/altunitytester/-/issues",
-        "Documentation": "https://altom.gitlab.io/altunity/altunitytester",
+        "Documentation": "https://altom.com/altunity/docs/altunitytester/",
         "Source": "https://gitlab.com/altom/altunity/altunitytester",
     },
 

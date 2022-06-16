@@ -27,8 +27,8 @@ author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
 # displays version under project title
-version = 'AltUnity Tester v.1.7.0'
-release = 'v.1.7.0'
+version = 'AltUnity Tester v.1.7.1'
+release = 'v.1.7.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -40,8 +40,7 @@ extensions = [
     'sphinx_markdown_tables',
     'sphinx_tabs.tabs',
     'sphinx_rtd_theme',
-    'recommonmark'
-]
+    'recommonmark']
 
 source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 

@@ -2,11 +2,11 @@
 
 AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java.
 
-Read the documentation on https://altom.gitlab.io/altunity/altunitytester
+Read the documentation on https://altom.com/altunity/docs/altunitytester/
 
 ## Contributing
 
-Check out the full contributing guide [contributing](https://altom.gitlab.io/altunity/altunitytester/pages/contributing.html).
+Check out the full contributing guide [contributing](https://altom.com/altunity/docs/altunitytester/pages/contributing.html).
 
 ## Support
 

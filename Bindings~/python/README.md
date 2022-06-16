@@ -6,11 +6,11 @@ AltUnity Tester is an open-source UI driven test automation tool that helps you 
 
 You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
 
-Read the documentation on https://altom.gitlab.io/altunity/altunitytester
+Read the documentation on https://altom.com/altunity/docs/altunitytester/
 
 ## Get Started
 
-Check out the [Get Started](https://altom.gitlab.io/altunity/altunitytester/pages/get-started.html) guide from the documentation.
+Check out the [Get Started](https://altom.com/altunity/docs/altunitytester/pages/get-started.html) guide from the documentation.
 
 ## Development
 
@@ -39,7 +39,7 @@ $ pytest tests/integration/
 
 ## Contributing
 
-Check out the full contributing guide [contributing](https://altom.gitlab.io/altunity/altunitytester/pages/contributing.html).
+Check out the full contributing guide [contributing](https://altom.com/altunity/docs/altunitytester/pages/contributing.html).
 
 ## Support
 
