@@ -1547,6 +1547,18 @@ class TestPythonBindings:
             "UnityEngine.Transform", "position")
         assert pos_down != pos_up
 
+    def test_press_keys_NIS(self):
+        self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity")
+        player = self.altdriver.find_object(By.NAME, "Player")
+        initial_pos = player.get_component_property(
+            "UnityEngine.Transform", "position")
+        keys = [AltUnityKeyCode.W, AltUnityKeyCode.Mouse0]
+        self.altdriver.press_keys(keys)
+        final_pos = player.get_component_property(
+            "UnityEngine.Transform", "position")
+        assert initial_pos != final_pos
+        self.altdriver.wait_for_object(By.NAME, "SimpleProjectile(Clone)")
+
     def test_multipoint_swipe_NIS(self):
         self.altdriver.load_scene("Assets/AltUnityTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity")
         alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")

@@ -9,6 +9,7 @@ import ro.altom.altunitytester.AltUnityDriver.By;
 import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParams;
 import ro.altom.altunitytester.Commands.InputActions.AltMultiPointSwipeParams;
 import ro.altom.altunitytester.Commands.InputActions.AltPressKeyParams;
+import ro.altom.altunitytester.Commands.InputActions.AltPressKeysParams;
 import ro.altom.altunitytester.Commands.InputActions.AltScrollParams;
 import ro.altom.altunitytester.Commands.InputActions.AltSwipeParams;
 import ro.altom.altunitytester.Commands.InputActions.AltKeyDownParams;
@@ -272,6 +273,33 @@ public class TestsForNIS {
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
                 Assert.assertNotEquals(posLeft.z, posRight.z);
+        }
+
+        @Test
+        public void TestPressKeys() throws Exception {
+                loadLevel(scene10);
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+                                "Player").build();
+                AltUnityObject player = altUnityDriver.findObject(altFindObjectsParams);
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                "UnityEngine.Transform",
+                                "position").build();
+                Vector3 initialPos = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                AltUnityKeyCode[] keys = {AltUnityKeyCode.W, AltUnityKeyCode.Mouse0};
+                altUnityDriver.pressKeys(new AltPressKeysParams.Builder(keys).build());
+                
+                Vector3 finalPos = player
+                                .getComponentProperty(altGetComponentPropertyParams,
+                                                Vector3.class);
+                Assert.assertNotEquals(initialPos.z, finalPos.z);
+                AltFindObjectsParams findObjectParams = new AltFindObjectsParams.Builder(By.NAME,
+                "SimpleProjectile(Clone)").build();
+                AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findObjectParams)
+                                .build();
+                altUnityDriver.waitForObject(waitParams);
+                
         }
 
         @Test
