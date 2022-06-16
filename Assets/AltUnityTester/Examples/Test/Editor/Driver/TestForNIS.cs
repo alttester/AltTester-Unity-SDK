@@ -150,6 +150,19 @@ public class TestForNIS
     }
 
     [Test]
+    public void TestPressKeys()
+    {
+        altUnityDriver.LoadScene(scene10);
+        var player = altUnityDriver.FindObject(By.NAME, "Player");
+        var initialPos = player.GetComponentProperty<AltUnityVector3>("UnityEngine.Transform", "position");
+        AltUnityKeyCode[] keys = {AltUnityKeyCode.W, AltUnityKeyCode.Mouse0};
+        altUnityDriver.PressKeys(keys);
+        var finalPos = player.GetComponentProperty<AltUnityVector3>("UnityEngine.Transform", "position");
+        altUnityDriver.WaitForObject(By.NAME,"SimpleProjectile(Clone)");
+        Assert.AreNotEqual(initialPos, finalPos);
+    }
+
+    [Test]
     public void TestPressAllKeys()
     {
         altUnityDriver.LoadScene(scene10);
