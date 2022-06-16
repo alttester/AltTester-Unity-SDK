@@ -6,7 +6,7 @@ AltUnity Tester is an open-source UI driven test automation tool that helps you 
 
 Our documentation is available here:
 
-* https://altom.gitlab.io/altunity/altunitytester
+* https://altom.com/altunity/docs/altunitytester/
 
 ## Support
 

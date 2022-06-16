@@ -322,7 +322,7 @@ namespace Altom.AltUnityTesterEditor
         [UnityEditor.MenuItem("AltUnity Tools/Support/Documentation", false, 800)]
         public static void GoToDocumentation()
         {
-            Application.OpenURL("https://altom.gitlab.io/altunity/altunitytester/");
+            Application.OpenURL("https://altom.com/altunity/docs/altunitytester/");
         }
 
         [UnityEditor.MenuItem("AltUnity Tools/Support/Discord", false, 800)]

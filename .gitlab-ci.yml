@@ -456,9 +456,7 @@ pages:
   tags:
     - unity
     - mac
-  artifacts:
-    paths:
-      - public
+    - docs
   script:
     - cd docs
     - *initialize_python_venv
@@ -466,4 +464,5 @@ pages:
     - pip install -r requirements.txt
     - make clean
     - make html
-    - cp -r _build/html/. ../public/
+    - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf ${DOCUMENTATION_PATH}/*"
+    - scp -r -P 50976 -o 'StrictHostKeyChecking no' _build/html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
