@@ -34,7 +34,7 @@ stages:
 
 workflow:
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME != "master"'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_PROTECTED == "false"'
       when: never
     - when: always
 
@@ -46,16 +46,51 @@ cache:
     - .cache/pip
     - altunitytests/
 
+build-docs:
+  stage: unit-tests
+  image: python:3.9
+  tags:
+    - docker
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: always
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: always
+    - when: never
+  script:
+    - *initialize_python_venv
+    - cd docs
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - make clean
+    - make html
+    - cp -r _build/html ../docs-html
+  artifacts:
+    when: always
+    expire_in: 10 days
+    paths:
+      - docs-html
+
 python-unit-tests:
   stage: unit-tests
   image: python:3.9
   tags:
     - docker
   interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Ee]ditor(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Jj]ava|[Cc]#)(\s|:).*/'
+      when: never
+    - when: always
   before_script:
     - *install_python_dependencies
     - cd Bindings~/python/
   script:
+    - echo ""
     - flake8 .
     - pytest tests/unit -x
 
@@ -66,6 +101,14 @@ java-unit-tests:
   tags:
     - docker
   interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Ee]ditor(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Pp]ython|[Cc]#)(\s|:).*/'
+      when: never
+    - when: always
   before_script:
     - cd Bindings~/java/
   script:
@@ -79,6 +122,14 @@ dotnet-unit-tests:
   tags:
     - docker
   interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Ee]ditor(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Pp]ython|[Jj]ava)(\s|:).*/'
+      when: never
+    - when: always
   before_script:
     - cd Bindings~/dotnet/AltUnityDriver
   script:
@@ -86,13 +137,13 @@ dotnet-unit-tests:
 
 build-apk:
   stage: build
-  needs: [python-unit-tests, java-unit-tests, dotnet-unit-tests]
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
   tags:
     - android
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - when: always
   variables:
     ALTUNITYTESTER_PORT: 13000
   script:
@@ -112,14 +163,14 @@ build-apk:
 
 .build-webgl:
   stage: build
-  needs: [python-unit-tests, java-unit-tests, dotnet-unit-tests]
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
   tags:
     - windows
     - unity
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - when: always
   script:
     - "& $env:UNITY_2019_2_HOME -batchmode -stackTraceLogType None -projectPath $env:CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterTools.BuildAltUnityTester.WebGLBuildFromCommandLine -logFile buildWebgl.log -quit"
   cache:
@@ -134,12 +185,13 @@ build-apk:
 
 .build-ipa:
   stage: build
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
   tags:
     - iPhone
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - when: always
   script:
     - whoami
     - ${UNITY_2019_2_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterTools.BuildAltUnityTester.IosBuildFromCommandLine -logFile buildIos.log -quit
@@ -156,12 +208,17 @@ build-apk:
 unity-android-tests:
   stage: test
   needs: ["build-apk"]
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
   tags:
     - android
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Ee]ditor(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Pp]ython|[Jj]ava)(\s|:).*/'
+      when: never
+    - when: always
   variables:
     ALTUNITYDRIVER_PORT: 13000
     ALTUNITYDRIVER_HOST: "127.0.0.1"
@@ -183,12 +240,17 @@ unity-android-tests:
 
 .unity-ios-tests:
   stage: test
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
   tags:
     - iPhone
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Ee]ditor(\s|:)*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Pp]ython|[Jj]ava)(\s|:).*/'
+      when: never
+    - when: always
   script:
     - cd sampleGame
     - iproxy 13000 13000 &
@@ -208,12 +270,17 @@ unity-android-tests:
 dotnet-android-tests:
   stage: test
   needs: ["build-apk"]
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
   tags:
     - android
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Ee]ditor(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Pp]ython|[Jj]ava)(\s|:).*/'
+      when: never
+    - when: always
   variables:
     ALTUNITYDRIVER_PORT: 13000
     ALTUNITYDRIVER_HOST: "127.0.0.1"
@@ -235,13 +302,18 @@ dotnet-android-tests:
 .dotnet-webgl-tests:
   stage: test
   needs: ["build-webgl"]
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
   tags:
     - windows
     - unity
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Ee]ditor(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Pp]ython|[Jj]ava)(\s|:).*/'
+      when: never
+    - when: always
   #before_script:
   #  - git clone https://dorinaltom:$GITLAB_PROXY_REPO_KEY@gitlab.com/altom/altunity/altunity-proxy.git
   script:
@@ -267,6 +339,15 @@ python-android-tests:
   needs: ["build-apk"]
   tags:
     - android
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Ee]ditor(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Jj]ava|[Cc]#)(\s|:).*/'
+      when: never
+    - when: always
   variables:
     ALTUNITYDRIVER_PORT: 13000
     ALTUNITYDRIVER_HOST: "127.0.0.1"
@@ -289,12 +370,17 @@ python-android-tests:
 java-android-tests:
   stage: test
   needs: ["build-apk"]
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - when: always
   tags:
     - android
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^Editor(\s|:).*/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /^([Pp]ython|[Cc]#)(\s|:).*/'
+      when: never
+    - when: always
   variables:
     ALTUNITYDRIVER_PORT: 13000
     ALTUNITYDRIVER_HOST: "127.0.0.1"
@@ -316,9 +402,7 @@ java-android-tests:
 create-unity-package:
   stage: docs
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
     - when: never
   tags:
@@ -345,9 +429,7 @@ create-unity-package:
 create-jar-archive:
   stage: docs
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
     - when: never
   tags:
@@ -371,8 +453,6 @@ publish-pip-package:
   stage: deploy
   interruptible: false
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
     - if: '$CI_COMMIT_REF_NAME == "master"'
       when: manual
     - when: never
@@ -392,8 +472,6 @@ publish-nuget-package:
   stage: deploy
   interruptible: false
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
     - if: '$CI_COMMIT_REF_NAME == "master"'
       when: manual
     - when: never
@@ -411,8 +489,6 @@ publish-maven-package:
   stage: deploy
   interruptible: false
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
     - if: '$CI_COMMIT_REF_NAME == "master"'
       when: manual
     - when: never
@@ -427,29 +503,26 @@ publish-maven-package:
 
 dev-docs:
   stage: docs
-  only:
-    refs:
-      - master
+  interruptible: false
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "development"'
+      when: always
+    - when: never
   tags:
     - unity
     - mac
     - docs
   script:
-    - cd docs
-    - find . -type f ! -name 'license.md' -exec sed -i '' "s#https://altom.com#${DEV_DOCUMENTATION_URL}#g" {} \;
-    - *initialize_python_venv
-    - pip install --upgrade pip
-    - pip install -r requirements.txt
-    - make clean
-    - make html
+    - cd docs-html
+    - find . -type f ! -name 'license.html' -exec sed -i '' "s#https://altom.com#${DEV_DOCUMENTATION_URL}#g" {} \;
+    - cd ..
     - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 34168  "rm -rf ${DOCUMENTATION_PATH}/*"
-    - scp -r -P 34168 -o 'StrictHostKeyChecking no' _build/html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
+    - scp -r -P 34168 -o 'StrictHostKeyChecking no' docs-html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
 
 pages:
   stage: deploy
+  interruptible: false
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_MESSAGE =~ /^Documentation.*/'
-      when: never
     - if: '$CI_COMMIT_REF_NAME == "master"'
       when: manual
     - when: never
@@ -458,11 +531,5 @@ pages:
     - mac
     - docs
   script:
-    - cd docs
-    - *initialize_python_venv
-    - pip install --upgrade pip
-    - pip install -r requirements.txt
-    - make clean
-    - make html
     - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf ${DOCUMENTATION_PATH}/*"
-    - scp -r -P 50976 -o 'StrictHostKeyChecking no' _build/html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
+    - scp -r -P 50976 -o 'StrictHostKeyChecking no' docs-html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}

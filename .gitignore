@@ -109,6 +109,7 @@ Pipfile.lock
 Pipfile.lock.meta
 
 ## Docs
+docs-html/
 docs/**/*.meta
 ./*.meta
 
