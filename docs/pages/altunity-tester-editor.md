@@ -8,13 +8,21 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ## Tests List
 
-![Tests List](../_static/images/altUnityTesterWindow/TestsList.png)
+![Tests List](../_static/images/altUnityTesterWindow/TestsList.PNG)
 
 -   displays all the available tests from the project folder
+-   user can use the Refresh button to update the tests list after making some changes in the test script
 -   user can select what tests to run by checking the checkbox next to their name
 -   user can either check each test individually or check the whole class of tests
 -   tests that passed have a green checkmark while tests that failed are shown with a red x icon
 -   Test Log Summary: contains a log for why a test has failed (see right side of screenshot)
+
+```eval_rst
+
+.. note::
+
+    Make sure that each time you modify anything in the test script (eg. test's name, code, add or delete a test etc.) before running tests in the AltUnity Tester Editor you click the Refresh button to update the tests list.
+```
 
 ## Build Settings
 
