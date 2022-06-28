@@ -1,0 +1,49 @@
+/* Override table width restrictions */
+
+@media screen and (min-width: 767px) {
+  .wy-table-responsive table td {
+    /* !important prevents the common CSS stylesheets from overriding
+      this as on RTD they are loaded after this stylesheet */
+    white-space: normal !important;
+  }
+
+  .wy-table-responsive {
+    overflow: visible !important;
+  }
+}
+
+/* Make content width responsive */
+
+.wy-nav-content {
+  max-width: 1200px !important;
+}
+
+.wy-grid-for-nav .wy-side-nav-search {
+  background-color: #343131;
+}
+
+.document .section:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+.rst-content .section ol.toc li ul,
+.rst-content .section ul.toc li ul {
+  margin-top: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+/* Table Of Content */
+
+.custom-table-of-contents ul {
+  list-style-type: decimal !important;
+}
+
+.custom-table-of-contents ul li {
+  list-style-type: decimal !important;
+}
+
+/* Content */
+
+.wy-nav-content {
+  min-height: 100vh !important;
+}
