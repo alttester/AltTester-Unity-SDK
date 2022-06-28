@@ -60,12 +60,13 @@ build-docs:
     - when: never
   script:
     - *initialize_python_venv
-    - cd docs
+    - cd Docs
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - make clean
+    - make linkcheck || true # TODO: Remove "|| true" when the AltUnityTester.unitypackage and altunitytester-java-client-jar.jar links are fixed.
     - make html
-    - cp -r _build/html ../docs-html
+    - cp -r build/html ../docs-html
   artifacts:
     when: always
     expire_in: 10 days
