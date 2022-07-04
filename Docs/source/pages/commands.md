@@ -2357,10 +2357,10 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
 | Name      | Type   | Required | Description                                                        |
 | --------- | ------ | -------- | ------------------------------------------------------------------ |
 | sceneName | string | Yes      | The name of the scene to wait for.                                 |
-| timeout   | double | Optional | The time measured in seconds to wait for the specified scene.      |
-| interval  | double | Optional | How often to check that the scene was loaded in the given timeout. |
+| timeout   | double | No       | The time measured in seconds to wait for the specified scene.      |
+| interval  | double | No       | How often to check that the scene was loaded in the given timeout. |
 
-**_Returns_**
+**_Returns_** 
 
 - None
 
@@ -2580,7 +2580,7 @@ Gets the value of the static field or property.
 | componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
 | propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
 | assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
-| maxDepth      | int    | Optional | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
+| maxDepth      | int    | No       | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
 
 **_Returns_**
 
