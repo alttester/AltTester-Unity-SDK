@@ -9,6 +9,7 @@ public class AltUnityScrollViewButtonController : MonoBehaviour
     public static int Counter = 0;
     void Start()
     {
+        Counter = 0;
         GetComponent<Button>().onClick.AddListener(OnClick);
     }
 
