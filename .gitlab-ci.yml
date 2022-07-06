@@ -357,7 +357,7 @@ python-android-tests:
     - *initialize_python_venv
     - *install_python_dependencies
   script:
-    - pytest Bindings~/python/tests/integration/test_bindings.py -x
+    - pytest Bindings~/python/tests/integration -x
   after_script:
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
     - adb forward --remove-all
