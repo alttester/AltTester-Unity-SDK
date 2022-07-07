@@ -85,15 +85,6 @@ You can also activate this option from within the test using the following code:
 
 ```
 
-```eval_rst
-.. note::
-
-    The input visualizer will only work if the *Active Input Handling* setting
-    is set to Both or *Input Manager (Old)*. It is not implemented yet for the
-    *New Input System*.
-
-```
-
 - *Show Popup*
 
     If this option is checked, it will display the *"AltUnityTester"* popup in
