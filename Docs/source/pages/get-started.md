@@ -165,7 +165,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         .. important::
 
-            Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity when building using the Standalone option.
+            Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity versions lower than 2021 when building using the Standalone option.
 
             This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.
 
