@@ -28,7 +28,7 @@ public class AltUnityExampleScriptDebugController : MonoBehaviour
             foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
             {
                 if (Input.GetKeyDown(kcode))
-                    lastKeyDown.text = kcode.ToString();
+                    lastKeyDown.text = ((int)kcode).ToString();
             }
         }
         if (Input.anyKey)
@@ -36,14 +36,14 @@ public class AltUnityExampleScriptDebugController : MonoBehaviour
             foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
             {
                 if (Input.GetKey(kcode))
-                    lastKeyPressed.text = kcode.ToString();
+                    lastKeyPressed.text = ((int)kcode).ToString();
             }
         }
 
         foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyUp(kcode))
-                lastKeyUp.text = kcode.ToString();
+                lastKeyUp.text = ((int)kcode).ToString();
         }
 #if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
         Input.GetAxis("Horizontal");

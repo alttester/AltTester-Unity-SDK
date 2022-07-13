@@ -100,9 +100,9 @@ namespace Altom.AltUnityDriver.Tests
                 {
                     altUnityDriver.PressKey(kcode, duration: 0.2f);
 
-                    Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
-                    Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
-                    Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+                    Assert.AreEqual((int)kcode, Int32.Parse(lastKeyDown.GetText()));
+                    Assert.AreEqual((int)kcode, Int32.Parse(lastKeyUp.GetText()));
+                    Assert.AreEqual((int)kcode, Int32.Parse(lastKeyPress.GetText()));
                 }
             }
         }

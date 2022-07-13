@@ -140,4 +140,8 @@ public class AltUnityExampleScriptCapsule : AltUnityInheritedFields
         public List<int> List { get => list; set => list = value; }
     }
 
+    private void callJump()
+    {
+        Jump("Capsule jumps!");
+    }
 }
