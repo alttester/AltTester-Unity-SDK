@@ -77,7 +77,7 @@ namespace Altom.AltUnityTester.Commands
 
         protected MethodInfo[] GetMethodInfoWithSpecificName(System.Type componentType, string altActionMethod)
         {
-            MethodInfo[] methodInfos = componentType.GetMethods().Where(method => method.Name.Equals(altActionMethod)).ToArray();
+            MethodInfo[] methodInfos = componentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static).Where(method => method.Name.Equals(altActionMethod)).ToArray();
 
             if (methodInfos.Length == 0)
             {

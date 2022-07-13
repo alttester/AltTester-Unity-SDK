@@ -766,3 +766,11 @@ class TestScene01:
     def test_find_object_by_coordinates_no_element(self):
         element = self.altdriver.find_object_at_coordinates([-1, -1])
         assert element is None
+
+    def test_call_private_method(self):
+        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
+        capsule_element.call_component_method("AltUnityExampleScriptCapsule",
+                                              "callJump", [], assembly="Assembly-CSharp")
+        capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+        assert capsule_info.get_text() == "Capsule jumps!"

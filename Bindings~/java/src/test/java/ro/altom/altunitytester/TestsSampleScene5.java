@@ -188,12 +188,12 @@ public class TestsSampleScene5 {
         Thread.sleep(2000);
         AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
         AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
-        assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
-        assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
+        assertEquals("97", lastKeyDown.getText());
+        assertEquals("97", lastKeyPress.getText());
 
         altUnityDriver.keyUp(new AltKeyUpParams.Builder(keycode).build());
         Thread.sleep(2000);
         AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
-        assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
+        assertEquals("97", lastKeyUp.getText());
     }
 }

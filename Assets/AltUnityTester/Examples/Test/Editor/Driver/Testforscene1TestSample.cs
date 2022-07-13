@@ -2089,6 +2089,17 @@ namespace Altom.AltUnityDriver.Tests
             }
             Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltUnityScrollViewButtonController", "Counter", "Assembly-CSharp"));
         }
+
+        [Test]
+        public void TestCallPrivateMethod()
+        {
+            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
+            altUnityObject.CallComponentMethod<string>("AltUnityExampleScriptCapsule", "callJump", new object[] { }, assemblyName: "Assembly-CSharp");
+            var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual("Capsule jumps!", text);
+        }
+
         [Test]
         public void TestOpenDialogWithBeginEndTouch()
         {
@@ -2096,7 +2107,6 @@ namespace Altom.AltUnityDriver.Tests
             var id = altUnityDriver.BeginTouch(new AltUnityVector2(icon.x - 25, icon.y + 25));
             altUnityDriver.EndTouch(id);
             Assert.NotNull(altUnityDriver.WaitForObject(By.NAME, "Dialog"));
-
         }
     }
 }

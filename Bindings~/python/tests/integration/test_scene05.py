@@ -95,10 +95,10 @@ class TestScene05:
         last_key_down = self.altdriver.find_object(By.NAME, "LastKeyDownValue")
         last_key_press = self.altdriver.find_object(By.NAME, "LastKeyPressedValue")
 
-        assert last_key_down.get_text() == "A"
-        assert last_key_press.get_text() == "A"
+        assert last_key_down.get_text() == "97"
+        assert last_key_press.get_text() == "97"
 
         self.altdriver.key_up(AltUnityKeyCode.A)
         last_key_up = self.altdriver.find_object(By.NAME, "LastKeyUpValue")
 
-        assert last_key_up.get_text() == "A"
+        assert last_key_up.get_text() == "97"
