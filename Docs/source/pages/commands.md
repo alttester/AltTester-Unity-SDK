@@ -1807,7 +1807,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - int
 
-            .. literalinclude:: ../_static/examples/commands/csharp-player-pref-int.cs
+            .. literalinclude:: ../_static/examples~/commands/csharp-player-pref-int.cs
                 :language: C#
                 :emphasize-lines: 6,11
 
@@ -1827,7 +1827,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - float
 
-            .. literalinclude:: ../_static/examples/commands/csharp-player-pref-float.cs
+            .. literalinclude:: ../_static/examples~/commands/csharp-player-pref-float.cs
                 :language: C#
                 :emphasize-lines: 6,11
 
@@ -1847,7 +1847,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - string
 
-            .. literalinclude:: ../_static/examples/commands/csharp-player-pref-string.cs
+            .. literalinclude:: ../_static/examples~/commands/csharp-player-pref-string.cs
                 :language: C#
                 :emphasize-lines: 6,11
 
@@ -1869,7 +1869,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - float
 
-            .. literalinclude:: ../_static/examples/commands/java-player-pref-float.java
+            .. literalinclude:: ../_static/examples~/commands/java-player-pref-float.java
                 :language: java
                 :emphasize-lines: 6,11
 
@@ -1889,7 +1889,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - int
 
-            .. literalinclude:: ../_static/examples/commands/java-player-pref-int.java
+            .. literalinclude:: ../_static/examples~/commands/java-player-pref-int.java
                 :language: java
                 :emphasize-lines: 6,11
 
@@ -1909,7 +1909,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - string
 
-            .. literalinclude:: ../_static/examples/commands/java-player-pref-string.java
+            .. literalinclude:: ../_static/examples~/commands/java-player-pref-string.java
                 :language: java
                 :emphasize-lines: 6,11
 
@@ -1931,7 +1931,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - string/float/int
 
-            .. literalinclude:: ../_static/examples/commands/python-player-prefs.py
+            .. literalinclude:: ../_static/examples~/commands/python-player-prefs.py
                 :language: py
                 :emphasize-lines: 6,10
 
@@ -1964,7 +1964,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             *Examples*
 
-            .. literalinclude:: ../_static/examples/commands/csharp-player-pref-string.cs
+            .. literalinclude:: ../_static/examples~/commands/csharp-player-pref-string.cs
                 :language: C#
                 :emphasize-lines: 5
 
@@ -1990,7 +1990,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             *Examples*
 
-            .. literalinclude:: ../_static/examples/commands/java-player-pref-string.java
+            .. literalinclude:: ../_static/examples~/commands/java-player-pref-string.java
                 :language: java
                 :emphasize-lines: 5
 
@@ -2018,7 +2018,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             *Examples*
 
-            .. literalinclude:: ../_static/examples/commands/python-player-prefs.py
+            .. literalinclude:: ../_static/examples~/commands/python-player-prefs.py
                 :language: py
                 :emphasize-lines: 4,5
 ```
@@ -2087,7 +2087,7 @@ Removes key and its corresponding value from PlayerPrefs.
 
     .. tab:: Python
 
-        .. literalinclude:: ../_static/examples/commands/python-player-prefs.py
+        .. literalinclude:: ../_static/examples~/commands/python-player-prefs.py
             :language: py
             :emphasize-lines: 8
 

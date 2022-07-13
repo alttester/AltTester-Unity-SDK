@@ -240,18 +240,18 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             .. tab:: Unity Editor & PC
 
-                .. literalinclude:: ../_static/examples/get-started/csharp-test.cs
+                .. literalinclude:: ../_static/examples~/get-started/csharp-test.cs
                     :language: c#
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples/common/csharp-android-test.cs
+                .. literalinclude:: ../_static/examples~/common/csharp-android-test.cs
                     :language: c#
                     :emphasize-lines: 11,19
 
             .. tab:: iOS
 
-                .. literalinclude:: ../_static/examples/common/csharp-ios-test.cs
+                .. literalinclude:: ../_static/examples~/common/csharp-ios-test.cs
                     :language: c#
                     :emphasize-lines: 11,19
 
@@ -292,18 +292,18 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             .. tab:: Unity Editor & PC
 
-                .. literalinclude:: ../_static/examples/get-started/csharp-test.cs
+                .. literalinclude:: ../_static/examples~/get-started/csharp-test.cs
                     :language: c#
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples/common/csharp-android-test.cs
+                .. literalinclude:: ../_static/examples~/common/csharp-android-test.cs
                     :language: c#
                     :emphasize-lines: 11,19
 
             .. tab:: iOS
 
-                .. literalinclude:: ../_static/examples/common/csharp-ios-test.cs
+                .. literalinclude:: ../_static/examples~/common/csharp-ios-test.cs
                     :language: c#
                     :emphasize-lines: 11,19
 
@@ -345,18 +345,18 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             .. tab:: Unity Editor & PC
 
-                .. literalinclude:: ../_static/examples/get-started/java-test.java
+                .. literalinclude:: ../_static/examples~/get-started/java-test.java
                     :language: java
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples/common/java-android-test.java
+                .. literalinclude:: ../_static/examples~/common/java-android-test.java
                     :language: java
                     :emphasize-lines: 19,26
 
             .. tab:: iOS
 
-                .. literalinclude:: ../_static/examples/common/java-ios-test.java
+                .. literalinclude:: ../_static/examples~/common/java-ios-test.java
                     :language: java
                     :emphasize-lines: 19,26
 
@@ -397,18 +397,18 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             .. tab:: Unity Editor & PC
 
-                .. literalinclude:: ../_static/examples/get-started/python-test.py
+                .. literalinclude:: ../_static/examples~/get-started/python-test.py
                     :language: py
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples/common/python-android-test.py
+                .. literalinclude:: ../_static/examples~/common/python-android-test.py
                     :language: py
                     :emphasize-lines: 12,18
 
             .. tab:: iOS
 
-                .. literalinclude:: ../_static/examples/common/python-ios-test.py
+                .. literalinclude:: ../_static/examples~/common/python-ios-test.py
                     :language: py
                     :emphasize-lines: 12,18
 

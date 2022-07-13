@@ -62,7 +62,7 @@ This example method is configured for the Android platform, so make sure to
 update it based on your target platform.
 
 ```eval_rst
-.. include:: ../_static/examples/advanced-usage/build-from-command-line.txt
+.. include:: ../_static/examples~/advanced-usage/build-from-command-line.txt
     :code: c#
 
 ```
@@ -199,7 +199,7 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
                 Example test file:
 
-                    .. include:: ../_static/examples/common/csharp-android-test.cs
+                    .. include:: ../_static/examples~/common/csharp-android-test.cs
                         :code: c#
 
             .. tab:: iOS
@@ -211,7 +211,7 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
                 Example test file:
 
-                    .. include:: ../_static/examples/common/csharp-ios-test.cs
+                    .. include:: ../_static/examples~/common/csharp-ios-test.cs
                         :code: c#
 
     .. tab:: Java
@@ -227,7 +227,7 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
                 Example test file:
 
-                    .. include:: ../_static/examples/common/java-android-test.java
+                    .. include:: ../_static/examples~/common/java-android-test.java
                         :code: java
 
             .. tab:: iOS
@@ -239,7 +239,7 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
                 Example test file:
 
-                    .. include:: ../_static/examples/common/java-ios-test.java
+                    .. include:: ../_static/examples~/common/java-ios-test.java
                         :code: java
 
     .. tab:: Python
@@ -255,7 +255,7 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
                 Example test file:
 
-                    .. include:: ../_static/examples/common/python-android-test.py
+                    .. include:: ../_static/examples~/common/python-android-test.py
                         :code: py
 
             .. tab:: iOS
@@ -267,7 +267,7 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
                 Example test file:
 
-                    .. include:: ../_static/examples/common/python-ios-test.py
+                    .. include:: ../_static/examples~/common/python-ios-test.py
                         :code: py
 
 ```
