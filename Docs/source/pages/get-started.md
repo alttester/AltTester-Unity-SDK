@@ -37,7 +37,7 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 
     .. tab:: UnityPackage from GitLab pages
 
-        1. Download from `GitLab pages (deployed using CI) - link <https://altom.gitlab.io/altunity/altunitytester/AltUnityPackage/AltUnityTester.unitypackage>`_.
+        1. Download from `GitLab pages (deployed using CI) - link <https://altom.com/app/uploads/AltUnityPackage/AltUnityPackage/AltUnityTesterPackage>`_.
         2. Import it by drag and drop inside your Unity project.
 
 ```
@@ -324,7 +324,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
             **Method 2**: Use the ``.jar`` file from GIT (**without building it from source**)
 
-                * Download `AltUnity Java Driver <https://altom.gitlab.io/altunity/altunitytester/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
+                * Download `AltUnity Java Driver <https://altom.com/app/uploads/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
 
                 * Install the ``.jar`` file:
 
