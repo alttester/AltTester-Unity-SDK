@@ -1038,6 +1038,76 @@ Simulates key press action in your game.
 
 ```
 
+#### PressKeys
+
+Simulates multiple key press action in your game.
+
+**_Parameters_**
+
+| Name     | Type            | Required | Default | Description                                                                              |
+| -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
+| keycodes  | List\[AltUnityKeyCode\] | Yes      |         | The list of keycodes simulated to be pressed simultaneously.                    |
+| power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the buttons were pressed. |
+| duration | float           | No       | 0.1     | The time measured in seconds from the multiple key press to the multiple key release.     |
+| wait     | boolean         | No       | true    | If set, wait for command to finish.                                                       |
+
+**_Returns_**
+
+- Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+    .. code-tab:: c#
+
+        [Test]
+        public void TestPressKeys()
+        {
+            AltUnityKeyCode[] keys = { AltUnityKeyCode.K, AltUnityKeyCode.L };
+            altUnityDriver.PressKeys(keys);
+            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var finalPropertyValue = altUnityObject.GetComponentProperty<string>("AltUnityExampleScriptCapsule", "stringToSetFromTests", "Assembly-CSharp");
+            Assert.AreEqual("multiple keys pressed", finalPropertyValue);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testPressKeys()
+        {
+            AltUnityKeyCode[] keys = {AltUnityKeyCode.K, AltUnityKeyCode.L};
+
+            altUnityDriver.pressKeys(new AltPressKeysParams.Builder(keys).build());
+
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
+                    AltUnityDriver.By.NAME, "Capsule").build();
+            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
+
+            AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                "AltUnityExampleScriptCapsule",
+                "stringToSetFromTests").withAssembly("Assembly-CSharp").build();
+            String finalPropertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParams, String.class);
+
+            assertEquals(finalPropertyValue, "multiple keys pressed");
+        }
+
+    .. code-tab:: py
+
+        def test_press_keys(self):
+            keys = [AltUnityKeyCode.K, AltUnityKeyCode.L]
+            self.altdriver.press_keys(keys)
+
+            alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+            property_value = alt_unity_object.get_component_property(
+                "AltUnityExampleScriptCapsule",
+                "stringToSetFromTests",
+                assembly="Assembly-CSharp"
+            )
+            assert property_value == "multiple keys pressed"
+
+```
+
 #### Scroll
 
 Simulate scroll action in your game.
