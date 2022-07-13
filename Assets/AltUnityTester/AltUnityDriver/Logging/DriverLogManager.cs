@@ -53,6 +53,27 @@ namespace Altom.AltUnityDriver.Logging
             Instance.ReconfigExistingLoggers();
         }
 
+        public static void ResumeLogging()
+        {
+            Instance.ResumeLogging();
+        }
+
+        public static void SuspendLogging()
+        {
+            Instance.SuspendLogging();
+        }
+
+        public static bool IsLoggingEnabled()
+        {
+            return Instance.IsLoggingEnabled();
+        }
+
+        public static void StopLogging()
+        {
+            while (IsLoggingEnabled())
+                SuspendLogging();
+        }
+
         private static LogFactory buildLogFactory()
         {
             var config = new LoggingConfiguration();

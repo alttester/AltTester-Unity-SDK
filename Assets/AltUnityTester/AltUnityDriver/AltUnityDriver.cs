@@ -29,15 +29,16 @@ namespace Altom.AltUnityDriver
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         public AltUnityDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60)
         {
-            if (enableLogging)
-            {
 #if UNITY_EDITOR || ALTUNITYTESTER
                 var defaultLevels = new Dictionary<AltUnityLogger, AltUnityLogLevel> { { AltUnityLogger.File, AltUnityLogLevel.Debug }, { AltUnityLogger.Unity, AltUnityLogLevel.Debug } };
 #else
                 var defaultLevels = new Dictionary<AltUnityLogger, AltUnityLogLevel> { { AltUnityLogger.File, AltUnityLogLevel.Debug }, { AltUnityLogger.Console, AltUnityLogLevel.Debug } };
 #endif
-                DriverLogManager.SetupAltUnityDriverLogging(defaultLevels);
-            }
+
+            DriverLogManager.SetupAltUnityDriverLogging(defaultLevels);
+
+            if (!enableLogging)
+                DriverLogManager.StopLogging();
 
             communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout);
             communicationHandler.Connect();
@@ -96,6 +97,14 @@ namespace Altom.AltUnityDriver
             string serverVersion = new AltUnityGetServerVersion(communicationHandler).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return serverVersion;
+        }
+
+        public void SetLogging(bool enableLogging)
+        {
+            if (enableLogging)
+                DriverLogManager.ResumeLogging();
+            else
+                DriverLogManager.StopLogging();
         }
 
         public void LoadScene(string scene, bool loadSingle = true)
