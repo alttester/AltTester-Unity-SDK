@@ -64,7 +64,7 @@ build-docs:
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - make clean
-    - make linkcheck || true # TODO: Remove "|| true" when the AltUnityTester.unitypackage and altunitytester-java-client-jar.jar links are fixed.
+    - make linkcheck
     - make clean
     - make html
     - cp -r build/html ../docs-html
@@ -410,6 +410,7 @@ create-unity-package:
   tags:
     - unity
     - mac
+    - docs
   script:
     - mkdir -p public/AltUnityPackage || true
     - mkdir -p public/SampleScenes || true
@@ -418,11 +419,8 @@ create-unity-package:
     - mv $AUT public/AltUnityPackage/AltUnityTester.unitypackage
     - SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
     - mv $SS public/SampleScenes/SampleScenes.unitypackage
-    - cd public/AltUnityPackage
-    - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/AltUnityPackage/AltUnityTester.unitypackage">AltUnityTester.unitypackage</a>' > index.html
-    - ls
-    - cd ../SampleScenes
-    - ls
+    - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltUnityPackage/*"
+    - scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltUnityPackage/
   artifacts:
     when: always
     paths:
@@ -437,15 +435,15 @@ create-jar-archive:
   tags:
     - unity
     - mac
+    - docs
   script:
     - mkdir -p public/AltUnityJAR || true
     - cd "Bindings~/java"
     - mvn clean compile assembly:single
     - mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/AltUnityJAR/altunitytester-java-client-jar.jar
     - cd ../../public/
-    - echo '<a href="https://altom.gitlab.io/altunity/altunitytester/AltUnityJAR/altunitytester-java-client.jar">altunitytester-java-client-jar-with-dependencies.jar</a>' > index.html
-    - ls
-    - cat index.html
+    - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltUnityJAR/*"
+    - scp -r -P 50976 -o 'StrictHostKeyChecking no' AltUnityJAR/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltUnityJAR/
   artifacts:
     when: always
     paths:
