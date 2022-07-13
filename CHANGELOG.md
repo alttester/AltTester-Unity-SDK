@@ -1,3 +1,33 @@
+# Changes in version 1.7.2
+
+## New
+
+- "Multiple keypress with NIS" !721
+- "Add input visualizer for NIS" !716
+- "Moveable AltUnity logo in Inspector" !730
+
+## Bug fixes and improvements
+
+- "CallComponentMethod does not call private methods" !715
+- "[AltUnity Tester Editor > Build Settings] Delete note" !731
+- "[Get Started - Run your game in Unity...] Adapt admonition for Unity 2021" !735
+- "[API > AltUnityDriver > Input Actions] Add section for PressKeys() command" !737
+- "Fix documentation inconsistency" !728
+- "[AltUnity Tester Editor > Tests List] Document the use of Refresh button feature" !726
+- "Refactor the GetServerVersion command" !720
+- "[Inspector - Samplescenes] Click/Press action not working for creating stars" !718
+
+## Contributors
+
+-   Gombos Kriszta @GombosKriszta
+-   Andra Cardas @andra.cardas
+-   Robert Dezmerean @robert-dezmerean
+-   Iuliana Todoran @iuliana.todoran
+-   Robert Poienar @robert_poienar
+-   Edvin Reich @ReichEdvin
+-   Ru Cindrea @ru.cindrea
+
+
 # Changes in version 1.7.1
 
 ## New
