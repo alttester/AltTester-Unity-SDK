@@ -138,7 +138,7 @@ Pass the full path of iproxy to <em>AltUnityPortForwarding.ForwardIos</em>
 <br>
 
 <details>
-<summary> I downloaded the AltUnity Tester package v1.7.1 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltUnity Tester is missing.</strong></summary>
+<summary> I downloaded the AltUnity Tester package v1.7.2 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltUnity Tester is missing.</strong></summary>
 <br>
 
 

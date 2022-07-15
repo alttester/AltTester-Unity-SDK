@@ -41,7 +41,7 @@ public class AltUnityDriver {
         }
     }
 
-    public static final String VERSION = "1.7.1";
+    public static final String VERSION = "1.7.2";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private WebsocketConnection connection = null;

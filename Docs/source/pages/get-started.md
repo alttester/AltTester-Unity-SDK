@@ -278,7 +278,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         .. code-block:: console
 
-            dotnet add package AltUnityDriver --version 1.7.1
+            dotnet add package AltUnityDriver --version 1.7.2
 
         Run your tests
 
@@ -318,7 +318,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
                 <dependency>
                     <groupId>com.altom</groupId>
                     <artifactId>altunitytester-java-client</artifactId>
-                    <version>1.7.1</version>
+                    <version>1.7.2</version>
                 </dependency>
 
 
@@ -330,7 +330,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
                 .. code-block:: console
 
-                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.7.1 -Dpackaging=jar``
+                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.7.2 -Dpackaging=jar``
 
 
         Run your tests by using the following command (in the test project folder):
