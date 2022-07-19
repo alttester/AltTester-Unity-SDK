@@ -1,4 +1,4 @@
-Sphinx
+Sphinx==4.5.0
 
 docutils==0.16
 recommonmark
