@@ -63,6 +63,7 @@ build-docs:
     - cd Docs
     - pip install --upgrade pip
     - pip install -r requirements.txt
+    - pip freeze
     - make clean
     - make linkcheck
     - make clean
