@@ -34,7 +34,7 @@ cache:
 
 build-docs:
   stage: unit-tests
-  image: python:3.9
+  image: python:3.8
   tags:
     - docker
   interruptible: true
@@ -48,6 +48,7 @@ build-docs:
     - cd Docs
     - pip install --upgrade pip
     - pip install -r requirements.txt
+    - pip freeze
     - make linkcheck
     - make clean
     - make html
