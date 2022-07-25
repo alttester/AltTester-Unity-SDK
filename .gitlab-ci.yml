@@ -5,21 +5,9 @@
   - adb forward --remove-all
   - adb forward tcp:13000 tcp:13000
 
-.initialize_python_venv: &initialize_python_venv
-  - >
-    if [ -d altunitytests ]; then
-      echo "Activating virtual environment."
-      source altunitytests/bin/activate
-      echo "Virtual environment has been activated."
-    else
-      echo "Creating virtual environment."
-      python3 -m venv altunitytests
-      source altunitytests/bin/activate
-      echo "Virtual environment has been created and activated."
-    fi
-
 .install_python_dependencies: &install_python_dependencies
-  - pip install --upgrade pip setuptools wheel
+  - pip install --upgrade pip
+  - pip install --upgrade setuptools wheel
   - pip uninstall --yes altunityrunner || true
   - pip install -r "Bindings~/python/requirements.txt"
   - pip install -r "Bindings~/python/requirements-dev.txt"
@@ -43,8 +31,6 @@ cache:
   paths:
     - sampleGame.apk
     - sampleGame/
-    - .cache/pip
-    - altunitytests/
 
 build-docs:
   stage: unit-tests
@@ -59,11 +45,9 @@ build-docs:
       when: always
     - when: never
   script:
-    - *initialize_python_venv
     - cd Docs
     - pip install --upgrade pip
     - pip install -r requirements.txt
-    - make clean
     - make linkcheck
     - make clean
     - make html
@@ -92,7 +76,6 @@ python-unit-tests:
     - *install_python_dependencies
     - cd Bindings~/python/
   script:
-    - echo ""
     - flake8 .
     - pytest tests/unit -x
 
@@ -355,7 +338,8 @@ python-android-tests:
     ALTUNITYDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
-    - *initialize_python_venv
+    - python3 -m venv altunity-tests
+    - source altunity-tests/bin/activate
     - *install_python_dependencies
   script:
     - pytest Bindings~/python/tests/integration -x
