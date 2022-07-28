@@ -218,7 +218,7 @@ namespace Altom.AltUnityDriver.Tests
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
             string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-            if (string.IsNullOrEmpty(portStr)) portStr = "13000";
+            if (string.IsNullOrEmpty(portStr)) portStr = "13010";
             int port = int.Parse(portStr);
 
             Assert.AreEqual(port, propertyValue);
@@ -2107,6 +2107,7 @@ namespace Altom.AltUnityDriver.Tests
             var id = altUnityDriver.BeginTouch(new AltUnityVector2(icon.x - 25, icon.y + 25));
             altUnityDriver.EndTouch(id);
             Assert.NotNull(altUnityDriver.WaitForObject(By.NAME, "Dialog"));
+            altUnityDriver.Click(icon.getScreenPosition());
         }
     }
 }

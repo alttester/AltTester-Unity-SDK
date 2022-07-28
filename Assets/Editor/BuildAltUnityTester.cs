@@ -249,25 +249,15 @@ namespace Altom.AltUnityTesterTools
             if (AltUnityTesterEditorWindow.EditorConfiguration == null)
             {
                 var instrumentationSettings = new AltUnityInstrumentationSettings();
-                var altUnityTesterPort = System.Environment.GetEnvironmentVariable("ALTUNITYTESTER_PORT");
-
-                if (!string.IsNullOrEmpty(altUnityTesterPort)) //server mode
-                {
-                    instrumentationSettings.AltUnityTesterPort = int.Parse(altUnityTesterPort);
-                    return instrumentationSettings;
-                }
 
                 var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-
                 if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
                 {
-                    instrumentationSettings.InstrumentationMode = AltUnityInstrumentationMode.Proxy;
                     instrumentationSettings.ProxyHost = proxyHost;
                 }
                 var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
                 if (!string.IsNullOrEmpty(proxyPort))//proxy mode
                 {
-                    instrumentationSettings.InstrumentationMode = AltUnityInstrumentationMode.Proxy;
                     instrumentationSettings.ProxyPort = int.Parse(proxyPort);
                 }
 

@@ -25,6 +25,7 @@ namespace Altom.AltUnityDriver.Tests
         }
 
         [Test]
+        [Retry(5)]
         public void TestScrollAndWait()
         {
             altUnityDriver.LoadScene("Scene6");

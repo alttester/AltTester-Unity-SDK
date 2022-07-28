@@ -22,7 +22,8 @@ namespace Altom.AltUnityTesterEditor
         public string LatestInspectorVersion = "";
         public bool ShowInsectorPopUpInEditor = false;
 
-        public int AltUnityTesterPort = 13000;
+        public int ProxyPort = 13000;
+        public string ProxyHost = "127.0.0.1";
 
 
         public AltUnityInstrumentationSettings GetInstrumentationSettings()
@@ -31,7 +32,8 @@ namespace Altom.AltUnityTesterEditor
             {
                 ShowPopUp = ShowPopUp,
                 InputVisualizer = InputVisualizer,
-                AltUnityTesterPort = AltUnityTesterPort,
+                ProxyPort = ProxyPort,
+                ProxyHost = ProxyHost,
             };
         }
         public bool KeepAUTSymbolDefined = false;

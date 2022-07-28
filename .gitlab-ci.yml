@@ -133,7 +133,8 @@ build-apk:
       when: never
     - when: always
   variables:
-    ALTUNITYTESTER_PORT: 13000
+    PROXY_HOST: "192.168.11.35"
+    PROXY_PORT: 13010
   script:
     - whoami
     - adb uninstall fi.altom.altunitytester || true
@@ -208,7 +209,7 @@ unity-android-tests:
       when: never
     - when: always
   variables:
-    ALTUNITYDRIVER_PORT: 13000
+    ALTUNITYDRIVER_PORT: 13010
     ALTUNITYDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
@@ -270,7 +271,7 @@ dotnet-android-tests:
       when: never
     - when: always
   variables:
-    ALTUNITYDRIVER_PORT: 13000
+    ALTUNITYDRIVER_PORT: 13010
     ALTUNITYDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
@@ -337,7 +338,7 @@ python-android-tests:
       when: never
     - when: always
   variables:
-    ALTUNITYDRIVER_PORT: 13000
+    ALTUNITYDRIVER_PORT: 13010
     ALTUNITYDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
@@ -371,7 +372,7 @@ java-android-tests:
       when: never
     - when: always
   variables:
-    ALTUNITYDRIVER_PORT: 13000
+    ALTUNITYDRIVER_PORT: 13010
     ALTUNITYDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
