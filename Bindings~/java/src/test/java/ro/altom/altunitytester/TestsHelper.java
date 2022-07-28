@@ -3,7 +3,7 @@ package ro.altom.altunitytester;
 public class TestsHelper {
     public static int GetAltUnityDriverPort() {
         String port = System.getenv("ALTUNITYDRIVER_PORT");
-        if (port != null && port == "") {
+        if (port != null && !port.equals("")) {
             return Integer.parseInt(port);
         }
 
@@ -12,7 +12,7 @@ public class TestsHelper {
 
     public static String GetAltUnityDriverHost() {
         String host = System.getenv("ALTUNITYDRIVER_HOST");
-        if (host != null && host == "") {
+        if (host != null && !host.equals("")) {
             return host;
         }
 

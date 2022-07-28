@@ -1118,8 +1118,10 @@ namespace Altom.AltUnityTesterEditor
                 {
                     AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
+                labelAndInputFieldHorizontalLayout("Proxy Host", ref EditorConfiguration.ProxyHost);
 
-                labelAndInputFieldHorizontalLayout("AltUnity Tester Port", ref EditorConfiguration.AltUnityTesterPort);
+                labelAndInputFieldHorizontalLayout("Proxy Port", ref EditorConfiguration.ProxyPort);
+
             }
             switch (EditorConfiguration.platform)
             {

@@ -2,6 +2,7 @@ using System;
 using Altom.AltUnityTester;
 using Altom.AltUnityTester.Communication;
 using Altom.AltUnityTester.Logging;
+using UnityEngine;
 
 namespace Altom.AltUnityTester.UI
 {
@@ -130,14 +131,7 @@ namespace Altom.AltUnityTester.UI
 
         private void StartAltUnityTester()
         {
-            if (InstrumentationSettings.InstrumentationMode == AltUnityInstrumentationMode.Server)
-            {
-                startServerCommProtocol();
-            }
-            else
-            {
-                startProxyCommProtocol();
-            }
+            startProxyCommProtocol();
         }
 
         private void StopAltUnityTester()
@@ -155,70 +149,6 @@ namespace Altom.AltUnityTester.UI
             StartAltUnityTester();
         }
 
-        private void startServerCommProtocol()
-        {
-            var cmdHandler = new CommandHandler();
-            communication = new WebSocketServerCommunication(cmdHandler, "0.0.0.0", InstrumentationSettings.AltUnityTesterPort);
-            communication.OnConnect += onClientConnected;
-            communication.OnDisconnect += onClientDisconnected;
-            communication.OnError += onError;
-
-            setDialog("Starting AltUnity Tester on port: " + InstrumentationSettings.AltUnityTesterPort, WARNING_COLOR, true);
-
-            try
-            {
-                communication.Start();
-                setDialog("Waiting for connection on port: " + InstrumentationSettings.AltUnityTesterPort, SUCCESS_COLOR, true);
-            }
-            catch (AddressInUseCommError ex)
-            {
-                setDialog(ex.Message, ERROR_COLOR, true);
-                logger.Error(ex.Message);
-            }
-            catch (UnhandledStartCommError ex)
-            {
-                setDialog(ex.Message, ERROR_COLOR, true);
-                logger.Error(ex.InnerException, ex.InnerException.Message);
-            }
-        }
-
-        private void onClientConnected()
-        {
-            string message = "Client connected.";
-#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = true;
-            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-#endif
-
-
-            _updateQueue.ScheduleResponse(() =>
-            {
-#if ALTUNITYTESTER && ENABLE_INPUT_SYSTEM
-                NewInputSystem.DisableDefaultDevicesAndEnableAltUnityDevices();
-#endif
-                setDialog(message, SUCCESS_COLOR, false);
-            });
-        }
-
-        private void onClientDisconnected()
-        {
-#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = false;
-            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-#endif
-
-            if (!communication.IsConnected) //
-                _updateQueue.ScheduleResponse(() =>
-                {
-
-#if ALTUNITYTESTER && ENABLE_INPUT_SYSTEM
-                    NewInputSystem.EnableDefaultDevicesAndDisableAltUnityDevices();
-
-#endif
-                    setDialog("Waiting for connections on port: " + InstrumentationSettings.AltUnityTesterPort, SUCCESS_COLOR, false);
-                });
-        }
-
         #region proxy mode comm protocol
 
         private void initProxyCommProtocol()
@@ -226,7 +156,7 @@ namespace Altom.AltUnityTester.UI
             var cmdHandler = new CommandHandler();
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-                    communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
+            communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
 #else
 
             communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
@@ -244,8 +174,9 @@ namespace Altom.AltUnityTester.UI
             try
             {
                 if (communication == null || !communication.IsListening) // start only if it is not already listening
+                {
                     communication.Start();
-
+                }
                 if (!communication.IsConnected) // display dialog only if not connected
                     onStart();
             }
@@ -270,8 +201,15 @@ namespace Altom.AltUnityTester.UI
         private void onProxyConnect()
         {
             string message = "Connected to AltUnity Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort;
+#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = true;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
             _updateQueue.ScheduleResponse(() =>
             {
+#if ALTUNITYTESTER && ENABLE_INPUT_SYSTEM
+                NewInputSystem.DisableDefaultDevicesAndEnableAltUnityDevices();
+#endif
                 setDialog(message, SUCCESS_COLOR, false);
                 wasConnectedBeforeToProxy = true;
             });
@@ -279,7 +217,19 @@ namespace Altom.AltUnityTester.UI
 
         private void onProxyDisconnect()
         {
-            _updateQueue.ScheduleResponse(startProxyCommProtocol);
+#if ALTUNITYTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = false;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
+            _updateQueue.ScheduleResponse(() =>
+            {
+#if ALTUNITYTESTER && ENABLE_INPUT_SYSTEM
+                NewInputSystem.EnableDefaultDevicesAndDisableAltUnityDevices();
+
+#endif
+                startProxyCommProtocol();
+
+            });
         }
 
         #endregion
