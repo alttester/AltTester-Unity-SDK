@@ -19,8 +19,6 @@ namespace Altom.AltUnityTesterEditor
         public bool InputVisualizer;
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
-        public string LatestInspectorVersion = "";
-        public bool ShowInsectorPopUpInEditor = false;
 
         public int AltUnityTesterPort = 13000;
 
