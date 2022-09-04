@@ -19,8 +19,6 @@ namespace Altom.AltUnityTesterEditor
         public bool InputVisualizer;
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
-        public string LatestInspectorVersion = "";
-        public bool ShowInsectorPopUpInEditor = false;
 
         public int ProxyPort = 13000;
         public string ProxyHost = "127.0.0.1";

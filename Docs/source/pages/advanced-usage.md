@@ -36,7 +36,7 @@ check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
 
 ```c#
 var buildTargetGroup = BuildTargetGroup.Android;
-AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
+AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
 if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone) {
     AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
 }
