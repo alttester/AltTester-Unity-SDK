@@ -27,7 +27,7 @@ namespace Altom.AltUnityDriver
         /// <param name="port">The port AltUnity Proxy is listening on.</param>
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
-        public AltUnityDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60)
+        public AltUnityDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string gameName = "__default__")
         {
 #if UNITY_EDITOR || ALTUNITYTESTER
             var defaultLevels = new Dictionary<AltUnityLogger, AltUnityLogLevel> { { AltUnityLogger.File, AltUnityLogLevel.Debug }, { AltUnityLogger.Unity, AltUnityLogLevel.Debug } };
@@ -37,10 +37,17 @@ namespace Altom.AltUnityDriver
 
             DriverLogManager.SetupAltUnityDriverLogging(defaultLevels);
 
-            if (!enableLogging)
+            if (!enableLogging) {
                 DriverLogManager.StopLogging();
+            }
 
-            communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout);
+            logger.Debug(
+                "Connecting to AltUnity on host: '{0}', port: '{1}' and gameName: '{2}'.",
+                host,
+                port,
+                gameName
+            );
+            communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout, gameName);
             communicationHandler.Connect();
 
             checkServerVersion();

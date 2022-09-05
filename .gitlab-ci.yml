@@ -2,8 +2,8 @@
   - adb uninstall fi.altom.altunitytester || true
   - adb install sampleGame.apk
   - adb shell am start -n fi.altom.altunitytester/com.unity3d.player.UnityPlayerActivity
-  - adb forward --remove-all
-  - adb forward tcp:13000 tcp:13000
+  # - adb forward --remove-all
+  # - adb forward tcp:13000 tcp:13000
 
 .install_python_dependencies: &install_python_dependencies
   - pip install --upgrade pip

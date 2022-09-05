@@ -22,22 +22,47 @@ class AltUnityDriver:
     instance will connect to the AltUnity Proxy.
 
     Args:
-        host (:obj:`str`): The proxy host to connect to.
-        port (:obj:`int`): The proxy port to connect to.
+        host (:obj:`str`, optional): The proxy host to connect to.
+        port (:obj:`int`, optional): The proxy port to connect to.
+        game_name (:obj:`str`, optional): The game name. Defaults to ``__default__``.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
         timeout (:obj:`int`, :obj:`float`, optional): The connect timeout time in seconds.
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, enable_logging=False, timeout=None):
+    def __init__(self, host="127.0.0.1", port=13000, game_name="__default__", enable_logging=False, timeout=None):
         self.host = host
         self.port = port
+        self.game_name = game_name
         self.enable_logging = enable_logging
+        self.timeout = timeout
 
         self._config_logging(self.enable_logging)
 
-        self._connection = WebsocketConnection(host=host, port=port, timeout=timeout)
+        logger.debug(
+            "Connecting to AltUnity on host: '{}', port: '{}' and gameName: '{}'.",
+            self.host,
+            self.port,
+            self.game_name
+        )
+        self._connection = WebsocketConnection(
+            host=self.host,
+            port=self.port,
+            timeout=self.timeout,
+            path="altws",
+            params={"gameName": self.game_name}
+        )
         self._connection.connect()
+
+    def __repr__(self):
+        return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(
+            self.__class__.__name__,
+            self.host,
+            self.port,
+            self.game_name,
+            self.enable_logging,
+            self.timeout
+        )
 
     @staticmethod
     def _config_logging(enable_logging):
