@@ -113,15 +113,6 @@ You can also activate this option from within the test using the following code:
 - Add Scene: displays all the scenes in the project. User can add scenes to the "Scene Manager" from the "Add Scene" popup.
 - Action buttons (add / select / remove scenes).
 
-## Port Forwarding
-
-```eval_rst
-
-In this section you can setup :ref:`Port Forwarding <pages/advanced-usage:What is port forwarding and when to use it>`
-on your device. Your device needs to be connected to the computer through USB and you need to click the Refresh button in the section to view it in the list.
-
-```
-
 ## Build & Run Settings
 
 _Platform Settings_

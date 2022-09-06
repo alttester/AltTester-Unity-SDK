@@ -60,13 +60,6 @@ The popup message shows up when you start your instrumented Unity App. It tells 
 <br>
 
 <details>
-<summary> Why do I get an <strong>error when trying to call the port forwarding </strong>methods? </summary>
-<br>
-You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our <a href="advanced-usage.html#how-to-setup-port-forwarding">setup port forwarding guide</a>.
-</details>
-<br>
-
-<details>
 <summary>I get the error: <strong>Multiple precompiled assemblies with the same name Newtonsoft.Json.dll included or the current platform.</strong> </summary>
 <br>
 You get this error due to multiple imports of Newtonsoft.Json.dll library. You can remove the Newtonsoft.Json version from AltUnity Tester by deleting the <em>Newtonsonft</em> folder <em>Assets/AltUnityTester/ThirdParty/Newtonsonft</em>.
@@ -121,21 +114,6 @@ To use the Input from AltUnity Tester you have to:
 3. Reference AltUnityServer assembly in Project-Main-Assembly
  </details>
  <br>
-
-<details>
-<summary>I get the error: <strong>Error while running command: iproxy 13000 13000 </strong></summary>
-<br>
-
-If the inner exception is:
-<br>
-
-<em>System.ComponentModel.Win32Exception : ApplicationName='iproxy', CommandLine='13000 13000', CurrentDirectory='', Native error= Cannot find the specified file</em>
-<br>
-
-Pass the full path of iproxy to <em>AltUnityPortForwarding.ForwardIos</em>
-
-</details>
-<br>
 
 <details>
 <summary> I downloaded the AltUnity Tester package v1.7.2 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltUnity Tester is missing.</strong></summary>
