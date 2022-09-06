@@ -4,18 +4,15 @@ from altunityrunner import *
 
 
 class MyFirstTest(unittest.TestCase):
-
     altdriver = None
 
     @classmethod
     def setUpClass(cls):
-        AltUnityPortForwarding.forward_ios()
         cls.altdriver = AltUnityDriver()
 
     @classmethod
     def tearDownClass(cls):
         cls.altdriver.stop()
-        AltUnityPortForwarding.kill_all_iproxy_process()
 
     def test_open_close_panel(self):
         self.altdriver.load_scene("Scene 2 Draggable Panel")
