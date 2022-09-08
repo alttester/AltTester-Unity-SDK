@@ -36,7 +36,7 @@ build-docs:
   stage: unit-tests
   image: python:3.8
   tags:
-    - docker
+    - docs
   interruptible: true
   rules:
     - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
@@ -50,10 +50,10 @@ build-docs:
     - pip install --upgrade setuptools wheel
     - pip install -r requirements.txt
     - pip freeze
-    - make clean
-    - make linkcheck
-    - make clean
-    - make html
+    - ./make.bat clean
+    - ./make.bat linkcheck
+    - ./make.bat clean
+    - ./make.bat html
     - cp -r build/html ../docs-html
   artifacts:
     when: always
@@ -213,7 +213,7 @@ unity-android-tests:
   before_script:
     - *reinstall_and_start_android_app
   script:
-    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
+    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -reportPath $CI_PROJECT_DIR/reportTest.xml -logFile csharpAndroidTests.log -quit
   after_script:
     - cat csharpAndroidTests.log
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
@@ -225,6 +225,7 @@ unity-android-tests:
       - csharpAndroidTests.log
       - AltUnityTesterLog.txt
       - AltUnityServerLog.txt
+      - reportTest.xml
 
 .unity-ios-tests:
   stage: test
