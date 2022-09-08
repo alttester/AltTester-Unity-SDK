@@ -203,14 +203,14 @@ Replace:
 .. code-block:: py
 
     result = altobject.get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
-    assert result, "[1, 2, 3]"
+    assert result == "[1, 2, 3]"
 
 With:
 
 .. code-block:: py
 
     result = altobject.get_component_property("AltUnityExampleScriptCapsule", "arrayOfInts")
-    assert result, [1, 2, 3]
+    assert result == [1, 2, 3]
 
 2. In case of `set_component_property` command, we changed the type of parameter `value` from `string` to
 `object`. `set_component_property` returns now `void` instead of `string`.
@@ -219,7 +219,7 @@ Replace:
 
 .. code-block:: py
 
-    altUnityObject.set_component_property("AltUnityExampleScriptCapsule", "arrayOfInts", "2?3?4"])
+    altUnityObject.set_component_property("AltUnityExampleScriptCapsule", "arrayOfInts", "[2, 3, 4]")
 
 With:
 
@@ -251,13 +251,13 @@ Replace:
 
 .. code-block:: py
 
-    altUnityDriver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", "Test?1")
+    altUnityDriver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", "[Test, 1]")
 
 With:
 
 .. code-block:: py
 
-    altUnityDriver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", new[] { "Test", "1" })
+    altUnityDriver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", ["Test", "1"])
 
 2. In case of `get_static_property` command, we return `object` instead of `string`.
 
@@ -279,13 +279,13 @@ Replace:
 
 .. code-block:: py
 
-    var altUnityObject = altUnityDriver.wait_for_object_with_text(By.NAME, name, text);
+    var altUnityObject = altUnityDriver.wait_for_object_with_text(By.NAME, name, text)
 
 With:
 
 .. code-block:: py
 
-    var altUnityObject = altUnityDriver.wait_for_object(By.TEXT, "text");
+    var altUnityObject = altUnityDriver.wait_for_object(By.TEXT, "text")
 
 4. We removed the `move_mouse_and_wait` command and now the `move_mouse` will take a wait argument.
 
@@ -293,13 +293,13 @@ Replace:
 
 .. code-block:: py
 
-    altUnityDriver.move_mouse_and_wait(coordinates, duration);
+    altUnityDriver.move_mouse_and_wait(coordinates, duration)
 
 With:
 
 .. code-block:: py
 
-    altUnityDriver.move_mouse(coordinates, duration, wait = True);
+    altUnityDriver.move_mouse(coordinates, duration, wait = True)
 
 5. We removed the `press_key_and_wait` command and now the `press_key` will take a wait argument.
 
@@ -307,13 +307,13 @@ Replace:
 
 .. code-block:: py
 
-    altUnityDriver.press_key_and_wait(keyCode);
+    altUnityDriver.press_key_and_wait(keyCode)
 
 With:
 
 .. code-block:: py
 
-    altUnityDriver.press_key(keyCode, wait = True);
+    altUnityDriver.press_key(keyCode, wait = True)
 
 6. We removed the `scroll_mouse_and_wait` command and now the `scroll` will take a wait argument.
 
@@ -321,13 +321,13 @@ Replace:
 
 .. code-block:: py
 
-    altUnityDriver.scroll_mouse_and_wait();
+    altUnityDriver.scroll_mouse_and_wait()
 
 With:
 
 .. code-block:: py
 
-    altUnityDriver.scroll(wait = True);
+    altUnityDriver.scroll(wait = True)
 
 7. We removed the `swipe_and_wait` command and now the `swipe` will take a wait argument.
 
@@ -335,13 +335,13 @@ Replace:
 
 .. code-block:: py
 
-    altUnityDriver.swipe_and_wait(start, end);
+    altUnityDriver.swipe_and_wait(start, end)
 
 With:
 
 .. code-block:: py
 
-    altUnityDriver.swipe(start, end, wait = True);
+    altUnityDriver.swipe(start, end, wait = True)
 
 8. We removed the `multipoint_swipe_and_wait` command and now the `multipoint_swipe` will take a wait argument.
 
@@ -349,13 +349,13 @@ Replace:
 
 .. code-block:: py
 
-    altUnityDriver.multipoint_swipe_and_wait(positions);
+    altUnityDriver.multipoint_swipe_and_wait(positions)
 
 With:
 
 .. code-block:: py
 
-    altUnityDriver.multipoint_swipe(positions, wait = True);
+    altUnityDriver.multipoint_swipe(positions, wait = True)
 
 9. We removed the `tilt_and_wait` command and now the `tilt` will take a wait argument.
 
@@ -363,13 +363,13 @@ Replace:
 
 .. code-block:: py
 
-    altUnityDriver.tilt_and_wait(acceleration);
+    altUnityDriver.tilt_and_wait(acceleration)
 
 With:
 
 .. code-block:: py
 
-    altUnityDriver.tilt(acceleration, wait = True);
+    altUnityDriver.tilt(acceleration, wait = True)
 
 Java
 ----
