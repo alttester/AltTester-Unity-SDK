@@ -77,6 +77,7 @@ namespace Altom.AltUnityTesterEditor
         private UnityEngine.Vector2 scrollPositonTestResult;
 
         private bool foldOutScenes = true;
+        private bool foldOutTestRunSettings = true;
         private bool foldOutBuildSettings = true;
         private bool foldOutIosSettings = true;
         private bool foldOutPortForwarding = true;
@@ -185,7 +186,7 @@ namespace Altom.AltUnityTesterEditor
 
             EditorConfiguration.MyTests = null;
             loadTestCompleted = false;
-            this.StartCoroutine(AltUnityTestRunner.SetUpListTest());
+            this.StartCoroutine(AltUnityTestRunner.SetUpListTestCoroutine());
         }
         private void OnEnable()
         {
@@ -432,6 +433,8 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorGUILayout.Separator();
 
             displayBuildSettings();
+            UnityEditor.EditorGUILayout.Separator();
+            displayTestRunSettings();
             UnityEditor.EditorGUILayout.Separator();
             displayScenes();
             UnityEditor.EditorGUILayout.Separator();
@@ -913,7 +916,16 @@ namespace Altom.AltUnityTesterEditor
             AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;
         }
-
+        private void displayTestRunSettings()
+        {
+            foldOutTestRunSettings = UnityEditor.EditorGUILayout.Foldout(foldOutTestRunSettings, "Test run Settings");
+            if (foldOutTestRunSettings)
+            {
+                labelAndCheckboxHorizontalLayout("Create XML Report", ref EditorConfiguration.createXMLReport);
+                if (EditorConfiguration.createXMLReport)
+                    labelAndInputFieldHorizontalLayout("XML file path", ref EditorConfiguration.xMLFilePath);
+            }
+        }
         private void displayBuildSettings()
         {
             foldOutBuildSettings = UnityEditor.EditorGUILayout.Foldout(foldOutBuildSettings, "Build Settings");
@@ -941,6 +953,8 @@ namespace Altom.AltUnityTesterEditor
                 }
 
                 labelAndInputFieldHorizontalLayout("AltUnity Tester Port", ref EditorConfiguration.AltUnityTesterPort);
+
+
             }
             switch (EditorConfiguration.platform)
             {
@@ -1420,7 +1434,7 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorGUILayout.LabelField("Tests list", UnityEditor.EditorStyles.boldLabel);
             if (UnityEngine.GUILayout.Button("Refresh"))
             {
-                this.StartCoroutine(AltUnityTestRunner.SetUpListTest());
+                this.StartCoroutine(AltUnityTestRunner.SetUpListTestCoroutine());
                 loadTestCompleted = false;
             }
             UnityEditor.EditorGUILayout.EndHorizontal();

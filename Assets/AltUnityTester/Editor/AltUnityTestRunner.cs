@@ -1,10 +1,11 @@
-using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Xml;
+using Altom.AltUnityDriver;
 using Altom.AltUnityTesterEditor.Logging;
 using Newtonsoft.Json;
+using NUnit.Framework.Interfaces;
 using Unity.EditorCoroutines.Editor;
 
 namespace Altom.AltUnityTesterEditor
@@ -41,6 +42,12 @@ namespace Altom.AltUnityTesterEditor
             var runTestThread = new System.Threading.Thread(() =>
             {
                 var result = testAssemblyRunner.Run(listener, filters);
+                if (AltUnityTesterEditorWindow.EditorConfiguration.createXMLReport)
+                {
+                    if (AltUnityTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals(""))
+                        AltUnityTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
+                    createXMLReport(AltUnityTesterEditorWindow.EditorConfiguration.xMLFilePath, result);
+                }
                 setTestStatus(result);
                 AltUnityTesterEditorWindow.IsTestRunResultAvailable = true;
                 AltUnityTesterEditorWindow.SelectedTest = -1;
@@ -190,7 +197,7 @@ namespace Altom.AltUnityTesterEditor
                 }
             }
             var listOfTests = AltUnityTesterEditorWindow.EditorConfiguration.MyTests;
-            var serializeTests = JsonConvert.SerializeObject(listOfTests, Formatting.Indented, new JsonSerializerSettings
+            var serializeTests = JsonConvert.SerializeObject(listOfTests, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
@@ -296,11 +303,10 @@ namespace Altom.AltUnityTesterEditor
             return 1;
         }
 
-        public static IEnumerator SetUpListTest()
+        public static IEnumerator SetUpListTestCoroutine()
         {
             var myTests = new List<AltUnityMyTest>();
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
-
             const string ENGINE_TEST_RUNNER_ASSEMBLYNAME = "UnityEngine.TestRunner";
             const string EDITOR_TEST_RUNNER_ASSEMBLYNAME = "UnityEditor.TestRunner";
             const string EDITOR_ASSEMBLYNAME = "Assembly-CSharp-Editor";
@@ -324,8 +330,9 @@ namespace Altom.AltUnityTesterEditor
                         continue;
                     }
                 }
+
                 var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
-                var coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(addTestSuiteToMyTest(testSuite, myTests));
+                var coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(addTestSuiteToMyTestCoroutine(testSuite, myTests));
                 yield return coroutine;
             }
             setCorrectCheck(myTests);
@@ -333,6 +340,43 @@ namespace Altom.AltUnityTesterEditor
             AltUnityTesterEditorWindow.loadTestCompleted = true;
             AltUnityTesterEditorWindow.Window.Repaint();
         }
+
+        public static void SetUpListTest()
+        {
+            var myTests = new List<AltUnityMyTest>();
+            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
+            const string ENGINE_TEST_RUNNER_ASSEMBLYNAME = "UnityEngine.TestRunner";
+            const string EDITOR_TEST_RUNNER_ASSEMBLYNAME = "UnityEditor.TestRunner";
+            const string EDITOR_ASSEMBLYNAME = "Assembly-CSharp-Editor";
+            foreach (var assembly in assemblies)
+            {
+                /*
+                 * Skips test runner assemblies and assemblies that do not contain references to test assemblies
+                 */
+                bool isEditorAssembly = assembly.GetName().Name.Equals(EDITOR_ASSEMBLYNAME);
+                if (!isEditorAssembly)
+                {
+                    bool isEngineTestRunnerAssembly = assembly.GetName().Name.Contains(ENGINE_TEST_RUNNER_ASSEMBLYNAME);
+                    bool isEditorTestRunnerAssembly = assembly.GetName().Name.Contains(EDITOR_TEST_RUNNER_ASSEMBLYNAME);
+                    bool isTestAssembly = assembly.GetReferencedAssemblies().FirstOrDefault(
+                                reference => reference.Name.Contains(ENGINE_TEST_RUNNER_ASSEMBLYNAME)
+                                             || reference.Name.Contains(EDITOR_TEST_RUNNER_ASSEMBLYNAME)) == null;
+                    if (isEngineTestRunnerAssembly ||
+                        isEditorTestRunnerAssembly ||
+                        isTestAssembly)
+                    {
+                        continue;
+                    }
+                }
+
+                var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+                addTestSuiteToMyTest(testSuite, myTests);
+            }
+            setCorrectCheck(myTests);
+            AltUnityTesterEditorWindow.EditorConfiguration.MyTests = myTests;
+            AltUnityTesterEditorWindow.loadTestCompleted = true;
+        }
+
 
         private static void setCorrectCheck(List<AltUnityMyTest> myTests)
         {
@@ -381,7 +425,25 @@ namespace Altom.AltUnityTesterEditor
             }
         }
 
-        private static IEnumerator addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, List<AltUnityMyTest> newMyTests)
+        private static IEnumerator addTestSuiteToMyTestCoroutine(NUnit.Framework.Interfaces.ITest testSuite, List<AltUnityMyTest> newMyTests)
+        {
+            addCurrentSuiteToTestList(testSuite, newMyTests);
+            foreach (var test in testSuite.Tests)
+            {
+                var coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(addTestSuiteToMyTestCoroutine(test, newMyTests));
+                yield return coroutine;
+            }
+        }
+        private static void addTestSuiteToMyTest(NUnit.Framework.Interfaces.ITest testSuite, List<AltUnityMyTest> newMyTests)
+        {
+            addCurrentSuiteToTestList(testSuite, newMyTests);
+            foreach (var test in testSuite.Tests)
+            {
+                addTestSuiteToMyTest(test, newMyTests);
+            }
+        }
+
+        private static void addCurrentSuiteToTestList(ITest testSuite, List<AltUnityMyTest> newMyTests)
         {
             string path = null;
 
@@ -415,13 +477,6 @@ namespace Altom.AltUnityTesterEditor
                 newMyTests.Add(new AltUnityMyTest(index.Selected, index.TestName, index.Status, index.IsSuite, testSuite.GetType().ToString(),
                    index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, index.TestStackTrace, index.TestDuration, path, index.TestSelectedCount));
             }
-
-
-            foreach (var test in testSuite.Tests)
-            {
-                var coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(addTestSuiteToMyTest(test, newMyTests));
-                yield return coroutine;
-            }
         }
 
         public static void RunTestFromCommandLine()
@@ -429,6 +484,8 @@ namespace Altom.AltUnityTesterEditor
             var arguments = System.Environment.GetCommandLineArgs();
 
             bool runAllTests = true;
+            bool createReport = false;
+            string reportPath = "";
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
             NUnit.Framework.Internal.TestSuite testSuite = null;
             var filter = new NUnit.Framework.Internal.Filters.OrFilter();
@@ -437,18 +494,36 @@ namespace Altom.AltUnityTesterEditor
             System.Reflection.Assembly assembly = assemblies.FirstOrDefault(assemblyName => assemblyName.GetName().Name.Equals("Assembly-CSharp-Editor"));
             testAssemblyRunner.Load(assembly, new Dictionary<string, object>());
 
-            foreach (var arg in arguments)
+            for (int i = 0; i < arguments.Length; i++)
             {
-                if (arg.Equals("-testsClass") || arg.Equals("-tests"))
+
+                if (arguments[i].Equals("-reportPath"))
+                {
+                    if (i == arguments.Length - 1 || arguments[i + 1].StartsWith("-") || !arguments[i + 1].EndsWith(".xml"))
+                    {
+                        throw new InvalidPathException("Invalid path for report, please add a valid path after -reportPath that ends with .xml");
+                    }
+                    createReport = true;
+                    reportPath = arguments[i + 1];
+                }
+                if (arguments[i].Equals("-testsClass") || arguments[i].Equals("-tests"))
                 {
                     runAllTests = false;
-                    break;
                 }
             }
-            AltUnityTesterEditorWindow.InitEditorConfiguration();
-            var tests = AltUnityTesterEditorWindow.EditorConfiguration.MyTests;
+            var tests = setUpTestsForCommandLineRun();
 
-            if (!runAllTests)
+            if (runAllTests)
+            {
+
+                testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
+                foreach (var test in testSuite.Tests)
+                    foreach (var t in test.Tests)
+                    {
+                        filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
+                    }
+            }
+            else
             {
                 var ClassToTest = new List<string>();
                 var Tests = new List<string>();
@@ -488,54 +563,51 @@ namespace Altom.AltUnityTesterEditor
                 foreach (var className in ClassToTest)
                 {
                     var classIndex = tests.FindIndex(test => test.TestName.Equals(className));
-                    if (classIndex != -1)
-                    {
-                        var classFoundInList = tests[classIndex];
-                        for (int i = 0; i < classFoundInList.TestCaseCount; i++)
-                        {
-                            filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(tests[i + classIndex + 1].TestName));
-                        }
-                    }
-                    else
-                    {
+                    if (classIndex == -1)
                         throw new System.Exception("Class name: " + className + " not found");
+
+                    var classFoundInList = tests[classIndex];
+                    for (int i = 0; i < classFoundInList.TestCaseCount; i++)
+                    {
+                        filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(tests[i + classIndex + 1].TestName));
                     }
 
                 }
                 foreach (var testName in Tests)
                 {
                     var classIndex = tests.FindIndex(test => test.TestName.Equals(testName));
-                    if (classIndex != -1)
-                    {
-                        filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(tests[classIndex].TestName));
-                    }
-                    else
-                    {
+                    if (classIndex == -1)
                         throw new System.Exception("Test name: " + testName + " not found");
-                    }
+
+                    filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(tests[classIndex].TestName));
 
                 }
 
             }
-            else //NoArgumentsGiven
-            {
 
-                testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());
-                foreach (var test in testSuite.Tests)
-                    foreach (var t in test.Tests)
-                    {
-                        filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(t.FullName));
-                    }
-            }
             var result = testAssemblyRunner.Run(listener, filter);
-            if (result.FailCount > 0)
+            if (createReport)
             {
-                UnityEditor.EditorApplication.Exit(1);
+                createXMLReport(reportPath, result);
             }
-            else
-            {
-                UnityEditor.EditorApplication.Exit(0);
-            }
+
+            UnityEditor.EditorApplication.Exit(result.FailCount > 0 ? 1 : 0);
+        }
+
+        private static void createXMLReport(string reportPath, ITestResult result)
+        {
+            var xmlContent = result.ToXml(true);
+            XmlWriter xmlWriter = XmlWriter.Create(reportPath);
+            xmlContent.WriteTo(xmlWriter);
+            xmlWriter.Flush();
+            xmlWriter.Close();
+        }
+
+        private static List<AltUnityMyTest> setUpTestsForCommandLineRun()
+        {
+            AltUnityTesterEditorWindow.InitEditorConfiguration();
+            SetUpListTest();
+            return AltUnityTesterEditorWindow.EditorConfiguration.MyTests;
         }
     }
 }
