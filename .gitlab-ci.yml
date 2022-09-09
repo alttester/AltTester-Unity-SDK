@@ -398,7 +398,6 @@ create-unity-package:
   tags:
     - unity
     - mac
-    - docs
   script:
     - mkdir -p public/AltUnityPackage || true
     - mkdir -p public/SampleScenes || true
@@ -423,7 +422,6 @@ create-jar-archive:
   tags:
     - unity
     - mac
-    - docs
   script:
     - mkdir -p public/AltUnityJAR || true
     - cd "Bindings~/java"
@@ -499,7 +497,6 @@ dev-docs:
   tags:
     - unity
     - mac
-    - docs
   script:
     - cd docs-html
     - find . -type f ! -name 'license.html' -exec sed -i '' "s#https://altom.com#${DEV_DOCUMENTATION_URL}#g" {} \;
@@ -517,7 +514,6 @@ pages:
   tags:
     - unity
     - mac
-    - docs
   script:
     - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf ${DOCUMENTATION_PATH}/*"
     - scp -r -P 50976 -o 'StrictHostKeyChecking no' docs-html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
