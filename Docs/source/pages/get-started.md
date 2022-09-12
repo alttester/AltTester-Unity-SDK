@@ -94,8 +94,7 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 
 Steps:
 
-1. Open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnity Tester Editor
- <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
+1. Open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnity Tester Editor <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
 2. In the Build Settings section set **AltUnity Tester Port** to 13000
 3. In the Scene Manager section select the scenes you want to include in your build
 4. In the Platform section select desired platform and set the path to where you want to save the build
