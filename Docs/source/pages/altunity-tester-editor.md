@@ -48,11 +48,11 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 - *Company Name*
 
-    Company name used for the game build (same with Unity's Player Settings)
+    Company name used for the game build (same with Unity's Player Settings).
 
 - *Product Name*
 
-    The product name (same with Unity's Player Settings)
+    The product name (same with Unity's Player Settings).
 
 - *Input Visualizer*
 
@@ -102,6 +102,24 @@ You can also activate this option from within the test using the following code:
 
     Will add "ALTUNITYTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
+## Test run Settings
+![Test run Settings Screenshot](../_static/img/altunity-tester-editor/testrun-settings.png)
+
+- *Create XML Report*
+
+    If this option is checked, it will generate an XML report for the tests run.
+
+- *XML file path*
+
+    The path for the XML report file. 
+
+```eval_rst
+
+.. note::
+
+    Make sure to provide a name followed by the **.xml** extention in the path for the report. If no location is provided, the file will be generated in the parent folder of the Unity project.
+
+```
 
 ## Scene Manager
 

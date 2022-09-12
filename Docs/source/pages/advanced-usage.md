@@ -282,23 +282,11 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
 There are multiple scenarios on how to connect to the AltUnity Tester running inside a game:
 
-- [Advanced Usage](#advanced-usage)
-  - [Build games from the command line](#build-games-from-the-command-line)
-  - [Run tests from the command line](#run-tests-from-the-command-line)
-  - [Run tests on a Continuous Integration Server](#run-tests-on-a-continuous-integration-server)
-  - [What is port forwarding and when to use it](#what-is-port-forwarding-and-when-to-use-it)
-    - [How to setup port forwarding](#how-to-setup-port-forwarding)
-  - [Connect to AltUnity Tester running inside the game](#connect-to-altunity-tester-running-inside-the-game)
-    - [Connect to the game running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
-    - [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
-    - [Connect to the device running the game by using an IP address](#connect-to-the-device-running-the-game-by-using-an-ip-address)
-    - [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game)
-    - [Connect to multiple builds of the application running on the same device](#connect-to-multiple-builds-of-the-application-running-on-the-same-device)
-  - [Using AltUnity Tester in Release mode](#using-altunity-tester-in-release-mode)
-  - [Logging](#logging)
-    - [AltUnity Tester logging](#altunity-tester-logging)
-    - [AltUnity Driver logging](#altunity-driver-logging)
-  - [Code Stripping](#code-stripping)
+1. [Connect to the game running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
+2. [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device) by using [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it).
+3. [Connect to the device running the game by using an IP address](#connect-to-the-device-running-the-game-by-using-an-ip-address)
+4. [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game) by using [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it).
+5. [Connect to multiple builds of the application running on the same device](#connect-to-multiple-builds-of-the-application-running-on-the-same-device)
 
 ### Connect to the game running on the same machine as the test code
 
