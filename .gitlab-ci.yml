@@ -36,7 +36,7 @@ build-docs:
   stage: unit-tests
   image: python:3.8
   tags:
-    - docker
+    - docs
   interruptible: true
   rules:
     - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
@@ -50,10 +50,10 @@ build-docs:
     - pip install --upgrade setuptools wheel
     - pip install -r requirements.txt
     - pip freeze
-    - make clean
-    - make linkcheck
-    - make clean
-    - make html
+    - ./make.bat clean
+    - ./make.bat linkcheck
+    - ./make.bat clean
+    - ./make.bat html
     - cp -r build/html ../docs-html
   artifacts:
     when: always
