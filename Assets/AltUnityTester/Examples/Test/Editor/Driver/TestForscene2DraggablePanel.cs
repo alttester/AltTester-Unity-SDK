@@ -103,9 +103,8 @@ namespace Altom.AltUnityDriver.Tests
                 listOfElements += element.name + "; ";
             }
 
-            Debug.WriteLine(listOfElements);
-
-            Assert.AreEqual(24, altElements.Count, listOfElements);
+            Assert.IsTrue(altElements.Count >= 24);
+            Assert.IsTrue(altElements.Count <= 25);
             Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Panel Drag Area"));
