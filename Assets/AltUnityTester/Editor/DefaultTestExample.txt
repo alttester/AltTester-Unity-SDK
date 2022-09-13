@@ -2,7 +2,7 @@ using NUnit.Framework;
 using Altom.AltUnityDriver;
 
 public class #SCRIPTNAME#
-{
+{   //Important! If your test file is inside a folder that contains an .asmdef file, please make sure that the assembly definition references NUnit.
     public AltUnityDriver altUnityDriver;
     //Before any test it connects with the socket
     [OneTimeSetUp]
