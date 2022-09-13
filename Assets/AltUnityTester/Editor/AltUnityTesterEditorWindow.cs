@@ -21,7 +21,7 @@ namespace Altom.AltUnityTesterEditor
     {
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
-        public static bool NeedsRepaiting = false;
+        public static bool NeedsRepainting = false;
         public static AltUnityEditorConfiguration EditorConfiguration;
         public static AltUnityTesterEditorWindow Window;
         public static int SelectedTest = -1;
@@ -326,9 +326,9 @@ namespace Altom.AltUnityTesterEditor
         protected void OnGUI()
         {
 
-            if (NeedsRepaiting)
+            if (NeedsRepainting)
             {
-                NeedsRepaiting = false;
+                NeedsRepainting = false;
                 Repaint();
             }
 
@@ -412,6 +412,25 @@ namespace Altom.AltUnityTesterEditor
             }
             if (UnityEngine.Event.current.type == UnityEngine.EventType.MouseUp)
                 resize = false;
+        }
+
+        protected void OnInspectorUpdate()
+        {
+            if (IsTestRunResultAvailable)
+            {
+                Repaint();
+                IsTestRunResultAvailable = UnityEditor.EditorUtility.DisplayDialog("Test Report",
+                      " Total tests:" + (ReportTestFailed + ReportTestPassed) + System.Environment.NewLine + " Tests passed:" +
+                      ReportTestPassed + System.Environment.NewLine + " Tests failed:" + ReportTestFailed + System.Environment.NewLine +
+                      " Duration:" + TimeTestRan + " seconds", "Ok");
+                if (IsTestRunResultAvailable)
+                {
+                    IsTestRunResultAvailable = !IsTestRunResultAvailable;
+                }
+                ReportTestFailed = 0;
+                ReportTestPassed = 0;
+                TimeTestRan = 0;
+            }
         }
 
         protected void DrawGUI()
@@ -877,12 +896,12 @@ namespace Altom.AltUnityTesterEditor
 
         private void getListOfSceneFromEditor()
         {
-            var newSceneses = new List<AltUnityMyScenes>();
+            var newScenes = new List<AltUnityMyScenes>();
             foreach (var scene in UnityEditor.EditorBuildSettings.scenes)
             {
-                newSceneses.Add(new AltUnityMyScenes(scene.enabled, scene.path, 0));
+                newScenes.Add(new AltUnityMyScenes(scene.enabled, scene.path, 0));
             }
-            EditorConfiguration.Scenes = newSceneses;
+            EditorConfiguration.Scenes = newScenes;
         }
 
         private void afterExitPlayMode()
@@ -989,9 +1008,9 @@ namespace Altom.AltUnityTesterEditor
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
                         }
 
-                        var appleDevoleperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
-                        labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDevoleperTeamID);
-                        UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDevoleperTeamID;
+                        var appleDeveloperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
+                        labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDeveloperTeamID);
+                        UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDeveloperTeamID;
 
                         var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
                         labelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
@@ -1241,8 +1260,8 @@ namespace Altom.AltUnityTesterEditor
                         var sceneName = scene.Path;
                         if (!EditorConfiguration.ScenePathDisplayed)
                         {
-                            var splitedPath = sceneName.Split('/');
-                            sceneName = splitedPath[splitedPath.Length - 1];
+                            var splittedPath = sceneName.Split('/');
+                            sceneName = splittedPath[splittedPath.Length - 1];
                         }
 
                         UnityEditor.EditorGUILayout.LabelField(sceneName, guiStyle);
@@ -1405,16 +1424,16 @@ namespace Altom.AltUnityTesterEditor
 
         private void removeNotSelectedScenes()
         {
-            var copyMySceneses = new List<AltUnityMyScenes>();
+            var copyMyScenes = new List<AltUnityMyScenes>();
             foreach (var scene in EditorConfiguration.Scenes)
             {
                 if (scene.ToBeBuilt)
                 {
-                    copyMySceneses.Add(scene);
+                    copyMyScenes.Add(scene);
                 }
             }
 
-            EditorConfiguration.Scenes = copyMySceneses;
+            EditorConfiguration.Scenes = copyMyScenes;
             UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
         }
 
@@ -1592,12 +1611,12 @@ namespace Altom.AltUnityTesterEditor
                         var actualTime = System.DateTime.Now.Ticks;
                         if (actualTime - timeSinceLastClick < 5000000)
                         {
-                            if (test.path == null)
+                            if (test.Path == null)
                                 throw new AltUnityPathNotFoundException("The path to your test is invalid. Please make sure you have matching class and file names.");
 #if UNITY_2019_1_OR_NEWER
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName), 0);
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, findLine(test.Path, testName), 0);
 #else
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName));
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, findLine(test.Path, testName));
 #endif
                         }
                     }
@@ -1814,13 +1833,13 @@ namespace Altom.AltUnityTesterEditor
 
         private static UnityEditor.EditorBuildSettingsScene[] pathFromTheSceneInCurrentList()
         {
-            var listofPath = new List<UnityEditor.EditorBuildSettingsScene>();
+            var listOfPath = new List<UnityEditor.EditorBuildSettingsScene>();
             foreach (var scene in EditorConfiguration.Scenes)
             {
-                listofPath.Add(new UnityEditor.EditorBuildSettingsScene(scene.Path, scene.ToBeBuilt));
+                listOfPath.Add(new UnityEditor.EditorBuildSettingsScene(scene.Path, scene.ToBeBuilt));
             }
 
-            return listofPath.ToArray();
+            return listOfPath.ToArray();
         }
 
         private void removeScene(AltUnityMyScenes scene)

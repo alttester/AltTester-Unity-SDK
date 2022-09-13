@@ -213,7 +213,7 @@ unity-android-tests:
   before_script:
     - *reinstall_and_start_android_app
   script:
-    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -reportPath $CI_PROJECT_DIR/reportTest.xml -logFile csharpAndroidTests.log -quit
+    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor -reportPath $CI_PROJECT_DIR/reportTest.xml -logFile csharpAndroidTests.log -quit
   after_script:
     - cat csharpAndroidTests.log
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
@@ -245,7 +245,7 @@ unity-android-tests:
     - iproxy 13000 13000 &
     - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone -allowProvisioningUpdates &
     - sleep 60
-    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpIosTests.log -quit
+    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor -logFile csharpIosTests.log -quit
     - killall iproxy || true
     - killall xcodebuild || true
   artifacts:

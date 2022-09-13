@@ -26,6 +26,14 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ```
 
+```eval_rst
+
+.. note::
+
+    If the AltUnity Test script is created inside a folder (or a folder that has a parent folder) that does not contain an assembly definition file then in the Tests list it will be displayed inside Assembly-CSharp-Editor.dll. Otherwise, if it is created inside a folder (or a folder that has a parent folder) that already contains an assembly definition file then in the Tests list it will be displayed inside that assembly definition.
+
+```
+
 ## Build Settings
 
 ![Build Settings Section Screenshot](../_static/img/altunity-tester-editor/build-settings.png)
