@@ -351,6 +351,7 @@ namespace Altom.AltUnityTesterEditor
             setCorrectCheck(myTests);
             AltUnityTesterEditorWindow.EditorConfiguration.MyTests = myTests;
             AltUnityTesterEditorWindow.loadTestCompleted = true;
+            AltUnityTesterEditorWindow.Window.Repaint();
         }
 
         public static void SetUpListTest()
@@ -613,7 +614,7 @@ namespace Altom.AltUnityTesterEditor
         private static void addArgumentsToList(string[] arguments, List<string> testsList, int i)
         {
             int j = i + 1;
-            while (j < arguments.Length - 1 && !arguments[j].Contains('-'))
+            while (j < arguments.Length - 1 && !arguments[j].StartsWith('-'))
             {
                 testsList.Add(arguments[j]);
                 j++;
