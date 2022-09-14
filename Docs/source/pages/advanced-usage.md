@@ -488,16 +488,16 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
         .. code-block:: c#
 
             /* start altunity driver with logging disabled */
-            var altUnityDriver = new AltUnityDriver (enableLogging=false);
+            var altUnityDriver = new AltUnityDriver (enableLogging: false);
 
             /* start altunity driver with logging enabled for Debug.Level; this is the default behaviour*/
-            var altUnityDriver = new AltUnityDriver (enableLogging=true);
+            var altUnityDriver = new AltUnityDriver (enableLogging: true);
 
             /* disable altunity driver logging */
-            altUnityDriver.SetLogging(enableLogging=false);
+            altUnityDriver.SetLogging(enableLogging: false);
 
             /* enable altunity driver logging */
-            altUnityDriver.SetLogging(enableLogging=true);
+            altUnityDriver.SetLogging(enableLogging: true);
 
             /* set logging level to Info for File target */
             Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info);

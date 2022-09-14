@@ -119,7 +119,7 @@ With:
 
 .. code-block:: c#
 
-    altUnityDriver.MoveMouse(coordinates, duration, wait = true);
+    altUnityDriver.MoveMouse(coordinates, duration, wait: true);
 
 5. We removed the "PressKeyAndWait" command and now the "PressKey" will take a wait argument.
 
@@ -133,7 +133,7 @@ With:
 
 .. code-block:: c#
 
-    altUnityDriver.PressKey(keyCode, wait = true);
+    altUnityDriver.PressKey(keyCode, wait: true);
 
 6. We removed the "ScrollMouseAndWait" command and now the "Scroll" will take a wait argument.
 
@@ -147,7 +147,7 @@ With:
 
 .. code-block:: c#
 
-    altUnityDriver.Scroll(wait = true);
+    altUnityDriver.Scroll(wait: true);
 
 7. We removed the "SwipeAndWait" command and now the "Swipe" will take a wait argument.
 
@@ -161,7 +161,7 @@ With:
 
 .. code-block:: c#
 
-    altUnityDriver.Swipe(positions, wait = true);
+    altUnityDriver.Swipe(positions, wait: true);
 
 8. We removed the "MultiPointSwipeAndWait" command and now the "MultiPointSwipe" will take a wait argument.
 
@@ -175,7 +175,7 @@ With:
 
 .. code-block:: c#
 
-    altUnityDriver.MultiPointSwipe(positions, wait = true);
+    altUnityDriver.MultiPointSwipe(positions, wait: true);
 
 9. We removed the "TiltAndWait" command and now the "Tilt" will take a wait argument.
 
@@ -189,7 +189,7 @@ With:
 
 .. code-block:: c#
 
-    altUnityDriver.Tilt(acceleration, wait = true);
+    altUnityDriver.Tilt(acceleration, wait: true);
 
 Python
 ------
