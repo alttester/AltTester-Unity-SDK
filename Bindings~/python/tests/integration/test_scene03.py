@@ -91,7 +91,6 @@ class TestScene03:
         assert image_source["name"] != image_source_drop_zone["name"]
 
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
-        self.altdriver.load_scene("Scene 3 Drag And Drop")
         alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
         alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
@@ -121,3 +120,17 @@ class TestScene03:
         imageSourceDropZone = self.altdriver.find_object(
             By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
         assert imageSource["name"] != imageSourceDropZone["name"]
+
+    def test_begin_move_end_touch(self):
+        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+
+        id = self.altdriver.begin_touch(alt_unity_object1.get_screen_position())
+        self.altdriver.move_touch(id, alt_unity_object2.get_screen_position())
+        self.altdriver.end_touch(id)
+
+        imageSource = alt_unity_object1.get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSourceDropZone = self.altdriver.find_object(
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+
+        assert imageSource["name"] == imageSourceDropZone["name"]
