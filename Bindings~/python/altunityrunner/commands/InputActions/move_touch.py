@@ -14,7 +14,7 @@ class MoveTouch(BaseCommand):
         parameters = super()._parameters
         parameters.update(**{
             "fingerId": self.finger_id,
-            "position": self.coordinates
+            "coordinates": self.coordinates
         })
 
         return parameters
