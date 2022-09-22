@@ -63,6 +63,7 @@ namespace Altom.AltUnityTesterEditor
         public static UnityEngine.Texture2D selectedTestsCountTexture;
 
         private static string downloadURl;
+        private const string RELEASENOTESURL = "https://altom.gitlab.io/altunity/altunityinspector/pages/release-notes.html#release-notes";
         private static string version;
         private static UnityEngine.GUIStyle gUIStyleButton;
         private static UnityEngine.GUIStyle gUIStyleText;
@@ -177,6 +178,77 @@ namespace Altom.AltUnityTesterEditor
             CreateSampleScenesPackage();
         }
 
+        private static void SendInspectorVersionRequest()
+        {
+            www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/altunity-inspector-versions/?id=unityeditor&AUTversion=" + AltUnityRunner.VERSION);
+            var wwwOp = www.SendWebRequest();
+            UnityEditor.EditorApplication.update += CheckInspectorVersionRequest;
+
+        }
+
+        public static void CheckInspectorVersionRequest()
+        {
+            if (!www.isDone)
+                return;
+
+#if UNITY_2020_1_OR_NEWER
+            if (www.result == UnityEngine.Networking.UnityWebRequest.Result.ConnectionError)
+#else
+            if (www.isNetworkError)
+#endif
+            {
+                UnityEngine.Debug.Log(www.error);
+            }
+            else
+            {
+                if (www.responseCode == 200)
+                {
+                    string textReceived = www.downloadHandler.text;
+                    System.Text.RegularExpressions.Regex regex = null;
+                    if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.Windows)
+                    {
+                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/altunityinspector/AltUnityInspector.*\.exe");
+
+                    }
+                    else if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.MacOSX)
+                    {
+                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/altunityinspector/AltUnityInspector.*\.dmg");
+                    }
+
+                    System.Text.RegularExpressions.Match match = regex.Match(textReceived);
+                    if (match.Success)
+                    {
+
+                        var splitedText = match.Value.Split('_');
+                        var releasedVersion = splitedText[2].Substring(1);
+                        if (String.IsNullOrEmpty(EditorConfiguration.LatestInspectorVersion) || !isCurrentVersionEqualOrNewer(releasedVersion, EditorConfiguration.LatestInspectorVersion))
+                        {
+                            EditorConfiguration.LatestInspectorVersion = releasedVersion;
+                            downloadURl = match.Value;
+                            version = releasedVersion;
+                            EditorConfiguration.ShowInspectorPopUpInEditor = true;
+                        }
+                    }
+                }
+
+                UnityEditor.EditorApplication.update -= CheckInspectorVersionRequest;
+            }
+        }
+        private static bool isCurrentVersionEqualOrNewer(string releasedVersion, string version)
+        {
+            var releasedVersionSplited = releasedVersion.Split('.');
+            var currentVersionSplited = version.Split('.');
+            if (Int16.Parse(currentVersionSplited[0]) != Int16.Parse(releasedVersionSplited[0]))//check major number
+            {
+                return Int16.Parse(currentVersionSplited[0]) >= Int16.Parse(releasedVersionSplited[0]);
+            }
+            if (Int16.Parse(currentVersionSplited[1]) != Int16.Parse(releasedVersionSplited[1]))//check minor number
+            {
+                return Int16.Parse(currentVersionSplited[1]) >= Int16.Parse(releasedVersionSplited[1]);
+            }
+            return Int16.Parse(currentVersionSplited[2]) >= Int16.Parse(releasedVersionSplited[2]);
+        }
+
         private void Awake()
         {
             if (EditorConfiguration == null)
@@ -187,6 +259,7 @@ namespace Altom.AltUnityTesterEditor
             EditorConfiguration.MyTests = null;
             loadTestCompleted = false;
             this.StartCoroutine(AltUnityTestRunner.SetUpListTestCoroutine());
+            SendInspectorVersionRequest();
         }
         private void OnEnable()
         {
@@ -436,6 +509,33 @@ namespace Altom.AltUnityTesterEditor
         protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
+
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
+            {
+                popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
+                popUpContentPosition = new UnityEngine.Rect(screenWidth / 2 - 296, 4, 592, 92);
+                closeButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 20, popUpPosition.yMin + 5, 15, 15);
+                downloadButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 200, popUpPosition.yMin + 30, 180, 30);
+                checkVersionChangesButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 200, popUpPosition.yMin + 60, 180, 30);
+                if (UnityEngine.Event.current.type == UnityEngine.EventType.MouseDown)
+                {
+                    if (checkVersionChangesButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
+                    {
+                        UnityEngine.Application.OpenURL(RELEASENOTESURL);
+                        UnityEngine.GUIUtility.ExitGUI();
+                    }
+                    if (downloadButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
+                    {
+                        UnityEngine.Application.OpenURL(downloadURl);
+                        UnityEngine.GUIUtility.ExitGUI();
+                    }
+                    if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
+                    {
+                        EditorConfiguration.ShowInspectorPopUpInEditor = false;
+                        UnityEngine.GUIUtility.ExitGUI();
+                    }
+                }
+            }
 
             //----------------------Left Panel------------
 
@@ -723,6 +823,10 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorGUILayout.EndHorizontal();
 
             UnityEditor.EditorGUILayout.EndScrollView();
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
+            {
+                showAltUnityPopup();
+            }
         }
 
         private void DisplayPlatformAndPlatformSettings(float size)
@@ -784,6 +888,59 @@ namespace Altom.AltUnityTesterEditor
             }
         }
 
+        private void showAltUnityPopup()
+        {
+            if (font == null)
+            {
+                font = UnityEngine.Font.CreateDynamicFontFromOSFont("Arial", 16);
+            }
+            if (gUIStyleText == null)
+            {
+                gUIStyleText = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleLeft,
+                    font = font
+                };
+            }
+            if (gUIStyleButton == null)
+            {
+                gUIStyleButton = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.button)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleCenter,
+                    font = font
+                };
+                gUIStyleButton.normal.background = AltUnityTesterEditorWindow.PortForwardingTexture;
+                gUIStyleButton.normal.textColor = UnityEngine.Color.white;
+            }
+            if (gUIStyleHistoryChanges == null)
+            {
+                gUIStyleHistoryChanges = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.label)
+                {
+                    wordWrap = true,
+                    richText = true,
+                    alignment = UnityEngine.TextAnchor.MiddleCenter,
+                    font = font
+                };
+            }
+            if (borderTexture == null)
+            {
+                borderTexture = MakeTexture(20, 20, UnityEditor.EditorGUIUtility.isProSkin ? borderColorDark : borderColor);
+            }
+            UnityEngine.GUI.DrawTexture(popUpPosition, borderTexture);
+            UnityEngine.GUI.DrawTexture(popUpContentPosition, oddNumberTestTexture);
+
+            UnityEngine.GUI.Button(closeButtonPosition, "<size=10>X</size>", gUIStyleHistoryChanges);
+            UnityEngine.GUI.Button(downloadButtonPosition, "<b><size=16>Download now!</size></b>", gUIStyleButton);
+            UnityEngine.GUI.Button(checkVersionChangesButtonPosition, "<size=13>Check version history</size>", gUIStyleHistoryChanges);
+            UnityEditor.EditorGUI.LabelField(checkVersionChangesButtonPosition, "<size=13>__________________</size>", gUIStyleHistoryChanges);
+
+            UnityEngine.Rect textPosition = new UnityEngine.Rect(popUpPosition.xMin + 20, popUpPosition.yMin + 30, 370, 30);
+            UnityEditor.EditorGUI.LabelField(textPosition, System.String.Format("<b><size=16>AltUnity Inspector {0} has been released!</size></b>", version), gUIStyleText);
+        }
 
         #endregion
 
