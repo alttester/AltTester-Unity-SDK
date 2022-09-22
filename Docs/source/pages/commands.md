@@ -2831,16 +2831,16 @@ Invokes a method from an existing component of the object.
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
 
-        //Custom component
         [Test]
-        public void TestCallMethodWithNoParameters()
-        {
-            const string componentName = "AltUnityExampleScriptCapsule";
-            const string methodName = "UIButtonClicked";
-            const string assemblyName = "Assembly-CSharp";
-            var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+        public void TestCallMethodWithNoParameters(){
+            
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "get_text()";
+            const string assemblyName = "UnityEngine.UI";
+            const string element_text = "Change Camera Mode";
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
-            Assert.IsNull(data);
+            Assert.AreEqual(element_text, data);
         }
 
     .. code-tab:: java
@@ -2863,22 +2863,22 @@ Invokes a method from an existing component of the object.
             assertEquals("6",capsuleInfo.getText());
         }
 
-        //Custom component
-    	@Test
+        @Test
 	    public void testCallMethodWithNoParameters() 
         {
 
-            String componentName = "AltUnityExampleScriptCapsule";
-		    String methodName = "UIButtonClicked";
-		    String assembly = "Assembly-CSharp";
-		    AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-				"Capsule").build();
+		    String componentName = "UnityEngine.UI.Text";
+		    String methodName = "get_text()";
+		    String assembly = "UnityEngine.UI";
+		    String expected_text = "Change Camera Mode";
+		    AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+				" /Canvas/Button/Text").build();
 		    AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
 
-		    assertNull(altElement.callComponentMethod(
+		    assertEquals(expected_text, altElement.callComponentMethod(
 				new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
 						.withAssembly(assembly).build(),
-				Void.class));   
+				Void.class));
 	    }
 
     .. code-tab:: py
@@ -2896,9 +2896,9 @@ Invokes a method from an existing component of the object.
         def test_call_component_method_with_no_parameters(self):
 
             self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
-            "AltUnityExampleScriptCapsule", "UIButtonClicked", [])
-            self.assertEqual(result, None)
+            result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
+            text = result.call_component_method("UnityEngine.UI.Text", "get_text()", None, None, assembly="UnityEngine.UI" )
+            self.assertEqual("Change Camera Mode", text)
 
 ```
 
