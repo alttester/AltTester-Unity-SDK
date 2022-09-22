@@ -2833,14 +2833,25 @@ Invokes a method from an existing component of the object.
 
         [Test]
         public void TestCallMethodWithNoParameters(){
-            
+
             const string componentName = "UnityEngine.UI.Text";
-            const string methodName = "get_text()";
+            const string methodName = "get_text";
             const string assemblyName = "UnityEngine.UI";
             const string element_text = "Change Camera Mode";
             var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
             Assert.AreEqual(element_text, data);
+        }
+
+        [Test]
+        public void TestCallMethodWithParameters(){
+            const string componentName = "UnityEngine.UI.InputField";
+            const string methodName = "set_text";
+            const string assemblyName = "UnityEngine.UI";
+            string[] parameters = new[] { "New Text" };
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/InputField");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+            Assert.AreEqual(altElement.GetText(),data);
         }
 
     .. code-tab:: java
@@ -2868,7 +2879,7 @@ Invokes a method from an existing component of the object.
         {
 
 		    String componentName = "UnityEngine.UI.Text";
-		    String methodName = "get_text()";
+		    String methodName = "get_text";
 		    String assembly = "UnityEngine.UI";
 		    String expected_text = "Change Camera Mode";
 		    AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
@@ -2880,6 +2891,27 @@ Invokes a method from an existing component of the object.
 						.withAssembly(assembly).build(),
 				Void.class));
 	    }
+
+        @Test
+	    public void testCallMethodWithParameters_for_doc() throws Exception 
+        {
+
+		    String componentName = "UnityEngine.UI.InputField";
+		    String methodName = "set_text";
+		    String assembly = "UnityEngine.UI";
+		    String[] parameters = new String[] { "New Text" };
+		    AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+				"/Canvas/InputField").build();
+		    AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+		    altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
+						.withAssembly(assembly)
+						.build(),
+				Void.class);
+		    assertEquals("New Text", altElement.getText());
+	    }
+
 
     .. code-tab:: py
 
@@ -2897,8 +2929,17 @@ Invokes a method from an existing component of the object.
 
             self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
             result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
-            text = result.call_component_method("UnityEngine.UI.Text", "get_text()", None, None, assembly="UnityEngine.UI" )
+            text = result.call_component_method("UnityEngine.UI.Text", "get_text", None, None, assembly="UnityEngine.UI" )
             self.assertEqual("Change Camera Mode", text)
+        
+        def test_call_component_method_with_parameter(self):   
+
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            text = "New Text"
+            self.altdriver.find_object(By.PATH, "/Canvas/InputField").call_component_method(
+            "UnityEngine.UI.InputField", "set_text", [text])
+           
+            self.assertEqual(text, self.altdriver.find_object(By.PATH, "/Canvas/InputField").get_text())
 
 ```
 

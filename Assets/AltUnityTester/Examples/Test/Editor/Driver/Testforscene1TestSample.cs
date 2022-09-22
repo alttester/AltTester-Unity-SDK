@@ -413,7 +413,6 @@ namespace Altom.AltUnityDriver.Tests
             Assert.IsNull(data);
         }
 
-
         [Test]
         public void TestCallMethodWithParameters()
         {
@@ -426,6 +425,29 @@ namespace Altom.AltUnityDriver.Tests
             Assert.IsNull(data);
         }
 
+        [Test]
+        public void TestCallMethodWithNoParameters_for_doc(){
+
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "get_text";
+            const string assemblyName = "UnityEngine.UI";
+            const string element_text = "Change Camera Mode";
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
+            Assert.AreEqual(element_text, data);
+        }
+
+        [Test]
+        public void TestCallMethodWithParameters_for_doc()
+        {
+            const string componentName = "UnityEngine.UI.InputField";
+            const string methodName = "set_text";
+            const string assemblyName = "UnityEngine.UI";
+            string[] parameters = new[] { "New Text" };
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/InputField");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+            Assert.AreEqual(altElement.GetText(),data);
+        }
 
         [Test]
         public void TestCallMethodWithManyParameters()

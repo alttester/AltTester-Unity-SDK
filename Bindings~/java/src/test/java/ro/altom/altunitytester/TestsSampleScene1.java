@@ -433,6 +433,42 @@ public class TestsSampleScene1 {
 	}
 
 	@Test
+	public void testCallMethodWithNoParameters_for_doc() 
+	{
+
+		String componentName = "UnityEngine.UI.Text";
+		String methodName = "get_text";
+		String assembly = "UnityEngine.UI";
+		String expected_text = "Change Camera Mode";
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+			" /Canvas/Button/Text").build();
+		AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+		assertEquals(expected_text, altElement.callComponentMethod(
+			new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
+					.withAssembly(assembly).build(),
+			Void.class));
+	}
+
+	@Test
+	public void testCallMethodWithParameters_for_doc() throws Exception {
+		String componentName = "UnityEngine.UI.InputField";
+		String methodName = "set_text";
+		String assembly = "UnityEngine.UI";
+		String[] parameters = new String[] { "New Text" };
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+				"/Canvas/InputField").build();
+		AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+		altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
+						.withAssembly(assembly)
+						.build(),
+				Void.class);
+		assertEquals("New Text", altElement.getText());
+	}
+
+	@Test
 	public void testCallMethodWithManyParameters() throws Exception {
 		String componentName = "AltUnityExampleScriptCapsule";
 		String methodName = "TestMethodWithManyParameters";
