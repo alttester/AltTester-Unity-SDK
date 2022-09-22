@@ -2831,6 +2831,18 @@ Invokes a method from an existing component of the object.
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
 
+        //Custom component
+        [Test]
+        public void TestCallMethodWithNoParameters()
+        {
+            const string componentName = "AltUnityExampleScriptCapsule";
+            const string methodName = "UIButtonClicked";
+            const string assemblyName = "Assembly-CSharp";
+            var altElement = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
+            Assert.IsNull(data);
+        }
+
     .. code-tab:: java
 
         @Test
@@ -2851,6 +2863,24 @@ Invokes a method from an existing component of the object.
             assertEquals("6",capsuleInfo.getText());
         }
 
+        //Custom component
+    	@Test
+	    public void testCallMethodWithNoParameters() 
+        {
+
+            String componentName = "AltUnityExampleScriptCapsule";
+		    String methodName = "UIButtonClicked";
+		    String assembly = "Assembly-CSharp";
+		    AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+				"Capsule").build();
+		    AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+		    assertNull(altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
+						.withAssembly(assembly).build(),
+				Void.class));   
+	    }
+
     .. code-tab:: py
 
         def test_call_component_method(self):
@@ -2862,6 +2892,13 @@ Invokes a method from an existing component of the object.
             self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
             self.assertEqual('setFromMethod', self.altdriver.find_object(
             By.NAME, 'CapsuleInfo').get_text())
+
+        def test_call_component_method_with_no_parameters(self):
+
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
+            "AltUnityExampleScriptCapsule", "UIButtonClicked", [])
+            self.assertEqual(result, None)
 
 ```
 
