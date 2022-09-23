@@ -921,7 +921,9 @@ namespace Altom.AltUnityTesterEditor
 
                 labelAndInputFieldHorizontalLayout("Proxy Port", ref EditorConfiguration.ProxyPort);
 
+                labelAndInputFieldHorizontalLayout("Game Name", ref EditorConfiguration.GameName);
             }
+
             switch (EditorConfiguration.platform)
             {
                 case AltUnityPlatform.Android:

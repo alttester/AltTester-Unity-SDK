@@ -41,7 +41,7 @@ public class WebsocketConnection {
 
     public URI getURI() throws ConnectionException {
         try {
-            return new URI("ws", null, _host, _port, "/altws", "gameName=" + _gameName, null);
+            return new URI("ws", null, _host, _port, "/altws", "game=" + _gameName, null);
         } catch (URISyntaxException e) {
             logger.error(e);
             throw new ConnectionException(e.getMessage(), e);

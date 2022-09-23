@@ -36,7 +36,7 @@ namespace Altom.AltUnityDriver.Commands
             _port = port;
             _gameName = gameName;
 
-            _uri = "ws://" + host + ":" + port + "/altws?gameName=" + Uri.EscapeUriString(gameName);
+            _uri = "ws://" + host + ":" + port + "/altws?game=" + Uri.EscapeUriString(gameName);
             _connectTimeout = connectTimeout;
 
             messages = new Queue<CommandResponse>();

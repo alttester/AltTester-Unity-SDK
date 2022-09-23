@@ -53,7 +53,7 @@ namespace Altom.AltUnityInstrumentation.Tests
         {
             var cmdHandler = new MockCommandHandler();
 
-            var client = new WebSocketClientCommunication(cmdHandler, "localhost", 13420);
+            var client = new WebSocketClientCommunication(cmdHandler, "localhost", 13420, "__default__");
             bool onConnect = false;
             client.OnConnect += () =>
             {
@@ -98,7 +98,7 @@ namespace Altom.AltUnityInstrumentation.Tests
                 bool connected = false;
                 bool disconnected = false;
 
-                var client = new WebSocketClientCommunication(cmdHandler, "localhost", 13420);
+                var client = new WebSocketClientCommunication(cmdHandler, "localhost", 13420, "__default__");
 
                 client.OnConnect += () =>
                 {
