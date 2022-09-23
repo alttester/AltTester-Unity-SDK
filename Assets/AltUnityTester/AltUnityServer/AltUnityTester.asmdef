@@ -1,5 +1,6 @@
 {
     "name": "AltUnityTester",
+    "rootNamespace": "",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:dc04f38471c3a459fb4d31124ee9127d",
@@ -23,7 +24,7 @@
     "versionDefines": [
         {
             "name": "com.unity.inputsystem",
-            "expression": "[1.1,1.3]",
+            "expression": "1.1",
             "define": "USE_INPUT_SYSTEM_1_3"
         }
     ],
