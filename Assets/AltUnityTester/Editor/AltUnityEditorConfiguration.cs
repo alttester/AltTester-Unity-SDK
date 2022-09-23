@@ -23,6 +23,7 @@ namespace Altom.AltUnityTesterEditor
         public int ProxyPort = 13000;
         public string ProxyHost = "127.0.0.1";
 
+        public string GameName = "__default__";
 
         public AltUnityInstrumentationSettings GetInstrumentationSettings()
         {
@@ -32,6 +33,7 @@ namespace Altom.AltUnityTesterEditor
                 InputVisualizer = InputVisualizer,
                 ProxyPort = ProxyPort,
                 ProxyHost = ProxyHost,
+                GameName = GameName
             };
         }
         public bool KeepAUTSymbolDefined = false;

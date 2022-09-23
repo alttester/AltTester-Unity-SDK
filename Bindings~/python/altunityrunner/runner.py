@@ -50,7 +50,7 @@ class AltUnityDriver:
             port=self.port,
             timeout=self.timeout,
             path="altws",
-            params={"gameName": self.game_name}
+            params={"game": self.game_name}
         )
         self._connection.connect()
 

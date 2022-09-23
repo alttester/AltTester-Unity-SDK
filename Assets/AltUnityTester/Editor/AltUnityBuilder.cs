@@ -14,7 +14,6 @@ namespace Altom.AltUnityTesterEditor
         public const string Standalone = "Standalone";
     }
 
-
     public class AltUnityBuilder
     {
         private const string ALTUNITYTESTERDEFINE = "ALTUNITYTESTER";
