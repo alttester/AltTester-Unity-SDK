@@ -447,7 +447,7 @@ public class TestsSampleScene1 {
 		assertEquals(expected_text, altElement.callComponentMethod(
 			new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
 					.withAssembly(assembly).build(),
-			Void.class));
+			String.class));
 	}
 
 	@Test

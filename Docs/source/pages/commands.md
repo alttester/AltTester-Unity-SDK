@@ -2892,7 +2892,7 @@ Invokes a method from an existing component of the object.
 		    assertEquals(expected_text, altElement.callComponentMethod(
 				new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
 						.withAssembly(assembly).build(),
-				Void.class));
+				String.class));
 	    }
 
         @Test
