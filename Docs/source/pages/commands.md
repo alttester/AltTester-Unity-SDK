@@ -2845,13 +2845,16 @@ Invokes a method from an existing component of the object.
 
         [Test]
         public void TestCallMethodWithParameters(){
-            const string componentName = "UnityEngine.UI.InputField";
-            const string methodName = "set_text";
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "set_fontSize";
+            const string methodToVerifyName = "get_fontSize";
             const string assemblyName = "UnityEngine.UI";
-            string[] parameters = new[] { "New Text" };
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/InputField");
+            Int32 fontSizeExpected =16;
+            string[] parameters = new[] {"16"};
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
-            Assert.AreEqual(altElement.GetText(),data);
+            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, new object[] { }, assemblyName: assemblyName);
+            Assert.AreEqual(fontSizeExpected,fontSize);
         }
 
     .. code-tab:: java
@@ -2893,23 +2896,30 @@ Invokes a method from an existing component of the object.
 	    }
 
         @Test
-	    public void testCallMethodWithParameters_for_doc() throws Exception 
-        {
+	    public void testCallMethodWithParameters() throws Exception 
+	    {
 
-		    String componentName = "UnityEngine.UI.InputField";
-		    String methodName = "set_text";
+		    String componentName = "UnityEngine.UI.Text";
+		    String methodName = "set_fontSize";
+		    String methodExpectedName = "get_fontSize";
 		    String assembly = "UnityEngine.UI";
-		    String[] parameters = new String[] { "New Text" };
+		    String[] parameters = new String[] { "16"};
 		    AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
-				"/Canvas/InputField").build();
+			"/Canvas/UnityUIInputField/Text").build();
 		    AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
 
 		    altElement.callComponentMethod(
-				new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-						.withAssembly(assembly)
-						.build(),
-				Void.class);
-		    assertEquals("New Text", altElement.getText());
+			    new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
+					.withAssembly(assembly)
+					.build(),
+			    Void.class);
+		    Integer fontSize = altElement.callComponentMethod(
+			    new AltCallComponentMethodParams.Builder(componentName, methodExpectedName, new Object[] {})
+					.withAssembly(assembly)
+					.build(),
+			    Integer.class);
+		
+		    assert(16==fontSize);
 	    }
 
 

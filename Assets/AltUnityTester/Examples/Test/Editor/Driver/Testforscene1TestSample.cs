@@ -426,6 +426,33 @@ namespace Altom.AltUnityDriver.Tests
         }
 
         [Test]
+        public void testGetTextCallMethodWithNoParameters(){
+
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "get_text";
+            const string assemblyName = "UnityEngine.UI";
+            const string element_text = "Change Camera Mode";
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
+            Assert.AreEqual(element_text, data);
+        }
+
+        [Test]
+        public void TestSetFontSizeCallMethodWithParameters(){
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "set_fontSize";
+            const string methodToVerifyName = "get_fontSize";
+            const string assemblyName = "UnityEngine.UI";
+            Int32 fontSizeExpected =16;
+            string[] parameters = new[] {"16"};
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, new object[] { }, assemblyName: assemblyName);
+            Assert.AreEqual(fontSizeExpected,fontSize);
+        }
+
+
+        [Test]
         public void TestCallMethodWithManyParameters()
         {
             const string componentName = "AltUnityExampleScriptCapsule";
