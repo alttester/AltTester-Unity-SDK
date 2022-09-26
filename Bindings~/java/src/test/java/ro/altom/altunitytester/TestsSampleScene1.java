@@ -441,7 +441,7 @@ public class TestsSampleScene1 {
 		String assembly = "UnityEngine.UI";
 		String expected_text = "Change Camera Mode";
 		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
-			" /Canvas/Button/Text").build();
+			"/Canvas/Button/Text").build();
 		AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
 
 		assertEquals(expected_text, altElement.callComponentMethod(
