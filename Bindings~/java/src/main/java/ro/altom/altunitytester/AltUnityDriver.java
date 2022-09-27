@@ -99,6 +99,7 @@ public class AltUnityDriver {
 
     /**
      * Closes the connection to the running instrumented app
+     * @throws IOException
      */
     public void stop() throws IOException {
         this.connection.close();
@@ -106,21 +107,31 @@ public class AltUnityDriver {
 
     /**
      * Gets the AltUnity Tester version, used to instrument the app
+     * @return AltUnity Tester version
      */
     public String getServerVersion() {
         return new GetServerVersionCommand(this.connection.messageHandler).Execute();
     }
 
+    /**
+     * Gets the delay after a command
+     * @return The delay after a command
+     */
     public double getDelayAfterCommand() {
         return this.connection.messageHandler.getDelayAfterCommand();
     }
 
+    /**
+     * Sets the delay after a command
+     * @param delay - Double
+     */
     public void setDelayAfterCommand(double delay) {
         this.connection.messageHandler.setDelayAfterCommand(delay);
     }
 
     /**
      * Loads a scene.
+     * @param altLoadSceneParameters - scene name
      */
     public void loadScene(AltLoadSceneParams altLoadSceneParameters) {
         new AltLoadScene(this.connection.messageHandler, altLoadSceneParameters).Execute();
@@ -130,7 +141,7 @@ public class AltUnityDriver {
     /**
      * Unloads a scene.
      *
-     * @param sceneName - the scene name
+     * @param unloadSceneParams - scene name
      */
     public void unloadScene(AltUnloadSceneParams unloadSceneParams) {
         new AltUnloadScene(this.connection.messageHandler, unloadSceneParams).Execute();
@@ -139,6 +150,7 @@ public class AltUnityDriver {
 
     /**
      * Returns all the scenes that have been loaded.
+     * @return All the scenes that have been loaded
      */
     public String[] getAllLoadedScenes() {
         String[] response = new AltGetAllLoadedScenes(this.connection.messageHandler).Execute();
@@ -148,6 +160,7 @@ public class AltUnityDriver {
 
     /**
      * Sets the value for the command response timeout.
+     * @param timeout - int
      */
     public void setCommandResponseTimeout(int timeout) {
         this.connection.messageHandler.setCommandTimeout(timeout);
@@ -163,22 +176,28 @@ public class AltUnityDriver {
 
     /**
      * Removes key and its corresponding value from PlayerPrefs.
+     * @param keyName - String
      */
     public void deleteKeyPlayerPref(String keyName) {
         new AltDeleteKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
-
-    /**
+    
+     /**
      * Sets the value for a given key in PlayerPrefs.
+     * @param keyName - String
+     * @param valueName - int
      */
     public void setKeyPlayerPref(String keyName, int valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
+
     /**
      * Sets the value for a given key in PlayerPrefs.
+     * @param keyName - String
+     * @param valueName - float
      */
     public void setKeyPlayerPref(String keyName, float valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
@@ -187,6 +206,8 @@ public class AltUnityDriver {
 
     /**
      * Sets the value for a given key in PlayerPrefs.
+     * @param keyName - String
+     * @param valueName - String
      */
     public void setKeyPlayerPref(String keyName, String valueName) {
         new AltSetKeyPlayerPref(this.connection.messageHandler, keyName, valueName).Execute();
@@ -195,6 +216,8 @@ public class AltUnityDriver {
 
     /**
      * Returns the value for a given key from PlayerPrefs.
+     * @param keyName -String
+     * @return The value for a given key from PlayerPrefs
      */
     public int getIntKeyPlayerPref(String keyName) {
         int response = new AltIntGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
@@ -204,6 +227,8 @@ public class AltUnityDriver {
 
     /**
      * Returns the value for a given key from PlayerPrefs.
+     * @param keyName - String
+     * @return The value for a given key from PlayerPrefs
      */
     public float getFloatKeyPlayerPref(String keyName) {
         float response = new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
@@ -213,6 +238,8 @@ public class AltUnityDriver {
 
     /**
      * Returns the value for a given key from PlayerPrefs.
+     * @param keyName - String
+     * @return The value for a given key from PlayerPrefs
      */
     public String getStringKeyPlayerPref(String keyName) {
         String response = new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
@@ -222,6 +249,7 @@ public class AltUnityDriver {
 
     /**
      * Returns the current active scene.
+     * @return Current active scene
      */
     public String getCurrentScene() {
         String response = new AltGetCurrentScene(this.connection.messageHandler).Execute();
@@ -231,6 +259,7 @@ public class AltUnityDriver {
 
     /**
      * Returns the value of the time scale.
+     * @return Timescale
      */
     public float getTimeScale() {
         float response = new AltGetTimeScale(this.connection.messageHandler).Execute();
@@ -240,6 +269,7 @@ public class AltUnityDriver {
 
     /**
      * Sets the value of the time scale.
+     * @param setTimescaleParams - timescale
      */
     public void setTimeScale(AltSetTimeScaleParams setTimescaleParams) {
         new AltSetTimeScale(this.connection.messageHandler, setTimescaleParams).Execute();
@@ -248,6 +278,9 @@ public class AltUnityDriver {
 
     /**
      * Invokes static methods from your game.
+     * @param  altCallStaticMethodParams - String component* , String method* , Object[] parameters* , String[] typeOfParameters , String assembly
+     * @param returnType
+     * @return Static methods from your game
      */
     public <T> T callStaticMethod(AltCallStaticMethodParams altCallStaticMethodParams, Class<T> returnType) {
         T response = new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
@@ -258,6 +291,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates a swipe action between two points.
+     * @param swipeParams - Vector2 start* , Vector2 end* , float duration , boolean wait = true
      */
     public void swipe(AltSwipeParams swipeParams) {
         new AltSwipe(this.connection.messageHandler, swipeParams).Execute();
@@ -266,6 +300,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates a multipoint swipe action.
+     * @param parameters - positions[]* , float duration , boolean wait
      */
     public void multipointSwipe(AltMultiPointSwipeParams parameters) {
         new AltMultiPointSwipe(this.connection.messageHandler, parameters).Execute();
@@ -275,6 +310,7 @@ public class AltUnityDriver {
     /**
      * Simulates holding left click button down for a specified amount of time at
      * given coordinates.
+     * @param holdParams - Vector2 coordinates* , float duration , boolean wait
      */
     public void holdButton(AltHoldParams holdParams) {
         swipe(holdParams);
@@ -282,6 +318,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates device rotation action in your game.
+     * @param altTiltParameter - Vector3 acceleration* , float duration , boolean wait
      */
     public void tilt(AltTiltParams altTiltParameter) {
         new AltTilt(this.connection.messageHandler, altTiltParameter).Execute();
@@ -290,6 +327,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates key press action in your game.
+     * @param altPressKeyParameters - AltUnityKeyCode keyCode* , float power , float duration , boolean wait
      */
     public void pressKey(AltPressKeyParams altPressKeyParameters) {
         new AltPressKey(this.connection.messageHandler, altPressKeyParameters).Execute();
@@ -298,6 +336,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates multiple keys pressed action in your game.
+     * @param altPressKeysParameters - AltUnityKeyCode[] keyCodes* , float power , float duration , boolean wait
      */
     public void pressKeys(AltPressKeysParams altPressKeysParameters) {
         new AltPressKeys(this.connection.messageHandler, altPressKeysParameters).Execute();
@@ -306,7 +345,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates a key down.
-     *
+     * @param keyDownParams - AltUnityKeyCode keyCode* , float power
      * @throws InterruptedException
      */
     public void keyDown(AltKeyDownParams keyDownParams) throws InterruptedException {
@@ -316,6 +355,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates multiple keys down.
+     * @param keysDownParams - AltUnityKeyCode keyCode* , float power
      */
     public void keysDown(AltKeysDownParams keysDownParams) {
         new AltKeysDown(this.connection.messageHandler, keysDownParams).Execute();
@@ -324,6 +364,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates a key up.
+     * @param keyUpParams - keyCode
      */
     public void keyUp(AltKeyUpParams keyUpParams) {
         new AltKeyUp(this.connection.messageHandler, keyUpParams).Execute();
@@ -332,6 +373,7 @@ public class AltUnityDriver {
 
     /**
      * Simulates multiple keys up.
+     * @param keysUpParams - AltUnityKeyCode[] keyCodes
      */
     public void keysUp(AltKeysUpParams keysUpParams) {
         new AltKeysUp(this.connection.messageHandler, keysUpParams).Execute();
@@ -341,7 +383,7 @@ public class AltUnityDriver {
     /**
      * Simulate mouse movement in your game.
      *
-     * @param altMoveMouseParameters the builder for the move mouse command.
+     * @param altMoveMouseParams - Vector2 coordinates* , float duration , boolean wait
      */
     public void moveMouse(AltMoveMouseParams altMoveMouseParams) {
         new AltMoveMouse(this.connection.messageHandler, altMoveMouseParams).Execute();
@@ -351,7 +393,7 @@ public class AltUnityDriver {
     /**
      * Simulate scroll action in your game.
      *
-     * @param altScrollParams the builder for the scroll command.
+     * @param altScrollParams -  float speed , float speedHorizontal , float duration , boolean wait
      */
     public void scroll(AltScrollParams altScrollParams) {
         new AltScroll(this.connection.messageHandler, altScrollParams).Execute();
@@ -359,8 +401,8 @@ public class AltUnityDriver {
     }
 
     /**
-     * @param altFindObjectsParams the builder for the find objects command.
-     * @return the first object in the scene that respects the given criteria.
+     * @param altFindObjectsParams - By by* , String value* , By cameraBy , String cameraValue , boolean enabled
+     * @return The first object in the scene that respects the given criteria.
      */
     public AltUnityObject findObject(AltFindObjectsParams altFindObjectsParams) {
         AltUnityObject response = new AltFindObject(this.connection.messageHandler, altFindObjectsParams).Execute();
@@ -370,8 +412,8 @@ public class AltUnityDriver {
 
     /**
      *
-     * @param altFindObjectsParams
-     * @return the first object containing the given criteria
+     *@param altFindObjectsParams - By by* , String value* , By cameraBy , String cameraValue , boolean enabled
+     * @return The first object containing the given criteria
      */
     public AltUnityObject findObjectWhichContains(AltFindObjectsParams altFindObjectsParams) {
         AltUnityObject response = new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParams)
@@ -382,8 +424,8 @@ public class AltUnityDriver {
 
     /**
      *
-     * @param altFindObjectsParams
-     * @return all the objects respecting the given criteria
+     * @param altFindObjectsParams - By by* , String value* , By cameraBy , String cameraValue , boolean enabled
+     * @return All the objects respecting the given criteria
      */
     public AltUnityObject[] findObjects(AltFindObjectsParams altFindObjectsParams) {
         AltUnityObject[] response = new AltFindObjects(this.connection.messageHandler, altFindObjectsParams).Execute();
@@ -394,8 +436,8 @@ public class AltUnityDriver {
     /**
      * Finds all objects in the scene that respects the given criteria.
      *
-     * @param altFindObjectsParams
-     * @return all objects containing the given criteria
+     * @param altFindObjectsParams - By by* , String value* , By cameraBy , String cameraValue , boolean enabled
+     * @return All objects containing the given criteria
      */
     public AltUnityObject[] findObjectsWhichContain(AltFindObjectsParams altFindObjectsParams) {
         AltUnityObject[] response = new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParams)
@@ -408,8 +450,8 @@ public class AltUnityDriver {
      * Returns information about every objects loaded in the currently loaded
      * scenes. This also means objects that are set as DontDestroyOnLoad.
      *
-     * @param altGetAllElementsParams - get all elements parameters
-     * @return information about every object loaded in the currently loaded scenes.
+     * @param altGetAllElementsParams - By cameraBy , String cameraValue , boolean enabled
+     * @return Information about every object loaded in the currently loaded scenes.
      */
     public AltUnityObject[] getAllElements(AltGetAllElementsParams altGetAllElementsParams) {
         AltUnityObject[] response = new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParams)
@@ -422,9 +464,7 @@ public class AltUnityDriver {
      * Waits for the scene to be loaded for a specified amount of time. It returns
      * the name of the current scene.
      *
-     * @param altWaitForCurrentSceneToBeParameters - Wait for current scene
-     *                                             parameters
-     * @return {String} -
+     * @param altWaitForCurrentSceneToBeParameters - String sceneName* , double timeout , double interval
      */
     public void waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParams altWaitForCurrentSceneToBeParameters) {
         new AltWaitForCurrentSceneToBe(this.connection.messageHandler, altWaitForCurrentSceneToBeParameters).Execute();
@@ -435,8 +475,8 @@ public class AltUnityDriver {
      * Wait until there are no longer any objects that respect the given criteria or
      * times run out and will throw an error.
      *
-     * @param altWaitForObjectsParams the properties parameter for finding the
-     *                                objects in a scene.
+     * @param altWaitForObjectsParams - AltFindObjectsParams altFindObjectsParameters* , double timeout , double interval
+     * @return Error if time runs out
      */
     public AltUnityObject waitForObject(AltWaitForObjectsParams altWaitForObjectsParams) {
         AltUnityObject response = new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams)
@@ -449,8 +489,7 @@ public class AltUnityDriver {
      * Wait until the object in the scene that respect the given criteria is no
      * longer in the scene or times run out and will throw an error.
      *
-     * @param altWaitForObjectsParams the properties parameter for finding the
-     *                                objects in a scene.
+     * @param altWaitForObjectsParams - AltFindObjectsParams altFindObjectsParameters* , double timeout , double interval
      */
     public void waitForObjectToNotBePresent(AltWaitForObjectsParams altWaitForObjectsParams) {
         new AltWaitForObjectToNotBePresent(this.connection.messageHandler, altWaitForObjectsParams).Execute();
@@ -460,6 +499,8 @@ public class AltUnityDriver {
     /**
      * Waits until it finds an object that respects the given criteria or time runs
      * out and will throw an error.
+     * @param altWaitForObjectsParams - AltFindObjectsParams altFindObjectsParameters* , double timeout , double interval
+     * @return The object that respects the given criteria/Error if time runs out
      */
     public AltUnityObject waitForObjectWhichContains(AltWaitForObjectsParams altWaitForObjectsParams) {
         AltUnityObject response = new AltWaitForObjectWhichContains(this.connection.messageHandler,
@@ -470,6 +511,7 @@ public class AltUnityDriver {
 
     /**
      * Creates a screenshot of the current screen in png format.
+     * @param path - String
      */
     public void getPNGScreenshot(String path) {
         new GetPNGScreenshotCommand(this.connection.messageHandler, path).Execute();
@@ -479,7 +521,7 @@ public class AltUnityDriver {
     /**
      * Sets the level of logging on AltUnity Tester
      *
-     * @param parameters
+     * @param parameters - AltUnityLogger logger* , AltUnityLogLevel logLevel*
      */
     public void setServerLogging(AltSetServerLoggingParams parameters) {
         new AltUnitySetServerLogging(this.connection.messageHandler, parameters).Execute();
@@ -488,6 +530,8 @@ public class AltUnityDriver {
 
     /**
      * Simulates starting of a touch on the screen.
+     * @param beginTouchParams - Vector2 coordinates*
+     * @return The starting of a touch on the screen
      */
     public int beginTouch(AltBeginTouchParams beginTouchParams) {
         int response = new AltBeginTouch(this.connection.messageHandler, beginTouchParams).Execute();
@@ -497,14 +541,17 @@ public class AltUnityDriver {
 
     /**
      * Simulates a touch movement on the screen.
+     * @param moveTouchParams - int fingerId* , Vector2 coordinates*
      */
     public void moveTouch(AltMoveTouchParams moveTouchParams) {
         new AltMoveTouch(this.connection.messageHandler, moveTouchParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        
     }
 
     /**
      * Simulates ending of a touch on the screen.
+     * @param endTouchParams - int fingerId*
      */
     public void endTouch(AltEndTouchParams endTouchParams) {
         new AltEndTouch(this.connection.messageHandler, endTouchParams).Execute();
@@ -514,7 +561,7 @@ public class AltUnityDriver {
     /**
      * Tap at screen coordinates.
      *
-     * @param parameters Tap parameters
+     * @param parameters - Vector2 coordinates* , int count , float interval ,  boolean wait
      */
     public void tap(AltTapClickCoordinatesParams parameters) {
         new AltTapCoordinates(this.connection.messageHandler, parameters).Execute();
@@ -524,7 +571,7 @@ public class AltUnityDriver {
     /**
      * Click at screen coordinates
      *
-     * @param parameters Click parameters
+     * @param parameters - Vector2 coordinates* , int count , float interval , boolean wait
      */
     public void click(AltTapClickCoordinatesParams parameters) {
         new AltClickCoordinates(this.connection.messageHandler, parameters).Execute();
@@ -533,6 +580,9 @@ public class AltUnityDriver {
 
     /**
      * Gets the value of the static field or property
+     * @param parameters - String componentName* , String propertyName* , String assembly , int maxDept
+     * @param returnType 
+     * @return value of the static field or property
      */
     public <T> T getStaticProperty(AltGetComponentPropertyParams parameters, Class<T> returnType) {
         T response = new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
@@ -546,7 +596,7 @@ public class AltUnityDriver {
      * uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and
      * returns the one closer to the camera.
      *
-     * @param coordinates The screen coordinates
+     * @param parameters - Vector2 coordinates
      * @return The UI object hit by event system Raycast, null otherwise
      */
 
