@@ -426,7 +426,7 @@ namespace Altom.AltUnityDriver.Tests
         }
 
         [Test]
-        public void testGetTextCallMethodWithNoParameters(){
+        public void TestGetTextCallMethodWithNoParameters(){
 
             const string componentName = "UnityEngine.UI.Text";
             const string methodName = "get_text";
@@ -438,7 +438,7 @@ namespace Altom.AltUnityDriver.Tests
         }
 
         [Test]
-        public void TestSetFontSizeCallMethodWithParameters(){
+        public void TestCallMethodSetFontSizeWithParameters(){
             const string componentName = "UnityEngine.UI.Text";
             const string methodName = "set_fontSize";
             const string methodToVerifyName = "get_fontSize";
