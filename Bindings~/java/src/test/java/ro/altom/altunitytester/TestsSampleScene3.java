@@ -1,5 +1,4 @@
 package ro.altom.altunitytester;
-
 import org.glassfish.grizzly.nio.transport.DefaultStreamWriter.Output;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -104,9 +103,9 @@ public class TestsSampleScene3 {
         String imageSource = ImagesDrop.imageSource;
         String imageSourceDropZone = ImagesDrop.imageSourceDropZone;
 
-        dropImage("Drag Image2", "Drop Box2", (float)0.1, false);
-        dropImage("Drag Image3", "Drop Box1", (float)0.1, false);
-        dropImage("Drag Image1", "Drop Box1", (float)0.1, false);
+        dropImage("Drag Image2", "Drop Box2", 1, false);
+        dropImage("Drag Image3", "Drop Box1", 1, false);
+        dropImage("Drag Image1", "Drop Box1", 1, false);
 
         waitForSwipeToFinish();
 
