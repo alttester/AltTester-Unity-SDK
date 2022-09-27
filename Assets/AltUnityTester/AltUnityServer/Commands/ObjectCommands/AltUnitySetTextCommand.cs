@@ -38,7 +38,6 @@ namespace Altom.AltUnityTester.Commands
                     {
                         uiInputFieldComp.onValueChanged.Invoke(CommandParams.value);
                         checkSubmit(uiInputFieldComp.gameObject);
-                        // uiInputFieldComp.onSubmit.Invoke(CommandParams.value);
 #if UNITY_2021_1_OR_NEWER
                         uiInputFieldComp.onSubmit.Invoke(CommandParams.value);
 #endif

@@ -2939,17 +2939,17 @@ Invokes a method from an existing component of the object.
 
             self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
             result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
-            text = result.call_component_method("UnityEngine.UI.Text", "get_text", None, None, assembly="UnityEngine.UI" )
-            self.assertEqual("Change Camera Mode", text)
+            text = result.call_component_method("UnityEngine.UI.Text", "get_text", None, None, assembly="UnityEngine.UI")
+            assert text == "Change Camera Mode" 
         
-        def test_call_component_method_with_parameter(self):   
+         def test_call_component_method_with_parameters(self):
 
             self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            text = "New Text"
-            self.altdriver.find_object(By.PATH, "/Canvas/InputField").call_component_method(
-            "UnityEngine.UI.InputField", "set_text", [text])
-           
-            self.assertEqual(text, self.altdriver.find_object(By.PATH, "/Canvas/InputField").get_text())
+            fontSizeExpected =16
+            altElement = self.altdriver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
+            altElement.call_component_method("UnityEngine.UI.Text", "set_fontSize", parameters=["16"], assembly="UnityEngine.UI")
+            fontSize =  altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize",parameters = [], assembly="UnityEngine.UI")
+            assert fontSizeExpected== fontSize
 
 ```
 

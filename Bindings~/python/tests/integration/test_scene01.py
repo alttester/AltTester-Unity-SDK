@@ -1,4 +1,5 @@
 import time
+from tokenize import String
 
 import pytest
 
@@ -244,6 +245,23 @@ class TestScene01:
 
         assert result == [2, 3, 4]
 
+    def test_call_component_method_with_no_parameters(self):
+
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
+        text = result.call_component_method("UnityEngine.UI.Text", "get_text", None, None, assembly="UnityEngine.UI")
+        assert text == "Change Camera Mode" 
+
+    def test_call_component_method_with_parameters(self):
+
+        self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+        assemblyName = "UnityEngine.UI"
+        fontSizeExpected =16
+        altElement = self.altdriver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
+        altElement.call_component_method("UnityEngine.UI.Text", "set_fontSize", parameters=["16"], assembly=assemblyName)
+        fontSize =  altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize",parameters = [], assembly=assemblyName)
+        assert fontSizeExpected== fontSize
+	    
     def test_call_component_method(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.call_component_method(
