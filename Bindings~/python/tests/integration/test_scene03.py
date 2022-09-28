@@ -1,3 +1,4 @@
+from turtle import position
 import pytest
 
 from .utils import Scenes
@@ -17,10 +18,18 @@ class TestScene03:
     def getSpriteName(self, imageSource, imageSourceDropZone, sourceImageName, imageSourceDropZoneName):
         imageSource = self.altdriver.find_object(By.NAME, sourceImageName).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
-        imageSourceDropZone = self.altdriver.FindObject(By.NAME, imageSourceDropZoneName).get_component_property(
+        imageSourceDropZone = self.altdriver.find_object(By.NAME, imageSourceDropZoneName).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
         return imageSource, imageSourceDropZone
 
+    def dropImageWithMultipointSwipe(self, objectNames, duration, wait):
+        positions=[]
+        for i in objectNames.size():
+            obj = self.altdriver.find_object(By.NAME, objectNames[i])
+            positions[i] =obj .getScreenPosition()
+        
+        self.altdriver.multipoint_swipe(positions, duration=duration, wait=wait)
+        
     def dropImage(self, dragLocationName, dropLocationName, duration, wait):
         dragLocation = self.altdriver.find_object(By.NAME, dragLocationName)
         dropLocation = self.altdriver.find_object(By.NAME, dropLocationName)
@@ -75,37 +84,28 @@ class TestScene03:
 
         imageSource, imageSourceDropZone=self.getSpriteName("Drag Image2", "Drop")
         assert imageSource == imageSourceDropZone
+    
+    def test_multiple_swipe_with_multipoint_swipe(self):
 
+        self.dropImageWithMultipointSwipe(["Drag Image1", "Drop Box1"], 1, False)
+        self.dropImageWithMultipointSwipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
+
+        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image1", "Drop Image")
+        assert imageSource == imageSourceDropZone
+        
+        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image2", "Drop")
+        assert imageSource == imageSourceDropZone
+   
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        multipointPositions = [alt_unity_object1.get_screen_position(), [alt_unity_object2.x, alt_unity_object2.y]]
+        self.dropImageWithMultipointSwipe(["Drag Image1", "Drop Box1"], 1, True)
+        self.dropImageWithMultipointSwipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, True)
 
-        self.altdriver.multipoint_swipe(multipointPositions, duration=0.5)
-
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
-        alt_unity_object3 = self.altdriver.find_object(By.NAME, "Drop Box2")
-
-        positions = [
-            [alt_unity_object1.x, alt_unity_object1.y],
-            [alt_unity_object2.x, alt_unity_object2.y],
-            [alt_unity_object3.x, alt_unity_object3.y]
-        ]
-
-        self.altdriver.multipoint_swipe(positions, duration=0.5)
-        imageSource = self.altdriver.find_object(
-            By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite")
-        imageSourceDropZone = self.altdriver.find_object(
-            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
-        assert imageSource["name"] != imageSourceDropZone["name"]
-
-        imageSource = self.altdriver.find_object(
-            By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite")
-        imageSourceDropZone = self.altdriver.find_object(
-            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
-        assert imageSource["name"] != imageSourceDropZone["name"]
+        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image1", "Drop Image")
+        assert imageSource == imageSourceDropZone
+        
+        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image2", "Drop")
+        assert imageSource == imageSourceDropZone
 
     def test_begin_move_end_touch(self):
         alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
@@ -115,8 +115,8 @@ class TestScene03:
         self.altdriver.move_touch(id, alt_unity_object2.get_screen_position())
         self.altdriver.end_touch(id)
 
-        imageSource = alt_unity_object1.get_component_property("UnityEngine.UI.Image", "sprite")
+        imageSource = alt_unity_object1.get_component_property("UnityEngine.UI.Image", "sprite.name")
         imageSourceDropZone = self.altdriver.find_object(
-            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite.name")
 
-        # assert imageSource["name"] == imageSourceDropZone["name"] TODO Fix this test at mob programming
+        assert imageSource == imageSourceDropZone
