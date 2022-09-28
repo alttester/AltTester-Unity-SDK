@@ -26,6 +26,21 @@ public class TestForNIS
     {
         altUnityDriver.Stop();
     }
+    private void getSpriteName(out string imageSource, out string imageSourceDropZone, string sourceImageName, string imageSourceDropZoneName)
+    {
+        imageSource = altUnityDriver.FindObject(By.NAME, sourceImageName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
+        imageSourceDropZone = altUnityDriver.FindObject(By.NAME, imageSourceDropZoneName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
+    }
+    private void dropImageWithMultipointSwipe(string[] objectNames, float duration = 0.1f, bool wait = true)
+    {
+        AltUnityVector2[] listPositions = new AltUnityVector2[objectNames.Length];
+        for (int i = 0; i < objectNames.Length; i++)
+        {
+            var obj = altUnityDriver.FindObject(By.NAME, objectNames[i]);
+            listPositions[i] = obj.getScreenPosition();
+        }
+         altUnityDriver.MultipointSwipe(listPositions, duration, wait: wait);
+    }
 
     [Test]
     public void TestScroll()
@@ -244,28 +259,15 @@ public class TestForNIS
     public void TestMultipointSwipe()
     {
         altUnityDriver.LoadScene(scene7);
-        var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-        var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        altUnityDriver.MultipointSwipe(new[] { new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y) }, 2);
+        string imageSource, imageSourceDropZone;
+        dropImageWithMultipointSwipe(new[] { "Drag Image1", "Drop Box1" });
+        dropImageWithMultipointSwipe(new[] { "Drag Image2", "Drop Box1", "Drop Box2" });
 
-        altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-        altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-        var altElement3 = altUnityDriver.FindObject(By.NAME, "Drop Box2");
-        var positions = new[]
-        {
-            new AltUnityVector2(altElement1.x, altElement1.y),
-            new AltUnityVector2(altElement2.x, altElement2.y),
-            new AltUnityVector2(altElement3.x, altElement3.y)
-        };
+        getSpriteName(out imageSource, out imageSourceDropZone, "Drag Image1", "Drop Image");
+        Assert.AreEqual(imageSource, imageSourceDropZone);
 
-        altUnityDriver.MultipointSwipe(positions, 3);
-        var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-        var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-        Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
-
-        imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-        imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-        Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
+        getSpriteName(out imageSource, out imageSourceDropZone, "Drag Image2", "Drop");
+        Assert.AreEqual(imageSource, imageSourceDropZone);
     }
 
     [Test]
