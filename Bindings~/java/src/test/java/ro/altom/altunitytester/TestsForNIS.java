@@ -346,7 +346,7 @@ public class TestsForNIS {
                             "UnityEngine.UI.Image",
                             "sprite.name").build(),
                             String.class);
-            assertNotEquals(imageSourceName, imageSourceDropZoneName);
+            assertEquals(imageSourceName, imageSourceDropZoneName);
     
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image2").build();
             imageSourceName = altUnityDriver.findObject(findObjectParams)
@@ -360,7 +360,7 @@ public class TestsForNIS {
                             "UnityEngine.UI.Image",
                             "sprite.name").build(),
                             String.class);
-            assertNotEquals(imageSourceName, imageSourceDropZoneName);
+            assertEquals(imageSourceName, imageSourceDropZoneName);
         }
     
         @Test

@@ -15,8 +15,10 @@ class TestScene03:
         self.altdriver.wait_for_object_to_not_be_present(By.NAME, "icon")
         
     def getSpriteName(self, imageSource, imageSourceDropZone, sourceImageName, imageSourceDropZoneName):
-        imageSource = self.altdriver.find_object(By.NAME, sourceImageName).get_component_property("UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
-        imageSourceDropZone = self.altdriver.FindObject(By.NAME, imageSourceDropZoneName).get_component_property("UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
+        imageSource = self.altdriver.find_object(By.NAME, sourceImageName).get_component_property(
+            "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
+        imageSourceDropZone = self.altdriver.FindObject(By.NAME, imageSourceDropZoneName).get_component_property(
+            "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
         return imageSource, imageSourceDropZone
 
     def dropImage(self, dragLocationName, dropLocationName, duration, wait):
@@ -73,7 +75,7 @@ class TestScene03:
 
         imageSource, imageSourceDropZone=self.getSpriteName("Drag Image2", "Drop")
         assert imageSource == imageSourceDropZone
-        
+
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
         alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
         alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
