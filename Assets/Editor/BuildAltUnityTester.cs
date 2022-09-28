@@ -96,7 +96,7 @@ namespace Altom.AltUnityTesterTools
 #if UNITY_2018_1_OR_NEWER
                 PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 #endif
-                AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+                AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.Android);
                 var instrumentationSettings = getInstrumentationSettings();
 
 
@@ -199,7 +199,7 @@ namespace Altom.AltUnityTesterTools
                     options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
                 };
 
-                AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
+                AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.iOS);
                 var instrumentationSettings = getInstrumentationSettings();
                 AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
@@ -266,7 +266,7 @@ namespace Altom.AltUnityTesterTools
                     options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
                 };
 
-                AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.WebGL);
+                AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.WebGL);
 
 
                 var instrumentationSettings = getInstrumentationSettings();

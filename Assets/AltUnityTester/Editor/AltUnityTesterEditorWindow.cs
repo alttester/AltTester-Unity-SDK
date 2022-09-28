@@ -21,7 +21,7 @@ namespace Altom.AltUnityTesterEditor
     {
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
-        public static bool NeedsRepaiting = false;
+        public static bool NeedsRepainting = false;
         public static AltUnityEditorConfiguration EditorConfiguration;
         public static AltUnityTesterEditorWindow Window;
         public static int SelectedTest = -1;
@@ -78,6 +78,7 @@ namespace Altom.AltUnityTesterEditor
         private UnityEngine.Vector2 scrollPositonTestResult;
 
         private bool foldOutScenes = true;
+        private bool foldOutTestRunSettings = true;
         private bool foldOutBuildSettings = true;
         private bool foldOutIosSettings = true;
         private bool foldOutPortForwarding = true;
@@ -176,6 +177,7 @@ namespace Altom.AltUnityTesterEditor
             CreateAltUnityTesterPackage();
             CreateSampleScenesPackage();
         }
+
         private static void SendInspectorVersionRequest()
         {
             www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/altunity-inspector-versions/?id=unityeditor&AUTversion=" + AltUnityRunner.VERSION);
@@ -183,7 +185,6 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorApplication.update += CheckInspectorVersionRequest;
 
         }
-
 
         public static void CheckInspectorVersionRequest()
         {
@@ -225,7 +226,7 @@ namespace Altom.AltUnityTesterEditor
                             EditorConfiguration.LatestInspectorVersion = releasedVersion;
                             downloadURl = match.Value;
                             version = releasedVersion;
-                            EditorConfiguration.ShowInsectorPopUpInEditor = true;
+                            EditorConfiguration.ShowInspectorPopUpInEditor = true;
                         }
                     }
                 }
@@ -248,7 +249,6 @@ namespace Altom.AltUnityTesterEditor
             return Int16.Parse(currentVersionSplited[2]) >= Int16.Parse(releasedVersionSplited[2]);
         }
 
-
         private void Awake()
         {
             if (EditorConfiguration == null)
@@ -258,7 +258,7 @@ namespace Altom.AltUnityTesterEditor
 
             EditorConfiguration.MyTests = null;
             loadTestCompleted = false;
-            this.StartCoroutine(AltUnityTestRunner.SetUpListTest());
+            this.StartCoroutine(AltUnityTestRunner.SetUpListTestCoroutine());
             SendInspectorVersionRequest();
         }
         private void OnEnable()
@@ -395,30 +395,13 @@ namespace Altom.AltUnityTesterEditor
 
             getListOfSceneFromEditor();
         }
-        protected void OnInspectorUpdate()
-        {
-            if (IsTestRunResultAvailable)
-            {
-                Repaint();
-                IsTestRunResultAvailable = UnityEditor.EditorUtility.DisplayDialog("Test Report",
-                      " Total tests:" + (ReportTestFailed + ReportTestPassed) + System.Environment.NewLine + " Tests passed:" +
-                      ReportTestPassed + System.Environment.NewLine + " Tests failed:" + ReportTestFailed + System.Environment.NewLine +
-                      " Duration:" + TimeTestRan + " seconds", "Ok");
-                if (IsTestRunResultAvailable)
-                {
-                    IsTestRunResultAvailable = !IsTestRunResultAvailable;
-                }
-                ReportTestFailed = 0;
-                ReportTestPassed = 0;
-                TimeTestRan = 0;
-            }
-        }
+
         protected void OnGUI()
         {
 
-            if (NeedsRepaiting)
+            if (NeedsRepainting)
             {
-                NeedsRepaiting = false;
+                NeedsRepainting = false;
                 Repaint();
             }
 
@@ -504,11 +487,30 @@ namespace Altom.AltUnityTesterEditor
                 resize = false;
         }
 
+        protected void OnInspectorUpdate()
+        {
+            if (IsTestRunResultAvailable)
+            {
+                Repaint();
+                IsTestRunResultAvailable = UnityEditor.EditorUtility.DisplayDialog("Test Report",
+                      " Total tests:" + (ReportTestFailed + ReportTestPassed) + System.Environment.NewLine + " Tests passed:" +
+                      ReportTestPassed + System.Environment.NewLine + " Tests failed:" + ReportTestFailed + System.Environment.NewLine +
+                      " Duration:" + TimeTestRan + " seconds", "Ok");
+                if (IsTestRunResultAvailable)
+                {
+                    IsTestRunResultAvailable = !IsTestRunResultAvailable;
+                }
+                ReportTestFailed = 0;
+                ReportTestPassed = 0;
+                TimeTestRan = 0;
+            }
+        }
+
         protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
 
-            if (EditorConfiguration.ShowInsectorPopUpInEditor)
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
             {
                 popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
                 popUpContentPosition = new UnityEngine.Rect(screenWidth / 2 - 296, 4, 592, 92);
@@ -529,15 +531,13 @@ namespace Altom.AltUnityTesterEditor
                     }
                     if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
                     {
-                        EditorConfiguration.ShowInsectorPopUpInEditor = false;
+                        EditorConfiguration.ShowInspectorPopUpInEditor = false;
                         UnityEngine.GUIUtility.ExitGUI();
                     }
                 }
             }
 
-
             //----------------------Left Panel------------
-
 
             BeginHorizontalSplitView();
             var leftSide = (screenWidth / 3) * 2;
@@ -553,6 +553,8 @@ namespace Altom.AltUnityTesterEditor
 
             displayBuildSettings();
             UnityEditor.EditorGUILayout.Separator();
+            displayTestRunSettings();
+            UnityEditor.EditorGUILayout.Separator();
             displayScenes();
             UnityEditor.EditorGUILayout.Separator();
 
@@ -562,7 +564,9 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorGUILayout.EndScrollView();
 
             ResizeHorizontalSplitView();
+
             //-------------------Right Panel--------------
+
             scrollPositionVerticalRightSide = UnityEditor.EditorGUILayout.BeginScrollView(scrollPositionVerticalRightSide, UnityEngine.GUI.skin.textArea, UnityEngine.GUILayout.ExpandHeight(true));
 
             var rightSide = (screenWidth / 3);
@@ -819,7 +823,7 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorGUILayout.EndHorizontal();
 
             UnityEditor.EditorGUILayout.EndScrollView();
-            if (EditorConfiguration.ShowInsectorPopUpInEditor)
+            if (EditorConfiguration.ShowInspectorPopUpInEditor)
             {
                 showAltUnityPopup();
             }
@@ -878,7 +882,7 @@ namespace Altom.AltUnityTesterEditor
 #if UNITY_2018_3_OR_NEWER
                 UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
 #else
-                    UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
+                UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
 #endif
                 UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = targetGroup;
             }
@@ -937,10 +941,6 @@ namespace Altom.AltUnityTesterEditor
             UnityEngine.Rect textPosition = new UnityEngine.Rect(popUpPosition.xMin + 20, popUpPosition.yMin + 30, 370, 30);
             UnityEditor.EditorGUI.LabelField(textPosition, System.String.Format("<b><size=16>AltUnity Inspector {0} has been released!</size></b>", version), gUIStyleText);
         }
-
-
-
-
 
         #endregion
 
@@ -1053,12 +1053,12 @@ namespace Altom.AltUnityTesterEditor
 
         private void getListOfSceneFromEditor()
         {
-            var newSceneses = new List<AltUnityMyScenes>();
+            var newScenes = new List<AltUnityMyScenes>();
             foreach (var scene in UnityEditor.EditorBuildSettings.scenes)
             {
-                newSceneses.Add(new AltUnityMyScenes(scene.enabled, scene.path, 0));
+                newScenes.Add(new AltUnityMyScenes(scene.enabled, scene.path, 0));
             }
-            EditorConfiguration.Scenes = newSceneses;
+            EditorConfiguration.Scenes = newScenes;
         }
 
         private void afterExitPlayMode()
@@ -1089,10 +1089,19 @@ namespace Altom.AltUnityTesterEditor
         {
             AltUnityBuilder.InsertAltUnityInTheActiveScene(AltUnityTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
-            AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+            AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;
         }
-
+        private void displayTestRunSettings()
+        {
+            foldOutTestRunSettings = UnityEditor.EditorGUILayout.Foldout(foldOutTestRunSettings, "Test run Settings");
+            if (foldOutTestRunSettings)
+            {
+                labelAndCheckboxHorizontalLayout("Create XML Report", ref EditorConfiguration.createXMLReport);
+                if (EditorConfiguration.createXMLReport)
+                    labelAndInputFieldHorizontalLayout("XML file path", ref EditorConfiguration.xMLFilePath);
+            }
+        }
         private void displayBuildSettings()
         {
             foldOutBuildSettings = UnityEditor.EditorGUILayout.Foldout(foldOutBuildSettings, "Build Settings");
@@ -1112,7 +1121,7 @@ namespace Altom.AltUnityTesterEditor
                 var keepAUTSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTUNITYTESTER symbol defined (not recommended):", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepAUTSymbolChanged && EditorConfiguration.KeepAUTSymbolDefined && !AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
                 {
-                    AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                    AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
                 if (keepAUTSymbolChanged && !EditorConfiguration.KeepAUTSymbolDefined && AltUnityBuilder.CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
                 {
@@ -1120,6 +1129,8 @@ namespace Altom.AltUnityTesterEditor
                 }
 
                 labelAndInputFieldHorizontalLayout("AltUnity Tester Port", ref EditorConfiguration.AltUnityTesterPort);
+
+
             }
             switch (EditorConfiguration.platform)
             {
@@ -1154,9 +1165,9 @@ namespace Altom.AltUnityTesterEditor
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
                         }
 
-                        var appleDevoleperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
-                        labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDevoleperTeamID);
-                        UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDevoleperTeamID;
+                        var appleDeveloperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
+                        labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDeveloperTeamID);
+                        UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID = appleDeveloperTeamID;
 
                         var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
                         labelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
@@ -1406,8 +1417,8 @@ namespace Altom.AltUnityTesterEditor
                         var sceneName = scene.Path;
                         if (!EditorConfiguration.ScenePathDisplayed)
                         {
-                            var splitedPath = sceneName.Split('/');
-                            sceneName = splitedPath[splitedPath.Length - 1];
+                            var splittedPath = sceneName.Split('/');
+                            sceneName = splittedPath[splittedPath.Length - 1];
                         }
 
                         UnityEditor.EditorGUILayout.LabelField(sceneName, guiStyle);
@@ -1570,16 +1581,16 @@ namespace Altom.AltUnityTesterEditor
 
         private void removeNotSelectedScenes()
         {
-            var copyMySceneses = new List<AltUnityMyScenes>();
+            var copyMyScenes = new List<AltUnityMyScenes>();
             foreach (var scene in EditorConfiguration.Scenes)
             {
                 if (scene.ToBeBuilt)
                 {
-                    copyMySceneses.Add(scene);
+                    copyMyScenes.Add(scene);
                 }
             }
 
-            EditorConfiguration.Scenes = copyMySceneses;
+            EditorConfiguration.Scenes = copyMyScenes;
             UnityEditor.EditorBuildSettings.scenes = pathFromTheSceneInCurrentList();
         }
 
@@ -1599,7 +1610,7 @@ namespace Altom.AltUnityTesterEditor
             UnityEditor.EditorGUILayout.LabelField("Tests list", UnityEditor.EditorStyles.boldLabel);
             if (UnityEngine.GUILayout.Button("Refresh"))
             {
-                this.StartCoroutine(AltUnityTestRunner.SetUpListTest());
+                this.StartCoroutine(AltUnityTestRunner.SetUpListTestCoroutine());
                 loadTestCompleted = false;
             }
             UnityEditor.EditorGUILayout.EndHorizontal();
@@ -1757,12 +1768,12 @@ namespace Altom.AltUnityTesterEditor
                         var actualTime = System.DateTime.Now.Ticks;
                         if (actualTime - timeSinceLastClick < 5000000)
                         {
-                            if (test.path == null)
+                            if (test.Path == null)
                                 throw new AltUnityPathNotFoundException("The path to your test is invalid. Please make sure you have matching class and file names.");
 #if UNITY_2019_1_OR_NEWER
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName), 0);
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, findLine(test.Path, testName), 0);
 #else
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.path, findLine(test.path, testName));
+                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, findLine(test.Path, testName));
 #endif
                         }
                     }
@@ -1979,13 +1990,13 @@ namespace Altom.AltUnityTesterEditor
 
         private static UnityEditor.EditorBuildSettingsScene[] pathFromTheSceneInCurrentList()
         {
-            var listofPath = new List<UnityEditor.EditorBuildSettingsScene>();
+            var listOfPath = new List<UnityEditor.EditorBuildSettingsScene>();
             foreach (var scene in EditorConfiguration.Scenes)
             {
-                listofPath.Add(new UnityEditor.EditorBuildSettingsScene(scene.Path, scene.ToBeBuilt));
+                listOfPath.Add(new UnityEditor.EditorBuildSettingsScene(scene.Path, scene.ToBeBuilt));
             }
 
-            return listofPath.ToArray();
+            return listOfPath.ToArray();
         }
 
         private void removeScene(AltUnityMyScenes scene)
