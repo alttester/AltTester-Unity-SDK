@@ -80,13 +80,13 @@ namespace Altom.AltTester.Communication
             {
                 if (ex is InvalidOperationException && ex.InnerException != null && (ex.InnerException.Message.Contains("Only one usage of each socket address") || ex.InnerException.Message.Contains("Address already in use")))
                 {
-                    string message = String.Format("Port {0} is in use by another program. Start Alt Tester with a different port.", port);
+                    string message = String.Format("Port {0} is in use by another program. Start AltTester with a different port.", port);
 
                     throw new AddressInUseCommError(message);
                 }
 
                 logger.Error(ex.GetType().ToString(), ex.InnerException.Message);
-                throw new UnhandledStartCommError("An unexpected error occurred while starting Alt Tester.", ex);
+                throw new UnhandledStartCommError("An unexpected error occurred while starting AltTester.", ex);
             }
         }
 

@@ -67,7 +67,7 @@ namespace Altom.AltDriver
 
             if (majorServer != majorDriver || minorServer != minorDriver)
             {
-                string message = "Version mismatch. Alt Driver version is " + VERSION + ". Alt Tester version is " + serverVersion + ".";
+                string message = "Version mismatch. Alt Driver version is " + VERSION + ". AltTester version is " + serverVersion + ".";
                 logger.Warn(message);
             }
         }

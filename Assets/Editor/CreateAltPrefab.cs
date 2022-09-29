@@ -134,7 +134,7 @@ namespace Altom.AltTesterTools
             TitleRectTransform.pivot = new Vector2(0.5f, 1f);
 
             var TitleText = TitleGameObject.GetComponent<Text>();
-            TitleText.text = "Alt Tester v.1.7.2";
+            TitleText.text = "AltTester v.1.7.2";
             TitleText.fontSize = 30;
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;

@@ -25,7 +25,7 @@ namespace Altom.AltDriver.Logging
             Instance.GetCurrentClassLogger().Info(AltLogLevel.Info.ToNLogLevel());
             AltLogLevel level;
             if (minLogLevels.TryGetValue(AltLogger.File, out level) && level != AltLogLevel.Off)
-                Instance.GetCurrentClassLogger().Info("Alt Tester logs are saved at: " + LOGSFILEPATH);
+                Instance.GetCurrentClassLogger().Info("AltTester logs are saved at: " + LOGSFILEPATH);
         }
 
         /// <summary>

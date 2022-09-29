@@ -27,7 +27,7 @@ namespace Altom.AltTester
         public int ProxyPort = 13000;
 
         /// <summary>
-        /// The port Alt Tester is listening on for connections from driver.
+        /// The port AltTester is listening on for connections from driver.
         /// </summary>
         public int AltTesterPort = 13000;
 

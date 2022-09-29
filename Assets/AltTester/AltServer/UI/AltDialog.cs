@@ -53,7 +53,7 @@ namespace Altom.AltTester.UI
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
             CloseButton.onClick.AddListener(ToggleDialog);
             Icon.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(ToggleDialog);
-            TitleText.text = "Alt Tester v." + AltRunner.VERSION;
+            TitleText.text = "AltTester v." + AltRunner.VERSION;
 
             StartAltTester();
         }
@@ -86,7 +86,7 @@ namespace Altom.AltTester.UI
 
         private void OnRestartButtonPress()
         {
-            logger.Debug("Restart the Alt Tester.");
+            logger.Debug("Restart the AltTester.");
 
             int port;
             if (Int32.TryParse(PortInputField.text, out port) && port > 0 && port <= 65535)
@@ -105,8 +105,8 @@ namespace Altom.AltTester.UI
             }
             catch (Exception ex)
             {
-                setDialog("An unexpected error occurred while restarting the Alt Tester.", ERROR_COLOR, true);
-                logger.Error("An unexpected error occurred while restarting the Alt Tester.");
+                setDialog("An unexpected error occurred while restarting the AltTester.", ERROR_COLOR, true);
+                logger.Error("An unexpected error occurred while restarting the AltTester.");
                 logger.Error(ex.GetType().ToString(), ex.Message);
             }
         }
@@ -142,7 +142,7 @@ namespace Altom.AltTester.UI
 
         private void StopAltTester()
         {
-            logger.Debug("Stopping Alt Tester.");
+            logger.Debug("Stopping AltTester.");
             if (communication != null)
             {
                 communication.Stop();
@@ -163,7 +163,7 @@ namespace Altom.AltTester.UI
             communication.OnDisconnect += onClientDisconnected;
             communication.OnError += onError;
 
-            setDialog("Starting Alt Tester on port: " + InstrumentationSettings.AltTesterPort, WARNING_COLOR, true);
+            setDialog("Starting AltTester on port: " + InstrumentationSettings.AltTesterPort, WARNING_COLOR, true);
 
             try
             {

@@ -70,7 +70,7 @@ namespace Altom.AltDriver.Tests
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                Assert.AreEqual("Failed to connect to Alt Tester on host: 127.0.0.1 port: 13000.", ex.Message);
+                Assert.AreEqual("Failed to connect to AltTester on host: 127.0.0.1 port: 13000.", ex.Message);
                 return;
             }
             Assert.Fail("Should not be able to connect");

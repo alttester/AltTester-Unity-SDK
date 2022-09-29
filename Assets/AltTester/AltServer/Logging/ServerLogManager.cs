@@ -25,7 +25,7 @@ namespace Altom.AltTester.Logging
             Instance.GetCurrentClassLogger().Info(AltLogLevel.Info.ToNLogLevel());
             AltLogLevel level;
             if (!string.IsNullOrEmpty(logsFilePath) && minLogLevels.TryGetValue(AltLogger.File, out level) && level != AltLogLevel.Off)
-                Instance.GetCurrentClassLogger().Info("Alt Tester logs are saved at: " + logsFilePath);
+                Instance.GetCurrentClassLogger().Info("AltTester logs are saved at: " + logsFilePath);
         }
 
 

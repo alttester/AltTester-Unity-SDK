@@ -1,6 +1,6 @@
 # License
 
-Alt Tester is licensed under the GNU General Public License v3.0. This means that the end user has the freedom to use, share and modify the software.
+AltTester is licensed under the GNU General Public License v3.0. This means that the end user has the freedom to use, share and modify the software.
 It's a copyleft license, which means that if any derivative work must be distributed, it should be distributed under the same or equivalent license terms.
 As long as it's added to the development build and not distributed, it has no restrictions for the end user.
 

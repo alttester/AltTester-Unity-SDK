@@ -147,7 +147,7 @@ namespace Altom.AltTesterEditor
 #endif
         }
 
-        [UnityEditor.MenuItem("AltTester Tools/Create Alt Tester Package", false, 800)]
+        [UnityEditor.MenuItem("AltTester Tools/Create AltTester Package", false, 800)]
         public static void CreateAltTesterPackage()
         {
             UnityEngine.Debug.Log("AltTester - Unity Package creation started...");
