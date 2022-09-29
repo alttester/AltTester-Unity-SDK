@@ -1128,7 +1128,7 @@ namespace Altom.AltTesterEditor
                     AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
 
-                labelAndInputFieldHorizontalLayout("Alt Tester Port", ref EditorConfiguration.AltTesterPort);
+                labelAndInputFieldHorizontalLayout("AltTester Port", ref EditorConfiguration.AltTesterPort);
 
 
             }
