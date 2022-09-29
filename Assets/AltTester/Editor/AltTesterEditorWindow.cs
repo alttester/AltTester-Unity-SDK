@@ -64,6 +64,7 @@ namespace Altom.AltTesterEditor
 
         private static string downloadURl;
         private const string RELEASENOTESURL = "https://altom.gitlab.io/altunity/altunityinspector/pages/release-notes.html#release-notes";
+        private const string PREFABNAME = "AltTesterPrefab";
         private static string version;
         private static UnityEngine.GUIStyle gUIStyleButton;
         private static UnityEngine.GUIStyle gUIStyleText;
@@ -111,7 +112,7 @@ namespace Altom.AltTesterEditor
         private bool PlayInEditorPressed;
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
-        [UnityEditor.MenuItem("Alt Tools/AltTester Editor", false, 80)]
+        [UnityEditor.MenuItem("AltTester Tools/AltTester Editor", false, 80)]
         public static void ShowWindow()
         {
             Window = (AltTesterEditorWindow)GetWindow(typeof(AltTesterEditorWindow));
@@ -146,7 +147,7 @@ namespace Altom.AltTesterEditor
 #endif
         }
 
-        [UnityEditor.MenuItem("Alt Tools/Create Alt Tester Package", false, 800)]
+        [UnityEditor.MenuItem("AltTester Tools/Create Alt Tester Package", false, 800)]
         public static void CreateAltTesterPackage()
         {
             UnityEngine.Debug.Log("AltTester - Unity Package creation started...");
@@ -265,10 +266,10 @@ namespace Altom.AltTesterEditor
             Window = this;
         }
 
-        [UnityEditor.MenuItem("Alt Tools/AltId/Add AltId to every object", false, 800)]
+        [UnityEditor.MenuItem("AltTester Tools/AltId/Add AltId to every object", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
-            var scenes = altUnityGetAllScenes();
+            var scenes = altGetAllScenes();
             foreach (var scene in scenes)
             {
                 EditorSceneManager.OpenScene(scene);
@@ -276,7 +277,7 @@ namespace Altom.AltTesterEditor
             }
         }
 
-        [UnityEditor.MenuItem("Alt Tools/AltId/Add AltId to every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltTester Tools/AltId/Add AltId to every object in active scene", false, 800)]
         public static void AddIdComponentToEveryObjectInActiveScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -292,10 +293,10 @@ namespace Altom.AltTesterEditor
         }
 
 
-        [UnityEditor.MenuItem("Alt Tools/AltId/Remove AltId from every object", false, 800)]
+        [UnityEditor.MenuItem("AltTester Tools/AltId/Remove AltId from every object", false, 800)]
         public static void RemoveIdComponentFromEveryObjectInTheProject()
         {
-            var scenes = altUnityGetAllScenes();
+            var scenes = altGetAllScenes();
             foreach (var scene in scenes)
             {
                 EditorSceneManager.OpenScene(scene);
@@ -303,7 +304,7 @@ namespace Altom.AltTesterEditor
             }
         }
 
-        [UnityEditor.MenuItem("Alt Tools/AltId/Remove AltId from every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltTester Tools/AltId/Remove AltId from every object in active scene", false, 800)]
         public static void RemoveComponentFromEveryObjectInTheScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -318,13 +319,13 @@ namespace Altom.AltTesterEditor
             EditorSceneManager.SaveScene(scene);
         }
 
-        [UnityEditor.MenuItem("Alt Tools/Support/Documentation", false, 800)]
+        [UnityEditor.MenuItem("AltTester Tools/Support/Documentation", false, 800)]
         public static void GoToDocumentation()
         {
             Application.OpenURL("https://altom.com/altunity/docs/altunitytester/");
         }
 
-        [UnityEditor.MenuItem("Alt Tools/Support/Discord", false, 800)]
+        [UnityEditor.MenuItem("AltTester Tools/Support/Discord", false, 800)]
         public static void GoToDiscord()
         {
             Application.OpenURL("https://discord.com/channels/744769398023127102/748159679426985984");
@@ -586,12 +587,12 @@ namespace Altom.AltTesterEditor
                 if (scene.path.Equals(AltBuilder.GetFirstSceneWhichWillBeBuilt()))
                 {
                     if (scene.GetRootGameObjects()
-                        .Any(gameObject => gameObject.name.Equals("AltRunnerPrefab")))
+                        .Any(gameObject => gameObject.name.Equals(PREFABNAME)))
                     {
                         UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
-                        var altunityRunner = scene.GetRootGameObjects()
-                            .First(a => a.name.Equals("AltRunnerPrefab"));
-                        destroyAltRunner(altunityRunner);
+                        var altRunner = scene.GetRootGameObjects()
+                            .First(a => a.name.Equals(PREFABNAME));
+                        destroyAltRunner(altRunner);
                         found = true;
                     }
 
@@ -948,12 +949,11 @@ namespace Altom.AltTesterEditor
         {
             if (UnityEditor.AssetDatabase.FindAssets("AltTesterEditorSettings").Length == 0)
             {
-                var altUnityEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltTesterEditorWindow")[0]);
-                // altUnityEditorFolderPath = altUnityEditorFolderPath.Substring(0, altUnityEditorFolderPath.Length - 24);
-                altUnityEditorFolderPath = Path.GetDirectoryName(altUnityEditorFolderPath);
+                var altTesterEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltTesterEditorWindow")[0]);
+                altTesterEditorFolderPath = Path.GetDirectoryName(altTesterEditorFolderPath);
                 EditorConfiguration = CreateInstance<AltEditorConfiguration>();
                 EditorConfiguration.MyTests = null;
-                UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altUnityEditorFolderPath + "/AltTesterEditorSettings.asset");
+                UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altTesterEditorFolderPath + "/AltTesterEditorSettings.asset");
                 UnityEditor.AssetDatabase.SaveAssets();
             }
             else
@@ -1063,21 +1063,21 @@ namespace Altom.AltTesterEditor
 
         private void afterExitPlayMode()
         {
-            removeAltRunnerPrefab();
+            removeAltTesterPrefab();
             AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             EditorConfiguration.RanInEditor = false;
         }
 
-        private static void removeAltRunnerPrefab()
+        private static void removeAltTesterPrefab()
         {
             var activeScene = EditorSceneManager.GetActiveScene();
-            var altUnityRunners = activeScene.GetRootGameObjects()
-                .Where(gameObject => gameObject.name.Equals("AltRunnerPrefab")).ToList();
-            if (altUnityRunners.Count != 0)
+            var altRunners = activeScene.GetRootGameObjects()
+                .Where(gameObject => gameObject.name.Equals(PREFABNAME)).ToList();
+            if (altRunners.Count != 0)
             {
-                foreach (var altUnityRunner in altUnityRunners)
+                foreach (var altRunner in altRunners)
                 {
-                    DestroyImmediate(altUnityRunner);
+                    DestroyImmediate(altRunner);
 
                 }
                 EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
@@ -1118,7 +1118,7 @@ namespace Altom.AltTesterEditor
                 labelAndCheckboxHorizontalLayout("Input visualizer", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltTester builds:", ref EditorConfiguration.appendToName);
-                var keepAUTSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTUNITYTESTER symbol defined (not recommended):", ref EditorConfiguration.KeepAUTSymbolDefined);
+                var keepAUTSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined:", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepAUTSymbolChanged && EditorConfiguration.KeepAUTSymbolDefined && !AltBuilder.CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
                 {
                     AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
@@ -2053,7 +2053,7 @@ namespace Altom.AltTesterEditor
             }
         }
 
-        private static string[] altUnityGetAllScenes()
+        private static string[] altGetAllScenes()
         {
             string[] temp = UnityEditor.AssetDatabase.GetAllAssetPaths();
             var result = new List<string>();

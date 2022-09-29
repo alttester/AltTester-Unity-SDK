@@ -14,7 +14,7 @@ namespace Altom.AltTesterTools
     {
 
         // Start is called before the first frame update
-        [UnityEditor.MenuItem("Alt Tools/Create AltTester Prefab", false, 80)]
+        [UnityEditor.MenuItem("AltTester Tools/Create AltTester Prefab", false, 80)]
         public static void CreateAUTPrefab()
         {
             ///
@@ -22,14 +22,14 @@ namespace Altom.AltTesterTools
             ///
 
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains("ALTUNITYTESTER"))
+            if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
             {
-                Debug.LogError("ALTUNTITYTESTER must be added as define before updating the prefab");
+                Debug.LogError("ALTTESTER must be added as define before updating the prefab");
             }
 
             var Prefab = new GameObject("AltRunnerPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem) });
 
-            string path = "Assets/AltTester/Prefab/AltRunnerPrefab.prefab";
+            string path = "Assets/AltTester/Prefab/AltTesterPrefab.prefab";
             string localPath = path;
 
 

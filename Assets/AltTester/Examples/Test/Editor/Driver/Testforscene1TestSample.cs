@@ -203,7 +203,7 @@ namespace Altom.AltDriver.Tests
             const string componentName = "AltRunner";
             var altElement = altUnityDriver.FindObject(By.COMPONENT, componentName);
             Assert.NotNull(altElement);
-            Assert.AreEqual(altElement.name, "AltRunnerPrefab");
+            Assert.AreEqual(altElement.name, "AltTesterPrefab");
         }
         [Test]
         public void TestFindObjectByComponentWithNamespace()
@@ -212,7 +212,7 @@ namespace Altom.AltDriver.Tests
             const string componentName = "AltTester.AltDriver.AltRunner";
             var altElement = altUnityDriver.FindObject(By.COMPONENT, componentName);
             Assert.NotNull(altElement);
-            Assert.AreEqual(altElement.name, "AltRunnerPrefab");
+            Assert.AreEqual(altElement.name, "AltTesterPrefab");
         }
         [Test]
         public void TestFindObjectByComponent2()
@@ -226,7 +226,7 @@ namespace Altom.AltDriver.Tests
         {
             const string componentName = "Altom.AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.ProxyPort";
-            var altElement = altUnityDriver.FindObject(By.NAME, "AltRunnerPrefab");
+            var altElement = altUnityDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
             string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
@@ -241,7 +241,7 @@ namespace Altom.AltDriver.Tests
         {
             const string componentName = "Altom.AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.ShowPopUp";
-            var altElement = altUnityDriver.FindObject(By.NAME, "AltRunnerPrefab");
+            var altElement = altUnityDriver.FindObject(By.NAME, "AltTesterPrefab");
             try
             {
                 var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
@@ -259,7 +259,7 @@ namespace Altom.AltDriver.Tests
             Thread.Sleep(1000);
             const string componentName = "Altom.AltTester.AltRunner";
             const string propertyName = "InvalidProperty";
-            var altElement = altUnityDriver.FindObject(By.NAME, "AltRunnerPrefab");
+            var altElement = altUnityDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             try
             {
@@ -284,7 +284,7 @@ namespace Altom.AltDriver.Tests
             Thread.Sleep(1000);
             const string componentName = "Altom.AltTester.AltRunner";
             const string propertyName = "socketPort";
-            var altElement = altUnityDriver.FindObject(By.NAME, "AltRunnerPrefab");
+            var altElement = altUnityDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             try
             {

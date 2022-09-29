@@ -133,7 +133,7 @@ namespace Altom.AltDriver.Tests
             {
                 listOfElements += element.name + "; ";
             }
-            Assert.AreEqual(19, altElements.FindIndex(e => e.name == "AltRunnerPrefab"));
+            Assert.AreEqual(19, altElements.FindIndex(e => e.name == "AltTesterPrefab"));
 
             Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));

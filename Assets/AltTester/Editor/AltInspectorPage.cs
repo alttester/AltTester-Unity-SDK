@@ -21,7 +21,7 @@ namespace Altom.AltTesterEditor
 
 
         private UnityEngine.Texture2D buttonTexture;
-        [UnityEditor.MenuItem("Alt Tools/Alt Inspector", false, 81)]
+        [UnityEditor.MenuItem("AltTester Tools/Alt Inspector", false, 81)]
         public static void ShowWindow()
         {
             _window = (AltInspectorPage)GetWindow(typeof(AltInspectorPage));
