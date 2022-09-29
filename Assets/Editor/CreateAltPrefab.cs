@@ -374,7 +374,7 @@ namespace Altom.AltTesterTools
                 }
                 if (newComponent.GetType() == typeof(AltRunner))
                 {
-                    checkAltUNityRunnerEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltRunner, newComponent as AltRunner);
+                    checkaltRunnerEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltRunner, newComponent as AltRunner);
                     continue;
                 }
             }
@@ -493,7 +493,7 @@ namespace Altom.AltTesterTools
                 throw new System.Exception("Icon object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.Icon.name + " and new: " + newDialog.Icon.name);
             }
         }
-        private static void checkAltUNityRunnerEquality(AltRunner originalRunner, AltRunner newRunner)
+        private static void checkaltRunnerEquality(AltRunner originalRunner, AltRunner newRunner)
         {
             if (originalRunner.outlineShader != newRunner.outlineShader)
             {
