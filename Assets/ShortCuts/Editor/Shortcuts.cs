@@ -8,8 +8,8 @@ namespace altunitytester.Assets.ShortCuts.Editor
         public static void AddAUTSymbol()
         {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains("ALTUNITYTESTER"))
-                scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
+            if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
+                scriptingDefineSymbolsForGroup += ";ALTTESTER";
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup);
         }
 
