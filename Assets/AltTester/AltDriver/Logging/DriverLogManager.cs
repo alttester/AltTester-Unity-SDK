@@ -78,7 +78,7 @@ namespace Altom.AltDriver.Logging
         {
             var config = new LoggingConfiguration();
 
-#if UNITY_EDITOR || ALTUNITYTESTER
+#if UNITY_EDITOR || ALTTESTER
             var unityTarget = new UnityTarget("AltDriverUnityTarget")
             {
                 Layout = Layout.FromString("${longdate}|Driver|${level:uppercase=true}|${message}"),

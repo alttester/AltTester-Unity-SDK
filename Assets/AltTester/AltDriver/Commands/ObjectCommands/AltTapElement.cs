@@ -4,10 +4,10 @@ namespace Altom.AltDriver.Commands
     {
         AltTapElementParams cmdParams;
 
-        public AltTapElement(IDriverCommunication commHandler, AltObject altUnityObject, int count, float interval, bool wait) : base(commHandler)
+        public AltTapElement(IDriverCommunication commHandler, AltObject altObject, int count, float interval, bool wait) : base(commHandler)
         {
             cmdParams = new AltTapElementParams(
-            altUnityObject,
+            altObject,
              count,
              interval,
              wait);

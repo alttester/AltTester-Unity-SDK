@@ -4,9 +4,9 @@ namespace Altom.AltDriver.Commands
     {
         readonly AltGetTextParams cmdParams;
 
-        public AltGetText(IDriverCommunication commHandler, AltObject altUnityObject) : base(commHandler)
+        public AltGetText(IDriverCommunication commHandler, AltObject altObject) : base(commHandler)
         {
-            cmdParams = new AltGetTextParams(altUnityObject);
+            cmdParams = new AltGetTextParams(altObject);
         }
 
         public string Execute()

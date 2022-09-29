@@ -1,4 +1,4 @@
-#if UNITY_EDITOR || ALTUNITYTESTER
+#if UNITY_EDITOR || ALTTESTER
 using NLog;
 using NLog.Targets;
 using UnityEngine;

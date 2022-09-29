@@ -21,7 +21,7 @@ namespace Altom.AltTester.Commands
             if (foundGameObject.Count() == 1)
             {
                 return
-                    AltRunner._altUnityRunner.GameObjectToAltObject(foundGameObject[0], camera);
+                    AltRunner._altRunner.GameObjectToAltObject(foundGameObject[0], camera);
             }
             throw new NotFoundException(string.Format("Object {0} not found", CommandParams.path));
         }

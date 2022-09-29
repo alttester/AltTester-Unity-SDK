@@ -29,7 +29,7 @@ namespace Altom.AltDriver
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60)
         {
-#if UNITY_EDITOR || ALTUNITYTESTER
+#if UNITY_EDITOR || ALTTESTER
             var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } };
 #else
                 var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Console, AltLogLevel.Debug } };

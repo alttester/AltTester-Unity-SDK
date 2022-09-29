@@ -22,7 +22,7 @@ namespace Altom.AltTester.Commands
 
         public override AltObject Execute()
         {
-            var targetObject = AltRunner.GetGameObject(CommandParams.altUnityObject);
+            var targetObject = AltRunner.GetGameObject(CommandParams.altObject);
             Exception exception = null;
 
             foreach (var property in textProperties)
@@ -32,7 +32,7 @@ namespace Altom.AltTester.Commands
                     System.Type type = GetType(property.Component, property.Assembly);
 
                     string valueText = Newtonsoft.Json.JsonConvert.SerializeObject(CommandParams.value);
-                    SetValueForMember(CommandParams.altUnityObject, property.Property.Split('.'), type, valueText);
+                    SetValueForMember(CommandParams.altObject, property.Property.Split('.'), type, valueText);
                     var uiInputFieldComp = targetObject.GetComponent<UnityEngine.UI.InputField>();
                     if (uiInputFieldComp != null)
                     {
@@ -52,7 +52,7 @@ namespace Altom.AltTester.Commands
                             tMPInputFieldComp.onEndEdit.Invoke(CommandParams.value);
                         }
                     }
-                    return AltRunner._altUnityRunner.GameObjectToAltObject(targetObject);
+                    return AltRunner._altRunner.GameObjectToAltObject(targetObject);
                 }
                 catch (PropertyNotFoundException ex)
                 {

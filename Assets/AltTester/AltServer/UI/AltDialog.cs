@@ -40,7 +40,7 @@ namespace Altom.AltTester.UI
 
         private ICommunication communication;
 
-        public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altUnityRunner.InstrumentationSettings; } }
+        public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
         private bool wasConnectedBeforeToProxy = false;

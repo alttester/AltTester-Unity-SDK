@@ -3,9 +3,9 @@ namespace Altom.AltDriver.Commands
     public class AltDragObject : AltCommandReturningAltElement
     {
         AltDragObjectParams cmdParams;
-        public AltDragObject(IDriverCommunication commHandler, AltVector2 position, AltObject altUnityObject) : base(commHandler)
+        public AltDragObject(IDriverCommunication commHandler, AltVector2 position, AltObject altObject) : base(commHandler)
         {
-            cmdParams = new AltDragObjectParams(altUnityObject, position);
+            cmdParams = new AltDragObjectParams(altObject, position);
         }
         public AltObject Execute()
         {

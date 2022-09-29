@@ -3,9 +3,9 @@ namespace Altom.AltDriver.Commands
     public class AltPointerEnterObject : AltCommandReturningAltElement
     {
         AltPointerEnterObjectParams cmdParams;
-        public AltPointerEnterObject(IDriverCommunication commHandler, AltObject altUnityObject) : base(commHandler)
+        public AltPointerEnterObject(IDriverCommunication commHandler, AltObject altObject) : base(commHandler)
         {
-            cmdParams = new AltPointerEnterObjectParams(altUnityObject);
+            cmdParams = new AltPointerEnterObjectParams(altObject);
         }
         public AltObject Execute()
         {

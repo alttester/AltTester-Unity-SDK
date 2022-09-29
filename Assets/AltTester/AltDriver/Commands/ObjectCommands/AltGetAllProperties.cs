@@ -6,9 +6,9 @@ namespace Altom.AltDriver.Commands
     {
         AltGetAllPropertiesParams cmdParams;
 
-        public AltGetAllProperties(IDriverCommunication commHandler, AltComponent altUnityComponent, AltObject altUnityObject, AltPropertiesSelections altUnityPropertiesSelections = AltPropertiesSelections.ALLPROPERTIES) : base(commHandler)
+        public AltGetAllProperties(IDriverCommunication commHandler, AltComponent altComponent, AltObject altObject, AltPropertiesSelections altPropertiesSelections = AltPropertiesSelections.ALLPROPERTIES) : base(commHandler)
         {
-            cmdParams = new AltGetAllPropertiesParams(altUnityObject.id, altUnityComponent, altUnityPropertiesSelections);
+            cmdParams = new AltGetAllPropertiesParams(altObject.id, altComponent, altPropertiesSelections);
 
         }
         public List<AltProperty> Execute()

@@ -18,7 +18,7 @@ namespace Altom.AltTesterTools
         public static void CreateAUTPrefab()
         {
             ///
-            /// IMPORTANT! ALTUNITYTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
+            /// IMPORTANT! ALTTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
             ///
 
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
@@ -278,7 +278,7 @@ namespace Altom.AltTesterTools
             IconRectTransform.pivot = new Vector2(1f, 0f);
 
             var IconImage = Icon.GetComponent<Image>();
-            IconImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/altUnity-512x512.png", typeof(Sprite)) as Sprite;
+            IconImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/altTester-512x512.png", typeof(Sprite)) as Sprite;
 
 
             // Set AltRunner variables

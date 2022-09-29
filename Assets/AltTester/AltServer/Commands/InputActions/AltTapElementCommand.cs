@@ -13,12 +13,12 @@ namespace Altom.AltTester.Commands
 
         public override AltObject Execute()
         {
-            AltRunner._altUnityRunner.ShowClick(new UnityEngine.Vector2(CommandParams.altUnityObject.getScreenPosition().x, CommandParams.altUnityObject.getScreenPosition().y));
-            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altUnityObject);
+            AltRunner._altRunner.ShowClick(new UnityEngine.Vector2(CommandParams.altObject.getScreenPosition().x, CommandParams.altObject.getScreenPosition().y));
+            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject);
 
             InputController.TapElement(gameObject, CommandParams.count, CommandParams.interval, onFinish);
 
-            return AltRunner._altUnityRunner.GameObjectToAltObject(gameObject);
+            return AltRunner._altRunner.GameObjectToAltObject(gameObject);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Altom.AltDriver
         public const string errorIndexOutOfRange = "indexOutOfRange";
         public const string errorInvalidCommand = "invalidCommand";
         public const string errorInvalidPath = "invalidPath";
-        public const string errorInputModule = "ALTUNITYTESTERNotAddedAsDefineVariable";
+        public const string errorInputModule = "ALTTESTERNotAddedAsDefineVariable";
     }
 
     public class AltException : Exception

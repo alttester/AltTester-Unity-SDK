@@ -20,7 +20,7 @@ namespace Altom.AltTester.Commands
             var foundObjects = new List<AltObject>();
             foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, CommandParams.enabled))
             {
-                foundObjects.Add(AltRunner._altUnityRunner.GameObjectToAltObject(testableObject, camera));
+                foundObjects.Add(AltRunner._altRunner.GameObjectToAltObject(testableObject, camera));
             }
 
             return foundObjects;

@@ -7,33 +7,33 @@ namespace Altom.AltDriver.Tests
 {
     public class AltCommandsTests
     {
-        private AltDriver altUnityDriver;
+        private AltDriver altDriver;
 
         [OneTimeSetUp]
         public void SetUp()
         {
             DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Debug);
-            altUnityDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort());
+            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort());
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
-            altUnityDriver.SetServerLogging(AltLogger.File, AltLogLevel.Debug);
-            altUnityDriver.Stop();
+            altDriver.SetServerLogging(AltLogger.File, AltLogLevel.Debug);
+            altDriver.Stop();
         }
 
         [Test]
         [Category("WebGLUnsupported")]
         public void TestSetServerLogging()
         {
-            var rule = altUnityDriver.CallStaticMethod<dynamic>("Altom.AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltServerFileRule" }, null, "Assembly-CSharp");
+            var rule = altDriver.CallStaticMethod<dynamic>("Altom.AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltServerFileRule" }, null, "Assembly-CSharp");
 
             var levels = (JArray)rule["Levels"];
             Assert.AreEqual(5, levels.Count, levels.ToString());
 
-            altUnityDriver.SetServerLogging(AltLogger.File, AltLogLevel.Off);
-            rule = altUnityDriver.CallStaticMethod<dynamic>("Altom.AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltServerFileRule" }, null, "Assembly-CSharp");
+            altDriver.SetServerLogging(AltLogger.File, AltLogLevel.Off);
+            rule = altDriver.CallStaticMethod<dynamic>("Altom.AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltServerFileRule" }, null, "Assembly-CSharp");
             levels = (JArray)rule["Levels"];
             Assert.AreEqual(0, levels.Count, levels.ToString());
         }

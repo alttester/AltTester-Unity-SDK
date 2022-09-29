@@ -26,12 +26,12 @@ namespace Altom.AltTester.Commands
             {
                 cameraObjects.AddRange(from Camera camera in cameras
                                        where camera.enabled == true
-                                       select AltRunner._altUnityRunner.GameObjectToAltObject(camera.gameObject));
+                                       select AltRunner._altRunner.GameObjectToAltObject(camera.gameObject));
             }
             else
             {
                 cameraObjects.AddRange(from Camera camera in cameras
-                                       select AltRunner._altUnityRunner.GameObjectToAltObject(camera.gameObject));
+                                       select AltRunner._altRunner.GameObjectToAltObject(camera.gameObject));
             }
             return cameraObjects;
         }

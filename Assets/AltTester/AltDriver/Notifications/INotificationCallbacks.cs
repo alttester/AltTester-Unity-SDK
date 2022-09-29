@@ -3,9 +3,9 @@ namespace Altom.AltDriver.Notifications
 {
     public interface INotificationCallbacks
     {
-        void SceneLoadedCallback(AltLoadSceneNotificationResultParams altUnityLoadSceneNotificationResultParams);
+        void SceneLoadedCallback(AltLoadSceneNotificationResultParams altLoadSceneNotificationResultParams);
         void SceneUnloadedCallback(string sceneName);
-        void LogCallback(AltLogNotificationResultParams altUnityLogNotificationResultParams);
+        void LogCallback(AltLogNotificationResultParams altLogNotificationResultParams);
         void ApplicationPausedCallback(bool applicationPaused);
     }
 }

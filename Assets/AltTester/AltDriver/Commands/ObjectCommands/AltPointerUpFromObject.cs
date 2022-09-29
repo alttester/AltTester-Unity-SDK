@@ -4,9 +4,9 @@ namespace Altom.AltDriver.Commands
     {
         AltPointerUpFromObjectParams cmdParams;
 
-        public AltPointerUpFromObject(IDriverCommunication commHandler, AltObject altUnityObject) : base(commHandler)
+        public AltPointerUpFromObject(IDriverCommunication commHandler, AltObject altObject) : base(commHandler)
         {
-            this.cmdParams = new AltPointerUpFromObjectParams(altUnityObject);
+            this.cmdParams = new AltPointerUpFromObjectParams(altObject);
         }
         public AltObject Execute()
         {

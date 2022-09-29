@@ -3,19 +3,19 @@ using Altom.AltDriver;
 
 public class #SCRIPTNAME#
 {   //Important! If your test file is inside a folder that contains an .asmdef file, please make sure that the assembly definition references NUnit.
-    public AltDriver altUnityDriver;
+    public AltDriver altDriver;
     //Before any test it connects with the socket
     [OneTimeSetUp]
     public void SetUp()
     {
-        altUnityDriver =new AltDriver();
+        altDriver =new AltDriver();
     }
 
     //At the end of the test closes the connection with the socket
     [OneTimeTearDown]
     public void TearDown()
     {
-        altUnityDriver.Stop();
+        altDriver.Stop();
     }
 
     [Test]

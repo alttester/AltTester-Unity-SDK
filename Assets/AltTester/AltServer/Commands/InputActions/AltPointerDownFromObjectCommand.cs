@@ -13,16 +13,16 @@ namespace Altom.AltTester.Commands
         public override AltObject Execute()
         {
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altUnityObject);
+            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject);
             UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
-            var camera = AltRunner._altUnityRunner.FoundCameraById(CommandParams.altUnityObject.idCamera);
+            var camera = AltRunner._altRunner.FoundCameraById(CommandParams.altObject.idCamera);
             if (camera != null)
             {
-                return AltRunner._altUnityRunner.GameObjectToAltObject(gameObject, camera);
+                return AltRunner._altRunner.GameObjectToAltObject(gameObject, camera);
             }
             else
             {
-                return AltRunner._altUnityRunner.GameObjectToAltObject(gameObject);
+                return AltRunner._altRunner.GameObjectToAltObject(gameObject);
             }
         }
     }

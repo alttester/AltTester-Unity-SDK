@@ -1,6 +1,6 @@
 using Altom.AltTesterEditor;
 
-namespace altunitytester.Assets.ShortCuts.Editor
+namespace alttester.Assets.ShortCuts.Editor
 {
     public class Shortcuts
     {

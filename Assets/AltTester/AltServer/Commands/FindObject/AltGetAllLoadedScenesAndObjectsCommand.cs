@@ -19,7 +19,7 @@ namespace Altom.AltTester.Commands
                 {
                     if (CommandParams.enabled == false || rootGameObject.activeSelf)
                     {
-                        foundObjects.Add(AltRunner._altUnityRunner.GameObjectToAltObjectLight(rootGameObject));
+                        foundObjects.Add(AltRunner._altRunner.GameObjectToAltObjectLight(rootGameObject));
                         foundObjects.AddRange(getAllChildren(rootGameObject));
                     }
                 }
@@ -34,7 +34,7 @@ namespace Altom.AltTester.Commands
             {
                 if (CommandParams.enabled == false || destroyOnLoadObject.activeSelf)
                 {
-                    foundObjects.Add(AltRunner._altUnityRunner.GameObjectToAltObjectLight(destroyOnLoadObject));
+                    foundObjects.Add(AltRunner._altRunner.GameObjectToAltObjectLight(destroyOnLoadObject));
                     foundObjects.AddRange(getAllChildren(destroyOnLoadObject));
                 }
             }
@@ -49,7 +49,7 @@ namespace Altom.AltTester.Commands
                 var child = gameObject.transform.GetChild(i).gameObject;
                 if (CommandParams.enabled == false || child.activeSelf)
                 {
-                    children.Add(AltRunner._altUnityRunner.GameObjectToAltObjectLight(child));
+                    children.Add(AltRunner._altRunner.GameObjectToAltObjectLight(child));
                     children.AddRange(getAllChildren(child));
                 }
 

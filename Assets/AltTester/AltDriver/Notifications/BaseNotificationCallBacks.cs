@@ -6,17 +6,17 @@ namespace Altom.AltDriver.Notifications
     public class BaseNotificationCallBacks : INotificationCallbacks
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
-        public void SceneLoadedCallback(AltLoadSceneNotificationResultParams altUnityLoadSceneNotificationResultParams)
+        public void SceneLoadedCallback(AltLoadSceneNotificationResultParams altLoadSceneNotificationResultParams)
         {
-            logger.Log(NLog.LogLevel.Info, String.Format("Scene {0} was loaded {1}", altUnityLoadSceneNotificationResultParams.sceneName, altUnityLoadSceneNotificationResultParams.loadSceneMode.ToString()));
+            logger.Log(NLog.LogLevel.Info, String.Format("Scene {0} was loaded {1}", altLoadSceneNotificationResultParams.sceneName, altLoadSceneNotificationResultParams.loadSceneMode.ToString()));
         }
         public void SceneUnloadedCallback(string sceneName)
         {
             logger.Log(NLog.LogLevel.Info, String.Format("Scene {0} was unloaded", sceneName));
         }
-        public void LogCallback(AltLogNotificationResultParams altUnityLogNotificationResultParams)
+        public void LogCallback(AltLogNotificationResultParams altLogNotificationResultParams)
         {
-            logger.Log(NLog.LogLevel.Info, String.Format("Log of type {0} with message {1} was received", altUnityLogNotificationResultParams.level, altUnityLogNotificationResultParams.message));
+            logger.Log(NLog.LogLevel.Info, String.Format("Log of type {0} with message {1} was received", altLogNotificationResultParams.level, altLogNotificationResultParams.message));
         }
         public void ApplicationPausedCallback(bool applicationPaused)
         {

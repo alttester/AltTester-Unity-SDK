@@ -78,15 +78,15 @@ public class AltNIPDebugScript : MonoBehaviour
                 }
                 else
                     power = 1;
-                var altUnityKeyMapping = new AltKeyMapping(power);
-                foreach (var e in altUnityKeyMapping.joystickKeyCodeToGamepad)
+                var altKeyMapping = new AltKeyMapping(power);
+                foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
                     if (joystick == e.Value)
                         JoystickPressed = e.Key.ToString();
             }
             else if (joystick.GetType() == typeof(ButtonControl) && ((ButtonControl)joystick) == pressedButton && !((ButtonControl)joystick).isPressed)
             {
-                var altUnityKeyMapping = new AltKeyMapping(power);
-                foreach (var e in altUnityKeyMapping.joystickKeyCodeToGamepad)
+                var altKeyMapping = new AltKeyMapping(power);
+                foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
                     if (joystick == e.Value)
                         JoystickReleased = e.Key.ToString();
             }

@@ -83,7 +83,7 @@ namespace Altom.AltTester.Logging
         {
             var config = new LoggingConfiguration();
 
-#if UNITY_EDITOR || ALTUNITYTESTER
+#if UNITY_EDITOR || ALTTESTER
             var unitylog = new UnityTarget("AltServerUnityTarget")
             {
                 Layout = Layout.FromString("${longdate}|Tester|${level:uppercase=true}|${message}"),

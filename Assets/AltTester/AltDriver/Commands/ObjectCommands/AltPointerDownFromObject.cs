@@ -3,9 +3,9 @@ namespace Altom.AltDriver.Commands
     public class AltPointerDownFromObject : AltCommandReturningAltElement
     {
         AltPointerDownFromObjectParams cmdParams;
-        public AltPointerDownFromObject(IDriverCommunication commHandler, AltObject altUnityObject) : base(commHandler)
+        public AltPointerDownFromObject(IDriverCommunication commHandler, AltObject altObject) : base(commHandler)
         {
-            this.cmdParams = new AltPointerDownFromObjectParams(altUnityObject);
+            this.cmdParams = new AltPointerDownFromObjectParams(altObject);
         }
         public AltObject Execute()
         {

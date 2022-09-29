@@ -7,9 +7,9 @@ namespace Altom.AltDriver.Commands
     {
         AltCallComponentMethodForObjectParams cmdParams;
 
-        public AltCallComponentMethod(IDriverCommunication commHandler, string componentName, string methodName, object[] parameters, string[] typeOfParameters, string assembly, AltObject altUnityObject) : base(commHandler)
+        public AltCallComponentMethod(IDriverCommunication commHandler, string componentName, string methodName, object[] parameters, string[] typeOfParameters, string assembly, AltObject altObject) : base(commHandler)
         {
-            cmdParams = new AltCallComponentMethodForObjectParams(altUnityObject, componentName, methodName, parameters.Select(p => JsonConvert.SerializeObject(p, new JsonSerializerSettings
+            cmdParams = new AltCallComponentMethodForObjectParams(altObject, componentName, methodName, parameters.Select(p => JsonConvert.SerializeObject(p, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Culture = System.Globalization.CultureInfo.InvariantCulture

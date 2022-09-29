@@ -67,7 +67,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.ScrollLifeCycle(speedVertical, speedHorizontal, duration));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -83,7 +83,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.MoveMouseCycle(location, duration));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -98,7 +98,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval, true));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -114,7 +114,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickCoordinatesLifeCycle(coordinates, count, interval, true));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -130,7 +130,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval, false));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -146,7 +146,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickCoordinatesLifeCycle(screenPosition, count, interval, false));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -161,7 +161,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.AccelerationLifeCycle(accelerationValue, duration));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -174,7 +174,7 @@ namespace Altom.AltTester
             NewInputSystem.KeyDown(keyCode, power);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altUnityRunner.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
+            AltRunner._altRunner.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
 #endif
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
@@ -188,7 +188,7 @@ namespace Altom.AltTester
             NewInputSystem.KeyUp(keyCode);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altUnityRunner.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
+            AltRunner._altRunner.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
 #endif
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
@@ -205,7 +205,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.KeyPressLifeCycle(keyCode, power, duration));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -221,7 +221,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.MultipointSwipeLifeCycle(positions, duration));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -273,7 +273,7 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.EndTouch(fingerId - 1));
 #endif
-            AltRunner._altUnityRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif

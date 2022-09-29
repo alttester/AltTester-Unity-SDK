@@ -4,10 +4,10 @@ namespace Altom.AltDriver.Commands
     {
         AltSetObjectComponentPropertyParams cmdParams;
 
-        public AltSetComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, object value, string assemblyName, AltObject altUnityObject) : base(commHandler)
+        public AltSetComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, object value, string assemblyName, AltObject altObject) : base(commHandler)
         {
             var strValue = Newtonsoft.Json.JsonConvert.SerializeObject(value);
-            cmdParams = new AltSetObjectComponentPropertyParams(altUnityObject, componentName, propertyName, assemblyName, strValue);
+            cmdParams = new AltSetObjectComponentPropertyParams(altObject, componentName, propertyName, assemblyName, strValue);
         }
         public void Execute()
         {

@@ -6,9 +6,9 @@ namespace Altom.AltDriver.Commands
     public class AltGetAllMethods : AltBaseCommand
     {
         AltGetAllMethodsParams cmdParams;
-        public AltGetAllMethods(IDriverCommunication commHandler, AltComponent altUnityComponent, AltMethodSelection methodSelection = AltMethodSelection.ALLMETHODS) : base(commHandler)
+        public AltGetAllMethods(IDriverCommunication commHandler, AltComponent altComponent, AltMethodSelection methodSelection = AltMethodSelection.ALLMETHODS) : base(commHandler)
         {
-            cmdParams = new AltGetAllMethodsParams(altUnityComponent, methodSelection);
+            cmdParams = new AltGetAllMethodsParams(altComponent, methodSelection);
         }
         public List<string> Execute()
         {

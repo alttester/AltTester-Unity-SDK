@@ -2015,10 +2015,10 @@ namespace Altom.AltTesterEditor
             return path;
         }
 
-        private static void destroyAltRunner(UnityEngine.Object altUnityRunner)
+        private static void destroyAltRunner(UnityEngine.Object altRunner)
         {
 
-            DestroyImmediate(altUnityRunner);
+            DestroyImmediate(altRunner);
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
             EditorSceneManager.OpenScene(AltBuilder.PreviousScenePath);

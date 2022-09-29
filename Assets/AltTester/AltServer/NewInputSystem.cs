@@ -17,7 +17,7 @@ namespace Altom.AltTester
     {
         private static Vector2 endTouchScreenPos;
         private static float keyDownPower;
-        private static Dictionary<int,int> inputIdDictionary = new Dictionary<int,int>();
+        private static Dictionary<int, int> inputIdDictionary = new Dictionary<int, int>();
 
         public static InputTestFixture InputTestFixture = new InputTestFixture();
         public static NewInputSystem Instance;
@@ -133,7 +133,7 @@ namespace Altom.AltTester
             var mousePosition = new Vector2(Mouse.position.x.ReadValue(), Mouse.position.y.ReadValue());
             var distance = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            var inputId = AltRunner._altUnityRunner.ShowInput(mousePosition);
+            var inputId = AltRunner._altRunner.ShowInput(mousePosition);
 #endif
             var deltaUnchanged = false;
             while (time < duration)
@@ -157,14 +157,14 @@ namespace Altom.AltTester
                 }
                 InputTestFixture.Move(Mouse.position, mousePosition, delta);
 #if !ENABLE_LEGACY_INPUT_MANAGER
-                AltRunner._altUnityRunner.ShowInput(mousePosition, inputId);
+                AltRunner._altRunner.ShowInput(mousePosition, inputId);
 #endif
             }
             if (deltaUnchanged)
             {
                 InputTestFixture.Move(Mouse.position, mousePosition * 1.01f, Vector2.zero);
                 InputTestFixture.Move(Mouse.position, mousePosition, Vector2.zero);
-                while(time <duration)
+                while (time < duration)
                 {
                     time += Time.unscaledDeltaTime;
                     yield return null;
@@ -179,12 +179,12 @@ namespace Altom.AltTester
             var touchId = getFreeTouch(touches);
             touches[touchId] = false;
             UnityEngine.Vector3 screenPosition;
-            AltRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
+            AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altUnityRunner.ShowClick(screenPosition);
+            AltRunner._altRunner.ShowClick(screenPosition);
 #endif
                 InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
                 yield return null;
@@ -209,7 +209,7 @@ namespace Altom.AltTester
             {
                 float time = 0;
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altUnityRunner.ShowClick(screenPosition);
+            AltRunner._altRunner.ShowClick(screenPosition);
 #endif
                 InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
                 yield return null;
@@ -220,7 +220,7 @@ namespace Altom.AltTester
                 {
                     time += Time.unscaledDeltaTime;
                     yield return null;
-                }   
+                }
             }
             touches[touchId] = true;
         }
@@ -229,13 +229,13 @@ namespace Altom.AltTester
         {
             Mouse.MakeCurrent();
             UnityEngine.Vector3 screenPosition;
-            AltRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
+            AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
             InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: true);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altUnityRunner.ShowClick(screenPosition);
+            AltRunner._altRunner.ShowClick(screenPosition);
 #endif
                 InputTestFixture.Press(Mouse.leftButton, queueEventOnly: true);
                 yield return null;
@@ -257,7 +257,7 @@ namespace Altom.AltTester
             {
                 float time = 0;
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altUnityRunner.ShowClick(screenPosition);
+            AltRunner._altRunner.ShowClick(screenPosition);
 #endif
                 InputTestFixture.Press(Mouse.leftButton, queueEventOnly: true);
                 yield return null;
@@ -268,7 +268,7 @@ namespace Altom.AltTester
                     time += Time.unscaledDeltaTime;
                     yield return null;
                 }
-               
+
             }
         }
 
@@ -319,7 +319,7 @@ namespace Altom.AltTester
             float oneTouchDuration = duration / (positions.Length - 1);
             var touchId = BeginTouch(positions[0]);
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            var inputId = AltRunner._altUnityRunner.ShowInput(positions[0]);
+            var inputId = AltRunner._altRunner.ShowInput(positions[0]);
 #endif
             yield return null;
             for (int i = 1; i < positions.Length; i++)
@@ -345,12 +345,12 @@ namespace Altom.AltTester
 
                     MoveTouch(touchId, currentPosition);
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altUnityRunner.ShowInput(currentPosition,inputId);
+            AltRunner._altRunner.ShowInput(currentPosition,inputId);
 #endif
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
-            yield return AltRunner._altUnityRunner.StartCoroutine(EndTouch(touchId));
+            yield return AltRunner._altRunner.StartCoroutine(EndTouch(touchId));
         }
         internal static int BeginTouch(Vector3 screenPosition)
         {
@@ -358,7 +358,7 @@ namespace Altom.AltTester
             touches[fingerId] = false;
             InputTestFixture.BeginTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            var inputId = AltRunner._altUnityRunner.ShowInput(screenPosition);
+            var inputId = AltRunner._altRunner.ShowInput(screenPosition);
             inputIdDictionary.Add(fingerId, inputId);
 #endif
             endTouchScreenPos = screenPosition;
@@ -371,7 +371,7 @@ namespace Altom.AltTester
             endTouchScreenPos = screenPosition;
 #if !ENABLE_LEGACY_INPUT_MANAGER
             var inputId = inputIdDictionary[fingerId];
-            AltRunner._altUnityRunner.ShowInput(screenPosition, inputId);
+            AltRunner._altRunner.ShowInput(screenPosition, inputId);
 #endif
 
         }
@@ -382,13 +382,13 @@ namespace Altom.AltTester
 #if !ENABLE_LEGACY_INPUT_MANAGER
             var inputId = inputIdDictionary[fingerId];
             inputIdDictionary.Remove(fingerId);
-            AltRunner._altUnityRunner.ShowInput(endTouchScreenPos, inputId);
+            AltRunner._altRunner.ShowInput(endTouchScreenPos, inputId);
 #endif
             InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);
             touches[fingerId] = true;
         }
 
-#region private interface
+        #region private interface
         private static ButtonControl keyCodeToButtonControl(KeyCode keyCode, float power = 1)
         {
             foreach (var e in AltKeyMapping.StringToKeyCode)
@@ -397,8 +397,8 @@ namespace Altom.AltTester
             foreach (var e in AltKeyMapping.mouseKeyCodeToButtonControl)
                 if (e.Key == keyCode)
                     return e.Value;
-            AltKeyMapping altUnityKeyMapping = new AltKeyMapping(power);
-            foreach (var e in altUnityKeyMapping.joystickKeyCodeToGamepad)
+            AltKeyMapping altKeyMapping = new AltKeyMapping(power);
+            foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
                 if (e.Key == keyCode)
                     return e.Value;
             return null;
@@ -442,7 +442,7 @@ namespace Altom.AltTester
             }
             return 0;
         }
-#endregion
+        #endregion
     }
 
 }

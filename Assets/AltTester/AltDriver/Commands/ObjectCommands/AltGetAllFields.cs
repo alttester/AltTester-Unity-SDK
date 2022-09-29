@@ -6,9 +6,9 @@ namespace Altom.AltDriver.Commands
     public class AltGetAllFields : AltBaseCommand
     {
         AltGetAllFieldsParams cmdParams;
-        public AltGetAllFields(IDriverCommunication commHandler, AltComponent altUnityComponent, AltObject altUnityObject, AltFieldsSelections altUnityFieldsSelections = AltFieldsSelections.ALLFIELDS) : base(commHandler)
+        public AltGetAllFields(IDriverCommunication commHandler, AltComponent altComponent, AltObject altObject, AltFieldsSelections altFieldsSelections = AltFieldsSelections.ALLFIELDS) : base(commHandler)
         {
-            cmdParams = new AltGetAllFieldsParams(altUnityObject.id, altUnityComponent, altUnityFieldsSelections);
+            cmdParams = new AltGetAllFieldsParams(altObject.id, altComponent, altFieldsSelections);
         }
         public List<AltProperty> Execute()
         {

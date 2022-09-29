@@ -12,7 +12,7 @@ namespace Altom.AltTester.Commands
         public override string Execute()
         {
             System.Type type = GetType(CommandParams.component, CommandParams.assembly);
-            string response = SetValueForMember(CommandParams.altUnityObject, CommandParams.property.Split('.'), type, CommandParams.value);
+            string response = SetValueForMember(CommandParams.altObject, CommandParams.property.Split('.'), type, CommandParams.value);
 
             return response;
         }

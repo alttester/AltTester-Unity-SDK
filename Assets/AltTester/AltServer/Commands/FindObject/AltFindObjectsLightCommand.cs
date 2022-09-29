@@ -16,7 +16,7 @@ namespace Altom.AltTester.Commands
             var foundObjects = new List<AltObjectLight>();
             foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, CommandParams.enabled))
             {
-                foundObjects.Add(AltRunner._altUnityRunner.GameObjectToAltObjectLight(testableObject));
+                foundObjects.Add(AltRunner._altRunner.GameObjectToAltObjectLight(testableObject));
             }
 
             return foundObjects;

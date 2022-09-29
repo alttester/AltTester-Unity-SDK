@@ -8,12 +8,12 @@ namespace Altom.AltDriver.Tests
     [Timeout(10000)]
     public class TestForScene3DragAndDrop
     {
-        private AltDriver altUnityDriver;
+        private AltDriver altDriver;
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            altUnityDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
+            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
             DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
             DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
         }
@@ -21,43 +21,43 @@ namespace Altom.AltDriver.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
-            altUnityDriver.Stop();
+            altDriver.Stop();
         }
 
         [SetUp]
         public void LoadLevel()
         {
-            altUnityDriver.LoadScene("Scene 3 Drag And Drop");
+            altDriver.LoadScene("Scene 3 Drag And Drop");
         }
 
         [Test]
         public void MultipleDragAndDrop()
         {
-            var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1, wait: false);
+            var altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            var altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1, wait: false);
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image2");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box2");
-            altUnityDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 2, wait: false);
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image2");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box2");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 2, wait: false);
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image3");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 2, wait: false);
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image3");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 2, wait: false);
 
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 3, wait: false);
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 3, wait: false);
 
             Thread.Sleep(4000);
 
-            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            var imageSource = altDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            var imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
 
-            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSource = altDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
         }
 
@@ -65,28 +65,28 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void MultipleDragAndDropWait()
         {
-            var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
+            var altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            var altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image2");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box2");
-            altUnityDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image2");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box2");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image3");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image3");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
 
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
-            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
+            var imageSource = altDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            var imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
 
-            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSource = altDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
         }
 
@@ -94,14 +94,14 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void MultipleDragAndDropWaitWithMultipointSwipe()
         {
-            var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.MultipointSwipe(new[] { new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y) }, 2, wait: false);
+            var altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            var altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.MultipointSwipe(new[] { new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y) }, 2, wait: false);
             Thread.Sleep(2000);
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            var altElement3 = altUnityDriver.FindObject(By.NAME, "Drop Box2");
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            var altElement3 = altDriver.FindObject(By.NAME, "Drop Box2");
             var positions = new[]
             {
                 new AltVector2(altElement1.x, altElement1.y),
@@ -109,25 +109,25 @@ namespace Altom.AltDriver.Tests
                 new AltVector2(altElement3.x, altElement3.y)
             };
 
-            altUnityDriver.MultipointSwipe(positions, 3);
-            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            altDriver.MultipointSwipe(positions, 3);
+            var imageSource = altDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            var imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
 
-            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
-            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSource = altDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop").GetComponentProperty<dynamic>("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource["name"], imageSourceDropZone["name"]);
         }
 
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altElement = altUnityDriver.FindObject(By.NAME, "Drop Image");
+            var altElement = altDriver.FindObject(By.NAME, "Drop Image");
             var color1 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
-            altUnityDriver.FindObject(By.NAME, "Drop Image").PointerEnterObject();
+            altDriver.FindObject(By.NAME, "Drop Image").PointerEnterObject();
             var color2 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
-            altUnityDriver.FindObject(By.NAME, "Drop Image").PointerExitObject();
+            altDriver.FindObject(By.NAME, "Drop Image").PointerExitObject();
             var color3 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1, color3);
@@ -136,14 +136,14 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestDragAndDrop()
         {
-            var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            var initDropImage = altUnityDriver.FindObject(By.PATH, "//*/Drop Box1/Drop Image");
+            var altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            var altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            var initDropImage = altDriver.FindObject(By.PATH, "//*/Drop Box1/Drop Image");
 
-            int fingerId = altUnityDriver.BeginTouch(altElement1.getScreenPosition());
-            altUnityDriver.MoveTouch(fingerId, altElement2.getScreenPosition());
-            altUnityDriver.EndTouch(fingerId);
-            var finalDropImage = altUnityDriver.FindObject(By.PATH, "//*/Drop Box1/Drop Image");
+            int fingerId = altDriver.BeginTouch(altElement1.getScreenPosition());
+            altDriver.MoveTouch(fingerId, altElement2.getScreenPosition());
+            altDriver.EndTouch(fingerId);
+            var finalDropImage = altDriver.FindObject(By.PATH, "//*/Drop Box1/Drop Image");
 
             Assert.AreNotEqual(initDropImage, finalDropImage);
         }

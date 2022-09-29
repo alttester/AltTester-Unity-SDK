@@ -13,7 +13,7 @@ namespace Altom.AltTester.Commands
         public override string Execute()
         {
 
-#if ALTUNITYTESTER
+#if ALTTESTER
             foreach (var keyCode in CommandParams.keyCodes)
                 InputController.KeyUp((UnityEngine.KeyCode)keyCode);
             return "Ok";

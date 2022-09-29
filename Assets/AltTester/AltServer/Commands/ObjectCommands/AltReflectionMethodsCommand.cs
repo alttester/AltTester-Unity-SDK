@@ -115,12 +115,12 @@ namespace Altom.AltTester.Commands
             return methodInfo.Invoke(component, parameterValues);
         }
 
-        protected object GetValueForMember(AltObject altUnityObject, string[] fieldArray, Type componentType)
+        protected object GetValueForMember(AltObject altObject, string[] fieldArray, Type componentType)
         {
             string propertyName;
             int index = getArrayIndex(fieldArray[0], out propertyName);
             MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
-            var instance = AltRunner.GetGameObject(altUnityObject).GetComponent(componentType);
+            var instance = AltRunner.GetGameObject(altObject).GetComponent(componentType);
             if (instance == null)
             {
                 throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
@@ -137,9 +137,9 @@ namespace Altom.AltTester.Commands
         }
 
 
-        protected string SetValueForMember(AltObject altUnityObject, string[] fieldArray, Type componentType, string valueString)
+        protected string SetValueForMember(AltObject altObject, string[] fieldArray, Type componentType, string valueString)
         {
-            var instance = AltRunner.GetGameObject(altUnityObject).GetComponent(componentType);
+            var instance = AltRunner.GetGameObject(altObject).GetComponent(componentType);
             if (instance == null)
             {
                 throw new ComponentNotFoundException("Component " + componentType.Name + " not found");

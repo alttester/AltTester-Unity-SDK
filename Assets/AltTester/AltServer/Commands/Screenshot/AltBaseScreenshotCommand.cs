@@ -46,7 +46,7 @@ namespace Altom.AltTester.Commands
                 for (int i = 0; i < renderer.materials.Length; i++)
                 {
                     renderer.materials[i] = new UnityEngine.Material(originalMaterials[i]);
-                    renderer.materials[i].shader = AltRunner._altUnityRunner.outlineShader;
+                    renderer.materials[i].shader = AltRunner._altRunner.outlineShader;
                     renderer.materials[i].SetColor("_OutlineColor", color);
                     renderer.materials[i].SetFloat("_OutlineWidth", width);
                 }
@@ -60,7 +60,7 @@ namespace Altom.AltTester.Commands
                 var rectTransform = gameObject.GetComponent<UnityEngine.RectTransform>();
                 if (rectTransform != null)
                 {
-                    var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altUnityRunner.panelHightlightPrefab, rectTransform);
+                    var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altRunner.panelHightlightPrefab, rectTransform);
                     panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
 
                     yield return new UnityEngine.WaitForEndOfFrame();

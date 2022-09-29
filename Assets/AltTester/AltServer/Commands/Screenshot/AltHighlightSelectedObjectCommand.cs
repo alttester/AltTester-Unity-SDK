@@ -15,17 +15,17 @@ namespace Altom.AltTester.Commands
 
         public override string Execute()
         {
-            var gameObject = AltRunner.GetGameObject(CommandParams.altUnityObjectId);
+            var gameObject = AltRunner.GetGameObject(CommandParams.altObjectId);
 
             if (gameObject != null)
             {
                 var color = new UnityEngine.Color(CommandParams.color.r, CommandParams.color.g, CommandParams.color.b, CommandParams.color.a);
 
-                AltRunner._altUnityRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(CommandParams.size.ToUnity(), CommandParams.quality, gameObject, color, CommandParams.width));
+                AltRunner._altRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(CommandParams.size.ToUnity(), CommandParams.quality, gameObject, color, CommandParams.width));
             }
             else
             {
-                AltRunner._altUnityRunner.StartCoroutine(SendTexturedScreenshotCoroutine(CommandParams.size.ToUnity(), CommandParams.quality));
+                AltRunner._altRunner.StartCoroutine(SendTexturedScreenshotCoroutine(CommandParams.size.ToUnity(), CommandParams.quality));
             }
             return "Ok";
         }

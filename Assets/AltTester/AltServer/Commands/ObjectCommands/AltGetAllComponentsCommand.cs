@@ -15,7 +15,7 @@ namespace Altom.AltTester.Commands
 
         public override List<AltComponent> Execute()
         {
-            UnityEngine.GameObject altObject = AltRunner.GetGameObject(CommandParams.altUnityObjectId);
+            UnityEngine.GameObject altObject = AltRunner.GetGameObject(CommandParams.altObjectId);
             var listComponents = new List<AltComponent>();
             foreach (var component in altObject.GetComponents<UnityEngine.Component>())
             {

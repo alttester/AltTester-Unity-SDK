@@ -4,9 +4,9 @@ namespace Altom.AltDriver.Commands
     {
         AltSetTextParams cmdParams;
 
-        public AltSetText(IDriverCommunication commHandler, AltObject altUnityObject, string text, bool submit) : base(commHandler)
+        public AltSetText(IDriverCommunication commHandler, AltObject altObject, string text, bool submit) : base(commHandler)
         {
-            cmdParams = new AltSetTextParams(altUnityObject, text, submit);
+            cmdParams = new AltSetTextParams(altObject, text, submit);
         }
 
         public AltObject Execute()

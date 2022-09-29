@@ -43,9 +43,9 @@ namespace Altom.AltDriver
 
         public AltObject getParent()
         {
-            var altUnityObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
+            var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
         public AltVector2 getScreenPosition()
@@ -87,9 +87,9 @@ namespace Altom.AltDriver
 
         public AltObject SetText(string text, bool submit = false)
         {
-            var altUnityObject = new AltSetText(CommHandler, this, text, submit).Execute();
+            var altObject = new AltSetText(CommHandler, this, text, submit).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
         /// <summary>
@@ -101,37 +101,37 @@ namespace Altom.AltDriver
         /// <returns>The clicked object</returns>
         public AltObject Click(int count = 1, float interval = 0.1f, bool wait = true)
         {
-            var altUnityObject = new AltClickElement(CommHandler, this, count, interval, wait).Execute();
+            var altObject = new AltClickElement(CommHandler, this, count, interval, wait).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
         public AltObject PointerUpFromObject()
         {
-            var altUnityObject = new AltPointerUpFromObject(CommHandler, this).Execute();
+            var altObject = new AltPointerUpFromObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
         public AltObject PointerDownFromObject()
         {
-            var altUnityObject = new AltPointerDownFromObject(CommHandler, this).Execute();
+            var altObject = new AltPointerDownFromObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
         public AltObject PointerEnterObject()
         {
-            var altUnityObject = new AltPointerEnterObject(CommHandler, this).Execute();
+            var altObject = new AltPointerEnterObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
         public AltObject PointerExitObject()
         {
-            var altUnityObject = new AltPointerExitObject(CommHandler, this).Execute();
+            var altObject = new AltPointerExitObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
         /// <summary>
@@ -143,37 +143,37 @@ namespace Altom.AltDriver
         /// <returns>The tapped object</returns>
         public AltObject Tap(int count = 1, float interval = 0.1f, bool wait = true)
         {
-            var altUnityObject = new AltTapElement(CommHandler, this, count, interval, wait).Execute();
+            var altObject = new AltTapElement(CommHandler, this, count, interval, wait).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
         public System.Collections.Generic.List<AltComponent> GetAllComponents()
         {
-            var altUnityObject = new AltGetAllComponents(CommHandler, this).Execute();
+            var altObject = new AltGetAllComponents(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
-        public System.Collections.Generic.List<AltProperty> GetAllProperties(AltComponent altUnityComponent, AltPropertiesSelections altUnityPropertiesSelections = AltPropertiesSelections.ALLPROPERTIES)
+        public System.Collections.Generic.List<AltProperty> GetAllProperties(AltComponent altComponent, AltPropertiesSelections altPropertiesSelections = AltPropertiesSelections.ALLPROPERTIES)
         {
-            var altUnityObject = new AltGetAllProperties(CommHandler, altUnityComponent, this, altUnityPropertiesSelections).Execute();
+            var altObject = new AltGetAllProperties(CommHandler, altComponent, this, altPropertiesSelections).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
-        public System.Collections.Generic.List<AltProperty> GetAllFields(AltComponent altUnityComponent, AltFieldsSelections altUnityFieldsSelections = AltFieldsSelections.ALLFIELDS)
+        public System.Collections.Generic.List<AltProperty> GetAllFields(AltComponent altComponent, AltFieldsSelections altFieldsSelections = AltFieldsSelections.ALLFIELDS)
         {
-            var altUnityObject = new AltGetAllFields(CommHandler, altUnityComponent, this, altUnityFieldsSelections).Execute();
+            var altObject = new AltGetAllFields(CommHandler, altComponent, this, altFieldsSelections).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
 
-        public System.Collections.Generic.List<string> GetAllMethods(AltComponent altUnityComponent, AltMethodSelection methodSelection = AltMethodSelection.ALLMETHODS)
+        public System.Collections.Generic.List<string> GetAllMethods(AltComponent altComponent, AltMethodSelection methodSelection = AltMethodSelection.ALLMETHODS)
         {
-            var altUnityObject = new AltGetAllMethods(CommHandler, altUnityComponent, methodSelection).Execute();
+            var altObject = new AltGetAllMethods(CommHandler, altComponent, methodSelection).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altUnityObject;
+            return altObject;
         }
     }
 }

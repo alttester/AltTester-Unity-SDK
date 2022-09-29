@@ -12,7 +12,7 @@ namespace Altom.AltTester.Commands
 
         public override string Execute()
         {
-            AltRunner._altUnityRunner.StartCoroutine(SendTexturedScreenshotCoroutine(CommandParams.size.ToUnity(), CommandParams.quality));
+            AltRunner._altRunner.StartCoroutine(SendTexturedScreenshotCoroutine(CommandParams.size.ToUnity(), CommandParams.quality));
             return "Ok";
         }
     }

@@ -20,12 +20,12 @@ namespace Altom.AltTester.Commands
         public override List<AltProperty> Execute()
         {
             UnityEngine.GameObject altObject;
-            altObject = AltRunner.GetGameObject(CommandParams.altUnityObjectId);
-            Type type = GetType(CommandParams.altUnityComponent.componentName, CommandParams.altUnityComponent.assemblyName);
+            altObject = AltRunner.GetGameObject(CommandParams.altObjectId);
+            Type type = GetType(CommandParams.altComponent.componentName, CommandParams.altComponent.assemblyName);
             var altObjectComponent = altObject.GetComponent(type);
             var propertyInfos = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            switch (CommandParams.altUnityPropertiesSelections)
+            switch (CommandParams.altPropertiesSelections)
             {
                 case AltPropertiesSelections.CLASSPROPERTIES:
                     propertyInfos = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
@@ -47,17 +47,17 @@ namespace Altom.AltTester.Commands
                 try
                 {
                     var value = propertyInfo.GetValue(altObjectComponent, null);
-                    AltType altUnityType = AltType.OBJECT;
+                    AltType altType = AltType.OBJECT;
                     if (propertyInfo.PropertyType.IsPrimitive || propertyInfo.PropertyType.Equals(typeof(string)))
                     {
-                        altUnityType = AltType.PRIMITIVE;
+                        altType = AltType.PRIMITIVE;
                     }
                     else if (propertyInfo.PropertyType.IsArray)
                     {
-                        altUnityType = AltType.ARRAY;
+                        altType = AltType.ARRAY;
                     }
                     listProperties.Add(new AltProperty(propertyInfo.Name,
-                        value == null ? "null" : value.ToString(), altUnityType));
+                        value == null ? "null" : value.ToString(), altType));
                 }
                 catch (Exception e)
                 {

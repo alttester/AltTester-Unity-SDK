@@ -6,9 +6,9 @@ namespace Altom.AltDriver.Commands
     public class AltGetAllComponents : AltBaseCommand
     {
         AltGetAllComponentsParams cmdParams;
-        public AltGetAllComponents(IDriverCommunication commHandler, AltObject altUnityObject) : base(commHandler)
+        public AltGetAllComponents(IDriverCommunication commHandler, AltObject altObject) : base(commHandler)
         {
-            cmdParams = new AltGetAllComponentsParams(altUnityObject.id);
+            cmdParams = new AltGetAllComponentsParams(altObject.id);
         }
         public List<AltComponent> Execute()
         {

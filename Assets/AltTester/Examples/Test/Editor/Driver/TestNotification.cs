@@ -8,37 +8,37 @@ using NUnit.Framework;
 
 public class TestNotification
 {
-    private AltDriver altUnityDriver;
+    private AltDriver altDriver;
     [OneTimeSetUp]
     public void SetUp()
     {
         string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
         int port = 13000;
         if (!string.IsNullOrEmpty(portStr)) port = int.Parse(portStr);
-        altUnityDriver = new AltDriver(port: port, enableLogging: true);
+        altDriver = new AltDriver(port: port, enableLogging: true);
         INotificationCallbacks notificationCallbacks = new MockNotificationCallBacks();
-        altUnityDriver.AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
-        altUnityDriver.AddNotificationListener<String>(NotificationType.UNLOADSCENE, notificationCallbacks.SceneUnloadedCallback, true);
-        altUnityDriver.AddNotificationListener<AltLogNotificationResultParams>(NotificationType.LOG, notificationCallbacks.LogCallback, true);
-        altUnityDriver.AddNotificationListener<bool>(NotificationType.APPLICATION_PAUSED, notificationCallbacks.ApplicationPausedCallback, true);
+        altDriver.AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
+        altDriver.AddNotificationListener<String>(NotificationType.UNLOADSCENE, notificationCallbacks.SceneUnloadedCallback, true);
+        altDriver.AddNotificationListener<AltLogNotificationResultParams>(NotificationType.LOG, notificationCallbacks.LogCallback, true);
+        altDriver.AddNotificationListener<bool>(NotificationType.APPLICATION_PAUSED, notificationCallbacks.ApplicationPausedCallback, true);
         DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
     }
     [OneTimeTearDown]
     public void TearDown()
     {
-        altUnityDriver.RemoveNotificationListener(NotificationType.LOADSCENE);
-        altUnityDriver.RemoveNotificationListener(NotificationType.UNLOADSCENE);
-        altUnityDriver.RemoveNotificationListener(NotificationType.LOG);
-        altUnityDriver.RemoveNotificationListener(NotificationType.APPLICATION_PAUSED);
-        altUnityDriver.Stop();
+        altDriver.RemoveNotificationListener(NotificationType.LOADSCENE);
+        altDriver.RemoveNotificationListener(NotificationType.UNLOADSCENE);
+        altDriver.RemoveNotificationListener(NotificationType.LOG);
+        altDriver.RemoveNotificationListener(NotificationType.APPLICATION_PAUSED);
+        altDriver.Stop();
     }
 
     [SetUp]
     public void LoadLevel()
     {
 
-        altUnityDriver.LoadScene("Scene 1 AltDriverTestScene", true);
+        altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
     }
 
     [Test]
@@ -62,8 +62,8 @@ public class TestNotification
     [Test]
     public void TestUnloadSceneNotification()
     {
-        altUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
-        altUnityDriver.UnloadScene("Scene 2 Draggable Panel");
+        altDriver.LoadScene("Scene 2 Draggable Panel", false);
+        altDriver.UnloadScene("Scene 2 Draggable Panel");
         waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneUnloaded, "Scene 2 Draggable Panel", 10);
         Assert.AreEqual("Scene 2 Draggable Panel", MockNotificationCallBacks.LastSceneUnloaded);
     }
@@ -78,7 +78,7 @@ public class TestNotification
     [Test]
     public void TestApplicationPaused()
     {
-        var altElement = altUnityDriver.FindObject(By.NAME, "AltRunnerPrefab");
+        var altElement = altDriver.FindObject(By.NAME, "AltRunnerPrefab");
         altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", new object[] { true }, new string[] { "System.Boolean" }, "Assembly-CSharp");
         Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
     }

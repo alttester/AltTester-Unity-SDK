@@ -13,7 +13,7 @@ namespace Altom.AltTester
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
         public static readonly string VERSION = "1.7.2";
-        public static AltRunner _altUnityRunner;
+        public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
 
@@ -34,13 +34,13 @@ namespace Altom.AltTester
 
         protected void Awake()
         {
-#if !ALTUNITYTESTER
-            logger.Error("ALTUNITYTESTER needs to be added to 'Scripting Define Symbols'");
+#if !ALTTESTER
+            logger.Error("ALTTESTER needs to be added to 'Scripting Define Symbols'");
             Destroy(this.gameObject);
             return;
 
 #else
-            if (_altUnityRunner != null)
+            if (_altRunner != null)
             {
                 logger.Warn("AltTester already initialized.");
                 Destroy(this.gameObject);
@@ -56,7 +56,7 @@ namespace Altom.AltTester
 
             ServerLogManager.SetupAltServerLogging(new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } });
 
-            _altUnityRunner = this;
+            _altRunner = this;
             DontDestroyOnLoad(this);
 #endif
         }
@@ -158,11 +158,11 @@ namespace Altom.AltTester
             }
         }
 
-        public static UnityEngine.GameObject GetGameObject(AltObject altUnityObject)
+        public static UnityEngine.GameObject GetGameObject(AltObject altObject)
         {
             foreach (UnityEngine.GameObject gameObject in UnityEngine.Resources.FindObjectsOfTypeAll<UnityEngine.GameObject>())
             {
-                if (gameObject.GetInstanceID() == altUnityObject.id)
+                if (gameObject.GetInstanceID() == altObject.id)
                     return gameObject;
             }
             throw new NotFoundException("Object not found");

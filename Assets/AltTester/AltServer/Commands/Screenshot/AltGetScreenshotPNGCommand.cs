@@ -11,7 +11,7 @@ namespace Altom.AltTester.Commands
 
         public override string Execute()
         {
-            AltRunner._altUnityRunner.StartCoroutine(SendPNGScreenshotCoroutine());
+            AltRunner._altRunner.StartCoroutine(SendPNGScreenshotCoroutine());
             return "Ok";
         }
     }

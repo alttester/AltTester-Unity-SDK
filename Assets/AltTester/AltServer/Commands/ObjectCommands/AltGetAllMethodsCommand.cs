@@ -15,7 +15,7 @@ namespace Altom.AltTester.Commands
 
         public override List<string> Execute()
         {
-            Type type = GetType(CommandParams.altUnityComponent.componentName, CommandParams.altUnityComponent.assemblyName);
+            Type type = GetType(CommandParams.altComponent.componentName, CommandParams.altComponent.assemblyName);
             MethodInfo[] methodInfos = new MethodInfo[1];
             switch (CommandParams.methodSelection)
             {

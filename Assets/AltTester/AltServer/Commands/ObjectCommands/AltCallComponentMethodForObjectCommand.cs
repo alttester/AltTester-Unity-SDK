@@ -25,15 +25,15 @@ namespace Altom.AltTester.Commands
             var methodPathSplited = CommandParams.method.Split('.');
             string methodName;
             object instance;
-            if (CommandParams.altUnityObject != null)
+            if (CommandParams.altObject != null)
             {
-                UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altUnityObject);
+                UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject);
                 if (componentType == typeof(UnityEngine.GameObject))
                 {
                     instance = gameObject;
                     if (instance == null)
                     {
-                        throw new ObjectWasNotFoundException("Object with name=" + CommandParams.altUnityObject.name + " and id=" + CommandParams.altUnityObject.id + " was not found");
+                        throw new ObjectWasNotFoundException("Object with name=" + CommandParams.altObject.name + " and id=" + CommandParams.altObject.id + " was not found");
                     }
                 }
                 else

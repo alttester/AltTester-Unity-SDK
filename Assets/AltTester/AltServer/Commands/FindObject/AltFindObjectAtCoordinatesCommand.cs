@@ -13,7 +13,7 @@ namespace Altom.AltTester.Commands
 
             if (gameObject == null) return null;
 
-            return AltRunner._altUnityRunner.GameObjectToAltObject(gameObject);
+            return AltRunner._altRunner.GameObjectToAltObject(gameObject);
         }
 
 

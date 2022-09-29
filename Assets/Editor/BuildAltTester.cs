@@ -249,11 +249,11 @@ namespace Altom.AltTesterTools
             if (AltTesterEditorWindow.EditorConfiguration == null)
             {
                 var instrumentationSettings = new AltInstrumentationSettings();
-                var altUnityTesterPort = System.Environment.GetEnvironmentVariable("ALTUNITYTESTER_PORT");
+                var altTesterPort = System.Environment.GetEnvironmentVariable("ALTTESTER_PORT");
 
-                if (!string.IsNullOrEmpty(altUnityTesterPort)) //server mode
+                if (!string.IsNullOrEmpty(altTesterPort)) //server mode
                 {
-                    instrumentationSettings.AltTesterPort = int.Parse(altUnityTesterPort);
+                    instrumentationSettings.AltTesterPort = int.Parse(altTesterPort);
                     return instrumentationSettings;
                 }
 

@@ -15,8 +15,8 @@ namespace Altom.AltTester.Commands
             var propertySplited = CommandParams.property.Split('.');
             string propertyName;
             object response;
-            if (CommandParams.altUnityObject != null)
-                response = GetValueForMember(CommandParams.altUnityObject, propertySplited, type);
+            if (CommandParams.altObject != null)
+                response = GetValueForMember(CommandParams.altObject, propertySplited, type);
             else
             {
                 var instance = GetInstance(null, propertySplited, type);

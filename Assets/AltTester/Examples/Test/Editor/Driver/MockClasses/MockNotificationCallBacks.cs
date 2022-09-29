@@ -11,19 +11,19 @@ namespace Altom.AltDriver.MockClasses
         public static AltLogLevel LogLevel = AltLogLevel.Error;
         public static string StackTrace = "";
         public static bool ApplicationPaused = false;
-        public void SceneLoadedCallback(AltLoadSceneNotificationResultParams altUnityLoadSceneNotificationResultParams)
+        public void SceneLoadedCallback(AltLoadSceneNotificationResultParams altLoadSceneNotificationResultParams)
         {
-            LastSceneLoaded = altUnityLoadSceneNotificationResultParams.sceneName;
+            LastSceneLoaded = altLoadSceneNotificationResultParams.sceneName;
         }
         public void SceneUnloadedCallback(string sceneName)
         {
             LastSceneUnloaded = sceneName;
         }
-        public void LogCallback(AltLogNotificationResultParams altUnityLogNotificationResultParams)
+        public void LogCallback(AltLogNotificationResultParams altLogNotificationResultParams)
         {
-            LogMessage = altUnityLogNotificationResultParams.message;
-            LogLevel = altUnityLogNotificationResultParams.level;
-            StackTrace = altUnityLogNotificationResultParams.stackTrace;
+            LogMessage = altLogNotificationResultParams.message;
+            LogLevel = altLogNotificationResultParams.level;
+            StackTrace = altLogNotificationResultParams.stackTrace;
         }
         public void ApplicationPausedCallback(bool applicationPaused)
         {

@@ -226,10 +226,10 @@ namespace Altom.AltDriver.Commands
     }
     public class BaseAltObjectParams : CommandParams
     {
-        public AltObject altUnityObject;
-        public BaseAltObjectParams(AltObject altUnityObject) : base()
+        public AltObject altObject;
+        public BaseAltObjectParams(AltObject altObject) : base()
         {
-            this.altUnityObject = altUnityObject;
+            this.altObject = altObject;
         }
     }
 
@@ -243,7 +243,7 @@ namespace Altom.AltDriver.Commands
         public string assembly;
 
 
-        public AltCallComponentMethodForObjectParams(AltObject altUnityObject, string component, string method, string[] parameters, string[] typeOfParameters, string assembly) : base(altUnityObject)
+        public AltCallComponentMethodForObjectParams(AltObject altObject, string component, string method, string[] parameters, string[] typeOfParameters, string assembly) : base(altObject)
         {
             this.component = component;
             this.method = method;
@@ -261,7 +261,7 @@ namespace Altom.AltDriver.Commands
         public string assembly;
         public int maxDepth;
 
-        public AltGetObjectComponentPropertyParams(AltObject altUnityObject, string component, string property, string assembly, int maxDepth) : base(altUnityObject)
+        public AltGetObjectComponentPropertyParams(AltObject altObject, string component, string property, string assembly, int maxDepth) : base(altObject)
         {
             this.component = component;
             this.property = property;
@@ -277,7 +277,7 @@ namespace Altom.AltDriver.Commands
         public string assembly;
         public string value;
 
-        public AltSetObjectComponentPropertyParams(AltObject altUnityObject, string component, string property, string assembly, string value) : base(altUnityObject)
+        public AltSetObjectComponentPropertyParams(AltObject altObject, string component, string property, string assembly, string value) : base(altObject)
         {
             this.component = component;
             this.property = property;
@@ -291,66 +291,66 @@ namespace Altom.AltDriver.Commands
     public class AltDragObjectParams : BaseAltObjectParams
     {
         public AltVector2 position;
-        public AltDragObjectParams(AltObject altUnityObject, AltVector2 position) : base(altUnityObject)
+        public AltDragObjectParams(AltObject altObject, AltVector2 position) : base(altObject)
         {
-            this.altUnityObject = altUnityObject;
+            this.altObject = altObject;
             this.position = position;
         }
     }
     [Command("getAllComponents")]
     public class AltGetAllComponentsParams : CommandParams
     {
-        public int altUnityObjectId;
-        public AltGetAllComponentsParams(int altUnityObjectId) : base()
+        public int altObjectId;
+        public AltGetAllComponentsParams(int altObjectId) : base()
         {
-            this.altUnityObjectId = altUnityObjectId;
+            this.altObjectId = altObjectId;
         }
     }
 
     [Command("getAllFields")]
     public class AltGetAllFieldsParams : CommandParams
     {
-        public int altUnityObjectId;
-        public AltComponent altUnityComponent;
-        public AltFieldsSelections altUnityFieldsSelections;
+        public int altObjectId;
+        public AltComponent altComponent;
+        public AltFieldsSelections altFieldsSelections;
 
-        public AltGetAllFieldsParams(int altUnityObjectId, AltComponent altUnityComponent, AltFieldsSelections altUnityFieldsSelections) : base()
+        public AltGetAllFieldsParams(int altObjectId, AltComponent altComponent, AltFieldsSelections altFieldsSelections) : base()
         {
-            this.altUnityObjectId = altUnityObjectId;
-            this.altUnityComponent = altUnityComponent;
-            this.altUnityFieldsSelections = altUnityFieldsSelections;
+            this.altObjectId = altObjectId;
+            this.altComponent = altComponent;
+            this.altFieldsSelections = altFieldsSelections;
         }
     }
     [Command("getAllProperties")]
     public class AltGetAllPropertiesParams : CommandParams
     {
-        public int altUnityObjectId;
-        public AltComponent altUnityComponent;
-        public AltPropertiesSelections altUnityPropertiesSelections;
+        public int altObjectId;
+        public AltComponent altComponent;
+        public AltPropertiesSelections altPropertiesSelections;
 
-        public AltGetAllPropertiesParams(int altUnityObjectId, AltComponent altUnityComponent, AltPropertiesSelections altUnityPropertiesSelections) : base()
+        public AltGetAllPropertiesParams(int altObjectId, AltComponent altComponent, AltPropertiesSelections altPropertiesSelections) : base()
         {
-            this.altUnityObjectId = altUnityObjectId;
-            this.altUnityComponent = altUnityComponent;
-            this.altUnityPropertiesSelections = altUnityPropertiesSelections;
+            this.altObjectId = altObjectId;
+            this.altComponent = altComponent;
+            this.altPropertiesSelections = altPropertiesSelections;
         }
     }
     [Command("getAllMethods")]
     public class AltGetAllMethodsParams : CommandParams
     {
-        public AltComponent altUnityComponent;
+        public AltComponent altComponent;
         public AltMethodSelection methodSelection;
 
-        public AltGetAllMethodsParams(AltComponent altUnityComponent, AltMethodSelection methodSelection) : base()
+        public AltGetAllMethodsParams(AltComponent altComponent, AltMethodSelection methodSelection) : base()
         {
-            this.altUnityComponent = altUnityComponent;
+            this.altComponent = altComponent;
             this.methodSelection = methodSelection;
         }
     }
     [Command("getText")]
     public class AltGetTextParams : BaseAltObjectParams
     {
-        public AltGetTextParams(AltObject altUnityObject) : base(altUnityObject)
+        public AltGetTextParams(AltObject altObject) : base(altObject)
         {
         }
     }
@@ -361,7 +361,7 @@ namespace Altom.AltDriver.Commands
         public string value;
         public bool submit;
 
-        public AltSetTextParams(AltObject altUnityObject, string value, bool submit) : base(altUnityObject)
+        public AltSetTextParams(AltObject altObject, string value, bool submit) : base(altObject)
         {
             this.value = value;
             this.submit = submit;
@@ -371,7 +371,7 @@ namespace Altom.AltDriver.Commands
     [Command("pointerDownFromObject")]
     public class AltPointerDownFromObjectParams : BaseAltObjectParams
     {
-        public AltPointerDownFromObjectParams(AltObject altUnityObject) : base(altUnityObject)
+        public AltPointerDownFromObjectParams(AltObject altObject) : base(altObject)
         {
         }
     }
@@ -379,21 +379,21 @@ namespace Altom.AltDriver.Commands
     [Command("pointerEnterObject")]
     public class AltPointerEnterObjectParams : BaseAltObjectParams
     {
-        public AltPointerEnterObjectParams(AltObject altUnityObject) : base(altUnityObject)
+        public AltPointerEnterObjectParams(AltObject altObject) : base(altObject)
         {
         }
     }
     [Command("pointerExitObject")]
     public class AltPointerExitObjectParams : BaseAltObjectParams
     {
-        public AltPointerExitObjectParams(AltObject altUnityObject) : base(altUnityObject)
+        public AltPointerExitObjectParams(AltObject altObject) : base(altObject)
         {
         }
     }
     [Command("pointerUpFromObject")]
     public class AltPointerUpFromObjectParams : BaseAltObjectParams
     {
-        public AltPointerUpFromObjectParams(AltObject altUnityObject) : base(altUnityObject)
+        public AltPointerUpFromObjectParams(AltObject altObject) : base(altObject)
         {
         }
     }
@@ -422,14 +422,14 @@ namespace Altom.AltDriver.Commands
     [Command("hightlightObjectScreenshot")]
     public class AltHighlightObjectScreenshotParams : CommandParams
     {
-        public int altUnityObjectId;
+        public int altObjectId;
         public AltColor color;
         public float width;
         public AltVector2 size;
         public int quality;
-        public AltHighlightObjectScreenshotParams(int altUnityObjectId, AltColor color, float width, AltVector2 size, int quality) : base()
+        public AltHighlightObjectScreenshotParams(int altObjectId, AltColor color, float width, AltVector2 size, int quality) : base()
         {
-            this.altUnityObjectId = altUnityObjectId;
+            this.altObjectId = altObjectId;
             this.color = color;
             this.width = width;
             this.size = size;
@@ -602,7 +602,7 @@ namespace Altom.AltDriver.Commands
         public int count;
         public float interval;
         public bool wait;
-        public AltTapElementParams(AltObject altUnityObject, int count, float interval, bool wait) : base(altUnityObject)
+        public AltTapElementParams(AltObject altObject, int count, float interval, bool wait) : base(altObject)
         {
             this.count = count;
             this.interval = interval;
@@ -616,7 +616,7 @@ namespace Altom.AltDriver.Commands
         public int count;
         public float interval;
         public bool wait;
-        public AltClickElementParams(AltObject altUnityObject, int count, float interval, bool wait) : base(altUnityObject)
+        public AltClickElementParams(AltObject altObject, int count, float interval, bool wait) : base(altObject)
         {
             this.count = count;
             this.interval = interval;

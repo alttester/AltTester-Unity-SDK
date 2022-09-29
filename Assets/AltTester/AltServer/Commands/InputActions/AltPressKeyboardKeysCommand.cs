@@ -14,7 +14,7 @@ namespace Altom.AltTester.Commands
 
         public override string Execute()
         {
-#if ALTUNITYTESTER
+#if ALTTESTER
             var powerClamped = Mathf.Clamp01(CommandParams.power);
             foreach (var keyCode in CommandParams.keyCodes)
                 InputController.PressKey((UnityEngine.KeyCode)keyCode, CommandParams.power, CommandParams.duration, onFinish);

@@ -24,13 +24,13 @@ namespace Altom.AltTester.Commands
 
             if (selectedObject != null)
             {
-                Handler.Send(ExecuteAndSerialize(() => AltRunner._altUnityRunner.GameObjectToAltObject(selectedObject)));
-                AltRunner._altUnityRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(CommandParams.size.ToUnity(), CommandParams.quality, selectedObject, color, CommandParams.width));
+                Handler.Send(ExecuteAndSerialize(() => AltRunner._altRunner.GameObjectToAltObject(selectedObject)));
+                AltRunner._altRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(CommandParams.size.ToUnity(), CommandParams.quality, selectedObject, color, CommandParams.width));
             }
             else
             {
                 Handler.Send(ExecuteAndSerialize(() => new AltObject("Null")));
-                AltRunner._altUnityRunner.StartCoroutine(SendTexturedScreenshotCoroutine(CommandParams.size.ToUnity(), CommandParams.quality));
+                AltRunner._altRunner.StartCoroutine(SendTexturedScreenshotCoroutine(CommandParams.size.ToUnity(), CommandParams.quality));
             }
             return "Ok";
         }

@@ -71,7 +71,7 @@ public class Input : MonoBehaviour
         }
     }
 
-#region MonoBehaviour
+    #region MonoBehaviour
 
     public void Start()
     {
@@ -116,9 +116,9 @@ public class Input : MonoBehaviour
 
     }
 
-#endregion
+    #endregion
 
-#region UnityEngine.Input.AltTester.NotImplemented
+    #region UnityEngine.Input.AltTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -230,9 +230,9 @@ public class Input : MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-#endregion
+    #endregion
 
-#region UnityEngine.Input.AltTester
+    #region UnityEngine.Input.AltTester
 
     public static bool anyKey
     {
@@ -247,7 +247,7 @@ public class Input : MonoBehaviour
                 return UnityEngine.Input.anyKey;
             }
         }
-        }
+    }
 
     public static bool anyKeyDown
     {
@@ -656,9 +656,9 @@ public class Input : MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-#endregion
+    #endregion
 
-#region public commands interface
+    #region public commands interface
     public static int BeginTouch(UnityEngine.Vector3 screenPosition)
     {
         var touch = createTouch(screenPosition);
@@ -668,7 +668,7 @@ public class Input : MonoBehaviour
         var pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch);
         _pointerEventsDataDictionary.Add(touch.fingerId, pointerEventData);
         _instance.StartCoroutine(setMouse0KeyCodePressedDown());
-        var inputId = AltRunner._altUnityRunner.ShowInput(touch.position);
+        var inputId = AltRunner._altRunner.ShowInput(touch.position);
         _inputIdDictionary.Add(touch.fingerId, inputId);
 
         return touch.fingerId;
@@ -690,7 +690,7 @@ public class Input : MonoBehaviour
         updateTouchInTouchList(touch);
         AltMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
         var inputId = _inputIdDictionary[fingerId];
-        AltRunner._altUnityRunner.ShowInput(touch.position, inputId);
+        AltRunner._altRunner.ShowInput(touch.position, inputId);
 
     }
 
@@ -701,7 +701,7 @@ public class Input : MonoBehaviour
         var touch = findTouch(fingerId);
         var inputId = _inputIdDictionary[fingerId];
         _inputIdDictionary.Remove(touch.fingerId);
-        AltRunner._altUnityRunner.ShowInput(touch.position, inputId);
+        AltRunner._altRunner.ShowInput(touch.position, inputId);
         var previousPointerEventData = _pointerEventsDataDictionary[touch.fingerId];
         _pointerEventsDataDictionary.Remove(touch.fingerId);
 
@@ -745,7 +745,7 @@ public class Input : MonoBehaviour
         touches = touchListCopy;
         mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
         var pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch);
-        var markId = AltRunner._altUnityRunner.ShowInput(touch.position);
+        var markId = AltRunner._altRunner.ShowInput(touch.position);
 
         yield return null;
 
@@ -773,7 +773,7 @@ public class Input : MonoBehaviour
                 updateTouchInTouchList(touch);
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
                 pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
-                AltRunner._altUnityRunner.ShowInput(touch.position, markId);
+                AltRunner._altRunner.ShowInput(touch.position, markId);
                 yield return null;
 
             } while (time <= oneInputDuration);
@@ -812,13 +812,13 @@ public class Input : MonoBehaviour
         var inputId = mouseInputVisualiserId;
         if (mouseInputVisualiserId == -1)
         {
-            inputId = AltRunner._altUnityRunner.ShowInput(location);
+            inputId = AltRunner._altRunner.ShowInput(location);
             mouseInputVisualiserId = inputId;
 
         }
         else
         {
-            AltRunner._altUnityRunner.ShowInput(location, inputId);
+            AltRunner._altRunner.ShowInput(location, inputId);
         }
         do
         {
@@ -841,7 +841,7 @@ public class Input : MonoBehaviour
                 mouseDownPointerEventData.delta = delta;
                 findEventSystemObject(mouseDownPointerEventData);
             }
-            AltRunner._altUnityRunner.ShowInput(mousePosition, inputId);
+            AltRunner._altRunner.ShowInput(mousePosition, inputId);
             yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
         } while (time < duration);
@@ -898,9 +898,9 @@ public class Input : MonoBehaviour
         }
         done.Invoke(err);
     }
-#endregion
+    #endregion
 
-#region private interface
+    #region private interface
     private static UnityEngine.Touch createTouch(UnityEngine.Vector3 screenPosition)
     {
         var touch = new UnityEngine.Touch
@@ -1020,7 +1020,7 @@ public class Input : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             float time = 0;
-            AltRunner._altUnityRunner.ShowClick(screenPosition);
+            AltRunner._altRunner.ShowClick(screenPosition);
 
             /* pointer/touch down */
             UnityEngine.Touch touch = new UnityEngine.Touch();
@@ -1070,7 +1070,7 @@ public class Input : MonoBehaviour
     internal static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
     {
         UnityEngine.Vector3 screenPosition;
-        AltRunner._altUnityRunner.FindCameraThatSeesObject(target, out screenPosition);
+        AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
         yield return new WaitForEndOfFrame();//run after Update
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
@@ -1086,7 +1086,7 @@ public class Input : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             float time = 0;
-            AltRunner._altUnityRunner.ShowClick(screenPosition);
+            AltRunner._altRunner.ShowClick(screenPosition);
 
             /* pointer/touch down */
             UnityEngine.Touch touch = new UnityEngine.Touch();
@@ -1227,7 +1227,7 @@ public class Input : MonoBehaviour
     private static void mouseDownTrigger(PointerEventData.InputButton mouseButton, PointerEventData pointerEventData, GameObject eventSystemTarget, GameObject monoBehaviourTarget)
     {
 
-        AltRunner._altUnityRunner.ShowClick(mousePosition);
+        AltRunner._altRunner.ShowClick(mousePosition);
 
         /* pointer/touch down */
         pointerEventData.pointerId = pointerIds[mouseButton];
@@ -1437,7 +1437,7 @@ public class Input : MonoBehaviour
     {
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
-#endregion
+    #endregion
 }
 
 namespace Altom.AltTester.InputModule

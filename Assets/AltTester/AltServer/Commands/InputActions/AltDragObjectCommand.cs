@@ -16,14 +16,14 @@ namespace Altom.AltTester.Commands
             var mockUp = new AltMockUpPointerInputModule();
 
             var pointerEventData = mockUp.ExecuteTouchEvent(new UnityEngine.Touch() { position = new UnityEngine.Vector2(CommandParams.position.x, CommandParams.position.y) });
-            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altUnityObject);
-            UnityEngine.Camera viewingCamera = AltRunner._altUnityRunner.FoundCameraById(CommandParams.altUnityObject.idCamera);
+            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject);
+            UnityEngine.Camera viewingCamera = AltRunner._altRunner.FoundCameraById(CommandParams.altObject.idCamera);
             UnityEngine.Vector3 gameObjectPosition = viewingCamera.WorldToScreenPoint(gameObject.transform.position);
             pointerEventData.delta = pointerEventData.position - new UnityEngine.Vector2(gameObjectPosition.x, gameObjectPosition.y);
             UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.dragHandler);
-            var camera = AltRunner._altUnityRunner.FoundCameraById(CommandParams.altUnityObject.idCamera);
+            var camera = AltRunner._altRunner.FoundCameraById(CommandParams.altObject.idCamera);
 
-            return camera != null ? AltRunner._altUnityRunner.GameObjectToAltObject(gameObject, camera) : AltRunner._altUnityRunner.GameObjectToAltObject(gameObject);
+            return camera != null ? AltRunner._altRunner.GameObjectToAltObject(gameObject, camera) : AltRunner._altRunner.GameObjectToAltObject(gameObject);
         }
     }
 }

@@ -4,9 +4,9 @@ namespace Altom.AltDriver.Commands
     {
         AltPointerExitObjectParams cmdParams;
 
-        public AltPointerExitObject(IDriverCommunication commHandler, AltObject altUnityObject) : base(commHandler)
+        public AltPointerExitObject(IDriverCommunication commHandler, AltObject altObject) : base(commHandler)
         {
-            this.cmdParams = new AltPointerExitObjectParams(altUnityObject);
+            this.cmdParams = new AltPointerExitObjectParams(altObject);
         }
         public AltObject Execute()
         {
