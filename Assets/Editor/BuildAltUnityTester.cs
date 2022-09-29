@@ -63,19 +63,22 @@ namespace Altom.AltUnityTesterTools
                 {
                     logger.Info("Build succeeded!");
                     logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-                    EditorApplication.Exit(0);
+                    return;
+                    // EditorApplication.Exit(0);
                 }
 
                 logger.Error("Total Errors: " + results.summary.totalErrors);
                 logger.Error("Build failed! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                EditorApplication.Exit(1);
+                return;
+                // EditorApplication.Exit(1);
 #endif
 
             }
             catch (Exception exception)
             {
                 logger.Error(exception);
-                EditorApplication.Exit(1);
+                return;
+                // EditorApplication.Exit(1);
             }
 
         }
