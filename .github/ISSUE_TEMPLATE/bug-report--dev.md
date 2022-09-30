@@ -1,3 +1,12 @@
+---
+name: Bug-Report--Dev
+about: Template for bug reports on development mode
+title: ''
+labels: bug
+assignees: ''
+
+---
+
 <!-- Short summary -->
 
 ## Steps to reproduce
@@ -20,6 +29,4 @@
 <!-- Ex.: add screenshots related to how the UX should look like. --> 
 
 ## Testability
-<!-- Add suggestions on how to test the bugfix. --> 
-
-/label ~Bug
+<!-- Add suggestions on how to test the bugfix. -->
