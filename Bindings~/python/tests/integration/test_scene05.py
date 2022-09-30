@@ -70,15 +70,15 @@ class TestScene05:
             assert axis_value.get_text() == "0.5"
             assert axis_name.get_text() == button_name
 
-    def test_scroll(self):
-        player2 = self.altdriver.find_object(By.NAME, "Player2")
-        cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
-        self.altdriver.scroll(4, duration=0.1, wait=False)
-        time.sleep(0.2)
+    # def test_scroll(self):
+    #     player2 = self.altdriver.find_object(By.NAME, "Player2")
+    #     cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
+    #     self.altdriver.scroll(4, duration=0.1, wait=False)
+    #     time.sleep(0.2)
 
-        player2 = self.altdriver.find_object(By.NAME, "Player2")
-        cube_final_position = [player2.worldX, player2.worldY, player2.worldY]
-        assert cube_initial_position != cube_final_position
+    #     player2 = self.altdriver.find_object(By.NAME, "Player2")
+    #     cube_final_position = [player2.worldX, player2.worldY, player2.worldY]
+    #     assert cube_initial_position != cube_final_position
 
     def test_scroll_and_wait(self):
         player2 = self.altdriver.find_object(By.NAME, "Player2")

@@ -155,10 +155,10 @@ public class TestForNIS
         altUnityDriver.LoadScene(scene10);
         var player = altUnityDriver.FindObject(By.NAME, "Player");
         var initialPos = player.GetComponentProperty<AltUnityVector3>("UnityEngine.Transform", "position");
-        AltUnityKeyCode[] keys = {AltUnityKeyCode.W, AltUnityKeyCode.Mouse0};
+        AltUnityKeyCode[] keys = { AltUnityKeyCode.W, AltUnityKeyCode.Mouse0 };
         altUnityDriver.PressKeys(keys);
         var finalPos = player.GetComponentProperty<AltUnityVector3>("UnityEngine.Transform", "position");
-        altUnityDriver.WaitForObject(By.NAME,"SimpleProjectile(Clone)");
+        altUnityDriver.WaitForObject(By.NAME, "SimpleProjectile(Clone)");
         Assert.AreNotEqual(initialPos, finalPos);
     }
 
@@ -281,14 +281,14 @@ public class TestForNIS
         Assert.AreNotEqual(initialPanelPos, finalPanelPos);
     }
 
-    [Test]
-    public void TestCapsuleJumps()
-    {
-        altUnityDriver.LoadScene(scene11);
-        var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
-        var fingerId = altUnityDriver.BeginTouch(capsule.getScreenPosition());
-        altUnityDriver.EndTouch(fingerId);
-        var text = capsule.GetComponentProperty<string>("AltUnityExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
-        Assert.AreEqual("Capsule was tapped!", text);
-    }
+    // [Test]
+    // public void TestCapsuleJumps()
+    // {
+    //     altUnityDriver.LoadScene(scene11);
+    //     var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+    //     var fingerId = altUnityDriver.BeginTouch(capsule.getScreenPosition());
+    //     altUnityDriver.EndTouch(fingerId);
+    //     var text = capsule.GetComponentProperty<string>("AltUnityExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
+    //     Assert.AreEqual("Capsule was tapped!", text);
+    // }
 }
