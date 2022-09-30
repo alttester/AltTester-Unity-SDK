@@ -64,67 +64,67 @@ namespace Altom.AltUnityDriver.Tests
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         }
 
-        [Test]
-        //Testing mouse movement and clicking
-        public void TestCreatingStars()
-        {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        // [Test]
+        // //Testing mouse movement and clicking
+        // public void TestCreatingStars()
+        // {
+        //     altUnityDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
-            var pressingpoint1 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
-            Assert.AreEqual(1, stars.Count);
+        //     var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
+        //     var pressingpoint1 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
+        //     Assert.AreEqual(1, stars.Count);
 
-            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1, wait: false);
-            Thread.Sleep(1500);
+        //     altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1, wait: false);
+        //     Thread.Sleep(1500);
 
-            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
+        //     altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
 
-            var pressingpoint2 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
-            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
-            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
+        //     var pressingpoint2 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
+        //     altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
+        //     altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
 
-            stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
-            Assert.AreEqual(3, stars.Count);
-        }
-        [Test]
-        public void TestKeyboardPress()
-        {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var lastKeyDown = altUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
-            var lastKeyUp = altUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
-            var lastKeyPress = altUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
-            var runner = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
-            foreach (AltUnityKeyCode kcode in Enum.GetValues(typeof(AltUnityKeyCode)))
-            {
-                if (kcode != AltUnityKeyCode.NoKey && kcode < AltUnityKeyCode.Joystick1Button0)
-                {
-                    altUnityDriver.PressKey(kcode, duration: 0.2f);
+        //     stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
+        //     Assert.AreEqual(3, stars.Count);
+        // }
+        // [Test]
+        // public void TestKeyboardPress()
+        // {
+        //     altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        //     var lastKeyDown = altUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+        //     var lastKeyUp = altUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+        //     var lastKeyPress = altUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+        //     var runner = altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab");
+        //     foreach (AltUnityKeyCode kcode in Enum.GetValues(typeof(AltUnityKeyCode)))
+        //     {
+        //         if (kcode != AltUnityKeyCode.NoKey && kcode < AltUnityKeyCode.Joystick1Button0)
+        //         {
+        //             altUnityDriver.PressKey(kcode, duration: 0.2f);
 
-                    Assert.AreEqual((int)kcode, Int32.Parse(lastKeyDown.GetText()));
-                    Assert.AreEqual((int)kcode, Int32.Parse(lastKeyUp.GetText()));
-                    Assert.AreEqual((int)kcode, Int32.Parse(lastKeyPress.GetText()));
-                }
-            }
-        }
+        //             Assert.AreEqual((int)kcode, Int32.Parse(lastKeyDown.GetText()));
+        //             Assert.AreEqual((int)kcode, Int32.Parse(lastKeyUp.GetText()));
+        //             Assert.AreEqual((int)kcode, Int32.Parse(lastKeyPress.GetText()));
+        //         }
+        //     }
+        // }
 
-        [Test]
-        public void TestKeyDownAndKeyUp()
-        {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+        // [Test]
+        // public void TestKeyDownAndKeyUp()
+        // {
+        //     altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        //     AltUnityKeyCode kcode = AltUnityKeyCode.A;
 
-            altUnityDriver.KeyDown(kcode, 1);
-            var lastKeyDown = altUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
-            var lastKeyPress = altUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+        //     altUnityDriver.KeyDown(kcode, 1);
+        //     var lastKeyDown = altUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
+        //     var lastKeyPress = altUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
 
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+        //     Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
+        //     Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
 
-            altUnityDriver.KeyUp(kcode);
-            var lastKeyUp = altUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+        //     altUnityDriver.KeyUp(kcode);
+        //     var lastKeyUp = altUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
 
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
-        }
+        //     Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
+        // }
 
         [Test]
         public void TestButton()
@@ -149,29 +149,29 @@ namespace Altom.AltUnityDriver.Tests
 
         }
 
-        [Test]
-        public void TestPowerJoystick()
-        {
-            var ButtonNames = new List<String>()
-        {
-           "Horizontal","Vertical"
-        };
-            var KeyToPressForButtons = new List<AltUnityKeyCode>()
-        {
-            AltUnityKeyCode.D,AltUnityKeyCode.W
-        };
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var axisName = altUnityDriver.FindObject(By.NAME, "AxisName");
-            var axisValue = altUnityDriver.FindObject(By.NAME, "AxisValue");
-            int i = 0;
-            foreach (AltUnityKeyCode kcode in KeyToPressForButtons)
-            {
-                altUnityDriver.PressKey(kcode, power: 0.5f, duration: 0.2f);
-                Assert.AreEqual("0.5", axisValue.GetText());
-                Assert.AreEqual(ButtonNames[i].ToString(), axisName.GetText());
-                i++;
-            }
-        }
+        // [Test]
+        // public void TestPowerJoystick()
+        // {
+        //     var ButtonNames = new List<String>()
+        // {
+        //    "Horizontal","Vertical"
+        // };
+        //     var KeyToPressForButtons = new List<AltUnityKeyCode>()
+        // {
+        //     AltUnityKeyCode.D,AltUnityKeyCode.W
+        // };
+        //     altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        //     var axisName = altUnityDriver.FindObject(By.NAME, "AxisName");
+        //     var axisValue = altUnityDriver.FindObject(By.NAME, "AxisValue");
+        //     int i = 0;
+        //     foreach (AltUnityKeyCode kcode in KeyToPressForButtons)
+        //     {
+        //         altUnityDriver.PressKey(kcode, power: 0.5f, duration: 0.2f);
+        //         Assert.AreEqual("0.5", axisValue.GetText());
+        //         Assert.AreEqual(ButtonNames[i].ToString(), axisName.GetText());
+        //         i++;
+        //     }
+        // }
         [Test]
         public void TestScroll()
         {
@@ -186,18 +186,18 @@ namespace Altom.AltUnityDriver.Tests
 
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         }
-        [Test]
-        public void TestScrollAndWait()
-        {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
-            AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            altUnityDriver.Scroll(4, 2);
+        // [Test]
+        // public void TestScrollAndWait()
+        // {
+        //     altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+        //     var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
+        //     AltUnityVector3 cubeInitialPostion = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
+        //     altUnityDriver.Scroll(4, 2);
 
-            player2 = altUnityDriver.FindObject(By.NAME, "Player2");
-            AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
-        }
+        //     player2 = altUnityDriver.FindObject(By.NAME, "Player2");
+        //     AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
+        //     Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
+        // }
 
         [Test]
         [Category("WebGLUnsupported")]
