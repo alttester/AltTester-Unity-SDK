@@ -121,7 +121,7 @@ jobs:
         - run: |
             chmod -R 755  sampleGame.app
             open sampleGame.app
-            pytest Bindings~/python/tests/integration -x
+            pytest Bindings~/python/tests/integration
             
 
         - uses: actions/upload-artifact@v3.1.0
