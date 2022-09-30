@@ -15,7 +15,7 @@ namespace Altom.AltUnityDriver.Tests
         [OneTimeSetUp]
         public void SetUp()
         {
-            altUnityDriver = new AltUnityDriver(host: TestsHelper.GetAltUnityDriverHost(), port: TestsHelper.GetAltUnityDriverPort(), enableLogging: true);
+            altUnityDriver = new AltUnityDriver(host: "192.168.11.37", port: TestsHelper.GetAltUnityDriverPort(), enableLogging: true);
             DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Info);
             DriverLogManager.SetMinLogLevel(AltUnityLogger.Unity, AltUnityLogLevel.Info);
         }

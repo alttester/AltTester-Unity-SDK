@@ -38,7 +38,7 @@ namespace Altom.AltUnityDriver.Tests
             var cube = altUnityDriver.FindObject(By.NAME, "Player1");
             AltUnityVector3 cubeInitialPostion = new AltUnityVector3(cube.worldX, cube.worldY, cube.worldY);
             altUnityDriver.PressKey(AltUnityKeyCode.K, 1, 2, wait: false);
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             altUnityDriver.PressKey(AltUnityKeyCode.O, 1, 1);
 
             cube = altUnityDriver.FindObject(By.NAME, "Player1");
@@ -142,7 +142,7 @@ namespace Altom.AltUnityDriver.Tests
             int i = 0;
             foreach (AltUnityKeyCode kcode in KeyToPressForButtons)
             {
-                altUnityDriver.PressKey(kcode, duration: 0.05f);
+                altUnityDriver.PressKey(kcode, duration: 0.2f);
                 Assert.AreEqual(ButtonNames[i].ToString(), axisName.GetText());
                 i++;
             }
@@ -166,7 +166,7 @@ namespace Altom.AltUnityDriver.Tests
             int i = 0;
             foreach (AltUnityKeyCode kcode in KeyToPressForButtons)
             {
-                altUnityDriver.PressKey(kcode, power: 0.5f, duration: 0.1f);
+                altUnityDriver.PressKey(kcode, power: 0.5f, duration: 0.2f);
                 Assert.AreEqual("0.5", axisValue.GetText());
                 Assert.AreEqual(ButtonNames[i].ToString(), axisName.GetText());
                 i++;
