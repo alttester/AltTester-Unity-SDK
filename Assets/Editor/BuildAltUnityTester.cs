@@ -25,6 +25,9 @@ namespace Altom.AltUnityTesterTools
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Standalone, ApiCompatibilityLevel.NET_4_6);
                 AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Standalone);
                 var instrumentationSettings = getInstrumentationSettings();
+                PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
+                PlayerSettings.defaultScreenHeight = 1080;
+                PlayerSettings.defaultScreenWidth = 1920;
 
 
                 logger.Debug("Starting Mac build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
