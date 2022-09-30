@@ -93,7 +93,7 @@ public class TestsForNIS {
             AltFindObjectsParams imageSourceParams = new AltFindObjectsParams.Builder(
             AltUnityDriver.By.NAME, sourceImageName).build();
             AltFindObjectsParams imageSourceDropZoneParams = new AltFindObjectsParams.Builder(
-            AltUnityDriver.By.NAME, sourceImageName).build();
+            AltUnityDriver.By.NAME, imageSourceDropZoneName).build();
         
             String imageSource = altUnityDriver.findObject(imageSourceParams).getComponentProperty(
             new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite.name").build(),
@@ -347,24 +347,26 @@ public class TestsForNIS {
         @Test
         public void TestMultipointSwipe() throws Exception { 
             loadLevel(scene7);
-            String imageSource = ImagesDrop.imageSource;
-            String imageSourceDropZone = ImagesDrop.imageSourceDropZone;
             List<String> objects1 = new ArrayList<String>();
             List<String> objects2 = new ArrayList<String>();
             objects1.add("Drag Image1");
             objects1.add("Drop Box1");
-    
+            
             objects2.add("Drag Image2");
             objects2.add("Drop Box1");
             objects2.add("Drop Box2");
-    
-            dropImageWithMultipointSwipe(objects1, 1, false);
-            dropImageWithMultipointSwipe(objects2, 1, false);
-    
+            
+            dropImageWithMultipointSwipe(objects1, 1, true);
+            dropImageWithMultipointSwipe(objects2, 1, true);
+            
             getSpriteName("Drag Image1", "Drop Image");
+            String imageSource = ImagesDrop.imageSource;
+            String imageSourceDropZone = ImagesDrop.imageSourceDropZone;
             assertEquals(imageSource, imageSourceDropZone);
     
             getSpriteName("Drag Image2", "Drop");
+            imageSource = ImagesDrop.imageSource;
+            imageSourceDropZone = ImagesDrop.imageSourceDropZone;
             assertEquals(imageSource, imageSourceDropZone);
         }
     
