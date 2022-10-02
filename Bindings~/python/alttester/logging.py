@@ -2,7 +2,7 @@ from enum import Enum, unique
 
 
 @unique
-class AltUnityLogger(Enum):
+class AltLogger(Enum):
     File = 0
     Unity = 1
     Console = 2

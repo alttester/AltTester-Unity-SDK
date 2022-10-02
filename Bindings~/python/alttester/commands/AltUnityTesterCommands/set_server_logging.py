@@ -1,5 +1,5 @@
 from alttester.commands.base_command import BaseCommand
-from alttester.logging import AltUnityLogger, AltUnityLogLevel
+from alttester.logging import AltLogger, AltUnityLogLevel
 from alttester.exceptions import InvalidParameterTypeException
 
 
@@ -8,10 +8,10 @@ class SetServerLogging(BaseCommand):
     def __init__(self, connection, logger, log_level):
         super().__init__(connection, "setServerLogging")
 
-        if logger not in AltUnityLogger:
+        if logger not in AltLogger:
             raise InvalidParameterTypeException(
                 parameter_name='logger',
-                expected_types=[AltUnityLogger],
+                expected_types=[AltLogger],
                 received_type=type(logger)
             )
 
