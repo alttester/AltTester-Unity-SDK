@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from alttester import AltUnityDriver
+from alttester import AltDriver
 
 
 def get_altunitytester_port():
@@ -18,7 +18,7 @@ def get_altunitytester_host():
 
 @pytest.fixture(scope="session")
 def altdriver():
-    altdriver = AltUnityDriver(
+    altdriver = AltDriver(
         host=get_altunitytester_host(),
         port=get_altunitytester_port(),
         enable_logging=True,

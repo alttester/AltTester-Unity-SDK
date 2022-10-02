@@ -14,7 +14,7 @@ from alttester.by import By
 warnings.filterwarnings("default", category=DeprecationWarning, module=__name__)
 
 
-class AltUnityDriver:
+class AltDriver:
     """The driver object will help interacting with all the game objects, their properties and methods.
 
     When you instantiate an ``AltUnityDriver`` object in your tests, you can use it to “drive” your game like one of

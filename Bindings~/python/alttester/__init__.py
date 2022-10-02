@@ -1,4 +1,4 @@
-from alttester.altdriver import AltUnityDriver
+from alttester.altdriver import AltDriver
 from alttester.altobject import AltObject
 from alttester.by import By
 from alttester.player_pref_key_type import PlayerPrefKeyType
