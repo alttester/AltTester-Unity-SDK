@@ -7,7 +7,7 @@ import alttester.commands as commands
 from alttester.commands.base_command import Command
 from alttester.__version__ import VERSION
 from alttester._websocket import WebsocketConnection
-from alttester.altUnityObject import AltObject
+from alttester.altobject import AltObject
 from alttester.by import By
 
 

@@ -1,5 +1,5 @@
 from alttester.runner import AltUnityDriver
-from alttester.altUnityObject import AltObject
+from alttester.altobject import AltObject
 from alttester.by import By
 from alttester.player_pref_key_type import PlayerPrefKeyType
 from alttester.alt_unity_key_code import AltUnityKeyCode

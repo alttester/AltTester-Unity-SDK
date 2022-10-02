@@ -1,6 +1,6 @@
 import json
 
-from alttester.altUnityObject import AltObject
+from alttester.altobject import AltObject
 
 
 class TestAltUnityObject:
