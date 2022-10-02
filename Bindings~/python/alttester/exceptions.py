@@ -1,11 +1,11 @@
 """This module contains the set of AltUnity Tester's exceptions."""
 
 
-class AltUnityException(Exception):
+class AltTesterException(Exception):
     """Base exception class for AltUnity."""
 
 
-class ConnectionError(AltUnityException):
+class ConnectionError(AltTesterException):
     """Raised when the client can not connect to the server."""
 
 
@@ -13,14 +13,14 @@ class ConnectionTimeoutError(ConnectionError):
     """Raised when the client connection timesout."""
 
 
-class AltUnityInvalidServerResponse(AltUnityException):
+class AltUnityInvalidServerResponse(AltTesterException):
     """Raised when the server responds with an invalid respose."""
 
     def __init__(self, expected, received):
         super().__init__("Expected to get response {}; got {}".format(expected, received))
 
 
-class InvalidParameterTypeException(TypeError, AltUnityException):
+class InvalidParameterTypeException(TypeError, AltTesterException):
     """Raised when an function or method receives an parameter that has the inappropriate type."""
 
     def __init__(self, parameter_name, expected_types, received_type):
@@ -32,11 +32,11 @@ class InvalidParameterTypeException(TypeError, AltUnityException):
         )
 
 
-class InvalidParameterValueException(ValueError, AltUnityException):
+class InvalidParameterValueException(ValueError, AltTesterException):
     """Raised when an function or method receives an parameter that has the right type but an inappropriate value."""
 
 
-class NotFoundException(AltUnityException):
+class NotFoundException(AltTesterException):
     """Raised when a object, camera, component, property, method or assembly is not found."""
 
 
@@ -72,45 +72,45 @@ class AssemblyNotFoundException(NotFoundException):
     """Raised when an assembly is not found."""
 
 
-class CouldNotPerformOperationException(AltUnityException):
+class CouldNotPerformOperationException(AltTesterException):
     """Raised when an opperation could not be performed."""
 
 
-class CouldNotParseJsonStringException(AltUnityException):
+class CouldNotParseJsonStringException(AltTesterException):
     """Raised when AltUnity could not parse an JSON command."""
 
 
-class NullReferenceException(AltUnityException):
+class NullReferenceException(AltTesterException):
     """Raised when there is an attempt to dereference a null object reference."""
 
 
-class FailedToParseArgumentsException(AltUnityException):
+class FailedToParseArgumentsException(AltTesterException):
     """Raised when a method arguments could not be parsed by AltUnity."""
 
 
-class WaitTimeOutException(AltUnityException):
+class WaitTimeOutException(AltTesterException):
     """Raised when a wait command times out."""
 
 
-class CommandResponseTimeoutException(AltUnityException):
+class CommandResponseTimeoutException(AltTesterException):
     """Raised when a command does't send a response in the given time."""
 
 
-class PropertyCannotBeSetException(AltUnityException):
+class PropertyCannotBeSetException(AltTesterException):
     """Raised when a property could not be found or it's value could not be updated."""
 
 
-class FormatException(AltUnityException):
+class FormatException(AltTesterException):
     pass
 
 
-class AltUnityInvalidPathException(AltUnityException):
+class AltUnityInvalidPathException(AltTesterException):
     """Raised when a command recives an invalid path."""
 
 
-class AltUnityInputModuleException(AltUnityException):
+class AltUnityInputModuleException(AltTesterException):
     pass
 
 
-class UnknownErrorException(AltUnityException):
+class UnknownErrorException(AltTesterException):
     """Raised when an unexpected error occurred."""
