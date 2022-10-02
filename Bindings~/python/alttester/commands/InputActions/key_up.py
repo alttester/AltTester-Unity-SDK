@@ -1,5 +1,5 @@
 from alttester.commands.base_command import BaseCommand
-from alttester.alt_unity_key_code import AltUnityKeyCode
+from alttester.keycode import AltUnityKeyCode
 from alttester.exceptions import InvalidParameterTypeException
 
 
