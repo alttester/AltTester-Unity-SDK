@@ -1,4 +1,4 @@
-from alttester.commands.AltUnityTesterCommands import *
+from alttester.commands.AltTesterCommands import *
 from alttester.commands.FindObjects import *
 from alttester.commands.InputActions import *
 from alttester.commands.ObjectCommands import *
