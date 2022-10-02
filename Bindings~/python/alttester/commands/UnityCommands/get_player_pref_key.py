@@ -1,5 +1,5 @@
 from alttester.commands.base_command import BaseCommand
-from alttester.player_pref_key_type import PlayerPrefKeyType
+from alttester.playerpref import PlayerPrefKeyType
 from alttester.exceptions import InvalidParameterTypeException
 
 
