@@ -1,4 +1,4 @@
-from alttester.alt_unity_port_forwarding import AltUnityPortForwarding
+from alttester.portforwarding import AltUnityPortForwarding
 
 
 class TestAltUnityPortForwarding:
