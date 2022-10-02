@@ -108,7 +108,7 @@ class InvalidPathException(AltTesterException):
     """Raised when a command recives an invalid path."""
 
 
-class AltUnityInputModuleException(AltTesterException):
+class AltTesterInputModuleException(AltTesterException):
     pass
 
 

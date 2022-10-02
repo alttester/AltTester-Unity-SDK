@@ -156,7 +156,7 @@ class BaseCommand(Command):
 
     def handle_errors(self, error):
         error_map = {
-            "ALTUNITYTESTERNotAddedAsDefineVariable": exceptions.AltUnityInputModuleException,
+            "ALTUNITYTESTERNotAddedAsDefineVariable": exceptions.AltTesterInputModuleException,
             "notFound": exceptions.NotFoundException,
             "sceneNotFound": exceptions.SceneNotFoundException,
             "objectNotFound": exceptions.ObjectNotFoundException,
