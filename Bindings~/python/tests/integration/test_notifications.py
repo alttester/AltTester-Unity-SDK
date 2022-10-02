@@ -4,14 +4,14 @@ from .utils import Scenes
 from alttester import By
 from alttester.commands.Notifications.notification_type import NotificationType
 from alttester.commands.Notifications.base_notification_callbacks import BaseNotificationCallbacks
-from alttester.logging import AltUnityLogLevel
+from alttester.logging import AltLogLevel
 
 
 class MockNotificationCallbacks(BaseNotificationCallbacks):
     last_scene_loaded = ""
     last_scene_unloaded = ""
     log_message = ""
-    log_type = AltUnityLogLevel.Error
+    log_type = AltLogLevel.Error
     log_stack_trace = ""
     application_paused = False
 
@@ -60,7 +60,7 @@ class TestNotifications:
             NotificationType.LOG, test_notification_callbacks.log_callback)
         self.altdriver.load_scene(Scenes.Scene01)
         assert "Scene Loaded" in test_notification_callbacks.log_message
-        assert test_notification_callbacks.log_type == AltUnityLogLevel.Debug.value
+        assert test_notification_callbacks.log_type == AltLogLevel.Debug.value
         self.altdriver.remove_notification_listener(NotificationType.LOG)
 
     def test_application_paused_notification(self):

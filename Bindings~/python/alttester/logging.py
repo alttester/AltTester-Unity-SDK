@@ -12,7 +12,7 @@ class AltLogger(Enum):
 
 
 @unique
-class AltUnityLogLevel(Enum):
+class AltLogLevel(Enum):
     Trace = 0
     Debug = 1
     Info = 2

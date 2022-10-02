@@ -6,7 +6,7 @@ from .utils import Scenes
 from alttester import By
 from alttester.__version__ import VERSION
 from alttester.commands import GetServerVersion
-from alttester.logging import AltUnityLogLevel, AltLogger
+from alttester.logging import AltLogLevel, AltLogger
 import alttester.exceptions as exceptions
 
 
@@ -99,7 +99,7 @@ class TestDriver:
         # Default logging level in AltUnity Tester is Debug level
         assert len(rule["Levels"]) == 5
 
-        self.altdriver.set_server_logging(AltLogger.File, AltUnityLogLevel.Off)
+        self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Off)
         rule = self.altdriver.call_static_method(
             "Altom.AltUnityTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
@@ -109,7 +109,7 @@ class TestDriver:
         assert len(rule["Levels"]) == 0
 
         # Reset logging level
-        self.altdriver.set_server_logging(AltLogger.File, AltUnityLogLevel.Debug)
+        self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Debug)
 
     @pytest.mark.parametrize(
         "path", ["//[1]", "CapsuleInfo[@tag=UI]", "//CapsuleInfo[@tag=UI/Text", "//CapsuleInfo[0/Text"]

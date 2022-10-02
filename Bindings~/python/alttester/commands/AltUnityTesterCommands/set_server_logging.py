@@ -1,5 +1,5 @@
 from alttester.commands.base_command import BaseCommand
-from alttester.logging import AltLogger, AltUnityLogLevel
+from alttester.logging import AltLogger, AltLogLevel
 from alttester.exceptions import InvalidParameterTypeException
 
 
@@ -15,10 +15,10 @@ class SetServerLogging(BaseCommand):
                 received_type=type(logger)
             )
 
-        if log_level not in AltUnityLogLevel:
+        if log_level not in AltLogLevel:
             raise InvalidParameterTypeException(
                 parameter_name='log_level',
-                expected_types=[AltUnityLogLevel],
+                expected_types=[AltLogLevel],
                 received_type=type(log_level)
             )
 
