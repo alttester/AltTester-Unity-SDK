@@ -3,11 +3,11 @@ import os
 import pytest
 
 from .utils import Scenes
-from altunityrunner import By
-from altunityrunner.__version__ import VERSION
-from altunityrunner.commands import GetServerVersion
-from altunityrunner.logging import AltUnityLogLevel, AltUnityLogger
-import altunityrunner.exceptions as exceptions
+from alttester import By
+from alttester.__version__ import VERSION
+from alttester.commands import GetServerVersion
+from alttester.logging import AltUnityLogLevel, AltUnityLogger
+import alttester.exceptions as exceptions
 
 
 class TestDriver:

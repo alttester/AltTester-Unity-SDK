@@ -1,7 +1,7 @@
 import pytest
 
 from .utils import Scenes
-from altunityrunner import By
+from alttester import By
 
 
 class TestScene07A:

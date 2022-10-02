@@ -1,10 +1,10 @@
 import pytest
 
 from .utils import Scenes
-from altunityrunner import By
-from altunityrunner.commands.Notifications.notification_type import NotificationType
-from altunityrunner.commands.Notifications.base_notification_callbacks import BaseNotificationCallbacks
-from altunityrunner.logging import AltUnityLogLevel
+from alttester import By
+from alttester.commands.Notifications.notification_type import NotificationType
+from alttester.commands.Notifications.base_notification_callbacks import BaseNotificationCallbacks
+from alttester.logging import AltUnityLogLevel
 
 
 class MockNotificationCallbacks(BaseNotificationCallbacks):

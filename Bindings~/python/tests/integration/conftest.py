@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from altunityrunner import AltUnityDriver
+from alttester import AltUnityDriver
 
 
 def get_altunitytester_port():

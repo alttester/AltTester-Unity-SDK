@@ -1,7 +1,7 @@
 import pytest
 
-from altunityrunner.exceptions import InvalidParameterTypeException
-from altunityrunner.commands import CallMethod
+from alttester.exceptions import InvalidParameterTypeException
+from alttester.commands import CallMethod
 
 
 class TestCallMethod:

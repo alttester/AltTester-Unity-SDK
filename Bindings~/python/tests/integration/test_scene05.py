@@ -3,7 +3,7 @@ import time
 import pytest
 
 from .utils import Scenes
-from altunityrunner import By, AltUnityKeyCode
+from alttester import By, AltUnityKeyCode
 
 
 class TestScene05:

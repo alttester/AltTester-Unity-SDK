@@ -3,8 +3,8 @@ import time
 import pytest
 
 from .utils import Scenes
-from altunityrunner import By, PlayerPrefKeyType, AltUnityKeyCode
-import altunityrunner.exceptions as exceptions
+from alttester import By, PlayerPrefKeyType, AltUnityKeyCode
+import alttester.exceptions as exceptions
 
 
 class TestScene01:
