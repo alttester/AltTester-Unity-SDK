@@ -1,5 +1,5 @@
 from alttester.commands.base_command import BaseCommand
-from alttester.keycode import AltUnityKeyCode
+from alttester.keycode import AltKeyCode
 from alttester.exceptions import InvalidParameterTypeException
 
 
@@ -16,10 +16,10 @@ class PressKeys(BaseCommand):
             )
 
         for key_code in key_codes:
-            if key_code not in AltUnityKeyCode:
+            if key_code not in AltKeyCode:
                 raise InvalidParameterTypeException(
                     parameter_name="key_codes",
-                    expected_types=[AltUnityKeyCode],
+                    expected_types=[AltKeyCode],
                     received_type=type(key_code)
                 )
 

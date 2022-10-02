@@ -3,7 +3,7 @@ import time
 import pytest
 
 from .utils import Scenes
-from alttester import By, PlayerPrefKeyType, AltUnityKeyCode
+from alttester import By, PlayerPrefKeyType, AltKeyCode
 import alttester.exceptions as exceptions
 
 
@@ -667,8 +667,8 @@ class TestScene01:
         capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.move_mouse(capsule_element.get_screen_position(), duration=0.1, wait=True)
 
-        self.altdriver.key_down(AltUnityKeyCode.Mouse0)
-        self.altdriver.key_up(AltUnityKeyCode.Mouse0)
+        self.altdriver.key_down(AltKeyCode.Mouse0)
+        self.altdriver.key_up(AltKeyCode.Mouse0)
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
 
     def test_camera_not_found_exception(self):
@@ -733,7 +733,7 @@ class TestScene01:
         assert str(execinfo.value) == ""
 
     def test_keys_down(self):
-        keys = [AltUnityKeyCode.K, AltUnityKeyCode.L]
+        keys = [AltKeyCode.K, AltKeyCode.L]
         self.altdriver.keys_down(keys)
         self.altdriver.keys_up(keys)
 
@@ -746,7 +746,7 @@ class TestScene01:
         assert property_value == "multiple keys pressed"
 
     def test_press_keys(self):
-        keys = [AltUnityKeyCode.K, AltUnityKeyCode.L]
+        keys = [AltKeyCode.K, AltKeyCode.L]
         self.altdriver.press_keys(keys)
 
         alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")

@@ -1,5 +1,5 @@
 from alttester.commands.base_command import BaseCommand
-from alttester.keycode import AltUnityKeyCode
+from alttester.keycode import AltKeyCode
 from alttester.exceptions import InvalidParameterTypeException
 
 
@@ -8,10 +8,10 @@ class PressKey(BaseCommand):
     def __init__(self, connection, key_code, power, duration, wait):
         super().__init__(connection, "pressKeyboardKey")
 
-        if key_code not in AltUnityKeyCode:
+        if key_code not in AltKeyCode:
             raise InvalidParameterTypeException(
                 parameter_name="key_code",
-                expected_types=[AltUnityKeyCode],
+                expected_types=[AltKeyCode],
                 received_type=type(key_code)
             )
 
