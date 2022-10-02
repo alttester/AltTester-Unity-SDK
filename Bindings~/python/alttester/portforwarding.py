@@ -3,7 +3,7 @@ import subprocess
 from ppadb.client import Client as AdbClient
 
 
-class AltUnityPortForwarding:
+class AltPortForwarding:
     _client = AdbClient(host="127.0.0.1", port=5037)
 
     @staticmethod
@@ -25,7 +25,7 @@ class AltUnityPortForwarding:
     @staticmethod
     def forward_ios(local_port=13000, device_port=13000, device_id="", iproxy_path=""):
         process = None
-        iproxy_path = AltUnityPortForwarding._get_iproxy_path(iproxy_path)
+        iproxy_path = AltPortForwarding._get_iproxy_path(iproxy_path)
         if device_id == "":
             process = subprocess.Popen(
                 [iproxy_path, str(local_port), str(device_port)])
@@ -44,15 +44,15 @@ class AltUnityPortForwarding:
 
     @staticmethod
     def forward_android(local_port=13000, device_port=13000, device_id=""):
-        device = AltUnityPortForwarding._get_device(device_id)
+        device = AltPortForwarding._get_device(device_id)
 
         device.forward("tcp:" + str(local_port), "tcp:" + str(device_port))
 
     @staticmethod
     def remove_forward_android(local_port=13000, device_id=""):
-        device = AltUnityPortForwarding._get_device(device_id)
+        device = AltPortForwarding._get_device(device_id)
         device.killforward("tcp:" + str(local_port))
 
     @staticmethod
     def remove_all_forward_android():
-        AltUnityPortForwarding._client.killforward_all()
+        AltPortForwarding._client.killforward_all()
