@@ -13,7 +13,7 @@ class ConnectionTimeoutError(ConnectionError):
     """Raised when the client connection timesout."""
 
 
-class AltUnityInvalidServerResponse(AltTesterException):
+class AltTesterInvalidServerResponse(AltTesterException):
     """Raised when the server responds with an invalid respose."""
 
     def __init__(self, expected, received):

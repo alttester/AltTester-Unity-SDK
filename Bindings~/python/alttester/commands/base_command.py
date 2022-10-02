@@ -182,7 +182,7 @@ class BaseCommand(Command):
 
     def validate_response(self, expected, received):
         if expected != received.strip('\"'):
-            raise exceptions.AltUnityInvalidServerResponse(expected, received)
+            raise exceptions.AltTesterInvalidServerResponse(expected, received)
 
     def send(self):
         """Send a command to the AltUnity and return the response."""
