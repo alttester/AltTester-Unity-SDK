@@ -172,7 +172,7 @@ class BaseCommand(Command):
             "failedToParseMethodArguments": exceptions.FailedToParseArgumentsException,
             "formatException": exceptions.FormatException,
             "invalidParameterType": exceptions.InvalidParameterTypeException,
-            "invalidPath": exceptions.AltUnityInvalidPathException,
+            "invalidPath": exceptions.InvalidPathException,
             "nullReferenceException": exceptions.NotFoundException,
             "unknownError": exceptions.UnknownErrorException
         }

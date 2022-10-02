@@ -115,5 +115,5 @@ class TestDriver:
         "path", ["//[1]", "CapsuleInfo[@tag=UI]", "//CapsuleInfo[@tag=UI/Text", "//CapsuleInfo[0/Text"]
     )
     def test_invalid_paths(self, path):
-        with pytest.raises(exceptions.AltUnityInvalidPathException):
+        with pytest.raises(exceptions.InvalidPathException):
             self.altdriver.find_object(By.PATH, path)

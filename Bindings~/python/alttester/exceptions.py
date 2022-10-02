@@ -104,7 +104,7 @@ class FormatException(AltTesterException):
     pass
 
 
-class AltUnityInvalidPathException(AltTesterException):
+class InvalidPathException(AltTesterException):
     """Raised when a command recives an invalid path."""
 
 
