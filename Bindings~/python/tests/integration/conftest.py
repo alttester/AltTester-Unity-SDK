@@ -8,12 +8,12 @@ from alttester import AltDriver
 
 
 def get_altunitytester_port():
-    port = os.environ.get("ALTUNITYDRIVER_PORT", 13000)
+    port = os.environ.get("ALTTESTER_DRIVER_PORT", 13000)
     return int(port)
 
 
 def get_altunitytester_host():
-    return os.environ.get("ALTUNITYDRIVER_HOST", "127.0.0.1")
+    return os.environ.get("ALTTESTER_DRIVER_HOST", "127.0.0.1")
 
 
 @pytest.fixture(scope="session")

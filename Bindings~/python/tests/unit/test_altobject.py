@@ -3,7 +3,7 @@ import json
 from alttester.altobject import AltObject
 
 
-class TestAltUnityObject:
+class TestAltObject:
 
     def test_repr(self):
         element = AltObject(None, {"name": "ElementName", "id": "1", "transformId": "100"})
