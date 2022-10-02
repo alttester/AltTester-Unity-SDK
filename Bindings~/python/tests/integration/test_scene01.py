@@ -213,18 +213,18 @@ class TestScene01:
         button = self.altdriver.find_object(By.NAME, "UIButton")
         self.altdriver.hold_button(button.get_screen_position(), duration=1, wait=False)
 
-        # time.sleep(2)
+        time.sleep(2)
 
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
         text = capsule_info.get_text()
-        assert text, "UIButton clicked to jump capsule!"
+        assert text == "UIButton clicked to jump capsule!"
 
     def test_get_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.get_component_property(
             "AltUnityExampleScriptCapsule", "arrayOfInts", assembly="Assembly-CSharp")
 
-        assert result, [1, 2, 3]
+        assert result == [1, 2, 3]
 
     def test_get_component_property_with_bool(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
@@ -676,7 +676,7 @@ class TestScene01:
             self.altdriver.find_object(By.NAME, "Capsule", By.NAME, "Camera")
 
     def test_input_field_events(self):
-        input_field = self.altdriver.find_object(By.NAME, "InputField").set_text("example", submit=True)
+        input_field = self.altdriver.find_object(By.NAME, "UnityUIInputField").set_text("example", submit=True)
 
         assert input_field.get_text() == "example"
         assert input_field.get_component_property(

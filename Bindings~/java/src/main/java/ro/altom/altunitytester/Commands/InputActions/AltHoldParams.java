@@ -10,7 +10,6 @@ public class AltHoldParams extends AltSwipeParams {
 
         /**
          * @param coordinates The coordinates where the button is held down.
-         * @param duration    The time measured in seconds to hold
          */
         public Builder(Vector2 coordinates) {
             this.coordinates = coordinates;
@@ -18,7 +17,7 @@ public class AltHoldParams extends AltSwipeParams {
         }
 
         /**
-         * @param start The coordinates where the button is held down.
+         * @param coordinates The coordinates where the button is held down.
          */
         public AltHoldParams.Builder withCoordinates(Vector2 coordinates) {
             this.coordinates = coordinates;

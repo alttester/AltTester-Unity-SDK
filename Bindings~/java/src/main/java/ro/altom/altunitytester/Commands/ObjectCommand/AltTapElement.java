@@ -11,7 +11,8 @@ public class AltTapElement extends AltBaseCommand {
     private AltTapClickElementParams parameters;
 
     /**
-     * @param altUnityObject The game object
+     * @param messageHandler - Message
+     * @param parameters - int count , float interval , boolean wait
      */
 
     public AltTapElement(IMessageHandler messageHandler,

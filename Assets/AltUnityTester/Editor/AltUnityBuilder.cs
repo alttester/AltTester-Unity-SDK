@@ -41,7 +41,7 @@ namespace Altom.AltUnityTesterEditor
                 string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup) + "Test";
                 UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
             }
-            AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
+            AddAltUnityTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
             if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
                 CreateJsonFileForInputMappingOfAxis();
 
@@ -163,13 +163,21 @@ namespace Altom.AltUnityTesterEditor
             }
         }
 
-        public static void AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
+        public static void AddAltUnityTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
         {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains(ALTUNITYTESTERDEFINE))
+            if (!scriptingDefineSymbolsForGroup.Contains(ALTUNITYTESTERDEFINE)) {
                 scriptingDefineSymbolsForGroup += ";" + ALTUNITYTESTERDEFINE;
+            }
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
         }
+
+        [System.Obsolete("Use AddAltUnityTesterInScriptingDefineSymbolsGroup instead.")]
+        public static void AddAltUnityTesterInScritpingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
+        {
+            AddAltUnityTesterInScriptingDefineSymbolsGroup(targetGroup);
+        }
+
         public static bool CheckAltUnityTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildTargetGroup targetGroup)
         {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);

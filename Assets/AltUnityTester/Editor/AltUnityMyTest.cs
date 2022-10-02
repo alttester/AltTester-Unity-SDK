@@ -1,30 +1,46 @@
 ﻿
 using System;
+using UnityEngine;
 
 namespace Altom.AltUnityTesterEditor
 {
     [System.Serializable]
     public class AltUnityMyTest
     {
+        [SerializeField]
+        private bool _selected;
+        [SerializeField]
+        private string _testName;
+        [SerializeField]
+        private string _testAssembly;
+        [SerializeField]
+        private int _status;
+        [SerializeField]
+        private bool _isSuite;
+        [SerializeField]
+        private string _type;
+        [SerializeField]
+        private string _parentName;
+        [SerializeField]
+        private int _testCaseCount;
+        [SerializeField]
+        private bool _foldOut;
+        [SerializeField]
+        private string _testResultMessage;
+        [SerializeField]
+        private string _testStackTrace;
+        [SerializeField]
+        private Double _testDuration;
+        [SerializeField]
+        private string path;
+        [SerializeField]
+        private int _testSelectedCount;
 
-        public bool _selected;
-        public string _testName;
-        public int _status;
-        public bool _isSuite;
-        public string _type;
-        public string _parentName;
-        public int _testCaseCount;
-        public bool _foldOut;
-        public string _testResultMessage;
-        public string _testStackTrace;
-        public Double _testDuration;
-        public string path;
-        public int _testSelectedCount;
-
-        public AltUnityMyTest(bool selected, string testName, int status, bool isSuite, string type, string parentName, int testCaseCount, bool foldOut, string testResultMessage, string testStackTrace, Double testDuration, string path, int testSelectedCount)
+        public AltUnityMyTest(bool selected, string testName, string testAssembly, int status, bool isSuite, string type, string parentName, int testCaseCount, bool foldOut, string testResultMessage, string testStackTrace, Double testDuration, string path, int testSelectedCount)
         {
             _selected = selected;
             _testName = testName;
+            _testAssembly = testAssembly;
             _status = status;
             _isSuite = isSuite;
             _type = type;
@@ -61,6 +77,19 @@ namespace Altom.AltUnityTesterEditor
             set
             {
                 _testName = value;
+            }
+        }
+
+        public string TestAssembly
+        {
+            get
+            {
+                return _testAssembly;
+            }
+
+            set
+            {
+                _testAssembly = value;
             }
         }
 

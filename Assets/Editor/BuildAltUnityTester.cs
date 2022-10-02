@@ -10,6 +10,78 @@ namespace Altom.AltUnityTesterTools
     {
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
 
+
+        [MenuItem("Build/Mac")]
+        protected static void MacBuildFromCommandLine()
+        {
+            try
+            {
+                string versionNumber = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+
+                PlayerSettings.companyName = "Altom";
+                PlayerSettings.productName = "sampleGame";
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
+                PlayerSettings.bundleVersion = versionNumber;
+                PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Standalone, ApiCompatibilityLevel.NET_4_6);
+                AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Standalone);
+                var instrumentationSettings = getInstrumentationSettings();
+                PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
+                PlayerSettings.defaultScreenHeight = 1080;
+                PlayerSettings.defaultScreenWidth = 1920;
+
+
+                logger.Debug("Starting Mac build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+                var buildPlayerOptions = new BuildPlayerOptions
+                {
+                    scenes = GetScene(),
+
+                    locationPathName = "sampleGame",
+                    target = BuildTarget.StandaloneOSX,
+                    options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
+                };
+
+
+
+                AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+
+                var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
+                AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Standalone);
+
+
+#if UNITY_2017
+            if (results.Equals(""))
+            {
+                logger.Info("Build succeeded!");
+                EditorApplication.Exit(0);
+
+            }
+            else
+            {
+                logger.Error("Build failed!");
+                EditorApplication.Exit(1);
+            }
+
+#else
+                if (results.summary.totalErrors == 0)
+                {
+                    logger.Info("Build succeeded!");
+                    logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+                    EditorApplication.Exit(0);
+                }
+
+                logger.Error("Total Errors: " + results.summary.totalErrors);
+                logger.Error("Build failed! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
+                EditorApplication.Exit(1);
+#endif
+
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception);
+                EditorApplication.Exit(1);
+            }
+
+        }
         [MenuItem("Build/Android")]
         protected static void AndroidBuildFromCommandLine()
         {
@@ -27,7 +99,7 @@ namespace Altom.AltUnityTesterTools
 #if UNITY_2018_1_OR_NEWER
                 PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 #endif
-                AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Android);
+                AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.Android);
                 var instrumentationSettings = getInstrumentationSettings();
 
 
@@ -130,7 +202,7 @@ namespace Altom.AltUnityTesterTools
                     options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
                 };
 
-                AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.iOS);
+                AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.iOS);
                 var instrumentationSettings = getInstrumentationSettings();
                 AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
@@ -197,7 +269,7 @@ namespace Altom.AltUnityTesterTools
                     options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
                 };
 
-                AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.WebGL);
+                AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.WebGL);
 
 
                 var instrumentationSettings = getInstrumentationSettings();

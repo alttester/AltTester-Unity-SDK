@@ -20,7 +20,9 @@ namespace Altom.AltUnityTesterEditor
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
         public string LatestInspectorVersion = "";
-        public bool ShowInsectorPopUpInEditor = false;
+        public bool ShowInspectorPopUpInEditor = false;
+        public bool createXMLReport = false;
+        public string xMLFilePath = "";
 
         public int AltUnityTesterPort = 13000;
 
