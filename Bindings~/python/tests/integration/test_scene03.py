@@ -92,20 +92,20 @@ class TestScene03:
 
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
         self.altdriver.load_scene("Scene 3 Drag And Drop")
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        multipointPositions = [alt_unity_object1.get_screen_position(), [alt_unity_object2.x, alt_unity_object2.y]]
+        multipointPositions = [alt_object1.get_screen_position(), [alt_object2.x, alt_object2.y]]
 
         self.altdriver.multipoint_swipe(multipointPositions, duration=0.5)
 
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
         alt_unity_object3 = self.altdriver.find_object(By.NAME, "Drop Box2")
 
         positions = [
-            [alt_unity_object1.x, alt_unity_object1.y],
-            [alt_unity_object2.x, alt_unity_object2.y],
+            [alt_object1.x, alt_object1.y],
+            [alt_object2.x, alt_object2.y],
             [alt_unity_object3.x, alt_unity_object3.y]
         ]
 

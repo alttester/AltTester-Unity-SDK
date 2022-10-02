@@ -12,7 +12,7 @@ class GetAllComponents(BaseCommand):
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
-            "altUnityObjectId": self.alt_object.id
+            "altObjectId": self.alt_object.id
         })
 
         return parameters

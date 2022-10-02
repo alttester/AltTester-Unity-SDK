@@ -1,8 +1,8 @@
-"""This module contains the set of AltUnity Tester's exceptions."""
+"""This module contains the set of AltTester's exceptions."""
 
 
 class AltTesterException(Exception):
-    """Base exception class for AltUnity."""
+    """Base exception class for AltTester."""
 
 
 class ConnectionError(AltTesterException):
@@ -77,7 +77,7 @@ class CouldNotPerformOperationException(AltTesterException):
 
 
 class CouldNotParseJsonStringException(AltTesterException):
-    """Raised when AltUnity could not parse an JSON command."""
+    """Raised when AltTester could not parse an JSON command."""
 
 
 class NullReferenceException(AltTesterException):
@@ -85,7 +85,7 @@ class NullReferenceException(AltTesterException):
 
 
 class FailedToParseArgumentsException(AltTesterException):
-    """Raised when a method arguments could not be parsed by AltUnity."""
+    """Raised when a method arguments could not be parsed by AltTester."""
 
 
 class WaitTimeOutException(AltTesterException):

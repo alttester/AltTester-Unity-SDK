@@ -14,7 +14,7 @@ from .exceptions import ConnectionError, ConnectionTimeoutError, CommandResponse
 
 
 class Store:
-    """Stores the responses from AltUnity."""
+    """Stores the responses from AltTester."""
 
     def __init__(self, dict=None):
         self._store = dict or defaultdict(deque)
@@ -39,7 +39,7 @@ class Store:
 
 
 class NotificationHandler:
-    """Handles the parsing of the notification messages from AltUnity."""
+    """Handles the parsing of the notification messages from AltTester."""
 
     def __init__(self):
         self._notification_callbacks = defaultdict(list)
@@ -86,7 +86,7 @@ class NotificationHandler:
 
 
 class CommandHandler:
-    """Handles the parsing of command messages from AltUnity."""
+    """Handles the parsing of command messages from AltTester."""
 
     def __init__(self):
         self._store = Store()
@@ -125,7 +125,7 @@ class CommandHandler:
 
 
 class WebsocketConnection:
-    """Handles the websocket connection with AltUnity.
+    """Handles the websocket connection with AltTester.
 
     Args:
         host (:obj:`str`): The host to connect to.
@@ -204,7 +204,7 @@ class WebsocketConnection:
         """A callback which is called when the connection is closed."""
 
         logger.debug(
-            "Connection to AltUnity closed with status code: {} and message: {}.",
+            "Connection to AltTester closed with status code: {} and message: {}.",
             close_status_code,
             close_msg
         )
@@ -248,7 +248,7 @@ class WebsocketConnection:
             self.close()
 
             raise ConnectionTimeoutError(
-                "Failed to connect to AltUnity Tester host: {} port: {}.".format(self.host, self.port)
+                "Failed to connect to AltTester host: {} port: {}.".format(self.host, self.port)
             )
 
     def send(self, data):
@@ -277,7 +277,7 @@ class WebsocketConnection:
             raise CommandResponseTimeoutException()
 
     def close(self):
-        logger.info("Closing connection to AltUnity on host: {} port: {}", self.host, self.port)
+        logger.info("Closing connection to AltTester on host: {} port: {}", self.host, self.port)
 
         if self._websocket:
             self._websocket.close()

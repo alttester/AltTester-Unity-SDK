@@ -18,7 +18,7 @@ class SetComponentProperty(BaseCommand):
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
-            "altUnityObject": self.alt_object.to_json(),
+            "altObject": self.alt_object.to_json(),
             "component": self.component_name,
             "property": self.property_name,
             "assembly": self.assembly_name,

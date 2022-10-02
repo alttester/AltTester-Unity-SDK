@@ -68,8 +68,8 @@ class TestNotifications:
         self.altdriver.add_notification_listener(
             NotificationType.APPLICATION_PAUSED, test_notification_callbacks.application_paused_callback)
         self.altdriver.load_scene(Scenes.Scene01)
-        alt_unity_object = self.altdriver.find_object(By.NAME, "AltUnityRunnerPrefab")
-        alt_unity_object.call_component_method(
+        alt_object = self.altdriver.find_object(By.NAME, "AltUnityRunnerPrefab")
+        alt_object.call_component_method(
             "Altom.AltUnityTester.AltUnityRunner", "OnApplicationPause",
             parameters=[True],
             type_of_parameters=["System.Boolean"]

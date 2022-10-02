@@ -30,7 +30,7 @@ class TestDriver:
         assert self.altdriver.get_current_scene() == Scenes.Scene02
 
     def test_wait_for_current_scene_to_be_with_a_non_existing_scene(self):
-        scene_name = "AltUnityDriverTestScene"
+        scene_name = "Scene 0"
 
         with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
             self.altdriver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
@@ -50,17 +50,17 @@ class TestDriver:
         assert os.path.exists(png_path)
 
     def test_wait_for_object_which_contains_with_tag(self):
-        alt_unity_object = self.altdriver.wait_for_object_which_contains(
+        alt_object = self.altdriver.wait_for_object_which_contains(
             By.NAME, "Canva",
             By.TAG, "MainCamera"
         )
-        assert alt_unity_object.name == "Canvas"
+        assert alt_object.name == "Canvas"
 
     def test_load_additive_scenes(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", load_single=True)
+        self.altdriver.load_scene(Scenes.Scene01, load_single=True)
 
         initial_number_of_elements = self.altdriver.get_all_elements()
-        self.altdriver.load_scene("Scene 2 Draggable Panel", load_single=False)
+        self.altdriver.load_scene(Scenes.Scene02, load_single=False)
         final_number_of_elements = self.altdriver.get_all_elements()
 
         assert len(final_number_of_elements) > len(initial_number_of_elements)
@@ -73,20 +73,20 @@ class TestDriver:
             self.altdriver.load_scene("Scene 0")
 
     def test_unload_scene(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", load_single=True)
-        self.altdriver.load_scene("Scene 2 Draggable Panel", load_single=False)
+        self.altdriver.load_scene(Scenes.Scene01, load_single=True)
+        self.altdriver.load_scene(Scenes.Scene02, load_single=False)
 
         assert len(self.altdriver.get_all_loaded_scenes()) == 2
 
-        self.altdriver.unload_scene("Scene 2 Draggable Panel")
+        self.altdriver.unload_scene(Scenes.Scene02)
         assert len(self.altdriver.get_all_loaded_scenes()) == 1
-        assert self.altdriver.get_all_loaded_scenes()[0] == "Scene 1 AltUnityDriverTestScene"
+        assert self.altdriver.get_all_loaded_scenes()[0] == Scenes.Scene01
 
     def test_unload_only_scene(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene", load_single=True)
+        self.altdriver.load_scene(Scenes.Scene01, load_single=True)
 
         with pytest.raises(exceptions.CouldNotPerformOperationException):
-            self.altdriver.unload_scene("Scene 1 AltUnityDriverTestScene")
+            self.altdriver.unload_scene(Scenes.Scene01)
 
     def test_set_server_logging(self):
         rule = self.altdriver.call_static_method(
@@ -96,7 +96,7 @@ class TestDriver:
             assembly="Assembly-CSharp"
         )
 
-        # Default logging level in AltUnity Tester is Debug level
+        # Default logging level in AltTester is Debug level
         assert len(rule["Levels"]) == 5
 
         self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Off)

@@ -77,22 +77,22 @@ class TestScene07B:
         self.altdriver.load_scene(Scenes.Scene07B)
 
     def test_multipoint_swipe_NIS(self):
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        multipoint_positions = [alt_unity_object1.get_screen_position(), [alt_unity_object2.x, alt_unity_object2.y]]
+        multipoint_positions = [alt_object1.get_screen_position(), [alt_object2.x, alt_object2.y]]
 
         self.altdriver.multipoint_swipe(multipoint_positions, duration=0.5)
         # time.sleep(2)
 
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
-        alt_unity_object3 = self.altdriver.find_object(By.NAME, "Drop Box2")
+        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+        alt_object3 = self.altdriver.find_object(By.NAME, "Drop Box2")
 
         positions = [
-            [alt_unity_object1.x, alt_unity_object1.y],
-            [alt_unity_object2.x, alt_unity_object2.y],
-            [alt_unity_object3.x, alt_unity_object3.y]
+            [alt_object1.x, alt_object1.y],
+            [alt_object2.x, alt_object2.y],
+            [alt_object3.x, alt_object3.y]
         ]
 
         self.altdriver.multipoint_swipe(positions, duration=0.5)

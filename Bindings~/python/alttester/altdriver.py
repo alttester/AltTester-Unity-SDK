@@ -17,9 +17,9 @@ warnings.filterwarnings("default", category=DeprecationWarning, module=__name__)
 class AltDriver:
     """The driver object will help interacting with all the game objects, their properties and methods.
 
-    When you instantiate an ``AltUnityDriver`` object in your tests, you can use it to “drive” your game like one of
-    your users would, by interacting with all the game objects, their properties and methods.  An ``AltUnityDriver``
-    instance will connect to the AltUnity Proxy.
+    When you instantiate an ``AltDriver`` object in your tests, you can use it to “drive” your game like one of
+    your users would, by interacting with all the game objects, their properties and methods.  An ``AltDriver``
+    instance will connect to the AltProxy.
 
     Args:
         host (:obj:`str`): The proxy host to connect to.
@@ -45,13 +45,13 @@ class AltDriver:
             logger.configure(
                 handlers=[
                     dict(sink=sys.stdout, diagnose=False),
-                    dict(sink="./AltUnityTesterLog.txt", enqueue=False, serialize=True, mode="w", diagnose=False),
+                    dict(sink="./alttester.log", enqueue=False, serialize=True, mode="w", diagnose=False),
                 ],
                 levels=[dict(name="DEBUG")],
-                activation=[("altunityrunner", True)],
+                activation=[("alttester", True)],
             )
         else:
-            logger.disable("altunityrunner")
+            logger.disable("alttester")
 
     @staticmethod
     def _split_version(version):
@@ -60,62 +60,62 @@ class AltDriver:
 
     def _check_server_version(self):
         server_version = commands.GetServerVersion.run(self._connection)
-        logger.info("Connection established with instrumented Unity app. AltUnity Tester Version: {}", server_version)
+        logger.info("Connection established with instrumented Unity app. AltTester Version: {}", server_version)
 
         major_server, minor_server = self._split_version(server_version)
         major_driver, minor_driver = self._split_version(VERSION)
 
         if major_server != major_driver or minor_server != minor_driver:
-            message = "Version mismatch. AltUnity Driver version is {}. AltUnity Tester version is {}.".format(
+            message = "Version mismatch. AltDriver version is {}. AltTester version is {}.".format(
                 VERSION,
                 server_version
             )
 
             logger.warning(message)
 
-    def _get_alt_unity_object(self, data):
+    def _get_alt_object(self, data):
         if data is None:
             return None
 
-        alt_unity_object = AltObject(self, data)
+        alt_object = AltObject(self, data)
 
         logger.debug(
             "Element {} found at x: {} y: {} mobileY: {}",
-            alt_unity_object.name,
-            alt_unity_object.x,
-            alt_unity_object.y,
-            alt_unity_object.mobileY
+            alt_object.name,
+            alt_object.x,
+            alt_object.y,
+            alt_object.mobileY
         )
 
-        return alt_unity_object
+        return alt_object
 
-    def _get_alt_unity_objects(self, data):
+    def _get_alt_objects(self, data):
         if data is None:
             return None
 
-        alt_unity_objects = []
+        alt_objects = []
 
         for element in data:
-            alt_unity_object = AltObject(self, element)
-            alt_unity_objects.append(alt_unity_object)
+            alt_object = AltObject(self, element)
+            alt_objects.append(alt_object)
 
             logger.debug(
                 "Element {} found at x: {} y: {} mobileY: {}",
-                alt_unity_object.name,
-                alt_unity_object.x,
-                alt_unity_object.y,
-                alt_unity_object.mobileY
+                alt_object.name,
+                alt_object.x,
+                alt_object.y,
+                alt_object.mobileY
             )
 
-        return alt_unity_objects
+        return alt_objects
 
     def stop(self):
-        """Close the connection to AltUnity."""
+        """Close the connection to AltTester."""
 
         self._connection.close()
 
     def get_command_response_timeout(self):
-        """Gets the current command response timeout for the AltUnity connection.
+        """Gets the current command response timeout for the AltTester connection.
 
         Return:
             int or float: The current command response time.
@@ -125,7 +125,7 @@ class AltDriver:
         return self._connection.set_command_timeout()
 
     def set_command_response_timeout(self, timeout):
-        """Sets the command response timeout for the AltUnity connection.
+        """Sets the command response timeout for the AltTester connection.
 
         Args:
             timeout (:obj:`int` or :obj:`float`): The new command response timeout in seconds.
@@ -149,11 +149,11 @@ class AltDriver:
         Command.set_delay_after_command(delay)
 
     def set_server_logging(self, logger, log_level):
-        """Sets the level of logging on AltUnity Tester.
+        """Sets the level of logging on AltTester.
 
         Args:
-            logger (:obj:`AltUnityLogger`): The type of logger.
-            log_lever (:obj:`AltUnityLogLevel`): The logging level.
+            logger (:obj:`AltLogger`): The type of logger.
+            log_lever (:obj:`AltLogLevel`): The logging level.
 
         """
 
@@ -327,7 +327,7 @@ class AltDriver:
                 ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
-            AltUnityObject: The object.
+            AltObject: The object.
 
         """
 
@@ -336,7 +336,7 @@ class AltDriver:
             by, value, camera_by, camera_value, enabled
         )
 
-        return self._get_alt_unity_object(data)
+        return self._get_alt_object(data)
 
     def find_objects(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds all objects in the scene that respects the given criteria.
@@ -354,7 +354,7 @@ class AltDriver:
                 ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
-            list of AltUnityObjects: The list of objects.
+            list of AltObject: The list of objects.
 
         """
 
@@ -363,7 +363,7 @@ class AltDriver:
             by, value, camera_by, camera_value, enabled
         )
 
-        return self._get_alt_unity_objects(data)
+        return self._get_alt_objects(data)
 
     def find_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds the first object in the scene that respects the given criteria.
@@ -381,7 +381,7 @@ class AltDriver:
                 ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
-            AltUnityObject: The object.
+            AltObject: The object.
 
         """
 
@@ -390,7 +390,7 @@ class AltDriver:
             by, value, camera_by, camera_value, enabled
         )
 
-        return self._get_alt_unity_object(data)
+        return self._get_alt_object(data)
 
     def find_objects_which_contain(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds all objects in the scene that respects the given criteria.
@@ -408,7 +408,7 @@ class AltDriver:
                 match all objects. Defaults to ``True``.
 
         Returns:
-            list of AltUnityObjects: The list of objects.
+            list of AltObjects: The list of objects.
 
         """
 
@@ -417,7 +417,7 @@ class AltDriver:
             by, value, camera_by, camera_value, enabled
         )
 
-        return self._get_alt_unity_objects(data)
+        return self._get_alt_objects(data)
 
     def wait_for_object(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5, enabled=True):
         """Waits until it finds an object that respects the given criteria or until timeout limit is reached.
@@ -438,7 +438,7 @@ class AltDriver:
                 ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
-            AltUnityObject: The object.
+            AltObject: The object.
 
         """
 
@@ -447,7 +447,7 @@ class AltDriver:
             by, value, camera_by, camera_value, timeout, interval, enabled
         )
 
-        return self._get_alt_unity_object(data)
+        return self._get_alt_object(data)
 
     def wait_for_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                        enabled=True):
@@ -469,7 +469,7 @@ class AltDriver:
                 ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
-            AltUnityObject: The object.
+            AltObject: The object.
 
         """
 
@@ -478,7 +478,7 @@ class AltDriver:
             by, value, camera_by, camera_value, timeout, interval, enabled
         )
 
-        return self._get_alt_unity_object(data)
+        return self._get_alt_object(data)
 
     def wait_for_object_to_not_be_present(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                           enabled=True):
@@ -521,7 +521,7 @@ class AltDriver:
                 ``False`` will match all objects. Defaults to ``True``.
 
         Returns:
-            list of AltUnityObjects: The list of objects.
+            list of AltObjects: The list of objects.
 
         """
 
@@ -575,7 +575,7 @@ class AltDriver:
         """Simulates that a specific key was pressed without taking into consideration the duration of the press.
 
         Args:
-            key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be pressed.
+            key_code (:obj:`AltKeyCode`): The key code of the key simulated to be pressed.
             power (:obj:`float`, optional): A value between [-1,1] used for joysticks to indicate how hard the button
                 was pressed. Defaults to ``1``.
 
@@ -587,7 +587,7 @@ class AltDriver:
         """Simulates that multiple keys were pressed without taking into consideration the duration of the press.
 
         Args:
-            key_codes (:obj:`list` of :obj:`AltUnityKeyCode`): The key codes of the keys simulated to be pressed.
+            key_codes (:obj:`list` of :obj:`AltKeyCode`): The key codes of the keys simulated to be pressed.
             power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the button was
                 pressed. Defaults to ``1``.
 
@@ -599,7 +599,7 @@ class AltDriver:
         """Simulates that a specific key was released.
 
         Args:
-            key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be released.
+            key_code (:obj:`AltKeyCode`): The key code of the key simulated to be released.
 
         """
 
@@ -609,7 +609,7 @@ class AltDriver:
         """Simulates that multiple keys were released.
 
         Args:
-            key_codes (:obj:`list` of :obj:`AltUnityKeyCode`): The key codes of the keys simulated to be released.
+            key_codes (:obj:`list` of :obj:`AltKeyCode`): The key codes of the keys simulated to be released.
 
         """
 
@@ -619,7 +619,7 @@ class AltDriver:
         """Simulates key press action in your game.
 
         Args:
-            key_code (:obj:`AltUnityKeyCode`): The key code of the key simulated to be pressed.
+            key_code (:obj:`AltKeyCode`): The key code of the key simulated to be pressed.
             power (:obj:`int`, :obj:`float`, optional): A value between [-1,1] used for joysticks to indicate how hard
                 the button was pressed. Defaults to ``1``.
             duration (:obj:`float`, optional): The time measured in seconds from the key press to the key release.
@@ -633,7 +633,7 @@ class AltDriver:
         """Simulates multiple keypress action in your game.
 
         Args:
-            key_codes (:obj:`list` of :obj:`AltUnityKeyCode`): The key codes of the keys simulated to be pressed.
+            key_codes (:obj:`list` of :obj:`AltKeyCode`): The key codes of the keys simulated to be pressed.
             power (:obj:`float`): A value between [-1,1] used for joysticks to indicate how hard the buttons were
                 pressed. Defaults to ``1``.
             duration (:obj:`float`): The time measured in seconds from the key press to the key release.
@@ -789,12 +789,12 @@ class AltDriver:
             coordinates (:obj:`dict`): The screen coordinates.
 
         Returns:
-            AltUnityObject: The UI object hit by event system Raycast, ``None`` otherwise.
+            AltObject: The UI object hit by event system Raycast, ``None`` otherwise.
 
         """
 
         data = commands.FindObjectAtCoordinates.run(self._connection, coordinates)
-        return self._get_alt_unity_object(data)
+        return self._get_alt_object(data)
 
     def set_notification(self, notification_type, notification_callback=None):
         """Sets what notifications will the tester send and what to do with those notifications.

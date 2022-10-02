@@ -17,7 +17,7 @@ class GetStaticProperty(BaseCommand):
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
-            "altUnityObject": self.alt_object,
+            "altObject": self.alt_object,
             "component": self.component_name,
             "property": self.property_name,
             "assembly": self.assembly_name,

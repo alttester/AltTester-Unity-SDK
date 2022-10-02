@@ -56,36 +56,36 @@ class TestScene02:
             assert name in names
 
     def test_resize_panel(self):
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
-        position_init = (alt_unity_object.x, alt_unity_object.y)
+        alt_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+        position_init = (alt_object.x, alt_object.y)
 
         self.altdriver.swipe(
-            alt_unity_object.get_screen_position(),
-            (alt_unity_object.x - 200, alt_unity_object.y - 200),
+            alt_object.get_screen_position(),
+            (alt_object.x - 200, alt_object.y - 200),
             duration=2
         )
         # time.sleep(2)
 
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
-        position_final = (alt_unity_object.x, alt_unity_object.y)
+        alt_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+        position_final = (alt_object.x, alt_object.y)
 
         assert position_init != position_final
 
     def test_resize_panel_with_multipoint_swipe(self):
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
-        position_init = (alt_unity_object.x, alt_unity_object.y)
+        alt_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+        position_init = (alt_object.x, alt_object.y)
 
         positions = [
-            alt_unity_object.get_screen_position(),
-            [alt_unity_object.x - 200, alt_unity_object.y - 200],
-            [alt_unity_object.x - 300, alt_unity_object.y - 100],
-            [alt_unity_object.x - 50, alt_unity_object.y - 100],
-            [alt_unity_object.x - 100, alt_unity_object.y - 100]
+            alt_object.get_screen_position(),
+            [alt_object.x - 200, alt_object.y - 200],
+            [alt_object.x - 300, alt_object.y - 100],
+            [alt_object.x - 50, alt_object.y - 100],
+            [alt_object.x - 100, alt_object.y - 100]
         ]
         self.altdriver.multipoint_swipe(positions, duration=4)
 
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
-        position_final = (alt_unity_object.x, alt_unity_object.y)
+        alt_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+        position_final = (alt_object.x, alt_object.y)
 
         assert position_init != position_final
 

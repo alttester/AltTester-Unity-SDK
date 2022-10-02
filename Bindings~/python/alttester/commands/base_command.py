@@ -126,7 +126,7 @@ class Command(metaclass=abc.ABCMeta):
 
 
 class BaseCommand(Command):
-    """"A base command that sends and receive data from the AltUnity."""
+    """"A base command that sends and receive data from the AltTester."""
 
     def __init__(self, connection, command_name):
         self.connection = connection
@@ -135,7 +135,7 @@ class BaseCommand(Command):
 
     @property
     def _parameters(self):
-        """Returns command parammeters that will be sent to the AltUnity."""
+        """Returns command parammeters that will be sent to the AltTester."""
 
         return {
             "commandName": self.command_name,
@@ -156,7 +156,7 @@ class BaseCommand(Command):
 
     def handle_errors(self, error):
         error_map = {
-            "ALTUNITYTESTERNotAddedAsDefineVariable": exceptions.AltTesterInputModuleException,
+            "ALTTESTERNotAddedAsDefineVariable": exceptions.AltTesterInputModuleException,
             "notFound": exceptions.NotFoundException,
             "sceneNotFound": exceptions.SceneNotFoundException,
             "objectNotFound": exceptions.ObjectNotFoundException,
@@ -185,7 +185,7 @@ class BaseCommand(Command):
             raise exceptions.AltTesterInvalidServerResponse(expected, received)
 
     def send(self):
-        """Send a command to the AltUnity and return the response."""
+        """Send a command to the AltTester and return the response."""
 
         self.connection.send(self._parameters)
         response = self.connection.recv()
@@ -197,7 +197,7 @@ class BaseCommand(Command):
         return json.loads(data)
 
     def recv(self):
-        """Wait for a response from the AltUnity."""
+        """Wait for a response from the AltTester."""
 
         response = self.connection.recv()
         self.handle_response(response)

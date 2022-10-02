@@ -5,9 +5,9 @@ from alttester.by import By
 
 
 class AltObject:
-    """The AltUnityObject class represents an object present in the game and it allows you to interact with it.
+    """The AltObject class represents an object present in the game and it allows you to interact with it.
 
-    It is the return type of the methods in the “find_*” category from the AltUnityDriver class.
+    It is the return type of the methods in the “find_*” category from the AltDriver class.
     """
 
     def __init__(self, altdriver, data):
@@ -122,7 +122,7 @@ class AltObject:
         """Returns the parent object.
 
         Returns:
-            AltUnityObject: The parent object.
+            AltObject: The parent object.
 
         """
 
@@ -212,7 +212,7 @@ class AltObject:
         """Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
 
         Returns:
-            str: The text value of the AltUnityObject.
+            str: The text value of the AltObject.
 
         """
 
@@ -226,7 +226,7 @@ class AltObject:
             submit (obj:`bool`): If set will trigger a submit event.
 
         Returns:
-            AltUnityObject: The current AltUnityObject.
+            AltObject: The current AltObject.
 
         """
 
@@ -237,7 +237,7 @@ class AltObject:
         """Simulates pointer up action on the object.
 
         Returns:
-            AltUnityObject: The current AltUnityObject.
+            AltObject: The current AltObject.
 
         """
 
@@ -248,7 +248,7 @@ class AltObject:
         """Simulates pointer down action on the object.
 
         Returns:
-            AltUnityObject: The current AltUnityObject.
+            AltObject: The current AltObject.
 
         """
 
@@ -259,7 +259,7 @@ class AltObject:
         """Simulates pointer enter action on the object.
 
         Returns:
-            AltUnityObject: The current AltUnityObject.
+            AltObject: The current AltObject.
 
         """
 
@@ -270,7 +270,7 @@ class AltObject:
         """Simulates pointer exit action on the object.
 
         Returns:
-            AltUnityObject: The current AltUnityObject.
+            AltObject: The current AltObject.
 
         """
 
@@ -286,7 +286,7 @@ class AltObject:
             wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
-            AltUnityObject: The tapped object.
+            AltObject: The tapped object.
 
         """
 
@@ -305,7 +305,7 @@ class AltObject:
             wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
-            AltUnityObject: The clicked object.
+            AltObject: The clicked object.
 
         """
 

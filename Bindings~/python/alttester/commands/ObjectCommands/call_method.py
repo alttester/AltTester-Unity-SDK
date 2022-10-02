@@ -46,7 +46,7 @@ class CallMethod(BaseCommand):
         })
 
         if self.alt_object:
-            parameters["altUnityObject"] = self.alt_object.to_json()
+            parameters["altObject"] = self.alt_object.to_json()
 
         return parameters
 

@@ -14,7 +14,7 @@ class SetText(BaseCommand):
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
-            "altUnityObject": self.alt_object.to_json(),
+            "altObject": self.alt_object.to_json(),
             "value": self.text,
             "submit": self.submit
         })

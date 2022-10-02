@@ -11,7 +11,7 @@ class PointerDown(BaseCommand):
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
-            "altUnityObject": self.alt_object.to_json(),
+            "altObject": self.alt_object.to_json(),
         })
 
         return parameters
