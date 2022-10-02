@@ -1,8 +1,8 @@
-# AltUnityTester Python Bindings
+# AltTester Python Bindings
 
-This package contains an library for adding Python language binding to the AltUnity Tester framework.
+This package contains an library for adding Python language binding to the AltTester framework.
 
-AltUnity Tester is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java.
+AltTester is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java.
 
 You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
 
@@ -49,4 +49,4 @@ Join our Discord Server to chat with other members of the community: https://dis
 
 ## License
 
-Distributed under the **GNU General Public License v3.0**. See [LICENSE](https://gitlab.com/altom/altunity/altunitytester/-/blob/master/LICENSE) for more information.
+Distributed under the **GNU General Public License v3.0**. See [LICENSE](https://github.com/alttester/AltTester-Unity-SDK/blob/master/LICENSE) for more information.
