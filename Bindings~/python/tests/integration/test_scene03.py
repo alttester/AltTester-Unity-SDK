@@ -1,6 +1,4 @@
-from turtle import position
 import pytest
-
 from .utils import Scenes
 from altunityrunner import By
 
@@ -12,29 +10,29 @@ class TestScene03:
         self.altdriver = altdriver
         self.altdriver.load_scene(Scenes.Scene03)
 
-    def waitForSwipeToFinish(self):
+    def wait_for_swipe_to_finish(self):
         self.altdriver.wait_for_object_to_not_be_present(By.NAME, "icon")
         
-    def getSpriteName(self, imageSource, imageSourceDropZone, sourceImageName, imageSourceDropZoneName):
-        imageSource = self.altdriver.find_object(By.NAME, sourceImageName).get_component_property(
+    def get_sprite_name(self, image_source, image_source_drop_zone, source_image_name, image_source_drop_zone_name):
+        image_source = self.altdriver.find_object(By.NAME, source_image_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
-        imageSourceDropZone = self.altdriver.find_object(By.NAME, imageSourceDropZoneName).get_component_property(
+        image_source_drop_zone = self.altdriver.find_object(By.NAME, image_source_drop_zone_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
-        return imageSource, imageSourceDropZone
+        return image_source, image_source_drop_zone
 
-    def dropImageWithMultipointSwipe(self, objectNames, duration, wait):
-        positions=[]
-        for i in objectNames.size():
-            obj = self.altdriver.find_object(By.NAME, objectNames[i])
-            positions[i] =obj .getScreenPosition()
-        
+    def drop_image_with_multipoint_swipe(self, object_names, duration, wait):
+        positions = []
+        for name in object_names: 
+            alt_object = self.altdriver.find_object(By.NAME, name)
+            positions.append(alt_object.get_screen_position())
+
         self.altdriver.multipoint_swipe(positions, duration=duration, wait=wait)
         
-    def dropImage(self, dragLocationName, dropLocationName, duration, wait):
-        dragLocation = self.altdriver.find_object(By.NAME, dragLocationName)
-        dropLocation = self.altdriver.find_object(By.NAME, dropLocationName)
+    def drop_image(self, drag_location_name, drop_location_name, duration, wait):
+        drag_location = self.altdriver.find_object(By.NAME, drag_location_name)
+        drop_location = self.altdriver.find_object(By.NAME, drop_location_name)
 
-        self.altdriver.swipe(dragLocation.get_screen_position(), dropLocation.get_screen_position(), duration= duration, wait= wait)
+        self.altdriver.swipe(drag_location.get_screen_position(), drop_location.get_screen_position(), duration= duration, wait= wait)
         
     def test_pointer_enter_and_exit(self):
         alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
@@ -64,48 +62,48 @@ class TestScene03:
             color3["a"] == color1["a"]
 
     def test_multiple_swipes(self):
-        self.dropImage("Drag Image2", "Drop Box2", 1, False)
-        self.dropImage("Drag Image3", "Drop Box1", 1, False)
-        self.dropImage("Drag Image1", "Drop Box1", 1, False)
-        self.waitForSwipeToFinish()
-        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image1", "Drop Image")
-        assert imageSource == imageSourceDropZone
+        self.drop_image("Drag Image2", "Drop Box2", 1, False)
+        self.drop_image("Drag Image3", "Drop Box1", 1, False)
+        self.drop_image("Drag Image1", "Drop Box1", 1, False)
+        self.wait_for_swipe_to_finish()
+        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
+        assert image_source == image_source_drop_zone
 
-        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image2", "Drop")
-        assert imageSource == imageSourceDropZone
+        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image2", "Drop")
+        assert image_source == image_source_drop_zone
 
     def test_multiple_swipe_and_waits(self):
-        self.dropImage("Drag Image2", "Drop Box2", 1, True)
-        self.dropImage("Drag Image3", "Drop Box1", 1, True)
-        self.dropImage("Drag Image1", "Drop Box1", 1, True)
-        self.waitForSwipeToFinish()
-        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image1", "Drop Image")
-        assert imageSource == imageSourceDropZone
+        self.drop_image("Drag Image2", "Drop Box2", 1, True)
+        self.drop_image("Drag Image3", "Drop Box1", 1, True)
+        self.drop_image("Drag Image1", "Drop Box1", 1, True)
+        self.wait_for_swipe_to_finish()
+        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
+        assert image_source == image_source_drop_zone
 
-        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image2", "Drop")
-        assert imageSource == imageSourceDropZone
+        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image2", "Drop")
+        assert image_source == image_source_drop_zone
     
     def test_multiple_swipe_with_multipoint_swipe(self):
 
-        self.dropImageWithMultipointSwipe(["Drag Image1", "Drop Box1"], 1, False)
-        self.dropImageWithMultipointSwipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
+        self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, False)
+        self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
 
-        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image1", "Drop Image")
-        assert imageSource == imageSourceDropZone
+        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
+        assert image_source == image_source_drop_zone
         
-        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image2", "Drop")
-        assert imageSource == imageSourceDropZone
+        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image2", "Drop")
+        assert image_source == image_source_drop_zone
    
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
 
-        self.dropImageWithMultipointSwipe(["Drag Image1", "Drop Box1"], 1, True)
-        self.dropImageWithMultipointSwipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, True)
+        self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, True)
+        self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, True)
 
-        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image1", "Drop Image")
-        assert imageSource == imageSourceDropZone
+        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
+        assert image_source == image_source_drop_zone
         
-        imageSource, imageSourceDropZone=self.getSpriteName("Drag Image2", "Drop")
-        assert imageSource == imageSourceDropZone
+        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image2", "Drop")
+        assert image_source == image_source_drop_zone
 
     def test_begin_move_end_touch(self):
         alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
