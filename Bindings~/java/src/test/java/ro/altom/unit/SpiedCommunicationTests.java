@@ -7,14 +7,14 @@
 //import org.junit.Test;
 //import org.mockito.ArgumentCaptor;
 //import org.mockito.Mockito;
-//import ro.altom.altunitytester.AltUnityDriver;
+//import ro.altom.alttester.AltDriver;
 //
 //public class SpiedCommunicationTests {
 //    private static final String FIND_OBJECT_BY_NAME_MESSAGE_PATTERN = "findObjectByName;%s;%s;true;&";
 //    private static final String CLOSE_CONNECTION_MESSAGE = "closeConnection;&";
 //    private static final String LOAD_SCENE_MESSAGE_PATTERN = "loadScene;%s;&";
 //    private static final int PORT = 15000;
-//    private static AltUnityDriver spyAltDriver;
+//    private static AltDriver spyAltDriver;
 //    private static ArgumentCaptor<String> captor;
 //    private static DummyServer dummyServer;
 //
@@ -22,7 +22,7 @@
 //    public static void setup() {
 //        dummyServer = DummyServer.onPort(PORT);
 //        dummyServer.start();
-//        spyAltDriver = Mockito.spy(new AltUnityDriver("127.0.0.1", PORT));
+//        spyAltDriver = Mockito.spy(new AltDriver("127.0.0.1", PORT));
 //        prepareStubbing();
 //    }
 //
