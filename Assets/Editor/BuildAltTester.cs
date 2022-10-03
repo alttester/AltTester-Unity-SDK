@@ -23,7 +23,7 @@ namespace Altom.AltTesterTools
                 PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
                 PlayerSettings.bundleVersion = versionNumber;
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Standalone, ApiCompatibilityLevel.NET_4_6);
-                AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Standalone);
+                AltBuilder.AddAltTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Standalone);
                 var instrumentationSettings = getInstrumentationSettings();
                 PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
                 PlayerSettings.defaultScreenHeight = 1080;
@@ -42,10 +42,10 @@ namespace Altom.AltTesterTools
 
 
 
-                AltUnityBuilder.InsertAltUnityInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
-                AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols(BuildTargetGroup.Standalone);
+                AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.Standalone);
 
 
 #if UNITY_2017
