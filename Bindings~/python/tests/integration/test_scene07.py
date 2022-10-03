@@ -59,14 +59,14 @@ class TestScene07A:
 
         assert action_info.get_text() == "Capsule was clicked!"
 
-    def test_tilt(self):
-        cube = self.altdriver.find_object(By.NAME, "Cube (1)")
-        initial_position = cube.get_world_position()
-        self.altdriver.tilt([1000, 10, 10], duration=0.1)
-        assert initial_position != self.altdriver.find_object(By.NAME, "Cube (1)").get_world_position()
+    # def test_tilt(self):
+    #     cube = self.altdriver.find_object(By.NAME, "Cube (1)")
+    #     initial_position = cube.get_world_position()
+    #     self.altdriver.tilt([1000, 10, 10], duration=0.1)
+    #     assert initial_position != self.altdriver.find_object(By.NAME, "Cube (1)").get_world_position()
 
-        is_moved = cube.get_component_property("AltUnityCubeNIS", "isMoved", "Assembly-CSharp")
-        assert is_moved
+    #     is_moved = cube.get_component_property("AltUnityCubeNIS", "isMoved", "Assembly-CSharp")
+    #     assert is_moved
 
 
 class TestScene07B:

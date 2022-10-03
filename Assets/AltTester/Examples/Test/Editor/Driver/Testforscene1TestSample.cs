@@ -2084,18 +2084,18 @@ namespace Altom.AltDriver.Tests
             var element = altDriver.FindObjectAtCoordinates(counterButton.getScreenPosition());
             Assert.AreEqual("Capsule", element.name);
         }
-        [Test]
-        public void TestScrollViewSwipe()
-        {
-            altDriver.LoadScene("Scene 11 ScrollView Scene");
-            var buttons = altDriver.FindObjects(By.PATH, "//Content/*");
-            for (int i = 1; i <= buttons.Count - 3; i++)
-            {
-                altDriver.Swipe(buttons[i].getScreenPosition(), buttons[i - 1].getScreenPosition());
+        // [Test]
+        // public void TestScrollViewSwipe()
+        // {
+        //     altUnityDriver.LoadScene("Scene 11 ScrollView Scene");
+        //     var buttons = altUnityDriver.FindObjects(By.PATH, "//Content/*");
+        //     for (int i = 1; i <= buttons.Count - 3; i++)
+        //     {
+        //         altUnityDriver.Swipe(buttons[i].getScreenPosition(), buttons[i - 1].getScreenPosition());
 
-            }
-            Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
-        }
+        //     }
+        //     Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltUnityScrollViewButtonController", "Counter", "Assembly-CSharp"));
+        // }
 
         [Test]
         public void TestCallPrivateMethod()
