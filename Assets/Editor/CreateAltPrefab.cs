@@ -14,7 +14,7 @@ namespace Altom.AltTesterTools
     {
 
         // Start is called before the first frame update
-        [UnityEditor.MenuItem("AltTester Tools/Create AltTester Prefab", false, 80)]
+        [UnityEditor.MenuItem("AltTester/Create AltTester Prefab", false, 80)]
         public static void CreateAUTPrefab()
         {
             ///

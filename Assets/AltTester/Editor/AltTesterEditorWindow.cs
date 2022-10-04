@@ -112,7 +112,7 @@ namespace Altom.AltTesterEditor
         private bool PlayInEditorPressed;
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
-        [UnityEditor.MenuItem("AltTester Solutions/AltTester Editor", false, 80)]
+        [UnityEditor.MenuItem("AltTester/AltTester Editor", false, 80)]
         public static void ShowWindow()
         {
             Window = (AltTesterEditorWindow)GetWindow(typeof(AltTesterEditorWindow));
@@ -147,7 +147,7 @@ namespace Altom.AltTesterEditor
 #endif
         }
 
-        [UnityEditor.MenuItem("AltTester Solutions/Create AltTester Package", false, 800)]
+        [UnityEditor.MenuItem("AltTester/Create AltTester Package", false, 800)]
         public static void CreateAltTesterPackage()
         {
             UnityEngine.Debug.Log("AltTester - Unity Package creation started...");
@@ -266,7 +266,7 @@ namespace Altom.AltTesterEditor
             Window = this;
         }
 
-        [UnityEditor.MenuItem("AltTester Solutions/AltId/Add AltId to every object", false, 800)]
+        [UnityEditor.MenuItem("AltTester/AltId/Add AltId to every object", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
             var scenes = altGetAllScenes();
@@ -277,7 +277,7 @@ namespace Altom.AltTesterEditor
             }
         }
 
-        [UnityEditor.MenuItem("AltTester Solutions/AltId/Add AltId to every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltTester/AltId/Add AltId to every object in active scene", false, 800)]
         public static void AddIdComponentToEveryObjectInActiveScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -293,7 +293,7 @@ namespace Altom.AltTesterEditor
         }
 
 
-        [UnityEditor.MenuItem("AltTester Solutions/AltId/Remove AltId from every object", false, 800)]
+        [UnityEditor.MenuItem("AltTester/AltId/Remove AltId from every object", false, 800)]
         public static void RemoveIdComponentFromEveryObjectInTheProject()
         {
             var scenes = altGetAllScenes();
@@ -304,7 +304,7 @@ namespace Altom.AltTesterEditor
             }
         }
 
-        [UnityEditor.MenuItem("AltTester Solutions/AltId/Remove AltId from every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltTester/AltId/Remove AltId from every object in active scene", false, 800)]
         public static void RemoveComponentFromEveryObjectInTheScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -319,13 +319,13 @@ namespace Altom.AltTesterEditor
             EditorSceneManager.SaveScene(scene);
         }
 
-        [UnityEditor.MenuItem("AltTester Solutions/Support/Documentation", false, 800)]
+        [UnityEditor.MenuItem("AltTester/Support/Documentation", false, 800)]
         public static void GoToDocumentation()
         {
             Application.OpenURL("https://altom.com/altunity/docs/altunitytester/");
         }
 
-        [UnityEditor.MenuItem("AltTester Solutions/Support/Discord", false, 800)]
+        [UnityEditor.MenuItem("AltTester/Support/Discord", false, 800)]
         public static void GoToDiscord()
         {
             Application.OpenURL("https://discord.com/channels/744769398023127102/748159679426985984");

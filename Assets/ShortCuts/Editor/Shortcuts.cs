@@ -4,7 +4,7 @@ namespace alttester.Assets.ShortCuts.Editor
 {
     public class Shortcuts
     {
-        [UnityEditor.MenuItem("AltTester Tools/Add AltTesterSymbol &#]", false, 80)]
+        [UnityEditor.MenuItem("AltTester/Add AltTesterSymbol &#]", false, 80)]
         public static void AddAUTSymbol()
         {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
@@ -13,7 +13,7 @@ namespace alttester.Assets.ShortCuts.Editor
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup);
         }
 
-        [UnityEditor.MenuItem("AltTester Tools/Deselect All Tests &#[", false, 80)]
+        [UnityEditor.MenuItem("AltTester/Deselect All Tests &#[", false, 80)]
         public static void DeselectAllTests()
         {
             foreach (var test in AltTesterEditorWindow.EditorConfiguration.MyTests)
