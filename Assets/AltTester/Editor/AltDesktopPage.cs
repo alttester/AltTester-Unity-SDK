@@ -1,8 +1,8 @@
 namespace Altom.AltTesterEditor
 {
-    public class AltInspectorPage : UnityEditor.EditorWindow
+    public class AltDesktopPage : UnityEditor.EditorWindow
     {
-        public static AltInspectorPage _window;
+        public static AltDesktopPage _window;
         //TODO change image to gif once we have a final gif
         public static UnityEngine.Texture2D image;
         private readonly string titleOfPage = "<b><size=16>AltTester Desktop is a desktop app which can help you visualize the game objects hierarchy and get all the properties easily.</size></b>";
@@ -24,7 +24,7 @@ namespace Altom.AltTesterEditor
         [UnityEditor.MenuItem("AltTester/AltTester Desktop", false, 81)]
         public static void ShowWindow()
         {
-            _window = (AltInspectorPage)GetWindow(typeof(AltInspectorPage));
+            _window = (AltDesktopPage)GetWindow(typeof(AltDesktopPage));
             _window.minSize = new UnityEngine.Vector2(300, 300);
 
             UnityEngine.GUIContent titleContent = new UnityEngine.GUIContent("AltTester Desktop");
@@ -39,7 +39,7 @@ namespace Altom.AltTesterEditor
             }
             if (image == null)
             {
-                var findImage = UnityEditor.AssetDatabase.FindAssets("AltInspectorPNG");
+                var findImage = UnityEditor.AssetDatabase.FindAssets("AltDesktopPNG");
                 image = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Texture2D>(UnityEditor.AssetDatabase.GUIDToAssetPath(findImage[0]));
             }
         }
@@ -185,7 +185,7 @@ namespace Altom.AltTesterEditor
 
             if (UnityEngine.GUILayout.Button(buttonText, gUIStyleButton, UnityEngine.GUILayout.Width(150), UnityEngine.GUILayout.Height(50)))
             {
-                downloadInspector();
+                downloadDesktop();
             }
             UnityEditor.EditorGUILayout.Space();
             UnityEditor.EditorGUILayout.EndHorizontal();
@@ -207,7 +207,7 @@ namespace Altom.AltTesterEditor
             ResizeImage(ref screenWidth, ref screenHeight, image.width, image.height);
         }
 
-        private void downloadInspector()
+        private void downloadDesktop()
         {
             UnityEngine.Application.OpenURL("https://altom.com/testing-tools/altunitytester/?id=unityeditor#pricing");
         }

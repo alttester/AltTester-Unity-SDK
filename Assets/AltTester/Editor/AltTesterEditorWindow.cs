@@ -178,15 +178,15 @@ namespace Altom.AltTesterEditor
             CreateSampleScenesPackage();
         }
 
-        private static void SendInspectorVersionRequest()
+        private static void SendDesktopVersionRequest()
         {
             www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/altunity-inspector-versions/?id=unityeditor&AUTversion=" + AltRunner.VERSION);
             var wwwOp = www.SendWebRequest();
-            UnityEditor.EditorApplication.update += CheckInspectorVersionRequest;
+            UnityEditor.EditorApplication.update += CheckDesktopVersionRequest;
 
         }
 
-        public static void CheckInspectorVersionRequest()
+        public static void CheckDesktopVersionRequest()
         {
             if (!www.isDone)
                 return;
@@ -221,17 +221,17 @@ namespace Altom.AltTesterEditor
 
                         var splitedText = match.Value.Split('_');
                         var releasedVersion = splitedText[2].Substring(1);
-                        if (String.IsNullOrEmpty(EditorConfiguration.LatestInspectorVersion) || !isCurrentVersionEqualOrNewer(releasedVersion, EditorConfiguration.LatestInspectorVersion))
+                        if (String.IsNullOrEmpty(EditorConfiguration.LatestDesktopVersion) || !isCurrentVersionEqualOrNewer(releasedVersion, EditorConfiguration.LatestDesktopVersion))
                         {
-                            EditorConfiguration.LatestInspectorVersion = releasedVersion;
+                            EditorConfiguration.LatestDesktopVersion = releasedVersion;
                             downloadURl = match.Value;
                             version = releasedVersion;
-                            EditorConfiguration.ShowInspectorPopUpInEditor = true;
+                            EditorConfiguration.ShowDesktopPopUpInEditor = true;
                         }
                     }
                 }
 
-                UnityEditor.EditorApplication.update -= CheckInspectorVersionRequest;
+                UnityEditor.EditorApplication.update -= CheckDesktopVersionRequest;
             }
         }
         private static bool isCurrentVersionEqualOrNewer(string releasedVersion, string version)
@@ -259,7 +259,7 @@ namespace Altom.AltTesterEditor
             EditorConfiguration.MyTests = null;
             loadTestCompleted = false;
             this.StartCoroutine(AltTestRunner.SetUpListTestCoroutine());
-            SendInspectorVersionRequest();
+            SendDesktopVersionRequest();
         }
         private void OnEnable()
         {
@@ -487,7 +487,7 @@ namespace Altom.AltTesterEditor
                 resize = false;
         }
 
-        protected void OnInspectorUpdate()
+        protected void OnDesktopUpdate()
         {
             if (IsTestRunResultAvailable)
             {
@@ -510,7 +510,7 @@ namespace Altom.AltTesterEditor
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
 
-            if (EditorConfiguration.ShowInspectorPopUpInEditor)
+            if (EditorConfiguration.ShowDesktopPopUpInEditor)
             {
                 popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
                 popUpContentPosition = new UnityEngine.Rect(screenWidth / 2 - 296, 4, 592, 92);
@@ -531,7 +531,7 @@ namespace Altom.AltTesterEditor
                     }
                     if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
                     {
-                        EditorConfiguration.ShowInspectorPopUpInEditor = false;
+                        EditorConfiguration.ShowDesktopPopUpInEditor = false;
                         UnityEngine.GUIUtility.ExitGUI();
                     }
                 }
@@ -823,7 +823,7 @@ namespace Altom.AltTesterEditor
             UnityEditor.EditorGUILayout.EndHorizontal();
 
             UnityEditor.EditorGUILayout.EndScrollView();
-            if (EditorConfiguration.ShowInspectorPopUpInEditor)
+            if (EditorConfiguration.ShowDesktopPopUpInEditor)
             {
                 showAltPopup();
             }
