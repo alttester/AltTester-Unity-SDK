@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-docs:
-    runs-on: self-hosted
+    runs-on: [self-hosted, macOS]
 
     steps:
       - uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
           path: Docs/build/html/
          
   build-macOS:
-      runs-on: self-hosted
+      runs-on: [self-hosted, macOS]
       steps:
         - uses: actions/checkout@v3
 
@@ -50,7 +50,7 @@ jobs:
               buildMac.log
             
   test-CSharp-Editor:
-    runs-on: self-hosted
+    runs-on: [self-hosted, macOS]
     needs: build-macOS
     steps:
       - uses: actions/checkout@v3
@@ -72,7 +72,7 @@ jobs:
             reportTest.xml
             
   # test-DotNet:
-  #     runs-on: self-hosted
+  #     runs-on: [self-hosted, macOS]
   #     needs: build-macOS
   #     steps:
   #       - uses: actions/checkout@v3
@@ -96,7 +96,7 @@ jobs:
   #             AltUnityTesterLog.txt
   #             AltUnityServerLog.txt
   # test-Python:
-  #     runs-on: self-hosted
+  #     runs-on: [self-hosted, macOS]
   #     needs: build-macOS
   #     steps:
   #       - uses: actions/checkout@v3
@@ -133,7 +133,7 @@ jobs:
   #             AltUnityServerLog.txt
 
   # test-Java:
-  #     runs-on: self-hosted
+  #     runs-on: [self-hosted, macOS]
   #     needs: build-macOS
   #     steps:
   #       - uses: actions/checkout@v3
