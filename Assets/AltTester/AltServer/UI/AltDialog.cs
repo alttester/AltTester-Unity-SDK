@@ -263,13 +263,13 @@ namespace Altom.AltTester.UI
 
         private void onStart()
         {
-            setDialog("Connecting to Alt Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort, SUCCESS_COLOR, Dialog.activeSelf || wasConnectedBeforeToProxy);
+            setDialog("Connecting to AltProxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort, SUCCESS_COLOR, Dialog.activeSelf || wasConnectedBeforeToProxy);
             wasConnectedBeforeToProxy = false;
         }
 
         private void onProxyConnect()
         {
-            string message = "Connected to Alt Proxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort;
+            string message = "Connected to AltProxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort;
             _updateQueue.ScheduleResponse(() =>
             {
                 setDialog(message, SUCCESS_COLOR, false);
