@@ -83,7 +83,7 @@ namespace Altom.AltDriver.Commands
             };
             this.wsClient.OnClose += (sender, args) =>
             {
-                logger.Debug("Connection to Alt closed: [Code:{0}, Reason:{1}]", args.Code, args.Reason);
+                logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}]", args.Code, args.Reason);
             };
         }
 
