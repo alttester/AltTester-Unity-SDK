@@ -9,7 +9,7 @@ namespace Altom.AltTester
     }
 
     /// <summary>
-    /// Alt Unity App Instrumentation settings
+    /// Unity App Instrumentation settings for AltTester
     /// </summary>
     [Serializable]
     public class AltInstrumentationSettings
@@ -33,7 +33,7 @@ namespace Altom.AltTester
 
 
         /// <summary>
-        /// If true, it will show where an action happens on screen ( e.g. swipe or clikc )
+        /// If true, it will show where an action happens on screen ( e.g. swipe or click )
         /// </summary>
         public bool InputVisualizer = true;
         /// <summary>

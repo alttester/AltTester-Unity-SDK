@@ -146,7 +146,7 @@ namespace Altom.AltDriver.Commands
 
         public void Close()
         {
-            logger.Info(string.Format("Closing connection to Alt on: {0}", _uri));
+            logger.Info(string.Format("Closing connection to AltTester on: {0}", _uri));
             this.wsClient.Close();
         }
         public void SetCommandTimeout(int timeout)
