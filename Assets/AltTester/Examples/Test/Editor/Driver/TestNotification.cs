@@ -75,11 +75,11 @@ public class TestNotification
         Assert.AreEqual(AltLogLevel.Debug, MockNotificationCallBacks.LogLevel);
     }
 
-    [Test]
-    public void TestApplicationPaused()
-    {
-        var altElement = altDriver.FindObject(By.NAME, "AltRunnerPrefab");
-        altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", new object[] { true }, new string[] { "System.Boolean" }, "Assembly-CSharp");
-        Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
-    }
+    // [Test]
+    // public void TestApplicationPaused()
+    // {
+    //     var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+    //     altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", new object[] { true }, new string[] { "System.Boolean" }, "Assembly-CSharp");
+    //     Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
+    // }
 }

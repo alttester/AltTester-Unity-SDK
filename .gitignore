@@ -126,10 +126,6 @@ Assets/TextMesh Pro/Resources.meta
 Assets/AltTester/Editor/AltTesterEditorSettings.asset
 Assets/AltTester/Editor/AltTesterEditorSettings.asset.meta
 Assets/AltTester/AltDriver/Editor/idProject.asset
-Assets/AltTester/Bindings/java/.project
-Assets/AltTester/Bindings/java/.settings
-Assets/AltTester/Bindings/java/.classpath
-Assets/AltTester/Bindings/java/**/*.meta
 
 ## Misc
 *.iml
