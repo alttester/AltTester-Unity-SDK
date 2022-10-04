@@ -5,8 +5,8 @@ namespace Altom.AltTesterEditor
         public static AltInspectorPage _window;
         //TODO change image to gif once we have a final gif
         public static UnityEngine.Texture2D image;
-        private readonly string titleOfPage = "<b><size=16>Alt Inspector is a desktop app which can help you visualize the game objects hierarchy and get all the properties easily.</size></b>";
-        private readonly string contentText = "<b>Main features </b> \n    • get object’s components, assemblies, methods, fields and properties without accessing the source code \n    • interact with your game from Alt Inspector using keyboard, mouse, touchscreen and joystick actions \n    • load any scene or level\n    • control the speed of the game for debugging and test design purposes\n    • verify if a selector is correct and highlight the matching objects";
+        private readonly string titleOfPage = "<b><size=16>AltTester Desktop is a desktop app which can help you visualize the game objects hierarchy and get all the properties easily.</size></b>";
+        private readonly string contentText = "<b>Main features </b> \n    • get object’s components, assemblies, methods, fields and properties without accessing the source code \n    • interact with your game from AltTester Desktop using keyboard, mouse, touchscreen and joystick actions \n    • load any scene or level\n    • control the speed of the game for debugging and test design purposes\n    • verify if a selector is correct and highlight the matching objects";
         private readonly string buttonText = "<b><size=16>Start free trial</size></b>";
         private UnityEngine.Vector2 scrollPos;
         private UnityEngine.GUIStyle gUIStyleText;
@@ -21,13 +21,13 @@ namespace Altom.AltTesterEditor
 
 
         private UnityEngine.Texture2D buttonTexture;
-        [UnityEditor.MenuItem("AltTester/Alt Inspector", false, 81)]
+        [UnityEditor.MenuItem("AltTester/AltTester Desktop", false, 81)]
         public static void ShowWindow()
         {
             _window = (AltInspectorPage)GetWindow(typeof(AltInspectorPage));
             _window.minSize = new UnityEngine.Vector2(300, 300);
 
-            UnityEngine.GUIContent titleContent = new UnityEngine.GUIContent("Alt Inspector");
+            UnityEngine.GUIContent titleContent = new UnityEngine.GUIContent("AltTester Desktop");
             _window.titleContent = titleContent;
             _window.Show();
         }

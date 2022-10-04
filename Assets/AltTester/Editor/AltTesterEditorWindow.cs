@@ -939,7 +939,7 @@ namespace Altom.AltTesterEditor
             UnityEditor.EditorGUI.LabelField(checkVersionChangesButtonPosition, "<size=13>__________________</size>", gUIStyleHistoryChanges);
 
             UnityEngine.Rect textPosition = new UnityEngine.Rect(popUpPosition.xMin + 20, popUpPosition.yMin + 30, 370, 30);
-            UnityEditor.EditorGUI.LabelField(textPosition, System.String.Format("<b><size=16>Alt Inspector {0} has been released!</size></b>", version), gUIStyleText);
+            UnityEditor.EditorGUI.LabelField(textPosition, System.String.Format("<b><size=16>AltTester Desktop {0} has been released!</size></b>", version), gUIStyleText);
         }
 
         #endregion
