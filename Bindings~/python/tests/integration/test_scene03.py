@@ -106,7 +106,6 @@ class TestScene03:
         assert image_source == image_source_drop_zone
 
     def test_begin_move_end_touch(self):
-        
         alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
         alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
