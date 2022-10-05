@@ -6,11 +6,11 @@ AltTester is an open-source UI driven test automation tool that helps you find o
 
 You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
 
-Read the documentation on https://altom.com/altunity/docs/altunitytester/
+Read the documentation on https://altom.com/alttester/docs/sdk
 
 ## Get Started
 
-Check out the [Get Started](https://altom.com/altunity/docs/altunitytester/pages/get-started.html) guide from the documentation.
+Check out the [Get Started](https://altom.com/alttester/docs/sdk/pages/get-started.html) guide from the documentation.
 
 ## Development
 
@@ -39,7 +39,7 @@ $ pytest tests/integration/
 
 ## Contributing
 
-Check out the full contributing guide [contributing](https://altom.com/altunity/docs/altunitytester/pages/contributing.html).
+Check out the full contributing guide [contributing](https://github.com/alttester/AltTester-Unity-SDK/blob/development/CONTRIBUTING.md).
 
 ## Support
 
