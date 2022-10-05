@@ -30,11 +30,6 @@ namespace Altom.AltDriver.Tests
         {
             altDriver.LoadScene("Scene 3 Drag And Drop");
         }
-        
-        private void waitForSwipeToFinish()
-        {
-            altDriver.WaitForObjectNotBePresent(By.NAME, "icon");
-        }
 
         [Test]
         public void MultipleDragAndDrop()
@@ -51,6 +46,10 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(imageSource, imageSourceDropZone);
         }
 
+        private void waitForSwipeToFinish()
+        {
+            altDriver.WaitForObjectNotBePresent(By.NAME, "icon");
+        }
 
         private void getSpriteName(out string imageSource, out string imageSourceDropZone, string sourceImageName, string imageSourceDropZoneName)
         {
