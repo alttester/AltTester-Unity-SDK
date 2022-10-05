@@ -161,7 +161,6 @@ class TestScene01:
         assert alt_object.name == "Main Camera"
 
     def test_wait_for_object_to_not_be_present(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         self.altdriver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
 
     def test_wait_for_object_to_not_be_present_fail(self):
@@ -187,8 +186,6 @@ class TestScene01:
         assert after_text == "ModifiedText"
 
     def test_double_tap(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
-
         counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
         counter_button_text = self.altdriver.find_object(By.NAME, "ButtonCounter/Text")
         counter_button.tap(count=2)
@@ -685,7 +682,6 @@ class TestScene01:
             "AltUnityInputFieldRaisedEvents", "onSubmitInvoked", assembly="Assembly-CSharp")
 
     def test_get_static_property(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         self.altdriver.call_static_method(
             "UnityEngine.Screen", "SetResolution",
             parameters=["1920", "1080", "True"],
@@ -700,7 +696,6 @@ class TestScene01:
         assert int(width) == 1920
 
     def test_get_static_property_instance_null(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         screen_width = self.altdriver.call_static_method(
             "UnityEngine.Screen", "get_width",
             assembly="UnityEngine.CoreModule"
@@ -768,7 +763,6 @@ class TestScene01:
         assert element is None
 
     def test_call_private_method(self):
-        self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
         capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
         capsule_element.call_component_method("AltUnityExampleScriptCapsule",
                                               "callJump", [], assembly="Assembly-CSharp")
