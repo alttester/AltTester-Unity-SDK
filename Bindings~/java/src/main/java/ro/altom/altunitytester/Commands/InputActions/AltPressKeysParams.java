@@ -39,6 +39,7 @@ public class AltPressKeysParams extends AltMessage {
 
         /**
          * @param wait If set wait for command to finish. Defaults to <code>true</code>.
+         * @return current object
          */
         public AltPressKeysParams.Builder withWait(boolean wait) {
             this.wait = wait;
