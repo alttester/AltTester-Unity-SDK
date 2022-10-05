@@ -1,11 +1,11 @@
 """This module contains the set of AltTester's exceptions."""
 
 
-class AltTesterException(Exception):
+class AltException(Exception):
     """Base exception class for AltTester."""
 
 
-class ConnectionError(AltTesterException):
+class ConnectionError(AltException):
     """Raised when the client can not connect to the server."""
 
 
@@ -13,14 +13,14 @@ class ConnectionTimeoutError(ConnectionError):
     """Raised when the client connection timesout."""
 
 
-class AltTesterInvalidServerResponse(AltTesterException):
+class AltTesterInvalidServerResponse(AltException):
     """Raised when the server responds with an invalid respose."""
 
     def __init__(self, expected, received):
         super().__init__("Expected to get response {}; got {}".format(expected, received))
 
 
-class InvalidParameterTypeException(TypeError, AltTesterException):
+class InvalidParameterTypeException(TypeError, AltException):
     """Raised when an function or method receives an parameter that has the inappropriate type."""
 
     def __init__(self, parameter_name, expected_types, received_type):
@@ -32,11 +32,11 @@ class InvalidParameterTypeException(TypeError, AltTesterException):
         )
 
 
-class InvalidParameterValueException(ValueError, AltTesterException):
+class InvalidParameterValueException(ValueError, AltException):
     """Raised when an function or method receives an parameter that has the right type but an inappropriate value."""
 
 
-class NotFoundException(AltTesterException):
+class NotFoundException(AltException):
     """Raised when a object, camera, component, property, method or assembly is not found."""
 
 
@@ -72,45 +72,45 @@ class AssemblyNotFoundException(NotFoundException):
     """Raised when an assembly is not found."""
 
 
-class CouldNotPerformOperationException(AltTesterException):
+class CouldNotPerformOperationException(AltException):
     """Raised when an opperation could not be performed."""
 
 
-class CouldNotParseJsonStringException(AltTesterException):
+class CouldNotParseJsonStringException(AltException):
     """Raised when AltTester could not parse an JSON command."""
 
 
-class NullReferenceException(AltTesterException):
+class NullReferenceException(AltException):
     """Raised when there is an attempt to dereference a null object reference."""
 
 
-class FailedToParseArgumentsException(AltTesterException):
+class FailedToParseArgumentsException(AltException):
     """Raised when a method arguments could not be parsed by AltTester."""
 
 
-class WaitTimeOutException(AltTesterException):
+class WaitTimeOutException(AltException):
     """Raised when a wait command times out."""
 
 
-class CommandResponseTimeoutException(AltTesterException):
+class CommandResponseTimeoutException(AltException):
     """Raised when a command does't send a response in the given time."""
 
 
-class PropertyCannotBeSetException(AltTesterException):
+class PropertyCannotBeSetException(AltException):
     """Raised when a property could not be found or it's value could not be updated."""
 
 
-class FormatException(AltTesterException):
+class FormatException(AltException):
     pass
 
 
-class InvalidPathException(AltTesterException):
+class InvalidPathException(AltException):
     """Raised when a command recives an invalid path."""
 
 
-class AltTesterInputModuleException(AltTesterException):
+class AltTesterInputModuleException(AltException):
     pass
 
 
-class UnknownErrorException(AltTesterException):
+class UnknownErrorException(AltException):
     """Raised when an unexpected error occurred."""
