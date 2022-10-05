@@ -63,6 +63,7 @@ class TestNotifications:
         assert test_notification_callbacks.log_type == AltLogLevel.Debug.value
         self.altdriver.remove_notification_listener(NotificationType.LOG)
 
+    @pytest.mark.skip
     def test_application_paused_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
         self.altdriver.add_notification_listener(

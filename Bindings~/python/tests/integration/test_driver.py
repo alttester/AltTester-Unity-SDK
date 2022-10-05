@@ -90,9 +90,9 @@ class TestDriver:
 
     def test_set_server_logging(self):
         rule = self.altdriver.call_static_method(
-            "Altom.AltUnityTester.Logging.ServerLogManager",
+            "Altom.AltTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
-            ["AltUnityServerFileRule"],
+            ["AltServerFileRule"],
             assembly="Assembly-CSharp"
         )
 
@@ -101,9 +101,9 @@ class TestDriver:
 
         self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Off)
         rule = self.altdriver.call_static_method(
-            "Altom.AltUnityTester.Logging.ServerLogManager",
+            "Altom.AltTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
-            ["AltUnityServerFileRule"],
+            ["AltServerFileRule"],
             assembly="Assembly-CSharp")
 
         assert len(rule["Levels"]) == 0

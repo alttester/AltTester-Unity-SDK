@@ -15,7 +15,7 @@ class TestScene07A:
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         capsule.tap()
 
-        component_name = "AltUnityExampleNewInputSystem"
+        component_name = "AltExampleNewInputSystem"
         property_name = "jumpCounter"
 
         property_value = capsule.get_component_property(
@@ -39,7 +39,7 @@ class TestScene07A:
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         capsule.click()
 
-        component_name = "AltUnityExampleNewInputSystem"
+        component_name = "AltExampleNewInputSystem"
         property_name = "jumpCounter"
         property_value = capsule.get_component_property(
             component_name, property_name,

@@ -15,7 +15,7 @@ class TestScene10:
         player = self.altdriver.find_object(By.NAME, "Player")
 
         assert not player.get_component_property(
-            "AltUnityNIPDebugScript",
+            "AltNIPDebugScript",
             "wasScrolled",
             assembly="Assembly-CSharp"
         )
@@ -23,7 +23,7 @@ class TestScene10:
         self.altdriver.scroll(300, duration=1, wait=True)
 
         assert player.get_component_property(
-            "AltUnityNIPDebugScript",
+            "AltNIPDebugScript",
             "wasScrolled",
             assembly="Assembly-CSharp"
         )

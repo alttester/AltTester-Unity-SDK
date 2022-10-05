@@ -91,14 +91,14 @@ class TestScene02:
     def test_pointer_down_from_object(self):
         panel = self.altdriver.find_object(By.NAME, "Panel")
         color1 = panel.get_component_property(
-            "AltUnityExampleScriptPanel",
+            "AltExampleScriptPanel",
             "normalColor",
             assembly="Assembly-CSharp"
         )
         panel.pointer_down()
 
         color2 = panel.get_component_property(
-            "AltUnityExampleScriptPanel",
+            "AltExampleScriptPanel",
             "highlightColor",
             assembly="Assembly-CSharp"
         )
@@ -108,7 +108,7 @@ class TestScene02:
     def test_pointer_up_from_object(self):
         panel = self.altdriver.find_object(By.NAME, "Panel")
         color1 = panel.get_component_property(
-            "AltUnityExampleScriptPanel",
+            "AltExampleScriptPanel",
             "normalColor",
             assembly="Assembly-CSharp"
         )
@@ -116,7 +116,7 @@ class TestScene02:
 
         panel.pointer_up()
         color2 = panel.get_component_property(
-            "AltUnityExampleScriptPanel",
+            "AltExampleScriptPanel",
             "highlightColor",
             assembly="Assembly-CSharp"
         )
