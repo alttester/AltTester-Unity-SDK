@@ -1,22 +1,22 @@
-using Altom.AltUnityTesterEditor;
+using Altom.AltTesterEditor;
 
-namespace altunitytester.Assets.ShortCuts.Editor
+namespace alttester.Assets.ShortCuts.Editor
 {
     public class Shortcuts
     {
-        [UnityEditor.MenuItem("AltUnity Tools/Add AltUnityTesterSymbol &#]", false, 80)]
+        [UnityEditor.MenuItem("AltTester/Add AltTesterSymbol &#]", false, 80)]
         public static void AddAUTSymbol()
         {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains("ALTUNITYTESTER"))
-                scriptingDefineSymbolsForGroup += ";ALTUNITYTESTER";
+            if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
+                scriptingDefineSymbolsForGroup += ";ALTTESTER";
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup);
         }
 
-        [UnityEditor.MenuItem("AltUnity Tools/Deselect All Tests &#[", false, 80)]
+        [UnityEditor.MenuItem("AltTester/Deselect All Tests &#[", false, 80)]
         public static void DeselectAllTests()
         {
-            foreach (var test in AltUnityTesterEditorWindow.EditorConfiguration.MyTests)
+            foreach (var test in AltTesterEditorWindow.EditorConfiguration.MyTests)
             {
                 test.Selected = false;
             }
