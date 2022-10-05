@@ -17,8 +17,7 @@ public class AltTiltParams extends AltMessage {
         }
 
         /**
-         * @param duration How long the rotation will take in seconds. Defaults to
-         *                 <code>0.1<code>.
+         * @param duration How long the rotation will take in seconds. Defaults to 0.1
          */
         public AltTiltParams.Builder withDuration(float duration) {
             this.duration = duration;

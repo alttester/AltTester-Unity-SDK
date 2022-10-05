@@ -36,7 +36,7 @@ build-docs:
   stage: unit-tests
   image: python:3.8
   tags:
-    - docker
+    - docs
   interruptible: true
   rules:
     - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
@@ -50,9 +50,10 @@ build-docs:
     - pip install --upgrade setuptools wheel
     - pip install -r requirements.txt
     - pip freeze
-    - make linkcheck
-    - make clean
-    - make html
+    - ./make.bat clean
+    - ./make.bat linkcheck
+    - ./make.bat clean
+    - ./make.bat html
     - cp -r build/html ../docs-html
   artifacts:
     when: always
@@ -132,7 +133,7 @@ build-apk:
       when: never
     - when: always
   variables:
-    ALTUNITYTESTER_PORT: 13000
+    ALTTESTER_PORT: 13000
   script:
     - whoami
     - adb uninstall fi.altom.altunitytester || true
@@ -207,12 +208,12 @@ unity-android-tests:
       when: never
     - when: always
   variables:
-    ALTUNITYDRIVER_PORT: 13000
-    ALTUNITYDRIVER_HOST: "127.0.0.1"
+    ALTDRIVER_PORT: 13000
+    ALTDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
   script:
-    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
+    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor -reportPath $CI_PROJECT_DIR/reportTest.xml -logFile csharpAndroidTests.log -quit
   after_script:
     - cat csharpAndroidTests.log
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
@@ -224,6 +225,7 @@ unity-android-tests:
       - csharpAndroidTests.log
       - AltUnityTesterLog.txt
       - AltUnityServerLog.txt
+      - reportTest.xml
 
 .unity-ios-tests:
   stage: test
@@ -243,7 +245,7 @@ unity-android-tests:
     - iproxy 13000 13000 &
     - xcodebuild test-without-building -destination 'platform=iOS,name=iPhone' -scheme Unity-iPhone -allowProvisioningUpdates &
     - sleep 60
-    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpIosTests.log -quit
+    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor -logFile csharpIosTests.log -quit
     - killall iproxy || true
     - killall xcodebuild || true
   artifacts:
@@ -269,8 +271,8 @@ dotnet-android-tests:
       when: never
     - when: always
   variables:
-    ALTUNITYDRIVER_PORT: 13000
-    ALTUNITYDRIVER_HOST: "127.0.0.1"
+    ALTDRIVER_PORT: 13000
+    ALTDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
   script:
@@ -336,8 +338,8 @@ python-android-tests:
       when: never
     - when: always
   variables:
-    ALTUNITYDRIVER_PORT: 13000
-    ALTUNITYDRIVER_HOST: "127.0.0.1"
+    ALTDRIVER_PORT: 13000
+    ALTDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
     - python3 -m venv altunity-tests
@@ -370,8 +372,8 @@ java-android-tests:
       when: never
     - when: always
   variables:
-    ALTUNITYDRIVER_PORT: 13000
-    ALTUNITYDRIVER_HOST: "127.0.0.1"
+    ALTDRIVER_PORT: 13000
+    ALTDRIVER_HOST: "127.0.0.1"
   before_script:
     - *reinstall_and_start_android_app
   script:
@@ -396,7 +398,6 @@ create-unity-package:
   tags:
     - unity
     - mac
-    - docs
   script:
     - mkdir -p public/AltUnityPackage || true
     - mkdir -p public/SampleScenes || true
@@ -421,7 +422,6 @@ create-jar-archive:
   tags:
     - unity
     - mac
-    - docs
   script:
     - mkdir -p public/AltUnityJAR || true
     - cd "Bindings~/java"
@@ -497,7 +497,6 @@ dev-docs:
   tags:
     - unity
     - mac
-    - docs
   script:
     - cd docs-html
     - find . -type f ! -name 'license.html' -exec sed -i '' "s#https://altom.com#${DEV_DOCUMENTATION_URL}#g" {} \;
@@ -515,7 +514,6 @@ pages:
   tags:
     - unity
     - mac
-    - docs
   script:
     - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf ${DOCUMENTATION_PATH}/*"
     - scp -r -P 50976 -o 'StrictHostKeyChecking no' docs-html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}

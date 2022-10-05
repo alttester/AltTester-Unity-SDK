@@ -1,9 +1,9 @@
+using Altom.AltDriver.Commands;
+using Altom.AltDriver.Logging;
 using NUnit.Framework;
-using Altom.AltUnityDriver.Commands;
-using Altom.AltUnityDriver.Logging;
 
 
-namespace Altom.AltUnityDriver.Tests
+namespace Altom.AltDriver.Tests
 {
     public class AltBaseCommandImpl : AltBaseCommand
     {
@@ -24,7 +24,7 @@ namespace Altom.AltUnityDriver.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            DriverLogManager.SetMinLogLevel(AltUnityLogger.Console, AltUnityLogLevel.Debug);
+            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Debug);
         }
         [SetUp]
         public void SetUp()
@@ -43,7 +43,7 @@ namespace Altom.AltUnityDriver.Tests
                 Assert.Fail();
             }
 
-            catch (AltUnityInvalidServerResponse ex)
+            catch (AltInvalidServerResponse ex)
             {
                 Assert.AreEqual(ex.Message, string.Format("Expected to get response '{0}'; Got  '{1}'", "aa", "bb"));
             }
