@@ -487,7 +487,7 @@ namespace Altom.AltTesterEditor
                 resize = false;
         }
 
-        protected void OnDesktopUpdate()
+        protected void OnInspectorUpdate()
         {
             if (IsTestRunResultAvailable)
             {

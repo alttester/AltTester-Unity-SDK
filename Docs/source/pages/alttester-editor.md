@@ -111,7 +111,7 @@ You can also activate this option from within the test using the following code:
     Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
 ## Test run Settings
-![Test run Settings Screenshot](../_static/img/altunity-tester-editor/testrun-settings.png)
+![Test run Settings Screenshot](../_static/img/alttester-editor/testrun-settings.png)
 
 - *Create XML Report*
 
