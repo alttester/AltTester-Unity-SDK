@@ -111,20 +111,24 @@ jobs:
             cached: 'pip'
         - uses: syphar/restore-virtualenv@v1
           id: cache-virtualenv
-
         - uses: syphar/restore-pip-download-cache@v1
           if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-
-        - run: pip install -r "Bindings~/python/requirements.txt"
-        - run: pip install -r "Bindings~/python/requirements-dev.txt"
-        - run: pip install -e "Bindings~/python" --root "Bindings~/python"
-
-        - run: |
-            chmod -R 755  sampleGame.app
+        - name: Install dependencies
+          run: |
+            pip install -r "Bindings~/python/requirements.txt"
+            pip install -r "Bindings~/python/requirements-dev.txt"
+            pip install -e "Bindings~/python" --root "Bindings~/python"
+        - name: Lint with flake8
+          run: |
+            flake8 .
+        - name: Run unit tests
+          run: |
+            pytest Bindings~/python/tests/unit
+        - name: Run integration tests
+          run: |
+            chmod -R 755 sampleGame.app
             open sampleGame.app
             pytest Bindings~/python/tests/integration
-
-
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
           with:
