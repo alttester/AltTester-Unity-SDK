@@ -1,15 +1,15 @@
-# AltUnity Tester Editor
+# AltTester Editor
 
-The GUI refers to the AltUnity Tester Editor window that is displayed when
-adding the AltUnity Tester package in Unity.
+The GUI refers to the AltTester Editor window that is displayed when
+adding the AltTester package in Unity.
 
-![AltUnity Tester Editor Screenshot](../_static/img/altunity-tester-editor/editor-screenshot.png)
+![AltTester Editor Screenshot](../_static/img/alttester-editor/editor-screenshot.png)
 
 In the following sections you can see a breakdown of all the sections in the GUI.
 
 ## Tests List
 
-![Tests List Section Screenshot](../_static/img/altunity-tester-editor/test-list.png)
+![Tests List Section Screenshot](../_static/img/alttester-editor/test-list.png)
 
 -   displays all the available tests from the project folder
 -   user can use the Refresh button to update the tests list after making some changes in the test script
@@ -22,29 +22,29 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 .. note::
 
-    Make sure that each time you modify anything in the test script (e.g. test's name, code, add or delete a test etc.) before running tests in the AltUnity Tester Editor you click the Refresh button to update the tests list.
+    Make sure that each time you modify anything in the test script (e.g. test's name, code, add or delete a test etc.) before running tests in the AltTester Editor you click the Refresh button to update the tests list.
 
 ```
 
 ## Build Settings
 
-![Build Settings Section Screenshot](../_static/img/altunity-tester-editor/build-settings.png)
+![Build Settings Section Screenshot](../_static/img/alttester-editor/build-settings.png)
 
 <!--
 -   Proxy host
 
-    Refers to the host the AltUnity Proxy is listening on.
+    Refers to the host the AltProxy is listening on.
      You can change this value and make a new game build if you want to use another host.
 
 -   Proxy port
 
-    Refers to the port the AltUnity Proxy is listening on.
+    Refers to the port the AltProxy is listening on.
      You can change this value and make a new game build if you want to use another port.
 -->
 
-- *AltUnity Tester Port*
+- *AltTester Port*
 
-    The port the AltUnity Tester is listening on inside the running instrumented Unity App.
+    The port the AltTester Unity SDK is listening on inside the running instrumented Unity App.
 
 - *Company Name*
 
@@ -64,7 +64,7 @@ To activate this option before build check the "Input visualizer" checkbox.
 
 | Input Visualizer Disabled                          | Input Visualizer Enabled                       |
 | -------------------------------------------------- | ---------------------------------------------- |
-| ![No Input Visualizer Demo](../_static/img/altunity-tester-editor/no-input-visualizer.gif) | ![Input Visualizer Demo](../_static/img/altunity-tester-editor/input-visualizer.gif) |
+| ![No Input Visualizer Demo](../_static/img/alttester-editor/no-input-visualizer.gif) | ![Input Visualizer Demo](../_static/img/alttester-editor/input-visualizer.gif) |
 
 You can also activate this option from within the test using the following code:
 
@@ -73,39 +73,39 @@ You can also activate this option from within the test using the following code:
 
     .. code-tab:: c#
 
-        altUnityDriver.FindObject(By.NAME, "AltUnityRunnerPrefab").SetComponentProperty("AltUnityRunner", "ShowInputs", "true");
+        altDriver.FindObject(By.NAME, "AltTesterPrefab").SetComponentProperty("AltRunner", "ShowInputs", "true");
 
     .. code-tab:: java
 
-        altUnityDriver.findObject(AltUnityDriver.By.NAME,"AltUnityRunnerPrefab").setComponentProperty("AltUnityRunner", "ShowInputs", "true");
+        altDriver.findObject(AltDriver.By.NAME,"AltTesterPrefab").setComponentProperty("AltRunner", "ShowInputs", "true");
 
     .. code-tab:: py
 
-        altdriver.find_object(By.NAME,"AltUnityRunnerPrefab").set_component_property("AltUnityRunner", "ShowInputs", "true")
+        altdriver.find_object(By.NAME,"AltTesterPrefab").set_component_property("AltRunner", "ShowInputs", "true")
 
 ```
 
 - *Show Popup*
 
-    If this option is checked, it will display the *"AltUnityTester"* popup in
+    If this option is checked, it will display the *"AltTester"* popup in
     game containing the text *"Waiting for connection on port 13000"*. That
-    means the build contains the AltUnity Tester. Popup will disappear once the
+    means the build contains the AltTester Unity SDK. Popup will disappear once the
     tests are started.
 
-![Popup Screenshot](../_static/img/altunity-tester-editor/popup.png)
+![Popup Screenshot](../_static/img/alttester-editor/popup.png)
 
--   *Append "Test" to product name for AltUnity Tester builds*:
+-   *Append "Test" to product name for AltTester Unity SDK builds*:
 
     Will add "Test" to the product name.
 
--   *Keep ALTUNITYTESTER symbol defined*:
+-   *Keep ALTTESTER symbol defined*:
 
-    Will add "ALTUNITYTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
+    Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
 
 ## Scene Manager
 
-![Scene Manager Screenshot](../_static/img/altunity-tester-editor/scene-manager.png)
+![Scene Manager Screenshot](../_static/img/alttester-editor/scene-manager.png)
 
 - The Scene Manager pane displays a list of the Scenes from your Project. Checked scenes are included in the build.
 - Unity uses the list of Scenes to determine the order that it loads the Scenes in. To adjust the order of the Scenes use the action buttons   associated to each scene to move them up or down the list.
@@ -135,7 +135,7 @@ _Platform Settings_
 
             .. tab:: Android
 
-                .. image:: ../_static/img/altunity-tester-editor/settings-android.png
+                .. image:: ../_static/img/alttester-editor/settings-android.png
                     :alt: Android Settings Section
 
                 The **Android Bundle Identifier** field: fill in a valid bundle ID.
@@ -146,7 +146,7 @@ _Platform Settings_
 
             .. tab:: iOS
 
-                .. image:: ../_static/img/altunity-tester-editor/settings-ios.png
+                .. image:: ../_static/img/alttester-editor/settings-ios.png
                     :alt: iOS Settings Section
 
                 The **iOS Bundle Identifier** field: fill in a valid bundle ID.
@@ -161,12 +161,12 @@ _Platform Settings_
 
             .. tab:: Editor
 
-                .. image:: ../_static/img/altunity-tester-editor/settings-editor.png
+                .. image:: ../_static/img/alttester-editor/settings-editor.png
                     :alt: Editor Settings Section
 
             .. tab:: Standalone
 
-                .. image:: ../_static/img/altunity-tester-editor/settings-standalone.png
+                .. image:: ../_static/img/alttester-editor/settings-standalone.png
                     :alt: Standalone Settings Section
 
                 The **Build Target** field: choose build mode according to platform.

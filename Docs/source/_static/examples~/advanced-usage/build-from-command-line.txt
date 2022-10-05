@@ -2,28 +2,34 @@ static void BuildFromCommandLine () {
     try {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = new string[] {
-            "Assets/AltUnityTesterExamples/Scenes/Scene 1 AltUnityDriverTestScene.unity",
-            "Assets/AltUnityTesterExamples/Scenes/Scene 2 Draggable Panel.unity",
-            "Assets/AltUnityTesterExamples/Scenes/Scene 3 Drag And Drop.unity",
-            "Assets/AltUnityTesterExamples/Scenes/Scene 4 No Cameras.unity",
-            "Assets/AltUnityTesterExamples/Scenes/Scene 5 Keyboard Input.unity",
-            "Assets/AltUnityTesterExamples/Scenes/Scene6.unity"
+            "Assets/AltTester/Examples/Scenes/Scene 1 AltDriverTestScene.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 4 No Cameras.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 9 NIS.unity",
+            "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity,
+            "Assets/AltTester/Examples/Scenes/Scene 11 ScrollView Scene.unity",
+            "Assets/AltTester/Examples/Scenes/Scene6.unity"
         };
 
         buildPlayerOptions.locationPathName = "sampleGame.apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer;
 
-        // Setup for AltUnity
+        // Setup for AltTester
         var buildTargetGroup = BuildTargetGroup.Android;
-        AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup (buildTargetGroup);
+        AltBuilder.AddAltTesterInScritpingDefineSymbolsGroup (buildTargetGroup);
         if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
-            AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
-        var instrumentationSettings = new AltUnityInstrumentationSettings();
-        AltUnityBuilder.InsertAltUnityInScene (buildPlayerOptions.scenes[0], instrumentationSettings);
+            AltBuilder.CreateJsonFileForInputMappingOfAxis();
+        var instrumentationSettings = new AltInstrumentationSettings();
+        AltBuilder.InsertAltInScene (buildPlayerOptions.scenes[0], instrumentationSettings);
 
         var results = BuildPipeline.BuildPlayer (buildPlayerOptions);
-        AltUnityBuilder.RemoveAltUnityTesterFromScriptingDefineSymbols (BuildTargetGroup.Android);
+        AltBuilder.RemoveAltTesterFromScriptingDefineSymbols (BuildTargetGroup.Android);
 
     } catch (Exception exception) {
         Debug.LogException (exception);

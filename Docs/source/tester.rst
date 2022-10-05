@@ -1,7 +1,7 @@
-AltUnity Tester
+AltTester Unity SDK
 ===============
 
-AltUnity Tester is an open-source UI driven test automation tool that helps you
+AltTester Unity SDK is an open-source UI driven test automation tool that helps you
 find objects in your game and interacts with them using tests written in C#,
 Python or Java. You can run your tests on real devices (mobile, PCs, etc.) or
 inside the Unity Editor.
@@ -13,7 +13,7 @@ inside the Unity Editor.
 
    pages/overview
    pages/get-started
-   pages/altunity-tester-editor
+   pages/alttester-editor
    pages/commands
    pages/tester-with-appium
    pages/tester-with-cloud
