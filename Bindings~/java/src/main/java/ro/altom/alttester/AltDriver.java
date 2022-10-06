@@ -14,7 +14,6 @@ import ro.altom.alttester.Commands.AltCommands.AltSetServerLogging;
 import ro.altom.alttester.Commands.FindObject.*;
 import ro.altom.alttester.Commands.InputActions.*;
 import ro.altom.alttester.Commands.UnityCommand.*;
-import ro.altom.alttester.UnityStruct.AltKeyCode;
 import ro.altom.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import ro.altom.alttester.altTesterExceptions.*;
 import java.io.IOException;
@@ -90,7 +89,7 @@ public class AltDriver {
 
         if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
             String message = String.format(
-                    "Version mismatch. Alt Driver version is %s. Alt Tester version is %s.",
+                    "Version mismatch. AltDriver version is %s. AltTester version is %s.",
                     AltDriver.VERSION, serverVersion);
             log.warn(message);
             System.out.println(message);
@@ -568,7 +567,7 @@ public class AltDriver {
     }
 
     /**
-     * Sets the level of logging on Alt Tester
+     * Sets the level of logging on AltTester
      *
      * @param parameters - AltUnityLogger logger* , AltUnityLogLevel logLevel*
      */
