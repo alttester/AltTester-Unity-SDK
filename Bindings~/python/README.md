@@ -43,7 +43,7 @@ Check out the full contributing guide [contributing](https://github.com/altteste
 
 ## Support
 
-Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/forum/#!forum/altunityforum
+Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/g/alttester
 
 Join our Discord Server to chat with other members of the community: https://discord.gg/Ag9RSuS
 

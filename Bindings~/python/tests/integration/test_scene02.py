@@ -19,7 +19,7 @@ class TestScene02:
             "EventSystem", "Canvas", "Panel Drag Area", "Panel",
             "Header", "Text", "Drag Zone", "Resize Zone", "Close Button",
             "Debugging", "SF Scene Elements", "Main Camera", "Background",
-            "Particle System", "AltUnityDialog"
+            "Particle System", "AltDialog"
         }
 
         input_marks = []

@@ -66,7 +66,7 @@ class TestScene01:
     @pytest.mark.parametrize("component, name", [
         ("CapsuleCollider", "Capsule"),
         ("AltExampleScriptCapsule", "Capsule"),
-        ("AltUnityTesterExamples.Scripts.AltExampleScriptCapsule", "Capsule")
+        ("AltTesterExamples.Scripts.AltExampleScriptCapsule", "Capsule")
     ])
     def test_find_object_by_component(self, component, name):
         alt_object = self.altdriver.find_object(By.COMPONENT, component)
