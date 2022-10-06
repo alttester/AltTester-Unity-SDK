@@ -132,34 +132,34 @@ jobs:
   #             AltUnityTesterLog.txt
   #             AltUnityServerLog.txt
 
-  # test-Java:
-  #     runs-on: [self-hosted, macOS]
-  #     needs: build-macOS
-  #     steps:
-  #       - uses: actions/checkout@v3
-  #       - uses: actions/download-artifact@v3.0.0
-  #         with:
-  #           name: 
-  #             BuildMacArtifact
+  test-Java:
+      runs-on: [self-hosted, macOS]
+      needs: build-macOS
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3.0.0
+          with:
+            name: 
+              BuildMacArtifact
               
-  #       - name: Setup Java JDK
-  #         uses: actions/setup-java@v3.5.1
-  #         with:
-  #             distribution: temurin
-  #             java-version: 11
-  #       - uses: stCarolas/setup-maven@v4.4
-  #       - run: |
-  #           chmod -R 755  sampleGame.app
-  #           open sampleGame.app
-  #           cd "Bindings~/java"
-  #           mvn -Dtest=ro.altom.altunitytester.Tests* test
+        - name: Setup Java JDK
+          uses: actions/setup-java@v3.5.1
+          with:
+              distribution: temurin
+              java-version: 11
+        - uses: stCarolas/setup-maven@v4.4
+        - run: |
+            chmod -R 755  sampleGame.app
+            open sampleGame.app
+            cd "Bindings~/java"
+            mvn -Dtest=ro.altom.altunitytester.Tests* test
 
-  #       - uses: actions/upload-artifact@v3.1.0
-  #         if: always() # run this step even if one of the previous step failed
-  #         with:
-  #           name: TestJavaArtifact
-  #           path: |
-  #             AltUnityTesterLog.txt
-  #             AltUnityServerLog.txt
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestJavaArtifact
+            path: |
+              AltUnityTesterLog.txt
+              AltUnityServerLog.txt
               
       
