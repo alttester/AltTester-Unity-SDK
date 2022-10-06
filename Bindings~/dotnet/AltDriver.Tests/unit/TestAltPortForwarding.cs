@@ -78,21 +78,20 @@ namespace Altom.AltDriver.Tests
 
         // }
 
-        //TODO: enable when server is implemented
-        // [Test]
-        // public void TestForwardAndroid()
-        // {
-        //     AltPortForwarding.RemoveAllForwardAndroid();
-        //     AltPortForwarding.ForwardAndroid();
-        //     try
-        //     {
-        //         var driver = new AltDriver(enableLogging: true, connectTimeout: 2);
-        //         driver.Stop();
-        //     }
-        //     catch
-        //     {
-        //         Assert.Fail("ForwardAndroid failed");
-        //     }
-        // }
+        [Test]
+        public void TestForwardAndroid()
+        {
+            AltPortForwarding.RemoveAllForwardAndroid();
+            AltPortForwarding.ForwardAndroid();
+            try
+            {
+                var driver = new AltDriver(enableLogging: true, connectTimeout: 2);
+                driver.Stop();
+            }
+            catch
+            {
+                Assert.Fail("ForwardAndroid failed");
+            }
+        }
     }
 }
