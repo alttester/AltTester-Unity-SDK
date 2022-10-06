@@ -47,8 +47,13 @@ jobs:
             name: BuildMacArtifact
             path: |
               sampleGame.app
-              buildMac.log
-            
+
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: BuildMacReportArtifact
+            path: |
+               buildMac.log
   test-CSharp-Editor:
     runs-on: self-hosted
     needs: build-macOS
@@ -162,4 +167,12 @@ jobs:
               AltUnityTesterLog.txt
               AltUnityServerLog.txt
               
-      
+  delete-artifacts:
+    runs-on: self-hosted
+    if: ${{ always() }}
+    needs: [test-Java,test-CSharp-Editor,test-DotNet,test-Python]
+    steps:
+      - name: Delete Artifact
+        uses: GeekyEggo/delete-artifact@v1.0.0
+        with: 
+          name: BuildMacArtifact
