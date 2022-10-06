@@ -12,7 +12,7 @@ games.
 - AltTester Unity SDK is a free, open source asset. Its main goal is to enable UI
   test automation, by instrumenting games to get access and programmatically
   control the Unity objects. Get AltTester Unity SDK from
-  `Unity Asset Store <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
+  `our website <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
 
 - AltTester Desktop is an application allowing users to inspect the
   object hierarchy and interact with their app outside the Unity Editor. Get
