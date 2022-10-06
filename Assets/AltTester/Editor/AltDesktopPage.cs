@@ -209,7 +209,7 @@ namespace Altom.AltTesterEditor
 
         private void downloadDesktop()
         {
-            UnityEngine.Application.OpenURL("https://altom.com/testing-tools/altunitytester/?id=unityeditor#pricing");
+            UnityEngine.Application.OpenURL("https://altom.com/testing-tools/alttester/#pricing");
         }
 
         private void ResizeImage(ref float maxWidth, ref float maxHeight, float imageWidth, float imageHeight)
