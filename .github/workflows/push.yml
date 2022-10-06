@@ -85,7 +85,7 @@ jobs:
         - run: |
             chmod -R 755  sampleGame.app
             open sampleGame.app
-            dotnet test Bindings~/dotnet/AltUnityDriver.Tests/AltUnityDriver.Tests.csproj --logger:"console;verbosity=detailed"
+            dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
 
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
