@@ -527,15 +527,15 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via loguru.
 
-        Setting the `enable_logging` to `False` in AltDriver, all logs from `altunityrunner` package are disabled.
+        Setting the `enable_logging` to `False` in AltDriver, all logs from `alttester` package are disabled.
 
         .. code-block:: python
 
             # enable logging in driver:
-            loguru.logger.enable("altunityrunner")
+            loguru.logger.enable("alttester")
 
             # disable logging in driver:
-            loguru.logger.disable("altunityrunner")
+            loguru.logger.disable("alttesterr")
 
 ```
 
