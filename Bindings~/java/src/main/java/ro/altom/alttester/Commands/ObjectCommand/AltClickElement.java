@@ -11,7 +11,8 @@ public class AltClickElement extends AltCommandReturningAltObjects {
     private AltTapClickElementParams params;
 
     /**
-     * @param altObject The game object
+     * @param parameters
+     * @param messageHandler
      */
 
     public AltClickElement(IMessageHandler messageHandler, AltTapClickElementParams parameters) {

@@ -14,6 +14,7 @@ public class AltFindObjects extends AltBaseFindObject {
     /**
      * @param altFindObjectsParameters the properties parameter for finding it in a
      *                                 scene.
+     * @param messageHandler 
      */
     public AltFindObjects(IMessageHandler messageHandler, AltFindObjectsParams altFindObjectsParameters) {
         super(messageHandler);

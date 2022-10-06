@@ -74,7 +74,7 @@ public class AltObject {
     /**
      * Returns the screen position of the Alt object
      *
-     * @return - the screen position
+     * @return - The screen position
      */
     public Vector2 getScreenPosition() {
         return new Vector2(this.x, this.y);
@@ -83,7 +83,7 @@ public class AltObject {
     /**
      * Returns the world position of the Alt object
      *
-     * @return - the world position
+     * @return - The world position
      */
     public Vector3 getWorldPosition() {
         return new Vector3(this.worldX, this.worldY, this.worldZ);
@@ -91,8 +91,8 @@ public class AltObject {
 
     /**
      * Returns the value of the given component property.
-     *
-     * @return - the value of the given component property
+     * @param altGetComponentPropertyParameters - String componentName* , String propertyName* , String assembly , int maxDepth
+     * @return - The value of the given component property
      */
     public <T> T getComponentProperty(AltGetComponentPropertyParams altGetComponentPropertyParameters,
             Class<T> returnType) {
@@ -104,6 +104,7 @@ public class AltObject {
 
     /**
      * Sets value of the given component property.
+     * @param altSetComponentPropertyParameters - String componentName* , String propertyName* , String assembly , String value*
      */
     public void setComponentProperty(AltSetComponentPropertyParams altSetComponentPropertyParameters) {
         altSetComponentPropertyParameters.setAltObject(this);
@@ -113,6 +114,9 @@ public class AltObject {
 
     /**
      * Invokes a method from an existing component of the object.
+     * @param altCallComponentMethodParameters - String componentName* , String methodName* , Object[] parameters*, String[] typeOfParameters , String assembly
+     * @param returnType
+     * @return Actions of the method invoked
      */
     public <T> T callComponentMethod(AltCallComponentMethodParams altCallComponentMethodParameters,
             Class<T> returnType) {
@@ -125,6 +129,7 @@ public class AltObject {
     /**
      * Returns text value from a Button, Text, InputField. This also works with
      * TextMeshPro elements.
+     * @return Text value 
      */
     public String getText() {
         AltGetTextParams altGetTextParameters = new AltGetTextParams(this);
@@ -136,6 +141,8 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
+     * @param text
+     * @return Element that have text value changed
      */
     public AltObject setText(String text) {
         AltSetTextParams parameters = new AltSetTextParams.Builder(text).build();
@@ -149,6 +156,8 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
+     * @param parameters
+     * @return Element that have text value changed
      */
     public AltObject setText(AltSetTextParams parameters) {
         parameters.setAltObject(this);
@@ -159,6 +168,7 @@ public class AltObject {
 
     /**
      * Simulates pointer up action on the object.
+     * @return Element that simulates pointer up action 
      */
     public AltObject pointerUp() {
         return sendActionAndEvaluateResult("pointerUpFromObject");
@@ -166,6 +176,7 @@ public class AltObject {
 
     /**
      * Simulates pointer down action on the object.
+     * @return  Element that simulates pointer down action
      */
     public AltObject pointerDown() {
         return sendActionAndEvaluateResult("pointerDownFromObject");
@@ -173,6 +184,7 @@ public class AltObject {
 
     /**
      * Simulates pointer enter action on the object.
+     * @return Element that simulates pointer enter action
      */
     public AltObject pointerEnter() {
         return sendActionAndEvaluateResult("pointerEnterObject");
@@ -180,6 +192,7 @@ public class AltObject {
 
     /**
      * Simulates pointer exit action on the object.
+     * @return Element that simulates pointer exit action
      */
     public AltObject pointerExit() {
         return sendActionAndEvaluateResult("pointerExitObject");

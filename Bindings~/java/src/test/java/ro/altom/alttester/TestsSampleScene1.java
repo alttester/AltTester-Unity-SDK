@@ -466,6 +466,7 @@ public class TestsSampleScene1 {
 				Void.class);
 	}
 
+	
 	@Test(expected = InvalidParameterTypeException.class)
 	public void testCallMethodInvalidParameterType() {
 		String componentName = "AltExampleScriptCapsule";

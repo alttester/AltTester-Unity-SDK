@@ -16,7 +16,7 @@ static void BuildFromCommandLine () {
 
         // Setup for AltUnity
         var buildTargetGroup = BuildTargetGroup.Android;
-        AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup (buildTargetGroup);
+        AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup (buildTargetGroup);
         if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
             AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
         var instrumentationSettings = new AltUnityInstrumentationSettings();

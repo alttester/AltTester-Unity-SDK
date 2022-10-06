@@ -36,7 +36,7 @@ check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
 
 ```c#
 var buildTargetGroup = BuildTargetGroup.Android;
-AltUnityBuilder.AddAltUnityTesterInScritpingDefineSymbolsGroup(buildTargetGroup);
+AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
 if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone) {
     AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
 }
@@ -97,9 +97,55 @@ commands:
 
     .. tab:: C#
 
+        Available AltUnity command line arguments:
+
+        ``-testsClass`` - runs tests from given class/classes
+
+        Example command running tests from a single test class:
+
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsClass MyTestClass -logFile logFile.log -batchmode -quit
+
+        Example command running tests from two test classes:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsClass MyTestClass1 MyTestClass2 -logFile logFile.log -batchmode -quit
+
+        ``-tests`` - runs given test/tests
+
+        Example command running a single test:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -tests MyTestClass.MyTestName -logFile logFile.log -batchmode -quit
+
+        Example command running two tests:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -tests MyTestClass1.MyTestName1 MyTestClass2.MyTestName2 -logFile logFile.log -batchmode -quit
+
+        ``-testsAssembly`` - runs tests from given assembly/assemblies
+
+        Example command running all tests from given assembly:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly -logFile logFile.log -batchmode -quit
+
+        Example command running tests from two assemblies:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly1 MyAssembly2 -logFile logFile.log -batchmode -quit
+
+        ``-reportPath`` - the xml test report will be generated here
+        
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -reportPath $PROJECT_DIR/testReport.xml -logFile logFile.log -batchmode -quit
 
     .. tab:: Java
 
@@ -442,10 +488,16 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
         .. code-block:: c#
 
             /* start altunity driver with logging disabled */
-            var altUnityDriver = new AltUnityDriver (enableLogging=false);
+            var altUnityDriver = new AltUnityDriver (enableLogging: false);
 
             /* start altunity driver with logging enabled for Debug.Level; this is the default behaviour*/
-            var altUnityDriver = new AltUnityDriver (enableLogging=true);
+            var altUnityDriver = new AltUnityDriver (enableLogging: true);
+
+            /* disable altunity driver logging */
+            altUnityDriver.SetLogging(enableLogging: false);
+
+            /* enable altunity driver logging */
+            altUnityDriver.SetLogging(enableLogging: true);
 
             /* set logging level to Info for File target */
             Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info);
