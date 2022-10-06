@@ -2,21 +2,21 @@
 
 If you are looking for information on a specific function, class or method, this part of the documentation is for you.
 
-## AltUnityDriver
+## AltDriver
 
-The **AltUnityDriver** class represents the main game driver component. When you instantiate an AltUnityDriver in your tests, you can use it to "drive" your game like one of your users would, by interacting with all the game objects, their properties and methods.
+The **AltDriver** class represents the main game driver component. When you instantiate an AltDriver in your tests, you can use it to "drive" your game like one of your users would, by interacting with all the game objects, their properties and methods.
 
-An AltUnityDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App is running. We can also set some more advanced parameters, as shown in the table below:
+An AltDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App is running. We can also set some more advanced parameters, as shown in the table below:
 
 **_Parameters_**
 
 | Name          | Type    | Required | Description                                                                           |
 | ------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
-| host          | string  | No       | The IP or hostname AltUnity Tester is listening on. The default value is "127.0.0.1". |
+| host          | string  | No       | The IP or hostname AltTester is listening on. The default value is "127.0.0.1". |
 | port          | int     | No       | The default value is 13000.                                                           |
 | enableLogging | boolean | No       | The default value is false.                                                           |
 
-Once you have an instance of the _AltUnityDriver_, you can use all the available commands to interact with the game. The available methods are the following:
+Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the game. The available methods are the following:
 
 ### Find Objects
 
@@ -36,7 +36,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -46,12 +46,12 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: c#
 
         [Test]
-        public void TestFindAltUnityObject()
+        public void TestFindAltObject()
         {
             const string name = "Capsule";
-            var altUnityObject = altUnityDriver.FindObject(By.NAME,name);
-            Assert.NotNull(altUnityObject);
-            Assert.AreEqual(name, altUnityObject.name);
+            var altObject = altDriver.FindObject(By.NAME,name);
+            Assert.NotNull(altObject);
+            Assert.AreEqual(name, altObject.name);
         }
 
     .. code-tab:: java
@@ -60,18 +60,18 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         public void testfindObject() throws Exception
         {
             String name = "Capsule";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                    name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
-            assertNotNull(altUnityObject);
-            assertEquals(name, altUnityObject.name);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                    name).isEnabled(true).withCamera(AltDriver.By.NAME,"Main Camera").build();
+            AltObject altObject = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altObject);
+            assertEquals(name, altObject.name);
         }
 
     .. code-tab:: py
 
         def test_find_object(self):
-            altUnityObject = self.altUnityDriver.find_object(By.NAME,"Capsule")
-            self.assertEqual(altUnityObject.name, "Capsule")
+            altObject = self.altDriver.find_object(By.NAME,"Capsule")
+            self.assertEqual(altObject.name, "Capsule")
 ```
 
 #### FindObjects
@@ -90,7 +90,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Returns_**
 
-- List of AltUnityObjects or an empty list if no objects were found.
+- List of AltObjects or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -102,33 +102,33 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         [Test]
         public void TestFindObjectsByTag()
         {
-            var altUnityObjects = altUnityDriver.FindObjects(By.TAG,"plane");
-            Assert.AreEqual(2, altUnityObjects.Count);
-            foreach(var altUnityObject in altUnityObjects)
+            var altObjects = altDriver.FindObjects(By.TAG,"plane");
+            Assert.AreEqual(2, altObjects.Count);
+            foreach(var altObject in altObjects)
             {
-                Assert.AreEqual("Plane", altUnityObject.name);
+                Assert.AreEqual("Plane", altObject.name);
             }
         }
 
     .. code-tab:: java
 
         @Test
-        public void testFindAltUnityObjects() throws Exception
+        public void testFindAltObjects() throws Exception
         {
             String name = "Plane";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-            AltUnityObject[] altUnityObjects = altUnityDriver.findObjects(altFindObjectsParams);
-            assertNotNull(altUnityObjects);
-            assertEquals(altUnityObjects[0].name, name);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                name).isEnabled(true).withCamera(AltDriver.By.NAME,"Main Camera").build();
+            AltObject[] altObjects = altDriver.findObjects(altFindObjectsParams);
+            assertNotNull(altObjects);
+            assertEquals(altObjects[0].name, name);
         }
 
     .. code-tab:: py
 
         def test_find_objects_by_layer(self):
-                self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-                altUnityObjects = self.altUnityDriver.find_objects(By.LAYER,"Default")
-                self.assertEquals(8, len(altUnityObjects))
+                self.altDriver.load_scene('Scene 1 AltDriverTestScene')
+                altObjects = self.altDriver.find_objects(By.LAYER,"Default")
+                self.assertEquals(8, len(altObjects))
 
 ```
 
@@ -148,7 +148,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -160,8 +160,8 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         [Test]
         public void TestFindObjectWhichContains()
         {
-            var altUnityObject = altUnityDriver.FindObjectWhichContains(By.NAME, "Event");
-            Assert.AreEqual("EventSystem", altUnityObject.name);
+            var altObject = altDriver.FindObjectWhichContains(By.NAME, "Event");
+            Assert.AreEqual("EventSystem", altObject.name);
         }
 
     .. code-tab:: java
@@ -170,17 +170,17 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         public void TestFindObjectWhichContains()
         {
             String name = "Event";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
-                   name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObjectWhichContains(altFindObjectsParams);
-            assertEquals("EventSystem", altUnityObject.name);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                   name).isEnabled(true).withCamera(AltDriver.By.NAME,"Main Camera").build();
+            AltObject altObject = altDriver.findObjectWhichContains(altFindObjectsParams);
+            assertEquals("EventSystem", altObject.name);
         }
 
     .. code-tab:: py
 
         def test_find_object_which_contains(self):
-            altUnityObject = self.altUnityDriver.find_object_which_contains(By.NAME, "Event");
-            self.assertEqual("EventSystem", altUnityObject.name)
+            altObject = self.altDriver.find_object_which_contains(By.NAME, "Event");
+            self.assertEqual("EventSystem", altObject.name)
 
 ```
 
@@ -200,7 +200,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Returns_**
 
-- List of AltUnityObjects or an empty list if no objects were found.
+- List of AltObjects or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -212,7 +212,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         [Test]
         public void TestFindObjects()
         {
-            var planes = altUnityDriver.FindObjectsWhichContain(By.NAME, "Plane");
+            var planes = altDriver.FindObjectsWhichContain(By.NAME, "Plane");
             Assert.AreEqual(3, planes.Count);
         }
 
@@ -222,30 +222,30 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         public void testFindObjectsWhereNameContains() throws Exception
         {
             String name = "Pla";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject[] altUnityObjects = altUnityDriver.findObjectsWhichContain(altFindObjectsParams);
-            assertNotNull(altUnityObjects);
-            assertTrue(altUnityObjects[0].name.contains(name));
+            AltObject[] altObjects = altDriver.findObjectsWhichContain(altFindObjectsParams);
+            assertNotNull(altObjects);
+            assertTrue(altObjects[0].name.contains(name));
         }
 
     .. code-tab:: py
 
         def test_creating_stars(self):
-            self.altUnityDriver.load_scene("Scene 5 Keyboard Input")
+            self.altDriver.load_scene("Scene 5 Keyboard Input")
 
-            stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star","Player2")
+            stars = self.altDriver.find_objects_which_contain(By.NAME,"Star","Player2")
             self.assertEqual(1, len(stars))
-            player = self.altUnityDriver.find_objects_which_contain(By.NAME,"Player","Player2")
+            player = self.altDriver.find_objects_which_contain(By.NAME,"Player","Player2")
 
-            self.altUnityDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+            self.altDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
             time.sleep(1.5)
 
-            self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
-            self.altUnityDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
-            self.altUnityDriver.press_key(AltUnityKeyCode.Mouse0, 1,0)
+            self.altDriver.press_key(AltKeyCode.Mouse0, 1,0)
+            self.altDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+            self.altDriver.press_key(AltKeyCode.Mouse0, 1,0)
 
-            stars = self.altUnityDriver.find_objects_which_contain(By.NAME,"Star")
+            stars = self.altDriver.find_objects_which_contain(By.NAME,"Star")
             self.assertEqual(3, len(stars))
 ```
 
@@ -263,7 +263,7 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
 
 **_Returns_**
 
-- AltUnityObject - The UI object hit by event system Raycast, nothing otherwise.
+- AltObject - The UI object hit by event system Raycast, nothing otherwise.
 
 **_Examples_**
 
@@ -275,8 +275,8 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
         [Test]
         public void TestFindElementAtCoordinates()
         {
-            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-            var element = altUnityDriver.FindObjectAtCoordinates(new AltUnityVector2(80 + counterButton.x, 15 + counterButton.y));
+            var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
+            var element = altDriver.FindObjectAtCoordinates(new AltVector2(80 + counterButton.x, 15 + counterButton.y));
             Assert.AreEqual("Text", element.name);
         }
 
@@ -284,10 +284,10 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
 
         @Test
         public void testFindElementAtCoordinates() {
-            AltUnityObject counterButton = altUnityDriver.findObject(new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "ButtonCounter").build());
+            AltObject counterButton = altDriver.findObject(new AltFindObjectsParams.Builder(
+                    AltDriver.By.NAME, "ButtonCounter").build());
 
-            AltUnityObject element = altUnityDriver.findObjectAtCoordinates(
+            AltObject element = altDriver.findObjectAtCoordinates(
                     new AltFindObjectAtCoordinatesParams.Builder(new Vector2(80 + counterButton.x, 15 + counterButton.y))
                             .build());
             assertEquals("Text", element.name);
@@ -296,7 +296,7 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
     .. code-tab:: py
 
         def test_find_object_by_coordinates(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
             counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
 
             element = self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
@@ -317,7 +317,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 **_Returns_**
 
-- List of AltUnityObjects or an empty list if no objects were found.
+- List of AltObjects or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -329,23 +329,23 @@ Returns information about every objects loaded in the currently loaded scenes. T
         [Test]
         public void TestGetAllEnabledObjects()
         {
-            var altUnityObjects = altUnityDriver.GetAllElements(enabled: true);
-            Assert.IsNotEmpty(altUnityObjects);
+            var altObjects = altDriver.GetAllElements(enabled: true);
+            Assert.IsNotEmpty(altObjects);
         }
 
     .. code-tab:: java
 
         @Test
         public void testGetAllElements() throws Exception {
-            AltGetAllElementsParams altGetAllElementsParams = new AltGetAllElementsParams.Builder().withCamera(AltUnityDriver.By.NAME,"Main Camera").isEnabled(true).build();
-            AltUnityObject[] altUnityObjects = altUnityDriver.getAllElements(altGetAllElementsParams);
-            assertFalse(altUnityObjects.isEmpty());
+            AltGetAllElementsParams altGetAllElementsParams = new AltGetAllElementsParams.Builder().withCamera(AltDriver.By.NAME,"Main Camera").isEnabled(true).build();
+            AltObject[] altObjects = altDriver.getAllElements(altGetAllElementsParams);
+            assertFalse(altObjects.isEmpty());
         }
 
     .. code-tab:: py
 
         def test_get_all_elements(self):
-            alt_elements = self.altUnityDriver.get_all_elements(enabled= False)
+            alt_elements = self.altDriver.get_all_elements(enabled= False)
             assert alt_elements
 
 ```
@@ -368,7 +368,7 @@ Waits until it finds an object that respects the given criteria or until timeout
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -382,7 +382,7 @@ Waits until it finds an object that respects the given criteria or until timeout
         {
             try
             {
-                altUnityDriver.WaitForObjectNotBePresent(By.NAME,"Capsule", timeout: 1, interval: 0.5f);
+                altDriver.WaitForObjectNotBePresent(By.NAME,"Capsule", timeout: 1, interval: 0.5f);
                 Assert.Fail();
             }
             catch (WaitTimeOutException exception)
@@ -396,35 +396,35 @@ Waits until it finds an object that respects the given criteria or until timeout
         @Test
         public void TestWaitForObjectWithCameraId() {
             AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.PATH, "//Button").build();
-            AltUnityObject altButton = altUnityDriver.findObject(altFindObjectsParametersButton);
+                    AltDriver.By.PATH, "//Button").build();
+            AltObject altButton = altDriver.findObject(altFindObjectsParametersButton);
             altButton.click();
             altButton.click();
             AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
                     "//Camera").build();
-            AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
+            AltObject camera = altDriver.findObject(altFindObjectsParametersCamera);
             AltFindObjectsParams altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT,
                     "CapsuleCollider").withCamera(By.ID, String.valueOf(camera.id)).build();
             AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                     altFindObjectsParametersCapsule).build();
-            AltUnityObject altUnityObject = altUnityDriver.waitForObject(altWaitForObjectsParams);
+            AltObject altObject = altDriver.waitForObject(altWaitForObjectsParams);
 
-            assertTrue("True", altUnityObject.name.equals("Capsule"));
+            assertTrue("True", altObject.name.equals("Capsule"));
 
             altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH, "//Main Camera").build();
-            AltUnityObject camera2 = altUnityDriver.findObject(altFindObjectsParametersCamera);
+            AltObject camera2 = altDriver.findObject(altFindObjectsParametersCamera);
             altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT, "CapsuleCollider")
                     .withCamera(By.ID, String.valueOf(camera2.id)).build();
             altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParametersCapsule).build();
-            AltUnityObject altUnityObject2 = altUnityDriver.waitForObject(altWaitForObjectsParams);
+            AltObject altObject2 = altDriver.waitForObject(altWaitForObjectsParams);
 
-            assertNotEquals(altUnityObject.getScreenPosition(), altUnityObject2.getScreenPosition());
+            assertNotEquals(altObject.getScreenPosition(), altObject2.getScreenPosition());
         }
 
     .. code-tab:: py
 
         def test_wait_for_object(self):
-            alt_object = self.altUnityDriver.wait_for_object(By.NAME, "Capsule")
+            alt_object = self.altDriver.wait_for_object(By.NAME, "Capsule")
             assert alt_object.name == "Capsule"
 
 ```
@@ -447,7 +447,7 @@ Waits until it finds an object that respects the given criteria or time runs out
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -459,8 +459,8 @@ Waits until it finds an object that respects the given criteria or time runs out
         [Test]
         public void TestWaitForObjectWhichContains()
         {
-            var altUnityObject = altUnityDriver.WaitForObjectWhichContains(By.NAME, "Canva");
-            Assert.AreEqual("Canvas", altUnityObject.name);
+            var altObject = altDriver.WaitForObjectWhichContains(By.NAME, "Canva");
+            Assert.AreEqual("Canvas", altObject.name);
         }
 
     .. code-tab:: java
@@ -469,21 +469,21 @@ Waits until it finds an object that respects the given criteria or time runs out
         public void TestWaitForObjectWhichContainsWithCameraId() {
             AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
                     "//Main Camera").build();
-            AltUnityObject camera = altUnityDriver.findObject(altFindObjectsParametersCamera);
+            AltObject camera = altDriver.findObject(altFindObjectsParametersCamera);
 
             AltFindObjectsParams altFindObjectsParametersObject = new AltFindObjectsParams.Builder(By.NAME, "Canva")
                     .withCamera(By.ID, String.valueOf(camera.id)).build();
             AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                     altFindObjectsParametersObject).build();
-            AltUnityObject altUnityObject = altUnityDriver.waitForObjectWhichContains(altWaitForObjectsParams);
-            assertEquals("Canvas", altUnityObject.name);
+            AltObject altObject = altDriver.waitForObjectWhichContains(altWaitForObjectsParams);
+            assertEquals("Canvas", altObject.name);
 
         }
 
     .. code-tab:: py
 
         def test_wait_for_object_which_contains(self):
-            alt_object = self.altUnityDriver.wait_for_object_which_contains(By.NAME, "Main")
+            alt_object = self.altDriver.wait_for_object_which_contains(By.NAME, "Main")
             assert alt_object.name == "Main Camera"
 
 ```
@@ -518,23 +518,23 @@ Waits until the object in the scene that respects the given criteria is no longe
         [Test]
         public void TestWaitForObjectToNotExist()
         {
-            altUnityDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee", timeout: 1, interval: 0.5f);
+            altDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee", timeout: 1, interval: 0.5f);
         }
 
     .. code-tab:: java
 
         @Test
         public void TestWaitForObjectToNotBePresent(){
-            AltFindObjectsParams altFindObjectsParameters=new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,"Capsulee").build();
+            AltFindObjectsParams altFindObjectsParameters=new AltFindObjectsParams.Builder(AltDriver.By.NAME,"Capsulee").build();
             AltWaitForObjectsParams altWaitForObjectsParameters=new AltWaitForObjectsParams.Builder(altFindObjectsParams).build();
-            altUnityDriver.waitForObjectToNotBePresent(altWaitForObjectsParams);
+            altDriver.waitForObjectToNotBePresent(altWaitForObjectsParams);
         }
 
 
     .. code-tab:: py
 
         def test_wait_for_object_to_not_be_present(self):
-            self.altUnityDriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
+            self.altDriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
 
 
 ```
@@ -560,15 +560,15 @@ Sets the value for the command response timeout.
 
     .. code-tab:: c#
 
-        altUnityDriver.SetCommandResponseTimeout(commandTimeout);
+        altDriver.SetCommandResponseTimeout(commandTimeout);
 
     .. code-tab:: java
 
-        altUnityDriver.setCommandResponseTimeout(commandTimeout);
+        altDriver.setCommandResponseTimeout(commandTimeout);
 
     .. code-tab:: py
 
-        altUnityDriver.set_command_response_timeout(command_timeout)
+        altDriver.set_command_response_timeout(command_timeout)
 
 ```
 
@@ -592,15 +592,15 @@ None
 
     .. code-tab:: c#
 
-        altUnityDriver.GetDelayAfterCommand();
+        altDriver.GetDelayAfterCommand();
 
     .. code-tab:: java
 
-        altUnityDriver.getDelayAfterCommand();
+        altDriver.getDelayAfterCommand();
 
     .. code-tab:: py
 
-        altUnityDriver.get_delay_after_command()
+        altDriver.get_delay_after_command()
 
 ```
 
@@ -625,15 +625,15 @@ Set the delay after a command.
 
     .. code-tab:: c#
 
-        altUnityDriver.SetDelayAfterCommand(5);
+        altDriver.SetDelayAfterCommand(5);
 
     .. code-tab:: java
 
-        altUnityDriver.setDelayAfterCommand(5);
+        altDriver.setDelayAfterCommand(5);
 
     .. code-tab:: py
 
-        altUnityDriver.set_delay_after_command(5)
+        altDriver.set_delay_after_command(5)
 
 ```
 
@@ -647,7 +647,7 @@ Simulates a key down.
 
 | Name    | Type            | Required | Description                                                                            |
 | ------- | --------------- | -------- | -------------------------------------------------------------------------------------- |
-| keyCode | AltUnityKeyCode | Yes      | The keyCode of the key simulated to be pressed.                                        |
+| keyCode | AltKeyCode | Yes      | The keyCode of the key simulated to be pressed.                                        |
 | power   | int             | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
 
 **_Returns_**
@@ -664,20 +664,20 @@ Simulates a key down.
         [Test]
         public void TestKeyDownAndKeyUp()
         {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+            altDriver.LoadScene("Scene 5 Keyboard Input");
+            AltKeyCode kcode = AltKeyCode.A;
 
-            altUnityDriver.KeyDown(kcode, 1);
-            var lastKeyDown = altUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
-            var lastKeyPress = altUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+            altDriver.KeyDown(kcode, 1);
+            var lastKeyDown = altDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyPress = altDriver.FindObject(By.NAME, "LastKeyPressedValue");
 
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyDown.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyPress.GetText(), true));
 
-            altUnityDriver.KeyUp(kcode);
-            var lastKeyUp = altUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+            altDriver.KeyUp(kcode);
+            var lastKeyUp = altDriver.FindObject(By.NAME, "LastKeyUpValue");
 
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyUp.GetText(), true));
         }
 
     .. code-tab:: java
@@ -685,43 +685,43 @@ Simulates a key down.
         @Test
         public void TestKeyDownAndKeyUp() throws Exception {
             AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "LastKeyDownValue").build();
+                    AltDriver.By.NAME, "LastKeyDownValue").build();
             AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "LastKeyUpValue").build();
+                    AltDriver.By.NAME, "LastKeyUpValue").build();
             AltFindObjectsParams altFindObjectsParameters3 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "LastKeyPressedValue").build();
-            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+                    AltDriver.By.NAME, "LastKeyPressedValue").build();
+            AltKeyCode kcode = AltKeyCode.A;
             AltKeyParams altKeyParams = new AltKeyParams.Builder(kcode).build();
 
-            altUnityDriver.KeyDown(altKeyParams);
+            altDriver.KeyDown(altKeyParams);
             Thread.sleep(2000);
-            AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
-            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
-            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
+            AltObject lastKeyDown = altDriver.findObject(altFindObjectsParameters1);
+            AltObject lastKeyPress = altDriver.findObject(altFindObjectsParameters3);
+            assertEquals("A", AltKeyCode.valueOf(lastKeyDown.getText()).name());
+            assertEquals("A", AltKeyCode.valueOf(lastKeyPress.getText()).name());
 
-            altUnityDriver.KeyUp(kcode);
+            altDriver.KeyUp(kcode);
             Thread.sleep(2000);
-            AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
-            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
+            AltObject lastKeyUp = altDriver.findObject(altFindObjectsParameters2);
+            assertEquals("A", AltKeyCode.valueOf(lastKeyUp.getText()).name());
         }
 
     .. code-tab:: py
 
         def test_key_down_and_key_up(self):
-            self.altUnityDriver.load_scene('Scene 5 Keyboard Input')
+            self.altDriver.load_scene('Scene 5 Keyboard Input')
 
-            self.altUnityDriver.key_down(AltUnityKeyCode.A)
+            self.altDriver.key_down(AltKeyCode.A)
             time.sleep(5)
-            lastKeyDown = self.altUnityDriver.find_object(By.NAME, 'LastKeyDownValue')
-            lastKeyPress = self.altUnityDriver.find_object(By.NAME, 'LastKeyPressedValue')
+            lastKeyDown = self.altDriver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.altDriver.find_object(By.NAME, 'LastKeyPressedValue')
 
             self.assertEqual("A", lastKeyDown.get_text())
             self.assertEqual("A", lastKeyPress.get_text())
 
-            self.altUnityDriver.key_up(AltUnityKeyCode.A)
+            self.altDriver.key_up(AltKeyCode.A)
             time.sleep(5)
-            lastKeyUp = self.altUnityDriver.find_object(By.NAME, 'LastKeyUpValue')
+            lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
 
@@ -735,7 +735,7 @@ Simulates a key up.
 
 | Name    | Type            | Required | Description                                      |
 | ------- | --------------- | -------- | ------------------------------------------------ |
-| keyCode | AltUnityKeyCode | Yes      | The keyCode of the key simulated to be released. |
+| keyCode | AltKeyCode | Yes      | The keyCode of the key simulated to be released. |
 
 **_Returns_**
 
@@ -751,20 +751,20 @@ Simulates a key up.
         [Test]
         public void TestKeyDownAndKeyUp()
         {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+            altDriver.LoadScene("Scene 5 Keyboard Input");
+            AltKeyCode kcode = AltKeyCode.A;
 
-            altUnityDriver.KeyDown(kcode, 1);
-            var lastKeyDown = altUnityDriver.FindObject(By.NAME, "LastKeyDownValue");
-            var lastKeyPress = altUnityDriver.FindObject(By.NAME, "LastKeyPressedValue");
+            altDriver.KeyDown(kcode, 1);
+            var lastKeyDown = altDriver.FindObject(By.NAME, "LastKeyDownValue");
+            var lastKeyPress = altDriver.FindObject(By.NAME, "LastKeyPressedValue");
 
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyDown.GetText(), true));
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyPress.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyDown.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyPress.GetText(), true));
 
-            altUnityDriver.KeyUp(kcode);
-            var lastKeyUp = altUnityDriver.FindObject(By.NAME, "LastKeyUpValue");
+            altDriver.KeyUp(kcode);
+            var lastKeyUp = altDriver.FindObject(By.NAME, "LastKeyUpValue");
 
-            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltUnityKeyCode), lastKeyUp.GetText(), true));
+            Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyUp.GetText(), true));
         }
 
     .. code-tab:: java
@@ -772,43 +772,43 @@ Simulates a key up.
         @Test
         public void TestKeyDownAndKeyUp() throws Exception {
             AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "LastKeyDownValue").build();
+                    AltDriver.By.NAME, "LastKeyDownValue").build();
             AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "LastKeyUpValue").build();
+                    AltDriver.By.NAME, "LastKeyUpValue").build();
             AltFindObjectsParams altFindObjectsParameters3 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "LastKeyPressedValue").build();
-            AltUnityKeyCode kcode = AltUnityKeyCode.A;
+                    AltDriver.By.NAME, "LastKeyPressedValue").build();
+            AltKeyCode kcode = AltKeyCode.A;
             AltKeyParams altKeyParams = new AltKeyParams.Builder(kcode).build();
 
-            altUnityDriver.KeyDown(altKeyParams);
+            altDriver.KeyDown(altKeyParams);
             Thread.sleep(2000);
-            AltUnityObject lastKeyDown = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltUnityObject lastKeyPress = altUnityDriver.findObject(altFindObjectsParameters3);
-            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyDown.getText()).name());
-            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyPress.getText()).name());
+            AltObject lastKeyDown = altDriver.findObject(altFindObjectsParameters1);
+            AltObject lastKeyPress = altDriver.findObject(altFindObjectsParameters3);
+            assertEquals("A", AltKeyCode.valueOf(lastKeyDown.getText()).name());
+            assertEquals("A", AltKeyCode.valueOf(lastKeyPress.getText()).name());
 
-            altUnityDriver.KeyUp(kcode);
+            altDriver.KeyUp(kcode);
             Thread.sleep(2000);
-            AltUnityObject lastKeyUp = altUnityDriver.findObject(altFindObjectsParameters2);
-            assertEquals("A", AltUnityKeyCode.valueOf(lastKeyUp.getText()).name());
+            AltObject lastKeyUp = altDriver.findObject(altFindObjectsParameters2);
+            assertEquals("A", AltKeyCode.valueOf(lastKeyUp.getText()).name());
         }
 
     .. code-tab:: py
 
         def test_key_down_and_key_up(self):
-            self.altUnityDriver.load_scene('Scene 5 Keyboard Input')
+            self.altDriver.load_scene('Scene 5 Keyboard Input')
 
-            self.altUnityDriver.key_down(AltUnityKeyCode.A)
+            self.altDriver.key_down(AltKeyCode.A)
             time.sleep(5)
-            lastKeyDown = self.altUnityDriver.find_object(By.NAME, 'LastKeyDownValue')
-            lastKeyPress = self.altUnityDriver.find_object(By.NAME, 'LastKeyPressedValue')
+            lastKeyDown = self.altDriver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.altDriver.find_object(By.NAME, 'LastKeyPressedValue')
 
             self.assertEqual("A", lastKeyDown.get_text())
             self.assertEqual("A", lastKeyPress.get_text())
 
-            self.altUnityDriver.key_up(AltUnityKeyCode.A)
+            self.altDriver.key_up(AltKeyCode.A)
             time.sleep(5)
-            lastKeyUp = self.altUnityDriver.find_object(By.NAME, 'LastKeyUpValue')
+            lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
 ```
@@ -839,9 +839,9 @@ Simulates holding left click button down for a specified amount of time at given
         [Test]
         public void TestHoldButton()
         {
-            var button = altUnityDriver.FindObject(By.NAME, "UIButton");
-            altUnityDriver.HoldButton(button.getScreenPosition(), 1);
-            var capsuleInfo = altUnityDriver.FindObject(By.NAME, "CapsuleInfo");
+            var button = altDriver.FindObject(By.NAME, "UIButton");
+            altDriver.HoldButton(button.getScreenPosition(), 1);
+            var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
             var text = capsuleInfo.GetText();
             Assert.AreEqual(text, "UIButton clicked to jump capsule!");
         }
@@ -850,11 +850,11 @@ Simulates holding left click button down for a specified amount of time at given
 
         @Test
         public void testHoldButton() throws Exception {
-            AltUnityObject button = altUnityDriver
-                    .findObject(new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, "UIButton").build());
-            altUnityDriver.holdButton(new AltHoldParams.Builder(button.getScreenPosition()).withDuration(1).build());
-            AltUnityObject capsuleInfo = altUnityDriver
-                    .findObject(new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, "CapsuleInfo").build());
+            AltObject button = altDriver
+                    .findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "UIButton").build());
+            altDriver.holdButton(new AltHoldParams.Builder(button.getScreenPosition()).withDuration(1).build());
+            AltObject capsuleInfo = altDriver
+                    .findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "CapsuleInfo").build());
             String text = capsuleInfo.getText();
             assertEquals(text, "UIButton clicked to jump capsule!");
         }
@@ -862,7 +862,7 @@ Simulates holding left click button down for a specified amount of time at given
     .. code-tab:: py
 
         def test_hold_button(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
             button = self.altdriver.find_object(By.NAME, "UIButton")
             self.altdriver.hold_button(button.get_screen_position(), 1)
 
@@ -898,20 +898,20 @@ Simulate mouse movement in your game.
         [Test]
         public void TestCreatingStars()
         {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            altDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
-            var pressingpoint1 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
+            var stars = altDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
+            var pressingpoint1 = altDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
             Assert.AreEqual(1, stars.Count);
 
-            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1);
-            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
+            altDriver.MoveMouse(new AltVector2(pressingpoint1.x, pressingpoint1.y), 1);
+            altDriver.PressKey(AltKeyCode.Mouse0, 0.1f);
 
-            var pressingpoint2 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
-            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
-            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
+            var pressingpoint2 = altDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
+            altDriver.MoveMouse(new AltVector2(pressingpoint2.x, pressingpoint2.y), 1);
+            altDriver.PressKey(AltKeyCode.Mouse0, 0.1f);
 
-            stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
+            stars = altDriver.FindObjectsWhichContain(By.NAME, "Star");
             Assert.AreEqual(3, stars.Count);
         }
 
@@ -919,18 +919,18 @@ Simulate mouse movement in your game.
 
         @Test
         public void TestCreatingStars2() throws InterruptedException {
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(new AltFindObjectsParams.Builder(By.NAME, "Star").build());
+            AltObject[] stars = altDriver.findObjectsWhichContain(new AltFindObjectsParams.Builder(By.NAME, "Star").build());
             assertEquals(1, stars.length);
 
-            AltUnityObject pressingPoint1 = altUnityDriver.findObject(new AltFindObjectsParams.Builder(By.NAME, "PressingPoint1").withCamera(By.NAME, "Player2").build());
-            altUnityDriver.moveMouse(new AltMoveMouseParams.Builder(pressingPoint1.getScreenPosition()).build());
-            altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.Mouse0).build());
+            AltObject pressingPoint1 = altDriver.findObject(new AltFindObjectsParams.Builder(By.NAME, "PressingPoint1").withCamera(By.NAME, "Player2").build());
+            altDriver.moveMouse(new AltMoveMouseParams.Builder(pressingPoint1.getScreenPosition()).build());
+            altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.Mouse0).build());
 
-            AltUnityObject pressingPoint2 = altUnityDriver.findObject(new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, "PressingPoint2").withCamera(AltUnityDriver.By.NAME, "Player2").build());
-            altUnityDriver.moveMouse(new AltMoveMouseParams.Builder(pressingPoint2.getScreenPosition()).build());
-            altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.Mouse0).build());
+            AltObject pressingPoint2 = altDriver.findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "PressingPoint2").withCamera(AltDriver.By.NAME, "Player2").build());
+            altDriver.moveMouse(new AltMoveMouseParams.Builder(pressingPoint2.getScreenPosition()).build());
+            altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.Mouse0).build());
 
-            stars = altUnityDriver.findObjectsWhichContain(new AltFindObjectsParams.Builder(By.NAME, "Star").build());
+            stars = altDriver.findObjectsWhichContain(new AltFindObjectsParams.Builder(By.NAME, "Star").build());
             assertEquals(3, stars.length);
         }
 
@@ -945,10 +945,10 @@ Simulate mouse movement in your game.
             pressing_point_1 = self.altdriver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
 
             self.altdriver.move_mouse(pressing_point_1.get_screen_position(), duration=1)
-            self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1, 1)
+            self.altdriver.press_key(AltKeyCode.Mouse0, 1, 1)
             pressing_point_2 = self.altdriver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
             self.altdriver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
-            self.altdriver.press_key(AltUnityKeyCode.Mouse0, power=1, duration=1)
+            self.altdriver.press_key(AltKeyCode.Mouse0, power=1, duration=1)
 
             stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
             assert len(stars) == 3
@@ -963,7 +963,7 @@ Simulates key press action in your game.
 
 | Name     | Type            | Required | Default | Description                                                                              |
 | -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
-| keycode  | AltUnityKeyCode | Yes      |         | The key code of the key simulated to be pressed.                                         |
+| keycode  | AltKeyCode | Yes      |         | The key code of the key simulated to be pressed.                                         |
 | power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed. |
 | duration | float           | No       | 0.1     | The time measured in seconds from the key press to the key release.                      |
 | wait     | boolean         | No       | true    | If set wait for command to finish.                                                       |
@@ -981,20 +981,20 @@ Simulates key press action in your game.
         [Test]
         public void TestCreatingStars()
         {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
+            altDriver.LoadScene("Scene 5 Keyboard Input");
 
-            var stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
-            var pressingpoint1 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
+            var stars = altDriver.FindObjectsWhichContain(By.NAME, "Star", cameraValue: "Player2");
+            var pressingpoint1 = altDriver.FindObjectWhichContains(By.NAME, "PressingPoint1", cameraValue: "Player2");
             Assert.AreEqual(1, stars.Count);
 
-            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint1.x, pressingpoint1.y), 1);
-            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
+            altDriver.MoveMouse(new AltVector2(pressingpoint1.x, pressingpoint1.y), 1);
+            altDriver.PressKey(AltKeyCode.Mouse0, 0.1f);
 
-            var pressingpoint2 = altUnityDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
-            altUnityDriver.MoveMouse(new AltUnityVector2(pressingpoint2.x, pressingpoint2.y), 1);
-            altUnityDriver.PressKey(AltUnityKeyCode.Mouse0, 0.1f);
+            var pressingpoint2 = altDriver.FindObjectWhichContains(By.NAME, "PressingPoint2", cameraValue: "Player2");
+            altDriver.MoveMouse(new AltVector2(pressingpoint2.x, pressingpoint2.y), 1);
+            altDriver.PressKey(AltKeyCode.Mouse0, 0.1f);
 
-            stars = altUnityDriver.FindObjectsWhichContain(By.NAME, "Star");
+            stars = altDriver.FindObjectsWhichContain(By.NAME, "Star");
             Assert.AreEqual(3, stars.Count);
         }
 
@@ -1002,18 +1002,18 @@ Simulates key press action in your game.
 
         @Test
         public void TestCreatingStars2() throws InterruptedException {
-            AltUnityObject[] stars = altUnityDriver.findObjectsWhichContain(new AltFindObjectsParams.Builder(By.NAME, "Star").build());
+            AltObject[] stars = altDriver.findObjectsWhichContain(new AltFindObjectsParams.Builder(By.NAME, "Star").build());
             assertEquals(1, stars.length);
 
-            AltUnityObject pressingPoint1 = altUnityDriver.findObject(new AltFindObjectsParams.Builder(By.NAME, "PressingPoint1").withCamera(By.NAME, "Player2").build());
-            altUnityDriver.moveMouse(new AltMoveMouseParams.Builder(pressingPoint1.getScreenPosition()).build());
-            altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.Mouse0).build());
+            AltObject pressingPoint1 = altDriver.findObject(new AltFindObjectsParams.Builder(By.NAME, "PressingPoint1").withCamera(By.NAME, "Player2").build());
+            altDriver.moveMouse(new AltMoveMouseParams.Builder(pressingPoint1.getScreenPosition()).build());
+            altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.Mouse0).build());
 
-            AltUnityObject pressingPoint2 = altUnityDriver.findObject(new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, "PressingPoint2").withCamera(AltUnityDriver.By.NAME, "Player2").build());
-            altUnityDriver.moveMouse(new AltMoveMouseParams.Builder(pressingPoint2.getScreenPosition()).build());
-            altUnityDriver.pressKey(new AltPressKeyParams.Builder(AltUnityKeyCode.Mouse0).build());
+            AltObject pressingPoint2 = altDriver.findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "PressingPoint2").withCamera(AltDriver.By.NAME, "Player2").build());
+            altDriver.moveMouse(new AltMoveMouseParams.Builder(pressingPoint2.getScreenPosition()).build());
+            altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.Mouse0).build());
 
-            stars = altUnityDriver.findObjectsWhichContain(new AltFindObjectsParams.Builder(By.NAME, "Star").build());
+            stars = altDriver.findObjectsWhichContain(new AltFindObjectsParams.Builder(By.NAME, "Star").build());
             assertEquals(3, stars.length);
         }
 
@@ -1028,10 +1028,10 @@ Simulates key press action in your game.
             pressing_point_1 = self.altdriver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
 
             self.altdriver.move_mouse(pressing_point_1.get_screen_position(), duration=1)
-            self.altdriver.press_key(AltUnityKeyCode.Mouse0, 1, 1)
+            self.altdriver.press_key(AltKeyCode.Mouse0, 1, 1)
             pressing_point_2 = self.altdriver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
             self.altdriver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
-            self.altdriver.press_key(AltUnityKeyCode.Mouse0, power=1, duration=1)
+            self.altdriver.press_key(AltKeyCode.Mouse0, power=1, duration=1)
 
             stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
             assert len(stars) == 3
@@ -1046,7 +1046,7 @@ Simulates multiple key press action in your game.
 
 | Name     | Type            | Required | Default | Description                                                                              |
 | -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
-| keycodes  | List\[AltUnityKeyCode\] | Yes      |         | The list of keycodes simulated to be pressed simultaneously.                    |
+| keycodes  | List\[AltKeyCode\] | Yes      |         | The list of keycodes simulated to be pressed simultaneously.                    |
 | power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the buttons were pressed. |
 | duration | float           | No       | 0.1     | The time measured in seconds from the multiple key press to the multiple key release.     |
 | wait     | boolean         | No       | true    | If set, wait for command to finish.                                                       |
@@ -1064,10 +1064,10 @@ Simulates multiple key press action in your game.
         [Test]
         public void TestPressKeys()
         {
-            AltUnityKeyCode[] keys = { AltUnityKeyCode.K, AltUnityKeyCode.L };
-            altUnityDriver.PressKeys(keys);
-            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
-            var finalPropertyValue = altUnityObject.GetComponentProperty<string>("AltUnityExampleScriptCapsule", "stringToSetFromTests", "Assembly-CSharp");
+            AltKeyCode[] keys = { AltKeyCode.K, AltKeyCode.L };
+            altDriver.PressKeys(keys);
+            var altObject = altDriver.FindObject(By.NAME, "Capsule");
+            var finalPropertyValue = altObject.GetComponentProperty<string>("AltExampleScriptCapsule", "stringToSetFromTests", "Assembly-CSharp");
             Assert.AreEqual("multiple keys pressed", finalPropertyValue);
         }
 
@@ -1076,18 +1076,18 @@ Simulates multiple key press action in your game.
         @Test
         public void testPressKeys()
         {
-            AltUnityKeyCode[] keys = {AltUnityKeyCode.K, AltUnityKeyCode.L};
+            AltKeyCode[] keys = {AltKeyCode.K, AltKeyCode.L};
 
-            altUnityDriver.pressKeys(new AltPressKeysParams.Builder(keys).build());
+            altDriver.pressKeys(new AltPressKeysParams.Builder(keys).build());
 
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Capsule").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
+                    AltDriver.By.NAME, "Capsule").build();
+            AltObject altObject = altDriver.findObject(altFindObjectsParams);
 
             AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                "AltUnityExampleScriptCapsule",
+                "AltExampleScriptCapsule",
                 "stringToSetFromTests").withAssembly("Assembly-CSharp").build();
-            String finalPropertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParams, String.class);
+            String finalPropertyValue = altObject.getComponentProperty(altGetComponentPropertyParams, String.class);
 
             assertEquals(finalPropertyValue, "multiple keys pressed");
         }
@@ -1095,12 +1095,12 @@ Simulates multiple key press action in your game.
     .. code-tab:: py
 
         def test_press_keys(self):
-            keys = [AltUnityKeyCode.K, AltUnityKeyCode.L]
+            keys = [AltKeyCode.K, AltKeyCode.L]
             self.altdriver.press_keys(keys)
 
             alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
             property_value = alt_unity_object.get_component_property(
-                "AltUnityExampleScriptCapsule",
+                "AltExampleScriptCapsule",
                 "stringToSetFromTests",
                 assembly="Assembly-CSharp"
             )
@@ -1135,13 +1135,13 @@ Simulate scroll action in your game.
         [Test]
         public void TestScroll()
         {
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input");
-            var player2 = altUnityDriver.FindObject(By.NAME, "Player2");
-            AltUnityVector3 cubeInitialPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
-            altUnityDriver.Scroll(4, 2);
+            altDriver.LoadScene("Scene 5 Keyboard Input");
+            var player2 = altDriver.FindObject(By.NAME, "Player2");
+            AltVector3 cubeInitialPosition = new AltVector3(player2.worldX, player2.worldY, player2.worldY);
+            altDriver.Scroll(4, 2);
 
-            player2 = altUnityDriver.FindObject(By.NAME, "Player2");
-            AltUnityVector3 cubeFinalPosition = new AltUnityVector3(player2.worldX, player2.worldY, player2.worldY);
+            player2 = altDriver.FindObject(By.NAME, "Player2");
+            AltVector3 cubeFinalPosition = new AltVector3(player2.worldX, player2.worldY, player2.worldY);
             Assert.AreNotEqual(cubeInitialPosition, cubeFinalPosition);
         }
 
@@ -1149,13 +1149,13 @@ Simulate scroll action in your game.
 
         @Test
         public void TestScroll() throws InterruptedException {
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                     "Player2").build();
-            AltUnityObject player2 = altUnityDriver.findObject(altFindObjectsParams);
+            AltObject player2 = altDriver.findObject(altFindObjectsParams);
             Vector3 cubeInitialPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
-            altUnityDriver.scroll(new AltScrollParams.Builder().withSpeed(4).withDuration(2).build());
+            altDriver.scroll(new AltScrollParams.Builder().withSpeed(4).withDuration(2).build());
 
-            player2 = altUnityDriver.findObject(altFindObjectsParams);
+            player2 = altDriver.findObject(altFindObjectsParams);
             Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY, player2.worldY);
             assertNotEquals(cubeInitialPosition, cubeFinalPosition);
         }
@@ -1201,28 +1201,28 @@ Simulates a swipe action between two points.
         [Test]
         public void MultipleDragAndDrop()
         {
-            var altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            var altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+            var altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            var altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image2");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box2");
-            altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image2");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box2");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image3");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image3");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
 
 
-            altElement1 = altUnityDriver.FindObject(By.NAME, "Drag Image1");
-            altElement2 = altUnityDriver.FindObject(By.NAME, "Drop Box1");
-            altUnityDriver.Swipe(new AltUnityVector2(altElement1.x, altElement1.y), new AltUnityVector2(altElement2.x, altElement2.y), 1);
-            var imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-            var imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
+            altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
+            altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
+            var imageSource = altDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            var imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
             Assert.AreNotEqual(imageSource, imageSourceDropZone);
 
-            imageSource = altUnityDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-            imageSourceDropZone = altUnityDriver.FindObject(By.NAME, "Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            imageSource = altDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
             Assert.AreNotEqual(imageSource, imageSourceDropZone);
         }
 
@@ -1232,56 +1232,56 @@ Simulates a swipe action between two points.
         public void testMultipleDragAndDrop() throws Exception {
 
             AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drag Image1").build();
+                    AltDriver.By.NAME, "Drag Image1").build();
             AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drop Box1").build();
+                    AltDriver.By.NAME, "Drop Box1").build();
             AltFindObjectsParams altFindObjectsParameters3 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drag Image2").build();
+                    AltDriver.By.NAME, "Drag Image2").build();
             AltFindObjectsParams altFindObjectsParameters4 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drag Image3").build();
+                    AltDriver.By.NAME, "Drag Image3").build();
             AltFindObjectsParams altFindObjectsParameters5 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drop Box2").build();
+                    AltDriver.By.NAME, "Drop Box2").build();
             AltFindObjectsParams altFindObjectsParameters6 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drop Image").build();
+                    AltDriver.By.NAME, "Drop Image").build();
             AltFindObjectsParams altFindObjectsParameters7 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drop Image").build();
+                    AltDriver.By.NAME, "Drop Image").build();
 
-            AltUnityObject altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-            AltUnityObject altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-            altUnityDriver
+            AltObject altElement1 = altDriver.findObject(altFindObjectsParameters1);
+            AltObject altElement2 = altDriver.findObject(altFindObjectsParameters2);
+            altDriver
                     .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
                             .withDuration(2).build());
 
-            altElement1 = altUnityDriver.findObject(altFindObjectsParameters3);
-            altElement2 = altUnityDriver.findObject(altFindObjectsParameters5);
-            altUnityDriver
+            altElement1 = altDriver.findObject(altFindObjectsParameters3);
+            altElement2 = altDriver.findObject(altFindObjectsParameters5);
+            altDriver
                     .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
                             .withDuration(2).build());
 
-            altElement1 = altUnityDriver.findObject(altFindObjectsParameters4);
-            altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-            altUnityDriver
+            altElement1 = altDriver.findObject(altFindObjectsParameters4);
+            altElement2 = altDriver.findObject(altFindObjectsParameters2);
+            altDriver
                     .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
                             .withDuration(3).build());
 
-            altElement1 = altUnityDriver.findObject(altFindObjectsParameters1);
-            altElement2 = altUnityDriver.findObject(altFindObjectsParameters2);
-            altUnityDriver
+            altElement1 = altDriver.findObject(altFindObjectsParameters1);
+            altElement2 = altDriver.findObject(altFindObjectsParameters2);
+            altDriver
                     .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
                             .withDuration(1).build());
-            AltUnitySprite imageSource = altUnityDriver.findObject(altFindObjectsParameters1)
-                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltUnitySprite.class);
+            AltSprite imageSource = altDriver.findObject(altFindObjectsParameters1)
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltSprite.class);
 
-            AltUnitySprite imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters6)
-                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltUnitySprite.class);
+            AltSprite imageSourceDropZone = altDriver.findObject(altFindObjectsParameters6)
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltSprite.class);
 
             assertNotSame(imageSource, imageSourceDropZone);
 
-            imageSource = altUnityDriver.findObject(altFindObjectsParameters3)
-                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltUnitySprite.class);
+            imageSource = altDriver.findObject(altFindObjectsParameters3)
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltSprite.class);
 
-            imageSourceDropZone = altUnityDriver.findObject(altFindObjectsParameters7)
-                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltUnitySprite.class);
+            imageSourceDropZone = altDriver.findObject(altFindObjectsParameters7)
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltSprite.class);
             assertNotSame(imageSource, imageSourceDropZone);
         }
 
@@ -1325,7 +1325,7 @@ Simulates a multipoint swipe action.
 
 | Name      | Type                    | Required | Default | Description                                                                     |
 | --------- | ----------------------- | -------- | ------- | ------------------------------------------------------------------------------- |
-| positions | List\[AltUnityVector2\] | Yes      |         | A list of positions on the screen where the swipe be made.                      |
+| positions | List\[AltVector2\] | Yes      |         | A list of positions on the screen where the swipe be made.                      |
 | duration  | float                   | No       | 0.1     | The time measured in seconds to swipe from first position to the last position. |
 | wait      | boolean                 | No       | true    | If set wait for command to finish.                                              |
 
@@ -1343,20 +1343,20 @@ Simulates a multipoint swipe action.
         [Test]
         public void TestResizePanelWithMultipointSwipe()
         {
-            var altElement = altUnityDriver.FindObject(By.NAME, "Resize Zone");
-            var position = new AltUnityVector2(altElement.x, altElement.y);
+            var altElement = altDriver.FindObject(By.NAME, "Resize Zone");
+            var position = new AltVector2(altElement.x, altElement.y);
             var pos = new[]
             {
                 altElement.getScreenPosition(),
-                new AltUnityVector2(altElement.x - 200, altElement.y - 200),
-                new AltUnityVector2(altElement.x - 300, altElement.y - 100),
-                new AltUnityVector2(altElement.x - 50, altElement.y - 100),
-                new AltUnityVector2(altElement.x - 100, altElement.y - 100)
+                new AltVector2(altElement.x - 200, altElement.y - 200),
+                new AltVector2(altElement.x - 300, altElement.y - 100),
+                new AltVector2(altElement.x - 50, altElement.y - 100),
+                new AltVector2(altElement.x - 100, altElement.y - 100)
             };
-            altUnityDriver.MultipointSwipe(pos, 4);
+            altDriver.MultipointSwipe(pos, 4);
 
-            altElement = altUnityDriver.FindObject(By.NAME, "Resize Zone");
-            var position2 = new AltUnityVector2(altElement.x, altElement.y);
+            altElement = altDriver.FindObject(By.NAME, "Resize Zone");
+            var position2 = new AltVector2(altElement.x, altElement.y);
             Assert.AreNotEqual(position, position2);
         }
 
@@ -1365,16 +1365,16 @@ Simulates a multipoint swipe action.
         @Test
         public void testResizePanelWithMultipointSwipe() throws Exception {
             AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Resize Zone").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParameters1);
+                    AltDriver.By.NAME, "Resize Zone").build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
 
             List<Vector2> positions = Arrays.asList(altElement.getScreenPosition(),
                     new Vector2(altElement.x + 100, altElement.y + 100),
                     new Vector2(altElement.x + 100, altElement.y + 200));
 
-            altUnityDriver.multipointSwipe(new AltMultipointSwipeParams.Builder(positions).withDuration(3).build());
+            altDriver.multipointSwipe(new AltMultipointSwipeParams.Builder(positions).withDuration(3).build());
 
-            AltUnityObject altElementAfterResize = altUnityDriver.findObject(altFindObjectsParameters1);
+            AltObject altElementAfterResize = altDriver.findObject(altFindObjectsParameters1);
             assertNotSame(altElement.x, altElementAfterResize.x);
             assertNotSame(altElement.y, altElementAfterResize.y);
         }
@@ -1427,13 +1427,13 @@ Simulates starting of a touch on the screen. To further interact with the touch 
         [Test]
         public void TestNewTouchCommands()
         {
-            var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
             var initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
-            AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
-            altUnityDriver.MoveTouch(fingerId, newPosition);
-            altUnityDriver.EndTouch(fingerId);
-            draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            int fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            AltVector2 newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
+            altDriver.MoveTouch(fingerId, newPosition);
+            altDriver.EndTouch(fingerId);
+            draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
             Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
 
         }
@@ -1443,14 +1443,14 @@ Simulates starting of a touch on the screen. To further interact with the touch 
         @Test
         public void testNewTouchCommands() throws InterruptedException {
             AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drag Zone").build();
-            AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                    AltDriver.By.NAME, "Drag Zone").build();
+            AltObject draggableArea = altDriver.findObject(altFindObjectsParameters1);
             Vector2 initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
+            int fingerId = altDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
             Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
-            altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
-            altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
-            draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            altDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
+            altDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
+            draggableArea = altDriver.findObject(altFindObjectsParameters1);
             assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
             assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
         }
@@ -1458,13 +1458,13 @@ Simulates starting of a touch on the screen. To further interact with the touch 
     .. code-tab:: py
 
         def test_new_touch_commands(self):
-            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            self.altDriver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             initial_position = draggable_area.get_screen_position()
-            finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
-            self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-            self.altUnityDriver.end_touch(finger_id)
-            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            finger_id = self.altDriver.begin_touch(draggable_area.get_screen_position())
+            self.altDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.altDriver.end_touch(finger_id)
+            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
 ```
@@ -1494,13 +1494,13 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
         [Test]
         public void TestNewTouchCommands()
         {
-            var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
             var initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
-            AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
-            altUnityDriver.MoveTouch(fingerId, newPosition);
-            altUnityDriver.EndTouch(fingerId);
-            draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            int fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            AltVector2 newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
+            altDriver.MoveTouch(fingerId, newPosition);
+            altDriver.EndTouch(fingerId);
+            draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
             Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
 
         }
@@ -1510,14 +1510,14 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
         @Test
         public void testNewTouchCommands() throws InterruptedException {
             AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drag Zone").build();
-            AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                    AltDriver.By.NAME, "Drag Zone").build();
+            AltObject draggableArea = altDriver.findObject(altFindObjectsParameters1);
             Vector2 initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
+            int fingerId = altDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
             Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
-            altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
-            altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
-            draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            altDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
+            altDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
+            draggableArea = altDriver.findObject(altFindObjectsParameters1);
             assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
             assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
         }
@@ -1525,13 +1525,13 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
     .. code-tab:: py
 
         def test_new_touch_commands(self):
-            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            self.altDriver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             initial_position = draggable_area.get_screen_position()
-            finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
-            self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-            self.altUnityDriver.end_touch(finger_id)
-            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            finger_id = self.altDriver.begin_touch(draggable_area.get_screen_position())
+            self.altDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.altDriver.end_touch(finger_id)
+            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
 
@@ -1561,13 +1561,13 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
         [Test]
         public void TestNewTouchCommands()
         {
-            var draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
             var initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altUnityDriver.BeginTouch(draggableArea.getScreenPosition());
-            AltUnityVector2 newPosition = new AltUnityVector2(draggableArea.x + 20, draggableArea.y + 10);
-            altUnityDriver.MoveTouch(fingerId, newPosition);
-            altUnityDriver.EndTouch(fingerId);
-            draggableArea = altUnityDriver.FindObject(By.NAME, "Drag Zone");
+            int fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            AltVector2 newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
+            altDriver.MoveTouch(fingerId, newPosition);
+            altDriver.EndTouch(fingerId);
+            draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
             Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
 
         }
@@ -1577,14 +1577,14 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
         @Test
         public void testNewTouchCommands() throws InterruptedException {
             AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Drag Zone").build();
-            AltUnityObject draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+                    AltDriver.By.NAME, "Drag Zone").build();
+            AltObject draggableArea = altDriver.findObject(altFindObjectsParameters1);
             Vector2 initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altUnityDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
+            int fingerId = altDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
             Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
-            altUnityDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
-            altUnityDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
-            draggableArea = altUnityDriver.findObject(altFindObjectsParameters1);
+            altDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
+            altDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
+            draggableArea = altDriver.findObject(altFindObjectsParameters1);
             assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
             assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
         }
@@ -1592,13 +1592,13 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
     .. code-tab:: py
 
         def test_new_touch_commands(self):
-            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            self.altDriver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             initial_position = draggable_area.get_screen_position()
-            finger_id = self.altUnityDriver.begin_touch(draggable_area.get_screen_position())
-            self.altUnityDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-            self.altUnityDriver.end_touch(finger_id)
-            draggable_area = self.altUnityDriver.find_object(By.NAME, 'Drag Zone')
+            finger_id = self.altDriver.begin_touch(draggable_area.get_screen_position())
+            self.altDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.altDriver.end_touch(finger_id)
+            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
 ```
@@ -1631,10 +1631,10 @@ Click at screen coordinates.
         public void TestClickCoordinates()
         {
             const string name = "UIButton";
-            var altUnityObject = altUnityDriver.FindObject(By.NAME,name);
-            altUnityDriver.Click(altUnityObject.getScreenPosition());
-            Assert.AreEqual(name, altUnityObject.name);
-            altUnityDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
+            var altObject = altDriver.FindObject(By.NAME,name);
+            altDriver.Click(altObject.getScreenPosition());
+            Assert.AreEqual(name, altObject.name);
+            altDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
     .. code-tab:: java
@@ -1643,24 +1643,24 @@ Click at screen coordinates.
         public void TestTapCoordinates() {
             AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                     .build();
-            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+            AltObject capsule = altDriver.findObject(findCapsuleParams);
             AltTapClickCoordinatesParams clickParams = new AltTapClickCoordinatesParams.Builder(
                     capsule.getScreenPosition()).build();
-            altUnityDriver.click(clickParams);
+            altDriver.click(clickParams);
 
             AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
                     "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
             AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                     .build();
-            altUnityDriver.waitForObject(waitParams);
+            altDriver.waitForObject(waitParams);
         }
 
     .. code-tab:: py
 
         def test_tap_coordinates(self):
-            capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
-            self.altUnityDriver.click(capsule_element.get_screen_position())
-            self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+            capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
+            self.altDriver.click(capsule_element.get_screen_position())
+            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -1692,10 +1692,10 @@ Tap at screen coordinates.
         public void TestTapCoordinates()
         {
             const string name = "UIButton";
-            var altUnityObject = altUnityDriver.FindObject(By.NAME,name);
-            altUnityDriver.Tap(altUnityObject.getScreenPosition());
-            Assert.AreEqual(name, altUnityObject.name);
-            altUnityDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
+            var altObject = altDriver.FindObject(By.NAME,name);
+            altDriver.Tap(altObject.getScreenPosition());
+            Assert.AreEqual(name, altObject.name);
+            altDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
     .. code-tab:: java
@@ -1704,24 +1704,24 @@ Tap at screen coordinates.
         public void TestTapCoordinates() {
             AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                     .build();
-            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+            AltObject capsule = altDriver.findObject(findCapsuleParams);
             AltTapClickCoordinatesParams tapParams = new AltTapClickCoordinatesParams.Builder(
                     capsule.getScreenPosition()).build();
-            altUnityDriver.tap(tapParams);
+            altDriver.tap(tapParams);
 
             AltFindObjectsParams findCapsuleInfoParams = new AltFindObjectsParams.Builder(By.PATH,
                     "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
             AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                     .build();
-            altUnityDriver.waitForObject(waitParams);
+            altDriver.waitForObject(waitParams);
         }
 
     .. code-tab:: py
 
         def test_tap_coordinates(self):
-            capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
-            self.altUnityDriver.tap(capsule_element.get_screen_position())
-            self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+            capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
+            self.altDriver.tap(capsule_element.get_screen_position())
+            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -1751,11 +1751,11 @@ Simulates device rotation action in your game.
         [Test]
         public void TestAcceleration()
         {
-            var capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+            var capsule = altDriver.FindObject(By.NAME, "Capsule");
             var initialWorldCoordinates = capsule.getWorldPosition();
-            altUnityDriver.Tilt(new AltUnityVector3(1, 1, 1), 1);
+            altDriver.Tilt(new AltVector3(1, 1, 1), 1);
             Thread.Sleep(100);
-            capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+            capsule = altDriver.FindObject(By.NAME, "Capsule");
             var afterTiltCoordinates = capsule.getWorldPosition();
             Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
         }
@@ -1765,11 +1765,11 @@ Simulates device rotation action in your game.
         @Test
         public void TestAcceleration() throws InterruptedException {
             AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltUnityDriver.By.NAME, "Capsule").build();
-            AltUnityObject capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+                    AltDriver.By.NAME, "Capsule").build();
+            AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
             Vector3 initialWorldCoordinates = capsule.getWorldPosition();
-            altUnityDriver.tilt(new AltTiltParams.Builder(new Vector3(1, 1, 1)).withDuration(1).build());
-            capsule = altUnityDriver.findObject(altFindObjectsParameters1);
+            altDriver.tilt(new AltTiltParams.Builder(new Vector3(1, 1, 1)).withDuration(1).build());
+            capsule = altDriver.findObject(altFindObjectsParameters1);
             Vector3 afterTiltCoordinates = capsule.getWorldPosition();
             assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
         }
@@ -1778,7 +1778,7 @@ Simulates device rotation action in your game.
     .. code-tab:: py
 
         def test_acceleration(self):
-            self.altdriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
             capsule = self.altdriver.find_object(By.NAME, "Capsule")
             initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             self.altdriver.tilt([1, 1, 1], 1)
@@ -1816,7 +1816,7 @@ Creates a screenshot of the current screen in png format.
         public void TestGetScreenshot()
         {
             var path="testC.png";
-            altUnityDriver.GetPNGScreenshot(path);
+            altDriver.GetPNGScreenshot(path);
             FileAssert.Exists(path);
         }
 
@@ -1827,7 +1827,7 @@ Creates a screenshot of the current screen in png format.
         public void testScreenshot()
         {
             String path="testJava2.png";
-            altUnityDriver.getPNGScreenshot(path);
+            altDriver.getPNGScreenshot(path);
             assertTrue(new File(path).isFile());
         }
 
@@ -1836,7 +1836,7 @@ Creates a screenshot of the current screen in png format.
 
         def test_screenshot(self):
             png_path = "testPython.png"
-            self.altUnityDriver.get_png_screenshot(png_path)
+            self.altDriver.get_png_screenshot(png_path)
 
             assert path.exists(png_path)
 
@@ -2117,14 +2117,14 @@ Removes key and its corresponding value from PlayerPrefs.
         [Test]
         public void TestDeleteKey()
         {
-            altUnityDriver.DeletePlayerPref();
-            altUnityDriver.SetKeyPlayerPref("test", 1);
-            var val = altUnityDriver.GetIntKeyPlayerPref("test");
+            altDriver.DeletePlayerPref();
+            altDriver.SetKeyPlayerPref("test", 1);
+            var val = altDriver.GetIntKeyPlayerPref("test");
             Assert.AreEqual(1, val);
-            altUnityDriver.DeleteKeyPlayerPref("test");
+            altDriver.DeleteKeyPlayerPref("test");
             try
             {
-                altUnityDriver.GetIntKeyPlayerPref("test");
+                altDriver.GetIntKeyPlayerPref("test");
                 Assert.Fail();
             }
             catch (NotFoundException exception)
@@ -2139,14 +2139,14 @@ Removes key and its corresponding value from PlayerPrefs.
         @Test
         public void testDeleteKey() throws Exception
         {
-            altUnityDriver.deletePlayerPref();
-            altUnityDriver.setKeyPlayerPref("test", 1);
-            int val = altUnityDriver.getIntKeyPlayerPref("test");
+            altDriver.deletePlayerPref();
+            altDriver.setKeyPlayerPref("test", 1);
+            int val = altDriver.getIntKeyPlayerPref("test");
             assertEquals(1, val);
-            altUnityDriver.deleteKeyPlayerPref("test");
+            altDriver.deleteKeyPlayerPref("test");
             try
             {
-                altUnityDriver.getIntKeyPlayerPref("test");
+                altDriver.getIntKeyPlayerPref("test");
                 fail();
             }
             catch (NotFoundException e)
@@ -2185,9 +2185,9 @@ None
         [Test]
         public void TestSetKeyInt()
         {
-            altUnityDriver.DeletePlayerPref();
-            altUnityDriver.SetKeyPlayerPref("test", 1);
-            var val = altUnityDriver.GetIntKeyPlayerPref("test");
+            altDriver.DeletePlayerPref();
+            altDriver.SetKeyPlayerPref("test", 1);
+            var val = altDriver.GetIntKeyPlayerPref("test");
             Assert.AreEqual(1, val);
         }
 
@@ -2196,19 +2196,19 @@ None
         @Test
         public void testSetKeyFloat() throws Exception
         {
-            altUnityDriver.deletePlayerPref();
-            altUnityDriver.setKeyPlayerPref("test", 1f);
-            float val = altUnityDriver.getFloatKeyPlayerPref("test");
+            altDriver.deletePlayerPref();
+            altDriver.setKeyPlayerPref("test", 1f);
+            float val = altDriver.getFloatKeyPlayerPref("test");
             assertEquals(1f, val, 0.01);
         }
 
     .. code-tab:: py
 
         def test_delete_key_player_pref(self):
-            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            self.altUnityDriver.delete_player_prefs()
-            self.altUnityDriver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
-            val = self.altUnityDriver.get_player_pref_key("test", player_pref_key_type)
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
+            self.altDriver.delete_player_prefs()
+            self.altDriver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
+            val = self.altDriver.get_player_pref_key("test", player_pref_key_type)
             self.assertEqual("1", str(val))
 ```
 
@@ -2234,23 +2234,23 @@ None
         [Test]
         public void TestGetCurrentScene()
         {
-            altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
-            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
+            altDriver.LoadScene("Scene 1 AltDriverTestScene");
+            Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetCurrentScene());
         }
     .. code-tab:: java
 
         @Test
         public void testGetCurrentScene() throws Exception
         {
-            altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltUnityDriverTestScene").build());
-            assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
+            assertEquals("Scene 1 AltDriverTestScene", altDriver.getCurrentScene());
         }
 
     .. code-tab:: py
 
         def test_get_current_scene(self):
-            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altUnityDriver.get_current_scene())
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
+            self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
 ```
 
 #### LoadScene
@@ -2278,23 +2278,23 @@ Loads a scene.
         [Test]
         public void TestGetCurrentScene()
         {
-            altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene",true);
-            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetCurrentScene());
+            altDriver.LoadScene("Scene 1 AltDriverTestScene",true);
+            Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetCurrentScene());
         }
     .. code-tab:: java
 
         @Test
         public void testGetCurrentScene()
         {
-            altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltUnityDriverTestScene").build());
-            assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getCurrentScene());
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
+            assertEquals("Scene 1 AltDriverTestScene", altDriver.getCurrentScene());
         }
 
     .. code-tab:: py
 
        def test_get_current_scene(self):
-        self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene",True)
-        self.assertEqual("Scene 1 AltUnityDriverTestScene",self.altUnityDriver.get_current_scene())
+        self.altDriver.load_scene("Scene 1 AltDriverTestScene",True)
+        self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
 ```
 
 #### UnloadScene
@@ -2321,11 +2321,11 @@ Unloads a scene.
         [Test]
         public void TestUnloadScene()
         {
-            altUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
-            Assert.AreEqual(2, altUnityDriver.GetAllLoadedScenes().Count);
-            altUnityDriver.UnloadScene("Scene 2 Draggable Panel");
-            Assert.AreEqual(1, altUnityDriver.GetAllLoadedScenes().Count);
-            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", altUnityDriver.GetAllLoadedScenes()[0]);
+            altDriver.LoadScene("Scene 2 Draggable Panel", false);
+            Assert.AreEqual(2, altDriver.GetAllLoadedScenes().Count);
+            altDriver.UnloadScene("Scene 2 Draggable Panel");
+            Assert.AreEqual(1, altDriver.GetAllLoadedScenes().Count);
+            Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetAllLoadedScenes()[0]);
         }
 
     .. code-tab:: java
@@ -2334,23 +2334,23 @@ Unloads a scene.
         public void TestUnloadScene() {
             AltLoadSceneParams altLoadSceneParams = new AltLoadSceneParams.Builder("Scene 2 Draggable Panel")
                     .loadSingle(false).build();
-            altUnityDriver.loadScene(altLoadSceneParams);
-            assertEquals(2, altUnityDriver.getAllLoadedScenes().length);
-            altUnityDriver.unloadScene(new AltUnloadSceneParams.Builder("Scene 2 Draggable Panel").build());
-            assertEquals(1, altUnityDriver.getAllLoadedScenes().length);
-            assertEquals("Scene 1 AltUnityDriverTestScene", altUnityDriver.getAllLoadedScenes()[0]);
+            altDriver.loadScene(altLoadSceneParams);
+            assertEquals(2, altDriver.getAllLoadedScenes().length);
+            altDriver.unloadScene(new AltUnloadSceneParams.Builder("Scene 2 Draggable Panel").build());
+            assertEquals(1, altDriver.getAllLoadedScenes().length);
+            assertEquals("Scene 1 AltDriverTestScene", altDriver.getAllLoadedScenes()[0]);
         }
 
     .. code-tab:: py
 
         def test_unload_scene(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
-            self.altUnityDriver.load_scene('Scene 2 Draggable Panel', False)
-            self.assertEqual(2, len(self.altUnityDriver.get_all_loaded_scenes()))
-            self.altUnityDriver.unload_scene('Scene 2 Draggable Panel')
-            self.assertEqual(1, len(self.altUnityDriver.get_all_loaded_scenes()))
-            self.assertEqual("Scene 1 AltUnityDriverTestScene",
-                            self.altUnityDriver.get_all_loaded_scenes()[0])
+            self.altDriver.load_scene('Scene 1 AltDriverTestScene', True)
+            self.altDriver.load_scene('Scene 2 Draggable Panel', False)
+            self.assertEqual(2, len(self.altDriver.get_all_loaded_scenes()))
+            self.altDriver.unload_scene('Scene 2 Draggable Panel')
+            self.assertEqual(1, len(self.altDriver.get_all_loaded_scenes()))
+            self.assertEqual("Scene 1 AltDriverTestScene",
+                            self.altDriver.get_all_loaded_scenes()[0])
 ```
 
 #### GetAllLoadedScenes
@@ -2375,14 +2375,14 @@ None
         [Test]
         public void TestGetAllLoadedScenes()
         {
-            altUnityDriver.LoadScene("Scene 1 AltUnityDriverTestScene");
-            System.Collections.Generic.List<string> loadedSceneNames = altUnityDriver.GetAllLoadedScenes();
+            altDriver.LoadScene("Scene 1 AltDriverTestScene");
+            System.Collections.Generic.List<string> loadedSceneNames = altDriver.GetAllLoadedScenes();
             Assert.AreEqual(loadedSceneNames.Count, 1);
-            altUnityDriver.LoadScene("Scene 2 Draggable Panel", false);
-            altUnityDriver.LoadScene("Scene 3 Drag And Drop", false);
-            altUnityDriver.LoadScene("Scene 4 No Cameras", false);
-            altUnityDriver.LoadScene("Scene 5 Keyboard Input", false);
-            loadedSceneNames = altUnityDriver.GetAllLoadedScenes();
+            altDriver.LoadScene("Scene 2 Draggable Panel", false);
+            altDriver.LoadScene("Scene 3 Drag And Drop", false);
+            altDriver.LoadScene("Scene 4 No Cameras", false);
+            altDriver.LoadScene("Scene 5 Keyboard Input", false);
+            loadedSceneNames = altDriver.GetAllLoadedScenes();
             Assert.AreEqual(loadedSceneNames.Count, 5);
         }
 
@@ -2391,29 +2391,29 @@ None
         @Test
         public void TestGetAllLoadedScenes()
         {
-            altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltUnityDriverTestScene").build());
-            List<String> loadedSceneNames = altUnityDriver.getAllLoadedScenes();
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
+            List<String> loadedSceneNames = altDriver.getAllLoadedScenes();
             assertEquals(loadedSceneNames.size(), 1);
 
-            altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").loadSingle(false).build());
-            altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").loadSingle(false).build());
-            altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 4 No Cameras").loadSingle(false).build());
-            altUnityDriver.loadScene(new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").loadSingle(false).build());
-            loadedSceneNames = altUnityDriver.getAllLoadedScenes();
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").loadSingle(false).build());
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").loadSingle(false).build());
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 4 No Cameras").loadSingle(false).build());
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").loadSingle(false).build());
+            loadedSceneNames = altDriver.getAllLoadedScenes();
             assertEquals(loadedSceneNames.size(), 5);
         }
 
     .. code-tab:: py
 
         def test_get_all_loaded_scenes(self):
-            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
-            scenes_loaded = self.altUnityDriver.get_all_loaded_scenes()
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
+            scenes_loaded = self.altDriver.get_all_loaded_scenes()
             self.assertEqual(len(scenes_loaded),1)
-            self.altUnityDriver.load_scene("Scene 2 Draggable Panel", False)
-            self.altUnityDriver.load_scene("Scene 3 Drag And Drop",False)
-            self.altUnityDriver.load_scene("Scene 4 No Cameras",False)
-            self.altUnityDriver.load_scene("Scene 5 Keyboard Input",False)
-            scenes_loaded = self.altUnityDriver.get_all_loaded_scenes()
+            self.altDriver.load_scene("Scene 2 Draggable Panel", False)
+            self.altDriver.load_scene("Scene 3 Drag And Drop",False)
+            self.altDriver.load_scene("Scene 4 No Cameras",False)
+            self.altDriver.load_scene("Scene 5 Keyboard Input",False)
+            scenes_loaded = self.altDriver.get_all_loaded_scenes()
             self.assertEqual(len(scenes_loaded),5)
 
 ```
@@ -2444,42 +2444,42 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
         [Test]
         public void TestWaitForCurrentSceneToBe()
         {
-            const string name = "Scene 1 AltUnityDriverTestScene";
+            const string name = "Scene 1 AltDriverTestScene";
             var timeStart = DateTime.Now;
-            var currentScene = altUnityDriver.WaitForCurrentSceneToBe(name);
+            var currentScene = altDriver.WaitForCurrentSceneToBe(name);
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
             Assert.NotNull(currentScene);
-            Assert.AreEqual("Scene 1 AltUnityDriverTestScene", currentScene);
+            Assert.AreEqual("Scene 1 AltDriverTestScene", currentScene);
         }
 
     .. code-tab:: java
 
         @Test
         public void testWaitForCurrentSceneToBe() throws Exception {
-            String name = "Scene 1 AltUnityDriverTestScene";
+            String name = "Scene 1 AltDriverTestScene";
             long timeStart = System.currentTimeMillis();
             AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
-            String currentScene = altUnityDriver.waitForCurrentSceneToBe(params);
+            String currentScene = altDriver.waitForCurrentSceneToBe(params);
             long timeEnd = System.currentTimeMillis();
             long time = timeEnd - timeStart;
             assertTrue(time / 1000 < 20);
             assertNotNull(currentScene);
-            assertEquals("Scene 1 AltUnityDriverTestScene", currentScene);
+            assertEquals("Scene 1 AltDriverTestScene", currentScene);
         }
 
     .. code-tab:: py
 
         def test_wait_for_current_scene_to_be(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            self.altUnityDriver.wait_for_current_scene_to_be(
-                'Scene 1 AltUnityDriverTestScene', 1)
-            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
-            self.altUnityDriver.wait_for_current_scene_to_be(
+            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
+            self.altDriver.wait_for_current_scene_to_be(
+                'Scene 1 AltDriverTestScene', 1)
+            self.altDriver.load_scene('Scene 2 Draggable Panel')
+            self.altDriver.wait_for_current_scene_to_be(
                 'Scene 2 Draggable Panel', 1)
             self.assertEqual('Scene 2 Draggable Panel',
-                         self.altUnityDriver.get_current_scene())
+                         self.altDriver.get_current_scene())
 
 ```
 
@@ -2505,9 +2505,9 @@ None
         [Test]
         public void TestTimeScale()
         {
-            altUnityDriver.SetTimeScale(0.1f);
+            altDriver.SetTimeScale(0.1f);
             Thread.Sleep(1000);
-            var timeScaleFromGame = altUnityDriver.GetTimeScale();
+            var timeScaleFromGame = altDriver.GetTimeScale();
             Assert.AreEqual(0.1f, timeScaleFromGame);
         }
 
@@ -2515,17 +2515,17 @@ None
 
         @Test
         public void TestTimeScale() {
-            altUnityDriver.setTimeScale(new AltSetTimeScaleParams.Builder(0.1f).build());
-            float timeScale = altUnityDriver.getTimeScale();
+            altDriver.setTimeScale(new AltSetTimeScaleParams.Builder(0.1f).build());
+            float timeScale = altDriver.getTimeScale();
             assertEquals(0.1f, timeScale, 0);
         }
 
     .. code-tab:: py
 
         def test_time_scale(self):
-            self.altUnityDriver.set_time_scale(0.1)
+            self.altDriver.set_time_scale(0.1)
             time.sleep(1)
-            time_scale = self.altUnityDriver.get_time_scale()
+            time_scale = self.altDriver.get_time_scale()
             self.assertEqual(0.1, time_scale)
 
 ```
@@ -2554,9 +2554,9 @@ Sets the value of the time scale.
         [Test]
         public void TestTimeScale()
         {
-            altUnityDriver.SetTimeScale(0.1f);
+            altDriver.SetTimeScale(0.1f);
             Thread.Sleep(1000);
-            var timeScaleFromGame = altUnityDriver.GetTimeScale();
+            var timeScaleFromGame = altDriver.GetTimeScale();
             Assert.AreEqual(0.1f, timeScaleFromGame);
         }
 
@@ -2564,17 +2564,17 @@ Sets the value of the time scale.
 
         @Test
         public void TestTimeScale() {
-            altUnityDriver.setTimeScale(new AltSetTimeScaleParams.Builder(0.1f).build());
-            float timeScale = altUnityDriver.getTimeScale();
+            altDriver.setTimeScale(new AltSetTimeScaleParams.Builder(0.1f).build());
+            float timeScale = altDriver.getTimeScale();
             assertEquals(0.1f, timeScale, 0);
         }
 
     .. code-tab:: py
 
         def test_time_scale(self):
-            self.altUnityDriver.set_time_scale(0.1)
+            self.altDriver.set_time_scale(0.1)
             time.sleep(1)
-            time_scale = self.altUnityDriver.get_time_scale()
+            time_scale = self.altDriver.get_time_scale()
             self.assertEqual(0.1, time_scale)
 
 ```
@@ -2608,8 +2608,8 @@ Invokes static methods from your game.
         public void TestCallStaticMethod()
         {
 
-            altUnityDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", new[] { "Test", "1" });
-            int a = altUnityDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", new[] { "Test", "2" });
+            altDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", new[] { "Test", "1" });
+            int a = altDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", new[] { "Test", "2" });
             Assert.AreEqual(1, a);
 
         }
@@ -2621,9 +2621,9 @@ Invokes static methods from your game.
         {
 
             AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs","SetInt",new Object[] {"Test", 1}).withAssembly("").withTypeOfParameters("").build();
-            altUnityDriver.callStaticMethod(altCallStaticMethodParams, Void.class);
+            altDriver.callStaticMethod(altCallStaticMethodParams, Void.class);
             altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs","GetInt",new Object[] {"Test", 2}).withAssembly("").withTypeOfParameters("").build();
-            int a = altUnityDriver.callStaticMethod(altCallStaticMethodParams, Integer.class);
+            int a = altDriver.callStaticMethod(altCallStaticMethodParams, Integer.class);
             assertEquals(1,a);
         }
 
@@ -2666,8 +2666,8 @@ Gets the value of the static field or property.
         [Test]
         public void TestGetStaticProperty()
         {
-            altUnityDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] {"1920", "1080", "true"}, new string[] {"System.Int32", "System.Int32", "System.Boolean"}, "UnityEngine.CoreModule");
-            var width = altUnityDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] {"1920", "1080", "true"}, new string[] {"System.Int32", "System.Int32", "System.Boolean"}, "UnityEngine.CoreModule");
+            var width = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
             Assert.AreEqual(1920, width);
         }
 
@@ -2676,16 +2676,16 @@ Gets the value of the static field or property.
         @Test
         public void testGetStaticProperty() {
             AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.Screen", "SetResolution", new Object[] {"1920", "1080", "True"}).withTypeOfParameters(new String[] {"System.Int32", "System.Int32", "System.Boolean"}).withAssembly("UnityEngine.CoreModule").build();
-            altUnityDriver.callStaticMethod(altCallStaticMethodParams, Void.class);
+            altDriver.callStaticMethod(altCallStaticMethodParams, Void.class);
             AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder("UnityEngine.Screen", "currentResolution.width").withAssembly("UnityEngine.CoreModule").build();
-            int width = altUnityDriver.GetStaticProperty(altGetComponentPropertyParams, Integer.class);
+            int width = altDriver.GetStaticProperty(altGetComponentPropertyParams, Integer.class);
             assertEquals(width, 1920);
         }
 
     .. code-tab:: py
 
         def test_get_static_property(self):
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            self.altdriver.load_scene('Scene 1 AltDriverTestScene')
             self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", ["1920", "1080", "True"], ["System.Int32", "System.Int32", "System.Boolean"], "UnityEngine.CoreModule")
             width = self.altdriver.get_static_property(
                 "UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule")
@@ -2693,18 +2693,18 @@ Gets the value of the static field or property.
 
 ```
 
-### AltUnity Commands
+### Other
 
 #### SetServerLogging
 
-Sets the level of logging on AltUnity Tester.
+Sets the level of logging on AltTester Unity SDK.
 
 **_Parameters_**
 
 | Name     | Type             | Required | Description         |
 | -------- | ---------------- | -------- | ------------------- |
-| logger   | AltUnityLogger   | Yes      | The type of logger. |
-| logLevel | AltUnityLogLevel | Yes      | The logging level.  |
+| logger   | AltLogger   | Yes      | The type of logger. |
+| logLevel | AltLogLevel | Yes      | The logging level.  |
 
 **_Returns_**
 
@@ -2717,18 +2717,18 @@ Sets the level of logging on AltUnity Tester.
 
     .. code-tab:: c#
 
-        altUnityDriver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        altUnityDriver.SetServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altDriver.SetServerLogging(AltLogger.File, AltLogLevel.Off);
+        altDriver.SetServerLogging(AltLogger.Unity, AltLogLevel.Info);
 
     .. code-tab:: java
 
-        altUnityDriver.setServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        altUnityDriver.setServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altDriver.setServerLogging(AltLogger.File, AltLogLevel.Off);
+        altDriver.setServerLogging(AltLogger.Unity, AltLogLevel.Info);
 
     .. code-tab:: py
 
-        altUnityDriver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        altUnityDriver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altDriver.set_server_logging(AltLogger.File, AltLogLevel.Off);
+        altDriver.set_server_logging(AltLogger.Unity, AltLogLevel.Info);
 
 ```
 
@@ -2770,9 +2770,9 @@ If activated this notification will be called every time the application has pau
 -   Nothing
 -->
 
-## AltUnityObject
+## AltObject
 
-The **AltUnityObject** class represents the objects present in the game and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.
+The **AltObject** class represents the objects present in the game and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.
 
 **_Fields_**
 
@@ -2823,10 +2823,10 @@ Invokes a method from an existing component of the object.
         [Test]
         public void TestCallMethodWithAssembly(){
 
-            AltUnityObject capsule = altUnityDriver.FindObject(By.NAME, "Capsule");
+            AltObject capsule = altDriver.FindObject(By.NAME, "Capsule");
             var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
             capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
-            AltUnityObject capsuleAfterRotation = altUnityDriver.FindObject(By.NAME, "Capsule");
+            AltObject capsuleAfterRotation = altDriver.FindObject(By.NAME, "Capsule");
             var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation";
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
@@ -2839,14 +2839,14 @@ Invokes a method from an existing component of the object.
 
             String capsuleName = "Capsule";
             String capsuleInfo = "CapsuleInfo";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject capsule=altUnityDriver.findObject(altFindObjectsParams);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
+            AltObject capsule=altDriver.findObject(altFindObjectsParams);
 
             AltCallComponentMethodParams altCallComponentMethodParameters=new AltCallComponentMethodParams.Builder("Capsule","Test","2").withTypeOfParameters("System.Int32").withAssembly("").build();
             capsule.callComponentMethod(altCallComponentMethodParams, Void.class);
 
-            altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject capsuleInfo=altUnityDriver.findObject(altFindObjectsParams);
+            altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
+            AltObject capsuleInfo=altDriver.findObject(altFindObjectsParams);
 
             assertEquals("6",capsuleInfo.getText());
         }
@@ -2855,9 +2855,9 @@ Invokes a method from an existing component of the object.
 
         def test_call_component_method(self):
 
-            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            self.altdriver.load_scene('Scene 1 AltDriverTestScene')
             result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
-            "AltUnityExampleScriptCapsule", "Jump", ["setFromMethod"])
+            "AltExampleScriptCapsule", "Jump", ["setFromMethod"])
             self.assertEqual(result, None)
             self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
             self.assertEqual('setFromMethod', self.altdriver.find_object(
@@ -2892,11 +2892,11 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "Altom.AltUnityTester.AltUnityRunner";
-            const string propertyName = "InstrumentationSettings.AltUnityTesterPort";
-            var altUnityObject = altUnityDriver.FindObject(By.NAME,"AltUnityRunnerPrefab");
-            Assert.NotNull(altUnityObject);
-            var propertyValue = altUnityObject.GetComponentProperty<int>(componentName, propertyName);
+            const string componentName = "Altom.AltTester.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltTesterPort";
+            var altObject = altDriver.FindObject(By.NAME,"AltRunnerPrefab");
+            Assert.NotNull(altObject);
+            var propertyValue = altObject.GetComponentProperty<int>(componentName, propertyName);
             Assert.AreEqual(propertyValue, 13000);
         }
 
@@ -2905,21 +2905,21 @@ Returns the value of the given component property.
         @Test
         public void testGetComponentProperty() throws Exception
         {
-            String componentName = "Altom.AltUnityTester.AltUnityRunner";
-            String propertyName = "InstrumentationSettings.AltUnityTesterPort";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, "AltUnityRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
-            assertNotNull(altUnityObject);
+            String componentName = "Altom.AltTester.AltRunner";
+            String propertyName = "InstrumentationSettings.AltTesterPort";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "AltRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
+            AltObject altObject = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altObject);
             AltGetComponentPropertyParams altGetComponentPropertyParameters=new AltGetComponentPropertyParams.Builder(componentName,propertyName).withAssembly("").build();
-            int propertyValue = altUnityObject.getComponentProperty(altGetComponentPropertyParams,Integer.class);
+            int propertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,Integer.class);
             assertEquals(propertyValue, 13000);
         }
 
     .. code-tab:: py
 
         def test_get_component_property(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altUnityDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
+            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
+            result = self.altDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
             self.assertEqual(result,[1,2,3])
 
 ```
@@ -2953,11 +2953,11 @@ Sets value of the given component property.
         {
             const string componentName = "Capsule";
             const string propertyName = "stringToSetFromTests";
-            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Capsule");
-            Assert.NotNull(altUnityObject);
-            altUnityObject.SetComponentProperty(componentName, propertyName, "2");
+            var altObject = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altObject);
+            altObject.SetComponentProperty(componentName, propertyName, "2");
 
-            var propertyValue = altUnityObject.GetComponentProperty<string>(componentName, propertyName);
+            var propertyValue = altObject.GetComponentProperty<string>(componentName, propertyName);
             Assert.AreEqual("2", propertyValue);
         }
 
@@ -2968,9 +2968,9 @@ Sets value of the given component property.
         {
             String componentName = "Capsule";
             String propertyName = "stringToSetFromTests";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
-            assertNotNull(altUnityObject);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
+            AltObject altObject = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altObject);
             altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName,"2").build());
             String propertyValue = altElement.getComponentProperty(new AltGetComponentPropertyParams.Builder(componentName,propertyName).build(), String.class);
             assertEquals("2", propertyValue);
@@ -2979,13 +2979,13 @@ Sets value of the given component property.
     .. code-tab:: py
 
         def test_set_component_property(self):
-            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
             componentName = "Capsule"
             propertyName = "stringToSetFromTests"
-            altUnityObject = self.altUnityDriver.find_object(By.NAME, componentName)
-            self.assertNotEqual(altUnityObject, None)
-            altUnityObject.set_component_property(componentName, propertyName, "2")
-            propertyValue = altUnityObject.get_component_property(componentName, propertyName)
+            altObject = self.altDriver.find_object(By.NAME, componentName)
+            self.assertNotEqual(altObject, None)
+            altObject.set_component_property(componentName, propertyName, "2")
+            propertyValue = altObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
 ```
@@ -3013,14 +3013,14 @@ None
         public void TestWaitForObjectWithText()
         {
             const string name = "CapsuleInfo";
-            string text = altUnityDriver.FindObject(By.NAME,name).GetText();
+            string text = altDriver.FindObject(By.NAME,name).GetText();
             var timeStart = DateTime.Now;
-            var altUnityObject = altUnityDriver.WaitForObject(By.PATH, "//" + name + "[@text=" + text + "]");
+            var altObject = altDriver.WaitForObject(By.PATH, "//" + name + "[@text=" + text + "]");
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(altUnityObject);
-            Assert.AreEqual(altUnityObject.GetText(), text);
+            Assert.NotNull(altObject);
+            Assert.AreEqual(altObject.GetText(), text);
 
         }
 
@@ -3030,26 +3030,26 @@ None
         public void testWaitForObjectWithText() throws Exception
         {
             String name = "CapsuleInfo";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            String text = altUnityDriver.findObject(altFindObjectsParams).getText();
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            String text = altDriver.findObject(altFindObjectsParams).getText();
             long timeStart = System.currentTimeMillis();
             AltWaitForObjectWithTextParams altWaitForElementWithTextParams = new AltWaitForObjectWithTextParams.Builder(altFindObjectsParams,text).withInterval(0).withTimeout(0).build();
-            AltUnityObject altUnityObject = altUnityDriver.waitForObjectWithText(altWaitForElementWithTextParams);
+            AltObject altObject = altDriver.waitForObjectWithText(altWaitForElementWithTextParams);
             long timeEnd = System.currentTimeMillis();
             long time = timeEnd - timeStart;
             assertTrue(time / 1000 < 20);
-            assertNotNull(altUnityObject);
-            assertEquals(altUnityObject.getText(), text);
+            assertNotNull(altObject);
+            assertEquals(altObject.getText(), text);
         }
 
     .. code-tab:: py
 
         def test_call_component_method(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            result = self.altUnityDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
+            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
+            result = self.altDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
             self.assertEqual(result,"null")
-            self.altUnityDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altUnityDriver.find_element('CapsuleInfo').get_text())
+            self.altDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
+            self.assertEqual('setFromMethod', self.altDriver.find_element('CapsuleInfo').get_text())
 
 ```
 
@@ -3066,7 +3066,7 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -3080,7 +3080,7 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
         {
             const string name = "InputField";
             const string text = "InputFieldTest";
-            var input = altUnityDriver.FindObject(By.NAME, name).SetText(text, true);
+            var input = altDriver.FindObject(By.NAME, name).SetText(text, true);
             Assert.NotNull(input);
             Assert.AreEqual(input.GetText(), text);
         }
@@ -3092,8 +3092,8 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
         {
             String name = "InputField";
             String text = "InputFieldTest";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altObject = altUnityDriver.findObject(altFindObjectsParams);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltObject altObject = altDriver.findObject(altFindObjectsParams);
             AltSetTextParams setTextParams = new AltSetTextParams.Builder(text).withSubmit(true).build();
             altObject.setText(setTextParams);
             assertNotNull(altObject);
@@ -3103,10 +3103,10 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
     .. code-tab:: py
 
         def test_set_text_for_element(self):
-            self.altUnityDriver.load_scene("Scene 1 AltUnityDriverTestScene")
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
             name = "InputField"
             text = "InputFieldTest"
-            input = self.altUnityDriver.find_object(By.NAME, name).set_text(text, submit=True)
+            input = self.altDriver.find_object(By.NAME, name).set_text(text, submit=True)
             self.assertNotEqual(input, None)
             self.assertEqual(input.get_text(), text)
 
@@ -3138,10 +3138,10 @@ Tap current object.
         [Test]
         public void TestTap()
         {
-            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+            var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
+            var counterButtonText = altDriver.FindObject(By.NAME, "ButtonCounter/Text");
             counterButton.Tap();
-            altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
+            altDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
         }
 
     .. code-tab:: java
@@ -3150,7 +3150,7 @@ Tap current object.
         public void TestTapElement() {
             AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                     .build();
-            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+            AltObject capsule = altDriver.findObject(findCapsuleParams);
 
             AltTapClickElementParams tapParams = new AltTapClickElementParams.Builder().build();
             capsule.tap(tapParams);
@@ -3159,16 +3159,16 @@ Tap current object.
                     "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
             AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                     .build();
-            altUnityDriver.waitForObject(waitParams);
+            altDriver.waitForObject(waitParams);
         }
 
     .. code-tab:: py
 
         def test_tap_element(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
+            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
+            capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             capsule_element.tap()
-            self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -3198,10 +3198,10 @@ Click current object.
         [Test]
         public void TestClickElement()
         {
-            var counterButton = altUnityDriver.FindObject(By.NAME, "ButtonCounter");
-            var counterButtonText = altUnityDriver.FindObject(By.NAME, "ButtonCounter/Text");
+            var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
+            var counterButtonText = altDriver.FindObject(By.NAME, "ButtonCounter/Text");
             counterButton.Click();
-            altUnityDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
+            altDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
         }
 
     .. code-tab:: java
@@ -3210,7 +3210,7 @@ Click current object.
         public void TestClickElement() {
             AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                     .build();
-            AltUnityObject capsule = altUnityDriver.findObject(findCapsuleParams);
+            AltObject capsule = altDriver.findObject(findCapsuleParams);
 
             AltTapClickElementParams clickParams = new AltTapClickElementParams.Builder().build();
             capsule.Click(clickParams);
@@ -3219,16 +3219,16 @@ Click current object.
                     "//CapsuleInfo[@text=Capsule was clicked to jump!]").build();
             AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findCapsuleInfoParams)
                     .build();
-            altUnityDriver.waitForObject(waitParams);
+            altDriver.waitForObject(waitParams);
         }
 
     .. code-tab:: py
 
         def test_clickelement(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene')
-            capsule_element = self.altUnityDriver.find_object(By.NAME, 'Capsule')
+            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
+            capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             capsule_element.click()
-            self.altUnityDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
+            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -3242,7 +3242,7 @@ None
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -3254,7 +3254,7 @@ None
         [Test]
         public void TestPointerDownCommand()
         {
-            var panel = altUnityDriver.FindObject(By.NAME, "Panel");
+            var panel = altDriver.FindObject(By.NAME, "Panel");
             var color1 = panel.GetComponentProperty("PanelScript","normalColor");
             panel.PointerDownFromObject();
             Thread.Sleep(1000);
@@ -3267,7 +3267,7 @@ None
         @Test
         public void testPointerDownCommand() throws InterruptedException
         {
-            AltUnityObject panel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Panel");
+            AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
             String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript","normalColor").build(), String.class);
             panel.pointerDownFromObject();
             Thread.sleep(1000);
@@ -3278,9 +3278,9 @@ None
     .. code-tab:: py
 
         def test_pointer_down_command():
-            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+            self.altDriver.load_scene('Scene 2 Draggable Panel')
             time.sleep(1)
-            p_panel = self.altUnityDriver.find_object(By.NAME, 'Panel')
+            p_panel = self.altDriver.find_object(By.NAME, 'Panel')
             color1 = p_panel.get_component_property('PanelScript', 'normalColor')
             p_panel.pointer_down_from_object()
             time.sleep(1)
@@ -3299,7 +3299,7 @@ None
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -3311,7 +3311,7 @@ None
         [Test]
         public void TestPointerUpCommand()
         {
-            var panel = altUnityDriver.FindObject(By.NAME, "Panel");
+            var panel = altDriver.FindObject(By.NAME, "Panel");
             var color1 = panel.GetComponentProperty("PanelScript","normalColor");
             panel.PointerDownFromObject();
             Thread.Sleep(1000);
@@ -3325,7 +3325,7 @@ None
         @Test
         public void testPointerUpCommand() throws InterruptedException
         {
-            AltUnityObject panel = altUnityDriver.findObject(AltUnityDriver.By.NAME, "Panel");
+            AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
             String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript","normalColor").build(), String.class);
 
             panel.pointerDownFromObject();
@@ -3339,9 +3339,9 @@ None
     .. code-tab:: py
 
         def test_pointer_up_command():
-            self.altUnityDriver.load_scene('Scene 2 Draggable Panel')
+            self.altDriver.load_scene('Scene 2 Draggable Panel')
             time.sleep(1)
-            p_panel = self.altUnityDriver.find_object(By.NAME, 'Panel')
+            p_panel = self.altDriver.find_object(By.NAME, 'Panel')
             color1 = p_panel.get_component_property('PanelScript', 'normalColor')
             p_panel.pointer_down_from_object()
             time.sleep(1)
@@ -3361,7 +3361,7 @@ None
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -3373,13 +3373,13 @@ None
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altUnityObject = altUnityDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
-            altUnityDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
-            var color2 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
+            var altObject = altDriver.FindObject(By.NAME,"Drop Image");
+            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor");
+            altDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
+            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor");
             Assert.AreNotEqual(color1,color2);
-            altUnityDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
-            var color3 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
+            altDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
+            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);
         }
@@ -3389,15 +3389,15 @@ None
         @Test
         public void testPointerEnterAndExit()
         {
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
+            AltObject altObject = altDriver.findObject(altFindObjectsParams);
             String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
 
-            altUnityDriver.findObject(altFindObjectsParams).pointerEnter();
+            altDriver.findObject(altFindObjectsParams).pointerEnter();
             String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
             assertNotEquals(color1,color2);
 
-            altUnityDriver.findObject(altFindObjectsParams).pointerExit();
+            altDriver.findObject(altFindObjectsParams).pointerExit();
             String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
             assertNotEquals(color3, color2);
             assertEquals(color1,color3);
@@ -3406,13 +3406,13 @@ None
     .. code-tab:: py
 
         def test_pointer_enter_and_exit(self):
-            self.altUnityDriver.load_scene("Scene 3 Drag And Drop")
-            alt_unity_object = self.altUnityDriver.find_object(By.NAME,"Drop Image")
+            self.altDriver.load_scene("Scene 3 Drag And Drop")
+            alt_unity_object = self.altDriver.find_object(By.NAME,"Drop Image")
             color1 = alt_unity_object.get_component_property("DropMe", "highlightColor")
-            self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_enter()
+            self.altDriver.find_object(By.NAME,"Drop Image").pointer_enter()
             color2 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color1, color2)
-            self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_exit()
+            self.altDriver.find_object(By.NAME,"Drop Image").pointer_exit()
             color3 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
@@ -3429,7 +3429,7 @@ None
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -3441,13 +3441,13 @@ None
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altUnityObject = altUnityDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
-            altUnityDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
-            var color2 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
+            var altObject = altDriver.FindObject(By.NAME,"Drop Image");
+            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor");
+            altDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
+            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor");
             Assert.AreNotEqual(color1,color2);
-            altUnityDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
-            var color3 = altUnityObject.GetComponentProperty("DropMe", "highlightColor");
+            altDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
+            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);
         }
@@ -3457,16 +3457,16 @@ None
         @Test
         public void testPointerEnterAndExit()
         {
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
+            AltObject altObject = altDriver.findObject(altFindObjectsParams);
             String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
 
 
-            altUnityDriver.findObject(altFindObjectsParams).pointerEnter();
+            altDriver.findObject(altFindObjectsParams).pointerEnter();
             String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
             assertNotEquals(color1,color2);
 
-            altUnityDriver.findObject(altFindObjectsParams).pointerExit();
+            altDriver.findObject(altFindObjectsParams).pointerExit();
             String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
             assertNotEquals(color3, color2);
             assertEquals(color1,color3);
@@ -3475,13 +3475,13 @@ None
     .. code-tab:: py
 
         def test_pointer_enter_and_exit(self):
-            self.altUnityDriver.load_scene("Scene 3 Drag And Drop")
-            alt_unity_object = self.altUnityDriver.find_object(By.NAME,"Drop Image")
+            self.altDriver.load_scene("Scene 3 Drag And Drop")
+            alt_unity_object = self.altDriver.find_object(By.NAME,"Drop Image")
             color1 = alt_unity_object.get_component_property("DropMe", "highlightColor")
-            self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_enter()
+            self.altDriver.find_object(By.NAME,"Drop Image").pointer_enter()
             color2 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color1, color2)
-            self.altUnityDriver.find_object(By.NAME,"Drop Image").pointer_exit()
+            self.altDriver.find_object(By.NAME,"Drop Image").pointer_exit()
             color3 = alt_unity_object.get_component_property("DropMe", "highlightColor")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
@@ -3489,7 +3489,7 @@ None
 
 ### GetParent
 
-Returns the parent of the AltUnity object on which it is called.
+Returns the parent of the object on which it is called.
 
 **_Parameters_**
 
@@ -3497,7 +3497,7 @@ None
 
 **_Returns_**
 
-- AltUnityObject
+- AltObject
 
 **_Examples_**
 
@@ -3509,9 +3509,9 @@ None
         [Test]
         public void TestGetParent()
         {
-            var altUnityObject = altUnityDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
-            var altUnityObjectParent = altUnityObject.getParent();
-            Assert.AreEqual("Panel Drag Area", altUnityObjectParent.name);
+            var altObject = altDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
+            var altObjectParent = altObject.getParent();
+            Assert.AreEqual("Panel Drag Area", altObjectParent.name);
         }
 
     .. code-tab:: java
@@ -3520,16 +3520,16 @@ None
         public void TestGetParent() {
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "CapsuleInfo")
                     .build();
-            AltUnityObject altUnityObject = altUnityDriver.findObject(altFindObjectsParams);
-            AltUnityObject altUnityObjectParent = altUnityObject.getParent();
-            assertEquals("Canvas", altUnityObjectParent.name);
+            AltObject altObject = altDriver.findObject(altFindObjectsParams);
+            AltObject altObjectParent = altObject.getParent();
+            assertEquals("Canvas", altObjectParent.name);
         }
 
     .. code-tab:: py
 
         def test_get_parent(self):
-            self.altUnityDriver.load_scene('Scene 1 AltUnityDriverTestScene', True)
-            element = self.altUnityDriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
+            self.altDriver.load_scene('Scene 1 AltDriverTestScene', True)
+            element = self.altDriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
             elementParent = element.get_parent()
             self.assertEqual('Canvas', elementParent.name)
 
@@ -3579,13 +3579,13 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*")
+            altDriver.FindObjects(By.PATH, "//Canvas/Panel/*")
 
         - Returns all direct children from Panel
 
         .. code-block:: c#
 
-            altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel//*")
+            altDriver.FindObjects(By.PATH, "//Canvas/Panel//*")
 
         - Returns all children from Panel
 
@@ -3595,7 +3595,7 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altUnityDriver.FindObject(By.PATH, "//CapsuleInfo/..")
+            altDriver.FindObject(By.PATH, "//CapsuleInfo/..")
 
         - Returns the parent of the object CapsuleInfo
 
@@ -3609,7 +3609,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@tag=UI]")
+                    altDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@tag=UI]")
 
                 - Returns every object that is tagged as UI and is a direct child of Panel
 
@@ -3619,7 +3619,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@layer=UI]")
+                    altDriver.FindObjects(By.PATH, "//Canvas/Panel/*[@layer=UI]")
 
                 - Returns every object that is in the UI layer and is a direct child of Panel
 
@@ -3629,7 +3629,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altUnityDriver.FindObject(By.PATH, "//*[@id=8756]")
+                    altDriver.FindObject(By.PATH, "//*[@id=8756]")
 
                 - Returns the object which has the id equal to 8756
 
@@ -3639,7 +3639,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altUnityDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]")
+                    altDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]")
 
                 - Returns the first object that has the text "Start" and is a child of Panel
 
@@ -3651,7 +3651,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altUnityDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]")
+                    altDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]")
 
                 - Returns every object that contains the string "Cub" in the name
 
@@ -3661,7 +3661,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]"
+                    altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]"
 
                 - Returns the first direct child of the Panel that is untagged, is in the UI layer and has a component named Button
 
@@ -3671,7 +3671,7 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altUnityDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]"
+            altDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]"
 
         - Returns every button which is in Canvas that is a root object and has a component named ButtonLogic
 
@@ -3683,19 +3683,19 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altUnityDriver.FindObjects(By.PATH, "//Canvas/Panel")
+            altDriver.FindObjects(By.PATH, "//Canvas/Panel")
 
         - Returns all direct children from Canvas that have the name "Panel
 
         .. code-block:: c#
 
-            altUnityDriver.FindObjects(By.PATH, "//Canvas/*/text")
+            altDriver.FindObjects(By.PATH, "//Canvas/*/text")
 
         - Returns all children on the second level from Canvas that are named "text"
 
         .. code-block:: c#
 
-            altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/StartButton[1]")
+            altDriver.FindObject(By.PATH, "//Canvas/Panel/StartButton[1]")
 
         - Returns the second child of the first object that has the name "StartButton" and is a direct child of Panel
 
@@ -3707,13 +3707,13 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altUnityDriver.FindObject(By.PATH, "//Canvas[5]")
+            altDriver.FindObject(By.PATH, "//Canvas[5]")
 
         - Returns the 6th direct child of the root Canvas
 
         .. code-block:: c#
 
-            altUnityDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]")
+            altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]")
 
         - Returns the last direct child of Panel that is tagged as Player
 
@@ -3730,14 +3730,14 @@ There are several characters that you need to escape when you try to find an obj
 
 ### AltId
 
-Is a solution offered by AltUnity Tester in order to find object easier. This is an unique identifier stored in an component and added to every object.
+Is a solution offered by AltTester Unity SDK in order to find object easier. This is an unique identifier stored in an component and added to every object.
 **A limitation of this is that only the object already in the scene before building the game will have an AltId. Object instantiated during run time will not have an AltId**
 
-To add AltId to every object simply just click AddAltIdToEveryObject from AltUnityTester menu.
+To add AltId to every object simply just click _Add AltId to every object_ from AltTester menu.
 
-![Add Alt Id](../_static/img/commands/add-alt-id.png)
+![Add AltId](../_static/img/commands/add-alt-id.png)
 
-## AltUnityPortForwarding
+## AltPortForwarding
 
 API to interact with `adb` and `iproxy` programmatically.
 
@@ -3764,24 +3764,24 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
         [OneTimeSetUp]
         public void SetUp()
         {
-            AltUnityPortForwarding.ForwardAndroid();
-            altUnityDriver = new AltUnityDriver();
+            AltPortForwarding.ForwardAndroid();
+            altDriver = new AltDriver();
         }
 
     .. code-tab:: java
 
         @BeforeClass
         public static void setUp() throws IOException {
-            AltUnityPortForwarding.forwardAndroid();
-            altUnityDriver = new AltUnityDriver();
+            AltPortForwarding.forwardAndroid();
+            altDriver = new AltDriver();
         }
 
     .. code-tab:: py
 
         @classmethod
         def setUpClass(cls):
-            AltUnityPortForwarding.forward_android()
-            cls.altUnityDriver = AltUnityDriver()
+            AltPortForwarding.forward_android()
+            cls.altDriver = AltDriver()
 
 ```
 
@@ -3811,24 +3811,24 @@ Nothing
         [OneTimeTearDown]
         public void TearDown()
         {
-            altUnityDriver.Stop();
-            AltUnityPortForwarding.RemoveForwardAndroid();
+            altDriver.Stop();
+            AltPortForwarding.RemoveForwardAndroid();
         }
 
     .. code-tab:: java
 
         @AfterClass
         public static void tearDown() throws Exception {
-            altUnityDriver.stop();
-            AltUnityPortForwarding.removeForwardAndroid();
+            altDriver.stop();
+            AltPortForwarding.removeForwardAndroid();
         }
 
     .. code-tab:: py
 
         @classmethod
         def tearDownClass(cls):
-            cls.altUnityDriver.stop()
-            AltUnityPortForwarding.remove_forward_android()
+            cls.altDriver.stop()
+            AltPortForwarding.remove_forward_android()
 
 ```
 
@@ -3856,24 +3856,24 @@ Nothing
         [OneTimeTearDown]
         public void TearDown()
         {
-            altUnityDriver.Stop();
-            AltUnityPortForwarding.RemoveAllForwardAndroid();
+            altDriver.Stop();
+            AltPortForwarding.RemoveAllForwardAndroid();
         }
 
     .. code-tab:: java
 
         @AfterClass
         public static void tearDown() throws Exception {
-            altUnityDriver.stop();
-            AltUnityPortForwarding.removeAllForwardAndroid();
+            altDriver.stop();
+            AltPortForwarding.removeAllForwardAndroid();
         }
 
     .. code-tab:: py
 
         @classmethod
         def tearDownClass(cls):
-            cls.altUnityDriver.stop()
-            AltUnityPortForwarding.remove_all_forward_android()
+            cls.altDriver.stop()
+            AltPortForwarding.remove_all_forward_android()
 
 ```
 
@@ -3904,16 +3904,16 @@ Nothing
         [OneTimeSetUp]
         public void SetUp()
         {
-            AltUnityPortForwarding.ForwardIos();
-            altUnityDriver = new AltUnityDriver();
+            AltPortForwarding.ForwardIos();
+            altDriver = new AltDriver();
         }
 
     .. code-tab:: java
 
         @BeforeClass
         public static void setUp() throws IOException {
-            AltUnityPortForwarding.forwardIos();
-            altUnityDriver = new AltUnityDriver();
+            AltPortForwarding.forwardIos();
+            altDriver = new AltDriver();
         }
 
 
@@ -3921,8 +3921,8 @@ Nothing
 
         @classmethod
         def setUpClass(cls):
-            AltUnityPortForwarding.forward_ios()
-            cls.altUnityDriver = AltUnityDriver()
+            AltPortForwarding.forward_ios()
+            cls.altDriver = AltDriver()
 
 ```
 
@@ -3948,8 +3948,8 @@ None
         [OneTimeTearDown]
         public void TearDown()
         {
-            altUnityDriver.Stop();
-            AltUnityPortForwarding.KillAllIproxyProcess();
+            altDriver.Stop();
+            AltPortForwarding.KillAllIproxyProcess();
         }
 
 
@@ -3957,8 +3957,8 @@ None
 
         @AfterClass
         public static void tearDown() throws Exception {
-            altUnityDriver.stop();
-            AltUnityPortForwarding.killAllIproxyProcess();
+            altDriver.stop();
+            AltPortForwarding.killAllIproxyProcess();
         }
 
 
@@ -3966,7 +3966,7 @@ None
 
         @classmethod
         def tearDownClass(cls):
-            cls.altUnityDriver.stop()
-            AltUnityPortForwarding.kill_all_iproxy_process()
+            cls.altDriver.stop()
+            AltPortForwarding.kill_all_iproxy_process()
 
 ```
