@@ -1,153 +1,159 @@
 name: release
 on:
+  push:
   workflow_dispatch:
 
 jobs:
   
-  publish-pip-package:
-      runs-on: self-hosted
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name: 
-              BuildMacArtifact
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10' 
-            cached: 'pip'
-        - uses: syphar/restore-virtualenv@v1
-          id: cache-virtualenv
+  # publish-pip-package:
+  #     runs-on: self-hosted
+  #     steps:
+  #       - uses: actions/checkout@v3
+  #       - uses: actions/download-artifact@v3.0.0
+  #         with:
+  #           name: 
+  #             BuildMacArtifact
+  #       - uses: actions/setup-python@v4
+  #         with:
+  #           python-version: '3.10' 
+  #           cached: 'pip'
+  #       - uses: syphar/restore-virtualenv@v1
+  #         id: cache-virtualenv
 
-        - uses: syphar/restore-pip-download-cache@v1
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #       - uses: syphar/restore-pip-download-cache@v1
+  #         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-        - run: pip install -r "Bindings~/python/requirements.txt"
-        - run: pip install -r "Bindings~/python/requirements-dev.txt"
-        - run: pip install -e "Bindings~/python" --root "Bindings~/python"
+  #       - run: pip install -r "Bindings~/python/requirements.txt"
+  #       - run: pip install -r "Bindings~/python/requirements-dev.txt"
+  #       - run: pip install -e "Bindings~/python" --root "Bindings~/python"
         
-        - run: |
-            python3 setup.py sdist
-            python3 -m twine upload dist/*
+  #       - run: |
+  #           python3 setup.py sdist
+  #           python3 -m twine upload dist/*
 
             
-  publish-nuget-package:
-    runs-on: self-hosted
-    needs: build-macOS
-    steps:
-      - uses: actions/checkout@v3
+  # publish-nuget-package:
+  #   runs-on: self-hosted
+  #   needs: build-macOS
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v2.1.1
+  #     - name: Setup .NET Core SDK
+  #       uses: actions/setup-dotnet@v2.1.1
 
-      - name: uploade to nuget
-        env:
-          NUGET_DEPLOY_KEY: ${{ secret.NUGET_DEPLOY_KEY }}
-        run: |
-          cd "Bindings~/dotnet"
-          dotnet pack AltUnityDriver/AltUnityDriver.csproj -c release
-          dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.7.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+  #     - name: uploade to nuget
+  #       env:
+  #         NUGET_DEPLOY_KEY: ${{ secret.NUGET_DEPLOY_KEY }}
+  #       run: |
+  #         cd "Bindings~/dotnet"
+  #         dotnet pack AltUnityDriver/AltUnityDriver.csproj -c release
+  #         dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.7.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
       
             
-  publish-maven:
-      runs-on: self-hosted
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
+  # publish-maven:
+  #     runs-on: self-hosted
+  #     needs: build-macOS
+  #     steps:
+  #       - uses: actions/checkout@v3
 
-        - name: Setup Java JDK
-          uses: actions/setup-java@v3.5.1
-          with:
-              distribution: temurin
-              java-version: 11
-        - uses: stCarolas/setup-maven@v4.4
+  #       - name: Setup Java JDK
+  #         uses: actions/setup-java@v3.5.1
+  #         with:
+  #             distribution: temurin
+  #             java-version: 11
+  #       - uses: stCarolas/setup-maven@v4.4
         
-        - name: Upload to Maven
-          env:
-            GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
-          run: |
-            cd "Bindings~/java"
-            export GPG_TTY=$(tty)
-            mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
+  #       - name: Upload to Maven
+  #         env:
+  #           GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
+  #         run: |
+  #           cd "Bindings~/java"
+  #           export GPG_TTY=$(tty)
+  #           mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
         
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestCSharpArtifact
-            path: |
-              csharpAndroidTests.log
-              AltUnityTesterLog.txt
-              AltUnityServerLog.txt
-  create-unity-package:
-    runs-on: self-hosted
-    steps:
-      - name: Create Unity Package
-        run: |
-          mkdir -p public/AlTester || true
-          mkdir -p public/SampleScenes || true
-          ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-          AUT=$(find -E . -regex ".*/AlTester.*\.unitypackage")
-          mv $AUT public/AlTester/AlTester.unitypackage
-          SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
-          mv $SS public/SampleScenes/SampleScenes.unitypackage
-      - name: Upload to Altom
-        env:
-          HOST_IP_ALTOM: ${{ secret.HOST_IP_ALTOM }}
-        run: |
-          ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
-          scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
-  create-jar-archive:
-    runs-on: self-hosted
-    steps:
-      - name: Create jar
-        run: |
-          mkdir -p public/AltTesterJAR || true
-          cd "Bindings~/java"
-          mvn clean compile assembly:single
-          mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester.jar
-      - name: Upload to Altom.com
-        env:
-          HOST_IP_ALTOM: ${{ secret.HOST_IP_ALTOM }}
-        run: |
-          ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTesterJar/AltTester.jar"
-          scp -r -P 50976 -o 'StrictHostKeyChecking no' AltTesterJAR/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTesterJar/
-  build-docs:
-    runs-on: self-hosted
+  #       - uses: actions/upload-artifact@v3.1.0
+  #         if: always() # run this step even if one of the previous step failed
+  #         with:
+  #           name: TestCSharpArtifact
+  #           path: |
+  #             csharpAndroidTests.log
+  #             AltUnityTesterLog.txt
+  #             AltUnityServerLog.txt
+  # create-unity-package:
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Create Unity Package
+  #       run: |
+  #         mkdir -p public/AlTester || true
+  #         mkdir -p public/SampleScenes || true
+  #         ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+  #         AUT=$(find -E . -regex ".*/AlTester.*\.unitypackage")
+  #         mv $AUT public/AlTester/AlTester.unitypackage
+  #         SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
+  #         mv $SS public/SampleScenes/SampleScenes.unitypackage
+  #     - name: Upload to Altom
+  #       env:
+  #         HOST_IP_ALTOM: ${{ secret.HOST_IP_ALTOM }}
+  #       run: |
+  #         ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
+  #         scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
+  # create-jar-archive:
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Create jar
+  #       run: |
+  #         mkdir -p public/AltTesterJAR || true
+  #         cd "Bindings~/java"
+  #         mvn clean compile assembly:single
+  #         mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester.jar
+  #     - name: Upload to Altom.com
+  #       env:
+  #         HOST_IP_ALTOM: ${{ secret.HOST_IP_ALTOM }}
+  #       run: |
+  #         ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTesterJar/AltTester.jar"
+  #         scp -r -P 50976 -o 'StrictHostKeyChecking no' AltTesterJAR/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTesterJar/
+  # build-docs:
+  #   runs-on: self-hosted
 
-    steps:
+  #   steps:
     
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10' 
-          cached: 'pip'
-      - uses: syphar/restore-virtualenv@v1
-        id: cache-virtualenv
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10' 
+  #         cached: 'pip'
+  #     - uses: syphar/restore-virtualenv@v1
+  #       id: cache-virtualenv
 
-      - uses: syphar/restore-pip-download-cache@v1
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - uses: syphar/restore-pip-download-cache@v1
+  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-      - run: pip install -r Docs/requirements.txt
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-      - run: pwd
-      - uses: rickstaa/sphinx-action@master
-        with:
-          docs-folder: Docs
-          build-command: make html
+  #     - run: pip install -r Docs/requirements.txt
+  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - run: pwd
+  #     - uses: rickstaa/sphinx-action@master
+  #       with:
+  #         docs-folder: Docs
+  #         build-command: make html
 
-      - name: Upload to Altom.com
-        env:
-          HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
-          DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
-        run: |
-          ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf ${DOCUMENTATION_PATH}/*"
-          scp -r -P 50976 -o 'StrictHostKeyChecking no' Docs/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
+  #     - name: Upload to Altom.com
+  #       env:
+  #         HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
+  #         DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
+  #       run: |
+  #         ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf ${DOCUMENTATION_PATH}/*"
+  #         scp -r -P 50976 -o 'StrictHostKeyChecking no' Docs/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
 
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: DocumentationHTML
-          path: Docs/build/html/
+  #     - uses: actions/upload-artifact@v1
+  #       with:
+  #         name: DocumentationHTML
+  #         path: Docs/build/html/
+
+    test:
+      runs-on: self-hosted
+      steps:
+        - run: echo "TEst"
   
 
               
