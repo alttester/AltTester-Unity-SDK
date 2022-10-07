@@ -20,7 +20,7 @@ We plan to add more examples in the near future.
 
 **2.** Example test project for multiplayer features:
 
-* Python tests [Multiplayer iOS / Android](https://gitlab.com/altom/altunity/examples/alttanksmultiplayer-test-python)
+* Python tests [Multiplayer iOS / Android](https://github.com/alttester-test-examples/Python-Android-iOS-Multiplayer--AltTanks)
 
 <!--
 **3.** Example test project for AltUnity Pro Alpha:
