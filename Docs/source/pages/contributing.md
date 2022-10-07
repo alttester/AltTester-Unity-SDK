@@ -5,13 +5,13 @@ First off, thank you for considering contributing to AltUnityTester.
 
 ## Leave a review
 
-It would help us enormously if you would let a review in the [asset store](https://assetstore.unity.com/packages/tools/utilities/altunity-tester-ui-test-automation-112101).
+It would help us enormously if you would send a review to [our email](mailto:alttester@altom.com).
 
 
 ## Did you find a bug?
 
 Ensure the bug was not already reported by searching all issues.
-If you’re unable to find an open issue addressing the problem, open a [new issue](https://gitlab.com/altom/altunity/altunitytester/issues/new?issuable_template=BugTemplate).
+If you’re unable to find an open issue addressing the problem, open a [new issue](https://github.com/alttester/AltTester-Unity-SDK/issues/new?assignees=&labels=bug&template=bug-report.md&title=).
 
 **When you ask a question about a problem you will get a much better/quicker answer if you provide a code sample that can be used to reproduce the problem.**
 
@@ -27,7 +27,7 @@ Try to:
 If you find yourself wishing for a feature that doesn’t exist in AltUnityTester:
 
 * Ensure the enhancement was not already reported by searching all issues.
-* Open a [new issue](https://gitlab.com/altom/altunity/altunitytester/issues/new?issuable_template=NewFeatureTemplate). Be sure to include a clear description of the feature you would like to see, as much relevant information as possible:
+* Open a [new issue](https://github.com/alttester/AltTester-Unity-SDK/issues/new?assignees=&labels=&template=feature-request.md&title=). Be sure to include a clear description of the feature you would like to see, as much relevant information as possible:
   * Why you need it?
   * How should it work?
 
@@ -43,11 +43,11 @@ When you create a merge request take in consideration the following:
 
 ### Preparing your Fork
 
-* Click ‘Fork’ on GitLab, creating e.g. `yourname/altunitytester`.
-* Clone your project: `git clone git@gitlab.com:yourname/altunitytester`.
-* `cd altunitytester`
+* Click ‘Fork’ on GitHub, creating e.g. `yourname/alttester-unity-sdk`.
+* Clone your project: `git clone git@github.com:yourname/altester-unity-sdk`.
+* `cd alttester-unity-sdk`
 
-For a more detailed tutorial check out the [GitLab Documentation](https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html#creating-a-fork)
+For a more detailed tutorial check out the [GitHub Documentation](https://docs.github.com/en/get-started/quickstart/contributing-to-projects)
 
 
 ### Preparing a Merge Request

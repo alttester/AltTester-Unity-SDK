@@ -6,37 +6,37 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 1 AltUnityDriverTestScene.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 1 AltDriverTestScene.unity
     guid: b52c047743c7b4508908a92db3f971b6
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 2 Draggable Panel.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 2 Draggable Panel.unity
     guid: 8fb1da8c597b957459419ab359c03911
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 3 Drag And Drop.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 3 Drag And Drop.unity
     guid: c554cfa12834f1f47a99cfc6e3b520f9
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 4 No Cameras.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 4 No Cameras.unity
     guid: a6e374a17b25deb48ab203b62ab8d49f
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 5 Keyboard Input.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 5 Keyboard Input.unity
     guid: 8626d43c31961cd40afa3331309ea18c
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity
     guid: 40116c4af15e1444f8e21d1de1f4678f
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 7 New Input System Actions.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity
     guid: 13e23c5ccd587b6439674fa82adb8402
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity
     guid: 838436750d0cf48a685923371f66cea6
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/scene 9 NIS.unity
+    path: Assets/AltTester/Examples/Scenes/scene 9 NIS.unity
     guid: 00400752803e117408604466784c62be
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene 10 Sample NIS.unity
+    path: Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity
     guid: 244f1ab64a936478a88c45243ee5d285
   - enabled: 1
-    path: Assets/AltUnityTester/Examples/Scenes/Scene6.unity
+    path: Assets/AltTester/Examples/Scenes/Scene6.unity
     guid: 5197c7b6f3ba7a84fbb6c6d5743d3bc7
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 6db2517c6dfdc874ab7b15d63539800b,
