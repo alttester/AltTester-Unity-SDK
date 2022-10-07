@@ -1,6 +1,6 @@
 # Contributing
 
-First off, thank you for considering contributing to AltUnityTester.
+First off, thank you for considering contributing to AltTester Unity SDK.
 
 
 ## Leave a review
@@ -12,6 +12,7 @@ It would help us enormously if you would send a review to [our email](mailto:alt
 
 Ensure the bug was not already reported by searching all issues.
 If you’re unable to find an open issue addressing the problem, open a [new issue](https://github.com/alttester/AltTester-Unity-SDK/issues/new?assignees=&labels=bug&template=bug-report.md&title=).
+
 
 **When you ask a question about a problem you will get a much better/quicker answer if you provide a code sample that can be used to reproduce the problem.**
 
@@ -34,7 +35,7 @@ If you find yourself wishing for a feature that doesn’t exist in AltUnityTeste
 
 ## Contributing changes
 
-When you create a merge request take in consideration the following:
+When you create a pull request take in consideration the following:
 
 * Respect the project structure
 * If it is a new feature like a new command try to make it for all three languages (Java, C# and Python) and also add tests
@@ -43,21 +44,21 @@ When you create a merge request take in consideration the following:
 
 ### Preparing your Fork
 
-* Click ‘Fork’ on GitHub, creating e.g. `yourname/alttester-unity-sdk`.
-* Clone your project: `git clone git@github.com:yourname/altester-unity-sdk`.
-* `cd alttester-unity-sdk`
+* Click ‘Fork’ on GitHub, creating e.g. `yourname/AltTester-Unity-SDK`.
+* Clone your forked repository: `git clone git@github.com:yourname/AltTester-Unity-SDK`.
+* `cd AltTester-Unity-SDK`
 
-For a more detailed tutorial check out the [GitHub Documentation](https://docs.github.com/en/get-started/quickstart/contributing-to-projects)
+For a more detailed tutorial check out the [GitHub Documentation](https://docs.github.com/en/get-started/quickstart/contributing-to-projects#forking-a-repository)
 
 
-### Preparing a Merge Request
+### Preparing a pull Request
 
-After forking a project and applying your local changes, complete the following steps to create a merge request from your fork to contribute back to the main project:
+After forking a project and applying your local changes, complete the following steps to create a pull request from your fork to contribute back to the main project:
 
-* Go to **Projects > Your Projects** and select your fork of the repository.
-* In the left menu, go to **Merge Requests**, and click **New Merge Request**.
-* In the *Source branch* drop-down list box, select your branch in your forked repository as the source branch.
-* In the *Target branch* drop-down list box, select the `master` branch from the `altunitytester` repository as the target branch.
-* Assign a user to review your changes, and click **Submit merge request**.
+* In Github go to **Your Repositories** and open your forked repository.
+* Click on **Contribute** and then **Open a pull request**.
+* In the *Compare:* drop-down list box, select your branch in your forked repository (*head repository*) as the source branch.
+* In the *Base:* drop-down list box, select the `development` branch from the `AltTester-Unity-SDK` repository  (*base repository*) as the target branch.
+* Click **Create pull request** and assign a user to review your changes.
 
-For a more detailed tutorial check out the [GitLab Documentation](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html#when-you-work-in-a-fork).
+For a more detailed tutorial check out the [GitHub Documentation](https://docs.github.com/en/get-started/quickstart/contributing-to-projects).
