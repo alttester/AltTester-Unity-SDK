@@ -17,7 +17,7 @@ PC, Mac, Android, iOS and Unity Editor; support for WebGL and Consoles is work i
 <details>
 <summary> Can AltTester Unity SDK be integrated with Appium?</summary>
 <br>
-Yes, AltTester Unity SDK can be used alongside Appium. Appium allows you to access the native objects and AltTester Unity SDK can be used to access the Unity objects.  For more info regarding how to run tests together with appium check <em><a href="tester-with-appium.html">Running tests together with Appium</a></em>.
+Yes, AltTester Unity SDK can be used alongside Appium. Appium allows you to access the native objects and AltTester Unity SDK can be used to access the Unity objects.  For more info regarding how to run tests together with appium check <em><a href="alttester-with-appium.html">Running tests together with Appium</a></em>.
 </details>
 <br>
 
@@ -32,7 +32,7 @@ AltTester Unity SDK works with Unity 2018.1 or higher. If you encounter any issu
 <summary>Can I use AltTester Unity SDK to run tests using device cloud services? </summary>
 <br>
 It works with some of the cloud services. We tried it with Bitbar Cloud and AWS Device Farm.
-These give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. More info about this here:<em><a href=" tester-with-cloud.html"> Running tests using device cloud services.</a></em>
+These give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. More info about this here:<em><a href=" alttester-with-cloud.html"> Running tests using device cloud services.</a></em>
 </details>
 <br>
 

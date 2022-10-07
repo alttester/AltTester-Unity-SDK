@@ -15,8 +15,8 @@ inside the Unity Editor.
    pages/get-started
    pages/alttester-editor
    pages/commands
-   pages/tester-with-appium
-   pages/tester-with-cloud
+   pages/alttester-with-appium
+   pages/alttester-with-cloud
    pages/examples
    pages/advanced-usage
    pages/upgrade-guides

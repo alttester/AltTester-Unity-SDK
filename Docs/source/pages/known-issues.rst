@@ -50,7 +50,7 @@ The PressKey command does not work
 ``wasPressedThisFrame`` and ``wasReleasedThisFrame*``. Use ``isPressed``
 instead.
 
-**Affects**: AAltTester Unity SDK v1.7.1
+**Affects**: AltTester Unity SDK v1.7.1
 
 Player Input is not working when connected to AltTester Unity SDK/Desktop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
