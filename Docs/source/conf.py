@@ -20,7 +20,7 @@ from recommonmark.parser import CommonMarkParser
 
 # -- Project information -----------------------------------------------------
 
-project = 'AltTester Solutions'
+project = 'AltTester'
 copyright = '2022, Altom Consulting'
 author = 'Altom'
 
