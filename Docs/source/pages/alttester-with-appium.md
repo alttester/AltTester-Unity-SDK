@@ -11,18 +11,18 @@ No registration is needed and you can either download the latest version of the 
 > appium &               # start appium
 ```
 
-We've created an example python project which can be found [here](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python-appium) which hopefully can get you started on your own projects. Using it will also automatically install the requirements needed for running the tests. More details about it [below](#altunity-tester-with-appium-example).
+We've created an example python project which can be found [here](https://github.com/alttester-test-examples/Python-Android-with-Appium-AltTrashCat-) which hopefully can get you started on your own projects. Using it will also automatically install the requirements needed for running the tests. More details about it [below](#alttester-unity-sdk-with-appium-example).
 
 
-## Why use Appium together with AltUnity Tester
+## Why use Appium together with AltTester Unity SDK
 
 There's a couple of reasons/scenarios for which you would want to use both of these frameworks:
 
-* By itself, AltUnity Tester cannot launch an app on a device. If you want to run tests in a pipeline, or by using [cloud services](./tester-with-cloud), you can either create a script which will start your app, or you can use Appium before the tests execution;
-* AltUnity Tester cannot perform some types of actions, such as interacting with any native popups your app might have, or putting the app in the background and resuming it. In any of these cases you can use Appium to do the things that AltUnity Tester can't.
+* By itself, AltTester Unity SDK cannot launch an app on a device. If you want to run tests in a pipeline, or by using [cloud services](./alttester-with-cloud), you can either create a script which will start your app, or you can use Appium before the tests execution;
+* AltTester Unity SDK cannot perform some types of actions, such as interacting with any native popups your app might have, or putting the app in the background and resuming it. In any of these cases you can use Appium to do the things that AltTester Unity SDK can't.
 
 
-## AltUnity Tester with Appium example
+## AltTester Unity SDK with Appium example
 
 After you cloned our example project, there are a couple of things you need to check before running the tests:
 
@@ -45,9 +45,9 @@ After you cloned our example project, there are a couple of things you need to c
 The script will install any requirements that are missing from your machine (except Android SDK and XCode CLT), then run a basic test scenario:
 
 1. The app will be started by Appium;
-2. AltUnity Tester will ensure it's initially loaded;
+2. AltTester Unity SDK will ensure it's initially loaded;
 3. Appium will put the app in the background for a couple of seconds, then resume it;
-4. AltUnity Tester will check if the app was resumed successfully.
+4. AltTester Unity SDK will check if the app was resumed successfully.
 
 ```eval_rst
 .. note::
@@ -55,6 +55,6 @@ The script will install any requirements that are missing from your machine (exc
    Please observe the following about the setup method in **base_test.py**:
 
    1. A minimum amount of desired capabilities have to be set in order for Appium to work. More details about desired capabilities can be found in the official `Appium documentation <http://appium.io/docs/en/writing-running-appium/caps/index.html>`_
-   2. The Appium driver needs to be created before the port forwarding needed by AltUnity Tester is done. This is because Appium clears any other port forwarding when it starts.
+   2. The Appium driver needs to be created before the port forwarding needed by AltTester Unity SDK is done. This is because Appium clears any other port forwarding when it starts.
 
 ```
