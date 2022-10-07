@@ -2807,7 +2807,7 @@ Invokes a method from an existing component of the object.
 | methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
 | parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                         |
-| assemblyName     | string | No       | The name of the assembly containing the component.                                                                                                                                                |
+| assemblyName     | string | Yes      | The name of the assembly containing the component.                                                                                                                                                |
 
 **_Returns_**
 
@@ -2827,7 +2827,7 @@ Invokes a method from an existing component of the object.
             var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
             capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
             AltObject capsuleAfterRotation = altDriver.FindObject(By.NAME, "Capsule");
-            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation";
+            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
 
@@ -2875,7 +2875,7 @@ Returns the value of the given component property.
 | ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                                                                                                                                                                                                                                                                                                            |
 | propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                                                                                                                                  |
-| assemblyName  | string | No       | The name of the assembly containing the component.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                                                                                                                                                                                                                                                                                                  |
 | maxDepth      | int    | No       | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0, "sqrMagnitude":1.0, "x":0.871575534, "y":0.490261227, "z":0.0}, "magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} |
 
 **_Returns_**
@@ -2935,7 +2935,7 @@ Sets value of the given component property.
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
 | propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
 | value         | object | Yes      | The value to be set for the chosen component's property                                                                  |
-| assemblyName  | string | No       | The name of the assembly containing the component. It is NULL by default.                                                |
+| assemblyName  | string | Yes       | The name of the assembly containing the component. It is NULL by default.                                                |
 
 **_Returns_**
 
