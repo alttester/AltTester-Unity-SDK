@@ -12,7 +12,7 @@ We plan to add more examples in the near future.
 
 **1.** Example test projects created for different languages and platforms:
 
-* C# tests [Standalone (NuGetPackage)](https://github.com/alttester-test-examples/CSharp-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/CSharp-Android-AltTrahCat) | [iOS](https://gitlab.com/altom/altunity/examples/ios-build-with-csharp-tests)
+* C# tests [Standalone (NuGetPackage)](https://github.com/alttester-test-examples/CSharp-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/CSharp-Android-AltTrahCat) | [iOS](https://github.com/alttester-test-examples/CSharp-iOS-AltTrahCat)
 * Python tests [Standalone](https://github.com/alttester-test-examples/Python-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Python-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Python-iOS-AltTrashCat)
 * Java tests [Standalone](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Java-iOS-AltTrashCat)
 
