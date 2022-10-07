@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using Altom.AltDriver;
 using NUnit.Framework;
+
+
+namespace Altom.AltDriver.Tests{
 public class TestForNIS
 {
     public AltDriver altDriver;
@@ -292,4 +295,5 @@ public class TestForNIS
         var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
         Assert.AreEqual("Capsule was tapped!", text);
     }
+}
 }
