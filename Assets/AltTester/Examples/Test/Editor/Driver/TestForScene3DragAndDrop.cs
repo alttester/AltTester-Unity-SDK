@@ -35,7 +35,7 @@ namespace Altom.AltDriver.Tests
         public void MultipleDragAndDrop()
         {
             string imageSource, imageSourceDropZone;
-            dropImage("Drag Image3", "Drop Box1", 0.1f, false);
+            dropImage("Drag Image2", "Drop Box1", 0.1f, false);
             dropImage("Drag Image2", "Drop Box2", 0.1f, false);
             dropImage("Drag Image1", "Drop Box1", 0.2f, false);
             waitForSwipeToFinish();
@@ -79,7 +79,7 @@ namespace Altom.AltDriver.Tests
         public void MultipleDragAndDropWait()
         {
             string imageSource, imageSourceDropZone;
-            dropImage("Drag Image3", "Drop Box1");
+            dropImage("Drag Image2", "Drop Box1");
             dropImage("Drag Image2", "Drop Box2");
             dropImage("Drag Image1", "Drop Box1");
             getSpriteName(out imageSource, out imageSourceDropZone, "Drag Image1", "Drop Image");
