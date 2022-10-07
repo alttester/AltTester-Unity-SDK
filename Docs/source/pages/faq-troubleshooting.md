@@ -24,7 +24,7 @@ Yes, AltTester Unity SDK can be used alongside Appium. Appium allows you to acce
 <details>
 <summary> What versions of Unity does AltTester Unity SDK work with? </summary>
 <br>
-AltTester Unity SDK works with Unity 2018.1 or higher. If you encounter any issues we'd like to hear about them. You can <a href="contributing.html#did-you-find-a-bug">raise an issue</a> or join our community on <a href="https://discord.gg/Ag9RSuS">Discord</a> or <a href="https://groups.google.com/a/altom.com/g/alttesterforum">Google Groups</a>.
+AltTester Unity SDK works with Unity 2018.1 or higher. If you encounter any issues we'd like to hear about them. You can <a href="contributing.html#did-you-find-a-bug">raise an issue</a> or join our community on <a href="https://discord.gg/Ag9RSuS">Discord</a> or <a href="https://groups.google.com/a/altom.com/g/alttester">Google Groups</a>.
 </details>
 <br>
 
