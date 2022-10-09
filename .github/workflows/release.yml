@@ -4,7 +4,7 @@ on: [workflow_dispatch]
 jobs:
   
   publish-pip-package:
-      runs-on: self-hosted
+      runs-on: [self-hosted,release]
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
@@ -31,7 +31,7 @@ jobs:
 
             
   publish-nuget-package:
-    runs-on: self-hosted
+    runs-on: [self-hosted,release]
     needs: build-macOS
     steps:
       - uses: actions/checkout@v3
@@ -49,7 +49,7 @@ jobs:
       
             
   publish-maven:
-      runs-on: self-hosted
+      runs-on: [self-hosted,release]
       needs: build-macOS
       steps:
         - uses: actions/checkout@v3
@@ -78,7 +78,7 @@ jobs:
               AltUnityTesterLog.txt
               AltUnityServerLog.txt
   create-unity-package:
-    runs-on: self-hosted
+    runs-on: [self-hosted,release]
     steps:
       - name: Create Unity Package
         run: |
@@ -96,7 +96,7 @@ jobs:
           ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
           scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
   create-jar-archive:
-    runs-on: self-hosted
+    runs-on: [self-hosted,release]
     steps:
       - name: Create jar
         run: |
@@ -111,7 +111,7 @@ jobs:
           ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTesterJar/AltTester.jar"
           scp -r -P 50976 -o 'StrictHostKeyChecking no' AltTesterJAR/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTesterJar/
   build-docs:
-    runs-on: self-hosted
+    runs-on: [self-hosted,release]
 
     steps:
     
