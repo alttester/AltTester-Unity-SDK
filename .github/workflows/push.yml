@@ -68,7 +68,7 @@ jobs:
         with:
           name: TestCSharpArtifact
           path: |
-            csharpAndroidTests.log
+            *.log
             reportTest.xml
 
   # test-DotNet:
@@ -92,9 +92,7 @@ jobs:
   #         with:
   #           name: TestCSharpArtifact
   #           path: |
-  #             csharpAndroidTests.log
-  #             AltUnityTesterLog.txt
-  #             AltUnityServerLog.txt
+  #             *.log
 
   test-Python:
       runs-on: [self-hosted, macOS]
@@ -143,8 +141,7 @@ jobs:
           with:
             name: TestPythonArtifact
             path: |
-              AltUnityTesterLog.txt
-              AltUnityServerLog.txt
+              *.log
 
   # test-Java:
   #     runs-on: [self-hosted, macOS]
@@ -173,5 +170,4 @@ jobs:
   #         with:
   #           name: TestJavaArtifact
   #           path: |
-  #             AltUnityTesterLog.txt
-  #             AltUnityServerLog.txt
+  #             *.log

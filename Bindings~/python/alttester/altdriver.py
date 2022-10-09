@@ -45,7 +45,7 @@ class AltDriver:
             logger.configure(
                 handlers=[
                     dict(sink=sys.stdout, diagnose=False),
-                    dict(sink="./alttester.log", enqueue=False, serialize=True, mode="w", diagnose=False),
+                    dict(sink="./AltTester.log", enqueue=False, serialize=True, mode="w", diagnose=False),
                 ],
                 levels=[dict(name="DEBUG")],
                 activation=[("alttester", True)],

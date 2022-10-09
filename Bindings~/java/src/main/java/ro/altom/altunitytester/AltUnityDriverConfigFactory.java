@@ -59,7 +59,7 @@ public class AltUnityDriverConfigFactory extends ConfigurationFactory {
         // create a rolling file appender
 
         AppenderComponentBuilder fileAppender = builder.newAppender("AltUnityFileAppender", "File")
-                .addAttribute("fileName", "./AltUnityTesterLog.txt").addAttribute("append", false);
+                .addAttribute("fileName", "./AltTester.log").addAttribute("append", false);
 
         builder.add(fileAppender);
 

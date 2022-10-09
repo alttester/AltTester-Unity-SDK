@@ -9,7 +9,7 @@ namespace Altom.AltDriver.Logging
 {
     public class DriverLogManager
     {
-        const string LOGSFILEPATH = "./AltTesterLog.txt";
+        const string LOGSFILEPATH = "./AltTester.log";
 
         public static LogFactory Instance { get { return instance.Value; } }
 
