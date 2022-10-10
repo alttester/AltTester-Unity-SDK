@@ -1,14 +1,14 @@
 @Test
 public void testDeleteKey() throws Exception
 {
-    altUnityDriver.deletePlayerPref();
-    altUnityDriver.setKeyPlayerPref("test", 1);
-    int val = altUnityDriver.getIntKeyPlayerPref("test");
+    altDriver.deletePlayerPref();
+    altDriver.setKeyPlayerPref("test", 1);
+    int val = altDriver.getIntKeyPlayerPref("test");
     assertEquals(1, val);
-    altUnityDriver.deleteKeyPlayerPref("test");
+    altDriver.deleteKeyPlayerPref("test");
     try
     {
-        altUnityDriver.getIntKeyPlayerPref("test");
+        altDriver.getIntKeyPlayerPref("test");
         fail();
     }
     catch(NotFoundException e)
