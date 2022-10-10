@@ -25,7 +25,7 @@ Try to:
 
 ## How to suggest a feature or enhancement?
 
-If you find yourself wishing for a feature that doesn’t exist in AltUnityTester:
+If you find yourself wishing for a feature that doesn’t exist in AltTester Unity SDK:
 
 * Ensure the enhancement was not already reported by searching all issues.
 * Open a [new issue](https://github.com/alttester/AltTester-Unity-SDK/issues/new?assignees=&labels=&template=feature-request.md&title=). Be sure to include a clear description of the feature you would like to see, as much relevant information as possible:
