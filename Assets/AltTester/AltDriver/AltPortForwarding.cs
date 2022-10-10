@@ -135,6 +135,7 @@ namespace Altom.AltDriver
             var process = startProcess("killall", "iproxy");
             process.WaitForExit();
         }
+
         /// <summary>
         /// Calls adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}
         /// </summary>
