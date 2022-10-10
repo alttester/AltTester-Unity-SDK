@@ -10,7 +10,6 @@ In the following sections you can see a breakdown of all the sections in the GUI
 ## Tests List
 
 ![Tests List Section Screenshot](../_static/img/alttester-editor/test-list.png)
-altunity
 -   displays all the available tests from the project folder
 -   user can use the Refresh button to update the tests list after making some changes in the test script
 -   user can select what tests to run by checking the checkbox next to their name
