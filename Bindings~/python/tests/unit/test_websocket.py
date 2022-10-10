@@ -3,8 +3,8 @@ import unittest.mock as mock
 
 import pytest
 
-from altunityrunner._websocket import Store, WebsocketConnection
-from altunityrunner.exceptions import ConnectionError
+from alttester._websocket import Store, WebsocketConnection
+from alttester.exceptions import ConnectionError
 
 
 class TestStore:
