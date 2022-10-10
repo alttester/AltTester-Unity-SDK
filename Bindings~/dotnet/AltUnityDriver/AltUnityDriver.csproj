@@ -4,7 +4,7 @@
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
         <RootNamespace>Altom.AltUnityDriver</RootNamespace>
         <IsPackable>true</IsPackable>
-        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">1.7.2</PackageVersion>
+        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">1.8.0</PackageVersion>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>
         <Title>AltUnity Driver</Title>
         <Description>
