@@ -1,17 +1,17 @@
 from setuptools import setup, find_packages
 
 
-NAME = 'altunityrunner'
-DESCRIPTION = "Python bindings for the AltUnity Tester framework. AltUnity Tester is an open-source UI driven test " \
+NAME = 'alttester'
+DESCRIPTION = "Python bindings for the AltTester framework. AltTester is an open-source UI driven test " \
     "automation tool that helps you find objects in your game and interacts with them."
-URL = 'https://gitlab.com/altom/altunity/altunitytester'
-EMAIL = 'altunitytester@altom.fi'
+URL = 'https://altom.com/alttester/docs/sdk'
+EMAIL = 'suport.alttester@altom.com'
 AUTHOR = 'Altom Consulting'
 REQUIRES_PYTHON = '>=3.4.0'
 LICENSE = 'GNU GPLv3'
 
 
-with open("altunityrunner/__version__.py") as f:
+with open("alttester/__version__.py") as f:
     VERSION = f.readline().replace("VERSION = ", "").replace("\"", "").replace("\n", "")
 
 
@@ -32,9 +32,9 @@ setup(
     license=LICENSE,
     url=URL,
     project_urls={
-        "Bug Tracker": "https://gitlab.com/altom/altunity/altunitytester/-/issues",
-        "Documentation": "https://altom.com/altunity/docs/altunitytester/",
-        "Source": "https://gitlab.com/altom/altunity/altunitytester",
+        "Bug Tracker": "https://github.com/alttester/AltTester-Unity-SDK/issues",
+        "Documentation": "https://altom.com/alttester/docs/sdk",
+        "Source": "https://github.com/alttester/AltTester-Unity-SDK",
     },
 
     author=AUTHOR,
