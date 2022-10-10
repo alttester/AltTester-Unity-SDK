@@ -26,8 +26,8 @@ author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
 # displays version under project title
-version = 'AltUnity Tester v1.7.2'
-release = 'v1.7.2'
+version = 'AltUnity Tester v1.8.0'
+release = 'v1.8.0'
 
 
 # -- General configuration ---------------------------------------------------

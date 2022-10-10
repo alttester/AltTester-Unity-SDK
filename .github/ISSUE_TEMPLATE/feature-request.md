@@ -1,3 +1,12 @@
+---
+name: Feature-Request
+about: Template for feature requests
+title: ''
+labels: 
+assignees: ''
+
+---
+
 **Describe the feature/enhancement**
 
 (Please describe your feature/enhancement idea)
