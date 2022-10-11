@@ -2831,8 +2831,34 @@ Invokes a method from an existing component of the object.
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
 
+        [Test]
+        public void TestCallMethodWithNoParameters(){
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "get_text";
+            const string assemblyName = "UnityEngine.UI";
+            const string element_text = "Change Camera Mode";
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
+            Assert.AreEqual(element_text, data);
+        }
+        
+        [Test]
+        public void TestCallMethodWithParameters(){
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "set_fontSize";
+            const string methodToVerifyName = "get_fontSize";
+            const string assemblyName = "UnityEngine.UI";
+            Int32 fontSizeExpected =16;
+            string[] parameters = new[] {"16"};
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, new object[] { }, assemblyName: assemblyName);
+            Assert.AreEqual(fontSizeExpected,fontSize);
+        }
+
     .. code-tab:: java
 
+        
         @Test
         public void TestCallMethodWithMultipleDefinitions() throws Exception
         {
@@ -2851,6 +2877,47 @@ Invokes a method from an existing component of the object.
             assertEquals("6",capsuleInfo.getText());
         }
 
+        @Test
+	    public void testCallMethodWithNoParameters() 
+        {
+		    String componentName = "UnityEngine.UI.Text";
+		    String methodName = "get_text";
+		    String assembly = "UnityEngine.UI";
+		    String expected_text = "Change Camera Mode";
+		    AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+				"/Canvas/Button/Text").build();
+		    AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+		    assertEquals(expected_text, altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
+						.withAssembly(assembly).build(),
+				String.class));
+	    }
+
+        @Test
+	    public void testCallMethodWithParameters() throws Exception 
+	    {
+		    String componentName = "UnityEngine.UI.Text";
+		    String methodName = "set_fontSize";
+		    String methodExpectedName = "get_fontSize";
+		    String assembly = "UnityEngine.UI";
+		    String[] parameters = new String[] { "16"};
+		    AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+			"/Canvas/UnityUIInputField/Text").build();
+		    AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+		    altElement.callComponentMethod(
+			    new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
+					.withAssembly(assembly)
+					.build(),
+			    Void.class);
+		    Integer fontSize = altElement.callComponentMethod(
+			    new AltCallComponentMethodParams.Builder(componentName, methodExpectedName, new Object[] {})
+					.withAssembly(assembly)
+					.build(),
+			    Integer.class);
+		
+		    assert(16==fontSize);
+	    }
+
     .. code-tab:: py
 
         def test_call_component_method(self):
@@ -2862,6 +2929,20 @@ Invokes a method from an existing component of the object.
             self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
             self.assertEqual('setFromMethod', self.altdriver.find_object(
             By.NAME, 'CapsuleInfo').get_text())
+
+        def test_call_component_method_with_no_parameters(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
+            text = result.call_component_method("UnityEngine.UI.Text", "get_text", None, None, assembly="UnityEngine.UI")
+            assert text == "Change Camera Mode" 
+        
+        def test_call_component_method_with_parameters(self):
+            self.altdriver.load_scene('Scene 1 AltUnityDriverTestScene')
+            fontSizeExpected =16
+            altElement = self.altdriver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
+            altElement.call_component_method("UnityEngine.UI.Text", "set_fontSize", parameters=["16"], assembly="UnityEngine.UI")
+            fontSize =  altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize",parameters = [], assembly="UnityEngine.UI")
+            assert fontSizeExpected== fontSize
 
 ```
 

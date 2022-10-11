@@ -402,7 +402,7 @@ public class TestsSampleScene1 {
 
 	@Test
 	public void testCallMethodWithNoParameters() {
-		String componentName = "AltUnityExampleScriptCapsule";
+		String componentName = "AltExampleScriptCapsule";
 		String methodName = "UIButtonClicked";
 		String assembly = "Assembly-CSharp";
 		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.NAME,
@@ -413,6 +413,51 @@ public class TestsSampleScene1 {
 				new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
 						.withAssembly(assembly).build(),
 				Void.class));
+	}
+
+	@Test
+	public void testGetTextCallMethodWithNoParameters() 
+	{
+
+		String componentName = "UnityEngine.UI.Text";
+		String methodName = "get_text";
+		String assembly = "UnityEngine.UI";
+		String expected_text = "Change Camera Mode";
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+			"/Canvas/Button/Text").build();
+		AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+		assertEquals(expected_text, altElement.callComponentMethod(
+			new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
+					.withAssembly(assembly).build(),
+			String.class));
+	}
+
+	@Test
+	public void TestSetFontSizeCallMethodWithParameters() throws Exception 
+	{
+
+		String componentName = "UnityEngine.UI.Text";
+		String methodName = "set_fontSize";
+		String methodExpectedName = "get_fontSize";
+		String assembly = "UnityEngine.UI";
+		String[] parameters = new String[] { "16"};
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+			"/Canvas/UnityUIInputField/Text").build();
+		AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+
+		altElement.callComponentMethod(
+			new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
+					.withAssembly(assembly)
+					.build(),
+			Void.class);
+		Integer fontSize = altElement.callComponentMethod(
+			new AltCallComponentMethodParams.Builder(componentName, methodExpectedName, new Object[] {})
+					.withAssembly(assembly)
+					.build(),
+			Integer.class);
+
+		assert(16==fontSize);
 	}
 
 	@Test
