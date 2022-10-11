@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.altom</groupId>
-    <artifactId>altunitytester-java-client</artifactId>
+    <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
     <version>1.7.2</version>
 
-    <name>AltUnity Tester - Java Client</name>
+    <name>AltTester</name>
     <description>An automated tool for testing Unity Games</description>
-    <url>http://://gitlab.com/altom/altunity/altunitytester</url>
+    <url>https://github.com/alttester/AltTester-Unity-SDK</url>
 
     <licenses>
         <license>
@@ -42,9 +42,9 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</connection>
-        <developerConnection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</developerConnection>
-        <url>http://gitlab.com/altom/altunity/altunitytester/tree/master</url>
+        <connection>scm:git:ssh://github.com/alttester/AltTester-Unity-SDK.git</connection>
+        <developerConnection>scm:git:ssh://github.com/alttester/AltTester-Unity-SDK.git</developerConnection>
+        <url>https://github.com/alttester/AltTester-Unity-SDK/tree/master</url>
         <tag>HEAD</tag>
     </scm>
 

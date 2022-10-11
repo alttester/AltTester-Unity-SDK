@@ -136,7 +136,7 @@ public class TestsSampleScene1 {
 		assertTrue(altElementsString.contains("Plane"));
 		assertTrue(altElementsString.contains("Canvas"));
 		assertTrue(altElementsString.contains("EventSystem"));
-		assertTrue(altElementsString.contains("AltRunnerPrefab"));
+		assertTrue(altElementsString.contains("AltTesterPrefab"));
 		assertTrue(altElementsString.contains("CapsuleInfo"));
 		assertTrue(altElementsString.contains("UIButton"));
 		assertTrue(altElementsString.contains("Text"));
@@ -264,7 +264,7 @@ public class TestsSampleScene1 {
 				AltDriver.By.COMPONENT, componentName).build();
 		AltObject altElement = altDriver.findObject(altFindObjectsParams);
 		assertNotNull(altElement);
-		assertEquals(altElement.name, "AltRunnerPrefab");
+		assertEquals(altElement.name, "AltTesterPrefab");
 	}
 
 	@Test
@@ -275,7 +275,7 @@ public class TestsSampleScene1 {
 				AltDriver.By.COMPONENT, componentName).build();
 		AltObject altElement = altDriver.findObject(altFindObjectsParams);
 		assertNotNull(altElement);
-		assertEquals(altElement.name, "AltRunnerPrefab");
+		assertEquals(altElement.name, "AltTesterPrefab");
 	}
 
 	@Test
@@ -284,7 +284,7 @@ public class TestsSampleScene1 {
 		String componentName = "Altom.AltTester.AltRunner";
 		String propertyName = "InstrumentationSettings.ShowPopUp";
 		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-				"AltRunnerPrefab").build();
+				"AltTesterPrefab").build();
 		AltObject altElement = altDriver.findObject(altFindObjectsParams);
 		assertNotNull(altElement);
 
@@ -300,7 +300,7 @@ public class TestsSampleScene1 {
 		String componentName = "Altom.AltTester.AltRunner";
 		String propertyName = "InstrumentationSettings.ShowPopUp";
 		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-				"AltRunnerPrefab").build();
+				"AltTesterPrefab").build();
 		AltObject altElement = altDriver.findObject(altFindObjectsParams);
 		try {
 			altElement.getComponentProperty(
@@ -320,7 +320,7 @@ public class TestsSampleScene1 {
 		String componentName = "Altom.AltTester.AltRunner";
 		String propertyName = "socketPort";
 		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-				"AltRunnerPrefab").build();
+				"AltTesterPrefab").build();
 		AltObject altElement = altDriver.findObject(altFindObjectsParams);
 		assertNotNull(altElement);
 		altElement.getComponentProperty(
@@ -466,7 +466,6 @@ public class TestsSampleScene1 {
 				Void.class);
 	}
 
-	
 	@Test(expected = InvalidParameterTypeException.class)
 	public void testCallMethodInvalidParameterType() {
 		String componentName = "AltExampleScriptCapsule";
