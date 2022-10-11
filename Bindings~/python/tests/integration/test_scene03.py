@@ -63,7 +63,7 @@ class TestScene03:
 
     def test_multiple_swipes(self):
         self.drop_image("Drag Image2", "Drop Box2", 1, False)
-        self.drop_image("Drag Image3", "Drop Box1", 1, False)
+        self.drop_image("Drag Image2", "Drop Box1", 1, False)
         self.drop_image("Drag Image1", "Drop Box1", 1, False)
         self.wait_for_swipe_to_finish()
         image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
@@ -74,7 +74,7 @@ class TestScene03:
 
     def test_multiple_swipe_and_waits(self):
         self.drop_image("Drag Image2", "Drop Box2", 1, True)
-        self.drop_image("Drag Image3", "Drop Box1", 1, True)
+        self.drop_image("Drag Image2", "Drop Box1", 1, True)
         self.drop_image("Drag Image1", "Drop Box1", 1, True)
         self.wait_for_swipe_to_finish()
         image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
