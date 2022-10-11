@@ -170,7 +170,6 @@ jobs:
           with:
             name: TestJavaArtifact
             path: |
-              AltUnityTesterLog.txt
-              AltUnityServerLog.txt
+              *.log
               
       
