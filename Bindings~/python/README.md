@@ -1,6 +1,6 @@
-# AltTester Unity SDK Python Bindings
+# AltTester Python Bindings
 
-This package contains an library for adding Python language binding to the AltTester Unity SDK framework.
+This package contains an library for adding Python language binding to the AltTester framework.
 
 AltTester Unity SDK is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java.
 
@@ -43,7 +43,7 @@ Check out the full contributing guide [contributing](https://altom.com/alttester
 
 ## Support
 
-Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/forum/#!forum/alttester
+Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/g/alttester
 
 Join our Discord Server to chat with other members of the community: https://discord.gg/Ag9RSuS
 
