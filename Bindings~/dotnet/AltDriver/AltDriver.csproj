@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <PackageId>AltDriver</PackageId>
+        <PackageId>AltTester-Driver</PackageId>
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
-        <RootNamespace>Altom.AltDriver</RootNamespace>
+        <RootNamespace>Altom.AltTester-Driver</RootNamespace>
         <IsPackable>true</IsPackable>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">1.8.0</PackageVersion>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>
-        <Title>AltDriver</Title>
+        <Title>AltTester-Driver</Title>
         <Description>
-            AltDriver package includes the C# bindings needed to run tests against Unity apps using AltTester.
+            AltTester-Driver package includes the C# bindings needed to run tests against Unity apps using AltTester.
         </Description>
         <Summary>
             C# Bindings to allow tests to be run against Unity games and apps using AltTester
