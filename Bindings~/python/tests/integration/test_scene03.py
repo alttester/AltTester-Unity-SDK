@@ -1,6 +1,6 @@
 import pytest
 from .utils import Scenes
-from altunityrunner import By
+from alttester import By
 
 
 class TestScene03:
@@ -37,10 +37,10 @@ class TestScene03:
     def test_pointer_enter_and_exit(self):
         alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
         color1 = alt_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
+            "AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
         alt_object.pointer_enter()
         color2 = alt_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
+            "AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
 
         assert color1["r"] != color2["r"] or \
             color1["g"] != color2["g"] or \
@@ -49,7 +49,7 @@ class TestScene03:
 
         alt_object.pointer_exit()
         color3 = alt_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
+            "AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
 
         assert color3["r"] != color2["r"] or \
             color3["g"] != color2["g"] or \
