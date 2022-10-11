@@ -25,7 +25,7 @@ Documentation
 .. rst-class:: toc
 
 
-*  :doc:`tester`
+*  :doc:`home`
 
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
@@ -40,7 +40,7 @@ Documentation
    :caption: Table of contents:
    :hidden:
 
-   tester
+   home
    AltTester Desktop <https://altom.com/alttester/docs/desktop/home.html>
 
 

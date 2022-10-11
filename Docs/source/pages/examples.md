@@ -12,15 +12,18 @@ We plan to add more examples in the near future.
 
 **1.** Example test projects created for different languages and platforms:
 
-* C# tests [Standalone (NuGetPackage)](https://github.com/alttester-test-examples/CSharp-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/CSharp-Android-AltTrahCat) | [iOS](https://github.com/alttester-test-examples/CSharp-iOS-AltTrahCat)
-* Python tests [Standalone](https://github.com/alttester-test-examples/Python-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Python-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Python-iOS-AltTrashCat)
-* Java tests [Standalone](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Java-iOS-AltTrashCat)
+<!-- * C# tests [Standalone (NuGetPackage)](https://github.com/alttester-test-examples/CSharp-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/CSharp-Android-AltTrahCat) | [iOS](https://github.com/alttester-test-examples/CSharp-iOS-AltTrahCat) -->
+* C# tests [Standalone (NuGetPackage)](https://github.com/alttester-test-examples/CSharp-Standalone-AltTrashCat)
+<!-- * Python tests [Standalone](https://github.com/alttester-test-examples/Python-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Python-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Python-iOS-AltTrashCat) -->
+* Python tests [Android with Appium](https://github.com/alttester-test-examples/Python-Android-with-Appium-AltTrashCat-)
+<!-- * Java tests [Standalone](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Java-iOS-AltTrashCat) -->
+* Java tests [Standalone](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat)
 
     You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
 
-**2.** Example test project for multiplayer features:
+<!-- **2.** Example test project for multiplayer features:
 
-* Python tests [Multiplayer iOS / Android](https://github.com/alttester-test-examples/Python-Android-iOS-Multiplayer--AltTanks)
+* Python tests [Multiplayer iOS / Android](https://github.com/alttester-test-examples/Python-Android-iOS-Multiplayer--AltTanks) -->
 
 <!--
 **3.** Example test project for AltUnity Pro Alpha:
@@ -30,13 +33,13 @@ We plan to add more examples in the near future.
     You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
  -->
 
-**3.** Example test project for AltTester Unity SDK:
+**2.** Example test project for AltTester Unity SDK:
 
 * C# tests [SampleScenes](https://altom.com/app/uploads/AltTester/sdks/SampleScene.unitypackage)
 
     Import this package under your AltTester package in Unity, to have access to the SampleScenes and C# tests.
 
-**4.** Example test project for AltTester Unity SDK and Unity Test Framework:
+<!-- **4.** Example test project for AltTester Unity SDK and Unity Test Framework:
 
 * C# tests [Endless Runner](https://github.com/alttester-test-examples/Unity-Test-Runner-AltTester)
 
@@ -46,4 +49,4 @@ We plan to add more examples in the near future.
 
 * C# tests [CoinCollector](https://github.com/alttester-test-examples/NewInputSystem--CoinCollector-CSharp)
 * C# tests [LeanTouch](https://github.com/alttester-test-examples/NewInputSystem--LeanTouch-CSharp)
-* C# tests [RollABall](https://github.com/alttester-test-examples/NewInputSystem--RollABall-CSharp)
+* C# tests [RollABall](https://github.com/alttester-test-examples/NewInputSystem--RollABall-CSharp) -->
