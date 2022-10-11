@@ -12,7 +12,7 @@ An AltDriver instance will connect to the running instrumented Unity application
 
 | Name          | Type    | Required | Description                                                                           |
 | ------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
-| host          | string  | No       | The IP or hostname AltTester is listening on. The default value is "127.0.0.1". |
+| host          | string  | No       | The IP or hostname AltTester Unity SDK is listening on. The default value is "127.0.0.1". |
 | port          | int     | No       | The default value is 13000.                                                           |
 | enableLogging | boolean | No       | The default value is false.                                                           |
 
