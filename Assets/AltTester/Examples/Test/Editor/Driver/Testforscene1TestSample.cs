@@ -432,7 +432,7 @@ namespace Altom.AltDriver.Tests
             const string methodName = "get_text";
             const string assemblyName = "UnityEngine.UI";
             const string element_text = "Change Camera Mode";
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/Button/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
             Assert.AreEqual(element_text, data);
         }
@@ -445,7 +445,7 @@ namespace Altom.AltDriver.Tests
             const string assemblyName = "UnityEngine.UI";
             Int32 fontSizeExpected =16;
             string[] parameters = new[] {"16"};
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
             var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, new object[] { }, assemblyName: assemblyName);
             Assert.AreEqual(fontSizeExpected,fontSize);
