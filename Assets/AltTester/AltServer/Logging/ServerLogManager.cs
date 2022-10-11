@@ -66,7 +66,7 @@ namespace Altom.AltTester.Logging
 
         private static void addFileLogger(LogLevel minLevel, LogLevel maxLevel)
         {
-            logsFilePath = UnityEngine.Application.persistentDataPath + "/AltServerLog.txt";
+            logsFilePath = UnityEngine.Application.persistentDataPath + "/AltTester-Server.log";
             var logfile = new FileTarget("AltServerFileTarget")
             {
                 FileName = logsFilePath,

@@ -1,7 +1,7 @@
 import pytest
 
 from .utils import Scenes
-from altunityrunner import By
+from alttester import By
 
 
 class TestScene02:
@@ -19,7 +19,7 @@ class TestScene02:
             "EventSystem", "Canvas", "Panel Drag Area", "Panel",
             "Header", "Text", "Drag Zone", "Resize Zone", "Close Button",
             "Debugging", "SF Scene Elements", "Main Camera", "Background",
-            "Particle System", "AltUnityDialog"
+            "Particle System"
         }
 
         input_marks = []
@@ -55,50 +55,50 @@ class TestScene02:
             assert name in names
 
     def test_resize_panel(self):
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
-        position_init = (alt_unity_object.x, alt_unity_object.y)
+        alt_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+        position_init = (alt_object.x, alt_object.y)
 
         self.altdriver.swipe(
-            alt_unity_object.get_screen_position(),
-            (alt_unity_object.x - 200, alt_unity_object.y - 200),
+            alt_object.get_screen_position(),
+            (alt_object.x - 200, alt_object.y - 200),
             duration=2
         )
         # time.sleep(2)
 
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
-        position_final = (alt_unity_object.x, alt_unity_object.y)
+        alt_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+        position_final = (alt_object.x, alt_object.y)
 
         assert position_init != position_final
 
     def test_resize_panel_with_multipoint_swipe(self):
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
-        position_init = (alt_unity_object.x, alt_unity_object.y)
+        alt_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+        position_init = (alt_object.x, alt_object.y)
 
         positions = [
-            alt_unity_object.get_screen_position(),
-            [alt_unity_object.x - 200, alt_unity_object.y - 200],
-            [alt_unity_object.x - 300, alt_unity_object.y - 100],
-            [alt_unity_object.x - 50, alt_unity_object.y - 100],
-            [alt_unity_object.x - 100, alt_unity_object.y - 100]
+            alt_object.get_screen_position(),
+            [alt_object.x - 200, alt_object.y - 200],
+            [alt_object.x - 300, alt_object.y - 100],
+            [alt_object.x - 50, alt_object.y - 100],
+            [alt_object.x - 100, alt_object.y - 100]
         ]
         self.altdriver.multipoint_swipe(positions, duration=4)
 
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
-        position_final = (alt_unity_object.x, alt_unity_object.y)
+        alt_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+        position_final = (alt_object.x, alt_object.y)
 
         assert position_init != position_final
 
     def test_pointer_down_from_object(self):
         panel = self.altdriver.find_object(By.NAME, "Panel")
         color1 = panel.get_component_property(
-            "AltUnityExampleScriptPanel",
+            "AltExampleScriptPanel",
             "normalColor",
             assembly="Assembly-CSharp"
         )
         panel.pointer_down()
 
         color2 = panel.get_component_property(
-            "AltUnityExampleScriptPanel",
+            "AltExampleScriptPanel",
             "highlightColor",
             assembly="Assembly-CSharp"
         )
@@ -108,7 +108,7 @@ class TestScene02:
     def test_pointer_up_from_object(self):
         panel = self.altdriver.find_object(By.NAME, "Panel")
         color1 = panel.get_component_property(
-            "AltUnityExampleScriptPanel",
+            "AltExampleScriptPanel",
             "normalColor",
             assembly="Assembly-CSharp"
         )
@@ -116,7 +116,7 @@ class TestScene02:
 
         panel.pointer_up()
         color2 = panel.get_component_property(
-            "AltUnityExampleScriptPanel",
+            "AltExampleScriptPanel",
             "highlightColor",
             assembly="Assembly-CSharp"
         )

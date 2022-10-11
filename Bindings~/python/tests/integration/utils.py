@@ -2,7 +2,7 @@
 
 
 class Scenes:
-    Scene01 = "Scene 1 AltUnityDriverTestScene"
+    Scene01 = "Scene 1 AltDriverTestScene"
     Scene02 = "Scene 2 Draggable Panel"
     Scene03 = "Scene 3 Drag And Drop"
     Scene05 = "Scene 5 Keyboard Input"
