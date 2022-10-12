@@ -12,7 +12,6 @@
 - "Set_text() doesn't work for Unity Input Field" !759
 - "[Python] move_touch send wrong parameters" !765
 - "Change method that uses reflection to have assembly as required parameters" !
-- "Update naming in AltTester prefab" !931
 - "[Advanced Usage] [Upgrade Guides] Invalid syntax for some C# examples" !763
 - "[AltUnity Tester Editor] Add Section for "Test run Settings" and replace screenshots" !761
 - "Some tests fail if Input System v >= 1.4.0" !766
