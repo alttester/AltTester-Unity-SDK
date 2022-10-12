@@ -31,7 +31,7 @@ jobs:
           name: DocumentationHTML
           path: Docs/build/html/
 
-      - name: Upload dev docs
+      - name: Upload dev documentation
         env:
           HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
           DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
