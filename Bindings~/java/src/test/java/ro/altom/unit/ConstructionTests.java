@@ -6,10 +6,10 @@
 //import org.junit.runner.RunWith;
 //import org.junit.runners.Parameterized;
 //import org.junit.runners.Parameterized.Parameters;
-//import ro.altom.altunitytester.AltUnityDriver;
-//import ro.altom.altunitytester.altUnityTesterExceptions.AltUnityException;
-//import ro.altom.altunitytester.altUnityTesterExceptions.ConnectionException;
-//import ro.altom.altunitytester.altUnityTesterExceptions.InvalidParameterException;
+//import ro.altom.alttester.AltDriver;
+//import ro.altom.alttester.altTesterExceptions.AltException;
+//import ro.altom.alttester.altTesterExceptions.ConnectionException;
+//import ro.altom.alttester.altTesterExceptions.InvalidParameterException;
 //
 //import java.util.Arrays;
 //import java.util.Collection;
@@ -35,7 +35,7 @@
 //    public int port;
 //
 //    @Parameterized.Parameter(2)
-//    public Class<AltUnityException> clazz;
+//    public Class<AltException> clazz;
 //
 //    @Parameterized.Parameter(3)
 //    public String expectedMessage;
@@ -47,6 +47,6 @@
 //    public void createWithInvalidIp() {
 //        thrown.expect(clazz);
 //        thrown.expectMessage(expectedMessage);
-//        AltUnityDriver driver = new AltUnityDriver(ip, port);
+//        AltDriver driver = new AltDriver(ip, port);
 //    }
 //}
