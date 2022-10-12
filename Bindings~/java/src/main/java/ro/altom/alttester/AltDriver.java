@@ -352,7 +352,7 @@ public class AltDriver {
     /**
      * Simulates key press action in your game.
      * 
-     * @param altPressKeyParameters - AltUnityKeyCode keyCode* , float power , float
+     * @param altPressKeyParameters - AltKeyCode keyCode* , float power , float
      *                              duration , boolean wait
      */
     public void pressKey(AltPressKeyParams altPressKeyParameters) {
@@ -363,7 +363,7 @@ public class AltDriver {
     /**
      * Simulates multiple keys pressed action in your game.
      * 
-     * @param altPressKeysParameters - AltUnityKeyCode[] keyCodes* , float power ,
+     * @param altPressKeysParameters - AltKeyCode[] keyCodes* , float power ,
      *                               float duration , boolean wait
      */
     public void pressKeys(AltPressKeysParams altPressKeysParameters) {
@@ -374,7 +374,7 @@ public class AltDriver {
     /**
      * Simulates a key down.
      * 
-     * @param keyDownParams - AltUnityKeyCode keyCode* , float power
+     * @param keyDownParams - AltKeyCode keyCode* , float power
      * @throws InterruptedException
      */
     public void keyDown(AltKeyDownParams keyDownParams) throws InterruptedException {
@@ -385,7 +385,7 @@ public class AltDriver {
     /**
      * Simulates multiple keys down.
      * 
-     * @param keysDownParams - AltUnityKeyCode keyCode* , float power
+     * @param keysDownParams - AltKeyCode keyCode* , float power
      */
     public void keysDown(AltKeysDownParams keysDownParams) {
         new AltKeysDown(this.connection.messageHandler, keysDownParams).Execute();
@@ -405,7 +405,7 @@ public class AltDriver {
     /**
      * Simulates multiple keys up.
      * 
-     * @param keysUpParams - AltUnityKeyCode[] keyCodes
+     * @param keysUpParams - AltKeyCode[] keyCodes
      */
     public void keysUp(AltKeysUpParams keysUpParams) {
         new AltKeysUp(this.connection.messageHandler, keysUpParams).Execute();
@@ -569,7 +569,7 @@ public class AltDriver {
     /**
      * Sets the level of logging on AltTester
      *
-     * @param parameters - AltUnityLogger logger* , AltUnityLogLevel logLevel*
+     * @param parameters - AltLogger logger* , AltLogLevel logLevel*
      */
     public void setServerLogging(AltSetServerLoggingParams parameters) {
         new AltSetServerLogging(this.connection.messageHandler, parameters).Execute();

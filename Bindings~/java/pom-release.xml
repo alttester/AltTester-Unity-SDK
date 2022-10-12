@@ -189,7 +189,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ro.altom.altunitytester</mainClass>
+                            <mainClass>ro.altom.alttester</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

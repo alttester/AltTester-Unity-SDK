@@ -59,7 +59,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the parent of the Alt object on which it is called
+     * Returns the parent of the AltTester object on which it is called
      *
      * @return - The parent object
      */
@@ -72,7 +72,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the screen position of the Alt object
+     * Returns the screen position of the AltTester object
      *
      * @return - The screen position
      */
@@ -81,7 +81,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the world position of the Alt object
+     * Returns the world position of the AltTester object
      *
      * @return - The world position
      */
@@ -91,7 +91,10 @@ public class AltObject {
 
     /**
      * Returns the value of the given component property.
-     * @param altGetComponentPropertyParameters - String componentName* , String propertyName* , String assembly , int maxDepth
+     * 
+     * @param altGetComponentPropertyParameters - String componentName* , String
+     *                                          propertyName* , String assembly ,
+     *                                          int maxDepth
      * @return - The value of the given component property
      */
     public <T> T getComponentProperty(AltGetComponentPropertyParams altGetComponentPropertyParameters,
@@ -104,7 +107,10 @@ public class AltObject {
 
     /**
      * Sets value of the given component property.
-     * @param altSetComponentPropertyParameters - String componentName* , String propertyName* , String assembly , String value*
+     * 
+     * @param altSetComponentPropertyParameters - String componentName* , String
+     *                                          propertyName* , String assembly ,
+     *                                          String value*
      */
     public void setComponentProperty(AltSetComponentPropertyParams altSetComponentPropertyParameters) {
         altSetComponentPropertyParameters.setAltObject(this);
@@ -114,7 +120,11 @@ public class AltObject {
 
     /**
      * Invokes a method from an existing component of the object.
-     * @param altCallComponentMethodParameters - String componentName* , String methodName* , Object[] parameters*, String[] typeOfParameters , String assembly
+     * 
+     * @param altCallComponentMethodParameters - String componentName* , String
+     *                                         methodName* , Object[] parameters*,
+     *                                         String[] typeOfParameters , String
+     *                                         assembly
      * @param returnType
      * @return Actions of the method invoked
      */
@@ -129,7 +139,8 @@ public class AltObject {
     /**
      * Returns text value from a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * @return Text value 
+     * 
+     * @return Text value
      */
     public String getText() {
         AltGetTextParams altGetTextParameters = new AltGetTextParams(this);
@@ -141,6 +152,7 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
+     * 
      * @param text
      * @return Element that have text value changed
      */
@@ -156,6 +168,7 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
+     * 
      * @param parameters
      * @return Element that have text value changed
      */
@@ -168,7 +181,8 @@ public class AltObject {
 
     /**
      * Simulates pointer up action on the object.
-     * @return Element that simulates pointer up action 
+     * 
+     * @return Element that simulates pointer up action
      */
     public AltObject pointerUp() {
         return sendActionAndEvaluateResult("pointerUpFromObject");
@@ -176,7 +190,8 @@ public class AltObject {
 
     /**
      * Simulates pointer down action on the object.
-     * @return  Element that simulates pointer down action
+     * 
+     * @return Element that simulates pointer down action
      */
     public AltObject pointerDown() {
         return sendActionAndEvaluateResult("pointerDownFromObject");
@@ -184,6 +199,7 @@ public class AltObject {
 
     /**
      * Simulates pointer enter action on the object.
+     * 
      * @return Element that simulates pointer enter action
      */
     public AltObject pointerEnter() {
@@ -192,6 +208,7 @@ public class AltObject {
 
     /**
      * Simulates pointer exit action on the object.
+     * 
      * @return Element that simulates pointer exit action
      */
     public AltObject pointerExit() {

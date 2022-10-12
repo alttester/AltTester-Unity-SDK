@@ -52,7 +52,7 @@ public class WebsocketConnection {
     // Processing at session release
     @OnClose
     public void onClose(Session session, CloseReason reason) {
-        logger.debug("Connection to Alt closed: {}.", reason.toString());
+        logger.debug("Connection to AltTester closed: {}.", reason.toString());
     }
 
     public WebsocketConnection(String host, int port, int connectTimeout) {
