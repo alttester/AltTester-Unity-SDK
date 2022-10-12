@@ -8,9 +8,9 @@
     <packaging>jar</packaging>
     <version>1.8.0</version>
 
-    <name>AltUnity Tester - Java Client</name>
+    <name>AltTester Unity SDK - Java Client</name>
     <description>An automated tool for testing Unity Games</description>
-    <url>http://://gitlab.com/altom/altunity/altunitytester</url>
+    <url>https://github.com/alttester/AltTester-Unity-SDK</url>
 
     <licenses>
         <license>

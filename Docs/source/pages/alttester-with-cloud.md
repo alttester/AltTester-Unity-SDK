@@ -2,23 +2,23 @@
 
 In some cases you might want to run your tests on dozens or even hundreds of real devices, to test the compatibility of your app on many different device models and OS versions. There are multiple device farms which will enable you to do so, without having to own the devices yourself.
 
-Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. These services will not work with AltUnity Tester.
+Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. These services will not work with AltTester Unity SDK.
 
-If your tests are running locally, on your machine, and the device is running in the cloud, your local tests cannot communicate with the Web Socket that AltUnity Tester opens on a specific port inside the device. That's because AltUnity Tester requires you to configure your port forwarding from the device to the machine running the tests.
+If your tests are running locally, on your machine, and the device is running in the cloud, your local tests cannot communicate with the Web Socket that AltTester Unity SDK opens on a specific port inside the device. That's because AltTester Unity SDK requires you to configure your port forwarding from the device to the machine running the tests.
 
-However, some of these cloud services give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. This means you can configure your port forwarding so that the tests can connect to the Web Socket opened by AltUnity Tester inside the game running on the device.
+However, some of these cloud services give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. This means you can configure your port forwarding so that the tests can connect to the Web Socket opened by AltTester Unity SDK inside the game running on the device.
 
-So far, we know that **AWS Device Farm** and **BitBar Cloud** both offer this type of "server-side" running, so they both support running AltUnity tests. If you know of any other device cloud providers that might support this, please let us know and we will try them out.
+So far, we know that **AWS Device Farm** and **BitBar Cloud** both offer this type of "server-side" running, so they both support running AltTester tests. If you know of any other device cloud providers that might support this, please let us know and we will try them out.
 
 ## BitBar Cloud
 
-BitBar Cloud is a platform that provides access to hundreds of real iOS and Android devices. It supports client side test execution, but also server-side test execution which we need in order to make AltUnity work.
+BitBar Cloud is a platform that provides access to hundreds of real iOS and Android devices. It supports client side test execution, but also server-side test execution which we need in order to make AltTester work.
 
 You can create a free account at <https://cloud.bitbar.com> and try out the test examples detailed below for yourself.
 
 In order to run tests on the BitBart Cloud, you will first need to create two files:
 
-* **.ipa** (for iOS) / **.apk** (for Android) file, with a build of your app containing the AltUnity driver;
+* **.ipa** (for iOS) / **.apk** (for Android) file, with a build of your app containing the AltDriver;
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -36,21 +36,21 @@ For more details about the content of this file please see the BitBar documentat
 
 ### BitBar project example
 
-You can download our example BitBar project [here](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python-bitbar).
+You can download our example BitBar project [here](https://github.com/alttester-test-examples/Python-Bitbar-AltTrashCat).
 It contains a pre-built ***ipa*** and ***apk*** file, so you can try out running tests on both Android and iOS
 
 **Steps to run the tests on BitBar:**
 1. From the cloned repository, run the *`create-bitbar-package.sh <ios|android>`* script, choosing your desired os as a parameter. This will create a **.zip** file, containing all the files required to execute the tests;
 
 2. On BitBar, create a new project, and Select a target OS type (Android in our example) and a framework (Appium Server Side);
-![Step1](../_static/img/tester-with-cloud/bitbar-step-1.png)
+![Step1](../_static/img/alttester-with-cloud/bitbar-step-1.png)
 
 3. Upload the application file (**.apk** or **.ipa**) and the **.zip** file. Please make sure to highlight both before clicking on *"Use selected"*.
-![Step2.1](../_static/img/tester-with-cloud/bitbar-step-2-1.png)
+![Step2.1](../_static/img/alttester-with-cloud/bitbar-step-2-1.png)
 
 
     By default, the selected action for the zip file should be *“Use to run the test”* and for the app file *“Install on the device”*. If not, use the dropdown lists to select them.
-    ![Step2.2](../_static/img/tester-with-cloud/bitbar-step-2-2.png)
+    ![Step2.2](../_static/img/alttester-with-cloud/bitbar-step-2-2.png)
 
 4. If you are using a free account, leave the *“Use existing device group”* option checked, together with *“Trial Android devices”* selected. If you have a subscription, please see the BitBar Cloud documentation [here](https://docs.bitbar.com/testing/user-manuals/device-groups) for more info about creating your own device groups;
 
@@ -72,12 +72,12 @@ Amazon offers another great alternative to cloud mobile testing, in the form of 
 
 Just like with BitBar, you will need two files in order to run your tests:
 
-* **.apk** file, with a build of your app containing the AltUnity driver;
+* **.apk** file, with a build of your app containing the AltDriver;
 * A **.zip** file containing your tests.
 
 ### AWS Device Farm project example
 
-You can download our example project [here](https://gitlab.com/altom/altunity/examples/alttrashcat-tests-python-aws).
+You can download our example project [here](https://github.com/alttester-test-examples/Python-AWS-AltTrashCat).
 It contains a pre-built ***apk*** file, so you can try out running tests on Android
 
 **Steps to run the tests on AWS:**
