@@ -1,14 +1,14 @@
 [Test]
 public void TestDeleteKey()
 {
-    altUnityDriver.DeletePlayerPref();
-    altUnityDriver.SetKeyPlayerPref("test", 1);
-    var val = altUnityDriver.GetIntKeyPlayerPref("test");
+    altDriver.DeletePlayerPref();
+    altDriver.SetKeyPlayerPref("test", 1);
+    var val = altDriver.GetIntKeyPlayerPref("test");
     Assert.AreEqual(1, val);
-    altUnityDriver.DeleteKeyPlayerPref("test");
+    altDriver.DeleteKeyPlayerPref("test");
     try
     {
-        altUnityDriver.GetIntKeyPlayerPref("test");
+        altDriver.GetIntKeyPlayerPref("test");
         Assert.Fail();
     }
     catch (NotFoundException exception)

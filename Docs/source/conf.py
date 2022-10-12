@@ -20,13 +20,13 @@ from recommonmark.parser import CommonMarkParser
 
 # -- Project information -----------------------------------------------------
 
-project = 'AltUnity Tools'
+project = 'AltTester'
 copyright = '2022, Altom Consulting'
 author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
 # displays version under project title
-version = 'AltUnity Tester v1.8.0'
+version = 'AltTester Unity SDK v1.8.0'
 release = 'v1.8.0'
 
 
@@ -81,9 +81,9 @@ html_static_path = ['_static']
 
 # -- RTD Theme ---------------------------------------------------------------
 
-html_logo = '_static/logo/AltUnity-512x512.png'
-html_favicon = '_static/logo/AltUnity-512x512.png'
-html_title = 'AltUnity Tester Documentation'
+html_logo = '_static/logo/AltTester-512x512.png'
+html_favicon = '_static/logo/AltTester-512x512.png'
+html_title = 'AltTester Unity SDK Documentation'
 
 html_css_files = [
     'css/custom.css',

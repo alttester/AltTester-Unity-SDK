@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
     <version>1.8.0</version>
 
-    <name>AltTester</name>
+    <name>AltTester-Driver</name>
     <description>An automated tool for testing Unity Games</description>
     <url>https://github.com/alttester/AltTester-Unity-SDK</url>
 
