@@ -17,34 +17,34 @@ MonoBehaviour:
   IProxyPath: /usr/local/bin/iproxy
   XcrunPath: /usr/bin/xcrun
   MyTests:
-  - _selected: 1
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+  - _selected: 0
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testAssembly: Assembly-CSharp-Editor
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestAssembly
     _parentName: 
-    _testCaseCount: 276
-    _foldOut: 0
+    _testCaseCount: 285
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 276
+    _testSelectedCount: 226
   - _selected: 1
     _testName: Altom
     _testAssembly: Assembly-CSharp-Editor
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestSuite
-    _parentName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 219
-    _foldOut: 0
+    _parentName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testCaseCount: 226
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 226
   - _selected: 1
     _testName: Altom.AltDriver
     _testAssembly: Assembly-CSharp-Editor
@@ -52,13 +52,13 @@ MonoBehaviour:
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestSuite
     _parentName: Altom
-    _testCaseCount: 217
-    _foldOut: 0
+    _testCaseCount: 224
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 224
   - _selected: 1
     _testName: Altom.AltDriver.Tests
     _testAssembly: Assembly-CSharp-Editor
@@ -66,13 +66,13 @@ MonoBehaviour:
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestSuite
     _parentName: Altom.AltDriver
-    _testCaseCount: 217
-    _foldOut: 0
+    _testCaseCount: 224
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 224
   - _selected: 1
     _testName: Altom.AltDriver.Tests.AltCommandsTests
     _testAssembly: Assembly-CSharp-Editor
@@ -86,7 +86,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 1
   - _selected: 1
     _testName: Altom.AltDriver.Tests.AltCommandsTests.TestSetServerLogging
     _testAssembly: Assembly-CSharp-Editor
@@ -98,7 +98,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.7712717
+    _testDuration: 0.4530026
     path: Assets/AltTester/Examples/Test/Editor/Driver/Commands/AltCommandsTests.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -108,13 +108,13 @@ MonoBehaviour:
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
     _parentName: Altom.AltDriver.Tests
-    _testCaseCount: 192
-    _foldOut: 0
+    _testCaseCount: 193
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 193
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestAcceleration
     _testAssembly: Assembly-CSharp-Editor
@@ -123,10 +123,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.1731056
+    _testDuration: 1.2120341
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -137,10 +137,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.1873781
+    _testDuration: 1.2580505
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -151,10 +151,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0905999
+    _testDuration: 0.1349496
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -165,10 +165,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.095715
+    _testDuration: 0.138462
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -179,10 +179,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0760385
+    _testDuration: 0.1375653
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -193,10 +193,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0750721
+    _testDuration: 0.1312679
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -207,10 +207,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0658516
+    _testDuration: 0.131557
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -221,10 +221,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0862653
+    _testDuration: 0.1378524
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -235,10 +235,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.072677
+    _testDuration: 0.127721
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -249,10 +249,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.267323
+    _testDuration: 0.2800538
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -263,10 +263,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0834149
+    _testDuration: 0.1559215
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -277,10 +277,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0697807
+    _testDuration: 0.1286987
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -291,10 +291,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0756978
+    _testDuration: 0.1394147
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -305,10 +305,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0981476
+    _testDuration: 0.1741418
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -319,10 +319,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0745955
+    _testDuration: 0.1390601
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -333,10 +333,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0711325
+    _testDuration: 0.1383714
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -347,10 +347,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0843513
+    _testDuration: 0.1656564
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -361,10 +361,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0708095
+    _testDuration: 0.1442598
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -375,10 +375,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0715245
+    _testDuration: 0.1365057
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -389,10 +389,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0931597
+    _testDuration: 0.1779606
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -403,10 +403,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0944342
+    _testDuration: 0.1268555
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -417,10 +417,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0570591
+    _testDuration: 0.117824
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -431,10 +431,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0597135
+    _testDuration: 0.1186929
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -445,10 +445,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1486415
+    _testDuration: 0.2226124
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -459,10 +459,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.2550646
+    _testDuration: 0.327474
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -473,10 +473,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1976387
+    _testDuration: 0.2592283
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -487,10 +487,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.2801426
+    _testDuration: 0.3234547
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -501,10 +501,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1347017
+    _testDuration: 0.2374753
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -515,27 +515,24 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.116796
+    _testDuration: 0.1637055
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestClickCoordinates_ColliderParentCollider
     _testAssembly: Assembly-CSharp-Editor
-    _status: -1
+    _status: 1
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: "  Expected: True\n  But was:  False\n"
-    _testStackTrace: 'at Altom.AltDriver.Tests.TestForScene1TestSample.TestClickCoordinates_ColliderParentCollider
-      () [0x0007f] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs:1914
-
-'
-    _testDuration: 0.2210975
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.3143933
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -546,10 +543,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1101751
+    _testDuration: 0.1711496
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -560,10 +557,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1969061
+    _testDuration: 0.2881632
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -574,10 +571,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0847517
+    _testDuration: 0.1647184
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -588,10 +585,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1155149
+    _testDuration: 0.1917913
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -602,10 +599,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.2346999
+    _testDuration: 0.2968298
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -616,10 +613,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.809563
+    _testDuration: 0.8898415
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -630,10 +627,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.813691
+    _testDuration: 0.8916683
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -644,10 +641,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.792626
+    _testDuration: 0.9621857
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -658,10 +655,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.3909544
+    _testDuration: 1.4856107
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -672,10 +669,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1188082
+    _testDuration: 0.1793824
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -686,10 +683,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1470154
+    _testDuration: 0.2398867
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -700,10 +697,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1983022
+    _testDuration: 0.4696358
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -714,10 +711,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.6985266
+    _testDuration: 0.7674322
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -728,10 +725,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0729901
+    _testDuration: 0.1272821
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -742,28 +739,24 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0611199
+    _testDuration: 0.1389693
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestFindElementAtCoordinates_3dElement
     _testAssembly: Assembly-CSharp-Editor
-    _status: -1
+    _status: 1
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: "  Expected string length 7 but was 11. Strings differ at
-      index 7.\n  Expected: \"Capsule\"\n  But was:  \"CapsuleInfo\"\n  ------------------^\n"
-    _testStackTrace: 'at Altom.AltDriver.Tests.TestForScene1TestSample.TestFindElementAtCoordinates_3dElement
-      () [0x0002b] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs:2085
-
-'
-    _testDuration: 0.0810173
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.1654703
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -774,10 +767,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0866596
+    _testDuration: 0.130216
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -788,10 +781,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0674492
+    _testDuration: 0.138738
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -802,10 +795,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0723179
+    _testDuration: 0.1347894
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -816,10 +809,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0615345
+    _testDuration: 0.1342519
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -830,10 +823,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0587002
+    _testDuration: 0.1308777
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -844,10 +837,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0988648
+    _testDuration: 0.1336291
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -858,10 +851,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0716659
+    _testDuration: 0.1327144
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -877,7 +870,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 4
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestFindingDifferentObjects("//*[contains(@name,Cub)]","Cube")
     _testAssembly: Assembly-CSharp-Editor
@@ -889,7 +882,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0614125
+    _testDuration: 0.1233975
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -903,7 +896,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0606032
+    _testDuration: 0.1191646
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -917,7 +910,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0711408
+    _testDuration: 0.138484
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -931,7 +924,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0653002
+    _testDuration: 0.1327786
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -942,10 +935,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0587316
+    _testDuration: 0.1565205
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -956,10 +949,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0705261
+    _testDuration: 0.1288384
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -975,7 +968,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 9
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("/Canvas[0]","CapsuleInfo",True)
     _testAssembly: Assembly-CSharp-Editor
@@ -987,7 +980,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0673456
+    _testDuration: 0.1387193
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1001,7 +994,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0580346
+    _testDuration: 0.1338476
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1015,7 +1008,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0726882
+    _testDuration: 0.1203223
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1029,7 +1022,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0741218
+    _testDuration: 0.1429678
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1043,7 +1036,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0576162
+    _testDuration: 0.1310937
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1057,7 +1050,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0567053
+    _testDuration: 0.1554057
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1071,7 +1064,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0678053
+    _testDuration: 0.1289536
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1085,7 +1078,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0641457
+    _testDuration: 0.1334024
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1099,7 +1092,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0596818
+    _testDuration: 0.1315429
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1110,10 +1103,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0996164
+    _testDuration: 0.2046015
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1124,10 +1117,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1305343
+    _testDuration: 0.2479148
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1138,10 +1131,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0613627
+    _testDuration: 1.0713366
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1152,10 +1145,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0597299
+    _testDuration: 0.1297614
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1166,10 +1159,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.04847
+    _testDuration: 1.0816857
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1180,10 +1173,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0586657
+    _testDuration: 0.1347401
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1194,10 +1187,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0668719
+    _testDuration: 0.1389348
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1208,10 +1201,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0578053
+    _testDuration: 0.1486007
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1222,10 +1215,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0604063
+    _testDuration: 0.1446397
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1236,10 +1229,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1357526
+    _testDuration: 0.2572624
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1250,10 +1243,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.070154
+    _testDuration: 0.1423775
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1264,10 +1257,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0736242
+    _testDuration: 0.1423141
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1278,10 +1271,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0774475
+    _testDuration: 0.1370383
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1292,10 +1285,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0769422
+    _testDuration: 0.1303954
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1306,10 +1299,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0712101
+    _testDuration: 0.121712
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1320,10 +1313,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.1884062
+    _testDuration: 1.3605685
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1334,10 +1327,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1652599
+    _testDuration: 0.3094528
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1348,10 +1341,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1358844
+    _testDuration: 0.2549224
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1362,10 +1355,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0720225
+    _testDuration: 0.1332475
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1376,10 +1369,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.094231
+    _testDuration: 0.1750481
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1390,10 +1383,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1290198
+    _testDuration: 0.2602454
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1404,10 +1397,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0595453
+    _testDuration: 0.120892
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1418,10 +1411,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0585299
+    _testDuration: 0.1267872
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1432,28 +1425,24 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1114443
+    _testDuration: 0.1856748
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestGet3DObjectFromScreenshot
     _testAssembly: Assembly-CSharp-Editor
-    _status: -1
+    _status: 1
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: "  Expected string length 7 but was 11. Strings differ at
-      index 7.\n  Expected: \"Capsule\"\n  But was:  \"CapsuleInfo\"\n  ------------------^\n"
-    _testStackTrace: 'at Altom.AltDriver.Tests.TestForScene1TestSample.TestGet3DObjectFromScreenshot
-      () [0x00069] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs:1160
-
-'
-    _testDuration: 0.0959801
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.2885498
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1464,10 +1453,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0722166
+    _testDuration: 0.1355131
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1478,10 +1467,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0613822
+    _testDuration: 0.1340762
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1492,10 +1481,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1002248
+    _testDuration: 0.1797999
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1506,10 +1495,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0923216
+    _testDuration: 0.1699098
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1520,10 +1509,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0735957
+    _testDuration: 0.1420352
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1534,10 +1523,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0809068
+    _testDuration: 0.1442995
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1548,10 +1537,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0872437
+    _testDuration: 0.1510217
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1562,10 +1551,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0896663
+    _testDuration: 0.1450978
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1576,10 +1565,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1081909
+    _testDuration: 0.1658802
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1590,10 +1579,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1016891
+    _testDuration: 0.159479
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1604,10 +1593,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.084159
+    _testDuration: 0.1808452
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1618,10 +1607,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0903637
+    _testDuration: 0.1505382
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1632,10 +1621,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0845408
+    _testDuration: 0.1661084
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1646,10 +1635,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0637652
+    _testDuration: 0.1242149
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1660,10 +1649,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0905692
+    _testDuration: 0.1438788
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1674,10 +1663,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0689572
+    _testDuration: 0.1577167
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1688,10 +1677,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0745535
+    _testDuration: 0.1475923
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1702,10 +1691,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0707801
+    _testDuration: 0.1479463
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1716,10 +1705,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0840861
+    _testDuration: 0.1504589
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1730,10 +1719,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0743176
+    _testDuration: 0.1447857
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1744,10 +1733,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0764165
+    _testDuration: 0.1496937
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1758,10 +1747,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0748852
+    _testDuration: 0.1478803
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1772,10 +1761,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0654771
+    _testDuration: 1.0870781
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1786,10 +1775,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0722775
+    _testDuration: 0.1440784
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1800,10 +1789,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0823421
+    _testDuration: 0.1341824
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1814,10 +1803,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0850395
+    _testDuration: 0.1367316
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1828,10 +1817,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0712757
+    _testDuration: 0.1476787
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1842,10 +1831,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.076682
+    _testDuration: 0.1509198
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1856,10 +1845,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0594415
+    _testDuration: 0.1436104
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1870,10 +1859,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0733308
+    _testDuration: 1.0846649
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1884,10 +1873,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0713047
+    _testDuration: 0.1527623
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1898,44 +1887,38 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0920947
+    _testDuration: 0.2574137
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestGetScreensizeScreenshot
     _testAssembly: Assembly-CSharp-Editor
-    _status: -1
+    _status: 1
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: "  Expected: True\n  But was:  False\n"
-    _testStackTrace: 'at Altom.AltDriver.Tests.TestForScene1TestSample.TestGetScreensizeScreenshot
-      () [0x0005f] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs:1467
-
-'
-    _testDuration: 0.1195345
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.7392816
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestGetStaticProperty
     _testAssembly: Assembly-CSharp-Editor
-    _status: -1
+    _status: 1
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: "  Expected: 1920\n  But was:  3024\n"
-    _testStackTrace: 'at Altom.AltDriver.Tests.TestForScene1TestSample.TestGetStaticProperty
-      () [0x00075] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs:2025
-
-'
-    _testDuration: 0.0718976
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.128284
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1946,10 +1929,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.072627
+    _testDuration: 0.1362581
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1960,10 +1943,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1007699
+    _testDuration: 0.2860071
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1974,10 +1957,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0630372
+    _testDuration: 0.1298113
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -1988,10 +1971,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.1213916
+    _testDuration: 1.203736
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2002,10 +1985,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0798301
+    _testDuration: 0.1277667
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2016,10 +1999,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.100152
+    _testDuration: 0.1755261
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2030,10 +2013,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.633943
+    _testDuration: 0.809933
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2044,10 +2027,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.2011066
+    _testDuration: 0.2736485
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2058,10 +2041,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0991609
+    _testDuration: 0.1662205
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2072,10 +2055,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1489661
+    _testDuration: 0.349013
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2086,10 +2069,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0861354
+    _testDuration: 0.2019364
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2100,10 +2083,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0824862
+    _testDuration: 0.1396883
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2114,10 +2097,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1236905
+    _testDuration: 0.2708933
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2128,10 +2111,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1317617
+    _testDuration: 0.1956704
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2142,10 +2125,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 3.884037
+    _testDuration: 4.0125052
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2156,10 +2139,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.3011699
+    _testDuration: 0.3618468
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2170,10 +2153,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1857677
+    _testDuration: 0.2685247
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2184,10 +2167,24 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.158354
+    _testDuration: 0.3049341
+    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    _testSelectedCount: 0
+  - _selected: 1
+    _testName: Altom.AltDriver.Tests.TestForScene1TestSample.TestScrollViewSwipe
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 1
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
+    _testCaseCount: 1
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 1.3841337
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2198,10 +2195,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0810845
+    _testDuration: 1.1282619
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2212,10 +2209,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0907183
+    _testDuration: 0.1540366
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2226,10 +2223,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1018649
+    _testDuration: 0.1514284
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2240,10 +2237,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0978278
+    _testDuration: 0.1584164
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2254,10 +2251,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0832707
+    _testDuration: 0.1585695
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2268,10 +2265,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0900794
+    _testDuration: 0.1469141
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2282,10 +2279,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.08634
+    _testDuration: 0.1579115
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2296,10 +2293,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0891637
+    _testDuration: 0.1495101
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2310,10 +2307,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0757242
+    _testDuration: 0.1693288
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2324,10 +2321,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0841414
+    _testDuration: 0.2150485
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2338,10 +2335,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0951148
+    _testDuration: 0.1606584
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2352,10 +2349,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0864225
+    _testDuration: 0.1562825
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2366,10 +2363,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1434217
+    _testDuration: 0.2077166
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2380,10 +2377,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1312231
+    _testDuration: 0.2021904
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2394,10 +2391,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0960738
+    _testDuration: 1.1502879
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2408,10 +2405,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1019903
+    _testDuration: 0.1664155
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2422,10 +2419,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.6134826
+    _testDuration: 1.6946956
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2436,10 +2433,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.6297884
+    _testDuration: 0.6844549
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2450,10 +2447,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1075955
+    _testDuration: 0.2178235
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2464,10 +2461,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1903019
+    _testDuration: 0.2846627
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2478,10 +2475,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.2280497
+    _testDuration: 0.3777217
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2492,10 +2489,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.074131
+    _testDuration: 0.1335761
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2506,10 +2503,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1211632
+    _testDuration: 0.2034848
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2520,10 +2517,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.077098
+    _testDuration: 0.1532544
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2534,10 +2531,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0711245
+    _testDuration: 1.1373187
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2548,10 +2545,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1136914
+    _testDuration: 0.1804247
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2562,10 +2559,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0945205
+    _testDuration: 0.1672232
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2576,10 +2573,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.124146
+    _testDuration: 0.2055423
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2590,10 +2587,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0944252
+    _testDuration: 0.1825657
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2604,10 +2601,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0624846
+    _testDuration: 0.1250474
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2618,10 +2615,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0587706
+    _testDuration: 0.1254254
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2632,10 +2629,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0589453
+    _testDuration: 0.1438976
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2646,10 +2643,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.081346
+    _testDuration: 1.138052
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2660,10 +2657,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0606068
+    _testDuration: 1.1183127
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2674,10 +2671,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1460106
+    _testDuration: 0.2467698
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2688,10 +2685,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 5.2259187
+    _testDuration: 5.3806565
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2702,10 +2699,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 5.2172382
+    _testDuration: 5.3986763
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2716,10 +2713,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 5.2413684
+    _testDuration: 5.3958429
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2730,10 +2727,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 5.224877
+    _testDuration: 5.4165948
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2744,10 +2741,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0867057
+    _testDuration: 1.1584111
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2758,10 +2755,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0640419
+    _testDuration: 0.1297507
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2772,10 +2769,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0621202
+    _testDuration: 0.1233635
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2786,10 +2783,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0738187
+    _testDuration: 0.1636121
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2800,10 +2797,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0635546
+    _testDuration: 0.1416799
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2814,10 +2811,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1638085
+    _testDuration: 0.3076693
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2828,10 +2825,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1389837
+    _testDuration: 0.2698758
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2842,10 +2839,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene1TestSample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0745643
+    _testDuration: 1.1397167
     path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2856,12 +2853,12 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestFixture
     _parentName: Altom.AltDriver.Tests
     _testCaseCount: 12
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 12
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene2DraggablePanel.TestClosePanel
     _testAssembly: Assembly-CSharp-Editor
@@ -2870,10 +2867,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1613232
+    _testDuration: 0.316546
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2884,10 +2881,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.155546
+    _testDuration: 0.239745
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2898,10 +2895,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.074866
+    _testDuration: 0.1495465
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2912,10 +2909,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 2.0440378
+    _testDuration: 2.0759964
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2926,10 +2923,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0704391
+    _testDuration: 0.1349765
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2940,10 +2937,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0688684
+    _testDuration: 0.1490712
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2954,10 +2951,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 2.079014
+    _testDuration: 2.1700453
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2968,10 +2965,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1186151
+    _testDuration: 0.1895192
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2982,10 +2979,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.1002421
+    _testDuration: 1.1765435
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -2996,10 +2993,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.1062132
+    _testDuration: 1.2043484
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3010,10 +3007,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 2.0891416
+    _testDuration: 2.1583161
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3024,10 +3021,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene2DraggablePanel
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 4.0938971
+    _testDuration: 4.1801768
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3043,7 +3040,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 5
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene3DragAndDrop.MultipleDragAndDrop
     _testAssembly: Assembly-CSharp-Editor
@@ -3055,7 +3052,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 4.5472884
+    _testDuration: 4.7465704
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3069,7 +3066,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 4.4200472
+    _testDuration: 4.7186572
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3083,7 +3080,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 5.3407033
+    _testDuration: 5.6387227
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3097,7 +3094,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1298092
+    _testDuration: 0.2642865
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3111,7 +3108,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1743579
+    _testDuration: 0.280801
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3127,7 +3124,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 2
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene4NoCameras.TestFindElementInASceneWithNoCameras
     _testAssembly: Assembly-CSharp-Editor
@@ -3139,7 +3136,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0534067
+    _testDuration: 0.0989246
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene4NoCameras.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3153,7 +3150,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0253959
+    _testDuration: 0.0716877
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene4NoCameras.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3163,12 +3160,26 @@ MonoBehaviour:
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
     _parentName: Altom.AltDriver.Tests
-    _testCaseCount: 4
-    _foldOut: 0
+    _testCaseCount: 10
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
+    _testSelectedCount: 10
+  - _selected: 1
+    _testName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestButton
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 1
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
+    _testCaseCount: 1
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.2997703
+    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestCameraMovement
@@ -3178,10 +3189,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 2.1462202
+    _testDuration: 2.1674813
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3192,10 +3203,10 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.1647474
+    _testDuration: 1.5212099
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3206,10 +3217,38 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 2.8726329
+    _testDuration: 2.952912
+    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    _testSelectedCount: 0
+  - _selected: 1
+    _testName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestKeyboardPress
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 1
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
+    _testCaseCount: 1
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 40.2000441
+    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    _testSelectedCount: 0
+  - _selected: 1
+    _testName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestKeyDownAndKeyUp
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 1
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
+    _testCaseCount: 1
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.3366952
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3220,10 +3259,52 @@ MonoBehaviour:
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 3.0931829
+    _testDuration: 3.1759785
+    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    _testSelectedCount: 0
+  - _selected: 1
+    _testName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestPowerJoystick
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 1
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
+    _testCaseCount: 1
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0.417814
+    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    _testSelectedCount: 0
+  - _selected: 1
+    _testName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestScroll
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 1
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
+    _testCaseCount: 1
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 4.1690211
+    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    _testSelectedCount: 0
+  - _selected: 1
+    _testName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestScrollAndWait
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 1
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: Altom.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
+    _testCaseCount: 1
+    _foldOut: 1
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 2.1704516
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3239,7 +3320,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 1
   - _selected: 1
     _testName: Altom.AltDriver.Tests.TestInputActions.TestScrollAndWait
     _testAssembly: Assembly-CSharp-Editor
@@ -3251,7 +3332,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.3044095
+    _testDuration: 0.3954514
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestInputActions.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3267,7 +3348,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 2
   - _selected: 1
     _testName: Altom.AltInstrumentation.Tests
     _testAssembly: Assembly-CSharp-Editor
@@ -3281,7 +3362,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 2
   - _selected: 1
     _testName: Altom.AltInstrumentation.Tests.WebSocketClientCommunicationTests
     _testAssembly: Assembly-CSharp-Editor
@@ -3295,7 +3376,7 @@ MonoBehaviour:
     _testStackTrace: 
     _testDuration: 0
     path: 
-    _testSelectedCount: 0
+    _testSelectedCount: 2
   - _selected: 1
     _testName: Altom.AltInstrumentation.Tests.WebSocketClientCommunicationTests.TestConnectWithNoServer
     _testAssembly: Assembly-CSharp-Editor
@@ -3307,7 +3388,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0124773
+    _testDuration: 0.0049125
     path: Assets/AltTester/Examples/Test/Editor/Server/WebSocketClientCommunicationTests.cs
     _testSelectedCount: 0
   - _selected: 1
@@ -3321,16 +3402,16 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0530287
+    _testDuration: 2.0613978
     path: Assets/AltTester/Examples/Test/Editor/Server/WebSocketClientCommunicationTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests
     _testAssembly: Assembly-CSharp-Editor
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _parentName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 40
     _foldOut: 0
     _testResultMessage: 
@@ -3338,10 +3419,10 @@ MonoBehaviour:
     _testDuration: 0
     path: 
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.ParameterizedMethodSuite
     _parentName: PathSelectorTests
@@ -3352,10 +3433,10 @@ MonoBehaviour:
     _testDuration: 0
     path: 
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@layer,\\[name\\])]","[name]")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideFunctions
@@ -3363,13 +3444,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0015121
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@tag,\\/na\\/me\\/)]","/na/me/")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideFunctions
@@ -3377,13 +3458,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0002295
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@text,\\;na\\;me\\;)]",";na;me;")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideFunctions
@@ -3391,13 +3472,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000443
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@component,\\\\na\\\\me\\\\)]","\\na\\me\\")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideFunctions
@@ -3405,13 +3486,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000453
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@name,\\&na\\&me\\&)]","&na&me&")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideFunctions
@@ -3419,13 +3500,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000434
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@tag,\\!na\\!me\\!)]","!na!me!")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideFunctions
@@ -3433,13 +3514,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000461
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@tag,\\(na\\)me\\()]","(na)me(")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideFunctions
@@ -3447,13 +3528,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.000041
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.ParameterizedMethodSuite
     _parentName: PathSelectorTests
@@ -3464,10 +3545,10 @@ MonoBehaviour:
     _testDuration: 0
     path: 
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\[name\\]","[name]")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3475,13 +3556,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0009151
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\/name","/name")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3489,13 +3570,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000809
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//na\\/me","na/me")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3503,13 +3584,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000341
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//name\\/","name/")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3517,13 +3598,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000344
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//na\\;me","na;me")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3531,13 +3612,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0001016
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\;name",";name")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3545,13 +3626,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000392
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//name\\;","name;")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3559,13 +3640,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000498
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\\\na\\\\me\\\\","\\na\\me\\")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3573,13 +3654,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000327
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\&na\\&me\\&","&na&me&")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3587,13 +3668,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000411
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\!na\\!me\\!","!na!me!")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3601,13 +3682,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000372
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.ParameterizedMethodSuite
     _parentName: PathSelectorTests
@@ -3618,10 +3699,10 @@ MonoBehaviour:
     _testDuration: 0
     path: 
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@layer=\\[name\\]]","[name]")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideSelectors
@@ -3629,13 +3710,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0011558
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@tag=\\/na\\/me\\/]","/na/me/")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideSelectors
@@ -3643,13 +3724,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000943
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@text=\\;na\\;me\\;]",";na;me;")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideSelectors
@@ -3657,13 +3738,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.000043
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@component=\\\\na\\\\me\\\\]","\\na\\me\\")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideSelectors
@@ -3671,13 +3752,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000432
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@name=\\&na\\&me\\&]","&na&me&")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideSelectors
@@ -3685,13 +3766,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000426
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@tag=\\!na\\!me\\!]","!na!me!")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestEscapedCharactersInsideSelectors
@@ -3699,13 +3780,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000374
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.ParameterizedMethodSuite
     _parentName: PathSelectorTests
@@ -3716,11 +3797,11 @@ MonoBehaviour:
     _testDuration: 0
     path: 
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("","Path must start with
       delimiter / or //")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3728,14 +3809,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0007388
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("///","Expected object
       name or *. Got ``")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3743,14 +3824,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000831
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//[@text=123]","Expected
       object name or *. Got `[@text=123]`")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3758,14 +3839,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000394
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//name[contains(@invalid,2)","Condition
       didn't end with ]. Got `name[contains(@invalid,2)`")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3773,14 +3854,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.000046
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//name[invalid]","Expected
       index as a number got [invalid]")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3788,14 +3869,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0002783
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: 'PathSelectorTests.TestInvalidPathSelectors("//name[@invalid=22]","Invalid
       property type ''invalid''. Expected one of: id,name,tag,layer,component,text")'
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3803,14 +3884,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0007364
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//[1]","Expected object
       name or *. Got `[1]`")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3818,14 +3899,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000742
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//test////name","Expected
       object name or *. Got ``")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3833,14 +3914,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000403
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//test///name","Expected
       object name or *. Got ``")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3848,14 +3929,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0000362
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//name//..","Expected
       /, // or /..; got //..")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3863,14 +3944,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0002051
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//name\\","Final \\ must
       be escaped. Add another \\ at the end to escape it")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3878,14 +3959,14 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0001813
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//*[contains(@name,Pla]","Expected
       property selector format `function(@propertyName,propertyvalue)` Got contains(@name,Pla")
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests.TestInvalidPathSelectors
@@ -3893,13 +3974,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0004299
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Any
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests
@@ -3907,13 +3988,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0007206
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Function
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests
@@ -3921,13 +4002,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0019715
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Indexer
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests
@@ -3935,13 +4016,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0013934
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Name
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests
@@ -3949,13 +4030,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0006442
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Property
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: PathSelectorTests
@@ -3963,27 +4044,27 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0013282
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS
     _testAssembly: Assembly-CSharp-Editor
-    _status: -1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 14
+    _parentName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testCaseCount: 15
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestBeginMoveEndTouch
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -3991,13 +4072,27 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.2398504
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
+    _testName: TestForNIS.TestCapsuleJumps
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 0
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: TestForNIS
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
+    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    _testSelectedCount: 0
+  - _selected: 0
     _testName: TestForNIS.TestClickCoordinates
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4005,13 +4100,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1651159
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestClickElement
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4019,35 +4114,27 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.1145125
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestKeyDownAndKeyUp
     _testAssembly: Assembly-CSharp-Editor
-    _status: -1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: "  String lengths are both 16. Strings differ at index 15.\n 
-      Expected: \"JoystickButton16\"\n  But was:  \"JoystickButton19\"\n  --------------------------^\n"
-    _testStackTrace: 'at TestForNIS.joystickKeyDownAndUp (Altom.AltDriver.AltObject
-      player, Altom.AltDriver.AltKeyCode altKeyCode, System.Single power) [0x00047]
-      in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs:127
-
-      at
-      TestForNIS.TestKeyDownAndKeyUp () [0x00134] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs:105
-
-'
-    _testDuration: 7.7872413
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestMultipointSwipe
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4055,13 +4142,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 5.3405361
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestPressAllKeys
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4069,13 +4156,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 22.0951645
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestPressKey
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4083,13 +4170,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.5765985
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestPressKeys
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4097,13 +4184,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.2052783
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestScroll
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4111,13 +4198,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.5907134
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestScrollElement
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4125,13 +4212,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.1245866
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestSwipe
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4139,13 +4226,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0966027
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestTapCoordinates
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4153,13 +4240,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0975118
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestTapElement
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4167,13 +4254,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0972748
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestForNIS.TestTilt
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestForNIS
@@ -4181,27 +4268,41 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 1.0976421
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestNotification
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-    _testCaseCount: 3
+    _parentName: D:/Altom/altunitytester/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testCaseCount: 4
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
+    _testName: TestNotification.TestApplicationPaused
+    _testAssembly: Assembly-CSharp-Editor
+    _status: 0
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: TestNotification
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
+    path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
+    _testSelectedCount: 0
+  - _selected: 0
     _testName: TestNotification.TestLoadSceneNotification
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestNotification
@@ -4209,13 +4310,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0431423
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestNotification.TestLogNotification
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestNotification
@@ -4223,13 +4324,13 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.069085
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
     _testSelectedCount: 0
-  - _selected: 1
+  - _selected: 0
     _testName: TestNotification.TestUnloadSceneNotification
     _testAssembly: Assembly-CSharp-Editor
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestNotification
@@ -4237,11 +4338,11 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0863814
+    _testDuration: 0
     path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
     _testSelectedCount: 0
   - _selected: 1
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll
     _testAssembly: Unity.VisualStudio.Editor
     _status: 0
     _isSuite: 1
@@ -4255,7 +4356,7 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 1
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/UnityEngine.TestRunner.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/UnityEngine.TestRunner.dll
     _testAssembly: UnityEngine.TestRunner
     _status: 0
     _isSuite: 1
@@ -4269,14 +4370,14 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 0
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/AltTester.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/AltTester.dll
     _testAssembly: AltTester
-    _status: 1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestAssembly
     _parentName: 
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
@@ -4285,12 +4386,12 @@ MonoBehaviour:
   - _selected: 0
     _testName: TestExample
     _testAssembly: AltTester
-    _status: 1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/AltTester.dll
+    _parentName: D:/Altom/altunitytester/Library/ScriptAssemblies/AltTester.dll
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
@@ -4299,19 +4400,19 @@ MonoBehaviour:
   - _selected: 0
     _testName: TestExample.Test
     _testAssembly: AltTester
-    _status: 1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: TestExample
     _testCaseCount: 1
-    _foldOut: 0
+    _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.0001809
+    _testDuration: 0
     path: Assets/AltTester/Editor/DefaultTestExample.txt
     _testSelectedCount: 0
   - _selected: 1
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/UnityEditor.TestRunner.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/UnityEditor.TestRunner.dll
     _testAssembly: UnityEditor.TestRunner
     _status: 0
     _isSuite: 1
@@ -4325,7 +4426,7 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 1
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.Rider.Editor.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Unity.Rider.Editor.dll
     _testAssembly: Unity.Rider.Editor
     _status: 0
     _isSuite: 1
@@ -4339,13 +4440,13 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 0
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.IntegrationTests.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Unity.InputSystem.IntegrationTests.dll
     _testAssembly: Unity.InputSystem.IntegrationTests
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestAssembly
     _parentName: 
-    _testCaseCount: 2
+    _testCaseCount: 4
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
@@ -4355,11 +4456,11 @@ MonoBehaviour:
   - _selected: 0
     _testName: IntegrationTests
     _testAssembly: Unity.InputSystem.IntegrationTests
-    _status: -1
+    _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.IntegrationTests.dll
-    _testCaseCount: 2
+    _parentName: D:/Altom/altunitytester/Library/ScriptAssemblies/Unity.InputSystem.IntegrationTests.dll
+    _testCaseCount: 4
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
@@ -4369,83 +4470,61 @@ MonoBehaviour:
   - _selected: 0
     _testName: IntegrationTests.Integration_CanChangeInputBackendPlayerSettingInEditor
     _testAssembly: Unity.InputSystem.IntegrationTests
-    _status: -1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: IntegrationTests
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 'UnityEngine.UnityException : FindObjectsOfTypeAll can only
-      be called from the main thread.
-
-      Constructors and field initializers
-      will be executed from the loading thread when loading a scene.
-
-      Don''t
-      use this function in the constructor or field initializers, instead move initialization
-      code to the Awake or Start function.'
-    _testStackTrace: "  at (wrapper managed-to-native) UnityEngine.ResourcesAPIInternal.FindObjectsOfTypeAll(System.Type)\n 
-      at UnityEngine.ResourcesAPI.FindObjectsOfTypeAll (System.Type systemTypeInstance)
-      [0x00000] in /Users/bokken/buildslave/unity/build/Runtime/Export/Resources/Resources.bindings.cs:69
-      \n  at UnityEngine.Resources.FindObjectsOfTypeAll (System.Type type) [0x00001]
-      in /Users/bokken/buildslave/unity/build/Runtime/Export/Resources/Resources.bindings.cs:100
-      \n  at UnityEngine.Resources.FindObjectsOfTypeAll[T] () [0x00001] in /Users/bokken/buildslave/unity/build/Runtime/Export/Resources/Resources.bindings.cs:105
-      \n  at UnityEngine.InputSystem.Editor.EditorPlayerSettingHelpers.GetPropertyOrNull
-      (System.String name) [0x00000] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/InputSystem/Editor/Settings/EditorPlayerSettingHelpers.cs:157
-      \n  at UnityEngine.InputSystem.Editor.EditorPlayerSettingHelpers.get_oldSystemBackendsEnabled
-      () [0x00000] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/InputSystem/Editor/Settings/EditorPlayerSettingHelpers.cs:65
-      \n  at IntegrationTests.Integration_CanChangeInputBackendPlayerSettingInEditor
-      () [0x00000] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/Tests/IntegrationTests/IntegrationTests.cs:97
-      \n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\n 
-      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
-      culture) [0x0006a] in <5e2d116f98d140d0a76ec8a673a2a4ac>:0 "
-    _testDuration: 0.0057071
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
     path: Packages/com.unity.inputsystem/Tests/IntegrationTests
     _testSelectedCount: 0
   - _selected: 0
     _testName: IntegrationTests.Integration_CanSendAndReceiveEvents
     _testAssembly: Unity.InputSystem.IntegrationTests
-    _status: -1
+    _status: 0
     _isSuite: 0
     _type: NUnit.Framework.Internal.TestMethod
     _parentName: IntegrationTests
     _testCaseCount: 1
     _foldOut: 0
-    _testResultMessage: 'UnityEngine.UnityException : AllocateDeviceId can only be
-      called from the main thread.
-
-      Constructors and field initializers will
-      be executed from the loading thread when loading a scene.
-
-      Don''t use
-      this function in the constructor or field initializers, instead move initialization
-      code to the Awake or Start function.'
-    _testStackTrace: "  at (wrapper managed-to-native) UnityEngineInternal.Input.NativeInputSystem.AllocateDeviceId()\n 
-      at UnityEngine.InputSystem.LowLevel.NativeInputRuntime.AllocateDeviceId ()
-      [0x00000] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/InputSystem/NativeInputRuntime.cs:27
-      \n  at UnityEngine.InputSystem.InputManager.AssignUniqueDeviceId (UnityEngine.InputSystem.InputDevice
-      device) [0x0003f] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/InputSystem/InputManager.cs:2040
-      \n  at UnityEngine.InputSystem.InputManager.AddDevice (UnityEngine.InputSystem.InputDevice
-      device) [0x0003c] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/InputSystem/InputManager.cs:1093
-      \n  at UnityEngine.InputSystem.InputManager.AddDevice (System.String layout,
-      System.String name, UnityEngine.InputSystem.Utilities.InternedString variants)
-      [0x0003e] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/InputSystem/InputManager.cs:1050
-      \n  at UnityEngine.InputSystem.InputManager.AddDevice (System.Type type, System.String
-      name) [0x0002c] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/InputSystem/InputManager.cs:1035
-      \n  at UnityEngine.InputSystem.InputSystem.AddDevice[TDevice] (System.String
-      name) [0x00000] in /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/InputSystem/InputSystem.cs:1446
-      \n  at IntegrationTests.Integration_CanSendAndReceiveEvents () [0x00000] in
-      /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/PackageCache/com.unity.inputsystem@1.4.1/Tests/IntegrationTests/IntegrationTests.cs:75
-      \n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\n 
-      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
-      culture) [0x0006a] in <5e2d116f98d140d0a76ec8a673a2a4ac>:0 "
-    _testDuration: 0.004421
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
+    path: Packages/com.unity.inputsystem/Tests/IntegrationTests
+    _testSelectedCount: 0
+  - _selected: 0
+    _testName: IntegrationTests.WindowsInput_MouseMovements_AreDetected
+    _testAssembly: Unity.InputSystem.IntegrationTests
+    _status: 0
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: IntegrationTests
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
+    path: Packages/com.unity.inputsystem/Tests/IntegrationTests
+    _testSelectedCount: 0
+  - _selected: 0
+    _testName: IntegrationTests.WindowsInput_RemoteDesktopMouseMovements_AreDetected
+    _testAssembly: Unity.InputSystem.IntegrationTests
+    _status: 0
+    _isSuite: 0
+    _type: NUnit.Framework.Internal.TestMethod
+    _parentName: IntegrationTests
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
     path: Packages/com.unity.inputsystem/Tests/IntegrationTests
     _testSelectedCount: 0
   - _selected: 1
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/AltTesterEditor.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/AltTesterEditor.dll
     _testAssembly: AltTesterEditor
     _status: 0
     _isSuite: 1
@@ -4459,7 +4538,7 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 1
-    _testName: /Users/robert.dezmerean/Documents/Code/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.TestFramework.dll
+    _testName: D:/Altom/altunitytester/Library/ScriptAssemblies/Unity.InputSystem.TestFramework.dll
     _testAssembly: Unity.InputSystem.TestFramework
     _status: 0
     _isSuite: 1
@@ -4509,15 +4588,15 @@ MonoBehaviour:
   - _toBeBuilt: 1
     _path: Assets/AltTester/Examples/Scenes/Scene6.unity
     _buildIndex: 11
-  platform: 2
+  platform: 1
   StandaloneTarget: 5
   RanInEditor: 1
   ScenePathDisplayed: 0
   InputVisualizer: 0
   ShowPopUp: 1
   BuildLocationPath: 
-  LatestDesktopVersion: 
-  ShowDesktopPopUpInEditor: 0
+  LatestInspectorVersion: 
+  ShowInspectorPopUpInEditor: 0
   createXMLReport: 0
   xMLFilePath: 
   AltTesterPort: 13000
