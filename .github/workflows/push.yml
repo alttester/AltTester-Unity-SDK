@@ -70,30 +70,30 @@ jobs:
           path: |
             *.log
             reportTest.xml
+            
+  test-DotNet:
+      runs-on: [self-hosted, macOS]
+      needs: build-macOS
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3.0.0
+          with:
+            name: 
+              BuildMacArtifact
+        - name: Setup .NET Core SDK
+          uses: actions/setup-dotnet@v2.1.1
+        - run: |
+            chmod -R 755  sampleGame.app
+            open sampleGame.app
+            dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
 
-  # test-DotNet:
-  #     runs-on: [self-hosted, macOS]
-  #     needs: build-macOS
-  #     steps:
-  #       - uses: actions/checkout@v3
-  #       - uses: actions/download-artifact@v3.0.0
-  #         with:
-  #           name:
-  #             BuildMacArtifact
-  #       - name: Setup .NET Core SDK
-  #         uses: actions/setup-dotnet@v2.1.1
-  #       - run: |
-  #           chmod -R 755  sampleGame.app
-  #           open sampleGame.app
-  #           dotnet test Bindings~/dotnet/AltUnityDriver.Tests/AltUnityDriver.Tests.csproj --logger:"console;verbosity=detailed"
-
-  #       - uses: actions/upload-artifact@v3.1.0
-  #         if: always() # run this step even if one of the previous step failed
-  #         with:
-  #           name: TestCSharpArtifact
-  #           path: |
-  #             *.log
-
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestCSharpArtifact
+            path: |
+              *.log
+  
   test-Python:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
@@ -143,31 +143,33 @@ jobs:
             path: |
               *.log
 
-  # test-Java:
-  #     runs-on: [self-hosted, macOS]
-  #     needs: build-macOS
-  #     steps:
-  #       - uses: actions/checkout@v3
-  #       - uses: actions/download-artifact@v3.0.0
-  #         with:
-  #           name:
-  #             BuildMacArtifact
+  test-Java:
+      runs-on: [self-hosted, macOS]
+      needs: build-macOS
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3.0.0
+          with:
+            name: 
+              BuildMacArtifact
+              
+        - name: Setup Java JDK
+          uses: actions/setup-java@v3.5.1
+          with:
+              distribution: temurin
+              java-version: 11
+        - uses: stCarolas/setup-maven@v4.4
+        - run: |
+            chmod -R 755  sampleGame.app
+            open sampleGame.app
+            cd "Bindings~/java"
+            mvn -Dtest=ro.altom.alttester.Tests* test
 
-  #       - name: Setup Java JDK
-  #         uses: actions/setup-java@v3.5.1
-  #         with:
-  #             distribution: temurin
-  #             java-version: 11
-  #       - uses: stCarolas/setup-maven@v4.4
-  #       - run: |
-  #           chmod -R 755  sampleGame.app
-  #           open sampleGame.app
-  #           cd "Bindings~/java"
-  #           mvn -Dtest=ro.altom.altunitytester.Tests* test
-
-  #       - uses: actions/upload-artifact@v3.1.0
-  #         if: always() # run this step even if one of the previous step failed
-  #         with:
-  #           name: TestJavaArtifact
-  #           path: |
-  #             *.log
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestJavaArtifact
+            path: |
+              *.log
+              
+      
