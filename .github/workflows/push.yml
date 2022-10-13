@@ -47,5 +47,5 @@ jobs:
           HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
           DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
         run: |
-          ssh -o 'StrictHostKeyChecking no' altomdotcom@"$HOST_IP_ALTOM" -p 34168  "rm -rf "$DOCUMENTATION_PATH"/*"
-          scp -r -P 34168 -o 'StrictHostKeyChecking no' DocumentationHTML/* altomdotcom@"$HOST_IP_ALTOM":"$DOCUMENTATION_PATH"
+          ssh -o 'StrictHostKeyChecking no' altomdotcom@$HOST_IP_ALTOM -p 34168  "rm -rf $DOCUMENTATION_PATH/*"
+          scp -r -P 34168 -o 'StrictHostKeyChecking no' DocumentationHTML/* altomdotcom@$HOST_IP_ALTOM:$DOCUMENTATION_PATH
