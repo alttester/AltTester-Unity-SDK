@@ -50,7 +50,7 @@ class TestScene02:
             "Particle System"
         }
         names = [element.name for element in elements]
-        assert len(names) == 24
+        assert len(names) == 24 or len(name) == 25
         for name in expected_names:
             assert name in names
 
