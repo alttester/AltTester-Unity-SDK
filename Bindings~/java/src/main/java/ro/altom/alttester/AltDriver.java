@@ -401,7 +401,7 @@ public class AltDriver {
      */
     public void keyUp(AltKeyUpParams keyUpParams) {
         AltKeyCode[] keyCodes = { keyUpParams.getKey() };
-        AltKeysUpParams params = new AltKeysUpParams().Builder({ keyUpParams.getKey() }).build();
+        AltKeysUpParams params = new AltKeysUpParams().Builder(keyCodes).build();
         this.keysUp(params);
     }
 
