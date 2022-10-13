@@ -28,7 +28,7 @@ public class AltExampleScriptDropMe : MonoBehaviour, IDropHandler, IPointerEnter
 
         Sprite dropSprite = GetDropSprite(data);
         if (dropSprite != null)
-            receivingImage.overrideSprite = dropSprite;
+            receivingImage.sprite = dropSprite;
     }
 
     public void OnPointerEnter(PointerEventData data)

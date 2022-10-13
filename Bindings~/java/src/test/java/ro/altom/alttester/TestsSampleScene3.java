@@ -7,12 +7,14 @@ import org.junit.Test;
 
 import ro.altom.alttester.AltDriver.By;
 import ro.altom.alttester.Commands.FindObject.AltFindObjectsParams;
+import ro.altom.alttester.Commands.FindObject.AltWaitForObjectsParams;
 import ro.altom.alttester.Commands.InputActions.AltMultiPointSwipeParams;
 import ro.altom.alttester.Commands.InputActions.AltSwipeParams;
 import ro.altom.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import ro.altom.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import ro.altom.alttester.position.Vector2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +23,14 @@ import static org.junit.Assert.*;
 public class TestsSampleScene3 {
     private static AltDriver altDriver;
 
+    public static class ImagesDrop {
+        public static String imageSource;
+        public static String imageSourceDropZone;
+        public ImagesDrop(String imageSource, String imageSourceDropZone) {
+           this.imageSource = imageSource;
+           this.imageSourceDropZone = imageSourceDropZone;
+        }
+    }
     class AltSprite {
         public String name;
     }
@@ -46,216 +56,143 @@ public class TestsSampleScene3 {
         altDriver.loadScene(params);
     }
 
+    private AltObject FindObject(By by,String name){
+        AltFindObjectsParams altElementParams = new AltFindObjectsParams.Builder(
+           by, name).build();
+        return altDriver.findObject(altElementParams);
+    }
+
+    private void dropImage(String dragLocationName, String dropLocationName, float duration, boolean wait)
+    {
+        AltObject dragLocation = FindObject(AltDriver.By.NAME, dragLocationName);
+        AltObject dropLocation = FindObject(AltDriver.By.NAME, dropLocationName);
+        altDriver
+            .swipe(new AltSwipeParams.Builder(dragLocation.getScreenPosition(), dropLocation.getScreenPosition())
+                    .withDuration(duration).withWait(wait).build());
+    }
+
+    private void waitForSwipeToFinish()
+    {
+        AltFindObjectsParams swipeImageFindObject = new AltFindObjectsParams.Builder(
+                AltDriver.By.NAME, "icon").build();
+        AltWaitForObjectsParams swipeImageParam = new AltWaitForObjectsParams.Builder(swipeImageFindObject).build();
+        altDriver.waitForObjectToNotBePresent(swipeImageParam);
+    }
+
+    private ImagesDrop getSpriteName(String sourceImageName, String imageSourceDropZoneName){
+
+        AltFindObjectsParams imageSourceParams = new AltFindObjectsParams.Builder(
+            AltDriver.By.NAME, sourceImageName).build();
+        AltFindObjectsParams imageSourceDropZoneParams = new AltFindObjectsParams.Builder(
+            AltDriver.By.NAME, imageSourceDropZoneName).build();
+
+        String imageSource = altDriver.findObject(imageSourceParams).getComponentProperty(
+            new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite.name").build(),
+            String.class);
+        String imageSourceDropZone = altDriver.findObject(imageSourceDropZoneParams).getComponentProperty(
+            new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite.name").build(),
+            String.class);
+
+        return new ImagesDrop(imageSource, imageSourceDropZone);
+    }
+
     @Test
     public void testMultipleDragAndDrop() throws Exception {
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drag Image1").build();
-        AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drop Box1").build();
-        AltFindObjectsParams altFindObjectsParameters3 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drag Image2").build();
-        AltFindObjectsParams altFindObjectsParameters4 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drag Image3").build();
-        AltFindObjectsParams altFindObjectsParameters5 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drop Box2").build();
-        AltFindObjectsParams altFindObjectsParameters6 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drop Image").build();
-        AltFindObjectsParams altFindObjectsParameters7 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drop Image").build();
-        AltObject altElement1 = altDriver.findObject(altFindObjectsParameters1);
 
-        AltObject altElement2 = altDriver.findObject(altFindObjectsParameters2);
-        altDriver
-                .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
-                        .withDuration(2).withWait(false).build());
+        dropImage("Drag Image2", "Drop Box2", 1, false);
+        dropImage("Drag Image3", "Drop Box1", 1, false);
+        dropImage("Drag Image1", "Drop Box1", 1, false);
+        waitForSwipeToFinish();
 
-        altElement1 = altDriver.findObject(altFindObjectsParameters3);
-        altElement2 = altDriver.findObject(altFindObjectsParameters5);
-        altDriver
-                .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
-                        .withDuration(2).withWait(false).build());
+        getSpriteName("Drag Image1", "Drop Image");
+        String imageSource = ImagesDrop.imageSource;
+        String imageSourceDropZone = ImagesDrop.imageSourceDropZone;
+        assertEquals(imageSource, imageSourceDropZone);
 
-        altElement1 = altDriver.findObject(altFindObjectsParameters4);
-        altElement2 = altDriver.findObject(altFindObjectsParameters2);
-        altDriver
-                .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
-                        .withDuration(3).withWait(false).build());
-
-        altElement1 = altDriver.findObject(altFindObjectsParameters1);
-        altElement2 = altDriver.findObject(altFindObjectsParameters2);
-        altDriver
-                .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
-                        .withDuration(5).withWait(false).build());
-
-        Thread.sleep(6000);
-
-        AltSprite imageSource = altDriver.findObject(altFindObjectsParameters1)
-                .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
-                        AltSprite.class);
-        AltSprite imageSourceDropZone = altDriver.findObject(altFindObjectsParameters6)
-                .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
-                        AltSprite.class);
-        assertNotSame(imageSource.name, imageSourceDropZone.name);
-
-        imageSource = altDriver.findObject(altFindObjectsParameters3).getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
-                AltSprite.class);
-        imageSourceDropZone = altDriver.findObject(altFindObjectsParameters7)
-                .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
-                        AltSprite.class);
-        assertNotSame(imageSource.name, imageSourceDropZone.name);
+        getSpriteName("Drag Image2", "Drop");
+        imageSource = ImagesDrop.imageSource;
+        imageSourceDropZone = ImagesDrop.imageSourceDropZone;
+        assertEquals(imageSource, imageSourceDropZone);
     }
 
     @Test
     public void testMultipleDragAndDropWait() throws Exception {
 
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drag Image1").build();
-        AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drop Box1").build();
-        AltFindObjectsParams altFindObjectsParameters3 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drag Image2").build();
-        AltFindObjectsParams altFindObjectsParameters4 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drag Image3").build();
-        AltFindObjectsParams altFindObjectsParameters5 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drop Box2").build();
-        AltFindObjectsParams altFindObjectsParameters6 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drop Image").build();
-        AltFindObjectsParams altFindObjectsParameters7 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drop Image").build();
+        dropImage("Drag Image2", "Drop Box2", (float)0.1, true);
+        dropImage("Drag Image3", "Drop Box1", (float)0.1, true);
+        dropImage("Drag Image1", "Drop Box1", (float)0.1, true);
+        waitForSwipeToFinish();
 
-        AltObject altElement1 = altDriver.findObject(altFindObjectsParameters1);
-        AltObject altElement2 = altDriver.findObject(altFindObjectsParameters2);
-        altDriver
-                .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
-                        .withDuration(2).build());
+        getSpriteName("Drag Image1", "Drop Image");
+        String imageSource = ImagesDrop.imageSource;
+        String imageSourceDropZone = ImagesDrop.imageSourceDropZone;
+        assertEquals(imageSource, imageSourceDropZone);
 
-        altElement1 = altDriver.findObject(altFindObjectsParameters3);
-        altElement2 = altDriver.findObject(altFindObjectsParameters5);
-        altDriver
-                .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
-                        .withDuration(2).build());
-
-        altElement1 = altDriver.findObject(altFindObjectsParameters4);
-        altElement2 = altDriver.findObject(altFindObjectsParameters2);
-        altDriver
-                .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
-                        .withDuration(3).build());
-
-        altElement1 = altDriver.findObject(altFindObjectsParameters1);
-        altElement2 = altDriver.findObject(altFindObjectsParameters2);
-        altDriver
-                .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
-                        .withDuration(1).build());
-        AltSprite imageSource = altDriver.findObject(altFindObjectsParameters1)
-                .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
-                        AltSprite.class);
-        AltSprite imageSourceDropZone = altDriver.findObject(altFindObjectsParameters6)
-                .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
-                        AltSprite.class);
-        assertNotSame(imageSource.name, imageSourceDropZone.name);
-
-        imageSource = altDriver.findObject(altFindObjectsParameters3).getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
-                AltSprite.class);
-        imageSourceDropZone = altDriver.findObject(altFindObjectsParameters7)
-                .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
-                        AltSprite.class);
-        assertNotSame(imageSource.name, imageSourceDropZone.name);
+        getSpriteName("Drag Image2", "Drop");
+        imageSource = ImagesDrop.imageSource;
+        imageSourceDropZone = ImagesDrop.imageSourceDropZone;
+        assertEquals(imageSource, imageSourceDropZone);
     }
 
     @Test
     public void testTestPointerEnterAndExit() throws Exception {
-        AltFindObjectsParams findObjectParams;
-
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
-        AltObject altElement = altDriver.findObject(findObjectParams);
+        AltObject altElement = FindObject(By.NAME, "Drop Image");
         AltColor color1 = altElement.getComponentProperty(
                 new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor").withAssembly(
                         "Assembly-CSharp").build(),
                 AltColor.class);
-
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
-        altDriver.findObject(findObjectParams).pointerEnter();
+        FindObject(By.NAME, "Drop Image").pointerEnter();
         AltColor color2 = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor").withAssembly(
-                        "Assembly-CSharp").build(),
-                AltColor.class);
-        assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b || color1.a != color2.a);
-
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
-        altDriver.findObject(findObjectParams).pointerExit();
+            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor").withAssembly(
+                    "Assembly-CSharp").build(),
+            AltColor.class);
+        assertNotEquals(color1, color2);
+        FindObject(By.NAME, "Drop Image").pointerEnter();
         AltColor color3 = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor").withAssembly(
-                        "Assembly-CSharp").build(),
-                AltColor.class);
-        assertTrue(color3.r != color2.r || color3.g != color2.g || color3.b != color2.b || color3.a != color2.a);
-        assertTrue(color1.r == color3.r && color1.g == color3.g && color1.b == color3.b && color1.a == color3.a);
+            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor").withAssembly(
+                    "Assembly-CSharp").build(),
+            AltColor.class);
+
+        assertNotEquals(color3, color2);
+        assertNotEquals(color1, color3);
+    }
+
+    private void dropImageWithMultipointSwipe(List<String> objectNames, float duration, boolean wait) {
+
+        List<Vector2> listPositions = new ArrayList<Vector2>();
+        for(int i=0;i<objectNames.size();i++){
+            AltFindObjectsParams elementParams = new AltFindObjectsParams.Builder(
+                AltDriver.By.NAME, objectNames.get(i)).build();
+            AltObject element = altDriver.findObject(elementParams);
+            listPositions.add(element.getScreenPosition());
+        }
+        altDriver.multipointSwipe(
+        new AltMultiPointSwipeParams.Builder(listPositions).withDuration(duration).withWait(wait).build());
     }
 
     @Test
-    public void testMultipleDragAndDropWaitWithMultipointSwipe() throws InterruptedException {
-        AltFindObjectsParams findObjectParams;
+    public void testMultipleDragAndDropWaitWithMultipointSwipe() throws Exception {
 
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
-        AltObject altElement1 = altDriver.findObject(findObjectParams);
+        List<String> objects1 = new ArrayList<String>();
+        List<String> objects2 = new ArrayList<String>();
+        objects1.add("Drag Image1");
+        objects1.add("Drop Box1");
+        objects2.add("Drag Image2");
+        objects2.add("Drop Box1");
+        objects2.add("Drop Box2");
 
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box1").build();
-        AltObject altElement2 = altDriver.findObject(findObjectParams);
+        dropImageWithMultipointSwipe(objects1, 1, true);
+        dropImageWithMultipointSwipe(objects2, 1, true);
 
-        List<Vector2> positions = Arrays.asList(new Vector2(altElement1.x, altElement1.y),
-                new Vector2(altElement2.x, altElement2.y));
+        getSpriteName("Drag Image1", "Drop Image");
+        String imageSource = ImagesDrop.imageSource;
+        String imageSourceDropZone = ImagesDrop.imageSourceDropZone;
+        assertEquals(imageSource, imageSourceDropZone);
 
-        altDriver.multipointSwipe(
-                new AltMultiPointSwipeParams.Builder(positions).withDuration(2).withWait(false).build());
-
-        Thread.sleep(2000);
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
-        altElement1 = altDriver.findObject(findObjectParams);
-
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box1").build();
-        altElement2 = altDriver.findObject(findObjectParams);
-
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box2").build();
-        AltObject altElement3 = altDriver.findObject(findObjectParams);
-
-        List<Vector2> positions2 = Arrays.asList(new Vector2(altElement1.x, altElement1.y),
-                new Vector2(altElement2.x, altElement2.y), new Vector2(altElement3.x, altElement3.y));
-        altDriver.multipointSwipe(new AltMultiPointSwipeParams.Builder(positions2).withDuration(3).build());
-
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
-        String imageSourceName = altDriver.findObject(findObjectParams).getComponentProperty(
-                new AltGetComponentPropertyParams.Builder(
-                        "UnityEngine.UI.Image",
-                        "sprite.name").build(),
-                String.class);
-
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
-        String imageSourceDropZoneName = altDriver.findObject(findObjectParams)
-                .getComponentProperty(new AltGetComponentPropertyParams.Builder(
-                        "UnityEngine.UI.Image",
-                        "sprite.name").build(),
-                        String.class);
-        assertNotEquals(imageSourceName, imageSourceDropZoneName);
-
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image2").build();
-        imageSourceName = altDriver.findObject(findObjectParams)
-                .getComponentProperty(new AltGetComponentPropertyParams.Builder(
-                        "UnityEngine.UI.Image",
-                        "sprite.name").build(),
-                        String.class);
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop").build();
-        imageSourceDropZoneName = altDriver.findObject(findObjectParams)
-                .getComponentProperty(new AltGetComponentPropertyParams.Builder(
-                        "UnityEngine.UI.Image",
-                        "sprite.name").build(),
-                        String.class);
-        assertNotEquals(imageSourceName, imageSourceDropZoneName);
+        getSpriteName("Drag Image2", "Drop");
+        imageSource = ImagesDrop.imageSource;
+        imageSourceDropZone = ImagesDrop.imageSourceDropZone;
+        assertEquals(imageSource, imageSourceDropZone);
     }
+    
 }
