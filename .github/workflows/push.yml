@@ -175,7 +175,7 @@ jobs:
 
   dev-docs:
     runs-on: [self-hosted, macOS]
-
+    needs: build-docs
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3.0.0
