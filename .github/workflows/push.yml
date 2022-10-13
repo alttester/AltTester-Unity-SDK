@@ -26,12 +26,14 @@ jobs:
         with:
           docs-folder: Docs
           build-command: make html
+
       - uses: actions/upload-artifact@v1
+        if: always() # run this step even if one of the previous step failed
         with:
           name: DocumentationHTML
           path: Docs/build/html/
 
-  deploy-dev-docs:
+  dev-docs:
     runs-on: [self-hosted, macOS]
 
     steps:
@@ -39,6 +41,7 @@ jobs:
       - uses: actions/download-artifact@v3.0.0
         with:
           name: DocumentationHTML
+          path: DocumentationHTML/
       env:
         HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
         DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
