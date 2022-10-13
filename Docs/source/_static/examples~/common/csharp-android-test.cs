@@ -1,33 +1,33 @@
 using NUnit.Framework;
-using Altom.AltUnityDriver;
+using Altom.AltDriver;
 
 public class MyFirstTest
 {
-  private AltUnityDriver altUnityDriver;
+  private AltDriver altDriver;
 
   [OneTimeSetUp]
   public void SetUp()
   {
-    AltUnityPortForwarding.ForwardAndroid();
-    altUnityDriver = new AltUnityDriver();
+    AltPortForwarding.ForwardAndroid();
+    altDriver = new AltDriver();
   }
 
   [OneTimeTearDown]
   public void TearDown()
   {
-    altUnityDriver.Stop();
-    AltUnityPortForwarding.RemoveForwardAndroid();
+    altDriver.Stop();
+    AltPortForwarding.RemoveForwardAndroid();
   }
 
   [Test]
   public void TestStartGame()
   {
-    altUnityDriver.LoadScene("Scene 2 Draggable Panel");
+    altDriver.LoadScene("Scene 2 Draggable Panel");
 
-    altUnityDriver.FindObject(By.NAME, "Close Button").Tap();
-    altUnityDriver.FindObject(By.NAME, "Button").Tap();
+    altDriver.FindObject(By.NAME, "Close Button").Tap();
+    altDriver.FindObject(By.NAME, "Button").Tap();
 
-    var panelElement = altUnityDriver.WaitForObject(By.NAME, "Panel");
+    var panelElement = altDriver.WaitForObject(By.NAME, "Panel");
     Assert.IsTrue(panelElement.enabled);
   }
 }

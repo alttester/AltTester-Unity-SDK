@@ -10,7 +10,7 @@
 //import java.util.concurrent.Executors;
 //
 ///**
-// * Dummy server that AltUnity client can connect to.
+// * Dummy server that Alt client can connect to.
 // */
 //public class DummyServer {
 //    private ServerSocket serverSocket;
