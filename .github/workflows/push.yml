@@ -47,5 +47,4 @@ jobs:
           HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
           DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
         run: |
-          echo ${{env.DOCUMENTATION_PATH}}
           scp -r -P 34168 -o 'StrictHostKeyChecking no' DocumentationHTML/* altomdotcom@${{env.HOST_IP_ALTOM}}:${{env.DOCUMENTATION_PATH}}
