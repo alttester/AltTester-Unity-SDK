@@ -31,19 +31,19 @@ jobs:
           name: DocumentationHTML
           path: Docs/build/html/
 
-    deploy-dev-docs:
-      runs-on: [self-hosted, macOS]
+  deploy-dev-docs:
+    runs-on: [self-hosted, macOS]
 
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name: DocumentationHTML
-        env:
-          HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
-          DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
-        run: |
-          scp -r -P 34168 -o 'StrictHostKeyChecking no' DocumentationHTML/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name: DocumentationHTML
+      env:
+        HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
+        DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
+      run: |
+        scp -r -P 34168 -o 'StrictHostKeyChecking no' DocumentationHTML/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
 
   # build-macOS:
   #     runs-on: [self-hosted, macOS]
