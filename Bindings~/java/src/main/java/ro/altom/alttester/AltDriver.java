@@ -15,6 +15,7 @@ import ro.altom.alttester.Commands.FindObject.*;
 import ro.altom.alttester.Commands.InputActions.*;
 import ro.altom.alttester.Commands.UnityCommand.*;
 import ro.altom.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import ro.altom.alttester.UnityStruct.AltKeyCode;
 import ro.altom.alttester.altTesterExceptions.*;
 import java.io.IOException;
 
