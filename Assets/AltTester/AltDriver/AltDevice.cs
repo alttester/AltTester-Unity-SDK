@@ -8,6 +8,7 @@ namespace Altom.AltDriver
         public bool Active { get; set; }
         public string Platform { get; set; }
         public int Pid { get; set; }
+        
         public AltDevice(string deviceId, string platform, int localPort = 13000, int remotePort = 13000, bool active = false, int pid = 0)
         {
             DeviceId = deviceId;
