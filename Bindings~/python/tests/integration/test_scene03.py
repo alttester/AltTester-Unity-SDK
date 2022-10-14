@@ -1,6 +1,6 @@
 import pytest
 
-from utils import Scenes
+from .utils import Scenes
 from alttester import By
 
 
@@ -10,10 +10,10 @@ class TestScene03:
     def setup(self, altdriver):
         self.altdriver = altdriver
         self.altdriver.load_scene(Scenes.Scene03)
-    
+
     def wait_for_swipe_to_finish(self):
         self.altdriver.wait_for_object_to_not_be_present(By.NAME, "icon")
-        
+
     def get_sprite_name(self, image_source, image_source_drop_zone, source_image_name, image_source_drop_zone_name):
         image_source = self.altdriver.find_object(By.NAME, source_image_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
@@ -38,20 +38,17 @@ class TestScene03:
         
     def test_pointer_enter_and_exit(self):
         alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
-        color1 = alt_object.get_component_property(
-            "AltExampleScriptDropMe", "highlightColor", assembly = "Assembly-CSharp")
+        color1 = alt_object.get_component_property("AltExampleScriptDropMe", "highlightColor", assembly = "Assembly-CSharp")
         alt_object.pointer_enter()
-        color2 = alt_object.get_component_property(
-            "AltExampleScriptDropMe", "highlightColor", assembly = "Assembly-CSharp")
-
+        color2 = alt_object.get_component_property("AltExampleScriptDropMe", "highlightColor", assembly = "Assembly-CSharp")
+        
         assert color1["r"] != color2["r"] or \
             color1["g"] != color2["g"] or \
             color1["b"] != color2["b"] or \
             color1["a"] != color2["a"]
 
         alt_object.pointer_exit()
-        color3 = alt_object.get_component_property(
-            "AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
+        color3 = alt_object.get_component_property("AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
 
         assert color3["r"] != color2["r"] or \
             color3["g"] != color2["g"] or \
@@ -79,10 +76,10 @@ class TestScene03:
         self.drop_image("Drag Image2", "Drop Box1", 1, True)
         self.drop_image("Drag Image1", "Drop Box1", 1, True)
         self.wait_for_swipe_to_finish()
-        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
+        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
 
-        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image2", "Drop")
+        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
         assert image_source == image_source_drop_zone
     
     def test_multiple_swipe_with_multipoint_swipe(self):
@@ -95,13 +92,13 @@ class TestScene03:
         
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
         assert image_source == image_source_drop_zone
-   
+
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
 
         self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, True)
         self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, True)
 
-        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
+        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
         
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
@@ -116,7 +113,6 @@ class TestScene03:
         self.altdriver.end_touch(id)
 
         imageSource = alt_object1.get_component_property("UnityEngine.UI.Image", "sprite.name")
-        imageSourceDropZone = self.altdriver.find_object(
-            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite.name")
+        imageSourceDropZone = self.altdriver.find_object(By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite.name")
 
         assert imageSource == imageSourceDropZone
