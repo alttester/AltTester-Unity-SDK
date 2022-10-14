@@ -1,0 +1,72 @@
+Upgrade from v1.7.0 to v1.8.0
+=============================
+
+This guide will assist in upgrading your AltUnity projects from **v1.7.0** to AltTester SDK
+**v1.8.0**.
+
+AltTester SDK v1.8.0 is a major update to the framework with a brand new internal
+communication protocol and as such includes a small number of breaking changes.
+All changes are listed below, organized by drivers along with how to upgrade
+your code to work with AltTester SDK v1.8.0.
+
+Python
+------
+**altunityrunner**  →  **alttester**
+
+1. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
+2. In case of `AltUnityObject` class, we changed the name to `AltObject`.
+3. In case of  `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
+4. In case of  `AltUnityLogger` class, we changed the name to `AltLogger`.
+5. In case of `AltUnityLogLevel` class, we changed the name to `AltLogLevel`.
+6. In case of `AltUnityException` class, we changed the name to `AltException`.
+7. In case of `AltUnityInvalidServerResponse` class, we changed the name to `AltTesterInvalidServerResponse`.
+8. In case of `AltUnityInvalidPathException` class, we changed the name to `InvalidPathException`.
+9. In case of `AltUnityInputModuleException` class, we changed the name to `AltTesterInputModuleException`.
+10. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
+
+
+Java
+----
+**altunityrunner**  →  **alttester**
+
+1. In case of `altunitytester-java-client` dependency, we changed the name to `alttester`.
+
+Replace:
+.. code-block:: java
+
+    <groupId>com.altom</groupId>
+    <artifactId>altunitytester-java-client</artifactId>
+    <packaging>jar</packaging>
+    <version>1.8.0</version>
+
+With:
+.. code-block:: java
+
+    <groupId>com.altom</groupId>
+    <artifactId>alttester</artifactId>
+    <packaging>jar</packaging>
+    <version>1.8.0</version>
+
+2. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
+3. In case of `AltUnityObject` class, we changed the name to `AltObject`.
+3. In case of `AltUnityDriverConfigFactory` class, we changed the name to `AltDriverConfigFactory`.
+4. In case of  `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
+5. In case of  `AltUnityLogger` class, we changed the name to `AltLogger`.
+6. In case of `AltUnityLogLevel` class, we changed the name to `AltLogLevel`.
+7. In case of `AltUnitySetServerLogging` class, we changed the name to `AltSetServerLogging`.
+8. In case of  `AltUnityAddNotificationListenerParams` class, we changed the name to `AltAddNotificationListenerParams`.
+9. In case of  `AltUnityAddNotificationListener` class, we changed the name to `AltAddNotificationListener`.
+10. In case of `AltUnityRemoveNotificationListenerParams` class, we changed the name to `AltRemoveNotificationListenerParams`.
+11. In case of `AltUnityRemoveNotificationListener` class, we changed the name to `AltRemoveNotificationListener`.
+12. In case of `setAltUnityObject` command, we changed the name to `setAltObject`.
+13. In case of `AltUnityObjectAction` class, we changed the name to `AltObjectAction`.
+14. In case of `AltUnityObjectProperty` class, we changed the name to `AltObjectProperty`.
+15. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
+16. In case of `AltInvalidServerResponse` class, we changed the name to `AltInvalidServerResponse`.
+17. In case of `ReceiveAltUnityObject` class, we changed the name to `ReceiveAltObject`.
+18. In case of `ReceiveListOfAltUnityObjects` class, we changed the name to `ReceiveListOfAltObjects`.
+19. In case of `AltUnityException` class, we changed the name to `AltException`.
+20. In case of `AltUnityObjectParams` class, we changed the name to `AltObjectParams`.
+21. In case of `AltUnityRecvallException` class, we changed the name to `AltRecvallException`.
+22. In case of `AltUnityLoadSceneNotificationResultParams` class, we changed the name to `AltLoadSceneNotificationResultParams`.
+23. In case of `AltUnityErrors` class, we changed the name to `AltErrors`.
