@@ -100,7 +100,7 @@ public class TestsSampleScene3 {
     public void testMultipleDragAndDrop() throws Exception {
 
         dropImage("Drag Image2", "Drop Box2", 1, false);
-        dropImage("Drag Image3", "Drop Box1", 1, false);
+        dropImage("Drag Image2", "Drop Box1", 1, false);
         dropImage("Drag Image1", "Drop Box1", 1, false);
         waitForSwipeToFinish();
 
@@ -119,7 +119,7 @@ public class TestsSampleScene3 {
     public void testMultipleDragAndDropWait() throws Exception {
 
         dropImage("Drag Image2", "Drop Box2", (float)0.1, true);
-        dropImage("Drag Image3", "Drop Box1", (float)0.1, true);
+        dropImage("Drag Image2", "Drop Box1", (float)0.1, true);
         dropImage("Drag Image1", "Drop Box1", (float)0.1, true);
         waitForSwipeToFinish();
 
