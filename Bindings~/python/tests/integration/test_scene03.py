@@ -17,7 +17,8 @@ class TestScene03:
     def get_sprite_name(self, image_source, image_source_drop_zone, source_image_name, image_source_drop_zone_name):
         image_source = self.altdriver.find_object(By.NAME, source_image_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
-        image_source_drop_zone = self.altdriver.find_object(By.NAME, image_source_drop_zone_name).get_component_property(
+        image_source_drop_zone = self.altdriver.find_object
+        (By.NAME, image_source_drop_zone_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
         return image_source, image_source_drop_zone
 
@@ -33,7 +34,8 @@ class TestScene03:
         drag_location = self.altdriver.find_object(By.NAME, drag_location_name)
         drop_location = self.altdriver.find_object(By.NAME, drop_location_name)
 
-        self.altdriver.swipe(drag_location.get_screen_position(), drop_location.get_screen_position(), duration= duration, wait= wait)
+        self.altdriver.swipe(drag_location.get_screen_position(), drop_location.get_screen_position(),
+        duration= duration, wait= wait)
         
     def test_pointer_enter_and_exit(self):
         alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
