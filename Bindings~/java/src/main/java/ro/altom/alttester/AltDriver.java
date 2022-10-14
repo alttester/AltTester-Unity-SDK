@@ -358,7 +358,7 @@ public class AltDriver {
      */
     public void pressKey(AltPressKeyParams altPressKeyParameters) {
         AltKeyCode[] keyCodes = { altPressKeyParameters.getKeyCode() };
-        AltPressKeysParams params = new AltPressKeysParams().Builder(keyCodes).withPower(altPressKeyParameters.getPower()).withDuration(altPressKeyParameters.getDuration()).withWait(altPressKeyParameters.getWait()).build();
+        AltPressKeysParams params = new AltPressKeysParams.Builder(keyCodes).withPower(altPressKeyParameters.getPower()).withDuration(altPressKeyParameters.getDuration()).withWait(altPressKeyParameters.getWait()).build();
         this.pressKeys(params);
     }
 
@@ -380,8 +380,8 @@ public class AltDriver {
      * @throws InterruptedException
      */
     public void keyDown(AltKeyDownParams keyDownParams) throws InterruptedException {
-        AltKeyCode[] keyCodes = { keyDownParams.getKeyCode() };
-        AltKeysDownParams params = new AltKeysDownParams().Builder(keyCodes).withPower(keyDownParams.getPower()).build();
+        AltKeyCode[] keys = { keyDownParams.getKeyCode() };
+        AltKeysDownParams params = new AltKeysDownParams.Builder(keys).withPower(keyDownParams.getPower()).build();
         this.keysDown(params);
     }
 
@@ -402,7 +402,7 @@ public class AltDriver {
      */
     public void keyUp(AltKeyUpParams keyUpParams) {
         AltKeyCode[] keyCodes = { keyUpParams.getKeyCode() };
-        AltKeysUpParams params = new AltKeysUpParams().Builder(keyCodes).build();
+        AltKeysUpParams params = new AltKeysUpParams.Builder(keyCodes).build();
         this.keysUp(params);
     }
 
