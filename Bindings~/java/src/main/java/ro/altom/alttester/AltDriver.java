@@ -358,7 +358,7 @@ public class AltDriver {
      */
     public void pressKey(AltPressKeyParams altPressKeyParameters) {
         AltKeyCode[] keyCodes = { altPressKeyParameters.getKeyCode() };
-        AltPressKeysParams params = new AltPressKeysParams().Builder(keyCodes).withPower(altPressKeyParameters.getPower()).withDuration(altPressKeyParameters.getDuration().withWait(altPressKeyParameters.getWait())).build();
+        AltPressKeysParams params = new AltPressKeysParams().Builder(keyCodes).withPower(altPressKeyParameters.getPower()).withDuration(altPressKeyParameters.getDuration()).withWait(altPressKeyParameters.getWait()).build();
         this.pressKeys(params);
     }
 
