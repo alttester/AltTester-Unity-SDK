@@ -1,6 +1,6 @@
 import pytest
 
-from .utils import Scenes
+from utils import Scenes
 from alttester import By
 
 
@@ -108,14 +108,14 @@ class TestScene03:
         assert image_source == image_source_drop_zone
 
     def test_begin_move_end_touch(self):
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        id = self.altdriver.begin_touch(alt_unity_object1.get_screen_position())
-        self.altdriver.move_touch(id, alt_unity_object2.get_screen_position())
+        id = self.altdriver.begin_touch(alt_object1.get_screen_position())
+        self.altdriver.move_touch(id, alt_object2.get_screen_position())
         self.altdriver.end_touch(id)
 
-        imageSource = alt_unity_object1.get_component_property("UnityEngine.UI.Image", "sprite.name")
+        imageSource = alt_object1.get_component_property("UnityEngine.UI.Image", "sprite.name")
         imageSourceDropZone = self.altdriver.find_object(
             By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite.name")
 
