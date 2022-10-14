@@ -96,9 +96,9 @@ class TestScene07B:
         self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, False)
         self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
 
-        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image1", "Drop Image")
+        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
         
-        image_source, image_source_drop_zone=self.get_sprite_name("Drag Image2", "Drop")
+        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
         assert image_source == image_source_drop_zone
     
