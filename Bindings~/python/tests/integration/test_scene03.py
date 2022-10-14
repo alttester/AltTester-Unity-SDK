@@ -15,7 +15,8 @@ class TestScene03:
         self.altdriver.wait_for_object_to_not_be_present(By.NAME, "icon")
 
     def get_sprite_name(self, image_source, image_source_drop_zone, source_image_name, image_source_drop_zone_name):
-        image_source = self.altdriver.find_object(By.NAME, source_image_name).get_component_property(
+        image_source = self.altdriver.find_object(
+            By.NAME, source_image_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
         image_source_drop_zone = self.altdriver.find_object
         (By.NAME, image_source_drop_zone_name).get_component_property(
@@ -38,9 +39,17 @@ class TestScene03:
         
     def test_pointer_enter_and_exit(self):
         alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
-        color1 = alt_object.get_component_property("AltExampleScriptDropMe", "highlightColor", assembly = "Assembly-CSharp")
+        color1 = alt_object.get_component_property(
+            "AltExampleScriptDropMe",
+            "highlightColor",
+            assembly="Assembly-CSharp"
+        )
         alt_object.pointer_enter()
-        color2 = alt_object.get_component_property("AltExampleScriptDropMe", "highlightColor", assembly = "Assembly-CSharp")
+        color2 = alt_object.get_component_property(
+            "AltExampleScriptDropMe",
+            "highlightColor",
+            assembly="Assembly-CSharp"
+        )
         
         assert color1["r"] != color2["r"] or \
             color1["g"] != color2["g"] or \
@@ -48,7 +57,11 @@ class TestScene03:
             color1["a"] != color2["a"]
 
         alt_object.pointer_exit()
-        color3 = alt_object.get_component_property("AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
+        color3 = alt_object.get_component_property(
+            "AltExampleScriptDropMe",
+            "highlightColor",
+            assembly="Assembly-CSharp"
+        )
 
         assert color3["r"] != color2["r"] or \
             color3["g"] != color2["g"] or \
@@ -113,6 +126,7 @@ class TestScene03:
         self.altdriver.end_touch(id)
 
         imageSource = alt_object1.get_component_property("UnityEngine.UI.Image", "sprite.name")
-        imageSourceDropZone = self.altdriver.find_object(By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite.name")
+        imageSourceDropZone = self.altdriver.find_object(By.NAME, "Drop Image").get_component_property(
+            "UnityEngine.UI.Image", "sprite.name")
 
         assert imageSource == imageSourceDropZone
