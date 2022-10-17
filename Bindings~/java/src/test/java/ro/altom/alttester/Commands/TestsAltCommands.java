@@ -41,7 +41,7 @@ public class TestsAltCommands {
                 new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
         Rule rule = altDriver.callStaticMethod(
                 new AltCallStaticMethodParams.Builder("Altom.AltTester.Logging.ServerLogManager",
-                        "Instance.Configuration.FindRuleByName", new Object[] { "AltServerFileRule" }, "Assembly-CSharp").build(),
+                        "Instance.Configuration.FindRuleByName", "Assembly-CSharp", new Object[] { "AltServerFileRule" }).build(),
                 Rule.class);
 
         assertEquals(5, rule.Levels.size());
@@ -50,7 +50,7 @@ public class TestsAltCommands {
                 new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Off).build());
         rule = altDriver.callStaticMethod(
                 new AltCallStaticMethodParams.Builder("Altom.AltTester.Logging.ServerLogManager",
-                        "Instance.Configuration.FindRuleByName", new Object[] { "AltServerFileRule" }, "Assembly-CSharp").build(),
+                        "Instance.Configuration.FindRuleByName", "Assembly-CSharp", new Object[] { "AltServerFileRule" }).build(),
                 Rule.class);
 
         assertEquals(0, rule.Levels.size());

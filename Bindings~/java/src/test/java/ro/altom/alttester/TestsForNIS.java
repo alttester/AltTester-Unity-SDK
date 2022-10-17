@@ -205,7 +205,7 @@ public class TestsForNIS {
                 AltObject player = altDriver.findObject(altFindObjectsParams);
                 AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                                 "UnityEngine.Transform",
-                                "position").build();
+                                "position", "UnityEngine.CoreModule").build();
                 Vector3 initialPos = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
@@ -247,7 +247,7 @@ public class TestsForNIS {
                 AltObject player = altDriver.findObject(altFindObjectsParams);
                 AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                                 "UnityEngine.Transform",
-                                "position").build();
+                                "position", "UnityEngine.CoreModule").build();
                 Vector3 initialPos = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
@@ -281,7 +281,7 @@ public class TestsForNIS {
                 AltObject player = altDriver.findObject(altFindObjectsParams);
                 AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                                 "UnityEngine.Transform",
-                                "position").build();
+                                "position", "UnityEngine.CoreModule").build();
                 Vector3 initialPos = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
@@ -335,14 +335,14 @@ public class TestsForNIS {
             String imageSourceName = altDriver.findObject(findObjectParams).getComponentProperty(
                     new AltGetComponentPropertyParams.Builder(
                             "UnityEngine.UI.Image",
-                            "sprite.name").build(),
+                            "sprite.name", "UnityEngine.UI").build(),
                     String.class);
 
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
             String imageSourceDropZoneName = altDriver.findObject(findObjectParams)
                     .getComponentProperty(new AltGetComponentPropertyParams.Builder(
                             "UnityEngine.UI.Image",
-                            "sprite.name").build(),
+                            "sprite.name", "UnityEngine.UI").build(),
                             String.class);
             assertNotEquals(imageSourceName, imageSourceDropZoneName);
 
@@ -350,13 +350,13 @@ public class TestsForNIS {
             imageSourceName = altDriver.findObject(findObjectParams)
                     .getComponentProperty(new AltGetComponentPropertyParams.Builder(
                             "UnityEngine.UI.Image",
-                            "sprite.name").build(),
+                            "sprite.name", "UnityEngine.UI").build(),
                             String.class);
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop").build();
             imageSourceDropZoneName = altDriver.findObject(findObjectParams)
                     .getComponentProperty(new AltGetComponentPropertyParams.Builder(
                             "UnityEngine.UI.Image",
-                            "sprite.name").build(),
+                            "sprite.name", "UnityEngine.UI").build(),
                             String.class);
             assertNotEquals(imageSourceName, imageSourceDropZoneName);
         }

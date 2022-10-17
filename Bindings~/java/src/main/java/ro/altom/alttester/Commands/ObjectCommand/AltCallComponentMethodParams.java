@@ -10,7 +10,7 @@ public class AltCallComponentMethodParams extends AltObjectParams {
         private String[] typeOfParameters;
         private String assembly;
 
-        public Builder(String componentName, String methodName, Object[] parameters, String assembly) {
+        public Builder(String componentName, String methodName, String assembly, Object[] parameters) {
             this.componentName = componentName;
             this.methodName = methodName;
             this.parameters = parameters;

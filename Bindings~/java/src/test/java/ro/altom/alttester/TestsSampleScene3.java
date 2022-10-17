@@ -91,20 +91,20 @@ public class TestsSampleScene3 {
 
         AltSprite imageSource = altDriver.findObject(altFindObjectsParameters1)
                 .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(),
                         AltSprite.class);
         AltSprite imageSourceDropZone = altDriver.findObject(altFindObjectsParameters6)
                 .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(),
                         AltSprite.class);
         assertNotSame(imageSource.name, imageSourceDropZone.name);
 
         imageSource = altDriver.findObject(altFindObjectsParameters3).getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
+                new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(),
                 AltSprite.class);
         imageSourceDropZone = altDriver.findObject(altFindObjectsParameters7)
                 .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(),
                         AltSprite.class);
         assertNotSame(imageSource.name, imageSourceDropZone.name);
     }
@@ -152,20 +152,20 @@ public class TestsSampleScene3 {
                         .withDuration(1).build());
         AltSprite imageSource = altDriver.findObject(altFindObjectsParameters1)
                 .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(),
                         AltSprite.class);
         AltSprite imageSourceDropZone = altDriver.findObject(altFindObjectsParameters6)
                 .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(),
                         AltSprite.class);
         assertNotSame(imageSource.name, imageSourceDropZone.name);
 
         imageSource = altDriver.findObject(altFindObjectsParameters3).getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
+                new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(),
                 AltSprite.class);
         imageSourceDropZone = altDriver.findObject(altFindObjectsParameters7)
                 .getComponentProperty(
-                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite").build(),
+                        new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(),
                         AltSprite.class);
         assertNotSame(imageSource.name, imageSourceDropZone.name);
     }
@@ -230,14 +230,14 @@ public class TestsSampleScene3 {
         String imageSourceName = altDriver.findObject(findObjectParams).getComponentProperty(
                 new AltGetComponentPropertyParams.Builder(
                         "UnityEngine.UI.Image",
-                        "sprite.name").build(),
+                        "sprite.name", "UnityEngine.UI").build(),
                 String.class);
 
         findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
         String imageSourceDropZoneName = altDriver.findObject(findObjectParams)
                 .getComponentProperty(new AltGetComponentPropertyParams.Builder(
                         "UnityEngine.UI.Image",
-                        "sprite.name").build(),
+                        "sprite.name", "UnityEngine.UI").build(),
                         String.class);
         assertNotEquals(imageSourceName, imageSourceDropZoneName);
 
@@ -245,13 +245,13 @@ public class TestsSampleScene3 {
         imageSourceName = altDriver.findObject(findObjectParams)
                 .getComponentProperty(new AltGetComponentPropertyParams.Builder(
                         "UnityEngine.UI.Image",
-                        "sprite.name").build(),
+                        "sprite.name", "UnityEngine.UI").build(),
                         String.class);
         findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop").build();
         imageSourceDropZoneName = altDriver.findObject(findObjectParams)
                 .getComponentProperty(new AltGetComponentPropertyParams.Builder(
                         "UnityEngine.UI.Image",
-                        "sprite.name").build(),
+                        "sprite.name", "UnityEngine.UI").build(),
                         String.class);
         assertNotEquals(imageSourceName, imageSourceDropZoneName);
     }
