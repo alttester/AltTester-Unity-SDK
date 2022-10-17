@@ -70,3 +70,4 @@ With:
 21. In case of `AltUnityRecvallException` class, we changed the name to `AltRecvallException`.
 22. In case of `AltUnityLoadSceneNotificationResultParams` class, we changed the name to `AltLoadSceneNotificationResultParams`.
 23. In case of `AltUnityErrors` class, we changed the name to `AltErrors`.
+24. In case of `AltUnityLogNotificationResultParams` class, we changed the name to `AltLogNotificationResultParams`.
