@@ -42,10 +42,26 @@ jobs:
         with:
           name: DocumentationHTML
           path: DocumentationHTML/
-      - name: Upload dev documentation
-        env:
-          HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
-          DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
-        run: |
-          ssh -o 'StrictHostKeyChecking no' altomdotcom@$HOST_IP_ALTOM -p 34168  "rm -rf $DOCUMENTATION_PATH/*"
-          scp -r -P 34168 -o 'StrictHostKeyChecking no' DocumentationHTML/* altomdotcom@$HOST_IP_ALTOM:$DOCUMENTATION_PATH
+      - name: Remove dev documentation
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          port: ${{ secrets.PORT_DEV_ALTOM }}
+          script: rm -rf ${{ secrets.DOCUMENTATION_PATH }}/*
+      - name: Upload new documentation
+      - uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          port: ${{ secrets.PORT_DEV_ALTOM }}
+          source: "DocumentationHTML/*"
+          target: "${{ secrets.DOCUMENTATION_PATH }}"
+      # env:
+        #   HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
+        #   DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
+        # run: |
+        #   ssh -o 'StrictHostKeyChecking no' altomdotcom@$HOST_IP_ALTOM -p 34168  "rm -rf $DOCUMENTATION_PATH/*"
+        #   scp -r -P 34168 -o 'StrictHostKeyChecking no' DocumentationHTML/* altomdotcom@$HOST_IP_ALTOM:$DOCUMENTATION_PATH
