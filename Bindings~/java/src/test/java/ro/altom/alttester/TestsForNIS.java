@@ -72,8 +72,7 @@ public class TestsForNIS {
                 Boolean isScrolling = player
                                 .getComponentProperty(
                                                 new AltGetComponentPropertyParams.Builder("AltNIPDebugScript",
-                                                                "wasScrolled").withAssembly(
-                                                                                "Assembly-CSharp")
+                                                                "wasScrolled", "Assembly-CSharp")
                                                                 .build(),
                                                 Boolean.class);
                 assertFalse(isScrolling);
@@ -82,8 +81,7 @@ public class TestsForNIS {
                 altDriver.scroll(altScrollParams);
                 isScrolling = player.getComponentProperty(
                                 new AltGetComponentPropertyParams.Builder("AltNIPDebugScript",
-                                                "wasScrolled").withAssembly(
-                                                                "Assembly-CSharp")
+                                                "wasScrolled", "Assembly-CSharp")
                                                 .build(),
                                 Boolean.class);
                 assertTrue(isScrolling);
@@ -102,7 +100,7 @@ public class TestsForNIS {
                 capsule.tap(tapParams);
                 int propertyValue = capsule.getComponentProperty(
                                 new AltGetComponentPropertyParams.Builder(componentName,
-                                                propertyName).withAssembly(assembly).build(),
+                                                propertyName, assembly).build(),
                                 int.class);
                 assertEquals(1, propertyValue);
         }
@@ -130,7 +128,7 @@ public class TestsForNIS {
                                 "Scrollbar Vertical").build();
                 AltObject scrollbar = altDriver.findObject(altFindObjectsParams);
                 AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                                "UnityEngine.UI.Scrollbar", "value").withAssembly("UnityEngine.UI").build();
+                                "UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI").build();
                 Float scrollbarPosition = scrollbar.getComponentProperty(altGetComponentPropertyParams, Float.class);
                 AltFindObjectsParams altFindObjectsParamsScrollView = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME,
@@ -162,7 +160,7 @@ public class TestsForNIS {
                 capsule.click(tapParams);
                 int propertyValue = capsule.getComponentProperty(
                                 new AltGetComponentPropertyParams.Builder(componentName,
-                                                propertyName).withAssembly(assembly).build(),
+                                                propertyName, assembly).build(),
                                 int.class);
                 assertEquals(1, propertyValue);
         }
@@ -194,7 +192,7 @@ public class TestsForNIS {
                 assertNotEquals(initialPosition, altDriver.findObject(altFindObjectsParams).getWorldPosition());
                 Boolean isMoved = capsule.getComponentProperty(
                         new AltGetComponentPropertyParams.Builder("AltCubeNIS",
-                                        "isMoved").withAssembly("Assembly-CSharp").build(),
+                                        "isMoved", "Assembly-CSharp").build(),
                         Boolean.class);
                 assertTrue(isMoved);
         }
@@ -289,7 +287,7 @@ public class TestsForNIS {
                                                 Vector3.class);
                 AltKeyCode[] keys = {AltKeyCode.W, AltKeyCode.Mouse0};
                 altDriver.pressKeys(new AltPressKeysParams.Builder(keys).build());
-                
+
                 Vector3 finalPos = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
@@ -299,47 +297,47 @@ public class TestsForNIS {
                 AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findObjectParams)
                                 .build();
                 altDriver.waitForObject(waitParams);
-                
+
         }
 
         @Test
-        public void TestMultipointSwipe() throws Exception { 
+        public void TestMultipointSwipe() throws Exception {
             loadLevel(scene7);
             AltFindObjectsParams findObjectParams;
-    
+
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
             AltObject altElement1 = altDriver.findObject(findObjectParams);
-    
+
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box1").build();
             AltObject altElement2 = altDriver.findObject(findObjectParams);
-    
+
             List<Vector2> positions = Arrays.asList(new Vector2(altElement1.x, altElement1.y),
                     new Vector2(altElement2.x, altElement2.y));
-    
+
             altDriver.multipointSwipe(
                     new AltMultiPointSwipeParams.Builder(positions).withDuration(2).withWait(false).build());
-    
+
             Thread.sleep(2000);
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
             altElement1 = altDriver.findObject(findObjectParams);
-    
+
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box1").build();
             altElement2 = altDriver.findObject(findObjectParams);
-    
+
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Box2").build();
             AltObject altElement3 = altDriver.findObject(findObjectParams);
-    
+
             List<Vector2> positions2 = Arrays.asList(new Vector2(altElement1.x, altElement1.y),
                     new Vector2(altElement2.x, altElement2.y), new Vector2(altElement3.x, altElement3.y));
             altDriver.multipointSwipe(new AltMultiPointSwipeParams.Builder(positions2).withDuration(3).build());
-    
+
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image1").build();
             String imageSourceName = altDriver.findObject(findObjectParams).getComponentProperty(
                     new AltGetComponentPropertyParams.Builder(
                             "UnityEngine.UI.Image",
                             "sprite.name").build(),
                     String.class);
-    
+
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
             String imageSourceDropZoneName = altDriver.findObject(findObjectParams)
                     .getComponentProperty(new AltGetComponentPropertyParams.Builder(
@@ -347,7 +345,7 @@ public class TestsForNIS {
                             "sprite.name").build(),
                             String.class);
             assertNotEquals(imageSourceName, imageSourceDropZoneName);
-    
+
             findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drag Image2").build();
             imageSourceName = altDriver.findObject(findObjectParams)
                     .getComponentProperty(new AltGetComponentPropertyParams.Builder(
@@ -362,24 +360,24 @@ public class TestsForNIS {
                             String.class);
             assertNotEquals(imageSourceName, imageSourceDropZoneName);
         }
-    
+
         @Test
         public void TestSwipe() throws Exception {
             loadLevel(scene9);
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
                     "//Scroll View/Viewport/Content/Button (4)").build();
-    
+
             AltObject scrollbar = altDriver.findObject(altFindObjectsParams);
             Vector2 scrollbarPosition = scrollbar.getScreenPosition();
-    
+
             AltFindObjectsParams altFindButtonParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                     "Handle").build();
             AltObject button = altDriver.findObject(altFindButtonParams);
-    
+
             altDriver
             .swipe(new AltSwipeParams.Builder(new Vector2(button.x, button.y), new Vector2(button.x, button.y+20))
                     .withDuration(1).build());
-    
+
             AltFindObjectsParams altFindObjectsParamsFinal = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                     "Handle").build();
             AltObject scrollbarFinal = altDriver.findObject(altFindObjectsParamsFinal);

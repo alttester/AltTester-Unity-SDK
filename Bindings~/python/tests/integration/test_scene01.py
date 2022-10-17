@@ -1,3 +1,4 @@
+from symbol import parameters
 import time
 
 import pytest
@@ -219,32 +220,32 @@ class TestScene01:
     def test_get_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.get_component_property(
-            "AltExampleScriptCapsule", "arrayOfInts", assembly="Assembly-CSharp")
+            "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp")
 
         assert result == [1, 2, 3]
 
     def test_get_component_property_with_bool(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.get_component_property(
-            "AltExampleScriptCapsule", "TestBool", assembly="Assembly-CSharp")
+            "AltExampleScriptCapsule", "TestBool", "Assembly-CSharp")
 
         assert result is True
 
     def test_set_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         alt_object.set_component_property(
-            "AltExampleScriptCapsule", "arrayOfInts", [2, 3, 4], assembly="Assembly-CSharp")
+            "AltExampleScriptCapsule", "arrayOfInts", [2, 3, 4], "Assembly-CSharp")
 
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.get_component_property(
-            "AltExampleScriptCapsule", "arrayOfInts", assembly="Assembly-CSharp")
+            "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp")
 
         assert result == [2, 3, 4]
 
     def test_call_component_method(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.call_component_method(
-            "AltExampleScriptCapsule", "Jump", parameters=["setFromMethod"], assembly="Assembly-CSharp")
+            "AltExampleScriptCapsule", "Jump", "Assembly-CSharp", parameters=["setFromMethod"])
         assert result is None
 
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=setFromMethod]", timeout=1)
@@ -255,10 +256,9 @@ class TestScene01:
         initial_rotation = capsule.get_component_property(
             "UnityEngine.Transform", "rotation")
         capsule.call_component_method(
-            "UnityEngine.Transform", "Rotate",
+            "UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule",
             parameters=["10", "10", "10"],
             type_of_parameters=["System.Single", "System.Single", "System.Single"],
-            assembly="UnityEngine.CoreModule"
         )
 
         capsule_after_rotation = self.altdriver.find_object(By.NAME, "Capsule")
@@ -277,8 +277,8 @@ class TestScene01:
         result = alt_object.call_component_method(
             "AltExampleScriptCapsule",
             "TestCallComponentMethod",
-            parameters=parameters,
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp",
+            parameters=parameters
         )
 
         assert result == "1,stringparam,0.5,[1,2,3]"
@@ -286,8 +286,10 @@ class TestScene01:
     def test_call_component_method_with_multiple_definitions(self):
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         capsule.call_component_method(
-            "AltExampleScriptCapsule", "Test", ["2"], type_of_parameters=["System.Int32"],
-            assembly="Assembly-CSharp")
+            "AltExampleScriptCapsule", "Test", "Assembly-CSharp",
+            parameters=["2"],
+            type_of_parameters=["System.Int32"]
+        )
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
 
         assert capsule_info.get_text() == "6"
@@ -297,10 +299,9 @@ class TestScene01:
 
         with pytest.raises(exceptions.AssemblyNotFoundException) as execinfo:
             alt_object.call_component_method(
-                "RandomComponent", "TestMethodWithManyParameters",
+                "RandomComponent", "TestMethodWithManyParameters", "RandomAssembly",
                 parameters=[1, "stringparam", 0.5, [1, 2, 3]],
                 type_of_parameters=[],
-                assembly="RandomAssembly"
             )
 
         assert str(execinfo.value) == "Assembly not found"
@@ -310,9 +311,9 @@ class TestScene01:
 
         with pytest.raises(exceptions.MethodWithGivenParametersNotFoundException) as execinfo:
             alt_object.call_component_method(
-                "AltExampleScriptCapsule", "TestMethodWithManyParameters",
+                "AltExampleScriptCapsule", "TestMethodWithManyParameters", "Assembly-CSharp",
                 parameters=["stringparam", 0.5, [1, 2, 3]],
-                type_of_parameters=[], assembly="Assembly-CSharp"
+                type_of_parameters=[]
             )
 
         assert str(execinfo.value) == \
@@ -323,18 +324,18 @@ class TestScene01:
 
         with pytest.raises(exceptions.FailedToParseArgumentsException) as execinfo:
             alt_object.call_component_method(
-                "AltExampleScriptCapsule", "TestMethodWithManyParameters",
+                "AltExampleScriptCapsule", "TestMethodWithManyParameters", "Assembly-CSharp",
                 parameters=["stringnoint", "stringparams", 0.5, [1, 2, 3]],
-                type_of_parameters=[], assembly="Assembly-CSharp"
+                type_of_parameters=[]
             )
 
         assert str(execinfo.value) == "Could not parse parameter '\"stringnoint\"' to type System.Int32"
 
     def test_call_static_method(self):
         self.altdriver.call_static_method(
-            "UnityEngine.PlayerPrefs", "SetInt", ["Test", "1"], assembly="UnityEngine.CoreModule")
+            "UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", ["Test", "1"])
         value = self.altdriver.call_static_method(
-            "UnityEngine.PlayerPrefs", "GetInt", ["Test", "2"], assembly="UnityEngine.CoreModule")
+            "UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", ["Test", "2"])
 
         assert value == 1
 
@@ -597,9 +598,8 @@ class TestScene01:
         assert alt_object is not None
 
         property_value = alt_object.get_component_property(
-            component_name, property_name,
-            max_depth=1,
-            assembly="Assembly-CSharp"
+            component_name, property_name, "Assembly-CSharp",
+            max_depth=1
         )
         assert property_value == 1
 
@@ -610,7 +610,7 @@ class TestScene01:
         assert alt_object is not None
 
         property_value = alt_object.get_component_property(
-            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
+            component_name, property_name, "Assembly-CSharp", max_depth=1)
         assert property_value == "test2"
 
     def test_set_component_property_complex_class(self):
@@ -619,9 +619,9 @@ class TestScene01:
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_object is not None
 
-        alt_object.set_component_property(component_name, property_name, 2, assembly="Assembly-CSharp")
+        alt_object.set_component_property(component_name, property_name, 2, "Assembly-CSharp")
         property_value = alt_object.get_component_property(
-            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
+            component_name, property_name, "Assembly-CSharp", max_depth=1)
         assert property_value == 2
 
     def test_set_component_property_complex_class2(self):
@@ -630,9 +630,9 @@ class TestScene01:
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_object is not None
 
-        alt_object.set_component_property(component_name, property_name, "test3", assembly="Assembly-CSharp")
+        alt_object.set_component_property(component_name, property_name, "test3", "Assembly-CSharp")
         propertyValue = alt_object.get_component_property(
-            component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
+            component_name, property_name, "Assembly-CSharp", max_depth=1)
         assert propertyValue == "test3"
 
     def test_get_parent(self):
@@ -677,20 +677,19 @@ class TestScene01:
 
         assert input_field.get_text() == "example"
         assert input_field.get_component_property(
-            "AltInputFieldRaisedEvents", "onValueChangedInvoked", assembly="Assembly-CSharp")
+            "AltInputFieldRaisedEvents", "onValueChangedInvoked", "Assembly-CSharp")
         assert input_field.get_component_property(
-            "AltInputFieldRaisedEvents", "onSubmitInvoked", assembly="Assembly-CSharp")
+            "AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")
 
     def test_get_static_property(self):
         self.altdriver.call_static_method(
-            "UnityEngine.Screen", "SetResolution",
+            "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
             parameters=["1920", "1080", "True"],
             type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],
-            assembly="UnityEngine.CoreModule"
         )
         width = self.altdriver.get_static_property(
             "UnityEngine.Screen", "currentResolution.width",
-            assembly="UnityEngine.CoreModule"
+            "UnityEngine.CoreModule"
         )
 
         assert int(width) == 1920
@@ -698,11 +697,11 @@ class TestScene01:
     def test_get_static_property_instance_null(self):
         screen_width = self.altdriver.call_static_method(
             "UnityEngine.Screen", "get_width",
-            assembly="UnityEngine.CoreModule"
+            "UnityEngine.CoreModule"
         )
         width = self.altdriver.get_static_property(
             "UnityEngine.Screen", "width",
-            assembly="UnityEngine.CoreModule"
+            "UnityEngine.CoreModule"
         )
 
         assert int(width) == screen_width
@@ -720,8 +719,8 @@ class TestScene01:
 
         with pytest.raises(exceptions.CommandResponseTimeoutException) as execinfo:
             alt_object.call_component_method(
-                "AltExampleScriptCapsule", "JumpWithDelay",
-                parameters=[], type_of_parameters=[], assembly="Assembly-CSharp"
+                "AltExampleScriptCapsule", "JumpWithDelay", "Assembly-CSharp",
+                parameters=[], type_of_parameters=[],
             )
 
         self.altdriver.set_command_response_timeout(60)
@@ -736,7 +735,7 @@ class TestScene01:
         property_value = alt_object.get_component_property(
             "AltExampleScriptCapsule",
             "stringToSetFromTests",
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp"
         )
         assert property_value == "multiple keys pressed"
 
@@ -748,7 +747,7 @@ class TestScene01:
         property_value = alt_object.get_component_property(
             "AltExampleScriptCapsule",
             "stringToSetFromTests",
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp"
         )
         assert property_value == "multiple keys pressed"
 
@@ -765,6 +764,6 @@ class TestScene01:
     def test_call_private_method(self):
         capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
         capsule_element.call_component_method("AltExampleScriptCapsule",
-                                              "callJump", [], assembly="Assembly-CSharp")
+                                              "callJump", "Assembly-CSharp", parameters=[])
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
         assert capsule_info.get_text() == "Capsule jumps!"

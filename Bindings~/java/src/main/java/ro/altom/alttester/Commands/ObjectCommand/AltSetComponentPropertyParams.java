@@ -9,15 +9,11 @@ public class AltSetComponentPropertyParams extends AltObjectParams {
         private String assembly;
         private String value;
 
-        public Builder(String componentName, String propertyName, Object value) {
+        public Builder(String componentName, String propertyName, Object value, String assembly) {
             this.componentName = componentName;
             this.propertyName = propertyName;
-            this.value = new Gson().toJson(value);
-        }
-
-        public Builder withAssembly(String assembly) {
             this.assembly = assembly;
-            return this;
+            this.value = new Gson().toJson(value);
         }
 
         public AltSetComponentPropertyParams build() {

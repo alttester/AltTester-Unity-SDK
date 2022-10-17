@@ -19,9 +19,8 @@ class TestScene07A:
         property_name = "jumpCounter"
 
         property_value = capsule.get_component_property(
-            component_name, property_name,
-            max_depth=1,
-            assembly="Assembly-CSharp"
+            component_name, property_name, "Assembly-CSharp",
+            max_depth=1
         )
 
         assert property_value == 1
@@ -42,9 +41,8 @@ class TestScene07A:
         component_name = "AltExampleNewInputSystem"
         property_name = "jumpCounter"
         property_value = capsule.get_component_property(
-            component_name, property_name,
-            max_depth=1,
-            assembly="Assembly-CSharp"
+            component_name, property_name, "Assembly-CSharp",
+            max_depth=1
         )
 
         assert property_value == 1

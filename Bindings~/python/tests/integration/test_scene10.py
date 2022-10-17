@@ -17,7 +17,7 @@ class TestScene10:
         assert not player.get_component_property(
             "AltNIPDebugScript",
             "wasScrolled",
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp"
         )
 
         self.altdriver.scroll(300, duration=1, wait=True)
@@ -25,7 +25,7 @@ class TestScene10:
         assert player.get_component_property(
             "AltNIPDebugScript",
             "wasScrolled",
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp"
         )
 
     def test_key_down_and_key_up_NIS(self):

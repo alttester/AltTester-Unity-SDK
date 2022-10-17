@@ -177,23 +177,20 @@ public class TestsSampleScene3 {
         findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
         AltObject altElement = altDriver.findObject(findObjectParams);
         AltColor color1 = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor").withAssembly(
-                        "Assembly-CSharp").build(),
+                new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp").build(),
                 AltColor.class);
 
         findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
         altDriver.findObject(findObjectParams).pointerEnter();
         AltColor color2 = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor").withAssembly(
-                        "Assembly-CSharp").build(),
+                new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp").build(),
                 AltColor.class);
         assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b || color1.a != color2.a);
 
         findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Drop Image").build();
         altDriver.findObject(findObjectParams).pointerExit();
         AltColor color3 = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor").withAssembly(
-                        "Assembly-CSharp").build(),
+                new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp").build(),
                 AltColor.class);
         assertTrue(color3.r != color2.r || color3.g != color2.g || color3.b != color2.b || color3.a != color2.a);
         assertTrue(color1.r == color3.r && color1.g == color3.g && color1.b == color3.b && color1.a == color3.a);
