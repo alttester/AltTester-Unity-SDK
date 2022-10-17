@@ -355,7 +355,7 @@ public class TestsSampleScene1 {
 		assertNotNull(altElement);
 		boolean propertyValue = altElement.getComponentProperty(
 				new AltGetComponentPropertyParams.Builder(componentName,
-						propertyName, "Assembly-CSharp").build(),
+						propertyName, "UnityEngine.CoreModule").build(),
 				Boolean.class);
 		assertEquals(false, propertyValue);
 	}
@@ -1077,7 +1077,7 @@ public class TestsSampleScene1 {
 		AltObject altElement = altDriver.findObject(altFindObjectsParams);
 		assertNotNull(altElement);
 		AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
-				componentName, propertyName, 2, assembly).build();
+				componentName, propertyName, assembly, 2).build();
 		altElement.setComponentProperty(altSetComponentPropertyParams);
 		int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, int.class);
 		assertEquals(2, propertyValue);
@@ -1096,7 +1096,7 @@ public class TestsSampleScene1 {
 		AltObject altElement = altDriver.findObject(altFindObjectsParams);
 		assertNotNull(altElement);
 		AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
-				componentName, propertyName, "test3", assembly).build();
+				componentName, propertyName, assembly, "test3").build();
 		altElement.setComponentProperty(altSetComponentPropertyParams);
 		String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, String.class);
 		assertEquals("test3", propertyValue);

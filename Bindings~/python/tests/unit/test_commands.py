@@ -15,7 +15,7 @@ class TestCallMethod:
             self.connection,
             'AltScript',
             'methodName',
-            'assemblyName',
+            assembly='assemblyName',
             parameters=[1, 'string_param', 0.5, [1, 2, 3]],
             type_of_parameters=['System.String'],
         )
