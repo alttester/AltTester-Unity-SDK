@@ -14,4 +14,4 @@ https://github.com/alttester/AltTester-Unity-SDK
 
 # Support - Questions and Suggestions
 
-Please email us at: altunitytester@altom.fi
+Please email us at: support.alttester@altom.com

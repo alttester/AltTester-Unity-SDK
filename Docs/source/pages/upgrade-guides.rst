@@ -1,7 +1,7 @@
 Upgrade Guides
 ==============
 
-AltUnity's major releases can include an upgrade guide to walk users through
+AltTester Unity SDK's major releases can include an upgrade guide to walk users through
 backwards compatibility issues and changes to expect. See the navigation for
 the available upgrade guides.
 

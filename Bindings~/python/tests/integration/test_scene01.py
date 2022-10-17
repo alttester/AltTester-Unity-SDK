@@ -124,8 +124,8 @@ class TestScene01:
         assert components[0]["assemblyName"] == "UnityEngine.CoreModule"
 
     def test_wait_for_object(self):
-        alt_unity_object = self.altdriver.wait_for_object(By.NAME, "Capsule")
-        assert alt_unity_object.name == "Capsule"
+        alt_object = self.altdriver.wait_for_object(By.NAME, "Capsule")
+        assert alt_object.name == "Capsule"
 
     def test_wait_for_object_with_non_existing_object(self):
         object_name = "Non Existing Object"
@@ -157,11 +157,10 @@ class TestScene01:
         assert str(execinfo.value) == "Element //CapsuleInfo[@text=aaaaa] not found after 1 seconds"
 
     def test_wait_for_object_which_contains(self):
-        alt_unity_object = self.altdriver.wait_for_object_which_contains(By.NAME, "Main")
-        assert alt_unity_object.name == "Main Camera"
+        alt_object = self.altdriver.wait_for_object_which_contains(By.NAME, "Main")
+        assert alt_object.name == "Main Camera"
 
     def test_wait_for_object_to_not_be_present(self):
-        self.altdriver.load_scene("Scene 1 AltDriverTestScene")
         self.altdriver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
 
     def test_wait_for_object_to_not_be_present_fail(self):
@@ -187,8 +186,6 @@ class TestScene01:
         assert after_text == "ModifiedText"
 
     def test_double_tap(self):
-        self.altdriver.load_scene("Scene 1 AltDriverTestScene")
-
         counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
         counter_button_text = self.altdriver.find_object(By.NAME, "ButtonCounter/Text")
         counter_button.tap(count=2)
@@ -258,17 +255,19 @@ class TestScene01:
         self.altdriver.load_scene('Scene 1 AltDriverTestScene')
         result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
         text = result.call_component_method("UnityEngine.UI.Text", "get_text", None, None, assembly="UnityEngine.UI")
-        assert text == "Change Camera Mode" 
+        assert text == "Change Camera Mode"
 
     def test_call_component_method_with_parameters(self):
 
         self.altdriver.load_scene('Scene 1 AltDriverTestScene')
         assemblyName = "UnityEngine.UI"
-        fontSizeExpected =16
+        fontSizeExpected = 16
         altElement = self.altdriver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
-        altElement.call_component_method("UnityEngine.UI.Text", "set_fontSize", parameters=["16"], assembly=assemblyName)
-        fontSize =  altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize",parameters = [], assembly=assemblyName)
-        assert fontSizeExpected== fontSize
+        altElement.call_component_method("UnityEngine.UI.Text", "set_fontSize",
+                                         parameters=["16"], assembly=assemblyName)
+        fontSize = altElement.call_component_method(
+            "UnityEngine.UI.Text", "get_fontSize", parameters=[], assembly=assemblyName)
+        assert fontSizeExpected == fontSize
 
     def test_call_component_method_with_assembly(self):
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
@@ -339,10 +338,16 @@ class TestScene01:
             "No method found with 3 parameters matching signature: TestMethodWithManyParameters(System.String[])"
 
     def test_call_component_method_with_invalid_method_argument_types(self):
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+        alt_object = self.altdriver.find_object(By.NAME, "Capsule")
 
         with pytest.raises(exceptions.FailedToParseArgumentsException) as execinfo:
+
+
+<< << << < HEAD
             alt_unity_object.call_component_method(
+== == == =
+            alt_object.call_component_method(
+>>>>>> > origin/development
                 "AltExampleScriptCapsule", "TestMethodWithManyParameters",
                 parameters=["stringnoint", "stringparams", 0.5, [1, 2, 3]],
                 type_of_parameters=[], assembly="Assembly-CSharp"
@@ -353,12 +358,12 @@ class TestScene01:
     def test_call_static_method(self):
         self.altdriver.call_static_method(
             "UnityEngine.PlayerPrefs", "SetInt", ["Test", "1"], assembly="UnityEngine.CoreModule")
-        value = self.altdriver.call_static_method(
+        value=self.altdriver.call_static_method(
             "UnityEngine.PlayerPrefs", "GetInt", ["Test", "2"], assembly="UnityEngine.CoreModule")
 
         assert value == 1
 
-    @pytest.mark.parametrize("key_value, key_type", [
+    @ pytest.mark.parametrize("key_value, key_type", [
         (1, PlayerPrefKeyType.Int),
         (1.3, PlayerPrefKeyType.Float),
         ("string value", PlayerPrefKeyType.String)
@@ -366,222 +371,222 @@ class TestScene01:
     def test_set_player_pref_keys(self, key_value, key_type):
         self.altdriver.delete_player_pref()
         self.altdriver.set_player_pref_key("test", key_value, key_type)
-        actual_value = self.altdriver.get_player_pref_key("test", key_type)
+        actual_value=self.altdriver.get_player_pref_key("test", key_type)
 
         assert actual_value == key_value
 
     def test_press_next_scene(self):
-        initial_scene = self.altdriver.get_current_scene()
+        initial_scene=self.altdriver.get_current_scene()
         self.altdriver.find_object(By.NAME, "NextScene").tap()
 
-        current_scene = self.altdriver.get_current_scene()
+        current_scene=self.altdriver.get_current_scene()
         assert initial_scene != current_scene
 
     def test_acceleration(self):
-        capsule = self.altdriver.find_object(By.NAME, "Capsule")
-        initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        capsule=self.altdriver.find_object(By.NAME, "Capsule")
+        initial_position=[capsule.worldX, capsule.worldY, capsule.worldZ]
         self.altdriver.tilt([1, 1, 1], duration=0.1, wait=False)
 
         time.sleep(0.1)
 
-        capsule = self.altdriver.find_object(By.NAME, "Capsule")
-        final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        capsule=self.altdriver.find_object(By.NAME, "Capsule")
+        final_position=[capsule.worldX, capsule.worldY, capsule.worldZ]
 
         assert initial_position != final_position
 
     def test_acceleration_and_wait(self):
-        capsule = self.altdriver.find_object(By.NAME, "Capsule")
-        initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        capsule=self.altdriver.find_object(By.NAME, "Capsule")
+        initial_position=[capsule.worldX, capsule.worldY, capsule.worldZ]
         self.altdriver.tilt([1, 1, 1], duration=0.1)
 
-        capsule = self.altdriver.find_object(By.NAME, "Capsule")
-        final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+        capsule=self.altdriver.find_object(By.NAME, "Capsule")
+        final_position=[capsule.worldX, capsule.worldY, capsule.worldZ]
         assert initial_position != final_position
 
     def test_find_object_with_camera_id(self):
-        alt_button = self.altdriver.find_object(By.PATH, "//Button")
+        alt_button=self.altdriver.find_object(By.PATH, "//Button")
         alt_button.tap()
         alt_button.tap()
 
-        camera = self.altdriver.find_object(By.PATH, "//Camera")
-        alt_unity_object = self.altdriver.find_object(By.COMPONENT, "CapsuleCollider", By.ID, str(camera.id))
-        assert alt_unity_object.name == "Capsule"
+        camera=self.altdriver.find_object(By.PATH, "//Camera")
+        alt_object=self.altdriver.find_object(By.COMPONENT, "CapsuleCollider", By.ID, str(camera.id))
+        assert alt_object.name == "Capsule"
 
-        camera2 = self.altdriver.find_object(By.PATH, "//Main Camera")
-        alt_unity_object2 = self.altdriver.find_object(
+        camera2=self.altdriver.find_object(By.PATH, "//Main Camera")
+        alt_object2=self.altdriver.find_object(
             By.COMPONENT, "CapsuleCollider", By.ID, str(camera2.id))
 
-        assert alt_unity_object.x != alt_unity_object2.x
-        assert alt_unity_object.y != alt_unity_object2.y
+        assert alt_object.x != alt_object2.x
+        assert alt_object.y != alt_object2.y
 
     def test_wait_for_object_with_camera_id(self):
-        alt_button = self.altdriver.find_object(By.PATH, "//Button")
+        alt_button=self.altdriver.find_object(By.PATH, "//Button")
         alt_button.tap()
         alt_button.tap()
 
-        camera = self.altdriver.find_object(By.PATH, "//Camera")
-        alt_unity_object = self.altdriver.wait_for_object(By.COMPONENT, "CapsuleCollider", By.ID, str(camera.id))
-        assert alt_unity_object.name == "Capsule"
+        camera=self.altdriver.find_object(By.PATH, "//Camera")
+        alt_object=self.altdriver.wait_for_object(By.COMPONENT, "CapsuleCollider", By.ID, str(camera.id))
+        assert alt_object.name == "Capsule"
 
-        camera2 = self.altdriver.find_object(By.PATH, "//Main Camera")
-        alt_unity_object2 = self.altdriver.wait_for_object(By.COMPONENT, "CapsuleCollider", By.ID, str(camera2.id))
+        camera2=self.altdriver.find_object(By.PATH, "//Main Camera")
+        alt_object2=self.altdriver.wait_for_object(By.COMPONENT, "CapsuleCollider", By.ID, str(camera2.id))
 
-        assert alt_unity_object.x != alt_unity_object2.x
-        assert alt_unity_object.y != alt_unity_object2.y
+        assert alt_object.x != alt_object2.x
+        assert alt_object.y != alt_object2.y
 
     def test_find_objects_with_camera_id(self):
-        alt_button = self.altdriver.find_object(By.PATH, "//Button")
+        alt_button=self.altdriver.find_object(By.PATH, "//Button")
         alt_button.tap()
         alt_button.tap()
 
-        camera = self.altdriver.find_object(By.PATH, "//Camera")
-        alt_unity_objects = self.altdriver.find_objects(By.NAME, "Plane", By.ID, str(camera.id))
-        assert alt_unity_objects[0].name == "Plane"
+        camera=self.altdriver.find_object(By.PATH, "//Camera")
+        alt_objects=self.altdriver.find_objects(By.NAME, "Plane", By.ID, str(camera.id))
+        assert alt_objects[0].name == "Plane"
 
-        camera2 = self.altdriver.find_object(By.PATH, "//Main Camera")
-        alt_unity_objects2 = self.altdriver.find_objects(
+        camera2=self.altdriver.find_object(By.PATH, "//Main Camera")
+        alt_objects2=self.altdriver.find_objects(
             By.NAME, "Plane", By.ID, str(camera2.id))
 
-        assert alt_unity_objects[0].x != alt_unity_objects2[0].x
-        assert alt_unity_objects[0].y != alt_unity_objects2[0].y
+        assert alt_objects[0].x != alt_objects2[0].x
+        assert alt_objects[0].y != alt_objects2[0].y
 
     def test_wait_for_object_not_be_present_with_camera_id(self):
-        camera = self.altdriver.find_object(By.PATH, "//Main Camera")
+        camera=self.altdriver.find_object(By.PATH, "//Main Camera")
         self.altdriver.wait_for_object_to_not_be_present(
             By.NAME, "ObjectDestroyedIn5Secs",
             By.ID, str(camera.id)
         )
 
-        elements = self.altdriver.get_all_elements()
-        names = [element.name for element in elements]
+        elements=self.altdriver.get_all_elements()
+        names=[element.name for element in elements]
         assert "ObjectDestroyedIn5Secs" not in names
 
     def test_wait_for_object_with_text_with_camera_id(self):
-        name = "CapsuleInfo"
-        text = self.altdriver.find_object(By.NAME, name).get_text()
-        camera = self.altdriver.find_object(By.PATH, "//Main Camera")
+        name="CapsuleInfo"
+        text=self.altdriver.find_object(By.NAME, name).get_text()
+        camera=self.altdriver.find_object(By.PATH, "//Main Camera")
 
-        alt_unity_object = self.altdriver.wait_for_object(
+        alt_object=self.altdriver.wait_for_object(
             By.PATH, "//{}[@text={}]".format(name, text),
             By.ID, str(camera.id),
             timeout=1
         )
 
-        assert alt_unity_object is not None
-        assert alt_unity_object.get_text() == text
+        assert alt_object is not None
+        assert alt_object.get_text() == text
 
     def test_wait_for_object_which_contains_with_camera_id(self):
-        camera = self.altdriver.find_object(By.PATH, "//Main Camera")
-        alt_unity_object = self.altdriver.wait_for_object_which_contains(
+        camera=self.altdriver.find_object(By.PATH, "//Main Camera")
+        alt_object=self.altdriver.wait_for_object_which_contains(
             By.NAME, "Canva",
             By.ID, str(camera.id)
         )
-        assert alt_unity_object.name == "Canvas"
+        assert alt_object.name == "Canvas"
 
     def test_find_object_with_tag(self):
-        alt_button = self.altdriver.find_object(By.PATH, "//Button")
+        alt_button=self.altdriver.find_object(By.PATH, "//Button")
         alt_button.tap()
         alt_button.tap()
 
-        alt_unity_object = self.altdriver.find_object(By.COMPONENT, "CapsuleCollider",  By.TAG, "MainCamera")
-        assert alt_unity_object.name == "Capsule"
+        alt_object=self.altdriver.find_object(By.COMPONENT, "CapsuleCollider",  By.TAG, "MainCamera")
+        assert alt_object.name == "Capsule"
 
-        alt_unity_object2 = self.altdriver.find_object(By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged")
-        assert alt_unity_object.x != alt_unity_object2.x
-        assert alt_unity_object.y != alt_unity_object2.y
+        alt_object2=self.altdriver.find_object(By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged")
+        assert alt_object.x != alt_object2.x
+        assert alt_object.y != alt_object2.y
 
     def test_wait_for_object_with_tag(self):
-        alt_button = self.altdriver.find_object(By.PATH, "//Button")
+        alt_button=self.altdriver.find_object(By.PATH, "//Button")
         alt_button.tap()
         alt_button.tap()
 
-        alt_unity_object = self.altdriver.wait_for_object(By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera")
-        assert alt_unity_object.name == "Capsule"
+        alt_object=self.altdriver.wait_for_object(By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera")
+        assert alt_object.name == "Capsule"
 
-        alt_unity_object2 = self.altdriver.wait_for_object(By.COMPONENT, "CapsuleCollider",  By.TAG, "Untagged")
-        assert alt_unity_object.x != alt_unity_object2.x
-        assert alt_unity_object.y != alt_unity_object2.y
+        alt_object2=self.altdriver.wait_for_object(By.COMPONENT, "CapsuleCollider",  By.TAG, "Untagged")
+        assert alt_object.x != alt_object2.x
+        assert alt_object.y != alt_object2.y
 
     def test_find_objects_with_tag(self):
-        alt_button = self.altdriver.find_object(By.PATH, "//Button")
+        alt_button=self.altdriver.find_object(By.PATH, "//Button")
         alt_button.tap()
         alt_button.tap()
 
-        alt_unity_object = self.altdriver.find_objects(By.NAME, "Plane", By.TAG, "MainCamera")
-        assert alt_unity_object[0].name == "Plane"
+        alt_object=self.altdriver.find_objects(By.NAME, "Plane", By.TAG, "MainCamera")
+        assert alt_object[0].name == "Plane"
 
-        alt_unity_object2 = self.altdriver.find_objects(By.NAME, "Plane", By.TAG, "Untagged")
-        assert alt_unity_object[0].x != alt_unity_object2[0].x
-        assert alt_unity_object[0].y != alt_unity_object2[0].y
+        alt_object2=self.altdriver.find_objects(By.NAME, "Plane", By.TAG, "Untagged")
+        assert alt_object[0].x != alt_object2[0].x
+        assert alt_object[0].y != alt_object2[0].y
 
     def test_wait_for_object_not_be_present_with_tag(self):
         self.altdriver.wait_for_object_to_not_be_present(By.NAME, "ObjectDestroyedIn5Secs", By.TAG, "MainCamera")
 
-        elements = self.altdriver.get_all_elements()
-        names = [element.name for element in elements]
+        elements=self.altdriver.get_all_elements()
+        names=[element.name for element in elements]
         assert "ObjectDestroyedIn5Secs" not in names
 
     def test_wait_for_object_with_text_with_tag(self):
-        name = "CapsuleInfo"
-        text = self.altdriver.find_object(By.NAME, name).get_text()
+        name="CapsuleInfo"
+        text=self.altdriver.find_object(By.NAME, name).get_text()
 
-        alt_unity_object = self.altdriver.wait_for_object(
+        alt_object=self.altdriver.wait_for_object(
             By.PATH, "//{}[@text={}]".format(name, text),
             By.TAG, "MainCamera",
             timeout=1
         )
-        assert alt_unity_object is not None
-        assert alt_unity_object.get_text() == text
+        assert alt_object is not None
+        assert alt_object.get_text() == text
 
     def test_find_object_by_camera(self):
-        button = self.altdriver.find_object(By.PATH, "//Button")
+        button=self.altdriver.find_object(By.PATH, "//Button")
         button.tap()
         button.tap()
 
-        alt_unity_object = self.altdriver.find_object(
+        alt_object=self.altdriver.find_object(
             By.COMPONENT, "CapsuleCollider",
             camera_value="Camera"
         )
-        assert alt_unity_object.name == "Capsule"
+        assert alt_object.name == "Capsule"
 
-        alt_unity_object2 = self.altdriver.find_object(
+        alt_object2=self.altdriver.find_object(
             By.COMPONENT, "CapsuleCollider",
             camera_by=By.NAME,
             camera_value="Main Camera"
         )
 
-        assert alt_unity_object.x != alt_unity_object2.x
-        assert alt_unity_object.y != alt_unity_object2.y
+        assert alt_object.x != alt_object2.x
+        assert alt_object.y != alt_object2.y
 
     def test_wait_for_object_by_camera(self):
-        button = self.altdriver.find_object(By.PATH, "//Button")
+        button=self.altdriver.find_object(By.PATH, "//Button")
         button.tap()
         button.tap()
 
-        alt_unity_object = self.altdriver.wait_for_object(
+        alt_object=self.altdriver.wait_for_object(
             By.COMPONENT, "CapsuleCollider",
             camera_value="Camera"
         )
-        assert alt_unity_object.name == "Capsule"
+        assert alt_object.name == "Capsule"
 
-        alt_unity_object2 = self.altdriver.wait_for_object(
+        alt_object2=self.altdriver.wait_for_object(
             By.COMPONENT, "CapsuleCollider",
             camera_by=By.NAME, camera_value="Main Camera"
         )
-        assert alt_unity_object.x != alt_unity_object2.x
-        assert alt_unity_object.y != alt_unity_object2.y
+        assert alt_object.x != alt_object2.x
+        assert alt_object.y != alt_object2.y
 
     def test_find_objects_by_camera(self):
-        button = self.altdriver.find_object(By.PATH, "//Button")
+        button=self.altdriver.find_object(By.PATH, "//Button")
         button.tap()
         button.tap()
 
-        alt_unity_object = self.altdriver.find_objects(By.NAME, "Plane", By.NAME, "Camera")
-        assert alt_unity_object[0].name == "Plane"
+        alt_object=self.altdriver.find_objects(By.NAME, "Plane", By.NAME, "Camera")
+        assert alt_object[0].name == "Plane"
 
-        alt_unity_object2 = self.altdriver.find_objects(By.NAME, "Plane", By.NAME, "Main Camera")
-        assert alt_unity_object[0].x != alt_unity_object2[0].x
-        assert alt_unity_object[0].y != alt_unity_object2[0].y
+        alt_object2=self.altdriver.find_objects(By.NAME, "Plane", By.NAME, "Main Camera")
+        assert alt_object[0].x != alt_object2[0].x
+        assert alt_object[0].y != alt_object2[0].y
 
     def test_wait_for_object_not_be_present_by_camera(self):
         self.altdriver.wait_for_object_to_not_be_present(
@@ -589,34 +594,39 @@ class TestScene01:
             By.NAME, "Main Camera"
         )
 
-        elements = self.altdriver.get_all_elements()
-        names = [element.name for element in elements]
+        elements=self.altdriver.get_all_elements()
+        names=[element.name for element in elements]
         assert "ObjectDestroyedIn5Secs" not in names
 
     def test_wait_for_object_by_camera_2(self):
-        name = "CapsuleInfo"
-        text = self.altdriver.find_object(By.NAME, name).get_text()
+        name="CapsuleInfo"
+        text=self.altdriver.find_object(By.NAME, name).get_text()
 
-        alt_unity_object = self.altdriver.wait_for_object(
+        alt_object=self.altdriver.wait_for_object(
             By.PATH, "//{}[@text={}]".format(name, text),
             By.NAME, "Main Camera",
             timeout=1
         )
 
-        assert alt_unity_object is not None
-        assert alt_unity_object.get_text() == text
+        assert alt_object is not None
+        assert alt_object.get_text() == text
 
     def test_wait_for_object_which_contains_by_camera(self):
-        alt_unity_object = self.altdriver.wait_for_object_which_contains(By.NAME, "Canva", By.NAME, "Main Camera")
-        assert alt_unity_object.name == "Canvas"
+        alt_object=self.altdriver.wait_for_object_which_contains(By.NAME, "Canva", By.NAME, "Main Camera")
+        assert alt_object.name == "Canvas"
 
     def test_get_component_property_complex_class(self):
-        component_name = "AltExampleScriptCapsule"
-        property_name = "AltSampleClass.testInt"
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+        component_name="AltExampleScriptCapsule"
+        property_name="AltSampleClass.testInt"
+<< << << < HEAD
+        alt_unity_object=self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_unity_object is not None
+== == == =
+        alt_object=self.altdriver.find_object(By.NAME, "Capsule")
+        assert alt_object is not None
+>> >>>> > origin/development
 
-        property_value = alt_unity_object.get_component_property(
+        property_value=alt_object.get_component_property(
             component_name, property_name,
             max_depth=1,
             assembly="Assembly-CSharp"
@@ -624,64 +634,69 @@ class TestScene01:
         assert property_value == 1
 
     def test_get_component_property_complex_class2(self):
-        component_name = "AltExampleScriptCapsule"
-        property_name = "listOfSampleClass[1].testString"
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
-        assert alt_unity_object is not None
+        component_name="AltExampleScriptCapsule"
+        property_name="listOfSampleClass[1].testString"
+        alt_object=self.altdriver.find_object(By.NAME, "Capsule")
+        assert alt_object is not None
 
-        property_value = alt_unity_object.get_component_property(
+        property_value=alt_object.get_component_property(
             component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
         assert property_value == "test2"
 
     def test_set_component_property_complex_class(self):
-        component_name = "AltExampleScriptCapsule"
-        property_name = "AltSampleClass.testInt"
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+        component_name="AltExampleScriptCapsule"
+        property_name="AltSampleClass.testInt"
+<< << << < HEAD
+        alt_unity_object=self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_unity_object is not None
+== == == =
+        alt_object=self.altdriver.find_object(By.NAME, "Capsule")
+        assert alt_object is not None
+>> >>>> > origin/development
 
-        alt_unity_object.set_component_property(component_name, property_name, 2, assembly="Assembly-CSharp")
-        property_value = alt_unity_object.get_component_property(
+        alt_object.set_component_property(component_name, property_name, 2, assembly="Assembly-CSharp")
+        property_value=alt_object.get_component_property(
             component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
         assert property_value == 2
 
     def test_set_component_property_complex_class2(self):
-        component_name = "AltExampleScriptCapsule"
-        property_name = "listOfSampleClass[1].testString"
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
-        assert alt_unity_object is not None
+        component_name="AltExampleScriptCapsule"
+        property_name="listOfSampleClass[1].testString"
+        alt_object=self.altdriver.find_object(By.NAME, "Capsule")
+        assert alt_object is not None
 
-        alt_unity_object.set_component_property(component_name, property_name, "test3", assembly="Assembly-CSharp")
-        propertyValue = alt_unity_object.get_component_property(
+        alt_object.set_component_property(component_name, property_name, "test3", assembly="Assembly-CSharp")
+        propertyValue=alt_object.get_component_property(
             component_name, property_name, max_depth=1, assembly="Assembly-CSharp")
         assert propertyValue == "test3"
 
     def test_get_parent(self):
-        element = self.altdriver.find_object(By.NAME, "Canvas/CapsuleInfo")
-        element_parent = element.get_parent()
+        element=self.altdriver.find_object(By.NAME, "Canvas/CapsuleInfo")
+        element_parent=element.get_parent()
         assert element_parent.name == "Canvas"
 
     def test_tap_coordinates(self):
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
+        capsule_element=self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.tap(capsule_element.get_screen_position())
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
 
     def test_click_coordinates(self):
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
+        capsule_element=self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.click(capsule_element.get_screen_position())
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
 
     def test_tap_element(self):
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
+        capsule_element=self.altdriver.find_object(By.NAME, "Capsule")
         capsule_element.tap(1)
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
 
     def test_click_element(self):
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
+        capsule_element=self.altdriver.find_object(By.NAME, "Capsule")
         capsule_element.click()
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
 
     def test_key_down_and_key_up_mouse0(self):
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
+        capsule_element=self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.move_mouse(capsule_element.get_screen_position(), duration=0.1, wait=True)
 
         self.altdriver.key_down(AltKeyCode.Mouse0)
@@ -693,7 +708,7 @@ class TestScene01:
             self.altdriver.find_object(By.NAME, "Capsule", By.NAME, "Camera")
 
     def test_input_field_events(self):
-        input_field = self.altdriver.find_object(By.NAME, "UnityUIInputField").set_text("example", submit=True)
+        input_field=self.altdriver.find_object(By.NAME, "UnityUIInputField").set_text("example", submit=True)
 
         assert input_field.get_text() == "example"
         assert input_field.get_component_property(
@@ -702,14 +717,17 @@ class TestScene01:
             "AltInputFieldRaisedEvents", "onSubmitInvoked", assembly="Assembly-CSharp")
 
     def test_get_static_property(self):
+<< << << < HEAD
         self.altdriver.load_scene("Scene 1 AltDriverTestScene")
+== == == =
+>>>>>> > origin/development
         self.altdriver.call_static_method(
             "UnityEngine.Screen", "SetResolution",
             parameters=["1920", "1080", "True"],
             type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],
             assembly="UnityEngine.CoreModule"
         )
-        width = self.altdriver.get_static_property(
+        width=self.altdriver.get_static_property(
             "UnityEngine.Screen", "currentResolution.width",
             assembly="UnityEngine.CoreModule"
         )
@@ -717,12 +735,15 @@ class TestScene01:
         assert int(width) == 1920
 
     def test_get_static_property_instance_null(self):
+<< << << < HEAD
         self.altdriver.load_scene("Scene 1 AltDriverTestScene")
-        screen_width = self.altdriver.call_static_method(
+== == == =
+>>>>>> > origin/development
+        screen_width=self.altdriver.call_static_method(
             "UnityEngine.Screen", "get_width",
             assembly="UnityEngine.CoreModule"
         )
-        width = self.altdriver.get_static_property(
+        width=self.altdriver.get_static_property(
             "UnityEngine.Screen", "width",
             assembly="UnityEngine.CoreModule"
         )
@@ -730,18 +751,22 @@ class TestScene01:
         assert int(width) == screen_width
 
     def test_float_world_coordinates(self):
-        plane = self.altdriver.find_object(By.NAME, "Plane")
+        plane=self.altdriver.find_object(By.NAME, "Plane")
 
         assert type(plane.worldX) == float
         assert type(plane.worldY) == float
         assert type(plane.worldZ) == float
 
     def test_set_command_response_timeout(self):
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+        alt_object=self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.set_command_response_timeout(1)
 
         with pytest.raises(exceptions.CommandResponseTimeoutException) as execinfo:
+<< << << < HEAD
             alt_unity_object.call_component_method(
+== == == =
+            alt_object.call_component_method(
+>>>>>> > origin/development
                 "AltExampleScriptCapsule", "JumpWithDelay",
                 parameters=[], type_of_parameters=[], assembly="Assembly-CSharp"
             )
@@ -750,12 +775,17 @@ class TestScene01:
         assert str(execinfo.value) == ""
 
     def test_keys_down(self):
-        keys = [AltKeyCode.K, AltKeyCode.L]
+        keys=[AltKeyCode.K, AltKeyCode.L]
         self.altdriver.keys_down(keys)
         self.altdriver.keys_up(keys)
 
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
-        property_value = alt_unity_object.get_component_property(
+<< << << < HEAD
+        alt_unity_object=self.altdriver.find_object(By.NAME, "Capsule")
+        property_value=alt_unity_object.get_component_property(
+== == == =
+        alt_object=self.altdriver.find_object(By.NAME, "Capsule")
+        property_value=alt_object.get_component_property(
+>>>>>> > origin/development
             "AltExampleScriptCapsule",
             "stringToSetFromTests",
             assembly="Assembly-CSharp"
@@ -763,11 +793,16 @@ class TestScene01:
         assert property_value == "multiple keys pressed"
 
     def test_press_keys(self):
-        keys = [AltKeyCode.K, AltKeyCode.L]
+        keys=[AltKeyCode.K, AltKeyCode.L]
         self.altdriver.press_keys(keys)
 
-        alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
-        property_value = alt_unity_object.get_component_property(
+<< << << < HEAD
+        alt_unity_object=self.altdriver.find_object(By.NAME, "Capsule")
+        property_value=alt_unity_object.get_component_property(
+== == == =
+        alt_object=self.altdriver.find_object(By.NAME, "Capsule")
+        property_value=alt_object.get_component_property(
+>>>>>> > origin/development
             "AltExampleScriptCapsule",
             "stringToSetFromTests",
             assembly="Assembly-CSharp"
@@ -775,19 +810,22 @@ class TestScene01:
         assert property_value == "multiple keys pressed"
 
     def test_find_object_by_coordinates(self):
-        counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
+        counter_button=self.altdriver.find_object(By.NAME, "ButtonCounter")
 
-        element = self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
+        element=self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
         assert element.name == "Text"
 
     def test_find_object_by_coordinates_no_element(self):
-        element = self.altdriver.find_object_at_coordinates([-1, -1])
+        element=self.altdriver.find_object_at_coordinates([-1, -1])
         assert element is None
 
     def test_call_private_method(self):
+<< << << < HEAD
         self.altdriver.load_scene("Scene 1 AltDriverTestScene")
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
+== == == =
+>>>>>> > origin/development
+        capsule_element=self.altdriver.find_object(By.NAME, "Capsule")
         capsule_element.call_component_method("AltExampleScriptCapsule",
                                               "callJump", [], assembly="Assembly-CSharp")
-        capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+        capsule_info=self.altdriver.find_object(By.NAME, "CapsuleInfo")
         assert capsule_info.get_text() == "Capsule jumps!"

@@ -20,7 +20,7 @@ namespace Altom.AltTesterTools
 
                 PlayerSettings.companyName = "Altom";
                 PlayerSettings.productName = "sampleGame";
-                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.altunitytester");
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Standalone, "com.altom.sampleGame");
                 PlayerSettings.bundleVersion = versionNumber;
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Standalone, ApiCompatibilityLevel.NET_4_6);
                 AltBuilder.AddAltTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Standalone);
@@ -91,7 +91,7 @@ namespace Altom.AltTesterTools
 
                 PlayerSettings.companyName = "Altom";
                 PlayerSettings.productName = "sampleGame";
-                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "fi.altom.alttester");
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.altom.sampleGame");
                 PlayerSettings.bundleVersion = versionNumber;
                 PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
@@ -186,7 +186,7 @@ namespace Altom.AltTesterTools
                 string versionNumber = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
                 PlayerSettings.companyName = "Altom";
                 PlayerSettings.productName = "sampleGame";
-                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, "fi.altom.alttester");
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, "com.altom.sampleGame");
                 PlayerSettings.bundleVersion = versionNumber;
                 PlayerSettings.iOS.appleEnableAutomaticSigning = true;
                 PlayerSettings.iOS.appleDeveloperTeamID = "59ESG8ELF5";
@@ -251,7 +251,7 @@ namespace Altom.AltTesterTools
 
                 PlayerSettings.companyName = "Altom";
                 PlayerSettings.productName = "sampleGame";
-                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.WebGL, "fi.altom.alttester");
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.WebGL, "com.altom.sampleGame");
                 PlayerSettings.bundleVersion = versionNumber;
                 PlayerSettings.Android.bundleVersionCode = int.Parse(versionNumber);
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;

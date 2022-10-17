@@ -63,7 +63,7 @@ namespace Altom.AltTesterEditor
         public static UnityEngine.Texture2D selectedTestsCountTexture;
 
         private static string downloadURl;
-        private const string RELEASENOTESURL = "https://altom.gitlab.io/altunity/altunityinspector/pages/release-notes.html#release-notes";
+        private const string RELEASENOTESURL = "https://altom.com/alttester/docs/desktop/pages/release-notes.html";
         private const string PREFABNAME = "AltTesterPrefab";
         private static string version;
         private static UnityEngine.GUIStyle gUIStyleButton;
@@ -180,7 +180,7 @@ namespace Altom.AltTesterEditor
 
         private static void SendDesktopVersionRequest()
         {
-            www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/altunity-inspector-versions/?id=unityeditor&AUTversion=" + AltRunner.VERSION);
+            www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/alttester-desktop-versions/?id=unityeditor&alttesterversion=" + AltRunner.VERSION);
             var wwwOp = www.SendWebRequest();
             UnityEditor.EditorApplication.update += CheckDesktopVersionRequest;
 
@@ -207,12 +207,12 @@ namespace Altom.AltTesterEditor
                     System.Text.RegularExpressions.Regex regex = null;
                     if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.Windows)
                     {
-                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/altunityinspector/AltInspector.*\.exe");
+                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop.exe");
 
                     }
                     else if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.MacOSX)
                     {
-                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/altunityinspector/AltInspector.*\.dmg");
+                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop.dmg");
                     }
 
                     System.Text.RegularExpressions.Match match = regex.Match(textReceived);
@@ -322,7 +322,7 @@ namespace Altom.AltTesterEditor
         [UnityEditor.MenuItem("AltTester/Support/Documentation", false, 800)]
         public static void GoToDocumentation()
         {
-            Application.OpenURL("https://altom.com/altunity/docs/altunitytester/");
+            Application.OpenURL("https://altom.com/alttester/docs/sdk/");
         }
 
         [UnityEditor.MenuItem("AltTester/Support/Discord", false, 800)]
@@ -487,7 +487,7 @@ namespace Altom.AltTesterEditor
                 resize = false;
         }
 
-        protected void OnDesktopUpdate()
+        protected void OnInspectorUpdate()
         {
             if (IsTestRunResultAvailable)
             {

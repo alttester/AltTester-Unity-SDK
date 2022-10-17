@@ -486,7 +486,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: AltTester v.1.7.2
+  m_Text: AltTester v.1.8.0
 --- !u!1 &2754702411155629344
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 import pytest
 
 from .utils import Scenes
-from altunityrunner import By
+from alttester import By
 
 
 class TestScene03:
@@ -14,10 +14,10 @@ class TestScene03:
     def test_pointer_enter_and_exit(self):
         alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
         color1 = alt_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
+            "AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
         alt_object.pointer_enter()
         color2 = alt_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
+            "AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
 
         assert color1["r"] != color2["r"] or \
             color1["g"] != color2["g"] or \
@@ -26,7 +26,7 @@ class TestScene03:
 
         alt_object.pointer_exit()
         color3 = alt_object.get_component_property(
-            "AltUnityExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
+            "AltExampleScriptDropMe", "highlightColor", assembly="Assembly-CSharp")
 
         assert color3["r"] != color2["r"] or \
             color3["g"] != color2["g"] or \
@@ -92,21 +92,21 @@ class TestScene03:
 
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
         self.altdriver.load_scene("Scene 3 Drag And Drop")
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
 
-        multipointPositions = [alt_unity_object1.get_screen_position(), [alt_unity_object2.x, alt_unity_object2.y]]
+        multipointPositions = [alt_object1.get_screen_position(), [alt_object2.x, alt_object2.y]]
 
         self.altdriver.multipoint_swipe(multipointPositions, duration=0.5)
 
-        alt_unity_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_unity_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
-        alt_unity_object3 = self.altdriver.find_object(By.NAME, "Drop Box2")
+        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
+        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+        alt_object3 = self.altdriver.find_object(By.NAME, "Drop Box2")
 
         positions = [
-            [alt_unity_object1.x, alt_unity_object1.y],
-            [alt_unity_object2.x, alt_unity_object2.y],
-            [alt_unity_object3.x, alt_unity_object3.y]
+            [alt_object1.x, alt_object1.y],
+            [alt_object2.x, alt_object2.y],
+            [alt_object3.x, alt_object3.y]
         ]
 
         self.altdriver.multipoint_swipe(positions, duration=0.5)
