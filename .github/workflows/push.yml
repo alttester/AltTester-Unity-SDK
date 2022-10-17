@@ -51,7 +51,7 @@ jobs:
           port: ${{ secrets.PORT_DEV_ALTOM }}
           script: rm -rf ${{ secrets.DOCUMENTATION_PATH }}/*
       - name: Upload new documentation
-      - uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST_IP_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
