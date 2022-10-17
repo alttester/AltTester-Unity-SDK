@@ -57,14 +57,15 @@ class TestScene07A:
 
         assert action_info.get_text() == "Capsule was clicked!"
 
-    # def test_tilt(self):
-    #     cube = self.altdriver.find_object(By.NAME, "Cube (1)")
-    #     initial_position = cube.get_world_position()
-    #     self.altdriver.tilt([1000, 10, 10], duration=0.1)
-    #     assert initial_position != self.altdriver.find_object(By.NAME, "Cube (1)").get_world_position()
+    @pytest.mark.skip
+    def test_tilt(self):
+        cube = self.altdriver.find_object(By.NAME, "Cube (1)")
+        initial_position = cube.get_world_position()
+        self.altdriver.tilt([1000, 10, 10], duration=0.1)
+        assert initial_position != self.altdriver.find_object(By.NAME, "Cube (1)").get_world_position()
 
-    #     is_moved = cube.get_component_property("AltUnityCubeNIS", "isMoved", "Assembly-CSharp")
-    #     assert is_moved
+        is_moved = cube.get_component_property("AltUnityCubeNIS", "isMoved", "Assembly-CSharp")
+        assert is_moved
 
 
 class TestScene07B:
@@ -95,13 +96,13 @@ class TestScene07B:
 
         self.altdriver.multipoint_swipe(positions, duration=0.5)
         image_source = self.altdriver.find_object(
-            By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         drop_zone_image_source = self.altdriver.find_object(
-            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         assert image_source["name"] != drop_zone_image_source["name"]
 
         image_source = self.altdriver.find_object(
-            By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         drop_zone_image_source = self.altdriver.find_object(
-            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         assert image_source["name"] != drop_zone_image_source["name"]

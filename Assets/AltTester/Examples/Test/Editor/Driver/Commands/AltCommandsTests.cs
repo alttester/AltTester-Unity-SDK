@@ -27,13 +27,13 @@ namespace Altom.AltDriver.Tests
         [Category("WebGLUnsupported")]
         public void TestSetServerLogging()
         {
-            var rule = altDriver.CallStaticMethod<dynamic>("Altom.AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltServerFileRule" }, null, "Assembly-CSharp");
+            var rule = altDriver.CallStaticMethod<dynamic>("Altom.AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", "Assembly-CSharp", new[] { "AltServerFileRule" }, null);
 
             var levels = (JArray)rule["Levels"];
             Assert.AreEqual(5, levels.Count, levels.ToString());
 
             altDriver.SetServerLogging(AltLogger.File, AltLogLevel.Off);
-            rule = altDriver.CallStaticMethod<dynamic>("Altom.AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", new[] { "AltServerFileRule" }, null, "Assembly-CSharp");
+            rule = altDriver.CallStaticMethod<dynamic>("Altom.AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", "Assembly-CSharp", new[] { "AltServerFileRule" }, null);
             levels = (JArray)rule["Levels"];
             Assert.AreEqual(0, levels.Count, levels.ToString());
         }

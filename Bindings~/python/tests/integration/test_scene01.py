@@ -254,7 +254,7 @@ class TestScene01:
     def test_call_component_method_with_assembly(self):
         capsule = self.altdriver.find_object(By.NAME, "Capsule")
         initial_rotation = capsule.get_component_property(
-            "UnityEngine.Transform", "rotation")
+            "UnityEngine.Transform", "rotation", "UnityEngine.CoreModule")
         capsule.call_component_method(
             "UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule",
             parameters=["10", "10", "10"],
@@ -263,7 +263,7 @@ class TestScene01:
 
         capsule_after_rotation = self.altdriver.find_object(By.NAME, "Capsule")
         final_rotation = capsule_after_rotation.get_component_property(
-            "UnityEngine.Transform", "rotation")
+            "UnityEngine.Transform", "rotation", "UnityEngine.CoreModule",)
 
         assert initial_rotation["x"] != final_rotation["x"] or initial_rotation["y"] != final_rotation["y"] or \
             initial_rotation["z"] != final_rotation["z"] or initial_rotation["w"] != final_rotation["w"]

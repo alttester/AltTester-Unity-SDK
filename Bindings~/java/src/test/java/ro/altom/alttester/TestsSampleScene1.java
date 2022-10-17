@@ -1272,7 +1272,7 @@ public class TestsSampleScene1 {
 				Void.class);
 		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
 				"UnityEngine.Screen",
-				"currentResolution.width").withAssembly("UnityEngine.CoreModule").build();
+				"currentResolution.width", "UnityEngine.CoreModule").build();
 		int width = altDriver.getStaticProperty(altGetComponentPropertyParams,
 				Integer.class);
 		assertEquals(width, 1920);
@@ -1286,7 +1286,7 @@ public class TestsSampleScene1 {
 				Integer.class);
 		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
 				"UnityEngine.Screen",
-				"width").withAssembly("UnityEngine.CoreModule").build();
+				"width", "UnityEngine.CoreModule").build();
 		int width = altDriver.getStaticProperty(altGetComponentPropertyParams,
 				Integer.class);
 

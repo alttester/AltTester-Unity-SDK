@@ -228,7 +228,7 @@ namespace Altom.AltDriver.Tests
             const string propertyName = "InstrumentationSettings.ProxyPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
             if (string.IsNullOrEmpty(portStr)) portStr = "13000";
             int port = int.Parse(portStr);
@@ -244,7 +244,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             try
             {
-                var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName);
+                var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
                 Assert.Fail("Expected ResponseFormatException");
             }
             catch (ResponseFormatException ex)
@@ -288,7 +288,7 @@ namespace Altom.AltDriver.Tests
             Assert.NotNull(altElement);
             try
             {
-                altElement.GetComponentProperty<int>(componentName, propertyName);
+                altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
                 Assert.Fail();
             }
             catch (PropertyNotFoundException exception)
@@ -409,7 +409,7 @@ namespace Altom.AltDriver.Tests
             const string methodName = "UIButtonClicked";
             const string assemblyName = "Assembly-CSharp";
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, new object[] { }, assemblyName: assemblyName);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new object[] { });
             Assert.IsNull(data);
         }
 
@@ -422,7 +422,7 @@ namespace Altom.AltDriver.Tests
             const string assemblyName = "Assembly-CSharp";
             string[] parameters = new[] { "New Text" };
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
             Assert.IsNull(data);
         }
 
@@ -435,7 +435,7 @@ namespace Altom.AltDriver.Tests
             const string assemblyName = "Assembly-CSharp";
             object[] parameters = new object[4] { 1, "stringparam", 0.5, new[] { 1, 2, 3 } };
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
             Assert.IsNull(data);
         }
 
@@ -448,7 +448,7 @@ namespace Altom.AltDriver.Tests
             const string assemblyName = "Assembly-CSharp";
             string[] parameters = new[] { "1", "2" };
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
             Assert.AreEqual("3", data);
         }
 
@@ -461,7 +461,7 @@ namespace Altom.AltDriver.Tests
             object[] parameters = new[] { "FirstParameter", "SecondParameter" };
             string[] typeOfParameters = new[] { "System.String", "System.String" };
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters, assemblyName: assemblyName);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters, typeOfParameters);
             Assert.AreEqual("FirstParameterSecondParameter", data);
         }
 
@@ -474,7 +474,7 @@ namespace Altom.AltDriver.Tests
             object[] parameters = new[] { "FirstParameter", "" };
             string[] typeOfParameters = new[] { "System.String", "System.String" };
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, parameters, typeOfParameters, assemblyName: assemblyName);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters, typeOfParameters);
             Assert.AreEqual("FirstParameter", data);
         }
 
@@ -488,7 +488,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+                altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
                 Assert.Fail();
             }
             catch (MethodWithGivenParametersNotFoundException exception)
@@ -507,7 +507,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+                altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
                 Assert.Fail();
             }
             catch (MethodWithGivenParametersNotFoundException exception)
@@ -526,7 +526,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters, null, "RandomAssembly");
+                altElement.CallComponentMethod<string>(componentName, methodName, "RandomAssembly", parameters, null);
                 Assert.Fail();
             }
             catch (AssemblyNotFoundException exception)
@@ -548,7 +548,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters, assemblyName: assemblyName);
+                altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
                 Assert.Fail();
             }
             catch (FailedToParseArgumentsException exception)
@@ -568,7 +568,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             try
             {
-                altElement.CallComponentMethod<string>(componentName, methodName, parameters, new[] { "System.Stringggggg" }, assemblyName);
+                altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters, new[] { "System.Stringggggg" });
                 Assert.Fail();
             }
             catch (InvalidParameterTypeException exception)
@@ -780,10 +780,9 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestCallStaticMethod()
         {
-            altDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", new[] { "Test", "1" });
-            int a = altDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", new[] { "Test", "2" });
+            altDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", new[] { "Test", "1" });
+            int a = altDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", new[] { "Test", "2" });
             Assert.AreEqual(1, a);
-
         }
 
         [Test]
@@ -791,7 +790,7 @@ namespace Altom.AltDriver.Tests
         {
 
             AltObject capsule = altDriver.FindObject(By.NAME, "Capsule");
-            capsule.CallComponentMethod<string>("AltExampleScriptCapsule", "Test", new[] { "2" }, new[] { "System.Int32" }, "Assembly-CSharp");
+            capsule.CallComponentMethod<string>("AltExampleScriptCapsule", "Test", "Assembly-CSharp", new[] { "2" }, new[] { "System.Int32" });
             AltObject capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
             Assert.AreEqual("6", capsuleInfo.GetText());
         }
@@ -800,10 +799,10 @@ namespace Altom.AltDriver.Tests
         public void TestCallMethodWithAssembly()
         {
             AltObject capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialRotation = capsule.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation");
-            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new object[3] { 10, 10, 10 }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
+            var initialRotation = capsule.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation", "UnityEngine.CoreModule");
+            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule", new object[3] { 10, 10, 10 }, new[] { "System.Single", "System.Single", "System.Single" });
             AltObject capsuleAfterRotation = altDriver.FindObject(By.NAME, "Capsule");
-            var finalRotation = capsuleAfterRotation.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation");
+            var finalRotation = capsuleAfterRotation.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation", "UnityEngine.CoreModule");
             Assert.IsTrue(initialRotation["x"] != finalRotation["x"] || initialRotation["y"] != finalRotation["y"] || initialRotation["z"] != finalRotation["z"] || initialRotation["w"] != finalRotation["w"]);
         }
 
@@ -1461,8 +1460,8 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestGetScreensizeScreenshot()
         {
-            var screenWidth = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", new string[] { }, null, "UnityEngine.CoreModule");
-            var screenHeight = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_height", new string[] { }, null, "UnityEngine.CoreModule");
+            var screenWidth = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
+            var screenHeight = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_height", "UnityEngine.CoreModule", new string[] { }, null);
             var screenshot = altDriver.GetScreenshot();
             Assert.True(screenshot.textureSize.x == screenWidth);
             Assert.True(screenshot.textureSize.y == screenHeight);
@@ -1623,7 +1622,7 @@ namespace Altom.AltDriver.Tests
             const string methodName = "AltSampleClass.TestMethod";
             const string assemblyName = "Assembly-CSharp";
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { }, assemblyName: assemblyName);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new string[] { });
             Assert.AreEqual("Test", data);
         }
 
@@ -1635,7 +1634,7 @@ namespace Altom.AltDriver.Tests
             const string methodName = "listOfSampleClass[0].TestMethod";
             const string assemblyName = "Assembly-CSharp";
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<string>(componentName, methodName, new string[] { }, assemblyName: assemblyName);
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new string[] { });
             Assert.AreEqual("Test", data);
         }
 
@@ -1646,7 +1645,7 @@ namespace Altom.AltDriver.Tests
             const string methodName = "StaticSampleClass.TestMethod";
             const string assemblyName = "Assembly-CSharp";
 
-            var data = altDriver.CallStaticMethod<string>(componentName, methodName, new string[] { }, assemblyName: assemblyName);
+            var data = altDriver.CallStaticMethod<string>(componentName, methodName, assemblyName, new string[] { });
             Assert.AreEqual("Test", data);
         }
 
@@ -1654,7 +1653,7 @@ namespace Altom.AltDriver.Tests
         public void TestCallGameObjectMethod()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<bool>("UnityEngine.GameObject", "CompareTag", new[] { "Untagged" }, new[] { "System.String" }, "UnityEngine.CoreModule");
+            var data = altElement.CallComponentMethod<bool>("UnityEngine.GameObject", "CompareTag", "UnityEngine.CoreModule", new[] { "Untagged" }, new[] { "System.String" });
             Assert.IsTrue(data);
         }
 
@@ -1662,7 +1661,7 @@ namespace Altom.AltDriver.Tests
         public void TestCallMethodInsideSubObjectOfGameObject()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
-            var data = altElement.CallComponentMethod<bool>("UnityEngine.GameObject", "scene.IsValid", new string[] { }, null, "UnityEngine.CoreModule");
+            var data = altElement.CallComponentMethod<bool>("UnityEngine.GameObject", "scene.IsValid", "UnityEngine.CoreModule", new string[] { }, null);
             Assert.IsTrue(data);
         }
 
@@ -2020,7 +2019,7 @@ namespace Altom.AltDriver.Tests
         [Category("WebGLUnsupported")]
         public void TestGetStaticProperty()
         {
-            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" }, "UnityEngine.CoreModule");
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
             var width = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
             Assert.AreEqual(1920, width);
         }
@@ -2028,7 +2027,7 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestGetStaticPropertyInstanceNull()
         {
-            var screenWidth = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", new string[] { }, null, "UnityEngine.CoreModule");
+            var screenWidth = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
             var width = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "width", "UnityEngine.CoreModule");
             Assert.AreEqual(screenWidth, width);
         }
@@ -2101,7 +2100,7 @@ namespace Altom.AltDriver.Tests
         public void TestCallPrivateMethod()
         {
             var altObject = altDriver.FindObject(By.NAME, "Capsule");
-            altObject.CallComponentMethod<string>("AltExampleScriptCapsule", "callJump", new object[] { }, assemblyName: "Assembly-CSharp");
+            altObject.CallComponentMethod<string>("AltExampleScriptCapsule", "callJump", "Assembly-CSharp", new object[] { });
             var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
             var text = capsuleInfo.GetText();
             Assert.AreEqual("Capsule jumps!", text);

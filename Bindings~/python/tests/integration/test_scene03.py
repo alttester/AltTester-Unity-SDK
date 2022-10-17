@@ -54,14 +54,14 @@ class TestScene03:
 
         self.altdriver.swipe(image3.get_screen_position(), box1.get_screen_position(), duration=0.5, wait=False)
 
-        image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
+        image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         image_source_drop_zone = self.altdriver.find_object(
-            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         assert image_source["name"] != image_source_drop_zone["name"]
 
-        image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite")
+        image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         image_source_drop_zone = self.altdriver.find_object(
-            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         assert image_source["name"] != image_source_drop_zone["name"]
 
     def test_multiple_swipe_and_waits(self):
@@ -80,14 +80,14 @@ class TestScene03:
 
         self.altdriver.swipe(image1.get_screen_position(), box1.get_screen_position(), duration=0.5)
 
-        image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
+        image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         image_source_drop_zone = self.altdriver.find_object(
-            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         assert image_source["name"] != image_source_drop_zone["name"]
 
-        image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite")
+        image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         image_source_drop_zone = self.altdriver.find_object(
-            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         assert image_source["name"] != image_source_drop_zone["name"]
 
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
@@ -111,13 +111,13 @@ class TestScene03:
 
         self.altdriver.multipoint_swipe(positions, duration=0.5)
         imageSource = self.altdriver.find_object(
-            By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         imageSourceDropZone = self.altdriver.find_object(
-            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         assert imageSource["name"] != imageSourceDropZone["name"]
 
         imageSource = self.altdriver.find_object(
-            By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         imageSourceDropZone = self.altdriver.find_object(
-            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
         assert imageSource["name"] != imageSourceDropZone["name"]
