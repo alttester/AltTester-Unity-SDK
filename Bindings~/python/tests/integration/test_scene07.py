@@ -86,19 +86,18 @@ class TestScene07B:
 
     def drop_image_with_multipoint_swipe(self, object_names, duration, wait):
         positions = []
-        for name in object_names: 
+        for name in object_names:
             alt_object = self.altdriver.find_object(By.NAME, name)
             positions.append(alt_object.get_screen_position())
 
         self.altdriver.multipoint_swipe(positions, duration=duration, wait=wait)
-        
+
     def test_multipoint_swipe_NIS(self):
         self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, False)
         self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
 
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
-        
+
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
         assert image_source == image_source_drop_zone
-    

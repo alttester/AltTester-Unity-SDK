@@ -25,18 +25,18 @@ class TestScene03:
 
     def drop_image_with_multipoint_swipe(self, object_names, duration, wait):
         positions = []
-        for name in object_names: 
+        for name in object_names:
             alt_object = self.altdriver.find_object(By.NAME, name)
             positions.append(alt_object.get_screen_position())
 
         self.altdriver.multipoint_swipe(positions, duration, wait)
-        
+
     def drop_image(self, drag_location_name, drop_location_name, duration, wait):
         drag_location = self.altdriver.find_object(By.NAME, drag_location_name)
         drop_location = self.altdriver.find_object(By.NAME, drop_location_name)
 
         self.altdriver.swipe(drag_location.get_screen_position(), drop_location.get_screen_position(), duration, wait)
-        
+
     def test_pointer_enter_and_exit(self):
         alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
         color1 = alt_object.get_component_property(
@@ -50,7 +50,7 @@ class TestScene03:
             "highlightColor",
             assembly="Assembly-CSharp"
         )
-        
+
         assert color1["r"] != color2["r"] or \
             color1["g"] != color2["g"] or \
             color1["b"] != color2["b"] or \
@@ -94,7 +94,7 @@ class TestScene03:
 
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
         assert image_source == image_source_drop_zone
-    
+
     def test_multiple_swipe_with_multipoint_swipe(self):
 
         self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, False)
@@ -102,7 +102,7 @@ class TestScene03:
 
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
-        
+
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
         assert image_source == image_source_drop_zone
 
@@ -113,7 +113,7 @@ class TestScene03:
 
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
-        
+
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
         assert image_source == image_source_drop_zone
 
