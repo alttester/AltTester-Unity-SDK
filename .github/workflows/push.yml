@@ -44,23 +44,23 @@ jobs:
           path: DocumentationHTML/
 
       - name: Remove dev documentation
-        uses: appleboy/ssh-action@master
+        uses: garygrossgarten/github-action-ssh@release
         with:
+          command: rm -rf ${{ secrets.DOCUMENTATION_PATH }}/*
           host: ${{ secrets.HOST_IP_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
           port: ${{ secrets.PORT_DEV_ALTOM }}
-          script: rm -rf ${{ secrets.DOCUMENTATION_PATH }}/*
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password : ${{ secrets.PASSWORD_DEV_ALTOM }}
 
       - name: Upload new documentation
-        uses: appleboy/scp-action@master
+        uses: garygrossgarten/github-action-scp@release
         with:
+          local: "DocumentationHTML/*"
+          remote: "${{ secrets.DOCUMENTATION_PATH }}"
           host: ${{ secrets.HOST_IP_ALTOM }}
+          port: ${{ secrets.PORT_DEV_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-          port: ${{ secrets.PORT_DEV_ALTOM }}
-          source: "DocumentationHTML/*"
-          target: "${{ secrets.DOCUMENTATION_PATH }}"
       # env:
         #   HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
         #   DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
