@@ -14,12 +14,12 @@ class TestScene03:
     def wait_for_swipe_to_finish(self):
         self.altdriver.wait_for_object_to_not_be_present(By.NAME, "icon")
 
-    def get_sprite_name(self, image_source, image_source_drop_zone, source_image_name, image_source_drop_zone_name):
+    def get_sprite_name(self, source_image_name, image_source_drop_zone_name):
         image_source = self.altdriver.find_object(
             By.NAME, source_image_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
-        image_source_drop_zone = self.altdriver.find_object
-        (By.NAME, image_source_drop_zone_name).get_component_property(
+        image_source_drop_zone = self.altdriver.find_object(
+            By.NAME, image_source_drop_zone_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
         return image_source, image_source_drop_zone
 
@@ -74,9 +74,9 @@ class TestScene03:
             color3["a"] == color1["a"]
 
     def test_multiple_swipes(self):
-        self.drop_image("Drag Image2", "Drop Box2", 1, False)
-        self.drop_image("Drag Image2", "Drop Box1", 1, False)
-        self.drop_image("Drag Image1", "Drop Box1", 1, False)
+        self.drop_image("Drag Image2", "Drop Box2", 0.1, False)
+        self.drop_image("Drag Image2", "Drop Box1", 0.1, False)
+        self.drop_image("Drag Image1", "Drop Box1", 0.2, False)
         self.wait_for_swipe_to_finish()
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
@@ -85,10 +85,9 @@ class TestScene03:
         assert image_source == image_source_drop_zone
 
     def test_multiple_swipe_and_waits(self):
-        self.drop_image("Drag Image2", "Drop Box2", 1, True)
-        self.drop_image("Drag Image2", "Drop Box1", 1, True)
-        self.drop_image("Drag Image1", "Drop Box1", 1, True)
-        self.wait_for_swipe_to_finish()
+        self.drop_image("Drag Image2", "Drop Box2", 0.1, True)
+        self.drop_image("Drag Image2", "Drop Box1", 0.1, True)
+        self.drop_image("Drag Image1", "Drop Box1", 0.1, True)
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
 
@@ -97,8 +96,8 @@ class TestScene03:
 
     def test_multiple_swipe_with_multipoint_swipe(self):
 
-        self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, False)
-        self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
+        self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"],  0.1, False)
+        self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"],  0.1, False)
 
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
@@ -108,8 +107,8 @@ class TestScene03:
 
     def test_multiple_swipe_and_waits_with_multipoint_swipe(self):
 
-        self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, True)
-        self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, True)
+        self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"],  0.1, True)
+        self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"],  0.1, True)
 
         image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
