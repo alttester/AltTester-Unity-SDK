@@ -49,7 +49,7 @@ Documentation
    :hidden:
 
    Discord <https://discord.gg/Ag9RSuS>
-   Google Group <https://groups.google.com/a/altom.com/g/alttester>
+   Google Group <https://groups.google.com/a/altom.com/g/alttesterforum>
 
 
 .. toctree::
