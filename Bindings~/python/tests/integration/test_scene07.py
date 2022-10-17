@@ -76,7 +76,7 @@ class TestScene07B:
         self.altdriver = altdriver
         self.altdriver.load_scene(Scenes.Scene07B)
 
-    def get_sprite_name(self, image_source, image_source_drop_zone, source_image_name, image_source_drop_zone_name):
+    def get_sprite_name(self, source_image_name, image_source_drop_zone_name):
         image_source = self.altdriver.find_object(By.NAME, source_image_name).get_component_property(
             "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
         image_source_drop_zone = self.altdriver.find_object(
