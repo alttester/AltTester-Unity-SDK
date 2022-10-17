@@ -1,3 +1,35 @@
+# Changes in version 1.8.0
+
+## New
+
+- "Create xml report when running tests from Editor/Command line" !756
+- "Create a method to enable/disable AltUnityDriver logging" !742
+
+## Bug fixes and improvements
+
+- "Tests not shown in Tests List if created inside AltUnityTester folder" !755
+- "Hovering mouse over button does not show tooltip" !748
+- "Set_text() doesn't work for Unity Input Field" !759
+- "[Python] move_touch send wrong parameters" !765
+- "Change method that uses reflection to have assembly as required parameters" !925
+- "[Advanced Usage] [Upgrade Guides] Invalid syntax for some C# examples" !763
+- "[AltUnity Tester Editor] Add Section for "Test run Settings" and replace screenshots" !761
+- "Some tests fail if Input System v >= 1.4.0" !766
+- "[Docs] Upgrade guide has C# examples in Python section" !758
+
+## Contributors
+
+-   Gombos Kriszta @GombosKriszta
+-   Robert Dezmerean @robert-dezmerean
+-   Iuliana Todoran @iuliana.todoran
+-   Robert Poienar @robert_poienar
+-   Edvin Reich @ReichEdvin
+-   Ru Cindrea @ru.cindrea
+-   Sandrina-Emanuela Sere @sandrina.sere
+-   Diana Serb @diana.serb
+-   Andrei-Mihai Onica @andrei.onica
+
+
 # Changes in version 1.7.2
 
 ## New
