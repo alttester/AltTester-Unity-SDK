@@ -6,7 +6,7 @@ jobs:
   add-to-project:
     runs-on: [self-hosted]
     steps:
-      - uses: actions/add-to-project@RELEASE_VERSION
+      - uses: actions/add-to-project@v0.3.0
         with:
           project-url: https://github.com/orgs/alttester/projects/1
           github-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
