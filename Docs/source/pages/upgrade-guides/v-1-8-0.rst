@@ -4,10 +4,13 @@ Upgrade from v1.7.0 to v1.8.0
 This guide will assist in upgrading your AltUnity projects from **v1.7.0** to AltTester Unity SDK
 **v1.8.0**.
 
-AltTester Unity SDK v1.8.0 is a major update to the framework with a brand new internal
-communication protocol and as such includes a small number of breaking changes.
+AltUnity Tester becomes AltTester Unity SDK. The new one fits our mission to extend our test automation solution in the following directions:
+support new platforms, help game testers to start automation more easier and start exploring how we could support Unreal and other engines.
 All changes are listed below, organized by drivers along with how to upgrade
 your code to work with AltTester Unity SDK v1.8.0.
+
+To learn more about what's new in AltTester Unity SDK v1.8.0, read the
+`v1.8.0 section from our changelog <https://github.com/alttester/AltTester-Unity-SDK/blob/development/CHANGELOG.md>`_.
 
 Python
 ------
@@ -72,6 +75,7 @@ With:
     <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
     <version>1.8.0</version>
+    
 2. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
 3. In case of `AltUnityObject` class, we changed the name to `AltObject`.
 3. In case of `AltUnityDriverConfigFactory` class, we changed the name to `AltDriverConfigFactory`.
