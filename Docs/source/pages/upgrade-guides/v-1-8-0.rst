@@ -15,8 +15,23 @@ Python
 ------
 **altunityrunner**  →  **alttester**
 
-1. In case of `altunityrunner` PyPI package, we change the name to `AltTester-Driver`.To install the new package run `pip install AltTester-Driver`.
-2. In case of `altunityrunner` python package, we change the name to `alttester`.Replaced all import from `from altunityrunner import *` to `from alttester import *`.
+1. In case of `altunityrunner` PyPI package, we change the name to `AltTester-Driver`.
+
+To install the new package run ``pip install AltTester-Driver``.
+
+2. In case of `altunityrunner` python package, we change the name to `alttester`.
+
+Replace:
+
+.. code-block:: Python
+    ``from altunityrunner import *``
+
+With:
+
+.. code-block:: Python
+
+    ``from alttester import *``
+
 3. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
 4. In case of `AltUnityObject` class, we changed the name to `AltObject`.
 5. In case of `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
