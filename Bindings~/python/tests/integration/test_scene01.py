@@ -1,3 +1,4 @@
+from symbol import parameters
 import time
 
 import pytest
@@ -260,7 +261,8 @@ class TestScene01:
         expected_font_size = 16
         alt_object = self.altdriver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
         alt_object.call_component_method(
-            "UnityEngine.UI.Text", "set_fontSize", assembly
+            "UnityEngine.UI.Text", "set_fontSize", assembly,
+            parameters=["16"]
         )
         font_size = alt_object.call_component_method(
             "UnityEngine.UI.Text", "get_fontSize", assembly,
@@ -358,7 +360,7 @@ class TestScene01:
 
         assert value == 1
 
-    @ pytest.mark.parametrize("key_value, key_type", [
+    @pytest.mark.parametrize("key_value, key_type", [
         (1, PlayerPrefKeyType.Int),
         (1.3, PlayerPrefKeyType.Float),
         ("string value", PlayerPrefKeyType.String)
