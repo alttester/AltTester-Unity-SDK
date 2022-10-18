@@ -99,9 +99,9 @@ public class TestsSampleScene3 {
     @Test
     public void testMultipleDragAndDrop() throws Exception {
 
-        dropImage("Drag Image2", "Drop Box2", 0.1f, false);
-        dropImage("Drag Image2", "Drop Box1", 0.1f, false);
-        dropImage("Drag Image1", "Drop Box1", 0.3f, false);
+        dropImage("Drag Image2", "Drop Box2", 1f, false);
+        dropImage("Drag Image2", "Drop Box1", 1f, false);
+        dropImage("Drag Image1", "Drop Box1", 3f, false);
         waitForSwipeToFinish();
 
         getSpriteName("Drag Image1", "Drop Image");
@@ -118,9 +118,9 @@ public class TestsSampleScene3 {
     @Test
     public void testMultipleDragAndDropWait() throws Exception {
 
-        dropImage("Drag Image2", "Drop Box2", (float) 0.1, true);
-        dropImage("Drag Image2", "Drop Box1", (float) 0.1, true);
-        dropImage("Drag Image1", "Drop Box1", (float) 0.1, true);
+        dropImage("Drag Image2", "Drop Box2", (float) 1, true);
+        dropImage("Drag Image2", "Drop Box1", (float) 1, true);
+        dropImage("Drag Image1", "Drop Box1", (float) 1, true);
         waitForSwipeToFinish();
 
         getSpriteName("Drag Image1", "Drop Image");
@@ -181,8 +181,8 @@ public class TestsSampleScene3 {
         objects2.add("Drop Box1");
         objects2.add("Drop Box2");
 
-        dropImageWithMultipointSwipe(objects1, 0.1f, true);
-        dropImageWithMultipointSwipe(objects2, 0.1f, true);
+        dropImageWithMultipointSwipe(objects1, 1f, true);
+        dropImageWithMultipointSwipe(objects2, 1f, true);
 
         getSpriteName("Drag Image1", "Drop Image");
         String imageSource = ImagesDrop.imageSource;

@@ -35,9 +35,9 @@ namespace Altom.AltDriver.Tests
         public void MultipleDragAndDrop()
         {
             string imageSource, imageSourceDropZone;
-            dropImage("Drag Image2", "Drop Box1", 0.1f, false);
-            dropImage("Drag Image2", "Drop Box2", 0.1f, false);
-            dropImage("Drag Image1", "Drop Box1", 0.2f, false);
+            dropImage("Drag Image2", "Drop Box1", 1f, false);
+            dropImage("Drag Image2", "Drop Box2", 1f, false);
+            dropImage("Drag Image1", "Drop Box1", 2f, false);
             waitForSwipeToFinish();
             getSpriteName(out imageSource, out imageSourceDropZone, "Drag Image1", "Drop Image");
             Assert.AreEqual(imageSource, imageSourceDropZone);
@@ -57,14 +57,14 @@ namespace Altom.AltDriver.Tests
             imageSourceDropZone = altDriver.FindObject(By.NAME, imageSourceDropZoneName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
         }
 
-        private void dropImage(string dragLocationName, string dropLocationName, float duration = 0.1f, bool wait = true)
+        private void dropImage(string dragLocationName, string dropLocationName, float duration = 1f, bool wait = true)
         {
             var dragLocation = altDriver.FindObject(By.NAME, dragLocationName);
             var dropLocation = altDriver.FindObject(By.NAME, dropLocationName);
 
             altDriver.Swipe(new AltVector2(dragLocation.x, dragLocation.y), new AltVector2(dropLocation.x, dropLocation.y), duration, wait: wait);
         }
-        private void dropImageWithMultipointSwipe(string[] objectNames, float duration = 0.1f, bool wait = true)
+        private void dropImageWithMultipointSwipe(string[] objectNames, float duration = 1f, bool wait = true)
         {
             AltVector2[] listPositions = new AltVector2[objectNames.Length];
             for (int i = 0; i < objectNames.Length; i++)
