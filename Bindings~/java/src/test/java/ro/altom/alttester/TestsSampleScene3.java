@@ -168,8 +168,10 @@ public class TestsSampleScene3 {
             AltFindObjectsParams elementParams = new AltFindObjectsParams.Builder(
                     AltDriver.By.NAME, objectNames.get(i)).build();
             AltObject element = altDriver.findObject(elementParams);
-
+            listPositions.add(element.getScreenPosition());
         }
+        altDriver.multipointSwipe(
+                new AltMultiPointSwipeParams.Builder(listPositions).withDuration(duration).withWait(wait).build());
     }
 
     @Test
@@ -195,5 +197,5 @@ public class TestsSampleScene3 {
         imageSource = ImagesDrop.imageSource;
         imageSourceDropZone = ImagesDrop.imageSourceDropZone;
         assertEquals(imageSource, imageSourceDropZone);
-    }}
-    
+    }
+}
