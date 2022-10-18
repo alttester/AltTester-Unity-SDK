@@ -138,7 +138,7 @@ class AltObject:
 
         return commands.GetAllComponents.run(self._connection, self)
 
-    def get_component_property(self, component_name, property_name, assembly="", max_depth=2):
+    def get_component_property(self, component_name, property_name, assembly, max_depth=2):
         """Returns the value of the given component property.
 
         Args:
@@ -147,7 +147,7 @@ class AltObject:
             property_name (:obj:`str`): The name of the property of which value you want. If the property is an array
                 you can specify which element of the array to return by doing ``property[index]``, or if you want a
                 property inside of another property you can get by doing ``property.subProperty``.
-            assembly (:obj:`str`, optional): The name of the assembly containing the component. Defaults to ``""``.
+            assembly (:obj:`str`): The name of the assembly containing the component.
             maxDepth (:obj:`int`, optional): Set how deep to serialize the property. Defaults to ``2``.
 
         Returns:
@@ -160,15 +160,15 @@ class AltObject:
             component_name, property_name, assembly, max_depth, self
         )
 
-    def set_component_property(self, component_name, property_name, value, assembly=""):
+    def set_component_property(self, component_name, property_name, assembly, value):
         """Sets a value for a given component property.
 
         Args:
             component_name (:obj:`str`): The name of the component. If the component has a namespace the format should
                 look like this: ``"namespace.componentName"``.
             property_name (:obj:`str`): The name of the property of which value you want to set.
+            assembly (:obj:`str`): The name of the assembly containing the component.
             value (:obj:`str`): The value to be set for the chosen component's property.
-            assembly (:obj:`str`, optional): The name of the assembly containing the component. Defaults to ``""``.
 
         Returns:
             str: The property value is serialized to a JSON string.
@@ -180,7 +180,7 @@ class AltObject:
             component_name, property_name, value, assembly, self
         )
 
-    def call_component_method(self, component_name, method_name, parameters=None, type_of_parameters=None, assembly=""):
+    def call_component_method(self, component_name, method_name, assembly, parameters=None, type_of_parameters=None):
         """Invokes a method from an existing component of the object.
 
         Args:
@@ -189,9 +189,9 @@ class AltObject:
             method_name (:obj:`str`): The name of the public method that we want to call. If the method is inside a
                 static property/field to be able to call that method, methodName need to be the following format
                 ``"propertyName.MethodName"``.
+            assembly (:obj:`str`): The name of the assembly containing the script.
             parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
             type_of_parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
-            assembly (:obj:`str`, optional): The name of the assembly containing the script. Defaults to ``""``.
 
         Return:
             str: The value returned by the method is serialized to a JSON string.

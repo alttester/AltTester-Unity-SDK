@@ -167,8 +167,8 @@ namespace Altom.AltDriver
             return timeScale;
         }
 
-        public T CallStaticMethod<T>(string typeName, string methodName,
-                    object[] parameters, string[] typeOfParameters = null, string assemblyName = "")
+        public T CallStaticMethod<T>(string typeName, string methodName, string assemblyName,
+                    object[] parameters, string[] typeOfParameters = null)
         {
             var result = new AltCallStaticMethod<T>(communicationHandler, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());

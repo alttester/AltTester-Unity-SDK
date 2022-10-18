@@ -288,117 +288,114 @@ public class TestsSampleScene1 {
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
 
-        Boolean propertyValue = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder(componentName,
-                        propertyName).build(),
-                Boolean.class);
-        assertTrue(propertyValue);
-    }
+		Boolean propertyValue = altElement.getComponentProperty(
+				new AltGetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp").build(),
+				Boolean.class);
+		assertTrue(propertyValue);
+	}
 
-    @Test
-    public void testGetComponentPropertyInvalidDeserialization() {
-        String componentName = "Altom.AltTester.AltRunner";
-        String propertyName = "InstrumentationSettings.ShowPopUp";
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "AltTesterPrefab").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        try {
-            altElement.getComponentProperty(
-                    new AltGetComponentPropertyParams.Builder(componentName,
-                            propertyName).build(),
-                    int.class);
-            fail("Expected ResponseFormatException");
-        } catch (ResponseFormatException ex) {
-            assertEquals("Could not deserialize response data: `true` into int",
-                    ex.getMessage());
-        }
-    }
+	@Test
+	public void testGetComponentPropertyInvalidDeserialization() {
+		String componentName = "Altom.AltTester.AltRunner";
+		String propertyName = "InstrumentationSettings.ShowPopUp";
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"AltTesterPrefab").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		try {
+			altElement.getComponentProperty(
+					new AltGetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp").build(),
+					int.class);
+			fail("Expected ResponseFormatException");
+		} catch (ResponseFormatException ex) {
+			assertEquals("Could not deserialize response data: `true` into int",
+					ex.getMessage());
+		}
+	}
 
-    @Test(expected = PropertyNotFoundException.class)
-    public void testGetNonExistingComponentProperty() throws InterruptedException {
-        Thread.sleep(1000);
-        String componentName = "Altom.AltTester.AltRunner";
-        String propertyName = "socketPort";
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "AltTesterPrefab").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder(componentName,
-                        propertyName).build(),
-                String.class);
-    }
+	@Test(expected = PropertyNotFoundException.class)
+	public void testGetNonExistingComponentProperty() throws InterruptedException {
+		Thread.sleep(1000);
+		String componentName = "Altom.AltTester.AltRunner";
+		String propertyName = "socketPort";
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"AltTesterPrefab").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		altElement.getComponentProperty(
+				new AltGetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp").build(),
+				String.class);
+	}
 
-    @Test
-    public void testGetComponentPropertyArray() {
-        String componentName = "AltExampleScriptCapsule";
-        String propertyName = "arrayOfInts";
-        String assembly = "Assembly-CSharp";
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        int[] propertyValue = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder(componentName,
-                        propertyName).withAssembly(assembly).build(),
-                int[].class);
-        assertEquals(3, propertyValue.length);
-        assertEquals(1, propertyValue[0]);
-        assertEquals(2, propertyValue[1]);
-        assertEquals(3, propertyValue[2]);
-    }
+	@Test
+	public void testGetComponentPropertyArray() {
+		String componentName = "AltExampleScriptCapsule";
+		String propertyName = "arrayOfInts";
+		String assembly = "Assembly-CSharp";
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"Capsule").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		int[] propertyValue = altElement.getComponentProperty(
+				new AltGetComponentPropertyParams.Builder(componentName,
+						propertyName, assembly).build(),
+				int[].class);
+		assertEquals(3, propertyValue.length);
+		assertEquals(1, propertyValue[0]);
+		assertEquals(2, propertyValue[1]);
+		assertEquals(3, propertyValue[2]);
+	}
 
-    @Test
-    public void testGetComponentPropertyUnityEngine() {
-        String componentName = "UnityEngine.CapsuleCollider";
-        String propertyName = "isTrigger";
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        boolean propertyValue = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder(componentName,
-                        propertyName).build(),
-                Boolean.class);
-        assertEquals(false, propertyValue);
-    }
+	@Test
+	public void testGetComponentPropertyUnityEngine() {
+		String componentName = "UnityEngine.CapsuleCollider";
+		String propertyName = "isTrigger";
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"Capsule").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		boolean propertyValue = altElement.getComponentProperty(
+				new AltGetComponentPropertyParams.Builder(componentName,
+						propertyName, "UnityEngine.PhysicsModule").build(),
+				Boolean.class);
+		assertEquals(false, propertyValue);
+	}
 
-    @Test
-    public void testSetComponentProperty() {
-        String componentName = "AltExampleScriptCapsule";
-        String propertyName = "stringToSetFromTests";
-        String assembly = "Assembly-CSharp";
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        altElement.setComponentProperty(
-                new AltSetComponentPropertyParams.Builder(componentName, propertyName,
-                        "2").withAssembly(assembly).build());
-        int propertyValue = altElement.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder(componentName,
-                        propertyName).withAssembly(assembly).build(),
-                int.class);
-        assertEquals(2, propertyValue);
-    }
+	@Test
+	public void testSetComponentProperty() {
+		String componentName = "AltExampleScriptCapsule";
+		String propertyName = "stringToSetFromTests";
+		String assembly = "Assembly-CSharp";
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"Capsule").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		altElement.setComponentProperty(
+				new AltSetComponentPropertyParams.Builder(componentName, propertyName,
+						assembly, "2").build());
+		int propertyValue = altElement.getComponentProperty(
+				new AltGetComponentPropertyParams.Builder(componentName,
+						propertyName, assembly).build(),
+				int.class);
+		assertEquals(2, propertyValue);
+	}
 
-    @Test
-    public void testSetNonExistingComponentProperty() {
-        String componentName = "AltExampleScriptCapsuleNotFound";
-        String propertyName = "stringToSetFromTests";
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        try {
-            altElement.setComponentProperty(
-                    new AltSetComponentPropertyParams.Builder(componentName, propertyName,
-                            "2").build());
-            fail();
-        } catch (ComponentNotFoundException e) {
-            assertTrue(e.getMessage(), e.getMessage().startsWith("Component not found"));
-        }
-    }
+	@Test
+	public void testSetNonExistingComponentProperty() {
+		String componentName = "AltExampleScriptCapsuleNotFound";
+		String propertyName = "stringToSetFromTests";
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"Capsule").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		try {
+			altElement.setComponentProperty(
+					new AltSetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp",
+							"2").build());
+			fail();
+		} catch (ComponentNotFoundException e) {
+			assertTrue(e.getMessage(), e.getMessage().startsWith("Component not found"));
+		}
+	}
 
     @Test
     public void testCallMethodWithNoParameters() {
@@ -409,11 +406,10 @@ public class TestsSampleScene1 {
                 "Capsule").build();
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
 
-        assertNull(altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
-                        .withAssembly(assembly).build(),
-                Void.class));
-    }
+		assertNull(altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, new Object[] {}).build(),
+				Void.class));
+	}
 
     @Test
     public void testGetTextCallMethodWithNoParameters() {
@@ -427,8 +423,8 @@ public class TestsSampleScene1 {
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
 
         assertEquals(expected_text, altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, new Object[] {})
-                        .withAssembly(assembly).build(),
+                new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, new Object[] {})
+                        .build(),
                 String.class));
     }
 
@@ -445,69 +441,64 @@ public class TestsSampleScene1 {
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
 
         altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-                        .withAssembly(assembly)
+                new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
                         .build(),
                 Void.class);
         Integer fontSize = altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodExpectedName, new Object[] {})
-                        .withAssembly(assembly)
+                new AltCallComponentMethodParams.Builder(componentName, methodExpectedName, assembly, new Object[] {})
                         .build(),
                 Integer.class);
 
         assert (16 == fontSize);
     }
 
-    @Test
-    public void testCallMethodWithParameters() throws Exception {
-        String componentName = "AltExampleScriptCapsule";
-        String methodName = "Jump";
-        String assembly = "Assembly-CSharp";
-        String[] parameters = new String[] { "New Text" };
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        @Test
+        public void testCallMethodWithParameters() throws Exception {
+                String componentName = "AltExampleScriptCapsule";
+                String methodName = "Jump";
+                String assembly = "Assembly-CSharp";
+                String[] parameters = new String[] { "New Text" };
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                        "Capsule").build();
+                AltObject altElement = altDriver.findObject(altFindObjectsParams);
 
-        assertNull(altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-                        .withAssembly(assembly)
-                        .build(),
-                Void.class));
-    }
+                        assertNull(altElement.callComponentMethod(
+                                        new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
+                                                        .build(),
+                                        Void.class));
+	}
 
-    @Test
-    public void testCallMethodWithManyParameters() throws Exception {
-        String componentName = "AltExampleScriptCapsule";
-        String methodName = "TestMethodWithManyParameters";
-        String assembly = "Assembly-CSharp";
-        Object[] parameters = new Object[] { 1, "stringparam", 0.5, new int[] { 1, 2,
-                3 } };
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNull(altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-                        .withAssembly(assembly)
-                        .build(),
-                Void.class));
-    }
+	@Test
+	public void testCallMethodWithManyParameters() throws Exception {
+		String componentName = "AltExampleScriptCapsule";
+		String methodName = "TestMethodWithManyParameters";
+		String assembly = "Assembly-CSharp";
+		Object[] parameters = new Object[] { 1, "stringparam", 0.5, new int[] { 1, 2,
+				3 } };
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"Capsule").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNull(altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
+						.build(),
+				Void.class));
+	}
 
-    @Test(expected = MethodWithGivenParametersNotFoundException.class)
-    public void testCallMethodWithIncorrectNumberOfParameters() throws Exception {
-        String componentName = "AltExampleScriptCapsule";
-        String methodName = "TestMethodWithManyParameters";
-        String assembly = "Assembly-CSharp";
-        Object[] parameters = new Object[] { 1, "stringparam", new int[] { 1, 2, 3 }
-        };
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-                        .withAssembly(assembly)
-                        .build(),
-                Void.class);
-    }
+	@Test(expected = MethodWithGivenParametersNotFoundException.class)
+	public void testCallMethodWithIncorrectNumberOfParameters() throws Exception {
+		String componentName = "AltExampleScriptCapsule";
+		String methodName = "TestMethodWithManyParameters";
+		String assembly = "Assembly-CSharp";
+		Object[] parameters = new Object[] { 1, "stringparam", new int[] { 1, 2, 3 } };
+
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"Capsule").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
+						.build(),
+				Void.class);
+	}
 
     @Test(expected = InvalidParameterTypeException.class)
     public void testCallMethodInvalidParameterType() {
@@ -518,11 +509,11 @@ public class TestsSampleScene1 {
                 "Capsule").build();
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
 
-        altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-                        .withTypeOfParameters(new String[] { "System.Stringggggg" }).build(),
-                Void.class);
-    }
+		altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, "Assembly-CSharp", parameters)
+						.withTypeOfParameters(new String[] { "System.Stringggggg" }).build(),
+				Void.class);
+	}
 
     @Test(expected = AssemblyNotFoundException.class)
     public void testCallMethodAssmeblyNotFound() {
@@ -534,28 +525,26 @@ public class TestsSampleScene1 {
                 "Capsule").build();
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
 
-        altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-                        .withAssembly("RandomAssembly").build(),
-                Void.class);
-    }
+		altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, "RandomAssembly", parameters).build(),
+				Void.class);
+	}
 
-    @Test(expected = MethodWithGivenParametersNotFoundException.class)
-    public void testCallMethodWithIncorrectNumberOfParameters2() {
-        String componentName = "AltExampleScriptCapsule";
-        String methodName = "TestMethodWithManyParameters";
-        String assembly = "Assembly-CSharp";
-        Object[] parameters = new Object[] { 'a', "stringparam", new int[] { 1, 2, 3
-        } };
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        altElement.callComponentMethod(
-                new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-                        .withAssembly(assembly)
-                        .build(),
-                Void.class);
-    }
+	@Test(expected = MethodWithGivenParametersNotFoundException.class)
+	public void testCallMethodWithIncorrectNumberOfParameters2() {
+		String componentName = "AltExampleScriptCapsule";
+		String methodName = "TestMethodWithManyParameters";
+		String assembly = "Assembly-CSharp";
+		Object[] parameters = new Object[] { 'a', "stringparam", new int[] { 1, 2, 3
+		} };
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+				"Capsule").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		altElement.callComponentMethod(
+				new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
+						.build(),
+				Void.class);
+	}
 
     @Test
     public void testSetKeyInt() throws Exception {
@@ -679,34 +668,33 @@ public class TestsSampleScene1 {
         assertEquals(text, "Capsule was clicked to jump!");
     }
 
-    @Test
-    public void TestCallStaticMethod() throws Exception {
-        altDriver.callStaticMethod(
-                new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "SetInt",
-                        new Object[] { "Test", "1" }).build(),
-                String.class);
-        int a = altDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs",
-                "GetInt", new Object[] { "Test", "2" }).build(), Integer.class);
-        assertEquals(1, a);
-    }
+	@Test
+	public void TestCallStaticMethod() throws Exception {
+		altDriver.callStaticMethod(
+				new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule",
+						new Object[] { "Test", "1" }).build(),
+				String.class);
+		int a = altDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs",
+				"GetInt", "UnityEngine.CoreModule", new Object[] { "Test", "2" }).build(), Integer.class);
+		assertEquals(1, a);
+	}
 
     @Test
     public void TestCallMethodWithMultipleDefinitions() throws Exception {
 
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Capsule").build();
-        AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "CapsuleInfo").build();
-        AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
-        capsule.callComponentMethod(
-                new AltCallComponentMethodParams.Builder("AltExampleScriptCapsule", "Test",
-                        new Object[] { 2 })
-                        .withTypeOfParameters(new String[] { "System.Int32" })
-                        .withAssembly("Assembly-CSharp").build(),
-                Void.class);
-        AltObject capsuleInfo = altDriver.findObject(altFindObjectsParameters2);
-        assertEquals("6", capsuleInfo.getText());
-    }
+		AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+				AltDriver.By.NAME, "Capsule").build();
+		AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
+				AltDriver.By.NAME, "CapsuleInfo").build();
+		AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
+		capsule.callComponentMethod(
+				new AltCallComponentMethodParams.Builder("AltExampleScriptCapsule", "Test", "Assembly-CSharp",
+						new Object[] { 2 })
+						.withTypeOfParameters(new String[] { "System.Int32" }).build(),
+				Void.class);
+		AltObject capsuleInfo = altDriver.findObject(altFindObjectsParameters2);
+		assertEquals("6", capsuleInfo.getText());
+	}
 
     @Test
     public void TestGetSetTimeScale() {
@@ -719,32 +707,31 @@ public class TestsSampleScene1 {
         altDriver.setTimeScale(new AltSetTimeScaleParams.Builder(1f).build());
     }
 
-    @Test
-    public void TestCallMethodWithAssembly() {
+	@Test
+	public void TestCallMethodWithAssembly() {
+		AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+				AltDriver.By.NAME, "Capsule").build();
+		AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
+		AltRotation initialRotation = capsule.getComponentProperty(
+				new AltGetComponentPropertyParams.Builder("UnityEngine.Transform",
+						"rotation", "UnityEngine.CoreModule").build(),
+				AltRotation.class);
 
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Capsule").build();
-        AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
-        AltRotation initialRotation = capsule.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("UnityEngine.Transform",
-                        "rotation").build(),
-                AltRotation.class);
-
-        capsule.callComponentMethod(new AltCallComponentMethodParams.Builder(
-                "UnityEngine.Transform", "Rotate",
-                new Object[] { 10, 10, 10 }).withAssembly("UnityEngine.CoreModule")
-                .withTypeOfParameters(new String[] {}).build(),
-                Void.class);
-        AltObject capsuleAfterRotation = altDriver.findObject(altFindObjectsParameters1);
-        AltRotation finalRotation = capsuleAfterRotation.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("UnityEngine.Transform",
-                        "rotation").build(),
-                AltRotation.class);
-        assertTrue("Rotation should be distinct",
-                initialRotation.x != finalRotation.x || initialRotation.y != finalRotation.y
-                        || initialRotation.z != finalRotation.z
-                        || initialRotation.w != finalRotation.w);
-    }
+		capsule.callComponentMethod(new AltCallComponentMethodParams.Builder(
+				"UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule",
+				new Object[] { 10, 10, 10 })
+				.withTypeOfParameters(new String[] {}).build(),
+				Void.class);
+		AltObject capsuleAfterRotation = altDriver.findObject(altFindObjectsParameters1);
+		AltRotation finalRotation = capsuleAfterRotation.getComponentProperty(
+				new AltGetComponentPropertyParams.Builder("UnityEngine.Transform",
+						"rotation", "UnityEngine.CoreModule").build(),
+				AltRotation.class);
+		assertTrue("Rotation should be distinct",
+				initialRotation.x != finalRotation.x || initialRotation.y != finalRotation.y
+						|| initialRotation.z != finalRotation.z
+						|| initialRotation.w != finalRotation.w);
+	}
 
     @Test
     public void TestWaitForObjectToNotBePresent() {
@@ -1089,72 +1076,72 @@ public class TestsSampleScene1 {
         assertEquals(2, scenes.length);
     }
 
-    @Test
-    public void TestGetComponentPropertyComplexClass() throws Exception {
-        String componentName = "AltExampleScriptCapsule";
-        String propertyName = "AltSampleClass.testInt";
-        String assembly = "Assembly-CSharp";
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                componentName, propertyName).withAssembly(assembly).build();
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
-                .build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, int.class);
-        assertEquals(1, propertyValue);
-    }
+	@Test
+	public void TestGetComponentPropertyComplexClass() throws Exception {
+		String componentName = "AltExampleScriptCapsule";
+		String propertyName = "AltSampleClass.testInt";
+		String assembly = "Assembly-CSharp";
+		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+				componentName, propertyName, assembly).build();
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
+				.build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, int.class);
+		assertEquals(1, propertyValue);
+	}
 
-    @Test
-    public void TestGetComponentPropertyComplexClass2() throws Exception {
-        String componentName = "AltExampleScriptCapsule";
-        String propertyName = "listOfSampleClass[1].testString";
-        String assembly = "Assembly-CSharp";
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                componentName, propertyName).withAssembly(assembly).build();
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
-                .build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, String.class);
-        assertEquals("test2", propertyValue);
-    }
+	@Test
+	public void TestGetComponentPropertyComplexClass2() throws Exception {
+		String componentName = "AltExampleScriptCapsule";
+		String propertyName = "listOfSampleClass[1].testString";
+		String assembly = "Assembly-CSharp";
+		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+				componentName, propertyName, assembly).build();
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
+				.build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, String.class);
+		assertEquals("test2", propertyValue);
+	}
 
-    @Test
-    public void TestSetComponentPropertyComplexClass() {
-        String componentName = "AltExampleScriptCapsule";
-        String propertyName = "AltSampleClass.testInt";
-        String assembly = "Assembly-CSharp";
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                componentName, propertyName).withAssembly(assembly).withMaxDepth(1).build();
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
-                .build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
-                componentName, propertyName, 2).withAssembly(assembly).build();
-        altElement.setComponentProperty(altSetComponentPropertyParams);
-        int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, int.class);
-        assertEquals(2, propertyValue);
-    }
+	@Test
+	public void TestSetComponentPropertyComplexClass() {
+		String componentName = "AltExampleScriptCapsule";
+		String propertyName = "AltSampleClass.testInt";
+		String assembly = "Assembly-CSharp";
+		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+				componentName, propertyName, assembly).withMaxDepth(1).build();
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
+				.build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+				componentName, propertyName, assembly, 2).build();
+		altElement.setComponentProperty(altSetComponentPropertyParams);
+		int propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, int.class);
+		assertEquals(2, propertyValue);
+	}
 
     @Test
     public void TestSetComponentPropertyComplexClass2() {
 
-        String componentName = "AltExampleScriptCapsule";
-        String propertyName = "listOfSampleClass[1].testString";
-        String assembly = "Assembly-CSharp";
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                componentName, propertyName).withAssembly(assembly).withMaxDepth(1).build();
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
-                .build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        assertNotNull(altElement);
-        AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
-                componentName, propertyName, "test3").withAssembly(assembly).build();
-        altElement.setComponentProperty(altSetComponentPropertyParams);
-        String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, String.class);
-        assertEquals("test3", propertyValue);
-    }
+		String componentName = "AltExampleScriptCapsule";
+		String propertyName = "listOfSampleClass[1].testString";
+		String assembly = "Assembly-CSharp";
+		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+				componentName, propertyName, assembly).withMaxDepth(1).build();
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
+				.build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		assertNotNull(altElement);
+		AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+				componentName, propertyName, assembly, "test3").build();
+		altElement.setComponentProperty(altSetComponentPropertyParams);
+		String propertyValue = altElement.getComponentProperty(altGetComponentPropertyParams, String.class);
+		assertEquals("test3", propertyValue);
+	}
 
     @Test
     public void TestGetServerVersion() {
@@ -1312,58 +1299,54 @@ public class TestsSampleScene1 {
         assertTrue(new File(path).isFile());
     }
 
-    @Test
-    public void testGetStaticProperty() {
-        AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
-                "UnityEngine.Screen", "SetResolution", new Object[] { "1920", "1080", "True"
-                })
-                .withTypeOfParameters(new String[] { "System.Int32", "System.Int32",
-                        "System.Boolean" })
-                .withAssembly("UnityEngine.CoreModule").build();
-        altDriver.callStaticMethod(altCallStaticMethodParams,
-                Void.class);
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                "UnityEngine.Screen",
-                "currentResolution.width").withAssembly("UnityEngine.CoreModule").build();
-        int width = altDriver.getStaticProperty(altGetComponentPropertyParams,
-                Integer.class);
-        assertEquals(width, 1920);
-    }
+	@Test
+	public void testGetStaticProperty() {
+		AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
+				"UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new Object[] { "1920", "1080", "True"
+				})
+				.withTypeOfParameters(new String[] { "System.Int32", "System.Int32", "System.Boolean" }).build();
+		altDriver.callStaticMethod(altCallStaticMethodParams,
+				Void.class);
+		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+				"UnityEngine.Screen",
+				"currentResolution.width", "UnityEngine.CoreModule").build();
+		int width = altDriver.getStaticProperty(altGetComponentPropertyParams,
+				Integer.class);
+		assertEquals(width, 1920);
+	}
 
-    @Test
-    public void testGetStaticPropertyInstanceNull() {
-        AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
-                "UnityEngine.Screen", "get_width", new Object[] {})
-                .withAssembly("UnityEngine.CoreModule").build();
-        int screenWidth = altDriver.callStaticMethod(altCallStaticMethodParams,
-                Integer.class);
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                "UnityEngine.Screen",
-                "width").withAssembly("UnityEngine.CoreModule").build();
-        int width = altDriver.getStaticProperty(altGetComponentPropertyParams,
-                Integer.class);
+	@Test
+	public void testGetStaticPropertyInstanceNull() {
+		AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
+				"UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new Object[] {}).build();
+		int screenWidth = altDriver.callStaticMethod(altCallStaticMethodParams,
+				Integer.class);
+		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+				"UnityEngine.Screen",
+				"width", "UnityEngine.CoreModule").build();
+		int width = altDriver.getStaticProperty(altGetComponentPropertyParams,
+				Integer.class);
 
         assertEquals(screenWidth, width);
     }
 
-    @Test
-    public void testSetCommandTimeout() throws Exception {
-        String componentName = "AltExampleScriptCapsule";
-        String methodName = "JumpWithDelay";
-        String assembly = "Assembly-CSharp";
-        Object[] parameters = new Object[] {};
-        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME,
-                "Capsule").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParams);
-        altDriver.setCommandResponseTimeout(1);
-        try {
-            altElement.callComponentMethod(
-                    new AltCallComponentMethodParams.Builder(componentName, methodName, parameters)
-                            .withAssembly(assembly).build(),
-                    Void.class);
-            fail("Expected CommandResponseTimeoutException");
-        } catch (CommandResponseTimeoutException ex) {
+	@Test
+	public void testSetCommandTimeout() throws Exception {
+		String componentName = "AltExampleScriptCapsule";
+		String methodName = "JumpWithDelay";
+		String assembly = "Assembly-CSharp";
+		Object[] parameters = new Object[] {};
+		AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
+				AltDriver.By.NAME,
+				"Capsule").build();
+		AltObject altElement = altDriver.findObject(altFindObjectsParams);
+		altDriver.setCommandResponseTimeout(1);
+		try {
+			altElement.callComponentMethod(
+					new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters).build(),
+					Void.class);
+			fail("Expected CommandResponseTimeoutException");
+		} catch (CommandResponseTimeoutException ex) {
 
         } finally {
             altDriver.setCommandResponseTimeout(60);
@@ -1381,11 +1364,11 @@ public class TestsSampleScene1 {
                 AltDriver.By.NAME, "Capsule").build();
         AltObject altObject = altDriver.findObject(altFindObjectsParams);
 
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                "AltExampleScriptCapsule",
-                "stringToSetFromTests").withAssembly("Assembly-CSharp").build();
-        String finalPropertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,
-                String.class);
+		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+				"AltExampleScriptCapsule",
+				"stringToSetFromTests", "Assembly-CSharp").build();
+		String finalPropertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,
+				String.class);
 
         assertEquals(finalPropertyValue, "multiple keys pressed");
     }
@@ -1400,11 +1383,11 @@ public class TestsSampleScene1 {
                 AltDriver.By.NAME, "Capsule").build();
         AltObject altObject = altDriver.findObject(altFindObjectsParams);
 
-        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                "AltExampleScriptCapsule",
-                "stringToSetFromTests").withAssembly("Assembly-CSharp").build();
-        String finalPropertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,
-                String.class);
+		AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+				"AltExampleScriptCapsule",
+				"stringToSetFromTests", "Assembly-CSharp").build();
+		String finalPropertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,
+				String.class);
 
         assertEquals(finalPropertyValue, "multiple keys pressed");
     }
@@ -1429,19 +1412,18 @@ public class TestsSampleScene1 {
         assertNull(element);
     }
 
-    @Test
-    public void testCallPrivateMethod() {
-        AltObject altObject = altDriver.findObject(new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Capsule").build());
-        altObject.callComponentMethod(
-                (new AltCallComponentMethodParams.Builder("AltExampleScriptCapsule", "callJump",
-                        new Object[] {})
-                        .withAssembly("Assembly-CSharp"))
-                        .build(),
-                Void.class);
-        AltObject capsuleInfo = altDriver.findObject(new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "CapsuleInfo").build());
-        String text = capsuleInfo.getText();
-        assertEquals("Capsule jumps!", text);
-    }
+	@Test
+	public void testCallPrivateMethod() {
+		AltObject altObject = altDriver.findObject(new AltFindObjectsParams.Builder(
+				AltDriver.By.NAME, "Capsule").build());
+		altObject.callComponentMethod(
+				(new AltCallComponentMethodParams.Builder("AltExampleScriptCapsule", "callJump", "Assembly-CSharp",
+						new Object[] {}))
+						.build(),
+				Void.class);
+		AltObject capsuleInfo = altDriver.findObject(new AltFindObjectsParams.Builder(
+				AltDriver.By.NAME, "CapsuleInfo").build());
+		String text = capsuleInfo.getText();
+		assertEquals("Capsule jumps!", text);
+	}
 }
