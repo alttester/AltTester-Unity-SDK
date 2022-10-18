@@ -172,4 +172,23 @@ jobs:
             path: |
               *.log
               
-      
+  dev-docs:
+    runs-on: [self-hosted, macOS]
+    needs: build-docs
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name: DocumentationHTML
+          path: DocumentationHTML/
+
+      - name: Upload new documentation
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: DocumentationHTML
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          port: ${{ secrets.PORT_DEV_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          rmRemote: true

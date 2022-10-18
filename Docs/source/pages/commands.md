@@ -2813,8 +2813,8 @@ Invokes a method from an existing component of the object.
     .. code-tab:: c#
 
         [Test]
-        public void TestCallMethodWithAssembly(){
-
+        public void TestCallMethodWithAssembly()
+        {
             AltObject capsule = altDriver.FindObject(By.NAME, "Capsule");
             var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
             capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" });
@@ -2823,12 +2823,39 @@ Invokes a method from an existing component of the object.
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
 
+        [Test]
+        public void TestCallMethodWithNoParameters()
+        {
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "get_text";
+            const string assemblyName = "UnityEngine.UI";
+            const string elementText = "Change Camera Mode";
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new object[] { });
+            Assert.AreEqual(elementText, data);
+        }
+
+        [Test]
+        public void TestCallMethodWithParameters()
+        {
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "set_fontSize";
+            const string methodToVerifyName = "get_fontSize";
+            const string assemblyName = "UnityEngine.UI";
+            Int32 fontSizeExpected = 16;
+            string[] parameters = new[] {"16"};
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
+            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
+            Assert.AreEqual(fontSizeExpected, fontSize);
+        }
+
     .. code-tab:: java
+
 
         @Test
         public void TestCallMethodWithMultipleDefinitions() throws Exception
         {
-
             String capsuleName = "Capsule";
             String capsuleInfo = "CapsuleInfo";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
@@ -2843,17 +2870,64 @@ Invokes a method from an existing component of the object.
             assertEquals("6",capsuleInfo.getText());
         }
 
+        @Test
+        public void testCallMethodWithNoParameters()
+        {
+            String componentName = "UnityEngine.UI.Text";
+            String methodName = "get_text";
+            String assembly = "UnityEngine.UI";
+            String expected_text = "Change Camera Mode";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+                "/Canvas/Button/Text").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            assertEquals(expected_text, altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, new Object[] {}).build(),
+                String.class));
+        }
+
+        @Test
+        public void testCallMethodWithParameters() throws Exception
+        {
+            String componentName = "UnityEngine.UI.Text";
+            String methodName = "set_fontSize";
+            String methodExpectedName = "get_fontSize";
+            String assembly = "UnityEngine.UI";
+            String[] parameters = new String[] { "16"};
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+            "/Canvas/UnityUIInputField/Text").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
+                    .build(),
+                Void.class);
+            Integer fontSize = altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodExpectedName, assembly, new Object[] {})
+                    .build(),
+                Integer.class);
+
+            assert(16==fontSize);
+        }
+
     .. code-tab:: py
 
         def test_call_component_method(self):
-
-            self.altdriver.load_scene('Scene 1 AltDriverTestScene')
             result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
             "AltExampleScriptCapsule", "Jump", "Assembly-CSharp", ["setFromMethod"])
             self.assertEqual(result, None)
             self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
-            self.assertEqual('setFromMethod', self.altdriver.find_object(
-            By.NAME, 'CapsuleInfo').get_text())
+            self.assertEqual('setFromMethod', self.altdriver.find_object(By.NAME, 'CapsuleInfo').get_text())
+
+        def test_call_component_method_with_no_parameters(self):
+            result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
+            text = result.call_component_method("UnityEngine.UI.Text", "get_text", "UnityEngine.UI")
+            assert text == "Change Camera Mode"
+
+        def test_call_component_method_with_parameters(self):
+            fontSizeExpected =16
+            altElement = self.altdriver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
+            altElement.call_component_method("UnityEngine.UI.Text", "set_fontSize", "UnityEngine.UI", parameters=["16"])
+            fontSize = altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize", "UnityEngine.UI", parameters=[])
+            assert fontSizeExpected == fontSize
 
 ```
 

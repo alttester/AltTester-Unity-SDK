@@ -413,7 +413,6 @@ namespace Altom.AltDriver.Tests
             Assert.IsNull(data);
         }
 
-
         [Test]
         public void TestCallMethodWithParameters()
         {
@@ -426,6 +425,31 @@ namespace Altom.AltDriver.Tests
             Assert.IsNull(data);
         }
 
+        [Test]
+        public void TestGetTextCallMethodWithNoParameters()
+        {
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "get_text";
+            const string assemblyName = "UnityEngine.UI";
+            const string elementText = "Change Camera Mode";
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new object[] { });
+            Assert.AreEqual(elementText, data);
+        }
+
+        [Test]
+        public void TestCallMethodSetFontSizeWithParameters(){
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "set_fontSize";
+            const string methodToVerifyName = "get_fontSize";
+            const string assemblyName = "UnityEngine.UI";
+            Int32 fontSizeExpected = 16;
+            string[] parameters = new[] {"16"};
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
+            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
+            Assert.AreEqual(fontSizeExpected,fontSize);
+        }
 
         [Test]
         public void TestCallMethodWithManyParameters()
