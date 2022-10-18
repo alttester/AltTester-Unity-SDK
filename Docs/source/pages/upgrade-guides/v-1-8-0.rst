@@ -92,7 +92,7 @@ With:
 
 .. code-block:: Java
     
-    import alttester. *.
+    import alttester. *
 
 3. In case of `altunitytester-java-client` dependency, we changed the name to `alttester`.
 
