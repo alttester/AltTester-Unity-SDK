@@ -12,7 +12,7 @@ Our documentation is available here:
 
 * Join our Discord Server: https://discord.gg/Ag9RSuS
 
-* Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/g/alttester
+* Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/g/alttesterforum
 
 ## License
 

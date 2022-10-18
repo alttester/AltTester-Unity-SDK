@@ -266,7 +266,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
         .. code-block:: console
 
-            dotnet add package AltDriver --version 1.8.0
+            dotnet add package AltTester-Driver --version 1.8.0
 
         Run your tests
 
@@ -312,7 +312,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
             **Method 2**: Use the ``.jar`` file from GIT (**without building it from source**)
 
-                * Download `AltTester-Driver for Java <https://altom.com/app/uploads/AltTesterJAR/AltTester.jar>`__.
+                * Download `AltTester-Driver for Java <https://altom.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
 
                 * Install the ``.jar`` file:
 
@@ -357,7 +357,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
             .. code-block:: console
 
-                pip install altrunner
+                pip install AltTester-Driver
 
             **Method 2**: Install from the source code in the repository:
 
