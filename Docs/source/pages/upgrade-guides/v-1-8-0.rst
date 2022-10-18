@@ -76,7 +76,21 @@ Java
 ----
 **altunityrunner**  →  **alttester**
 
-1. In case of `altunitytester-java-client` dependency, we changed the name to `alttester`.
+1.  In case of `altunityrunner`the Maven package, we changed the name to `AltTester-Driver`.
+To install the jar run ``mvn install:install-file -Dfile=./target/AltTester.jar -DgroupId=com.altom -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``.
+2. In case of  `altunityrunner` jar, we changed the name to `alttester`.
+
+Replace:
+
+.. code-block:: java
+    import altunityrunner.* 
+
+With:
+
+.. code-block:: java
+    import alttester. *.
+
+3. In case of `altunitytester-java-client` dependency, we changed the name to `alttester`.
 
 Replace:
 
@@ -96,27 +110,27 @@ With:
     <packaging>jar</packaging>
     <version>1.8.0</version>
 
-2. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
-3. In case of `AltUnityObject` class, we changed the name to `AltObject`.
-4. In case of `AltUnityDriverConfigFactory` class, we changed the name to `AltDriverConfigFactory`.
-5. In case of `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
-6. In case of `AltUnityLogger` class, we changed the name to `AltLogger`.
-7. In case of `AltUnityLogLevel` class, we changed the name to `AltLogLevel`.
-8. In case of `AltUnitySetServerLogging` class, we changed the name to `AltSetServerLogging`.
-9. In case of `AltUnityAddNotificationListenerParams` class, we changed the name to `AltAddNotificationListenerParams`.
-10. In case of `AltUnityAddNotificationListener` class, we changed the name to `AltAddNotificationListener`.
-11. In case of `AltUnityRemoveNotificationListenerParams` class, we changed the name to `AltRemoveNotificationListenerParams`.
-12. In case of `AltUnityRemoveNotificationListener` class, we changed the name to `AltRemoveNotificationListener`.
-13. In case of `setAltUnityObject` command, we changed the name to `setAltObject`.
-14. In case of `AltUnityObjectAction` class, we changed the name to `AltObjectAction`.
-15. In case of `AltUnityObjectProperty` class, we changed the name to `AltObjectProperty`.
-16. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
-17. In case of `AltInvalidServerResponse` class, we changed the name to `AltInvalidServerResponse`.
-18. In case of `ReceiveAltUnityObject` class, we changed the name to `ReceiveAltObject`.
-19. In case of `ReceiveListOfAltUnityObjects` class, we changed the name to `ReceiveListOfAltObjects`.
-20. In case of `AltUnityException` class, we changed the name to `AltException`.
-21. In case of `AltUnityObjectParams` class, we changed the name to `AltObjectParams`.
-22. In case of `AltUnityRecvallException` class, we changed the name to `AltRecvallException`.
-23. In case of `AltUnityLoadSceneNotificationResultParams` class, we changed the name to `AltLoadSceneNotificationResultParams`.
-24. In case of `AltUnityErrors` class, we changed the name to `AltErrors`.
-25. In case of `AltUnityLogNotificationResultParams` class, we changed the name to `AltLogNotificationResultParams`.
+4. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
+5. In case of `AltUnityObject` class, we changed the name to `AltObject`.
+6. In case of `AltUnityDriverConfigFactory` class, we changed the name to `AltDriverConfigFactory`.
+7. In case of `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
+8. In case of `AltUnityLogger` class, we changed the name to `AltLogger`.
+9. In case of `AltUnityLogLevel` class, we changed the name to `AltLogLevel`.
+10. In case of `AltUnitySetServerLogging` class, we changed the name to `AltSetServerLogging`.
+12. In case of `AltUnityAddNotificationListenerParams` class, we changed the name to `AltAddNotificationListenerParams`.
+13. In case of `AltUnityAddNotificationListener` class, we changed the name to `AltAddNotificationListener`.
+14. In case of `AltUnityRemoveNotificationListenerParams` class, we changed the name to `AltRemoveNotificationListenerParams`.
+15. In case of `AltUnityRemoveNotificationListener` class, we changed the name to `AltRemoveNotificationListener`.
+16. In case of `setAltUnityObject` command, we changed the name to `setAltObject`.
+17. In case of `AltUnityObjectAction` class, we changed the name to `AltObjectAction`.
+18. In case of `AltUnityObjectProperty` class, we changed the name to `AltObjectProperty`.
+19. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
+20. In case of `AltInvalidServerResponse` class, we changed the name to `AltInvalidServerResponse`.
+21. In case of `ReceiveAltUnityObject` class, we changed the name to `ReceiveAltObject`.
+22. In case of `ReceiveListOfAltUnityObjects` class, we changed the name to `ReceiveListOfAltObjects`.
+23. In case of `AltUnityException` class, we changed the name to `AltException`.
+24. In case of `AltUnityObjectParams` class, we changed the name to `AltObjectParams`.
+25. In case of `AltUnityRecvallException` class, we changed the name to `AltRecvallException`.
+26. In case of `AltUnityLoadSceneNotificationResultParams` class, we changed the name to `AltLoadSceneNotificationResultParams`.
+27. In case of `AltUnityErrors` class, we changed the name to `AltErrors`.
+28. In case of `AltUnityLogNotificationResultParams` class, we changed the name to `AltLogNotificationResultParams`.
