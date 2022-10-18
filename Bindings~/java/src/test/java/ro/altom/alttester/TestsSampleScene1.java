@@ -355,7 +355,7 @@ public class TestsSampleScene1 {
 		assertNotNull(altElement);
 		boolean propertyValue = altElement.getComponentProperty(
 				new AltGetComponentPropertyParams.Builder(componentName,
-						propertyName, "UnityEngine.CoreModule").build(),
+						propertyName, "Assembly-CSharp").build(),
 				Boolean.class);
 		assertEquals(false, propertyValue);
 	}
