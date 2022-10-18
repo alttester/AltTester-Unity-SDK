@@ -32,7 +32,7 @@ public class TestForNIS
         imageSource = altDriver.FindObject(By.NAME, sourceImageName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
         imageSourceDropZone = altDriver.FindObject(By.NAME, imageSourceDropZoneName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
     }
-    private void dropImageWithMultipointSwipe(string[] objectNames, float duration = 0.1f, bool wait = true)
+    private void dropImageWithMultipointSwipe(string[] objectNames, float duration = 1f, bool wait = true)
     {
         AltVector2[] listPositions = new AltVector2[objectNames.Length];
         for (int i = 0; i < objectNames.Length; i++)
@@ -40,7 +40,7 @@ public class TestForNIS
             var obj = altDriver.FindObject(By.NAME, objectNames[i]);
             listPositions[i] = obj.getScreenPosition();
         }
-         altDriver.MultipointSwipe(listPositions, duration, wait: wait);
+        altDriver.MultipointSwipe(listPositions, duration, wait: wait);
     }
 
     [Test]
