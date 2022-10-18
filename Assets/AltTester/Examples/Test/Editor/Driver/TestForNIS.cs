@@ -133,18 +133,18 @@ public class TestForNIS
     {
         altDriver.LoadScene(scene10);
         var player = altDriver.FindObject(By.NAME, "Player");
-        var initialPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position");
+        var initialPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
         altDriver.PressKey(AltKeyCode.A);
-        var leftPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position");
+        var leftPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
         Assert.AreNotEqual(initialPos, leftPos);
         altDriver.PressKey(AltKeyCode.D);
-        var rightPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position");
+        var rightPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
         Assert.AreNotEqual(leftPos, rightPos);
         altDriver.PressKey(AltKeyCode.W);
-        var upPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position");
+        var upPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
         Assert.AreNotEqual(rightPos, upPos);
         altDriver.PressKey(AltKeyCode.S);
-        var downPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position");
+        var downPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
         Assert.AreNotEqual(upPos, downPos);
 
     }
@@ -154,10 +154,10 @@ public class TestForNIS
     {
         altDriver.LoadScene(scene10);
         var player = altDriver.FindObject(By.NAME, "Player");
-        var initialPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position");
+        var initialPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
         AltKeyCode[] keys = { AltKeyCode.W, AltKeyCode.Mouse0 };
         altDriver.PressKeys(keys);
-        var finalPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position");
+        var finalPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
         altDriver.WaitForObject(By.NAME, "SimpleProjectile(Clone)");
         Assert.AreNotEqual(initialPos, finalPos);
     }

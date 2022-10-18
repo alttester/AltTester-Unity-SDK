@@ -12,15 +12,11 @@ public class AltCallStaticMethodParams extends AltMessage {
         private String[] typeOfParameters;
         private String assembly;
 
-        public Builder(String component, String method, Object[] parameters) {
+        public Builder(String component, String method, String assembly, Object[] parameters) {
             this.component = component;
             this.method = method;
             this.parameters = parameters;
-        }
-
-        public Builder withAssembly(String assembly) {
             this.assembly = assembly;
-            return this;
         }
 
         public Builder withTypeOfParameters(String[] typeOfParameters) {
