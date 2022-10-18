@@ -78,7 +78,7 @@ Java
 
 1. In case of `altunityrunner` Maven package, we changed the name to `AltTester-Driver`.
 
-To install the jar run ``mvn install:install-file -Dfile=./target/AltTester.jar -DgroupId=com.altom -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``.
+To install the jar run ``mvn install:install-file -Dfile=./target/AltTester.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``.
 
 2. In case of  `altunityrunner` jar, we changed the name to `alttester`.
 
@@ -100,7 +100,7 @@ Replace:
 
 .. code-block:: java
 
-    <groupId>com.altom</groupId>
+    <groupId>com.alttester</groupId>
     <artifactId>altunitytester-java-client</artifactId>
     <packaging>jar</packaging>
     <version>1.8.0</version>
@@ -109,7 +109,7 @@ With:
 
 .. code-block:: java
 
-    <groupId>com.altom</groupId>
+    <groupId>com.alttester</groupId>
     <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
     <version>1.8.0</version>
