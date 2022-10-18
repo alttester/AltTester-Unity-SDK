@@ -4,7 +4,7 @@ Upgrade from v1.7.2 to v1.8.0
 This guide will assist in upgrading your AltUnity projects from **v1.7.2** to AltTester Unity SDK **v1.8.0**.
 
 AltUnity Tester becomes AltTester Unity SDK. The new one fits our mission to extend our test automation solution in the following directions:
-support new platforms, help game testers to start automation more easier and start exploring how we could support Unreal and other engines.
+support new platforms, help game testers to start automation easier and start exploring how we could support Unreal and other engines.
 All changes are listed below, organized by drivers along with how to upgrade
 your code to work with AltTester Unity SDK v1.8.0.
 
@@ -14,19 +14,19 @@ To learn more about what's new in AltTester Unity SDK v1.8.0, read the
 Python
 ------
 **altunityrunner**  →  **alttester**
-We changed the name of the PyPI package from `altunityrunner` to `AltTester-Driver`.To install the new package run `pip install AltTester-Driver`.
-We renamed the `altunityrunner`` python package to `alttester` replaced all import from `from altunityrunner import *`` to `from alttester import *`.
 
-1. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
-2. In case of `AltUnityObject` class, we changed the name to `AltObject`.
-3. In case of `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
-4. In case of `AltUnityLogger` class, we changed the name to `AltLogger`.
-5. In case of `AltUnityLogLevel` class, we changed the name to `AltLogLevel`.
-6. In case of `AltUnityException` class, we changed the name to `AltException`.
-7. In case of `AltUnityInvalidServerResponse` class, we changed the name to `AltTesterInvalidServerResponse`.
-8. In case of `AltUnityInvalidPathException` class, we changed the name to `InvalidPathException`.
-9. In case of `AltUnityInputModuleException` class, we changed the name to `AltTesterInputModuleException`.
-10. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
+1. In case of `altunityrunner` PyPI package, we change the name to `AltTester-Driver`.To install the new package run `pip install AltTester-Driver`.
+2. In case of `altunityrunner` python package, we change the name to `alttester`.Replaced all import from `from altunityrunner import *` to `from alttester import *`.
+3. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
+4. In case of `AltUnityObject` class, we changed the name to `AltObject`.
+5. In case of `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
+6. In case of `AltUnityLogger` class, we changed the name to `AltLogger`.
+7. In case of `AltUnityLogLevel` class, we changed the name to `AltLogLevel`.
+8. In case of `AltUnityException` class, we changed the name to `AltException`.
+9. In case of `AltUnityInvalidServerResponse` class, we changed the name to `AltTesterInvalidServerResponse`.
+10. In case of `AltUnityInvalidPathException` class, we changed the name to `InvalidPathException`.
+11. In case of `AltUnityInputModuleException` class, we changed the name to `AltTesterInputModuleException`.
+12. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
 
 Dotnet
 ------
