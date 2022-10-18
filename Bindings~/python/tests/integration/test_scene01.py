@@ -1,4 +1,3 @@
-from symbol import parameters
 import time
 
 import pytest
