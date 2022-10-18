@@ -123,14 +123,12 @@ public class TestsSampleScene2 {
         AltObject panel = altDriver.findObject(altFindObjectsParameters1);
 
         AltColor color1 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor").withAssembly(
-                        "Assembly-CSharp").build(),
+                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor", "Assembly-CSharp").build(),
                 AltColor.class);
         panel.pointerDown();
         Thread.sleep(1000);
         AltColor color2 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor").withAssembly(
-                        "Assembly-CSharp").build(),
+                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp").build(),
                 AltColor.class);
         assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b || color1.a != color2.a);
     }
@@ -141,15 +139,13 @@ public class TestsSampleScene2 {
                 AltDriver.By.NAME, "Panel").build();
         AltObject panel = altDriver.findObject(altFindObjectsParameters1);
         AltColor color1 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor").withAssembly(
-                        "Assembly-CSharp").build(),
+                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor", "Assembly-CSharp").build(),
                 AltColor.class);
         panel.pointerDown();
         Thread.sleep(1000);
         panel.pointerUp();
         AltColor color2 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor").withAssembly(
-                        "Assembly-CSharp").build(),
+                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp").build(),
                 AltColor.class);
         assertTrue(color1.r == color2.r && color1.g == color2.g && color1.b == color2.b && color1.a == color2.a);
     }

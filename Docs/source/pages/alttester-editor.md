@@ -80,15 +80,15 @@ You can also activate this option from within the test using the following code:
 
     .. code-tab:: c#
 
-        altDriver.FindObject(By.NAME, "AltTesterPrefab").SetComponentProperty("AltRunner", "ShowInputs", "true");
+        altDriver.FindObject(By.NAME, "AltTesterPrefab").SetComponentProperty("AltRunner", "ShowInputs", "Assembly-CSharp", "true");
 
     .. code-tab:: java
 
-        altDriver.findObject(AltDriver.By.NAME,"AltTesterPrefab").setComponentProperty("AltRunner", "ShowInputs", "true");
+        altDriver.findObject(AltDriver.By.NAME,"AltTesterPrefab").setComponentProperty("AltRunner", "ShowInputs", "Assembly-CSharp", "true");
 
     .. code-tab:: py
 
-        altdriver.find_object(By.NAME,"AltTesterPrefab").set_component_property("AltRunner", "ShowInputs", "true")
+        altdriver.find_object(By.NAME,"AltTesterPrefab").set_component_property("AltRunner", "ShowInputs", "Assembly-CSharp", "true")
 
 ```
 
@@ -118,7 +118,7 @@ You can also activate this option from within the test using the following code:
 
 - *XML file path*
 
-    The path for the XML report file. 
+    The path for the XML report file.
 
 ```eval_rst
 

@@ -61,7 +61,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         {
             String name = "Capsule";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                    name).isEnabled(true).withCamera(AltDriver.By.NAME,"Main Camera").build();
+                    name).isEnabled(true).withCamera(AltDriver.By.NAME, "Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altObject);
             assertEquals(name, altObject.name);
@@ -70,7 +70,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: py
 
         def test_find_object(self):
-            altObject = self.altDriver.find_object(By.NAME,"Capsule")
+            altObject = self.altDriver.find_object(By.NAME, "Capsule")
             self.assertEqual(altObject.name, "Capsule")
 ```
 
@@ -117,7 +117,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         {
             String name = "Plane";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                name).isEnabled(true).withCamera(AltDriver.By.NAME,"Main Camera").build();
+                name).isEnabled(true).withCamera(AltDriver.By.NAME, "Main Camera").build();
             AltObject[] altObjects = altDriver.findObjects(altFindObjectsParams);
             assertNotNull(altObjects);
             assertEquals(altObjects[0].name, name);
@@ -171,7 +171,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         {
             String name = "Event";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                   name).isEnabled(true).withCamera(AltDriver.By.NAME,"Main Camera").build();
+                   name).isEnabled(true).withCamera(AltDriver.By.NAME, "Main Camera").build();
             AltObject altObject = altDriver.findObjectWhichContains(altFindObjectsParams);
             assertEquals("EventSystem", altObject.name);
         }
@@ -234,19 +234,20 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         def test_creating_stars(self):
             self.altDriver.load_scene("Scene 5 Keyboard Input")
 
-            stars = self.altDriver.find_objects_which_contain(By.NAME,"Star","Player2")
+            stars = self.altDriver.find_objects_which_contain(By.NAME, "Star", "Player2")
             self.assertEqual(1, len(stars))
-            player = self.altDriver.find_objects_which_contain(By.NAME,"Player","Player2")
+            player = self.altDriver.find_objects_which_contain(By.NAME, "Player", "Player2")
 
-            self.altDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+            self.altDriver.move_mouse(int(stars[0].x), int(player[0].y) + 500, 1)
             time.sleep(1.5)
 
             self.altDriver.press_key(AltKeyCode.Mouse0, 1,0)
-            self.altDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+            self.altDriver.move_mouse_and_wait(int(stars[0].x), int(player[0].y) - 500, 1)
             self.altDriver.press_key(AltKeyCode.Mouse0, 1,0)
 
-            stars = self.altDriver.find_objects_which_contain(By.NAME,"Star")
+            stars = self.altDriver.find_objects_which_contain(By.NAME, "Star")
             self.assertEqual(3, len(stars))
+
 ```
 
 #### FindObjectAtCoordinates
@@ -337,7 +338,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
         @Test
         public void testGetAllElements() throws Exception {
-            AltGetAllElementsParams altGetAllElementsParams = new AltGetAllElementsParams.Builder().withCamera(AltDriver.By.NAME,"Main Camera").isEnabled(true).build();
+            AltGetAllElementsParams altGetAllElementsParams = new AltGetAllElementsParams.Builder().withCamera(AltDriver.By.NAME, "Main Camera").isEnabled(true).build();
             AltObject[] altObjects = altDriver.getAllElements(altGetAllElementsParams);
             assertFalse(altObjects.isEmpty());
         }
@@ -345,7 +346,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
     .. code-tab:: py
 
         def test_get_all_elements(self):
-            alt_elements = self.altDriver.get_all_elements(enabled= False)
+            alt_elements = self.altDriver.get_all_elements(enabled=False)
             assert alt_elements
 
 ```
@@ -525,17 +526,15 @@ Waits until the object in the scene that respects the given criteria is no longe
 
         @Test
         public void TestWaitForObjectToNotBePresent(){
-            AltFindObjectsParams altFindObjectsParameters=new AltFindObjectsParams.Builder(AltDriver.By.NAME,"Capsulee").build();
-            AltWaitForObjectsParams altWaitForObjectsParameters=new AltWaitForObjectsParams.Builder(altFindObjectsParams).build();
+            AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsulee").build();
+            AltWaitForObjectsParams altWaitForObjectsParameters = new AltWaitForObjectsParams.Builder(altFindObjectsParams).build();
             altDriver.waitForObjectToNotBePresent(altWaitForObjectsParams);
         }
-
 
     .. code-tab:: py
 
         def test_wait_for_object_to_not_be_present(self):
-            self.altDriver.wait_for_object_to_not_be_present(By.NAME,"Capsuule")
-
+            self.altDriver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
 
 ```
 
@@ -647,7 +646,7 @@ Simulates a key down.
 
 | Name    | Type            | Required | Description                                                                            |
 | ------- | --------------- | -------- | -------------------------------------------------------------------------------------- |
-| keyCode | AltKeyCode | Yes      | The keyCode of the key simulated to be pressed.                                        |
+| keyCode | AltKeyCode      | Yes      | The keyCode of the key simulated to be pressed.                                        |
 | power   | int             | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
 
 **_Returns_**
@@ -724,7 +723,6 @@ Simulates a key down.
             lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
-
 ```
 
 #### KeyUp
@@ -735,7 +733,7 @@ Simulates a key up.
 
 | Name    | Type            | Required | Description                                      |
 | ------- | --------------- | -------- | ------------------------------------------------ |
-| keyCode | AltKeyCode | Yes      | The keyCode of the key simulated to be released. |
+| keyCode | AltKeyCode      | Yes      | The keyCode of the key simulated to be released. |
 
 **_Returns_**
 
@@ -963,7 +961,7 @@ Simulates key press action in your game.
 
 | Name     | Type            | Required | Default | Description                                                                              |
 | -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
-| keycode  | AltKeyCode | Yes      |         | The key code of the key simulated to be pressed.                                         |
+| keycode  | AltKeyCode      | Yes      |         | The key code of the key simulated to be pressed.                                         |
 | power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed. |
 | duration | float           | No       | 0.1     | The time measured in seconds from the key press to the key release.                      |
 | wait     | boolean         | No       | true    | If set wait for command to finish.                                                       |
@@ -1044,12 +1042,12 @@ Simulates multiple key press action in your game.
 
 **_Parameters_**
 
-| Name     | Type            | Required | Default | Description                                                                              |
-| -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
-| keycodes  | List\[AltKeyCode\] | Yes      |         | The list of keycodes simulated to be pressed simultaneously.                    |
-| power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the buttons were pressed. |
-| duration | float           | No       | 0.1     | The time measured in seconds from the multiple key press to the multiple key release.     |
-| wait     | boolean         | No       | true    | If set, wait for command to finish.                                                       |
+| Name     | Type               | Required | Default | Description                                                                                |
+| -------- | ------------------ | -------- | ------- | ------------------------------------------------------------------------------------------ |
+| keycodes | List\[AltKeyCode\] | Yes      |         | The list of keycodes simulated to be pressed simultaneously.                               |
+| power    | float              | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the buttons were pressed. |
+| duration | float              | No       | 0.1     | The time measured in seconds from the multiple key press to the multiple key release.      |
+| wait     | boolean            | No       | true    | If set, wait for command to finish.                                                        |
 
 **_Returns_**
 
@@ -1086,7 +1084,7 @@ Simulates multiple key press action in your game.
 
             AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 "AltExampleScriptCapsule",
-                "stringToSetFromTests").withAssembly("Assembly-CSharp").build();
+                "stringToSetFromTests", "Assembly-CSharp").build();
             String finalPropertyValue = altObject.getComponentProperty(altGetComponentPropertyParams, String.class);
 
             assertEquals(finalPropertyValue, "multiple keys pressed");
@@ -1102,7 +1100,7 @@ Simulates multiple key press action in your game.
             property_value = alt_unity_object.get_component_property(
                 "AltExampleScriptCapsule",
                 "stringToSetFromTests",
-                assembly="Assembly-CSharp"
+                "Assembly-CSharp"
             )
             assert property_value == "multiple keys pressed"
 
@@ -1114,12 +1112,12 @@ Simulate scroll action in your game.
 
 **_Parameters_**
 
-| Name          | Type    | Required | Default | Description                                                                                  |
-| ------------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
-| speed         | float   | No       | 1       | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
-| duration      | float   | No       | 0.1     | The duration of the scroll in seconds.                                                       |
-| wait          | boolean | No       | true    | If set wait for command to finish.                                                           |
-|speedHorizontal| float   | No       | 1       |Set how fast to scroll right or left.                                                         |
+| Name            | Type    | Required | Default | Description                                                                                  |
+| --------------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
+| speed           | float   | No       | 1       | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
+| duration        | float   | No       | 0.1     | The duration of the scroll in seconds.                                                       |
+| wait            | boolean | No       | true    | If set wait for command to finish.                                                           |
+| speedHorizontal | float   | No       | 1       |Set how fast to scroll right or left.                                                         |
 
 **_Returns_**
 
@@ -1213,16 +1211,15 @@ Simulates a swipe action between two points.
             altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
             altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
 
-
             altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
             altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
             altDriver.Swipe(new AltVector2(altElement1.x, altElement1.y), new AltVector2(altElement2.x, altElement2.y), 1);
-            var imageSource = altDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-            var imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            var imageSource = altDriver.FindObject(By.NAME, "Drag Image1").GetComponentProperty("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            var imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop Image").GetComponentProperty("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource, imageSourceDropZone);
 
-            imageSource = altDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite");
-            imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite");
+            imageSource = altDriver.FindObject(By.NAME, "Drag Image2").GetComponentProperty("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
+            imageSourceDropZone = altDriver.FindObject(By.NAME, "Drop").GetComponentProperty("UnityEngine.UI.Image", "sprite", "UnityEngine.UI");
             Assert.AreNotEqual(imageSource, imageSourceDropZone);
         }
 
@@ -1270,18 +1267,18 @@ Simulates a swipe action between two points.
                     .swipe(new AltSwipeParams.Builder(altElement1.getScreenPosition(), altElement2.getScreenPosition())
                             .withDuration(1).build());
             AltSprite imageSource = altDriver.findObject(altFindObjectsParameters1)
-                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltSprite.class);
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(), AltSprite.class);
 
             AltSprite imageSourceDropZone = altDriver.findObject(altFindObjectsParameters6)
-                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltSprite.class);
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(), AltSprite.class);
 
             assertNotSame(imageSource, imageSourceDropZone);
 
             imageSource = altDriver.findObject(altFindObjectsParameters3)
-                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltSprite.class);
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(), AltSprite.class);
 
             imageSourceDropZone = altDriver.findObject(altFindObjectsParameters7)
-                    .getComponentProperty(new AltGetComponentPropertyParams.Builder( "UnityEngine.UI.Image","sprite").build(), AltSprite.class);
+                    .getComponentProperty(new AltGetComponentPropertyParams.Builder("UnityEngine.UI.Image", "sprite", "UnityEngine.UI").build(), AltSprite.class);
             assertNotSame(imageSource, imageSourceDropZone);
         }
 
@@ -1305,14 +1302,14 @@ Simulates a swipe action between two points.
 
             self.altdriver.swipe(image1.get_screen_position(), box1.get_screen_position(), 3)
 
-            image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite")
+            image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
             image_source_drop_zone = self.altdriver.find_object(
-                By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite")
+                By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
             assert image_source != image_source_drop_zone
 
-            image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite")
+            image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
             image_source_drop_zone = self.altdriver.find_object(
-                By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite")
+                By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
             assert image_source != image_source_drop_zone
 
 ```
@@ -1325,7 +1322,7 @@ Simulates a multipoint swipe action.
 
 | Name      | Type                    | Required | Default | Description                                                                     |
 | --------- | ----------------------- | -------- | ------- | ------------------------------------------------------------------------------- |
-| positions | List\[AltVector2\] | Yes      |         | A list of positions on the screen where the swipe be made.                      |
+| positions | List\[AltVector2\]      | Yes      |         | A list of positions on the screen where the swipe be made.                      |
 | duration  | float                   | No       | 0.1     | The time measured in seconds to swipe from first position to the last position. |
 | wait      | boolean                 | No       | true    | If set wait for command to finish.                                              |
 
@@ -1534,7 +1531,6 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
             draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
-
 ```
 
 #### EndTouch
@@ -1569,7 +1565,6 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
             altDriver.EndTouch(fingerId);
             draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
             Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
-
         }
 
     .. code-tab:: java
@@ -1634,7 +1629,7 @@ Click at screen coordinates.
             var altObject = altDriver.FindObject(By.NAME,name);
             altDriver.Click(altObject.getScreenPosition());
             Assert.AreEqual(name, altObject.name);
-            altDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
+            altDriver.WaitForObject(By.PATH, "//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
     .. code-tab:: java
@@ -1660,7 +1655,6 @@ Click at screen coordinates.
         def test_tap_coordinates(self):
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             self.altDriver.click(capsule_element.get_screen_position())
-            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -1695,7 +1689,7 @@ Tap at screen coordinates.
             var altObject = altDriver.FindObject(By.NAME,name);
             altDriver.Tap(altObject.getScreenPosition());
             Assert.AreEqual(name, altObject.name);
-            altDriver.WaitForObject(By.PATH,"//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
+            altDriver.WaitForObject(By.PATH, "//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
 
     .. code-tab:: java
@@ -1721,7 +1715,6 @@ Tap at screen coordinates.
         def test_tap_coordinates(self):
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             self.altDriver.tap(capsule_element.get_screen_position())
-            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -2281,6 +2274,7 @@ Loads a scene.
             altDriver.LoadScene("Scene 1 AltDriverTestScene",true);
             Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetCurrentScene());
         }
+
     .. code-tab:: java
 
         @Test
@@ -2292,9 +2286,10 @@ Loads a scene.
 
     .. code-tab:: py
 
-       def test_get_current_scene(self):
-        self.altDriver.load_scene("Scene 1 AltDriverTestScene",True)
-        self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+        def test_get_current_scene(self):
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene",True)
+            self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+
 ```
 
 #### UnloadScene
@@ -2408,13 +2403,13 @@ None
         def test_get_all_loaded_scenes(self):
             self.altDriver.load_scene("Scene 1 AltDriverTestScene")
             scenes_loaded = self.altDriver.get_all_loaded_scenes()
-            self.assertEqual(len(scenes_loaded),1)
+            self.assertEqual(len(scenes_loaded), 1)
             self.altDriver.load_scene("Scene 2 Draggable Panel", False)
-            self.altDriver.load_scene("Scene 3 Drag And Drop",False)
-            self.altDriver.load_scene("Scene 4 No Cameras",False)
-            self.altDriver.load_scene("Scene 5 Keyboard Input",False)
+            self.altDriver.load_scene("Scene 3 Drag And Drop", False)
+            self.altDriver.load_scene("Scene 4 No Cameras", False)
+            self.altDriver.load_scene("Scene 5 Keyboard Input", False)
             scenes_loaded = self.altDriver.get_all_loaded_scenes()
-            self.assertEqual(len(scenes_loaded),5)
+            self.assertEqual(len(scenes_loaded), 5)
 
 ```
 
@@ -2430,7 +2425,7 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
 | timeout   | double | No       | The time measured in seconds to wait for the specified scene.      |
 | interval  | double | No       | How often to check that the scene was loaded in the given timeout. |
 
-**_Returns_** 
+**_Returns_**
 
 - None
 
@@ -2589,9 +2584,9 @@ Invokes static methods from your game.
 | ---------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | typeName         | string | Yes      | The name of the script. If the script has a namespace the format should look like this: "namespace.typeName".                                                                                             |
 | methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
+| assemblyName     | string | Yes       | The name of the assembly containing the script.                                                                                                                                                          |
 | parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                                 |
-| assemblyName     | string | No       | The name of the assembly containing the script.                                                                                                                                                           |
 
 **_Returns_**
 
@@ -2608,8 +2603,8 @@ Invokes static methods from your game.
         public void TestCallStaticMethod()
         {
 
-            altDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", new[] { "Test", "1" });
-            int a = altDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", new[] { "Test", "2" });
+            altDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", new[] { "Test", "1" });
+            int a = altDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", new[] { "Test", "2" });
             Assert.AreEqual(1, a);
 
         }
@@ -2620,9 +2615,9 @@ Invokes static methods from your game.
         public void TestCallStaticMethod() throws Exception
         {
 
-            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs","SetInt",new Object[] {"Test", 1}).withAssembly("").withTypeOfParameters("").build();
+            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", new Object[] {"Test", 1}).withTypeOfParameters("").build();
             altDriver.callStaticMethod(altCallStaticMethodParams, Void.class);
-            altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs","GetInt",new Object[] {"Test", 2}).withAssembly("").withTypeOfParameters("").build();
+            altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", new Object[] {"Test", 2}).withTypeOfParameters("").build();
             int a = altDriver.callStaticMethod(altCallStaticMethodParams, Integer.class);
             assertEquals(1,a);
         }
@@ -2630,11 +2625,8 @@ Invokes static methods from your game.
     .. code-tab:: py
 
         def test_call_static_method(self):
-
-            self.altdriver.call_static_method(
-            "UnityEngine.PlayerPrefs", "SetInt", ["Test", "1"], assembly="UnityEngine.CoreModule")
-            a = int(self.altdriver.call_static_method(
-            "UnityEngine.PlayerPrefs", "GetInt", ["Test", "2"], assembly="UnityEngine.CoreModule"))
+            self.altdriver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", ["Test", "1"])
+            a = int(self.altdriver.call_static_method("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", ["Test", "2"]))
             self.assertEqual(1, a)
 
 ```
@@ -2666,7 +2658,7 @@ Gets the value of the static field or property.
         [Test]
         public void TestGetStaticProperty()
         {
-            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", new string[] {"1920", "1080", "true"}, new string[] {"System.Int32", "System.Int32", "System.Boolean"}, "UnityEngine.CoreModule");
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] {"1920", "1080", "true"}, new string[] {"System.Int32", "System.Int32", "System.Boolean"});
             var width = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
             Assert.AreEqual(1920, width);
         }
@@ -2675,9 +2667,9 @@ Gets the value of the static field or property.
 
         @Test
         public void testGetStaticProperty() {
-            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.Screen", "SetResolution", new Object[] {"1920", "1080", "True"}).withTypeOfParameters(new String[] {"System.Int32", "System.Int32", "System.Boolean"}).withAssembly("UnityEngine.CoreModule").build();
+            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new Object[] {"1920", "1080", "True"}).withTypeOfParameters(new String[] {"System.Int32", "System.Int32", "System.Boolean"}).build();
             altDriver.callStaticMethod(altCallStaticMethodParams, Void.class);
-            AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder("UnityEngine.Screen", "currentResolution.width").withAssembly("UnityEngine.CoreModule").build();
+            AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule").build();
             int width = altDriver.GetStaticProperty(altGetComponentPropertyParams, Integer.class);
             assertEquals(width, 1920);
         }
@@ -2686,7 +2678,7 @@ Gets the value of the static field or property.
 
         def test_get_static_property(self):
             self.altdriver.load_scene('Scene 1 AltDriverTestScene')
-            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", ["1920", "1080", "True"], ["System.Int32", "System.Int32", "System.Boolean"], "UnityEngine.CoreModule")
+            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", ["1920", "1080", "True"], ["System.Int32", "System.Int32", "System.Boolean"])
             width = self.altdriver.get_static_property(
                 "UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule")
             self.assertEqual(int(width), 1920)
@@ -2805,9 +2797,9 @@ Invokes a method from an existing component of the object.
 | ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
 | componentName    | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName".                                                                          |
 | methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
+| assemblyName     | string | Yes      | The name of the assembly containing the component.                                                                                                                                                |
 | parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                         |
-| assemblyName     | string | Yes      | The name of the assembly containing the component.                                                                                                                                                |
 
 **_Returns_**
 
@@ -2821,28 +2813,55 @@ Invokes a method from an existing component of the object.
     .. code-tab:: c#
 
         [Test]
-        public void TestCallMethodWithAssembly(){
-
+        public void TestCallMethodWithAssembly()
+        {
             AltObject capsule = altDriver.FindObject(By.NAME, "Capsule");
             var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
-            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" }, "UnityEngine.CoreModule");
+            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" });
             AltObject capsuleAfterRotation = altDriver.FindObject(By.NAME, "Capsule");
             var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
             Assert.AreNotEqual(initialRotation, finalRotation);
         }
 
+        [Test]
+        public void TestCallMethodWithNoParameters()
+        {
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "get_text";
+            const string assemblyName = "UnityEngine.UI";
+            const string elementText = "Change Camera Mode";
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new object[] { });
+            Assert.AreEqual(elementText, data);
+        }
+
+        [Test]
+        public void TestCallMethodWithParameters()
+        {
+            const string componentName = "UnityEngine.UI.Text";
+            const string methodName = "set_fontSize";
+            const string methodToVerifyName = "get_fontSize";
+            const string assemblyName = "UnityEngine.UI";
+            Int32 fontSizeExpected = 16;
+            string[] parameters = new[] {"16"};
+            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
+            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
+            Assert.AreEqual(fontSizeExpected, fontSize);
+        }
+
     .. code-tab:: java
+
 
         @Test
         public void TestCallMethodWithMultipleDefinitions() throws Exception
         {
-
             String capsuleName = "Capsule";
             String capsuleInfo = "CapsuleInfo";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, capsuleName).isEnabled(true).withCamera("Main Camera").build();
             AltObject capsule=altDriver.findObject(altFindObjectsParams);
 
-            AltCallComponentMethodParams altCallComponentMethodParameters=new AltCallComponentMethodParams.Builder("Capsule","Test","2").withTypeOfParameters("System.Int32").withAssembly("").build();
+            AltCallComponentMethodParams altCallComponentMethodParameters=new AltCallComponentMethodParams.Builder("Capsule", "Test", "Assembly-CSharp", "2").withTypeOfParameters("System.Int32").build();
             capsule.callComponentMethod(altCallComponentMethodParams, Void.class);
 
             altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, capsuleInfo).isEnabled(true).withCamera("Main Camera").build();
@@ -2851,17 +2870,64 @@ Invokes a method from an existing component of the object.
             assertEquals("6",capsuleInfo.getText());
         }
 
+        @Test
+        public void testCallMethodWithNoParameters()
+        {
+            String componentName = "UnityEngine.UI.Text";
+            String methodName = "get_text";
+            String assembly = "UnityEngine.UI";
+            String expected_text = "Change Camera Mode";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+                "/Canvas/Button/Text").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            assertEquals(expected_text, altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, new Object[] {}).build(),
+                String.class));
+        }
+
+        @Test
+        public void testCallMethodWithParameters() throws Exception
+        {
+            String componentName = "UnityEngine.UI.Text";
+            String methodName = "set_fontSize";
+            String methodExpectedName = "get_fontSize";
+            String assembly = "UnityEngine.UI";
+            String[] parameters = new String[] { "16"};
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+            "/Canvas/UnityUIInputField/Text").build();
+            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
+                    .build(),
+                Void.class);
+            Integer fontSize = altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder(componentName, methodExpectedName, assembly, new Object[] {})
+                    .build(),
+                Integer.class);
+
+            assert(16==fontSize);
+        }
+
     .. code-tab:: py
 
         def test_call_component_method(self):
-
-            self.altdriver.load_scene('Scene 1 AltDriverTestScene')
             result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
-            "AltExampleScriptCapsule", "Jump", ["setFromMethod"])
+            "AltExampleScriptCapsule", "Jump", "Assembly-CSharp", ["setFromMethod"])
             self.assertEqual(result, None)
             self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
-            self.assertEqual('setFromMethod', self.altdriver.find_object(
-            By.NAME, 'CapsuleInfo').get_text())
+            self.assertEqual('setFromMethod', self.altdriver.find_object(By.NAME, 'CapsuleInfo').get_text())
+
+        def test_call_component_method_with_no_parameters(self):
+            result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
+            text = result.call_component_method("UnityEngine.UI.Text", "get_text", "UnityEngine.UI")
+            assert text == "Change Camera Mode"
+
+        def test_call_component_method_with_parameters(self):
+            fontSizeExpected =16
+            altElement = self.altdriver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
+            altElement.call_component_method("UnityEngine.UI.Text", "set_fontSize", "UnityEngine.UI", parameters=["16"])
+            fontSize = altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize", "UnityEngine.UI", parameters=[])
+            assert fontSizeExpected == fontSize
 
 ```
 
@@ -2896,7 +2962,7 @@ Returns the value of the given component property.
             const string propertyName = "InstrumentationSettings.AltTesterPort";
             var altObject = altDriver.FindObject(By.NAME,"AltRunnerPrefab");
             Assert.NotNull(altObject);
-            var propertyValue = altObject.GetComponentProperty<int>(componentName, propertyName);
+            var propertyValue = altObject.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(propertyValue, 13000);
         }
 
@@ -2910,7 +2976,7 @@ Returns the value of the given component property.
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "AltRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altObject);
-            AltGetComponentPropertyParams altGetComponentPropertyParameters=new AltGetComponentPropertyParams.Builder(componentName,propertyName).withAssembly("").build();
+            AltGetComponentPropertyParams altGetComponentPropertyParameters=new AltGetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp").build();
             int propertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,Integer.class);
             assertEquals(propertyValue, 13000);
         }
@@ -2920,7 +2986,7 @@ Returns the value of the given component property.
         def test_get_component_property(self):
             self.altDriver.load_scene('Scene 1 AltDriverTestScene')
             result = self.altDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
-            self.assertEqual(result,[1,2,3])
+            self.assertEqual(result, [1,2,3])
 
 ```
 
@@ -2934,8 +3000,8 @@ Sets value of the given component property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
 | propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
+| assemblyName  | string | Yes       | The name of the assembly containing the component. It is NULL by default.                                               |
 | value         | object | Yes      | The value to be set for the chosen component's property                                                                  |
-| assemblyName  | string | Yes       | The name of the assembly containing the component. It is NULL by default.                                                |
 
 **_Returns_**
 
@@ -2955,7 +3021,7 @@ Sets value of the given component property.
             const string propertyName = "stringToSetFromTests";
             var altObject = altDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altObject);
-            altObject.SetComponentProperty(componentName, propertyName, "2");
+            altObject.SetComponentProperty(componentName, propertyName, "Assembly-CSharp", "2");
 
             var propertyValue = altObject.GetComponentProperty<string>(componentName, propertyName);
             Assert.AreEqual("2", propertyValue);
@@ -2971,7 +3037,7 @@ Sets value of the given component property.
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altObject);
-            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName,"2").build());
+            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp", "2").build());
             String propertyValue = altElement.getComponentProperty(new AltGetComponentPropertyParams.Builder(componentName,propertyName).build(), String.class);
             assertEquals("2", propertyValue);
         }
@@ -2984,7 +3050,7 @@ Sets value of the given component property.
             propertyName = "stringToSetFromTests"
             altObject = self.altDriver.find_object(By.NAME, componentName)
             self.assertNotEqual(altObject, None)
-            altObject.set_component_property(componentName, propertyName, "2")
+            altObject.set_component_property(componentName, propertyName, "Assembly-CSharp", "2")
             propertyValue = altObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
@@ -3168,7 +3234,6 @@ Tap current object.
             self.altDriver.load_scene('Scene 1 AltDriverTestScene')
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             capsule_element.tap()
-            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -3224,11 +3289,10 @@ Click current object.
 
     .. code-tab:: py
 
-        def test_clickelement(self):
+        def test_click_element(self):
             self.altDriver.load_scene('Scene 1 AltDriverTestScene')
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             capsule_element.click()
-            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -3255,10 +3319,10 @@ None
         public void TestPointerDownCommand()
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
-            var color1 = panel.GetComponentProperty("PanelScript","normalColor");
+            var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
             panel.PointerDownFromObject();
             Thread.Sleep(1000);
-            var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
+            var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
         }
 
@@ -3268,10 +3332,10 @@ None
         public void testPointerDownCommand() throws InterruptedException
         {
             AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript","normalColor").build(), String.class);
+            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
             panel.pointerDownFromObject();
             Thread.sleep(1000);
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript","highlightColor").build(), String.class);
+            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertTrue(color1 != color2);
         }
 
@@ -3281,10 +3345,10 @@ None
             self.altDriver.load_scene('Scene 2 Draggable Panel')
             time.sleep(1)
             p_panel = self.altDriver.find_object(By.NAME, 'Panel')
-            color1 = p_panel.get_component_property('PanelScript', 'normalColor')
+            color1 = p_panel.get_component_property('PanelScript', 'normalColor', 'Assembly-CSharp')
             p_panel.pointer_down_from_object()
             time.sleep(1)
-            color2 = p_panel.get_component_property('PanelScript', 'highlightColor')
+            color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
             self.assertNotEquals(color1, color2)
 
 ```
@@ -3312,11 +3376,11 @@ None
         public void TestPointerUpCommand()
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
-            var color1 = panel.GetComponentProperty("PanelScript","normalColor");
+            var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
             panel.PointerDownFromObject();
             Thread.Sleep(1000);
             panel.PointerUpFromObject();
-            var color2 = panel.GetComponentProperty("PanelScript","highlightColor");
+            var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }
 
@@ -3326,12 +3390,12 @@ None
         public void testPointerUpCommand() throws InterruptedException
         {
             AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript","normalColor").build(), String.class);
+            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
 
             panel.pointerDownFromObject();
             Thread.sleep(1000);
             panel.pointerUpFromObject();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript","highlightColor").build(), String.class);
+            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
 
             assertEquals(color1, color2);
         }
@@ -3342,11 +3406,11 @@ None
             self.altDriver.load_scene('Scene 2 Draggable Panel')
             time.sleep(1)
             p_panel = self.altDriver.find_object(By.NAME, 'Panel')
-            color1 = p_panel.get_component_property('PanelScript', 'normalColor')
+            color1 = p_panel.get_component_property('PanelScript', 'normalColor', 'Assembly-CSharp')
             p_panel.pointer_down_from_object()
             time.sleep(1)
             p_panel.pointer_up_from_object()
-            color2 = p_panel.get_component_property('PanelScript', 'highlightColor')
+            color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
             self.assertEquals(color1, color2)
 
 ```
@@ -3374,12 +3438,12 @@ None
         public void TestPointerEnterAndExit()
         {
             var altObject = altDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor");
+            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
             altDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
-            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor");
+            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1,color2);
             altDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
-            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor");
+            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);
         }
@@ -3391,14 +3455,14 @@ None
         {
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
+            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
 
             altDriver.findObject(altFindObjectsParams).pointerEnter();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
+            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertNotEquals(color1,color2);
 
             altDriver.findObject(altFindObjectsParams).pointerExit();
-            String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
+            String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertNotEquals(color3, color2);
             assertEquals(color1,color3);
         }
@@ -3408,12 +3472,12 @@ None
         def test_pointer_enter_and_exit(self):
             self.altDriver.load_scene("Scene 3 Drag And Drop")
             alt_unity_object = self.altDriver.find_object(By.NAME,"Drop Image")
-            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor")
+            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.altDriver.find_object(By.NAME,"Drop Image").pointer_enter()
-            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor")
+            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color1, color2)
             self.altDriver.find_object(By.NAME,"Drop Image").pointer_exit()
-            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor")
+            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
 
@@ -3442,12 +3506,12 @@ None
         public void TestPointerEnterAndExit()
         {
             var altObject = altDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor");
+            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
             altDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
-            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor");
+            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
             Assert.AreNotEqual(color1,color2);
             altDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
-            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor");
+            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);
         }
@@ -3459,15 +3523,15 @@ None
         {
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
+            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
 
 
             altDriver.findObject(altFindObjectsParams).pointerEnter();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
+            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertNotEquals(color1,color2);
 
             altDriver.findObject(altFindObjectsParams).pointerExit();
-            String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "DropMe","highlightColor").build(), String.class);
+            String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertNotEquals(color3, color2);
             assertEquals(color1,color3);
         }
@@ -3477,12 +3541,12 @@ None
         def test_pointer_enter_and_exit(self):
             self.altDriver.load_scene("Scene 3 Drag And Drop")
             alt_unity_object = self.altDriver.find_object(By.NAME,"Drop Image")
-            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor")
+            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.altDriver.find_object(By.NAME,"Drop Image").pointer_enter()
-            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor")
+            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color1, color2)
             self.altDriver.find_object(By.NAME,"Drop Image").pointer_exit()
-            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor")
+            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
 ```

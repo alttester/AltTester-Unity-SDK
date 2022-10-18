@@ -92,8 +92,8 @@ class TestDriver:
         rule = self.altdriver.call_static_method(
             "Altom.AltTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
-            ["AltServerFileRule"],
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp",
+            parameters=["AltServerFileRule"],
         )
 
         # Default logging level in AltTester is Debug level
@@ -103,8 +103,9 @@ class TestDriver:
         rule = self.altdriver.call_static_method(
             "Altom.AltTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
-            ["AltServerFileRule"],
-            assembly="Assembly-CSharp")
+            "Assembly-CSharp",
+            parameters=["AltServerFileRule"],
+        )
 
         assert len(rule["Levels"]) == 0
 
