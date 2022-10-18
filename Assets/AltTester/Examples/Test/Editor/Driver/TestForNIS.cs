@@ -93,6 +93,7 @@ public class TestForNIS
             if (Enum.IsDefined(typeof(AltKeyCode), altKeyCode))
             {
                 altDriver.KeyDown(altKeyCode);
+                Thread.Sleep(100);
                 altDriver.KeyUp(altKeyCode);
                 var keyPressed = player.GetComponentProperty<string>("AltNIPDebugScript", "MousePressed", "Assembly-CSharp");
                 var keyReleased = player.GetComponentProperty<string>("AltNIPDebugScript", "MouseReleased", "Assembly-CSharp");
@@ -110,6 +111,7 @@ public class TestForNIS
         if (Enum.IsDefined(typeof(AltKeyCode), altKeyCode))
         {
             altDriver.KeyDown(altKeyCode);
+            Thread.Sleep(100);
             altDriver.KeyUp(altKeyCode);
             var keyPressed = player.GetComponentProperty<List<int>>("AltNIPDebugScript", "KeyPressed", "Assembly-CSharp");
             var keyReleased = player.GetComponentProperty<List<int>>("AltNIPDebugScript", "KeyReleased", "Assembly-CSharp");
@@ -121,6 +123,7 @@ public class TestForNIS
     private void joystickKeyDownAndUp(AltObject player, AltKeyCode altKeyCode, float power)
     {
         altDriver.KeyDown(altKeyCode, power);
+        Thread.Sleep(100);
         altDriver.KeyUp(altKeyCode);
         var keyPressed = player.GetComponentProperty<string>("AltNIPDebugScript", "JoystickPressed", "Assembly-CSharp");
         var keyReleased = player.GetComponentProperty<string>("AltNIPDebugScript", "JoystickReleased", "Assembly-CSharp");
