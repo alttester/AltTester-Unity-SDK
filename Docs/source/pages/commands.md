@@ -61,7 +61,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         {
             String name = "Capsule";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                    name).isEnabled(true).withCamera(AltDriver.By.NAME,"Main Camera").build();
+                    name).isEnabled(true).withCamera(AltDriver.By.NAME, "Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altObject);
             assertEquals(name, altObject.name);
@@ -70,7 +70,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: py
 
         def test_find_object(self):
-            altObject = self.altDriver.find_object(By.NAME,"Capsule")
+            altObject = self.altDriver.find_object(By.NAME, "Capsule")
             self.assertEqual(altObject.name, "Capsule")
 ```
 
@@ -117,7 +117,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         {
             String name = "Plane";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                name).isEnabled(true).withCamera(AltDriver.By.NAME,"Main Camera").build();
+                name).isEnabled(true).withCamera(AltDriver.By.NAME, "Main Camera").build();
             AltObject[] altObjects = altDriver.findObjects(altFindObjectsParams);
             assertNotNull(altObjects);
             assertEquals(altObjects[0].name, name);
@@ -234,19 +234,20 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
         def test_creating_stars(self):
             self.altDriver.load_scene("Scene 5 Keyboard Input")
 
-            stars = self.altDriver.find_objects_which_contain(By.NAME,"Star","Player2")
+            stars = self.altDriver.find_objects_which_contain(By.NAME, "Star", "Player2")
             self.assertEqual(1, len(stars))
-            player = self.altDriver.find_objects_which_contain(By.NAME,"Player","Player2")
+            player = self.altDriver.find_objects_which_contain(By.NAME, "Player", "Player2")
 
-            self.altDriver.move_mouse(int(stars[0].x),int(player[0].y)+500, 1)
+            self.altDriver.move_mouse(int(stars[0].x), int(player[0].y) + 500, 1)
             time.sleep(1.5)
 
             self.altDriver.press_key(AltKeyCode.Mouse0, 1,0)
-            self.altDriver.move_mouse_and_wait(int(stars[0].x),int(player[0].y)-500, 1)
+            self.altDriver.move_mouse_and_wait(int(stars[0].x), int(player[0].y) - 500, 1)
             self.altDriver.press_key(AltKeyCode.Mouse0, 1,0)
 
-            stars = self.altDriver.find_objects_which_contain(By.NAME,"Star")
+            stars = self.altDriver.find_objects_which_contain(By.NAME, "Star")
             self.assertEqual(3, len(stars))
+
 ```
 
 #### FindObjectAtCoordinates
@@ -526,7 +527,7 @@ Waits until the object in the scene that respects the given criteria is no longe
         @Test
         public void TestWaitForObjectToNotBePresent(){
             AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsulee").build();
-            AltWaitForObjectsParams altWaitForObjectsParameters=new AltWaitForObjectsParams.Builder(altFindObjectsParams).build();
+            AltWaitForObjectsParams altWaitForObjectsParameters = new AltWaitForObjectsParams.Builder(altFindObjectsParams).build();
             altDriver.waitForObjectToNotBePresent(altWaitForObjectsParams);
         }
 
@@ -732,7 +733,7 @@ Simulates a key up.
 
 | Name    | Type            | Required | Description                                      |
 | ------- | --------------- | -------- | ------------------------------------------------ |
-| keyCode | AltKeyCode | Yes      | The keyCode of the key simulated to be released. |
+| keyCode | AltKeyCode      | Yes      | The keyCode of the key simulated to be released. |
 
 **_Returns_**
 
@@ -960,7 +961,7 @@ Simulates key press action in your game.
 
 | Name     | Type            | Required | Default | Description                                                                              |
 | -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
-| keycode  | AltKeyCode | Yes      |         | The key code of the key simulated to be pressed.                                         |
+| keycode  | AltKeyCode      | Yes      |         | The key code of the key simulated to be pressed.                                         |
 | power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed. |
 | duration | float           | No       | 0.1     | The time measured in seconds from the key press to the key release.                      |
 | wait     | boolean         | No       | true    | If set wait for command to finish.                                                       |
@@ -1041,12 +1042,12 @@ Simulates multiple key press action in your game.
 
 **_Parameters_**
 
-| Name     | Type            | Required | Default | Description                                                                              |
-| -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
-| keycodes  | List\[AltKeyCode\] | Yes      |         | The list of keycodes simulated to be pressed simultaneously.                    |
-| power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the buttons were pressed. |
-| duration | float           | No       | 0.1     | The time measured in seconds from the multiple key press to the multiple key release.     |
-| wait     | boolean         | No       | true    | If set, wait for command to finish.                                                       |
+| Name     | Type               | Required | Default | Description                                                                                |
+| -------- | ------------------ | -------- | ------- | ------------------------------------------------------------------------------------------ |
+| keycodes | List\[AltKeyCode\] | Yes      |         | The list of keycodes simulated to be pressed simultaneously.                               |
+| power    | float              | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the buttons were pressed. |
+| duration | float              | No       | 0.1     | The time measured in seconds from the multiple key press to the multiple key release.      |
+| wait     | boolean            | No       | true    | If set, wait for command to finish.                                                        |
 
 **_Returns_**
 
@@ -1111,12 +1112,12 @@ Simulate scroll action in your game.
 
 **_Parameters_**
 
-| Name          | Type    | Required | Default | Description                                                                                  |
-| ------------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
-| speed         | float   | No       | 1       | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
-| duration      | float   | No       | 0.1     | The duration of the scroll in seconds.                                                       |
-| wait          | boolean | No       | true    | If set wait for command to finish.                                                           |
-|speedHorizontal| float   | No       | 1       |Set how fast to scroll right or left.                                                         |
+| Name            | Type    | Required | Default | Description                                                                                  |
+| --------------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
+| speed           | float   | No       | 1       | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
+| duration        | float   | No       | 0.1     | The duration of the scroll in seconds.                                                       |
+| wait            | boolean | No       | true    | If set wait for command to finish.                                                           |
+| speedHorizontal | float   | No       | 1       |Set how fast to scroll right or left.                                                         |
 
 **_Returns_**
 
@@ -1321,7 +1322,7 @@ Simulates a multipoint swipe action.
 
 | Name      | Type                    | Required | Default | Description                                                                     |
 | --------- | ----------------------- | -------- | ------- | ------------------------------------------------------------------------------- |
-| positions | List\[AltVector2\] | Yes      |         | A list of positions on the screen where the swipe be made.                      |
+| positions | List\[AltVector2\]      | Yes      |         | A list of positions on the screen where the swipe be made.                      |
 | duration  | float                   | No       | 0.1     | The time measured in seconds to swipe from first position to the last position. |
 | wait      | boolean                 | No       | true    | If set wait for command to finish.                                              |
 
@@ -1654,7 +1655,6 @@ Click at screen coordinates.
         def test_tap_coordinates(self):
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             self.altDriver.click(capsule_element.get_screen_position())
-            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -1715,7 +1715,6 @@ Tap at screen coordinates.
         def test_tap_coordinates(self):
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             self.altDriver.tap(capsule_element.get_screen_position())
-            self.altDriver.wait_for_object_with_text(By.NAME, 'CapsuleInfo', 'Capsule was clicked to jump!', '', 1)
 
 ```
 
@@ -2275,6 +2274,7 @@ Loads a scene.
             altDriver.LoadScene("Scene 1 AltDriverTestScene",true);
             Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetCurrentScene());
         }
+
     .. code-tab:: java
 
         @Test
@@ -2286,9 +2286,10 @@ Loads a scene.
 
     .. code-tab:: py
 
-       def test_get_current_scene(self):
-        self.altDriver.load_scene("Scene 1 AltDriverTestScene",True)
-        self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+        def test_get_current_scene(self):
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene",True)
+            self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+
 ```
 
 #### UnloadScene
@@ -2402,13 +2403,13 @@ None
         def test_get_all_loaded_scenes(self):
             self.altDriver.load_scene("Scene 1 AltDriverTestScene")
             scenes_loaded = self.altDriver.get_all_loaded_scenes()
-            self.assertEqual(len(scenes_loaded),1)
+            self.assertEqual(len(scenes_loaded), 1)
             self.altDriver.load_scene("Scene 2 Draggable Panel", False)
-            self.altDriver.load_scene("Scene 3 Drag And Drop",False)
-            self.altDriver.load_scene("Scene 4 No Cameras",False)
-            self.altDriver.load_scene("Scene 5 Keyboard Input",False)
+            self.altDriver.load_scene("Scene 3 Drag And Drop", False)
+            self.altDriver.load_scene("Scene 4 No Cameras", False)
+            self.altDriver.load_scene("Scene 5 Keyboard Input", False)
             scenes_loaded = self.altDriver.get_all_loaded_scenes()
-            self.assertEqual(len(scenes_loaded),5)
+            self.assertEqual(len(scenes_loaded), 5)
 
 ```
 
@@ -2911,7 +2912,7 @@ Returns the value of the given component property.
         def test_get_component_property(self):
             self.altDriver.load_scene('Scene 1 AltDriverTestScene')
             result = self.altDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
-            self.assertEqual(result,[1,2,3])
+            self.assertEqual(result, [1,2,3])
 
 ```
 

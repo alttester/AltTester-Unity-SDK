@@ -160,15 +160,15 @@ class AltObject:
             component_name, property_name, assembly, max_depth, self
         )
 
-    def set_component_property(self, component_name, property_name, value, assembly):
+    def set_component_property(self, component_name, property_name, assembly, value):
         """Sets a value for a given component property.
 
         Args:
             component_name (:obj:`str`): The name of the component. If the component has a namespace the format should
                 look like this: ``"namespace.componentName"``.
             property_name (:obj:`str`): The name of the property of which value you want to set.
-            value (:obj:`str`): The value to be set for the chosen component's property.
             assembly (:obj:`str`): The name of the assembly containing the component.
+            value (:obj:`str`): The value to be set for the chosen component's property.
 
         Returns:
             str: The property value is serialized to a JSON string.
@@ -189,9 +189,9 @@ class AltObject:
             method_name (:obj:`str`): The name of the public method that we want to call. If the method is inside a
                 static property/field to be able to call that method, methodName need to be the following format
                 ``"propertyName.MethodName"``.
+            assembly (:obj:`str`): The name of the assembly containing the script.
             parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
             type_of_parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
-            assembly (:obj:`str`): The name of the assembly containing the script.
 
         Return:
             str: The value returned by the method is serialized to a JSON string.

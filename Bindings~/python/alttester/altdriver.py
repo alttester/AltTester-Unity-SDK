@@ -767,7 +767,7 @@ class AltDriver:
         Args:
             component_name (:obj:`str`): The name of the component containing the field or property
                 to be retrieved.
-            field_or_property_name (:obj:`str`): The name of the field or property to be retrieved.
+            property_name (:obj:`str`): The name of the field or property to be retrieved.
             assembly (:obj:`str`): The name of the assembly containing the component mentioned above.
             max_depth (:obj:`int`, optional): The value determining how deep to go in the hierarchy of objects
                 to find the field or property.

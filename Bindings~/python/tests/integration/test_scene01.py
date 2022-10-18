@@ -233,7 +233,7 @@ class TestScene01:
     def test_set_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         alt_object.set_component_property(
-            "AltExampleScriptCapsule", "arrayOfInts", [2, 3, 4], "Assembly-CSharp")
+            "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp", [2, 3, 4])
 
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.get_component_property(
@@ -618,7 +618,7 @@ class TestScene01:
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_object is not None
 
-        alt_object.set_component_property(component_name, property_name, 2, "Assembly-CSharp")
+        alt_object.set_component_property(component_name, property_name, "Assembly-CSharp", 2)
         property_value = alt_object.get_component_property(
             component_name, property_name, "Assembly-CSharp", max_depth=1)
         assert property_value == 2
@@ -629,7 +629,7 @@ class TestScene01:
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         assert alt_object is not None
 
-        alt_object.set_component_property(component_name, property_name, "test3", "Assembly-CSharp")
+        alt_object.set_component_property(component_name, property_name, "Assembly-CSharp", "test3")
         propertyValue = alt_object.get_component_property(
             component_name, property_name, "Assembly-CSharp", max_depth=1)
         assert propertyValue == "test3"
