@@ -34,7 +34,7 @@ Dotnet
 3. In case of `AltUnityDriver` package, we changeg the name to `AltTester-Driver`.
 Replace:
 
-.. code-block:: Dotnet
+.. code-block:: C#
 
     <PropertyGroup>
         <PackageId>AltUnityDriver</PackageId>
@@ -44,7 +44,7 @@ Replace:
 
 With:
 
-.. code-block:: java
+.. code-block:: C#
 
     <PropertyGroup>
         <PackageId>AltTester-Driver</PackageId>
@@ -75,7 +75,7 @@ With:
     <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
     <version>1.8.0</version>
-    
+
 2. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
 3. In case of `AltUnityObject` class, we changed the name to `AltObject`.
 3. In case of `AltUnityDriverConfigFactory` class, we changed the name to `AltDriverConfigFactory`.
