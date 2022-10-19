@@ -24,6 +24,7 @@ jobs:
         - run: pip install -e "Bindings~/python" --root "Bindings~/python"
         
         - run: |
+            cd "Bindings~/python"
             python3 setup.py sdist
             python3 -m twine upload dist/*
 
