@@ -59,4 +59,4 @@ Documentation
    Source Code <https://github.com/alttester/AltTester-Unity-SDK>
    PyPi <https://pypi.org/project/AltTester-Driver/>
    NuGet <https://www.nuget.org/packages/AltTester-Driver/>
-   Maven Repository <https://mvnrepository.com/artifact/com.altom/AltTester-Driver>
+   Maven Repository <https://mvnrepository.com/artifact/com.alttester/AltTester-Driver>
