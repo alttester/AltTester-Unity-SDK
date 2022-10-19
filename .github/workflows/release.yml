@@ -4,7 +4,7 @@ on: [workflow_dispatch,push]
 jobs:
   
   publish-pip-package:
-      runs-on: [self-hosted,release]
+      runs-on: [self-hosted, release]
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
