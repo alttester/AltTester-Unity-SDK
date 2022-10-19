@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
+import com.alttester.Commands.FindObject.AltWaitForObjectsParams;
 import com.alttester.Commands.InputActions.AltMultiPointSwipeParams;
 import com.alttester.Commands.InputActions.AltSwipeParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
