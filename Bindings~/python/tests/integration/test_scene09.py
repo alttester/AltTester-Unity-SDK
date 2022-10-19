@@ -1,7 +1,7 @@
 import pytest
 
 from .utils import Scenes
-from altunityrunner import By
+from alttester import By
 
 
 class TestScene09:
@@ -25,16 +25,17 @@ class TestScene09:
 
         assert scrollbar_initial_value != scrollbar_final_value
 
-    # def test_swipe_NIS(self):
-    #     scrollbar = self.altdriver.find_object(By.NAME, "Handle")
-    #     scrollbar_position = scrollbar.get_screen_position()
-    #     button = self.altdriver.find_object(By.PATH, "//Scroll View/Viewport/Content/Button (4)")
-    #     self.altdriver.swipe(
-    #         button.get_screen_position(),
-    #         (button.x, button.y + 20),
-    #         duration=0.1
-    #     )
+    @pytest.mark.skip
+    def test_swipe_NIS(self):
+        scrollbar = self.altdriver.find_object(By.NAME, "Handle")
+        scrollbar_position = scrollbar.get_screen_position()
+        button = self.altdriver.find_object(By.PATH, "//Scroll View/Viewport/Content/Button (4)")
+        self.altdriver.swipe(
+            button.get_screen_position(),
+            (button.x, button.y + 20),
+            duration=0.1
+        )
 
-    #     scrollbar_final = self.altdriver.find_object(By.NAME, "Handle")
-    #     scrollbar_final_position = scrollbar_final.get_screen_position()
-    #     assert scrollbar_position != scrollbar_final_position
+        scrollbar_final = self.altdriver.find_object(By.NAME, "Handle")
+        scrollbar_final_position = scrollbar_final.get_screen_position()
+        assert scrollbar_position != scrollbar_final_position

@@ -1,7 +1,7 @@
 import pytest
 
-from altunityrunner.exceptions import InvalidParameterTypeException
-from altunityrunner.commands import CallMethod
+from alttester.exceptions import InvalidParameterTypeException
+from alttester.commands import CallMethod
 
 
 class TestCallMethod:
@@ -13,14 +13,14 @@ class TestCallMethod:
     def test_constructor(self):
         command = CallMethod(
             self.connection,
-            'AltUnityScript',
+            'AltScript',
             'methodName',
+            assembly='assemblyName',
             parameters=[1, 'string_param', 0.5, [1, 2, 3]],
             type_of_parameters=['System.String'],
-            assembly='assemblyName'
         )
 
-        assert command.component_name == 'AltUnityScript'
+        assert command.component_name == 'AltScript'
         assert command.method_name == 'methodName'
         assert command.parameters == ['1', '"string_param"', '0.5', '[1, 2, 3]']
         assert command.type_of_parameters == ['System.String']
@@ -30,7 +30,7 @@ class TestCallMethod:
         with pytest.raises(InvalidParameterTypeException):
             CallMethod(
                 self.connection,
-                'AltUnityScript',
+                'AltScript',
                 'methodName',
                 parameters=[1, 'stringparam', 0.5, [1, 2, 3]],
                 type_of_parameters='System.String'
@@ -40,7 +40,7 @@ class TestCallMethod:
         with pytest.raises(InvalidParameterTypeException):
             CallMethod(
                 self.connection,
-                "AltUnityScript",
+                "AltScript",
                 "methodName",
                 parameters="1?stringparam?0.5?[1,2,3]",
                 type_of_parameters=["System.String"]

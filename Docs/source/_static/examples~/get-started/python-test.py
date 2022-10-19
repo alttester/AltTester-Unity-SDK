@@ -1,6 +1,6 @@
 import unittest
 
-from altunityrunner import *
+from alttester import *
 
 
 class MyFirstTest(unittest.TestCase):
@@ -9,7 +9,7 @@ class MyFirstTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.altdriver = AltUnityDriver()
+        cls.altdriver = AltDriver()
 
     @classmethod
     def tearDownClass(cls):

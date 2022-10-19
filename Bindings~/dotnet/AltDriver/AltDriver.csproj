@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>AltTester-Driver</PackageId>
+        <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+        <RootNamespace>Altom.AltTester-Driver</RootNamespace>
+        <IsPackable>true</IsPackable>
+        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">1.8.0</PackageVersion>
+        <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>
+        <Title>AltTester-Driver</Title>
+        <Description>
+            AltTester-Driver package includes the C# bindings needed to run tests against Unity apps using AltTester Unity SDK.
+        </Description>
+        <Summary>
+            C# Bindings to allow tests to be run against Unity games and apps using AltTester Unity SDK
+        </Summary>
+        <Authors> Altom </Authors>
+
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <copyright>© Altom</copyright>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <PackageProjectUrl>https://github.com/alttester/AltTester-Unity-SDK</PackageProjectUrl>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="../../../LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="../../../Assets/AltTester/AltDriver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="NLog" Version="4.7.9" />
+        <PackageReference Include="WebSocketSharp" Version="1.0.3-rc11" />
+    </ItemGroup>
+</Project>
