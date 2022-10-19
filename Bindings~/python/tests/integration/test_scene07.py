@@ -75,34 +75,28 @@ class TestScene07B:
         self.altdriver = altdriver
         self.altdriver.load_scene(Scenes.Scene07B)
 
+    def get_sprite_name(self, source_image_name, image_source_drop_zone_name):
+        image_source = self.altdriver.find_object(By.NAME, source_image_name).get_component_property(
+            "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
+        image_source_drop_zone = self.altdriver.find_object(
+            By.NAME, image_source_drop_zone_name).get_component_property(
+            "UnityEngine.UI.Image", "sprite.name", assembly="UnityEngine.UI")
+        return image_source, image_source_drop_zone
+
+    def drop_image_with_multipoint_swipe(self, object_names, duration, wait):
+        positions = []
+        for name in object_names:
+            alt_object = self.altdriver.find_object(By.NAME, name)
+            positions.append(alt_object.get_screen_position())
+
+        self.altdriver.multipoint_swipe(positions, duration=duration, wait=wait)
+
     def test_multipoint_swipe_NIS(self):
-        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
+        self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, False)
+        self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
 
-        multipoint_positions = [alt_object1.get_screen_position(), [alt_object2.x, alt_object2.y]]
+        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
+        assert image_source == image_source_drop_zone
 
-        self.altdriver.multipoint_swipe(multipoint_positions, duration=0.5)
-        # time.sleep(2)
-
-        alt_object1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-        alt_object2 = self.altdriver.find_object(By.NAME, "Drop Box1")
-        alt_object3 = self.altdriver.find_object(By.NAME, "Drop Box2")
-
-        positions = [
-            [alt_object1.x, alt_object1.y],
-            [alt_object2.x, alt_object2.y],
-            [alt_object3.x, alt_object3.y]
-        ]
-
-        self.altdriver.multipoint_swipe(positions, duration=0.5)
-        image_source = self.altdriver.find_object(
-            By.NAME, "Drag Image1").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
-        drop_zone_image_source = self.altdriver.find_object(
-            By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
-        assert image_source["name"] != drop_zone_image_source["name"]
-
-        image_source = self.altdriver.find_object(
-            By.NAME, "Drag Image2").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
-        drop_zone_image_source = self.altdriver.find_object(
-            By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
-        assert image_source["name"] != drop_zone_image_source["name"]
+        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
+        assert image_source == image_source_drop_zone
