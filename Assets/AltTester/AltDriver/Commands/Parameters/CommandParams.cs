@@ -140,23 +140,6 @@ namespace Altom.AltDriver.Commands
         }
     }
 
-    [Command("pressKeyboardKey")]
-    public class AltPressKeyboardKeyParams : CommandParams
-    {
-        public AltKeyCode keyCode;
-        public float power;
-        public float duration;
-        public bool wait;
-
-        public AltPressKeyboardKeyParams(AltKeyCode keyCode, float power, float duration, bool wait) : base()
-        {
-            this.keyCode = keyCode;
-            this.power = power;
-            this.duration = duration;
-            this.wait = wait;
-        }
-    }
-
     [Command("pressKeyboardKeys")]
     public class AltPressKeyboardKeysParams : CommandParams
     {
@@ -655,17 +638,6 @@ namespace Altom.AltDriver.Commands
         }
     }
 
-    [Command("keyUp")]
-    public class AltKeyUpParams : CommandParams
-    {
-        public AltKeyCode keyCode;
-
-        public AltKeyUpParams(AltKeyCode keyCode)
-        {
-            this.keyCode = keyCode;
-        }
-    }
-
     [Command("keysUp")]
     public class AltKeysUpParams : CommandParams
     {
@@ -674,19 +646,6 @@ namespace Altom.AltDriver.Commands
         public AltKeysUpParams(AltKeyCode[] keyCodes)
         {
             this.keyCodes = keyCodes;
-        }
-    }
-
-    [Command("keyDown")]
-    public class AltKeyDownParams : CommandParams
-    {
-        public AltKeyCode keyCode;
-        public float power;
-
-        public AltKeyDownParams(AltKeyCode keyCode, float power)
-        {
-            this.keyCode = keyCode;
-            this.power = power;
         }
     }
 

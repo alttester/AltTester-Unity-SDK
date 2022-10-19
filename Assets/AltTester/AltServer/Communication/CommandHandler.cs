@@ -98,17 +98,9 @@ namespace Altom.AltTester.Communication
             {
                 return new AltClickCoordinatesCommand(this, cmdParams as AltClickCoordinatesParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltKeyDownParams)
-            {
-                return new AltKeyDownCommand(cmdParams as AltKeyDownParams).ExecuteAndSerialize;
-            }
             if (cmdParams is AltKeysDownParams)
             {
                 return new AltKeysDownCommand(cmdParams as AltKeysDownParams).ExecuteAndSerialize;
-            }
-            if (cmdParams is AltKeyUpParams)
-            {
-                return new AltKeyUpCommand(cmdParams as AltKeyUpParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltKeysUpParams)
             {
@@ -262,10 +254,6 @@ namespace Altom.AltTester.Communication
             if (cmdParams is AltHighlightObjectFromCoordinatesScreenshotParams)
             {
                 return new AltHighlightObjectFromCoordinatesCommand(this, cmdParams as AltHighlightObjectFromCoordinatesScreenshotParams).ExecuteAndSerialize;
-            }
-            if (cmdParams is AltPressKeyboardKeyParams)
-            {
-                return new AltPressKeyboardKeyCommand(this, cmdParams as AltPressKeyboardKeyParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltPressKeyboardKeysParams)
             {

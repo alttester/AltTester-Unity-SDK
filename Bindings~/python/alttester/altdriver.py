@@ -581,7 +581,7 @@ class AltDriver:
 
         """
 
-        commands.KeyDown.run(self._connection, key_code, power)
+        self.keys_down([key_code], power=power)
 
     def keys_down(self, key_codes, power=1):
         """Simulates that multiple keys were pressed without taking into consideration the duration of the press.
@@ -603,7 +603,7 @@ class AltDriver:
 
         """
 
-        commands.KeyUp.run(self._connection, key_code)
+        self.keys_up([key_code])
 
     def keys_up(self, key_codes):
         """Simulates that multiple keys were released.
@@ -627,7 +627,7 @@ class AltDriver:
 
         """
 
-        commands.PressKey.run(self._connection, key_code, power, duration, wait)
+        self.press_keys([key_code], power=power, duration=duration, wait=wait)
 
     def press_keys(self, key_codes, power=1, duration=0.1, wait=True):
         """Simulates multiple keypress action in your game.

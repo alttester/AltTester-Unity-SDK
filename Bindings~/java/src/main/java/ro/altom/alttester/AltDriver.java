@@ -15,6 +15,7 @@ import ro.altom.alttester.Commands.FindObject.*;
 import ro.altom.alttester.Commands.InputActions.*;
 import ro.altom.alttester.Commands.UnityCommand.*;
 import ro.altom.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import ro.altom.alttester.UnityStruct.AltKeyCode;
 import ro.altom.alttester.altTesterExceptions.*;
 import java.io.IOException;
 
@@ -98,7 +99,7 @@ public class AltDriver {
 
     /**
      * Closes the connection to the running instrumented app
-     * 
+     *
      * @throws IOException
      */
     public void stop() throws IOException {
@@ -107,7 +108,7 @@ public class AltDriver {
 
     /**
      * Gets the AltTester version, used to instrument the app
-     * 
+     *
      * @return AltTester version
      */
     public String getServerVersion() {
@@ -116,7 +117,7 @@ public class AltDriver {
 
     /**
      * Gets the delay after a command
-     * 
+     *
      * @return The delay after a command
      */
     public double getDelayAfterCommand() {
@@ -125,7 +126,7 @@ public class AltDriver {
 
     /**
      * Sets the delay after a command
-     * 
+     *
      * @param delay - Double
      */
     public void setDelayAfterCommand(double delay) {
@@ -134,7 +135,7 @@ public class AltDriver {
 
     /**
      * Loads a scene.
-     * 
+     *
      * @param altLoadSceneParameters - scene name
      */
     public void loadScene(AltLoadSceneParams altLoadSceneParameters) {
@@ -154,7 +155,7 @@ public class AltDriver {
 
     /**
      * Returns all the scenes that have been loaded.
-     * 
+     *
      * @return All the scenes that have been loaded
      */
     public String[] getAllLoadedScenes() {
@@ -165,7 +166,7 @@ public class AltDriver {
 
     /**
      * Sets the value for the command response timeout.
-     * 
+     *
      * @param timeout - int
      */
     public void setCommandResponseTimeout(int timeout) {
@@ -182,7 +183,7 @@ public class AltDriver {
 
     /**
      * Removes key and its corresponding value from PlayerPrefs.
-     * 
+     *
      * @param keyName - String
      */
     public void deleteKeyPlayerPref(String keyName) {
@@ -192,7 +193,7 @@ public class AltDriver {
 
     /**
      * Sets the value for a given key in PlayerPrefs.
-     * 
+     *
      * @param keyName   - String
      * @param valueName - int
      */
@@ -203,7 +204,7 @@ public class AltDriver {
 
     /**
      * Sets the value for a given key in PlayerPrefs.
-     * 
+     *
      * @param keyName   - String
      * @param valueName - float
      */
@@ -214,7 +215,7 @@ public class AltDriver {
 
     /**
      * Sets the value for a given key in PlayerPrefs.
-     * 
+     *
      * @param keyName   - String
      * @param valueName - String
      */
@@ -225,7 +226,7 @@ public class AltDriver {
 
     /**
      * Returns the value for a given key from PlayerPrefs.
-     * 
+     *
      * @param keyName -String
      * @return The value for a given key from PlayerPrefs
      */
@@ -237,7 +238,7 @@ public class AltDriver {
 
     /**
      * Returns the value for a given key from PlayerPrefs.
-     * 
+     *
      * @param keyName - String
      * @return The value for a given key from PlayerPrefs
      */
@@ -249,7 +250,7 @@ public class AltDriver {
 
     /**
      * Returns the value for a given key from PlayerPrefs.
-     * 
+     *
      * @param keyName - String
      * @return The value for a given key from PlayerPrefs
      */
@@ -261,7 +262,7 @@ public class AltDriver {
 
     /**
      * Returns the current active scene.
-     * 
+     *
      * @return Current active scene
      */
     public String getCurrentScene() {
@@ -272,7 +273,7 @@ public class AltDriver {
 
     /**
      * Returns the value of the time scale.
-     * 
+     *
      * @return Timescale
      */
     public float getTimeScale() {
@@ -283,7 +284,7 @@ public class AltDriver {
 
     /**
      * Sets the value of the time scale.
-     * 
+     *
      * @param setTimescaleParams - timescale
      */
     public void setTimeScale(AltSetTimeScaleParams setTimescaleParams) {
@@ -293,7 +294,7 @@ public class AltDriver {
 
     /**
      * Invokes static methods from your game.
-     * 
+     *
      * @param altCallStaticMethodParams - String component* , String method* ,
      *                                  Object[] parameters* , String[]
      *                                  typeOfParameters , String assembly
@@ -309,7 +310,7 @@ public class AltDriver {
 
     /**
      * Simulates a swipe action between two points.
-     * 
+     *
      * @param swipeParams - Vector2 start* , Vector2 end* , float duration , boolean
      *                    wait = true
      */
@@ -320,7 +321,7 @@ public class AltDriver {
 
     /**
      * Simulates a multipoint swipe action.
-     * 
+     *
      * @param parameters - positions[]* , float duration , boolean wait
      */
     public void multipointSwipe(AltMultiPointSwipeParams parameters) {
@@ -331,7 +332,7 @@ public class AltDriver {
     /**
      * Simulates holding left click button down for a specified amount of time at
      * given coordinates.
-     * 
+     *
      * @param holdParams - Vector2 coordinates* , float duration , boolean wait
      */
     public void holdButton(AltHoldParams holdParams) {
@@ -340,7 +341,7 @@ public class AltDriver {
 
     /**
      * Simulates device rotation action in your game.
-     * 
+     *
      * @param altTiltParameter - Vector3 acceleration* , float duration , boolean
      *                         wait
      */
@@ -351,18 +352,19 @@ public class AltDriver {
 
     /**
      * Simulates key press action in your game.
-     * 
+     *
      * @param altPressKeyParameters - AltKeyCode keyCode* , float power , float
      *                              duration , boolean wait
      */
     public void pressKey(AltPressKeyParams altPressKeyParameters) {
-        new AltPressKey(this.connection.messageHandler, altPressKeyParameters).Execute();
-        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        AltKeyCode[] keyCodes = { altPressKeyParameters.getKeyCode() };
+        AltPressKeysParams params = new AltPressKeysParams.Builder(keyCodes).withPower(altPressKeyParameters.getPower()).withDuration(altPressKeyParameters.getDuration()).withWait(altPressKeyParameters.getWait()).build();
+        this.pressKeys(params);
     }
 
     /**
      * Simulates multiple keys pressed action in your game.
-     * 
+     *
      * @param altPressKeysParameters - AltKeyCode[] keyCodes* , float power ,
      *                               float duration , boolean wait
      */
@@ -373,18 +375,19 @@ public class AltDriver {
 
     /**
      * Simulates a key down.
-     * 
+     *
      * @param keyDownParams - AltKeyCode keyCode* , float power
      * @throws InterruptedException
      */
     public void keyDown(AltKeyDownParams keyDownParams) throws InterruptedException {
-        new AltKeyDown(this.connection.messageHandler, keyDownParams).Execute();
-        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        AltKeyCode[] keys = { keyDownParams.getKeyCode() };
+        AltKeysDownParams params = new AltKeysDownParams.Builder(keys).withPower(keyDownParams.getPower()).build();
+        this.keysDown(params);
     }
 
     /**
      * Simulates multiple keys down.
-     * 
+     *
      * @param keysDownParams - AltKeyCode keyCode* , float power
      */
     public void keysDown(AltKeysDownParams keysDownParams) {
@@ -394,17 +397,18 @@ public class AltDriver {
 
     /**
      * Simulates a key up.
-     * 
+     *
      * @param keyUpParams - keyCode
      */
     public void keyUp(AltKeyUpParams keyUpParams) {
-        new AltKeyUp(this.connection.messageHandler, keyUpParams).Execute();
-        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        AltKeyCode[] keyCodes = { keyUpParams.getKeyCode() };
+        AltKeysUpParams params = new AltKeysUpParams.Builder(keyCodes).build();
+        this.keysUp(params);
     }
 
     /**
      * Simulates multiple keys up.
-     * 
+     *
      * @param keysUpParams - AltKeyCode[] keyCodes
      */
     public void keysUp(AltKeysUpParams keysUpParams) {
@@ -543,7 +547,7 @@ public class AltDriver {
     /**
      * Waits until it finds an object that respects the given criteria or time runs
      * out and will throw an error.
-     * 
+     *
      * @param altWaitForObjectsParams - AltFindObjectsParams
      *                                altFindObjectsParameters* , double timeout ,
      *                                double interval
@@ -558,7 +562,7 @@ public class AltDriver {
 
     /**
      * Creates a screenshot of the current screen in png format.
-     * 
+     *
      * @param path - String
      */
     public void getPNGScreenshot(String path) {
@@ -578,7 +582,7 @@ public class AltDriver {
 
     /**
      * Simulates starting of a touch on the screen.
-     * 
+     *
      * @param beginTouchParams - Vector2 coordinates*
      * @return The starting of a touch on the screen
      */
@@ -590,7 +594,7 @@ public class AltDriver {
 
     /**
      * Simulates a touch movement on the screen.
-     * 
+     *
      * @param moveTouchParams - int fingerId* , Vector2 coordinates*
      */
     public void moveTouch(AltMoveTouchParams moveTouchParams) {
@@ -601,7 +605,7 @@ public class AltDriver {
 
     /**
      * Simulates ending of a touch on the screen.
-     * 
+     *
      * @param endTouchParams - int fingerId*
      */
     public void endTouch(AltEndTouchParams endTouchParams) {
@@ -633,7 +637,7 @@ public class AltDriver {
 
     /**
      * Gets the value of the static field or property
-     * 
+     *
      * @param parameters - String componentName* , String propertyName* , String
      *                   assembly , int maxDept
      * @param returnType
