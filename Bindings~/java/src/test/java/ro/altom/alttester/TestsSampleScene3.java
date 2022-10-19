@@ -121,9 +121,9 @@ public class TestsSampleScene3 {
     @Test
     public void testMultipleDragAndDropWait() throws Exception {
 
-        dropImage("Drag Image2", "Drop Box2", (float) 0.1, true);
-        dropImage("Drag Image2", "Drop Box1", (float) 0.1, true);
-        dropImage("Drag Image1", "Drop Box1", (float) 0.1, true);
+        dropImage("Drag Image2", "Drop Box2", (float) 1, true);
+        dropImage("Drag Image2", "Drop Box1", (float) 1, true);
+        dropImage("Drag Image1", "Drop Box1", (float) 1, true);
         waitForSwipeToFinish();
 
         getSpriteName("Drag Image1", "Drop Image");
