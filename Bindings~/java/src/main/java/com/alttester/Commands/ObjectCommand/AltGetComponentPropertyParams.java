@@ -7,14 +7,10 @@ public class AltGetComponentPropertyParams extends AltObjectParams {
         private String assembly = "";
         private int maxDepth = 2;
 
-        public Builder(String componentName, String propertyName) {
+        public Builder(String componentName, String propertyName, String assembly) {
             this.componentName = componentName;
             this.propertyName = propertyName;
-        }
-
-        public Builder withAssembly(String assembly) {
             this.assembly = assembly;
-            return this;
         }
 
         public Builder withMaxDepth(int maxDepth) {

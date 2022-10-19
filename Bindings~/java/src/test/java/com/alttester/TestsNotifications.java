@@ -105,7 +105,7 @@ public class TestsNotifications {
                 AltObject altElement = altDriver.findObject(altFindObjectsParameters);
 
                 altElement.callComponentMethod(new AltCallComponentMethodParams.Builder("Altom.AltTester.AltRunner",
-                                "OnApplicationPause", new Object[] { true }).build(), Void.class);
+                                "OnApplicationPause", "Assembly-CSharp", new Object[] { true }).build(), Void.class);
         }
 
 }
