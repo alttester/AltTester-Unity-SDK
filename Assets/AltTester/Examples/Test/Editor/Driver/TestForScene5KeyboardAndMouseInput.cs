@@ -129,6 +129,7 @@ namespace Altom.AltDriver.Tests
         // [Test]
         // public void TestButton()
         // {
+        //     altDriver.LoadScene("Scene 5 Keyboard Input");
         //     var ButtonNames = new List<String>()
         // {
         //    "Horizontal","Vertical"
@@ -152,6 +153,7 @@ namespace Altom.AltDriver.Tests
         // [Test]
         // public void TestPowerJoystick()
         // {
+        //     altDriver.LoadScene("Scene 5 Keyboard Input");
         //     var ButtonNames = new List<String>()
         // {
         //    "Horizontal","Vertical"
@@ -203,6 +205,7 @@ namespace Altom.AltDriver.Tests
         [Category("WebGLUnsupported")]
         public void TestCheckShadersSetCorrectlyAfterHighlight()
         {
+            altDriver.LoadScene("Scene 5 Keyboard Input");
             var cube = altDriver.FindObject(By.NAME, "2MaterialCube");
             var count = cube.GetComponentProperty<int>("UnityEngine.Renderer", "materials.Length", "UnityEngine.CoreModule");
             var shadersName = new List<string>();
