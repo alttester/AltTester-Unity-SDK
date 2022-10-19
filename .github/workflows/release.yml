@@ -40,7 +40,7 @@ jobs:
 
       - name: uploade to nuget
         env:
-          NUGET_DEPLOY_KEY: ${{ secret.NUGET_DEPLOY_KEY }}
+          NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
         run: |
           cd "Bindings~/dotnet"
           dotnet pack AltDriver/AltDriver.csproj -c release
