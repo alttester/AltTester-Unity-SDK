@@ -4,19 +4,19 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
 import org.apache.logging.log4j.LogManager;
 
-import ro.altom.alttester.Commands.*;
-import ro.altom.alttester.Commands.AltCommands.AltSetServerLoggingParams;
-import ro.altom.alttester.Commands.AltCommands.AltAddNotificationListener;
-import ro.altom.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
-import ro.altom.alttester.Commands.AltCommands.AltRemoveNotificationListener;
-import ro.altom.alttester.Commands.AltCommands.AltRemoveNotificationListenerParams;
-import ro.altom.alttester.Commands.AltCommands.AltSetServerLogging;
-import ro.altom.alttester.Commands.FindObject.*;
-import ro.altom.alttester.Commands.InputActions.*;
-import ro.altom.alttester.Commands.UnityCommand.*;
-import ro.altom.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
-import ro.altom.alttester.UnityStruct.AltKeyCode;
-import ro.altom.alttester.altTesterExceptions.*;
+import com.alttester.Commands.*;
+import com.alttester.Commands.AltCommands.AltSetServerLoggingParams;
+import com.alttester.Commands.AltCommands.AltAddNotificationListener;
+import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
+import com.alttester.Commands.AltCommands.AltRemoveNotificationListener;
+import com.alttester.Commands.AltCommands.AltRemoveNotificationListenerParams;
+import com.alttester.Commands.AltCommands.AltSetServerLogging;
+import com.alttester.Commands.FindObject.*;
+import com.alttester.Commands.InputActions.*;
+import com.alttester.Commands.UnityCommand.*;
+import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import com.alttester.UnityStruct.AltKeyCode;
+import com.alttester.altTesterExceptions.*;
 import java.io.IOException;
 
 public class AltDriver {

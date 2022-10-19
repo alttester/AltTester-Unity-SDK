@@ -16,47 +16,47 @@ import com.alttester.Logging.AltLogger;
 
 public class TestsAltCommands {
 
-        class Rule {
-                public List<String> Levels;
+    class Rule {
+        public List<String> Levels;
+    }
+
+    private static AltDriver altDriver;
+
+    @BeforeClass
+    public static void setUp() throws Exception {
+        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
+                true);
+    }
+
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (altDriver != null) {
+            altDriver.stop();
         }
+    }
 
-        private static AltDriver altDriver;
+    @Test
+    public void testSetServerLogging() {
+        altDriver.setServerLogging(
+                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
+        Rule rule = altDriver.callStaticMethod(
+                new AltCallStaticMethodParams.Builder("Altom.AltTester.Logging.ServerLogManager",
+                        "Instance.Configuration.FindRuleByName", "Assembly-CSharp",
+                        new Object[] { "AltServerFileRule" })
+                        .build(),
+                Rule.class);
 
-        @BeforeClass
-        public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                                true);
-        }
+        assertEquals(5, rule.Levels.size());
 
-        @AfterClass
-        public static void tearDown() throws Exception {
-                if (altDriver != null) {
-                        altDriver.stop();
-                }
-        }
+        altDriver.setServerLogging(
+                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Off).build());
+        rule = altDriver.callStaticMethod(
+                new AltCallStaticMethodParams.Builder("Altom.AltTester.Logging.ServerLogManager",
+                        "Instance.Configuration.FindRuleByName", "Assembly-CSharp",
+                        new Object[] { "AltServerFileRule" })
+                        .build(),
+                Rule.class);
 
-        @Test
-        public void testSetServerLogging() {
-                altDriver.setServerLogging(
-                                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
-                Rule rule = altDriver.callStaticMethod(
-                                new AltCallStaticMethodParams.Builder("Altom.AltTester.Logging.ServerLogManager",
-                                                "Instance.Configuration.FindRuleByName",
-                                                new Object[] { "AltServerFileRule" })
-                                                .withAssembly("Assembly-CSharp").build(),
-                                Rule.class);
-
-                assertEquals(5, rule.Levels.size());
-
-                altDriver.setServerLogging(
-                                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Off).build());
-                rule = altDriver.callStaticMethod(
-                                new AltCallStaticMethodParams.Builder("Altom.AltTester.Logging.ServerLogManager",
-                                                "Instance.Configuration.FindRuleByName",
-                                                new Object[] { "AltServerFileRule" })
-                                                .withAssembly("Assembly-CSharp").build(),
-                                Rule.class);
-
-                assertEquals(0, rule.Levels.size());
-        }
+        assertEquals(0, rule.Levels.size());
+    }
 }
