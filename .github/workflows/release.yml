@@ -101,73 +101,75 @@ jobs:
 #         if: always()
 #         run: rm -r public
       
-  create-jar-archive:
+#   create-jar-archive:
+#     runs-on: [self-hosted]
+#     steps:
+#       - name: Setup Java JDK
+#         uses: actions/setup-java@v3.5.1
+#         with:
+#               distribution: temurin
+#               java-version: 11
+
+#       - uses: stCarolas/setup-maven@v4.4
+
+#       - name: Create jar
+#         run: |
+#           mkdir -p public/AltTesterJAR || true
+#           cd "Bindings~/java"
+#           mvn clean compile assembly:single
+#           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester.jar
+
+#       - name: Upload AltTester Jar
+#         uses: garygrossgarten/github-action-scp@release
+#         with:
+#           local: public/AltTesterJAR
+#           remote: ${{ secrets.JAVA_CLIENT_PATH }}
+#           host: ${{ secrets.HOST_IP_ALTOM }}
+#           port: ${{ secrets.PORT_LIVE_ALTOM }}
+#           username: ${{ secrets.USERNAME_ALTOM }}
+#           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+#       - name: Delete Public
+#         if: always()
+#         run: rm -r public
+  build-docs:
     runs-on: [self-hosted]
+
     steps:
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.5.1
+    
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-              distribution: temurin
-              java-version: 11
+          python-version: '3.10' 
+          cached: 'pip'
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
 
-      - uses: stCarolas/setup-maven@v4.4
+      - uses: syphar/restore-pip-download-cache@v1
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-      - name: Create jar
-        run: |
-          mkdir -p public/AltTesterJAR || true
-          cd "Bindings~/java"
-          mvn clean compile assembly:single
-          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester.jar
+      - run: pip install -r Docs/requirements.txt
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - run: pwd
+      - uses: rickstaa/sphinx-action@master
+        with:
+          docs-folder: Docs
+          build-command: make html
 
-      - name: Upload AltTester Jar
+      - name: Upload to Altom.com
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: public/AltTesterJAR
-          remote: ${{ secrets.JAVA_CLIENT_PATH }}
+          local: Docs
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
           host: ${{ secrets.HOST_IP_ALTOM }}
           port: ${{ secrets.PORT_LIVE_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-      - name: Delete Public
-        if: always()
-        run: rm -r public
-  # build-docs:
-  #   runs-on: [self-hosted,release]
-
-  #   steps:
-    
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-python@v4
-  #       with:
-  #         python-version: '3.10' 
-  #         cached: 'pip'
-  #     - uses: syphar/restore-virtualenv@v1
-  #       id: cache-virtualenv
-
-  #     - uses: syphar/restore-pip-download-cache@v1
-  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-
-  #     - run: pip install -r Docs/requirements.txt
-  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-  #     - run: pwd
-  #     - uses: rickstaa/sphinx-action@master
-  #       with:
-  #         docs-folder: Docs
-  #         build-command: make html
-
-  #     - name: Upload to Altom.com
-  #       env:
-  #         HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
-  #         DOCUMENTATION_PATH: ${{ secrets.DOCUMENTATION_PATH }}
-  #       run: |
-  #         ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf ${DOCUMENTATION_PATH}/*"
-  #         scp -r -P 50976 -o 'StrictHostKeyChecking no' Docs/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}
 
 
-  #     - uses: actions/upload-artifact@v1
-  #       with:
-  #         name: DocumentationHTML
-  #         path: Docs/build/html/
+      - uses: actions/upload-artifact@v1
+        with:
+          name: DocumentationHTML
+          path: Docs/build/html/
 
               
       
