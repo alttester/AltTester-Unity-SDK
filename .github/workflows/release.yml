@@ -90,16 +90,25 @@ jobs:
    #SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
    #mv $SS public/SampleScenes/SampleScenes.unitypackage
    
-      - name: Upload new documentation
+      - name: Upload AltTesterPackage
         uses: garygrossgarten/github-action-scp@release
         with:
           local: public/AltTester/AltTester.unitypackage
-          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          remote: ${{ secrets.SDK_PATH }}
           host: ${{ secrets.HOST_IP_ALTOM }}
-          port: 50976
+          port: ${{ secrets.PORT_LIVE_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-          rmRemote: true
+      - name: Upload AltTesterVersionPackage
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: AltTester_1_8_0.unitypackage
+          remote: ${{ secrets.SDK_PATH }}
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          port: ${{ secrets.PORT_LIVE_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+    
       
   # create-jar-archive:
   #   runs-on: [self-hosted,release]
