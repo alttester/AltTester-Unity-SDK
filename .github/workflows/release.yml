@@ -101,6 +101,7 @@ jobs:
           username: ${{ secrets.USERNAME_ALTOM }}
           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
       - name: Delete Public
+        if: always()
         run: rm -r public
       
   # create-jar-archive:
