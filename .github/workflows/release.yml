@@ -76,54 +76,24 @@ jobs:
   #             csharpAndroidTests.log
   #             AltUnityTesterLog.txt
   #             AltUnityServerLog.txt
-#   create-unity-package:
-#     runs-on: [self-hosted]
-#     steps:
-#       - name: Create Unity Package
-#         run: |
-#           mkdir -p public/AltTester || true
-#           mkdir -p public/SampleScenes || true
-#           ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-#           ls
-#           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-#           cp $AUT public/AltTester/AltTester.unitypackage
-#           cp $AUT public/AltTester/AltTester_1_8_0.unitypackage
-#       - name: Upload AltTesterPackage
-#         uses: garygrossgarten/github-action-scp@release
-#         with:
-#           local: public/AltTester
-#           remote: ${{ secrets.SDK_PATH }}
-#           host: ${{ secrets.HOST_IP_ALTOM }}
-#           port: ${{ secrets.PORT_LIVE_ALTOM }}
-#           username: ${{ secrets.USERNAME_ALTOM }}
-#           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-#       - name: Delete Public
-#         if: always()
-#         run: rm -r public
-      
-  create-jar-archive:
+  create-unity-package:
     runs-on: [self-hosted]
     steps:
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.5.1
-        with:
-              distribution: temurin
-              java-version: 11
-
-      - uses: stCarolas/setup-maven@v4.4
-
-      - name: Create jar
+      - name: Create Unity Package
         run: |
-          mkdir -p public/AltTesterJAR || true
-          cd "Bindings~/java"
-          mvn clean compile assembly:single
-          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
-
-      - name: Upload AltTester Jar
+          mkdir -p public/AltTester || true
+          mkdir -p public/SampleScenes || true
+          ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+          ls
+          AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
+          cp $AUT public/AltTester/AltTester.unitypackage
+          cp $AUT public/AltTester/AltTester_1_8_0.unitypackage
+          cp SampleScenes.unitypackage public/AltTester/SampleScenes.unitypackage
+      - name: Upload AltTesterPackage
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: public/AltTesterJAR
-          remote: ${{ secrets.JAVA_CLIENT_PATH }}
+          local: public/AltTester
+          remote: ${{ secrets.SDK_PATH }}
           host: ${{ secrets.HOST_IP_ALTOM }}
           port: ${{ secrets.PORT_LIVE_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
@@ -131,6 +101,37 @@ jobs:
       - name: Delete Public
         if: always()
         run: rm -r public
+      
+#   create-jar-archive:
+#     runs-on: [self-hosted]
+#     steps:
+#       - name: Setup Java JDK
+#         uses: actions/setup-java@v3.5.1
+#         with:
+#               distribution: temurin
+#               java-version: 11
+
+#       - uses: stCarolas/setup-maven@v4.4
+
+#       - name: Create jar
+#         run: |
+#           mkdir -p public/AltTesterJAR || true
+#           cd "Bindings~/java"
+#           mvn clean compile assembly:single
+#           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+
+#       - name: Upload AltTester Jar
+#         uses: garygrossgarten/github-action-scp@release
+#         with:
+#           local: public/AltTesterJAR
+#           remote: ${{ secrets.JAVA_CLIENT_PATH }}
+#           host: ${{ secrets.HOST_IP_ALTOM }}
+#           port: ${{ secrets.PORT_LIVE_ALTOM }}
+#           username: ${{ secrets.USERNAME_ALTOM }}
+#           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+#       - name: Delete Public
+#         if: always()
+#         run: rm -r public
 #   build-docs:
 #     runs-on: [self-hosted]
 
