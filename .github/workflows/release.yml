@@ -76,26 +76,46 @@ jobs:
   #             csharpAndroidTests.log
   #             AltUnityTesterLog.txt
   #             AltUnityServerLog.txt
-  create-unity-package:
-    runs-on: [self-hosted]
+#   create-unity-package:
+#     runs-on: [self-hosted]
+#     steps:
+#       - name: Create Unity Package
+#         run: |
+#           mkdir -p public/AltTester || true
+#           mkdir -p public/SampleScenes || true
+#           ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+#           ls
+#           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
+#           cp $AUT public/AltTester/AltTester.unitypackage
+#           cp $AUT public/AltTester/AltTester_1_8_0.unitypackage
+#       - name: Upload AltTesterPackage
+#         uses: garygrossgarten/github-action-scp@release
+#         with:
+#           local: public/AltTester
+#           remote: ${{ secrets.SDK_PATH }}
+#           host: ${{ secrets.HOST_IP_ALTOM }}
+#           port: ${{ secrets.PORT_LIVE_ALTOM }}
+#           username: ${{ secrets.USERNAME_ALTOM }}
+#           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+#       - name: Delete Public
+#         if: always()
+#         run: rm -r public
+      
+  create-jar-archive:
+    runs-on: [self-hosted,release]
     steps:
-      - name: Create Unity Package
+      - name: Create jar
         run: |
-          mkdir -p public/AltTester || true
-          mkdir -p public/SampleScenes || true
-          ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-          ls
-          AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          cp $AUT public/AltTester/AltTester.unitypackage
-          cp $AUT public/AltTester/AltTester_1_8_0.unitypackage
-   #SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
-   #mv $SS public/SampleScenes/SampleScenes.unitypackage
-   
-      - name: Upload AltTesterPackage
+          mkdir -p public/AltTesterJAR || true
+          cd "Bindings~/java"
+          mvn clean compile assembly:single
+          mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester.jar
+      
+      - name: Upload AltTester Jar
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: public/AltTester
-          remote: ${{ secrets.SDK_PATH }}
+          local: public/AltTesterJAR
+          remote: ${{ secrets.JAVA_CLIENT_PATH }}
           host: ${{ secrets.HOST_IP_ALTOM }}
           port: ${{ secrets.PORT_LIVE_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
@@ -103,22 +123,6 @@ jobs:
       - name: Delete Public
         if: always()
         run: rm -r public
-      
-  # create-jar-archive:
-  #   runs-on: [self-hosted,release]
-  #   steps:
-  #     - name: Create jar
-  #       run: |
-  #         mkdir -p public/AltTesterJAR || true
-  #         cd "Bindings~/java"
-  #         mvn clean compile assembly:single
-  #         mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester.jar
-  #     - name: Upload to Altom.com
-  #       env:
-  #         HOST_IP_ALTOM: ${{ secret.HOST_IP_ALTOM }}
-  #       run: |
-  #         ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTesterJar/AltTester.jar"
-  #         scp -r -P 50976 -o 'StrictHostKeyChecking no' AltTesterJAR/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTesterJar/
   # build-docs:
   #   runs-on: [self-hosted,release]
 
