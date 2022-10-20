@@ -117,7 +117,7 @@ jobs:
           mkdir -p public/AltTesterJAR || true
           cd "Bindings~/java"
           mvn clean compile assembly:single
-          mv target/altunitytester-java-client-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester.jar
+          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester.jar
 
       - name: Upload AltTester Jar
         uses: garygrossgarten/github-action-scp@release
