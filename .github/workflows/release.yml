@@ -86,7 +86,7 @@ jobs:
           ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          mv $AUT public/AltTester/AltTester.unitypackage
+          cp $AUT public/AltTester/AltTester.unitypackage
    #SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
    #mv $SS public/SampleScenes/SampleScenes.unitypackage
    
@@ -108,7 +108,8 @@ jobs:
           port: ${{ secrets.PORT_LIVE_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-    
+      - name: Delete Public
+        run: rm -r public
       
   # create-jar-archive:
   #   runs-on: [self-hosted,release]
