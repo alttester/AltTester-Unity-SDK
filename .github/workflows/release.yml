@@ -84,8 +84,9 @@ jobs:
           mkdir -p public/AlTester || true
           mkdir -p public/SampleScenes || true
           ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+          ls
           AUT=$(find -E . -regex ".*/AlTester.*\.unitypackage")
-          echo $AUT
+          cat $AUT
         #  mv $AUT public/AlTester/AlTester.unitypackage
    #SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
    #mv $SS public/SampleScenes/SampleScenes.unitypackage
