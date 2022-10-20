@@ -30,21 +30,21 @@ jobs:
 #             python3 -m twine upload dist/*
 
             
-  publish-nuget-package:
-    runs-on: [self-hosted]
-    steps:
-      - uses: actions/checkout@v3
+#   publish-nuget-package:
+#     runs-on: [self-hosted]
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v2.1.1
+#       - name: Setup .NET Core SDK
+#         uses: actions/setup-dotnet@v2.1.1
 
-      - name: Upload to Nuget
-        env:
-          NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
-        run: |
-          cd "Bindings~/dotnet"
-          dotnet pack AltDriver/AltDriver.csproj -c release
-          dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+#       - name: Upload to Nuget
+#         env:
+#           NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
+#         run: |
+#           cd "Bindings~/dotnet"
+#           dotnet pack AltDriver/AltDriver.csproj -c release
+#           dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
       
             
   # publish-maven:
@@ -76,24 +76,24 @@ jobs:
   #             csharpAndroidTests.log
   #             AltUnityTesterLog.txt
   #             AltUnityServerLog.txt
-  # create-unity-package:
-  #   runs-on: [self-hosted,release]
-  #   steps:
-  #     - name: Create Unity Package
-  #       run: |
-  #         mkdir -p public/AlTester || true
-  #         mkdir -p public/SampleScenes || true
-  #         ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-  #         AUT=$(find -E . -regex ".*/AlTester.*\.unitypackage")
-  #         mv $AUT public/AlTester/AlTester.unitypackage
-  #         SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
-  #         mv $SS public/SampleScenes/SampleScenes.unitypackage
-  #     - name: Upload to Altom
-  #       env:
-  #         HOST_IP_ALTOM: ${{ secret.HOST_IP_ALTOM }}
-  #       run: |
-  #         ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
-  #         scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
+  create-unity-package:
+    runs-on: [self-hosted]
+    steps:
+      - name: Create Unity Package
+        run: |
+          mkdir -p public/AlTester || true
+          mkdir -p public/SampleScenes || true
+          ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+          AUT=$(find -E . -regex ".*/AlTester.*\.unitypackage")
+          cp $AUT public/AlTester/AlTester.unitypackage
+   #SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
+   #mv $SS public/SampleScenes/SampleScenes.unitypackage
+      - name: Upload to Altom
+        env:
+          HOST_IP_ALTOM: ${{ secret.HOST_IP_ALTOM }}
+        run: |
+          ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
+          scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
   # create-jar-archive:
   #   runs-on: [self-hosted,release]
   #   steps:
