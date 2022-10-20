@@ -158,18 +158,15 @@ jobs:
       - name: Upload to Altom.com
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: Docs
+          local: Docs/build/html
           remote: ${{ secrets.DOCUMENTATION_PATH }}
           host: ${{ secrets.HOST_IP_ALTOM }}
           port: ${{ secrets.PORT_LIVE_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          rmRemote: true
 
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: DocumentationHTML
-          path: Docs/build/html/
 
               
       
