@@ -87,22 +87,14 @@ jobs:
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
           cp $AUT public/AltTester/AltTester.unitypackage
+          cp $AUT public/AltTester/AltTester_1_8_0.unitypackage
    #SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
    #mv $SS public/SampleScenes/SampleScenes.unitypackage
    
       - name: Upload AltTesterPackage
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: public/AltTester/AltTester.unitypackage
-          remote: ${{ secrets.SDK_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_LIVE_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-      - name: Upload AltTesterVersionPackage
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: AltTester_1_8_0.unitypackage
+          local: public/AltTester
           remote: ${{ secrets.SDK_PATH }}
           host: ${{ secrets.HOST_IP_ALTOM }}
           port: ${{ secrets.PORT_LIVE_ALTOM }}
