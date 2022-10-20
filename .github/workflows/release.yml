@@ -93,6 +93,7 @@ jobs:
         env:
           HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
           KINSTA_PASSWORD: ${{ secrets.KINSTA_PASSWORD }}
+          
         run: |
           sshpass -p KINSTA_PASSWORD ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
           scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
