@@ -102,7 +102,7 @@ jobs:
 #         run: rm -r public
       
   create-jar-archive:
-    runs-on: [self-hosted,release]
+    runs-on: [self-hosted]
     steps:
       - name: Create jar
         run: |
