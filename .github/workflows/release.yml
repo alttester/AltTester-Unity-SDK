@@ -89,15 +89,18 @@ jobs:
           mv $AUT public/AltTester/AltTester.unitypackage
    #SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
    #mv $SS public/SampleScenes/SampleScenes.unitypackage
-      - name: Upload to Altom
-        env:
-          HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
-          KINSTA_PASSWORD: ${{ secrets.KINSTA_PASSWORD }}
-          
-        run: |
-          sshpass -p KINSTA_PASSWORD ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
-          ls
-          scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
+   
+      - name: Upload new documentation
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: public/AltTester/AltTester.unitypackage
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          port: 50976
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          rmRemote: true
+      
   # create-jar-archive:
   #   runs-on: [self-hosted,release]
   #   steps:
