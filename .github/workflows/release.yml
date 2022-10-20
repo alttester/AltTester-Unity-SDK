@@ -81,21 +81,21 @@ jobs:
     steps:
       - name: Create Unity Package
         run: |
-          mkdir -p public/AlTester || true
+          mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
           ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
-          AUT=$(find -E . -regex ".*/AlTester.*\.unitypackage")
+          AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
           cat $AUT
-        #  mv $AUT public/AlTester/AlTester.unitypackage
+          mv $AUT public/AltTester/AltTester.unitypackage
    #SS=$(find -E . -regex ".*/SampleScenes.*\.unitypackage")
    #mv $SS public/SampleScenes/SampleScenes.unitypackage
-   #   - name: Upload to Altom
-   #     env:
-   #       HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
-   #     run: |
-   #       ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
-   #       scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
+      - name: Upload to Altom
+        env:
+          HOST_IP_ALTOM: ${{ secrets.HOST_IP_ALTOM }}
+        run: |
+          ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf /www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/AlTester.unitypackage"
+          scp -r -P 50976 -o 'StrictHostKeyChecking no' public/* altomdotcom@${HOST_IP_ALTOM}:/www/altomdotcom_241/public/current/web/app/uploads/AltTester/sdks/
   # create-jar-archive:
   #   runs-on: [self-hosted,release]
   #   steps:
