@@ -17,6 +17,7 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 - integrate with Appium tests for the ability to interact with native elements
 - visualize input actions during test execution
 - see test results and reports inside the Unity Editor
+- generate XML test report from the Editor Window
 
 
 ## How it works
