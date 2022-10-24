@@ -74,25 +74,25 @@ With:
     
 Java
 ----
-**altunityrunner**  →  **alttester**
+**altunityrunner**  →  **AltTester-Driver**
 
 1. In case of `altunityrunner` Maven package, we changed the name to `AltTester-Driver`.
 
 To install the jar run ``mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``.
 
-2. In case of  `altunityrunner` jar, we changed the name to `alttester`.
+2. In case of  `altunityrunner` jar, we changed the name to `AltTester-Driver`.
 
 Replace:
 
 .. code-block:: Java
 
-    import altunityrunner.* 
+    import ro.altom.atlunitytester.*
 
 With:
 
 .. code-block:: Java
     
-    import alttester.*
+    import com.alttester.*
 
 3. In case of `altunitytester-java-client` dependency, we changed the name to `alttester`.
 
