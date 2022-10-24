@@ -15,7 +15,7 @@ namespace Altom.AltTester.Commands
         {
 
 #if ALTTESTER
-            var powerClamped = Mathf.Clamp01(CommandParams.power);
+            var powerClamped = Mathf.Clamp(CommandParams.power, -1, 1);
             foreach (var keyCode in CommandParams.keyCodes)
                 InputController.KeyDown((UnityEngine.KeyCode)keyCode, powerClamped);
             return "Ok";

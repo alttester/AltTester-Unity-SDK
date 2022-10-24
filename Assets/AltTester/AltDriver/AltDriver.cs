@@ -167,8 +167,8 @@ namespace Altom.AltDriver
             return timeScale;
         }
 
-        public T CallStaticMethod<T>(string typeName, string methodName,
-                    object[] parameters, string[] typeOfParameters = null, string assemblyName = "")
+        public T CallStaticMethod<T>(string typeName, string methodName, string assemblyName,
+                    object[] parameters, string[] typeOfParameters = null)
         {
             var result = new AltCallStaticMethod<T>(communicationHandler, typeName, methodName, parameters, typeOfParameters, assemblyName).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
@@ -285,20 +285,8 @@ namespace Altom.AltDriver
         /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
         public void PressKey(AltKeyCode keyCode, float power = 1, float duration = 0.1f, bool wait = true)
         {
-            new AltPressKey(communicationHandler, keyCode, power, duration, wait).Execute();
-            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
-        }
-
-        public void KeyDown(AltKeyCode keyCode, float power = 1)
-        {
-            new AltKeyDown(communicationHandler, keyCode, power).Execute();
-            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
-        }
-
-        public void KeyUp(AltKeyCode keyCode)
-        {
-            new AltKeyUp(communicationHandler, keyCode).Execute();
-            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+            AltKeyCode[] keyCodes = { keyCode };
+            PressKeys(keyCodes, power, duration, wait);
         }
 
         /// <summary>
@@ -314,6 +302,12 @@ namespace Altom.AltDriver
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
+        public void KeyDown(AltKeyCode keyCode, float power = 1)
+        {
+            AltKeyCode[] keyCodes = { keyCode };
+            KeysDown(keyCodes, power);
+        }
+
         /// <summary>
         /// Simulates multiple keys down action in your game.
         /// </summary>
@@ -323,6 +317,12 @@ namespace Altom.AltDriver
         {
             new AltKeysDown(communicationHandler, keyCodes, power).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
+        public void KeyUp(AltKeyCode keyCode)
+        {
+            AltKeyCode[] keyCodes = { keyCode };
+            KeysUp(keyCodes);
         }
 
         /// <summary>

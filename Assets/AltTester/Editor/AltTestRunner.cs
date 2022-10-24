@@ -614,7 +614,7 @@ namespace Altom.AltTesterEditor
         private static void addArgumentsToList(string[] arguments, List<string> testsList, int i)
         {
             int j = i + 1;
-            while (j < arguments.Length - 1 && !arguments[j].StartsWith('-'))
+            while (j < arguments.Length - 1 && !arguments[j].StartsWith("-"))
             {
                 testsList.Add(arguments[j]);
                 j++;
