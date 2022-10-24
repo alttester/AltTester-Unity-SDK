@@ -78,7 +78,7 @@ Java
 
 1. In case of `altunityrunner` Maven package, we changed the name to `AltTester-Driver`.
 
-To install the jar run ``mvn install:install-file -Dfile=./target/AltTester.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``.
+To install the jar run ``mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``.
 
 2. In case of  `altunityrunner` jar, we changed the name to `alttester`.
 
