@@ -163,7 +163,7 @@ jobs:
             chmod -R 755  sampleGame.app
             open sampleGame.app
             cd "Bindings~/java"
-            mvn -Dtest=ro.altom.alttester.Tests* test
+            mvn -Dtest=com.alttester.Tests* test
 
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed

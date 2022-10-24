@@ -58,20 +58,20 @@ namespace Altom.AltDriver
             return new AltVector3(worldX, worldY, worldZ);
         }
 
-        public T GetComponentProperty<T>(string componentName, string propertyName, string assemblyName = null, int maxDepth = 2)
+        public T GetComponentProperty<T>(string componentName, string propertyName, string assemblyName, int maxDepth = 2)
         {
             var propertyValue = new AltGetComponentProperty<T>(CommHandler, componentName, propertyName, assemblyName, maxDepth, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyValue;
         }
 
-        public void SetComponentProperty(string componentName, string propertyName, object value, string assemblyName = null)
+        public void SetComponentProperty(string componentName, string propertyName, object value, string assemblyName)
         {
             new AltSetComponentProperty(CommHandler, componentName, propertyName, value, assemblyName, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
         }
 
-        public T CallComponentMethod<T>(string componentName, string methodName, object[] parameters, string[] typeOfParameters = null, string assemblyName = null)
+        public T CallComponentMethod<T>(string componentName, string methodName, string assemblyName, object[] parameters, string[] typeOfParameters = null)
         {
             var result = new AltCallComponentMethod<T>(CommHandler, componentName, methodName, parameters, typeOfParameters, assemblyName, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());

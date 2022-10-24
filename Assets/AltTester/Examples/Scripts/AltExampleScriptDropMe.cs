@@ -9,6 +9,7 @@ public class AltExampleScriptDropMe : MonoBehaviour, IDropHandler, IPointerEnter
     public Image receivingImage;
     private Color normalColor;
     public Color highlightColor;
+    public Text text;
 
     public void OnEnable()
     {
@@ -28,7 +29,11 @@ public class AltExampleScriptDropMe : MonoBehaviour, IDropHandler, IPointerEnter
 
         Sprite dropSprite = GetDropSprite(data);
         if (dropSprite != null)
-            receivingImage.overrideSprite = dropSprite;
+        {
+
+            receivingImage.sprite = dropSprite;
+            text.text = dropSprite.name;
+        }
     }
 
     public void OnPointerEnter(PointerEventData data)

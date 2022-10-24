@@ -50,7 +50,7 @@ class TestScene02:
             "Particle System"
         }
         names = [element.name for element in elements]
-        assert len(names) == 24
+        assert len(names) == 24 or len(names) == 25
         for name in expected_names:
             assert name in names
 
@@ -93,14 +93,14 @@ class TestScene02:
         color1 = panel.get_component_property(
             "AltExampleScriptPanel",
             "normalColor",
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp"
         )
         panel.pointer_down()
 
         color2 = panel.get_component_property(
             "AltExampleScriptPanel",
             "highlightColor",
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp"
         )
 
         assert color1 != color2
@@ -110,7 +110,7 @@ class TestScene02:
         color1 = panel.get_component_property(
             "AltExampleScriptPanel",
             "normalColor",
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp"
         )
         panel.pointer_down()
 
@@ -118,7 +118,7 @@ class TestScene02:
         color2 = panel.get_component_property(
             "AltExampleScriptPanel",
             "highlightColor",
-            assembly="Assembly-CSharp"
+            "Assembly-CSharp"
         )
 
         assert color1 == color2

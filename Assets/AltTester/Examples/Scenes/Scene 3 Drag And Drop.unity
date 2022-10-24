@@ -957,6 +957,7 @@ MonoBehaviour:
   containerImage: {fileID: 1161611646}
   receivingImage: {fileID: 695465771}
   highlightColor: {r: 1, g: 1, b: 0, a: 1}
+  text: {fileID: 298577738}
 --- !u!114 &695465775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1832,6 +1833,7 @@ MonoBehaviour:
   containerImage: {fileID: 657950953}
   receivingImage: {fileID: 1583289238}
   highlightColor: {r: 1, g: 1, b: 0, a: 1}
+  text: {fileID: 288746056}
 --- !u!114 &1583289241
 MonoBehaviour:
   m_ObjectHideFlags: 0

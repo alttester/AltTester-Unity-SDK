@@ -159,7 +159,7 @@ class AltDriver:
 
         commands.SetServerLogging.run(self._connection, logger, log_level)
 
-    def call_static_method(self, type_name, method_name, parameters=None, type_of_parameters=None, assembly=""):
+    def call_static_method(self, type_name, method_name, assembly, parameters=None, type_of_parameters=None):
         """Invoke a static method from your game.
 
         Args:
@@ -168,9 +168,9 @@ class AltDriver:
             method_name (:obj:`str`): The name of the public method that we want to call. If the method is inside a
                 static property/field to be able to call that method, methodName need to be the following format
                 ``"propertyName.MethodName"``.
+            assembly (:obj:`str`): The name of the assembly containing the script.
             parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
             type_of_parameters (:obj:`list`, :obj:`tuple`, optional): Defaults to ``None``.
-            assembly (:obj:`str`, optional): The name of the assembly containing the script. Defaults to ``""``.
 
         Return:
             str: The value returned by the method is serialized to a JSON string.
@@ -581,7 +581,7 @@ class AltDriver:
 
         """
 
-        commands.KeyDown.run(self._connection, key_code, power)
+        self.keys_down([key_code], power=power)
 
     def keys_down(self, key_codes, power=1):
         """Simulates that multiple keys were pressed without taking into consideration the duration of the press.
@@ -603,7 +603,7 @@ class AltDriver:
 
         """
 
-        commands.KeyUp.run(self._connection, key_code)
+        self.keys_up([key_code])
 
     def keys_up(self, key_codes):
         """Simulates that multiple keys were released.
@@ -627,7 +627,7 @@ class AltDriver:
 
         """
 
-        commands.PressKey.run(self._connection, key_code, power, duration, wait)
+        self.press_keys([key_code], power=power, duration=duration, wait=wait)
 
     def press_keys(self, key_codes, power=1, duration=0.1, wait=True):
         """Simulates multiple keypress action in your game.
@@ -761,14 +761,14 @@ class AltDriver:
             coordinates, coordinates, duration, wait
         )
 
-    def get_static_property(self, component_name, property_name, assembly="", max_depth=2):
+    def get_static_property(self, component_name, property_name, assembly, max_depth=2):
         """Returns the value of the static field or property given as parameter.
 
         Args:
             component_name (:obj:`str`): The name of the component containing the field or property
                 to be retrieved.
-            field_or_property_name (:obj:`str`): The name of the field or property to be retrieved.
-            assembly (:obj:`str`, optional): The name of the assembly containing the component mentioned above.
+            property_name (:obj:`str`): The name of the field or property to be retrieved.
+            assembly (:obj:`str`): The name of the assembly containing the component mentioned above.
             max_depth (:obj:`int`, optional): The value determining how deep to go in the hierarchy of objects
                 to find the field or property.
 
