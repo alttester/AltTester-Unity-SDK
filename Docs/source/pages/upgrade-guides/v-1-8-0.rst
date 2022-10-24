@@ -1,0 +1,140 @@
+Upgrade from v1.7.2 to v1.8.0
+=============================
+
+This guide will assist in upgrading your AltUnity projects from **v1.7.2** to AltTester Unity SDK **v1.8.0**.
+
+AltUnity Tester becomes AltTester Unity SDK. The new one fits our mission to extend our test automation solution in the following directions:
+support new platforms, help game testers to start automation easier and start exploring how we could support Unreal and other engines.
+All changes are listed below, organized by drivers along with how to upgrade
+your code to work with AltTester Unity SDK v1.8.0.
+
+To learn more about what's new in AltTester Unity SDK v1.8.0, read the
+`v1.8.0 section from our changelog <https://github.com/alttester/AltTester-Unity-SDK/blob/development/CHANGELOG.md>`_.
+
+Python
+------
+**altunityrunner**  →  **alttester**
+
+1. In case of `altunityrunner` PyPI package, we change the name to `AltTester-Driver`.
+
+To install the new package run ``pip install AltTester-Driver``.
+
+2. In case of `altunityrunner` python package, we change the name to `alttester`.
+
+Replace:
+
+.. code-block:: Python
+
+    from altunityrunner import *
+
+With:
+
+.. code-block:: Python
+
+    from alttester import *
+
+3. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
+4. In case of `AltUnityObject` class, we changed the name to `AltObject`.
+5. In case of `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
+6. In case of `AltUnityLogger` class, we changed the name to `AltLogger`.
+7. In case of `AltUnityLogLevel` class, we changed the name to `AltLogLevel`.
+8. In case of `AltUnityException` class, we changed the name to `AltException`.
+9. In case of `AltUnityInvalidServerResponse` class, we changed the name to `AltTesterInvalidServerResponse`.
+10. In case of `AltUnityInvalidPathException` class, we changed the name to `InvalidPathException`.
+11. In case of `AltUnityInputModuleException` class, we changed the name to `AltTesterInputModuleException`.
+12. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
+
+Dotnet
+------
+**AltUnityDriver**  →  **AltTester-Driver**
+
+1. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
+2. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
+3. In case of `AltUnityDriver` package, we changeg the name to `AltTester-Driver`.
+
+Replace:
+
+.. code-block:: C#
+
+    <PropertyGroup>
+        <PackageId>AltUnityDriver</PackageId>
+        <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+        <RootNamespace>Altom.AltUnityDriver</RootNamespace>
+    </PropertyGroup>
+
+With:
+
+.. code-block:: C#
+
+    <PropertyGroup>
+        <PackageId>AltTester-Driver</PackageId>
+        <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+        <RootNamespace>Altom.AltTester-Driver</RootNamespace>
+    </PropertyGroup>
+    
+Java
+----
+**altunityrunner**  →  **AltTester-Driver**
+
+1. In case of `altunityrunner` Maven package, we changed the name to `AltTester-Driver`.
+
+To install the jar run ``mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``.
+
+2. In case of  `altunityrunner` jar, we changed the name to `AltTester-Driver`.
+
+Replace:
+
+.. code-block:: Java
+
+    import ro.altom.atlunitytester.*
+
+With:
+
+.. code-block:: Java
+    
+    import com.alttester.*
+
+3. In case of `altunitytester-java-client` dependency, we changed the name to `alttester`.
+
+Replace:
+
+.. code-block:: java
+
+    <groupId>com.alttester</groupId>
+    <artifactId>altunitytester-java-client</artifactId>
+    <packaging>jar</packaging>
+    <version>1.8.0</version>
+
+With:
+
+.. code-block:: java
+
+    <groupId>com.alttester</groupId>
+    <artifactId>alttester</artifactId>
+    <packaging>jar</packaging>
+    <version>1.8.0</version>
+
+4. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
+5. In case of `AltUnityObject` class, we changed the name to `AltObject`.
+6. In case of `AltUnityDriverConfigFactory` class, we changed the name to `AltDriverConfigFactory`.
+7. In case of `AltUnityKeyCode` object, we changed the name to `AltKeyCode`.
+8. In case of `AltUnityLogger` class, we changed the name to `AltLogger`.
+9. In case of `AltUnityLogLevel` class, we changed the name to `AltLogLevel`.
+10. In case of `AltUnitySetServerLogging` class, we changed the name to `AltSetServerLogging`.
+11. In case of `AltUnityAddNotificationListenerParams` class, we changed the name to `AltAddNotificationListenerParams`.
+12. In case of `AltUnityAddNotificationListener` class, we changed the name to `AltAddNotificationListener`.
+13. In case of `AltUnityRemoveNotificationListenerParams` class, we changed the name to `AltRemoveNotificationListenerParams`.
+14. In case of `AltUnityRemoveNotificationListener` class, we changed the name to `AltRemoveNotificationListener`.
+15. In case of `setAltUnityObject` command, we changed the name to `setAltObject`.
+16. In case of `AltUnityObjectAction` class, we changed the name to `AltObjectAction`.
+17. In case of `AltUnityObjectProperty` class, we changed the name to `AltObjectProperty`.
+18. In case of `AltUnityPortForwarding` class, we changed the name to `AltPortForwarding`.
+19. In case of `AltInvalidServerResponse` class, we changed the name to `AltInvalidServerResponse`.
+20. In case of `ReceiveAltUnityObject` class, we changed the name to `ReceiveAltObject`.
+21. In case of `ReceiveListOfAltUnityObjects` class, we changed the name to `ReceiveListOfAltObjects`.
+22. In case of `AltUnityException` class, we changed the name to `AltException`.
+23. In case of `AltUnityObjectParams` class, we changed the name to `AltObjectParams`.
+24. In case of `AltUnityRecvallException` class, we changed the name to `AltRecvallException`.
+25. In case of `AltUnityLoadSceneNotificationResultParams` class, we changed the name to `AltLoadSceneNotificationResultParams`.
+26. In case of `AltUnityErrors` class, we changed the name to `AltErrors`.
+27. In case of `AltUnityLogNotificationResultParams` class, we changed the name to `AltLogNotificationResultParams`.
