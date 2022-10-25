@@ -151,7 +151,6 @@ jobs:
           gpg_passphrase: ${{ secrets.gpg_passphrase }}
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
-          maven_args: "-f pom-release.xml -DskipTests"
 
   # build-docs:
   #   runs-on: [self-hosted]
@@ -188,7 +187,3 @@ jobs:
   #         password: ${{ secrets.PASSWORD_DEV_ALTOM }}
   #         rmRemote: true
 
-
-
-              
-      
