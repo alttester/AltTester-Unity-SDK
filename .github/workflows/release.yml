@@ -1,17 +1,16 @@
 name: release
-on: [workflow_dispatch,push]
+on: [workflow_dispatch, push]
 
 jobs:
-
   # publish-pip-package:
   #     runs-on: [self-hosted]
-      
+
   #     steps:
-      
+
   #       - uses: actions/checkout@v3
   #       - uses: actions/setup-python@v4
   #         with:
-  #           python-version: '3.10' 
+  #           python-version: '3.10'
   #           cached: 'pip'
   #       - uses: syphar/restore-virtualenv@v1
   #         id: cache-virtualenv
@@ -22,14 +21,13 @@ jobs:
   #       - run: pip install -r "Bindings~/python/requirements.txt"
   #       - run: pip install -r "Bindings~/python/requirements-dev.txt"
   #       - run: pip install -e "Bindings~/python" --root "Bindings~/python"
-        
+
   #       - name: Upload to Pypi
   #         run: |
   #           cd "Bindings~/python"
   #           python3 setup.py sdist
   #           python3 -m twine upload dist/*
 
-            
   # publish-nuget-package:
   #   runs-on: [self-hosted]
   #   steps:
@@ -45,37 +43,36 @@ jobs:
   #         cd "Bindings~/dotnet"
   #         dotnet pack AltDriver/AltDriver.csproj -c release
   #         dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
-      
-            
-#   publish-maven:
-#       runs-on: [self-hosted,release]
-#       needs: build-macOS
-#       steps:
-#         - uses: actions/checkout@v3
 
-#         - name: Setup Java JDK
-#           uses: actions/setup-java@v3.5.1
-#           with:
-#               distribution: temurin
-#               java-version: 11
-#         - uses: stCarolas/setup-maven@v4.4
-        
-#         - name: Upload to Maven
-#           env:
-#             GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
-#           run: |
-#             cd "Bindings~/java"
-#             export GPG_TTY=$(tty)
-#             mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
-        
-#         - uses: actions/upload-artifact@v3.1.0
-#           if: always() # run this step even if one of the previous step failed
-#           with:
-#             name: TestCSharpArtifact
-#             path: |
-#               csharpAndroidTests.log
-#               AltUnityTesterLog.txt
-#               AltUnityServerLog.txt
+  #   publish-maven:
+  #       runs-on: [self-hosted,release]
+  #       needs: build-macOS
+  #       steps:
+  #         - uses: actions/checkout@v3
+
+  #         - name: Setup Java JDK
+  #           uses: actions/setup-java@v3.5.1
+  #           with:
+  #               distribution: temurin
+  #               java-version: 11
+  #         - uses: stCarolas/setup-maven@v4.4
+
+  #         - name: Upload to Maven
+  #           env:
+  #             GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
+  #           run: |
+  #             cd "Bindings~/java"
+  #             export GPG_TTY=$(tty)
+  #             mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
+
+  #         - uses: actions/upload-artifact@v3.1.0
+  #           if: always() # run this step even if one of the previous step failed
+  #           with:
+  #             name: TestCSharpArtifact
+  #             path: |
+  #               csharpAndroidTests.log
+  #               AltUnityTesterLog.txt
+  #               AltUnityServerLog.txt
   # create-unity-package:
   #   runs-on: [self-hosted]
   #   steps:
@@ -101,7 +98,7 @@ jobs:
   #     - name: Delete Public
   #       if: always()
   #       run: rm -r public
-      
+
   # create-jar-archive:
   #   runs-on: [self-hosted]
   #   steps:
@@ -133,61 +130,59 @@ jobs:
   #       if: always()
   #       run: rm -r public
 
-  java-release:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
-
-      - name: Install Java and Maven
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      
-      - run: export GPG_TTY=$(tty)
-
-      - name: Release Maven package
-        uses: samuelmeuli/action-maven-publish@v1
-        with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-          directory: Bindings~/java/
-          maven_args: -f pom-release.xml -DskipTests
-
-  # build-docs:
-  #   runs-on: [self-hosted]
-
+  # java-release:
+  #   runs-on: ubuntu-18.04
   #   steps:
-    
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-python@v4
+  #     - name: Check out Git repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Install Java and Maven
+  #       uses: actions/setup-java@v1
   #       with:
-  #         python-version: '3.10' 
-  #         cached: 'pip'
-  #     - uses: syphar/restore-virtualenv@v1
-  #       id: cache-virtualenv
+  #         java-version: 11
 
-  #     - uses: syphar/restore-pip-download-cache@v1
-  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - run: export GPG_TTY=$(tty)
 
-  #     - run: pip install -r Docs/requirements.txt
-  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-  #     - run: pwd
-  #     - uses: rickstaa/sphinx-action@master
+  #     - name: Release Maven package
+  #       uses: samuelmeuli/action-maven-publish@v1
   #       with:
-  #         docs-folder: Docs
-  #         build-command: make html
+  #         gpg_private_key: ${{ secrets.gpg_private_key }}
+  #         gpg_passphrase: ${{ secrets.gpg_passphrase }}
+  #         nexus_username: ${{ secrets.nexus_username }}
+  #         nexus_password: ${{ secrets.nexus_password }}
+  #         directory: Bindings~/java/
+  #         maven_args: -f pom-release.xml -DskipTests
 
-  #     - name: Upload to Altom.com
-  #       uses: garygrossgarten/github-action-scp@release
-  #       with:
-  #         local: Docs/build/html
-  #         remote: ${{ secrets.DOCUMENTATION_PATH }}
-  #         host: ${{ secrets.HOST_IP_ALTOM }}
-  #         port: ${{ secrets.PORT_LIVE_ALTOM }}
-  #         username: ${{ secrets.USERNAME_ALTOM }}
-  #         password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-  #         rmRemote: true
+  build-docs:
+    runs-on: [self-hosted]
 
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cached: "pip"
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
+
+      - uses: syphar/restore-pip-download-cache@v1
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+      - run: pip install -r Docs/requirements.txt
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - run: pwd
+      - uses: rickstaa/sphinx-action@master
+        with:
+          docs-folder: Docs
+          build-command: make html
+
+      - name: Upload to Altom.com
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: Docs/build/html
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          port: ${{ secrets.PORT_LIVE_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          rmRemote: true
