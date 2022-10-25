@@ -152,6 +152,7 @@ jobs:
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
           directory: Bindings~/java/
+          maven_args: -DskipTests
 
   # build-docs:
   #   runs-on: [self-hosted]
