@@ -132,40 +132,61 @@ jobs:
   #     - name: Delete Public
   #       if: always()
   #       run: rm -r public
-  build-docs:
-    runs-on: [self-hosted]
 
+  java-release:
+    runs-on: ubuntu-18.04
     steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          maven_args: "-f pom-release.xml -DskipTests"
+
+  # build-docs:
+  #   runs-on: [self-hosted]
+
+  #   steps:
     
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10' 
-          cached: 'pip'
-      - uses: syphar/restore-virtualenv@v1
-        id: cache-virtualenv
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10' 
+  #         cached: 'pip'
+  #     - uses: syphar/restore-virtualenv@v1
+  #       id: cache-virtualenv
 
-      - uses: syphar/restore-pip-download-cache@v1
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - uses: syphar/restore-pip-download-cache@v1
+  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-      - run: pip install -r Docs/requirements.txt
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-      - run: pwd
-      - uses: rickstaa/sphinx-action@master
-        with:
-          docs-folder: Docs
-          build-command: make html
+  #     - run: pip install -r Docs/requirements.txt
+  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - run: pwd
+  #     - uses: rickstaa/sphinx-action@master
+  #       with:
+  #         docs-folder: Docs
+  #         build-command: make html
 
-      - name: Upload to Altom.com
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: Docs/build/html
-          remote: ${{ secrets.DOCUMENTATION_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_LIVE_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-          rmRemote: true
+  #     - name: Upload to Altom.com
+  #       uses: garygrossgarten/github-action-scp@release
+  #       with:
+  #         local: Docs/build/html
+  #         remote: ${{ secrets.DOCUMENTATION_PATH }}
+  #         host: ${{ secrets.HOST_IP_ALTOM }}
+  #         port: ${{ secrets.PORT_LIVE_ALTOM }}
+  #         username: ${{ secrets.USERNAME_ALTOM }}
+  #         password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+  #         rmRemote: true
 
 
 
