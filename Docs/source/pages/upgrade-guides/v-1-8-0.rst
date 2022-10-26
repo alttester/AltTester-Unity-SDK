@@ -111,7 +111,6 @@ With:
 
     <groupId>com.alttester</groupId>
     <artifactId>alttester</artifactId>
-    <packaging>jar</packaging>
     <version>1.8.0</version>
 
 4. In case of `AltUnityDriver` class, we changed the name to `AltDriver`.
