@@ -1356,6 +1356,19 @@ public class TestsSampleScene1 {
 
         assertEquals(screenWidth, width);
     }
+    
+    @Test
+    public void testSetStaticProperty() {
+        int expectedValue = 5;
+        AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+                "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue).build();
+        altDriver.setStaticProperty(altSetComponentPropertyParams);
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp").build();
+        int value = altDriver.getStaticProperty(altGetComponentPropertyParams,
+                Integer.class);
+        assertEquals(expectedValue, value);
+    }
 
     @Test
     public void testSetCommandTimeout() throws Exception {

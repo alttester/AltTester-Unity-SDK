@@ -659,8 +659,8 @@ public class AltDriver {
      * @param returnType
      * @return value of the static field or property
      */
-    public <T> void setStaticProperty(AltSetComponentPropertyParams parameters, Class<T> returnType) {
-        T response = new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
+    public void setStaticProperty(AltSetComponentPropertyParams parameters) {
+        new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 

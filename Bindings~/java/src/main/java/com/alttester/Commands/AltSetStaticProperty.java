@@ -21,8 +21,8 @@ public class AltSetStaticProperty extends AltBaseCommand {
         this.altSetComponentPropertyParameters.setCommandName("getObjectComponentProperty");
     }
 
-    public <T> T Execute(Class<T> returnType) {
+    public void Execute() {
         SendCommand(altSetComponentPropertyParameters);
-        return recvall(altSetComponentPropertyParameters, returnType);
     }
+
 }
