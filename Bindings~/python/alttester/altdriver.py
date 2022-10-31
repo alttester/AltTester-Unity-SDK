@@ -779,7 +779,7 @@ class AltDriver:
             component_name, property_name, assembly, max_depth
         )
 
-    def set_static_property(self, component_name, property_name, assembly, updated_value, max_depth=2):
+    def set_static_property(self, component_name, property_name, assembly, updated_value):
         """Set the value of the static field or property given as parameter.
 
         Args:
@@ -788,13 +788,11 @@ class AltDriver:
             property_name (:obj:`str`): The name of the field or property to be retrieved.
             assembly (:obj:`str`): The name of the assembly containing the component mentioned above.
             updated_value (:obj:`str`): The value of the field or property to be updated.
-            max_depth (:obj:`int`, optional): The value determining how deep to go in the hierarchy of objects
-                to find the field or property.
         """
 
         return commands.SetStaticProperty.run(
             self._connection,
-            component_name, property_name, assembly, updated_value, max_depth
+            component_name, property_name, assembly, updated_value
         )
 
     def find_object_at_coordinates(self, coordinates):

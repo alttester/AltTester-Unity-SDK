@@ -3,7 +3,7 @@ from alttester.commands.base_command import BaseCommand
 
 class SetStaticProperty(BaseCommand):
 
-    def __init__(self, connection, component_name, property_name, assembly_name, updated_value, max_depth):
+    def __init__(self, connection, component_name, property_name, assembly_name, value):
         super().__init__(connection, "setObjectComponentProperty")
 
         self.alt_object = None
@@ -11,8 +11,7 @@ class SetStaticProperty(BaseCommand):
         self.component_name = component_name
         self.property_name = property_name
         self.assembly_name = assembly_name
-        self.updated_value = updated_value
-        self.max_depth = max_depth
+        self.value = value
 
     @property
     def _parameters(self):
@@ -22,8 +21,7 @@ class SetStaticProperty(BaseCommand):
             "component": self.component_name,
             "property": self.property_name,
             "assembly": self.assembly_name,
-            "updatedValue": self.updated_value,
-            "maxDepth": self.max_depth,
+            "value": self.value
         })
 
         return parameters
