@@ -3,18 +3,19 @@ using Newtonsoft.Json;
 
 namespace Altom.AltDriver.Commands
 {
-    public class AltSetStaticProperty<T> : AltBaseCommand
+    public class AltSetStaticProperty : AltBaseCommand
     {
         AltSetObjectComponentPropertyParams cmdParams;
-        public AltSetStaticProperty(IDriverCommunication commHandler, string componentName, string propertyName, string assemblyName, string newValue) : base(commHandler)
+        public AltSetStaticProperty(IDriverCommunication commHandler, string componentName, string propertyName, string assemblyName, object newValue) : base(commHandler)
         {
-            cmdParams = new AltSetObjectComponentPropertyParams(null, componentName, propertyName, assemblyName, newValue);
+            var strValue = Newtonsoft.Json.JsonConvert.SerializeObject(newValue);
+            cmdParams = new AltSetObjectComponentPropertyParams(null, componentName, propertyName, assemblyName, strValue);
         }
-        public T Execute()
+        public void Execute()
         {
             CommHandler.Send(cmdParams);
-            T data = CommHandler.Recvall<T>(cmdParams);
-            return data;
+            var data = CommHandler.Recvall<string>(cmdParams);
+            ValidateResponse("valueSet", data);
         }
     }
 }

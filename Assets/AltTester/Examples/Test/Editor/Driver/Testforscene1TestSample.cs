@@ -438,17 +438,18 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        public void TestCallMethodSetFontSizeWithParameters(){
+        public void TestCallMethodSetFontSizeWithParameters()
+        {
             const string componentName = "UnityEngine.UI.Text";
             const string methodName = "set_fontSize";
             const string methodToVerifyName = "get_fontSize";
             const string assemblyName = "UnityEngine.UI";
             Int32 fontSizeExpected = 16;
-            string[] parameters = new[] {"16"};
+            string[] parameters = new[] { "16" };
             var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
-            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
-            Assert.AreEqual(fontSizeExpected,fontSize);
+            var fontSize = altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
+            Assert.AreEqual(fontSizeExpected, fontSize);
         }
 
         [Test]
@@ -2137,6 +2138,23 @@ namespace Altom.AltDriver.Tests
             var id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
             altDriver.EndTouch(id);
             Assert.NotNull(altDriver.WaitForObject(By.NAME, "Dialog"));
+        }
+        [Test]
+        public void TestSetStaticProperty()
+        {
+            var expectedValue = 5;
+            altDriver.SetStaticProperty("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue);
+            var value = altDriver.GetStaticProperty<int>("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp");
+            Assert.AreEqual(expectedValue, value);
+        }
+        [Test]
+        public void TestSetStaticProperty2()
+        {
+            var newValue = 5;
+            int[] expectedArray = new int[3] { 1, 5, 3 };
+            altDriver.SetStaticProperty("AltExampleScriptCapsule", "staticArrayOfInts[1]", "Assembly-CSharp", newValue);
+            var value = altDriver.GetStaticProperty<int[]>("AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp");
+            Assert.AreEqual(expectedArray, value);
         }
     }
 }
