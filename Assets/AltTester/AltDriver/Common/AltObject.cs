@@ -41,19 +41,19 @@ namespace Altom.AltDriver
             this.transformId = transformId;
         }
 
-        public AltObject getParent()
+        public AltObject GetParent()
         {
             var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
-        public AltVector2 getScreenPosition()
+        public AltVector2 GetScreenPosition()
         {
             return new AltVector2(x, y);
         }
 
-        public AltVector3 getWorldPosition()
+        public AltVector3 GetWorldPosition()
         {
             return new AltVector3(worldX, worldY, worldZ);
         }

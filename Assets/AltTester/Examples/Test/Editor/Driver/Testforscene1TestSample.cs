@@ -697,7 +697,7 @@ namespace Altom.AltDriver.Tests
         public void TestHoldButton()
         {
             var button = altDriver.FindObject(By.NAME, "UIButton");
-            altDriver.HoldButton(button.getScreenPosition(), 1);
+            altDriver.HoldButton(button.GetScreenPosition(), 1);
             var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
             var text = capsuleInfo.GetText();
             Assert.AreEqual(text, "UIButton clicked to jump capsule!");
@@ -1160,7 +1160,7 @@ namespace Altom.AltDriver.Tests
         {
             altDriver.FindObject(By.NAME, "ButtonCounter");
             var counterButtonText = altDriver.FindObject(By.NAME, "ButtonCounter/Text");
-            altDriver.Swipe(counterButtonText.getScreenPosition(), counterButtonText.getScreenPosition(), 0, wait: false);
+            altDriver.Swipe(counterButtonText.GetScreenPosition(), counterButtonText.GetScreenPosition(), 0, wait: false);
             Thread.Sleep(500);
             Assert.AreEqual("1", counterButtonText.GetText());
         }
@@ -1170,7 +1170,7 @@ namespace Altom.AltDriver.Tests
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
             var counterButtonText = altDriver.FindObject(By.NAME, "ButtonCounter/Text");
-            altDriver.Tap(counterButton.getScreenPosition(), 4);
+            altDriver.Tap(counterButton.GetScreenPosition(), 4);
             Thread.Sleep(1000);
             Assert.AreEqual("4", counterButtonText.GetText());
         }
@@ -1234,7 +1234,7 @@ namespace Altom.AltDriver.Tests
             Assert.True(altElement.name.Equals("Capsule"));
             var camera2 = altDriver.FindObject(By.PATH, "//Main Camera");
             var altElement2 = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.ID, camera2.id.ToString());
-            Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+            Assert.AreNotEqual(altElement.GetScreenPosition(), altElement2.GetScreenPosition());
         }
 
         [Test]
@@ -1248,7 +1248,7 @@ namespace Altom.AltDriver.Tests
             Assert.True(altElement.name.Equals("Capsule"));
             var camera2 = altDriver.FindObject(By.PATH, "//Main Camera");
             var altElement2 = altDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.ID, camera2.id.ToString());
-            Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+            Assert.AreNotEqual(altElement.GetScreenPosition(), altElement2.GetScreenPosition());
         }
 
         [Test]
@@ -1262,7 +1262,7 @@ namespace Altom.AltDriver.Tests
             Assert.True(altElement[0].name.Equals("Plane"));
             var camera2 = altDriver.FindObject(By.PATH, "//Main Camera");
             var altElement2 = altDriver.FindObjects(By.NAME, "Plane", By.ID, camera2.id.ToString());
-            Assert.AreNotEqual(altElement[0].getScreenPosition(), altElement2[0].getScreenPosition());
+            Assert.AreNotEqual(altElement[0].GetScreenPosition(), altElement2[0].GetScreenPosition());
         }
 
         [Test]
@@ -1311,7 +1311,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera");
             Assert.True(altElement.name.Equals("Capsule"));
             var altElement2 = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged");
-            Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+            Assert.AreNotEqual(altElement.GetScreenPosition(), altElement2.GetScreenPosition());
         }
 
         [Test]
@@ -1323,7 +1323,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.TAG, "MainCamera");
             Assert.True(altElement.name.Equals("Capsule"));
             var altElement2 = altDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.TAG, "Untagged");
-            Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+            Assert.AreNotEqual(altElement.GetScreenPosition(), altElement2.GetScreenPosition());
         }
 
         [Test]
@@ -1335,7 +1335,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObjects(By.NAME, "Capsule", By.TAG, "MainCamera");
             Assert.True(altElement[0].name.Equals("Capsule"));
             var altElement2 = altDriver.FindObjects(By.NAME, "Capsule", By.TAG, "Untagged");
-            Assert.AreNotEqual(altElement[0].getScreenPosition(), altElement2[0].getScreenPosition());
+            Assert.AreNotEqual(altElement[0].GetScreenPosition(), altElement2[0].GetScreenPosition());
         }
 
         [Test]
@@ -1375,11 +1375,11 @@ namespace Altom.AltDriver.Tests
         public void TestAcceleration()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialWorldCoordinates = capsule.getWorldPosition();
+            var initialWorldCoordinates = capsule.GetWorldPosition();
             altDriver.Tilt(new AltVector3(1, 1, 1), 1, wait: false);
             Thread.Sleep(1000);
             capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var afterTiltCoordinates = capsule.getWorldPosition();
+            var afterTiltCoordinates = capsule.GetWorldPosition();
             Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
 
         }
@@ -1387,11 +1387,11 @@ namespace Altom.AltDriver.Tests
         public void TestAccelerationAndWait()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialWorldCoordinates = capsule.getWorldPosition();
+            var initialWorldCoordinates = capsule.GetWorldPosition();
             altDriver.Tilt(new AltVector3(1, 1, 1), 1);
             Thread.Sleep(100);
             capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var afterTiltCoordinates = capsule.getWorldPosition();
+            var afterTiltCoordinates = capsule.GetWorldPosition();
             Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
         }
 
@@ -1404,7 +1404,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Camera");
             Assert.True(altElement.name.Equals("Capsule"));
             var altElement2 = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera");
-            Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+            Assert.AreNotEqual(altElement.GetScreenPosition(), altElement2.GetScreenPosition());
         }
 
         [Test]
@@ -1416,7 +1416,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Camera");
             Assert.True(altElement.name.Equals("Capsule"));
             var altElement2 = altDriver.WaitForObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera");
-            Assert.AreNotEqual(altElement.getScreenPosition(), altElement2.getScreenPosition());
+            Assert.AreNotEqual(altElement.GetScreenPosition(), altElement2.GetScreenPosition());
         }
 
         [Test]
@@ -1428,7 +1428,7 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObjects(By.NAME, "Plane", By.NAME, "Camera");
             Assert.True(altElement[0].name.Equals("Plane"));
             var altElement2 = altDriver.FindObjects(By.NAME, "Plane", By.NAME, "Main Camera");
-            Assert.AreNotEqual(altElement[0].getScreenPosition(), altElement2[0].getScreenPosition());
+            Assert.AreNotEqual(altElement[0].GetScreenPosition(), altElement2[0].GetScreenPosition());
         }
 
         [Test]
@@ -1562,25 +1562,25 @@ namespace Altom.AltDriver.Tests
         public void TestClickWithMouse0Capsule()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialCapsulePosition = capsule.getWorldPosition();
-            altDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+            var initialCapsulePosition = capsule.GetWorldPosition();
+            altDriver.MoveMouse(capsule.GetScreenPosition(), 0.1f);
             Thread.Sleep(400);
             altDriver.PressKey(AltKeyCode.Mouse0, 1, 0.2f);
             capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var finalCapsulePosition = capsule.getWorldPosition();
+            var finalCapsulePosition = capsule.GetWorldPosition();
             Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
         }
         [Test]
         public void TestClickWithMouse1Capsule()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialCapsulePosition = capsule.getWorldPosition();
-            altDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+            var initialCapsulePosition = capsule.GetWorldPosition();
+            altDriver.MoveMouse(capsule.GetScreenPosition(), 0.1f);
             Thread.Sleep(400);
             altDriver.PressKey(AltKeyCode.Mouse1, 1, 0.2f);
 
             capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var finalCapsulePosition = capsule.getWorldPosition();
+            var finalCapsulePosition = capsule.GetWorldPosition();
             Assert.True(FastApproximately(initialCapsulePosition.x, finalCapsulePosition.x, 0.01f));
             Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
             Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
@@ -1589,12 +1589,12 @@ namespace Altom.AltDriver.Tests
         public void TestClickWithMouse2Capsule()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialCapsulePosition = capsule.getWorldPosition();
-            altDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+            var initialCapsulePosition = capsule.GetWorldPosition();
+            altDriver.MoveMouse(capsule.GetScreenPosition(), 0.1f);
             Thread.Sleep(400);
             altDriver.PressKey(AltKeyCode.Mouse2, 1, 0.2f);
             capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var finalCapsulePosition = capsule.getWorldPosition();
+            var finalCapsulePosition = capsule.GetWorldPosition();
             Assert.True(FastApproximately(initialCapsulePosition.x, finalCapsulePosition.x, 0.01f));
             Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
             Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
@@ -1736,7 +1736,7 @@ namespace Altom.AltDriver.Tests
         public void TestClickButtonInWolrdSpaceCanvas()
         {
             altDriver.LoadScene("Scene6");
-            var screenPosition = altDriver.FindObject(By.NAME, "WorldSpaceButton").getScreenPosition();
+            var screenPosition = altDriver.FindObject(By.NAME, "WorldSpaceButton").GetScreenPosition();
             altDriver.Tap(screenPosition, 1);
             var worldSpaceButton = altDriver.FindObject(By.NAME, "WorldSpaceButton", enabled: false);
             Assert.IsFalse(worldSpaceButton.enabled);
@@ -1746,9 +1746,9 @@ namespace Altom.AltDriver.Tests
         {
             var uiButton = altDriver.FindObject(By.NAME, "UIButton");
             AltObject selectedObject;
-            altDriver.GetScreenshot(uiButton.getScreenPosition(), new AltColor(1, 1, 1, 1), 1, out selectedObject);
+            altDriver.GetScreenshot(uiButton.GetScreenPosition(), new AltColor(1, 1, 1, 1), 1, out selectedObject);
             Assert.AreEqual("Text", selectedObject.name);
-            altDriver.GetScreenshot(uiButton.getScreenPosition(), new AltColor(1, 1, 1, 1), 1, out selectedObject);
+            altDriver.GetScreenshot(uiButton.GetScreenPosition(), new AltColor(1, 1, 1, 1), 1, out selectedObject);
             Assert.AreEqual("UIButton", selectedObject.name);
         }
         [Test]
@@ -1856,7 +1856,7 @@ namespace Altom.AltDriver.Tests
 
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
 
-            altDriver.MoveMouse(counterElement.getScreenPosition(), 1);
+            altDriver.MoveMouse(counterElement.GetScreenPosition(), 1);
             Thread.Sleep(800); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
 
             var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
@@ -1893,7 +1893,7 @@ namespace Altom.AltDriver.Tests
         {
             var button2dCollider = altDriver.FindObject(By.NAME, "TapClickEventsButtonCollider");
 
-            altDriver.Click(button2dCollider.getScreenPosition());
+            altDriver.Click(button2dCollider.GetScreenPosition());
 
             var monoBehaviourEventsRaised = button2dCollider.GetComponentProperty<List<string>>("AltTapClickEventsScript", "monoBehaviourEventsRaised", "Assembly-CSharp");
             // Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseEnter")); does not work on mobile
@@ -1914,7 +1914,7 @@ namespace Altom.AltDriver.Tests
         public void TestClickCoordinates_ColliderNoParent()
         {
             var sphere = altDriver.FindObject(By.PATH, "/Sphere");
-            altDriver.Click(sphere.getScreenPosition());
+            altDriver.Click(sphere.GetScreenPosition());
 
             var monoBehaviourEventsRaised = sphere.GetComponentProperty<List<string>>("AltSphereColliderScript", "monoBehaviourEventsRaised", "Assembly-CSharp");
             Assert.IsTrue(monoBehaviourEventsRaised.Contains("OnMouseOver"));
@@ -1931,7 +1931,7 @@ namespace Altom.AltDriver.Tests
             altDriver.MoveMouse(new AltVector2(0, 0));
             var sphere = altDriver.FindObject(By.PATH, "/Sphere");
             var plane = altDriver.FindObject(By.PATH, "/Sphere/PlaneS");
-            altDriver.Click(plane.getScreenPosition());
+            altDriver.Click(plane.GetScreenPosition());
 
             var planeEvents = plane.GetComponentProperty<List<string>>("AltPlaneColliderScript", "monoBehaviourEventsRaised", "Assembly-CSharp");
             Assert.IsTrue(planeEvents.Contains("OnMouseOver"));
@@ -1955,7 +1955,7 @@ namespace Altom.AltDriver.Tests
         public void TestClickCoordinatesCheckPressRaycastObject()
         {
             var incrementClick = altDriver.FindObject(By.NAME, "ButtonCounter");
-            altDriver.Click(incrementClick.getScreenPosition());
+            altDriver.Click(incrementClick.GetScreenPosition());
             Assert.AreEqual("Text", incrementClick.GetComponentProperty<string>("AltExampleScriptIncrementOnClick", "eventDataPressRaycastObject", "Assembly-CSharp"));
         }
 
@@ -1974,23 +1974,23 @@ namespace Altom.AltDriver.Tests
         public void TestKeyDownAndKeyUpMouse0()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialCapsulePosition = capsule.getWorldPosition();
-            altDriver.MoveMouse(capsule.getScreenPosition(), 0.1f);
+            var initialCapsulePosition = capsule.GetWorldPosition();
+            altDriver.MoveMouse(capsule.GetScreenPosition(), 0.1f);
             Thread.Sleep(400);
             altDriver.KeyDown(AltKeyCode.Mouse0);
             altDriver.KeyUp(AltKeyCode.Mouse0);
             capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var finalCapsulePosition = capsule.getWorldPosition();
+            var finalCapsulePosition = capsule.GetWorldPosition();
             Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
         }
         [Test]
         public void TestTouchAreUpdatedWhenMoved()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var id = altDriver.BeginTouch(capsule.getScreenPosition());
+            var id = altDriver.BeginTouch(capsule.GetScreenPosition());
             var phase = capsule.GetComponentProperty<int>("AltExampleScriptCapsule", "TouchPhase", "Assembly-CSharp");
             Assert.AreEqual(0, phase);
-            altDriver.MoveTouch(id, capsule.getScreenPosition());
+            altDriver.MoveTouch(id, capsule.GetScreenPosition());
             Thread.Sleep(100);
             phase = capsule.GetComponentProperty<int>("AltExampleScriptCapsule", "TouchPhase", "Assembly-CSharp");
             Assert.AreEqual(1, phase);
@@ -2104,7 +2104,7 @@ namespace Altom.AltDriver.Tests
         public void TestFindElementAtCoordinates_3dElement()
         {
             var counterButton = altDriver.FindObject(By.NAME, "Capsule");
-            var element = altDriver.FindObjectAtCoordinates(counterButton.getScreenPosition());
+            var element = altDriver.FindObjectAtCoordinates(counterButton.GetScreenPosition());
             Assert.AreEqual("Capsule", element.name);
         }
         // [Test]

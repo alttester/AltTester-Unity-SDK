@@ -38,7 +38,7 @@ public class TestForNIS
         for (int i = 0; i < objectNames.Length; i++)
         {
             var obj = altDriver.FindObject(By.NAME, objectNames[i]);
-            listPositions[i] = obj.getScreenPosition();
+            listPositions[i] = obj.GetScreenPosition();
         }
         altDriver.MultipointSwipe(listPositions, duration, wait: wait);
     }
@@ -68,7 +68,7 @@ public class TestForNIS
     {
         altDriver.LoadScene(scene8);
         var closeButton = altDriver.FindObject(By.PATH, "//Panel Drag Area/Panel/Close Button");
-        altDriver.Tap(closeButton.getScreenPosition());
+        altDriver.Tap(closeButton.GetScreenPosition());
         altDriver.WaitForObjectNotBePresent(By.PATH, "//Panel Drag Area/Panel");
     }
 
@@ -78,7 +78,7 @@ public class TestForNIS
         altDriver.LoadScene(scene9);
         var scrollbar = altDriver.FindObject(By.NAME, "Scrollbar Vertical");
         var scrollbarPosition = scrollbar.GetComponentProperty<float>("UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI");
-        altDriver.MoveMouse(altDriver.FindObject(By.NAME, "Scroll View").getScreenPosition(), 0.5f);
+        altDriver.MoveMouse(altDriver.FindObject(By.NAME, "Scroll View").GetScreenPosition(), 0.5f);
         altDriver.Scroll(new AltVector2(-3000, -3000), 0.5f, true);
         var scrollbarPositionFinal = scrollbar.GetComponentProperty<float>("UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI");
         Assert.AreNotEqual(scrollbarPosition, scrollbarPositionFinal);
@@ -233,7 +233,7 @@ public class TestForNIS
     {
         altDriver.LoadScene(scene11);
         var capsule = altDriver.FindObject(By.NAME, "Capsule");
-        altDriver.Click(capsule.getScreenPosition());
+        altDriver.Click(capsule.GetScreenPosition());
         altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]");
     }
 
@@ -242,9 +242,9 @@ public class TestForNIS
     {
         altDriver.LoadScene(scene11);
         var cube = altDriver.FindObject(By.NAME, "Cube (1)");
-        var initialPosition = cube.getWorldPosition();
+        var initialPosition = cube.GetWorldPosition();
         altDriver.Tilt(new AltVector3(5, 0, 5f), 1f);
-        Assert.AreNotEqual(initialPosition, altDriver.FindObject(By.NAME, "Cube (1)").getWorldPosition());
+        Assert.AreNotEqual(initialPosition, altDriver.FindObject(By.NAME, "Cube (1)").GetWorldPosition());
         Assert.IsTrue(cube.GetComponentProperty<bool>("AltCubeNIS", "isMoved", "Assembly-CSharp"));
     }
 
@@ -252,10 +252,10 @@ public class TestForNIS
     public void TestSwipe()
     {
         altDriver.LoadScene(scene9);
-        var scrollbarPosition = altDriver.FindObject(By.NAME, "Handle").getScreenPosition();
+        var scrollbarPosition = altDriver.FindObject(By.NAME, "Handle").GetScreenPosition();
         var button = altDriver.FindObject(By.PATH, "//Scroll View/Viewport/Content/Button (4)");
         altDriver.Swipe(new AltVector2(button.x + 1, button.y + 1), new AltVector2(button.x + 1, button.y + 20), 1);
-        var scrollbarPositionFinal = altDriver.FindObject(By.NAME, "Handle").getScreenPosition();
+        var scrollbarPositionFinal = altDriver.FindObject(By.NAME, "Handle").GetScreenPosition();
         Assert.AreNotEqual(scrollbarPosition.y, scrollbarPositionFinal.y);
     }
 
@@ -279,11 +279,11 @@ public class TestForNIS
     {
         altDriver.LoadScene(scene8);
         var panelToDrag = altDriver.FindObject(By.PATH, "//Panel/Drag Zone");
-        var initialPanelPos = panelToDrag.getScreenPosition();
-        var fingerId = altDriver.BeginTouch(panelToDrag.getScreenPosition());
+        var initialPanelPos = panelToDrag.GetScreenPosition();
+        var fingerId = altDriver.BeginTouch(panelToDrag.GetScreenPosition());
         altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 200, initialPanelPos.y + 20));
         altDriver.EndTouch(fingerId);
-        var finalPanelPos = altDriver.FindObject(By.PATH, "//Panel/Drag Zone").getScreenPosition();
+        var finalPanelPos = altDriver.FindObject(By.PATH, "//Panel/Drag Zone").GetScreenPosition();
         Assert.AreNotEqual(initialPanelPos, finalPanelPos);
     }
 
