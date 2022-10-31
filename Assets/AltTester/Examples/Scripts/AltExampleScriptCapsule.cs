@@ -19,6 +19,7 @@ public class AltExampleScriptCapsule : AltInheritedFields
 #pragma warning disable 0414
     private int privateVariable = 0;
     private static int privateStaticVariable = 0;
+    public static int[] staticArrayOfInts = { 1, 2, 3 };
 #pragma warning restore 0414
     public TouchPhase TouchPhase = TouchPhase.Canceled;
     private TestStructure testStructure = new TestStructure("test", "test2", new List<int>() { 0, 1 });
