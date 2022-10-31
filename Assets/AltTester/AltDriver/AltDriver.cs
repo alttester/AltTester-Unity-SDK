@@ -182,6 +182,12 @@ namespace Altom.AltDriver
             return propertyValue;
         }
 
+        public void SetStaticProperty<T>(string componentName, string propertyName, string assemblyName, object updatedProperty, int maxDepth = 2)
+        {
+            var propertyValue = new AltSetStaticProperty<T>(communicationHandler, componentName, propertyName, assemblyName, updatedProperty).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
         public void DeletePlayerPref()
         {
             new AltDeletePlayerPref(communicationHandler).Execute();

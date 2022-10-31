@@ -3,7 +3,7 @@ import time
 import pytest
 
 from .utils import Scenes
-from alttester import By, PlayerPrefKeyType, AltKeyCode
+from alttester import AltDriver, By, PlayerPrefKeyType, AltKeyCode
 import alttester.exceptions as exceptions
 
 
