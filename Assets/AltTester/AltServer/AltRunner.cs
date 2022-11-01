@@ -158,15 +158,15 @@ namespace Altom.AltTester
             }
         }
 
-        public static UnityEngine.GameObject GetGameObject(AltObject altObject)
-        {
-            foreach (UnityEngine.GameObject gameObject in UnityEngine.Resources.FindObjectsOfTypeAll<UnityEngine.GameObject>())
-            {
-                if (gameObject.GetInstanceID() == altObject.id)
-                    return gameObject;
-            }
-            throw new NotFoundException("Object not found");
-        }
+        // public static UnityEngine.GameObject GetGameObject(AltObject altObject)
+        // {
+        //     foreach (UnityEngine.GameObject gameObject in UnityEngine.Resources.FindObjectsOfTypeAll<UnityEngine.GameObject>())
+        //     {
+        //         if (gameObject.GetInstanceID() == altObject.id)
+        //             return gameObject;
+        //     }
+        //     throw new NotFoundException("Object not found");
+        // }
 
         public static UnityEngine.GameObject GetGameObject(int objectId)
         {
