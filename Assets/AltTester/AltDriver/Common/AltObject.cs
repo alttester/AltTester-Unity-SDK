@@ -47,17 +47,28 @@ namespace Altom.AltDriver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
-
+        public AltObject getParent()
+        {
+            var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return altObject;
+        }
         public AltVector2 GetScreenPosition()
         {
             return new AltVector2(x, y);
         }
-
+        public AltVector2 getScreenPosition()
+        {
+            return new AltVector2(x, y);
+        }
         public AltVector3 GetWorldPosition()
         {
             return new AltVector3(worldX, worldY, worldZ);
         }
-
+        public AltVector3 getWorldPosition()
+        {
+            return new AltVector3(worldX, worldY, worldZ);
+        }
         public T GetComponentProperty<T>(string componentName, string propertyName, string assemblyName, int maxDepth = 2)
         {
             var propertyValue = new AltGetComponentProperty<T>(CommHandler, componentName, propertyName, assemblyName, maxDepth, this).Execute();

@@ -2114,7 +2114,7 @@ namespace Altom.AltDriver.Tests
         //     var buttons = altUnityDriver.FindObjects(By.PATH, "//Content/*");
         //     for (int i = 1; i <= buttons.Count - 3; i++)
         //     {
-        //         altUnityDriver.Swipe(buttons[i].getScreenPosition(), buttons[i - 1].getScreenPosition());
+        //         altUnityDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
 
         //     }
         //     Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltUnityScrollViewButtonController", "Counter", "Assembly-CSharp"));
