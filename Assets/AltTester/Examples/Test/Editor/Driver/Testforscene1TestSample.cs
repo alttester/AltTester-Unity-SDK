@@ -928,7 +928,7 @@ namespace Altom.AltDriver.Tests
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.CLASSFIELDS);
-            Assert.AreEqual(15, fields.Count);
+            Assert.AreEqual(16, fields.Count);
         }
 
         [Test]
@@ -953,7 +953,7 @@ namespace Altom.AltDriver.Tests
             var component = componentList.First(componenta =>
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.ALLFIELDS);
-            Assert.AreEqual(16, fields.Count);
+            Assert.AreEqual(17, fields.Count);
         }
 
         [Test]
