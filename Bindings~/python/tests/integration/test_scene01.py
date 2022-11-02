@@ -3,7 +3,7 @@ import time
 import pytest
 
 from .utils import Scenes
-from alttester import AltDriver, By, PlayerPrefKeyType, AltKeyCode
+from alttester import By, PlayerPrefKeyType, AltKeyCode
 import alttester.exceptions as exceptions
 
 
@@ -719,16 +719,20 @@ class TestScene01:
 
     def test_set_static_property(self):
         expectedValue = 5
-        self.altdriver.set_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue)
-        value = self.altdriver.get_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
+        self.altdriver.set_static_property(
+            "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue)
+        value = self.altdriver.get_static_property(
+            "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
         assert expectedValue == value
-       
-    # def test_set_static_property2(self):
-    #     newValue = 5
-    #     expectedArray = [1, 5, 3]
-    #     self.altdriver.set_static_property("AltExampleScriptCapsule", "privateStaticVariable[1]", "Assembly-CSharp", newValue)
-    #     value = self.altdriver.get_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
-    #     assert expectedArray == value
+
+    def test_set_static_property2(self):
+        newValue = 5
+        expectedArray = [1, 5, 3]
+        self.altdriver.set_static_property("AltExampleScriptCapsule",
+                                           "privateStaticVariable[1]", "Assembly-CSharp", newValue)
+        value = self.altdriver.get_static_property(
+            "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
+        assert expectedArray == value
 
     def test_get_static_property_instance_null(self):
 
