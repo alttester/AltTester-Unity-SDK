@@ -120,7 +120,7 @@ jobs:
           run: |
             pip install -r "Bindings~/python/requirements.txt"
             pip install -r "Bindings~/python/requirements-dev.txt"
-            pip install -e "Bindings~/python" --root "Bindings~/python"
+            pip install --force-reinstall -e "Bindings~/python" --root "Bindings~/python"
 
         - name: Lint with flake8
           run: |
