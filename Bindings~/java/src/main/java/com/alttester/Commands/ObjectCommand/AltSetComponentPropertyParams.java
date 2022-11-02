@@ -7,13 +7,13 @@ public class AltSetComponentPropertyParams extends AltObjectParams {
         private String componentName;
         private String propertyName;
         private String assembly;
-        private String value;
+        private Object value;
 
         public Builder(String componentName, String propertyName, String assembly, Object value) {
             this.componentName = componentName;
             this.propertyName = propertyName;
             this.assembly = assembly;
-            this.value = new Gson().toJson(value);
+            this.value = value;
         }
 
         public AltSetComponentPropertyParams build() {
@@ -58,7 +58,7 @@ public class AltSetComponentPropertyParams extends AltObjectParams {
     private String property;
     private String assembly;
 
-    public String getValue() {
+    public Object getValue() {
         return value;
     }
 
@@ -66,5 +66,5 @@ public class AltSetComponentPropertyParams extends AltObjectParams {
         this.value = new Gson().toJson(value);
     }
 
-    private String value;
+    private Object value;
 }

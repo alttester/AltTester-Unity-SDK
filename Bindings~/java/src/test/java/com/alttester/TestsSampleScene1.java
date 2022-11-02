@@ -1359,7 +1359,7 @@ public class TestsSampleScene1 {
     
     @Test
     public void testSetStaticProperty() {
-        int expectedValue = 5;
+        final Object expectedValue = 5;
         AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
                 "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue).build();
         altDriver.setStaticProperty(altSetComponentPropertyParams);
