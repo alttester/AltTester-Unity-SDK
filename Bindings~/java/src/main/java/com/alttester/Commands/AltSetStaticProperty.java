@@ -18,11 +18,13 @@ public class AltSetStaticProperty extends AltBaseCommand {
         super(messageHandler);
         this.altSetComponentPropertyParameters = altSetComponentPropertyParameters;
         altSetComponentPropertyParameters.setAltObject(null);
-        this.altSetComponentPropertyParameters.setCommandName("getObjectComponentProperty");
+        this.altSetComponentPropertyParameters.setCommandName("setObjectComponentProperty");
     }
 
     public void Execute() {
         SendCommand(altSetComponentPropertyParameters);
+        String response = recvall(altSetComponentPropertyParameters, String.class);
+        validateResponse("valueSet", response);
     }
 
 }
