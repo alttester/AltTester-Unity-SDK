@@ -96,14 +96,14 @@ jobs:
   
   test-Python:
       runs-on: [self-hosted, macOS]
-      needs: build-macOS
+      # needs: build-macOS
       steps:
         - uses: actions/checkout@v3
 
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name:
-              BuildMacArtifact
+        # - uses: actions/download-artifact@v3.0.0
+        #   with:
+        #     name:
+        #       BuildMacArtifact
 
         - uses: actions/setup-python@v4
           with:
