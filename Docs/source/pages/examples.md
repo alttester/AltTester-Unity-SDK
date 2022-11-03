@@ -13,11 +13,11 @@ We plan to add more examples in the near future.
 **1.** Example test projects created for different languages and platforms:
 
 <!-- * C# tests [Standalone (NuGetPackage)](https://github.com/alttester-test-examples/CSharp-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/CSharp-Android-AltTrahCat) | [iOS](https://github.com/alttester-test-examples/CSharp-iOS-AltTrahCat) -->
-* C# tests [Standalone (NuGetPackage)](https://github.com/alttester-test-examples/CSharp-Standalone-AltTrashCat)
+* C# tests [Standalone (NuGetPackage)](https://github.com/alttester/EXAMPLES-CSharp-Standalone-AltTrashCat)
 <!-- * Python tests [Standalone](https://github.com/alttester-test-examples/Python-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Python-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Python-iOS-AltTrashCat) -->
-* Python tests [Android with Appium](https://github.com/alttester-test-examples/Python-Android-with-Appium-AltTrashCat-)
+* Python tests [Android with Appium](https://github.com/alttester/EXAMPLES-Python-Android-with-Appium-AltTrashCat-)
 <!-- * Java tests [Standalone](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Java-iOS-AltTrashCat) -->
-* Java tests [Standalone](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat)
+* Java tests [Standalone](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat)
 
     You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
 
