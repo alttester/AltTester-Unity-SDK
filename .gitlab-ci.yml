@@ -34,7 +34,7 @@ build-docs:
   stage: unit-tests
   image: python:3.8
   tags:
-    - docker
+    - docs
   interruptible: true
   rules:
     - if: '$CI_COMMIT_MESSAGE =~ /^[Dd]ocumentation(\s|:).*/ || $CI_COMMIT_MESSAGE =~ /^[Dd]ocs(\s|:).*/'
@@ -213,7 +213,7 @@ unity-android-tests:
   before_script:
     - *reinstall_and_start_android_app
   script:
-    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -logFile csharpAndroidTests.log -quit
+    - ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltUnityTesterEditor.AltUnityTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor -reportPath $CI_PROJECT_DIR/reportTest.xml -logFile csharpAndroidTests.log -quit
   after_script:
     - cat csharpAndroidTests.log
     - adb pull /storage/emulated/0/Android/data/fi.altom.altunitytester/files/AltUnityServerLog.txt ./
@@ -224,6 +224,7 @@ unity-android-tests:
       - csharpAndroidTests.log
       - AltUnityTesterLog.txt
       - AltUnityServerLog.txt
+      - reportTest.xml
 
 .unity-ios-tests:
   stage: test
@@ -391,7 +392,6 @@ create-unity-package:
   tags:
     - unity
     - mac
-    - docs
   script:
     - mkdir -p public/AltUnityPackage || true
     - mkdir -p public/SampleScenes || true
@@ -416,7 +416,6 @@ create-jar-archive:
   tags:
     - unity
     - mac
-    - docs
   script:
     - mkdir -p public/AltUnityJAR || true
     - cd "Bindings~/java"
@@ -464,7 +463,7 @@ publish-nuget-package:
     - cd "Bindings~/dotnet"
   script:
     - dotnet pack AltUnityDriver/AltUnityDriver.csproj -c release
-    - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.7.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+    - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
 publish-maven-package:
   stage: deploy
@@ -492,7 +491,6 @@ dev-docs:
   tags:
     - unity
     - mac
-    - docs
   script:
     - cd docs-html
     - find . -type f ! -name 'license.html' -exec sed -i '' "s#https://altom.com#${DEV_DOCUMENTATION_URL}#g" {} \;
@@ -510,7 +508,6 @@ pages:
   tags:
     - unity
     - mac
-    - docs
   script:
     - ssh -o 'StrictHostKeyChecking no' altomdotcom@${HOST_IP_ALTOM} -p 50976  "rm -rf ${DOCUMENTATION_PATH}/*"
     - scp -r -P 50976 -o 'StrictHostKeyChecking no' docs-html/* altomdotcom@${HOST_IP_ALTOM}:${DOCUMENTATION_PATH}

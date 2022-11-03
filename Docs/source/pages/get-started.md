@@ -14,30 +14,19 @@ To run the first test for your Unity game you need to:
 
     If you don't have access to source code of the game you need to ask a person with access to give you an instrumented version of the game.
 
-.. note::
-
-    From version 1.7.0 on we'll be referring to ``AltUnity Server`` as ``AltUnity Tester``.
-
 ```
 
-## Import AltUnity Tester package in Unity Editor
+## Import AltTester package in Unity Editor
 
-To instrument your Unity application with AltUnity Tester you first need to import the AltUnity Tester package into Unity. This can be done either by downloading from the Unity Asset Store or from the GitLab pages.
+To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity. This can be done either by downloading from the Altom website.
 
 ```eval_rst
 
 .. tabs::
 
-    .. tab:: From Unity Asset Store
+    .. tab:: UnityPackage from Altom website
 
-        1. Download from Unity `Asset Store - link <https://assetstore.unity.com/packages/tools/utilities/altunitytester-112101>`_.
-        2. Go to your Asset Store Downloads Manager from Unity Editor.
-        3. Import the package into your Unity project.
-
-
-    .. tab:: UnityPackage from GitLab pages
-
-        1. Download from `GitLab pages (deployed using CI) - link <https://altom.com/app/uploads/AltUnityPackage/AltUnityPackage/AltUnityTesterPackage>`_.
+        1. Download from `Altom website - link <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
         2. Import it by drag and drop inside your Unity project.
 
 ```
@@ -46,7 +35,7 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 
 - Newtonsoft.Json
 
-In order for AltUnity Tester to work you need dependency for Newtonsoft.Json. Add `"com.unity.nuget.newtonsoft-json": "3.0.1"` to your project `manifest.json`, inside `dependencies`.
+In order for AltTester Unity SDK to work you need dependency for Newtonsoft.Json. Add `"com.unity.nuget.newtonsoft-json": "3.0.1"` to your project `manifest.json`, inside `dependencies`.
 
 ```json
 {
@@ -58,7 +47,7 @@ In order for AltUnity Tester to work you need dependency for Newtonsoft.Json. Ad
 
 - Input System
 
-AltUnity Tester has support for Input System starting with version 1.7.1. To enable Input System in AltUnity Tester you need to add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
+AltTester Unity SDK has support for Input System starting with version 1.7.1. To enable Input System in AltTester Unity SDK you need to add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
 
 ```json
 {
@@ -69,11 +58,11 @@ AltUnity Tester has support for Input System starting with version 1.7.1. To ena
 ```
 
 <!--
-To instrument your Unity application with AltUnity Tester you first need to import the AltUnity Tester package into Unity.
+To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity.
 
 ```eval_rst
 
-    1. Download `AltUnity Tester Alpha <https://altom.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
+    1. Download `AltTester Unity SDK <https://altom.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
 
     2. Import it by drag and drop inside your Unity project.
 
@@ -84,19 +73,18 @@ To instrument your Unity application with AltUnity Tester you first need to impo
 
 .. important::
 
-    To make sure the import was correct, check if you can open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnity Tester Editor.
+    To make sure the import was correct, check if you can open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor.
 
 ```
 
-![Window menu with AltUnity Tester Options](../_static/img/get-started/downloading-importing-altunity-editor.png)
+![Window menu with AltTester Unity SDK Options](../_static/img/get-started/downloading-importing-alttester-editor.png)
 
-## Instrument your game with AltUnity Tester
+## Instrument your game with AltTester Unity SDK
 
 Steps:
 
-1. Open AltUnity Tester Editor window from Unity Editor -> AltUnity Tools -> AltUnity Tester Editor
- <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
-2. In the Build Settings section set **AltUnity Tester Port** to 13000
+1. Open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
+2. In the Build Settings section set **AltTester Port** to 13000
 3. In the Scene Manager section select the scenes you want to include in your build
 4. In the Platform section select desired platform and set the path to where you want to save the build
 5. Press "Build Only" to instrument the game or "Build & Run" to start your instrumented game
@@ -107,7 +95,7 @@ Steps:
 
 .. important::
 
-    AltUnity Tester is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltUnity Tester.
+    AltTester Unity SDK is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltTester Unity SDK.
 
 .. note::
 
@@ -115,7 +103,7 @@ Steps:
 
 .. note::
 
-    If you have a custom build, check how you can build from the command line using the instructions in the `Advanced Usage section :ref:`<pages/advanced-usage:Build games from the command line>`.
+    If you have a custom build, check how you can build from the command line using the instructions in the :ref:`Advanced Usage<pages/advanced-usage:Build games from the command line>` section.
 
 .. note::
 
@@ -139,7 +127,7 @@ Steps:
 
 ## Start the Proxy Module
 
-The Proxy Module is incorporated in AltUnity Pro Alpha. In order to start it, all you have to do is to start AltUnity Pro Alpha.
+The Proxy Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to start AltTester Desktop.
 -->
 
 ## Run your game in Unity or on desired platform
@@ -152,13 +140,13 @@ Before running your tests you need to start the instrumented Unity application. 
 
     .. tab:: Unity Editor
 
-        1. Open AltUnity Tester Editor
+        1. Open AltTester Editor
         2. In platform section select Editor
         3. Click Play in Editor
 
     .. tab:: PC
 
-        1. Open AltUnity Tester Editor
+        1. Open AltTester Editor
         2. In platform section select Standalone
         3. Choose your build target
         4. Click Build & Run
@@ -177,7 +165,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltUnity Tester Editor
+        1. Open AltTester Editor
         2. In platform section select Android
         3. Click Build & Run
 
@@ -190,7 +178,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltUnity Tester Editor
+        1. Open AltTester Editor
         2. In platform section select iOS
         3. Click Build & Run
 
@@ -209,16 +197,16 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltUnity Tester Editor
+        1. Open AltTester Editor
         2. In platform section select WebGL
         3. Click Build & Run
  -->
 
 ## Write and execute first test for your game
 
-To write tests with AltUnity Tester you need to import the AltUnity Driver in your tests project.
+To write tests with AltTester Unity SDK you need to import the AltDriver in your tests project.
 
-AltUnity Tester package contains AltUnityDriver class used to connect to the instrumented game. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the game.
+AltTester package contains AltDriver class used to connect to the instrumented game. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the game.
 
 ```eval_rst
 
@@ -226,12 +214,12 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
     .. tab:: C#-Unity
 
-        AltUnity C# Driver is already included in AltUnity Tester package. If you are writing tests in C# then you can create your tests directly from Unity.
+        AltTester-Driver for C# is already included in AltTester package. If you are writing tests in C# then you can create your tests directly from Unity.
 
         1.  Create a folder named Editor in your Unity Project.
-        2.  Right-click on Editor folder and select `Create -> AltUnityTest`. This will create a template file in which you could start to write your test.
+        2.  Right-click on Editor folder and select `Create -> AltTest`. This will create a template file in which you could start to write your test.
         3.  Name the file MyFirstTest.
-        4.  Open AltUnity Tester Editor.
+        4.  Open AltTester Editor.
         5.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
 
         Example test file:
@@ -260,11 +248,11 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
         .. code-block:: console
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -logFile logFile.log -batchmode -quit
 
     .. tab:: C#
 
-        AltUnityDriver is available also as a nuget package. You can use the nuget package to write your tests in a separate tests project, independent of the Unity application.
+        AltTester-Driver for C# is available also as a nuget package. You can use the nuget package to write your tests in a separate tests project, independent of the Unity application.
 
         Create a new test project
 
@@ -274,11 +262,11 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
             cd <test-project-name>
             dotnet new nunit
 
-        Install AltUnityDriver nuget package
+        Install AltTester-Driver nuget package
 
         .. code-block:: console
 
-            dotnet add package AltUnityDriver --version 1.7.2
+            dotnet add package AltTester-Driver --version 1.8.0
 
         Run your tests
 
@@ -309,28 +297,28 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
     .. tab:: Java
 
-        AltUnity Java Driver is available as a maven package or as a standalone jar. Use one of the following methods to import the driver in your tests project.
+        AltTester-Driver for Java is available as a maven package or as a standalone jar. Use one of the following methods to import the driver in your tests project.
 
-            **Method 1**: Add AltUnity Java Driver as a dependency in your ``pom.xml`` file:
+            **Method 1**: Add AltTester-Driver for Java as a dependency in your ``pom.xml`` file:
 
             .. code-block:: xml
 
                 <dependency>
-                    <groupId>com.altom</groupId>
-                    <artifactId>altunitytester-java-client</artifactId>
-                    <version>1.7.2</version>
+                    <groupId>com.alttester</groupId>
+                    <artifactId>alttester</artifactId>
+                    <version>1.8.0</version>
                 </dependency>
 
 
             **Method 2**: Use the ``.jar`` file from GIT (**without building it from source**)
 
-                * Download `AltUnity Java Driver <https://altom.com/app/uploads/AltUnityJAR/altunitytester-java-client-jar.jar>`__.
+                * Download `AltTester-Driver for Java <https://altom.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
 
                 * Install the ``.jar`` file:
 
                 .. code-block:: console
 
-                    mvn install:install-file -Dfile=./target/altunitytester-java-client-jar-with-dependencies.jar -DgroupId=ro.altom -DartifactId=altunitytester -Dversion=1.7.2 -Dpackaging=jar``
+                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``
 
 
         Run your tests by using the following command (in the test project folder):
@@ -363,20 +351,20 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
     .. tab:: Python
 
-        There are two methods of installing the AltUnity Python Driver package:
+        There are two methods of installing the AltTester-Driver for Python package:
 
             **Method 1**: Installing using Pip:
 
             .. code-block:: console
 
-                pip install altunityrunner
+                pip install AltTester-Driver
 
             **Method 2**: Install from the source code in the repository:
 
             .. code-block:: console
 
-                git clone https://gitlab.com/altom/altunity/altunitytester.git
-                cd altunitytester/Bindings~/python
+                git clone git@github.com:alttester/AltTester-Unity-SDK.git
+                cd alttester/Bindings~/python
                 python setup.py install
 
         Run your test file using the ``unittest`` module:
@@ -414,7 +402,7 @@ AltUnity Tester package contains AltUnityDriver class used to connect to the ins
 
 ```
 
-Now your project can use all the [AltUnity Driver Commands](./commands.md).
+Now your project can use all the [AltDriver Commands](./commands.md).
 
 <!--
 ```eval_rst

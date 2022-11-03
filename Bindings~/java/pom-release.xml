@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.altom</groupId>
-    <artifactId>altunitytester-java-client</artifactId>
+    <groupId>com.alttester</groupId>
+    <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
-    <version>1.7.2</version>
+    <version>1.8.0</version>
 
-    <name>AltUnity Tester - Java Client</name>
+    <name>AltTester-Driver</name>
     <description>An automated tool for testing Unity Games</description>
-    <url>http://://gitlab.com/altom/altunity/altunitytester</url>
+    <url>https://github.com/alttester/AltTester-Unity-SDK</url>
 
     <licenses>
         <license>
@@ -42,9 +42,9 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</connection>
-        <developerConnection>scm:git:ssh://gitlab.com/altom/altunity/altunitytester.git</developerConnection>
-        <url>http://gitlab.com/altom/altunity/altunitytester/tree/master</url>
+        <connection>scm:git:ssh://github.com/alttester/AltTester-Unity-SDK.git</connection>
+        <developerConnection>scm:git:ssh://github.com/alttester/AltTester-Unity-SDK.git</developerConnection>
+        <url>https://github.com/alttester/AltTester-Unity-SDK/tree/master</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -189,7 +189,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ro.altom.altunitytester</mainClass>
+                            <mainClass>ro.altom.alttester</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

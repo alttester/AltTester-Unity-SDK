@@ -1,14 +1,14 @@
 # Advanced Usage
 
 This guide covers some of the more advanced features, patterns and
-configuration options of AltUnity Tester.
+configuration options of AltTester Unity SDK.
 
 ## Build games from the command line
 
 To build your Unity application from command line you need a static method in
 your project that handles the build logic. To instrument your Unity application
-with AltUnity Tester, your build method must define `ALTUNITYTESTER` scripting
-symbol and must insert AltUnity Prefab in the first scene of the game.
+with AltTester Unity SDK, your build method must define `ALTTESTER` scripting
+symbol and must insert AltTester Prefab in the first scene of the game.
 
 Depending on your project's setup, there are two ways in which games can be
 built from the command line:
@@ -17,13 +17,13 @@ built from the command line:
 ```eval_rst
 .. note::
 
-    AltUnity Tester does not work by default in release mode. If you instrument
-    your game in release mode, AltUnity Prefab self removes from the scenes and
+    AltTester Unity SDK does not work by default in release mode. If you instrument
+    your game in release mode, AltTester Prefab self removes from the scenes and
     the socket server does not start. Best case practice is to customize your
-    build script to insert AltUnity Prefab only in Debug mode.
+    build script to insert AltTester Prefab only in Debug mode.
 
-    If you do want to use AltUnity Tester in release mode see
-    `Using AltUnity Tester in Release mode section <#using-altunity-tester-in-release-mode>`_.
+    If you do want to use AltTester Unity SDK in release mode see
+    `Using AltTester Unity SDK in Release mode section <#using-alttester-in-release-mode>`_.
 
 ```
 
@@ -36,12 +36,12 @@ check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
 
 ```c#
 var buildTargetGroup = BuildTargetGroup.Android;
-AltUnityBuilder.AddAltUnityTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
+AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
 if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone) {
-    AltUnityBuilder.CreateJsonFileForInputMappingOfAxis();
+    AltBuilder.CreateJsonFileForInputMappingOfAxis();
 }
-var instrumentationSettings = new AltUnityInstrumentationSettings();
-AltUnityBuilder.InsertAltUnityInScene(FirstSceneOfTheGame, instrumentationSettings);
+var instrumentationSettings = new AltInstrumentationSettings();
+AltBuilder.InsertAltInScene(FirstSceneOfTheGame, instrumentationSettings);
 ```
 
 ```eval_rst
@@ -97,9 +97,55 @@ commands:
 
     .. tab:: C#
 
+        Available Alt command line arguments:
+
+        ``-testsClass`` - runs tests from given class/classes
+
+        Example command running tests from a single test class:
+
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltUnityTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass -logFile logFile.log -batchmode -quit
+
+        Example command running tests from two test classes:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass1 MyTestClass2 -logFile logFile.log -batchmode -quit
+
+        ``-tests`` - runs given test/tests
+
+        Example command running a single test:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass.MyTestName -logFile logFile.log -batchmode -quit
+
+        Example command running two tests:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass1.MyTestName1 MyTestClass2.MyTestName2 -logFile logFile.log -batchmode -quit
+
+        ``-testsAssembly`` - runs tests from given assembly/assemblies
+
+        Example command running all tests from given assembly:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly -logFile logFile.log -batchmode -quit
+
+        Example command running tests from two assemblies:
+
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly1 MyAssembly2 -logFile logFile.log -batchmode -quit
+
+        ``-reportPath`` - the xml test report will be generated here
+        
+        .. code-block:: bash
+
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -reportPath $PROJECT_DIR/testReport.xml -logFile logFile.log -batchmode -quit
 
     .. tab:: Java
 
@@ -125,19 +171,274 @@ commands:
 
 ## Run tests on a Continuous Integration Server
 
-1. Instrument your game build with AltUnity Tester from Unity or by [building from the command line](#build-games-from-the-command-line).
+1. Instrument your game build with AltTester Unity SDK from Unity or by [building from the command line](#build-games-from-the-command-line).
 2. Start the game build on a device.
 3. Run your tests - see commands in the ["Run tests from the command line" section](#run-tests-from-the-command-line).
 
-An example CI configuration file can be viewed in the [AltUnity Tester GitLab repository](https://gitlab.com/altom/altunity/altunitytester/-/blob/master/.gitlab-ci.yml).
+An example CI configuration file can be viewed in the [GitLab repository](https://gitlab.com/altom/altunity/altunitytester/-/blob/master/.gitlab-ci.yml).
 
-## Using AltUnity Tester in Release mode
 
-By default AltUnity Tester does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltUnity Tester. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltUnityRunnerPrefab inside AltUnity Tester asset folder `AltUnityTester/Prefab/AltUnityRunnerPrefab.prefab`
+## What is port forwarding and when to use it
+
+Port forwarding, or tunneling, is the behind-the-scenes process of intercepting
+data traffic headed for a computer’s IP/port combination and redirecting it to
+a different IP and/or port.
+
+When you run your game instrumented with AltTester Unity SDK, on a device, you need
+to tell your AltDriver how to connect to it.
+
+Port forwarding can be set up either through a command line command or in the
+test code by using the methods available in Alt classes.
+
+The following are some cases when Port Forwarded is needed:
+
+1. [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
+2. [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game)
+
+### How to setup port forwarding
+
+Port forwarding can be set up in three ways:
+
+- through a command line command (using ADB/IProxy)
+- in the test code by using the methods available in Alt classes
+- from AltTester Editor - Port Forwarding Section
+
+All methods listed above require that you have ADB or IProxy installed.
+
+For installing ABD, check [this article](https://developer.android.com/studio/command-line/adb) for more information on ADB.
+
+For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
+
+```eval_rst
+.. tabs::
+
+    .. tab:: Command Line
+
+        .. tabs::
+
+            .. tab:: Android
+
+                - Forward the port using the following command::
+
+                    adb [-s UDID] forward tcp:local_port tcp:device_port
+
+                - Forward using AltTester Editor: click on the refresh button in the Port Forwarding section in the Editor to see    connected devices and then select the device to forward.
+
+            .. tab:: iOS
+
+                - Forward the port using the following command::
+
+                    iproxy LOCAL_PORT DEVICE_PORT -u [UDID]
+
+                - Forward using AltTester Editor: click on the refresh button in the Port Forwarding section in the Editor to see connected devices and then select the device to forward.
+
+    .. tab:: C#
+
+        .. tabs::
+
+            .. tab:: Android
+
+                Use the following static methods (from the ``AltPortForwarding`` class) in your test file:
+
+                    - ForwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
+                    - RemoveForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
+
+                Example test file:
+
+                    .. include:: ../_static/examples~/common/csharp-android-test.cs
+                        :code: c#
+
+            .. tab:: iOS
+
+                Use the following static methods (from the AltPortForwarding class) in your test file:
+
+                    - ForwardIos(int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
+                    - KillAllIproxyProcess()
+
+                Example test file:
+
+                    .. include:: ../_static/examples~/common/csharp-ios-test.cs
+                        :code: c#
+
+    .. tab:: Java
+
+        .. tabs::
+
+            .. tab:: Android
+
+                Use the following static methods (from the AltPortForwarding class) in your test file:
+
+                    - forwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
+                    - removeForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
+
+                Example test file:
+
+                    .. include:: ../_static/examples~/common/java-android-test.java
+                        :code: java
+
+            .. tab:: iOS
+
+                Use the following static methods (from the AltPortForwarding class) in your test file:
+
+                    - forwardIos (int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
+                    - killAllIproxyProcess ()
+
+                Example test file:
+
+                    .. include:: ../_static/examples~/common/java-ios-test.java
+                        :code: java
+
+    .. tab:: Python
+
+        .. tabs::
+
+            .. tab:: Android
+
+                Use the following static methods (from the AltPortForwarding class) in your test file:
+
+                    - forward_android (local_port = 13000, device_port = 13000, device_id = "")
+                    - remove_forward_android (local_port = 13000, device_id = "")
+
+                Example test file:
+
+                    .. include:: ../_static/examples~/common/python-android-test.py
+                        :code: py
+
+            .. tab:: iOS
+
+                Use the following static methods (from the AltPortForwarding class) in your test file:
+
+                    - forward_ios (local_port = 13000, device_port = 13000, device_id = "")
+                    - kill_all_iproxy_process()
+
+                Example test file:
+
+                    .. include:: ../_static/examples~/common/python-ios-test.py
+                        :code: py
+
+```
+
+```eval_rst
+.. note::
+    The default port on which the AltTester Unity SDK is running is 13000.
+    Port can be changed when making a new game build or make use of port forwarding if needed.
+```
+
+## Connect to AltTester Unity SDK running inside the game
+
+There are multiple scenarios on how to connect to the AltTester Unity SDK running inside a game:
+
+- [Advanced Usage](#advanced-usage)
+  - [Build games from the command line](#build-games-from-the-command-line)
+  - [Run tests from the command line](#run-tests-from-the-command-line)
+  - [Run tests on a Continuous Integration Server](#run-tests-on-a-continuous-integration-server)
+  - [What is port forwarding and when to use it](#what-is-port-forwarding-and-when-to-use-it)
+    - [How to setup port forwarding](#how-to-setup-port-forwarding)
+  - [Connect to AltTester Unity SDK running inside the game](#connect-to-alttester-unity-sdk-running-inside-the-game)
+    - [Connect to the game running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
+    - [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
+    - [Connect to the device running the game by using an IP address](#connect-to-the-device-running-the-game-by-using-an-ip-address)
+    - [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game)
+    - [Connect to multiple builds of the application running on the same device](#connect-to-multiple-builds-of-the-application-running-on-the-same-device)
+  - [Using AltTester Unity SDK in Release mode](#using-alttester-unity-sdk-in-release-mode)
+  - [Logging](#logging)
+    - [AltTester Unity SDK logging](#alttester-unity-sdk-logging)
+    - [AltDriver logging](#altdriver-logging)
+  - [Code Stripping](#code-stripping)
+
+### Connect to the game running on the same machine as the test code
+
+![port forwarding case 1](../_static/img/advanced-usage/case1.png)
+
+In this case Port Forwarding is not needed as both the game and tests are using localhost (127.0.0.1) connection and the default 13000 port.
+
+### Connect to the game running on a USB connected device
+
+If the device running the game is connected through a USB connection, commands sent to localhost port 13000 can be automatically forwarded to the device.
+
+![port forwarding case 2](../_static/img/advanced-usage/case2.png)
+
+In this scenario you can use Port Forwarding to enable AltDriver to connect to the device via localhost.
+
+Check [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it) for more details about Port Forwarding and [Setup Port Forwarding](#how-to-setup-port-forwarding) section on how to make the setup.
+
+### Connect to the device running the game by using an IP address
+
+![port forwarding case 3](../_static/img/advanced-usage/case3.png)
+
+You can connect directly through an IP address if the port the instrumented Unity App is listening on is available and the IP address is reachable.
+It is recommended to use [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it) since IP addresses could change and would need to be updated more frequently.
+
+The following command can be used to connect to the running instrumented Unity App:
+
+```eval_rst
+.. tabs::
+    .. code-tab:: c#
+
+            altDriver = new AltDriver ("deviceIp", 13000);
+
+    .. code-tab:: java
+
+            altDriver = new AltDriver ("deviceIp", 13000, true);
+
+    .. code-tab:: py
+
+            cls.altDriver = AltDriver(host='deviceIp', port=13000)
+```
+
+### Connect to multiple devices running the game
+
+![port forwarding case 4](../_static/img/advanced-usage/case4.png)
+
+For two devices you have to do the same steps above, by [connecting through port forwarding](#how-to-setup-port-forwarding) twice.
+
+So, in the end, you will have:
+
+-   2 devices, each with one instrumented Unity App
+-   1 computer with two AltDrivers
+
+Then, in your tests, you will send commands from each of the two AltDrivers.
+
+The same happens with n devices, repeat the steps n times.
+
+### Connect to multiple builds of the application running on the same device
+
+If you want to run two builds on the same device you will need to change the AltTester Unity SDK Port during instrumentation.
+
+For example, you will instrument a game with AltTester Unity SDK to listen on port 13001 and another one to listen on port 13002.
+
+![port forwarding case 5](../_static/img/advanced-usage/case5.png)
+
+Then in your tests you will need to create two AltDriver instances, one for each of the configured ports.
+
+```eval_rst
+.. important::
+
+    On mobile devices, AltDriver can only interact with a single game at a time and the game needs to be in focus.
+
+    On Android/iOS only one application is in focus at a time so you need to switch (in code) between the applications if using two drivers at the same time.
+    This applies even when using split screen mode.
+
+```
+
+You can change the port for your game build from the AltTester Editor window inside your Unity project.
+
+![Alt Editor Server Settings Screenshot](../_static/img/advanced-usage/server-settings.png)
+
+```eval_rst
+
+.. note::
+    After you have done the AltTester Unity SDK Port forwarding or connected to the AltDriver directly, you can use it in your tests to send commands to the server and receive information from the game.
+
+```
+
+## Using AltTester Unity SDK in Release mode
+
+By default AltTester Unity SDK does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltTester Unity SDK. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltRunnerPrefab inside AltTester Unity SDK asset folder `AltTester/Prefab/AltRunnerPrefab.prefab`
 
 ## Logging
 
-There are two types of logging that can be configured in AltUnityTester. The logs from AltUnity Driver (from the tests) and the logs from the AltUnity Tester (from the instrumented Unity application)
+There are two types of logging that can be configured in AltTester Unity SDK. The logs from AltDriver (from the tests) and the logs from the AltTester Unity SDK (from the instrumented Unity application)
 
 ```eval_rst
 .. note::
@@ -146,9 +447,9 @@ There are two types of logging that can be configured in AltUnityTester. The log
 
 ```
 
-### AltUnity Tester logging
+### AltTester Unity SDK logging
 
-Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.AltUnityTester.Logging.ServerLogManager.Instance`
+Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.AltTester.Logging.ServerLogManager.Instance`
 
 There are two logger targets that you can configure on the server:
 
@@ -162,31 +463,31 @@ Logging inside the instrumented app can be configured from the driver using the 
 
     .. code-tab:: c#
 
-        altUnityDriver.SetServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        altUnityDriver.SetServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altDriver.SetServerLogging(AltLogger.File, AltLogLevel.Off);
+        altDriver.SetServerLogging(AltLogger.Unity, AltLogLevel.Info);
 
     .. code-tab:: java
 
-        altUnityDriver.setServerLogging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        altUnityDriver.setServerLogging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altDriver.setServerLogging(AltLogger.File, AltLogLevel.Off);
+        altDriver.setServerLogging(AltLogger.Unity, AltLogLevel.Info);
 
     .. code-tab:: py
 
-        altUnityDriver.set_server_logging(AltUnityLogger.File, AltUnityLogLevel.Off);
-        altUnityDriver.set_server_logging(AltUnityLogger.Unity, AltUnityLogLevel.Info);
+        altDriver.set_server_logging(AltLogger.File, AltLogLevel.Off);
+        altDriver.set_server_logging(AltLogger.Unity, AltLogLevel.Info);
 
 ```
 
-### AltUnity Driver logging
+### AltDriver logging
 
-Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log4j` in Java. By default logging is disabled in the driver (tests). If you want to enable it you can set the `enableLogging` in `AltUnityDriver` constructor.
+Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log4j` in Java. By default logging is disabled in the driver (tests). If you want to enable it you can set the `enableLogging` in `AltDriver` constructor.
 
 ```eval_rst
 .. tabs::
 
     .. tab:: C#
 
-        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `Altom.AltUnityDriver.Logging.DriverLogManager.Instance`
+        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `Altom.AltDriver.Logging.DriverLogManager.Instance`
 
         There are three logger targets that you can configure on the driver:
 
@@ -194,18 +495,24 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
         * UnityLogger //available only when runnning tests from Unity
         * ConsoleLogger //available only when runnning tests using the Nuget package
 
-        If you want to configure different level of logging for different targets you can use `Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info)`
+        If you want to configure different level of logging for different targets you can use `Altom.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info)`
 
         .. code-block:: c#
 
-            /* start altunity driver with logging disabled */
-            var altUnityDriver = new AltUnityDriver (enableLogging=false);
+            /* start AltDriver with logging disabled */
+            var altDriver = new AltDriver (enableLogging: false);
 
-            /* start altunity driver with logging enabled for Debug.Level; this is the default behaviour*/
-            var altUnityDriver = new AltUnityDriver (enableLogging=true);
+            /* start AltDriver with logging enabled for Debug.Level; this is the default behaviour*/
+            var altDriver = new AltDriver (enableLogging: true);
+
+            /* disable AltDriver logging */
+            altDriver.SetLogging(enableLogging: false);
+
+            /* enable AltDriver logging */
+            altDriver.SetLogging(enableLogging: true);
 
             /* set logging level to Info for File target */
-            Altom.AltUnityDriver.Logging.DriverLogManager.SetMinLogLevel(AltUnityLogger.File, AltUnityLogLevel.Info);
+            Altom.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
 
 
 
@@ -213,17 +520,17 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via log4j. You can use log4j configuration files to customize your logging.
 
-        Setting the `enableLogging` in `AltUnityDriver` initializes logger named `ro.altom.altunitytester` configured with two appenders, a file appender `AltUnityFileAppender` and a console appender `AltUnityConsoleAppender`
+        Setting the `enableLogging` in `AltDriver` initializes logger named `ro.altom.alttester` configured with two appenders, a file appender `AltFileAppender` and a console appender `AltConsoleAppender`
 
         .. code-block:: java
 
-            /* start altunity driver with logging enabled */
-            altUnityDriver = new AltUnityDriver("127.0.0.1", 13000, true);
+            /* start AltDriver with logging enabled */
+            altDriver = new AltDriver("127.0.0.1", 13000, true);
 
-            /* disable logging for ro.altom.altunitytester logger */
+            /* disable logging for ro.altom.alttester logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
             final Configuration config = ctx.getConfiguration();
-            config.getLoggerConfig("ro.altom.altunitytester").setLevel(Level.OFF);
+            config.getLoggerConfig("ro.altom.alttester").setLevel(Level.OFF);
 
             ctx.updateLoggers();
 
@@ -232,18 +539,18 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via loguru.
 
-        Setting the `enable_logging` to `False` in AltUnityDriver, all logs from `altunityrunner` package are disabled.
+        Setting the `enable_logging` to `False` in AltDriver, all logs from `alttester` package are disabled.
 
         .. code-block:: python
 
             # enable logging in driver:
-            loguru.logger.enable("altunityrunner")
+            loguru.logger.enable("alttester")
 
             # disable logging in driver:
-            loguru.logger.disable("altunityrunner")
+            loguru.logger.disable("alttesterr")
 
 ```
 
 ## Code Stripping
 
-AltUnity Tester is using reflection in some of the commands to get information from the instrumented application. If you application is using IL2CPP scripting backend then it might strip code that you would use in your tests. If this is the case we recommend creating an `link.xml` file. More information on how to manage code stripping and create an `link.xml` file is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)
+AltTester Unity SDK is using reflection in some of the commands to get information from the instrumented application. If you application is using IL2CPP scripting backend then it might strip code that you would use in your tests. If this is the case we recommend creating an `link.xml` file. More information on how to manage code stripping and create an `link.xml` file is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)

@@ -1,4 +1,4 @@
-# AltUnity Docs
+# AltTester Unity SDK Docs
 
 ## Install
 
