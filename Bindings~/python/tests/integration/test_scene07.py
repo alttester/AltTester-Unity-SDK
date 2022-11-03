@@ -64,7 +64,7 @@ class TestScene07A:
         self.altdriver.tilt([1000, 10, 10], duration=0.1)
         assert initial_position != self.altdriver.find_object(By.NAME, "Cube (1)").get_world_position()
 
-        is_moved = cube.get_component_property("AltUnityCubeNIS", "isMoved", "Assembly-CSharp")
+        is_moved = cube.get_component_property("AltCubeNIS", "isMoved", "Assembly-CSharp")
         assert is_moved
 
 

@@ -380,7 +380,7 @@ namespace Altom.AltTesterTools
             Altrunner.RunOnlyInDebugMode = true;
             Altrunner.InputsVisualizer = AltInputsVisualiser;
 
-            // Set AltUnityDialog variables
+            // Set AltTesterDialog variables
             AltDialog.Dialog = DialogGameObject;
             AltDialog.TitleText = TitleText;
             AltDialog.MessageText = MessageText;

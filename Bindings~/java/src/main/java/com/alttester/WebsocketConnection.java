@@ -130,6 +130,6 @@ public class WebsocketConnection {
     // Processing at session release
     @OnClose
     public void onClose(Session session, CloseReason reason) {
-        logger.debug("Connection to AltUnity closed: {}.", reason.toString());
+        logger.debug("Connection to AltTester closed: {}.", reason.toString());
     }
 }

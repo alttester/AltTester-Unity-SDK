@@ -43,7 +43,7 @@ namespace Altom.AltDriver
             }
 
             logger.Debug(
-                "Connecting to AltUnity on host: '{0}', port: '{1}' and gameName: '{2}'.",
+                "Connecting to AltTester on host: '{0}', port: '{1}' and gameName: '{2}'.",
                 host,
                 port,
                 gameName

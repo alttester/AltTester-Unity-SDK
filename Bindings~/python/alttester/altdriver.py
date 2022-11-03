@@ -40,7 +40,7 @@ class AltDriver:
         self._config_logging(self.enable_logging)
 
         logger.debug(
-            "Connecting to AltUnity on host: '{}', port: '{}' and gameName: '{}'.",
+            "Connecting to AltTester on host: '{}', port: '{}' and gameName: '{}'.",
             self.host,
             self.port,
             self.game_name

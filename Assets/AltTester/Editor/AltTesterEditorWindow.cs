@@ -13,6 +13,7 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Rendering;
 
 namespace Altom.AltTesterEditor
@@ -55,15 +56,18 @@ namespace Altom.AltTesterEditor
         private static UnityEngine.Color borderColor = new UnityEngine.Color(0.6f, 0.6f, 0.6f, 1f);
         private static UnityEngine.Texture2D selectedTestTexture;
         private static UnityEngine.Texture2D oddNumberTestTexture;
+        private static UnityEngine.Texture2D borderTexture;
         private static UnityEngine.Texture2D evenNumberTestTexture;
         private static UnityEngine.Texture2D verticalSplitTexture;
         private static UnityEngine.Texture2D horizontalSplitTexture;
+        public static UnityEngine.Texture2D PortForwardingTexture;
         public static UnityEngine.Texture2D selectedTestsCountTexture;
 
         private static string downloadURl;
         private const string RELEASENOTESURL = "https://altom.com/alttester/docs/desktop/pages/release-notes.html";
         private const string PREFABNAME = "AltTesterPrefab";
         private static string version;
+        private static UnityEngine.GUIStyle gUIStyleButton;
         private static UnityEngine.GUIStyle gUIStyleText;
         private static UnityEngine.GUIStyle gUIStyleHistoryChanges;
 
@@ -71,11 +75,18 @@ namespace Altom.AltTesterEditor
 
         private static long timeSinceLastClick;
         private UnityEngine.Vector2 scrollPositonTestResult;
+        private static UnityEngine.Font font;
 
         private bool foldOutScenes = true;
         private bool foldOutTestRunSettings = true;
         private bool foldOutBuildSettings = true;
         private bool foldOutIosSettings = true;
+        private bool foldOutPortForwarding = true;
+        UnityEngine.Rect popUpPosition;
+        UnityEngine.Rect popUpContentPosition;
+        UnityEngine.Rect closeButtonPosition;
+        UnityEngine.Rect downloadButtonPosition;
+        UnityEngine.Rect checkVersionChangesButtonPosition;
         float splitNormalizedPosition = 0.33f;
         float splitNormalizedPositionHorizontal = 0.33f;
         UnityEngine.Rect resizeHandleRect;
@@ -96,6 +107,7 @@ namespace Altom.AltTesterEditor
         UnityEngine.Rect availableRectHorizontal;
 
         private bool PlayInEditorPressed;
+        private static UnityWebRequest www;
 
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
@@ -1068,7 +1080,7 @@ namespace Altom.AltTesterEditor
 
         private void runInEditor()
         {
-            AltBuilder.InsertAltInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
+            AltBuilder.InsertAltTesterInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             AltBuilder.CreateJsonFileForInputMappingOfAxis();
             AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;

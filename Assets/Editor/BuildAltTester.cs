@@ -42,7 +42,7 @@ namespace Altom.AltTesterTools
 
 
 
-                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.Standalone);
@@ -115,7 +115,7 @@ namespace Altom.AltTesterTools
 
 
 
-                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
@@ -204,7 +204,7 @@ namespace Altom.AltTesterTools
 
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.iOS);
                 var instrumentationSettings = getInstrumentationSettings();
-                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
@@ -273,7 +273,7 @@ namespace Altom.AltTesterTools
 
 
                 var instrumentationSettings = getInstrumentationSettings();
-                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.WebGL);

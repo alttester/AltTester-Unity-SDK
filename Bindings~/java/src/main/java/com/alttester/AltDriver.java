@@ -71,7 +71,7 @@ public class AltDriver {
             throw new InvalidParameterException("Provided host address is null or empty.");
         }
 
-        logger.debug("Connecting to AltUnity on host: '{}', port: '{}' and gameName: '{}'.", host, port, gameName);
+        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and gameName: '{}'.", host, port, gameName);
         this.connection = new WebsocketConnection(host, port, connectTimeout, gameName);
         this.connection.connect();
 
@@ -96,7 +96,7 @@ public class AltDriver {
 
         if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
             String message = String.format(
-                    "Version mismatch. AltUnity Driver version is %s. AltUnity Tester version is %s.",
+                    "Version mismatch. AltDriver version is %s. AltTester version is %s.",
                     AltDriver.VERSION, serverVersion);
             logger.warn(message);
             System.out.println(message);
