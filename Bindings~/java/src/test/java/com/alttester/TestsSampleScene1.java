@@ -1382,7 +1382,7 @@ public class TestsSampleScene1 {
                 "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp").build();
         Integer[] value = altDriver.getStaticProperty(altGetComponentPropertyParams,
                 Integer[].class);
-        assertEquals(expectedArray, value);
+        assertEquals(expectedArray.toString(), value.toString());
     }
 
     @Test
