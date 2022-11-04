@@ -3,6 +3,10 @@ on:
   push:
   workflow_dispatch:
 
+env: 
+            ALTUNITYDRIVER_PORT: 13010
+            ALTUNITYDRIVER_HOST: "127.0.0.1"
+
 jobs:
   build-docs:
     runs-on: [self-hosted, macOS]
@@ -39,6 +43,7 @@ jobs:
 
         - run: |
             $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
+          
 
         - run: ls
         - uses: actions/upload-artifact@v3.1.0
