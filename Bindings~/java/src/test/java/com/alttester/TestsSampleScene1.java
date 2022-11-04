@@ -1359,7 +1359,7 @@ public class TestsSampleScene1 {
     
     @Test
     public void testSetStaticProperty() {
-        final Object expectedValue = 5;
+        final String expectedValue = "5";
         AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
                 "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue).build();
         altDriver.setStaticProperty(altSetComponentPropertyParams);
@@ -1371,9 +1371,9 @@ public class TestsSampleScene1 {
     }
 
     @Test
-    public void TestSetStaticProperty2()
+    public void testSetStaticProperty2()
     {
-        int newValue = 5;
+        String newValue = "5";
         final int[] expectedArray = { 1, 5, 3 };
         AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
                 "AltExampleScriptCapsule", "staticArrayOfInts[1]", "Assembly-CSharp", newValue).build();
