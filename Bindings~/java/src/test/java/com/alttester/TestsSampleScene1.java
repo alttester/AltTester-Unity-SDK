@@ -1382,7 +1382,8 @@ public class TestsSampleScene1 {
                 "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp").build();
         Integer[] value = altDriver.getStaticProperty(altGetComponentPropertyParams,
                 Integer[].class);
-        assertEquals(expectedArray.toString(), value.toString());
+        for(int i=0; i<expectedArray.length; i++)
+                assertEquals(expectedArray[i], value[i]);
     }
 
     @Test
