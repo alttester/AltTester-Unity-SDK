@@ -1365,8 +1365,8 @@ public class TestsSampleScene1 {
         altDriver.setStaticProperty(altSetComponentPropertyParams);
         AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp").build();
-        Integer[] value = altDriver.getStaticProperty(altGetComponentPropertyParams,
-                Integer[].class);
+        int value = altDriver.getStaticProperty(altGetComponentPropertyParams,
+                Integer.class);
         assertEquals(expectedValue, value);
     }
 
@@ -1381,7 +1381,7 @@ public class TestsSampleScene1 {
         AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp").build();
         int[] value = altDriver.getStaticProperty(altGetComponentPropertyParams,
-                int[].class);
+                Integer[].class);
         assertEquals(expectedArray, value);
     }
 
