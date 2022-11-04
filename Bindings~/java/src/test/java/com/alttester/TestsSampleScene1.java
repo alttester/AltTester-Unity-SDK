@@ -1374,13 +1374,13 @@ public class TestsSampleScene1 {
     public void testSetStaticProperty2()
     {
         String newValue = "5";
-        final int[] expectedArray = { 1, 5, 3 };
+        Integer[] expectedArray = { 1, 5, 3 };
         AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
                 "AltExampleScriptCapsule", "staticArrayOfInts[1]", "Assembly-CSharp", newValue).build();
         altDriver.setStaticProperty(altSetComponentPropertyParams);
         AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp").build();
-        int[] value = altDriver.getStaticProperty(altGetComponentPropertyParams,
+        Integer[] value = altDriver.getStaticProperty(altGetComponentPropertyParams,
                 Integer[].class);
         assertEquals(expectedArray, value);
     }
