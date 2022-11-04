@@ -75,7 +75,7 @@
 #           path: |
 #             *.log
 #             reportTest.xml
-            
+
 #   test-DotNet:
 #       runs-on: [self-hosted, macOS]
 #       needs: build-macOS
@@ -83,7 +83,7 @@
 #         - uses: actions/checkout@v3
 #         - uses: actions/download-artifact@v3.0.0
 #           with:
-#             name: 
+#             name:
 #               BuildMacArtifact
 #         - name: Setup .NET Core SDK
 #           uses: actions/setup-dotnet@v2.1.1
@@ -98,7 +98,7 @@
 #             name: TestCSharpArtifact
 #             path: |
 #               *.log
-  
+
 #   test-Python:
 #       runs-on: [self-hosted, macOS]
 #       needs: build-macOS
@@ -121,11 +121,11 @@
 #         - uses: syphar/restore-pip-download-cache@v1
 #           if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-#         - name: Install dependencies
-#           run: |
-#             pip install -r "Bindings~/python/requirements.txt"
-#             pip install -r "Bindings~/python/requirements-dev.txt"
-#             pip install -e "Bindings~/python" --root "Bindings~/python"
+#        - name: Install dependencies
+#          run: |
+#            pip install -r "Bindings~/python/requirements.txt"
+#            pip install -r "Bindings~/python/requirements-dev.txt"
+#            pip install --ignore-installed  -e "Bindings~/python" --root "Bindings~/python"
 
 #         - name: Lint with flake8
 #           run: |
@@ -155,9 +155,9 @@
 #         - uses: actions/checkout@v3
 #         - uses: actions/download-artifact@v3.0.0
 #           with:
-#             name: 
+#             name:
 #               BuildMacArtifact
-              
+
 #         - name: Setup Java JDK
 #           uses: actions/setup-java@v3.5.1
 #           with:
@@ -176,7 +176,7 @@
 #             name: TestJavaArtifact
 #             path: |
 #               *.log
-              
+
 #   dev-docs:
 #     runs-on: [self-hosted, macOS]
 #     needs: build-docs
