@@ -3,9 +3,6 @@ on:
   push:
   workflow_dispatch:
 
-env: 
-            PROXY_PORT: 13010
-            PROXY_HOST: "127.0.0.1"
 
 jobs:
   build-docs:
@@ -42,7 +39,8 @@ jobs:
         - uses: actions/checkout@v3
 
         - run: |
-            export ALTUNITY
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
             $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
           
 
@@ -89,6 +87,8 @@ jobs:
         - name: Setup .NET Core SDK
           uses: actions/setup-dotnet@v2.1.1
         - run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
             chmod -R 755  sampleGame.app
             open sampleGame.app
             dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
@@ -138,6 +138,8 @@ jobs:
 
         - name: Run integration tests
           run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
             chmod -R 755 sampleGame.app
             open sampleGame.app
             pytest Bindings~/python/tests/integration
@@ -166,6 +168,8 @@ jobs:
               java-version: 11
         - uses: stCarolas/setup-maven@v4.4
         - run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
             chmod -R 755  sampleGame.app
             open sampleGame.app
             cd "Bindings~/java"
