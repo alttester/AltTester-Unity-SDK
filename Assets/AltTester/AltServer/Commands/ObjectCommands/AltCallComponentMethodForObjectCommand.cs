@@ -27,7 +27,7 @@ namespace Altom.AltTester.Commands
             object instance;
             if (CommandParams.altObject != null)
             {
-                UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject);
+                UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject.id);
                 if (componentType == typeof(UnityEngine.GameObject))
                 {
                     instance = gameObject;
