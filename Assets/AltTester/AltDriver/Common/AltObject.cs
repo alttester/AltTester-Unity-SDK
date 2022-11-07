@@ -47,6 +47,8 @@ namespace Altom.AltDriver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
+
+        [Obsolete("getParent is deprecated, please use GetParent instead.")]
         public AltObject getParent()
         {
             var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
@@ -57,6 +59,8 @@ namespace Altom.AltDriver
         {
             return new AltVector2(x, y);
         }
+
+        [Obsolete("getScreenPosition is deprecated, please use GetScreenPosition instead.")]
         public AltVector2 getScreenPosition()
         {
             return new AltVector2(x, y);
@@ -65,6 +69,8 @@ namespace Altom.AltDriver
         {
             return new AltVector3(worldX, worldY, worldZ);
         }
+
+        [Obsolete("getWorldPosition is deprecated, please use GetWorldPosition instead.")]
         public AltVector3 getWorldPosition()
         {
             return new AltVector3(worldX, worldY, worldZ);
