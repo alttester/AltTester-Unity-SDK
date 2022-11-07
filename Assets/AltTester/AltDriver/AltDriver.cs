@@ -182,7 +182,7 @@ namespace Altom.AltDriver
             return propertyValue;
         }
 
-        public void SetStaticProperty(string componentName, string propertyName, string assemblyName, object updatedProperty, int maxDepth = 2)
+        public void SetStaticProperty(string componentName, string propertyName, string assemblyName, object updatedProperty)
         {
             new AltSetStaticProperty(communicationHandler, componentName, propertyName, assemblyName, updatedProperty).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());

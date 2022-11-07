@@ -4,7 +4,7 @@ import com.alttester.IMessageHandler;
 import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 
 /**
- * Get the value of a property from one of the component of the object.
+ * Set the value of a property from one of the component of the object.
  */
 public class AltSetStaticProperty extends AltBaseCommand {
     /**

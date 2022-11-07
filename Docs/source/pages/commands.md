@@ -2685,6 +2685,62 @@ Gets the value of the static field or property.
 
 ```
 
+#### SetStaticProperty
+
+Sets the value of the static field or property.
+
+**_Parameters_**
+
+| Name          | Type   | Required | Description                                                                                             |
+| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
+| componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
+| propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
+| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
+| updatedProperty | object | Yes      | The new value of the component which has the static field or property to be seted. 
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestSetStaticProperty()
+        {
+            var expectedValue = 5;
+            altDriver.SetStaticProperty("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue);
+            var value = altDriver.GetStaticProperty<int>("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp");
+            Assert.AreEqual(expectedValue, value);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testSetStaticProperty() {
+            final Integer expectedValue = 5;
+            AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+                "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue.toString()).build();
+            altDriver.setStaticProperty(altSetComponentPropertyParams);
+            AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp").build();
+            Integer value = altDriver.getStaticProperty(altGetComponentPropertyParams,Integer.class);
+            assertEquals(expectedValue, value);
+        }
+
+    .. code-tab:: py
+
+        def test_set_static_property(self):
+            expectedValue = 5
+            self.altdriver.set_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue)
+            value = self.altdriver.get_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
+            assert expectedValue == value
+
+```
+
 ### Other
 
 #### SetServerLogging

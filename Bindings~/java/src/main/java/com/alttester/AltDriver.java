@@ -655,9 +655,7 @@ public class AltDriver {
      * Sets the value of the static field or property
      *
      * @param parameters - String componentName* , String propertyName* , String
-     *                   assembly , int maxDept
-     * @param returnType
-     * @return value of the static field or property
+     *                   assembly 
      */
     public void setStaticProperty(AltSetComponentPropertyParams parameters) {
         new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();
