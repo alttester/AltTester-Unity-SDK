@@ -333,6 +333,10 @@ namespace Altom.AltTesterTools
                     instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
                     instrumentationSettings.ProxyPort = int.Parse(proxyPort);
                 }
+                else
+                {
+                    instrumentationSettings.ProxyPort = 13010;
+                }
 
                 return instrumentationSettings;
             }
