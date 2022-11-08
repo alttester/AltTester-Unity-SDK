@@ -125,6 +125,13 @@ jobs:
 
         - uses: syphar/restore-pip-download-cache@v1
           if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+        - name: Open Application
+          run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
+            echo $PROXY_PORT
+            chmod -R 755 sampleGame.app
+            open sampleGame.app
 
         - name: Install dependencies
           run: |
@@ -138,15 +145,14 @@ jobs:
 
         - name: Run unit tests
           run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
             pytest Bindings~/python/tests/unit
 
         - name: Run integration tests
           run: |
-            export PROXY_PORT=13010
-            export PROXY_HOST="127.0.0.1"
-            echo $PROXY_PORT
-            chmod -R 755 sampleGame.app
-            open sampleGame.app
+               
+            
             pytest Bindings~/python/tests/integration
 
         - uses: actions/upload-artifact@v3.1.0
