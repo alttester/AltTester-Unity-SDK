@@ -142,7 +142,7 @@ namespace Altom.AltTester.Commands
             object instance = null;
             if (altObject != null)
             {
-                instance = AltRunner.GetGameObject(altObject).GetComponent(componentType);
+                instance = AltRunner.GetGameObject(altObject.id).GetComponent(componentType);
                 if (instance == null)
                 {
                     throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
