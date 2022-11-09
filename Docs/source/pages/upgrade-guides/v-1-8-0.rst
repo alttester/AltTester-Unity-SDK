@@ -11,6 +11,19 @@ your code to work with AltTester Unity SDK v1.8.0.
 To learn more about what's new in AltTester Unity SDK v1.8.0, read the
 `v1.8.0 section from our changelog <https://github.com/alttester/AltTester-Unity-SDK/blob/development/CHANGELOG.md>`_.
 
+
+Unity
+-----
+
+To replace AltUnity Tester with AltTester Unity SDK you will need to do the following steps:
+
+1. Download AltTester Unity SDK from `Altom website <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_
+2. Delete your AltUnity Tester folder
+3. Drag and drop the unitypackage you downloaded in step 1 to your Unity projects
+
+.. attention::
+   Don't delete your folder with tests during step 2. You can reuse your tests just with minor modifications
+
 Python
 ------
 **altunityrunner**  →  **alttester**

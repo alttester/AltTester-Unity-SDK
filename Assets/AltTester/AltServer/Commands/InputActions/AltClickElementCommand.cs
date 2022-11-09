@@ -15,7 +15,7 @@ namespace Altom.AltTester.Commands
         {
 
             AltRunner._altRunner.ShowClick(new UnityEngine.Vector2(CommandParams.altObject.getScreenPosition().x, CommandParams.altObject.getScreenPosition().y));
-            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject);
+            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject.id);
 
             InputController.ClickElement(gameObject, CommandParams.count, CommandParams.interval, onFinish);
             return AltRunner._altRunner.GameObjectToAltObject(gameObject);
