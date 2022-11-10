@@ -1830,11 +1830,12 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestClick_MouseDownUp()
         {
-            altDriver.MoveMouse(new AltVector2(0, 0));
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
+            counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseUpCounter", 0, "Assembly-CSharp");
+           
+            altDriver.MoveMouse(new AltVector2(0, 0));
             counterElement.Click();
 
-            counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseUpCounter", 0, "Assembly-CSharp");
             
             var mouseDownCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mouseDownCounter", "Assembly-CSharp");
             var mouseUpCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mouseUpCounter", "Assembly-CSharp");
