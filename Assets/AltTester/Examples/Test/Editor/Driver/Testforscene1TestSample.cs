@@ -1834,10 +1834,12 @@ namespace Altom.AltDriver.Tests
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
             counterElement.Click();
 
+            counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseUpCounter", 0, "Assembly-CSharp");
+            
             var mouseDownCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mouseDownCounter", "Assembly-CSharp");
             var mouseUpCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mouseUpCounter", "Assembly-CSharp");
             var mousePressedCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mousePressedCounter", "Assembly-CSharp");
-
+            
             List<string> eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
 
             Assert.AreEqual(1, mouseDownCounter);
