@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using Altom.AltDriver;
 using NUnit.Framework;
-using UnityEngine;
 
 public class TestForNIS
 {
