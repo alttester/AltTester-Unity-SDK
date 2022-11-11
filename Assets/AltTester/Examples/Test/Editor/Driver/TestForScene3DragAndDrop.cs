@@ -31,7 +31,7 @@ namespace Altom.AltDriver.Tests
             altDriver.LoadScene("Scene 3 Drag And Drop");
         }
 
-        //[Test]
+        [Test]
         public void MultipleDragAndDrop()
         {
             string imageSource, imageSourceDropZone;
@@ -75,7 +75,7 @@ namespace Altom.AltDriver.Tests
             altDriver.MultipointSwipe(listPositions, duration, wait: wait);
         }
 
-        //[Test]
+        [Test]
         public void MultipleDragAndDropWait()
         {
             string imageSource, imageSourceDropZone;
@@ -90,7 +90,7 @@ namespace Altom.AltDriver.Tests
         }
 
 
-        //[Test]
+        [Test]
         public void MultipleDragAndDropWaitWithMultipointSwipe()
         {
             string imageSource, imageSourceDropZone;
@@ -104,7 +104,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(imageSource, imageSourceDropZone);
         }
 
-        //[Test]
+        [Test]
         public void TestPointerEnterAndExit()
         {
             var altElement = altDriver.FindObject(By.NAME, "Drop Image");
@@ -118,7 +118,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(color1, color3);
         }
 
-        //[Test]
+        [Test]
         public void TestDragAndDrop()
         {
             string imageSource, imageSourceDropZone;

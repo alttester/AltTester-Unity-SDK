@@ -31,7 +31,7 @@ namespace Altom.AltDriver.Tests
             altDriver.LoadScene("Scene 2 Draggable Panel");
         }
 
-        //[Test]
+        [Test]
         public void TestResizePanel()
         {
             var altElement = altDriver.FindObject(By.NAME, "Resize Zone");
@@ -43,7 +43,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(position, position2);
         }
 
-        //[Test]
+        [Test]
         public void TestResizePanelWithMultipointSwipe()
         {
             var altElement = altDriver.FindObject(By.NAME, "Resize Zone");
@@ -63,7 +63,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(position, position2);
         }
 
-        //[Test]
+        [Test]
         public void TestMovePanel()
         {
             var altElement = altDriver.FindObject(By.NAME, "Drag Zone");
@@ -76,7 +76,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(position, position2);
         }
 
-        //[Test]
+        [Test]
         public void TestClosePanel()
         {
             altDriver.WaitForObject(By.NAME, "Panel Drag Area", timeout: 2);
@@ -89,7 +89,7 @@ namespace Altom.AltDriver.Tests
             Assert.IsTrue(altDriver.FindObject(By.NAME, "Panel").enabled);
         }
 
-        //[Test]
+        [Test]
         public void TestGetAllEnabledElements()
         {
             Thread.Sleep(2000);
@@ -120,7 +120,7 @@ namespace Altom.AltDriver.Tests
             Assert.IsNotNull(altElements.Where(p => p.name == "Background"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Particle System"));
         }
-        //[Test]
+        [Test]
         public void TestGetAllElements()
         {
             altDriver.WaitForObject(By.NAME, "EventSystem", timeout: 2);
@@ -153,7 +153,7 @@ namespace Altom.AltDriver.Tests
         }
 
 
-        //[Test]
+        [Test]
         public void TestPointerDownFromObject()
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
@@ -164,7 +164,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(color1, color2);
         }
 
-        //[Test]
+        [Test]
         public void TestPointerUpFromObject()
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
@@ -175,14 +175,14 @@ namespace Altom.AltDriver.Tests
             var color2 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }
-        //[Test]
+        [Test]
         public void TestGetParent()
         {
             var altElement = altDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
             var altElementParent = altElement.GetParent();
             Assert.AreEqual("Panel Drag Area", altElementParent.name);
         }
-        //[Test]
+        [Test]
         public void TestGetAllScenesAndElements()
         {
             var altElements = altDriver.GetAllLoadedScenesAndObjects();
@@ -191,7 +191,7 @@ namespace Altom.AltDriver.Tests
             altElements = altDriver.GetAllLoadedScenesAndObjects(false);
             Assert.AreEqual(20, altElements.FindIndex(e => e.name == "DontDestroyOnLoad"));
         }
-        //[Test]
+        [Test]
         public void TestNewTouchCommands()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
@@ -204,7 +204,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(initialPosition, draggableArea.GetScreenPosition());
 
         }
-        //[Test]
+        [Test]
         public void TestCreateTouchTwice()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");

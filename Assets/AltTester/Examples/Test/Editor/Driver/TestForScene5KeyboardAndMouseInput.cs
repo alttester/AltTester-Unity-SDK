@@ -28,7 +28,7 @@ namespace Altom.AltDriver.Tests
             altDriver.Stop();
         }
 
-        //[Test]
+        [Test]
         //Test input made with axis
         public void TestMovementCube()
         {
@@ -49,7 +49,7 @@ namespace Altom.AltDriver.Tests
 
         }
 
-        //[Test]
+        [Test]
         public void TestCameraMovement()
         {
             altDriver.LoadScene("Scene 5 Keyboard Input");
@@ -64,7 +64,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         }
 
-        //[Test]
+        [Test]
         //Testing mouse movement and clicking
         public void TestCreatingStars()
         {
@@ -86,7 +86,7 @@ namespace Altom.AltDriver.Tests
             stars = altDriver.FindObjectsWhichContain(By.NAME, "Star");
             Assert.AreEqual(3, stars.Count);
         }
-        // //[Test]
+        // [Test]
         // public void TestKeyboardPress()
         // {
         //     altDriver.LoadScene("Scene 5 Keyboard Input");
@@ -107,7 +107,7 @@ namespace Altom.AltDriver.Tests
         //     }
         // }
 
-        // //[Test]
+        // [Test]
         // public void TestKeyDownAndKeyUp()
         // {
         //     altDriver.LoadScene("Scene 5 Keyboard Input");
@@ -126,7 +126,7 @@ namespace Altom.AltDriver.Tests
         //     Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyUp.GetText(), true));
         // }
 
-        // //[Test]
+        // [Test]
         // public void TestButton()
         // {
         //     altDriver.LoadScene("Scene 5 Keyboard Input");
@@ -150,7 +150,7 @@ namespace Altom.AltDriver.Tests
 
         // }
 
-        // //[Test]
+        // [Test]
         // public void TestPowerJoystick()
         // {
         //     altDriver.LoadScene("Scene 5 Keyboard Input");
@@ -174,7 +174,7 @@ namespace Altom.AltDriver.Tests
         //         i++;
         //     }
         // }
-        // //[Test]
+        // [Test]
         // public void TestScroll()
         // {
         //     altDriver.LoadScene("Scene 5 Keyboard Input");
@@ -188,7 +188,7 @@ namespace Altom.AltDriver.Tests
 
         //     Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         // }
-        // //[Test]
+        // [Test]
         // public void TestScrollAndWait()
         // {
         //     altDriver.LoadScene("Scene 5 Keyboard Input");
@@ -201,7 +201,7 @@ namespace Altom.AltDriver.Tests
         //     Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         // }
 
-        //[Test]
+        [Test]
         [Category("WebGLUnsupported")]
         public void TestCheckShadersSetCorrectlyAfterHighlight()
         {
