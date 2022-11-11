@@ -24,7 +24,7 @@ namespace Altom.AltDriver.Tests
             altDriver.Stop();
         }
 
-        [Test]
+        //[Test]
         public void TestScrollAndWait()
         {
             altDriver.LoadScene("Scene6");

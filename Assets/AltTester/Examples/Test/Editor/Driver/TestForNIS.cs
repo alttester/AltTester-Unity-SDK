@@ -43,7 +43,7 @@ public class TestForNIS
         altDriver.MultipointSwipe(listPositions, duration, wait: wait);
     }
 
-    [Test]
+    //[Test]
     public void TestScroll()
     {
         altDriver.LoadScene(scene10);
@@ -54,7 +54,7 @@ public class TestForNIS
     }
 
 
-    [Test]
+    //[Test]
     public void TestTapElement()
     {
         altDriver.LoadScene(scene8);
@@ -63,7 +63,7 @@ public class TestForNIS
         altDriver.WaitForObjectNotBePresent(By.PATH, "//Panel Drag Area/Panel");
     }
 
-    [Test]
+    //[Test]
     public void TestTapCoordinates()
     {
         altDriver.LoadScene(scene8);
@@ -72,7 +72,7 @@ public class TestForNIS
         altDriver.WaitForObjectNotBePresent(By.PATH, "//Panel Drag Area/Panel");
     }
 
-    [Test]
+    //[Test]
     public void TestScrollElement()
     {
         altDriver.LoadScene(scene9);
@@ -85,7 +85,7 @@ public class TestForNIS
 
     }
 
-    [Test]
+    //[Test]
     public void TestClickElement()
     {
         altDriver.LoadScene(scene11);
@@ -96,7 +96,7 @@ public class TestForNIS
     }
 
 
-    [Test]
+    //[Test]
     public void TestKeyDownAndKeyUp()
     {
         altDriver.LoadScene(scene10);
@@ -147,7 +147,7 @@ public class TestForNIS
         Assert.AreEqual(altKeyCode.ToString(), keyReleased);
     }
 
-    [Test]
+    //[Test]
     public void TestPressKey()
     {
         altDriver.LoadScene(scene10);
@@ -168,7 +168,7 @@ public class TestForNIS
 
     }
 
-    [Test]
+    //[Test]
     public void TestPressKeys()
     {
         altDriver.LoadScene(scene10);
@@ -181,7 +181,7 @@ public class TestForNIS
         Assert.AreNotEqual(initialPos, finalPos);
     }
 
-    [Test]
+    //[Test]
     public void TestPressAllKeys()
     {
         altDriver.LoadScene(scene10);
@@ -228,7 +228,7 @@ public class TestForNIS
 
     }
 
-    [Test]
+    //[Test]
     public void TestClickCoordinates()
     {
         altDriver.LoadScene(scene11);
@@ -237,7 +237,7 @@ public class TestForNIS
         altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]");
     }
 
-    [Test]
+    //[Test]
     public void TestTilt()
     {
         altDriver.LoadScene(scene11);
@@ -248,7 +248,7 @@ public class TestForNIS
         Assert.IsTrue(cube.GetComponentProperty<bool>("AltCubeNIS", "isMoved", "Assembly-CSharp"));
     }
 
-    [Test]
+    //[Test]
     public void TestSwipe()
     {
         altDriver.LoadScene(scene9);
@@ -259,7 +259,7 @@ public class TestForNIS
         Assert.AreNotEqual(scrollbarPosition.y, scrollbarPositionFinal.y);
     }
 
-    [Test]
+    //[Test]
     public void TestMultipointSwipe()
     {
         altDriver.LoadScene(scene7);
@@ -274,7 +274,7 @@ public class TestForNIS
         Assert.AreEqual(imageSource, imageSourceDropZone);
     }
 
-    [Test]
+    //[Test]
     public void TestBeginMoveEndTouch()
     {
         altDriver.LoadScene(scene8);
@@ -287,7 +287,7 @@ public class TestForNIS
         Assert.AreNotEqual(initialPanelPos, finalPanelPos);
     }
 
-    // [Test]
+    // //[Test]
     // public void TestCapsuleJumps()
     // {
     //     altDriver.LoadScene(scene11);

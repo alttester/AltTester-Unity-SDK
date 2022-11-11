@@ -1835,6 +1835,9 @@ namespace Altom.AltDriver.Tests
             counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseUpCounter", 0, "Assembly-CSharp");
             var mouseUpCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mouseUpCounter", "Assembly-CSharp");
             UnityEngine.Debug.Log("counter1 " + mouseUpCounter);
+            counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mousePressedCounter", 0, "Assembly-CSharp");
+            var mousePressedCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mousePressedCounter", "Assembly-CSharp");
+            UnityEngine.Debug.Log("counter2 " + mousePressedCounter);
 
             altDriver.MoveMouse(new AltVector2(0, 0));
             counterElement.Click();
@@ -1842,10 +1845,9 @@ namespace Altom.AltDriver.Tests
 
             var mouseDownCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mouseDownCounter", "Assembly-CSharp");
             mouseUpCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mouseUpCounter", "Assembly-CSharp");
-            UnityEngine.Debug.Log("counter2 " + mouseUpCounter);
-            mouseUpCounter = altDriver.FindObject(By.NAME, "ButtonCounter").GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mouseUpCounter", "Assembly-CSharp");
             UnityEngine.Debug.Log("counter3 " + mouseUpCounter);
-            var mousePressedCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mousePressedCounter", "Assembly-CSharp");
+            mousePressedCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "mousePressedCounter", "Assembly-CSharp");
+            UnityEngine.Debug.Log("counter4 " + mousePressedCounter);
 
             List<string> eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
 

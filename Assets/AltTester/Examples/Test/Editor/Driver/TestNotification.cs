@@ -41,7 +41,7 @@ public class TestNotification
         altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
     }
 
-    [Test]
+    //[Test]
     public void TestLoadSceneNotification()
     {
         waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneLoaded, "Scene 1 AltDriverTestScene", 10);
@@ -59,7 +59,7 @@ public class TestNotification
         }
     }
 
-    [Test]
+    //[Test]
     public void TestUnloadSceneNotification()
     {
         altDriver.LoadScene("Scene 2 Draggable Panel", false);
@@ -68,14 +68,14 @@ public class TestNotification
         Assert.AreEqual("Scene 2 Draggable Panel", MockNotificationCallBacks.LastSceneUnloaded);
     }
 
-    [Test]
+    //[Test]
     public void TestLogNotification()
     {
         StringAssert.Contains("\"commandName\":\"loadScene\"", MockNotificationCallBacks.LogMessage);
         Assert.AreEqual(AltLogLevel.Debug, MockNotificationCallBacks.LogLevel);
     }
 
-    // [Test]
+    // //[Test]
     // public void TestApplicationPaused()
     // {
     //     var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
