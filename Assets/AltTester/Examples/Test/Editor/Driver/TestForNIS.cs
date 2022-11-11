@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Altom.AltDriver;
 using NUnit.Framework;
+using UnityEngine;
 
 public class TestForNIS
 {
@@ -297,4 +299,35 @@ public class TestForNIS
     //     var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
     //     Assert.AreEqual("Capsule was tapped!", text);
     // }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
+    {
+        altDriver.LoadScene(scene11);
+        var counterButton = altDriver.FindObject(By.NAME, "Canvas/Button");
+        var text = altDriver.FindObject(By.NAME, "Canvas/Button/Text");
+        counterButton.Click(numberOfClicks);
+        Assert.AreEqual(numberOfClicks, int.Parse(text.GetText()));
+        counterButton.Tap(numberOfClicks);
+        Assert.AreEqual(2 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.Click(counterButton.getScreenPosition(), numberOfClicks);
+        Assert.AreEqual(3 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.Tap(counterButton.getScreenPosition(), numberOfClicks);
+        Assert.AreEqual(4 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.MoveMouse(counterButton.getScreenPosition());
+        for (int i = 0; i < numberOfClicks; i++)
+        {
+            altDriver.KeyDown(AltKeyCode.Mouse0);
+            altDriver.KeyUp(AltKeyCode.Mouse0);
+        }
+        Assert.AreEqual(5 * numberOfClicks, int.Parse(text.GetText()));
+        for (int i = 0; i < numberOfClicks; i++)
+        {
+            altDriver.HoldButton(counterButton.getScreenPosition(), 0.1f);
+        }
+        Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
+
+    }
 }
