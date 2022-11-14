@@ -14,8 +14,6 @@ namespace Altom.AltTester.Communication
 
         public void Cycle()
         {
-            // logger.Debug("Cycle - Count: " + responseQueue.Count);
-
             if (responseQueue.Count == 0) return;
 
             lock (queueLock)
