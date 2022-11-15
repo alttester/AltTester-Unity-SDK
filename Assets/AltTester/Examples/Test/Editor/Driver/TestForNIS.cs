@@ -305,6 +305,7 @@ public class TestForNIS
     public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
     {
         altDriver.LoadScene(scene11);
+        altDriver.SetDelayAfterCommand(0.05f);
         var counterButton = altDriver.FindObject(By.NAME, "Canvas/Button");
         var text = altDriver.FindObject(By.NAME, "Canvas/Button/Text");
         counterButton.Click(numberOfClicks);
@@ -327,6 +328,7 @@ public class TestForNIS
             altDriver.HoldButton(counterButton.getScreenPosition(), 0.1f);
         }
         Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.SetDelayAfterCommand(0);
 
     }
 }
