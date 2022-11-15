@@ -110,6 +110,12 @@ namespace Altom.AltDriver.Commands
         }
     }
 
+    [Command("resetInput")]
+    public class AltResetInputParams : CommandParams
+    {
+        public AltResetInputParams() : base() { }
+    }
+
     [Command("moveMouse")]
     public class AltMoveMouseParams : CommandParams
     {
@@ -337,6 +343,8 @@ namespace Altom.AltDriver.Commands
         {
         }
     }
+
+
 
     [Command("setText")]
     public class AltSetTextParams : BaseAltObjectParams

@@ -229,17 +229,15 @@ namespace Altom.AltTester
 
         public static int BeginTouch(Vector3 screenPosition)
         {
-            int newFingerId = 0, oldFingerId = -1;
 #if ALTTESTER
+            int newFingerId = 0, oldFingerId = -1;
 #if ENABLE_INPUT_SYSTEM
             newFingerId = NewInputSystem.BeginTouch(screenPosition);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
             oldFingerId = Input.BeginTouch(screenPosition);
 #endif
-#else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
-#endif
+
             if (newFingerId == 0)
                 return oldFingerId + 1;
             if (oldFingerId == -1)
@@ -247,6 +245,9 @@ namespace Altom.AltTester
             if (newFingerId - 1 == oldFingerId)
                 return newFingerId;
             throw new Exception("FingerIds are not identical! OldInput fingerId: " + oldFingerId + " New Input fingerId: " + newFingerId);
+#else
+            throw new AltInputModuleException(AltErrors.errorInputModule);
+#endif
         }
 
         public static void MoveTouch(int fingerId, Vector3 screenPosition)
@@ -277,6 +278,10 @@ namespace Altom.AltTester
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
+
+        }
+        public static void ResetInput()
+        {
 
         }
     }
