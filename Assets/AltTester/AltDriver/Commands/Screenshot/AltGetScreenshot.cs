@@ -7,7 +7,7 @@ namespace Altom.AltDriver.Commands
         public byte[] compressedImage;
 
     }
-    public class AltGetScreenshot : AltBaseCommand
+    public class AltGetScreenshot : AltCommandReturningAltElement
     {
         AltGetScreenshotParams cmdParams;
 
@@ -19,7 +19,11 @@ namespace Altom.AltDriver.Commands
         public virtual AltTextureInformation Execute()
         {
             CommHandler.Send(cmdParams);
+            return ReceiveScreenshot();
+        }
 
+        protected AltTextureInformation ReceiveScreenshot()
+        {
             var data = CommHandler.Recvall<string>(cmdParams);
             ValidateResponse("Ok", data);
 
@@ -27,7 +31,6 @@ namespace Altom.AltDriver.Commands
             byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
             return new AltTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize);
         }
-        
     }
 
 
@@ -43,16 +46,17 @@ namespace Altom.AltDriver.Commands
 
         public override AltTextureInformation Execute()
         {
-           return base.Execute();
+            CommHandler.Send(cmdParams);
+            return ReceiveScreenshot();
         }
     }
 
 
-    public class AltGetHighlightObjectFromCoordinatesScreenshot : AltCommandReturningAltElement
+    public class AltGetHighlightObjectFromCoordinatesScreenshot : AltGetScreenshot
     {
         AltHighlightObjectFromCoordinatesScreenshotParams cmdParams;
 
-        public AltGetHighlightObjectFromCoordinatesScreenshot(IDriverCommunication commHandler, AltVector2 coordinates, AltColor color, float width, AltVector2 size, int screenShotQuality) : base(commHandler)
+        public AltGetHighlightObjectFromCoordinatesScreenshot(IDriverCommunication commHandler, AltVector2 coordinates, AltColor color, float width, AltVector2 size, int screenShotQuality) : base(commHandler, size, screenShotQuality)
         {
             cmdParams = new AltHighlightObjectFromCoordinatesScreenshotParams(coordinates, color, width, size, screenShotQuality);
         }
@@ -65,14 +69,8 @@ namespace Altom.AltDriver.Commands
             {
                 selectedObject = null;
             }
+            return ReceiveScreenshot();
 
-            var data = CommHandler.Recvall<string>(cmdParams);
-            ValidateResponse("Ok", data);
-
-            var imageData = CommHandler.Recvall<AltGetScreenshotResponse>(cmdParams);
-            byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
-            return new AltTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize);
-    
         }
     }
 
