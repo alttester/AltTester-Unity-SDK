@@ -1,7 +1,7 @@
 import pytest
+from alttester import By
 
 from .utils import Scenes
-from alttester import By
 
 
 class TestScene07A:
