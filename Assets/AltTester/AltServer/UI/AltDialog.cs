@@ -144,7 +144,6 @@ namespace Altom.AltTester.UI
             else
             {
                 SetMessage("The port number should be beteween 1 and 65535.", ERROR_COLOR, true);
-                UnityEngine.Debug.Log("HERE");
                 return;
             }
 
@@ -236,8 +235,6 @@ namespace Altom.AltTester.UI
 
         private void OnConnect()
         {
-            UnityEngine.Debug.Log("Connect");
-
             string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
 
             #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
@@ -258,8 +255,6 @@ namespace Altom.AltTester.UI
 
         private void OnDisconnect()
         {
-            UnityEngine.Debug.Log("Disconnect");
-
             #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
                 Input.UseCustomInput = false;
                 UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
